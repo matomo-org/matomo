@@ -119,7 +119,7 @@ class Evolution extends JqplotDataGenerator
                     'idSite'  => $idSite,
                     'period'  => $period->getLabel(),
                     'date'    => $dateInUrl->toString(),
-                    'segment' => ViewDataTable::getRawSegmentFromRequest()
+                    'segment' => \Piwik\API\Request::getRawSegmentFromRequest()
                 );
                 $hash = '';
                 if (!empty($queryStringAsHash)) {

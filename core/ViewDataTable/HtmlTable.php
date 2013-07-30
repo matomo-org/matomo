@@ -36,17 +36,14 @@ class Piwik_ViewDataTable_HtmlTable extends ViewDataTable
     {
         parent::__construct();
 
-        $this->dataTableTemplate = '@CoreHome/_dataTable';
         $this->viewProperties['enable_sort'] = '1';
         $this->viewProperties['disable_row_evolution'] = false;
         $this->viewProperties['disable_row_actions'] = false;
         
-        $this->setSortedColumn('nb_visits', 'desc');
         $this->setLimit(Config::getInstance()->General['datatable_default_limit']);
         $this->handleLowPopulation();
         $this->setSubtableTemplate("@CoreHome/_dataTable.twig");
         $this->viewProperties['datatable_js_type'] = 'dataTable';
-        $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
     }
     
     public function getJavaScriptProperties()
@@ -73,7 +70,6 @@ class Piwik_ViewDataTable_HtmlTable extends ViewDataTable
         }
         $this->mainAlreadyExecuted = true;
 
-        $this->isDataAvailable = true;
         try {
             $this->loadDataTableFromAPI();
         } catch (\Piwik\NoAccessException $e) {
@@ -81,12 +77,13 @@ class Piwik_ViewDataTable_HtmlTable extends ViewDataTable
         } catch (Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());
 
-            $this->isDataAvailable = false;
             $this->loadingError = array('message' => $e->getMessage());
         }
 
         $this->postDataTableLoadedFromAPI();
-        $this->view = $this->buildView();
+
+        $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->viewProperties['datatable_template'];
+        $this->view = $this->buildView(new Piwik_Visualization_HtmlTable(), $template);
     }
     
     public function getDefaultDataTableCssClass()
@@ -115,12 +112,12 @@ class Piwik_ViewDataTable_HtmlTable extends ViewDataTable
     }
 
     /**
-     * @return View with all data set
+     * @return Piwik_View with all data set
      */
     protected function buildView()
     {
         $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->dataTableTemplate;
-        $view = new View($template);
+        $view = new Piwik_View($template);
 
         if (!empty($this->loadingError)) {
             $view->error = $this->loadingError;
@@ -171,13 +168,13 @@ class Piwik_ViewDataTable_HtmlTable extends ViewDataTable
     }
 
     /**
-     * Returns friendly php array from the DataTable
+     * Returns friendly php array from the Piwik_DataTable
      * @see Piwik_DataTable_Renderer_Php
      * @return array
      */
     protected function getPHPArrayFromDataTable()
     {
-        $renderer = Renderer::factory('php');
+        $renderer = Piwik_DataTable_Renderer::factory('php');
         $renderer->setTable($this->dataTable);
         $renderer->setSerialize(false);
         // we get the php array from the datatable but conserving the original datatable format,

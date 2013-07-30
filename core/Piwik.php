@@ -383,10 +383,10 @@ class Piwik
         }
         if (($aDirs = \_glob("$sDir/*", GLOB_ONLYDIR)) != false) {
             foreach ($aDirs as $sSubDir) {
-                // avoid infinite recursion of symlink'ed directories
-                if(strpos($sSubDir, "tests/PHPUnit/proxy/tests/PHPUnit/proxy") !== false) {
+                if (is_link($sSubDir)) {
                     continue;
                 }
+
                 $aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
                 $aFiles = array_merge($aFiles, $aSubFiles);
             }

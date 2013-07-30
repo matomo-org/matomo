@@ -5,7 +5,29 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-function initializeSparklines() {
+(function ($) {
+
+var sparklineColorNames = ['lineColor', 'red', 'blue', 'green'];
+
+piwik.getSparklineColors = function () {
+    return piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);
+};
+
+// initializes each sparkline so they use colors defined in CSS
+piwik.initSparklines = function () {
+    $('img.sparkline').each(function () {
+        var $self = $(this);
+        
+        if ($self.attr('src')) {
+            return;
+        }
+        
+        var colors = JSON.stringify(piwik.getSparklineColors());
+        $self.attr('src', $self.attr('data-src') + '&colors=' + encodeURIComponent(colors));
+    });
+};
+
+window.initializeSparklines = function () {
     var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'viewDataTable'];
 
     $("[data-graph-id]").each(function () {
@@ -14,7 +36,7 @@ function initializeSparklines() {
         // try to find sparklines and add them clickable behaviour
         graph.parent().find('div.sparkline').each(function () {
             // find the sparkline and get it's src attribute
-            var sparklineUrl = $('img.sparkline', this).attr('src');
+            var sparklineUrl = $('img.sparkline', this).attr('data-src');
 
             if (sparklineUrl != "") {
                 var params = broadcast.getValuesFromUrl(sparklineUrl);
@@ -32,32 +54,23 @@ function initializeSparklines() {
 
                 // on click, reload the graph with the new url
                 $(this).click(function () {
-                    var idDataTable = graph.attr('data-graph-id'),
-                        dataTable = $('#' + idDataTable);
+                    var reportId = graph.attr('data-graph-id'),
+                        dataTable = $(piwik.DataTableManager.getDataTableByReport(reportId));
 
                     // when the metrics picker is used, the id of the data table might be updated (which is correct behavior).
                     // for example, in goal reports it might change from GoalsgetEvolutionGraph to GoalsgetEvolutionGraph1.
                     // if this happens, we can't find the graph using $('#'+idDataTable+"Chart");
                     // instead, we just use the first evolution graph we can find.
                     if (dataTable.length == 0) {
-                        dataTable = $('div.dataTableGraphEvolutionWrapper').first().closest('.dataTable');
+                        dataTable = $('div.dataTableEvolutionGraph');
                     }
 
                     // reload the datatable w/ a new column & scroll to the graph
                     dataTable.trigger('reload', params);
                 });
-                $(this).hover(
-                    function () {
-                        $(this).css({
-                            "cursor": "pointer",
-                            "border-bottom": "1px dashed #C3C3C3"
-                        });
-                    },
-                    function () {
-                        $(this).css({"border-bottom": "1px solid white"});
-                    }
-                );
             }
         });
     });
-}
+};
+
+}(jQuery));

@@ -35,6 +35,7 @@ class Piwik_Provider extends Plugin
             'Menu.add'                         => 'addMenu',
             'API.getReportMetadata'            => 'getReportMetadata',
             'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }
@@ -64,7 +65,7 @@ class Piwik_Provider extends Plugin
         );
     }
 
-    function install()
+    public function install()
     {
         // add column hostname / hostname ext in the visit table
         $query = "ALTER IGNORE TABLE `" . Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR( 100 ) NULL";
@@ -80,25 +81,25 @@ class Piwik_Provider extends Plugin
 
     }
 
-    function uninstall()
+    public function uninstall()
     {
         // add column hostname / hostname ext in the visit table
         $query = "ALTER TABLE `" . Common::prefixTable('log_visit') . "` DROP `location_provider`";
         Db::exec($query);
     }
 
-    function addWidget()
+    public function addWidget()
     {
         WidgetsList::add('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
     }
 
-    function addMenu()
+    public function addMenu()
     {
         Piwik_RenameMenuEntry('General_Visitors', 'UserCountry_SubmenuLocations',
             'General_Visitors', 'Provider_SubmenuLocationsProvider');
     }
 
-    function postLoad()
+    public function postLoad()
     {
         Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider', 'footerUserCountry'));
     }
@@ -212,5 +213,18 @@ class Piwik_Provider extends Plugin
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
+    }
+
+    public function getReportDisplayProperties(&$properties)
+    {
+        $properties['Provider.getProvider'] = $this->getDisplayPropertiesForGetProvider();
+    }
+
+    private function getDisplayPropertiesForGetProvider()
+    {
+        return array(
+            'translations' => array('label' => Piwik_Translate('Provider_ColumnProvider')),
+            'filter_limit' => 5
+        );
     }
 }

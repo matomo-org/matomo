@@ -24,23 +24,28 @@ require_once PIWIK_INCLUDE_PATH . '/libs/sparkline/lib/Sparkline_Line.php';
  */
 class Piwik_Visualization_Sparkline implements Piwik_View_Interface
 {
+    const DEFAULT_WIDTH = 100;
+    const DEFAULT_HEIGHT = 25;
+
+    private static $colorNames = array('lineColor', 'red', 'blue', 'green');
+    
     /**
      * Width of the sparkline
      * @var int
      */
-    protected $_width = 100;
+    protected $_width = self::DEFAULT_WIDTH;
 
     /**
      * Height of sparkline
      * @var int
      */
-    protected $_height = 25;
+    protected $_height = self::DEFAULT_HEIGHT;
 
     /**
      * Array with format: array( x, y, z, ... )
      * @param array $data
      */
-    function setValues($data)
+    public function setValues($data)
     {
         $this->values = $data;
     }
@@ -91,16 +96,13 @@ class Piwik_Visualization_Sparkline implements Piwik_View_Interface
         return $this->_height;
     }
 
-    function main()
+    public function main()
     {
         $width = $this->getWidth();
         $height = $this->getHeight();
 
         $sparkline = new Sparkline_Line();
-        $sparkline->SetColor('lineColor', 22, 44, 74); // dark blue
-        $sparkline->SetColorHtml('red', '#FF7F7F');
-        $sparkline->SetColorHtml('blue', '#55AAFF');
-        $sparkline->SetColorHtml('green', '#75BF7C');
+        $this->setSparklineColors($sparkline);
 
         $min = $max = $last = null;
         $i = 0;
@@ -137,8 +139,20 @@ class Piwik_Visualization_Sparkline implements Piwik_View_Interface
         $this->sparkline = $sparkline;
     }
 
-    function render()
+    public function render()
     {
         $this->sparkline->Output();
+    }
+
+    private function setSparklineColors($sparkline)
+    {
+        $colors = Piwik_Common::getRequestVar('colors', false, 'json');
+        if (!empty($colors)) {
+            foreach (self::$colorNames as $name) {
+                if (!empty($colors[$name])) {
+                    $sparkline->SetColorHtml($name, $colors[$name]);
+                }
+            }
+        }
     }
 }

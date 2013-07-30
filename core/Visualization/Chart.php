@@ -26,7 +26,6 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
     protected $data = array();
     protected $axes = array();
     protected $tooltip = array();
-    protected $seriesColors = array('#000000');
     protected $seriesPicker = array();
 
     // other attributes (not directly used for jqplot)
@@ -159,8 +158,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
         $data = array(
             'params'       => array(
                 'axes'         => &$this->axes,
-                'series'       => &$this->series,
-                'seriesColors' => &$this->seriesColors
+                'series'       => &$this->series
             ),
             'data'         => &$this->data,
             'tooltip'      => &$this->tooltip,

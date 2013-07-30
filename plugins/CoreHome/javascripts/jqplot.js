@@ -8,7 +8,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-
 /**
  * Constructor function
  *
@@ -27,33 +26,31 @@ JQPlot.prototype = {
         this.originalData = data;
         this.data = data.data;
 
-        defaultParams = {};
-        defaultParams.grid = {
-            drawGridLines: false,
-            background: '#fff',
-            borderColor: '#f00',
-            borderWidth: 0,
-            shadow: false
-        };
-
-        defaultParams.title = {
-            show: false
-        };
-
-        defaultParams.axesDefaults = {
-            pad: 1.0,
-            tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-            tickOptions: {
-                showMark: false,
-                fontSize: '11px',
-                fontFamily: 'Arial'
+        defaultParams = {
+            grid: {
+                drawGridLines: false,
+                borderWidth: 0,
+                shadow: false
             },
-            rendererOptions: {
-                drawBaseline: false
+            title: {
+                show: false
+            },
+            axesDefaults: {
+                pad: 1.0,
+                tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                tickOptions: {
+                    showMark: false,
+                    fontSize: '11px',
+                    fontFamily: 'Arial'
+                },
+                rendererOptions: {
+                    drawBaseline: false
+                }
             }
         };
 
         this.params = $.extend(true, {}, defaultParams, data.params);
+        this._setColors();
 
         this.tooltip = data.tooltip;
         this.seriesPicker = data.seriesPicker;
@@ -61,6 +58,7 @@ JQPlot.prototype = {
         if (typeof this.params.axes.yaxis == 'undefined') {
             this.params.axes.yaxis = {};
         }
+
         if (typeof this.params.axes.yaxis.tickOptions == 'undefined') {
             this.params.yaxis.tickOptions = {
                 formatString: '%d'
@@ -69,16 +67,18 @@ JQPlot.prototype = {
     },
 
     /** Generic render function */
-    render: function (type, targetDivId, lang) {
+    render: function (targetDivId, lang) {
+        var type = $('#' + targetDivId).closest('div.dataTable').data('dataTableInstance').param['viewDataTable'];
+
         // preapare the appropriate chart type
         switch (type) {
-            case 'evolution':
+            case 'graphEvolution':
                 this.prepareEvolutionChart(targetDivId, lang);
                 break;
-            case 'bar':
+            case 'graphVerticalBar':
                 this.prepareBarChart(targetDivId, lang);
                 break;
-            case 'pie':
+            case 'graphPie':
                 this.preparePieChart(targetDivId, lang);
                 break;
             default:
@@ -100,7 +100,7 @@ JQPlot.prototype = {
                     this.innerHTML = '';
                 }
 
-                (new JQPlot(data, self.dataTableId)).render(type, targetDivId, lang);
+                (new JQPlot(data, self.dataTableId)).render(targetDivId, lang);
             });
 
         // show loading
@@ -217,7 +217,7 @@ JQPlot.prototype = {
                 plotWidth = width;
                 target.trigger('piwikDestroyPlot');
                 (new JQPlot(self.originalData, self.dataTableId))
-                    .render(type, targetDivId, lang);
+                    .render(targetDivId, lang);
             }
         });
         var resizeListener = function () {
@@ -302,26 +302,26 @@ JQPlot.prototype = {
         });
 
         var popover = $(document.createElement('div'));
-		
-		popover.append('<div style="font-size: 13px; margin-bottom: 10px;">'
+        
+        popover.append('<div style="font-size: 13px; margin-bottom: 10px;">'
             + lang.exportText + '</div>').append($(img))
-			
-		popover.dialog({
-			title: lang.exportTitle,
-			modal: true,
-			width: 'auto',
-			position: ['center', 'center'],
-			resizable: false,
-			autoOpen: true,
-			open: function (event, ui) {
-				$('.ui-widget-overlay').on('click.popover', function () {
-					popover.dialog('close');
-				});
-			},
-			close: function (event, ui) {
-				$(this).dialog("destroy").remove();
-			}
-		});
+            
+        popover.dialog({
+            title: lang.exportTitle,
+            modal: true,
+            width: 'auto',
+            position: ['center', 'center'],
+            resizable: false,
+            autoOpen: true,
+            open: function (event, ui) {
+                $('.ui-widget-overlay').on('click.popover', function () {
+                    popover.dialog('close');
+                });
+            },
+            close: function (event, ui) {
+                $(this).dialog("destroy").remove();
+            }
+        });
     },
 
 
@@ -355,7 +355,8 @@ JQPlot.prototype = {
         defaultParams.piwikTicks = {
             showTicks: true,
             showGrid: true,
-            showHighlight: true
+            showHighlight: true,
+            tickColor: this.tickColor
         };
 
         this.params = $.extend(true, {}, defaultParams, this.params);
@@ -433,18 +434,21 @@ JQPlot.prototype = {
         this.params.piwikTicks = {
             showTicks: false,
             showGrid: false,
-            showHighlight: false
+            showHighlight: false,
+            tickColor: this.tickColor
         };
 
         this.params.legend = {
             show: false
         };
         this.params.pieLegend = {
-            show: true
+            show: true,
+            labelColor: this.singleMetricColor
         };
         this.params.canvasLegend = {
             show: true,
-            singleMetric: true
+            singleMetric: true,
+            singleMetricColor: this.singleMetricColor
         };
 
         // pie charts have a different data format
@@ -477,7 +481,8 @@ JQPlot.prototype = {
         this.params.piwikTicks = {
             showTicks: true,
             showGrid: false,
-            showHighlight: false
+            showHighlight: false,
+            tickColor: this.tickColor
         };
 
         this.params.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
@@ -592,8 +597,35 @@ JQPlot.prototype = {
             this.data = [this.data[0]];
             this.params.series = [this.params.series[0]];
         }
-    }
+    },
 
+    /**
+     * Sets the colors used to render this graph.
+     */
+    _setColors: function () {
+        var colorManager = piwik.ColorManager,
+            seriesColorNames = ['series1', 'series2', 'series3', 'series4', 'series5',
+                                'series6', 'series7', 'series8', 'series9', 'series10'];
+
+        var viewDataTable = $('#' + this.dataTableId).data('dataTableInstance').param['viewDataTable'];
+
+        var graphType;
+        if (viewDataTable == 'graphEvolution') {
+            graphType = 'evolution';
+        } else if (viewDataTable == 'graphPie') {
+            graphType = 'pie';
+        } else if (viewDataTable == 'graphVerticalBar') {
+            graphType = 'bar';
+        }
+        
+        var namespace = graphType + '-graph-colors';
+
+        this.params.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
+        this.params.grid.background = colorManager.getColor(namespace, 'grid-background');
+        this.params.grid.borderColor = colorManager.getColor(namespace, 'grid-border');
+        this.tickColor = colorManager.getColor(namespace, 'ticks');
+        this.singleMetricColor = colorManager.getColor(namespace, 'single-metric-label')
+    }
 };
 
 
@@ -831,7 +863,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
             for (var i = 0; i < ticks.length; i++) {
                 var pos = Math.round(i * tickWidth + tickWidth / 2);
                 var full = xaxisLabels[i] && xaxisLabels[i] != ' ';
-                drawLine(ctx, pos, full, c.showGrid);
+                drawLine(ctx, pos, full, c.showGrid, c.tickColor);
             }
         }
     };
@@ -840,9 +872,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.postDrawHooks.push($.jqplot.PiwikTicks.postDraw);
 
     // draw a 1px line
-    function drawLine(ctx, x, full, showGrid) {
+    function drawLine(ctx, x, full, showGrid, color) {
         ctx.save();
-        ctx.strokeStyle = '#cccccc';
+        ctx.strokeStyle = color;
 
         ctx.beginPath();
         ctx.lineWidth = 2;
@@ -987,7 +1019,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
             ctx.fillStyle = s.color;
             if (legend.singleMetric) {
-                ctx.fillStyle = '#666666';
+                ctx.fillStyle = legend.singleMetricColor;
             }
 
             ctx.fillRect(x, 10, 10, 2);
@@ -1387,7 +1419,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
                 var x = x2 - 9 - ctx.measureText(label).width;
             }
 
-            ctx.fillStyle = '#666666';
+            ctx.fillStyle = legend.labelColor;
             ctx.fillText(label, x, y2 + 3);
         }
 

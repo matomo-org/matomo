@@ -43,6 +43,7 @@ class Piwik_UserCountry extends Plugin
             'AssetManager.getJsFiles'          => 'getJsFiles',
             'Tracker.getVisitorLocation'       => 'getVisitorLocation',
             'TaskScheduler.getScheduledTasks'  => 'getScheduledTasks',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }
@@ -88,7 +89,7 @@ class Piwik_UserCountry extends Plugin
         Common::printDebug("GEO: Found IP location (provider '" . $id . "'): " . var_export($location, true));
     }
 
-    function addWidgets()
+    public function addWidgets()
     {
         $widgetContinentLabel = Piwik_Translate('UserCountry_WidgetLocation')
             . ' (' . Piwik_Translate('UserCountry_Continent') . ')';
@@ -105,7 +106,7 @@ class Piwik_UserCountry extends Plugin
         WidgetsList::add('General_Visitors', $widgetCityLabel, 'UserCountry', 'getCity');
     }
 
-    function addMenu()
+    public function addMenu()
     {
         Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
     }
@@ -113,7 +114,7 @@ class Piwik_UserCountry extends Plugin
     /**
      * Event handler. Adds menu items to the Admin menu.
      */
-    function addAdminMenu()
+    public function addAdminMenu()
     {
         Piwik_AddAdminSubMenu('General_Settings', 'UserCountry_Geolocation',
             array('module' => 'UserCountry', 'action' => 'adminIndex'),
@@ -281,5 +282,120 @@ class Piwik_UserCountry extends Plugin
         }
         return array('SQL'  => "'" . implode("', '", $result) . "', ?",
                      'bind' => '-'); // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
+    }
+
+    public function getReportDisplayProperties(&$properties)
+    {
+        $properties['UserCountry.getCountry'] = $this->getDisplayPropertiesForGetCountry();
+        $properties['UserCountry.getContinent'] = $this->getDisplayPropertiesForGetContinent();
+        $properties['UserCountry.getRegion'] = $this->getDisplayPropertiesForGetRegion();
+        $properties['UserCountry.getCity'] = $this->getDisplayPropertiesForGetCity();
+    }
+
+    private function getDisplayPropertiesForGetCountry()
+    {
+        return array(
+            'show_exclude_low_population' => false,
+            'show_goals' => true,
+            'filter_limit' => 5,
+            'translations' => array('label' => Piwik_Translate('UserCountry_Country')),
+            'documentation' => Piwik_Translate('UserCountry_getCountryDocumentation')
+        );
+    }
+
+    private function getDisplayPropertiesForGetContinent()
+    {
+        return array(
+            'show_exclude_low_population' => false,
+            'show_goals' => true,
+            'show_search' => false,
+            'show_offset_information' => false,
+            'show_pagination_control' => false,
+            'translations' => array('label' => Piwik_Translate('UserCountry_Continent')),
+            'documentation' => Piwik_Translate('UserCountry_getContinentDocumentation')
+        );
+    }
+
+    private function getDisplayPropertiesForGetRegion()
+    {
+        $result = array(
+            'show_exclude_low_population' => false,
+            'show_goals' => true,
+            'filter_limit' => 5,
+            'translations' => array('label' => Piwik_Translate('UserCountry_Region')),
+            'documentation' => Piwik_Translate('UserCountry_getRegionDocumentation') . '<br/>'
+                             . $this->getGeoIPReportDocSuffix()
+        );
+        $this->checkIfNoDataForGeoIpReport($result);
+        return $result;
+    }
+
+    private function getDisplayPropertiesForGetCity()
+    {
+        $result = array(
+            'show_exclude_low_population' => false,
+            'show_goals' => true,
+            'filter_limit' => 5,
+            'translations' => array('label' => Piwik_Translate('UserCountry_City')),
+            'documentation' => Piwik_Translate('UserCountry_getCityDocumentation') . '<br/>'
+                            . $this->getGeoIPReportDocSuffix()
+        );
+        $this->checkIfNoDataForGeoIpReport($result);
+        return $result;
+    }
+
+    private function getGeoIPReportDocSuffix()
+    {
+        return Piwik_Translate('UserCountry_GeoIPDocumentationSuffix',
+            array('<a target="_blank" href="http://www.maxmind.com/?rId=piwik">',
+                  '</a>',
+                  '<a target="_blank" href="http://www.maxmind.com/en/city_accuracy?rId=piwik">',
+                  '</a>')
+        );
+    }
+
+    /**
+     * Checks if a datatable for a view is empty and if so, displays a message in the footer
+     * telling users to configure GeoIP.
+     */
+    private function checkIfNoDataForGeoIpReport(&$properties)
+    {
+        $self = $this;
+        $properties['filters'][] = function ($dataTable, $view) use ($self) {
+            // if there's only one row whose label is 'Unknown', display a message saying there's no data
+            if ($dataTable->getRowsCount() == 1
+                && $dataTable->getFirstRow()->getColumn('label') == Piwik_Translate('General_Unknown')
+            ) {
+                $footerMessage = Piwik_Translate('UserCountry_NoDataForGeoIPReport1');
+
+                // if GeoIP is working, don't display this part of the message
+                if (!$self->isGeoIPWorking()) {
+                    $params = array('module' => 'UserCountry', 'action' => 'adminIndex');
+                    $footerMessage .= ' ' . Piwik_Translate('UserCountry_NoDataForGeoIPReport2',
+                        array('<a target="_blank" href="' . Piwik_Url::getCurrentQueryStringWithParametersModified($params) . '">',
+                              '</a>',
+                              '<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
+                              '</a>'));
+                } else {
+                    $footerMessage .= ' ' . Piwik_Translate('UserCountry_ToGeolocateOldVisits',
+                        array('<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">', '</a>'));
+                }
+
+                $view->setFooterMessage($footerMessage);
+            }
+        };
+    }
+
+    /**
+     * Returns true if a GeoIP provider is installed & working, false if otherwise.
+     *
+     * @return bool
+     */
+    public function isGeoIPWorking()
+    {
+        $provider = Piwik_UserCountry_LocationProvider::getCurrentProvider();
+        return $provider instanceof Piwik_UserCountry_LocationProvider_GeoIp
+            && $provider->isAvailable() === true
+            && $provider->isWorking() === true;
     }
 }

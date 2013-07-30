@@ -20,10 +20,9 @@ use Piwik\Site;
  * @package Piwik
  * @subpackage ViewDataTable
  */
-
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphHTML
 {
-    protected $height = 170;
+    const GRAPH_HEIGHT = 170;
 
     /**
      * The value of the date query parameter (or a default value) before it is turned
@@ -37,7 +36,8 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
     public function __construct()
     {
         parent::__construct();
-        $this->graphType = 'evolution';
+        $this->viewProperties['graph_type'] = 'evolution';
+        $this->viewProperties['graph_height'] = self::GRAPH_HEIGHT.'px';
     }
 
     protected function getViewDataTableId()
@@ -50,7 +50,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
         return 'generateDataChartEvolution';
     }
 
-    function init($currentControllerName,
+    public function init($currentControllerName,
                   $currentControllerAction,
                   $apiMethodToRequestDataTable,
                   $controllerActionCalledWhenRequestSubTable = null,
@@ -193,5 +193,10 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
         }
 
         return parent::getRequestArray();
+    }
+    
+    public function getDefaultDataTableCssClass()
+    {
+        return 'dataTableEvolutionGraph';
     }
 }

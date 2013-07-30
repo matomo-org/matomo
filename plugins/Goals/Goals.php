@@ -504,19 +504,13 @@ class Piwik_Goals extends Plugin
         }
     }
     
-    public function getReportDisplayProperties(&$properties, $apiAction)
+    public function getReportDisplayProperties(&$properties)
     {
-        $reportViewProperties = array(
-            'Goals.getItemsSku' => $this->getDisplayPropertiesForGetItemsSku(),
-            'Goals.getItemsName' => $this->getDisplayPropertiesForGetItemsName(),
-            'Goals.getItemsCategory' => $this->getDisplayPropertiesForGetItemsCategory(),
-            'Goals.getVisitsUntilConversion' => $this->getDisplayPropertiesForGetVisitsUntilConversion(),
-            'Goals.getDaysToConversion' => $this->getDisplayPropertiesForGetDaysToConversion(),
-        );
-
-        if (isset($reportViewProperties[$apiAction])) {
-            $properties = $reportViewProperties[$apiAction];
-        }
+        $properties['Goals.getItemsSku'] = $this->getDisplayPropertiesForGetItemsSku();
+        $properties['Goals.getItemsName'] = $this->getDisplayPropertiesForGetItemsName();
+        $properties['Goals.getItemsCategory'] = $this->getDisplayPropertiesForGetItemsCategory();
+        $properties['Goals.getVisitsUntilConversion'] = $this->getDisplayPropertiesForGetVisitsUntilConversion();
+        $properties['Goals.getDaysToConversion'] = $this->getDisplayPropertiesForGetDaysToConversion();
     }
     
     private function getDisplayPropertiesForGetItemsSku()

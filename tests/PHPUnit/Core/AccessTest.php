@@ -10,6 +10,12 @@ use Piwik\AuthResult;
 
 class AccessTest extends DatabaseTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        Piwik_Access::setSingletonInstance(null);
+    }
+
     /**
      * @group Core
      * @group Access

@@ -627,27 +627,21 @@ class Piwik_Actions extends Plugin
         }
     }
 
-    public function getReportDisplayProperties(&$properties, $apiAction)
+    public function getReportDisplayProperties(&$properties)
     {
-        $reportViewProperties = array(
-            'Actions.getPageUrls' => $this->getDisplayPropertiesForPageUrls(),
-            'Actions.getEntryPageUrls' => $this->getDisplayPropertiesForEntryPageUrls(),
-            'Actions.getExitPageUrls' => $this->getDisplayPropertiesForExitPageUrls(),
-            'Actions.getSiteSearchKeywords' => $this->getDisplayPropertiesForSiteSearchKeywords(),
-            'Actions.getSiteSearchNoResultKeywords' => $this->getDisplayPropertiesForSiteSearchNoResultKeywords(),
-            'Actions.getSiteSearchCategories' => $this->getDisplayPropertiesForSiteSearchCategories(),
-            'Actions.getPageUrlsFollowingSiteSearch' => $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(false),
-            'Actions.getPageTitlesFollowingSiteSearch' => $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(true),
-            'Actions.getPageTitles' => $this->getDisplayPropertiesForGetPageTitles(),
-            'Actions.getEntryPageTitles' => $this->getDisplayPropertiesForGetEntryPageTitles(),
-            'Actions.getExitPageTitles' => $this->getDisplayPropertiesForGetExitPageTitles(),
-            'Actions.getDownloads' => $this->getDisplayPropertiesForGetDownloads(),
-            'Actions.getOutlinks' => $this->getDisplayPropertiesForGetOutlinks(),
-        );
-        
-        if (isset($reportViewProperties[$apiAction])) {
-            $properties = $reportViewProperties[$apiAction];
-        }
+        $properties['Actions.getPageUrls'] = $this->getDisplayPropertiesForPageUrls();
+        $properties['Actions.getEntryPageUrls'] =  $this->getDisplayPropertiesForEntryPageUrls();
+        $properties['Actions.getExitPageUrls'] =  $this->getDisplayPropertiesForExitPageUrls();
+        $properties['Actions.getSiteSearchKeywords'] =  $this->getDisplayPropertiesForSiteSearchKeywords();
+        $properties['Actions.getSiteSearchNoResultKeywords'] =  $this->getDisplayPropertiesForSiteSearchNoResultKeywords();
+        $properties['Actions.getSiteSearchCategories'] =  $this->getDisplayPropertiesForSiteSearchCategories();
+        $properties['Actions.getPageUrlsFollowingSiteSearch'] =  $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(false);
+        $properties['Actions.getPageTitlesFollowingSiteSearch'] =  $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(true);
+        $properties['Actions.getPageTitles'] =  $this->getDisplayPropertiesForGetPageTitles();
+        $properties['Actions.getEntryPageTitles'] =  $this->getDisplayPropertiesForGetEntryPageTitles();
+        $properties['Actions.getExitPageTitles'] =  $this->getDisplayPropertiesForGetExitPageTitles();
+        $properties['Actions.getDownloads'] =  $this->getDisplayPropertiesForGetDownloads();
+        $properties['Actions.getOutlinks'] =  $this->getDisplayPropertiesForGetOutlinks();
     }
     
     private function addBaseDisplayProperties(&$result)

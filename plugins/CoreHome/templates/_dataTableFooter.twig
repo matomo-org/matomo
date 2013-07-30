@@ -24,7 +24,7 @@
     {% if properties.show_footer_icons %}
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="{{ javascriptVariablesToSet.viewDataTable }}">
-                {% if not properties.hide_all_views_icons %}
+                {% if properties.show_active_view_icon %}
                     <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                 {% endif %}
                 <div class="tableIconsGroup">
@@ -76,14 +76,6 @@
                         </a>
                     {% endif %}
 				    </span>
-                </div>
-                {% elseif not properties.hide_all_views_icons and javascriptVariablesToSet.viewDataTable == "generateDataChartEvolution" %}
-                <div class="tableIconsGroup">
-            	    <span class="tableGraphViews">
-                        <a class="tableIcon" format="graphEvolution" var="graphEvolution">
-                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_bar.png" title="{{ 'General_VBarGraph'|translate }}"/>
-                        </a>
-                    </span>
                 </div>
                 {% endif %}
                 <div class="tableIconsGroup">

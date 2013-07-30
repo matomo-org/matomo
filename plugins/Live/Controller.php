@@ -83,49 +83,23 @@ class Piwik_Live_Controller extends Controller
     
     public function indexVisitorLog()
     {
-        $view = new View('@Live/indexVisitorLog.twig');
+        $view = new Piwik_View('@Live/indexVisitorLog.twig');
         $view->filterEcommerce = Common::getRequestVar('filterEcommerce', 0, 'int');
-        $view->visitorLog = $this->getVisitorLog($fetch = true);
+        $view->visitorLog = $this->getLastVisitsDetails($fetch = true);
         echo $view->render();
     }
 
+    public function getLastVisitsDetails($fetch = false)
+    {
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+    }
+
+    /**
+     * @deprecated
+     */
     public function getVisitorLog($fetch = false)
     {
-        $view = ViewDataTable::factory();
-        $view->init($this->pluginName,
-            __FUNCTION__,
-            'Live.getLastVisitsDetails'
-        );
-        $view->disableGenericFilters();
-        $view->disableSort();
-        $view->setTemplate("@Live/getVisitorLog.twig");
-        $view->setSortedColumn('idVisit', 'ASC');
-        $view->disableSearchBox();
-        $view->setLimit(20);
-        $view->disableOffsetInformation();
-        $view->disableExcludeLowPopulation();
-
-        // disable the tag cloud,  pie charts, bar chart icons
-        $view->disableShowAllViewsIcons();
-        // disable the button "show more data"
-        $view->disableShowAllColumns();
-        // disable the RSS feed
-        $view->disableShowExportAsRssFeed();
-
-        // disable all row actions
-        if ($view instanceof Piwik_ViewDataTable_HtmlTable) {
-            $view->disableRowActions();
-        }
-
-        $view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
-
-        // set a very high row count so that the next link in the footer of the data table is always shown
-        $view->setCustomParameter('totalRows', 10000000);
-
-        $view->setCustomParameter('filterEcommerce', Common::getRequestVar('filterEcommerce', 0, 'int'));
-        $view->setCustomParameter('pageUrlNotDefined', Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL')));
-
-        return $this->renderView($view, $fetch);
+        return $this->getLastVisitsDetails($fetch);
     }
 
     public function getLastVisitsStart($fetch = false)
@@ -145,7 +119,7 @@ class Piwik_Live_Controller extends Controller
 
     private function setCounters($view)
     {
-        $segment = ViewDataTable::getRawSegmentFromRequest();
+        $segment = Piwik_API_Request::getRawSegmentFromRequest();
         $last30min = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment);
         $last30min = $last30min[0];
         $today = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment);
@@ -156,5 +130,4 @@ class Piwik_Live_Controller extends Controller
         $view->pisToday = $today['actions'];
         return $view;
     }
-
 }

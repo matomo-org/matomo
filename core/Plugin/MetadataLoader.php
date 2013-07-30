@@ -22,16 +22,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/Version.php';
 /**
  * Loads plugin metadata found in the following files:
  * - plugin.piwik.json
- * - colors.piwik.json
  */
 class MetadataLoader
 {
     const PLUGIN_JSON_FILENAME = 'plugin.piwik.json';
-    const COLORS_JSON_FILENAME = 'colors.piwik.json';
-
-    const SHORT_COLOR_LENGTH = 4;
-    const LONG_COLOR_LENGTH = 7;
-
+    
     /**
      * The name of the plugin whose metadata will be loaded.
      *
@@ -58,8 +53,7 @@ class MetadataLoader
     {
         return array_merge(
             $this->getDefaultPluginInformation(),
-            $this->loadPluginInfoJson(),
-            $this->loadPluginColorsJson()
+            $this->loadPluginInfoJson()
         );
     }
 
@@ -82,47 +76,6 @@ class MetadataLoader
     {
         $path = \Piwik\PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
         return $this->loadJsonMetadata($path);
-    }
-
-    private function loadPluginColorsJson()
-    {
-        $path = \Piwik\PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::COLORS_JSON_FILENAME;
-        $info = $this->loadJsonMetadata($path);
-        $info = $this->cleanAndValidatePluginColorsJson($path, $info);
-        return $info;
-    }
-
-    private function cleanAndValidatePluginColorsJson($path, $info)
-    {
-        // check that if "colors" exists, it is an array
-        $colors = isset($info["colors"]) ? $info["colors"] : array();
-        if (!is_array($colors)) {
-            throw new Exception("The 'colors' value in '$path' must be an object mapping names with colors.");
-        }
-
-        // validate each color
-        foreach ($colors as $color) {
-            if (!$this->isStringColorValid($color)) {
-                throw new Exception("Invalid color string '$color' in '$path'.");
-            }
-        }
-
-        return array("colors" => $colors); // make sure only 'colors' element is loaded
-    }
-
-    private function isStringColorValid($color)
-    {
-        if (strlen($color) !== self::SHORT_COLOR_LENGTH
-            && strlen($color) !== self::LONG_COLOR_LENGTH
-        ) {
-            return false;
-        }
-
-        if ($color[0] !== '#') {
-            return false;
-        }
-
-        return ctype_xdigit(substr($color, 1)); // check if other digits are hex
     }
 
     private function loadJsonMetadata($path)

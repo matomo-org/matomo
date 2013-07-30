@@ -19,7 +19,7 @@ use Piwik\Common;
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Cloud implements Piwik_View_Interface
+class Piwik_Visualization_Cloud
 {
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
@@ -33,7 +33,7 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
      * @param int $value
      * @return string
      */
-    function addWord($word, $value = 1)
+    public function addWord($word, $value = 1)
     {
         if (isset($this->wordsArray[$word])) {
             $this->wordsArray[$word] += $value;
@@ -42,7 +42,45 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
         }
     }
 
-    public function render()
+    /**
+     * Renders this visualization.
+     * 
+     * @param Piwik_DataTable $dataTable
+     */
+    public function render($dataTable, $properties)
+    {
+        $view = new Piwik_View("@CoreHome/_dataTableViz_tagCloud.twig");
+        $view->properties = $properties;
+
+        $columnToDisplay = $properties['columns_to_display'][1];
+
+        $labelMetadata = array();
+        foreach ($dataTable->getRows() as $row) {
+            $logo = false;
+            if ($properties['display_logo_instead_of_label']) {
+                $logo = $row->getMetadata('logo');
+            }
+
+            $label = $row->getColumn('label');
+
+            $labelMetadata[$label] = array(
+                'logo' => $logo,
+                'url'  => $row->getMetadata('url'),
+            );
+
+            $this->addWord($label, $row->getColumn($columnToDisplay));
+        }
+        $cloudValues = $this->getCloudValues();
+        foreach ($cloudValues as &$value) {
+            $value['logoWidth'] = round(max(16, $value['percent']));
+        }
+        $view->labelMetadata = $labelMetadata;
+        $view->cloudValues = $cloudValues;
+
+        return $view->render();
+    }
+
+    private function getCloudValues()
     {
         $this->shuffleCloud();
         $return = array();

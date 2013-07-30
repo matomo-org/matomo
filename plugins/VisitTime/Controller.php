@@ -28,16 +28,16 @@ class Piwik_VisitTime_Controller extends Controller
 
     public function getVisitInformationPerServerTime($fetch = false)
     {
-        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getVisitInformationPerLocalTime($fetch = false)
     {
-        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getByDayOfWeek($fetch = false)
     {
-        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }

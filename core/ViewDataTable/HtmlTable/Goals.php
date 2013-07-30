@@ -19,6 +19,9 @@ use Piwik\Site;
  */
 class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 {
+    private $processOnlyIdGoal = null;
+    private $isEcommerce = false;
+
     protected function getViewDataTableId()
     {
         return 'tableGoals';
@@ -26,8 +29,12 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 
     public function main()
     {
-        $this->idSite = Common::getRequestVar('idSite', null, 'int');
-        $this->processOnlyIdGoal = Common::getRequestVar('idGoal', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
+        if (!empty($this->viewProperties['disable_subtable_when_show_goals'])) {
+            $this->viewProperties['subtable_controller_action'] = null;
+        }
+
+        $this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
         $this->isEcommerce = $this->processOnlyIdGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
         $this->viewProperties['show_exclude_low_population'] = true;
         $this->viewProperties['show_goals'] = true;
@@ -100,7 +107,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 
     public function disableSubTableWhenShowGoals()
     {
-        $this->controllerActionCalledWhenRequestSubTable = null;
+        $this->viewProperties['subtable_controller_action'] = null;
     }
 
     public function setColumnsToDisplay($columnsNames)

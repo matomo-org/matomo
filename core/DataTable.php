@@ -380,7 +380,8 @@ class DataTable
     public function filter($className, $parameters = array())
     {
         if ($className instanceof Closure) {
-            $className($this);
+            array_unshift($parameters, $this);
+            call_user_func_array($className, $parameters);
             return;
         }
 

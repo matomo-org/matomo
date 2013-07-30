@@ -5,7 +5,7 @@
      data-report="{{ properties.report_id }}"
      data-params="{{ javascriptVariablesToSet|json_encode }}">
     <div class="reportDocumentation">
-        {% if reportDocumentation|default is not empty %}<p>{{ reportDocumentation|raw }}</p>{% endif %}
+        {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}
         {% if properties.metadata.archived_date is defined %}<span class='helpDate'>{{ properties.metadata.archived_date }}</span>{% endif %}
     </div>
     <div class="dataTableWrapper">
@@ -21,33 +21,7 @@
                 {% endif %}
                 </div>
             {% else %}
-                <table cellspacing="0" class="dataTable">
-                    {% include "@CoreHome/_dataTableHead.twig" %}
-
-                    <tbody>
-                    {% for rowId, row in dataTable.getRows() %}
-                        {%- set rowHasSubtable = row.getIdSubDataTable() and javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable is not null -%}
-                        {%- set shouldHighlightRow = rowId == summaryRowId and properties.highlight_summary_row -%}
-                        
-                        {# display this row if it doesn't have a subtable or if we don't replace the row with the subtable #}
-                        {% if not rowHasSubtable or not properties.show_expanded|default(false) or not properties.replace_row_with_subtable|default(false) %}
-                        <tr {% if rowHasSubtable %}id="{{ row.getIdSubDataTable() }}"{% endif %}
-                            class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}">
-                            {% for column in dataTableColumns %}
-                                <td>
-                                    {% include "@CoreHome/_dataTableCell.twig" with properties %}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                        {% endif %}
-                        
-                        {# display subtable if present and showing expanded datatable #}
-                        {% if properties.show_expanded|default(false) and rowHasSubtable %}
-                            {% include properties.subtable_template with {'dataTable': row.getSubtable()} %}
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
+                {{ visualization.render(dataTable, properties)|raw }}
             {% endif %}
 
             {% if properties.show_footer %}

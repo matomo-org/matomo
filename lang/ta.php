@@ -231,6 +231,7 @@ $translations = array(
 	'CoreUpdater_InstallingTheLatestVersion' => 'தற்போதைய புதிய பதிப்பு நிறுவப்படுகிறது.',
 	'CoreUpdater_PiwikUpdatedSuccessfully' => 'பிவிக் வெற்றிகரமாக புதுபிக்கப்பட்டது!',
 	'CoreUpdater_EmptyDatabaseError' => 'தரவுத்தளம் %s காலியாக உள்ளது. நீங்கள் பிவிக் கட்டமைப்புக் கோப்பை திருத்த அல்லது அகற்ற வேண்டும்.',
+	'CoreUpdater_ExceptionAlreadyLatestVersion' => 'உங்களுடைய பிவிக் பதிவு %s தான் தற்போதைய புதிய பதிவு.',
 	'CoreUpdater_ExceptionArchiveIncompatible' => 'பொருத்தமற்ற ஆவணக்கோப்பு: %s',
 	'CoreUpdater_ExceptionArchiveEmpty' => 'காலியான ஆவணக்கோப்பு.',
 	'CoreUpdater_ExceptionArchiveIncomplete' => 'முழுமையற்ற ஆவணக்கோப்பு: சில கோப்புகளை காணவில்லை (எ.க., %s)',

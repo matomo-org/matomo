@@ -131,7 +131,7 @@ class Piwik_Goals_Controller extends Controller
         $view->goalName = $goalDefinition['name'];
         $view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
         $view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'), $idGoal);
-        $view->nameGraphEvolution = 'GoalsgetEvolutionGraph' . $idGoal;
+        $view->nameGraphEvolution = 'Goals.getEvolutionGraph' . $idGoal;
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
         // conversion rate for new and returning visitors
@@ -459,26 +459,26 @@ class Piwik_Goals_Controller extends Controller
 
     public function getItemsSku($fetch = false)
     {
-        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
     
     public function getItemsName($fetch = false)
     {
-        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getItemsCategory($fetch = false)
     {
-        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getVisitsUntilConversion($fetch = false)
     {
-        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getDaysToConversion($fetch = false)
     {
-        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }

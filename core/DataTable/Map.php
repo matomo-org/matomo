@@ -408,4 +408,18 @@ class Map
         return array_values($data);
     }
 
+    /**
+     * @see Piwik_DataTable::getColumns()
+     * 
+     * @return array
+     */
+    public function getColumns()
+    {
+        foreach ($this->getArray() as $childTable) {
+            if ($childTable->getRowsCount() > 0) {
+                return $childTable->getColumns();
+            }
+        }
+        return array();
+    }
 }

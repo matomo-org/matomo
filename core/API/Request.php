@@ -251,4 +251,21 @@ class Request
 
         return Url::getCurrentQueryStringWithParametersModified($params);
     }
+
+    /**
+     * @return array|bool
+     */
+    static public function getRawSegmentFromRequest()
+    {
+        // we need the URL encoded segment parameter, we fetch it from _SERVER['QUERY_STRING'] instead of default URL decoded _GET
+        $segmentRaw = false;
+        $segment = Piwik_Common::getRequestVar('segment', '', 'string');
+        if (!empty($segment)) {
+            $request = Piwik_API_Request::getRequestParametersGET();
+            if(!empty($request['segment'])) {
+                $segmentRaw = $request['segment'];
+            }
+        }
+        return $segmentRaw;
+    }
 }

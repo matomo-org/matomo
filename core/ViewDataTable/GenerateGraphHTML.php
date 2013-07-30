@@ -24,15 +24,14 @@ use Piwik\View;
  */
 abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
 {
-    protected $width = '100%';
-    protected $height = 250;
+    const DEFAULT_GRAPH_HEIGHT = 250;
+
     protected $graphType;
 
     public function __construct()
     {
         parent::__construct();
         
-        $this->dataTableTemplate = '@CoreHome/_dataTableGraph';
         $this->disableOffsetInformationAndPaginationControls();
         $this->disableExcludeLowPopulation();
         $this->disableSearchBox();
@@ -47,6 +46,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
         $this->viewProperties['row_picker_mach_rows_by'] = false;
         $this->viewProperties['row_picker_visible_rows'] = array();
         $this->viewProperties['selectable_columns'] = array();
+        $this->viewProperties['graph_width'] = '100%';
+        $this->viewProperties['graph_height'] = self::DEFAULT_GRAPH_HEIGHT.'px';
     }
 
     /**
@@ -136,12 +137,16 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
         }
         
         // selectable columns
-        if ($this->graphType != 'evolution') {
+        if ($this->viewProperties['graph_type'] != 'evolution') {
             $selectableColumns = array('nb_visits', 'nb_actions');
             if (Common::getRequestVar('period', false) == 'day') {
                 $selectableColumns[] = 'nb_uniq_visitors';
             }
             $this->viewProperties['selectable_columns'] = $selectableColumns;
+        }
+
+        if ($this->viewProperties['show_goals']) {
+            $this->enableShowGoals();
         }
     }
 
@@ -152,8 +157,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
 
     public function addRowEvolutionSeriesToggle($initiallyShowAllMetrics)
     {
-        $this->viewProperties['externalSeriesToggle'] = 'RowEvolutionSeriesToggle';
-        $this->viewProperties['externalSeriesToggleShowAll'] = $initiallyShowAllMetrics;
+        $this->viewProperties['external_series_toggle'] = 'RowEvolutionSeriesToggle';
+        $this->viewProperties['external_series_toggle_show_all'] = $initiallyShowAllMetrics;
     }
 
     /**
@@ -222,9 +227,17 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
         // will be done on the table before the labels are enhanced (see ReplaceColumnNames)
         $this->disableQueuedFilters();
 
-        // throws exception if no view access
-        $this->loadDataTableFromAPI();
-        if ($this->graphType != 'evolution') {
+        try {
+            $this->loadDataTableFromAPI();
+        } catch (Piwik_Access_NoAccessException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            Piwik::log("Failed to get data from API: " . $e->getMessage());
+
+            $this->loadingError = array('message' => $e->getMessage());
+        }
+
+        if ($this->viewProperties['graph_type'] != 'evolution') {
             $this->checkStandardDataTable();
         }
         $this->postDataTableLoadedFromAPI();
@@ -233,50 +246,12 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
         $this->viewProperties['disable_generic_filters'] = false;
         $this->viewProperties['disable_queued_filters'] = false;
         
-        $this->view = $this->buildView();
-    }
-    
-    protected function buildView()
-    {
-        // access control
-        $idSite = Common::getRequestVar('idSite', 1, 'int');
-        Request::reloadAuthUsingTokenAuth();
-        if (!Piwik::isUserHasViewAccess($idSite)) {
-            throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idSite)));
-        }
-
-        // collect data
-        $this->graphData = $this->getGraphData($this->dataTable);
-
-        // build view
-        $view = new View($this->dataTableTemplate);
-
-        $view->width = $this->width;
-        $view->height = $this->height;
-        $view->graphType = $this->graphType;
-
-        $view->data = $this->graphData;
-        $view->isDataAvailable = strpos($this->graphData, '"series":[]') === false;
-
-        $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-        $view->properties = $this->getViewProperties();
-
-        $view->reportDocumentation = $this->getReportDocumentation();
-
-        // if it's likely that the report data for this data table has been purged,
-        // set whether we should display a message to that effect.
-        $view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
-        $view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
-
-        return $view;
+        $visualization = new Piwik_Visualization_JqplotGraph();
+        $this->view = $this->buildView($visualization);
     }
 
-    protected function getGraphData($dataTable)
+    public function getDefaultDataTableCssClass()
     {
-        $properties = array_merge($this->viewProperties, $this->viewProperties['request_parameters_to_modify']);
-        $dataGenerator = JqplotDataGenerator::factory($this->graphType, $properties);
-        
-        $jsonData = $dataGenerator->generate($dataTable);
-        return str_replace(array("\r", "\n"), '', $jsonData);
+        return 'dataTableGraph';
     }
 }

@@ -1,0 +1,10 @@
+<div class="jqplot-graph">
+    <div class="piwik-graph"
+        style="width: {{ properties.graph_width }}; height: {{ properties.graph_height }};"
+        data-data="{{ data|e('html') }}"
+        {% if properties.external_series_toggle is defined and properties.external_series_toggle %}
+        data-external-series-toggle="{{ properties.external_series_toggle }}"
+        data-external-series-show-all="{% if properties.external_series_toggle_show_all %}1{% else %}0{% endif %}"
+        {% endif %}>
+    </div>
+</div>

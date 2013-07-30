@@ -211,14 +211,6 @@ abstract class Controller
     protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
                                                      $columnsToDisplay, $selectableColumns = array(), $reportDocumentation = false, $apiMethod = 'API.get')
     {
-        // back up and manipulate the columns parameter
-        $backupColumns = false;
-        if (isset($_GET['columns'])) {
-            $backupColumns = $_GET['columns'];
-        }
-
-        $_GET['columns'] = implode(',', $columnsToDisplay);
-
         // load translations from meta data
         $idSite = Common::getRequestVar('idSite');
         $period = Common::getRequestVar('period');
@@ -239,23 +231,15 @@ abstract class Controller
 
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
-        $view->setColumnsToDisplay($columnsToDisplay);
-        $view->setSelectableColumns($selectableColumns);
-        $view->setColumnsTranslations($translations);
+        $view->columns_to_display = $columnsToDisplay;
+        $view->selectable_columns = array_merge($view->selectable_columns, $selectableColumns);
+        $view->translations += $translations;
 
         if ($reportDocumentation) {
-            $view->setReportDocumentation($reportDocumentation);
+            $view->documentation = $reportDocumentation;
         }
 
         $view->main();
-
-        // restore the columns parameter
-        if ($backupColumns !== false) {
-            $_GET['columns'] = $backupColumns;
-        } else {
-            unset($_GET['columns']);
-        }
-
         return $view;
     }
 
@@ -831,12 +815,13 @@ abstract class Controller
 
         $titleEvolutionPercent = $evolutionPercent;
         if ($evolutionPercent < 0) {
-            $color = "#e02a3b"; //red
+            $class = "negative-evolution";
             $img = "arrow_down.png";
         } else if ($evolutionPercent == 0) {
+            $class = "neutral-evolution";
             $img = "stop.png";
         } else {
-            $color = "green";
+            $class = "positive-evolution";
             $img = "arrow_up.png";
             $titleEvolutionPercent = '+' . $titleEvolutionPercent;
         }
@@ -852,8 +837,8 @@ abstract class Controller
         $result = '<span class="metricEvolution" title="' . $title
             . '"><img style="padding-right:4px" src="plugins/MultiSites/images/' . $img . '"/><strong';
 
-        if (isset($color)) {
-            $result .= ' style="color:' . $color . '"';
+        if (isset($class)) {
+            $result .= ' class="' . $class . '"';
         }
         $result .= '>' . $evolutionPercent . '</strong></span>';
 

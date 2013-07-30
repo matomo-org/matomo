@@ -23,6 +23,9 @@ class Piwik_ExampleUI_API
 {
     static private $instance = null;
 
+    /**
+     * @return Piwik_ExampleUI_API
+     */
     static public function getInstance()
     {
         if (self::$instance == null) {

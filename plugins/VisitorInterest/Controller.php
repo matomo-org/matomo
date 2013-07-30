@@ -30,37 +30,12 @@ class Piwik_VisitorInterest_Controller extends Controller
 
     public function getNumberOfVisitsPerVisitDuration($fetch = false)
     {
-        $view = ViewDataTable::factory('cloud');
-        $view->init($this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerVisitDuration");
-
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->setSortedColumn('label', 'asc');
-        $view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnVisitDuration'));
-        $view->setGraphLimit(10);
-        $view->disableSort();
-        $view->disableExcludeLowPopulation();
-        $view->disableOffsetInformationAndPaginationControls();
-        $view->disableSearchBox();
-        $view->disableShowAllColumns();
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getNumberOfVisitsPerPage($fetch = false)
     {
-        $view = ViewDataTable::factory('cloud');
-        $view->init($this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerPage");
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->setSortedColumn('label', 'asc');
-        $view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'));
-        $view->setGraphLimit(10);
-        $view->disableExcludeLowPopulation();
-        $view->disableOffsetInformationAndPaginationControls();
-        $view->disableSearchBox();
-        $view->disableSort();
-        $view->disableShowAllColumns();
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -72,21 +47,7 @@ class Piwik_VisitorInterest_Controller extends Controller
      */
     public function getNumberOfVisitsByVisitCount($fetch = false)
     {
-        $view = ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsByVisitCount");
-        $view->setColumnsToDisplay(array('label', 'nb_visits', 'nb_visits_percentage'));
-        $view->setSortedColumn('label', 'asc');
-        $view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_VisitNum'));
-        $view->setColumnTranslation('nb_visits_percentage', Metrics::getPercentVisitColumn());
-        $view->disableExcludeLowPopulation();
-        $view->disableOffsetInformationAndPaginationControls();
-        $view->disableShowAllViewsIcons();
-        $view->setLimit(15);
-        $view->disableSearchBox();
-        $view->disableSort();
-        $view->disableShowAllColumns();
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -98,19 +59,6 @@ class Piwik_VisitorInterest_Controller extends Controller
      */
     public function getNumberOfVisitsByDaysSinceLast($fetch = false)
     {
-        $view = ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__, 'VisitorInterest.getNumberOfVisitsByDaysSinceLast');
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->setSortedColumn('label', 'asc');
-        $view->setColumnTranslation('label', Piwik_Translate('General_DaysSinceLastVisit'));
-        $view->disableExcludeLowPopulation();
-        $view->disableOffsetInformationAndPaginationControls();
-        $view->disableShowAllViewsIcons();
-        $view->setLimit(15);
-        $view->disableSearchBox();
-        $view->disableSort();
-        $view->disableShowAllColumns();
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }

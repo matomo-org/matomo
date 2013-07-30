@@ -134,20 +134,11 @@ class Piwik_CoreHome_Controller extends Controller
     //  evolution of a singe or multiple rows in a data table
     //  --------------------------------------------------------
 
-    /**
-     * This static cache is necessary because the signature cannot be modified
-     * if the method renders a ViewDataTable. So we use it to pass information
-     * to getRowEvolutionGraph()
-     * @var Piwik_CoreHome_DataTableAction_Evolution
-     */
-    private static $rowEvolutionCache = null;
-
     /** Render the entire row evolution popover for a single row */
     public function getRowEvolutionPopover()
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = false);
-        self::$rowEvolutionCache = $rowEvolution;
-        $view = new View('@CoreHome/getRowEvolutionPopover');
+        $view = new Piwik_View('@CoreHome/getRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
@@ -155,22 +146,19 @@ class Piwik_CoreHome_Controller extends Controller
     public function getMultiRowEvolutionPopover()
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = true);
-        self::$rowEvolutionCache = $rowEvolution;
-        $view = new View('@CoreHome/getMultiRowEvolutionPopover');
+        $view = new Piwik_View('@CoreHome/getMultiRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
     /** Generic method to get an evolution graph or a sparkline for the row evolution popover */
-    public function getRowEvolutionGraph($fetch = false)
+    public function getRowEvolutionGraph($fetch = false, $rowEvolution = null)
     {
-        $rowEvolution = self::$rowEvolutionCache;
-        if ($rowEvolution === null) {
+        if (empty($rowEvolution)) {
             $paramName = Piwik_CoreHome_DataTableRowAction_MultiRowEvolution::IS_MULTI_EVOLUTION_PARAM;
             $isMultiRowEvolution = Common::getRequestVar($paramName, false, 'int');
 
             $rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
             $rowEvolution->useAvailableMetrics();
-            self::$rowEvolutionCache = $rowEvolution;
         }
 
         $view = $rowEvolution->getRowEvolutionGraph();

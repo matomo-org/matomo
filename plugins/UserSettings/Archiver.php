@@ -18,7 +18,12 @@ use Piwik\PluginsArchiver;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 
-class Piwik_UserSettings_Archiver extends PluginsArchiver
+/**
+ * Archiver for UserSettings Plugin
+ *
+ * @see Piwik_PluginsArchiver
+ */
+class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 {
     const LANGUAGE_RECORD_NAME = 'UserSettings_language';
     const PLUGIN_RECORD_NAME = 'UserSettings_plugin';

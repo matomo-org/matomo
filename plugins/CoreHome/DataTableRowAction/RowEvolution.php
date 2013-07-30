@@ -99,7 +99,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             list($this->date, $lastN) =
                 Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($this->period, $end);
         }
-        $this->segment = ViewDataTable::getRawSegmentFromRequest();
+        $this->segment = \Piwik\API\Request::getRawSegmentFromRequest();
 
         $this->loadEvolutionReport();
     }
@@ -114,10 +114,10 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
         // render main evolution graph
         $this->graphType = 'graphEvolution';
         $this->graphMetrics = $this->availableMetrics;
-        $view->graph = $controller->getRowEvolutionGraph(true);
+        $view->graph = $controller->getRowEvolutionGraph($fetch = true, $rowEvolution = $this);
 
         // render metrics overview
-        $view->metrics = $this->getMetricsToggles($controller);
+        $view->metrics = $this->getMetricsToggles();
 
         // available metrics text
         $metricsText = Piwik_Translate('RowEvolution_AvailableMetrics');
@@ -180,40 +180,39 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
      * Do as much as possible from outside the controller.
      * @return ViewDataTable
      */
-    public function getRowEvolutionGraph()
+    public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = ViewDataTable::factory($this->graphType);
+        $view = ViewDataTable::factory(
+            $graphType ?: $this->graphType, $this->apiMethod, $controllerAction = 'CoreHome.getRowEvolutionGraph');
         $view->setDataTable($this->dataTable);
-        $view->init('CoreHome', 'getRowEvolutionGraph', $this->apiMethod);
 
-        if (!empty($this->graphMetrics)) // In row Evolution popover, this is empty
-        {
-            $view->setColumnsToDisplay(array_keys($this->graphMetrics));
+        if (!empty($this->graphMetrics)) { // In row Evolution popover, this is empty
+            $view->columns_to_display = array_keys($metrics ?: $this->graphMetrics);
         }
-        $view->hideAllViewsIcons();
+
+        $view->show_all_views_icons = false;
+        $view->show_active_view_icon = false;
+        $view->show_related_reports = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
-            $view->setColumnTranslation($metric, $metadata['name']);
+            $view->translations[$metric] = $metadata['name'];
         }
 
-        if (method_exists($view, 'addRowEvolutionSeriesToggle')) {
-            $view->addRowEvolutionSeriesToggle($this->initiallyShowAllMetrics);
-        }
+        $view->external_series_toggle = 'RowEvolutionSeriesToggle';
+        $view->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
 
         return $view;
     }
 
     /**
      * Prepare metrics toggles with spark lines
-     * @param $controller
      * @return array
      */
-    protected function getMetricsToggles($controller)
+    protected function getMetricsToggles()
     {
         $chart = new Piwik_Visualization_Chart_Evolution;
-        $colors = $chart->getSeriesColors();
-
+        
         $i = 0;
         $metrics = array();
         foreach ($this->availableMetrics as $metric => $metricData) {
@@ -247,12 +246,10 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
                 $details .= ', ' . Piwik_Translate('RowEvolution_MetricChangeText', $change);
             }
 
-            $color = $colors[$i % count($colors)];
             $newMetric = array(
                 'label'     => $metricData['name'],
-                'color'     => $color,
                 'details'   => $details,
-                'sparkline' => $this->getSparkline($metric, $controller),
+                'sparkline' => $this->getSparkline($metric),
             );
             // Multi Rows, each metric can be for a particular row and display an icon
             if (!empty($metricData['logo'])) {
@@ -266,14 +263,14 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     }
 
     /** Get the img tag for a sparkline showing a single metric */
-    protected function getSparkline($metric, $controller)
+    protected function getSparkline($metric)
     {
-        $this->graphType = 'sparkline';
-        $this->graphMetrics = array($metric => $metric);
-
         // sparkline is always echoed, so we need to buffer the output
+        $view = $this->getRowEvolutionGraph($graphType = 'sparkline', $metrics = array($metric => $metric));
+        $view->main();
+
         ob_start();
-        $controller->getRowEvolutionGraph();
+        $view->getView()->render();
         $spark = ob_get_contents();
         ob_end_clean();
 

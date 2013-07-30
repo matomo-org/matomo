@@ -22,7 +22,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar extends Piwik_ViewD
     public function __construct()
     {
         parent::__construct();
-        $this->graphType = 'bar';
+        $this->viewProperties['graph_type'] = 'bar';
         $this->viewProperties['graph_limit'] = 6;
     }
     

@@ -117,7 +117,7 @@ class Piwik_VisitTime extends Plugin
         );
     }
     
-    public function getReportDisplayProperties(&$properties, $apiAction)
+    public function getReportDisplayProperties(&$properties)
     {
         $commonProperties = array(
             'filter_sort_column'          => 'label',
@@ -129,44 +129,38 @@ class Piwik_VisitTime extends Plugin
             'default_view_type'           => 'graphVerticalBar'
         );
         
-        $reportViewProperties = array(
-            'VisitTime.getVisitInformationPerServerTime' => array_merge($commonProperties, array(
-                'filter_limit' => 24,
-                'graph_limit' => null,
-                'show_goals' => true,
-                'translations' => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
-                
-                // custom parameter
-                'hideFutureHoursWhenToday' => 1,
-            )),
+        $properties['VisitTime.getVisitInformationPerServerTime'] = array_merge($commonProperties, array(
+            'filter_limit' => 24,
+            'graph_limit' => null,
+            'show_goals' => true,
+            'translations' => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
             
-            'VisitTime.getVisitInformationPerLocalTime' => array_merge($commonProperties, array(
-                'filter_limit' => 24,
-                'graph_limit' => null,
-                'title' => Piwik_Translate('VisitTime_ColumnLocalTime'),
-                'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
-            )),
+            // custom parameter
+            'hideFutureHoursWhenToday' => 1,
+        ));
             
-            'VisitTime.getByDayOfWeek' => array_merge($commonProperties, array(
-                'filter_limit' => 7,
-                'graph_limit' => null,
-                'enable_sort' => false,
-                'show_all_ticks' => true,
-                'show_footer_message' =>
-                    Piwik_Translate('General_ReportGeneratedFrom', self::getDateRangeForFooterMessage()),
-                'translations' => array('label' => Piwik_Translate('VisitTime_DayOfWeek')),
-            )),
-        );
+        $properties['VisitTime.getVisitInformationPerLocalTime'] = array_merge($commonProperties, array(
+            'filter_limit' => 24,
+            'graph_limit' => null,
+            'title' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+            'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
+        ));
+            
+        $properties['VisitTime.getByDayOfWeek'] = array_merge($commonProperties, array(
+            'filter_limit' => 7,
+            'graph_limit' => null,
+            'enable_sort' => false,
+            'show_all_ticks' => true,
+            'show_footer_message' =>
+                Piwik_Translate('General_ReportGeneratedFrom', self::getDateRangeForFooterMessage()),
+            'translations' => array('label' => Piwik_Translate('VisitTime_DayOfWeek')),
+        ));
 
         // add the visits by day of week as a related report, if the current period is not 'day'
         if (Common::getRequestVar('period', 'day') != 'day') {
-            $reportViewProperties['VisitTime.getVisitInformationPerLocalTime']['relatedReports'] = array(
+            $properties['VisitTime.getVisitInformationPerLocalTime']['relatedReports'] = array(
                 'VisitTime.getByDayOfWeek' => Piwik_Translate('VisitTime_VisitsByDayOfWeek')
             );
-        }
-        
-        if (isset($reportViewProperties[$apiAction])) {
-            $properties = $reportViewProperties[$apiAction];
         }
     }
 
@@ -190,12 +184,16 @@ class Piwik_VisitTime extends Plugin
     private static function getDateRangeForFooterMessage()
     {
         // get query params
-        $idSite = Common::getRequestVar('idSite');
-        $date = Common::getRequestVar('date');
-        $period = Common::getRequestVar('period');
+        $idSite = Common::getRequestVar('idSite', false);
+        $date = Common::getRequestVar('date', false);
+        $period = Common::getRequestVar('period', false);
 
         // create a period instance
-        $oPeriod = Period::makePeriodFromQueryParams(Site::getTimezoneFor($idSite), $period, $date);
+        try {
+            $oPeriod = Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+        } catch (Exception $ex) {
+            return ''; // if query params are incorrect, forget about the footer message
+        }
 
         // set the footer message using the period start & end date
         $start = $oPeriod->getDateStart()->toString();

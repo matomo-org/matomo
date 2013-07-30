@@ -22,6 +22,23 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class Piwik_DevicesDetection extends Plugin
 {
+    /** The set of related reports displayed under the 'Operating Systems' header. */
+    private $osRelatedReports = null;
+    private $browserRelatedReports = null;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->osRelatedReports = array(
+            'DevicesDetection.getOsFamilies' => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
+            'DevicesDetection.getOsVersions' => Piwik_Translate('DeviceDetection_OperatingSystemVersions')
+        );
+        $this->browserRelatedReports = array(
+            'DevicesDetection.getBrowserFamilies' => Piwik_Translate('DevicesDetection_BrowsersFamily'),
+            'DevicesDetection.getBrowserVersions' => Piwik_Translate('DevicesDetection_BrowserVersions')
+        );
+    }
+
     /**
      * @see Piwik_Plugin::getInformation
      */
@@ -49,6 +66,7 @@ class Piwik_DevicesDetection extends Plugin
             'WidgetsList.add' => 'addWidgets',
             'API.getReportMetadata' => 'getReportMetadata',
             'API.getSegmentsMetadata' => 'getSegmentsMetadata',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
     }
 
@@ -253,5 +271,102 @@ class Piwik_DevicesDetection extends Plugin
     public function addMenu()
     {
         Piwik_AddMenu('General_Visitors', 'DevicesDetection_submenu', array('module' => 'DevicesDetection', 'action' => 'index'));
+    }
+
+    public function getReportDisplayProperties(&$properties)
+    {
+        $properties['DevicesDetection.getType'] = $this->getDisplayPropertiesForGetType();
+        $properties['DevicesDetection.getBrand'] = $this->getDisplayPropertiesForGetBrand();
+        $properties['DevicesDetection.getModel'] = $this->getDisplayPropertiesForGetModel();
+        $properties['DevicesDetection.getOsFamilies'] = $this->getDisplayPropertiesForGetOsFamilies();
+        $properties['DevicesDetection.getOsVersions'] = $this->getDisplayPropertiesForGetOsVersions();
+        $properties['DevicesDetection.getBrowserFamilies'] = $this->getDisplayPropertiesForGetBrowserFamilies();
+        $properties['DevicesDetection.getBrowserVersions'] = $this->getDisplayPropertiesForGetBrowserVersions();
+    }
+
+    private function getDisplayPropertiesForGetType()
+    {
+        return array(
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelTypes"))
+        );
+    }
+
+    private function getDisplayPropertiesForGetBrand()
+    {
+        return array(
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrands"))
+        );
+    }
+
+    private function getDisplayPropertiesForGetModel()
+    {
+        return array(
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelModels"))
+        );
+    }
+
+    private function getDisplayPropertiesForGetOsFamilies()
+    {
+        return array(
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemFamily")),
+            'title' => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
+            'relatedReports' => $this->getOsRelatedReports()
+        );
+    }
+
+    private function getDisplayPropertiesForGetOsVersions()
+    {
+        return array(
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemVersion")),
+            'title' => Piwik_Translate('DeviceDetection_OperatingSystemVersions'),
+            'relatedReports' => $this->getOsRelatedReports()
+        );
+    }
+
+    private function getDisplayPropertiesForGetBrowserFamilies()
+    {
+        return array(
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrowserFamily")),
+            'title' => Piwik_Translate('DevicesDetection_BrowsersFamily'),
+            'relatedReports' => $this->getBrowserRelatedReports()
+        );
+    }
+
+    private function getDisplayPropertiesForGetBrowserVersions()
+    {
+        return array(
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrowserVersion")),
+            'relatedReports' => $this->getBrowserRelatedReports()
+        );
+    }
+
+    private function getOsRelatedReports()
+    {
+        return array(
+            'DevicesDetection.getOsFamilies' => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
+            'DevicesDetection.getOsVersions' => Piwik_Translate('DeviceDetection_OperatingSystemVersions')
+        );
+    }
+
+    private function getBrowserRelatedReports()
+    {
+        return array(
+            'DevicesDetection.getBrowserFamilies' => Piwik_Translate('DevicesDetection_BrowsersFamily'),
+            'DevicesDetection.getBrowserVersions' => Piwik_Translate('DevicesDetection_BrowserVersions')
+        );
     }
 }
