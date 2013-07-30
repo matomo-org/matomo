@@ -20,7 +20,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         $view = new Piwik_View('@Referers/index');
 
         $view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
-        $view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph';
+        $view->nameGraphEvolutionReferers = 'Referers.getEvolutionGraph';
 
         // building the referers summary report
         $view->dataTableRefererType = $this->getRefererType(true);

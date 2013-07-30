@@ -186,14 +186,6 @@ abstract class Piwik_Controller
     protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
                                                      $columnsToDisplay, $selectableColumns = array(), $reportDocumentation = false, $apiMethod = 'API.get')
     {
-        // back up and manipulate the columns parameter
-        $backupColumns = false;
-        if (isset($_GET['columns'])) {
-            $backupColumns = $_GET['columns'];
-        }
-
-        $_GET['columns'] = implode(',', $columnsToDisplay);
-
         // load translations from meta data
         $idSite = Piwik_Common::getRequestVar('idSite');
         $period = Piwik_Common::getRequestVar('period');
@@ -214,23 +206,15 @@ abstract class Piwik_Controller
 
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
-        $view->setColumnsToDisplay($columnsToDisplay);
-        $view->setSelectableColumns($selectableColumns);
-        $view->setColumnsTranslations($translations);
+        $view->columns_to_display = $columnsToDisplay;
+        $view->selectable_columns = array_merge($view->selectable_columns, $selectableColumns);
+        $view->translations += $translations;
 
         if ($reportDocumentation) {
-            $view->setReportDocumentation($reportDocumentation);
+            $view->documentation = $reportDocumentation;
         }
 
         $view->main();
-
-        // restore the columns parameter
-        if ($backupColumns !== false) {
-            $_GET['columns'] = $backupColumns;
-        } else {
-            unset($_GET['columns']);
-        }
-
         return $view;
     }
 

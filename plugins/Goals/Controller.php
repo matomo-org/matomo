@@ -122,7 +122,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
         $view->goalName = $goalDefinition['name'];
         $view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
         $view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'), $idGoal);
-        $view->nameGraphEvolution = 'GoalsgetEvolutionGraph' . $idGoal;
+        $view->nameGraphEvolution = 'Goals.getEvolutionGraph' . $idGoal;
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
         // conversion rate for new and returning visitors

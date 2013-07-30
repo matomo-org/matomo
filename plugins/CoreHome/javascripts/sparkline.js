@@ -15,7 +15,7 @@ piwik.getSparklineColors = function () {
 
 // initializes each sparkline so they use colors defined in CSS
 piwik.initSparklines = function () {
-    $('.sparkline').each(function () {
+    $('img.sparkline').each(function () {
         var $self = $(this);
         
         if ($self.attr('src')) {
@@ -36,7 +36,7 @@ window.initializeSparklines = function () {
         // try to find sparklines and add them clickable behaviour
         graph.parent().find('div.sparkline').each(function () {
             // find the sparkline and get it's src attribute
-            var sparklineUrl = $('img.sparkline', this).attr('src');
+            var sparklineUrl = $('img.sparkline', this).attr('data-src');
 
             if (sparklineUrl != "") {
                 var params = broadcast.getValuesFromUrl(sparklineUrl);
@@ -54,15 +54,15 @@ window.initializeSparklines = function () {
 
                 // on click, reload the graph with the new url
                 $(this).click(function () {
-                    var idDataTable = graph.attr('data-graph-id'),
-                        dataTable = $('#' + idDataTable);
+                    var reportId = graph.attr('data-graph-id'),
+                        dataTable = $(piwik.DataTableManager.getDataTableByReport(reportId));
 
                     // when the metrics picker is used, the id of the data table might be updated (which is correct behavior).
                     // for example, in goal reports it might change from GoalsgetEvolutionGraph to GoalsgetEvolutionGraph1.
                     // if this happens, we can't find the graph using $('#'+idDataTable+"Chart");
                     // instead, we just use the first evolution graph we can find.
                     if (dataTable.length == 0) {
-                        dataTable = $('div.dataTableGraphEvolutionWrapper').first().closest('.dataTable');
+                        dataTable = $('div.dataTableEvolutionGraph');
                     }
 
                     // reload the datatable w/ a new column & scroll to the graph

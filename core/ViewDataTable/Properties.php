@@ -128,6 +128,23 @@ class Piwik_ViewDataTable_Properties
     const EXTERNAL_SERIES_TOGGLE_SHOW_ALL = 'external_series_toggle_show_all';
 
     /**
+     * Controls whether a report's related reports are listed with the view or not.
+     */
+    const SHOW_RELATED_REPORTS = 'show_related_reports';
+
+    /**
+     * Array property that contains the names of columns that can be selected in the Series Picker.
+     * 
+     * TODO: this is only applicable to graph views. move this.
+     */
+    const SELECTABLE_COLUMNS = 'selectable_columns';
+
+    /**
+     * Contains the documentation for a report.
+     */
+    const REPORT_DOCUMENTATION = 'documentation';
+
+    /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
      * name as a key. Values of the array are undefined.
      * 

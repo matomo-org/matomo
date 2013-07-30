@@ -164,6 +164,7 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['documentation'] = false;
         $this->viewProperties['subtable_controller_action'] = false;
         $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
+        $this->viewProperties['selectable_columns'] = array(); // TODO: only valid for graphs... shouldn't be here.
         $this->viewProperties['columns_to_display'] = array();
 
         $columns = Piwik_Common::getRequestVar('columns', false);
