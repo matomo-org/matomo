@@ -15,6 +15,9 @@
  */
 class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 {
+    private $processOnlyIdGoal = null;
+    private $isEcommerce = false;
+
     protected function getViewDataTableId()
     {
         return 'tableGoals';

@@ -38,9 +38,8 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
         $valid = parent::postDataTableLoadedFromAPI();
         if (!$valid) return false;
 
-        Piwik_Controller::setPeriodVariablesView($this);
         $columnUniqueVisitors = false;
-        if ($this->period == 'day') {
+        if ($this->dataTableColumnsContains($this->dataTable->getColumns(), 'nb_uniq_visitors')) {
             $columnUniqueVisitors = 'nb_uniq_visitors';
         }
 

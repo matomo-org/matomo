@@ -84,7 +84,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     public function getLastVisitsDetails($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**

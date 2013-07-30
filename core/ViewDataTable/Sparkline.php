@@ -43,10 +43,8 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
         $_GET['period'] = $period;
 
         $values = $this->getValuesFromDataTable($this->dataTable);
-        $this->isDataAvailable = true;
         if (empty($values)) {
             $values = array_fill(0, 30, 0);
-            $this->isDataAvailable = false;
         }
 
         $graph = new Piwik_Visualization_Sparkline();

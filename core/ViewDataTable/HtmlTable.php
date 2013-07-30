@@ -64,7 +64,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         }
         $this->mainAlreadyExecuted = true;
 
-        $this->isDataAvailable = true;
         try {
             $this->loadDataTableFromAPI();
         } catch (Piwik_Access_NoAccessException $e) {
@@ -72,7 +71,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         } catch (Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());
 
-            $this->isDataAvailable = false;
             $this->loadingError = array('message' => $e->getMessage());
         }
 

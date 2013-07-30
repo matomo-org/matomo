@@ -14,61 +14,61 @@
  */
 class Piwik_ExampleUI_Controller extends Piwik_Controller
 {
-    function dataTables()
+    public function dataTables()
     {
-        $view = Piwik_ViewDataTable::factory('table');
-        $view->init($this->pluginName, __FUNCTION__, 'ExampleUI.getTemperatures');
-        $view->setColumnTranslation('value', "Temperature in °C");
-        $view->setColumnTranslation('label', "Hour of day");
-        $view->setSortedColumn('label', 'asc');
-        $view->setGraphLimit(24);
-        $view->setLimit(24);
-        $view->disableExcludeLowPopulation();
-        $view->disableShowAllColumns();
-        $view->disableRowEvolution();
-        $view->setAxisYUnit('°C'); // useful if the user requests the bar graph
-        return $this->renderView($view);
+        $view = Piwik_ViewDataTable::factory('table', 'ExampleUI.getTemperatures', $controllerAction = 'ExampleUI.dataTables');
+        $view->translations['value'] = "Temperature in °C";
+        $view->translations['label'] = "Hour of day";
+        $view->filter_sort_column = 'label';
+        $view->filter_sort_order = 'asc';
+        $view->graph_limit = 24;
+        $view->filter_limit = 24;
+        $view->show_exclude_low_population = false;
+        $view->show_table_all_columns = false;
+        $view->disable_row_evolution = true;
+        $view->y_axis_unit = '°C'; // useful if the user requests the bar graph
+        echo $view->render();
     }
 
-    function evolutionGraph()
+    public function evolutionGraph()
     {
         echo "<h2>Evolution of server temperatures over the last few days</h2>";
         $this->echoEvolutionGraph();
     }
 
-    function echoEvolutionGraph()
+    public function echoEvolutionGraph()
     {
-        $view = Piwik_ViewDataTable::factory('graphEvolution');
-        $view->init($this->pluginName, __FUNCTION__, 'ExampleUI.getTemperaturesEvolution');
-        $view->setColumnTranslation('server1', "Temperature server piwik.org");
-        $view->setColumnTranslation('server2', "Temperature server dev.piwik.org");
-        $view->setAxisYUnit('°C'); // useful if the user requests the bar graph
-        return $this->renderView($view);
+        $view = Piwik_ViewDataTable::factory(
+            'graphEvolution', 'ExampleUI.getTemperaturesEvolution', $controllerAction = 'ExampleUI.echoEvolutionGraph');
+        $view->translations['server1'] = "Temperature server piwik.org";
+        $view->translations['server2'] = "Temperature server dev.piwik.org";
+        $view->y_axis_unit = '°C'; // useful if the user requests the bar graph
+        echo $view->render();
     }
 
-    function barGraph()
+    public function barGraph()
     {
-        $view = Piwik_ViewDataTable::factory('graphVerticalBar');
-        $view->init($this->pluginName, __FUNCTION__, 'ExampleUI.getTemperatures');
-        $view->setColumnTranslation('value', "Temperature");
-        $view->setAxisYUnit('°C');
-        $view->setGraphLimit(24);
-        $view->disableFooter();
-        return $this->renderView($view);
+        $view = Piwik_ViewDataTable::factory(
+            'graphVerticalBar', 'ExampleUI.getTemperatures', $controllerAction = 'ExampleUI.barGraph');
+        $view->translations['value'] = "Temperature";
+        $view->y_axis_unit = '°C';
+        $view->graph_limit = 24;
+        $view->show_footer = false;
+        echo $view->render();
     }
 
-    function pieGraph()
+    public function pieGraph()
     {
-        $view = Piwik_ViewDataTable::factory('graphPie');
-        $view->init($this->pluginName, __FUNCTION__, 'ExampleUI.getPlanetRatios');
-        $view->setColumnsToDisplay('value');
-        $view->setColumnTranslation('value', "times the diameter of Earth");
-        $view->setGraphLimit(10);
-        $view->disableFooterIcons();
-        return $this->renderView($view);
+        $view = Piwik_ViewDataTable::factory(
+            'graphPie', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.pieGraph');
+        $view->columns_to_display = array('value');
+        $view->translations['value'] = "times the diameter of Earth";
+        $view->graph_limit = 10;
+        $view->show_footer_icons = false;
+        echo $view->render();
     }
 
-    function tagClouds()
+    public function tagClouds()
     {
         echo "<h2>Simple tag cloud</h2>";
         $this->echoSimpleTagClouds();
@@ -81,28 +81,27 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
         $this->echoAdvancedTagClouds();
     }
 
-    function echoSimpleTagClouds()
+    public function echoSimpleTagClouds()
     {
-        $view = Piwik_ViewDataTable::factory('cloud');
-        $view->init($this->pluginName, __FUNCTION__, 'ExampleUI.getPlanetRatios');
-        $view->setColumnsToDisplay(array('label', 'value'));
-        $view->setColumnTranslation('value', "times the diameter of Earth");
-        $view->disableFooter();
-        $this->renderView($view);
+        $view = Piwik_ViewDataTable::factory(
+            'cloud', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.echoSimpleTagClouds');
+        $view->columns_to_display = array('label', 'value');
+        $view->translations['value'] = "times the diameter of Earth";
+        $view->show_footer = false;
+        echo $view->render();
     }
 
-    function echoAdvancedTagClouds()
+    public function echoAdvancedTagClouds()
     {
-        $view = Piwik_ViewDataTable::factory('cloud');
-        $view->init($this->pluginName, __FUNCTION__, 'ExampleUI.getPlanetRatiosWithLogos');
-        $view->setDisplayLogoInTagCloud(true);
-        $view->disableFooterExceptExportIcons();
-        $view->setColumnsToDisplay(array('label', 'value'));
-        $view->setColumnTranslation('value', "times the diameter of Earth");
-        $this->renderView($view);
+        $view = Piwik_ViewDataTable::factory(
+            'cloud', 'ExampleUI.getPlanetRatiosWithLogos', $controllerAction = 'ExampleUI.echoAdvancedTagClouds');
+        $view->display_logo_instead_of_label = true;
+        $view->columns_to_display = array('label', 'value');
+        $view->translations['value'] = "times the diameter of Earth";
+        echo $view->render();
     }
 
-    function sparklines()
+    public function sparklines()
     {
         $view = new Piwik_View('@ExampleUI/sparklines');
         $view->urlSparkline1 = $this->getUrlSparkline('generateSparkline', array('server' => 'server1', 'rand' => mt_rand()));
@@ -110,13 +109,17 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
         echo $view->render();
     }
 
-    function generateSparkline()
+    public function generateSparkline()
     {
-        $serverRequested = Piwik_Common::getRequestVar('server', '');
-        $view = Piwik_ViewDataTable::factory('sparkline');
-        $view->init($this->pluginName, __FUNCTION__, 'ExampleUI.getTemperaturesEvolution');
-        $view->setColumnsToDisplay($serverRequested);
-        $this->renderView($view);
+        $view = Piwik_ViewDataTable::factory(
+            'sparkline', 'ExampleUI.getTemperaturesEvolution', $controllerAction = 'ExampleUI.generateSparkline');
+
+        $serverRequested = Piwik_Common::getRequestVar('server', false);
+        if ($serverRequested !== false) {
+            $view->columns_to_display = array($serverRequested);
+        }
+        
+        echo $view->render();
     }
 
     // Example use

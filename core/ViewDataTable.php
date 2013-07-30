@@ -36,6 +36,7 @@
  *    }
  * </pre>
  *
+ * @see Piwik_ViewDataTable_Properties for core DataTable display properties.
  * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
  * @subpackage Piwik_ViewDataTable
@@ -112,7 +113,6 @@ abstract class Piwik_ViewDataTable
      */
     protected $view = null;
 
-    
     /**
      * Default constructor.
      */
@@ -174,6 +174,37 @@ abstract class Piwik_ViewDataTable
     }
 
     /**
+     * Gets a view property by reference.
+     * 
+     * @param string $name A valid view property name. @see Piwik_ViewDataTable_Properties for all
+     *                     valid view properties.
+     * @return mixed
+     * @throws Exception if the property name is invalid.
+     */
+    public function &__get($name)
+    {
+        Piwik_ViewDataTable_Properties::checkValidPropertyName($name);
+
+        return $this->viewProperties[$name];
+    }
+
+    /**
+     * Sets a view property.
+     * 
+     * @param string $name A valid view property name. @see Piwik_ViewDataTable_Properties for all
+     *                     valid view properties.
+     * @param mixed $value
+     * @return mixed Returns $value.
+     * @throws Exception if the property name is invalid.
+     */
+    public function __set($name, $value)
+    {
+        Piwik_ViewDataTable_Properties::checkValidPropertyName($name);
+
+        return $this->viewProperties[$name] = $value;
+    }
+
+    /**
      * Method to be implemented by the ViewDataTable_*.
      * This method should create and initialize a $this->view object @see Piwik_View_Interface
      *
@@ -196,15 +227,20 @@ abstract class Piwik_ViewDataTable
      * If force is set to true, a ViewDataTable of the $defaultType will be returned in all cases.
      *
      * @param string $defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
-     * @param string|bool $action
+     * @param string|bool $apiAction
+     * @param string|bool $controllerAction
      * @return Piwik_ViewDataTable
      */
-    static public function factory($defaultType = null, $action = false)
+    static public function factory($defaultType = null, $apiAction = false, $controllerAction = false)
     {
-        if ($action !== false) {
-            $defaultProperties = self::getDefaultPropertiesForReport($action);
+        if ($apiAction !== false) {
+            $defaultProperties = self::getDefaultPropertiesForReport($apiAction);
             if (isset($defaultProperties['default_view_type'])) {
                 $defaultType = $defaultProperties['default_view_type'];
+            }
+
+            if ($controllerAction === false) {
+                $controllerAction = $apiAction;
             }
         }
         
@@ -248,15 +284,15 @@ abstract class Piwik_ViewDataTable
                 break;
         }
         
-        if ($action !== false) {
-            list($plugin, $controllerAction) = explode('.', $action);
+        if ($apiAction !== false) {
+            list($plugin, $controllerAction) = explode('.', $controllerAction);
             
             $subtableAction = $controllerAction;
             if (isset($defaultProperties['subtable_action'])) {
                 $subtableAction = $defaultProperties['subtable_action'];
             }
             
-            $result->init($plugin, $controllerAction, $action, $subtableAction, $defaultProperties);
+            $result->init($plugin, $controllerAction, $apiAction, $subtableAction, $defaultProperties);
         }
         
         return $result;
@@ -1583,7 +1619,7 @@ abstract class Piwik_ViewDataTable
      * @param bool $fetch If true, the result is returned, if false it is echo'd.
      * @return string|null See $fetch.
      */
-    static public function render($pluginName, $apiAction, $fetch = true)
+    static public function renderReport($pluginName, $apiAction, $fetch = true)
     {
         $apiClassName = 'Piwik_'.$pluginName.'_API';
         if (!method_exists($apiClassName::getInstance(), $apiAction)) {
@@ -1591,14 +1627,24 @@ abstract class Piwik_ViewDataTable
         }
         
         $view = self::factory(null, $pluginName.'.'.$apiAction);
-        $view->main();
-        $rendered = $view->getView()->render();
+        $rendered = $view->render();
         
         if ($fetch) {
             return $rendered;
         } else {
             echo $rendered;
         }
+    }
+
+    /**
+     * Convenience function. Calls main() & renders the view that gets built.
+     * 
+     * @return string The result of rendering.
+     */
+    public function render()
+    {
+        $this->main();
+        return $this->getView()->render();
     }
     
     /**
@@ -1624,7 +1670,7 @@ abstract class Piwik_ViewDataTable
      * @param array|string $columnsToCheckFor eg, array('nb_visits', 'nb_uniq_visitors')
      * @return bool
      */
-    private function dataTableColumnsContains($columns, $columnsToCheckFor)
+    protected function dataTableColumnsContains($columns, $columnsToCheckFor)
     {
         if (!is_array($columnsToCheckFor)) {
             $columnsToCheckFor = array($columnsToCheckFor);
@@ -1659,7 +1705,7 @@ abstract class Piwik_ViewDataTable
 
         $view->visualization = $visualization;
         
-        if (!$this->isDataAvailable) {
+        if (!$this->dataTable === null) {
             $view->dataTable = null;
         } else {
             $view->dataTable = $this->dataTable;

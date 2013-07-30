@@ -49,11 +49,12 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
         }
         $this->mainAlreadyExecuted = true;
 
-        $this->isDataAvailable = true;
         try {
             $this->loadDataTableFromAPI();
         } catch (Exception $e) {
-            $this->isDataAvailable = false;
+            Piwik::log("Failed to get data from API: " . $e->getMessage());
+
+            $this->loadingError = array('message' => $e->getMessage());
         }
 
         $this->checkStandardDataTable();

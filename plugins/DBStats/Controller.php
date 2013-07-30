@@ -53,7 +53,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getDatabaseUsageSummary($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -67,7 +67,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getTrackerDataSummary($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -81,7 +81,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getMetricDataSummary($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -95,7 +95,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getMetricDataSummaryByYear($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -109,7 +109,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getReportDataSummary($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -123,7 +123,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getReportDataSummaryByYear($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -139,7 +139,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getIndividualReportsSummary($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -155,7 +155,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getIndividualMetricsSummary($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -172,6 +172,6 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function getAdminDataSummary($fetch = false)
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }

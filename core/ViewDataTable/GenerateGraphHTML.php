@@ -221,7 +221,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
         // will be done on the table before the labels are enhanced (see ReplaceColumnNames)
         $this->disableQueuedFilters();
 
-        $this->isDataAvailable = true;
         try {
             $this->loadDataTableFromAPI();
         } catch (Piwik_Access_NoAccessException $e) {
@@ -229,7 +228,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
         } catch (Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());
 
-            $this->isDataAvailable = false;
             $this->loadingError = array('message' => $e->getMessage());
         }
 

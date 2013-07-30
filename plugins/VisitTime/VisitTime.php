@@ -178,12 +178,16 @@ class Piwik_VisitTime extends Piwik_Plugin
     private static function getDateRangeForFooterMessage()
     {
         // get query params
-        $idSite = Piwik_Common::getRequestVar('idSite');
-        $date = Piwik_Common::getRequestVar('date');
-        $period = Piwik_Common::getRequestVar('period');
+        $idSite = Piwik_Common::getRequestVar('idSite', false);
+        $date = Piwik_Common::getRequestVar('date', false);
+        $period = Piwik_Common::getRequestVar('period', false);
 
         // create a period instance
-        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+        try {
+            $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+        } catch (Exception $ex) {
+            return ''; // if query params are incorrect, forget about the footer message
+        }
 
         // set the footer message using the period start & end date
         $start = $oPeriod->getDateStart()->toString();
