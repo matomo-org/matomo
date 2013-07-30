@@ -459,26 +459,26 @@ class Piwik_Goals_Controller extends Controller
 
     public function getItemsSku($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
     
     public function getItemsName($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getItemsCategory($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getVisitsUntilConversion($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getDaysToConversion($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }

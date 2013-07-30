@@ -210,7 +210,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
     }
 
     /**
-     * @see Piwik_ViewDataTable::main()
+     * @see ViewDataTable::main()
      * @return null
      */
     public function main()

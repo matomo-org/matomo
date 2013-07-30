@@ -32,37 +32,37 @@ class Piwik_DevicesDetection_Controller extends Controller
 
     public function getType($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrand($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getModel($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getOsFamilies($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getOsVersions($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowserFamilies($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowserVersions($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**

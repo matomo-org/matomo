@@ -26,12 +26,12 @@ class Piwik_CustomVariables_Controller extends Controller
 
     public function getCustomVariables($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getCustomVariablesValuesFromNameId($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }
 

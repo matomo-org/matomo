@@ -36,56 +36,56 @@ class Piwik_UserSettings_Controller extends Controller
     
     public function getResolution($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
     
     public function getConfiguration($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getOS($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getOSFamily($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getMobileVsDesktop($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowserVersion($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowser($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowserType($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getWideScreen($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getPlugin($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getLanguage($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }

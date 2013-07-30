@@ -40,7 +40,7 @@ class Piwik_ViewDataTable_Cloud extends ViewDataTable
     }
 
     /**
-     * @see Piwik_ViewDataTable::main()
+     * @see ViewDataTable::main()
      *
      * @return null
      */

@@ -59,7 +59,7 @@ class Piwik_ViewDataTable_HtmlTable extends ViewDataTable
     }
 
     /**
-     * @see Piwik_ViewDataTable::main()
+     * @see ViewDataTable::main()
      * @throws Exception|\Piwik\NoAccessException
      * @return null
      */

@@ -321,12 +321,12 @@ class Piwik_UserCountry_Controller extends Admin
 
     public function getCountry($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getContinent($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -337,7 +337,7 @@ class Piwik_UserCountry_Controller extends Admin
      */
     public function getRegion($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -348,7 +348,7 @@ class Piwik_UserCountry_Controller extends Admin
      */
     public function getCity($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getNumberOfDistinctCountries($fetch = false)

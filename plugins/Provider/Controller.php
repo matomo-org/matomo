@@ -24,7 +24,7 @@ class Piwik_Provider_Controller extends Controller
      */
     public function getProvider($fetch = false)
     {
-        return Piwik_ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }
 
