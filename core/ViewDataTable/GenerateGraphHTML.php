@@ -216,6 +216,7 @@ abstract class GenerateGraphHTML extends ViewDataTable
 
     /**
      * @see ViewDataTable::main()
+     * @throws \Exception|\Piwik\NoAccessException
      * @return null
      */
     public function main()

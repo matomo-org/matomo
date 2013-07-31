@@ -51,7 +51,7 @@ class Translate
         $this->unloadEnglishTranslation();
         $this->loadEnglishTranslation();
         $this->loadCoreTranslation($language);
-        \Piwik\PluginsManager::getInstance()->loadPluginTranslations($language);
+        PluginsManager::getInstance()->loadPluginTranslations($language);
     }
 
     /**

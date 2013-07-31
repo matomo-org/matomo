@@ -26,6 +26,7 @@ use Piwik\Tracker\GoalManager;
 use Piwik\Url;
 use Piwik_UsersManager_API;
 use Piwik\View;
+use Piwik\Log\ScreenFormatter;
 use Zend_Registry;
 
 /**
@@ -1053,7 +1054,7 @@ class Piwik
             "<p><img src='plugins/Zeitgeist/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20' />" .
             $message .
             "</p></div>";
-        print(\Piwik\Log\Formatter_ScreenFormatter::getFormattedString($output));
+        print(ScreenFormatter::getFormattedString($output));
         exit;
     }
 

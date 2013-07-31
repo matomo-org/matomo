@@ -59,7 +59,7 @@ class Cloud extends ViewDataTable
         try {
             $this->loadDataTableFromAPI();
         } catch (Exception $e) {
-            Piwik::log("Failed to get data from API: " . $e->getMessage());
+            Piwik\Piwik::log("Failed to get data from API: " . $e->getMessage());
 
             $this->loadingError = array('message' => $e->getMessage());
         }

@@ -107,12 +107,12 @@ class DataTableFactory
      * supplied subtable ID.
      *
      * @param int $idSubtable An in-database subtable ID.
-     * @throws Exception
+     * @throws \Exception
      */
     public function useSubtable($idSubtable)
     {
         if (count($this->dataNames) !== 1) {
-            throw new Exception("DataTableFactory: Getting subtables for multiple records in one"
+            throw new \Exception("DataTableFactory: Getting subtables for multiple records in one"
                 . " archive query is not currently supported.");
         }
 

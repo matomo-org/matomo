@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\API\Proxy;
 use Piwik\Url;
+use Piwik\PluginsManager;
 
 /**
  * @package Piwik
@@ -30,7 +31,7 @@ class DocumentationGenerator
      */
     public function __construct()
     {
-        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPluginsName();
+        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $plugin) {
             $plugin = Common::unprefixClass($plugin);
             try {

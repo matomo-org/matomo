@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Log;
+use Piwik\Log\ExceptionScreenFormatter;
 use Piwik\FrontController;
 
 /**

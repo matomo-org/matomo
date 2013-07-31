@@ -11,6 +11,7 @@
 
 namespace Piwik;
 use Piwik\Plugin;
+use Piwik\PluginsManager;
 
 /**
  * This class allows code to post events from anywhere in Piwik and for
@@ -79,7 +80,7 @@ class EventDispatcher
         }
         
         if (empty($plugins)) {
-            $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
+            $plugins = PluginsManager::getInstance()->getLoadedPlugins();
         }
         
         $callbacks = array();
@@ -87,7 +88,7 @@ class EventDispatcher
         // collect all callbacks to execute
         foreach ($plugins as $plugin) {
             if (is_string($plugin)) {
-                $plugin = \Piwik\PluginsManager::getInstance()->getLoadedPlugin($plugin);
+                $plugin = PluginsManager::getInstance()->getLoadedPlugin($plugin);
             }
             
             $hooks = $plugin->getListHooksRegistered();

@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Controller;
 use Piwik\View;
 use Piwik\Url;
+use Piwik\PluginsManager;
 
 /**
  * Parent class of all plugins Controllers with admin functions
@@ -59,10 +60,10 @@ abstract class Admin extends Controller
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
         // for old geoip plugin warning
-        $view->usingOldGeoIPPlugin = \Piwik\PluginsManager::getInstance()->isPluginActivated('GeoIP');
+        $view->usingOldGeoIPPlugin = PluginsManager::getInstance()->isPluginActivated('GeoIP');
 
         // for cannot find installed plugin warning
-        $missingPlugins = \Piwik\PluginsManager::getInstance()->getMissingPlugins();
+        $missingPlugins = PluginsManager::getInstance()->getMissingPlugins();
         if (!empty($missingPlugins)) {
             $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
                                                                                  'module' => 'CorePluginsAdmin', 'action' => 'index'

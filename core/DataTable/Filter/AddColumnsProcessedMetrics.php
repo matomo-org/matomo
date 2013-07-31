@@ -62,7 +62,7 @@ class AddColumnsProcessedMetrics extends Filter
                 $conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision);
                 try {
                     $row->addColumn('conversion_rate', $conversionRate . "%");
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // conversion_rate can be defined upstream apparently? FIXME
                 }
             }
@@ -83,12 +83,12 @@ class AddColumnsProcessedMetrics extends Filter
                 $row->addColumn('avg_time_on_site', $averageTimeOnSite);
                 // It could be useful for API users to have raw sum length value.
                 //$row->addMetadata('sum_visit_length', $visitLength);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
 
             try {
                 $row->addColumn('bounce_rate', $bounceRate . "%");
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
 
             $this->filterSubTable($row);

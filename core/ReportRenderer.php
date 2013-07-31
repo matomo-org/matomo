@@ -130,9 +130,9 @@ abstract class ReportRenderer
      * Append $extension to $filename
      *
      * @static
-     * @param  $filename
-     * @param  $extension
-     * @return filename with extension
+     * @param  string $filename
+     * @param  string $extension
+     * @return string  filename with extension
      */
     protected static function appendExtension($filename, $extension)
     {

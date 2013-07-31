@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Version;
+use Piwik\PluginsManager;
 use lessc;
 
 /**
@@ -87,7 +88,7 @@ class AssetManager
      */
     public static function generateAssetsCacheBuster()
     {
-        $pluginList = md5(implode(",", \Piwik\PluginsManager::getInstance()->getLoadedPluginsName()));
+        $pluginList = md5(implode(",", PluginsManager::getInstance()->getLoadedPluginsName()));
         $cacheBuster = md5(Common::getSalt() . $pluginList . PHP_VERSION . Version::VERSION);
         return $cacheBuster;
     }

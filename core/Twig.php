@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\AssetManager;
 use Piwik\Translate;
 use Piwik\Url;
+use Piwik\PluginsManager;
 use Piwik\Visualization\Sparkline;
 use Twig_Environment;
 use Twig_Extension_Debug;
@@ -150,7 +151,7 @@ class Twig
     private function getDefaultThemeLoader()
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
-                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\PluginsManager::DEFAULT_THEME)
+                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, PluginsManager::DEFAULT_THEME)
                                                   ));
 
         return $themeLoader;
@@ -227,7 +228,7 @@ class Twig
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
-        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPluginsName();
+        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $name) {
             $name = Common::unprefixClass($name);
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);

@@ -50,7 +50,7 @@ class JqplotDataGenerator
     {
         switch ($type) {
             case 'evolution':
-                return new \Piwik\JqplotDataGenerator\Evolution($properties);
+                return new JqplotDataGenerator\Evolution($properties);
             case 'pie':
                 $visualization = new Visualization\Chart\Pie();
                 return new JqplotDataGenerator($visualization, $properties);
@@ -65,7 +65,7 @@ class JqplotDataGenerator
     /**
      * Constructor.
      *
-     * @param \Piwik\Visualization\ $visualization
+     * @param Visualization\ $visualization
      * @param array $properties
      */
     public function __construct($visualization, $properties)
@@ -180,7 +180,6 @@ class JqplotDataGenerator
 
     /**
      * Used in initChartObjectData to add the series picker config to the view object
-     * @param bool $multiSelect
      */
     protected function addSeriesPickerToView()
     {

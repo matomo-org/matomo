@@ -18,7 +18,6 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Referrer;
 use Piwik\Tracker\Request;
-use false;
 
 /**
  * @package Piwik

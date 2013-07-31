@@ -798,7 +798,7 @@ abstract class Controller
      * @param int $currentValue The value to calculate evolution to.
      * @param string $pastDate The date of past value.
      * @param int $pastValue The value in the past to calculate evolution from.
-     * @return string|false The HTML or false if the evolution is 0 and the current value is 0.
+     * @return string|bool The HTML or false if the evolution is 0 and the current value is 0.
      */
     protected function getEvolutionHtml($date, $currentValue, $pastDate, $pastValue)
     {

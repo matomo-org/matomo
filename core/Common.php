@@ -14,6 +14,7 @@ use Exception;
 use Piwik\IP;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
+use Piwik\PluginsManager;
 use Piwik_UserCountry_LocationProvider_Default;
 
 /**
@@ -114,7 +115,7 @@ class Common
      */
     public static function isGoalPluginEnabled()
     {
-        return \Piwik\PluginsManager::getInstance()->isPluginActivated('Goals');
+        return PluginsManager::getInstance()->isPluginActivated('Goals');
     }
 
     /*

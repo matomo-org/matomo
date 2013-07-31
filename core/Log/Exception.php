@@ -63,7 +63,7 @@ class Exception extends Log
     /**
      * Logs the given exception event
      *
-     * @param Exception $exception
+     * @param \Exception $exception
      */
     public function logEvent(\Exception $exception)
     {

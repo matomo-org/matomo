@@ -12,6 +12,7 @@ namespace Piwik\Log;
 
 use Piwik\Common;
 use Piwik\Log;
+use Piwik\API\ResponseBuilder;
 
 /**
  * Format an exception event to be displayed on the screen.
@@ -33,7 +34,7 @@ class ExceptionScreenFormatter extends ScreenFormatter
         $errstr = $event['message'];
 
         $outputFormat = strtolower(Common::getRequestVar('format', 'html', 'string'));
-        $response = new \Piwik\API\ResponseBuilder($outputFormat);
+        $response = new ResponseBuilder($outputFormat);
         $message = $response->getResponseException(new \Exception($errstr));
         return parent::format($message);
     }

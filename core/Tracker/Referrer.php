@@ -56,9 +56,9 @@ class Referrer
      *
      * - referer_url : the same for all the referer types
      *
-     * @param $refererUrl must be URL Encoded
-     * @param $currentUrl
-     * @param $idSite
+     * @param string $refererUrl must be URL Encoded
+     * @param string $currentUrl
+     * @param int $idSite
      * @return array
      */
     public function getRefererInformation($refererUrl, $currentUrl, $idSite)

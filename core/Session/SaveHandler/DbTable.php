@@ -13,7 +13,6 @@ namespace Piwik\Session\SaveHandler;
 
 use Zend_Session;
 use Zend_Session_SaveHandler_Interface;
-use true;
 
 /**
  * Database-backed session save handler

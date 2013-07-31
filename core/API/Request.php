@@ -19,6 +19,7 @@ use Piwik\Access;
 use Piwik\DataTable;
 use Piwik\Url;
 use Piwik\API\ResponseBuilder;
+use Piwik\PluginsManager;
 use Piwik\PluginDeactivatedException;
 
 /**
@@ -145,7 +146,7 @@ class Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
-            if (!\Piwik\PluginsManager::getInstance()->isPluginActivated($module)) {
+            if (!PluginsManager::getInstance()->isPluginActivated($module)) {
                 throw new PluginDeactivatedException($module);
             }
             $moduleClass = "Piwik_" . $module . "_API";

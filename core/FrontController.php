@@ -17,6 +17,8 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Session;
 use Piwik\Timer;
 use Piwik\Url;
+use Piwik\Log;
+use Piwik\PluginsManager;
 use Zend_Registry;
 
 /**
@@ -93,7 +95,7 @@ class FrontController
             throw new Exception("Invalid module name '$module'");
         }
 
-        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated($module)) {
+        if (!PluginsManager::getInstance()->isPluginActivated($module)) {
             throw new PluginDeactivatedException($module);
         }
 
@@ -242,7 +244,7 @@ class FrontController
             $this->handleMaintenanceMode();
             $this->handleSSLRedirection();
 
-            $pluginsManager = \Piwik\PluginsManager::getInstance();
+            $pluginsManager = PluginsManager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
 
             $pluginsManager->loadPlugins($pluginsToLoad);
@@ -261,14 +263,14 @@ class FrontController
                 throw $e;
             }
 
-            \Piwik\Log::make();
+            Log::make();
 
             // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
             Access::getInstance();
 
             Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
 
-            \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
+            PluginsManager::getInstance()->installLoadedPlugins();
 
             // ensure the current Piwik URL is known for later use
             if (method_exists('Piwik\Piwik', 'getPiwikUrl')) {

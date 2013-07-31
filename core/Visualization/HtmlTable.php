@@ -24,6 +24,7 @@ class HtmlTable
      *
      * @param DataTable $dataTable
      * @param array $properties View Properties.
+     * @return string
      */
     public function render(DataTable $dataTable, $properties)
     {

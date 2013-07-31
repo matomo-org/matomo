@@ -10,6 +10,7 @@
  */
 namespace Piwik\Log;
 use Piwik\Log;
+use Piwik\Version;
 
 /**
  * Format an error event to be displayed on the screen.
@@ -43,7 +44,7 @@ class ErrorScreenFormatter extends ScreenFormatter
         // is there any other case where the errno is zero at this point?
         if ($errno == 0) return '';
         $strReturned .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>
-    <strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? \Piwik\Version::VERSION : '') . ")
+    <strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
     and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
     ";
         switch ($errno) {

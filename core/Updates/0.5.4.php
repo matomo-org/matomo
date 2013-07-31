@@ -41,7 +41,7 @@ class Piwik_Updates_0_5_4 extends Updates
                     throw new Exception('mandatory update failed');
                 }
             } catch (Exception $e) {
-                throw new Updater_UpdateErrorException("Please edit your config/config.ini.php file and add below <code>[superuser]</code> the following line: <br /><code>salt = $salt</code>");
+                throw new \Piwik\Updater_UpdateErrorException("Please edit your config/config.ini.php file and add below <code>[superuser]</code> the following line: <br /><code>salt = $salt</code>");
             }
         }
 

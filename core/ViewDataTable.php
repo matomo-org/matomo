@@ -123,7 +123,7 @@ abstract class ViewDataTable
      * This view should be an implementation of the Interface ViewInterface
      * The $view object should be created in the main() method.
      *
-     * @var ViewInterface
+     * @var \Piwik\View\ViewInterface
      */
     protected $view = null;
 
@@ -194,7 +194,7 @@ abstract class ViewDataTable
      * @param string $name A valid view property name. @see Properties for all
      *                     valid view properties.
      * @return mixed
-     * @throws Exception if the property name is invalid.
+     * @throws \Exception if the property name is invalid.
      */
     public function &__get($name)
     {
@@ -210,7 +210,7 @@ abstract class ViewDataTable
      *                     valid view properties.
      * @param mixed $value
      * @return mixed Returns $value.
-     * @throws Exception if the property name is invalid.
+     * @throws \Exception if the property name is invalid.
      */
     public function __set($name, $value)
     {
@@ -419,7 +419,7 @@ abstract class ViewDataTable
         // to avoid issuing unecessary requests when display properties are determined by metadata,
         // we allow it to be a closure.
         if (isset($this->viewProperties['filter_excludelowpop_value'])
-            && $this->viewProperties['filter_excludelowpop_value'] instanceof Closure
+            && $this->viewProperties['filter_excludelowpop_value'] instanceof \Closure
         ) {
             $function = $this->viewProperties['filter_excludelowpop_value'];
             $this->viewProperties['filter_excludelowpop_value'] = $function();
@@ -447,7 +447,7 @@ abstract class ViewDataTable
      * Returns the View_Interface.
      * You can then call render() on this object.
      *
-     * @return View\Interface
+     * @return View\ViewInterface
      * @throws \Exception if the view object was not created
      */
     public function getView()
@@ -664,7 +664,7 @@ abstract class ViewDataTable
             $filterName = $filter[0];
             
             $filterParameters = $filter[1];
-            if ($filterName instanceof Closure) {
+            if ($filterName instanceof \Closure) {
                 $filterParameters[] = $this;
             }
 
@@ -873,7 +873,7 @@ abstract class ViewDataTable
         foreach ($_GET as $name => $value) {
             try {
                 $requestValue = Common::getRequestVar($name);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $requestValue = '';
             }
             $javascriptVariablesToSet[$name] = $requestValue;

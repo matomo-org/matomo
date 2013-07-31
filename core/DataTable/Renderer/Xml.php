@@ -11,12 +11,12 @@
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
+use Piwik\DataTable;
+use Piwik\DataTable\Map;
 use Piwik\DataTable\Renderer\Php;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
-use Piwik\DataTable;
-use DataTable\Map;
 
 /**
  * XML export of a given DataTable.
@@ -92,7 +92,7 @@ class Xml extends Renderer
     protected function renderTable($table, $returnOnlyDataTableXml = false, $prefixLines = '')
     {
         $array = $this->getArrayFromDataTable($table);
-        if ($table instanceof DataTable\Map) {
+        if ($table instanceof Map) {
             $out = $this->renderDataTableArray($table, $array, $prefixLines);
 
             if ($returnOnlyDataTableXml) {
@@ -200,13 +200,13 @@ class Xml extends Renderer
                 $result .= $this->renderArray($value, $prefixLines . "\t");
                 $result .= $prefixLines . $suffix . "\n";
             } else if ($value instanceof DataTable
-                || $value instanceof DataTable\Map
+                || $value instanceof Map
             ) {
                 if ($value->getRowsCount() == 0) {
                     $result .= $prefixLines . $emptyNode . "\n";
                 } else {
                     $result .= $prefixLines . $prefix . "\n";
-                    if ($value instanceof DataTable\Map) {
+                    if ($value instanceof Map) {
                         $result .= $this->renderDataTableArray($value, $this->getArrayFromDataTable($value), $prefixLines);
                     } else if ($value instanceof Simple) {
                         $result .= $this->renderDataTableSimple($this->getArrayFromDataTable($value), $prefixLines);
@@ -233,7 +233,7 @@ class Xml extends Renderer
     /**
      * Computes the output for the given data table array
      *
-     * @param DataTable\Map $table
+     * @param Map $table
      * @param array $array
      * @param string $prefixLines
      * @return string
@@ -251,7 +251,7 @@ class Xml extends Renderer
             foreach ($array as $valueAttribute => $value) {
                 if (empty($value)) {
                     $xml .= $prefixLines . "\t<result $nameDescriptionAttribute=\"$valueAttribute\" />\n";
-                } elseif ($value instanceof DataTable\Map) {
+                } elseif ($value instanceof Map) {
                     $out = $this->renderTable($value, true);
                     //TODO somehow this code is not tested, cover this case
                     $xml .= "\t<result $nameDescriptionAttribute=\"$valueAttribute\">\n$out</result>\n";
@@ -333,7 +333,7 @@ class Xml extends Renderer
             return $xml;
         }
 
-        if ($firstTable instanceof DataTable\Map) {
+        if ($firstTable instanceof Map) {
             $xml = '';
             $tables = $table->getArray();
             $nameDescriptionAttribute = $table->getKeyName();

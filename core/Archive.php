@@ -627,7 +627,7 @@ class Archive
      * Returns the name of the plugin that archives a given report.
      *
      * @param string $report Archive data name, ie, 'nb_visits', 'UserSettings_...', etc.
-     * @throws Exception
+     * @throws \Exception
      * @return string
      */
     public static function getPluginForReport($report)
@@ -645,7 +645,7 @@ class Archive
             || !\Piwik\PluginsManager::getInstance()->isPluginActivated($plugin)
         ) {
             $pluginStr = empty($plugin) ? '' : "($plugin)";
-            throw new Exception("Error: The report '$report' was requested but it is not available "
+            throw new \Exception("Error: The report '$report' was requested but it is not available "
                 . "at this stage. You may also disable the related plugin $pluginStr "
                 . "to avoid this error.");
         }
