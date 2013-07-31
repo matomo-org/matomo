@@ -13,11 +13,11 @@ namespace Piwik\ViewDataTable;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Piwik;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\JqplotDataGenerator;
 use Piwik\ViewDataTable;
 use Piwik\View;
-use Piwik_Access_NoAccessException;
 use Piwik\Visualization\JqplotGraph;
 
 /**
@@ -234,7 +234,7 @@ abstract class GenerateGraphHTML extends ViewDataTable
 
         try {
             $this->loadDataTableFromAPI();
-        } catch (Piwik_Access_NoAccessException $e) {
+        } catch (\Piwik\NoAccessException $e) {
             throw $e;
         } catch (Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());

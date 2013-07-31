@@ -2,6 +2,10 @@
 <results>
 	<result date="From 2009-12-28 to 2010-01-03">
 		<row>
+			<label>New visits</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
 			<label>0 days</label>
 			<nb_visits>0</nb_visits>
 		</row>
@@ -56,14 +60,14 @@
 		<row>
 			<label>365+ days</label>
 			<nb_visits>0</nb_visits>
-		</row>
-		<row>
-			<label>New visits</label>
-			<nb_visits>1</nb_visits>
 		</row>
 	</result>
 	<result date="From 2010-01-04 to 2010-01-10">
 		<row>
+			<label>New visits</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
 			<label>0 days</label>
 			<nb_visits>0</nb_visits>
 		</row>
@@ -118,10 +122,6 @@
 		<row>
 			<label>365+ days</label>
 			<nb_visits>0</nb_visits>
-		</row>
-		<row>
-			<label>New visits</label>
-			<nb_visits>1</nb_visits>
 		</row>
 	</result>
 	<result date="From 2010-01-11 to 2010-01-17" />

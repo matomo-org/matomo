@@ -12,8 +12,6 @@
 namespace Piwik;
 use Exception;
 
-require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
-
 /**
  * For general performance (and specifically, the Tracker), we use deferred (lazy) initialization
  * and cache sections.  We also avoid any dependency on Zend Framework's Zend_Config.

@@ -8,14 +8,19 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db\Adapter;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Db\AdapterInterface;
+use Zend_Config;
+use Zend_Db_Adapter_Mysqli;
 
 /**
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
+class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 {
     /**
      * Constructor

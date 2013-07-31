@@ -256,14 +256,14 @@ namespace {
         Top::getInstance()->rename($topMenuOriginal, null, $topMenuRenamed, null);
     }
 
+    if(class_exists('DataTableSummaryRow')) {
 
-    if(empty($GLOBALS['PIWIK_TRACKER_MODE'])) { // do not define these classes in tracker
-
-        class Piwik_DataTable_Row_DataTableSummary extends DataTable\Row\DataTableSummaryRow {
+        // Bridge between pre Piwik2 serialized format and namespaced classes
+        class Piwik_DataTable_Row_DataTableSummary extends \Piwik\DataTable\Row\DataTableSummaryRow {
         }
 
-        class Piwik_DataTable_Row extends DataTable\Row {
+        class Piwik_DataTable_Row extends \Piwik\DataTable\Row {
         }
-
     }
+
 }

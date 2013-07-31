@@ -13,7 +13,7 @@ class AccessTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        Piwik_Access::setSingletonInstance(null);
+        Access::setSingletonInstance(null);
     }
 
     /**

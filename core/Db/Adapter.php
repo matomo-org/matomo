@@ -99,7 +99,7 @@ class Adapter
     {
         static $adapterNames = array(
             // currently supported by Piwik
-            'Pdo_Mysql',
+            'Pdo\Mysql',
             'Mysqli',
 
             // other adapters supported by Zend_Db
@@ -115,7 +115,7 @@ class Adapter
         $adapters = array();
 
         foreach ($adapterNames as $adapterName) {
-            $className = 'Piwik_Db_Adapter_' . $adapterName;
+            $className = '\Piwik\Db\Adapter\\' . $adapterName;
             if (call_user_func(array($className, 'isEnabled'))) {
                 $adapters[strtoupper($adapterName)] = call_user_func(array($className, 'getDefaultPort'));
             }

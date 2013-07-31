@@ -329,7 +329,7 @@ class Piwik_DBStats extends Plugin
             }
         }
 
-        $getPrettySize = array('Piwik', 'getPrettySizeFromBytes');
+        $getPrettySize = array('\Piwik\Piwik', 'getPrettySizeFromBytes');
         $params = !isset($fixedMemoryUnit) ? array() : array($fixedMemoryUnit);
         $properties['filters'][] = array(
             'ColumnCallbackReplace', array($sizeColumns, $getPrettySize, $params), $runPrettySizeFilterBeforeGeneric);
@@ -343,7 +343,7 @@ class Piwik_DBStats extends Plugin
             $properties['filters'][] = array('ColumnCallbackReplace', array($sizeColumns, $replaceSpaces));
         }
 
-        $getPrettyNumber = array('Piwik', 'getPrettyNumber');
+        $getPrettyNumber = array('\Piwik\Piwik', 'getPrettyNumber');
         $properties['filters'][] = array('ColumnCallbackReplace', array('row_count', $getPrettyNumber));
 
         return $viewDataTable;

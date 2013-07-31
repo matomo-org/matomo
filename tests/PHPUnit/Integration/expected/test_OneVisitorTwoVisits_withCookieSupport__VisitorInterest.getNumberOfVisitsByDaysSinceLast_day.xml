@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>New visits</label>
+		<nb_visits>1</nb_visits>
+	</row>
+	<row>
 		<label>0 days</label>
 		<nb_visits>1</nb_visits>
 	</row>
@@ -55,9 +59,5 @@
 	<row>
 		<label>365+ days</label>
 		<nb_visits>0</nb_visits>
-	</row>
-	<row>
-		<label>New visits</label>
-		<nb_visits>1</nb_visits>
 	</row>
 </result>

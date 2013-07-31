@@ -14,7 +14,7 @@ use Exception;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik;
-use Piwik\Visualization\Cloud;
+use Piwik\Visualization;
 
 /**
  * Reads the requested DataTable from the API, and prepares the data to give
@@ -67,7 +67,7 @@ class Cloud extends ViewDataTable
         $this->checkStandardDataTable();
         $this->postDataTableLoadedFromAPI();
 
-        $visualization = new Cloud();
+        $visualization = new Visualization\Cloud();
         $this->view = $this->buildView($visualization);
     }
 }

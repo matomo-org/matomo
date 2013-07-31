@@ -147,7 +147,7 @@ function Piwik_UserCountry_getPrettyCityName($label)
     $parts = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
     $cityName = $parts[0];
     $regionCode = $parts[1];
-    $countryCode = $parts[2];
+    $countryCode = @$parts[2];
 
     if ($cityName == Piwik_Tracker_Visit::UNKNOWN_CODE || $cityName == '') {
         $cityName = Piwik_Translate('General_Unknown');

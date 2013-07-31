@@ -3,6 +3,10 @@
 	<result idSite="1">
 		<result date="2010-01-03">
 			<row>
+				<label>New visits</label>
+				<nb_visits>1</nb_visits>
+			</row>
+			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
 			</row>
@@ -57,14 +61,14 @@
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
-			</row>
-			<row>
-				<label>New visits</label>
-				<nb_visits>1</nb_visits>
 			</row>
 		</result>
 		<result date="2010-01-04">
 			<row>
+				<label>New visits</label>
+				<nb_visits>1</nb_visits>
+			</row>
+			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
 			</row>
@@ -119,14 +123,14 @@
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
-			</row>
-			<row>
-				<label>New visits</label>
-				<nb_visits>1</nb_visits>
 			</row>
 		</result>
 		<result date="2010-01-05">
 			<row>
+				<label>New visits</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
 			</row>
@@ -180,10 +184,6 @@
 			</row>
 			<row>
 				<label>365+ days</label>
-				<nb_visits>0</nb_visits>
-			</row>
-			<row>
-				<label>New visits</label>
 				<nb_visits>0</nb_visits>
 			</row>
 		</result>
@@ -196,6 +196,10 @@
 		<result date="2010-01-03" />
 		<result date="2010-01-04">
 			<row>
+				<label>New visits</label>
+				<nb_visits>1</nb_visits>
+			</row>
+			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
 			</row>
@@ -250,10 +254,6 @@
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
-			</row>
-			<row>
-				<label>New visits</label>
-				<nb_visits>1</nb_visits>
 			</row>
 		</result>
 		<result date="2010-01-05" />

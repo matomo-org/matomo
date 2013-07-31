@@ -105,7 +105,7 @@ class Piwik_Referers_Controller extends Controller
 
         // only display the reports by dimension view if there are visits
         if ($visits > 0) {
-            $referrersReportsByDimension = new View_ReportsByDimension();
+            $referrersReportsByDimension = new View\ReportsByDimension();
 
             $referrersReportsByDimension->addReport(
                 'Referers_ViewAllReferrers', 'Referers_WidgetGetAll', 'Referers.getAll');

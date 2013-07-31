@@ -24,6 +24,7 @@ define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
 
 // Config files forced to use the test database
 // Note that this also provides security for Piwik installs containing tests files: 

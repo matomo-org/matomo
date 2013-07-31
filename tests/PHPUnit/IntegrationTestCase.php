@@ -12,6 +12,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
+use Piwik\Db\Adapter\Mysqli;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
@@ -796,7 +797,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         // is there a better way to test for the current DB type in use?
-        if (Zend_Registry::get('db') instanceof Piwik_Db_Adapter_Mysqli) {
+        if (Zend_Registry::get('db') instanceof Mysqli) {
             // Do not test for TRUNCATE(SUM()) returning .00 on mysqli since this is not working
             // http://bugs.php.net/bug.php?id=54508
             $expected = str_replace('.000000</l', '</l', $expected); //lat/long
