@@ -691,7 +691,7 @@ abstract class ViewDataTable
                 $filterName = $filter[0];
             
                 $filterParameters = $filter[1];
-                if ($filterName instanceof Closure) {
+                if ($filterName instanceof \Closure) {
                     $filterParameters[] = $this;
                 }
                 
