@@ -277,7 +277,7 @@ class Row
      * Then we add the values of the given DataTable to this row's DataTable.
      *
      * @param DataTable $subTable  Table to sum to this row's subDatatable
-     * @see Piwik_DataTable::addDataTable() for the algorithm used for the sum
+     * @see DataTable::addDataTable() for the algorithm used for the sum
      */
     public function sumSubtable(DataTable $subTable)
     {

@@ -775,7 +775,7 @@ class Common
      * This is a backward compatibility function for code that only expects
      * IPv4 addresses (i.e., doesn't support IPv6).
      *
-     * @see Piwik_IP::N2P()
+     * @see IP::N2P()
      *
      * This function does not support the long (or its string representation)
      * returned by the built-in ip2long() function, from Piwik 1.3 and earlier.

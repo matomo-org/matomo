@@ -22,7 +22,7 @@ class Db
     /**
      * Returns the database adapter to use
      *
-     * @return Piwik_Tracker_Db|AdapterInterface
+     * @return \Piwik\Tracker\Db|AdapterInterface
      */
     static private function getDb()
     {
@@ -62,7 +62,7 @@ class Db
      *
      * @param string $sql         SQL Query
      * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     static public function query($sql, $parameters = array())
     {
@@ -146,7 +146,7 @@ class Db
      * Runs an OPTIMIZE TABLE query on the supplied table or tables. The table names must be prefixed.
      *
      * @param string|array $tables  The name of the table to optimize or an array of tables to optimize.
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     static public function optimizeTables($tables)
     {
@@ -184,7 +184,7 @@ class Db
      * Drops the supplied table or tables. The table names must be prefixed.
      *
      * @param string|array $tables  The name of the table to drop or an array of table names to drop.
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     static public function dropTables($tables)
     {
@@ -200,7 +200,7 @@ class Db
      *
      * @param string|array $tablesToRead   The table or tables to obtain 'read' locks on.
      * @param string|array $tablesToWrite  The table or tables to obtain 'write' locks on.
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     static public function lockTables($tablesToRead, $tablesToWrite = array())
     {
@@ -225,7 +225,7 @@ class Db
     /**
      * Releases all table locks.
      *
-     * @return Zend_Db_Statement
+     * @return \Zend_Db_Statement
      */
     static public function unlockAllTables()
     {

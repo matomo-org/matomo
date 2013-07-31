@@ -20,7 +20,7 @@ use Piwik\ScheduledTime\Weekly;
  * The ScheduledTime abstract class is used as a base class for different types of scheduling intervals.
  * ScheduledTime subclasses are used to schedule tasks within Piwik.
  *
- * @see Piwik_ScheduledTask
+ * @see \Piwik\ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
  */

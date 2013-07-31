@@ -16,7 +16,7 @@ use Piwik\ScheduledTime;
 /**
  * Monthly class is used to schedule tasks every month.
  *
- * @see Piwik_ScheduledTask
+ * @see ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
  */

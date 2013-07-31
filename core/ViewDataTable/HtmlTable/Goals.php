@@ -10,12 +10,11 @@
  */
 namespace Piwik\ViewDataTable\HtmlTable;
 
-use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Site;
 use Piwik\ViewDataTable\HtmlTable;
-use Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik_Goals_API;
 
 /**
@@ -39,7 +38,7 @@ class Goals extends HtmlTable
         }
 
         $this->idSite = Common::getRequestVar('idSite', null, 'int');
-        $this->processOnlyIdGoal = Common::getRequestVar('idGoal', \Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
+        $this->processOnlyIdGoal = Common::getRequestVar('idGoal', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
         $this->isEcommerce = $this->processOnlyIdGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
         $this->viewProperties['show_exclude_low_population'] = true;
         $this->viewProperties['show_goals'] = true;

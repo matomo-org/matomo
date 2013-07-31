@@ -16,7 +16,7 @@ use Piwik\ScheduledTime;
 /**
  * Hourly class is used to schedule tasks every hour.
  *
- * @see Piwik_ScheduledTask
+ * @see ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
  */

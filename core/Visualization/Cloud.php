@@ -12,7 +12,7 @@ namespace Piwik\Visualization;
 
 use Piwik\Common;
 use Piwik\View;
-use Piwik_DataTable;
+use Piwik\DataTable;
 
 /**
  * Generates a tag cloud from a given data array.
@@ -49,7 +49,9 @@ class Cloud
     /**
      * Renders this visualization.
      *
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
+     * @param array $properties
+     * @return string
      */
     public function render($dataTable, $properties)
     {

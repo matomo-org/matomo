@@ -186,14 +186,16 @@ class PluginsManager
      * Only deactivated plugins can be uninstalled
      *
      * @param $pluginName
+     * @throws \Exception
+     * @return bool
      */
     public function uninstallPlugin($pluginName)
     {
         if($this->isPluginActivated($pluginName)) {
-            throw new Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
+            throw new \Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
         }
         if(!$this->isPluginInFilesystem($pluginName)) {
-            throw new Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
+            throw new \Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
         }
         self::deletePluginFromFilesystem($pluginName);
         if($this->isPluginInFilesystem($pluginName)) {
@@ -211,7 +213,8 @@ class PluginsManager
      * Deactivate plugin
      *
      * @param string $pluginName  Name of plugin
-     * @param array $plugins Array of plugin names
+     * @param array|bool $plugins Array of plugin names
+     * @return array|bool
      */
     public function deactivatePlugin($pluginName, $plugins = false)
     {
@@ -253,7 +256,7 @@ class PluginsManager
         foreach ($this->getLoadedPlugins() as $plugin) {
             try {
                 $this->installPluginIfNecessary($plugin);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo $e->getMessage();
             }
         }
@@ -263,13 +266,13 @@ class PluginsManager
      * Activate the specified plugin and install (if needed)
      *
      * @param string $pluginName  Name of plugin
-     * @throws Exception
+     * @throws \Exception
      */
     public function activatePlugin($pluginName)
     {
         $plugins = Config::getInstance()->Plugins['Plugins'];
         if (in_array($pluginName, $plugins)) {
-            throw new Exception("Plugin '$pluginName' already activated.");
+            throw new \Exception("Plugin '$pluginName' already activated.");
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {
@@ -422,13 +425,13 @@ class PluginsManager
      * Returns the given Plugin object
      *
      * @param string $name
-     * @throws Exception
+     * @throws \Exception
      * @return array
      */
     public function getLoadedPlugin($name)
     {
         if (!isset($this->loadedPlugins[$name])) {
-            throw new Exception("The plugin '$name' has not been loaded.");
+            throw new \Exception("The plugin '$name' has not been loaded.");
         }
         return $this->loadedPlugins[$name];
     }
@@ -460,8 +463,8 @@ class PluginsManager
      * Do NOT give the class name ie. Piwik_UserCountry, but give the plugin name ie. UserCountry
      *
      * @param string $pluginName
-     * @throws Exception
-     * @return Piwik_Plugin|null
+     * @throws \Exception
+     * @return Plugin|null
      */
     public function loadPlugin($pluginName)
     {
@@ -479,8 +482,8 @@ class PluginsManager
 
     /**
      * @param $pluginName
-     * @return Piwik_Plugin
-     * @throws Exception
+     * @return Plugin
+     * @throws \Exception
      */
     protected function makePluginClass($pluginName)
     {
@@ -488,7 +491,7 @@ class PluginsManager
         $pluginClassName = sprintf('Piwik_%s', $pluginName);
 
         if (!Common::isValidFilename($pluginName)) {
-            throw new Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
+            throw new \Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
         }
 
         $path = self::getPluginsDirectory() . $pluginFileName;
@@ -515,8 +518,8 @@ class PluginsManager
     /**
      * Unload plugin
      *
-     * @param Piwik_Plugin|string $plugin
-     * @throws Exception
+     * @param Plugin|string $plugin
+     * @throws \Exception
      */
     public function unloadPlugin($plugin)
     {
@@ -558,14 +561,14 @@ class PluginsManager
      * Install a specific plugin
      *
      * @param Plugin $plugin
-     * @throws Piwik_PluginsManager_PluginException if installation fails
+     * @throws PluginsManager_PluginException if installation fails
      */
     private function installPlugin(Plugin $plugin)
     {
         try {
             $plugin->install();
-        } catch (Exception $e) {
-            throw new Piwik_PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());
+        } catch (\Exception $e) {
+            throw new PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());
         }
     }
 
@@ -585,7 +588,7 @@ class PluginsManager
      *
      * @param Plugin $plugin
      * @param string $langCode
-     * @throws Exception
+     * @throws \Exception
      * @return bool whether the translation was found and loaded
      */
     private function loadTranslation($plugin, $langCode)

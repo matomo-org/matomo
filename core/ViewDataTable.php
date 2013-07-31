@@ -50,7 +50,7 @@ use Piwik_API_API;
  *    }
  * </pre>
  *
- * @see Piwik_ViewDataTable_Properties for core DataTable display properties.
+ * @see \Piwik\ViewDataTable\Properties - for core DataTable display properties.
  * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
  * @subpackage ViewDataTable
@@ -244,7 +244,7 @@ abstract class ViewDataTable
      * @param string $defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
      * @param string|bool $apiAction
      * @param string|bool $controllerAction
-     * @return Piwik_ViewDataTable
+     * @return ViewDataTable
      */
     static public function factory($defaultType = null, $apiAction = false, $controllerAction = false)
     {
@@ -447,13 +447,13 @@ abstract class ViewDataTable
      * Returns the View_Interface.
      * You can then call render() on this object.
      *
-     * @return Piwik_View_Interface
-     * @throws exception if the view object was not created
+     * @return View\Interface
+     * @throws \Exception if the view object was not created
      */
     public function getView()
     {
         if (is_null($this->view)) {
-            throw new Exception('The $this->view object has not been created.
+            throw new \Exception('The $this->view object has not been created.
 					It should be created in the main() method of the ViewDataTable_* subclass you are using.');
         }
         return $this->view;
@@ -483,12 +483,12 @@ abstract class ViewDataTable
      * Returns the DataTable loaded from the API
      *
      * @return DataTable
-     * @throws exception if not yet defined
+     * @throws \Exception if not yet defined
      */
     public function getDataTable()
     {
         if (is_null($this->dataTable)) {
-            throw new Exception("The DataTable object has not yet been created");
+            throw new \Exception("The DataTable object has not yet been created");
         }
         return $this->dataTable;
     }
@@ -597,7 +597,7 @@ abstract class ViewDataTable
 
     /**
      * Checks that the API returned a normal DataTable (as opposed to DataTable_Array)
-     * @throws Exception
+     * @throws \Exception
      * @return void
      */
     protected function checkStandardDataTable()
@@ -1194,8 +1194,8 @@ abstract class ViewDataTable
     /**
      * Sets the value to use for the Exclude low population filter.
      *
-     * @param int|float If a row value is less than this value, it will be removed from the dataTable
-     * @param string The name of the column for which we compare the value to $minValue
+     * @param int|float $columnName  If a row value is less than this value, it will be removed from the dataTable
+     * @param string    $minValue    The name of the column for which we compare the value to $minValue
      */
     public function setExcludeLowPopulation($columnName = null, $minValue = null)
     {
@@ -1267,7 +1267,7 @@ abstract class ViewDataTable
      *
      * @param string $columnName column name
      * @param string $columnTranslation column name translation
-     * @throws Exception
+     * @throws \Exception
      */
     public function setColumnTranslation($columnName, $columnTranslation)
     {
@@ -1386,7 +1386,6 @@ abstract class ViewDataTable
      * Returns columns names to display, in order.
      * If no columns were specified to be displayed, return all columns found in the first row.
      * If the data table has empty_columns meta data set, those columns will be removed.
-     * @param array PHP array conversion of the data table
      * @return array
      */
     public function getColumnsToDisplay()
@@ -1460,12 +1459,12 @@ abstract class ViewDataTable
      *
      * @param string $parameter name
      * @param mixed $value
-     * @throws Exception
+     * @throws \Exception
      */
     public function setCustomParameter($parameter, $value)
     {
         if (isset($this->viewProperties['custom_parameters'][$parameter])) {
-            throw new Exception("$parameter is already defined for this DataTable.");
+            throw new \Exception("$parameter is already defined for this DataTable.");
         }
         $this->viewProperties['custom_parameters'][$parameter] = $value;
     }
@@ -1632,13 +1631,14 @@ abstract class ViewDataTable
      * @param string $pluginName The name of the plugin (eg, UserSettings).
      * @param string $apiAction The name of the API action (eg, getResolution).
      * @param bool $fetch If true, the result is returned, if false it is echo'd.
+     * @throws \Exception
      * @return string|null See $fetch.
      */
     static public function renderReport($pluginName, $apiAction, $fetch = true)
     {
         $apiClassName = 'Piwik_' . $pluginName . '_API';
         if (!method_exists($apiClassName::getInstance(), $apiAction)) {
-            throw new Exception("Invalid action name '$apiAction' for '$pluginName' plugin.");
+            throw new \Exception("Invalid action name '$apiAction' for '$pluginName' plugin.");
         }
         
         $view = self::factory(null, $pluginName.'.'.$apiAction);

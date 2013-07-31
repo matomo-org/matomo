@@ -13,7 +13,7 @@ namespace Piwik\Visualization;
 
 use Piwik\View;
 use Piwik\JqplotDataGenerator;
-use Piwik_DataTable;
+use Piwik\DataTable;
 
 /**
  * DataTable visualization that displays DataTable data in a JQPlot graph.
@@ -23,8 +23,9 @@ class JqplotGraph
     /**
      * Renders this visualization.
      *
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      * @param array $properties View Properties.
+     * @return string
      */
     public function render($dataTable, $properties)
     {

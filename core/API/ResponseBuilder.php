@@ -53,7 +53,7 @@ class ResponseBuilder
      *           in the URL. For example to offset,limit the Table you can add the following parameters to any API
      *        call that returns a DataTable: filter_limit=10&filter_offset=20
      *         - we apply the filters that have been previously queued on the DataTable
-     * @see Piwik_DataTable::queueFilter()
+     * @see DataTable::queueFilter()
      *         - we apply the renderer that generate the DataTable in a given format (XML, PHP, HTML, JSON, etc.)
      *           the format can be changed using the 'format' parameter in the request.
      *        Example: format=xml

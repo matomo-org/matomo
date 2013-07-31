@@ -56,7 +56,7 @@ class FrontController
     /**
      * Dispatches the request to the right plugin and executes the requested action on the plugin controller.
      *
-     * @throws Exception|Piwik_FrontController_PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist, there is not enough permission, etc.
+     * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist, there is not enough permission, etc.
      *
      * @param string $module
      * @param string $action
@@ -94,7 +94,7 @@ class FrontController
         }
 
         if (!\Piwik\PluginsManager::getInstance()->isPluginActivated($module)) {
-            throw new Piwik_FrontController_PluginDeactivatedException($module);
+            throw new PluginDeactivatedException($module);
         }
 
         $controllerClassName = 'Piwik_' . $module . '_Controller';

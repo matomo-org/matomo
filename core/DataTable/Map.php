@@ -10,6 +10,7 @@
  */
 namespace Piwik\DataTable;
 use Piwik\DataTable;
+use Piwik\DataTable\Renderer\Console;
 
 /**
  * The DataTable_Array is a way to store an array of dataTable.
@@ -162,13 +163,13 @@ class Map
      */
     public function __toString()
     {
-        $renderer = new Piwik_DataTable_Renderer_Console();
+        $renderer = new Console();
         $renderer->setTable($this);
         return (string)$renderer;
     }
 
     /**
-     * @see Piwik_DataTable::enableRecursiveSort()
+     * @see DataTable::enableRecursiveSort()
      */
     public function enableRecursiveSort()
     {
@@ -180,7 +181,7 @@ class Map
     /**
      * Renames the given column
      *
-     * @see Piwik_DataTable::renameColumn
+     * @see DataTable::renameColumn
      * @param string $oldName
      * @param string $newName
      */
@@ -194,7 +195,7 @@ class Map
     /**
      * Deletes the given columns
      *
-     * @see Piwik_DataTable::deleteColumns
+     * @see DataTable::deleteColumns
      * @param array $columns
      */
     public function deleteColumns($columns)
@@ -214,7 +215,7 @@ class Map
     /**
      * Deletes the given column
      *
-     * @see Piwik_DataTable::deleteColumn
+     * @see DataTable::deleteColumn
      * @param string $column
      */
     public function deleteColumn($column)
@@ -364,7 +365,7 @@ class Map
      * Returns a new DataTable_Array w/ child tables that have had their
      * subtables merged.
      *
-     * @see Piwik_DataTable::mergeSubtables
+     * @see DataTable::mergeSubtables
      *
      * @return Set
      */
@@ -409,7 +410,7 @@ class Map
     }
 
     /**
-     * @see Piwik_DataTable::getColumns()
+     * @see DataTable::getColumns()
      * 
      * @return array
      */

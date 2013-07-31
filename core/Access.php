@@ -103,9 +103,9 @@ class Access
     private static $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
 
     /**
-     * Authentification object (see Piwik_Auth)
+     * Authentification object (see Auth)
      *
-     * @var Piwik_Auth
+     * @var Auth
      */
     private $auth = null;
 
@@ -141,7 +141,7 @@ class Access
      * If the login/password is correct the user is either the SuperUser or a normal user.
      * We load the access levels for this user for all the websites.
      *
-     * @param null|Piwik_Auth $auth  Auth adapter
+     * @param null|Auth $auth  Auth adapter
      * @return bool  true on success, false if reloading access failed (when auth object wasn't specified and user is not enforced to be Super User)
      */
     public function reloadAccess(Auth $auth = null)
@@ -150,7 +150,7 @@ class Access
             $this->auth = $auth;
         }
 
-        // if the Piwik_Auth wasn't set, we may be in the special case of setSuperUser(), otherwise we fail
+        // if the Auth wasn't set, we may be in the special case of setSuperUser(), otherwise we fail
         if (is_null($this->auth)) {
             if ($this->isSuperUser()) {
                 return $this->reloadAccessSuperUser();

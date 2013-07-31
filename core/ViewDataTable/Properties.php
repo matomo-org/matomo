@@ -17,7 +17,7 @@ use ReflectionClass;
 /**
  * Contains the list of all core DataTable display properties for use with ViewDataTable.
  *
- * @see Piwik_ViewDataTable for more info.
+ * @see ViewDataTable - for more info.
  *
  * TODO: change the names of properties to match the const names where appropriate.
  */

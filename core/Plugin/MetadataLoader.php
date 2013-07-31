@@ -45,7 +45,7 @@ class MetadataLoader
     }
 
     /**
-     * Loads plugin metadata. @see Piwik_Plugin::getInformation.
+     * Loads plugin metadata. @see Plugin::getInformation.
      *
      * @return array
      */

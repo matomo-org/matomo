@@ -34,7 +34,7 @@ class JqplotDataGenerator
     /**
      * This object does most of the work in generating the JQPlot JSON data.
      *
-     * @var Piwik_Visualization
+     * @var \Piwik\Visualization\
      */
     protected $visualization;
 
@@ -43,6 +43,7 @@ class JqplotDataGenerator
      *
      * @param string $type 'pie', 'bar', or 'evolution'
      * @param array $properties The view properties.
+     * @throws \Exception
      * @return \Piwik\JqplotDataGenerator
      */
     public static function factory($type, $properties)
@@ -64,7 +65,7 @@ class JqplotDataGenerator
     /**
      * Constructor.
      *
-     * @param Piwik_Visualization $visualization
+     * @param \Piwik\Visualization\ $visualization
      * @param array $properties
      */
     public function __construct($visualization, $properties)
