@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Tracker;
+use Piwik\Tracker\Visit;
 
 /**
  * @see plugins/Referers/functions.php
@@ -272,7 +273,7 @@ class Piwik_Live_Visitor
     public function getRegionName()
     {
         $region = $this->getRegionCode();
-        if ($region != '' && $region != Piwik_Tracker_Visit::UNKNOWN_CODE) {
+        if ($region != '' && $region != Visit::UNKNOWN_CODE) {
             return Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes(
                 $this->details['location_country'], $region);
         }

@@ -16,6 +16,7 @@ use Piwik\DataTable\Manager;
 use Piwik\Option;
 use Piwik\Tracker;
 use Piwik\Site;
+use Piwik\Tracker\Cache;
 
 ob_start();
 
@@ -44,7 +45,7 @@ Tracker::setTestEnvironment();
 Manager::getInstance()->deleteAll();
 Option::getInstance()->clearCache();
 Site::clearCache();
-Piwik_Tracker_Cache::deleteTrackerCache();
+Cache::deleteTrackerCache();
 
 include PIWIK_INCLUDE_PATH . '/piwik.php';
 ob_end_flush();

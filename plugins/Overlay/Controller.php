@@ -5,6 +5,7 @@ use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Controller;
+use Piwik\Tracker\Action;
 use Piwik\View;
 
 /**
@@ -52,12 +53,12 @@ class Piwik_Overlay_Controller extends Controller
         $currentUrl = Common::getRequestVar('currentUrl');
         $currentUrl = Common::unsanitizeInputValue($currentUrl);
 
-        $normalizedCurrentUrl = Piwik_Tracker_Action::excludeQueryParametersFromUrl($currentUrl, $idSite);
+        $normalizedCurrentUrl = Action::excludeQueryParametersFromUrl($currentUrl, $idSite);
         $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
 
         // load the appropriate row of the page urls report using the label filter
         Piwik_Actions_ArchivingHelper::reloadConfig();
-        $path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
+        $path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_ACTION_URL);
         $path = array_map('urlencode', $path);
         $label = implode('>', $path);
         $request = new Request(

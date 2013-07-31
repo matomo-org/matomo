@@ -6,6 +6,7 @@ use Piwik\Metrics;
 use Piwik\DataArray;
 use Piwik\Tracker;
 use Piwik\PluginsArchiver;
+use Piwik\Tracker\GoalManager;
 
 /**
  * Piwik - Open source web analytics
@@ -141,7 +142,7 @@ class Piwik_CustomVariables_Archiver extends PluginsArchiver
                 $count = 0;
                 foreach ($decoded as $category) {
                     if (empty($category)
-                        || $count >= Piwik_Tracker_GoalManager::MAXIMUM_PRODUCT_CATEGORIES
+                        || $count >= GoalManager::MAXIMUM_PRODUCT_CATEGORIES
                     ) {
                         continue;
                     }

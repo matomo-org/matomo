@@ -302,7 +302,7 @@ class Piwik_Referers_API
     {
         $dataTable = $this->getDataTable(Piwik_Referers_Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         // the htmlspecialchars_decode call is for BC for before 1.1
-        // as the Referer URL was previously encoded in the log tables, but is now recorded raw
+        // as the Referrer URL was previously encoded in the log tables, but is now recorded raw
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', create_function('$label', 'return htmlspecialchars_decode($label);')));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
         return $dataTable;

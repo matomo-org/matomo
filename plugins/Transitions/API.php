@@ -24,6 +24,7 @@ use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\SegmentExpression;
 use Piwik\Site;
+use Piwik\Tracker\Action;
 
 /**
  * @package Piwik_Transitions
@@ -158,7 +159,7 @@ class Piwik_Transitions_API
 
                 if ($id < 0) {
                     $unknown = Piwik_Actions_ArchivingHelper::getUnknownActionName(
-                        Piwik_Tracker_Action::TYPE_ACTION_NAME);
+                        Action::TYPE_ACTION_NAME);
 
                     if (trim($actionName) == trim($unknown)) {
                         $id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
@@ -240,7 +241,7 @@ class Piwik_Transitions_API
         $isTitle = ($actionType == 'title');
         if (!$isTitle) {
             // specific setup for page urls
-            $types[Piwik_Tracker_Action::TYPE_ACTION_URL] = 'followingPages';
+            $types[Action::TYPE_ACTION_URL] = 'followingPages';
             $dimension = 'IF( idaction_url IS NULL, idaction_name, idaction_url )';
             // site search referrers are logged with url=NULL
             // when we find one, we have to join on name
@@ -248,7 +249,7 @@ class Piwik_Transitions_API
             $selects = array('log_action.name', 'log_action.url_prefix', 'log_action.type');
         } else {
             // specific setup for page titles:
-            $types[Piwik_Tracker_Action::TYPE_ACTION_NAME] = 'followingPages';
+            $types[Action::TYPE_ACTION_NAME] = 'followingPages';
             // join log_action on name and url and pick depending on url type
             // the table joined on url is log_action1
             $joinLogActionColumn = array('idaction_url', 'idaction_name');
@@ -257,7 +258,7 @@ class Piwik_Transitions_API
 					' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.idaction
 					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Piwik_Tracker_Action::TYPE_ACTION_URL . ' THEN log_action2.idaction
+					WHEN log_action1.type = ' . Action::TYPE_ACTION_URL . ' THEN log_action2.idaction
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.idaction
 				END
@@ -267,7 +268,7 @@ class Piwik_Transitions_API
 					' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.name
 					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Piwik_Tracker_Action::TYPE_ACTION_URL . ' THEN log_action2.name
+					WHEN log_action1.type = ' . Action::TYPE_ACTION_URL . ' THEN log_action2.name
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.name
 				END AS `name`',
@@ -275,7 +276,7 @@ class Piwik_Transitions_API
                     ' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.type
 					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Piwik_Tracker_Action::TYPE_ACTION_URL . ' THEN log_action2.type
+					WHEN log_action1.type = ' . Action::TYPE_ACTION_URL . ' THEN log_action2.type
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.type
 				END AS `type`',
@@ -284,9 +285,9 @@ class Piwik_Transitions_API
         }
 
         // these types are available for both titles and urls
-        $types[Piwik_Tracker_Action::TYPE_SITE_SEARCH] = 'followingSiteSearches';
-        $types[Piwik_Tracker_Action::TYPE_OUTLINK] = 'outlinks';
-        $types[Piwik_Tracker_Action::TYPE_DOWNLOAD] = 'downloads';
+        $types[Action::TYPE_SITE_SEARCH] = 'followingSiteSearches';
+        $types[Action::TYPE_OUTLINK] = 'outlinks';
+        $types[Action::TYPE_DOWNLOAD] = 'downloads';
 
         $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
@@ -424,12 +425,12 @@ class Piwik_Transitions_API
         $rankingQuery->partitionResultIntoMultipleGroups('action_partition', array(0, 1, 2));
 
         $type = $this->getColumnTypeSuffix($actionType);
-        $mainActionType = Piwik_Tracker_Action::TYPE_ACTION_URL;
+        $mainActionType = Action::TYPE_ACTION_URL;
         $dimension = 'idaction_url_ref';
         $isTitle = $actionType == 'title';
 
         if ($isTitle) {
-            $mainActionType = Piwik_Tracker_Action::TYPE_ACTION_NAME;
+            $mainActionType = Action::TYPE_ACTION_NAME;
             $dimension = 'idaction_name_ref';
         }
 
@@ -439,7 +440,7 @@ class Piwik_Transitions_API
             'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS `is_self`',
             'CASE
                 WHEN log_action.type = ' . $mainActionType . ' THEN 1
-                        WHEN log_action.type = ' . Piwik_Tracker_Action::TYPE_SITE_SEARCH . ' THEN 2
+                        WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN 2
                         ELSE 0
                     END AS `action_partition`'
         );
@@ -513,13 +514,13 @@ class Piwik_Transitions_API
             $label = $pageRecord['name'];
             if (empty($label)) {
                 $label = Piwik_Actions_ArchivingHelper::getUnknownActionName(
-                    Piwik_Tracker_Action::TYPE_ACTION_NAME);
+                    Action::TYPE_ACTION_NAME);
             }
             return $label;
         } else if ($this->returnNormalizedUrls) {
             return $pageRecord['name'];
         } else {
-            return Piwik_Tracker_Action::reconstructNormalizedUrl(
+            return Action::reconstructNormalizedUrl(
                 $pageRecord['name'], $pageRecord['url_prefix']);
         }
     }

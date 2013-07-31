@@ -9,12 +9,16 @@
  * @package Piwik
  */
 
+namespace Piwik\Tracker\Db;
+
+use Exception;
+
 /**
  * Database Exception
  *
  * @package Piwik
  * @subpackage Tracker
  */
-class Piwik_Tracker_Db_Exception extends Exception
+class DbException extends Exception
 {
 }

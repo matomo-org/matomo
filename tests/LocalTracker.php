@@ -2,6 +2,7 @@
 
 use Piwik\Config;
 use Piwik\Tracker;
+use Piwik\Tracker\Cache;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
@@ -43,7 +44,7 @@ class Piwik_LocalTracker extends PiwikTracker
         }
 
         // unset cached values
-        Piwik_Tracker_Cache::$trackerCache = null;
+        Cache::$trackerCache = null;
         Tracker::setForceIp(null);
         Tracker::setForceDateTime(null);
         Tracker::setForceVisitorId(null);

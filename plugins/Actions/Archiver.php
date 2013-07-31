@@ -15,6 +15,7 @@ use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\RankingQuery;
 use Piwik\PluginsArchiver;
+use Piwik\Tracker\Action;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
@@ -53,11 +54,11 @@ class Piwik_Actions_Archiver extends PluginsArchiver
     );
 
     public static $actionTypes = array(
-        Piwik_Tracker_Action::TYPE_ACTION_URL,
-        Piwik_Tracker_Action::TYPE_OUTLINK,
-        Piwik_Tracker_Action::TYPE_DOWNLOAD,
-        Piwik_Tracker_Action::TYPE_ACTION_NAME,
-        Piwik_Tracker_Action::TYPE_SITE_SEARCH,
+        Action::TYPE_ACTION_URL,
+        Action::TYPE_OUTLINK,
+        Action::TYPE_DOWNLOAD,
+        Action::TYPE_ACTION_NAME,
+        Action::TYPE_SITE_SEARCH,
     );
     static protected $invalidSummedColumnNameToRenamedNameFromPeriodArchive = array(
         Metrics::INDEX_NB_UNIQ_VISITORS            => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
@@ -160,8 +161,8 @@ class Piwik_Actions_Archiver extends PluginsArchiver
             $dataTable = new DataTable();
             $dataTable->setMaximumAllowedRows(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero);
 
-            if ($type == Piwik_Tracker_Action::TYPE_ACTION_URL
-                || $type == Piwik_Tracker_Action::TYPE_ACTION_NAME
+            if ($type == Action::TYPE_ACTION_URL
+                || $type == Action::TYPE_ACTION_NAME
             ) {
                 // for page urls and page titles, performance metrics exist and have to be aggregated correctly
                 $dataTable->setColumnAggregationOperations(self::$actionColumnAggregationOperations);
@@ -181,20 +182,20 @@ class Piwik_Actions_Archiver extends PluginsArchiver
 				count(distinct log_link_visit_action.idvisitor) as `" . Metrics::INDEX_NB_UNIQ_VISITORS . "`,
 				count(*) as `" . Metrics::INDEX_PAGE_NB_HITS . "`,
 				sum(
-					case when " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . " is null
+					case when " . Action::DB_COLUMN_TIME_GENERATION . " is null
 						then 0
-						else " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . "
+						else " . Action::DB_COLUMN_TIME_GENERATION . "
 					end
 				) / 1000 as `" . Metrics::INDEX_PAGE_SUM_TIME_GENERATION . "`,
 				sum(
-					case when " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . " is null
+					case when " . Action::DB_COLUMN_TIME_GENERATION . " is null
 						then 0
 						else 1
 					end
 				) as `" . Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION . "`,
-				min(" . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . ") / 1000
+				min(" . Action::DB_COLUMN_TIME_GENERATION . ") / 1000
 				    as `" . Metrics::INDEX_PAGE_MIN_TIME_GENERATION . "`,
-				max(" . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . ") / 1000
+				max(" . Action::DB_COLUMN_TIME_GENERATION . ") / 1000
                     as `" . Metrics::INDEX_PAGE_MAX_TIME_GENERATION . "`
 				";
 
@@ -237,7 +238,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
         // 2) For each page view, count number of times the referrer page was a Site Search
         if ($this->isSiteSearchEnabled()) {
             $selectFlagNoResultKeywords = ",
-				CASE WHEN (MAX(log_link_visit_action.custom_var_v" . Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT . ") = 0 AND log_link_visit_action.custom_var_k" . Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT . " = '" . Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT . "') THEN 1 ELSE 0 END AS `" . Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
+				CASE WHEN (MAX(log_link_visit_action.custom_var_v" . Action::CVAR_INDEX_SEARCH_COUNT . ") = 0 AND log_link_visit_action.custom_var_k" . Action::CVAR_INDEX_SEARCH_COUNT . " = '" . Action::CVAR_KEY_SEARCH_COUNT . "') THEN 1 ELSE 0 END AS `" . Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
 
             //we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
             $from[] = array(
@@ -247,7 +248,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
             );
 
             $selectSiteSearchFollowingPages = ",
-				SUM(CASE WHEN log_action_name_ref.type = " . Piwik_Tracker_Action::TYPE_SITE_SEARCH . " THEN 1 ELSE 0 END) AS `" . Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS . "`";
+				SUM(CASE WHEN log_action_name_ref.type = " . Action::TYPE_SITE_SEARCH . " THEN 1 ELSE 0 END) AS `" . Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS . "`";
 
             $select .= $selectFlagNoResultKeywords
                 . $selectSiteSearchFollowingPages;
@@ -445,7 +446,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
 
     protected function recordPageUrlsReports()
     {
-        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_ACTION_URL);
+        $dataTable = $this->getDataTable(Action::TYPE_ACTION_URL);
         $this->recordDataTable($dataTable, self::PAGE_URLS_RECORD_NAME);
 
         $records = array(
@@ -516,7 +517,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
 
     protected function recordDownloadsReports()
     {
-        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_DOWNLOAD);
+        $dataTable = $this->getDataTable(Action::TYPE_DOWNLOAD);
         $this->recordDataTable($dataTable, self::DOWNLOADS_RECORD_NAME);
 
         $this->getProcessor()->insertNumericRecord(self::METRIC_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS)));
@@ -525,7 +526,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
 
     protected function recordOutlinksReports()
     {
-        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_OUTLINK);
+        $dataTable = $this->getDataTable(Action::TYPE_OUTLINK);
         $this->recordDataTable($dataTable, self::OUTLINKS_RECORD_NAME);
 
         $this->getProcessor()->insertNumericRecord(self::METRIC_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS)));
@@ -534,13 +535,13 @@ class Piwik_Actions_Archiver extends PluginsArchiver
 
     protected function recordPageTitlesReports()
     {
-        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_ACTION_NAME);
+        $dataTable = $this->getDataTable(Action::TYPE_ACTION_NAME);
         $this->recordDataTable($dataTable, self::PAGE_TITLES_RECORD_NAME);
     }
 
     protected function recordSiteSearchReports()
     {
-        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_SITE_SEARCH);
+        $dataTable = $this->getDataTable(Action::TYPE_SITE_SEARCH);
         $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
         $this->recordDataTable($dataTable, self::SITE_SEARCH_RECORD_NAME);
 

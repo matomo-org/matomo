@@ -12,7 +12,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Metrics;
-use Piwik_Tracker_GoalManager;
+use Piwik\Tracker\GoalManager;
 
 /**
  * The DataArray is a data structure used to aggregate datasets,
@@ -128,13 +128,13 @@ class DataArray
      */
     protected static function makeEmptyGoalRow($idGoal)
     {
-        if ($idGoal > Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+        if ($idGoal > GoalManager::IDGOAL_ORDER) {
             return array(Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
                          Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
                          Metrics::INDEX_GOAL_REVENUE             => 0,
             );
         }
-        if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+        if ($idGoal == GoalManager::IDGOAL_ORDER) {
             return array(Metrics::INDEX_GOAL_NB_CONVERSIONS             => 0,
                          Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
                          Metrics::INDEX_GOAL_REVENUE                    => 0,
@@ -145,7 +145,7 @@ class DataArray
                          Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 0,
             );
         }
-        // idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART
+        // idGoal == GoalManager::IDGOAL_CART
         return array(Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
                      Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
                      Metrics::INDEX_GOAL_REVENUE             => 0,
@@ -276,7 +276,7 @@ class DataArray
             $revenue = $conversions = 0;
             foreach ($values[Metrics::INDEX_GOALS] as $idgoal => $goalValues) {
                 // Do not sum Cart revenue since it is a lost revenue
-                if ($idgoal >= Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+                if ($idgoal >= GoalManager::IDGOAL_ORDER) {
                     $revenue += $goalValues[Metrics::INDEX_GOAL_REVENUE];
                     $conversions += $goalValues[Metrics::INDEX_GOAL_NB_CONVERSIONS];
                 }

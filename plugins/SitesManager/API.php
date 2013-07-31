@@ -14,6 +14,7 @@ use Piwik\Access;
 use Piwik\Date;
 use Piwik\IP;
 use Piwik\Db;
+use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\TaskScheduler;
 use Piwik\Site;
@@ -550,7 +551,7 @@ class Piwik_SitesManager_API
     private function postUpdateWebsite($idSite)
     {
         Site::clearCache();
-        Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
+        Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
     /**
@@ -586,7 +587,7 @@ class Piwik_SitesManager_API
 					WHERE idsite = ?", $idSite);
 
         // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
-        Piwik_Tracker_Cache::deleteCacheWebsiteAttributes($idSite);
+        Cache::deleteCacheWebsiteAttributes($idSite);
 
         Piwik_PostEvent('SitesManager.deleteSite', array($idSite));
     }
@@ -705,7 +706,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         $excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
         Piwik_SetOption(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         return true;
     }
 
@@ -722,7 +723,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         Piwik_SetOption(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL, $searchKeywordParameters);
         Piwik_SetOption(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL, $searchCategoryParameters);
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         return true;
     }
 
@@ -791,7 +792,7 @@ class Piwik_SitesManager_API
         Piwik_SetOption(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $excludedUserAgents);
 
         // make sure tracker cache will reflect change
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -820,7 +821,7 @@ class Piwik_SitesManager_API
         Piwik_SetOption(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE, $enabled);
 
         // make sure tracker cache will reflect change
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -851,7 +852,7 @@ class Piwik_SitesManager_API
         Piwik_SetOption(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL, $enabled);
 
         // make sure tracker cache will reflect change
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -866,7 +867,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         $excludedQueryParameters = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         Piwik_SetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         return true;
     }
 

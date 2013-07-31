@@ -16,6 +16,8 @@ use Piwik\Date;
 use Piwik\Option;
 use Piwik\Site;
 use Piwik\Db;
+use Piwik\Tracker\Cache;
+use Piwik\Tracker\GoalManager;
 
 require_once 'PrivacyManager/PrivacyManager.php';
 
@@ -115,7 +117,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         Manager::getInstance()->deleteAll();
         Option::getInstance()->clearCache();
         Site::clearCache();
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         ArchiveTableCreator::clear();
 
         $tempTableName = Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
@@ -718,7 +720,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             'nb_actions',
             Piwik_Goals_Archiver::getRecordName('revenue'),
             Piwik_Goals_Archiver::getRecordName('nb_conversions', 1),
-            Piwik_Goals_Archiver::getRecordName('revenue', Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+            Piwik_Goals_Archiver::getRecordName('revenue', GoalManager::IDGOAL_ORDER)
         );
 
         $archiveTables = self::_getArchiveTableNames();

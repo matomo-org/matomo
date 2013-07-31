@@ -5,6 +5,7 @@
  */
 
 // make sure the test environment is loaded
+use Piwik\Tracker\Cache;
 use Piwik\Visualization\Cloud;
 
 // Wrapping the request inside ob_start() calls to ensure that the Test
@@ -25,7 +26,7 @@ Piwik_TestingEnvironment::addHooks();
 Cloud::$debugDisableShuffle = true;
 
 \Piwik\Tracker::setTestEnvironment();
-Piwik_Tracker_Cache::deleteTrackerCache();
+Cache::deleteTrackerCache();
 
 // Disable index.php dispatch since we do it manually below
 define('PIWIK_ENABLE_DISPATCH', false);

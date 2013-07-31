@@ -17,7 +17,7 @@ use Piwik\Date;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\RankingQuery;
-use Piwik_Tracker_GoalManager;
+use Piwik\Tracker\GoalManager;
 use Zend_Registry;
 
 /**
@@ -115,7 +115,7 @@ class LogAggregator
 
     static public function getSqlRevenue($field)
     {
-        return "ROUND(" . $field . "," . Piwik_Tracker_GoalManager::REVENUE_PRECISION . ")";
+        return "ROUND(" . $field . "," . GoalManager::REVENUE_PRECISION . ")";
     }
 
     /**
@@ -321,7 +321,7 @@ class LogAggregator
 						" . self::getSqlRevenue('SUM(price)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE . "`,
 						count(distinct idorder) as `" . Metrics::INDEX_ECOMMERCE_ORDERS . "`,
 						count(idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
-						case idorder when '0' then " . Piwik_Tracker_GoalManager::IDGOAL_CART . " else " . Piwik_Tracker_GoalManager::IDGOAL_ORDER . " end as ecommerceType
+						case idorder when '0' then " . GoalManager::IDGOAL_CART . " else " . GoalManager::IDGOAL_ORDER . " end as ecommerceType
 			 	FROM " . Common::prefixTable('log_conversion_item') . "
 			 		LEFT JOIN " . Common::prefixTable('log_action') . "
 			 		ON $field = idaction

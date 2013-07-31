@@ -12,6 +12,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Tracker\Action;
 use Piwik\ViewDataTable;
 use Piwik\WidgetsList;
 use Piwik\Plugin;
@@ -147,7 +148,7 @@ class Piwik_Actions extends Plugin
     {
         $actionType = $this->guessActionTypeFromSegment($segmentName);
 
-        if ($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL) {
+        if ($actionType == Action::TYPE_ACTION_URL) {
             // for urls trim protocol and www because it is not recorded in the db
             $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
@@ -158,7 +159,7 @@ class Piwik_Actions extends Plugin
         if ($matchType == SegmentExpression::MATCH_EQUAL
             || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
-            $sql = Piwik_Tracker_Action::getSqlSelectActionId();
+            $sql = Action::getSqlSelectActionId();
             $bind = array($valueToMatch, $valueToMatch, $actionType);
             $idAction = Db::fetchOne($sql, $bind);
             // if the action is not found, we hack -100 to ensure it tries to match against an integer
@@ -614,13 +615,13 @@ class Piwik_Actions extends Plugin
     protected function guessActionTypeFromSegment($segmentName)
     {
         if (stripos($segmentName, 'pageurl') !== false) {
-            $actionType = Piwik_Tracker_Action::TYPE_ACTION_URL;
+            $actionType = Action::TYPE_ACTION_URL;
             return $actionType;
         } elseif (stripos($segmentName, 'pagetitle') !== false) {
-            $actionType = Piwik_Tracker_Action::TYPE_ACTION_NAME;
+            $actionType = Action::TYPE_ACTION_NAME;
             return $actionType;
         } elseif (stripos($segmentName, 'sitesearch') !== false) {
-            $actionType = Piwik_Tracker_Action::TYPE_SITE_SEARCH;
+            $actionType = Action::TYPE_SITE_SEARCH;
             return $actionType;
         } else {
             throw new Exception(" The segment $segmentName has an unexpected value.");

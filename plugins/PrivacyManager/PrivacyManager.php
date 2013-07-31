@@ -16,6 +16,8 @@ use Piwik\Date;
 use Piwik\ScheduledTask;
 use Piwik\Plugin;
 use Piwik\Db;
+use Piwik\ScheduledTime\Daily;
+use Piwik\Tracker\GoalManager;
 
 /**
  * @see plugins/PrivacyManager/LogDataPurger.php
@@ -73,12 +75,12 @@ class Piwik_PrivacyManager extends Plugin
         // they will execute before the optimize tables task
 
         $purgeReportDataTask = new ScheduledTask(
-            $this, 'deleteReportData', null, new Piwik_ScheduledTime_Daily(), ScheduledTask::LOW_PRIORITY
+            $this, 'deleteReportData', null, new Daily(), ScheduledTask::LOW_PRIORITY
         );
         $tasks[] = $purgeReportDataTask;
 
         $purgeLogDataTask = new ScheduledTask(
-            $this, 'deleteLogData', null, new Piwik_ScheduledTime_Daily(), ScheduledTask::LOW_PRIORITY
+            $this, 'deleteLogData', null, new Daily(), ScheduledTask::LOW_PRIORITY
         );
         $tasks[] = $purgeLogDataTask;
     }
@@ -349,8 +351,8 @@ class Piwik_PrivacyManager extends Plugin
                 }
 
                 $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric);
-                $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_ORDER);
-                $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_CART);
+                $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric, GoalManager::IDGOAL_ORDER);
+                $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric, GoalManager::IDGOAL_CART);
             }
         }
 

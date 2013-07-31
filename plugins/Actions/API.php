@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Tracker\Action;
 
 /**
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),
@@ -200,7 +201,7 @@ class Piwik_Actions_API
     public function getPageUrl($pageUrl, $idSite, $period, $date, $segment = false)
     {
         $callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
-        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
+        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Action::TYPE_ACTION_URL);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
@@ -241,7 +242,7 @@ class Piwik_Actions_API
     public function getPageTitle($pageName, $idSite, $period, $date, $segment = false)
     {
         $callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
-        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Piwik_Tracker_Action::TYPE_ACTION_NAME);
+        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Action::TYPE_ACTION_NAME);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
@@ -257,7 +258,7 @@ class Piwik_Actions_API
     public function getDownload($downloadUrl, $idSite, $period, $date, $segment = false)
     {
         $callBackParameters = array('Actions_downloads', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
-        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $downloadUrl, Piwik_Tracker_Action::TYPE_DOWNLOAD);
+        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $downloadUrl, Action::TYPE_DOWNLOAD);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
@@ -272,7 +273,7 @@ class Piwik_Actions_API
     public function getOutlink($outlinkUrl, $idSite, $period, $date, $segment = false)
     {
         $callBackParameters = array('Actions_outlink', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
-        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $outlinkUrl, Piwik_Tracker_Action::TYPE_OUTLINK);
+        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $outlinkUrl, Action::TYPE_OUTLINK);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
     }
@@ -329,7 +330,7 @@ class Piwik_Actions_API
         Piwik_Actions::checkCustomVariablesPluginEnabled();
         $customVariables = Piwik_CustomVariables_API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
 
-        $customVarNameToLookFor = Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY;
+        $customVarNameToLookFor = Action::CVAR_KEY_SEARCH_CATEGORY;
 
         $dataTable = new DataTable();
         // Handle case where date=last30&period=day
@@ -372,12 +373,12 @@ class Piwik_Actions_API
     {
         if ($searchTree === false) {
             // build the query parts that are searched inside the tree
-            if ($actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
+            if ($actionType == Action::TYPE_ACTION_NAME) {
                 $searchedString = Common::unsanitizeInputValue($search);
             } else {
                 $idSite = $callBackParameters[1];
                 try {
-                    $searchedString = Piwik_Tracker_Action::excludeQueryParametersFromUrl($search, $idSite);
+                    $searchedString = Action::excludeQueryParametersFromUrl($search, $idSite);
                 } catch (Exception $e) {
                     $searchedString = $search;
                 }

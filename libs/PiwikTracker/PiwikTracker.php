@@ -780,7 +780,7 @@ class PiwikTracker
      * This function will only work if the user is initiating the current request, and his cookies
      * can be read by PHP from the $_COOKIE array.
      *
-     * @return string JSON Encoded string containing the Referer information for Goal conversion attribution.
+     * @return string JSON Encoded string containing the Referrer information for Goal conversion attribution.
      *                Will return false if the cookie could not be found
      * @see Piwik.js getAttributionInfo()
      */

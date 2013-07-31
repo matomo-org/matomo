@@ -8,6 +8,8 @@
 use Piwik\Access;
 use Piwik\ScheduledTime;
 use Piwik\ScheduledTask;
+use Piwik\ScheduledTime\Daily;
+use Piwik\ScheduledTime\Monthly;
 use Piwik\Site;
 
 require_once 'PDFReports/PDFReports.php';
@@ -365,16 +367,16 @@ class PDFReportsTest extends DatabaseTestCase
         );
 
         // expected tasks
-        $scheduleTask1 = new Piwik_ScheduledTime_Daily();
+        $scheduleTask1 = new Daily();
         $scheduleTask1->setHour(23); // paris is UTC-1, period ends at 23h UTC
 
-        $scheduleTask2 = new Piwik_ScheduledTime_Monthly();
+        $scheduleTask2 = new Monthly();
         $scheduleTask2->setHour(7); // site is UTC-6.5, period ends at 6h30 UTC, smallest resolution is hour
 
-        $scheduleTask3 = new Piwik_ScheduledTime_Monthly();
+        $scheduleTask3 = new Monthly();
         $scheduleTask3->setHour(7); // paris is UTC-1, configured to be sent at 8h
 
-        $scheduleTask4 = new Piwik_ScheduledTime_Monthly();
+        $scheduleTask4 = new Monthly();
         $scheduleTask4->setHour(15); // site is UTC-6.5, configured to be sent at 8h
 
         $expectedTasks = array(

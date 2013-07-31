@@ -15,7 +15,7 @@ use Piwik\DataTable\Simple;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
-use Piwik_Tracker_GoalManager;
+use Piwik\Tracker\GoalManager;
 
 /**
  * This filter replaces column names using a mapping table that maps from the old name to the new name.
@@ -140,9 +140,9 @@ class ReplaceColumnNames extends Filter
         $newSubColumns = array();
         foreach ($columnValue as $idGoal => $goalValues) {
             $mapping = Metrics::$mappingFromIdToNameGoal;
-            if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART) {
+            if ($idGoal == GoalManager::IDGOAL_CART) {
                 $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
-            } elseif ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+            } elseif ($idGoal == GoalManager::IDGOAL_ORDER) {
                 $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
             }
             foreach ($goalValues as $id => $goalValue) {

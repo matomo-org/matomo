@@ -8,13 +8,16 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Tracker;
+
 use Piwik\Common;
+use Piwik\Tracker\Action;
 
 /**
  * @package Piwik
  * @subpackage Tracker
  */
-class Piwik_Tracker_Referer
+class Referrer
 {
     // @see detect*() referer methods
     protected $typeRefererAnalyzed;
@@ -28,7 +31,6 @@ class Piwik_Tracker_Referer
 
     // Used to prefix when a adsense referer is detected
     const LABEL_PREFIX_ADSENSE_KEYWORD = '(adsense) ';
-
 
     /**
      * Returns an array containing the following information:
@@ -71,7 +73,7 @@ class Piwik_Tracker_Referer
             $refererUrl = '';
         }
 
-        $currentUrl = Piwik_Tracker_Action::cleanupUrl($currentUrl);
+        $currentUrl = Action::cleanupUrl($currentUrl);
 
         $this->refererUrl = $refererUrl;
         $this->refererUrlParse = @parse_url($this->refererUrl);
@@ -162,13 +164,13 @@ class Piwik_Tracker_Referer
 
             // if the campaign keyword is empty, try to get a keyword from the referrer URL
             if (empty($this->keywordRefererAnalyzed)) {
-                // Set the Campaign keyword to the keyword found in the Referer URL if any
+                // Set the Campaign keyword to the keyword found in the Referrer URL if any
                 $referrerUrlInfo = Common::extractSearchEngineInformationFromUrl($this->refererUrl);
                 if (!empty($referrerUrlInfo['keywords'])) {
                     $this->keywordRefererAnalyzed = $referrerUrlInfo['keywords'];
                 }
 
-                // Set the keyword, to the hostname found, in a Adsense Referer URL '&url=' parameter
+                // Set the keyword, to the hostname found, in a Adsense Referrer URL '&url=' parameter
                 if (empty($this->keywordRefererAnalyzed)
                     && !empty($this->refererUrlParse['query'])
                     && !empty($this->refererHost)
@@ -245,7 +247,7 @@ class Piwik_Tracker_Referer
                     return true;
                 }
             }
-            if (Piwik_Tracker_Visit::isHostKnownAliasHost($this->refererHost, $this->idsite)) {
+            if (Visit::isHostKnownAliasHost($this->refererHost, $this->idsite)) {
                 $this->typeRefererAnalyzed = Common::REFERER_TYPE_DIRECT_ENTRY;
                 return true;
             }

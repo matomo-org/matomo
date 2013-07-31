@@ -12,9 +12,9 @@
 namespace Piwik;
 
 use Exception;
-use Piwik_ScheduledTime_Daily;
-use Piwik_ScheduledTime_Monthly;
-use Piwik_ScheduledTime_Weekly;
+use Piwik\ScheduledTime\Daily;
+use Piwik\ScheduledTime\Monthly;
+use Piwik\ScheduledTime\Weekly;
 
 /**
  * The ScheduledTime abstract class is used as a base class for different types of scheduling intervals.
@@ -52,11 +52,11 @@ abstract class ScheduledTime
     {
         switch ($period) {
             case self::PERIOD_MONTH:
-                return new Piwik_ScheduledTime_Monthly();
+                return new Monthly();
             case self::PERIOD_WEEK:
-                return new Piwik_ScheduledTime_Weekly();
+                return new Weekly();
             case self::PERIOD_DAY:
-                return new Piwik_ScheduledTime_Daily();
+                return new Daily();
 
             default:
                 throw new Exception('period ' . $period . 'is undefined.');

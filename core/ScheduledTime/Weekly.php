@@ -8,16 +8,19 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ScheduledTime;
+
+use Exception;
 use Piwik\ScheduledTime;
 
 /**
- * Piwik_ScheduledTime_Weekly class is used to schedule tasks every week.
+ * Weekly class is used to schedule tasks every week.
  *
  * @see Piwik_ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
  */
-class Piwik_ScheduledTime_Weekly extends ScheduledTime
+class Weekly extends ScheduledTime
 {
 
     public function getRescheduledTime()

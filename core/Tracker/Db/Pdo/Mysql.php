@@ -8,6 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Tracker\Db\Pdo;
+
+use Exception;
+use PDO;
+use PDOException;
+use PDOStatement;
+use Piwik\Tracker\Db;
+use Piwik\Tracker\Db\DbException;
 
 /**
  * PDO MySQL wrapper
@@ -15,7 +23,7 @@
  * @package Piwik
  * @subpackage Tracker
  */
-class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
+class Mysql extends Db
 {
     protected $connection = null;
     protected $dsn;
@@ -96,7 +104,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
      * @param array $parameters  Parameters to bind
      * @return array|bool
      * @see query()
-     * @throws Exception|Piwik_Tracker_Db_Exception if an exception occurred
+     * @throws Exception|DbException if an exception occurred
      */
     public function fetchAll($query, $parameters = array())
     {
@@ -107,7 +115,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
             }
             return $sth->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            throw new Piwik_Tracker_Db_Exception("Error query: " . $e->getMessage());
+            throw new DbException("Error query: " . $e->getMessage());
         }
     }
 
@@ -118,7 +126,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
      * @param array $parameters Parameters to bind
      * @return bool|mixed
      * @see query()
-     * @throws Exception|Piwik_Tracker_Db_Exception if an exception occurred
+     * @throws Exception|DbException if an exception occurred
      */
     public function fetch($query, $parameters = array())
     {
@@ -129,7 +137,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
             }
             return $sth->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            throw new Piwik_Tracker_Db_Exception("Error query: " . $e->getMessage());
+            throw new DbException("Error query: " . $e->getMessage());
         }
     }
 
@@ -139,7 +147,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
      * @param string $query       Query
      * @param array|string $parameters  Parameters to bind array('idsite'=> 1)
      * @return PDOStatement|bool  PDOStatement or false if failed
-     * @throws Piwik_Tracker_Db_Exception if an exception occured
+     * @throws DbException if an exception occured
      */
     public function query($query, $parameters = array())
     {
@@ -163,7 +171,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
             }
             return $sth;
         } catch (PDOException $e) {
-            throw new Piwik_Tracker_Db_Exception("Error query: " . $e->getMessage() . "
+            throw new DbException("Error query: " . $e->getMessage() . "
 								In query: $query
 								Parameters: " . var_export($parameters, true));
         }

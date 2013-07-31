@@ -9,13 +9,15 @@
  * @package Piwik
  */
 
+namespace Piwik\Unzip;
+
 /**
  * Unzip interface
  *
  * @package Piwik
  * @subpackage Unzip
  */
-interface Piwik_Unzip_Interface
+interface UncompressInterface
 {
     /**
      * Constructor

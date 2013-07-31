@@ -12,6 +12,8 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Http;
+use Piwik\ScheduledTime\Monthly;
+use Piwik\ScheduledTime\Weekly;
 use Piwik\Unzip;
 use Piwik\ScheduledTask;
 
@@ -257,12 +259,12 @@ class Piwik_UserCountry_GeoIPAutoUpdater
         // get new DBs on Wednesday
         switch ($schedulePeriodStr) {
             case self::SCHEDULE_PERIOD_WEEKLY:
-                $schedulePeriod = new Piwik_ScheduledTime_Weekly();
+                $schedulePeriod = new Weekly();
                 $schedulePeriod->setDay(3);
                 break;
             case self::SCHEDULE_PERIOD_MONTHLY:
             default:
-                $schedulePeriod = new Piwik_ScheduledTime_Monthly();
+                $schedulePeriod = new Monthly();
                 $schedulePeriod->setDayOfWeek(3, 0);
                 break;
         }

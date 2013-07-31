@@ -17,6 +17,7 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\Http;
+use Piwik\Session\SessionNamespace;
 use Piwik\Updater;
 use Piwik\View;
 use Piwik\Version;
@@ -48,7 +49,7 @@ class Piwik_Installation_Controller extends Admin
 
     public function __construct()
     {
-        $this->session = new Piwik_Session_Namespace('Piwik_Installation');
+        $this->session = new SessionNamespace('Piwik_Installation');
         if (!isset($this->session->currentStepDone)) {
             $this->session->currentStepDone = '';
             $this->session->skipThisStep = array();

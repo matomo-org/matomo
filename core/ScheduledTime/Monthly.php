@@ -8,16 +8,19 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ScheduledTime;
+
+use Exception;
 use Piwik\ScheduledTime;
 
 /**
- * Piwik_ScheduledTime_Monthly class is used to schedule tasks every month.
+ * Monthly class is used to schedule tasks every month.
  *
  * @see Piwik_ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
  */
-class Piwik_ScheduledTime_Monthly extends ScheduledTime
+class Monthly extends ScheduledTime
 {
     /**
      * Day of the week for scheduled time.

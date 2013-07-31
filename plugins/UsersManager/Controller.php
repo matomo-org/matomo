@@ -13,6 +13,7 @@ use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Tracker\IgnoreCookie;
 use Piwik\View;
 use Piwik\Url;
 use Piwik\Site;
@@ -166,7 +167,7 @@ class Piwik_UsersManager_Controller extends Admin
             'year'       => Piwik_Translate('General_CurrentYear'),
         );
 
-        $view->ignoreCookieSet = Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound();
+        $view->ignoreCookieSet = IgnoreCookie::isIgnoreCookieFound();
         $this->initViewAnonymousUserSettings($view);
         $view->piwikHost = Url::getCurrentHost();
         $this->setBasicVariablesView($view);
@@ -179,7 +180,7 @@ class Piwik_UsersManager_Controller extends Admin
         Piwik::checkUserIsNotAnonymous();
         $this->checkTokenInUrl();
 
-        Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
+        IgnoreCookie::setIgnoreCookie();
         Piwik::redirectToModule('UsersManager', 'userSettings', array('token_auth' => false));
     }
 

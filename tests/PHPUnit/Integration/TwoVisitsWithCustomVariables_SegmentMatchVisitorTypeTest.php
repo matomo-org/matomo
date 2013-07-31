@@ -80,7 +80,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
             // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the values of the name + 5 referers blob)
             'archive_blob_2009_12'    => 30,
             // 6 metrics,
-            // 2 Referer metrics (Referers_distinctSearchEngines/Referers_distinctKeywords),
+            // 2 Referrer metrics (Referers_distinctSearchEngines/Referers_distinctKeywords),
             // 3 done flag (referers, CustomVar, VisitsSummary),
             // X * 2 segments
             'archive_numeric_2009_12' => (6 + 2 + 3) * 2,

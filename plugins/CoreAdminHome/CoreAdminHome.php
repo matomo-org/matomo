@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\ScheduledTask;
 use Piwik\Plugin;
 use Piwik\Db;
+use Piwik\ScheduledTime\Daily;
 
 /**
  *
@@ -41,7 +42,7 @@ class Piwik_CoreAdminHome extends Plugin
         $purgeArchiveTablesTask = new ScheduledTask ($this,
             'purgeOutdatedArchives',
             null,
-            new Piwik_ScheduledTime_Daily(),
+            new Daily(),
             ScheduledTask::HIGH_PRIORITY);
         $tasks[] = $purgeArchiveTablesTask;
 
@@ -49,7 +50,7 @@ class Piwik_CoreAdminHome extends Plugin
         $optimizeArchiveTableTask = new ScheduledTask ($this,
             'optimizeArchiveTable',
             null,
-            new Piwik_ScheduledTime_Daily(),
+            new Daily(),
             ScheduledTask::LOWEST_PRIORITY);
         $tasks[] = $optimizeArchiveTableTask;
     }

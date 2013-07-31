@@ -14,7 +14,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\API\DataTableManipulator;
-use false;
 
 /**
  * This class is responsible for handling the label parameter that can be

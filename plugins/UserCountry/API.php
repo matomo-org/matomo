@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
+use Piwik\Tracker\Visit;
 
 /**
  * @see plugins/UserCountry/functions.php
@@ -75,7 +76,7 @@ class Piwik_UserCountry_API
         $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::REGION_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $separator = Piwik_UserCountry_Archiver::LOCATION_SEPARATOR;
-        $unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
+        $unk = Visit::UNKNOWN_CODE;
 
         // split the label and put the elements into the 'region' and 'country' metadata fields
         $dataTable->filter('ColumnCallbackAddMetadata',
@@ -117,7 +118,7 @@ class Piwik_UserCountry_API
         $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::CITY_RECORD_NAME, $idSite, $period, $date, $segment);
 
          $separator = Piwik_UserCountry_Archiver::LOCATION_SEPARATOR;
-        $unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
+        $unk = Visit::UNKNOWN_CODE;
 
         // split the label and put the elements into the 'city_name', 'region', 'country',
         // 'lat' & 'long' metadata fields

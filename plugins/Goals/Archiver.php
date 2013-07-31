@@ -14,6 +14,7 @@ use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\DataArray;
 use Piwik\PluginsArchiver;
+use Piwik\Tracker\GoalManager;
 
 class Piwik_Goals_Archiver extends PluginsArchiver
 {
@@ -138,7 +139,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
 
             // We don't want to sum Abandoned cart metrics in the overall revenue/conversions/converted visits
             // since it is a "negative conversion"
-            if ($idGoal != Piwik_Tracker_GoalManager::IDGOAL_CART) {
+            if ($idGoal != GoalManager::IDGOAL_CART) {
                 $totalConversions += $row[Metrics::INDEX_GOAL_NB_CONVERSIONS];
                 $totalRevenue += $row[Metrics::INDEX_GOAL_REVENUE];
             }
@@ -198,7 +199,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
     protected function getConversionRate($count)
     {
         $visits = $this->getProcessor()->getNumberOfVisits();
-        return round(100 * $count / $visits, Piwik_Tracker_GoalManager::REVENUE_PRECISION);
+        return round(100 * $count / $visits, GoalManager::REVENUE_PRECISION);
     }
 
     protected function insertReports($recordName, $visitsToConversions)
@@ -258,7 +259,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
         foreach ($this->itemReports as $dimension => $itemAggregatesByType) {
             foreach ($itemAggregatesByType as $ecommerceType => $itemAggregate) {
                 $recordName = $this->dimensionRecord[$dimension];
-                if ($ecommerceType == Piwik_Tracker_GoalManager::IDGOAL_CART) {
+                if ($ecommerceType == GoalManager::IDGOAL_CART) {
                     $recordName = self::getItemRecordNameAbandonedCart($recordName);
                 }
                 $table = $this->getProcessor()->getDataTableFromDataArray($itemAggregate);
@@ -334,7 +335,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
             }
         }
 
-        if ($row['ecommerceType'] == Piwik_Tracker_GoalManager::IDGOAL_CART) {
+        if ($row['ecommerceType'] == GoalManager::IDGOAL_CART) {
             // abandoned carts are the numner of visits with an abandoned cart
             $row[Metrics::INDEX_ECOMMERCE_ORDERS] = $row[Metrics::INDEX_NB_VISITS];
         }
@@ -365,7 +366,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
 
     protected function getEcommerceIdGoals()
     {
-        return array(Piwik_Tracker_GoalManager::IDGOAL_CART, Piwik_Tracker_GoalManager::IDGOAL_ORDER);
+        return array(GoalManager::IDGOAL_CART, GoalManager::IDGOAL_ORDER);
     }
 
     static public function getItemRecordNameAbandonedCart($recordName)
@@ -392,11 +393,11 @@ class Piwik_Goals_Archiver extends PluginsArchiver
         /*
          *  Archive General Goal metrics
          */
-        $goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($this->getProcessor()->getSite()->getId());
+        $goalIdsToSum = GoalManager::getGoalIds($this->getProcessor()->getSite()->getId());
 
         //Ecommerce
-        $goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_ORDER;
-        $goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_CART; //bug here if idgoal=1
+        $goalIdsToSum[] = GoalManager::IDGOAL_ORDER;
+        $goalIdsToSum[] = GoalManager::IDGOAL_CART; //bug here if idgoal=1
         // Overall goal metrics
         $goalIdsToSum[] = false;
 

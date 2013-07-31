@@ -11,6 +11,7 @@ use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Controller;
+use Piwik\Session\SessionNamespace;
 use Piwik\View;
 use Piwik\Db;
 use Piwik\WidgetsList;
@@ -95,7 +96,7 @@ class Piwik_Dashboard_Controller extends Controller
         $layout = $this->dashboard->getDefaultLayout();
         $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         if (Piwik::isUserIsAnonymous()) {
-            $session = new Piwik_Session_Namespace("Piwik_Dashboard");
+            $session = new SessionNamespace("Piwik_Dashboard");
             $session->dashboardLayout = $layout;
             $session->setExpirationSeconds(1800);
         } else {
@@ -259,7 +260,7 @@ class Piwik_Dashboard_Controller extends Controller
         $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         $name = Common::getRequestVar('name', '', 'string');
         if (Piwik::isUserIsAnonymous()) {
-            $session = new Piwik_Session_Namespace("Piwik_Dashboard");
+            $session = new SessionNamespace("Piwik_Dashboard");
             $session->dashboardLayout = $layout;
             $session->setExpirationSeconds(1800);
         } else {
@@ -297,7 +298,7 @@ class Piwik_Dashboard_Controller extends Controller
     {
         if (Piwik::isUserIsAnonymous()) {
 
-            $session = new Piwik_Session_Namespace("Piwik_Dashboard");
+            $session = new SessionNamespace("Piwik_Dashboard");
             if (!isset($session->dashboardLayout)) {
 
                 return $this->dashboard->getDefaultLayout();

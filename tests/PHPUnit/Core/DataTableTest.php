@@ -304,12 +304,14 @@ class DataTableTest extends PHPUnit_Framework_TestCase
 
     public function test_unserializeWorks_WhenDataTableFormatPriorPiwik2()
     {
+        $serializedDatatable = '';
         // Prior Piwik 2.0, we didn't use namespaces. Some
-        $oldSerialized = 'O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:8:{s:8:"test_int";i:150;s:10:"test_float";d:150;s:11:"test_float2";d:14.5;
-        s:14:"test_stringint";i:150;i:0;s:4:"toto";s:17:"integerArrayToSum";a:3:{i:1;i:6;i:2;d:15.5;i:3;a:2:{i:2;i:7;i:1;i:2;}}s:11:"test_float3";d:1.5;s:4:"test";s:11:"string fake";}i:1;a:2:{s:4:"logo";s:9:"piwik.png";s:5:"super";a:1:{i:0;s:39:"this column has an array value, amazing";}}i:3;N;}}';
+        require PIWIK_INCLUDE_PATH . "/tests/resources/pre-Piwik2-DataTable-archived.php";
 
+        $this->assertTrue(strlen($serializedDatatable) > 1000);
 
-
+        $table = unserialize($serializedDatatable);
+        $this->assertTrue($table[0] instanceof \Piwik\DataTable\Row);
     }
 
     /**

@@ -8,24 +8,29 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Tracker;
+
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Tracker\Cache;
+use Piwik\Tracker\IgnoreCookie;
+use Piwik\Tracker\Request;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
  */
-class Piwik_Tracker_VisitExcluded
+class VisitExcluded
 {
-    public function __construct(Piwik_Tracker_Request $request, $ip = false, $userAgent = false)
+    public function __construct(Request $request, $ip = false, $userAgent = false)
     {
         if ($ip === false) {
             $ip = $request->getIp();
         }
-        
+
         if ($userAgent === false) {
             $userAgent = $request->getUserAgent();
         }
-        
+
         $this->request = $request;
         $this->idSite = $request->getIdSite();
         $this->userAgent = $userAgent;
@@ -167,7 +172,7 @@ class Piwik_Tracker_VisitExcluded
      */
     protected function isIgnoreCookieFound()
     {
-        if (Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound()) {
+        if (IgnoreCookie::isIgnoreCookieFound()) {
             Common::printDebug('Piwik ignore cookie was found, visit not tracked.');
             return true;
         }
@@ -181,7 +186,7 @@ class Piwik_Tracker_VisitExcluded
      */
     protected function isVisitorIpExcluded()
     {
-        $websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->idSite);
+        $websiteAttributes = Cache::getCacheWebsiteAttributes($this->idSite);
         if (!empty($websiteAttributes['excluded_ips'])) {
             if (IP::isIpInRange($this->ip, $websiteAttributes['excluded_ips'])) {
                 Common::printDebug('Visitor IP ' . IP::N2P($this->ip) . ' is excluded from being tracked');
@@ -202,7 +207,7 @@ class Piwik_Tracker_VisitExcluded
      */
     protected function isUserAgentExcluded()
     {
-        $websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->idSite);
+        $websiteAttributes = Cache::getCacheWebsiteAttributes($this->idSite);
         if (!empty($websiteAttributes['excluded_user_agents'])) {
             foreach ($websiteAttributes['excluded_user_agents'] as $excludedUserAgent) {
                 // if the excluded user agent string part is in this visit's user agent, this visit should be excluded

@@ -15,6 +15,7 @@ use Piwik\Access;
 use Piwik\Date;
 use Piwik\Site;
 use Piwik\Db;
+use Piwik\Tracker\Cache;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -393,7 +394,7 @@ class Piwik_UsersManager_API
 
         // we reload the access list which doesn't yet take in consideration this new user
         Access::getInstance()->reloadAccess();
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
 
         Piwik_PostEvent('UsersManager.addUser', array($userLogin));
     }
@@ -450,7 +451,7 @@ class Piwik_UsersManager_API
             ),
             "login = '$userLogin'"
         );
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
 
         Piwik_PostEvent('UsersManager.updateUser', array($userLogin));
     }
@@ -475,7 +476,7 @@ class Piwik_UsersManager_API
 
         $this->deleteUserOnly($userLogin);
         $this->deleteUserAccess($userLogin);
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -572,7 +573,7 @@ class Piwik_UsersManager_API
 
         // we reload the access list which doesn't yet take in consideration this new user access
         Access::getInstance()->reloadAccess();
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**

@@ -15,6 +15,8 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Site;
 use Piwik\Db;
+use Piwik\Tracker\Cache;
+use Piwik\Tracker\GoalManager;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
@@ -124,7 +126,7 @@ class Piwik_Goals_API
                  'revenue'         => (float)$revenue,
                  'deleted'         => 0,
             ));
-        Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
+        Cache::regenerateCacheWebsiteAttributes($idSite);
         return $idGoal;
     }
 
@@ -162,7 +164,7 @@ class Piwik_Goals_API
             ),
             "idsite = '$idSite' AND idgoal = '$idGoal'"
         );
-        Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
+        Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
     private function checkPatternIsValid($patternType, $pattern)
@@ -201,7 +203,7 @@ class Piwik_Goals_API
 											AND idgoal = ?",
             array($idSite, $idGoal));
         Db::deleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ?", 100000, array($idGoal));
-        Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
+        Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
     /**
@@ -229,7 +231,7 @@ class Piwik_Goals_API
         }
 
         // Average price = sum product revenue / quantity
-        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_price', 'price', $ordersColumn, Piwik_Tracker_GoalManager::REVENUE_PRECISION));
+        $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_price', 'price', $ordersColumn, GoalManager::REVENUE_PRECISION));
 
         // Average quantity = sum product quantity / abandoned carts
         $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_quantity', 'quantity', $ordersColumn, $precision = 1));
@@ -280,7 +282,7 @@ class Piwik_Goals_API
         }
 
         // Product conversion rate = orders / visits
-        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', Piwik_Tracker_GoalManager::REVENUE_PRECISION));
+        $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', GoalManager::REVENUE_PRECISION));
 
         return $dataTable;
     }
@@ -354,9 +356,9 @@ class Piwik_Goals_API
     protected static function convertSpecialGoalIds($idGoal)
     {
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            return Piwik_Tracker_GoalManager::IDGOAL_ORDER;
+            return GoalManager::IDGOAL_ORDER;
         } else if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-            return Piwik_Tracker_GoalManager::IDGOAL_CART;
+            return GoalManager::IDGOAL_CART;
         } else {
             return $idGoal;
         }

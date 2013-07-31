@@ -9,6 +9,7 @@
  * @package Piwik_UserCountry
  */
 use Piwik\DataTable;
+use Piwik\Tracker\Visit;
 
 /**
  * Return the flag image path for a given country
@@ -24,7 +25,7 @@ function Piwik_getFlagFromCode($code)
     if (file_exists($absolutePath)) {
         return $pathWithCode;
     }
-    return sprintf($pathInPiwik, Piwik_Tracker_Visit::UNKNOWN_CODE);
+    return sprintf($pathInPiwik, Visit::UNKNOWN_CODE);
 }
 
 /**
@@ -49,7 +50,7 @@ function Piwik_ContinentTranslate($label)
  */
 function Piwik_CountryTranslate($label)
 {
-    if ($label == Piwik_Tracker_Visit::UNKNOWN_CODE || $label == '') {
+    if ($label == Visit::UNKNOWN_CODE || $label == '') {
         return Piwik_Translate('General_Unknown');
     }
     return Piwik_Translate('UserCountry_country_' . $label);
@@ -118,7 +119,7 @@ function Piwik_UserCountry_getPrettyRegionName($label)
     list($regionCode, $countryCode) = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
 
     $result = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
-    if ($countryCode != Piwik_Tracker_Visit::UNKNOWN_CODE && $countryCode != '') {
+    if ($countryCode != Visit::UNKNOWN_CODE && $countryCode != '') {
         $result .= ', ' . Piwik_CountryTranslate($countryCode);
     }
     return $result;
@@ -149,13 +150,13 @@ function Piwik_UserCountry_getPrettyCityName($label)
     $regionCode = $parts[1];
     $countryCode = @$parts[2];
 
-    if ($cityName == Piwik_Tracker_Visit::UNKNOWN_CODE || $cityName == '') {
+    if ($cityName == Visit::UNKNOWN_CODE || $cityName == '') {
         $cityName = Piwik_Translate('General_Unknown');
     }
 
     $result = $cityName;
-    if ($countryCode != Piwik_Tracker_Visit::UNKNOWN_CODE && $countryCode != '') {
-        if ($regionCode != '' && $regionCode != Piwik_Tracker_Visit::UNKNOWN_CODE) {
+    if ($countryCode != Visit::UNKNOWN_CODE && $countryCode != '') {
+        if ($regionCode != '' && $regionCode != Visit::UNKNOWN_CODE) {
             $regionName = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
             $result .= ', ' . $regionName;
         }

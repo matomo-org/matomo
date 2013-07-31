@@ -8,44 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Config;
+
+namespace Piwik\Tracker;
+use Exception;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Tracker;
-
-/**
- * Interface of the Action object.
- * New Action classes can be defined in plugins and used instead of the default one.
- *
- * @package Piwik
- * @subpackage Tracker
- */
-interface Piwik_Tracker_Action_Interface
-{
-    const TYPE_ACTION_URL = 1;
-    const TYPE_OUTLINK = 2;
-    const TYPE_DOWNLOAD = 3;
-    const TYPE_ACTION_NAME = 4;
-    const TYPE_ECOMMERCE_ITEM_SKU = 5;
-    const TYPE_ECOMMERCE_ITEM_NAME = 6;
-    const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
-    const TYPE_SITE_SEARCH = 8;
-
-    public function __construct(Piwik_Tracker_Request $request);
-
-    public function getActionUrl();
-
-    public function getActionName();
-
-    public function getActionType();
-
-    public function record($idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction);
-
-    public function getIdActionUrl();
-
-    public function getIdActionName();
-
-    public function getIdLinkVisitAction();
-}
+use Piwik\Tracker\Cache;
+use Piwik\Tracker\Request;
 
 /**
  * Handles an action (page view, download or outlink) by the visitor.
@@ -54,10 +24,10 @@ interface Piwik_Tracker_Action_Interface
  * @package Piwik
  * @subpackage Tracker
  */
-class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
+class Action implements ActionInterface
 {
     /**
-     * @var Piwik_Tracker_Request
+     * @var Request
      */
     private $request;
 
@@ -151,8 +121,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         return $fullUrl;
     }
 
-
-    public function __construct(Piwik_Tracker_Request $request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
         $this->init();
@@ -184,12 +153,12 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
         // we can add here action types for names of other actions than page views (like downloads, outlinks)
         switch ($this->getActionType()) {
-            case Piwik_Tracker_Action_Interface::TYPE_ACTION_URL:
-                $actionNameType = Piwik_Tracker_Action_Interface::TYPE_ACTION_NAME;
+            case ActionInterface::TYPE_ACTION_URL:
+                $actionNameType = ActionInterface::TYPE_ACTION_NAME;
                 break;
 
-            case Piwik_Tracker_Action_Interface::TYPE_SITE_SEARCH:
-                $actionNameType = Piwik_Tracker_Action_Interface::TYPE_SITE_SEARCH;
+            case ActionInterface::TYPE_SITE_SEARCH:
+                $actionNameType = ActionInterface::TYPE_SITE_SEARCH;
                 break;
         }
 
@@ -332,7 +301,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
      */
     public static function shouldRemoveURLFragmentFor($idSite)
     {
-        $websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
+        $websiteAttributes = Cache::getCacheWebsiteAttributes($idSite);
         return !$websiteAttributes['keep_url_fragment'];
     }
 
@@ -383,7 +352,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             $campaignTrackingParameters[1] // campaign keyword parameters
         );
 
-        $website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
+        $website = Cache::getCacheWebsiteAttributes($idSite);
         $excludedParameters = isset($website['excluded_parameters'])
             ? $website['excluded_parameters']
             : array();
@@ -460,7 +429,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     static public function getSqlSelectActionId()
     {
         $sql = "SELECT idaction, type, name
-							FROM " . Common::prefixTable('log_action')
+                        FROM " . Common::prefixTable('log_action')
             . "  WHERE "
             . "		( hash = CRC32(?) AND name = ? AND type = ? ) ";
         return $sql;
@@ -492,7 +461,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             if ($i > 0) {
                 $sql .= " OR ( hash = CRC32(?) AND name = ? AND type = ? ) ";
             }
-            if ($type == Piwik_Tracker_Action::TYPE_ACTION_URL) {
+            if ($type == Tracker\Action::TYPE_ACTION_URL) {
                 // normalize urls by stripping protocol and www
                 $normalizedUrls[$index] = self::normalizeUrl($name);
                 $name = $normalizedUrls[$index]['url'];
@@ -615,8 +584,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         $url = $this->getActionUrl();
         // this code is a mess, but basically, getActionType() returns SITE_SEARCH,
         // but we do want to record the site search URL as an ACTION_URL
-        if ($nameType == Piwik_Tracker_Action::TYPE_SITE_SEARCH) {
-            $urlType = Piwik_Tracker_Action::TYPE_ACTION_URL;
+        if ($nameType == Tracker\Action::TYPE_SITE_SEARCH) {
+            $urlType = Tracker\Action::TYPE_ACTION_URL;
 
             // By default, Site Search does not record the URL for the Search Result page, to slightly improve performance
             if (empty(Config::getInstance()->Tracker['action_sitesearch_record_url'])) {
@@ -631,8 +600,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
         foreach ($loadedActionIds as $loadedActionId) {
             list($name, $type, $actionId) = $loadedActionId;
-            if ($type == Piwik_Tracker_Action::TYPE_ACTION_NAME
-                || $type == Piwik_Tracker_Action::TYPE_SITE_SEARCH
+            if ($type == Tracker\Action::TYPE_ACTION_NAME
+                || $type == Tracker\Action::TYPE_SITE_SEARCH
             ) {
                 $this->idActionName = $actionId;
             } else {
@@ -655,12 +624,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     {
         $this->loadIdActionNameAndUrl();
 
-        $idActionName = in_array($this->getActionType(), array(Piwik_Tracker_Action::TYPE_ACTION_NAME,
-                                                               Piwik_Tracker_Action::TYPE_ACTION_URL,
-                                                               Piwik_Tracker_Action::TYPE_SITE_SEARCH))
+        $idActionName = in_array($this->getActionType(), array(Tracker\Action::TYPE_ACTION_NAME,
+                                                               Tracker\Action::TYPE_ACTION_URL,
+                                                               Tracker\Action::TYPE_SITE_SEARCH))
             ? (int)$this->getIdActionName()
             : null;
-
 
         $insert = array(
             'idvisit'               => $idVisit,
@@ -725,7 +693,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
                 Common::printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_CATEGORY . " for this page view");
             }
             $customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_CATEGORY] = self::CVAR_KEY_SEARCH_CATEGORY;
-            $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_CATEGORY] = Piwik_Tracker_Request::truncateCustomVariable($this->searchCategory);
+            $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_CATEGORY] = Request::truncateCustomVariable($this->searchCategory);
         }
         if ($this->searchCount !== false) {
             if (!empty($customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_COUNT])) {
@@ -832,7 +800,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
     protected function detectSiteSearch($originalUrl)
     {
-        $website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->request->getIdSite());
+        $website = Cache::getCacheWebsiteAttributes($this->request->getIdSite());
         if (empty($website['sitesearch'])) {
             Common::printDebug("Internal 'Site Search' tracking is not enabled for this site. ");
             return false;
@@ -841,7 +809,6 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         $doTrackUrlForSiteSearch = !empty(Config::getInstance()->Tracker['action_sitesearch_record_url']);
 
         $originalUrl = self::cleanupUrl($originalUrl);
-
 
         // Detect Site search from Tracking API parameters rather than URL
         $searchKwd = $this->request->getParam('search');
@@ -902,7 +869,6 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     {
         return is_numeric($count) && $count >= 0;
     }
-
 
     protected function setActionSearchMetadata($category, $count)
     {
@@ -992,7 +958,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     {
         $generationTime = $this->request->getParam('gt_ms');
         if ($generationTime > 0
-            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM) {
+            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM
+        ) {
             $this->timeGeneration = (int)$generationTime;
         }
     }
@@ -1020,8 +987,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
      * charset of the page viewed and we can sometimes work around invalid data
      * being stored.
      *
-     * @param array        $queryParameters Name/value mapping of query parameters.
-     * @param bool|string  $encoding        of the HTML page the URL is for. Used to workaround
+     * @param array $queryParameters Name/value mapping of query parameters.
+     * @param bool|string $encoding        of the HTML page the URL is for. Used to workaround
      *                                      browser bugs & mis-coded webapps. See #3450.
      *
      * @return array
@@ -1061,4 +1028,40 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         }
         return $value;
     }
+}
+
+
+/**
+ * Interface of the Action object.
+ * New Action classes can be defined in plugins and used instead of the default one.
+ *
+ * @package Piwik
+ * @subpackage Tracker
+ */
+interface ActionInterface
+{
+    const TYPE_ACTION_URL = 1;
+    const TYPE_OUTLINK = 2;
+    const TYPE_DOWNLOAD = 3;
+    const TYPE_ACTION_NAME = 4;
+    const TYPE_ECOMMERCE_ITEM_SKU = 5;
+    const TYPE_ECOMMERCE_ITEM_NAME = 6;
+    const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
+    const TYPE_SITE_SEARCH = 8;
+
+    public function __construct(Request $request);
+
+    public function getActionUrl();
+
+    public function getActionName();
+
+    public function getActionType();
+
+    public function record($idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction);
+
+    public function getIdActionUrl();
+
+    public function getIdActionName();
+
+    public function getIdLinkVisitAction();
 }

@@ -207,7 +207,7 @@ class Piwik_Referers extends Plugin
     }
 
     /**
-     * Adds Referer widgets
+     * Adds Referrer widgets
      */
     function addWidgets()
     {

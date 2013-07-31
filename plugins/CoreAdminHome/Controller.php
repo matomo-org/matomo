@@ -15,6 +15,7 @@ use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Nonce;
+use Piwik\Tracker\IgnoreCookie;
 use Piwik\View;
 use Piwik\Url;
 use Piwik\Site;
@@ -171,13 +172,13 @@ class Piwik_CoreAdminHome_Controller extends Admin
      */
     public function optOut()
     {
-        $trackVisits = !Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound();
+        $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
 
         $nonce = Common::getRequestVar('nonce', false);
         $language = Common::getRequestVar('language', '');
         if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
             Nonce::discardNonce('Piwik_OptOut');
-            Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
+            IgnoreCookie::setIgnoreCookie();
             $trackVisits = !$trackVisits;
         }
 

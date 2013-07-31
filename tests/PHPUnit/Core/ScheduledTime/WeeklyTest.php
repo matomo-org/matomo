@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\ScheduledTime\Weekly;
+
 class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
 {
     private static $_JANUARY_01_1971_09_10_00;
@@ -26,7 +28,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests invalid call to setHour on Piwik_ScheduledTime_Weekly
+     * Tests invalid call to setHour on Weekly
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Weekly
@@ -34,7 +36,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeWeeklyNegative()
     {
         try {
-            $weeklySchedule = new Piwik_ScheduledTime_Weekly();
+            $weeklySchedule = new Weekly();
             $weeklySchedule->setHour(-1);
         } catch (Exception $e) {
             return;
@@ -43,7 +45,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests invalid call to setHour on Piwik_ScheduledTime_Weekly
+     * Tests invalid call to setHour on Weekly
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Weekly
@@ -51,7 +53,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeWeeklyOver24()
     {
         try {
-            $weeklySchedule = new Piwik_ScheduledTime_Weekly();
+            $weeklySchedule = new Weekly();
             $weeklySchedule->setHour(25);
         } catch (Exception $e) {
             return;
@@ -60,7 +62,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests invalid call to setDay on Piwik_ScheduledTime_Weekly
+     * Tests invalid call to setDay on Weekly
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Weekly
@@ -68,7 +70,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     public function testSetDayScheduledTimeWeeklyDay0()
     {
         try {
-            $weeklySchedule = new Piwik_ScheduledTime_Weekly();
+            $weeklySchedule = new Weekly();
             $weeklySchedule->setDay(0);
         } catch (Exception $e) {
             return;
@@ -77,7 +79,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests invalid call to setDay on Piwik_ScheduledTime_Weekly
+     * Tests invalid call to setDay on Weekly
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Weekly
@@ -85,7 +87,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     public function testSetDayScheduledTimeWeeklyOver7()
     {
         try {
-            $weeklySchedule = new Piwik_ScheduledTime_Weekly();
+            $weeklySchedule = new Weekly();
             $weeklySchedule->setDay(8);
         } catch (Exception $e) {
             return;
@@ -94,7 +96,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getRescheduledTime on Piwik_ScheduledTime_Weekly with unspecified hour and unspecified day
+     * Tests getRescheduledTime on Weekly with unspecified hour and unspecified day
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Weekly
@@ -112,7 +114,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday January 4 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('Piwik_ScheduledTime_Weekly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_01_1971_09_10_00));
@@ -120,7 +122,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getRescheduledTime on Piwik_ScheduledTime_Weekly with specified hour and unspecified day
+     * Tests getRescheduledTime on Weekly with specified hour and unspecified day
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Weekly
@@ -138,7 +140,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday January 4 1971 09:00:00 UTC
          */
-        $mock = $this->getMock('Piwik_ScheduledTime_Weekly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_01_1971_09_10_00));
@@ -147,7 +149,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getRescheduledTime on Piwik_ScheduledTime_Weekly with unspecified hour and specified day
+     * Tests getRescheduledTime on Weekly with unspecified hour and specified day
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Weekly
@@ -165,7 +167,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday January 11 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('Piwik_ScheduledTime_Weekly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_04_1971_09_00_00));
@@ -183,7 +185,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday January 11 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('Piwik_ScheduledTime_Weekly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_05_1971_09_00_00));
@@ -201,7 +203,7 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Friday January 15 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('Piwik_ScheduledTime_Weekly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_04_1971_09_00_00));

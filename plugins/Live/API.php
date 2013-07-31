@@ -22,6 +22,8 @@ use Piwik\Tracker;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Db;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\GoalManager;
 
 /**
  * @see plugins/Referers/functions.php
@@ -212,8 +214,8 @@ class Piwik_Live_API
     private function getCustomVariablePrettyKey($key)
     {
         $rename = array(
-            Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY => Piwik_Translate('Actions_ColumnSearchCategory'),
-            Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT    => Piwik_Translate('Actions_ColumnSearchResultsCount'),
+            Action::CVAR_KEY_SEARCH_CATEGORY => Piwik_Translate('Actions_ColumnSearchCategory'),
+            Action::CVAR_KEY_SEARCH_COUNT    => Piwik_Translate('Actions_ColumnSearchResultsCount'),
         );
         if (isset($rename[$key])) {
             return $rename[$key];
@@ -508,7 +510,7 @@ class Piwik_Live_API
             }
 
             // Reconstruct url from prefix
-            $actionDetail['url'] = Piwik_Tracker_Action::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
+            $actionDetail['url'] = Action::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
             unset($actionDetail['url_prefix']);
 
             // Set the time spent for this action (which is the timeSpentRef of the next action)
@@ -526,7 +528,7 @@ class Piwik_Live_API
             unset($actionDetail['custom_float']);
 
             // Handle Site Search
-            if ($actionDetail['type'] == Piwik_Tracker_Action::TYPE_SITE_SEARCH) {
+            if ($actionDetail['type'] == Action::TYPE_SITE_SEARCH) {
                 $actionDetail['siteSearchKeyword'] = $actionDetail['pageTitle'];
                 unset($actionDetail['pageTitle']);
             }
@@ -556,7 +558,7 @@ class Piwik_Live_API
         $goalDetails = Db::fetchAll($sql, array($idVisit));
 
         $sql = "SELECT
-						case idgoal when " . Piwik_Tracker_GoalManager::IDGOAL_CART . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
+						case idgoal when " . GoalManager::IDGOAL_CART . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
 						idorder as orderId,
 						" . LogAggregator::getSqlRevenue('revenue') . " as revenue,
 						" . LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
@@ -568,7 +570,7 @@ class Piwik_Live_API
 						log_conversion.server_time as serverTimePretty
 					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
 					WHERE idvisit = ?
-						AND idgoal <= " . Piwik_Tracker_GoalManager::IDGOAL_ORDER . "
+						AND idgoal <= " . GoalManager::IDGOAL_ORDER . "
 					ORDER BY server_time ASC
 					LIMIT 0, $actionsLimit";
         $ecommerceDetails = Db::fetchAll($sql, array($idVisit));
@@ -615,7 +617,7 @@ class Piwik_Live_API
 				";
             $bind = array($idVisit, isset($ecommerceConversion['orderId'])
                 ? $ecommerceConversion['orderId']
-                : Piwik_Tracker_GoalManager::ITEM_IDORDER_ABANDONED_CART
+                : GoalManager::ITEM_IDORDER_ABANDONED_CART
             );
 
             $itemsDetails = Db::fetchAll($sql, $bind);
@@ -641,15 +643,15 @@ class Piwik_Live_API
                 case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
                     $details['icon'] = 'plugins/Zeitgeist/images/' . $details['type'] . '.gif';
                     break;
-                case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:
+                case Tracker\ActionInterface::TYPE_DOWNLOAD:
                     $details['type'] = 'download';
                     $details['icon'] = 'plugins/Zeitgeist/images/download.png';
                     break;
-                case Piwik_Tracker_Action_Interface::TYPE_OUTLINK:
+                case Tracker\ActionInterface::TYPE_OUTLINK:
                     $details['type'] = 'outlink';
                     $details['icon'] = 'plugins/Zeitgeist/images/link.gif';
                     break;
-                case Piwik_Tracker_Action::TYPE_SITE_SEARCH:
+                case Action::TYPE_SITE_SEARCH:
                     $details['type'] = 'search';
                     $details['icon'] = 'plugins/Zeitgeist/images/search_ico.png';
                     break;

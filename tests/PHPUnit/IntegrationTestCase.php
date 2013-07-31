@@ -19,6 +19,7 @@ use Piwik\Access;
 use Piwik\Option;
 use Piwik\ReportRenderer;
 use Piwik\Site;
+use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Db;
 use Piwik\Visualization\Cloud;
@@ -185,7 +186,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // We need to be SU to create websites for tests
         Piwik::setUserIsSuperUser();
 
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         if ($installPlugins === null) $installPlugins = $createEmptyDatabase;
         self::installAndLoadPlugins( $installPlugins);
 
@@ -234,7 +235,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Manager::getInstance()->deleteAll();
         Option::getInstance()->clearCache();
         Site::clearCache();
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         Piwik_PDFReports_API::$cache = array();

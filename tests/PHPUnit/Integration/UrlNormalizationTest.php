@@ -1,5 +1,6 @@
 <?php
 use Piwik\Common;
+use Piwik\Tracker\Action;
 
 /**
  * Tests the URL normalization.
@@ -91,7 +92,7 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
         $this->assertEquals($expected, $count, "only $expected actions expected");
 
         $sql = "SELECT name, url_prefix FROM " . Common::prefixTable('log_action')
-            . " WHERE type = " . Piwik_Tracker_Action::TYPE_ACTION_URL
+            . " WHERE type = " . Action::TYPE_ACTION_URL
             . " ORDER BY idaction ASC";
         $urls = \Zend_Registry::get('db')->fetchAll($sql);
         $expected = array(

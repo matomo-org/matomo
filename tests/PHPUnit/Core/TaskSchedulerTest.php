@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\EventDispatcher;
+use Piwik\ScheduledTime\Daily;
 use Piwik\TaskScheduler;
 use Piwik\ScheduledTask;
 
@@ -179,7 +180,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($executeTask->invoke(
             new TaskScheduler(),
-            new ScheduledTask ($mock, $methodName, $parameterValue, new Piwik_ScheduledTime_Daily())
+            new ScheduledTask ($mock, $methodName, $parameterValue, new Daily())
         ));
     }
 
@@ -190,7 +191,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     {
         $systemTime = time();
 
-        $dailySchedule = $this->getMock('Piwik_ScheduledTime_Daily', array('getTime'));
+        $dailySchedule = $this->getMock('\Piwik\ScheduledTime\Daily', array('getTime'));
         $dailySchedule->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue($systemTime));

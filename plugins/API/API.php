@@ -18,6 +18,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Tracker\GoalManager;
 use Piwik\Version;
 use Piwik\Plugin;
 use Piwik\Translate;
@@ -255,10 +256,10 @@ class Piwik_API_API
     }
 
     static protected $visitEcommerceStatus = array(
-        Piwik_Tracker_GoalManager::TYPE_BUYER_NONE                  => 'none',
-        Piwik_Tracker_GoalManager::TYPE_BUYER_ORDERED               => 'ordered',
-        Piwik_Tracker_GoalManager::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
-        Piwik_Tracker_GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
+        GoalManager::TYPE_BUYER_NONE                  => 'none',
+        GoalManager::TYPE_BUYER_ORDERED               => 'ordered',
+        GoalManager::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
+        GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
     );
 
     /**

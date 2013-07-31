@@ -60,7 +60,7 @@ class Piwik_Proxy_Controller extends Controller
         // validate referrer
         $referrer = Url::getReferer();
         if (empty($referrer) || !Url::isLocalUrl($referrer)) {
-            die('Invalid Referer detected - This means that your web browser is not sending the "Referer URL" which is
+            die('Invalid Referrer detected - This means that your web browser is not sending the "Referrer URL" which is
 				required to proceed with the redirect. Verify your browser settings and add-ons, to check why your browser
 				 is not sending this referer.
 

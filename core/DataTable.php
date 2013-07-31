@@ -142,8 +142,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *                        [ keyword2, +1000% ]
  *                        [ keyword3, -430% ]
  *
- * @see Piwik_DataTable\Row A DataTable is composed of Piwik_DataTable\Row
- *
  * @package Piwik
  * @subpackage DataTable
  */
@@ -261,7 +259,7 @@ class DataTable
 
     /**
      * The operations that should be used when aggregating columns from multiple rows.
-     * @see self::addDataTable() and Piwik_DataTable\Row::sumRow()
+     * @see self::addDataTable() and DataTable\Row::sumRow()
      */
     protected $columnAggregationOperations = array();
 
@@ -1445,7 +1443,7 @@ class DataTable
 
     /**
      * Set the aggregation operation for a column, e.g. "min".
-     * @see self::addDataTable() and Piwik_DataTable\Row::sumRow()
+     * @see self::addDataTable() and DataTable\Row::sumRow()
      *
      * @param string $columnName
      * @param string $operation

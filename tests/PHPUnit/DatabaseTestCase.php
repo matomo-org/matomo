@@ -11,6 +11,7 @@ use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Option;
 use Piwik\Site;
+use Piwik\Tracker\Cache;
 
 /**
  * Tests extending DatabaseTestCase are much slower to run: the setUp will
@@ -72,7 +73,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Option::getInstance()->clearCache();
         Piwik_PDFReports_API::$cache = array();
         Site::clearCache();
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         \Zend_Registry::_unsetInstance();

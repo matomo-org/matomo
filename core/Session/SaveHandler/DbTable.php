@@ -9,13 +9,19 @@
  * @package Piwik
  */
 
+namespace Piwik\Session\SaveHandler;
+
+use Zend_Session;
+use Zend_Session_SaveHandler_Interface;
+use true;
+
 /**
  * Database-backed session save handler
  *
  * @package Piwik
  * @subpackage Session
  */
-class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Interface
+class DbTable implements Zend_Session_SaveHandler_Interface
 {
     protected $config;
     protected $maxLifetime;

@@ -21,9 +21,8 @@ use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Session;
 use Piwik\Tracker;
-use Piwik_Tracker_Cache;
-use Piwik_Tracker_Db;
-use Piwik_Tracker_GoalManager;
+use Piwik\Tracker\Cache;
+use Piwik\Tracker\GoalManager;
 use Piwik\Url;
 use Piwik_UsersManager_API;
 use Piwik\View;
@@ -148,7 +147,7 @@ class Piwik
     {
         AssetManager::removeMergedAssets();
         View::clearCompiledTemplates();
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -1094,20 +1093,19 @@ class Piwik
         Piwik::log(sprintf("Total queries = %d (total sql time = %.2fs)", $queryCount, $totalTime));
     }
 
+
+    static function maxSumMsFirst($a, $b)
+    {
+        return $a['sum_time_ms'] < $b['sum_time_ms'];
+    }
+
     /**
      * Print profiling report for the tracker
      *
-     * @param Piwik_Tracker_Db $db  Tracker database object (or null)
+     * @param Db $db  Tracker database object (or null)
      */
     static public function printSqlProfilingReportTracker($db = null)
     {
-        if (!function_exists('maxSumMsFirst')) {
-            function maxSumMsFirst($a, $b)
-            {
-                return $a['sum_time_ms'] < $b['sum_time_ms'];
-            }
-        }
-
         if (is_null($db)) {
             $db = Tracker::getDatabase();
         }
@@ -1117,7 +1115,7 @@ class Piwik
         if ($all === false) {
             return;
         }
-        uasort($all, 'maxSumMsFirst');
+        uasort($all, 'self::maxSumMsFirst');
 
         $infoIndexedByQuery = array();
         foreach ($all as $infoQuery) {
@@ -1374,7 +1372,7 @@ class Piwik
                 // 0.0 => 0
                 $value = round($value);
             } else {
-                $precision = Piwik_Tracker_GoalManager::REVENUE_PRECISION;
+                $precision = GoalManager::REVENUE_PRECISION;
                 $value = sprintf("%01." . $precision . "f", $value);
             }
         }

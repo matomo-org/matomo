@@ -1,9 +1,14 @@
 <?php
+namespace Piwik\Tracker;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Tracker;
+use Piwik\Tracker\Cache;
+use Piwik_UserCountry_LocationProvider;
 
 /**
  * Piwik - Open source web analytics
@@ -15,7 +20,7 @@ use Piwik\Tracker;
  * @package Piwik
  */
 
-class Piwik_Tracker_Request
+class Request
 {
     /**
      * @var array
@@ -24,7 +29,7 @@ class Piwik_Tracker_Request
 
     public function __construct($params, $tokenAuth = false)
     {
-        if(!is_array($params)) {
+        if (!is_array($params)) {
             $params = array();
         }
         $this->params = $params;
@@ -32,13 +37,13 @@ class Piwik_Tracker_Request
         $this->enforcedIp = false;
 
         // When the 'url' and referer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
-        // The URL can default to the Referer, which will be in this case
+        // The URL can default to the Referrer, which will be in this case
         // the URL of the page containing the Simple Image beacon
         if (empty($this->params['urlref'])
             && empty($this->params['url'])
         ) {
             $url = @$_SERVER['HTTP_REFERER'];
-            if(!empty($url)) {
+            if (!empty($url)) {
                 $this->params['url'] = $url;
             }
         }
@@ -66,7 +71,7 @@ class Piwik_Tracker_Request
             try {
                 $idSite = $this->getIdSite();
                 $this->isAuthenticated = $this->authenticateSuperUserOrAdmin($tokenAuth, $idSite);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $this->isAuthenticated = false;
             }
             if (!$this->isAuthenticated) {
@@ -94,7 +99,7 @@ class Piwik_Tracker_Request
         if (!empty($idSite)
             && $idSite > 0
         ) {
-            $website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
+            $website = Cache::getCacheWebsiteAttributes($idSite);
             $adminTokenAuth = $website['admin_token_auth'];
             if (in_array($tokenAuth, $adminTokenAuth)) {
                 return true;

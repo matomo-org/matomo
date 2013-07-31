@@ -13,6 +13,7 @@ use Piwik\Date;
 use Piwik\Common;
 use Piwik\ScheduledTask;
 use Piwik\Plugin;
+use Piwik\ScheduledTime\Weekly;
 
 /**
  *
@@ -52,7 +53,7 @@ class Piwik_DBStats extends Plugin
             $this,
             'cacheDataByArchiveNameReports',
             null,
-            new Piwik_ScheduledTime_Weekly(),
+            new Weekly(),
             ScheduledTask::LOWEST_PRIORITY
         );
         $tasks[] = $cacheDataByArchiveNameReportsTask;

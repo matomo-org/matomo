@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Unzip;
+use Piwik\Unzip\Gzip;
+use Piwik\Unzip\PclZip;
+use Piwik\Unzip\ZipArchive;
+use Piwik\Unzip\Tar;
 
 class UnzipTest extends PHPUnit_Framework_TestCase
 {
@@ -29,7 +33,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
             $this->assertFileNotExists(dirname(__FILE__) . '/../../tests/' . $test . '.txt');
             unlink($extractDir . $test . '.txt');
 
-            $unzip = new Piwik_Unzip_ZipArchive($filename);
+            $unzip = new ZipArchive($filename);
             $res = $unzip->extract($extractDir);
             $this->assertEquals(1, count($res));
             $this->assertFileExists($extractDir . $test . '.txt');
@@ -46,7 +50,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $this->assertFileNotExists(dirname(__FILE__) . '/../../tests/' . $test . '.txt');
         unlink($extractDir . $test . '.txt');
 
-        $unzip = new Piwik_Unzip_PclZip($filename);
+        $unzip = new PclZip($filename);
         $res = $unzip->extract($extractDir);
         $this->assertEquals(1, count($res));
         $this->assertFileExists($extractDir . $test . '.txt');
@@ -67,7 +71,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $filename = dirname(__FILE__) . '/Unzip/' . $test . '.zip';
 
         if (class_exists('ZipArchive', false)) {
-            $unzip = new Piwik_Unzip_ZipArchive($filename);
+            $unzip = new ZipArchive($filename);
             $res = $unzip->extract($extractDir);
             $this->assertEquals(0, $res);
             $this->assertFileNotExists($extractDir . $test . '.txt');
@@ -77,7 +81,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
             $this->assertFileNotExists(dirname(__FILE__) . '/../../' . $test . '.txt');
         }
 
-        $unzip = new Piwik_Unzip_PclZip($filename);
+        $unzip = new PclZip($filename);
         $res = $unzip->extract($extractDir);
         $this->assertEquals(0, $res);
         $this->assertFileNotExists($extractDir . $test . '.txt');
@@ -99,14 +103,14 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $filename = dirname(__FILE__) . '/Unzip/' . $test . '.zip';
 
         if (class_exists('ZipArchive', false)) {
-            $unzip = new Piwik_Unzip_ZipArchive($filename);
+            $unzip = new ZipArchive($filename);
             $res = $unzip->extract($extractDir);
             $this->assertEquals(0, $res);
             $this->assertFileNotExists($extractDir . $test . '.txt');
             $this->assertFileNotExists(dirname(__FILE__) . '/' . $test . '.txt');
         }
 
-        $unzip = new Piwik_Unzip_PclZip($filename);
+        $unzip = new PclZip($filename);
         $res = $unzip->extract($extractDir);
         $this->assertEquals(0, $res);
         $this->assertFileNotExists($extractDir . $test . '.txt');
@@ -123,7 +127,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $filename = dirname(__FILE__) . '/Unzip/zaabs.zip';
         $extractDir = PIWIK_USER_PATH . '/tmp/latest/';
 
-        $unzip = new Piwik_Unzip_ZipArchive($filename);
+        $unzip = new ZipArchive($filename);
         $this->assertContains('No error', $unzip->errorInfo());
     }
 
@@ -137,7 +141,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $filename = dirname(__FILE__) . '/Unzip/empty.zip';
         $extractDir = PIWIK_USER_PATH . '/tmp/latest/';
 
-        $unzip = new Piwik_Unzip_ZipArchive($filename);
+        $unzip = new ZipArchive($filename);
         $res = $unzip->extract($extractDir);
         $this->assertEquals(0, $res);
     }
@@ -152,7 +156,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $filename = dirname(__FILE__) . '/Unzip/NotExisting.zip';
 
         try {
-            $unzip = new Piwik_Unzip_ZipArchive($filename);
+            $unzip = new ZipArchive($filename);
         } catch (Exception $e) {
             return;
         }
@@ -169,7 +173,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $extractDir = PIWIK_USER_PATH . '/tmp/latest/';
         $filename = dirname(__FILE__) . '/Unzip/NotExisting.zip';
 
-        $unzip = new Piwik_Unzip_PclZip($filename);
+        $unzip = new PclZip($filename);
         $res = $unzip->extract($extractDir);
         $this->assertEquals(0, $res);
 
@@ -186,7 +190,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $extractFile = $extractDir . 'testgz.txt';
         $filename = dirname(__FILE__) . '/Unzip/test.gz';
 
-        $unzip = new Piwik_Unzip_Gzip($filename);
+        $unzip = new Gzip($filename);
         $res = $unzip->extract($extractFile);
         $this->assertTrue($res);
 
@@ -202,7 +206,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $extractDir = PIWIK_USER_PATH . '/tmp/latest/';
         $filename = dirname(__FILE__) . '/Unzip/test.tar.gz';
 
-        $unzip = new Piwik_Unzip_Tar($filename, 'gz');
+        $unzip = new Tar($filename, 'gz');
         $res = $unzip->extract($extractDir);
         $this->assertTrue($res);
 

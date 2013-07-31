@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\Tracker\Action;
 
 /**
  * This static class provides:
@@ -38,28 +39,28 @@ class Piwik_Actions_ArchivingHelper
         $rowsProcessed = 0;
         while ($row = $query->fetch()) {
             if (empty($row['idaction'])) {
-                $row['type'] = ($fieldQueried == 'idaction_url' ? Piwik_Tracker_Action::TYPE_ACTION_URL : Piwik_Tracker_Action::TYPE_ACTION_NAME);
+                $row['type'] = ($fieldQueried == 'idaction_url' ? Action::TYPE_ACTION_URL : Action::TYPE_ACTION_NAME);
                 // This will be replaced with 'X not defined' later
                 $row['name'] = '';
                 // Yes, this is kind of a hack, so we don't mix 'page url not defined' with 'page title not defined' etc.
                 $row['idaction'] = -$row['type'];
             }
 
-            if ($row['type'] != Piwik_Tracker_Action::TYPE_SITE_SEARCH) {
+            if ($row['type'] != Action::TYPE_SITE_SEARCH) {
                 unset($row[Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT]);
             }
 
             // This will appear as <url /> in the API, which is actually very important to keep
             // eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
             $url = '';
-            if ($row['type'] == Piwik_Tracker_Action::TYPE_SITE_SEARCH
-                || $row['type'] == Piwik_Tracker_Action::TYPE_ACTION_NAME
+            if ($row['type'] == Action::TYPE_SITE_SEARCH
+                || $row['type'] == Action::TYPE_ACTION_NAME
             ) {
                 $url = null;
             } elseif (!empty($row['name'])
                 && $row['name'] != DataTable::LABEL_SUMMARY_ROW
             ) {
-                $url = Piwik_Tracker_Action::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
+                $url = Action::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
             }
 
             if (isset($row['name'])
@@ -116,8 +117,8 @@ class Piwik_Actions_ArchivingHelper
                 }
             }
 
-            if ($row['type'] != Piwik_Tracker_Action::TYPE_ACTION_URL
-                && $row['type'] != Piwik_Tracker_Action::TYPE_ACTION_NAME
+            if ($row['type'] != Action::TYPE_ACTION_URL
+                && $row['type'] != Action::TYPE_ACTION_NAME
             ) {
                 // only keep performance metrics when they're used (i.e. for URLs and page titles)
                 if (array_key_exists(Metrics::INDEX_PAGE_SUM_TIME_GENERATION, $row)) {
@@ -308,7 +309,7 @@ class Piwik_Actions_ArchivingHelper
     static public function getActionExplodedNames($name, $type, $urlPrefix = null)
     {
         // Site Search does not split Search keywords
-        if ($type == Piwik_Tracker_Action::TYPE_SITE_SEARCH) {
+        if ($type == Action::TYPE_SITE_SEARCH) {
             return array($name);
         }
 
@@ -334,8 +335,8 @@ class Piwik_Actions_ArchivingHelper
             $urlFragment = $matches[3];
         }
 
-        if ($type == Piwik_Tracker_Action::TYPE_DOWNLOAD
-            || $type == Piwik_Tracker_Action::TYPE_OUTLINK
+        if ($type == Action::TYPE_DOWNLOAD
+            || $type == Action::TYPE_OUTLINK
         ) {
             if ($isUrl) {
                 return array(trim($urlHost), '/' . trim($urlPath));
@@ -350,7 +351,7 @@ class Piwik_Actions_ArchivingHelper
             }
         }
 
-        if ($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
+        if ($type == Action::TYPE_ACTION_NAME) {
             $categoryDelimiter = self::$actionTitleCategoryDelimiter;
         } else {
             $categoryDelimiter = self::$actionUrlCategoryDelimiter;
@@ -358,7 +359,7 @@ class Piwik_Actions_ArchivingHelper
 
 
         if ($isUrl) {
-            $urlFragment = Piwik_Tracker_Action::processUrlFragment($urlFragment);
+            $urlFragment = Action::processUrlFragment($urlFragment);
             if (!empty($urlFragment)) {
                 $name .= '#' . $urlFragment;
             }
@@ -386,7 +387,7 @@ class Piwik_Actions_ArchivingHelper
         // we are careful to prefix the page URL / name with some value
         // so that if a page has the same name as a category
         // we don't merge both entries
-        if ($type != Piwik_Tracker_Action::TYPE_ACTION_NAME) {
+        if ($type != Action::TYPE_ACTION_NAME) {
             $lastPageName = '/' . $lastPageName;
         } else {
             $lastPageName = ' ' . $lastPageName;
@@ -431,7 +432,7 @@ class Piwik_Actions_ArchivingHelper
             self::$defaultActionNameWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageName'));
             self::$defaultActionUrlWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'));
         }
-        if ($type == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
+        if ($type == Action::TYPE_ACTION_NAME) {
             return self::$defaultActionNameWhenNotDefined;
         }
         return self::$defaultActionUrlWhenNotDefined;

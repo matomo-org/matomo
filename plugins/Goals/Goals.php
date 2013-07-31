@@ -11,6 +11,7 @@
 use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Tracker\GoalManager;
 use Piwik\TranslationWriter;
 use Piwik\Plugin;
 use Piwik\Site;
@@ -54,7 +55,7 @@ class Piwik_Goals extends Plugin
             return $columns;
         }
         // Orders
-        if ($idGoal === Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+        if ($idGoal === GoalManager::IDGOAL_ORDER) {
             $columns = array_merge($columns, array(
                                                   'revenue_subtotal',
                                                   'revenue_tax',
@@ -63,7 +64,7 @@ class Piwik_Goals extends Plugin
                                              ));
         }
         // Abandoned carts & orders
-        if ($idGoal <= Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+        if ($idGoal <= GoalManager::IDGOAL_ORDER) {
             $columns[] = 'items';
         }
         return $columns;

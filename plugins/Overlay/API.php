@@ -3,6 +3,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Access;
 use Piwik\DataTable;
+use Piwik\Tracker\Action;
 
 /**
  * Piwik - Open source web analytics
@@ -79,7 +80,7 @@ class Piwik_Overlay_API
     {
         $this->authenticate($idSite);
 
-        $url = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
+        $url = Action::excludeQueryParametersFromUrl($url, $idSite);
         // we don't unsanitize $url here. it will be done in the Transitions plugin.
 
         $resultDataTable = new DataTable;

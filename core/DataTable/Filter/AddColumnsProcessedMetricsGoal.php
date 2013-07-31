@@ -15,7 +15,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetrics;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik_Tracker_GoalManager;
+use Piwik\Tracker\GoalManager;
 
 /**
  * @package Piwik
@@ -73,7 +73,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
     {
         // Add standard processed metrics
         parent::filter($table);
-        $roundingPrecision = Piwik_Tracker_GoalManager::REVENUE_PRECISION;
+        $roundingPrecision = GoalManager::REVENUE_PRECISION;
         $expectedColumns = array();
         foreach ($table->getRows() as $key => $row) {
             $currentColumns = $row->getColumns();
@@ -89,7 +89,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                     if ($goalId == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
                         continue;
                     }
-                    if ($goalId >= Piwik_Tracker_GoalManager::IDGOAL_ORDER
+                    if ($goalId >= GoalManager::IDGOAL_ORDER
                         || $goalId == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
                     ) {
                         $revenue += (int)$this->getColumn($columnValue, Metrics::INDEX_GOAL_REVENUE, Metrics::$mappingFromIdToNameGoal);

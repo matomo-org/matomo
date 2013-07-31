@@ -116,7 +116,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
             // mangled HTTP_HOST
             array('www.example.com', 'http://example.com/path/#anchor', '/path/index.php', 'http://example.com/path/referrer', true),
 
-            // suppressed Referer
+            // suppressed Referrer
             array('www.example.com', 'http://www.example.com/path/#anchor', '/path/index.php', null, true),
             array('www.example.com', 'http://www.example.com/path/#anchor', '/path/index.php', '', true),
 

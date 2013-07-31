@@ -8,6 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Tracker;
+
 use Piwik\Config;
 use Piwik\Cookie;
 
@@ -17,7 +19,7 @@ use Piwik\Cookie;
  * @package Piwik
  * @subpackage Tracker
  */
-class Piwik_Tracker_IgnoreCookie
+class IgnoreCookie
 {
     /**
      * Get tracking cookie

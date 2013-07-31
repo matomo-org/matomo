@@ -14,7 +14,7 @@ use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik_Session_SaveHandler_DbTable;
+use Piwik\Session\SaveHandler\DbTable;
 use Zend_Registry;
 use Zend_Session;
 
@@ -109,7 +109,7 @@ class Session extends Zend_Session
                 'db'             => $db,
             );
 
-            $saveHandler = new Piwik_Session_SaveHandler_DbTable($config);
+            $saveHandler = new DbTable($config);
             if ($saveHandler) {
                 self::setSaveHandler($saveHandler);
             }

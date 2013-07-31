@@ -13,7 +13,7 @@ namespace Piwik;
 use Exception;
 use Piwik\IP;
 use Piwik\Tracker;
-use Piwik_Tracker_Cache;
+use Piwik\Tracker\Cache;
 use Piwik_UserCountry_LocationProvider_Default;
 
 /**
@@ -1551,7 +1551,7 @@ class Common
      */
     public static function getCurrentLocationProviderId()
     {
-        $cache = Piwik_Tracker_Cache::getCacheGeneral();
+        $cache = Cache::getCacheGeneral();
         return empty($cache['currentLocationProviderId'])
             ? Piwik_UserCountry_LocationProvider_Default::ID
             : $cache['currentLocationProviderId'];

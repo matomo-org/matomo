@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\ScheduledTime\Monthly;
+
 class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
@@ -32,7 +34,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests invalid call to setHour on Piwik_ScheduledTime_Monthly
+     * Tests invalid call to setHour on Monthly
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Monthly
@@ -40,7 +42,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeMonthlyNegative()
     {
         try {
-            $monthlySchedule = new Piwik_ScheduledTime_Monthly();
+            $monthlySchedule = new Monthly();
             $monthlySchedule->setHour(-1);
         } catch (Exception $e) {
             return;
@@ -49,7 +51,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests invalid call to setHour on Piwik_ScheduledTime_Monthly
+     * Tests invalid call to setHour on Monthly
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Monthly
@@ -57,7 +59,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimMonthlyOver24()
     {
         try {
-            $monthlySchedule = new Piwik_ScheduledTime_Monthly();
+            $monthlySchedule = new Monthly();
             $monthlySchedule->setHour(25);
         } catch (Exception $e) {
             return;
@@ -66,7 +68,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests invalid call to setDay on Piwik_ScheduledTime_Monthly
+     * Tests invalid call to setDay on Monthly
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Monthly
@@ -74,7 +76,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     public function testSetDayScheduledTimeMonthlyDay0()
     {
         try {
-            $monthlySchedule = new Piwik_ScheduledTime_Monthly();
+            $monthlySchedule = new Monthly();
             $monthlySchedule->setDay(0);
         } catch (Exception $e) {
             return;
@@ -83,7 +85,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests invalid call to setDay on Piwik_ScheduledTime_Monthly
+     * Tests invalid call to setDay on Monthly
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Monthly
@@ -91,7 +93,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     public function testSetDayScheduledTimeMonthlyOver31()
     {
         try {
-            $monthlySchedule = new Piwik_ScheduledTime_Monthly();
+            $monthlySchedule = new Monthly();
             $monthlySchedule->setDay(32);
         } catch (Exception $e) {
             return;
@@ -100,7 +102,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getRescheduledTime on Piwik_ScheduledTime_Monthly with unspecified hour and unspecified day
+     * Tests getRescheduledTime on Monthly with unspecified hour and unspecified day
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Monthly
@@ -118,7 +120,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday February 1 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('Piwik_ScheduledTime_Monthly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_01_1971_09_00_00));
@@ -135,7 +137,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
          * Expected :
          *  getRescheduledTime returns Monday February 1 1971 00:00:00 UTC
          */
-        $mock = $this->getMock('Piwik_ScheduledTime_Monthly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_05_1971_09_00_00));
@@ -144,7 +146,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * Tests getRescheduledTime on Piwik_ScheduledTime_Monthly with unspecified hour and specified day
+     * Tests getRescheduledTime on Monthly with unspecified hour and specified day
      * @group Core
      * @group ScheduledTime
      * @group ScheduledTime_Monthly
@@ -153,7 +155,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRescheduledTimeMonthlyUnspecifiedHourSpecifiedDay($currentTime, $day, $expected)
     {
-        $mock = $this->getMock('Piwik_ScheduledTime_Monthly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$$currentTime));
@@ -226,7 +228,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
      */
     public function testMonthlyDayOfWeek()
     {
-        $mock = $this->getMock('Piwik_ScheduledTime_Monthly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_15_1971_09_00_00));
@@ -246,7 +248,7 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
      */
     public function testMonthlyDayOfWeekInvalid($day, $week)
     {
-        $mock = $this->getMock('Piwik_ScheduledTime_Monthly', array('getTime'));
+        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_15_1971_09_00_00));

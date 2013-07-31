@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Tracker\Action;
 
 /**
  * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' target='_blank'>Custom Variables</a> names and values.
@@ -86,7 +87,7 @@ class Piwik_CustomVariables_API
      */
     public static function getReservedCustomVariableKeys()
     {
-        return array('_pks', '_pkn', '_pkc', '_pkp', Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT, Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY);
+        return array('_pks', '_pkn', '_pkc', '_pkp', Action::CVAR_KEY_SEARCH_COUNT, Action::CVAR_KEY_SEARCH_CATEGORY);
     }
 
     /**

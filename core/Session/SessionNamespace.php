@@ -8,7 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Session;
+
 use Piwik\Common;
+use Zend_Session_Namespace;
 
 /**
  * Session namespace.
@@ -16,7 +19,7 @@ use Piwik\Common;
  * @package Piwik
  * @subpackage Session
  */
-class Piwik_Session_Namespace extends Zend_Session_Namespace
+class SessionNamespace extends Zend_Session_Namespace
 {
     /**
      * @param string $namespace

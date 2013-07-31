@@ -17,7 +17,7 @@ use Piwik\Common;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Date;
-use Piwik_Tracker_Cache;
+use Piwik\Tracker\Cache;
 
 /**
  * This class contains Archiving rules/logic which are used in several places
@@ -232,6 +232,6 @@ class Rules
             throw new Exception('Browser trigger archiving must be set to true or false.');
         }
         Piwik_SetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoLoad = true);
-        Piwik_Tracker_Cache::clearCacheGeneral();
+        Cache::clearCacheGeneral();
     }
 }

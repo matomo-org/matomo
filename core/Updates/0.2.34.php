@@ -9,6 +9,7 @@
  * @package Updates
  */
 use Piwik\Piwik;
+use Piwik\Tracker\Cache;
 use Piwik\Updates;
 
 /**
@@ -21,6 +22,6 @@ class Piwik_Updates_0_2_34 extends Updates
         // force regeneration of cache files following #648
         Piwik::setUserIsSuperUser();
         $allSiteIds = Piwik_SitesManager_API::getInstance()->getAllSitesId();
-        Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($allSiteIds);
+        Cache::regenerateCacheWebsiteAttributes($allSiteIds);
     }
 }

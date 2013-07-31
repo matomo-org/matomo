@@ -186,7 +186,7 @@ class FrontController
      *
      * @return Exception
      */
-    public function createConfigObject()
+    static public function createConfigObject()
     {
         $exceptionToThrow = false;
         try {
@@ -233,7 +233,7 @@ class FrontController
 
             Translate::getInstance()->loadEnglishTranslation();
 
-            $exceptionToThrow = $this->createConfigObject();
+            $exceptionToThrow = self::createConfigObject();
 
             if (Session::isFileBasedSessions()) {
                 Session::start();
