@@ -9,7 +9,7 @@
  * @package Piwik
  */
 
-namespace Piwik\ViewDataTable\GenerateGraphHtml;
+namespace Piwik\ViewDataTable\GenerateGraphHTML;
 
 use Piwik\Common;
 use Piwik\Period\Range;

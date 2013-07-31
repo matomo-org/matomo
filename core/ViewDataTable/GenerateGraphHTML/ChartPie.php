@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\ViewDataTable\GenerateGraphHtml;
+namespace Piwik\ViewDataTable\GenerateGraphHTML;
 
 use Piwik\ViewDataTable\GenerateGraphHTML;
 

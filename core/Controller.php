@@ -30,9 +30,8 @@ use Piwik\Url;
 use Piwik_UsersManager_API;
 use Piwik\View;
 use Piwik\ViewDataTable;
-use Piwik\ViewDataTable\GenerateGraphHtml\ChartEvolution;
+use Piwik\ViewDataTable\GenerateGraphHTML\ChartEvolution;
 use Zend_Registry;
-use false;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php

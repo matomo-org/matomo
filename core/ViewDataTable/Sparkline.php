@@ -14,7 +14,6 @@ use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\ViewDataTable;
-use Piwik\Visualization\Sparkline;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
@@ -54,7 +53,7 @@ class Sparkline extends ViewDataTable
             $values = array_fill(0, 30, 0);
         }
 
-        $graph = new Sparkline();
+        $graph = new \Piwik\Visualization\Sparkline();
         $graph->setValues($values);
 
         $height = Common::getRequestVar('height', 0, 'int');

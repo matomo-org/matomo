@@ -15,7 +15,7 @@ use Piwik\Metrics;
 use Piwik\Date;
 use Piwik\ViewDataTable;
 use Piwik\Url;
-use Piwik\ViewDataTable\GenerateGraphHtml\ChartEvolution;
+use Piwik\ViewDataTable\GenerateGraphHTML\ChartEvolution;
 use Piwik\Visualization\Chart\Evolution;
 
 /**
