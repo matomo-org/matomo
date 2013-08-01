@@ -441,20 +441,23 @@ class Piwik_Referers extends Plugin
 
     private function getDisplayPropertiesForGetCampaigns()
     {
-        $help = Piwik_Translate('Referers_CampaignFooterHelp',
-            array('<a target="_blank" href="http://piwik.org/docs/tracking-campaigns/">',
-                  '</a> - <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/url-builder/">',
-                  '</a>')
-        );
-
-        return array(
+        $result = array(
             'subtable_controller_action' => 'getKeywordsFromCampaignId',
             'show_exclude_low_population' => false,
             'show_goals' => true,
             'filter_limit' => 25,
             'translations' => array('label' => Piwik_Translate('Referers_ColumnCampaign')),
-            'show_footer_message' => $help,
         );
+
+        if (Common::getRequestVar('viewDataTable', false) != 'graphEvolution') {
+            $result['show_footer_message'] = Piwik_Translate('Referers_CampaignFooterHelp',
+                array('<a target="_blank" href="http://piwik.org/docs/tracking-campaigns/">',
+                      '</a> - <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/url-builder/">',
+                      '</a>')
+            );
+        }
+
+        return $result;
     }
 
     private function getDisplayPropertiesForGetKeywordsFromCampaignId()
