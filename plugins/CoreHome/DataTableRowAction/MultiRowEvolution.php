@@ -82,7 +82,7 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         $view = parent::getRowEvolutionGraph($graphType, $metrics);
-        $view->setCustomParameter(self::IS_MULTI_EVOLUTION_PARAM, 1); // set in JS
+        $view->custom_parameters[self::IS_MULTI_EVOLUTION_PARAM] = 1; // set in JS
         return $view;
     }
 }

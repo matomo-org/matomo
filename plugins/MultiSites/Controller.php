@@ -224,7 +224,7 @@ class Piwik_MultiSites_Controller extends Controller
             $api = "Goals.get";
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
-        $view->setColumnsToDisplay($columns);
+        $view->columns_to_display = $columns;
         return $this->renderView($view, $fetch);
     }
 }

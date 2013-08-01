@@ -33,15 +33,18 @@ abstract class GenerateGraphHTML extends ViewDataTable
 
     protected $graphType;
 
+    /**
+     * Default constructor.
+     */
     public function __construct()
     {
         parent::__construct();
-
-        $this->disableOffsetInformationAndPaginationControls();
-        $this->disableExcludeLowPopulation();
-        $this->disableSearchBox();
-        $this->enableShowExportAsImageIcon();
-
+        
+        $this->viewProperties['show_offset_information'] = false;
+        $this->viewProperties['show_pagination_control'] = false;
+        $this->viewProperties['show_exclude_low_population'] = false;
+        $this->viewProperties['show_search'] = false;
+        $this->viewProperties['show_export_as_image_icon'] = true;
         $this->viewProperties['display_percentage_in_tooltip'] = true;
         $this->viewProperties['y_axis_unit'] = '';
         $this->viewProperties['show_all_ticks'] = 0;
@@ -53,65 +56,6 @@ abstract class GenerateGraphHTML extends ViewDataTable
         $this->viewProperties['selectable_columns'] = array();
         $this->viewProperties['graph_width'] = '100%';
         $this->viewProperties['graph_height'] = self::DEFAULT_GRAPH_HEIGHT . 'px';
-    }
-
-    /**
-     * Default constructor.
-     */
-    public function setAxisYUnit($unit)
-    {
-        $this->viewProperties['y_axis_unit'] = $unit;
-    }
-
-    /**
-     * Sets the number max of elements to display (number of pie slice, vertical bars, etc.)
-     * If the data has more elements than $limit then the last part of the data will be the sum of all the remaining data.
-     *
-     * @param int $limit
-     */
-    public function setGraphLimit($limit)
-    {
-        $this->viewProperties['graph_limit'] = $limit;
-    }
-
-    /**
-     * The percentage in tooltips is computed based on the sum of all values for the plotted column.
-     * If the sum of the column in the data set is not the number of elements in the data set,
-     * for example when plotting visits that have a given plugin enabled:
-     * one visit can have several plugins, hence the sum is much greater than the number of visits.
-     * In this case displaying the percentage doesn't make sense.
-     */
-    public function disallowPercentageInGraphTooltip()
-    {
-        $this->viewProperties['display_percentage_in_tooltip'] = false;
-    }
-
-    /**
-     * Sets the columns that can be added/removed by the user
-     * This is done on data level (not html level) because the columns might change after reloading via sparklines
-     * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
-     */
-    public function setSelectableColumns($columnsNames)
-    {
-        // the array contains values if enableShowGoals() has been used
-        // add $columnsNames to the beginning of the array
-        $this->viewProperties['selectable_columns'] = array_merge($columnsNames, $this->viewProperties['selectable_columns']);
-    }
-
-    /**
-     * The implementation of this method in ViewDataTable passes to the graph whether the
-     * goals icon should be displayed or not. Here, we use it to implicitly add the goal metrics
-     * to the metrics picker.
-     */
-    public function enableShowGoals()
-    {
-        parent::enableShowGoals();
-
-        $goalMetrics = array('nb_conversions', 'revenue');
-        $this->viewProperties['selectable_columns'] = array_merge($this->viewProperties['selectable_columns'], $goalMetrics);
-
-        $this->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
-        $this->setColumnTranslation('revenue', Piwik_Translate('General_TotalRevenue'));
     }
 
     public function init($currentControllerName,
@@ -130,7 +74,7 @@ abstract class GenerateGraphHTML extends ViewDataTable
         $this->viewProperties['request_parameters_to_modify']['action'] = $currentControllerAction;
 
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
-        if ($this->getSortedColumn() != 'label') {
+        if ($this->viewProperties['filter_sort_column'] != 'label') {
             $columns = $this->viewProperties['columns_to_display'];
 
             $firstColumn = reset($columns);
@@ -138,7 +82,8 @@ abstract class GenerateGraphHTML extends ViewDataTable
                 $firstColumn = next($columns);
             }
 
-            $this->setSortedColumn($firstColumn);
+            $this->viewProperties['filter_sort_column'] = $firstColumn;
+            $this->viewProperties['filter_sort_order'] = 'desc';
         }
 
         // selectable columns
@@ -149,52 +94,6 @@ abstract class GenerateGraphHTML extends ViewDataTable
             }
             $this->viewProperties['selectable_columns'] = $selectableColumns;
         }
-
-        if ($this->viewProperties['show_goals']) {
-            $this->enableShowGoals();
-        }
-    }
-
-    public function enableShowExportAsImageIcon()
-    {
-        $this->viewProperties['show_export_as_image_icon'] = true;
-    }
-
-    public function addRowEvolutionSeriesToggle($initiallyShowAllMetrics)
-    {
-        $this->viewProperties['external_series_toggle'] = 'RowEvolutionSeriesToggle';
-        $this->viewProperties['external_series_toggle_show_all'] = $initiallyShowAllMetrics;
-    }
-
-    /**
-     * Show every x-axis tick instead of just every other one.
-     */
-    public function showAllTicks()
-    {
-        $this->viewProperties['show_all_ticks'] = 1;
-    }
-
-    /**
-     * Adds a row to the report containing totals for contained metrics. Mainly useful
-     * for evolution graphs where displaying the totals w/ the metrics is useful.
-     */
-    public function addTotalRow()
-    {
-        $this->viewProperties['add_total_row'] = 1;
-    }
-
-    /**
-     * Adds the same series picker as parent::setSelectableColumns but the selectable series are not
-     * columns of a single row but the same column across multiple rows, e.g. the number of visits
-     * for each referrer type.
-     * @param array $visibleRows the rows that are initially visible
-     * @param string $matchBy the way the items in $visibleRows are matched with the data. possible values:
-     *                            - label: matches the label of the row
-     */
-    public function addRowPicker($visibleRows, $matchBy = 'label')
-    {
-        $this->viewProperties['row_picker_mach_rows_by'] = $matchBy;
-        $this->viewProperties['row_picker_visible_rows'] = is_array($visibleRows) ? $visibleRows : array($visibleRows);
     }
 
     /**
@@ -227,11 +126,11 @@ abstract class GenerateGraphHTML extends ViewDataTable
         $this->mainAlreadyExecuted = true;
 
         // Graphs require the full dataset, so no filters
-        $this->disableGenericFilters();
-
+        $this->disable_generic_filters = true;
+        
         // the queued filters will be manually applied later. This is to ensure that filtering using search
         // will be done on the table before the labels are enhanced (see ReplaceColumnNames)
-        $this->disableQueuedFilters();
+        $this->disable_queued_filters = true;
 
         try {
             $this->loadDataTableFromAPI();
@@ -259,5 +158,18 @@ abstract class GenerateGraphHTML extends ViewDataTable
     public function getDefaultDataTableCssClass()
     {
         return 'dataTableGraph';
+    }
+
+    protected function overrideViewProperties()
+    {
+        parent::overrideViewProperties();
+
+        if ($this->viewProperties['show_goals']) {
+            $goalMetrics = array('nb_conversions', 'revenue');
+            $this->viewProperties['selectable_columns'] = array_merge($this->viewProperties['selectable_columns'], $goalMetrics);
+
+            $this->translations['nb_conversions'] = Piwik_Translate('Goals_ColumnConversions');
+            $this->translations['revenue'] = Piwik_Translate('General_TotalRevenue');
+        }
     }
 }

@@ -263,7 +263,7 @@ class Piwik_Referers_Controller extends Controller
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getRefererType');
 
-        $view->addTotalRow();
+        $view->add_total_row = true;
 
         // configure displayed columns
         if (empty($columns)) {
@@ -271,7 +271,7 @@ class Piwik_Referers_Controller extends Controller
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
         $columns = !is_array($columns) ? array($columns) : $columns;
-        $view->setColumnsToDisplay($columns);
+        $view->columns_to_display = $columns;
 
         // configure selectable columns
         if (Common::getRequestVar('period', false) == 'day') {
@@ -279,7 +279,7 @@ class Piwik_Referers_Controller extends Controller
         } else {
             $selectable = array('nb_visits', 'nb_actions');
         }
-        $view->setSelectableColumns($selectable);
+        $view->selectable_columns = $selectable;
 
         // configure displayed rows
         $visibleRows = Common::getRequestVar('rows', false);
@@ -288,7 +288,7 @@ class Piwik_Referers_Controller extends Controller
             $visibleRows = Piwik::getArrayFromApiParameter($visibleRows);
 
             // typeReferer is redundant if rows are defined, so make sure it's not used
-            $view->setCustomParameter('typeReferer', false);
+            $view->custom_parameters['typeReferer'] = false;
         } else {
             // use $typeReferer as default
             if ($typeReferer === false) {
@@ -297,46 +297,48 @@ class Piwik_Referers_Controller extends Controller
             $label = self::getTranslatedReferrerTypeLabel($typeReferer);
             $total = Piwik_Translate('General_Total');
             $visibleRows = array($label, $total);
-            $view->setRequestParametersToModify(array('rows' => $label . ',' . $total));
+            $view->request_parameters_to_modify['rows'] = $label . ',' . $total;
         }
-        $view->addRowPicker($visibleRows);
+        $view->row_picker_mach_rows_by = 'label';
+        $view->row_picker_visible_rows = $visibleRows;
 
-        $view->setReportDocumentation(Piwik_Translate('Referers_EvolutionDocumentation') . '<br />'
+        $view->documentation = Piwik_Translate('Referers_EvolutionDocumentation') . '<br />'
             . Piwik_Translate('General_BrokenDownReportDocumentation') . '<br />'
-            . Piwik_Translate('Referers_EvolutionDocumentationMoreInfo', '&quot;' . Piwik_Translate('Referers_DetailsByRefererType') . '&quot;'));
+            . Piwik_Translate('Referers_EvolutionDocumentationMoreInfo', '&quot;'
+            . Piwik_Translate('Referers_DetailsByRefererType') . '&quot;');
 
         return $this->renderView($view, $fetch);
     }
 
-    function getLastDistinctSearchEnginesGraph($fetch = false)
+    public function getLastDistinctSearchEnginesGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referers.getNumberOfDistinctSearchEngines");
-        $view->setColumnTranslation('Referers_distinctSearchEngines', ucfirst(Piwik_Translate('Referers_DistinctSearchEngines')));
-        $view->setColumnsToDisplay(array('Referers_distinctSearchEngines'));
+        $view->translations['Referers_distinctSearchEngines'] = ucfirst(Piwik_Translate('Referers_DistinctSearchEngines'));
+        $view->columns_to_display = array('Referers_distinctSearchEngines');
         return $this->renderView($view, $fetch);
     }
 
-    function getLastDistinctKeywordsGraph($fetch = false)
+    public function getLastDistinctKeywordsGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referers.getNumberOfDistinctKeywords");
-        $view->setColumnTranslation('Referers_distinctKeywords', ucfirst(Piwik_Translate('Referers_DistinctKeywords')));
-        $view->setColumnsToDisplay(array('Referers_distinctKeywords'));
+        $view->translations['Referers_distinctKeywords'] = ucfirst(Piwik_Translate('Referers_DistinctKeywords'));
+        $view->columns_to_display = array('Referers_distinctKeywords');
         return $this->renderView($view, $fetch);
     }
 
-    function getLastDistinctWebsitesGraph($fetch = false)
+    public function getLastDistinctWebsitesGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referers.getNumberOfDistinctWebsites");
-        $view->setColumnTranslation('Referers_distinctWebsites', ucfirst(Piwik_Translate('Referers_DistinctWebsites')));
-        $view->setColumnsToDisplay(array('Referers_distinctWebsites'));
+        $view->translations['Referers_distinctWebsites'] = ucfirst(Piwik_Translate('Referers_DistinctWebsites'));
+        $view->columns_to_display = array('Referers_distinctWebsites');
         return $this->renderView($view, $fetch);
     }
 
-    function getLastDistinctCampaignsGraph($fetch = false)
+    public function getLastDistinctCampaignsGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referers.getNumberOfDistinctCampaigns");
-        $view->setColumnTranslation('Referers_distinctCampaigns', ucfirst(Piwik_Translate('Referers_DistinctCampaigns')));
-        $view->setColumnsToDisplay(array('Referers_distinctCampaigns'));
+        $view->translations['Referers_distinctCampaigns'] = ucfirst(Piwik_Translate('Referers_DistinctCampaigns'));
+        $view->columns_to_display = array('Referers_distinctCampaigns');
         return $this->renderView($view, $fetch);
     }
 

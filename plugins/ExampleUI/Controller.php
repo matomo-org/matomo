@@ -130,8 +130,9 @@ class Piwik_ExampleUI_Controller extends Controller
     private function echoDataTableSearchEnginesFiltered()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getSearchEngines');
-        $view->setColumnsToDisplay('nb_visits');
-        $view->setSearchPattern('^(Google|Yahoo!)$', 'label');
+        $view->columns_to_display = array('nb_visits');
+        $view->filter_pattern = '^(Google|Yahoo!)$';
+        $view->filter_column = 'label';
         return $this->renderView($view);
     }
 }

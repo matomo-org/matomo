@@ -21,6 +21,7 @@ use Piwik\DataTable;
 use Piwik\Url;
 use Piwik\Site;
 use Piwik\ViewDataTable\Properties;
+use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik_API_API;
 
 /**
@@ -57,6 +58,12 @@ use Piwik_API_API;
  */
 abstract class ViewDataTable
 {
+    /**
+     * TODO
+     * TODO: change to private
+     */
+    protected $visualization;
+
     /**
      * Cache for getAllReportDisplayProperties result.
      * 
@@ -132,6 +139,7 @@ abstract class ViewDataTable
      */
     public function __construct()
     {
+        $this->viewProperties['visualization_properties'] = new VisualizationPropertiesProxy(null);
         $this->viewProperties['datatable_template'] = '@CoreHome/_dataTable';
         $this->viewProperties['show_goals'] = false;
         $this->viewProperties['show_ecommerce'] = false;
@@ -199,7 +207,6 @@ abstract class ViewDataTable
     public function &__get($name)
     {
         Properties::checkValidPropertyName($name);
-
         return $this->viewProperties[$name];
     }
 
@@ -215,17 +222,33 @@ abstract class ViewDataTable
     public function __set($name, $value)
     {
         Properties::checkValidPropertyName($name);
-
         return $this->viewProperties[$name] = $value;
     }
 
     /**
-     * Method to be implemented by the ViewDataTable_*.
-     * This method should create and initialize a $this->view object @see Piwik_View_Interface
-     *
-     * @return mixed either prints the result or returns the output string
+     * TODO
      */
-    abstract public function main();
+    public function main()
+    {
+        if ($this->mainAlreadyExecuted) {
+            return;
+        }
+        $this->mainAlreadyExecuted = true;
+
+        try {
+            $this->loadDataTableFromAPI();
+        } catch (\Piwik\NoAccessException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            Piwik::log("Failed to get data from API: " . $e->getMessage());
+
+            $this->loadingError = array('message' => $e->getMessage());
+        }
+
+        $this->postDataTableLoadedFromAPI();
+
+        $this->view = $this->buildView($this->visualization);
+    }
 
     /**
      * Unique string ID that defines the format of the dataTable, eg. "pieChart", "table", etc.
@@ -411,10 +434,6 @@ abstract class ViewDataTable
         $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
         $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
 
-        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('Goals')) {
-            $this->viewProperties['show_goals'] = false;
-        }
-
         // the exclude low population threshold value is sometimes obtained by requesting data.
         // to avoid issuing unecessary requests when display properties are determined by metadata,
         // we allow it to be a closure.
@@ -467,16 +486,6 @@ abstract class ViewDataTable
     public function getCurrentControllerName()
     {
         return $this->currentControllerName;
-    }
-
-    public function getApiMethodToRequestDataTable()
-    {
-        return $this->viewProperties['apiMethodToRequestDataTable'];
-    }
-
-    public function getControllerActionCalledWhenRequestSubTable()
-    {
-        return $this->viewProperties['subtable_controller_action'];
     }
 
     /**
@@ -554,7 +563,7 @@ abstract class ViewDataTable
         if ($name == 'translations') {
             $this->viewProperties[$name] = array_merge($this->viewProperties[$name], $value);
         } else if ($name == 'relatedReports') {
-            $this->addRelatedReports($reportTitle = false, $value);
+            $this->addRelatedReports($value);
         } else if ($name == 'filters') {
             foreach ($value as $filterInfo) {
                 if (!is_array($filterInfo)) {
@@ -795,37 +804,13 @@ abstract class ViewDataTable
             $requestArray['segment'] = $segment;
         }
 
+        if (self::shouldLoadExpanded()) {
+            $requestArray['expanded'] = 1;
+        }
+
         $requestArray = array_merge($requestArray, $this->viewProperties['request_parameters_to_modify']);
 
         return $requestArray;
-    }
-
-    /**
-     * For convenience, the client code can call methods that are defined in a specific children class
-     * without testing the children class type, which would trigger an error with a different children class.
-     *
-     * Example:
-     *  ViewDataTable/Html.php defines a setColumnsToDisplay(). The client code calls this methods even if
-     *  the ViewDataTable object is a ViewDataTable_Cloud instance (he doesn't know because of the factory()).
-     *  But ViewDataTable_Cloud doesn't define the setColumnsToDisplay() method.
-     *  Because we don't want to force users to test for the object type we simply catch these
-     *  calls when they are not defined in the child and do nothing.
-     *
-     * @param string $function
-     * @param array $args
-     */
-    public function __call($function, $args)
-    {
-    }
-
-    /**
-     * Returns array of properties, eg. "show_footer", "show_search", etc.
-     *
-     * @return array of boolean
-     */
-    protected function getViewProperties()
-    {
-        return $this->viewProperties;
     }
 
     /**
@@ -976,376 +961,6 @@ abstract class ViewDataTable
         return $this->viewProperties[$nameVar];
     }
 
-    /**
-     * Sets a set of extra request query parameters to be used when querying API data.
-     *
-     * @param array $params
-     */
-    public function setRequestParametersToModify($params)
-    {
-        $this->viewProperties['request_parameters_to_modify'] += $params;
-    }
-
-    /**
-     * The generic filters (limit, offset, sort by visit desc) will not be applied to this datatable.
-     */
-    public function disableGenericFilters()
-    {
-        $this->viewProperties['disable_generic_filters'] = true;
-    }
-
-    /**
-     * The queued filters (replace column names, enhance column with percentage signs, add logo metadata information, etc.)
-     * will not be applied to this datatable. They can be manually applied by calling applyQueuedFilters on the datatable.
-     */
-    public function disableQueuedFilters()
-    {
-        $this->viewProperties['disable_queued_filters'] = true;
-    }
-
-    /**
-     * The "X-Y of Z" and the "< Previous / Next >"-Buttons won't be displayed under this table
-     */
-    public function disableOffsetInformationAndPaginationControls()
-    {
-        $this->viewProperties['show_offset_information'] = false;
-        $this->viewProperties['show_pagination_control'] = false;
-    }
-
-    /**
-     * The "< Previous / Next >"-Buttons won't be displayed under this table
-     */
-    public function disableShowPaginationControl()
-    {
-        $this->viewProperties['show_pagination_control'] = false;
-    }
-
-    /**
-     * Ensures the limit dropdown will always be shown, even if pagination is disabled.
-     */
-    public function alwaysShowLimitDropdown()
-    {
-        $this->viewProperties['show_limit_control'] = true;
-    }
-
-    /**
-     * The "X-Y of Z" won't be displayed under this table
-     */
-    public function disableOffsetInformation()
-    {
-        $this->viewProperties['show_offset_information'] = false;
-    }
-
-    /**
-     * The search box won't be displayed under this table
-     */
-    public function disableSearchBox()
-    {
-        $this->viewProperties['show_search'] = false;
-    }
-
-    /**
-     * Do not sort this table, leave it as it comes out of the API
-     */
-    public function disableSort()
-    {
-        $this->viewProperties['enable_sort'] = false;
-    }
-
-    /**
-     * Do not show the footer icons (show all columns icon, "plus" icon)
-     */
-    public function disableFooterIcons()
-    {
-        $this->viewProperties['show_footer_icons'] = false;
-    }
-
-    /**
-     * When this method is called, the output will not include the template datatable_footer
-     */
-    public function disableFooter()
-    {
-        $this->viewProperties['show_footer'] = false;
-    }
-
-    /**
-     * The "Include low population" link won't be displayed under this table
-     */
-    public function disableExcludeLowPopulation()
-    {
-        $this->viewProperties['show_exclude_low_population'] = false;
-    }
-
-    /**
-     * Whether or not to show the "View table" icon
-     */
-    public function disableShowTable()
-    {
-        $this->viewProperties['show_table'] = false;
-    }
-
-    /**
-     * Whether or not to show the "View more data" icon
-     */
-    public function disableShowAllColumns()
-    {
-        $this->viewProperties['show_table_all_columns'] = false;
-    }
-
-    /**
-     * Whether or not to show the tag cloud,  pie charts, bar chart icons
-     */
-    public function disableShowAllViewsIcons()
-    {
-        $this->viewProperties['show_all_views_icons'] = false;
-    }
-
-    /**
-     * Whether or not to hide view icons altogether.
-     * The difference to disableShowAllViewsIcons is that not even the single icon
-     * will be shown. This icon might cause trouble because it reloads the graph on click.
-     */
-    public function hideAllViewsIcons()
-    {
-        $this->viewProperties['show_all_views_icons'] = false;
-        $this->viewProperties['show_active_view_icon'] = false;
-    }
-
-    /**
-     * Whether or not to show the annotations view. This method has no effect if
-     * the Annotations plugin is not loaded.
-     */
-    public function showAnnotationsView()
-    {
-        if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
-            return;
-        }
-
-        $this->viewProperties['hide_annotations_view'] = false;
-    }
-
-    /**
-     * Whether or not to show the bar chart icon.
-     */
-    public function disableShowBarChart()
-    {
-        $this->viewProperties['show_bar_chart'] = false;
-    }
-
-    /**
-     * Whether or not to show the pie chart icon.
-     */
-    public function disableShowPieChart()
-    {
-        $this->viewProperties['show_pie_chart'] = false;
-    }
-
-    /**
-     * Whether or not to show the tag cloud icon.
-     */
-    public function disableTagCloud()
-    {
-        $this->viewProperties['show_tag_cloud'] = false;
-    }
-
-    /**
-     * Whether or not to show related reports in the footer
-     */
-    public function disableShowRelatedReports()
-    {
-        $this->viewProperties['show_related_reports'] = false;
-    }
-
-    /**
-     * Whether or not to show the export to RSS feed icon
-     */
-    public function disableShowExportAsRssFeed()
-    {
-        $this->viewProperties['show_export_as_rss_feed'] = false;
-    }
-
-    /**
-     * Whether or not to show the "goal" icon
-     */
-    public function enableShowGoals()
-    {
-        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Goals')) {
-            $this->viewProperties['show_goals'] = true;
-        }
-    }
-
-    /**
-     * Whether or not to show the "Ecommerce orders/cart" icons
-     */
-    public function enableShowEcommerce()
-    {
-        $this->viewProperties['show_ecommerce'] = true;
-    }
-
-    /**
-     * Whether or not to show the summary row on every page of results. The default behavior
-     * is to treat the summary row like any other row.
-     */
-    public function alwaysShowSummaryRow()
-    {
-        $this->viewProperties['keep_summary_row'] = true;
-    }
-
-    /**
-     * Sets the value to use for the Exclude low population filter.
-     *
-     * @param int|float $columnName  If a row value is less than this value, it will be removed from the dataTable
-     * @param string    $minValue    The name of the column for which we compare the value to $minValue
-     */
-    public function setExcludeLowPopulation($columnName = null, $minValue = null)
-    {
-        if (is_null($columnName)) {
-            $columnName = 'nb_visits';
-        }
-        $this->viewProperties['filter_excludelowpop'] = $columnName;
-        $this->viewProperties['filter_excludelowpop_value'] = $minValue;
-    }
-
-    /**
-     * Sets the pattern to look for in the table (only rows matching the pattern will be kept)
-     *
-     * @param string $pattern to look for
-     * @param string $column to compare the pattern to
-     */
-    public function setSearchPattern($pattern, $column)
-    {
-        $this->viewProperties['filter_pattern'] = $pattern;
-        $this->viewProperties['filter_column'] = $column;
-    }
-
-    /**
-     * Sets the maximum number of rows of the table
-     *
-     * @param int $limit
-     */
-    public function setLimit($limit)
-    {
-        if ($limit !== 0) {
-            $this->viewProperties['filter_limit'] = $limit;
-        }
-    }
-
-    /**
-     * Will display a message in the DataTable footer.
-     *
-     * @param string $message Message
-     */
-    public function setFooterMessage($message)
-    {
-        $this->viewProperties['show_footer_message'] = $message;
-    }
-
-    /**
-     * Sets the dataTable column to sort by. This sorting will be applied before applying the (offset, limit) filter.
-     *
-     * @param int|string $columnId eg. 'nb_visits' for some tables, or Metrics::INDEX_NB_VISITS for others
-     * @param string $order desc or asc
-     */
-    public function setSortedColumn($columnId, $order = 'desc')
-    {
-        $this->viewProperties['filter_sort_column'] = $columnId;
-        $this->viewProperties['filter_sort_order'] = $order;
-    }
-
-    /**
-     * Returns the column name on which the table will be sorted
-     *
-     * @return string
-     */
-    public function getSortedColumn()
-    {
-        return isset($this->viewProperties['filter_sort_column']) ? $this->viewProperties['filter_sort_column'] : false;
-    }
-
-    /**
-     * Sets translation string for given column
-     *
-     * @param string $columnName column name
-     * @param string $columnTranslation column name translation
-     * @throws \Exception
-     */
-    public function setColumnTranslation($columnName, $columnTranslation)
-    {
-        $this->viewProperties['translations'][$columnName] = $columnTranslation;
-    }
-
-    /**
-     * Returns column translation if available, in other case given column name
-     *
-     * @param string $columnName column name
-     * @return string
-     */
-    public function getColumnTranslation($columnName)
-    {
-        if (isset($this->viewProperties['translations'][$columnName])) {
-            return $this->viewProperties['translations'][$columnName];
-        }
-        return $columnName;
-    }
-
-    /**
-     * Set the documentation of a metric used in the report.
-     * Please note, that the default way of doing this is by using
-     * getReportMetadata. Only use this method, if you have a good
-     * reason to do so.
-     *
-     * @param string $metricIdentifier The idenentifier string of
-     *                    the metric
-     * @param string $documentation The metric documentation as a
-     *                    translated string
-     */
-    public function setMetricDocumentation($metricIdentifier, $documentation)
-    {
-        $this->viewProperties['metrics_documentation'][$metricIdentifier] = $documentation;
-    }
-
-    /**
-     * Returns metric documentation, or false
-     *
-     * @param string $columnName column name
-     * @return bool
-     */
-    public function getMetricDocumentation($columnName)
-    {
-        if (empty($this->viewProperties['metrics_documentation'])) {
-            $this->loadDocumentation();
-        }
-
-        if (!empty($this->viewProperties['metrics_documentation'][$columnName])) {
-            return $this->viewProperties['metrics_documentation'][$columnName];
-        }
-
-        return false;
-    }
-
-    /**
-     * Set the documentation of the report.
-     * Please note, that the default way of doing this is by using
-     * getReportMetadata. Only use this method, if you have a good
-     * reason to do so.
-     *
-     * @param string $documentation The report documentation as a
-     *                    translated string
-     */
-    public function setReportDocumentation($documentation)
-    {
-        $this->viewProperties['documentation'] = $documentation;
-    }
-
-    /**
-     * Returns report documentation, or false
-     * @return array|bool
-     */
-    public function getReportDocumentation()
-    {
-        return $this->viewProperties['documentation'];
-    }
-
     /** Load documentation from the API */
     private function loadDocumentation()
     {
@@ -1361,49 +976,6 @@ abstract class ViewDataTable
         if (isset($report['documentation'])) {
             $this->viewProperties['documentation'] = $report['documentation'];
         }
-    }
-
-    /**
-     * Sets the columns that will be displayed in the HTML output
-     * By default all columns are displayed ($columnsNames = array() will display all columns)
-     *
-     * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
-     */
-    public function setColumnsToDisplay($columnsNames)
-    {
-        if (!is_array($columnsNames)) {
-            if (strpos($columnsNames, ',') !== false) {
-                // array values are comma separated
-                $columnsNames = explode(',', $columnsNames);
-            } else {
-                $columnsNames = array($columnsNames);
-            }
-        }
-        $this->viewProperties['columns_to_display'] = array_filter($columnsNames);
-    }
-
-    /**
-     * Returns columns names to display, in order.
-     * If no columns were specified to be displayed, return all columns found in the first row.
-     * If the data table has empty_columns meta data set, those columns will be removed.
-     * @return array
-     */
-    public function getColumnsToDisplay()
-    {
-        if (empty($this->viewProperties['columns_to_display'])) {
-            $row = $this->dataTable->getFirstRow();
-            if (empty($row)) {
-                return array();
-            }
-
-            return array_keys($row->getColumns());
-        }
-
-        $this->viewProperties['columns_to_display'] = array_filter($this->viewProperties['columns_to_display']);
-
-        $this->removeEmptyColumnsFromDisplay();
-
-        return $this->viewProperties['columns_to_display'];
     }
 
     private function removeEmptyColumnsFromDisplay()
@@ -1428,48 +1000,6 @@ abstract class ViewDataTable
     }
 
     /**
-     * Set whether to highlight the summary row or not. If not highlighted, it will
-     * look like every other row.
-     */
-    public function setHighlightSummaryRow($highlightSummaryRow)
-    {
-        $this->viewProperties['highlight_summary_row'] = $highlightSummaryRow;
-    }
-
-    /**
-     * Sets the name of the metadata to use for a custom tooltip.
-     */
-    public function setTooltipMetadataName($metadataName)
-    {
-        $this->viewProperties['tooltip_metadata_name'] = $metadataName;
-    }
-
-    /**
-     * Sets columns translations array.
-     *
-     * @param array $columnsTranslations An associative array indexed by column names, eg. array('nb_visit'=>"Numer of visits")
-     */
-    public function setColumnsTranslations($columnsTranslations)
-    {
-        $this->viewProperties['translations'] += $columnsTranslations;
-    }
-
-    /**
-     * Sets a custom parameter, that will be printed in the javascript array associated with each datatable
-     *
-     * @param string $parameter name
-     * @param mixed $value
-     * @throws \Exception
-     */
-    public function setCustomParameter($parameter, $value)
-    {
-        if (isset($this->viewProperties['custom_parameters'][$parameter])) {
-            throw new \Exception("$parameter is already defined for this DataTable.");
-        }
-        $this->viewProperties['custom_parameters'][$parameter] = $value;
-    }
-
-    /**
      * Queues a Datatable filter, that will be applied once the datatable is loaded from the API.
      * Useful when the controller needs to add columns, or decorate existing columns, when these filters don't
      * necessarily make sense directly in the API.
@@ -1489,21 +1019,7 @@ abstract class ViewDataTable
         }
     }
 
-    /**
-     * Adds one report to the set of reports that are related to this one. Related reports
-     * are displayed in the footer as links. When they are clicked, the report will change to
-     * the related report.
-     *
-     * Make sure to call setReportTitle so this report will be displayed correctly.
-     *
-     * @param string $module The report's controller name, ie, 'UserSettings'.
-     * @param string $action The report's controller action, ie, 'getBrowser'.
-     * @param string $title The text used to describe the related report.
-     * @param array $queryParams Any specific query params to use when loading the report.
-     *                           This can be used to, for example, make a goal report a related
-     *                           report (by adding an idGoal parameter).
-     */
-    public function addRelatedReport($module, $action, $title, $queryParams = array())
+    private function addRelatedReport($module, $action, $title, $queryParams = array())
     {
         // don't add the related report if it references this report
         if ($this->currentControllerName == $module && $this->currentControllerAction == $action) {
@@ -1514,49 +1030,12 @@ abstract class ViewDataTable
         $this->viewProperties['relatedReports'][$url] = $title;
     }
 
-    /**
-     * Adds a set of reports that are related to this one. Related reports are displayed in
-     * the footer as links. When they are clicked, the report will change to the related report.
-     *
-     * If you need to associate specific query params with a report, use the addRelatedReport
-     * method instead of this one.
-     *
-     * @param string $thisReportTitle The title of this report.
-     * @param array $relatedReports An array mapping report IDs ('Controller.methodName') with
-     *                              display text.
-     */
-    public function addRelatedReports($thisReportTitle, $relatedReports)
+    private function addRelatedReports($relatedReports)
     {
-        if (!empty($thisReportTitle)) {
-            $this->setReportTitle($thisReportTitle);
-        }
-
         foreach ($relatedReports as $report => $title) {
             list($module, $action) = explode('.', $report);
             $this->addRelatedReport($module, $action, $title);
         }
-    }
-
-    /**
-     * Sets the title of this report.
-     *
-     * @param string $title
-     */
-    public function setReportTitle($title)
-    {
-        $this->viewProperties['title'] = $title;
-    }
-
-    /**
-     * Sets a custom URL to use to reference this report.
-     *
-     * @param string $module
-     * @param string $action
-     * @param array $queryParams
-     */
-    public function setReportUrl($module, $action, $queryParams = array())
-    {
-        $this->viewProperties['self_url'] = $this->getBaseReportUrl($module, $action, $queryParams);
     }
 
     /**
@@ -1706,12 +1185,30 @@ abstract class ViewDataTable
         return false;
     }
 
-    protected function buildView($visualization, $template = false)
+    protected function overrideViewProperties()
     {
-        if ($template === false) {
-            $template = $this->viewProperties['datatable_template'];
+        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('Goals')) {
+            $this->viewProperties['show_goals'] = false;
         }
 
+        if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
+            $this->viewProperties['hide_annotations_view'] = true;
+        }
+
+        if ($this->idSubtable) {
+            $this->viewProperties['datatable_template'] = $this->viewProperties['subtable_template'];
+        }
+    }
+
+    protected function buildView($visualization)
+    {
+        if (method_exists($visualization, 'getDefaultPropertyValues')) {
+            $this->setPropertyDefaults($visualization->getDefaultPropertyValues());
+        }
+
+        $this->overrideViewProperties();
+
+        $template = $this->viewProperties['datatable_template'];
         $view = new View($template);
 
         if (!empty($this->loadingError)) {
@@ -1731,12 +1228,24 @@ abstract class ViewDataTable
             $view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
         }
         $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-        $view->properties = $this->getViewProperties();
+        $view->properties = $this->viewProperties;
         return $view;
     }
 
     public function getDefaultDataTableCssClass()
     {
         return false;
+    }
+
+    /**
+     * TODO
+     */
+    private function setPropertyDefaults($defaultValues)
+    {
+        foreach ($defaultValues as $name => $value) {
+            if (empty($this->viewProperties[$name])) {
+                $this->viewProperties[$name] = $value;
+            }
+        }
     }
 }

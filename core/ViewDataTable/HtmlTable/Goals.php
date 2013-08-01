@@ -44,77 +44,155 @@ class Goals extends HtmlTable
         $this->viewProperties['show_goals'] = true;
 
         if (Common::getRequestVar('documentationForGoalsPage', 0, 'int') == 1) {
-            $this->setReportDocumentation(Piwik_Translate('Goals_ConversionByTypeReportDocumentation',
-                array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>')));
+            $this->viewProperties['documentation'] = Piwik_Translate('Goals_ConversionByTypeReportDocumentation',
+                array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>'));
         }
 
-        $this->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisits'));
+        $this->viewProperties['metrics_documentation']['nb_visits'] = Piwik_Translate('Goals_ColumnVisits');
         if ($this->isEcommerce) {
-            $this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('General_EcommerceOrders')));
-            $this->setColumnsTranslations(array(
-                                               'goal_%s_conversion_rate'   => Piwik_Translate('Goals_ConversionRate'),
-                                               'goal_%s_nb_conversions'    => Piwik_Translate('General_EcommerceOrders'),
-                                               'goal_%s_revenue'           => Piwik_Translate('General_TotalRevenue'),
-                                               'goal_%s_revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
-                                               'goal_%s_avg_order_revenue' => Piwik_Translate('General_AverageOrderValue'),
-                                               'goal_%s_items'             => Piwik_Translate('General_PurchasedProducts'),
-                                          ));
-            $this->setColumnsToDisplay(array(
-                                            'label',
-                                            'nb_visits',
-                                            'goal_%s_nb_conversions',
-                                            'goal_%s_revenue',
-                                            'goal_%s_conversion_rate',
-                                            'goal_%s_avg_order_revenue',
-                                            'goal_%s_items',
-                                            'goal_%s_revenue_per_visit',
-                                       ));
+            $this->viewProperties['metrics_documentation']['revenue_per_visit'] =
+                Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('General_EcommerceOrders'));
+            $this->viewProperties['translations'] += array(
+                'goal_%s_conversion_rate'   => Piwik_Translate('Goals_ConversionRate'),
+                'goal_%s_nb_conversions'    => Piwik_Translate('General_EcommerceOrders'),
+                'goal_%s_revenue'           => Piwik_Translate('General_TotalRevenue'),
+                'goal_%s_revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
+                'goal_%s_avg_order_revenue' => Piwik_Translate('General_AverageOrderValue'),
+                'goal_%s_items'             => Piwik_Translate('General_PurchasedProducts')
+            );
+
+            $this->viewProperties['columns_to_display'] = array(
+                'label', 'nb_visits', 'goal_%s_nb_conversions', 'goal_%s_revenue', 'goal_%s_conversion_rate',
+                'goal_%s_avg_order_revenue', 'goal_%s_items', 'goal_%s_revenue_per_visit');
 
             // Default sort column
-            $this->setSortedColumn('goal_ecommerceOrder_revenue', 'desc');
+            $this->viewProperties['filter_sort_column'] = 'goal_ecommerceOrder_revenue';
+            $this->viewProperties['filter_sort_order'] = 'desc';
         } else {
-            $this->setMetricDocumentation('revenue_per_visit', Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_EcommerceAndGoalsMenu')));
-            $this->setColumnsTranslations(array(
-                                               'goal_%s_conversion_rate'   => Piwik_Translate('Goals_ConversionRate'),
-                                               'goal_%s_nb_conversions'    => Piwik_Translate('Goals_Conversions'),
-                                               'goal_%s_revenue'           => '%s ' . Piwik_Translate('Goals_ColumnRevenue'),
-                                               'goal_%s_revenue_per_visit' => '%s ' . Piwik_Translate('General_ColumnValuePerVisit'),
+            $this->viewProperties['metrics_documentation'] =
+                Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_EcommerceAndGoalsMenu'));
+            $this->viewProperties['translations'] += array(
+               'goal_%s_conversion_rate'   => Piwik_Translate('Goals_ConversionRate'),
+               'goal_%s_nb_conversions'    => Piwik_Translate('Goals_Conversions'),
+               'goal_%s_revenue'           => '%s ' . Piwik_Translate('Goals_ColumnRevenue'),
+               'goal_%s_revenue_per_visit' => '%s ' . Piwik_Translate('General_ColumnValuePerVisit'),
+               'nb_conversions'            => Piwik_Translate('Goals_ColumnConversions'),
+               'conversion_rate'           => Piwik_Translate('General_ColumnConversionRate'),
+               'revenue'                   => Piwik_Translate('Goals_ColumnRevenue'),
+               'revenue_per_visit'         => Piwik_Translate('General_ColumnValuePerVisit'),
+            );
 
-                                               'nb_conversions'            => Piwik_Translate('Goals_ColumnConversions'),
-                                               'conversion_rate'           => Piwik_Translate('General_ColumnConversionRate'),
-                                               'revenue'                   => Piwik_Translate('Goals_ColumnRevenue'),
-                                               'revenue_per_visit'         => Piwik_Translate('General_ColumnValuePerVisit'),
-                                          ));
-            $this->setColumnsToDisplay(array(
-                                            'label',
-                                            'nb_visits',
-                                            'goal_%s_nb_conversions',
-                                            'goal_%s_conversion_rate',
-                                            'goal_%s_revenue',
-                                            'goal_%s_revenue_per_visit',
-                                            'revenue_per_visit',
-                                       ));
+            $this->viewProperties['columns_to_display'] = array(
+                'label', 'nb_visits', 'goal_%s_nb_conversions', 'goal_%s_conversion_rate', 'goal_%s_revenue',
+                'goal_%s_revenue_per_visit', 'revenue_per_visit');
 
             // Default sort column
-            $columnsToDisplay = $this->getColumnsToDisplay();
+            $columnsToDisplay = $this->viewProperties['columns_to_display'];
             $columnNbConversionsCurrentGoal = $columnsToDisplay[2];
             if ($this->processOnlyIdGoal > 0
                 && strpos($columnNbConversionsCurrentGoal, '_nb_conversions') !== false
             ) {
-                $this->setSortedColumn($columnNbConversionsCurrentGoal, 'desc');
+                $this->viewProperties['filter_sort_column'] = $columnNbConversionsCurrentGoal;
+                $this->viewProperties['filter_sort_order'] = 'desc';
             }
         }
 
         parent::main();
     }
 
-    public function disableSubTableWhenShowGoals()
+    /**
+     * Find the appropriate metric documentation for a goal column
+     * @param string $genericMetricName
+     * @param string $metricName
+     * @param string $goalName
+     * @param int $idGoal
+     */
+    private function setDynamicMetricDocumentation($genericMetricName, $metricName, $goalName, $idGoal)
     {
-        $this->viewProperties['subtable_controller_action'] = null;
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            $goalName = Piwik_Translate('General_EcommerceOrders');
+        } else {
+            $goalName = '"' . $goalName . '"';
+        }
+
+        $langString = false;
+        switch ($genericMetricName) {
+            case 'goal_%s_nb_conversions':
+                $langString = 'Goals_ColumnConversionsDocumentation';
+                break;
+            case 'goal_%s_conversion_rate':
+                $langString = 'Goals_ColumnConversionRateDocumentation';
+                break;
+            case 'goal_%s_revenue_per_visit':
+                $langString = 'Goals_ColumnRevenuePerVisitDocumentation';
+                break;
+            case 'goal_%s_revenue':
+                $langString = 'Goals_ColumnRevenueDocumentation';
+                break;
+            case 'goal_%s_avg_order_revenue':
+                $langString = 'Goals_ColumnAverageOrderRevenueDocumentation';
+                break;
+            case 'goal_%s_items':
+                $langString = 'Goals_ColumnPurchasedProductsDocumentation';
+                break;
+        }
+
+        if ($langString) {
+            $doc = Piwik_Translate($langString, $goalName);
+            $this->viewProperties['metrics_documentation'][$metricName] = $doc;
+        }
     }
 
-    public function setColumnsToDisplay($columnsNames)
+    protected function getRequestArray()
     {
+        $requestArray = parent::getRequestArray();
+        if ($this->processOnlyIdGoal > AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
+            || $this->isEcommerce
+        ) {
+            $requestArray["idGoal"] = $this->processOnlyIdGoal;
+        }
+        $requestArray['filter_update_columns_when_show_all_goals'] = 1;
+        return $requestArray;
+    }
+
+    protected $columnsToRevenueFilter = array();
+    protected $columnsToConversionFilter = array();
+    protected $idSite = false;
+
+    private function getIdSite()
+    {
+        return $this->idSite;
+    }
+
+    protected function postDataTableLoadedFromAPI()
+    {
+        $valid = parent::postDataTableLoadedFromAPI();
+        if ($valid === false) return false;
+
+        foreach ($this->viewProperties['columns_to_display'] as $columnName) {
+            if (strpos($columnName, 'conversion_rate')) {
+                $this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$rate', 'if($rate==0) return "0%"; else return $rate;')));
+            }
+        }
+        $this->columnsToRevenueFilter[] = 'revenue_per_visit';
+        foreach ($this->columnsToRevenueFilter as $columnName) {
+            $this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$value', 'return sprintf("%.1f",$value);')));
+            $this->dataTable->filter('ColumnCallbackReplace', array($columnName, '\Piwik\Piwik::getPrettyMoney', array($this->getIdSite())));
+        }
+
+        foreach ($this->columnsToConversionFilter as $columnName) {
+            // this ensures that the value is set to zero for all rows where the value was not set (no conversion)
+            $this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$value', 'return $value;')));
+        }
+        return true;
+    }
+
+    protected function overrideViewProperties()
+    {
+        parent::overrideViewProperties();
+
+        $columnsNames = $this->viewProperties['columns_to_display'];
+
         $newColumnsNames = array();
         $goals = array();
         $idSite = $this->getIdSite();
@@ -160,9 +238,11 @@ class Goals extends HtmlTable
                     ) {
                         continue;
                     }
-                    $name = Piwik_Translate($this->getColumnTranslation($columnName), $goal['name']);
+                    $column = isset($this->viewProperties['translations'][$columnName]) ?
+                        $this->viewProperties['translations'][$columnName] : $columnName;
+                    $name = Piwik_Translate($column, $goal['name']);
                     $columnNameGoal = str_replace('%s', $idgoal, $columnName);
-                    $this->setColumnTranslation($columnNameGoal, $name);
+                    $this->viewProperties['translations'][$columnNameGoal] = $name;
                     $this->setDynamicMetricDocumentation($columnName, $columnNameGoal, $goal['name'], $goal['idgoal']);
                     if (strpos($columnNameGoal, '_rate') === false
                         // For the goal table (when the flag icon is clicked), we only display the per Goal Conversion rate
@@ -182,94 +262,8 @@ class Goals extends HtmlTable
                 $newColumnsNames[] = $columnName;
             }
         }
-        parent::setColumnsToDisplay($newColumnsNames);
-    }
 
-    /**
-     * Find the appropriate metric documentation for a goal column
-     * @param string $genericMetricName
-     * @param string $metricName
-     * @param string $goalName
-     * @param int $idGoal
-     */
-    private function setDynamicMetricDocumentation($genericMetricName, $metricName, $goalName, $idGoal)
-    {
-        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            $goalName = Piwik_Translate('General_EcommerceOrders');
-        } else {
-            $goalName = '"' . $goalName . '"';
-        }
-
-        $langString = false;
-        switch ($genericMetricName) {
-            case 'goal_%s_nb_conversions':
-                $langString = 'Goals_ColumnConversionsDocumentation';
-                break;
-            case 'goal_%s_conversion_rate':
-                $langString = 'Goals_ColumnConversionRateDocumentation';
-                break;
-            case 'goal_%s_revenue_per_visit':
-                $langString = 'Goals_ColumnRevenuePerVisitDocumentation';
-                break;
-            case 'goal_%s_revenue':
-                $langString = 'Goals_ColumnRevenueDocumentation';
-                break;
-            case 'goal_%s_avg_order_revenue':
-                $langString = 'Goals_ColumnAverageOrderRevenueDocumentation';
-                break;
-            case 'goal_%s_items':
-                $langString = 'Goals_ColumnPurchasedProductsDocumentation';
-                break;
-        }
-
-        if ($langString) {
-            $doc = Piwik_Translate($langString, $goalName);
-            $this->setMetricDocumentation($metricName, $doc);
-        }
-    }
-
-    protected function getRequestArray()
-    {
-        $requestArray = parent::getRequestArray();
-        if ($this->processOnlyIdGoal > AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
-            || $this->isEcommerce
-        ) {
-            $requestArray["idGoal"] = $this->processOnlyIdGoal;
-        }
-        $requestArray['filter_update_columns_when_show_all_goals'] = 1;
-        return $requestArray;
-    }
-
-    protected $columnsToRevenueFilter = array();
-    protected $columnsToConversionFilter = array();
-    protected $idSite = false;
-
-    private function getIdSite()
-    {
-        return $this->idSite;
-    }
-
-    protected function postDataTableLoadedFromAPI()
-    {
-        $valid = parent::postDataTableLoadedFromAPI();
-        if ($valid === false) return false;
-
-        foreach ($this->getColumnsToDisplay() as $columnName) {
-            if (strpos($columnName, 'conversion_rate')) {
-                $this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$rate', 'if($rate==0) return "0%"; else return $rate;')));
-            }
-        }
-        $this->columnsToRevenueFilter[] = 'revenue_per_visit';
-        foreach ($this->columnsToRevenueFilter as $columnName) {
-            $this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$value', 'return sprintf("%.1f",$value);')));
-            $this->dataTable->filter('ColumnCallbackReplace', array($columnName, '\Piwik\Piwik::getPrettyMoney', array($this->getIdSite())));
-        }
-
-        foreach ($this->columnsToConversionFilter as $columnName) {
-            // this ensures that the value is set to zero for all rows where the value was not set (no conversion)
-            $this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$value', 'return $value;')));
-        }
-        return true;
+        $this->viewProperties['columns_to_display'] = $newColumnsNames;
     }
 
     public function getDefaultDataTableCssClass()

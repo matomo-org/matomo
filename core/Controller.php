@@ -158,19 +158,7 @@ abstract class Controller
      */
     protected function renderView(ViewDataTable $view, $fetch = false)
     {
-        Piwik_PostEvent('Controller.renderView', array(
-                                                      $this,
-                                                      array('view'                                      => $view,
-                                                            'controllerName'                            => $view->getCurrentControllerName(),
-                                                            'controllerAction'                          => $view->getCurrentControllerAction(),
-                                                            'apiMethodToRequestDataTable'               => $view->getApiMethodToRequestDataTable(),
-                                                            'controllerActionCalledWhenRequestSubTable' => $view->getControllerActionCalledWhenRequestSubTable(),
-                                                      )
-                                                 ));
-
-        $view->main();
-
-        $rendered = $view->getView()->render();
+        $rendered = $view->render();
         if ($fetch) {
             return $rendered;
         }
@@ -597,7 +585,7 @@ abstract class Controller
     protected function setMetricsVariablesView(ViewDataTable $view, $defaultMetricDay = 'nb_uniq_visitors',
                                                $defaultMetric = 'nb_visits', $metricsForDay = array('nb_uniq_visitors'),
                                                $metricsForAllPeriods = array('nb_visits', 'nb_actions'), $labelDisplayed = true)
-    {
+    {// TODO: needed?
         // columns is set in the request if metrics picker has been used
         $columns = Common::getRequestVar('columns', false);
         if ($columns !== false) {
@@ -612,7 +600,7 @@ abstract class Controller
         if ($labelDisplayed) {
             array_unshift($columns, 'label');
         }
-        $view->setColumnsToDisplay($columns);
+        $view->columns_to_display = $columns;
     }
 
     /**

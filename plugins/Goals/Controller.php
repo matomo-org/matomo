@@ -251,7 +251,7 @@ class Piwik_Goals_Controller extends Controller
             $idGoal = Common::getRequestVar('idGoal', false, 'string');
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
-        $view->setRequestParametersToModify(array('idGoal' => $idGoal));
+        $view->request_parameters_to_modify['idGoal'] = $idGoal;
 
         $nameToLabel = $this->goalColumnNameToLabel;
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
@@ -283,13 +283,13 @@ class Piwik_Goals_Controller extends Controller
                 $goalName = $this->goals[$idGoal]['name'];
                 $columnTranslation = "$columnTranslation (" . Piwik_Translate('Goals_GoalX', "$goalName") . ")";
             }
-            $view->setColumnTranslation($columnName, $columnTranslation);
+            $view->translations[$columnName] = $columnTranslation;
         }
-        $view->setColumnsToDisplay($columns);
-        $view->setSelectableColumns($selectableColumns);
+        $view->columns_to_display = $columns;
+        $view->selectable_columns = $selectableColumns;
 
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
-        $view->setReportDocumentation(Piwik_Translate($langString, '<br />'));
+        $view->documentation = Piwik_Translate($langString, '<br />');
 
         return $this->renderView($view, $fetch);
     }

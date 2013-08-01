@@ -44,7 +44,7 @@ class Piwik_ExamplePlugin extends Plugin
         if ($view->getCurrentControllerName() == 'Referers'
             && $view->getCurrentControllerAction() == 'getWebsites'
         ) {
-            $view->addColumnToDisplay('nb_uniq_visitors');
+            $view->columns_to_display[] = 'nb_uniq_visitors';
         }
     }
 

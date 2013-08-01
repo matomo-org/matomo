@@ -381,7 +381,7 @@ class Piwik_UserCountry extends Plugin
                         array('<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">', '</a>'));
                 }
 
-                $view->setFooterMessage($footerMessage);
+                $view->show_footer_message = $footerMessage;
             }
         };
     }

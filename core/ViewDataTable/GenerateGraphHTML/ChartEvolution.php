@@ -66,10 +66,11 @@ class ChartEvolution extends GenerateGraphHTML
             $defaultProperties);
 
         $this->calculateEvolutionDateRange();
-        $this->disableShowAllViewsIcons();
-        $this->disableShowTable();
-        $this->disableShowAllColumns();
-        $this->showAnnotationsView();
+        $this->viewProperties['show_all_views_icons'] = false;
+        $this->viewProperties['show_table'] = false;
+        $this->viewProperties['show_table'] = false;
+        $this->viewProperties['show_table_all_columns'] = false;
+        $this->viewProperties['hide_annotations_view'] = false;
     }
 
     /**
@@ -98,18 +99,15 @@ class ChartEvolution extends GenerateGraphHTML
         $defaultLastN = self::getDefaultLastN($period);
         $this->originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
-        if ($period != 'range') // show evolution limit if the period is not a range
-        {
-            $this->alwaysShowLimitDropdown();
+        if ($period != 'range') { // show evolution limit if the period is not a range
+            $this->viewProperties['show_limit_control'] = true;
 
             // set the evolution_{$period}_last_n query param
-            if (Range::parseDateRange($this->originalDate)) // if a multiple period
-            {
+            if (Range::parseDateRange($this->originalDate)) { // if a multiple period
                 // overwrite last_n param using the date range
                 $oPeriod = new Range($period, $this->originalDate);
                 $lastN = count($oPeriod->getSubperiods());
-            } else // if not a multiple period
-            {
+            } else { // if not a multiple period
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $this->originalDate, $defaultLastN);
                 $this->viewProperties['request_parameters_to_modify']['date'] = $newDate;
             }

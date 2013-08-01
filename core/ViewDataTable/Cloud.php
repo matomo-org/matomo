@@ -39,8 +39,8 @@ class Cloud extends ViewDataTable
     {
         parent::__construct();
 
-        $this->disableOffsetInformation();
-        $this->disableExcludeLowPopulation();
+        $this->viewProperties['show_offset_information'] = false;
+        $this->viewProperties['show_exclude_low_population'] = false;
         $this->viewProperties['display_logo_instead_of_label'] = false;
     }
 

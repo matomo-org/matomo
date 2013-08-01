@@ -98,7 +98,7 @@ class Sparkline extends ViewDataTable
 
     protected function getValuesFromDataTable($dataTable)
     {
-        $columns = $this->getColumnsToDisplay();
+        $columns = $this->viewProperties['columns_to_display'];
         $columnToPlot = false;
         if (!empty($columns)) {
             $columnToPlot = $columns[0];

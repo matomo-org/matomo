@@ -53,15 +53,10 @@ class AllColumns extends HtmlTable
         if (empty($this->viewProperties['show_goals'])) {
             $columnConversionRate = 'conversion_rate';
         }
-        $this->setColumnsToDisplay(array('label',
-                                         'nb_visits',
-                                         $columnUniqueVisitors,
-                                         'nb_actions',
-                                         'nb_actions_per_visit',
-                                         'avg_time_on_site',
-                                         'bounce_rate',
-                                         $columnConversionRate
-                                   ));
+        $this->viewProperties['columns_to_display'] = array_filter(array(
+            'label', 'nb_visits', $columnUniqueVisitors, 'nb_actions', 'nb_actions_per_visit', 'avg_time_on_site',
+            'bounce_rate', $columnConversionRate
+        ));
         $this->dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', create_function('$averageTimeOnSite',
             'return \Piwik\Piwik::getPrettyTimeFromSeconds($averageTimeOnSite);')));
 

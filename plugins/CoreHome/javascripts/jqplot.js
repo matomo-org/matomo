@@ -71,7 +71,7 @@ JQPlot.prototype = {
         var type = $('#' + targetDivId).closest('div.dataTable').data('dataTableInstance').param['viewDataTable'];
 
         // preapare the appropriate chart type
-        switch (type) {
+        switch (type) {// TODO: should rely on CSS, not viewDataTable. otherwise ecommerceOrder row evolution will fail
             case 'graphEvolution':
                 this.prepareEvolutionChart(targetDivId, lang);
                 break;
