@@ -56,7 +56,7 @@ use Piwik_API_API;
  * @package Piwik
  * @subpackage ViewDataTable
  */
-abstract class ViewDataTable
+class ViewDataTable
 {
     /**
      * TODO
@@ -137,8 +137,10 @@ abstract class ViewDataTable
     /**
      * Default constructor.
      */
-    public function __construct()
+    public function __construct($visualization = null)
     {
+        $this->visualization = $visualization;
+
         $this->viewProperties['visualization_properties'] = new VisualizationPropertiesProxy(null);
         $this->viewProperties['datatable_template'] = '@CoreHome/_dataTable';
         $this->viewProperties['show_goals'] = false;
@@ -255,7 +257,13 @@ abstract class ViewDataTable
      *
      * @return string
      */
-    abstract protected function getViewDataTableId();
+    protected function getViewDataTableId()
+    {
+        if (method_exists($this->visualization, 'getViewDataTableId')) {
+            return $this->visualization->getViewDataTableId();
+        }
+        return false;
+    }
 
     /**
      * Returns a Piwik_ViewDataTable_* object.
@@ -318,7 +326,7 @@ abstract class ViewDataTable
 
             case 'table':
             default:
-                $result = new ViewDataTable\HtmlTable();
+                $result = new ViewDataTable(new Visualization\HtmlTable());
                 break;
         }
         
@@ -372,7 +380,7 @@ abstract class ViewDataTable
      */
     public function getJavaScriptProperties()
     {
-        return array(
+        $result = array(
             'enable_sort',
             'disable_generic_filters',
             'disable_queued_filters',
@@ -385,6 +393,12 @@ abstract class ViewDataTable
             'filter_sort_column',
             'filter_sort_order',
         );
+
+        if (method_exists($this->visualization, 'getJavaScriptProperties')) {
+            $result = array_merge($result, $this->visualization->getJavaScriptProperties());
+        }
+
+        return $result;
     }
 
     /**
@@ -622,6 +636,8 @@ abstract class ViewDataTable
      */
     protected function postDataTableLoadedFromAPI()
     {
+        $this->overrideViewProperties();
+
         if (empty($this->dataTable)) {
             return false;
         }
@@ -1206,8 +1222,6 @@ abstract class ViewDataTable
             $this->setPropertyDefaults($visualization->getDefaultPropertyValues());
         }
 
-        $this->overrideViewProperties();
-
         $template = $this->viewProperties['datatable_template'];
         $view = new View($template);
 
@@ -1234,11 +1248,12 @@ abstract class ViewDataTable
 
     public function getDefaultDataTableCssClass()
     {
-        return false;
+        $parts = explode('\\', get_class($this->visualization));
+        return 'dataTableViz' . end($parts);
     }
 
     /**
-     * TODO
+     * Sets view properties if they have not been set already.
      */
     private function setPropertyDefaults($defaultValues)
     {

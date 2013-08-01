@@ -35,20 +35,4 @@ class HtmlTable extends ViewDataTable
 
         $this->visualization = new Visualization\HtmlTable();
     }
-
-    public function getJavaScriptProperties()
-    {
-        return array_merge(parent::getJavaScriptProperties(), $this->visualization->getJavaScriptProperties());
-    }
-
-    protected function getViewDataTableId()
-    {
-        return $this->visualization->getViewDataTableId();
-    }
-
-    public function getDefaultDataTableCssClass()
-    {
-        $parts = explode('\\', get_class($this));
-        return 'dataTableViz' . end($parts);
-    }
 }
