@@ -141,6 +141,15 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
             array("widgetize_goals_table",
                   "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
                 . "&viewDataTable=tableGoals"),
+            array("widgetize_goals_table_ecommerce",
+                  "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
+                . "&viewDataTable=tableGoals&idGoal=ecommerceOrder"),
+            array("widgetize_goals_table_single",
+                  "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
+                . "&viewDataTable=tableGoals&idGoal=1"),
+            array("widgetize_goals_table_full",
+                  "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
+                . "&viewDataTable=tableGoals&idGoal=0"),
             array("widgetize_all_columns_table",
                   "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
                 . "&viewDataTable=tableAllColumns"),
