@@ -23,6 +23,11 @@ use Piwik\ViewDataTable;
  */
 class Sparkline extends ViewDataTable
 {
+    /**
+     * Returns dataTable id for view
+     *
+     * @return string
+     */
     protected function getViewDataTableId()
     {
         return 'sparkline';

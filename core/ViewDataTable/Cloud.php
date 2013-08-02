@@ -25,11 +25,19 @@ use Piwik\Visualization;
  */
 class Cloud extends ViewDataTable
 {
+    /**
+     * @param bool $bool
+     */
     public function setDisplayLogoInTagCloud($bool)
     {
         $this->viewProperties['display_logo_instead_of_label'] = $bool;
     }
 
+    /**
+     * Returns the dataTable id for the view
+     *
+     * @return string
+     */
     protected function getViewDataTableId()
     {
         return 'cloud';

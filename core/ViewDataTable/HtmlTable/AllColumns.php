@@ -19,6 +19,11 @@ use Piwik\ViewDataTable\HtmlTable;
  */
 class AllColumns extends HtmlTable
 {
+    /**
+     * Returns dataTable id for view
+     *
+     * @return string
+     */
     protected function getViewDataTableId()
     {
         return 'tableAllColumns';
@@ -63,6 +68,10 @@ class AllColumns extends HtmlTable
         return true;
     }
 
+    /**
+     * Returns default css class for dataTable
+     * @return string
+     */
     public function getDefaultDataTableCssClass()
     {
         return 'dataTableAllColumns';

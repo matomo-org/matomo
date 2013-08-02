@@ -13,6 +13,7 @@ namespace Piwik;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Auth;
+use Piwik\Site;
 use Piwik\Db;
 
 /**
@@ -421,7 +422,7 @@ class Access
             $idSites = $this->getSitesIdWithAtLeastViewAccess();
         }
 
-        $idSites = \Piwik\Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites);
         if (empty($idSites)) {
             throw new NoAccessException("The parameter 'idSite=' is missing from the request.");
         }

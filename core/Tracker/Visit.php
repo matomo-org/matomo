@@ -16,9 +16,16 @@ namespace Piwik\Tracker;
  */
 interface VisitInterface
 {
-    function setRequest(Request $request);
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function setRequest(Request $request);
 
-    function handle();
+    /**
+     * @return void
+     */
+    public function handle();
 }
 
 use Piwik\Config;
@@ -68,7 +75,10 @@ class Visit implements Tracker\VisitInterface
     protected $visitorCustomVariables = array();
     protected $visitorKnown;
 
-    function setRequest(Request $request)
+    /**
+     * @param Request $request
+     */
+    public function setRequest(Request $request)
     {
         $this->request = $request;
     }

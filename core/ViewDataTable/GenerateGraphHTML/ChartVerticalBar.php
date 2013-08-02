@@ -28,6 +28,11 @@ class ChartVerticalBar extends GenerateGraphHTML
         $this->viewProperties['graph_limit'] = 6;
     }
 
+    /**
+     * Returns dataTable id for view
+     *
+     * @return string
+     */
     protected function getViewDataTableId()
     {
         return 'graphVerticalBar';

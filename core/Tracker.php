@@ -135,11 +135,17 @@ class Tracker
         return self::$pluginsNotToLoad;
     }
 
+    /**
+     * @return array
+     */
     static public function getPluginsToLoad()
     {
         return self::$pluginsToLoad;
     }
 
+    /**
+     * @param array $plugins
+     */
     static public function setPluginsToLoad($plugins)
     {
         self::$pluginsToLoad = $plugins;
@@ -364,7 +370,7 @@ class Tracker
                 Piwik::createDatabaseObject();
             }
 
-            $pluginsManager = \Piwik\PluginsManager::getInstance();
+            $pluginsManager = PluginsManager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
             $pluginsForcedNotToLoad = Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);

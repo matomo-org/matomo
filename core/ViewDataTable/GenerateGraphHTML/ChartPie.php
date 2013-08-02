@@ -28,6 +28,11 @@ class ChartPie extends GenerateGraphHTML
         $this->viewProperties['allow_multi_select_series_picker'] = false;
     }
 
+    /**
+     * Returns dataTable id for view
+     *
+     * @return string
+     */
     protected function getViewDataTableId()
     {
         return 'graphPie';

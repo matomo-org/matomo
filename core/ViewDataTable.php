@@ -24,6 +24,7 @@ use Piwik\Site;
 use Piwik\ViewDataTable\Properties;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik_API_API;
+use Piwik\PluginsManager;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -1204,11 +1205,11 @@ class ViewDataTable
 
     protected function overrideViewProperties()
     {
-        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('Goals')) {
+        if (!PluginsManager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = false;
         }
 
-        if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
+        if (!PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
             $this->viewProperties['hide_annotations_view'] = true;
         }
 

@@ -591,7 +591,6 @@ abstract class Controller
         $columns = Common::getRequestVar('columns', false);
         if ($columns !== false) {
             $columns = Piwik::getArrayFromApiParameter($columns);
-            $firstColumn = $columns[0];
         } else {
             // default columns
             $firstColumn = isset($view->period) && $view->period == 'day' ? $defaultMetricDay : $defaultMetric;

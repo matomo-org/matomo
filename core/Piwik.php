@@ -12,6 +12,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Access;
+use Piwik\NoAccessException;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
@@ -1642,7 +1643,7 @@ class Piwik
      * Check that current user is either the specified user or the superuser
      *
      * @param string $theUser
-     * @throws \Piwik\NoAccessException  if the user is neither the super user nor the user $theUser
+     * @throws NoAccessException  if the user is neither the super user nor the user $theUser
      */
     static public function checkUserIsSuperUserOrTheUser($theUser)
     {
@@ -1651,8 +1652,8 @@ class Piwik
                 // or to the super user
                 Piwik::checkUserIsSuperUser();
             }
-        } catch (\Piwik\NoAccessException $e) {
-            throw new \Piwik\NoAccessException(Piwik_Translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
+        } catch (NoAccessException $e) {
+            throw new NoAccessException(Piwik_Translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
         }
     }
 
@@ -1684,12 +1685,12 @@ class Piwik
     /**
      * Checks if user is not the anonymous user.
      *
-     * @throws \Piwik\NoAccessException  if user is anonymous.
+     * @throws NoAccessException  if user is anonymous.
      */
     static public function checkUserIsNotAnonymous()
     {
         if (self::isUserIsAnonymous()) {
-            throw new \Piwik\NoAccessException(Piwik_Translate('General_YouMustBeLoggedIn'));
+            throw new NoAccessException(Piwik_Translate('General_YouMustBeLoggedIn'));
         }
     }
 

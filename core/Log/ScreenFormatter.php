@@ -17,17 +17,35 @@ use Piwik\Common;
  */
 class ScreenFormatter implements \Zend_Log_Formatter_Interface
 {
+    /**
+     * Returns the formatted event array
+     *
+     * @param array $event
+     * @return array
+     */
     function formatEvent($event)
     {
         // no injection in error messages, backtrace when displayed on screen
         return array_map(array('Piwik\Common', 'sanitizeInputValue'), $event);
     }
 
+    /**
+     * Returns the formatted String
+     *
+     * @param string $string
+     * @return string
+     */
     function format($string)
     {
         return self::getFormattedString($string);
     }
 
+    /**
+     * Returns the formatted String
+     *
+     * @param string $string
+     * @return string
+     */
     static public function getFormattedString($string)
     {
         if (!Common::isPhpCliMode()) {
