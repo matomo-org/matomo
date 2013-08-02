@@ -15,7 +15,7 @@ use Piwik\Common;
 use Piwik\Site;
 use Piwik\ViewDataTable\HtmlTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
-use Piwik_Goals_API;
+use Piwik\Plugins\Goals\API;
 
 /**
  * @package Piwik
@@ -197,7 +197,7 @@ class Goals extends HtmlTable
         $goals = array();
         $idSite = $this->getIdSite();
         if ($idSite) {
-            $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+            $goals = API::getInstance()->getGoals($idSite);
 
             $ecommerceGoal = array(
                 'idgoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,

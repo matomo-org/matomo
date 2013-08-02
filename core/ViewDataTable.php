@@ -13,6 +13,7 @@ namespace Piwik;
 use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Period;
+use Piwik\API\Request;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -22,7 +23,7 @@ use Piwik\Url;
 use Piwik\Site;
 use Piwik\ViewDataTable\Properties;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
-use Piwik_API_API;
+use Piwik\Plugins\API\API;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -610,7 +611,7 @@ class ViewDataTable
         $requestArray = $this->getRequestArray();
 
         // we make the request to the API
-        $request = new API\Request($requestArray);
+        $request = new Request($requestArray);
 
         // and get the DataTable structure
         $dataTable = $request->process();
@@ -699,13 +700,13 @@ class ViewDataTable
         if (!$this->areGenericFiltersDisabled()) {
             // Second, generic filters (Sort, Limit, Replace Column Names, etc.)
             $requestArray = $this->getRequestArray();
-            $request = API\Request::getRequestArrayFromString($requestArray);
+            $request = Request::getRequestArrayFromString($requestArray);
 
             if ($this->viewProperties['enable_sort'] === false) {
                 $request['filter_sort_column'] = $request['filter_sort_order'] = '';
             }
 
-            $genericFilter = new API\DataTableGenericFilter($request);
+            $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
             $genericFilter->filter($this->dataTable);
         }
 
@@ -815,7 +816,7 @@ class ViewDataTable
             }
         }
         
-        $segment = \Piwik\API\Request::getRawSegmentFromRequest();
+        $segment = Request::getRawSegmentFromRequest();
         if(!empty($segment)) {
             $requestArray['segment'] = $segment;
         }
@@ -848,7 +849,7 @@ class ViewDataTable
         // build javascript variables to set
         $javascriptVariablesToSet = array();
 
-        $genericFilters = API\DataTableGenericFilter::getGenericFiltersInformation();
+        $genericFilters = \Piwik\API\DataTableGenericFilter::getGenericFiltersInformation();
         foreach ($genericFilters as $filter) {
             foreach ($filter as $filterVariableName => $filterInfo) {
                 // if there is a default value for this filter variable we set it
@@ -938,7 +939,7 @@ class ViewDataTable
             }
         }
 
-        $rawSegment = \Piwik\API\Request::getRawSegmentFromRequest();
+        $rawSegment = Request::getRawSegmentFromRequest();
         if(!empty($rawSegment)) {
             $javascriptVariablesToSet['segment'] = $rawSegment;
         }
@@ -982,7 +983,7 @@ class ViewDataTable
     {
         $this->viewProperties['metrics_documentation'] = array();
 
-        $report = Piwik_API_API::getInstance()->getMetadata(0, $this->currentControllerName, $this->currentControllerAction);
+        $report = API::getInstance()->getMetadata(0, $this->currentControllerName, $this->currentControllerAction);
         $report = $report[0];
 
         if (isset($report['metricsDocumentation'])) {
@@ -1096,8 +1097,9 @@ class ViewDataTable
             $reportYear = $reportDate->toString('Y');
             $reportMonth = $reportDate->toString('m');
 
-            if (class_exists('Piwik_PrivacyManager')
-                && \Piwik_PrivacyManager::shouldReportBePurged($reportYear, $reportMonth)
+            //TODOA
+            if (class_exists('Piwik\Plugins\PrivacyManager\PrivacyManager')
+                && Plugins\PrivacyManager\PrivacyManager::shouldReportBePurged($reportYear, $reportMonth)
             ) {
                 return true;
             }
@@ -1117,7 +1119,7 @@ class ViewDataTable
     private function getBaseReportUrl($module, $action, $queryParams = array())
     {
         $params = array_merge($queryParams, array('module' => $module, 'action' => $action));
-        return API\Request::getCurrentUrlWithoutGenericFilters($params);
+        return Request::getCurrentUrlWithoutGenericFilters($params);
     }
 
     /**
@@ -1131,9 +1133,10 @@ class ViewDataTable
      */
     static public function renderReport($pluginName, $apiAction, $fetch = true)
     {
-        $apiClassName = 'Piwik_' . $pluginName . '_API';
-        if (!method_exists($apiClassName::getInstance(), $apiAction)) {
-            throw new \Exception("Invalid action name '$apiAction' for '$pluginName' plugin.");
+        //TODOA
+        $namespacedApiClassName = "\\Piwik\\Plugins\\$pluginName\\API";
+        if (!method_exists($namespacedApiClassName::getInstance(), $apiAction)) {
+            throw new \Exception("$namespacedApiClassName Invalid action name '$apiAction' for '$pluginName' plugin.");
         }
         
         $view = self::factory(null, $pluginName.'.'.$apiAction);

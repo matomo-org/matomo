@@ -6,8 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreAdminHome
+ * @package CoreAdminHome
  */
+namespace Piwik\Plugins\CoreAdminHome;
+
+use Exception;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Period;
 use Piwik\Period\Week;
@@ -20,14 +23,14 @@ use Piwik\Site;
 use Piwik\Db;
 
 /**
- * @package Piwik_CoreAdminHome
+ * @package CoreAdminHome
  */
-class Piwik_CoreAdminHome_API
+class API
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_CoreAdminHome_API
+     * @return \Piwik\Plugins\CoreAdminHome\API
      */
     static public function getInstance()
     {
@@ -102,7 +105,6 @@ class Piwik_CoreAdminHome_API
                 $invalidDates[] = $theDate;
             }
         }
-
 
         // If using the feature "Delete logs older than N days"...
         $logsAreDeletedBeforeThisDate = Config::getInstance()->Deletelogs['delete_logs_schedule_lowest_interval'];
@@ -188,7 +190,7 @@ class Piwik_CoreAdminHome_API
         Db::query($query, $bind);
 
         // Force to re-process data for these websites in the next archive.php cron run
-        $invalidatedIdSites = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();
+        $invalidatedIdSites = self::getWebsiteIdsToInvalidate();
         $invalidatedIdSites = array_merge($invalidatedIdSites, $idSites);
         $invalidatedIdSites = array_unique($invalidatedIdSites);
         $invalidatedIdSites = array_values($invalidatedIdSites);

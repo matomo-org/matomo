@@ -6,16 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PDFReports
+ * @package PDFReports
  */
+namespace Piwik\Plugins\PDFReports;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\ReportRenderer;
 use Piwik\ReportRenderer\Html;
 use Piwik\Site;
 use Piwik\Translate;
 use Piwik\Db;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
+use Zend_Mime;
 
 /**
  * The PDFReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
@@ -27,9 +33,9 @@ use Piwik\Db;
  * or manage existing reports with "updateReport" and "deleteReport".
  * See also the documentation about <a href='http://piwik.org/docs/email-reports/' target='_blank'>Scheduled Email reports</a> in Piwik.
  *
- * @package Piwik_PDFReports
+ * @package PDFReports
  */
-class Piwik_PDFReports_API
+class API
 {
     const VALIDATE_PARAMETERS_EVENT = 'PDFReports.validateReportParameters';
     const GET_REPORT_PARAMETERS_EVENT = 'PDFReports.getReportParameters';
@@ -63,7 +69,7 @@ class Piwik_PDFReports_API
     static private $instance = null;
 
     /**
-     * @return Piwik_PDFReports_API
+     * @return \Piwik\Plugins\PDFReports\API
      */
     static public function getInstance()
     {
@@ -133,9 +139,9 @@ class Piwik_PDFReports_API
 
     private static function ensureLanguageSetForUser($currentUser)
     {
-        $lang = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser($currentUser);
+        $lang = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($currentUser);
         if (empty($lang)) {
-            Piwik_LanguagesManager_API::getInstance()->setLanguageForUser($currentUser, Piwik_LanguagesManager::getLanguageCodeForCurrentUser());
+            \Piwik\Plugins\LanguagesManager\API::getInstance()->setLanguageForUser($currentUser, LanguagesManager::getLanguageCodeForCurrentUser());
         }
     }
 
@@ -330,7 +336,7 @@ class Piwik_PDFReports_API
         );
 
         // available reports
-        $availableReportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
+        $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
 
         // we need to lookup which reports metadata are registered in this report
         $reportMetadata = array();
@@ -377,7 +383,7 @@ class Piwik_PDFReports_API
                 }
             }
 
-            $processedReport = Piwik_API_API::getInstance()->getProcessedReport(
+            $processedReport = \Piwik\Plugins\API\API::getInstance()->getProcessedReport(
                 $idSite, $period, $date, $apiModule, $apiAction,
                 $segment != null ? urlencode($segment['definition']) : false,
                 $apiParameters, $idGoal = false, $language
@@ -504,7 +510,7 @@ class Piwik_PDFReports_API
             $date = Date::now()->subPeriod(1, $report['period'])->toString();
         }
 
-        $language = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser($report['login']);
+        $language = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($report['login']);
 
         // generate report
         list($outputFilename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles) =
@@ -528,16 +534,16 @@ class Piwik_PDFReports_API
         Piwik_PostEvent(
             self::SEND_REPORT_EVENT,
             array(
-                $notificationInfo = array(
-                    self::REPORT_TYPE_INFO_KEY => $report['type'],
-                    self::REPORT_KEY           => $report,
-                    self::REPORT_CONTENT_KEY   => $contents,
-                    self::FILENAME_KEY         => $filename,
-                    self::PRETTY_DATE_KEY      => $prettyDate,
-                    self::REPORT_SUBJECT_KEY   => $reportSubject,
-                    self::REPORT_TITLE_KEY     => $reportTitle,
-                    self::ADDITIONAL_FILES_KEY => $additionalFiles,
-                )
+                 $notificationInfo = array(
+                     self::REPORT_TYPE_INFO_KEY => $report['type'],
+                     self::REPORT_KEY           => $report,
+                     self::REPORT_CONTENT_KEY   => $contents,
+                     self::FILENAME_KEY         => $filename,
+                     self::PRETTY_DATE_KEY      => $prettyDate,
+                     self::REPORT_SUBJECT_KEY   => $reportSubject,
+                     self::REPORT_TITLE_KEY     => $reportTitle,
+                     self::ADDITIONAL_FILES_KEY => $additionalFiles,
+                 )
             )
         );
 
@@ -659,11 +665,9 @@ class Piwik_PDFReports_API
         if (empty($idSegment) || (is_numeric($idSegment) && $idSegment == 0)) {
 
             $idSegment = null;
-
         } elseif (!is_numeric($idSegment)) {
 
             throw new Exception('Invalid segment identifier. Should be an integer.');
-
         } elseif (self::getSegment($idSegment) == null) {
 
             throw new Exception('Segment with id ' . $idSegment . ' does not exist or SegmentEditor is not activated.');
@@ -724,10 +728,10 @@ class Piwik_PDFReports_API
         Piwik_PostEvent(
             self::ALLOW_MULTIPLE_REPORTS_EVENT,
             array(
-                &$allowMultipleReports,
-                $notificationInfo = array(
-                    self::REPORT_TYPE_INFO_KEY => $reportType,
-                )
+                 &$allowMultipleReports,
+                 $notificationInfo = array(
+                     self::REPORT_TYPE_INFO_KEY => $reportType,
+                 )
             )
         );
         return $allowMultipleReports;
@@ -754,10 +758,10 @@ class Piwik_PDFReports_API
         Piwik_PostEvent(
             self::GET_REPORT_FORMATS_EVENT,
             array(
-                &$reportFormats,
-                $notificationInfo = array(
-                    self::REPORT_TYPE_INFO_KEY => $reportType
-                )
+                 &$reportFormats,
+                 $notificationInfo = array(
+                     self::REPORT_TYPE_INFO_KEY => $reportType
+                 )
             )
         );
 
@@ -788,7 +792,7 @@ class Piwik_PDFReports_API
     {
         if (self::isSegmentEditorActivated() && !empty($idSegment)) {
 
-            $segment = Piwik_SegmentEditor_API::getInstance()->get($idSegment);
+            $segment = SegmentEditorAPI::getInstance()->get($idSegment);
 
             if ($segment) {
                 return $segment;

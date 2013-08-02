@@ -8,6 +8,7 @@
 use Piwik\Piwik;
 use Piwik\Access;
 use Piwik\AssetManager;
+use Piwik\Plugins\VisitsSummary\API;
 
 /**
  * Tests UI code by grabbing screenshots of webpages and comparing with expected files.
@@ -45,7 +46,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         AssetManager::removeMergedAssets();
         
         // launch archiving so tests don't run out of time
-        Piwik_VisitsSummary_API::getInstance()->get(self::$fixture->idSite, 'year', '2012-08-09');
+        API::getInstance()->get(self::$fixture->idSite, 'year', '2012-08-09');
     }
     
     public static function tearDownAfterClass()

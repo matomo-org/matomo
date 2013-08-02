@@ -19,16 +19,6 @@ use Piwik\Period\Week;
 use Piwik\Period\Year;
 
 /**
- * Creating a new Period subclass:
- *
- * Every overloaded method must start with the code
- *        if(!$this->subperiodsProcessed)
- *        {
- *            $this->generate();
- *        }
- *    that checks whether the subperiods have already been computed.
- *    This is for performance improvements, computing the subperiods is done a per demand basis.
- *
  * @package Piwik
  * @subpackage Period
  */
@@ -174,6 +164,7 @@ abstract class Period
             return $this->getDate();
         }
         $periods = $this->getSubperiods();
+        /** @var $currentPeriod Period */
         $currentPeriod = $periods[0];
         while ($currentPeriod->getNumberOfSubperiods() > 0) {
             $periods = $currentPeriod->getSubperiods();
@@ -196,6 +187,7 @@ abstract class Period
             return $this->getDate();
         }
         $periods = $this->getSubperiods();
+        /** @var $currentPeriod Period */
         $currentPeriod = $periods[count($periods) - 1];
         while ($currentPeriod->getNumberOfSubperiods() > 0) {
             $periods = $currentPeriod->getSubperiods();

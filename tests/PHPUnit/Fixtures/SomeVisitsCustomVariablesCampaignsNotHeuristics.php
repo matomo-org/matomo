@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 
 /**
  * Add one site and track many visits with custom variables & campaign IDs and
@@ -31,7 +32,7 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
     private function setUpWebsitesAndGoals()
     {
         self::createWebsite($this->dateTime);
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
     }
 
     private function trackVisits()

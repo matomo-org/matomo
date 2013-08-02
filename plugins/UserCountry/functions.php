@@ -6,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+
+namespace Piwik\Plugins\UserCountry;
+
 use Piwik\DataTable;
+use Piwik\Plugins\UserCountry\Archiver;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker\Visit;
 
 /**
@@ -17,7 +22,7 @@ use Piwik\Tracker\Visit;
  * @param string $code ISO country code
  * @return string Flag image path
  */
-function Piwik_getFlagFromCode($code)
+function getFlagFromCode($code)
 {
     $pathInPiwik = 'plugins/UserCountry/images/flags/%s.png';
     $pathWithCode = sprintf($pathInPiwik, $code);
@@ -34,7 +39,7 @@ function Piwik_getFlagFromCode($code)
  * @param string $label Continent code
  * @return string Continent name
  */
-function Piwik_ContinentTranslate($label)
+function continentTranslate($label)
 {
     if ($label == 'unk' || $label == '') {
         return Piwik_Translate('General_Unknown');
@@ -48,7 +53,7 @@ function Piwik_ContinentTranslate($label)
  * @param string $label country code
  * @return string Country name
  */
-function Piwik_CountryTranslate($label)
+function countryTranslate($label)
 {
     if ($label == Visit::UNKNOWN_CODE || $label == '') {
         return Piwik_Translate('General_Unknown');
@@ -67,7 +72,7 @@ function Piwik_CountryTranslate($label)
  * @return string|false Returns false if $label == DataTable::LABEL_SUMMARY_ROW, otherwise
  *                      explode($separator, $label)[$index].
  */
-function Piwik_UserCountry_getElementFromStringArray($label, $separator, $index, $emptyValue = false)
+function getElementFromStringArray($label, $separator, $index, $emptyValue = false)
 {
     if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return false; // so no metadata/column is added
@@ -84,7 +89,7 @@ function Piwik_UserCountry_getElementFromStringArray($label, $separator, $index,
  *                      'P3|GB'.
  * @return string|false The region name or false if $label == DataTable::LABEL_SUMMARY_ROW.
  */
-function Piwik_UserCountry_getRegionName($label)
+function getRegionName($label)
 {
     if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return false; // so no metadata/column is added
@@ -94,8 +99,8 @@ function Piwik_UserCountry_getRegionName($label)
         return Piwik_Translate('General_Unknown');
     }
 
-    list($regionCode, $countryCode) = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
-    return Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+    list($regionCode, $countryCode) = explode(Archiver::LOCATION_SEPARATOR, $label);
+    return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
 }
 
 /**
@@ -106,7 +111,7 @@ function Piwik_UserCountry_getRegionName($label)
  *                      'P3|GB'.
  * @return string|false eg. 'Ile de France, France' or false if $label == DataTable::LABEL_SUMMARY_ROW.
  */
-function Piwik_UserCountry_getPrettyRegionName($label)
+function getPrettyRegionName($label)
 {
     if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return $label;
@@ -116,11 +121,11 @@ function Piwik_UserCountry_getPrettyRegionName($label)
         return Piwik_Translate('General_Unknown');
     }
 
-    list($regionCode, $countryCode) = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
+    list($regionCode, $countryCode) = explode(Archiver::LOCATION_SEPARATOR, $label);
 
-    $result = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+    $result = GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
     if ($countryCode != Visit::UNKNOWN_CODE && $countryCode != '') {
-        $result .= ', ' . Piwik_CountryTranslate($countryCode);
+        $result .= ', ' . countryTranslate($countryCode);
     }
     return $result;
 }
@@ -134,7 +139,7 @@ function Piwik_UserCountry_getPrettyRegionName($label)
  * @return string|false eg. 'Paris, Ile de France, France' or false if $label ==
  *                      DataTable::LABEL_SUMMARY_ROW.
  */
-function Piwik_UserCountry_getPrettyCityName($label)
+function getPrettyCityName($label)
 {
     if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return $label;
@@ -145,7 +150,7 @@ function Piwik_UserCountry_getPrettyCityName($label)
     }
 
     // get city name, region code & country code
-    $parts = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
+    $parts = explode(Archiver::LOCATION_SEPARATOR, $label);
     $cityName = $parts[0];
     $regionCode = $parts[1];
     $countryCode = @$parts[2];
@@ -157,10 +162,10 @@ function Piwik_UserCountry_getPrettyCityName($label)
     $result = $cityName;
     if ($countryCode != Visit::UNKNOWN_CODE && $countryCode != '') {
         if ($regionCode != '' && $regionCode != Visit::UNKNOWN_CODE) {
-            $regionName = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+            $regionName = GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
             $result .= ', ' . $regionName;
         }
-        $result .= ', ' . Piwik_CountryTranslate($countryCode);
+        $result .= ', ' . countryTranslate($countryCode);
     }
     return $result;
 }

@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
+
+namespace Piwik\Plugins\MobileMessaging;
 
 /**
  *
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
-class Piwik_MobileMessaging_CountryCallingCodes
+class CountryCallingCodes
 {
     // list taken from core/DataFiles/Countries.php
     public static $countryCallingCodes = array(

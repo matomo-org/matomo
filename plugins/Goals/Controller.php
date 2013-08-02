@@ -6,24 +6,28 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Goals
+ * @package Goals
  */
+namespace Piwik\Plugins\Goals;
+
+use Exception;
 use Piwik\API\Request;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Controller;
 use Piwik\FrontController;
 use Piwik\View\ReportsByDimension;
 use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\Plugins\Goals\Goals;
+use Piwik\Plugins\Referers\API as ReferersAPI;
 
 /**
  *
- * @package Piwik_Goals
+ * @package Goals
  */
-class Piwik_Goals_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     const CONVERSION_RATE_PRECISION = 1;
 
@@ -58,7 +62,7 @@ class Piwik_Goals_Controller extends Controller
     {
         parent::__construct();
         $this->idSite = Common::getRequestVar('idSite', null, 'int');
-        $this->goals = Piwik_Goals_API::getInstance()->getGoals($this->idSite);
+        $this->goals = API::getInstance()->getGoals($this->idSite);
         foreach ($this->goals as &$goal) {
             $goal['name'] = Common::sanitizeInputValue($goal['name']);
             if (isset($goal['pattern'])) {
@@ -137,10 +141,10 @@ class Piwik_Goals_Controller extends Controller
 
         // conversion rate for new and returning visitors
         $segment = 'visitorType==returning,visitorType==returningCustomer';
-        $conversionRateReturning = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
+        $conversionRateReturning = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
         $segment = 'visitorType==new';
-        $conversionRateNew = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
+        $conversionRateNew = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
         $view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
             $view->nb_conversions, isset($ecommerce), !empty($view->cart_nb_conversions));
@@ -150,7 +154,7 @@ class Piwik_Goals_Controller extends Controller
     public function index()
     {
         $view = $this->getOverviewView();
-        
+
         // unsanitize goal names and other text data (not done in API so as not to break
         // any other code/cause security issues)
         $goals = $this->goals;
@@ -161,7 +165,7 @@ class Piwik_Goals_Controller extends Controller
             }
         }
         $view->goalsJSON = Common::json_encode($goals);
-        
+
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
         $view->displayFullReport = true;
@@ -294,7 +298,6 @@ class Piwik_Goals_Controller extends Controller
         return $this->renderView($view, $fetch);
     }
 
-
     protected function getTopDimensions($idGoal)
     {
         $columnNbConversions = 'goal_' . $idGoal . '_nb_conversions';
@@ -310,7 +313,7 @@ class Piwik_Goals_Controller extends Controller
 
         $keywordNotDefinedString = '';
         if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')) {
-            $keywordNotDefinedString = Piwik_Referers_API::getKeywordNotDefinedString();
+            $keywordNotDefinedString = ReferersAPI::getKeywordNotDefinedString();
             $topDimensionsToLoad += array(
                 'keyword' => 'Referers.getKeywords',
                 'website' => 'Referers.getWebsites',
@@ -436,12 +439,12 @@ class Piwik_Goals_Controller extends Controller
                 $customParams['idGoal'] = '0'; // NOTE: Must be string! Otherwise Piwik_View_HtmlTable_Goals fails.
             }
 
-            $allReports = Piwik_Goals::getReportsWithGoalMetrics();
+            $allReports = Goals::getReportsWithGoalMetrics();
             foreach ($allReports as $category => $reports) {
                 $categoryText = Piwik_Translate('Goals_ViewGoalsBy', $category);
                 foreach ($reports as $report) {
                     $customParams['viewDataTable'] = 'tableGoals';
-                    if(in_array($report['action'], array('getVisitsUntilConversion', 'getDaysToConversion'))) {
+                    if (in_array($report['action'], array('getVisitsUntilConversion', 'getDaysToConversion'))) {
                         $customParams['viewDataTable'] = 'table';
                     }
 
@@ -453,16 +456,16 @@ class Piwik_Goals_Controller extends Controller
 
         return $goalReportsByDimension->render();
     }
-    
-    // 
+
+    //
     // Report rendering actions
-    // 
+    //
 
     public function getItemsSku($fetch = false)
     {
         return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
-    
+
     public function getItemsName($fetch = false)
     {
         return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);

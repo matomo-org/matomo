@@ -7,6 +7,9 @@
  */
 use Piwik\Common;
 use Piwik\FrontController;
+use Piwik\Plugins\Annotations\API as AnnotationsAPI;
+use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
@@ -31,7 +34,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         // for conversion testing
         $siteName = self::makeXssContent("site name", $sanitize = true);
         self::createWebsite($this->dateTime, $ecommerce = 1, $siteName);
-        Piwik_Goals_API::getInstance()->addGoal(
+        GoalsAPI::getInstance()->addGoal(
             $this->idSite, self::makeXssContent("goal name"), 'url', 'http', 'contains', false, 5);
         
         self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
@@ -101,16 +104,16 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
     {
         $segmentName = self::makeXssContent('segment');
         $segmentDefinition = "browserCode==FF";
-        Piwik_SegmentEditor_API::getInstance()->add(
+        SegmentEditorAPI::getInstance()->add(
             $segmentName, $segmentDefinition, $this->idSite, $autoArchive = true, $enabledAllUsers = true);
     }
     
     public function addAnnotations()
     {
-        Piwik_Annotations_API::getInstance()->add($this->idSite, '2012-08-09', "Note 1", $starred = 1);
-        Piwik_Annotations_API::getInstance()->add(
+        AnnotationsAPI::getInstance()->add($this->idSite, '2012-08-09', "Note 1", $starred = 1);
+        AnnotationsAPI::getInstance()->add(
             $this->idSite, '2012-08-08', self::makeXssContent("annotation"), $starred = 0);
-        Piwik_Annotations_API::getInstance()->add($this->idSite, '2012-08-10', "Note 3", $starred = 1);
+        AnnotationsAPI::getInstance()->add($this->idSite, '2012-08-10', "Note 3", $starred = 1);
     }
     
     // NOTE: since API_Request does sanitization, API methods do not. when calling them, we must

@@ -6,7 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-class MockLocationProvider extends Piwik_UserCountry_LocationProvider
+use Piwik\Plugins\UserCountry\LocationProvider;
+
+class MockLocationProvider extends LocationProvider
 {
     public static $locations = array();
     private $currentLocation = 0;

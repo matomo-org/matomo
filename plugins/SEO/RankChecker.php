@@ -6,10 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SEO
+ * @package SEO
  */
+namespace Piwik\Plugins\SEO;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Http;
+use Piwik\Plugins\SEO\MajesticClient;
 
 /**
  * The functions below are derived/adapted from GetRank.org's
@@ -18,9 +22,9 @@ use Piwik\Http;
  * @copyright Copyright (C) 2007 - 2010 GetRank.Org  All rights reserved.
  * @link http://www.getrank.org/free-pagerank-script/
  * @license GPL
- * @package Piwik_SEO
+ * @package SEO
  */
-class Piwik_SEO_RankChecker
+class RankChecker
 {
     private $url;
     private $majesticInfo = null;
@@ -185,7 +189,7 @@ class Piwik_SEO_RankChecker
         try {
             $majesticInfo = $this->getMajesticInfo();
             return $majesticInfo['backlink_count'];
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             Piwik::log($e->getMessage());
             return 0;
         }
@@ -201,7 +205,7 @@ class Piwik_SEO_RankChecker
         try {
             $majesticInfo = $this->getMajesticInfo();
             return $majesticInfo['referrer_domains_count'];
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             Piwik::log($e->getMessage());
             return 0;
         }
@@ -366,7 +370,7 @@ class Piwik_SEO_RankChecker
     private function getMajesticInfo()
     {
         if ($this->majesticInfo === null) {
-            $client = new Piwik_SEO_MajesticClient();
+            $client = new MajesticClient();
             $this->majesticInfo = $client->getBacklinkStats($this->url);
         }
 

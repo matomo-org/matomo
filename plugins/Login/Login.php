@@ -6,20 +6,26 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Login
+ * @package Login
  */
+namespace Piwik\Plugins\Login;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Cookie;
 use Piwik\Option;
+use Piwik\Plugins\Login\Auth;
+use Piwik\Plugins\Login\Controller;
 use Piwik\Session;
-use Piwik\Plugin;
+use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Plugins\UsersManager\API;
 
 /**
  *
- * @package Piwik_Login
+ * @package Login
  */
-class Piwik_Login extends Plugin
+class Login extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -43,7 +49,7 @@ class Piwik_Login extends Plugin
     {
         $exceptionMessage = $exception->getMessage();
 
-        $controller = new Piwik_Login_Controller();
+        $controller = new Controller();
         $controller->login($exceptionMessage, '' /* $exception->getTraceAsString() */);
     }
 
@@ -63,7 +69,7 @@ class Piwik_Login extends Plugin
      */
     function initAuthenticationObject($allowCookieAuthentication = false)
     {
-        $auth = new Piwik_Login_Auth();
+        $auth = new Auth();
         \Zend_Registry::set('auth', $auth);
 
         $action = Piwik::getAction();
@@ -91,7 +97,7 @@ class Piwik_Login extends Plugin
     /**
      * Authenticate user and initializes the session.
      * Listens to Login.initSession hook.
-     * 
+     *
      * @throws Exception
      */
     public function initSession($info)
@@ -100,7 +106,7 @@ class Piwik_Login extends Plugin
         $md5Password = $info['md5Password'];
         $rememberMe = $info['rememberMe'];
 
-        $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($login, $md5Password);
+        $tokenAuth = API::getInstance()->getTokenAuth($login, $md5Password);
 
         $auth = \Zend_Registry::get('auth');
         $auth->setLogin($login);
@@ -137,7 +143,7 @@ class Piwik_Login extends Plugin
     public static function savePasswordResetInfo($login, $password)
     {
         $optionName = self::getPasswordResetInfoOptionName($login);
-        $optionData = Piwik_UsersManager::getPasswordHash($password);
+        $optionData = UsersManager::getPasswordHash($password);
 
         Piwik_SetOption($optionName, $optionData);
     }

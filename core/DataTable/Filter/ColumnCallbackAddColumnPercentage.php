@@ -22,7 +22,7 @@ use Piwik\DataTable\Filter\ColumnCallbackAddColumnQuotient;
  * You can also specify the precision of the percentage value to be displayed (defaults to 0, eg "11%")
  *
  * Usage:
- *   $nbVisits = Piwik_VisitsSummary_API::getInstance()->getVisits($idSite, $period, $date);
+ *   $nbVisits = API::getInstance()->getVisits($idSite, $period, $date);
  *   $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
  *
  * @package Piwik

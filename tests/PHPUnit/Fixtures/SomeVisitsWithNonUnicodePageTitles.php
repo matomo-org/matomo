@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\SitesManager\API;
 
 /**
  * Adds one website and some visits with non unicode page titles.
@@ -33,7 +34,7 @@ class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Test_Piwik_B
      */
     private function setUpWebsites()
     {
-        Piwik_SitesManager_API::getInstance()->setGlobalSearchParameters($searchKeywordParameters = 'gkwd', $searchCategoryParameters = 'gcat');
+        API::getInstance()->setGlobalSearchParameters($searchKeywordParameters = 'gkwd', $searchCategoryParameters = 'gcat');
         self::createWebsite(Date::factory($this->dateTime)->getDatetime(), 0, "Site 1 - Site search", $siteurl = false, $search = 1, $searchKwd = 'q,mykwd,p', $searchCat = 'cats');
     }
 

@@ -32,7 +32,7 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Referrer;
 use Exception;
 use Piwik\Tracker\VisitExcluded;
-use Piwik_UserCountry_LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use UserAgentParser;
 
 /**
@@ -504,7 +504,7 @@ class Visit implements Tracker\VisitInterface
      * Returns the location of the visitor, based on the visitor's IP and browser language.
      *
      * @param string $browserLang
-     * @return array See Piwik_UserCountry_LocationProvider::getLocation for more info.
+     * @return array See LocationProvider::getLocation for more info.
      */
     private function getVisitorLocation($browserLang)
     {
@@ -525,19 +525,19 @@ class Visit implements Tracker\VisitInterface
     /**
      * Sets visitor info array with location info.
      *
-     * @param array $location See Piwik_UserCountry_LocationProvider::getLocation for more info.
+     * @param array $location See LocationProvider::getLocation for more info.
      */
     private function updateVisitInfoWithLocation($location)
     {
         static $logVisitToLowerLocationMapping = array(
-            'location_country' => Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY,
+            'location_country' => LocationProvider::COUNTRY_CODE_KEY,
         );
 
         static $logVisitToLocationMapping = array(
-            'location_region'    => Piwik_UserCountry_LocationProvider::REGION_CODE_KEY,
-            'location_city'      => Piwik_UserCountry_LocationProvider::CITY_NAME_KEY,
-            'location_latitude'  => Piwik_UserCountry_LocationProvider::LATITUDE_KEY,
-            'location_longitude' => Piwik_UserCountry_LocationProvider::LONGITUDE_KEY,
+            'location_region'    => LocationProvider::REGION_CODE_KEY,
+            'location_city'      => LocationProvider::CITY_NAME_KEY,
+            'location_latitude'  => LocationProvider::LATITUDE_KEY,
+            'location_longitude' => LocationProvider::LONGITUDE_KEY,
         );
 
         foreach ($logVisitToLowerLocationMapping as $column => $locationKey) {
@@ -553,17 +553,17 @@ class Visit implements Tracker\VisitInterface
         }
 
         // if the location has provider/organization info, set it
-        if (!empty($location[Piwik_UserCountry_LocationProvider::ISP_KEY])) {
-            $providerValue = $location[Piwik_UserCountry_LocationProvider::ISP_KEY];
+        if (!empty($location[LocationProvider::ISP_KEY])) {
+            $providerValue = $location[LocationProvider::ISP_KEY];
 
             // if the org is set and not the same as the isp, add it to the provider value
-            if (!empty($location[Piwik_UserCountry_LocationProvider::ORG_KEY])
-                && $location[Piwik_UserCountry_LocationProvider::ORG_KEY] != $providerValue
+            if (!empty($location[LocationProvider::ORG_KEY])
+                && $location[LocationProvider::ORG_KEY] != $providerValue
             ) {
-                $providerValue .= ' - ' . $location[Piwik_UserCountry_LocationProvider::ORG_KEY];
+                $providerValue .= ' - ' . $location[LocationProvider::ORG_KEY];
             }
-        } else if (!empty($location[Piwik_UserCountry_LocationProvider::ORG_KEY])) {
-            $providerValue = $location[Piwik_UserCountry_LocationProvider::ORG_KEY];
+        } else if (!empty($location[LocationProvider::ORG_KEY])) {
+            $providerValue = $location[LocationProvider::ORG_KEY];
         }
 
         if (isset($providerValue)) {

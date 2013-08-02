@@ -6,18 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+namespace Piwik\Plugins\UserCountry\LocationProvider;
+
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
  * The default LocationProvider, this LocationProvider guesses a visitor's country
  * using the language they use. This provider is not very accurate.
  *
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
-class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_LocationProvider
+class DefaultProvider extends LocationProvider
 {
     const ID = 'default';
     const TITLE = 'General_Default';

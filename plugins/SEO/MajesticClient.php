@@ -6,8 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SEO
+ * @package SEO
  */
+namespace Piwik\Plugins\SEO;
+
 use Piwik\Common;
 use Piwik\Http;
 
@@ -16,7 +18,7 @@ use Piwik\Http;
  *
  * Hides the HTTP request sending logic.
  */
-class Piwik_SEO_MajesticClient
+class MajesticClient
 {
     const API_BASE = 'http://simpleapi.majesticseo.com/sapi/';
     const API_KEY = 'ETHPYY'; // please only use this key within Piwik

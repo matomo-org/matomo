@@ -6,8 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+namespace Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 /**
  * A LocationProvider that uses the PECL implementation of GeoIP.
@@ -15,9 +18,9 @@
  * FIXME: For some reason, if the PECL module is loaded & an organization DB is available, the PHP
  * module won't return organization info. If the PECL module is not loaded, organization info is returned.
  *
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
-class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_LocationProvider_GeoIp
+class Pecl extends GeoIp
 {
     const ID = 'geoip_pecl';
     const TITLE = 'GeoIP (PECL)';

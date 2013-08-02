@@ -17,7 +17,7 @@ use Piwik\Piwik;
 use Piwik\DataTable;
 use Piwik\Loader;
 use Piwik\API\Request;
-use Piwik_ImageGraph_API;
+use Piwik\Plugins\ImageGraph\API;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
@@ -122,7 +122,7 @@ abstract class ReportRenderer
      * Render the provided report.
      * Multiple calls to this method before calling outputRendering appends each report content.
      *
-     * @param array $processedReport @see Piwik_API_API::getProcessedReport()
+     * @param array $processedReport @see API::getProcessedReport()
      */
     abstract public function renderReport($processedReport);
 
@@ -235,7 +235,7 @@ abstract class ReportRenderer
         }
 
         $requestGraph = $imageGraphUrl .
-            '&outputType=' . Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP .
+            '&outputType=' . API::GRAPH_OUTPUT_PHP .
             '&format=original&serialize=0' .
             '&filter_truncate=' .
             '&width=' . $width .

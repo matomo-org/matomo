@@ -1,4 +1,16 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @category Piwik_Plugins
+ * @package Piwik_API
+ */
+namespace Piwik\Plugins\API;
+
+use Exception;
 use Piwik\API\Request;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable\Row;
@@ -12,18 +24,7 @@ use Piwik\Url;
 use Piwik\Timer;
 use Piwik\Site;
 
-/**
- * Piwik - Open source web analytics
- *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
- * @category Piwik_Plugins
- * @package Piwik_API
- */
-
-
-class Piwik_API_ProcessedReport
+class ProcessedReport
 {
 
     /**
@@ -175,7 +176,6 @@ class Piwik_API_ProcessedReport
         return array_values($availableReports); // make sure array has contiguous key values
     }
 
-
     /**
      * API metadata are sorted by category/name,
      * with a little tweak to replicate the standard Piwik category ordering
@@ -239,8 +239,6 @@ class Piwik_API_ProcessedReport
 
         $availableReports[] = $metadata;
     }
-
-
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
                                        $apiParameters = false, $idGoal = false, $language = false,
@@ -554,5 +552,4 @@ class Piwik_API_ProcessedReport
             $rowsMetadata
         );
     }
-
 }

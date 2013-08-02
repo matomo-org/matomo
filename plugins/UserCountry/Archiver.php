@@ -6,16 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+
+namespace Piwik\Plugins\UserCountry;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\DataArray;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\PluginsArchiver;
 
-class Piwik_UserCountry_Archiver extends PluginsArchiver
+class Archiver extends PluginsArchiver
 {
     const COUNTRY_RECORD_NAME = 'UserCountry_country';
     const REGION_RECORD_NAME = 'UserCountry_region';
@@ -35,16 +38,15 @@ class Piwik_UserCountry_Archiver extends PluginsArchiver
 
     const CITY_FIELD = 'location_city';
 
-    protected $dimensions = array( self::COUNTRY_FIELD, self::REGION_FIELD, self::CITY_FIELD );
+    protected $dimensions = array(self::COUNTRY_FIELD, self::REGION_FIELD, self::CITY_FIELD);
 
     protected $arrays;
     const LATITUDE_FIELD = 'location_latitude';
     const LONGITUDE_FIELD = 'location_longitude';
 
-
     public function archiveDay()
     {
-        foreach($this->dimensions as $dimension) {
+        foreach ($this->dimensions as $dimension) {
             $this->arrays[$dimension] = new DataArray();
         }
         $this->aggregateFromVisits();
@@ -95,11 +97,12 @@ class Piwik_UserCountry_Archiver extends PluginsArchiver
 
     protected function rememberCityLatLong($row)
     {
-        if (   !empty($row[self::CITY_FIELD])
+        if (!empty($row[self::CITY_FIELD])
             && !empty($row[self::LATITUDE_FIELD])
             && !empty($row[self::LONGITUDE_FIELD])
-            && empty($this->latLongForCities[$row[self::CITY_FIELD]])) {
-                $this->latLongForCities[$row[self::CITY_FIELD]] = array($row[self::LATITUDE_FIELD], $row[self::LONGITUDE_FIELD]);
+            && empty($this->latLongForCities[$row[self::CITY_FIELD]])
+        ) {
+            $this->latLongForCities[$row[self::CITY_FIELD]] = array($row[self::LATITUDE_FIELD], $row[self::LONGITUDE_FIELD]);
         }
     }
 
@@ -153,8 +156,8 @@ class Piwik_UserCountry_Archiver extends PluginsArchiver
             if (isset($this->latLongForCities[$label])) {
                 // get lat/long for city
                 list($lat, $long) = $this->latLongForCities[$label];
-                $lat = round($lat, Piwik_UserCountry_LocationProvider::GEOGRAPHIC_COORD_PRECISION);
-                $long = round($long, Piwik_UserCountry_LocationProvider::GEOGRAPHIC_COORD_PRECISION);
+                $lat = round($lat, LocationProvider::GEOGRAPHIC_COORD_PRECISION);
+                $long = round($long, LocationProvider::GEOGRAPHIC_COORD_PRECISION);
 
                 // set latitude + longitude metadata
                 $row->setMetadata('lat', $lat);
@@ -175,5 +178,4 @@ class Piwik_UserCountry_Archiver extends PluginsArchiver
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
             $nameToCount[self::COUNTRY_RECORD_NAME]['level0']);
     }
-
 }

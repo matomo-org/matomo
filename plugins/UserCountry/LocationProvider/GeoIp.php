@@ -6,15 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+namespace Piwik\Plugins\UserCountry\LocationProvider;
+
+use Exception;
+use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
  * Base type for all GeoIP LocationProviders.
  *
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
-abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountry_LocationProvider
+abstract class GeoIp extends LocationProvider
 {
     /* For testing, use: 'http://piwik-team.s3.amazonaws.com/GeoLiteCity.dat.gz' */
     const GEO_LITE_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz';
@@ -254,7 +258,6 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
         return false;
     }
 }
-
 
 /**
  * @see plugins/UserCountry/LocationProvider/GeoIp/ServerBased.php

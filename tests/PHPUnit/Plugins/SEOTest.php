@@ -7,6 +7,7 @@
  */
 use Piwik\Access;
 use Piwik\DataTable\Renderer;
+use Piwik\Plugins\SEO\API;
 
 class SEOTest extends PHPUnit_Framework_TestCase
 {
@@ -42,7 +43,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
     public function test_API()
     {
         try {
-            $dataTable = Piwik_SEO_API::getInstance()->getRank('http://www.microsoft.com/');
+            $dataTable = API::getInstance()->getRank('http://www.microsoft.com/');
         } catch(Exception $e) {
             $this->markTestSkipped('A SEO http request failed, Skipping this test for now. Error was: '.$e->getMessage());
         }

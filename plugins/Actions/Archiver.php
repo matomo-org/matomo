@@ -6,8 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Actions
+ * @package Actions
  */
+namespace Piwik\Plugins\Actions;
+
 use Piwik\Config;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row\DataTableSummaryRow;
@@ -16,13 +18,14 @@ use Piwik\DataTable;
 use Piwik\RankingQuery;
 use Piwik\PluginsArchiver;
 use Piwik\Tracker\Action;
+use Piwik\Plugins\Actions\ArchivingHelper;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
  *
- * @package Piwik_Actions
+ * @package Actions
  */
-class Piwik_Actions_Archiver extends PluginsArchiver
+class Archiver extends PluginsArchiver
 {
     const DOWNLOADS_RECORD_NAME = 'Actions_downloads';
     const OUTLINKS_RECORD_NAME = 'Actions_outlink';
@@ -42,15 +45,15 @@ class Piwik_Actions_Archiver extends PluginsArchiver
     const METRIC_KEYWORDS_RECORD_NAME = 'Actions_nb_keywords';
 
     /* Metrics in use by the API Actions.get */
-    public static $actionsAggregateMetrics  = array(
-        self::METRIC_PAGEVIEWS_RECORD_NAME        => 'nb_pageviews',
-        self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME   => 'nb_uniq_pageviews',
-        self::METRIC_DOWNLOADS_RECORD_NAME        => 'nb_downloads',
-        self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME  => 'nb_uniq_downloads',
-        self::METRIC_OUTLINKS_RECORD_NAME         => 'nb_outlinks',
-        self::METRIC_UNIQ_OUTLINKS_RECORD_NAME    => 'nb_uniq_outlinks',
-        self::METRIC_SEARCHES_RECORD_NAME        => 'nb_searches',
-        self::METRIC_KEYWORDS_RECORD_NAME         => 'nb_keywords',
+    public static $actionsAggregateMetrics = array(
+        self::METRIC_PAGEVIEWS_RECORD_NAME      => 'nb_pageviews',
+        self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => 'nb_uniq_pageviews',
+        self::METRIC_DOWNLOADS_RECORD_NAME      => 'nb_downloads',
+        self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME => 'nb_uniq_downloads',
+        self::METRIC_OUTLINKS_RECORD_NAME       => 'nb_outlinks',
+        self::METRIC_UNIQ_OUTLINKS_RECORD_NAME  => 'nb_uniq_outlinks',
+        self::METRIC_SEARCHES_RECORD_NAME       => 'nb_searches',
+        self::METRIC_KEYWORDS_RECORD_NAME       => 'nb_keywords',
     );
 
     public static $actionTypes = array(
@@ -93,24 +96,24 @@ class Piwik_Actions_Archiver extends PluginsArchiver
         $rankingQueryLimit = self::getRankingQueryLimit();
 
         // FIXME: This is a quick fix for #3482. The actual cause of the bug is that
-        // the site search & performance metrics additions to 
-        // Piwik_Actions_ArchivingHelper::updateActionsTableWithRowQuery expect every
+        // the site search & performance metrics additions to
+        // ArchivingHelper::updateActionsTableWithRowQuery expect every
         // row to have 'type' data, but not all of the SQL queries that are run w/o
         // ranking query join on the log_action table and thus do not select the
         // log_action.type column.
-        // 
+        //
         // NOTES: Archiving logic can be generalized as follows:
         // 0) Do SQL query over log_link_visit_action & join on log_action to select
         //    some metrics (like visits, hits, etc.)
         // 1) For each row, cache the action row & metrics. (This is done by
-        //    updateActionsTableWithRowQuery for result set rows that have 
+        //    updateActionsTableWithRowQuery for result set rows that have
         //    name & type columns.)
         // 2) Do other SQL queries for metrics we can't put in the first query (like
         //    entry visits, exit vists, etc.) w/o joining log_action.
         // 3) For each row, find the cached row by idaction & add the new metrics to
         //    it. (This is done by updateActionsTableWithRowQuery for result set rows
         //    that DO NOT have name & type columns.)
-        // 
+        //
         // The site search & performance metrics additions expect a 'type' all the time
         // which breaks the original pre-rankingquery logic. Ranking query requires a
         // join, so the bug is only seen when ranking query is disabled.
@@ -118,7 +121,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
             $rankingQueryLimit = 100000;
         }
 
-        Piwik_Actions_ArchivingHelper::reloadConfig();
+        ArchivingHelper::reloadConfig();
 
         $this->initActionsTables();
         $this->archiveDayActions($rankingQueryLimit);
@@ -159,7 +162,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
         $this->actionsTablesByType = array();
         foreach (self::$actionTypes as $type) {
             $dataTable = new DataTable();
-            $dataTable->setMaximumAllowedRows(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero);
+            $dataTable->setMaximumAllowedRows(ArchivingHelper::$maximumRowsInDataTableLevelZero);
 
             if ($type == Action::TYPE_ACTION_URL
                 || $type == Action::TYPE_ACTION_NAME
@@ -271,7 +274,6 @@ class Piwik_Actions_Archiver extends PluginsArchiver
         // to the outer select. therefore, $segment needs to know about it.
         $select = sprintf($select, $sprintfField);
 
-
         // get query with segmentation
         $query = $this->getLogAggregator()->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
@@ -285,7 +287,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
 
         // get result
         $resultSet = $this->getLogAggregator()->getDb()->query($querySql, $query['bind']);
-        $modified = Piwik_Actions_ArchivingHelper::updateActionsTableWithRowQuery($resultSet, $sprintfField, $this->actionsTablesByType);
+        $modified = ArchivingHelper::updateActionsTableWithRowQuery($resultSet, $sprintfField, $this->actionsTablesByType);
         return $modified;
     }
 
@@ -435,7 +437,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
      */
     protected function recordDayReports()
     {
-        Piwik_Actions_ArchivingHelper::clearActionsCache();
+        ArchivingHelper::clearActionsCache();
 
         $this->recordPageUrlsReports();
         $this->recordDownloadsReports();
@@ -450,12 +452,12 @@ class Piwik_Actions_Archiver extends PluginsArchiver
         $this->recordDataTable($dataTable, self::PAGE_URLS_RECORD_NAME);
 
         $records = array(
-            self::METRIC_PAGEVIEWS_RECORD_NAME => array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS)),
+            self::METRIC_PAGEVIEWS_RECORD_NAME      => array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS)),
             self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => array_sum($dataTable->getColumn(Metrics::INDEX_NB_VISITS)),
-            self::METRIC_SUM_TIME_RECORD_NAME => array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_SUM_TIME_GENERATION)),
-            self::METRIC_HITS_TIMED_RECORD_NAME => array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION))
+            self::METRIC_SUM_TIME_RECORD_NAME       => array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_SUM_TIME_GENERATION)),
+            self::METRIC_HITS_TIMED_RECORD_NAME     => array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION))
         );
-        $this->getProcessor()->insertNumericRecords( $records );
+        $this->getProcessor()->insertNumericRecords($records);
     }
 
     /**
@@ -470,7 +472,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
     protected function recordDataTable($dataTable, $recordName)
     {
         self::deleteInvalidSummedColumnsFromDataTable($dataTable);
-        $s = $dataTable->getSerialized(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
+        $s = $dataTable->getSerialized(ArchivingHelper::$maximumRowsInDataTableLevelZero, ArchivingHelper::$maximumRowsInSubDataTable, ArchivingHelper::$columnToSortByBeforeTruncation);
         $this->getProcessor()->insertBlobRecord($recordName, $s);
     }
 
@@ -566,15 +568,15 @@ class Piwik_Actions_Archiver extends PluginsArchiver
 
     public function archivePeriod()
     {
-        Piwik_Actions_ArchivingHelper::reloadConfig();
+        ArchivingHelper::reloadConfig();
         $dataTableToSum = array(
             self::PAGE_TITLES_RECORD_NAME,
             self::PAGE_URLS_RECORD_NAME,
         );
         $this->getProcessor()->aggregateDataTableReports($dataTableToSum,
-            Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero,
-            Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
-            Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation,
+            ArchivingHelper::$maximumRowsInDataTableLevelZero,
+            ArchivingHelper::$maximumRowsInSubDataTable,
+            ArchivingHelper::$columnToSortByBeforeTruncation,
             self::$actionColumnAggregationOperations,
             self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive
         );
@@ -586,9 +588,9 @@ class Piwik_Actions_Archiver extends PluginsArchiver
         );
         $aggregation = null;
         $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum,
-            Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero,
-            Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
-            Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation,
+            ArchivingHelper::$maximumRowsInDataTableLevelZero,
+            ArchivingHelper::$maximumRowsInSubDataTable,
+            ArchivingHelper::$columnToSortByBeforeTruncation,
             $aggregation,
             self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive
         );

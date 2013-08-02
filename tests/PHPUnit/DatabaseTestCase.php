@@ -10,6 +10,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Option;
+use Piwik\Plugins\PDFReports\API;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 
@@ -71,7 +72,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Piwik::dropDatabase();
         Manager::getInstance()->deleteAll();
         Option::getInstance()->clearCache();
-        Piwik_PDFReports_API::$cache = array();
+        API::$cache = array();
         Site::clearCache();
         Cache::deleteTrackerCache();
         Config::getInstance()->clear();

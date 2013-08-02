@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitFrequency
+ * @package VisitFrequency
  */
-use Piwik\Plugin;
+namespace Piwik\Plugins\VisitFrequency;
+
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_VisitFrequency
+ * @package VisitFrequency
  */
-class Piwik_VisitFrequency extends Plugin
+class VisitFrequency extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -23,9 +24,9 @@ class Piwik_VisitFrequency extends Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'WidgetsList.add'                  => 'addWidgets',
-            'Menu.add'                         => 'addMenu',
-            'API.getReportMetadata'            => 'getReportMetadata',
+            'WidgetsList.add'       => 'addWidgets',
+            'Menu.add'              => 'addMenu',
+            'API.getReportMetadata' => 'getReportMetadata',
         );
         return $hooks;
     }

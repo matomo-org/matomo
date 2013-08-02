@@ -13,7 +13,7 @@ namespace Piwik\ReportRenderer;
 use Piwik\Common;
 use Piwik\TCPDF;
 use Piwik\ReportRenderer;
-use Piwik_API_API;
+use Piwik\Plugins\API\API;
 
 /**
  * @see libs/tcpdf
@@ -166,7 +166,7 @@ class Pdf extends ReportRenderer
         $this->TCPDF->Bookmark(Piwik_Translate('PDFReports_FrontPage'));
 
         // logo
-        $this->TCPDF->Image(Piwik_API_API::getInstance()->getLogoUrl(true), $this->logoImagePosition[0], $this->logoImagePosition[1], 180 / $factor = 2, 0, $type = '', $link = '', $align = '', $resize = false, $dpi = 300);
+        $this->TCPDF->Image(API::getInstance()->getLogoUrl(true), $this->logoImagePosition[0], $this->logoImagePosition[1], 180 / $factor = 2, 0, $type = '', $link = '', $align = '', $resize = false, $dpi = 300);
         $this->TCPDF->Ln(8);
 
         // report title

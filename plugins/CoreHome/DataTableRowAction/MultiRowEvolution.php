@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreHome
+ * @package CoreHome
  */
 use Piwik\Common;
 use Piwik\ViewDataTable;
@@ -14,7 +14,7 @@ use Piwik\ViewDataTable;
 /**
  * MULTI ROW EVOLUTION
  * The class handles the popover that shows the evolution of a multiple rows in a data table
- * @package Piwik_CoreHome
+ * @package CoreHome
  */
 class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
     extends Piwik_CoreHome_DataTableRowAction_RowEvolution

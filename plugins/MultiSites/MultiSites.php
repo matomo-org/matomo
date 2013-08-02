@@ -6,15 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_MultiSites
+ * @package MultiSites
  */
-use Piwik\Plugin;
+namespace Piwik\Plugins\MultiSites;
+
+use Piwik\Plugins\MultiSites\API;
 
 /**
  *
- * @package Piwik_MultiSites
+ * @package MultiSites
  */
-class Piwik_MultiSites extends Plugin
+class MultiSites extends \Piwik\Plugin
 {
     public function getInformation()
     {
@@ -40,11 +42,11 @@ class Piwik_MultiSites extends Plugin
     public function getReportMetadata(&$reports)
     {
         $metadataMetrics = array();
-        foreach (Piwik_MultiSites_API::getApiMetrics($enhanced = true) as $metricName => $metricSettings) {
+        foreach (API::getApiMetrics($enhanced = true) as $metricName => $metricSettings) {
             $metadataMetrics[$metricName] =
-                Piwik_Translate($metricSettings[Piwik_MultiSites_API::METRIC_TRANSLATION_KEY]);
-            $metadataMetrics[$metricSettings[Piwik_MultiSites_API::METRIC_EVOLUTION_COL_NAME_KEY]] =
-                Piwik_Translate($metricSettings[Piwik_MultiSites_API::METRIC_TRANSLATION_KEY]) . " " . Piwik_Translate('MultiSites_Evolution');
+                Piwik_Translate($metricSettings[API::METRIC_TRANSLATION_KEY]);
+            $metadataMetrics[$metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY]] =
+                Piwik_Translate($metricSettings[API::METRIC_TRANSLATION_KEY]) . " " . Piwik_Translate('MultiSites_Evolution');
         }
 
         $reports[] = array(

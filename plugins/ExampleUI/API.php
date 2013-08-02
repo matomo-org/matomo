@@ -6,8 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ExampleUI
+ * @package ExampleUI
  */
+namespace Piwik\Plugins\ExampleUI;
+
 use Piwik\Period\Range;
 use Piwik\DataTable;
 
@@ -17,14 +19,14 @@ use Piwik\DataTable;
  * The functions listed in this API are returning the data used in the Controller to draw graphs and
  * display tables. See also the ExampleAPI plugin for an introduction to Piwik APIs.
  *
- * @package Piwik_ExampleUI
+ * @package ExampleUI
  */
-class Piwik_ExampleUI_API
+class API
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_ExampleUI_API
+     * @return \Piwik\Plugins\ExampleUI\API
      */
     static public function getInstance()
     {

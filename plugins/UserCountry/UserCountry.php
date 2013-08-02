@@ -6,13 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+namespace Piwik\Plugins\UserCountry;
+
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\WidgetsList;
+use Piwik_Url;
+use Piwik\Plugins\UserCountry\Archiver;
+use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 /**
  * @see plugins/UserCountry/GeoIPAutoUpdater.php
@@ -21,9 +28,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
 
 /**
  *
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
-class Piwik_UserCountry extends Plugin
+class UserCountry extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -31,18 +38,18 @@ class Piwik_UserCountry extends Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
-            'WidgetsList.add'                  => 'addWidgets',
-            'Menu.add'                         => 'addMenu',
-            'AdminMenu.add'                    => 'addAdminMenu',
-            'Goals.getReportsWithGoalMetrics'  => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'            => 'getReportMetadata',
-            'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
-            'AssetManager.getCssFiles'         => 'getCssFiles',
-            'AssetManager.getJsFiles'          => 'getJsFiles',
-            'Tracker.getVisitorLocation'       => 'getVisitorLocation',
-            'TaskScheduler.getScheduledTasks'  => 'getScheduledTasks',
+            'ArchiveProcessing_Day.compute'            => 'archiveDay',
+            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
+            'WidgetsList.add'                          => 'addWidgets',
+            'Menu.add'                                 => 'addMenu',
+            'AdminMenu.add'                            => 'addAdminMenu',
+            'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'                    => 'getReportMetadata',
+            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
+            'AssetManager.getCssFiles'                 => 'getCssFiles',
+            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'Tracker.getVisitorLocation'               => 'getVisitorLocation',
+            'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
@@ -51,7 +58,7 @@ class Piwik_UserCountry extends Plugin
     public function getScheduledTasks(&$tasks)
     {
         // add the auto updater task
-        $tasks[] = Piwik_UserCountry_GeoIPAutoUpdater::makeScheduledTask();
+        $tasks[] = GeoIPAutoUpdater::makeScheduledTask();
     }
 
     public function getCssFiles(&$cssFiles)
@@ -69,10 +76,10 @@ class Piwik_UserCountry extends Plugin
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
         $id = Common::getCurrentLocationProviderId();
-        $provider = Piwik_UserCountry_LocationProvider::getProviderById($id);
+        $provider = LocationProvider::getProviderById($id);
         if ($provider === false) {
-            $id = Piwik_UserCountry_LocationProvider_Default::ID;
-            $provider = Piwik_UserCountry_LocationProvider::getProviderById($id);
+            $id = DefaultProvider::ID;
+            $provider = LocationProvider::getProviderById($id);
             Common::printDebug("GEO: no current location provider sent, falling back to default '$id' one.");
         }
 
@@ -80,8 +87,8 @@ class Piwik_UserCountry extends Plugin
 
         // if we can't find a location, use default provider
         if ($location === false) {
-            $defaultId = Piwik_UserCountry_LocationProvider_Default::ID;
-            $provider = Piwik_UserCountry_LocationProvider::getProviderById($defaultId);
+            $defaultId = DefaultProvider::ID;
+            $provider = LocationProvider::getProviderById($defaultId);
             $location = $provider->getLocation($visitorInfo);
             Common::printDebug("GEO: couldn't find a location with Geo Module '$id', using Default '$defaultId' provider as fallback...");
             $id = $defaultId;
@@ -139,7 +146,7 @@ class Piwik_UserCountry extends Plugin
             'segment'        => 'continentCode',
             'sqlSegment'     => 'log_visit.location_country',
             'acceptedValues' => 'eur, asi, amc, amn, ams, afr, ant, oce',
-            'sqlFilter'      => array('Piwik_UserCountry', 'getCountriesForContinent'),
+            'sqlFilter'      => __NAMESPACE__ . '\UserCountry::getCountriesForContinent',
         );
         $segments[] = array(
             'type'           => 'dimension',
@@ -250,20 +257,19 @@ class Piwik_UserCountry extends Plugin
 
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
-        $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
 
     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
-        $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
-
 
     /**
      * Returns a list of country codes for a given continent code.
@@ -296,10 +302,10 @@ class Piwik_UserCountry extends Plugin
     {
         return array(
             'show_exclude_low_population' => false,
-            'show_goals' => true,
-            'filter_limit' => 5,
-            'translations' => array('label' => Piwik_Translate('UserCountry_Country')),
-            'documentation' => Piwik_Translate('UserCountry_getCountryDocumentation')
+            'show_goals'                  => true,
+            'filter_limit'                => 5,
+            'translations'                => array('label' => Piwik_Translate('UserCountry_Country')),
+            'documentation'               => Piwik_Translate('UserCountry_getCountryDocumentation')
         );
     }
 
@@ -307,12 +313,12 @@ class Piwik_UserCountry extends Plugin
     {
         return array(
             'show_exclude_low_population' => false,
-            'show_goals' => true,
-            'show_search' => false,
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'translations' => array('label' => Piwik_Translate('UserCountry_Continent')),
-            'documentation' => Piwik_Translate('UserCountry_getContinentDocumentation')
+            'show_goals'                  => true,
+            'show_search'                 => false,
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'translations'                => array('label' => Piwik_Translate('UserCountry_Continent')),
+            'documentation'               => Piwik_Translate('UserCountry_getContinentDocumentation')
         );
     }
 
@@ -320,11 +326,11 @@ class Piwik_UserCountry extends Plugin
     {
         $result = array(
             'show_exclude_low_population' => false,
-            'show_goals' => true,
-            'filter_limit' => 5,
-            'translations' => array('label' => Piwik_Translate('UserCountry_Region')),
-            'documentation' => Piwik_Translate('UserCountry_getRegionDocumentation') . '<br/>'
-                             . $this->getGeoIPReportDocSuffix()
+            'show_goals'                  => true,
+            'filter_limit'                => 5,
+            'translations'                => array('label' => Piwik_Translate('UserCountry_Region')),
+            'documentation'               => Piwik_Translate('UserCountry_getRegionDocumentation') . '<br/>'
+                . $this->getGeoIPReportDocSuffix()
         );
         $this->checkIfNoDataForGeoIpReport($result);
         return $result;
@@ -334,11 +340,11 @@ class Piwik_UserCountry extends Plugin
     {
         $result = array(
             'show_exclude_low_population' => false,
-            'show_goals' => true,
-            'filter_limit' => 5,
-            'translations' => array('label' => Piwik_Translate('UserCountry_City')),
-            'documentation' => Piwik_Translate('UserCountry_getCityDocumentation') . '<br/>'
-                            . $this->getGeoIPReportDocSuffix()
+            'show_goals'                  => true,
+            'filter_limit'                => 5,
+            'translations'                => array('label' => Piwik_Translate('UserCountry_City')),
+            'documentation'               => Piwik_Translate('UserCountry_getCityDocumentation') . '<br/>'
+                . $this->getGeoIPReportDocSuffix()
         );
         $this->checkIfNoDataForGeoIpReport($result);
         return $result;
@@ -393,8 +399,8 @@ class Piwik_UserCountry extends Plugin
      */
     public function isGeoIPWorking()
     {
-        $provider = Piwik_UserCountry_LocationProvider::getCurrentProvider();
-        return $provider instanceof Piwik_UserCountry_LocationProvider_GeoIp
+        $provider = LocationProvider::getCurrentProvider();
+        return $provider instanceof GeoIp
             && $provider->isAvailable() === true
             && $provider->isWorking() === true;
     }

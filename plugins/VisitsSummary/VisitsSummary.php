@@ -6,9 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitsSummary
+ * @package VisitsSummary
  */
-use Piwik\Plugin;
+namespace Piwik\Plugins\VisitsSummary;
+
 use Piwik\WidgetsList;
 
 /**
@@ -17,9 +18,9 @@ use Piwik\WidgetsList;
  * Day class directly.
  * These metrics can be used by other Plugins so they need to be processed up front.
  *
- * @package Piwik_VisitsSummary
+ * @package VisitsSummary
  */
-class Piwik_VisitsSummary extends Plugin
+class VisitsSummary extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

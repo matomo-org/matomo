@@ -11,6 +11,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\AssetManager;
@@ -230,7 +231,6 @@ class Twig
     {
         $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $name) {
-            $name = Common::unprefixClass($name);
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {
                 $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $name . '/templates', $name);

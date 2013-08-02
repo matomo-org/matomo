@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PleineLune
+ * @package PleineLune
  */
+namespace Piwik\Plugins\PleineLune;
+
 use Piwik\AssetManager;
-use Piwik\Plugin;
 
 /**
  *
- * @package Piwik_PleineLune
+ * @package PleineLune
  */
-class Piwik_PleineLune extends Plugin
+class PleineLune extends \Piwik\Plugin
 {
     public function getListHooksRegistered()
     {

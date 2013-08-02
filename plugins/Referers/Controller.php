@@ -6,23 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Referers
+ * @package Referers
  */
+namespace Piwik\Plugins\Referers;
+
 use Piwik\API\Request;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\Url;
 
 /**
  *
- * @package Piwik_Referers
+ * @package Referers
  */
-class Piwik_Referers_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     public function index()
     {
@@ -305,7 +306,7 @@ class Piwik_Referers_Controller extends Controller
         $view->documentation = Piwik_Translate('Referers_EvolutionDocumentation') . '<br />'
             . Piwik_Translate('General_BrokenDownReportDocumentation') . '<br />'
             . Piwik_Translate('Referers_EvolutionDocumentationMoreInfo', '&quot;'
-            . Piwik_Translate('Referers_DetailsByRefererType') . '&quot;');
+                . Piwik_Translate('Referers_DetailsByRefererType') . '&quot;');
 
         return $this->renderView($view, $fetch);
     }
@@ -414,7 +415,7 @@ function DisplayTopKeywords($url = "")
 		<p>
 		<b>Example API URL</b> - For example if you would like to get the top 10 keywords, used last week, to land on the page <a target='_blank' href='$topPageUrl'>$topPageUrl</a>,
 		in format JSON: you would dynamically fetch the data using <a target='_blank' href='$jsonRequest&url=" . urlencode($topPageUrl) . "'>this API request URL</a>. Make sure you encode the 'url' parameter in the URL.</p>
-		
+
 		<p><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar.
 		If you run this code in your page $topPageUrl, it would output the following:";
 
@@ -458,7 +459,6 @@ function DisplayTopKeywords($url = "")
 		<br/>On medium to large traffic websites, we recommend to cache this data, as to minimize the performance impact of calling the Piwik API on each page view.
 		</p>
 		";
-
     }
 
     /**
@@ -469,7 +469,7 @@ function DisplayTopKeywords($url = "")
      */
     public static function getTranslatedReferrerTypeLabel($typeReferrer)
     {
-        $label = Piwik_getRefererTypeLabel($typeReferrer);
+        $label = getRefererTypeLabel($typeReferrer);
         return Piwik_Translate($label);
     }
 

@@ -8,6 +8,7 @@
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Common;
+use Piwik\Plugins\Goals\API;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
@@ -107,7 +108,7 @@ class Piwik_Test_Fixture_EmptyOneSite
             $this->date, $ecommerce = 1, $siteName = "Site #0", $siteUrl = "http://whatever.com/");
 
         // add two goals
-        $goals = Piwik_Goals_API::getInstance();
+        $goals = API::getInstance();
         $goals->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
         $goals->addGoal($this->idSite, 'all', 'url', 'http', 'contains');
     }

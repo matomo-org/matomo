@@ -6,20 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Widgetize
+ * @package Widgetize
  */
+namespace Piwik\Plugins\Widgetize;
+
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\FrontController;
 use Piwik\View;
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_Widgetize
+ * @package Widgetize
  */
-class Piwik_Widgetize_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     public function index()
     {

@@ -6,8 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Live
+ * @package Live
  */
+namespace Piwik\Plugins\Live;
+
+use Exception;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Filter\ColumnDelete;
@@ -24,6 +27,8 @@ use Piwik\Site;
 use Piwik\Db;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
+use Piwik\Plugins\Live\Visitor;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * @see plugins/Referers/functions.php
@@ -49,14 +54,14 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
  * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
  *
  * See also the documentation about <a href='http://piwik.org/docs/real-time/' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
- * @package Piwik_Live
+ * @package Live
  */
-class Piwik_Live_API
+class API
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_Live_API
+     * @return \Piwik\Plugins\Live\API
      */
     static public function getInstance()
     {
@@ -181,10 +186,10 @@ class Piwik_Live_API
 
         $site = new Site($idSite);
         $timezone = $site->getTimezone();
-        $currencies = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
+        $currencies = SitesManagerAPI::getInstance()->getCurrencySymbols();
         foreach ($visitorDetails as $visitorDetail) {
             $this->cleanVisitorDetails($visitorDetail, $idSite);
-            $visitor = new Piwik_Live_Visitor($visitorDetail);
+            $visitor = new Visitor($visitorDetail);
             $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
             $visitorDetailsArray['siteCurrency'] = $site->getCurrency();
@@ -199,11 +204,11 @@ class Piwik_Live_API
             $visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%time%');
 
             $visitorDetailsArray['actionDetails'] = array();
-            if(!$doNotFetchActions) {
+            if (!$doNotFetchActions) {
                 $visitorDetailsArray = $this->enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $timezone);
             }
 
-            if($flat) {
+            if ($flat) {
                 $visitorDetailsArray = $this->flattenVisitorDetailsArray($visitorDetailsArray);
             }
             $table->addRowFromArray(array(Row::COLUMNS => $visitorDetailsArray));
@@ -222,7 +227,6 @@ class Piwik_Live_API
         }
         return $key;
     }
-
 
     /**
      * The &flat=1 feature is used by API.getSuggestedValuesForSegment
@@ -259,8 +263,8 @@ class Piwik_Live_API
 
         // Flatten Goals
         $count = 1;
-        foreach($visitorDetailsArray['actionDetails'] as $action) {
-            if(!empty($action['goalId'])) {
+        foreach ($visitorDetailsArray['actionDetails'] as $action) {
+            if (!empty($action['goalId'])) {
                 $flattenedKeyName = 'visitConvertedGoalId' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                 $visitorDetailsArray[$flattenedKeyName] = $action['goalId'];
                 $count++;
@@ -269,18 +273,18 @@ class Piwik_Live_API
 
         // Flatten Page Titles/URLs
         $count = 1;
-        foreach($visitorDetailsArray['actionDetails'] as $action) {
-            if(!empty($action['url'])) {
+        foreach ($visitorDetailsArray['actionDetails'] as $action) {
+            if (!empty($action['url'])) {
                 $flattenedKeyName = 'pageUrl' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                 $visitorDetailsArray[$flattenedKeyName] = $action['url'];
             }
 
-            if(!empty($action['pageTitle'])) {
+            if (!empty($action['pageTitle'])) {
                 $flattenedKeyName = 'pageTitle' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                 $visitorDetailsArray[$flattenedKeyName] = $action['pageTitle'];
             }
 
-            if(!empty($action['siteSearchKeyword'])) {
+            if (!empty($action['siteSearchKeyword'])) {
                 $flattenedKeyName = 'siteSearchKeyword' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                 $visitorDetailsArray[$flattenedKeyName] = $action['siteSearchKeyword'];
             }
@@ -289,25 +293,25 @@ class Piwik_Live_API
 
         // Entry/exit pages
         $firstAction = $lastAction = false;
-        foreach($visitorDetailsArray['actionDetails'] as $action) {
-            if($action['type'] == 'action')  {
-                if(empty($firstAction)) {
+        foreach ($visitorDetailsArray['actionDetails'] as $action) {
+            if ($action['type'] == 'action') {
+                if (empty($firstAction)) {
                     $firstAction = $action;
                 }
                 $lastAction = $action;
             }
         }
 
-        if(!empty($firstAction['pageTitle'])) {
+        if (!empty($firstAction['pageTitle'])) {
             $visitorDetailsArray['entryPageTitle'] = $firstAction['pageTitle'];
         }
-        if(!empty($firstAction['url'])) {
+        if (!empty($firstAction['url'])) {
             $visitorDetailsArray['entryPageUrl'] = $firstAction['url'];
         }
-        if(!empty($lastAction['pageTitle'])) {
+        if (!empty($lastAction['pageTitle'])) {
             $visitorDetailsArray['exitPageTitle'] = $lastAction['pageTitle'];
         }
-        if(!empty($lastAction['url'])) {
+        if (!empty($lastAction['url'])) {
             $visitorDetailsArray['exitPageUrl'] = $lastAction['url'];
         }
 
@@ -411,8 +415,8 @@ class Piwik_Live_API
 
         // Group by idvisit so that a visitor converting 2 goals only appears once
         $sql = "
-			SELECT sub.* 
-			FROM ( 
+			SELECT sub.*
+			FROM (
 				" . $subQuery['sql'] . "
 				$sqlLimit
 			) AS sub
@@ -517,7 +521,6 @@ class Piwik_Live_API
             if (isset($actionDetails[$actionIdx + 1])) {
                 $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
                 $actionDetail['timeSpentPretty'] = Piwik::getPrettyTimeFromSeconds($actionDetail['timeSpent']);
-
             }
             unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
 
@@ -663,7 +666,6 @@ class Piwik_Live_API
             // Convert datetimes to the site timezone
             $dateTimeVisit = Date::factory($details['serverTimePretty'], $timezone);
             $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat') . ' %time%');
-
         }
         $visitorDetailsArray['goalConversions'] = count($goalDetails);
         return $visitorDetailsArray;

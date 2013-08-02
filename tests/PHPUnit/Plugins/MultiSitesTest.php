@@ -7,6 +7,8 @@
  */
 
 use Piwik\Access;
+use Piwik\Plugins\MultiSites\API as MultiSitesAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 class MultiSitesTest extends DatabaseTestCase
 {
@@ -19,7 +21,7 @@ class MultiSitesTest extends DatabaseTestCase
         $access = Access::getInstance();
         $access->setSuperUser(true);
 
-        $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");
+        $this->idSiteAccess = SitesManagerAPI::getInstance()->addSite("test", "http://test");
 
         \Piwik\PluginsManager::getInstance()->loadPlugins(array('MultiSites', 'VisitsSummary', 'Actions'));
         \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
@@ -35,7 +37,7 @@ class MultiSitesTest extends DatabaseTestCase
      */
     public function testWhenNoDataGetOneReturnsRow()
     {
-        $dataTable = Piwik_MultiSites_API::getInstance()->getOne($this->idSiteAccess, 'month', '01-01-2010');
+        $dataTable = MultiSitesAPI::getInstance()->getOne($this->idSiteAccess, 'month', '01-01-2010');
         $this->assertEquals(1, $dataTable->getRowsCount());
 
         // safety net

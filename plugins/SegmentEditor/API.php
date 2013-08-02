@@ -6,8 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SegmentEditor
+ * @package SegmentEditor
  */
+namespace Piwik\Plugins\SegmentEditor;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
@@ -16,16 +19,16 @@ use Piwik\Segment;
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
  *
- * @package Piwik_SegmentEditor
+ * @package SegmentEditor
  */
-class Piwik_SegmentEditor_API
+class API
 {
     const DELETE_SEGMENT_EVENT = 'SegmentEditor.delete';
 
     static private $instance = null;
 
     /**
-     * @return Piwik_SegmentEditor_API
+     * @return \Piwik\Plugins\SegmentEditor\API
      */
     static public function getInstance()
     {
@@ -116,7 +119,7 @@ class Piwik_SegmentEditor_API
 
     protected function checkUserIsNotAnonymous()
     {
-        if(Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous()) {
             throw new Exception("To create, edit or delete Custom Segments, please sign in first.");
         }
     }
@@ -229,8 +232,8 @@ class Piwik_SegmentEditor_API
             throw new Exception("idSegment should be numeric.");
         }
         $segment = \Zend_Registry::get('db')->fetchRow("SELECT * " .
-                                                    " FROM " . Common::prefixTable("segment") .
-                                                    " WHERE idsegment = ?", $idSegment);
+            " FROM " . Common::prefixTable("segment") .
+            " WHERE idsegment = ?", $idSegment);
 
         if (empty($segment)) {
             return false;
@@ -257,7 +260,7 @@ class Piwik_SegmentEditor_API
      */
     public function getAll($idSite = false, $returnOnlyAutoArchived = false)
     {
-        if(!empty($idSite) ) {
+        if (!empty($idSite)) {
             Piwik::checkUserHasViewAccess($idSite);
         } else {
             Piwik::checkUserHasSomeViewAccess();
@@ -266,7 +269,7 @@ class Piwik_SegmentEditor_API
 
         // Build basic segment filtering
         $whereIdSite = '';
-        if(!empty($idSite)) {
+        if (!empty($idSite)) {
             $whereIdSite = 'enable_only_idsite = ? OR ';
             $bind[] = $idSite;
         }
@@ -274,14 +277,14 @@ class Piwik_SegmentEditor_API
         $bind[] = Piwik::getCurrentUserLogin();
 
         $extraWhere = '';
-        if($returnOnlyAutoArchived) {
+        if ($returnOnlyAutoArchived) {
             $extraWhere = ' AND auto_archive = 1';
         }
 
         // Query
         $sql = "SELECT * " .
-                " FROM " . Common::prefixTable("segment") .
-                " WHERE ($whereIdSite enable_only_idsite = 0)
+            " FROM " . Common::prefixTable("segment") .
+            " WHERE ($whereIdSite enable_only_idsite = 0)
                         AND  (enable_all_users = 1 OR login = ?)
                         AND deleted = 0
                         $extraWhere

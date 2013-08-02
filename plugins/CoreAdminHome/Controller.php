@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreAdminHome
+ * @package CoreAdminHome
  */
+namespace Piwik\Plugins\CoreAdminHome;
+
+use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
-use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Nonce;
@@ -19,12 +21,15 @@ use Piwik\Tracker\IgnoreCookie;
 use Piwik\View;
 use Piwik\Url;
 use Piwik\Site;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\LanguagesManager\API as LanguagesManagerAPI;
+use Piwik\Plugins\SitesManager\API;
 
 /**
  *
- * @package Piwik_CoreAdminHome
+ * @package CoreAdminHome
  */
-class Piwik_CoreAdminHome_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
     const LOGO_HEIGHT = 300;
     const LOGO_SMALL_HEIGHT = 100;
@@ -66,7 +71,8 @@ class Piwik_CoreAdminHome_Controller extends Admin
             $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/misc/user/');
             $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png')
                 && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.svg')
-                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');;
+                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');
+            ;
             $view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 
             $trustedHosts = array();
@@ -76,7 +82,7 @@ class Piwik_CoreAdminHome_Controller extends Admin
             $view->trustedHosts = $trustedHosts;
         }
 
-        $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
         echo $view->render();
     }
@@ -140,7 +146,7 @@ class Piwik_CoreAdminHome_Controller extends Admin
         $this->setBasicVariablesView($view);
         $view->topMenu = Piwik_GetTopMenu();
 
-        $viewableIdSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $viewableIdSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();
 
         $defaultIdSite = reset($viewableIdSites);
         $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
@@ -148,7 +154,7 @@ class Piwik_CoreAdminHome_Controller extends Admin
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = Piwik::getCurrency($view->idSite);
 
-        $allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($view->idSite);
+        $allUrls = API::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {
             $aliasUrl = $allUrls[1];
         } else {
@@ -160,9 +166,9 @@ class Piwik_CoreAdminHome_Controller extends Admin
         $view->defaultReportSiteDomain = @parse_url($mainUrl, PHP_URL_HOST);
 
         // get currencies for each viewable site
-        $view->currencySymbols = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
+        $view->currencySymbols = API::getInstance()->getCurrencySymbols();
 
-        $view->serverSideDoNotTrackEnabled = \Piwik_PrivacyManager_Controller::isDntSupported();
+        $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\Controller::isDntSupported();
 
         echo $view->render();
     }
@@ -185,9 +191,9 @@ class Piwik_CoreAdminHome_Controller extends Admin
         $view = new View('@CoreAdminHome/optOut');
         $view->trackVisits = $trackVisits;
         $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
-        $view->language = Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)
+        $view->language = LanguagesManagerAPI::getInstance()->isLanguageAvailable($language)
             ? $language
-            : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+            : LanguagesManager::getLanguageCodeForCurrentUser();
         echo $view->render();
     }
 

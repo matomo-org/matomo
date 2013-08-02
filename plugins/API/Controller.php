@@ -8,19 +8,21 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+namespace Piwik\Plugins\API;
+
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Request;
 use Piwik\API\Proxy;
 use Piwik\Config;
 use Piwik\Common;
-use Piwik\Controller;
+use Piwik\Plugins\API\API;
 use Piwik\View;
 
 /**
  *
  * @package Piwik_API
  */
-class Piwik_API_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     function index()
     {
@@ -51,7 +53,7 @@ class Piwik_API_Controller extends Controller
 
     public function listSegments()
     {
-        $segments = Piwik_API_API::getInstance()->getSegmentsMetadata($this->idSite);
+        $segments = API::getInstance()->getSegmentsMetadata($this->idSite);
 
         $tableDimensions = $tableMetrics = '';
         $customVariables = 0;
@@ -97,7 +99,6 @@ class Piwik_API_Controller extends Controller
     						</td></tr>';
                 }
             }
-
 
             if ($segment['type'] == 'dimension') {
                 $tableDimensions .= $output;

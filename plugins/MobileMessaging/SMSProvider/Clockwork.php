@@ -6,17 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_MobileMessaging_SMSProvider
+ * @package SMSProvider
  */
 
 use Piwik\Http;
+use Piwik\Plugins\MobileMessaging\APIException;
+use Piwik\Plugins\MobileMessaging\SMSProvider;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/MobileMessaging/APIException.php";
 /**
  *
- * @package Piwik_MobileMessaging_SMSProvider
+ * @package SMSProvider
  */
-class Piwik_MobileMessaging_SMSProvider_Clockwork extends Piwik_MobileMessaging_SMSProvider
+class Piwik_MobileMessaging_SMSProvider_Clockwork extends SMSProvider
 {
     const SOCKET_TIMEOUT = 15;
 
@@ -88,7 +90,7 @@ class Piwik_MobileMessaging_SMSProvider_Clockwork extends Piwik_MobileMessaging_
         }
 
         if (strpos($result, self::ERROR_STRING) !== false) {
-            throw new Piwik_MobileMessaging_APIException(
+            throw new APIException(
                 'Clockwork API returned the following error message : ' . $result
             );
         }

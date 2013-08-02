@@ -212,7 +212,7 @@ class Access
         $this->isSuperUser = true;
         
         try {
-            $allSitesId = \Piwik_SitesManager_API::getInstance()->getAllSitesId();
+            $allSitesId = Plugins\SitesManager\API::getInstance()->getAllSitesId();
         } catch(\Exception $e) {
             $allSitesId = array();
         }

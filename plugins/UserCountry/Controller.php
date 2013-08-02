@@ -6,23 +6,32 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
-use Piwik\Controller\Admin;
+namespace Piwik\Plugins\UserCountry;
+
+use Admin;
+use Exception;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Http;
 use Piwik\IP;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\Url;
+use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\ServerBased;
 
 /**
  *
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
-class Piwik_UserCountry_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
     public function index()
     {
@@ -44,19 +53,19 @@ class Piwik_UserCountry_Controller extends Admin
         Piwik::checkUserIsSuperUser();
         $view = new View('@UserCountry/adminIndex');
 
-        $allProviderInfo = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
+        $allProviderInfo = LocationProvider::getAllProviderInfo(
             $newline = '<br/>', $includeExtra = true);
         $view->locationProviders = $allProviderInfo;
-        $view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
+        $view->currentProviderId = LocationProvider::getCurrentProviderId();
         $view->thisIP = IP::getIpFromHeader();
-        $geoIPDatabasesInstalled = Piwik_UserCountry_LocationProvider_GeoIp::isDatabaseInstalled();
+        $geoIPDatabasesInstalled = GeoIp::isDatabaseInstalled();
         $view->geoIPDatabasesInstalled = $geoIPDatabasesInstalled;
 
         // check if there is a working provider (that isn't the default one)
         $isThereWorkingProvider = false;
         foreach ($allProviderInfo as $id => $provider) {
-            if ($id != Piwik_UserCountry_LocationProvider_Default::ID
-                && $provider['status'] == Piwik_UserCountry_LocationProvider::INSTALLED
+            if ($id != DefaultProvider::ID
+                && $provider['status'] == LocationProvider::INSTALLED
             ) {
                 $isThereWorkingProvider = true;
                 break;
@@ -67,11 +76,11 @@ class Piwik_UserCountry_Controller extends Admin
         // if using either the Apache or PECL module, they are working and there are no databases
         // in misc, then the databases are located outside of Piwik, so we cannot update them
         $view->showGeoIPUpdateSection = true;
-        $currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
+        $currentProviderId = LocationProvider::getCurrentProviderId();
         if (!$geoIPDatabasesInstalled
-            && ($currentProviderId == Piwik_UserCountry_LocationProvider_GeoIp_ServerBased::ID
-                || $currentProviderId == Piwik_UserCountry_LocationProvider_GeoIp_Pecl::ID)
-            && $allProviderInfo[$currentProviderId]['status'] == Piwik_UserCountry_LocationProvider::INSTALLED
+            && ($currentProviderId == ServerBased::ID
+                || $currentProviderId == Pecl::ID)
+            && $allProviderInfo[$currentProviderId]['status'] == LocationProvider::INSTALLED
         ) {
             $view->showGeoIPUpdateSection = false;
         }
@@ -106,23 +115,23 @@ class Piwik_UserCountry_Controller extends Admin
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
             Json::sendHeaderJSON();
-            $outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase('GeoIPCity.dat') . '.gz';
+            $outputPath = GeoIp::getPathForGeoIpDatabase('GeoIPCity.dat') . '.gz';
             try {
                 $result = Http::downloadChunk(
-                    $url = Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL,
+                    $url = GeoIp::GEO_LITE_URL,
                     $outputPath,
                     $continue = Common::getRequestVar('continue', true, 'int')
                 );
 
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
-                    Piwik_UserCountry_GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
+                    GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
 
                     // setup the auto updater
-                    Piwik_UserCountry_GeoIPAutoUpdater::setUpdaterOptions(array(
-                                                                               'loc_db' => Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL,
-                                                                               'period' => Piwik_UserCountry_GeoIPAutoUpdater::SCHEDULE_PERIOD_MONTHLY,
-                                                                          ));
+                    GeoIPAutoUpdater::setUpdaterOptions(array(
+                                                             'loc_db' => GeoIp::GEO_LITE_URL,
+                                                             'period' => GeoIPAutoUpdater::SCHEDULE_PERIOD_MONTHLY,
+                                                        ));
 
                     // make sure to echo out the geoip updater management screen
                     $result['next_screen'] = $this->getGeoIpUpdaterManageScreen();
@@ -155,16 +164,16 @@ class Piwik_UserCountry_Controller extends Admin
      */
     private function setUpdaterManageVars($view)
     {
-        $urls = Piwik_UserCountry_GeoIPAutoUpdater::getConfiguredUrls();
+        $urls = GeoIPAutoUpdater::getConfiguredUrls();
 
         $view->geoIPLocUrl = $urls['loc'];
         $view->geoIPIspUrl = $urls['isp'];
         $view->geoIPOrgUrl = $urls['org'];
-        $view->geoIPUpdatePeriod = Piwik_UserCountry_GeoIPAutoUpdater::getSchedulePeriod();
+        $view->geoIPUpdatePeriod = GeoIPAutoUpdater::getSchedulePeriod();
 
-        $view->geoLiteUrl = Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL;
+        $view->geoLiteUrl = GeoIp::GEO_LITE_URL;
 
-        $lastRunTime = Piwik_UserCountry_GeoIPAutoUpdater::getLastRunTime();
+        $lastRunTime = GeoIPAutoUpdater::getLastRunTime();
         if ($lastRunTime !== false) {
             $view->lastTimeUpdaterRun = '<strong><em>' . $lastRunTime->toString() . '</em></strong>';
         }
@@ -191,7 +200,7 @@ class Piwik_UserCountry_Controller extends Admin
             try {
                 $this->checkTokenInUrl();
 
-                Piwik_UserCountry_GeoIPAutoUpdater::setUpdaterOptionsFromUrl();
+                GeoIPAutoUpdater::setUpdaterOptionsFromUrl();
 
                 // if there is a updater URL for a database, but its missing from the misc dir, tell
                 // the browser so it can download it next
@@ -237,15 +246,15 @@ class Piwik_UserCountry_Controller extends Admin
                 // based on the database type (provided by the 'key' query param) determine the
                 // url & output file name
                 $key = Common::getRequestVar('key', null, 'string');
-                $url = Piwik_UserCountry_GeoIPAutoUpdater::getConfiguredUrl($key);
+                $url = GeoIPAutoUpdater::getConfiguredUrl($key);
 
-                $ext = Piwik_UserCountry_GeoIPAutoUpdater::getGeoIPUrlExtension($url);
-                $filename = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$key][0] . '.' . $ext;
+                $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
+                $filename = GeoIp::$dbNames[$key][0] . '.' . $ext;
 
                 if (substr($filename, 0, 15) == 'GeoLiteCity.dat') {
                     $filename = 'GeoIPCity.dat' . substr($filename, 15);
                 }
-                $outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($filename);
+                $outputPath = GeoIp::getPathForGeoIpDatabase($filename);
 
                 // download part of the file
                 $result = Http::downloadChunk(
@@ -253,7 +262,7 @@ class Piwik_UserCountry_Controller extends Admin
 
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
-                    Piwik_UserCountry_GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
+                    GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
 
                     $info = $this->getNextMissingDbUrlInfo();
                     if ($info !== false) {
@@ -285,7 +294,7 @@ class Piwik_UserCountry_Controller extends Admin
             $this->checkTokenInUrl();
 
             $providerId = Common::getRequestVar('id');
-            $provider = Piwik_UserCountry_LocationProvider::setCurrentProvider($providerId);
+            $provider = LocationProvider::setCurrentProvider($providerId);
             if ($provider === false) {
                 throw new Exception("Invalid provider ID: '$providerId'.");
             }
@@ -305,7 +314,7 @@ class Piwik_UserCountry_Controller extends Admin
     public function getLocationUsingProvider()
     {
         $providerId = Common::getRequestVar('id');
-        $provider = $provider = Piwik_UserCountry_LocationProvider::getProviderById($providerId);
+        $provider = $provider = LocationProvider::getProviderById($providerId);
         if ($provider === false) {
             throw new Exception("Invalid provider ID: '$providerId'.");
         }
@@ -313,7 +322,7 @@ class Piwik_UserCountry_Controller extends Admin
         $location = $provider->getLocation(array('ip'                => IP::getIpFromHeader(),
                                                  'lang'              => Common::getBrowserLanguage(),
                                                  'disable_fallbacks' => true));
-        $location = Piwik_UserCountry_LocationProvider::prettyFormatLocation(
+        $location = LocationProvider::prettyFormatLocation(
             $location, $newline = '<br/>', $includeExtra = true);
 
         echo $location;
@@ -370,11 +379,11 @@ class Piwik_UserCountry_Controller extends Admin
      */
     private function getNextMissingDbUrlInfo()
     {
-        $missingDbs = Piwik_UserCountry_GeoIPAutoUpdater::getMissingDatabases();
+        $missingDbs = GeoIPAutoUpdater::getMissingDatabases();
         if (!empty($missingDbs)) {
             $missingDbKey = $missingDbs[0];
-            $missingDbName = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$missingDbKey][0];
-            $url = Piwik_UserCountry_GeoIPAutoUpdater::getConfiguredUrl($missingDbKey);
+            $missingDbName = GeoIp::$dbNames[$missingDbKey][0];
+            $url = GeoIPAutoUpdater::getConfiguredUrl($missingDbKey);
 
             $link = '<a href="' . $url . '">' . $missingDbName . '</a>';
 

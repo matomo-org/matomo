@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ExamplePlugin
+ * @package ExamplePlugin
  */
-use Piwik\Plugin;
+namespace Piwik\Plugins\ExamplePlugin;
+
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_ExamplePlugin
+ * @package ExamplePlugin
  */
-class Piwik_ExamplePlugin extends Plugin
+class ExamplePlugin extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

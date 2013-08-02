@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreHome
+ * @package CoreHome
  */
 use Piwik\API\ResponseBuilder;
 use Piwik\API\Request;
@@ -21,7 +21,7 @@ use Piwik\Visualization\Chart\Evolution;
 /**
  * ROW EVOLUTION
  * The class handles the popover that shows the evolution of a singe row in a data table
- * @package Piwik_CoreHome
+ * @package CoreHome
  */
 class Piwik_CoreHome_DataTableRowAction_RowEvolution
 {

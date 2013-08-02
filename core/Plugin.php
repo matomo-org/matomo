@@ -48,7 +48,8 @@ class Plugin
     public function __construct($pluginName = false)
     {
         if (empty($pluginName)) {
-            $pluginName = Common::unprefixClass(get_class($this));
+            $pluginName = explode('\\', get_class($this));
+            $pluginName = end($pluginName);
         }
         $this->pluginName = $pluginName;
 
@@ -162,7 +163,7 @@ class Plugin
 
     /**
      * Returns the plugin's base class name without the "Piwik_" prefix,
-     * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
+     * e.g., "UserCountry" when the plugin class is "UserCountry"
      *
      * @return string
      */

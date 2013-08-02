@@ -6,9 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Piwik;
+use Piwik\Plugins\UserCountry;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/UserCountry.php';
-require_once 'UserCountry/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 
 class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
@@ -20,7 +24,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
      */
     public function testGetFlagFromCode()
     {
-        $flag = Piwik_getFlagFromCode("us");
+        $flag = \Piwik\Plugins\UserCountry\getFlagFromCode("us");
         $this->assertEquals(basename($flag), "us.png");
     }
 
@@ -31,7 +35,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
      */
     public function testGetFlagFromInvalidCode()
     {
-        $flag = Piwik_getFlagFromCode("foo");
+        $flag = \Piwik\Plugins\UserCountry\getFlagFromCode("foo");
         $this->assertEquals(basename($flag), "xx.png");
     }
 
@@ -79,8 +83,8 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
      */
     public function testGeoIpUpdaterRedundantChecks()
     {
-        Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        Piwik_UserCountry_LocationProvider::$providers = null;
+        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::$providers = null;
 
         // create empty ISP & Org files
         $this->createEmptyISPOrgFiles();
@@ -166,7 +170,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
     }
 }
 
-class Piwik_UserCountry_GeoIPAutoUpdater_publictest extends Piwik_UserCountry_GeoIPAutoUpdater
+class Piwik_UserCountry_GeoIPAutoUpdater_publictest extends GeoIPAutoUpdater
 {
     public function performRedundantDbChecks()
     {

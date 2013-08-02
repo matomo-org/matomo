@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\SitesManager\API;
 
 /**
  * Adds three websites with different site search configurations and adds
@@ -36,7 +37,7 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
      */
     protected function setUpWebsites()
     {
-        Piwik_SitesManager_API::getInstance()->setGlobalSearchParameters($searchKeywordParameters = 'gkwd', $searchCategoryParameters = 'gcat');
+        API::getInstance()->setGlobalSearchParameters($searchKeywordParameters = 'gkwd', $searchCategoryParameters = 'gcat');
         self::createWebsite(Date::factory($this->dateTime)->subHour(200)->getDatetime(), 0, "Site 1 - Site search", $siteurl = false, $search = 1, $searchKwd = 'q,mykwd,p', $searchCat = 'cats');
         self::createWebsite(Date::factory($this->dateTime)->subHour(400)->getDatetime(), 0, "Site 2 - Site search use default", $siteurl = false, $search = 1, $searchKwd = '', $searchCat = '');
         self::createWebsite(Date::factory($this->dateTime)->subHour(600)->getDatetime(), 0, "Site 3 - No site search", $siteurl = false, $search = 0);

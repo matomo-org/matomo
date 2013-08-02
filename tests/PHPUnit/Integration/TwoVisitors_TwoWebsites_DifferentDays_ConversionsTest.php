@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Plugins\Goals\Archiver;
+
 require_once 'Goals/Goals.php';
 
 /**
@@ -91,7 +93,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
         $dateTime = '2010-01-03,2010-01-06';
-        $columns = 'nb_visits,' . Piwik_Goals_Archiver::getRecordName('conversion_rate');
+        $columns = 'nb_visits,' . Archiver::getRecordName('conversion_rate');
 
         $result[] = array(
             'VisitsSummary.get', array('idSite'                 => 'all', 'date' => $dateTime, 'periods' => 'range',

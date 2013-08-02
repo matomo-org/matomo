@@ -17,6 +17,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\Option;
+use Piwik\Plugins\LanguagesManager\API;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -196,7 +197,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // Make sure translations are loaded to check messages in English
         Translate::getInstance()->reloadLanguage('en');
-        Piwik_LanguagesManager_API::getInstance()->setLanguageForUser('superUserLogin', 'en');
+        API::getInstance()->setLanguageForUser('superUserLogin', 'en');
 
         // List of Modules, or Module.Method that should not be called as part of the XML output compare
         // Usually these modules either return random changing data, or are already tested in specific unit tests.
@@ -238,7 +239,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
-        Piwik_PDFReports_API::$cache = array();
+        \Piwik\Plugins\PDFReports\API::$cache = array();
         \Zend_Registry::_unsetInstance();
 
         $_GET = $_REQUEST = array();
@@ -364,7 +365,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                      'otherRequestParameters' => array(
                          'idReport'     => 1,
                          'reportFormat' => ReportRenderer::HTML_FORMAT,
-                         'outputType'   => Piwik_PDFReports_API::OUTPUT_RETURN
+                         'outputType'   => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
                      )
                  )
             )
@@ -387,7 +388,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                          'otherRequestParameters' => array(
                              'idReport'     => 1,
                              'reportFormat' => ReportRenderer::PDF_FORMAT,
-                             'outputType'   => Piwik_PDFReports_API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
                          )
                      )
                 )
@@ -407,7 +408,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                      'fileExtension'          => 'sms.txt',
                      'otherRequestParameters' => array(
                          'idReport'   => 2,
-                         'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
+                         'outputType' => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
                      )
                  )
             )
@@ -426,7 +427,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                      'fileExtension'          => 'sms.txt',
                      'otherRequestParameters' => array(
                          'idReport'   => 3,
-                         'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
+                         'outputType' => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
                      )
                  )
             )
@@ -447,7 +448,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                          'otherRequestParameters' => array(
                              'idReport'     => 4,
                              'reportFormat' => ReportRenderer::HTML_FORMAT,
-                             'outputType'   => Piwik_PDFReports_API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
                          )
                      )
                 )
@@ -466,7 +467,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                          'fileExtension'          => 'html',
                          'otherRequestParameters' => array(
                              'idReport'     => 5,
-                             'outputType'   => Piwik_PDFReports_API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
                          )
                      )
                 )

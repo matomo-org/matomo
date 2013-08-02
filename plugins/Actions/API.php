@@ -6,15 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Actions
+ * @package Actions
  */
+namespace Piwik\Plugins\Actions;
+
+use Exception;
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Plugins\Actions\Actions;
 use Piwik\Tracker\Action;
+use Piwik\Plugins\Actions\Archiver;
+use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Plugins\CustomVariables\API as CustomVariablesAPI;
 
 /**
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),
@@ -28,14 +35,14 @@ use Piwik\Tracker\Action;
  * and an outlink via "getOutlink".
  *
  * Note: pageName, pageUrl, outlinkUrl, downloadUrl parameters must be URL encoded before you call the API.
- * @package Piwik_Actions
+ * @package Actions
  */
-class Piwik_Actions_API
+class API
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_Actions_API
+     * @return \Piwik\Plugins\Actions\API
      */
     static public function getInstance()
     {
@@ -60,7 +67,7 @@ class Piwik_Actions_API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
 
-        $metrics = Piwik_Actions_Archiver::$actionsAggregateMetrics;
+        $metrics = Archiver::$actionsAggregateMetrics;
         $metrics['Actions_avg_time_generation'] = 'avg_time_generation';
 
         // get requested columns
@@ -89,13 +96,13 @@ class Piwik_Actions_API
         }
 
         if ($avgGenerationTimeRequested) {
-			$tempColumns[] = Piwik_Actions_Archiver::METRIC_SUM_TIME_RECORD_NAME;
-			$tempColumns[] = Piwik_Actions_Archiver::METRIC_HITS_TIMED_RECORD_NAME;
+            $tempColumns[] = Archiver::METRIC_SUM_TIME_RECORD_NAME;
+            $tempColumns[] = Archiver::METRIC_HITS_TIMED_RECORD_NAME;
             $columns = array_merge($columns, $tempColumns);
             $columns = array_unique($columns);
 
-            $nameReplace[Piwik_Actions_Archiver::METRIC_SUM_TIME_RECORD_NAME] = 'sum_time_generation';
-            $nameReplace[Piwik_Actions_Archiver::METRIC_HITS_TIMED_RECORD_NAME] = 'nb_hits_with_time_generation';
+            $nameReplace[Archiver::METRIC_SUM_TIME_RECORD_NAME] = 'sum_time_generation';
+            $nameReplace[Archiver::METRIC_HITS_TIMED_RECORD_NAME] = 'nb_hits_with_time_generation';
         }
 
         $table = $archive->getDataTableFromNumeric($columns);
@@ -327,8 +334,8 @@ class Piwik_Actions_API
      */
     public function getSiteSearchCategories($idSite, $period, $date, $segment = false)
     {
-        Piwik_Actions::checkCustomVariablesPluginEnabled();
-        $customVariables = Piwik_CustomVariables_API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
+        Actions::checkCustomVariablesPluginEnabled();
+        $customVariables = CustomVariablesAPI::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
 
         $customVarNameToLookFor = Action::CVAR_KEY_SEARCH_CATEGORY;
 
@@ -347,7 +354,7 @@ class Piwik_Actions_API
                     if ($row) {
                         $dateRewrite = $customVariableTableForDate->metadata['period']->getDateStart()->toString();
                         $idSubtable = $row->getIdSubDataTable();
-                        $categories = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
+                        $categories = CustomVariablesAPI::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
                         $dataTable->addTable($categories, $key);
                     }
                 }
@@ -356,7 +363,7 @@ class Piwik_Actions_API
             $row = $customVariables->getRowFromLabel($customVarNameToLookFor);
             if ($row) {
                 $idSubtable = $row->getIdSubDataTable();
-                $dataTable = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment);
+                $dataTable = CustomVariablesAPI::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment);
             }
         }
         $this->filterActionsDataTable($dataTable);
@@ -383,8 +390,8 @@ class Piwik_Actions_API
                     $searchedString = $search;
                 }
             }
-            Piwik_Actions_ArchivingHelper::reloadConfig();
-            $searchTree = Piwik_Actions_ArchivingHelper::getActionExplodedNames($searchedString, $actionType);
+            ArchivingHelper::reloadConfig();
+            $searchTree = ArchivingHelper::getActionExplodedNames($searchedString, $actionType);
         }
 
         if ($table === false) {
@@ -405,7 +412,6 @@ class Piwik_Actions_API
 
                 return $newTableArray;
             }
-
         }
 
         return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);

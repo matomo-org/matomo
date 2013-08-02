@@ -9,6 +9,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Period;
 use Piwik\Date;
+use Piwik\Plugins\VisitsSummary\API;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 
@@ -24,7 +25,7 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
         $archivingTables = ArchiveTableCreator::getTablesArchivesInstalled();
         if (empty($archivingTables)) {
             $this->archivingLaunched = true;
-            Piwik_VisitsSummary_API::getInstance()->get(
+            API::getInstance()->get(
                 self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
         }
     }
@@ -44,6 +45,6 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
         $period = Period::factory(self::$fixture->period, Date::factory(self::$fixture->date));
         $dateRange = $period->getDateStart().','.$period->getDateEnd();
         
-        Piwik_VisitsSummary_API::getInstance()->get(self::$fixture->idSite, 'day', $dateRange);
+        API::getInstance()->get(self::$fixture->idSite, 'day', $dateRange);
     }
 }

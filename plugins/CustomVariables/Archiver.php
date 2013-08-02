@@ -1,13 +1,4 @@
 <?php
-use Piwik\Common;
-use Piwik\Config;
-use Piwik\DataAccess\LogAggregator;
-use Piwik\Metrics;
-use Piwik\DataArray;
-use Piwik\Tracker;
-use Piwik\PluginsArchiver;
-use Piwik\Tracker\GoalManager;
-
 /**
  * Piwik - Open source web analytics
  *
@@ -15,10 +6,22 @@ use Piwik\Tracker\GoalManager;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CustomVariables
+ * @package CustomVariables
  */
+namespace Piwik\Plugins\CustomVariables;
 
-class Piwik_CustomVariables_Archiver extends PluginsArchiver
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\DataAccess\LogAggregator;
+use Piwik\Metrics;
+use Piwik\DataArray;
+use Piwik\Plugins\CustomVariables\API;
+use Piwik\Tracker;
+use Piwik\PluginsArchiver;
+use Piwik\Tracker\GoalManager;
+
+
+class Archiver extends PluginsArchiver
 {
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
     const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';
@@ -71,8 +74,8 @@ class Piwik_CustomVariables_Archiver extends PluginsArchiver
         // then we also query the "Product page view" price which was possibly recorded.
         $additionalSelects = false;
         // FIXMEA
-        if (in_array($slot, array(3,4,5))) {
-            $additionalSelects = array( $this->getSelectAveragePrice() );
+        if (in_array($slot, array(3, 4, 5))) {
+            $additionalSelects = array($this->getSelectAveragePrice());
         }
         $query = $this->getLogAggregator()->queryActionsByDimension($dimensions, $where, $additionalSelects);
         $this->aggregateFromActions($query, $keyField, $valueField);
@@ -105,7 +108,6 @@ class Piwik_CustomVariables_Archiver extends PluginsArchiver
         }
         return self::LABEL_CUSTOM_VALUE_NOT_DEFINED;
     }
-
 
     protected function aggregateFromActions($query, $keyField, $valueField)
     {
@@ -171,9 +173,8 @@ class Piwik_CustomVariables_Archiver extends PluginsArchiver
 
     protected static function isReservedKey($key)
     {
-        return in_array($key, Piwik_CustomVariables_API::getReservedCustomVariableKeys());
+        return in_array($key, API::getReservedCustomVariableKeys());
     }
-
 
     protected function aggregateFromConversions($query, $keyField, $valueField)
     {
@@ -190,7 +191,7 @@ class Piwik_CustomVariables_Archiver extends PluginsArchiver
 
     protected function removeVisitsMetricsFromActionsAggregate()
     {
-        $dataArray = &$this->dataArray->getDataArray();
+        $dataArray = & $this->dataArray->getDataArray();
         foreach ($dataArray as $key => &$row) {
             if (!self::isReservedKey($key)
                 && DataArray::isRowActions($row)

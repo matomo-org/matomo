@@ -6,17 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
+namespace Piwik\Plugins\MobileMessaging;
+
 use Piwik\Piwik;
+use Piwik\Plugins\MobileMessaging\API as MobileMessagingAPI;
 use Piwik\View;
-use Piwik\Plugin;
+use Piwik\Plugins\API\API;
+use Piwik_MobileMessaging_ReportRenderer_Exception;
+use Piwik_MobileMessaging_ReportRenderer_Sms;
+use Piwik\Plugins\PDFReports\API as PDFReportsAPI;
 
 /**
  *
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
-class Piwik_MobileMessaging extends Plugin
+class MobileMessaging extends \Piwik\Plugin
 {
     const DELEGATED_MANAGEMENT_OPTION = 'MobileMessaging_DelegatedManagement';
     const PROVIDER_OPTION = 'Provider';
@@ -98,12 +104,12 @@ class Piwik_MobileMessaging extends Plugin
     {
         $cssFiles[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
     }
-    
+
     public function validateReportParameters(&$parameters, $info)
     {
         if (self::manageEvent($info)) {
             // phone number validation
-            $availablePhoneNumbers = Piwik_MobileMessaging_API::getInstance()->getActivatedPhoneNumbers();
+            $availablePhoneNumbers = MobileMessagingAPI::getInstance()->getActivatedPhoneNumbers();
 
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
             foreach ($phoneNumbers as $key => $phoneNumber) {
@@ -121,10 +127,10 @@ class Piwik_MobileMessaging extends Plugin
     public function getReportMetadata(&$availableReportMetadata, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $idSite = $notificationInfo[Piwik_PDFReports_API::ID_SITE_INFO_KEY];
+            $idSite = $notificationInfo[PDFReportsAPI::ID_SITE_INFO_KEY];
 
             foreach (self::$availableReports as $availableReport) {
-                $reportMetadata = Piwik_API_API::getInstance()->getMetadata(
+                $reportMetadata = API::getInstance()->getMetadata(
                     $idSite,
                     $availableReport['module'],
                     $availableReport['action']
@@ -180,7 +186,7 @@ class Piwik_MobileMessaging extends Plugin
     public function getReportRecipients(&$recipients, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
+            $report = $notificationInfo[PDFReportsAPI::REPORT_KEY];
             $recipients = $report['parameters'][self::PHONE_NUMBERS_PARAMETER];
         }
     }
@@ -188,9 +194,9 @@ class Piwik_MobileMessaging extends Plugin
     public function sendReport($notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
-            $contents = $notificationInfo[Piwik_PDFReports_API::REPORT_CONTENT_KEY];
-            $reportSubject = $notificationInfo[Piwik_PDFReports_API::REPORT_SUBJECT_KEY];
+            $report = $notificationInfo[PDFReportsAPI::REPORT_KEY];
+            $contents = $notificationInfo[PDFReportsAPI::REPORT_CONTENT_KEY];
+            $reportSubject = $notificationInfo[PDFReportsAPI::REPORT_SUBJECT_KEY];
 
             $parameters = $report['parameters'];
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
@@ -200,7 +206,7 @@ class Piwik_MobileMessaging extends Plugin
                 $reportSubject = Piwik_Translate('General_Reports');
             }
 
-            $mobileMessagingAPI = Piwik_MobileMessaging_API::getInstance();
+            $mobileMessagingAPI = MobileMessagingAPI::getInstance();
             foreach ($phoneNumbers as $phoneNumber) {
                 $mobileMessagingAPI->sendSMS(
                     $contents,
@@ -219,13 +225,13 @@ class Piwik_MobileMessaging extends Plugin
 
         $view = new View('@MobileMessaging/reportParametersPDFReports');
         $view->reportType = self::MOBILE_TYPE;
-        $view->phoneNumbers = Piwik_MobileMessaging_API::getInstance()->getActivatedPhoneNumbers();
+        $view->phoneNumbers = MobileMessagingAPI::getInstance()->getActivatedPhoneNumbers();
         $out .= $view->render();
     }
 
     private static function manageEvent($notificationInfo)
     {
-        return in_array($notificationInfo[Piwik_PDFReports_API::REPORT_TYPE_INFO_KEY], array_keys(self::$managedReportTypes));
+        return in_array($notificationInfo[PDFReportsAPI::REPORT_TYPE_INFO_KEY], array_keys(self::$managedReportTypes));
     }
 
     function install()
@@ -239,11 +245,11 @@ class Piwik_MobileMessaging extends Plugin
     function deactivate()
     {
         // delete all mobile reports
-        $pdfReportsAPIInstance = Piwik_PDFReports_API::getInstance();
+        $pdfReportsAPIInstance = PDFReportsAPI::getInstance();
         $reports = $pdfReportsAPIInstance->getReports();
 
         foreach ($reports as $report) {
-            if ($report['type'] == Piwik_MobileMessaging::MOBILE_TYPE) {
+            if ($report['type'] == MobileMessaging::MOBILE_TYPE) {
                 $pdfReportsAPIInstance->deleteReport($report['idreport']);
             }
         }

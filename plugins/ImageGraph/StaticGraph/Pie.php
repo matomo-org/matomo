@@ -6,14 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
+namespace Piwik\Plugins\ImageGraph\StaticGraph;
+
+use Piwik\Plugins\ImageGraph\StaticGraph\PieGraph;
 
 /**
  *
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
-class Piwik_ImageGraph_StaticGraph_Pie extends Piwik_ImageGraph_StaticGraph_PieGraph
+class Pie extends PieGraph
 {
     public function renderGraph()
     {

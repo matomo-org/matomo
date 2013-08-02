@@ -396,10 +396,12 @@ class AccessTest extends DatabaseTestCase
      */
     public function testReloadAccessWithMockedAuthValid()
     {
-        $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
+        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName'));
         $mock->expects($this->once())
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));
+
+        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
 
         $access = Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
@@ -412,11 +414,12 @@ class AccessTest extends DatabaseTestCase
      */
     public function testReloadAccessWithMockedAuthSuperUser()
     {
-        $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
+        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName'));
         $mock->expects($this->once())
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'superuser', 'superusertoken')));
 
+        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
         $access = Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertTrue($access->isSuperUser());
@@ -428,11 +431,12 @@ class AccessTest extends DatabaseTestCase
      */
     public function testReloadAccessWithMockedAuthInvalidUser()
     {
-        $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
+        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName'));
         $mock->expects($this->once())
             ->method('authenticate')
             ->will($this->returnValue(new AuthResult(AuthResult::FAILURE_CREDENTIAL_INVALID, null, null)));
 
+        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
         $access = Access::getInstance();
         $this->assertFalse($access->reloadAccess($mock));
     }

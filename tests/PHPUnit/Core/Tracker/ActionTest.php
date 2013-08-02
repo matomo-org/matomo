@@ -1,6 +1,7 @@
 <?php
 use Piwik\Config;
 use Piwik\Access;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Translate;
@@ -113,7 +114,7 @@ class Tracker_ActionTest extends DatabaseTestCase
     public function testExcludeQueryParametersNone($url, $filteredUrl)
     {
         $this->setUpRootAccess();
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
+        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = '', $excludedQueryParameters = '', $timezone = null, $currency = null,
             $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
@@ -157,7 +158,7 @@ class Tracker_ActionTest extends DatabaseTestCase
     {
         $excludedQueryParameters = 'p4, p2, var[value][date]';
         $this->setUpRootAccess();
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
+        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
             $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
@@ -177,11 +178,11 @@ class Tracker_ActionTest extends DatabaseTestCase
         $excludedQueryParameters = 'P2,var[value][date]';
         $excludedGlobalParameters = 'blabla, P4';
         $this->setUpRootAccess();
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
+        $idSite = API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
             $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
-        Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
+        API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
         $this->assertEquals($filteredUrl[1], Action::excludeQueryParametersFromUrl($url, $idSite));
     }
 
@@ -366,7 +367,7 @@ class Tracker_ActionTest extends DatabaseTestCase
     public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {
         $this->setUpRootAccess();
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1", array('http://example.org'));
+        $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
         $request['idsite'] = $idSite;
         $request = new Request($request);
         $action = new Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest($request);

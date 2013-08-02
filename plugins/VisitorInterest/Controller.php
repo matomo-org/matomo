@@ -6,17 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitorInterest
+ * @package VisitorInterest
  */
+namespace Piwik\Plugins\VisitorInterest;
+
 use Piwik\Metrics;
-use Piwik\Controller;
 use Piwik\ViewDataTable;
 use Piwik\View;
 
 /**
- * @package Piwik_VisitorInterest
+ * @package VisitorInterest
  */
-class Piwik_VisitorInterest_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     public function index()
     {

@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 
 /**
  * Adds two sites and tracks some visits with ecommerce orders.
@@ -33,7 +34,7 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
     {
         self::createWebsite($this->dateTime, $ecommerce = 1);
         self::createWebsite($this->dateTime);
-        Piwik_Goals_API::getInstance()->addGoal(
+        API::getInstance()->addGoal(
             $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
             $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
         );

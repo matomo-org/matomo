@@ -15,7 +15,7 @@ use Piwik\IP;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\PluginsManager;
-use Piwik_UserCountry_LocationProvider_Default;
+use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 
 /**
  * Static class providing functions used by both the CORE of Piwik and the visitor Tracking engine.
@@ -28,8 +28,6 @@ use Piwik_UserCountry_LocationProvider_Default;
  */
 class Common
 {
-    const CLASSES_PREFIX = 'Piwik_';
-
     /**
      * Const used to map the referer type to an integer in the log_visit table
      */
@@ -1554,25 +1552,9 @@ class Common
     {
         $cache = Cache::getCacheGeneral();
         return empty($cache['currentLocationProviderId'])
-            ? Piwik_UserCountry_LocationProvider_Default::ID
+            ? DefaultProvider::ID
             : $cache['currentLocationProviderId'];
     }
-
-    /**
-     * Unprefix class name (if needed)
-     *
-     * @param string $class
-     * @return string
-     */
-    public static function unprefixClass($class)
-    {
-        $lenPrefix = strlen(self::CLASSES_PREFIX);
-        if (!strncmp($class, self::CLASSES_PREFIX, $lenPrefix)) {
-            return substr($class, $lenPrefix);
-        }
-        return $class;
-    }
-
 
     /**
      * Mark orphaned object for garbage collection

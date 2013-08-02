@@ -7,6 +7,7 @@
  */
 use Piwik\Access;
 use Piwik\IP;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tracker\Request;
 
@@ -74,7 +75,7 @@ class Tracker_VisitTest extends DatabaseTestCase
      */
     public function testIsVisitorIpExcluded($excludedIp, $tests)
     {
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp);
 
         $request = new Request(array('idsite' => $idsite));
@@ -121,9 +122,9 @@ class Tracker_VisitTest extends DatabaseTestCase
      */
     public function testIsVisitorUserAgentExcluded($excludedUserAgent, $tests)
     {
-        Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
+        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
 
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
+        $idsite = API::getInstance()->addSite("name", "http://piwik.net/", $ecommerce = 0,
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp = null,
             $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null,
             $excludedUserAgent);

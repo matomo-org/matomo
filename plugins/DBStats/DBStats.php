@@ -6,20 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DBStats
+ * @package DBStats
  */
+namespace Piwik\Plugins\DBStats;
+
 use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\Common;
+use Piwik\Plugins\DBStats\API;
 use Piwik\ScheduledTask;
-use Piwik\Plugin;
 use Piwik\ScheduledTime\Weekly;
 
 /**
  *
- * @package Piwik_DBStats
+ * @package DBStats
  */
-class Piwik_DBStats extends Plugin
+class DBStats extends \Piwik\Plugin
 {
     const TIME_OF_LAST_TASK_RUN_OPTION = 'dbstats_time_of_last_cache_task_run';
 
@@ -65,7 +67,7 @@ class Piwik_DBStats extends Plugin
      */
     public function cacheDataByArchiveNameReports()
     {
-        $api = Piwik_DBStats_API::getInstance();
+        $api = API::getInstance();
         $api->getIndividualReportsSummary(true);
         $api->getIndividualMetricsSummary(true);
 
@@ -147,7 +149,7 @@ class Piwik_DBStats extends Plugin
 
         $result['title'] = Piwik_Translate('DBStats_MetricTables');
         $result['relatedReports'] = array(
-           'DBStats.getMetricDataSummaryByYear' => Piwik_Translate('DBStats_MetricDataByYear')
+            'DBStats.getMetricDataSummaryByYear' => Piwik_Translate('DBStats_MetricDataByYear')
         );
 
         return $result;
@@ -161,8 +163,8 @@ class Piwik_DBStats extends Plugin
 
         $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
         $result['title'] = Piwik_Translate('DBStats_MetricDataByYear');
-        $result['relatedReports'] =  array(
-           'DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')
+        $result['relatedReports'] = array(
+            'DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')
         );
 
         return $result;
@@ -191,7 +193,7 @@ class Piwik_DBStats extends Plugin
         $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
         $result['title'] = Piwik_Translate('DBStats_ReportDataByYear');
         $result['relatedReports'] = array(
-           'DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')
+            'DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')
         );
 
         return $result;
@@ -202,7 +204,7 @@ class Piwik_DBStats extends Plugin
         $result = array();
         $this->addBaseDisplayProperties($result);
         $viewDataTable = $this->addPresentationFilters($result, $addTotalSizeColumn = false, $addPercentColumn = false,
-                                                       $sizeColumns = array('estimated_size'));
+            $sizeColumns = array('estimated_size'));
 
         $result['filter_sort_order'] = 'asc';
         $result['translations']['label'] = Piwik_Translate('General_Report');
@@ -222,7 +224,7 @@ class Piwik_DBStats extends Plugin
         $result = array();
         $this->addBaseDisplayProperties($result);
         $this->addPresentationFilters($result, $addTotalSizeColumn = false, $addPercentColumn = false,
-                                      $sizeColumns = array('estimated_size'));
+            $sizeColumns = array('estimated_size'));
 
         $result['filter_sort_order'] = 'asc';
         $result['translations']['label'] = Piwik_Translate('General_Metric');
@@ -279,7 +281,7 @@ class Piwik_DBStats extends Plugin
             };
 
             $properties['filters'][] = array('ColumnCallbackAddColumn',
-                array(array('data_size', 'index_size'), 'total_size', $getTotalTableSize), $isPriority = true);
+                                             array(array('data_size', 'index_size'), 'total_size', $getTotalTableSize), $isPriority = true);
 
             $sizeColumns[] = 'total_size';
         }
@@ -299,9 +301,9 @@ class Piwik_DBStats extends Plugin
                 && $addTotalSizeColumn
             ) {
                 $properties['filters'][] = array('ColumnCallbackAddColumnPercentage',
-                    array('percent_total', 'total_size', 'total_size', $quotientPrecision = 0,
-                          $shouldSkipRows = false, $getDivisorFromSummaryRow = true),
-                    $isPriority = true
+                                                 array('percent_total', 'total_size', 'total_size', $quotientPrecision = 0,
+                                                       $shouldSkipRows = false, $getDivisorFromSummaryRow = true),
+                                                 $isPriority = true
                 );
 
                 $properties['filter_sort_column'] = 'percent_total';

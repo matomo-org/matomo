@@ -5,12 +5,14 @@
  * @link     http://piwik.org
  * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @category Piwik_Plugins
- * @package  Piwik_Dashboard
+ * @package  Dashboard
  */
+namespace Piwik\Plugins\Dashboard;
+
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
+use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Session\SessionNamespace;
 use Piwik\View;
 use Piwik\Db;
@@ -19,12 +21,12 @@ use Piwik\WidgetsList;
 /**
  * Dashboard Controller
  *
- * @package Piwik_Dashboard
+ * @package Dashboard
  */
-class Piwik_Dashboard_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     /**
-     * @var Piwik_Dashboard
+     * @var Dashboard
      */
     private $dashboard;
 
@@ -32,7 +34,7 @@ class Piwik_Dashboard_Controller extends Controller
     {
         parent::init();
 
-        $this->dashboard = new Piwik_Dashboard();
+        $this->dashboard = new Dashboard();
     }
 
     protected function _getDashboardView($template)
@@ -96,7 +98,7 @@ class Piwik_Dashboard_Controller extends Controller
         $layout = $this->dashboard->getDefaultLayout();
         $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         if (Piwik::isUserIsAnonymous()) {
-            $session = new SessionNamespace("Piwik_Dashboard");
+            $session = new SessionNamespace("Dashboard");
             $session->dashboardLayout = $layout;
             $session->setExpirationSeconds(1800);
         } else {
@@ -161,15 +163,15 @@ class Piwik_Dashboard_Controller extends Controller
     public function getAllDashboards()
     {
         $this->checkTokenInUrl();
-        
+
         if (Piwik::isUserIsAnonymous()) {
             Json::sendHeaderJSON();
             echo '[]';
-            
+
             return;
         }
 
-        $login      = Piwik::getCurrentUserLogin();
+        $login = Piwik::getCurrentUserLogin();
         $dashboards = $this->dashboard->getAllDashboards($login);
 
         Json::sendHeaderJSON();
@@ -260,7 +262,7 @@ class Piwik_Dashboard_Controller extends Controller
         $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         $name = Common::getRequestVar('name', '', 'string');
         if (Piwik::isUserIsAnonymous()) {
-            $session = new SessionNamespace("Piwik_Dashboard");
+            $session = new SessionNamespace("Dashboard");
             $session->dashboardLayout = $layout;
             $session->setExpirationSeconds(1800);
         } else {
@@ -298,14 +300,13 @@ class Piwik_Dashboard_Controller extends Controller
     {
         if (Piwik::isUserIsAnonymous()) {
 
-            $session = new SessionNamespace("Piwik_Dashboard");
+            $session = new SessionNamespace("Dashboard");
             if (!isset($session->dashboardLayout)) {
 
                 return $this->dashboard->getDefaultLayout();
             }
 
             $layout = $session->dashboardLayout;
-
         } else {
             $layout = $this->dashboard->getLayoutForUser(Piwik::getCurrentUserLogin(), $idDashboard);
         }
@@ -335,7 +336,6 @@ class Piwik_Dashboard_Controller extends Controller
             array(25, 25, 25, 25)
         );
     }
-
 }
 
 

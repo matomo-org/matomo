@@ -399,13 +399,13 @@ class PluginsManager
     }
 
     /**
-     * Returns an array containing the plugins class names (eg. 'Piwik_UserCountry' and NOT 'UserCountry')
+     * Returns an array containing the plugins class names (eg. 'UserCountry' and NOT 'UserCountry')
      *
      * @return array
      */
     public function getLoadedPluginsName()
     {
-        return array_map('get_class', $this->getLoadedPlugins());
+        return array_keys($this->getLoadedPlugins());
     }
 
     /**
@@ -460,7 +460,7 @@ class PluginsManager
 
     /**
      * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry
-     * Do NOT give the class name ie. Piwik_UserCountry, but give the plugin name ie. UserCountry
+     * Do NOT give the class name ie. UserCountry, but give the plugin name ie. UserCountry
      *
      * @param string $pluginName
      * @throws \Exception
@@ -488,7 +488,7 @@ class PluginsManager
     protected function makePluginClass($pluginName)
     {
         $pluginFileName = sprintf("%s/%s.php", $pluginName, $pluginName);
-        $pluginClassName = sprintf('Piwik_%s', $pluginName);
+        $pluginClassName = $pluginName;
 
         if (!Common::isValidFilename($pluginName)) {
             throw new \Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
@@ -504,15 +504,25 @@ class PluginsManager
 
         require_once $path;
 
-        if (!class_exists($pluginClassName, false)) {
+        $namespacedClass = $this->getClassNamePlugin($pluginName);
+        if(!class_exists($namespacedClass, false)) {
             throw new \Exception("The class $pluginClassName couldn't be found in the file '$path'");
         }
-        $newPlugin = new $pluginClassName();
+        $newPlugin = new $namespacedClass;
 
         if (!($newPlugin instanceof Plugin)) {
             throw new \Exception("The plugin $pluginClassName in the file $path must inherit from Plugin.");
         }
         return $newPlugin;
+    }
+
+    protected function getClassNamePlugin($pluginName)
+    {
+        $className = $pluginName;
+        if($pluginName == 'API') {
+            $className = 'Plugin';
+        }
+        return "\\Piwik\\Plugins\\$pluginName\\$className";
     }
 
     /**
@@ -663,6 +673,7 @@ class PluginsManager
 
         // is the plugin already installed or is it the first time we activate it?
         $pluginsInstalled = $this->getInstalledPluginsName();
+
         if (!in_array($pluginName, $pluginsInstalled)) {
             $this->installPlugin($plugin);
             $pluginsInstalled[] = $pluginName;

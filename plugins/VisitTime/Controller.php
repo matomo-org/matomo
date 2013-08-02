@@ -6,17 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitTime
+ * @package VisitTime
  */
-use Piwik\Controller;
+namespace Piwik\Plugins\VisitTime;
+
 use Piwik\ViewDataTable;
 use Piwik\View;
 
 /**
  *
- * @package Piwik_VisitTime
+ * @package VisitTime
  */
-class Piwik_VisitTime_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     public function index()
     {

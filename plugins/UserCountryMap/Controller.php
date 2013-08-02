@@ -6,12 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountryMap
+ * @package UserCountryMap
  */
+namespace Piwik\Plugins\UserCountryMap;
+
+use Exception;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
+use Piwik\Plugins\Goals\API;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\Site;
@@ -19,9 +22,9 @@ use Piwik\Config;
 
 /**
  *
- * @package Piwik_UserCountryMap
+ * @package UserCountryMap
  */
-class Piwik_UserCountryMap_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
 
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites
@@ -63,16 +66,16 @@ class Piwik_UserCountryMap_Controller extends Controller
 
         // some translations
         $view->localeJSON = Common::json_encode(array(
-                                                           'nb_visits'            => Piwik_Translate('VisitsSummary_NbVisits'),
-                                                           'one_visit'            => Piwik_Translate('General_OneVisit'),
-                                                           'no_visit'             => Piwik_Translate('UserCountryMap_NoVisit'),
-                                                           'nb_actions'           => Piwik_Translate('VisitsSummary_NbActionsDescription'),
-                                                           'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
-                                                           'bounce_rate'          => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
-                                                           'avg_time_on_site'     => Piwik_Translate('VisitsSummary_AverageVisitDuration'),
-                                                           'and_n_others'         => Piwik_Translate('UserCountryMap_AndNOthers'),
-                                                           'no_data'              => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
-                                                      ));
+                                                     'nb_visits'            => Piwik_Translate('VisitsSummary_NbVisits'),
+                                                     'one_visit'            => Piwik_Translate('General_OneVisit'),
+                                                     'no_visit'             => Piwik_Translate('UserCountryMap_NoVisit'),
+                                                     'nb_actions'           => Piwik_Translate('VisitsSummary_NbActionsDescription'),
+                                                     'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
+                                                     'bounce_rate'          => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
+                                                     'avg_time_on_site'     => Piwik_Translate('VisitsSummary_AverageVisitDuration'),
+                                                     'and_n_others'         => Piwik_Translate('UserCountryMap_AndNOthers'),
+                                                     'no_data'              => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
+                                                ));
 
         $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
             'period'                      => $period,
@@ -119,7 +122,7 @@ class Piwik_UserCountryMap_Controller extends Controller
         $view->defaultMetric = 'nb_visits';
         $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
-        $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $goals = API::getInstance()->getGoals($idSite);
         $site = new Site($idSite);
         $view->hasGoals = !empty($goals) || $site->isEcommerceEnabled() ? 'true' : 'false';
 
@@ -144,11 +147,11 @@ class Piwik_UserCountryMap_Controller extends Controller
                                         ));
 
         $view->reqParamsJSON = $this->getEnrichedRequest(array(
-                                                'period'         => 'range',
-                                                'idSite'         => $idSite,
-                                                'date'           => self::REAL_TIME_WINDOW,
-                                                'token_auth'     => $token_auth,
-                                           ));
+                                                              'period'     => 'range',
+                                                              'idSite'     => $idSite,
+                                                              'date'       => self::REAL_TIME_WINDOW,
+                                                              'token_auth' => $token_auth,
+                                                         ));
 
         echo $view->render();
     }
@@ -158,13 +161,12 @@ class Piwik_UserCountryMap_Controller extends Controller
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
         $segment = \Piwik\API\Request::getRawSegmentFromRequest();
-        if(!empty($segment)) {
+        if (!empty($segment)) {
             $params['segment'] = $segment;
         }
 
         return Common::json_encode($params);
     }
-
 
     private function checkUserCountryPluginEnabled()
     {
@@ -226,5 +228,4 @@ class Piwik_UserCountryMap_Controller extends Controller
     {
         return $this->getApiRequestUrl('API', 'getProcessedReport&apiModule=' . $module . '&apiAction=' . $action, $idSite, $period, $date, $token_auth, $filter_by_country);
     }
-
 }

@@ -7,6 +7,7 @@
  */
 
 use Piwik\Date;
+use Piwik\Plugins\UserCountry\LocationProvider;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
@@ -204,7 +205,7 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Test_Piwik_B
 
     private function setMockLocationProvider()
     {
-        Piwik_UserCountry_LocationProvider::setCurrentProvider('mock_provider');
+        LocationProvider::setCurrentProvider('mock_provider');
         MockLocationProvider::$locations = array(
             self::makeLocation('Toronto', 'ON', 'CA', $lat = null, $long = null, $isp = 'comcast.net'),
 
@@ -218,6 +219,6 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Test_Piwik_B
 
     private function unsetMockLocationProvider()
     {
-        Piwik_UserCountry_LocationProvider::setCurrentProvider('default');
+        LocationProvider::setCurrentProvider('default');
     }
 }

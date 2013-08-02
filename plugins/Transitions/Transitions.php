@@ -6,14 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Transitions
+ * @package Transitions
  */
-use Piwik\Plugin;
+
+namespace Piwik\Plugins\Transitions;
 
 /**
- * @package Piwik_Transitions
+ * @package Transitions
  */
-class Piwik_Transitions extends Plugin
+class Transitions extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

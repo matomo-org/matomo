@@ -6,16 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SecurityInfo
+ * @package SecurityInfo
  */
-use Piwik\Controller\Admin;
+namespace Piwik\Plugins\SecurityInfo;
+
+use PhpSecInfo;
 use Piwik\Piwik;
 use Piwik\View;
 
 /**
- * @package Piwik_SecurityInfo
+ * @package SecurityInfo
  */
-class Piwik_SecurityInfo_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
     function index()
     {

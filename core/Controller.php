@@ -21,13 +21,13 @@ use Piwik\Common;
 use Piwik\Access;
 use Piwik\Date;
 use Piwik\Site;
-use Piwik_API_API;
+use Piwik\Plugins\API\API;
 use Piwik\API\Request;
 use Piwik\FrontController;
-use Piwik_LanguagesManager;
-use Piwik_SitesManager_API;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Url;
-use Piwik_UsersManager_API;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\View;
 use Piwik\ViewDataTable;
 use Piwik\ViewDataTable\GenerateGraphHTML\ChartEvolution;
@@ -81,8 +81,9 @@ abstract class Controller
 
     protected function init()
     {
-        $aPluginName = explode('_', get_class($this));
-        $this->pluginName = $aPluginName[1];
+        $aPluginName = explode('\\', get_class($this));
+        $this->pluginName = $aPluginName[2];
+
         $date = Common::getRequestVar('date', 'yesterday', 'string');
         try {
             $this->idSite = Common::getRequestVar('idSite', false, 'int');
@@ -202,7 +203,7 @@ abstract class Controller
         $idSite = Common::getRequestVar('idSite');
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
-        $meta = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
+        $meta = API::getInstance()->getReportMetadata($idSite, $period, $date);
 
         $columns = array_merge($columnsToDisplay, $selectableColumns);
         $translations = array();
@@ -423,8 +424,8 @@ abstract class Controller
             $view->startDate = $dateStart;
             $view->endDate = $dateEnd;
 
-            $language = Piwik_LanguagesManager::getLanguageForSession();
-            $view->language = !empty($language) ? $language : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+            $language = LanguagesManager::getLanguageForSession();
+            $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 
             $view->config_action_url_category_delimiter = Config::getInstance()->General['action_url_category_delimiter'];
 
@@ -447,10 +448,10 @@ abstract class Controller
         $view->isSuperUser = Access::getInstance()->isSuperUser();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->isCustomLogo = Config::getInstance()->branding['use_custom_logo'];
-        $view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
-        $view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
-        $view->logoSVG = Piwik_API_API::getInstance()->getSVGLogoUrl();
-        $view->hasSVGLogo = Piwik_API_API::getInstance()->hasSVGLogo();
+        $view->logoHeader = API::getInstance()->getHeaderLogoUrl();
+        $view->logoLarge = API::getInstance()->getLogoUrl();
+        $view->logoSVG = API::getInstance()->getSVGLogoUrl();
+        $view->hasSVGLogo = API::getInstance()->hasSVGLogo();
 
         $view->enableFrames = Config::getInstance()->General['enable_framed_pages']
             || @Config::getInstance()->General['enable_framed_logins'];
@@ -669,7 +670,7 @@ abstract class Controller
         $defaultWebsiteId = false;
 
         // User preference: default website ID to load
-        $defaultReport = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT);
+        $defaultReport = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), UsersManagerAPI::PREFERENCE_DEFAULT_REPORT);
         if (is_numeric($defaultReport)) {
             $defaultWebsiteId = $defaultReport;
         }
@@ -680,7 +681,7 @@ abstract class Controller
             return $defaultWebsiteId;
         }
 
-        $sitesId = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $sitesId = SitesManagerAPI::getInstance()->getSitesIdWithAtLeastViewAccess();
         if (!empty($sitesId)) {
             return $sitesId[0];
         }
@@ -695,7 +696,7 @@ abstract class Controller
     protected function getDefaultDate()
     {
         // NOTE: a change in this function might mean a change in plugins/UsersManager/javascripts/usersSettings.js as well
-        $userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
+        $userSettingsDate = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE);
         if ($userSettingsDate == 'yesterday') {
             return $userSettingsDate;
         }
@@ -715,7 +716,7 @@ abstract class Controller
      */
     protected function getDefaultPeriod()
     {
-        $userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
+        $userSettingsDate = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE);
         if ($userSettingsDate === false) {
             return Config::getInstance()->General['default_period'];
         }

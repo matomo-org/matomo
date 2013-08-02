@@ -6,17 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserSettings
+ * @package UserSettings
  */
-use Piwik\Controller;
+namespace Piwik\Plugins\UserSettings;
+
 use Piwik\ViewDataTable;
 use Piwik\View;
 
 /**
  *
- * @package Piwik_UserSettings
+ * @package UserSettings
  */
-class Piwik_UserSettings_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     public function index()
     {
@@ -33,12 +34,12 @@ class Piwik_UserSettings_Controller extends Controller
 
         echo $view->render();
     }
-    
+
     public function getResolution($fetch = false)
     {
         return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
-    
+
     public function getConfiguration($fetch = false)
     {
         return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);

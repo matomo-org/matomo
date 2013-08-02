@@ -9,6 +9,7 @@
  * @package Updates
  */
 use Piwik\Common;
+use Piwik\Plugins\PDFReports\PDFReports;
 use Piwik\Updater;
 use Piwik\Updates;
 use Piwik\Db;
@@ -78,11 +79,11 @@ class Piwik_Updates_1_8_3_b1 extends Updates
                 $parameters = array();
 
                 if (!is_null($additional_emails)) {
-                    $parameters[Piwik_PDFReports::ADDITIONAL_EMAILS_PARAMETER] = preg_split('/,/', $additional_emails);
+                    $parameters[PDFReports::ADDITIONAL_EMAILS_PARAMETER] = preg_split('/,/', $additional_emails);
                 }
 
-                $parameters[Piwik_PDFReports::EMAIL_ME_PARAMETER] = is_null($email_me) ? Piwik_PDFReports::EMAIL_ME_PARAMETER_DEFAULT_VALUE : (bool)$email_me;
-                $parameters[Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER] = $display_format;
+                $parameters[PDFReports::EMAIL_ME_PARAMETER] = is_null($email_me) ? PDFReports::EMAIL_ME_PARAMETER_DEFAULT_VALUE : (bool)$email_me;
+                $parameters[PDFReports::DISPLAY_FORMAT_PARAMETER] = $display_format;
 
                 Db::query(
                     'INSERT INTO `' . Common::prefixTable('report') . '` SET
@@ -94,9 +95,9 @@ class Piwik_Updates_1_8_3_b1 extends Updates
                          $idsite,
                          $login,
                          $description,
-                         is_null($period) ? Piwik_PDFReports::DEFAULT_PERIOD : $period,
-                         Piwik_PDFReports::EMAIL_TYPE,
-                         is_null($format) ? Piwik_PDFReports::DEFAULT_REPORT_FORMAT : $format,
+                         is_null($period) ? PDFReports::DEFAULT_PERIOD : $period,
+                         PDFReports::EMAIL_TYPE,
+                         is_null($format) ? PDFReports::DEFAULT_REPORT_FORMAT : $format,
                          Common::json_encode(preg_split('/,/', $reports)),
                          Common::json_encode($parameters),
                          $ts_created,

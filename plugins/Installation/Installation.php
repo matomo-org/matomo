@@ -6,20 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Installation
+ * @package Installation
  */
+namespace Piwik\Plugins\Installation;
+
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugin;
-use Piwik\Translate;
 
 /**
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation extends Plugin
+class Installation extends \Piwik\Plugin
 {
-    protected $installationControllerName = 'Piwik_Installation_Controller';
+    protected $installationControllerName = 'Controller';
 
     /**
      * @see Piwik_Plugin::getListHooksRegistered

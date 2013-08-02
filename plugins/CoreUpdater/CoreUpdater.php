@@ -6,21 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreUpdater
+ * @package CoreUpdater
  */
+namespace Piwik\Plugins\CoreUpdater;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\Updater;
 use Piwik\Version;
 use Piwik\UpdateCheck;
-use Piwik\Plugin;
 
 /**
  *
- * @package Piwik_CoreUpdater
+ * @package CoreUpdater
  */
-class Piwik_CoreUpdater extends Plugin
+class CoreUpdater extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -69,7 +71,7 @@ class Piwik_CoreUpdater extends Plugin
                 && $action == 'saveLanguage')
         ) {
             if (FrontController::shouldRethrowException()) {
-                throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n".
+                throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n" .
                     "--> Please run the update process first. See documentation: http://piwik.org/docs/update/ \n");
             } else {
                 Piwik::redirectToModule('CoreUpdater');

@@ -1,12 +1,4 @@
 <?php
-use Piwik\Common;
-use Piwik\Period;
-use Piwik\Controller;
-use Piwik\Url;
-use Piwik\Plugin;
-use Piwik\Site;
-use Piwik\Config;
-
 /**
  * Piwik - Open source web analytics
  *
@@ -14,10 +6,17 @@ use Piwik\Config;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph
+ * @package ImageGraph
  */
+namespace Piwik\Plugins\ImageGraph;
 
-class Piwik_ImageGraph extends Plugin
+use Piwik\Common;
+use Piwik\Period;
+use Piwik\Url;
+use Piwik\Site;
+use Piwik\Config;
+
+class ImageGraph extends \Piwik\Plugin
 {
     static private $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
         'Referers_getRefererType',
@@ -92,7 +91,7 @@ class Piwik_ImageGraph extends Plugin
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
             } else {
                 $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
-                $dateForMultiplePeriodGraph = Controller::getDateRangeRelativeToEndDate(
+                $dateForMultiplePeriodGraph = \Piwik\Controller::getDateRangeRelativeToEndDate(
                     $periodForSinglePeriodGraph,
                     'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
                     $dateForSinglePeriodGraph,
@@ -146,8 +145,9 @@ class Piwik_ImageGraph extends Plugin
 
             $reportSupportsEvolution = !in_array($reportUniqueId, self::$REPORTS_DISABLED_EVOLUTION_GRAPH);
 
-            if ( $reportSupportsEvolution
-                && $reportWithDimensionsSupportsEvolution) {
+            if ($reportSupportsEvolution
+                && $reportWithDimensionsSupportsEvolution
+            ) {
                 $parameters['period'] = $periodForMultiplePeriodGraph;
                 $parameters['date'] = $dateForMultiplePeriodGraph;
                 $report['imageGraphEvolutionUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);

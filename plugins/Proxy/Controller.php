@@ -6,20 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Proxy
+ * @package Proxy
  */
+namespace Piwik\Plugins\Proxy;
+
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\AssetManager;
-use Piwik\Controller;
 use Piwik\Url;
 
 /**
  * Controller for proxy services
  *
- * @package Piwik_Proxy
+ * @package Proxy
  */
-class Piwik_Proxy_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     const TRANSPARENT_PNG_PIXEL = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
 

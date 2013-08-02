@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitTime
+ * @package VisitTime
  */
+
+namespace Piwik\Plugins\VisitTime;
 
 use Piwik\Date;
 use Piwik\DataArray;
 use Piwik\PluginsArchiver;
 
-class Piwik_VisitTime_Archiver extends PluginsArchiver
+class Archiver extends PluginsArchiver
 {
     const SERVER_TIME_RECORD_NAME = 'VisitTime_serverTime';
     const LOCAL_TIME_RECORD_NAME = 'VisitTime_localTime';
@@ -26,8 +28,8 @@ class Piwik_VisitTime_Archiver extends PluginsArchiver
 
     protected function aggregateByServerTime()
     {
-        $array = $this->getProcessor()->getMetricsForDimension( array("label" => "HOUR(log_visit.visit_last_action_time)" )) ;
-        $query = $this->getLogAggregator()->queryConversionsByDimension( array("label" => "HOUR(log_conversion.server_time)") );
+        $array = $this->getProcessor()->getMetricsForDimension(array("label" => "HOUR(log_visit.visit_last_action_time)"));
+        $query = $this->getLogAggregator()->queryConversionsByDimension(array("label" => "HOUR(log_conversion.server_time)"));
         if ($query === false) {
             return;
         }
@@ -62,13 +64,12 @@ class Piwik_VisitTime_Archiver extends PluginsArchiver
         return new DataArray($converted);
     }
 
-
-    private function ensureAllHoursAreSet( DataArray &$array)
+    private function ensureAllHoursAreSet(DataArray &$array)
     {
         $data = $array->getDataArray();
         for ($i = 0; $i <= 23; $i++) {
             if (empty($data[$i])) {
-                $array->sumMetricsVisits( $i, DataArray::makeEmptyRow());
+                $array->sumMetricsVisits($i, DataArray::makeEmptyRow());
             }
         }
     }

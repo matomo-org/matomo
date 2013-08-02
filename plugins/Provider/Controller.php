@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Provider
+ * @package Provider
  */
-use Piwik\Controller;
+namespace Piwik\Plugins\Provider;
+
 use Piwik\ViewDataTable;
 
 /**
  *
- * @package Piwik_Provider
+ * @package Provider
  */
-class Piwik_Provider_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     /**
      * Provider

@@ -6,19 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitorInterest
+ * @package VisitorInterest
  */
+namespace Piwik\Plugins\VisitorInterest;
+
 use Piwik\ArchiveProcessor;
 use Piwik\FrontController;
-use Piwik\Plugin;
 use Piwik\Metrics;
+use Piwik\Plugins\VisitorInterest\Archiver;
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_VisitorInterest
+ * @package VisitorInterest
  */
-class Piwik_VisitorInterest extends Plugin
+class VisitorInterest extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -26,11 +28,11 @@ class Piwik_VisitorInterest extends Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
-            'WidgetsList.add'                  => 'addWidgets',
-            'Menu.add'                         => 'addMenu',
-            'API.getReportMetadata'            => 'getReportMetadata',
+            'ArchiveProcessing_Day.compute'            => 'archiveDay',
+            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
+            'WidgetsList.add'                          => 'addWidgets',
+            'Menu.add'                                 => 'addMenu',
+            'API.getReportMetadata'                    => 'getReportMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
@@ -113,22 +115,22 @@ class Piwik_VisitorInterest extends Plugin
 
     function postLoad()
     {
-        Piwik_AddAction('template_headerVisitsFrequency', array('Piwik_VisitorInterest', 'headerVisitsFrequency'));
-        Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest', 'footerVisitsFrequency'));
+        Piwik_AddAction('template_headerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'headerVisitsFrequency'));
+        Piwik_AddAction('template_footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
-        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
 
     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
-        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
@@ -162,70 +164,70 @@ class Piwik_VisitorInterest extends Plugin
     private function getDisplayPropertiesForGetNumberOfVisitsPerVisitDuration()
     {
         return array(
-            'default_view_type' => 'cloud',
-            'filter_sort_column' => 'label',
-            'filter_sort_order' => 'asc',
-            'translations' => array('label' => Piwik_Translate('VisitorInterest_ColumnVisitDuration')),
-            'graph_limit' => 10,
-            'enable_sort' => false,
+            'default_view_type'           => 'cloud',
+            'filter_sort_column'          => 'label',
+            'filter_sort_order'           => 'asc',
+            'translations'                => array('label' => Piwik_Translate('VisitorInterest_ColumnVisitDuration')),
+            'graph_limit'                 => 10,
+            'enable_sort'                 => false,
             'show_exclude_low_population' => false,
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_search' => false,
-            'show_table_all_columns' => false,
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'show_search'                 => false,
+            'show_table_all_columns'      => false,
         );
     }
 
     private function getDisplayPropertiesForGetNumberOfVisitsPerPage()
     {
         return array(
-            'default_view_type' => 'cloud',
-            'filter_sort_column' => 'label',
-            'filter_sort_order' => 'asc',
-            'translations' => array('label' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit')),
-            'graph_limit' => 10,
-            'enable_sort' => false,
+            'default_view_type'           => 'cloud',
+            'filter_sort_column'          => 'label',
+            'filter_sort_order'           => 'asc',
+            'translations'                => array('label' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit')),
+            'graph_limit'                 => 10,
+            'enable_sort'                 => false,
             'show_exclude_low_population' => false,
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_search' => false,
-            'show_table_all_columns' => false,
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'show_search'                 => false,
+            'show_table_all_columns'      => false,
         );
     }
 
     private function getDisplayPropertiesForGetNumberOfVisitsByVisitCount()
     {
         return array(
-            'columns_to_display' => array('label', 'nb_visits', 'nb_visits_percentage'),
-            'filter_sort_column' => 'label',
-            'filter_sort_order' => 'asc',
-            'translations' => array('label' => Piwik_Translate('VisitorInterest_VisitNum'),
-                                    'nb_visits_percentage' => Metrics::getPercentVisitColumn()),
+            'columns_to_display'          => array('label', 'nb_visits', 'nb_visits_percentage'),
+            'filter_sort_column'          => 'label',
+            'filter_sort_order'           => 'asc',
+            'translations'                => array('label'                => Piwik_Translate('VisitorInterest_VisitNum'),
+                                                   'nb_visits_percentage' => Metrics::getPercentVisitColumn()),
             'show_exclude_low_population' => false,
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'filter_limit' => 15,
-            'show_search' => false,
-            'enable_sort' => false,
-            'show_table_all_columns' => false,
-            'show_all_views_icons' => false,
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'filter_limit'                => 15,
+            'show_search'                 => false,
+            'enable_sort'                 => false,
+            'show_table_all_columns'      => false,
+            'show_all_views_icons'        => false,
         );
     }
 
     private function getDisplayPropertiesForGetNumberOfVisitsByDaysSinceLast()
     {
         return array(
-            'filter_sort_column' => 'label',
-            'filter_sort_order' => 'asc',
-            'translations' => array('label' => Piwik_Translate('General_DaysSinceLastVisit')),
+            'filter_sort_column'          => 'label',
+            'filter_sort_order'           => 'asc',
+            'translations'                => array('label' => Piwik_Translate('General_DaysSinceLastVisit')),
             'show_exclude_low_population' => false,
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_all_views_icons' => false,
-            'filter_limit' => 15,
-            'show_search' => false,
-            'enable_sort' => false,
-            'show_table_all_columns' => false
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'show_all_views_icons'        => false,
+            'filter_limit'                => 15,
+            'show_search'                 => false,
+            'enable_sort'                 => false,
+            'show_table_all_columns'      => false
         );
     }
 }

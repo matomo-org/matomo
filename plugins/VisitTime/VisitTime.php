@@ -6,20 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitTime
+ * @package VisitTime
  */
+namespace Piwik\Plugins\VisitTime;
+
+use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Period;
-use Piwik\Plugin;
+use Piwik\Plugins\VisitTime\Archiver;
 use Piwik\Site;
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_VisitTime
+ * @package VisitTime
  */
-class Piwik_VisitTime extends Plugin
+class VisitTime extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -116,7 +119,7 @@ class Piwik_VisitTime extends Plugin
             'acceptedValues' => $acceptedValues
         );
     }
-    
+
     public function getReportDisplayProperties(&$properties)
     {
         $commonProperties = array(
@@ -128,33 +131,33 @@ class Piwik_VisitTime extends Plugin
             'show_pagination_control'     => false,
             'default_view_type'           => 'graphVerticalBar'
         );
-        
+
         $properties['VisitTime.getVisitInformationPerServerTime'] = array_merge($commonProperties, array(
-            'filter_limit' => 24,
-            'graph_limit' => null,
-            'show_goals' => true,
-            'translations' => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
-            
-            // custom parameter
-            'hideFutureHoursWhenToday' => 1,
-        ));
-            
+                                                                                                        'filter_limit'             => 24,
+                                                                                                        'graph_limit'              => null,
+                                                                                                        'show_goals'               => true,
+                                                                                                        'translations'             => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
+
+                                                                                                        // custom parameter
+                                                                                                        'hideFutureHoursWhenToday' => 1,
+                                                                                                   ));
+
         $properties['VisitTime.getVisitInformationPerLocalTime'] = array_merge($commonProperties, array(
-            'filter_limit' => 24,
-            'graph_limit' => null,
-            'title' => Piwik_Translate('VisitTime_ColumnLocalTime'),
-            'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
-        ));
-            
+                                                                                                       'filter_limit' => 24,
+                                                                                                       'graph_limit'  => null,
+                                                                                                       'title'        => Piwik_Translate('VisitTime_ColumnLocalTime'),
+                                                                                                       'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
+                                                                                                  ));
+
         $properties['VisitTime.getByDayOfWeek'] = array_merge($commonProperties, array(
-            'filter_limit' => 7,
-            'graph_limit' => null,
-            'enable_sort' => false,
-            'show_all_ticks' => true,
-            'show_footer_message' =>
-                Piwik_Translate('General_ReportGeneratedFrom', self::getDateRangeForFooterMessage()),
-            'translations' => array('label' => Piwik_Translate('VisitTime_DayOfWeek')),
-        ));
+                                                                                      'filter_limit'        => 7,
+                                                                                      'graph_limit'         => null,
+                                                                                      'enable_sort'         => false,
+                                                                                      'show_all_ticks'      => true,
+                                                                                      'show_footer_message' =>
+                                                                                      Piwik_Translate('General_ReportGeneratedFrom', self::getDateRangeForFooterMessage()),
+                                                                                      'translations'        => array('label' => Piwik_Translate('VisitTime_DayOfWeek')),
+                                                                                 ));
 
         // add the visits by day of week as a related report, if the current period is not 'day'
         if (Common::getRequestVar('period', 'day') != 'day') {
@@ -166,21 +169,20 @@ class Piwik_VisitTime extends Plugin
 
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
-        $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
 
-
     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
-        $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
-    
+
     private static function getDateRangeForFooterMessage()
     {
         // get query params

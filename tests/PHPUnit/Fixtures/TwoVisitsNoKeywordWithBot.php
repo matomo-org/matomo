@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 
 /**
  * Adds one site and tracks two visits. One visit is a bot and one has no keyword
@@ -49,7 +50,7 @@ class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Test_Piwik_BaseFixtur
         $t->setUrlReferrer('http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg=');
         $t->setUrl('http://example.org/this%20is%20cool!');
         self::checkResponse($t->doTrackPageView('incredible title!'));
-        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        $idGoal = API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 

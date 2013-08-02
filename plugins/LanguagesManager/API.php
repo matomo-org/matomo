@@ -6,9 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_LanguagesManager
+ * @package LanguagesManager
  *
  */
+namespace Piwik\Plugins\LanguagesManager;
+
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Db;
@@ -23,14 +25,14 @@ use Piwik\Db;
  * You can also request the default language to load for a user via "getLanguageForUser",
  * or update it via "setLanguageForUser".
  *
- * @package Piwik_LanguagesManager
+ * @package LanguagesManager
  */
-class Piwik_LanguagesManager_API
+class API
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_LanguagesManager_API
+     * @return \Piwik\Plugins\LanguagesManager\API
      */
     static public function getInstance()
     {
