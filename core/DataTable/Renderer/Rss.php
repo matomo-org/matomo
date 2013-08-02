@@ -74,6 +74,7 @@ class Rss extends Renderer
         $out = "";
         $moreRecentFirst = array_reverse($table->getArray(), true);
         foreach ($moreRecentFirst as $date => $subtable) {
+            /** @var DataTable $subtable */
             $timestamp = $subtable->getMetadata('period')->getDateStart()->getTimestamp();
             $site = $subtable->getMetadata('site');
 
@@ -141,6 +142,11 @@ class Rss extends Renderer
         return $header;
     }
 
+    /**
+     * @param DataTable $table
+     *
+     * @return string
+     */
     protected function renderDataTable($table)
     {
         if ($table->getRowsCount() == 0) {

@@ -71,6 +71,13 @@ class Sparkline extends ViewDataTable
         $this->view = $graph;
     }
 
+    /**
+     * @param DataTable\Map $dataTableArray
+     * @param string $columnToPlot
+     *
+     * @return array
+     * @throws \Exception
+     */
     protected function getValuesFromDataTableArray($dataTableArray, $columnToPlot)
     {
         $dataTableArray->applyQueuedFilters();

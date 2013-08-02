@@ -198,6 +198,9 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         return null;
     }
 
+    /**
+     * @var \Zend_Db_Statement_Pdo[]
+     */
     private $cachePreparedStatement = array();
 
     /**

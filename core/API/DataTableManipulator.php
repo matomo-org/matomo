@@ -77,6 +77,9 @@ abstract class DataTableManipulator
 
     /**
      * Manipulates child DataTables of a DataTable_Array. See @manipulate for more info.
+     *
+     * @param DataTable\Map  $dataTable
+     * @return DataTable\Map
      */
     protected function manipulateDataTableArray($dataTable)
     {

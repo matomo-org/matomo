@@ -519,6 +519,9 @@ class Row
         return $newValue;
     }
 
+    /**
+     * @param Row $rowToSum
+     */
     public function sumRowMetadata($rowToSum)
     {
         if (!empty($rowToSum->c[self::METADATA])

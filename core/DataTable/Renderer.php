@@ -30,6 +30,10 @@ use Piwik\DataTable\Simple;
 abstract class Renderer
 {
     protected $table;
+
+    /**
+     * @var Exception
+     */
     protected $exception;
     protected $renderSubTables = false;
     protected $hideIdSubDatatable = false;

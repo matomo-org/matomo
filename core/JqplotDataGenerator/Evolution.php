@@ -32,6 +32,9 @@ class Evolution extends JqplotDataGenerator
         parent::__construct(new \Piwik\Visualization\Chart\Evolution(), $properties);
     }
 
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     */
     protected function initChartObjectData($dataTable)
     {
         // if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
