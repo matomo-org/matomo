@@ -52,7 +52,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 
     /**
      * The data
-     * @var DataTable
+     * @var Piwik\DataTable
      */
     protected $dataTable;
 

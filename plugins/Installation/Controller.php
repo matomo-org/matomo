@@ -615,8 +615,8 @@ class Piwik_Installation_Controller extends Admin
     /**
      * Redirect to next step
      *
-     * @param string Current step
-     * @return none
+     * @param string $currentStep Current step
+     * @return void
      */
     protected function redirectToNextStep($currentStep)
     {
@@ -629,7 +629,7 @@ class Piwik_Installation_Controller extends Admin
     /**
      * Skip this step (typically to mark the current function as completed)
      *
-     * @param string function name
+     * @param string $step function name
      */
     protected function skipThisStep($step)
     {
