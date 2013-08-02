@@ -26,6 +26,8 @@ class Evolution extends JqplotDataGenerator
 
     /**
      * Constructor.
+     *
+     * @param array $properties
      */
     public function __construct($properties)
     {

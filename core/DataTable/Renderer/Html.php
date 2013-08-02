@@ -107,7 +107,7 @@ class Html extends Renderer
     /**
      * Adds the given data table to the table structure array
      *
-     * @param Simple $table
+     * @param DataTable $table
      * @param null|string $columnToAdd
      * @param null|string $valueToAdd
      * @throws Exception

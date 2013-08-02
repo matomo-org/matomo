@@ -63,7 +63,7 @@ class Xml extends Renderer
     /**
      * Converts the given data table to an array
      *
-     * @param DataTable $table  data table to convert
+     * @param DataTable|DataTable/Map $table  data table to convert
      * @return array
      */
     protected function getArrayFromDataTable($table)
@@ -83,7 +83,7 @@ class Xml extends Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param DataTable $table
+     * @param DataTable|DataTable/Map $table
      * @param bool $returnOnlyDataTableXml
      * @param string $prefixLines
      * @return array|string

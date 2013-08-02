@@ -34,7 +34,7 @@ class JqplotDataGenerator
     /**
      * This object does most of the work in generating the JQPlot JSON data.
      *
-     * @var \Piwik\Visualization\
+     * @var Visualization\
      */
     protected $visualization;
 

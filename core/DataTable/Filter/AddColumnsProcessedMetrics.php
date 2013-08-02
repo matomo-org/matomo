@@ -102,9 +102,9 @@ class AddColumnsProcessedMetrics extends Filter
      * - raw datatables coming from the archive DB, which columns are int indexed
      * - datatables processed resulting of API calls, which columns have human readable english names
      *
-     * @param Row $row
+     * @param Row|array $row
      * @param int $columnIdRaw see consts in Archive::
-     * @param bool $mappingIdToName
+     * @param bool|array $mappingIdToName
      * @return mixed  Value of column, false if not found
      */
     protected function getColumn($row, $columnIdRaw, $mappingIdToName = false)

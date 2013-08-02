@@ -182,7 +182,7 @@ class Csv extends Renderer
     /**
      * Converts the output of the given simple data table
      *
-     * @param Simple $table
+     * @param DataTable|Simple $table
      * @param array $allColumns
      * @return string
      */

@@ -224,7 +224,7 @@ class GoalManager
      * @param int $idSite
      * @param array $visitorInformation
      * @param array $visitCustomVariables
-     * @param string $action
+     * @param Action $action
      */
     public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
     {
