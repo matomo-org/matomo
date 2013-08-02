@@ -507,7 +507,7 @@ class Common
         // $_GET and $_REQUEST already urldecode()'d
         // decode
         // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
-        $value = html_entity_decode($value, \Piwik\Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+        $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         // filter
         $value = str_replace(array("\n", "\r", "\0"), '', $value);

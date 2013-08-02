@@ -15,6 +15,7 @@ use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
+use Piwik\NoAccessException;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DataTable;
@@ -239,7 +240,7 @@ class ViewDataTable
 
         try {
             $this->loadDataTableFromAPI();
-        } catch (\Piwik\NoAccessException $e) {
+        } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());

@@ -107,6 +107,9 @@ class JqplotDataGenerator
         return $this->visualization->render();
     }
 
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     */
     protected function initChartObjectData($dataTable)
     {
         $dataTable->applyQueuedFilters();

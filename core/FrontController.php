@@ -10,7 +10,7 @@
  */
 
 namespace Piwik;
-use \Piwik\NoAccessException;
+use Piwik\NoAccessException;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
@@ -126,7 +126,7 @@ class FrontController
 
         try {
             return call_user_func_array(array($params[0], $params[1]), $params[2]);
-        } catch (\Piwik\NoAccessException $e) {
+        } catch (NoAccessException $e) {
             Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();

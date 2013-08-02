@@ -24,6 +24,7 @@ use Piwik\Tracker\Db\Pdo\Mysql;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;
+use Piwik\PluginsManager;
 use Zend_Registry;
 
 /**
@@ -614,9 +615,9 @@ class Tracker
             $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (count($pluginsTracker) > 0) {
                 $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
-                \Piwik\PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
+                PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
-                \Piwik\PluginsManager::getInstance()->loadPlugins($pluginsTracker);
+                PluginsManager::getInstance()->loadPlugins($pluginsTracker);
 
                 Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
             }

@@ -42,7 +42,8 @@ class Evolution extends JqplotDataGenerator
         // if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
         // we don't expect plugin developers to return a well defined Set
         if ($dataTable instanceof DataTable) {
-            return parent::initChartObjectData($dataTable);
+            parent::initChartObjectData($dataTable);
+            return;
         }
 
         $dataTable->applyQueuedFilters();
@@ -108,6 +109,8 @@ class Evolution extends JqplotDataGenerator
         $countGraphElements = $dataTable->getRowsCount();
         $dataTables = $dataTable->getArray();
         $firstDatatable = reset($dataTables);
+
+        /** @var \Piwik\Period $period */
         $period = $firstDatatable->getMetadata('period');
 
         $stepSize = $this->getXAxisStepSize($period->getLabel(), $countGraphElements);

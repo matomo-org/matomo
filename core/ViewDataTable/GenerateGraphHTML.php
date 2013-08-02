@@ -14,6 +14,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Access;
+use Piwik\NoAccessException;
 use Piwik\Common;
 use Piwik\JqplotDataGenerator;
 use Piwik\ViewDataTable;
@@ -134,7 +135,7 @@ abstract class GenerateGraphHTML extends ViewDataTable
 
         try {
             $this->loadDataTableFromAPI();
-        } catch (\Piwik\NoAccessException $e) {
+        } catch (NoAccessException $e) {
             throw $e;
         } catch (Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());

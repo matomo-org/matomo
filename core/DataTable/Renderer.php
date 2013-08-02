@@ -11,6 +11,7 @@
 namespace Piwik\DataTable;
 
 use Exception;
+use Piwik\Loader;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
@@ -204,7 +205,7 @@ abstract class Renderer
         $className = ucfirst(strtolower($name));
         $className = 'Piwik\DataTable\Renderer\\' . $className;
         try {
-            \Piwik\Loader::loadClass($className);
+            Loader::loadClass($className);
             return new $className;
         } catch (Exception $e) {
             $availableRenderers = implode(', ', self::getRenderers());

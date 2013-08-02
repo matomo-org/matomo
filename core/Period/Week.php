@@ -49,6 +49,13 @@ class Week extends Period
         return Piwik_Translate('CoreHome_PeriodWeek') . " " . $string;
     }
 
+    /**
+     * @param string $format
+     * @param \Piwik\Date $dateStart
+     * @param \Piwik\Date $dateEnd
+     *
+     * @return mixed
+     */
     static protected function getTranslatedRange($format, $dateStart, $dateEnd)
     {
         $string = str_replace('From%', '%', $format);

@@ -93,7 +93,7 @@ class DataCollection
      *     '2012-02-01,2012-02-28' => new Period(...),
      * )
      *
-     * @var array
+     * @var \Piwik\Period[]
      */
     private $periods;
 
@@ -103,7 +103,7 @@ class DataCollection
      * @param array $dataNames @see $this->dataNames
      * @param string $dataType @see $this->dataType
      * @param array $sitesId @see $this->sitesId
-     * @param array $periods @see $this->periods
+     * @param \Piwik\Period[] $periods @see $this->periods
      * @param array $defaultRow @see $this->defaultRow
      */
     public function __construct($dataNames, $dataType, $sitesId, $periods, $defaultRow = null)
@@ -228,13 +228,13 @@ class DataCollection
      *                             by the metadata specified here.
      *
      *                             Eg, array('site' => 'idSite', 'period' => 'Date')
-     * @param int $idSubtable The subtable to return.
-     * @param bool $addMetadataSubtableId Whether to add the DB subtable ID as metadata
+     * @param int $idSubTable The subtable to return.
+     * @param bool $addMetadataSubTableId Whether to add the DB subtable ID as metadata
      *                                    to each datatable, or not.
      * @throws Exception
      * @return DataTable|DataTable\Map
      */
-    public function getExpandedDataTable($resultIndices, $idSubtable = null, $addMetadataSubtableId = false)
+    public function getExpandedDataTable($resultIndices, $idSubTable = null, $addMetadataSubTableId = false)
     {
         if ($this->dataType != 'blob') {
             throw new Exception("DataCollection: cannot call getExpandedDataTable with "
@@ -248,8 +248,8 @@ class DataCollection
 
         $dataTableFactory = new DataTableFactory(
             $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->defaultRow);
-        $dataTableFactory->expandDataTable($addMetadataSubtableId);
-        $dataTableFactory->useSubtable($idSubtable);
+        $dataTableFactory->expandDataTable($addMetadataSubTableId);
+        $dataTableFactory->useSubtable($idSubTable);
 
         $index = $this->getArray($resultIndices);
         return $dataTableFactory->make($index, $resultIndices);

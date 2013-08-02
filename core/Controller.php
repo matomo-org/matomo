@@ -19,6 +19,7 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\NoAccessException;
 use Piwik\Date;
 use Piwik\Site;
 use Piwik_API_API;
@@ -267,7 +268,7 @@ abstract class Controller
         }
 
         if (is_null($this->site)) {
-            throw new \Piwik\NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
+            throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
         $paramDate = self::getDateRangeRelativeToEndDate($period, $range, $endDate, $this->site);
 
@@ -743,7 +744,7 @@ abstract class Controller
     protected function checkTokenInUrl()
     {
         if (Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-            throw new \Piwik\NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
+            throw new NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
         }
     }
 
