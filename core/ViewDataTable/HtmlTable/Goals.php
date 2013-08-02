@@ -92,7 +92,7 @@ class Goals extends HtmlTable
             if ($this->processOnlyIdGoal > 0
                 && strpos($columnNbConversionsCurrentGoal, '_nb_conversions') !== false
             ) {
-                $this->viewProperties['filter_sort_column'] = $columnNbConversionsCurrentGoal;
+                $this->viewProperties['filter_sort_column'] = 'goal_' . $this->processOnlyIdGoal . '_nb_conversions';
                 $this->viewProperties['filter_sort_order'] = 'desc';
             }
         }
