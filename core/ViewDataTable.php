@@ -241,7 +241,7 @@ class ViewDataTable
             $this->loadDataTableFromAPI();
         } catch (\Piwik\NoAccessException $e) {
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());
 
             $this->loadingError = array('message' => $e->getMessage());

@@ -22,7 +22,7 @@ class Db
     /**
      * Returns the database adapter to use
      *
-     * @return \Piwik\Tracker\Db|AdapterInterface
+     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface
      */
     static private function getDb()
     {

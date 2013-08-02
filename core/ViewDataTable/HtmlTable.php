@@ -10,7 +10,6 @@
  */
 namespace Piwik\ViewDataTable;
 
-use Exception;
 use Piwik\Config;
 use Piwik\DataTable\Renderer;
 use Piwik\Piwik;

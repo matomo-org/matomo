@@ -36,7 +36,7 @@ class VisualizationPropertiesProxy
     /**
      * Constructor.
      * 
-     * @param Piwik\Visualization $visualization The visualization to get/set properties of.
+     * @param \Piwik\Visualization\ $visualization The visualization to get/set properties of.
      */
     public function __construct($visualization)
     {
@@ -48,7 +48,7 @@ class VisualizationPropertiesProxy
      * 
      * @param string $name A valid property name for the current visualization.
      * @return mixed
-     * @throws Exception if the property name is invalid.
+     * @throws \Exception if the property name is invalid.
      */
     public function &__get($name)
     {
@@ -62,7 +62,7 @@ class VisualizationPropertiesProxy
      * @param string $name A valid property name for the current visualization.
      * @param mixed $value
      * @return mixed Returns $value.
-     * @throws Exception if the property name is invalid.
+     * @throws \Exception if the property name is invalid.
      */
     public function __set($name, $value)
     {
