@@ -290,7 +290,7 @@ class Map
      * This function can be used, for example, to smoosh IndexedBySite archive
      * query results into one DataTable w/ different rows differentiated by site ID.
      *
-     * @return DataTable|Set
+     * @return DataTable|Map
      */
     public function mergeChildren()
     {
@@ -367,7 +367,7 @@ class Map
      *
      * @see DataTable::mergeSubtables
      *
-     * @return Set
+     * @return Map
      */
     public function mergeSubtables()
     {
@@ -382,7 +382,7 @@ class Map
      * Returns a new DataTable_Array w/o any child DataTables, but with
      * the same key name as this instance.
      *
-     * @return Set
+     * @return Map
      */
     public function getEmptyClone()
     {

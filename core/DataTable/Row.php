@@ -202,7 +202,7 @@ class Row
      * Returns the given column
      *
      * @param string $name  Column name
-     * @return mixed|false  The column value
+     * @return mixed|bool  The column value or false if it doesn't exist
      */
     public function getColumn($name)
     {
@@ -217,7 +217,7 @@ class Row
      * or the specified metadata
      *
      * @param string $name  Metadata name
-     * @return mixed|array|false
+     * @return mixed
      */
     public function getMetadata($name = null)
     {
@@ -261,7 +261,7 @@ class Row
     /**
      * Returns the associated subtable, if one exists.
      *
-     * @return DataTable|false
+     * @return DataTable|bool    false if no subtable loaded
      */
     public function getSubtable()
     {

@@ -126,7 +126,7 @@ class DataTableFactory
      * @param array $index @see DataCollection
      * @param array $resultIndices an array mapping metadata names with pretty metadata
      *                             labels.
-     * @return DataTable|Set
+     * @return DataTable|DataTable\Map
      */
     public function make($index, $resultIndices)
     {
@@ -160,7 +160,7 @@ class DataTableFactory
      * the created DataTable's subtables will be expanded.
      *
      * @param array $blobRow
-     * @return DataTable|Set
+     * @return DataTable|DataTable\Map
      */
     private function makeFromBlobRow($blobRow)
     {
@@ -237,7 +237,7 @@ class DataTableFactory
      * @param array $index @see DataCollection
      * @param array $resultIndices @see make
      * @param array $keyMetadata The metadata to add to the table when it's created.
-     * @return Set
+     * @return DataTable\Map
      */
     private function createDataTableArrayFromIndex($index, $resultIndices, $keyMetadata = array())
     {
@@ -267,7 +267,7 @@ class DataTableFactory
     /**
      * Creates a DataTable instance from an index row.
      *
-     * @param array|false $data An archive data row.
+     * @param array $data An archive data row.
      * @param array $keyMetadata The metadata to add to the table(s) when created.
      * @return DataTable|DataTable\Map
      */

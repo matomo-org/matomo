@@ -83,7 +83,7 @@ class UpdateCheck
     /**
      * Returns version number of a newer Piwik release.
      *
-     * @return string|false  false if current version is the latest available,
+     * @return string|bool  false if current version is the latest available,
      *                       or the latest version number if a newest release is available
      */
     public static function isNewestVersionAvailable()

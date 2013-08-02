@@ -204,7 +204,7 @@ class DataCollection
      *                             by the metadata specified here.
      *
      *                             Eg, array('site' => 'idSite', 'period' => 'Date')
-     * @return \Piwik\DataTable|Set
+     * @return DataTable|DataTable\Map
      */
     public function getDataTable($resultIndices)
     {
@@ -232,7 +232,7 @@ class DataCollection
      * @param bool $addMetadataSubtableId Whether to add the DB subtable ID as metadata
      *                                    to each datatable, or not.
      * @throws Exception
-     * @return \Piwik\DataTable|Set
+     * @return DataTable|DataTable\Map
      */
     public function getExpandedDataTable($resultIndices, $idSubtable = null, $addMetadataSubtableId = false)
     {

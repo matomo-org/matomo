@@ -1211,7 +1211,7 @@ class Common
      *
      * @see unit tests in /tests/core/Common.test.php
      * @param string $referrerUrl  URL referer URL, eg. $_SERVER['HTTP_REFERER']
-     * @return array|false false if a keyword couldn't be extracted,
+     * @return array|bool   false if a keyword couldn't be extracted,
      *                        or array(
      *                            'name' => 'Google',
      *                            'keywords' => 'my searched keywords')

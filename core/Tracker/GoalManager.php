@@ -411,7 +411,7 @@ class GoalManager
 
     /**
      * Returns Items read from the request string
-     * @return array|false
+     * @return array|bool
      */
     protected function getEcommerceItemsFromRequest()
     {

@@ -250,7 +250,7 @@ class Url
      *
      * @param bool $checkIfTrusted Whether to do trusted host check. Should ALWAYS be true,
      *                             except in Controller.
-     * @return string|false
+     * @return string|bool    false if no host found
      */
     static public function getHost($checkIfTrusted = true)
     {
@@ -408,7 +408,7 @@ class Url
     /**
      * Returns the HTTP_REFERER header, false if not found.
      *
-     * @return string|false
+     * @return string|bool
      */
     static public function getReferer()
     {

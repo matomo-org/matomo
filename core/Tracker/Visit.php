@@ -603,7 +603,7 @@ class Visit implements Tracker\VisitInterface
     /**
      *  Returns visitor cookie
      *
-     * @return binary
+     * @return string  binary
      */
     protected function getVisitorIdcookie()
     {
@@ -631,7 +631,7 @@ class Visit implements Tracker\VisitInterface
     /**
      * Returns the visitor's IP address
      *
-     * @return long
+     * @return string
      */
     protected function getVisitorIp()
     {

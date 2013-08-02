@@ -909,7 +909,7 @@ class Piwik
      * compile-time default, so ini_get('memory_limit') may return false.
      *
      * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
-     * @return int|false  memory limit in megabytes, or false if there is no limit
+     * @return int|bool  memory limit in megabytes, or false if there is no limit
      */
     static public function getMemoryLimitValue()
     {

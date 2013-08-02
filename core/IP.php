@@ -39,7 +39,7 @@ class IP
      * Sanitize human-readable IP address.
      *
      * @param string $ipString  IP address
-     * @return string|false
+     * @return string
      */
     public static function sanitizeIp($ipString)
     {
@@ -87,7 +87,7 @@ class IP
      * - wildcards, e.g., 192.168.0.*
      *
      * @param string $ipRangeString  IP address range
-     * @return string|false  IP address range in CIDR notation
+     * @return string|bool  IP address range in CIDR notation OR false
      */
     public static function sanitizeIpRange($ipRangeString)
     {
@@ -261,7 +261,7 @@ class IP
      * Get low and high IP addresses for a specified range.
      *
      * @param array $ipRange  An IP address range in presentation format
-     * @return array|false  Array ($lowIp, $highIp) in network address format, or false if failure
+     * @return array|bool  Array ($lowIp, $highIp) in network address format, or false if failure
      */
     public static function getIpsForRange($ipRange)
     {
@@ -449,7 +449,7 @@ class IP
      * @link http://php.net/inet_ntop
      *
      * @param string $in_addr  32-bit IPv4 or 128-bit IPv6 address
-     * @return string|false  string representation of address or false on failure
+     * @return string|bool  string representation of address or false on failure
      */
     static public function php_compat_inet_ntop($in_addr)
     {
