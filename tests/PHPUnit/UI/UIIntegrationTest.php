@@ -89,7 +89,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         $urlBase = 'module=CoreHome&action=index&' . $generalParams;
         $widgetizeParams = "module=Widgetize&action=iframe";
         $segment = urlencode("browserCode==FF");
-        
+
         return array(
             // dashboard
             array('dashboard1', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=1"),

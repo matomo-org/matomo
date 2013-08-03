@@ -13,6 +13,7 @@ namespace Piwik\Visualization;
 use Piwik\Common;
 use Piwik\View;
 use Piwik\DataTable;
+use Piwik\DataTableVisualization;
 
 /**
  * Generates a tag cloud from a given data array.
@@ -23,7 +24,7 @@ use Piwik\DataTable;
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Cloud
+class Cloud extends DataTableVisualization
 {
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;

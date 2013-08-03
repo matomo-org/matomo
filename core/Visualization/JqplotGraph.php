@@ -14,11 +14,12 @@ namespace Piwik\Visualization;
 use Piwik\View;
 use Piwik\JqplotDataGenerator;
 use Piwik\DataTable;
+use Piwik\DataTableVisualization;
 
 /**
  * DataTable visualization that displays DataTable data in a JQPlot graph.
  */
-class JqplotGraph
+class JqplotGraph extends DataTableVisualization
 {
     /**
      * Renders this visualization.

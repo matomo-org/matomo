@@ -714,13 +714,23 @@ class DataTable
      */
     public function getColumns()
     {
+        $result = array();
         foreach ($this->getRows() as $row) {
             $columns = $row->getColumns();
             if (!empty($columns)) {
-                return array_keys($columns);
+                $result = array_keys($columns);
+                break;
             }
         }
-        return array();
+
+        // make sure column names are not DB index values
+        foreach ($result as &$column) {
+            if (isset(Metrics::$mappingFromIdToName[$column])) {
+                $column = Metrics::$mappingFromIdToName[$column];
+            }
+        }
+
+        return $result;
     }
 
     /**

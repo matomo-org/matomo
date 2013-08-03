@@ -2485,4 +2485,17 @@ class Piwik
     {
         return "lastRunArchive" . $period . "_" . $idSite;
     }
+
+    /**
+     * Returns the class name of an object without its namespace.
+     * 
+     * @param mixed|string $object
+     * @return string
+     */
+    public static function getUnnamespacedClassName($object)
+    {
+        $className = is_string($object) ? $object : get_class($object);
+        $parts = explode('\\', $className);
+        return end($parts);
+    }
 }

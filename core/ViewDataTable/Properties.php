@@ -429,6 +429,47 @@ class Properties
     const ADD_TOTAL_ROW = 'add_total_row';
 
     /**
+     * If true, the 'label', 'nb_visits', 'nb_uniq_visitors' (if present), 'nb_actions',
+     * 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate' and 'conversion_rate' (if
+     * goals view is not allowed) are displayed.
+     * 
+     * TODO: HtmlTable property, only. Move.
+     */
+    const SHOW_EXTRA_COLUMNS = 'show_extra_columns';
+
+    /**
+     * If true, conversions for each existing goal will be displayed for the visits in
+     * each row.
+     * 
+     * TODO: HtmlTable property, only. Move.
+     */
+    const SHOW_GOALS_COLUMNS = 'show_goals_columns';
+
+    /**
+     * TODO: HtmlTable property, only. Move.
+     */
+    const DISABLE_SUBTABLE_IN_GOALS_VIEW = 'disable_subtable_when_show_goals';
+
+    /**
+     * Array of DataTable filters that should be run before displaying a DataTable. Elements
+     * of this array can either be a closure or an array with at most three elements, including:
+     * - the filter name (or a closure)
+     * - an array of filter parameters
+     * - a boolean indicating if the filter is a priority filter or not
+     * 
+     * Priority filters are run before queued filters. These filters should be filters that
+     * add/delete rows.
+     * 
+     * If a closure is used, the view is appended as a parameter.
+     */
+    const FILTERS = 'filters';
+
+    /**
+     * Contains the controller action to call when requesting subtables of the current report.
+     */
+    const SUBTABLE_CONTROLLER_ACTION = 'subtable_controller_action';
+
+    /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
      * name as a key. Values of the array are undefined.
      *
