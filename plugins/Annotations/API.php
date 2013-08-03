@@ -328,7 +328,7 @@ class Piwik_Annotations_API
             $endDate = $oPeriod->getDateEnd();
         } else // if the range includes the last N periods
         {
-            list($date, $lastN) = \Piwik\ViewDataTable\GenerateGraphHTML\ChartEvolution::getDateRangeAndLastN($period, $date, $lastN);
+            list($date, $lastN) = \Piwik\Visualization\JqplotGraph\Evolution::getDateRangeAndLastN($period, $date, $lastN);
             list($startDate, $endDate) = explode(',', $date);
 
             $startDate = Date::factory($startDate);

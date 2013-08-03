@@ -15,7 +15,6 @@ use Piwik\Metrics;
 use Piwik\Date;
 use Piwik\ViewDataTable;
 use Piwik\Url;
-use Piwik\ViewDataTable\GenerateGraphHTML\ChartEvolution;
 use Piwik\Visualization\Chart\Evolution;
 
 /**
@@ -99,7 +98,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             // handle day, week, month and year: display last X periods
             $end = $date->toString();
             list($this->date, $lastN) =
-                ChartEvolution::getDateRangeAndLastN($this->period, $end);
+                \Piwik\Visualization\JqplotGraph\Evolution::getDateRangeAndLastN($this->period, $end);
         }
         $this->segment = \Piwik\API\Request::getRawSegmentFromRequest();
 
@@ -196,6 +195,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
         $view->show_all_views_icons = false;
         $view->show_active_view_icon = false;
         $view->show_related_reports = false;
+        $view->show_series_picker = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
             $view->translations[$metric] = $metadata['name'];

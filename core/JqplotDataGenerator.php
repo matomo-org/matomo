@@ -187,7 +187,7 @@ class JqplotDataGenerator
     protected function addSeriesPickerToView()
     {
         if (count($this->properties['selectable_columns'])
-            && Common::getRequestVar('showSeriesPicker', 1) == 1
+            && Common::getRequestVar('showSeriesPicker', $this->properties['show_series_picker']) == 1
         ) {
             $selectableColumns = array();
             foreach ($this->properties['selectable_columns'] as $column) {

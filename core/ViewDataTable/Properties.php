@@ -470,6 +470,21 @@ class Properties
     const SUBTABLE_CONTROLLER_ACTION = 'subtable_controller_action';
 
     /**
+     * TODO: specific only to jqplot graphs. change to just 'width'?
+     */
+    const GRAPH_WIDTH = 'graph_width';
+
+    /**
+     * TODO: same as GRAPH_WIDTH
+     */
+    const GRAPH_HEIGHT = 'graph_height';
+
+    /**
+     * TODO: only valid for jqplot graphs.
+     */
+    const SHOW_SERIES_PICKER = 'show_series_picker';
+
+    /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
      * name as a key. Values of the array are undefined.
      *

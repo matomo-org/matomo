@@ -178,6 +178,8 @@ class ViewDataTable
         $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
         $this->viewProperties['selectable_columns'] = array(); // TODO: only valid for graphs... shouldn't be here.
         $this->viewProperties['filters'] = array();
+        $this->viewProperties['show_series_picker'] = true; // TODO: only for graphs.
+        $this->viewProperties['graph_limit'] = false; // TODO: only for graph.
         $this->viewProperties['columns_to_display'] = array();
 
         $columns = Common::getRequestVar('columns', false);
@@ -290,15 +292,15 @@ class ViewDataTable
                 break;
 
             case 'graphPie':
-                $result = new ViewDataTable\GenerateGraphHTML\ChartPie();
+                $result = new ViewDataTable('\\Piwik\\Visualization\\JqplotGraph\\Pie');
                 break;
 
             case 'graphVerticalBar':
-                $result = new ViewDataTable\GenerateGraphHTML\ChartVerticalBar();
+                $result = new ViewDataTable('\\Piwik\\Visualization\\JqplotGraph\\Bar');
                 break;
 
             case 'graphEvolution':
-                $result = new ViewDataTable\GenerateGraphHTML\ChartEvolution();
+                $result = new ViewDataTable('\\Piwik\\Visualization\\JqplotGraph\\Evolution');
                 break;
 
             case 'sparkline':
@@ -1220,8 +1222,15 @@ class ViewDataTable
      */
     public function defaultPropertiesTo($defaultValues)
     {
+        // TODO: This approach won't work. Will require more typing, but allow there to be a static
+        //       getDefaultProperties function for visualizations. used by constructor.
+        $defaultView = new ViewDataTable(); // bit of a hack...
+
         foreach ($defaultValues as $name => $value) {
-            if (empty($this->viewProperties[$name])) {
+            if (!array_key_exists($name, $this->viewProperties)
+                || (isset($defaultView->viewProperties[$name])
+                    && $this->viewProperties[$name] === $defaultView->viewProperties[$name])
+            ) {
                 $this->viewProperties[$name] = $value;
             }
         }
