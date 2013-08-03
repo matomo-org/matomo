@@ -91,6 +91,11 @@ class Piwik_API_RowEvolution
         return $dataTable;
     }
 
+    /**
+     * @param DataTable\Map  $dataTable
+     * @param array          $labels
+     * @return array
+     */
     protected function getLabelsFromDataTable($dataTable, $labels)
     {
         // if no labels specified, use all possible labels as list
@@ -112,7 +117,7 @@ class Piwik_API_RowEvolution
 
     /**
      * Get row evolution for a single label
-     * @param DataTable $dataTable
+     * @param DataTable\Map $dataTable
      * @param array $metadata
      * @param string $apiModule
      * @param string $apiAction
@@ -173,6 +178,13 @@ class Piwik_API_RowEvolution
         return $return;
     }
 
+    /**
+     * @param Row     $row
+     * @param string  $apiModule
+     * @param string  $apiAction
+     * @param bool    $labelUseAbsoluteUrl
+     * @return bool|string
+     */
     private function getRowUrlForEvolutionLabel($row, $apiModule, $apiAction, $labelUseAbsoluteUrl)
     {
         $url = $row->getMetadata('url');

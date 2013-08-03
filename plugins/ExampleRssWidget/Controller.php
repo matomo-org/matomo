@@ -40,6 +40,9 @@ class Piwik_ExampleRssWidget_Controller extends Controller
         }
     }
 
+    /**
+     * @param \Exception $e
+     */
     protected function error($e)
     {
         echo '<div class="pk-emptyDataTable">'
