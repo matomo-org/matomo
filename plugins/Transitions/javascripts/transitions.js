@@ -29,7 +29,7 @@ DataTable_RowActions_Transitions.isPageUrlReport = function (module, action) {
 
 DataTable_RowActions_Transitions.isPageTitleReport = function (module, action) {
     return module == 'Actions' && (action == 'getPageTitles' || action == 'getPageTitlesFollowingSiteSearch');
-}
+};
 
 DataTable_RowActions_Transitions.prototype.trigger = function (tr, e, subTableLabel) {
     var link = tr.find('> td:first > a').attr('href');
@@ -808,9 +808,9 @@ Piwik_Transitions_Canvas.prototype.isNarrowMode = function () {
 /**
  * Helper to create horizontal gradients
  * TODO
- * @param    lightColor
- * @param    darkColor
- * @param    position    left|right
+ * @param    {String} colorGroup
+ * @param    {String} position    left|right
+ * @param    {Boolean} isHighlighted
  */
 Piwik_Transitions_Canvas.prototype.createHorizontalGradient = function (colorGroup, position, isHighlighted) {
     var fromX, toX, fromColor, toColor, lightColor, darkColor;

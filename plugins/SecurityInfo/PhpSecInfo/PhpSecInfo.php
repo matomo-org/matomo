@@ -182,6 +182,7 @@ class PhpSecInfo
     /**
      * Constructor
      *
+     * @param null|array $opts
      * @return PhpSecInfo
      */
     function PhpSecInfo($opts = null)
@@ -332,6 +333,7 @@ class PhpSecInfo
      *
      * @param string $group_name
      * @param array $group_results
+     * @return bool
      */
     function _outputRenderTable($group_name, $group_results)
     {

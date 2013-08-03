@@ -45,14 +45,14 @@ Segmentation = (function($) {
                 return self.currentSegmentStr;
             }
             return decodeURIComponent(self.currentSegmentStr);
-        }
+        };
 
         var setSegment = function(segmentStr){
             if(!$.browser.mozilla) {
                 segmentStr = encodeURIComponent(segmentStr);
             }
             self.currentSegmentStr = segmentStr;
-        }
+        };
 
         segmentation.prototype.shortenSegmentName = function(name, length){
 
@@ -74,7 +74,7 @@ Segmentation = (function($) {
                 return name.slice(0,i)+"...";
             }
             return name;
-        }
+        };
 
         var markCurrentSegment = function(){
             var current = self.getSegment();
@@ -96,35 +96,35 @@ Segmentation = (function($) {
             else {
                 $(self.content).find(".segmentationTitle").text(self.translations['SegmentEditor_DefaultAllVisits']);
             }
-        }
+        };
 
         var getAndDiv = function(){
             if(typeof andDiv === "undefined"){
                 var andDiv = $("#SegmentEditor > div.segment-and").clone();
             }
             return andDiv.clone();
-        }
+        };
 
         var getOrDiv = function(){
             if(typeof orDiv === "undefined"){
                 var orDiv = $("#SegmentEditor > div.segment-or").clone();
             }
             return orDiv.clone();
-        }
+        };
 
         var getMockedInputSet = function(){
             if(typeof mockedInputSet === "undefined"){
                 var mockedInputSet = $("#SegmentEditor div.segment-row-inputs").clone();
             }
             return mockedInputSet.clone();
-        }
+        };
 
         var getMockedInputRowHtml = function(){
             if(typeof mockedInputRow === "undefined"){
                 var mockedInputRow = '<div class="segment-row"><a class="segment-close" href="#"></a><div class="segment-row-inputs">'+getMockedInputSet().html()+'</div></div>';
             }
             return mockedInputRow;
-        }
+        };
 
         var getMockedFormRow = function(){
             if(typeof mockedFormRow === "undefined")
@@ -133,7 +133,7 @@ Segmentation = (function($) {
                 $(mockedFormRow).find(".segment-row").append(getMockedInputSet()).after(getAddOrBlockButtonHtml).after(getOrDiv());
             }
             return mockedFormRow.clone();
-        }
+        };
 
         var getInitialStateRowsHtml = function(){
             if(typeof initialStateRows === "undefined"){
@@ -141,12 +141,12 @@ Segmentation = (function($) {
                 var initialStateRows = $(content).clone();
             }
             return initialStateRows;
-        }
+        };
 
         var revokeInitialStateRows = function(){
             $(self.form).find(".segment-add-row").remove();
             $(self.form).find(".segment-and").remove();
-        }
+        };
 
         var appendSpecifiedRowHtml= function(metric) {
             $(self.form).find(".segment-content > h3").after(getMockedFormRow());
@@ -154,7 +154,7 @@ Segmentation = (function($) {
             $(self.form).find(".segment-content").append(getAddNewBlockButtonHtml());
             doDragDropBindings();
             $(self.form).find(".metricList").val(metric).trigger("change");
-        }
+        };
 
         var appendComplexRowHtml = function(block){
             var key;
@@ -177,13 +177,13 @@ Segmentation = (function($) {
                 $(newRow).append(getAddOrBlockButtonHtml());
             }
             $(self.form).find(".segment-content").append(newRow).append(getAndDiv());
-        }
+        };
 
         var applyInitialStateModification = function(){
             $(self.form).find(".segment-add-row").remove();
             $(self.form).find(".segment-content").append(getInitialStateRowsHtml());
             doDragDropBindings();
-        }
+        };
 
         var getSegmentFromId = function (id) {
             if(self.availableSegments.length > 0) {
@@ -196,7 +196,7 @@ Segmentation = (function($) {
                 }
             }
             return false;
-        }
+        };
 
         var getListHtml = function() {
             var html = $("#SegmentEditor > .listHtml").clone();
@@ -236,7 +236,7 @@ Segmentation = (function($) {
                 $(html).find(".segmentList > ul").append(listHtml);
             }
             return html;
-        }
+        };
 
         var getFormHtml = function() {
             var html = $("#SegmentEditor > .segment-element").clone();
@@ -257,7 +257,7 @@ Segmentation = (function($) {
             }
             $(html).find(".segment-content > h3").after(getInitialStateRowsHtml()).show();
             return html;
-        }
+        };
 
         var doListBindings = function()
         {
@@ -273,14 +273,14 @@ Segmentation = (function($) {
                 doDragDropBindings();
             });
 
-        }
+        };
 
         var closeAllOpenLists = function() {
             $(".segmentationContainer").each(function() {
                 if($(this).hasClass("visible"))
                     $(this).trigger("click");
             });
-        }
+        };
 
 
         var findAndExplodeByMatch = function(metric){
@@ -324,7 +324,7 @@ Segmentation = (function($) {
 
             newMetric.value = decodeURIComponent(newMetric.value);
             return newMetric;
-        }
+        };
 
         var parseSegmentStr = function(segmentStr)
         {
@@ -337,7 +337,7 @@ Segmentation = (function($) {
                 }
             }
             return blocks;
-        }
+        };
 
         var openEditForm = function(segment){
             addForm("edit", segment);
@@ -361,7 +361,7 @@ Segmentation = (function($) {
                 $(this).trigger("change", true);
             });
             doDragDropBindings();
-        }
+        };
 
         var bindListEvents = function(){
             $(self.content).off("click").on("click", function(event){
@@ -420,7 +420,7 @@ Segmentation = (function($) {
 
                 autoSuggestValues(this, persist);
             } );
-        }
+        };
 
         // Request auto-suggest values
         var autoSuggestValues = function(select, persist) {
@@ -457,7 +457,7 @@ Segmentation = (function($) {
                 });
                 ajaxHandler.send();
             }
-        }
+        };
 
         var alterMatchesList = function(select, persist){
             var oldMatch;
@@ -479,7 +479,7 @@ Segmentation = (function($) {
 
             matchSelector.append(optionsHtml);
             matchSelector.val(oldMatch);
-        }
+        };
 
         var getAddNewBlockButtonHtml = function()
         {
@@ -489,7 +489,7 @@ Segmentation = (function($) {
             }
             return addNewBlockButton.clone();
 
-        }
+        };
 
         var getAddOrBlockButtonHtml = function(){
             if(typeof addOrBlockButton === "undefined")
@@ -497,7 +497,7 @@ Segmentation = (function($) {
                 var addOrBlockButton = $("#SegmentEditor div.segment-add-or").clone();
             }
             return addOrBlockButton.clone();
-        }
+        };
 
         var placeSegmentationFormControls = function(){
             doDragDropBindings();
@@ -507,7 +507,7 @@ Segmentation = (function($) {
                 verticalArrowPositions: 'os',
                 horizontalArrowPositions: 'os'
             });
-        }
+        };
 
         function openEditFormGivenSegment(option) {
             var segment = {};
@@ -616,7 +616,7 @@ Segmentation = (function($) {
 
             $(self.form).on("click", ".delete", function(){
                 var segmentName = $(self.form).find(".segment-content > h3 > span").text();
-                var segmentId = $(self.form).find("#available_segments_select option:selected").attr("data-idsegment")
+                var segmentId = $(self.form).find("#available_segments_select option:selected").attr("data-idsegment");
                 var params = {
                     "idsegment" : segmentId
                 };
@@ -645,7 +645,7 @@ Segmentation = (function($) {
             bindChangeMetricSelectEvent();
 
             placeSegmentationFormControls();
-        }
+        };
 
         var doDragDropBindings = function(){
             $(self.form).find(".segment-nav div > ul > li > ul > li").sortable({
@@ -681,9 +681,7 @@ Segmentation = (function($) {
                     $(this).find("a").trigger("click", [ui.draggable.parent().attr("data-metric")]);
                 }
             });
-
-
-        }
+        };
 
         var searchSegments = function(search){
             // pre-process search string to normalized form
@@ -700,7 +698,7 @@ Segmentation = (function($) {
             // 1 - do most obvious selection -> mark whole categories matching search string
             // also expand whole category
             $(self.form).find('.segment-nav div > ul > li').each( function(){
-                curStr = normalizeSearchString($(this).find("a.metric_category").text())
+                curStr = normalizeSearchString($(this).find("a.metric_category").text());
                     if(curStr.indexOf(search) > -1) {
                         $(this).addClass("searchFound");
                         $(this).find("ul").show();
@@ -736,7 +734,7 @@ Segmentation = (function($) {
                 self.searchAllowed = true;
             }
 
-        }
+        };
 
         var clearSearchMetricHighlight = function(){
             $(self.form).find('.no_results').remove();
@@ -744,7 +742,7 @@ Segmentation = (function($) {
             $(self.form).find('.segment-nav div > ul > li').removeClass("others").show();
             $(self.form).find('.segment-nav div > ul > li > ul > li').show();
             $(self.form).find('.segment-nav div > ul > li > ul').hide();
-        }
+        };
 
         var normalizeSearchString = function(search){
             search = search.replace(/^\s+|\s+$/g, ''); // trim
@@ -760,7 +758,7 @@ Segmentation = (function($) {
             .replace(/\s+/g, '_') // collapse whitespace and replace by underscore
             .replace(/-+/g, '-'); // collapse dashes
             return search;
-        }
+        };
 
         var bindSegmentManipulationEvents = function(){
             // upon clicking - add new segment block, then bind 'x' action to newly added row
@@ -769,7 +767,7 @@ Segmentation = (function($) {
                 if(typeof data !== "undefined"){
                     $(self.form).find(".metricList:last").val(data);
                 }
-                $(self.form).find(".metricList:last").trigger('change')
+                $(self.form).find(".metricList:last").trigger('change');
                 doDragDropBindings();
             });
 
@@ -807,7 +805,7 @@ Segmentation = (function($) {
                     }
                 }
             });
-        }
+        };
 
         // Mode = 'new' or 'edit'
         var addForm = function(mode, segment){
@@ -854,7 +852,7 @@ Segmentation = (function($) {
             }
             $("#segmentList").hide();
 
-        }
+        };
 
         var parseForm = function(){
             var segmentStr = "";
@@ -879,7 +877,7 @@ Segmentation = (function($) {
                 segmentStr += subSegmentStr;
             });
             return segmentStr
-        }
+        };
 
         var parseFormAndSave = function(){
             var segmentName = $(self.form).find(".segment-content > h3 >span").text();
@@ -905,7 +903,7 @@ Segmentation = (function($) {
                 });
                 self.updateMethod(params);
             }
-        }
+        };
 
         var makeDropList = function(spanId, selectId){
             var select = $(self.form).find(selectId).hide();
@@ -954,11 +952,11 @@ Segmentation = (function($) {
                     dropList.autocomplete().autocomplete("close");
                 }
             });
-        }
+        };
 
         var setLeftMargin = function(selector) {
             $(selector).css({left: Math.max($('#periodString')[0].offsetWidth) + 10});
-        }
+        };
 
         function toggleLoadingMessage(segmentIsSet) {
             if (segmentIsSet) {
@@ -989,7 +987,7 @@ Segmentation = (function($) {
             // Loading message
             var segmentIsSet = self.getSegment().length;
             toggleLoadingMessage(segmentIsSet);
-        }
+        };
         initHtml();
     };
 
@@ -1014,7 +1012,7 @@ $(document).ready( function(){
         definition = definition.replace("'", "%29");
         definition = definition.replace("&", "%26");
         return definition;
-    }
+    };
 
     var addSegment = function(params){
         var ajaxHandler = new ajaxHelper();

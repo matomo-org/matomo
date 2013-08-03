@@ -169,7 +169,7 @@ JQPlot.prototype = {
     
                     var percentage = '';
                     if (typeof self.tooltip.percentages != 'undefined') {
-                        var percentage = self.tooltip.percentages[s][i];
+                        percentage = self.tooltip.percentages[s][i];
                         percentage = ' (' + percentage + '%)';
                     }
     
@@ -304,7 +304,7 @@ JQPlot.prototype = {
         var popover = $(document.createElement('div'));
         
         popover.append('<div style="font-size: 13px; margin-bottom: 10px;">'
-            + lang.exportText + '</div>').append($(img))
+            + lang.exportText + '</div>').append($(img));
             
         popover.dialog({
             title: lang.exportTitle,

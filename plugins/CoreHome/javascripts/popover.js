@@ -218,7 +218,7 @@ var Piwik_Popover = (function () {
 
                 Piwik_Popover.setContent(html);
                 setPopoverTitleIfOneFoundInContainer();
-            }
+            };
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(piwikHelper.getArrayFromQueryString(url), 'get');
             ajaxRequest.setCallback(callback);

@@ -595,7 +595,7 @@ class PluginsManager
     {
         // we are in Tracker mode if Loader is not (yet) loaded
         if (!class_exists('Piwik\Loader', false)) {
-            return;
+            return false;
         }
 
         $pluginName = $plugin->getPluginName();

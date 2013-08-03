@@ -16,7 +16,7 @@
             daysSinceYearStart = (this_utc - onejan_utc) / 86400000; // constant is millisecs in one day
 
         return Math.ceil((daysSinceYearStart + onejan.getDay()) / 7);
-    }
+    };
 
     var currentYear, currentMonth, currentDay, currentDate, currentWeek;
 
