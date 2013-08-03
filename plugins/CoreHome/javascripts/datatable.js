@@ -876,7 +876,15 @@ dataTable.prototype =
                     str += '&filter_limit=' + filter_limit;
                 }
                 if (label) {
-                    str += '&label=' + encodeURIComponent(label);
+                    label = label.split(',');
+                    
+                    if (label.length > 1) {
+                        for (var i = 0; i != label.length; ++i) {
+                            str += '&label[]=' + encodeURIComponent(label[i]);
+                        }
+                    } else {
+                        str += '&label=' + encodeURIComponent(label[0]);
+                    }
                 }
                 return str;
             }
