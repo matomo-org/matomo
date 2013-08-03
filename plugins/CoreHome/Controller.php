@@ -155,8 +155,8 @@ class Piwik_CoreHome_Controller extends Controller
     public function getRowEvolutionGraph($fetch = false, $rowEvolution = null)
     {
         if (empty($rowEvolution)) {
-            $paramName = Piwik_CoreHome_DataTableRowAction_MultiRowEvolution::IS_MULTI_EVOLUTION_PARAM;
-            $isMultiRowEvolution = Common::getRequestVar($paramName, false, 'int');
+            $label = Common::getRequestVar('label', '', 'string');
+            $isMultiRowEvolution = strpos($label, ',') !== false;
 
             $rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
             $rowEvolution->useAvailableMetrics();
