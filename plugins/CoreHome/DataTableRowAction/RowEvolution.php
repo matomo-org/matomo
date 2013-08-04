@@ -195,14 +195,14 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
         $view->show_all_views_icons = false;
         $view->show_active_view_icon = false;
         $view->show_related_reports = false;
-        $view->show_series_picker = false;
+        $view->visualization_properties->show_series_picker = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
             $view->translations[$metric] = $metadata['name'];
         }
 
-        $view->external_series_toggle = 'RowEvolutionSeriesToggle';
-        $view->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
+        $view->visualization_properties->external_series_toggle = 'RowEvolutionSeriesToggle';
+        $view->visualization_properties->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
 
         return $view;
     }

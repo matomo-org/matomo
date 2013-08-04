@@ -26,10 +26,10 @@ abstract class DataTableVisualization
     /**
      * TODO
      */
-    public static function getJavaScriptProperties()
+    public static function getClientSideParameters()
     {
-        if (isset(static::$javaScriptProperties)) {
-            return static::$javaScriptProperties;
+        if (isset(static::$clientSideParameters)) {
+            return static::$clientSideParameters;
         } else {
             return array();
         }
@@ -38,10 +38,10 @@ abstract class DataTableVisualization
     /**
      * TODO
      */
-    public static function getOverridableProperties()
+    public static function getClientSideProperties()
     {
-        if (isset(static::$overridableProperties)) {
-            return static::$overridableProperties;
+        if (isset(static::$clientSideProperties)) {
+            return static::$clientSideProperties;
         } else {
             return array();
         }
@@ -57,5 +57,29 @@ abstract class DataTableVisualization
         } else {
             return Piwik::getUnnamespacedClassName($this);
         }
+    }
+
+    /**
+     * TODO
+     */
+    public static function getVisualizationClassLineage($klass)
+    {
+        $klasses = array_merge(array($klass), class_parents($klass, $autoload = false));
+
+        $idx = array_search('Piwik\\DataTableVisualization', $klasses);
+        if ($idx !== false) {
+            unset($klasses[$idx]);
+        }
+
+        return array_reverse($klasses);
+    }
+
+    /**
+     * TODO
+     */
+    public static function getVisualizationIdsWithInheritance($klass)
+    {
+        $klasses = self::getVisualizationClassLineage($klass);
+        return array_map(array('Piwik\\Piwik', 'getUnnamespacedClassName'), $klasses);
     }
 }

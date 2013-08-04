@@ -28,7 +28,7 @@ class Sparkline extends ViewDataTable
      *
      * @return string
      */
-    protected function getViewDataTableId()
+    public function getViewDataTableId()
     {
         return 'sparkline';
     }

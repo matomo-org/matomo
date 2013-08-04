@@ -34,11 +34,6 @@ class Cloud extends DataTableVisualization
     protected $wordsArray = array();
     public $truncatingLimit = 50;
 
-    public function __construct($view)
-    {
-        $view->defaultPropertiesTo($this->getDefaultPropertyValues());
-    }
-
     public static function getDefaultPropertyValues()
     {
         return array(

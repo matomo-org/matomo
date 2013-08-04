@@ -219,7 +219,8 @@ abstract class Controller
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
         $view->columns_to_display = $columnsToDisplay;
-        $view->selectable_columns = array_merge($view->selectable_columns, $selectableColumns);
+        $view->visualization_properties->selectable_columns =
+            array_merge($view->visualization_properties->selectable_columns ?: array(), $selectableColumns);
         $view->translations += $translations;
 
         if ($reportDocumentation) {

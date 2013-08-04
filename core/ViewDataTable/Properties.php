@@ -25,6 +25,14 @@ use ReflectionClass;
 class Properties
 {
     /**
+     * The default viewDataTable ID to use when determining which visualization to use.
+     * This property is only valid for reports whose properties are determined by the
+     * ViewDataTable.getReportDisplayProperties event. When manually creating ViewDataTables,
+     * setting this property will have no effect.
+     */
+    const DEFAULT_VIEW_TYPE = 'default_view_type';
+
+    /**
      * This property determines which Twig template to use when rendering a ViewDataTable.
      *
      * TODO: shouldn't have this property. should only use visualization classes.
@@ -52,13 +60,6 @@ class Properties
      * @see self::SORTED_COLUMN
      */
     const SORT_ORDER = 'filter_sort_order';
-
-    /**
-     * The limit used when rendering a jqPlot graph.
-     *
-     * TODO: either replace w/ filter_limit, or make it a visualization property.
-     */
-    const GRAPH_LIMIT = 'graph_limit';
 
     /**
      * The number of items to truncate the data set to before rendering the DataTable view.
@@ -118,16 +119,6 @@ class Properties
     const SHOW_ACTIVE_VIEW_ICON = 'show_active_view_icon';
 
     /**
-     * TODO: this property is specific ONLY to the row evolution popup. Need to move it.
-     */
-    const EXTERNAL_SERIES_TOGGLE = 'external_series_toggle';
-
-    /**
-     * TODO: this property is specific ONLY to the row evolution popup. Need to move it.
-     */
-    const EXTERNAL_SERIES_TOGGLE_SHOW_ALL = 'external_series_toggle_show_all';
-
-    /**
      * Related reports are listed below a datatable view. When clicked, the original report will
      * change to the clicked report and the list will change so the original report can be
      * navigated back to.
@@ -148,13 +139,6 @@ class Properties
      * Controls whether a report's related reports are listed with the view or not.
      */
     const SHOW_RELATED_REPORTS = 'show_related_reports';
-
-    /**
-     * Array property that contains the names of columns that can be selected in the Series Picker.
-     *
-     * TODO: this is only applicable to graph views. move this.
-     */
-    const SELECTABLE_COLUMNS = 'selectable_columns';
 
     /**
      * Contains the documentation for a report.
@@ -228,13 +212,6 @@ class Properties
     const ALWAYS_SHOW_LIMIT_DROPDOWN = 'show_limit_control';
 
     /**
-     * Controls whether offset information (ie, '5-10 of 20') is shown under the datatable. 
-     * 
-     * @see TODO
-     */
-    const SHOW_OFFSET_INFORMATION = 'show_offset_information';
-
-    /**
      * Controls whether the search box under the datatable is shown.
      */
     const SHOW_SEARCH_BOX = 'show_search';
@@ -243,12 +220,6 @@ class Properties
      * Controls whether the user can sort DataTables by clicking on table column headings.
      */
     const ENABLE_SORT = 'enable_sort';
-
-    /**
-     * Controls whether annotations are shown or not.
-     * TODO: This is only appropriate for evolution graphs. Move it.
-     */
-    const HIDE_ANNOTATIONS_VIEW = 'hide_annotations_view';
 
     /**
      * Controls whether the footer icon that allows users to view data as a bar chart is shown.
@@ -339,18 +310,8 @@ class Properties
     const VISUALIZATION_PROPERTIES = 'visualization_properties';
 
     /**
-     * Custom template used if displaying a subtable.
-     * 
-     * TODO: This is specific to HtmlTable and should be replaced w/ allowing custom visualization for
-     *       subtables. Should not directly touch template.
-     */
-    const SUBTABLE_TEMPLATE = 'subtable_template';
-
-    /**
-     * CSS class to use in the output HTML div.
-     * 
-     * TODO: This only changes based on the visualization type. Would be good if it didn't need to be
-     * set at all...
+     * CSS class to use in the output HTML div. This is added in addition to the visualization CSS
+     * class.
      */
     const DATATABLE_CSS_CLASS = 'datatable_css_class';
 
@@ -361,14 +322,6 @@ class Properties
     const DATATABLE_JS_TYPE = 'datatable_js_type';
 
     /**
-     * Controls whether the entire DataTable should be rendered (including subtables) or just one
-     * specific table in the tree.
-     * 
-     * TODO: specific to htmltable. make a visualization property.
-     */
-    const SHOW_EXPANDED = 'show_expanded';
-
-    /**
      * If true, searching through the DataTable will search through all subtables.
      * 
      * @see also self::FILTER_PATTERN
@@ -376,79 +329,14 @@ class Properties
     const DO_RECURSIVE_SEARCH = 'search_recursive';
 
     /**
-     * Controls whether the row evolution DataTable Row Action icon is shown or not.
-     * 
-     * TODO: specific to HtmlTable. move.
-     * 
-     * @see also self::DISABLE_ROW_ACTIONS
-     */
-    const DISABLE_ROW_EVOLUTION = 'disable_row_evolution';
-
-    /**
-     * Controls whether any DataTable Row Action icons are shown. If true, no icons are shown.
-     * 
-     * TODO: specific to HtmlTable. move.
-     * 
-     * @see also self::DISABLE_ROW_EVOLUTION
-     */
-    const DISABLE_ROW_ACTIONS = 'disable_row_actions';
-
-    /**
      * The unit of the displayed column. Valid if only one non-label column is displayed.
      */
     const DISPLAYED_COLUMN_UNIT = 'y_axis_unit';
 
     /**
-     * Controls whether the percentage of the total is displayed as a tooltip in Jqplot graphs.
-     * 
-     * NOTE: Sometimes this percentage is meaningless (when the total of the column values is
-     * not the total number of elements in the set). In this case the tooltip should not be
-     * displayed.
-     * 
-     * TODO: only valid for graphs... move it.
-     */
-    const DISPLAY_PERCENTAGE_IN_TOOLTIP = 'display_percentage_in_tooltip';
-
-    /**
      * Controls whether to show the 'Export as Image' footer icon.
      */
     const SHOW_EXPORT_AS_IMAGE_ICON = 'show_export_as_image_icon';
-
-    /**
-     * Controls whether all ticks & labels are shown on a graph's x-axis or just some.
-     * 
-     * TODO: only for jqplot graphs.
-     */
-    const SHOW_ALL_TICKS = 'show_all_ticks';
-
-    /**
-     * If true, a row with totals of each DataTable column is added.
-     * 
-     * TODO: only for jqplot graphs. also doesn't seem necessary w/ AddSummaryRow
-     */
-    const ADD_TOTAL_ROW = 'add_total_row';
-
-    /**
-     * If true, the 'label', 'nb_visits', 'nb_uniq_visitors' (if present), 'nb_actions',
-     * 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate' and 'conversion_rate' (if
-     * goals view is not allowed) are displayed.
-     * 
-     * TODO: HtmlTable property, only. Move.
-     */
-    const SHOW_EXTRA_COLUMNS = 'show_extra_columns';
-
-    /**
-     * If true, conversions for each existing goal will be displayed for the visits in
-     * each row.
-     * 
-     * TODO: HtmlTable property, only. Move.
-     */
-    const SHOW_GOALS_COLUMNS = 'show_goals_columns';
-
-    /**
-     * TODO: HtmlTable property, only. Move.
-     */
-    const DISABLE_SUBTABLE_IN_GOALS_VIEW = 'disable_subtable_when_show_goals';
 
     /**
      * Array of DataTable filters that should be run before displaying a DataTable. Elements
@@ -470,23 +358,23 @@ class Properties
     const SUBTABLE_CONTROLLER_ACTION = 'subtable_controller_action';
 
     /**
-     * TODO: specific only to jqplot graphs. change to just 'width'?
+     * Controls whether the 'prev'/'next' links are shown in the DataTable footer. These links
+     * change the 'filter_offset' query parameter, thus allowing pagination.
+     * 
+     * @see self::SHOW_OFFSET_INFORMATION
      */
-    const GRAPH_WIDTH = 'graph_width';
+    const SHOW_PAGINATION_CONTROL = 'show_pagination_control';
 
     /**
-     * TODO: same as GRAPH_WIDTH
+     * Controls whether offset information (ie, '5-10 of 20') is shown under the datatable. 
+     * 
+     * @see self::SHOW_PAGINATION_CONTROL
      */
-    const GRAPH_HEIGHT = 'graph_height';
-
-    /**
-     * TODO: only valid for jqplot graphs.
-     */
-    const SHOW_SERIES_PICKER = 'show_series_picker';
+    const SHOW_OFFSET_INFORMATION = 'show_offset_information';
 
     /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
-     * name as a key. Values of the array are undefined.
+     * names as keys. Values of the array are undefined.
      *
      * @return array
      */
@@ -495,11 +383,50 @@ class Properties
         static $propertiesCache = null;
 
         if ($propertiesCache === null) {
-            $klass = new ReflectionClass(__CLASS__);
-            $propertiesCache = array_flip($klass->getConstants());
+            $propertiesCache = self::getFlippedClassConstantMap(__CLASS__);
         }
 
         return $propertiesCache;
+    }
+
+    /**
+     * Returns the set of all valid properties for the given visualization class. The result is an
+     * array with property names as keys. Values of the array are undefined.
+     * 
+     * @return array
+     */
+    public static function getVisualizationProperties($visualizationClass)
+    {
+        static $propertiesCache = array();
+
+        if ($visualizationClass === null) {
+            return array();
+        }
+
+        if (!isset($propertiesCache[$visualizationClass])) {
+            $properties = self::getFlippedClassConstantMap($visualizationClass);
+
+            $parentClass = get_parent_class($visualizationClass);
+            if ($parentClass != 'Piwik\\DataTableVisualization') {
+                $properties += self::getVisualizationProperties($parentClass);
+            }
+
+            $propertiesCache[$visualizationClass] = $properties;
+        }
+
+        return $propertiesCache[$visualizationClass];
+    }
+
+    /**
+     * Returns true if $name is a core ViewDataTable property, false if not.
+     * 
+     * @param string $name
+     * @return bool
+     */
+    public static function isCoreViewProperty($name)
+    {
+        $properties = self::getAllProperties();
+        return isset($properties[$name]);
     }
 
     /**
@@ -510,10 +437,32 @@ class Properties
      */
     public static function checkValidPropertyName($name)
     {
-        $properties = self::getAllProperties();
-        if (!isset($properties[$name])) {
-            throw new Exception("Invalid ViewDataTable display property '$name'. Is this a visualization property? "
-                . "If so, set it with \$view->visualization_properties->$name = ...");
+        if (!self::isCoreViewProperty($name)) {
+            throw new Exception("Invalid ViewDataTable display property '$name'.");
         }
+    }
+
+    /**
+     * Checks if a property is a valid visualization property for the given visualization class,
+     * and if not, throws an exception.
+     * 
+     * @param string $visualizationClass
+     * @param string $name The property name.
+     * @throws Exception
+     */
+    public static function checkValidVisualizationProperty($visualizationClass, $name)
+    {
+        $properties = self::getVisualizationProperties($visualizationClass);
+        if (!isset($properties[$name])) {
+            throw new Exception("Invalid Visualization display property '$name' for '$visualizationClass'.");
+        }
+    }
+
+    private static function getFlippedClassConstantMap($klass)
+    {
+        $klass = new ReflectionClass($klass);
+        $constants = $klass->getConstants();
+        unset($constants['ID']);
+        return array_flip($constants);
     }
 }

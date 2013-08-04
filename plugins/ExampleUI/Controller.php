@@ -25,11 +25,11 @@ class Piwik_ExampleUI_Controller extends Controller
         $view->translations['label'] = "Hour of day";
         $view->filter_sort_column = 'label';
         $view->filter_sort_order = 'asc';
-        $view->graph_limit = 24;
+        $view->visualization_properties->max_graph_elements = 24;
         $view->filter_limit = 24;
         $view->show_exclude_low_population = false;
         $view->show_table_all_columns = false;
-        $view->disable_row_evolution = true;
+        $view->visualization_properties->disable_row_evolution = true;
         $view->y_axis_unit = '°C'; // useful if the user requests the bar graph
         echo $view->render();
     }
@@ -56,7 +56,7 @@ class Piwik_ExampleUI_Controller extends Controller
             'graphVerticalBar', 'ExampleUI.getTemperatures', $controllerAction = 'ExampleUI.barGraph');
         $view->translations['value'] = "Temperature";
         $view->y_axis_unit = '°C';
-        $view->graph_limit = 24;
+        $view->visualization_properties->max_graph_elements = 24;
         $view->show_footer = false;
         echo $view->render();
     }
@@ -67,7 +67,7 @@ class Piwik_ExampleUI_Controller extends Controller
             'graphPie', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.pieGraph');
         $view->columns_to_display = array('value');
         $view->translations['value'] = "times the diameter of Earth";
-        $view->graph_limit = 10;
+        $view->visualization_properties->max_graph_elements = 10;
         $view->show_footer_icons = false;
         echo $view->render();
     }

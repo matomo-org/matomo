@@ -82,8 +82,8 @@ class JqplotDataGenerator
      */
     public function generate($dataTable)
     {
-        if (!empty($this->properties['graph_limit'])) {
-            $offsetStartSummary = $this->properties['graph_limit'] - 1;
+        if (!empty($this->properties['visualization_properties']->max_graph_elements)) {
+            $offsetStartSummary = $this->properties['visualization_properties']->max_graph_elements - 1;
             $sortColumn = !empty($this->properties['filter_sort_column'])
                 ? $this->properties['filter_sort_column']
                 : Metrics::INDEX_NB_VISITS;
@@ -95,7 +95,7 @@ class JqplotDataGenerator
         if ($dataTable->getRowsCount() > 0) {
             // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
             // different metrics
-            if (!empty($this->properties['add_total_row'])) {
+            if (!empty($this->properties['visualization_properties']->add_total_row)) {
                 $dataTable->queueFilter('AddSummaryRow', array(0, Piwik_Translate('General_Total'), null, false));
             }
 
@@ -136,10 +136,11 @@ class JqplotDataGenerator
         $visualization->setAxisYValues($columnNameToValue);
         $visualization->setAxisYLabels($columnNameToTranslation);
         $visualization->setAxisYUnit($this->properties['y_axis_unit']);
-        $visualization->setDisplayPercentageInTooltip($this->properties['display_percentage_in_tooltip']);
+        $visualization->setDisplayPercentageInTooltip(
+            $this->properties['visualization_properties']->display_percentage_in_tooltip);
 
         // show_all_ticks is not real query param, it is set by GenerateGraphHTML.
-        if ($this->properties['show_all_ticks']) {
+        if ($this->properties['visualization_properties']->show_all_ticks) {
             $visualization->showAllTicks();
         }
 
@@ -186,11 +187,12 @@ class JqplotDataGenerator
      */
     protected function addSeriesPickerToView()
     {
-        if (count($this->properties['selectable_columns'])
-            && Common::getRequestVar('showSeriesPicker', $this->properties['show_series_picker']) == 1
+        $defaultShowSeriesPicker = $this->properties['visualization_properties']->show_series_picker;
+        if (count($this->properties['visualization_properties']->selectable_columns)
+            && Common::getRequestVar('showSeriesPicker', $defaultShowSeriesPicker) == 1
         ) {
             $selectableColumns = array();
-            foreach ($this->properties['selectable_columns'] as $column) {
+            foreach ($this->properties['visualization_properties']->selectable_columns as $column) {
                 $selectableColumns[] = array(
                     'column'      => $column,
                     'translation' => @$this->properties['translations'][$column],
@@ -199,7 +201,7 @@ class JqplotDataGenerator
             }
 
             $this->visualization->setSelectableColumns(
-                $selectableColumns, $this->properties['allow_multi_select_series_picker']);
+                $selectableColumns, $this->properties['visualization_properties']->allow_multi_select_series_picker);
         }
     }
 }

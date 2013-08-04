@@ -128,7 +128,7 @@
                     {% endif %}
                 </ul>
             </div>
-            {% if not properties.hide_annotations_view %}
+            {% if isPluginLoaded('Annotations') and not properties.datatable_visualizations.hide_annotations_view|default(true) %}
                 <div class="annotationView" title="{{ 'Annotations_IconDesc_js'|translate }}">
                     <a class="tableIcon">
                         <img width="16" height="16" src="plugins/Zeitgeist/images/grey_marker.png"/>

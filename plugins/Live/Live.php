@@ -74,7 +74,6 @@ class Piwik_Live extends Plugin
             'show_all_views_icons' => false,
             'show_table_all_columns' => false,
             'show_export_as_rss_feed' => false,
-            'disable_row_actions' => true,
             'documentation' => Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')),
             'custom_parameters' => array(
                 // set a very high row count so that the next link in the footer of the data table is always shown
@@ -83,6 +82,11 @@ class Piwik_Live extends Plugin
                 'filterEcommerce' => Common::getRequestVar('filterEcommerce', 0, 'int'),
                 'pageUrlNotDefined' => Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'))
             ),
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_row_actions' => true,
+                )
+            )
         );
     }
 }

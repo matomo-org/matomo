@@ -21,10 +21,10 @@ class Bar extends JqplotGraph
 {
     const ID = 'graphVerticalBar';
 
-    protected function getDefaultPropertyValues($view)
+    public static function getDefaultPropertyValues()
     {
-        $result = parent::getDefaultPropertyValues($view);
-        $result['graph_limit'] = 6;
+        $result = parent::getDefaultPropertyValues();
+        $result['visualization_properties']['max_graph_elements'] = 6;
         return $result;
     }
 

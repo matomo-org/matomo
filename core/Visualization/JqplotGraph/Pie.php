@@ -21,11 +21,11 @@ class Pie extends JqplotGraph
 {
     const ID = 'graphPie';
 
-    protected function getDefaultPropertyValues($view)
+    public static function getDefaultPropertyValues()
     {
-        $result = parent::getDefaultPropertyValues($view);
-        $result['graph_limit'] = 6;
-        $result['allow_multi_select_series_picker'] = false;
+        $result = parent::getDefaultPropertyValues();
+        $result['visualization_properties']['max_graph_elements'] = 6;
+        $result['visualization_properties']['allow_multi_select_series_picker'] = false;
         return $result;
     }
 

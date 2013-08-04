@@ -26,7 +26,75 @@ class JqplotGraph extends DataTableVisualization
     const DEFAULT_GRAPH_HEIGHT = 250;
 
     /**
-     * TODO
+     * Whether the series picker should allow picking more than one series or not.
+     */
+    const ALLOW_MULTI_SELECT_SERIES_PICKER = 'allow_multi_select_series_picker';
+
+    /**
+     * The maximum number of elements to render when rendering a jqPlot graph. All other elements
+     * will be aggregated in an 'Others' element.
+     */
+    const MAX_GRAPH_ELEMENTS = 'max_graph_elements';
+
+    /**
+     * The name of the JavaScript class to use as this graph's external series toggle. The class
+     * must be a subclass of JQPlotExternalSeriesToggle.
+     * 
+     * @see self::EXTERNAL_SERIES_TOGGLE_SHOW_ALL
+     */
+    const EXTERNAL_SERIES_TOGGLE = 'external_series_toggle';
+
+    /**
+     * Whether the graph should show all loaded series upon initial display.
+     * 
+     * @see self::EXTERNAL_SERIES_TOGGLE
+     */
+    const EXTERNAL_SERIES_TOGGLE_SHOW_ALL = 'external_series_toggle_show_all';
+
+    /**
+     * Array property that contains the names of columns that can be selected in the Series Picker.
+     */
+    const SELECTABLE_COLUMNS = 'selectable_columns';
+
+    /**
+     * Controls whether all ticks & labels are shown on a graph's x-axis or just some.
+     */
+    const SHOW_ALL_TICKS = 'show_all_ticks';
+
+    /**
+     * If true, a row with totals of each DataTable column is added.
+     */
+    const ADD_TOTAL_ROW = 'add_total_row';
+
+    /**
+     * The CSS width of the graph. (eg, '100px').
+     */
+    const GRAPH_WIDTH = 'graph_width';
+
+    /**
+     * The CSS height of the graph. (eg, '100px').
+     */
+    const GRAPH_HEIGHT = 'graph_height';
+
+    /**
+     * Controls whether the Series Picker is shown or not. The Series Picker allows users to
+     * choose between displaying data of different columns.
+     */
+    const SHOW_SERIES_PICKER = 'show_series_picker';
+
+    /**
+     * Controls whether the percentage of the total is displayed as a tooltip in Jqplot graphs.
+     * 
+     * NOTE: Sometimes this percentage is meaningless (when the total of the column values is
+     * not the total number of elements in the set). In this case the tooltip should not be
+     * displayed.
+     */
+    const DISPLAY_PERCENTAGE_IN_TOOLTIP = 'display_percentage_in_tooltip';
+
+    /**
+     * Constructor.
+     * 
+     * @param Piwik\ViewDataTable $view
      */
     public function __construct($view)
     {
@@ -37,42 +105,14 @@ class JqplotGraph extends DataTableVisualization
         // will be done on the table before the labels are enhanced (see ReplaceColumnNames)
         $this->request_parameters_to_modify['disable_queued_filters'] = true;
 
-        $view->defaultPropertiesTo($this->getDefaultPropertyValues($view));
-
         if ($view->show_goals) {
             $goalMetrics = array('nb_conversions', 'revenue');
-            $view->selectable_columns = array_merge($view->selectable_columns, $goalMetrics);
+            $view->visualization_properties->selectable_columns = array_merge(
+                $view->visualization_properties->selectable_columns, $goalMetrics);
 
             $view->translations['nb_conversions'] = Piwik_Translate('Goals_ColumnConversions');
             $view->translations['revenue'] = Piwik_Translate('General_TotalRevenue');
         }
-
-        $view->datatable_css_class = 'dataTableGraph'; // TODO: should be different css per visualization
-    }
-
-    /**
-     * TODO
-     */
-    protected function getDefaultPropertyValues($view)
-    {
-        $result = array(
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_exclude_low_population' => false,
-            'show_search' => false,
-            'show_export_as_image_icon' => true,
-            'display_percentage_in_tooltip' => true,
-            'display_percentage_in_tooltip' => true,
-            'y_axis_unit' => '',
-            'show_all_ticks' => 0,
-            'add_total_row' => 0,
-            'allow_multi_select_series_picker' => true,
-            'row_picker_mach_rows_by' => false,
-            'row_picker_visible_rows' => array(),
-            'selectable_columns' => array(),
-            'graph_width' => '100%',
-            'graph_height' => self::DEFAULT_GRAPH_HEIGHT . 'px'
-        );
 
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
         if ($view->filter_sort_column != 'label') {
@@ -86,15 +126,46 @@ class JqplotGraph extends DataTableVisualization
             $result['filter_sort_column'] = $firstColumn;
             $result['filter_sort_order'] = 'desc';
         }
+    }
 
+    /**
+     * Returns an array mapping property names with default values for this visualization.
+     * 
+     * @return array
+     */
+    public static function getDefaultPropertyValues()
+    {
         // selectable columns
         $selectableColumns = array('nb_visits', 'nb_actions');
-        if (Common::getRequestVar('period', false) == 'day') {
+        if (Common::getRequestVar('period', false) == 'day') { // TODO: should depend on columns datatable has.
             $selectableColumns[] = 'nb_uniq_visitors';
         }
-        $result['selectable_columns'] = $selectableColumns;
 
-        return $result;
+        return array(
+            'show_offset_information' => false,
+            'show_pagination_control' => false,
+            'show_exclude_low_population' => false,
+            'show_search' => false,
+            'show_export_as_image_icon' => true,
+            'y_axis_unit' => '',
+            'row_picker_mach_rows_by' => false,
+            'row_picker_visible_rows' => array(),
+            'visualization_properties' => array(
+                'JqplotGraph' => array(
+                    'add_total_row' => 0,
+                    'show_all_ticks' => false,
+                    'allow_multi_select_series_picker' => true,
+                    'max_graph_elements' => false,
+                    'selectable_columns' => $selectableColumns,
+                    'graph_width' => '100%',
+                    'graph_height' => self::DEFAULT_GRAPH_HEIGHT . 'px',
+                    'external_series_toggle' => false,
+                    'external_series_toggle_show_all' => false,
+                    'show_series_picker' => true,
+                    'display_percentage_in_tooltip' => true,
+                )
+            )
+        );
     }
     
     /**

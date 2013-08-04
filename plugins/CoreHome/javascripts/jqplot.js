@@ -620,7 +620,8 @@ JQPlot.prototype = {
         
         var namespace = graphType + '-graph-colors';
 
-        this.params.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
+        this.originalData.params.seriesColors = this.params.seriesColors =
+            colorManager.getColors(namespace, seriesColorNames, true);
         this.params.grid.background = colorManager.getColor(namespace, 'grid-background');
         this.params.grid.borderColor = colorManager.getColor(namespace, 'grid-border');
         this.tickColor = colorManager.getColor(namespace, 'ticks');

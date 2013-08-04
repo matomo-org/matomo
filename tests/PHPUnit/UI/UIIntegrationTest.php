@@ -21,6 +21,7 @@ use Piwik\AssetManager;
 class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
 {
     const IMAGE_TYPE = 'png';
+    const CUTYCAPT_DELAY = 1000;
     
     public static $fixture = null; // initialized below class definition
     private static $useXvfb = false;
@@ -210,7 +211,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
     {
         $url = self::getProxyUrl() . $urlQuery;
         
-        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=1000 2>&1";
+        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=".self::CUTYCAPT_DELAY." 2>&1";
         if (self::$useXvfb) {
             $cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24" ' . $cmd;
         }

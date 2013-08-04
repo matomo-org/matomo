@@ -457,7 +457,7 @@ dataTable.prototype =
                 var totalRows = Number(self.param.totalRows);
                 var offsetEndDisp = offsetEnd;
 
-                if (self.param.keep_summary_row == 1) --totalRows;
+                if (self.props.keep_summary_row == 1) --totalRows;
 
                 if (offsetEnd > totalRows) offsetEndDisp = totalRows;
 
@@ -475,7 +475,7 @@ dataTable.prototype =
                 var offsetEnd = Number(self.param.filter_offset)
                     + Number(self.param.filter_limit);
                 var totalRows = Number(self.param.totalRows);
-                if (self.param.keep_summary_row == 1) --totalRows;
+                if (self.props.keep_summary_row == 1) --totalRows;
                 if (offsetEnd < totalRows) {
                     $(this).css('display', 'inline');
                 }

@@ -647,9 +647,9 @@ class Piwik_Actions extends Plugin
     
     private function addBaseDisplayProperties(&$result)
     {
-        $result['datatable_css_class'] = 'dataTableActions';
         $result['datatable_js_type'] = 'actionDataTable';
-        $result['subtable_template'] = '@CoreHome/_dataTableActions_subDataTable.twig';
+        $result['visualization_properties']['HtmlTable']['subtable_template'] =
+            '@CoreHome/_dataTableActions_subDataTable.twig';
         $result['search_recursive'] = true;
         $result['show_all_views_icons'] = false;
         $result['show_table_all_columns'] = false;
@@ -660,13 +660,19 @@ class Piwik_Actions extends Plugin
         $result['custom_parameters'] = array('flat' => 0);
         
         if (ViewDataTable::shouldLoadExpanded()) {
-            $result['show_expanded'] = true;
+            $result['visualization_properties']['HtmlTable']['show_expanded'] = true;
             
             $result['filters'][] = function ($dataTable) {
                 Piwik_Actions::setDataTableRowLevels($dataTable);
             };
         }
-        
+
+        $result['filters'][] = function ($dataTable, $view) {
+            if ($view->getViewDataTableId() == 'table') {
+                $view->datatable_css_class = 'dataTableActions';
+            }
+        };
+
         return $result;
     }
     
@@ -862,7 +868,11 @@ class Piwik_Actions extends Plugin
             'columns_to_display'     => array('label', 'nb_visits', 'nb_pages_per_search'),
             'show_table_all_columns' => false,
             'show_bar_chart'         => false,
-            'disable_row_evolution'  => false,
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_row_evolution'  => false,
+                )
+            )
         );
     }
 
