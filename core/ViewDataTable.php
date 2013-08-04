@@ -288,7 +288,7 @@ class ViewDataTable
         $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
         switch ($type) {
             case 'cloud':
-                $result = new ViewDataTable\Cloud();
+                $result = new ViewDataTable('\\Piwik\\Visualization\\JqplotGraph\\Cloud');
                 break;
 
             case 'graphPie':

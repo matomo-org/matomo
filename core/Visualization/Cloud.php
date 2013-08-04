@@ -26,11 +26,27 @@ use Piwik\DataTableVisualization;
  */
 class Cloud extends DataTableVisualization
 {
+    const ID = 'cloud';
+    
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
 
     protected $wordsArray = array();
     public $truncatingLimit = 50;
+
+    public function __construct($view)
+    {
+        $view->defaultPropertiesTo($this->getDefaultPropertyValues());
+    }
+
+    public static function getDefaultPropertyValues()
+    {
+        return array(
+            'show_offset_information' => false,
+            'show_exclude_low_population' => false,
+            'display_logo_instead_of_label' => false,
+        );
+    }
 
     /**
      * Assign word to array
