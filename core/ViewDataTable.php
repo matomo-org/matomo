@@ -151,7 +151,7 @@ class ViewDataTable
         $this->viewProperties['exportLimit'] = Config::getInstance()->General['API_datatable_default_limit'];
         $this->viewProperties['highlight_summary_row'] = false;
         $this->viewProperties['metadata'] = array();
-        $this->viewProperties['relatedReports'] = array();
+        $this->viewProperties['related_reports'] = array();
         $this->viewProperties['title'] = 'unknown';
         $this->viewProperties['tooltip_metadata_name'] = false;
         $this->viewProperties['enable_sort'] = true;
@@ -175,6 +175,7 @@ class ViewDataTable
         $this->viewProperties['subtable_controller_action'] = false;
         $this->viewProperties['datatable_css_class'] = false;
         $this->viewProperties['filters'] = array();
+        $this->viewProperties['hide_annotations_view'] = true;
         $this->viewProperties['columns_to_display'] = array();
 
         $columns = Common::getRequestVar('columns', false);
@@ -549,7 +550,7 @@ class ViewDataTable
     
     /**
      * Sets a view property by name. This function handles special view properties
-     * like 'translations' & 'relatedReports' that store arrays.
+     * like 'translations' & 'related_reports' that store arrays.
      *
      * @param string $name
      * @param mixed $value For array properties, $value can be a comma separated string.
@@ -567,7 +568,7 @@ class ViewDataTable
             || $name == 'filters'
         ) {
             $this->viewProperties[$name] = array_merge($this->viewProperties[$name], $value);
-        } else if ($name == 'relatedReports') { // TODO: should process after (in overrideViewProperties)
+        } else if ($name == 'related_reports') { // TODO: should process after (in overrideViewProperties)
             $this->addRelatedReports($value);
         } else if ($name == 'visualization_properties') {
             $this->setVisualizationPropertiesFromMetadata($value);
@@ -1070,7 +1071,7 @@ class ViewDataTable
         }
 
         $url = $this->getBaseReportUrl($module, $action, $queryParams);
-        $this->viewProperties['relatedReports'][$url] = $title;
+        $this->viewProperties['related_reports'][$url] = $title;
     }
 
     private function addRelatedReports($relatedReports)

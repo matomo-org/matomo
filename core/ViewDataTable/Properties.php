@@ -19,7 +19,6 @@ use ReflectionClass;
  *
  * @see ViewDataTable - for more info.
  *
- * TODO: change the names of properties to match the const names where appropriate.
  * TODO: list default value for each property
  */
 class Properties
@@ -125,7 +124,7 @@ class Properties
      * 
      * @see also self::TITLE. Both must be set if associating related reports.
      */
-    const RELATED_REPORTS = 'relatedReports';
+    const RELATED_REPORTS = 'related_reports';
 
     /**
      * The report title. Used with related reports so report headings can be changed when switching
@@ -180,7 +179,7 @@ class Properties
      * 
      * @see self::ROW_PICKER_VISIBLE_VALUES
      */
-    const ROW_PICKER_VALUE_COLUMN = 'row_picker_mach_rows_by';
+    const ROW_PICKER_VALUE_COLUMN = 'row_picker_match_rows_by';
 
     /**
      * Contains the list of values available for the Row Picker.
@@ -371,6 +370,11 @@ class Properties
      * @see self::SHOW_PAGINATION_CONTROL
      */
     const SHOW_OFFSET_INFORMATION = 'show_offset_information';
+
+    /**
+     * Controls whether annotations are shown or not.
+     */
+    const HIDE_ANNOTATIONS_VIEW = 'hide_annotations_view';
 
     /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property

@@ -146,7 +146,7 @@ class Piwik_DBStats extends Plugin
         $this->addPresentationFilters($result);
 
         $result['title'] = Piwik_Translate('DBStats_MetricTables');
-        $result['relatedReports'] = array(
+        $result['related_reports'] = array(
            'DBStats.getMetricDataSummaryByYear' => Piwik_Translate('DBStats_MetricDataByYear')
         );
 
@@ -161,7 +161,7 @@ class Piwik_DBStats extends Plugin
 
         $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
         $result['title'] = Piwik_Translate('DBStats_MetricDataByYear');
-        $result['relatedReports'] =  array(
+        $result['related_reports'] =  array(
            'DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')
         );
 
@@ -175,7 +175,7 @@ class Piwik_DBStats extends Plugin
         $this->addPresentationFilters($result);
 
         $result['title'] = Piwik_Translate('DBStats_ReportTables');
-        $result['relatedReports'] = array(
+        $result['related_reports'] = array(
             'DBStats.getReportDataSummaryByYear' => Piwik_Translate('DBStats_ReportDataByYear')
         );
 
@@ -190,7 +190,7 @@ class Piwik_DBStats extends Plugin
 
         $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
         $result['title'] = Piwik_Translate('DBStats_ReportDataByYear');
-        $result['relatedReports'] = array(
+        $result['related_reports'] = array(
            'DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')
         );
 

@@ -148,7 +148,7 @@ class JqplotGraph extends DataTableVisualization
             'show_search' => false,
             'show_export_as_image_icon' => true,
             'y_axis_unit' => '',
-            'row_picker_mach_rows_by' => false,
+            'row_picker_match_rows_by' => false,
             'row_picker_visible_rows' => array(),
             'visualization_properties' => array(
                 'JqplotGraph' => array(

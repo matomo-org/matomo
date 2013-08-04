@@ -27,11 +27,6 @@ class Evolution extends JqplotGraph
     const ID = 'graphEvolution';
     const SERIES_COLOR_COUNT = 8;
 
-    /**
-     * Controls whether annotations are shown or not.
-     */
-    const HIDE_ANNOTATIONS_VIEW = 'hide_annotations_view';
-
     public function __construct($view)
     {
         parent::__construct($view);
@@ -53,8 +48,8 @@ class Evolution extends JqplotGraph
         $result['show_table'] = false;
         $result['show_table'] = false;
         $result['show_table_all_columns'] = false;
+        $result['hide_annotations_view'] = false;
         $result['visualization_properties']['Evolution']['graph_height'] = self::GRAPH_HEIGHT . 'px';
-        $result['visualization_properties']['Evolution']['hide_annotations_view'] = false;
         return $result;
     }
 

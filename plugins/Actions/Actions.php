@@ -782,7 +782,7 @@ class Piwik_Actions extends Plugin
             'filter_sort_column' => 'entry_nb_visits',
             'filter_sort_order'  => 'desc',
             'title'              => Piwik_Translate('Actions_SubmenuPagesEntry'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getEntryPageTitles' => Piwik_Translate('Actions_EntryPageTitles')
             ),
             'self_url'           => $reportUrl
@@ -810,7 +810,7 @@ class Piwik_Actions extends Plugin
             'filter_sort_column' => 'exit_nb_visits',
             'filter_sort_order'  => 'desc',
             'title'              => Piwik_Translate('Actions_SubmenuPagesExit'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getExitPageTitles' => Piwik_Translate('Actions_ExitPageTitles')
             ),
             'self_url'           => $reportUrl,
@@ -897,7 +897,7 @@ class Piwik_Actions extends Plugin
             'filter_sort_order'           => 'desc',
             'show_exclude_low_population' => false,
             'title'                       => $title,
-            'relatedReports'              => $relatedReports
+            'related_reports'             => $relatedReports
         );
         
         $this->addExcludeLowPopDisplayProperties($result);
@@ -920,7 +920,7 @@ class Piwik_Actions extends Plugin
             'columns_to_display' => array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
                                           'avg_time_on_page', 'exit_rate', 'avg_time_generation'),
             'title'              => Piwik_Translate('Actions_SubmenuPageTitles'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getEntryPageTitles' => Piwik_Translate('Actions_EntryPageTitles'),
                 'Actions.getExitPageTitles'  => Piwik_Translate('Actions_ExitPageTitles'),
             ),
@@ -946,7 +946,7 @@ class Piwik_Actions extends Plugin
             ),
             'columns_to_display' => array('label', 'entry_nb_visits', 'entry_bounce_count', 'bounce_rate'),
             'title'              => Piwik_Translate('Actions_EntryPageTitles'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getPageTitles'       => Piwik_Translate('Actions_SubmenuPageTitles'),
                 "Actions.$entryPageUrlAction" => Piwik_Translate('Actions_SubmenuPagesEntry')
             ),
@@ -970,7 +970,7 @@ class Piwik_Actions extends Plugin
             ),
             'columns_to_display' => array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate'),
             'title'              => Piwik_Translate('Actions_ExitPageTitles'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getPageTitles'      => Piwik_Translate('Actions_SubmenuPageTitles'),
                 "Actions.$exitPageUrlAction" => Piwik_Translate('Actions_SubmenuPagesExit'),
             ),

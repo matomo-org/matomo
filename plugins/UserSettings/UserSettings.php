@@ -208,7 +208,7 @@ class Piwik_UserSettings extends Plugin
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnOperatingSystem')),
             'title'          => Piwik_Translate('UserSettings_OperatingSystems'),
-            'relatedReports' => $this->getOsRelatedReports()
+            'related_reports' => $this->getOsRelatedReports()
         ));
     }
 
@@ -217,7 +217,7 @@ class Piwik_UserSettings extends Plugin
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'   => array('label' => Piwik_Translate('UserSettings_OperatingSystemFamily')),
             'title'          => Piwik_Translate('UserSettings_OperatingSystemFamily'),
-            'relatedReports' => $this->getOsRelatedReports()
+            'related_reports' => $this->getOsRelatedReports()
         ));
     }
 
@@ -226,7 +226,7 @@ class Piwik_UserSettings extends Plugin
         $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnBrowserVersion')),
             'title'          => Piwik_Translate('UserSettings_ColumnBrowserVersion'),
-            'relatedReports' => $this->getBrowserRelatedReports()
+            'related_reports' => $this->getBrowserRelatedReports()
         ));
         $result['visualization_properties']['JqplotGraph']['max_graph_elements'] = 7;
         return $result;
@@ -237,7 +237,7 @@ class Piwik_UserSettings extends Plugin
         $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnBrowser')),
             'title'          => Piwik_Translate('UserSettings_Browsers'),
-            'relatedReports' => $this->getBrowserRelatedReports()
+            'related_reports' => $this->getBrowserRelatedReports()
         ));
         $result['visualization_properties']['JqplotGraph']['max_graph_elements'] = 7;
         return $result;
@@ -260,7 +260,7 @@ class Piwik_UserSettings extends Plugin
             'show_offset_information' => false,
             'show_pagination_control' => false,
             'title'                   => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
-            'relatedReports'          => $this->getWideScreenDeviceTypeRelatedReports()
+            'related_reports'          => $this->getWideScreenDeviceTypeRelatedReports()
         ));
     }
 
@@ -269,7 +269,7 @@ class Piwik_UserSettings extends Plugin
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'            => array('label' => Piwik_Translate('UserSettings_MobileVsDesktop')),
             'title'                   => Piwik_Translate('UserSettings_MobileVsDesktop'),
-            'relatedReports'          => $this->getWideScreenDeviceTypeRelatedReports()
+            'related_reports'          => $this->getWideScreenDeviceTypeRelatedReports()
         ));
     }
 

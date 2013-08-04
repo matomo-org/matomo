@@ -68,21 +68,17 @@ JQPlot.prototype = {
 
     /** Generic render function */
     render: function (targetDivId, lang) {
-        var type = $('#' + targetDivId).closest('div.dataTable').data('dataTableInstance').param['viewDataTable'];
+        var dataTableDiv = $('#' + targetDivId).closest('div.dataTable');
 
         // preapare the appropriate chart type
-        switch (type) {// TODO: should rely on CSS, not viewDataTable. otherwise ecommerceOrder row evolution will fail
-            case 'graphEvolution':
-                this.prepareEvolutionChart(targetDivId, lang);
-                break;
-            case 'graphVerticalBar':
-                this.prepareBarChart(targetDivId, lang);
-                break;
-            case 'graphPie':
-                this.preparePieChart(targetDivId, lang);
-                break;
-            default:
-                return;
+        if (dataTableDiv.hasClass('dataTableVizEvolution')) {
+            this.prepareEvolutionChart(targetDivId, lang);
+        } else if (dataTableDiv.hasClass('dataTableVizBar')) {
+            this.prepareBarChart(targetDivId, lang);
+        } else if (dataTableDiv.hasClass('dataTableVizPie')) {
+            this.preparePieChart(targetDivId, lang);
+        } else {
+            return;
         }
 
         // handle replot

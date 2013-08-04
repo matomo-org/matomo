@@ -168,7 +168,7 @@ class Piwik_VisitTime extends Plugin
 
         // add the visits by day of week as a related report, if the current period is not 'day'
         if (Common::getRequestVar('period', 'day') != 'day') {
-            $properties['VisitTime.getVisitInformationPerLocalTime']['relatedReports'] = array(
+            $properties['VisitTime.getVisitInformationPerLocalTime']['related_reports'] = array(
                 'VisitTime.getByDayOfWeek' => Piwik_Translate('VisitTime_VisitsByDayOfWeek')
             );
         }

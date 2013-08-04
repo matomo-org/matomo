@@ -299,7 +299,7 @@ class Piwik_Referers_Controller extends Controller
             $visibleRows = array($label, $total);
             $view->request_parameters_to_modify['rows'] = $label . ',' . $total;
         }
-        $view->row_picker_mach_rows_by = 'label';
+        $view->row_picker_match_rows_by = 'label';
         $view->row_picker_visible_rows = $visibleRows;
 
         $view->documentation = Piwik_Translate('Referers_EvolutionDocumentation') . '<br />'
