@@ -228,7 +228,6 @@ abstract class Controller
             $view->documentation = $reportDocumentation;
         }
 
-        $view->main();
         return $view;
     }
 

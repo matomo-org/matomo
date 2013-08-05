@@ -270,10 +270,9 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     {
         // sparkline is always echoed, so we need to buffer the output
         $view = $this->getRowEvolutionGraph($graphType = 'sparkline', $metrics = array($metric => $metric));
-        $view->main();
 
         ob_start();
-        $view->getView()->render();
+        $view->render();
         $spark = ob_get_contents();
         ob_end_clean();
 

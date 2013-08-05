@@ -76,13 +76,6 @@ class ViewDataTable
     public static $reportPropertiesCache = null;
 
     /**
-     * Flag used to make sure the main() is only executed once
-     *
-     * @var bool
-     */
-    protected $mainAlreadyExecuted = false;
-
-    /**
      * Array of properties that are available in the view
      * Used to store UI properties, eg. "show_footer", "show_search", etc.
      *
@@ -146,7 +139,7 @@ class ViewDataTable
         $this->currentControllerAction = $currentControllerAction;
 
         $this->setDefaultProperties();
-        
+
         foreach ($viewProperties as $name => $value) {
             $this->setViewProperty($name, $value);
         }
@@ -213,33 +206,6 @@ class ViewDataTable
     public function __call($name, $arguments)
     {
         return $this->$name;
-    }
-
-    /**
-     * TODO
-     */
-    public function main()
-    {
-        if ($this->mainAlreadyExecuted) {
-            return;
-        }
-        $this->mainAlreadyExecuted = true;
-
-        $visualization = new $this->visualizationClass($this);
-
-        try {
-            $this->loadDataTableFromAPI();
-        } catch (NoAccessException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            Piwik::log("Failed to get data from API: " . $e->getMessage());
-
-            $this->loadingError = array('message' => $e->getMessage());
-        }
-
-        $this->postDataTableLoadedFromAPI();
-
-        $this->view = $this->buildView($visualization);
     }
 
     /**
@@ -350,22 +316,6 @@ class ViewDataTable
         }
 
         return $result;
-    }
-
-    /**
-     * Returns the View_Interface.
-     * You can then call render() on this object.
-     *
-     * @return View\ViewInterface
-     * @throws \Exception if the view object was not created
-     */
-    public function getView()
-    {
-        if (is_null($this->view)) {
-            throw new \Exception('The $this->view object has not been created.
-					It should be created in the main() method of the ViewDataTable_* subclass you are using.');
-        }
-        return $this->view;
     }
 
     public function getCurrentControllerAction()
@@ -563,8 +513,6 @@ class ViewDataTable
      */
     protected function postDataTableLoadedFromAPI()
     {
-        $this->overrideViewProperties();
-
         if (empty($this->dataTable)) {
             return false;
         }
@@ -1067,8 +1015,8 @@ class ViewDataTable
      */
     public function render()
     {
-        $this->main();
-        return $this->getView()->render();
+        $this->buildView();
+        return $this->view->render();
     }
     
     /**
@@ -1097,8 +1045,23 @@ class ViewDataTable
         }
     }
 
-    protected function buildView($visualization)
+    protected function buildView()
     {
+        $visualization = new $this->visualizationClass($this);
+
+        try {
+            $this->loadDataTableFromAPI();
+            $this->postDataTableLoadedFromAPI();
+        } catch (NoAccessException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            Piwik::log("Failed to get data from API: " . $e->getMessage());
+
+            $this->loadingError = array('message' => $e->getMessage());
+        }
+
+        $this->overrideViewProperties();
+
         $template = $this->viewProperties['datatable_template'];
         $view = new View($template);
 
@@ -1125,7 +1088,7 @@ class ViewDataTable
 
         $nonCoreVisualizations = DataTableVisualization::getNonCoreVisualizations();
         $view->nonCoreVisualizations = DataTableVisualization::getVisualizationInfoFor($nonCoreVisualizations);
-        return $view;
+        $this->view = $view;
     }
 
     public function getDefaultDataTableCssClass()
