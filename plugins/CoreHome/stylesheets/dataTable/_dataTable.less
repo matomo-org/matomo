@@ -1,8 +1,5 @@
 /*Overriding some dataTable css for better dashboard display*/
-.widget .dataTableWrapper,
-.widget .dataTableGraphWrapper,
-.widget .dataTableActionsWrapper,
-.widget .dataTableGraphEvolutionWrapper {
+.widget .dataTableWrapper {
   width: 100%;
 }
 
@@ -148,26 +145,22 @@ table.dataTable img {
 }
 
 /* container of each table */
-.dataTableNormal > .dataTableWrapper {
+.dataTableVizHtmlTable > .dataTableWrapper {
   width: 450px;
   /* not more than 450px to make sure 2 tables can fit horizontally on a 1024 screen */
 }
 
-.dataTableAllColumns > .dataTableWrapper {
+.dataTableVizAllColumns > .dataTableWrapper {
   width: 535px;
 }
 
-.dataTableActions > .dataTableWrapper {
+.dataTableActions > .dataTableWrapper,
+.dataTableGraph > .dataTableWrapper {
   width: 500px;
   min-height: 1px;
 }
 
-.dataTableGraphWrapper {
-  width: 500px;
-  min-height: 1px;
-}
-
-.dataTableGraphEvolutionWrapper {
+.dataTableEvolutionGraph > .dataTableWrapper {
   width: 100%;
 }
 
@@ -434,4 +427,11 @@ body .ui-tooltip.rowActionTooltip {
 
 table.dataTable span.cell-tooltip {
   cursor: default;
+}
+
+.dataTable .jqplot-graph {
+  padding-left: 6px;
+  > div {
+    position: relative;
+  }
 }
