@@ -13,6 +13,10 @@ namespace Piwik\ViewDataTable;
 
 use Exception;
 use ReflectionClass;
+use Piwik\Piwik;
+use Piwik\Config;
+use Piwik\Metrics;
+use Piwik\Common;
 
 /**
  * Contains the list of all core DataTable display properties for use with ViewDataTable.
@@ -377,6 +381,11 @@ class Properties
     const HIDE_ANNOTATIONS_VIEW = 'hide_annotations_view';
 
     /**
+     * The filter_limit query parameter value to use in export links.
+     */
+    const EXPORT_LIMIT = 'export_limit';
+
+    /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
      * names as keys. Values of the array are undefined.
      *
@@ -460,6 +469,72 @@ class Properties
         if (!isset($properties[$name])) {
             throw new Exception("Invalid Visualization display property '$name' for '$visualizationClass'.");
         }
+    }
+
+    /**
+     * Returns the default values for each core view property.
+     * 
+     * @return array
+     */
+    public static function getDefaultPropertyValues()
+    {
+        $result = array(
+            'datatable_template' => '@CoreHome/_dataTable',
+            'show_goals' => false,
+            'show_ecommerce' => false,
+            'show_search' => true,
+            'show_table' => true,
+            'show_table_all_columns' => true,
+            'show_all_views_icons' => true,
+            'show_active_view_icon' => true,
+            'show_bar_chart' => true,
+            'show_pie_chart' => true,
+            'show_tag_cloud' => true,
+            'show_export_as_image_icon' => false,
+            'show_export_as_rss_feed' => true,
+            'show_exclude_low_population' => true,
+            'show_offset_information' => true,
+            'show_pagination_control' => true,
+            'show_limit_control' => false,
+            'show_footer' => true,
+            'show_related_reports' => true,
+            'export_limit' => Config::getInstance()->General['API_datatable_default_limit'],
+            'highlight_summary_row' => false,
+            'related_reports' => array(),
+            'title' => 'unknown',
+            'tooltip_metadata_name' => false,
+            'enable_sort' => true,
+            'disable_generic_filters' => false,
+            'disable_queued_filters' => false,
+            'keep_summary_row' => false,
+            'filter_excludelowpop' => false,
+            'filter_excludelowpop_value' => false,
+            'filter_pattern' => false,
+            'filter_column' => false,
+            'filter_limit' => false,
+            'filter_sort_column' => false,
+            'filter_sort_order' => false,
+            'custom_parameters' => array(),
+            'translations' => array_merge(
+                Metrics::getDefaultMetrics(),
+                Metrics::getDefaultProcessedMetrics()
+            ),
+            'request_parameters_to_modify' => array(),
+            'documentation' => false,
+            'subtable_controller_action' => false,
+            'datatable_css_class' => false,
+            'filters' => array(),
+            'hide_annotations_view' => true,
+            'columns_to_display' => array(),
+        );
+
+        $columns = Common::getRequestVar('columns', false);
+        if ($columns !== false) {
+            $result['columns_to_display'] = Piwik::getArrayFromApiParameter($columns);
+            array_unshift($result['columns_to_display'], 'label');
+        }
+
+        return $result;
     }
 
     private static function getFlippedClassConstantMap($klass)

@@ -124,67 +124,55 @@ class ViewDataTable
     /**
      * Default constructor.
      */
-    public function __construct($visualizationClass = null)
+    public function __construct($currentControllerAction,
+                                $apiMethodToRequestDataTable,
+                                $viewProperties = array(),
+                                $visualizationId = null)
     {
+        $visualizationClass = $visualizationId ? DataTableVisualization::getClassFromId($visualizationId) : null;
         $this->visualizationClass = $visualizationClass;
 
         $this->viewProperties['visualization_properties'] = new VisualizationPropertiesProxy($visualizationClass);
-        $this->viewProperties['datatable_template'] = '@CoreHome/_dataTable';
-        $this->viewProperties['show_goals'] = false;
-        $this->viewProperties['show_ecommerce'] = false;
-        $this->viewProperties['show_search'] = true;
-        $this->viewProperties['show_table'] = true;
-        $this->viewProperties['show_table_all_columns'] = true;
-        $this->viewProperties['show_all_views_icons'] = true;
-        $this->viewProperties['show_active_view_icon'] = true;
-        $this->viewProperties['show_bar_chart'] = true;
-        $this->viewProperties['show_pie_chart'] = true;
-        $this->viewProperties['show_tag_cloud'] = true;
-        $this->viewProperties['show_export_as_image_icon'] = false;
-        $this->viewProperties['show_export_as_rss_feed'] = true;
-        $this->viewProperties['show_exclude_low_population'] = true;
-        $this->viewProperties['show_offset_information'] = true;
-        $this->viewProperties['show_pagination_control'] = true;
-        $this->viewProperties['show_limit_control'] = false;
-        $this->viewProperties['show_footer'] = true;
-        $this->viewProperties['show_related_reports'] = true;
-        $this->viewProperties['exportLimit'] = Config::getInstance()->General['API_datatable_default_limit'];
-        $this->viewProperties['highlight_summary_row'] = false;
         $this->viewProperties['metadata'] = array();
-        $this->viewProperties['related_reports'] = array();
-        $this->viewProperties['title'] = 'unknown';
-        $this->viewProperties['tooltip_metadata_name'] = false;
-        $this->viewProperties['enable_sort'] = true;
-        $this->viewProperties['disable_generic_filters'] = false;
-        $this->viewProperties['disable_queued_filters'] = false;
-        $this->viewProperties['keep_summary_row'] = false;
-        $this->viewProperties['filter_excludelowpop'] = false;
-        $this->viewProperties['filter_excludelowpop_value'] = false;
-        $this->viewProperties['filter_pattern'] = false;
-        $this->viewProperties['filter_column'] = false;
-        $this->viewProperties['filter_limit'] = false;
-        $this->viewProperties['filter_sort_column'] = false;
-        $this->viewProperties['filter_sort_order'] = false;
-        $this->viewProperties['custom_parameters'] = array();
-        $this->viewProperties['translations'] = array_merge(
-            Metrics::getDefaultMetrics(),
-            Metrics::getDefaultProcessedMetrics()
-        );
-        $this->viewProperties['request_parameters_to_modify'] = array();
-        $this->viewProperties['documentation'] = false;
-        $this->viewProperties['subtable_controller_action'] = false;
-        $this->viewProperties['datatable_css_class'] = false;
+        $this->viewProperties['translations'] = array();
         $this->viewProperties['filters'] = array();
-        $this->viewProperties['hide_annotations_view'] = true;
-        $this->viewProperties['columns_to_display'] = array();
+        $this->viewProperties['related_reports'] = array();
 
-        $columns = Common::getRequestVar('columns', false);
-        if ($columns !== false) {
-            $this->viewProperties['columns_to_display'] = Piwik::getArrayFromApiParameter($columns);
-            array_unshift($this->viewProperties['columns_to_display'], 'label');
+        $this->setDefaultProperties();
+
+        list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
+        $this->currentControllerName = $currentControllerName;
+        $this->currentControllerAction = $currentControllerAction;
+
+        foreach ($viewProperties as $name => $value) {
+            $this->setViewProperty($name, $value);
         }
 
-        $this->setDefaultPropertiesForVisualization();
+        $queryParams = Url::getArrayFromCurrentQueryString();
+        foreach ($this->getClientSideProperties() as $name) {
+            if (isset($queryParams[$name])) {
+                $this->setViewProperty($name, $queryParams[$name]);
+            }
+        }
+
+        $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
+        $this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
+        $this->viewProperties['apiMethodToRequestDataTable'] = $apiMethodToRequestDataTable;
+
+        $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
+        $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
+
+        // the exclude low population threshold value is sometimes obtained by requesting data.
+        // to avoid issuing unecessary requests when display properties are determined by metadata,
+        // we allow it to be a closure.
+        if (isset($this->viewProperties['filter_excludelowpop_value'])
+            && $this->viewProperties['filter_excludelowpop_value'] instanceof \Closure
+        ) {
+            $function = $this->viewProperties['filter_excludelowpop_value'];
+            $this->viewProperties['filter_excludelowpop_value'] = $function();
+        }
+
+        $this->loadDocumentation();
     }
 
     /**
@@ -274,41 +262,25 @@ class ViewDataTable
      * @param string|bool $controllerAction
      * @return ViewDataTable
      */
-    static public function factory($defaultType = null, $apiAction = false, $controllerAction = false)
+    static public function factory($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
     {
-        if ($apiAction !== false) {
-            $defaultProperties = self::getDefaultPropertiesForReport($apiAction);
-            if (isset($defaultProperties['default_view_type'])) {
-                $defaultType = $defaultProperties['default_view_type'];
-            }
-
-            if ($controllerAction === false) {
-                $controllerAction = $apiAction;
-            }
+        if ($controllerAction === false) {
+            $controllerAction = $apiAction;
         }
 
-        if ($defaultType === null) {
-            $defaultType = 'table';
+        $defaultProperties = self::getDefaultPropertiesForReport($apiAction);
+        if (!empty($defaultProperties['default_view_type'])
+            && !$forceDefault
+        ) {
+            $defaultType = $defaultProperties['default_view_type'];
         }
 
-        $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
+        $type = Common::getRequestVar('viewDataTable', $defaultType ?: 'table', 'string');
 
         if ($type == 'sparkline') {
-            $result = new ViewDataTable\Sparkline();
+            $result = new ViewDataTable\Sparkline($controllerAction, $apiAction, $defaultProperties);
         } else {
-            $klass = DataTableVisualization::getClassFromId($type);
-            $result = new ViewDataTable($klass);
-        }
-        
-        if ($apiAction !== false) {
-            list($plugin, $controllerAction) = explode('.', $controllerAction);
-            
-            $subtableAction = $controllerAction;
-            if (isset($defaultProperties['subtable_action'])) {
-                $subtableAction = $defaultProperties['subtable_action'];
-            }
-            
-            $result->init($plugin, $controllerAction, $apiAction, $subtableAction, $defaultProperties);
+            $result = new ViewDataTable($controllerAction, $apiAction, $defaultProperties, $type);
         }
 
         return $result;
@@ -375,66 +347,6 @@ class ViewDataTable
         }
 
         return $result;
-    }
-
-    /**
-     * Inits the object given the $currentControllerName, $currentControllerAction of
-     * the calling controller action, eg. 'Referers' 'getLongListOfKeywords'.
-     * The initialization also requires the $apiMethodToRequestDataTable of the API method
-     * to call in order to get the DataTable, eg. 'Referers.getKeywords'.
-     * The optional $controllerActionCalledWhenRequestSubTable defines the method name of the API to call when there is a idSubtable.
-     * This value would be used by the javascript code building the GET request to the API.
-     *
-     * Example:
-     *    For the keywords listing, a click on the row loads the subTable of the Search Engines for this row.
-     *  In this case $controllerActionCalledWhenRequestSubTable = 'getSearchEnginesFromKeywordId'.
-     *  The GET request will hit 'Referers.getSearchEnginesFromKeywordId'.
-     *
-     * @param string $currentControllerName eg. 'Referers'
-     * @param string $currentControllerAction eg. 'getKeywords'
-     * @param string $apiMethodToRequestDataTable eg. 'Referers.getKeywords'
-     * @param string $controllerActionCalledWhenRequestSubTable eg. 'getSearchEnginesFromKeywordId'
-     * @param array $defaultProperties
-     */
-    public function init($currentControllerName,
-                         $currentControllerAction,
-                         $apiMethodToRequestDataTable,
-                         $controllerActionCalledWhenRequestSubTable = null,
-                         $defaultProperties = array())
-    {
-        $this->currentControllerName = $currentControllerName;
-        $this->currentControllerAction = $currentControllerAction;
-        $this->viewProperties['subtable_controller_action'] = $controllerActionCalledWhenRequestSubTable;
-        $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
-        
-        foreach ($defaultProperties as $name => $value) {
-            $this->setViewProperty($name, $value);
-        }
-
-        $queryParams = Url::getArrayFromCurrentQueryString();
-        foreach ($this->getClientSideProperties() as $name) {
-            if (isset($queryParams[$name])) {
-                $this->setViewProperty($name, $queryParams[$name]);
-            }
-        }
-
-        $this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
-        $this->viewProperties['apiMethodToRequestDataTable'] = $apiMethodToRequestDataTable;
-
-        $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
-        $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
-
-        // the exclude low population threshold value is sometimes obtained by requesting data.
-        // to avoid issuing unecessary requests when display properties are determined by metadata,
-        // we allow it to be a closure.
-        if (isset($this->viewProperties['filter_excludelowpop_value'])
-            && $this->viewProperties['filter_excludelowpop_value'] instanceof \Closure
-        ) {
-            $function = $this->viewProperties['filter_excludelowpop_value'];
-            $this->viewProperties['filter_excludelowpop_value'] = $function();
-        }
-
-        $this->loadDocumentation();
     }
 
     /**
@@ -1215,17 +1127,24 @@ class ViewDataTable
         return 'dataTableViz' . Piwik::getUnnamespacedClassName($this->visualizationClass);
     }
 
-    private function setDefaultPropertiesForVisualization()
+    private function setViewProperties($values)
     {
+        foreach ($values as $name => $value) {
+            $this->setViewProperty($name, $value);
+        }
+    }
+
+    private function setDefaultProperties()
+    {
+        // set core default properties
+        $this->setViewProperties(Properties::getDefaultPropertyValues());
+
+        // set visualization default properties
         if ($this->visualizationClass === null) {
             return;
         }
 
         $visualizationClass = $this->visualizationClass;
-        $defaultProperties = $visualizationClass::getDefaultPropertyValues();
-
-        foreach ($defaultProperties as $name => $value) {
-            $this->setViewProperty($name, $value);
-        }
+        $this->setViewProperties($visualizationClass::getDefaultPropertyValues());
     }
 }

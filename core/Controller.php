@@ -176,8 +176,9 @@ abstract class Controller
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
-        $view = ViewDataTable::factory('graphEvolution');
-        $view->init($currentModuleName, $currentControllerAction, $apiMethod);
+        $view = ViewDataTable::factory(
+            'graphEvolution', $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
+        $view->show_goals = false;
         return $view;
     }
 

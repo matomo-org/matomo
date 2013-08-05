@@ -93,9 +93,9 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
 
         return array(
             // dashboard
-            /*array('dashboard1', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=1"),
+            array('dashboard1', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=1"),
             array('dashboard2', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=2"),
-            array('dashboard3', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=3"),*/
+            array('dashboard3', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=3"),
             
             // visitors pages (except real time map since it displays current time)
             array('visitors_overview', "?$urlBase#$generalParams&module=VisitsSummary&action=index"),
