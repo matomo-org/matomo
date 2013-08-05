@@ -103,9 +103,7 @@ class AssetManager
         $mergedCssAlreadyGenerated = self::isGenerated(self::MERGED_CSS_FILE);
         $isDevelopingPiwik = self::isMergedAssetsDisabled();
 
-        if ($mergedCssAlreadyGenerated
-            && !$isDevelopingPiwik
-        ) {
+        if ($mergedCssAlreadyGenerated && !$isDevelopingPiwik) {
             return;
         }
 
