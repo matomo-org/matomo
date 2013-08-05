@@ -386,6 +386,11 @@ class Properties
     const EXPORT_LIMIT = 'export_limit';
 
     /**
+     * Controls whether non-Core DataTable visualizations are shown or not.
+     */
+    const SHOW_NON_CORE_VISUALIZATIONS = 'show_non_core_visualizations';
+
+    /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
      * names as keys. Values of the array are undefined.
      *
@@ -498,6 +503,7 @@ class Properties
             'show_limit_control' => false,
             'show_footer' => true,
             'show_related_reports' => true,
+            'show_non_core_visualizations' => true,
             'export_limit' => Config::getInstance()->General['API_datatable_default_limit'],
             'highlight_summary_row' => false,
             'related_reports' => array(),
@@ -542,6 +548,8 @@ class Properties
         $klass = new ReflectionClass($klass);
         $constants = $klass->getConstants();
         unset($constants['ID']);
+        unset($constants['FOOTER_ICON']);
+        unset($constants['FOOTER_ICON_TITLE']);
         return array_flip($constants);
     }
 }

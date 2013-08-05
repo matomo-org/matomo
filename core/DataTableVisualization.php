@@ -125,8 +125,39 @@ abstract class DataTableVisualization
             }
 
             if (is_subclass_of($viz, __CLASS__)) {
-                $result[$viz::getViewDataTableId()] = $viz;
+                $vizId = $viz::getViewDataTableId();
+                if (isset($result[$vizId])) {
+                    throw new Exception("Visualization ID '$vizId' is already in use!");
+                }
+
+                $result[$vizId] = $viz;
             }
+        }
+        return $result;
+    }
+
+    /**
+     * TODO
+     */
+    public static function getNonCoreVisualizations()
+    {
+        $result = array();
+        foreach (self::getAvailableVisualizations() as $vizId => $vizClass) {
+            if (strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations') === false) {
+                $result[$vizId] = $vizClass;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * TODO
+     */
+    public static function getVisualizationInfoFor($visualizations)
+    {
+        $result = array();
+        foreach ($visualizations as $vizId => $vizClass) {
+            $result[$vizId] = array('table_icon' => $vizClass::FOOTER_ICON, 'title' => $vizClass::FOOTER_ICON_TITLE);
         }
         return $result;
     }

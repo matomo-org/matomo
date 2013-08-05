@@ -12,7 +12,6 @@
 use Piwik\Plugin;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
-
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Cloud.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph.php';

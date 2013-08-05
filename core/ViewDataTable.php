@@ -25,6 +25,7 @@ use Piwik\ViewDataTable\Properties;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik_API_API;
 use Piwik\PluginsManager;
+use Piwik\DataTableVisualization;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -61,7 +62,9 @@ use Piwik\PluginsManager;
 class ViewDataTable
 {
     /**
-     * TODO
+     * The class name of the visualization to use.
+     * 
+     * @var string|null
      */
     private $visualizationClass;
 
@@ -138,12 +141,12 @@ class ViewDataTable
         $this->viewProperties['filters'] = array();
         $this->viewProperties['related_reports'] = array();
 
-        $this->setDefaultProperties();
-
         list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
         $this->currentControllerName = $currentControllerName;
         $this->currentControllerAction = $currentControllerAction;
 
+        $this->setDefaultProperties();
+        
         foreach ($viewProperties as $name => $value) {
             $this->setViewProperty($name, $value);
         }
@@ -1119,6 +1122,9 @@ class ViewDataTable
         $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
         $view->clientSidePropertiesToSet = $this->getClientSidePropertiesToSet();
         $view->properties = $this->viewProperties; // TODO: should be $this. need to move non-view properties from the class
+
+        $nonCoreVisualizations = DataTableVisualization::getNonCoreVisualizations();
+        $view->nonCoreVisualizations = DataTableVisualization::getVisualizationInfoFor($nonCoreVisualizations);
         return $view;
     }
 

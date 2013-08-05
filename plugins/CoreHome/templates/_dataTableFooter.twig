@@ -75,6 +75,13 @@
                             <img width="16" height="16" src="plugins/Zeitgeist/images/tagcloud.png" title="{{ 'General_TagCloud'|translate }}"/>
                         </a>
                     {% endif %}
+                    {% if properties.show_non_core_visualizations %}
+                        {% for format, info in nonCoreVisualizations %}
+                        <a class="tableIcon" format="{{ format }}" var="{{ format }}">
+                            <img width="16" height="16" src="{{ info.table_icon }}" title="{{ info.title|translate }}"/>
+                        </a>
+                        {% endfor %}
+                    {% endif %}
 				    </span>
                 </div>
                 {% endif %}
