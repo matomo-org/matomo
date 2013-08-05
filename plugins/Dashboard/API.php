@@ -7,6 +7,8 @@
  * @category Piwik_Plugins
  * @package  Piwik_Dashboard
  */
+use Piwik\Piwik;
+use Piwik\WidgetsList;
 
 
 /**
@@ -154,7 +156,7 @@ class Piwik_Dashboard_API
         $module = $widget->parameters->module;
         $action = $widget->parameters->action;
 
-        return Piwik_IsWidgetDefined($module, $action);
+        return WidgetsList::isDefined($module, $action);
     }
 
     private function widgetIsNotHidden($widget)

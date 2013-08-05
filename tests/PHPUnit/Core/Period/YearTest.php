@@ -5,6 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
+use Piwik\Period\Year;
+use Piwik\Translate;
+
 /**
  * Testing Period_Year
  */
@@ -32,7 +36,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
             '2024-11-01',
             '2024-12-01',);
 
-        $year = new Piwik_Period_Year(Piwik_Date::factory('2024-10-09'));
+        $year = new Year(Date::factory('2024-10-09'));
         $this->assertEquals(12, $year->getNumberOfSubperiods());
         $this->assertEquals($correct, $year->toString());
     }
@@ -60,7 +64,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
             '2000-12-01',
         );
 
-        $year = new Piwik_Period_Year(Piwik_Date::factory('2000-02-15'));
+        $year = new Year(Date::factory('2000-02-15'));
         $this->assertEquals(12, $year->getNumberOfSubperiods());
         $this->assertEquals($correct, $year->toString());
     }
@@ -72,8 +76,8 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedShortString()
     {
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $year = new Piwik_Period_Year(Piwik_Date::factory('2024-10-09'));
+        Translate::getInstance()->loadEnglishTranslation();
+        $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedShortString());
     }
@@ -85,8 +89,8 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedLongString()
     {
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $year = new Piwik_Period_Year(Piwik_Date::factory('2024-10-09'));
+        Translate::getInstance()->loadEnglishTranslation();
+        $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedLongString());
     }
@@ -98,8 +102,8 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $year = new Piwik_Period_Year(Piwik_Date::factory('2024-10-09'));
+        Translate::getInstance()->loadEnglishTranslation();
+        $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getPrettyString());
     }

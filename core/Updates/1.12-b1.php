@@ -8,11 +8,14 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_12_b1 extends Piwik_Updates
+class Piwik_Updates_1_12_b1 extends Updates
 {
     static function isMajorUpdate()
     {
@@ -22,14 +25,14 @@ class Piwik_Updates_1_12_b1 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_link_visit_action') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
 			 ADD `custom_float` FLOAT NULL DEFAULT NULL' => 1060
         );
     }
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 
 }

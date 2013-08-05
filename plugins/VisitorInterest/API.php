@@ -8,6 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitorInterest
  */
+use Piwik\Archive;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\DataTable;
 
 /**
  * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,
@@ -27,10 +31,10 @@ class Piwik_VisitorInterest_API
         return self::$instance;
     }
 
-    protected function getDataTable($name, $idSite, $period, $date, $segment, $column = Piwik_Metrics::INDEX_NB_VISITS)
+    protected function getDataTable($name, $idSite, $period, $date, $segment, $column = Metrics::INDEX_NB_VISITS)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
@@ -65,16 +69,13 @@ class Piwik_VisitorInterest_API
      * @param string $period The period type.
      * @param string $date The date type.
      * @param string|bool $segment The segment.
-     * @return Piwik_DataTable the archived report data.
+     * @return DataTable the archived report data.
      */
     public function getNumberOfVisitsByDaysSinceLast($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
-            Piwik_VisitorInterest_Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Metrics::INDEX_NB_VISITS);
-        $dataTable->queueFilter('Sort', array('label', 'asc', true));
-        $dataTable->queueFilter('BeautifyRangeLabels', array(
-                                                            Piwik_Translate('General_OneDay'), Piwik_Translate('General_NDays')));
-
+            Piwik_VisitorInterest_Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
+        $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik_Translate('General_OneDay'), Piwik_Translate('General_NDays')));
         return $dataTable;
     }
 
@@ -86,12 +87,12 @@ class Piwik_VisitorInterest_API
      * @param string $period The period type.
      * @param string $date The date type.
      * @param string|bool $segment The segment.
-     * @return Piwik_DataTable the archived report data.
+     * @return DataTable the archived report data.
      */
     public function getNumberOfVisitsByVisitCount($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
-            Piwik_VisitorInterest_Archiver::VISITS_COUNT_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Metrics::INDEX_NB_VISITS);
+            Piwik_VisitorInterest_Archiver::VISITS_COUNT_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
 
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik_Translate('General_OneVisit'), Piwik_Translate('General_NVisits')));
@@ -107,16 +108,16 @@ class Piwik_VisitorInterest_API
      * regardless of whether the data table is an data table array or just
      * a data table.
      *
-     * @param Piwik_DataTable $dataTable The data table to modify.
+     * @param DataTable $dataTable The data table to modify.
      */
     private static function addVisitsPercentColumn($dataTable)
     {
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getArray() as $table) {
                 self::addVisitsPercentColumn($table);
             }
         } else {
-            $totalVisits = array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_NB_VISITS));
+            $totalVisits = array_sum($dataTable->getColumn(Metrics::INDEX_NB_VISITS));
             $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', 'nb_visits', $totalVisits));
         }
     }

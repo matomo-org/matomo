@@ -5,8 +5,8 @@
  */
 
 // make sure the test environment is loaded
-require realpath(dirname(__FILE__)) . "/../../../tests/PHPUnit/TestingEnvironment.php";
-Piwik_TestingEnvironment::addHooks();
+use Piwik\Tracker\Cache;
+use Piwik\Visualization\Cloud;
 
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
@@ -19,16 +19,20 @@ require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
-Piwik_Visualization_Cloud::$debugDisableShuffle = true;
+require_once realpath(dirname(__FILE__)) . '/../../../core/functions.php';
+require_once realpath(dirname(__FILE__)) . "/../../../tests/PHPUnit/TestingEnvironment.php";
+Piwik_TestingEnvironment::addHooks();
 
-Piwik_Tracker::setTestEnvironment();
-Piwik_Tracker_Cache::deleteTrackerCache();
+Cloud::$debugDisableShuffle = true;
+
+\Piwik\Tracker::setTestEnvironment();
+Cache::deleteTrackerCache();
 
 // Disable index.php dispatch since we do it manually below
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-$controller = new Piwik_FrontController;
+$controller = new \Piwik\FrontController;
 $controller->init();
 $controller->dispatch();
 

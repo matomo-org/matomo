@@ -5,6 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * Reusable fixture. Loads a ~1GB SQL dump into the DB.
@@ -50,11 +54,11 @@ class Piwik_Test_Fixture_SqlDump
         }
 
         // load the data into the correct database
-        $user = Piwik_Config::getInstance()->database['username'];
-        $password = Piwik_Config::getInstance()->database['password'];
-        $dbName = Piwik_Config::getInstance()->database['dbname'];
-        Piwik_Config::getInstance()->database['tables_prefix'] = 'piwik_';
-        Piwik_Common::$cachedTablePrefix = null;
+        $user = Config::getInstance()->database['username'];
+        $password = Config::getInstance()->database['password'];
+        $dbName = Config::getInstance()->database['dbname'];
+        Config::getInstance()->database['tables_prefix'] = 'piwik_';
+        Common::$cachedTablePrefix = null;
 
         exec("mysql -u \"$user\" \"--password=$password\" $dbName < \"" . $deflatedDumpPath . "\" 2>&1", $output, $return);
         if ($return !== 0) {
@@ -62,6 +66,6 @@ class Piwik_Test_Fixture_SqlDump
         }
 
         // make sure archiving will be called
-        Piwik_ArchiveProcessor_Rules::setBrowserTriggerArchiving(true);
+        Rules::setBrowserTriggerArchiving(true);
     }
 }

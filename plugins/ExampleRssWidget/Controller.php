@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleRssWidget
  */
+use Piwik\Controller;
 
 /**
  *
  * @package Piwik_ExampleRssWidget
  */
-class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
+class Piwik_ExampleRssWidget_Controller extends Controller
 {
     public function rssPiwik()
     {
@@ -39,6 +40,9 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
         }
     }
 
+    /**
+     * @param \Exception $e
+     */
     protected function error($e)
     {
         echo '<div class="pk-emptyDataTable">'

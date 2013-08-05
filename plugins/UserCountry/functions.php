@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\DataTable;
+use Piwik\Tracker\Visit;
 
 /**
  * Return the flag image path for a given country
@@ -23,7 +25,7 @@ function Piwik_getFlagFromCode($code)
     if (file_exists($absolutePath)) {
         return $pathWithCode;
     }
-    return sprintf($pathInPiwik, Piwik_Tracker_Visit::UNKNOWN_CODE);
+    return sprintf($pathInPiwik, Visit::UNKNOWN_CODE);
 }
 
 /**
@@ -48,7 +50,7 @@ function Piwik_ContinentTranslate($label)
  */
 function Piwik_CountryTranslate($label)
 {
-    if ($label == Piwik_Tracker_Visit::UNKNOWN_CODE || $label == '') {
+    if ($label == Visit::UNKNOWN_CODE || $label == '') {
         return Piwik_Translate('General_Unknown');
     }
     return Piwik_Translate('UserCountry_country_' . $label);
@@ -67,7 +69,7 @@ function Piwik_CountryTranslate($label)
  */
 function Piwik_UserCountry_getElementFromStringArray($label, $separator, $index, $emptyValue = false)
 {
-    if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return false; // so no metadata/column is added
     }
 
@@ -80,11 +82,11 @@ function Piwik_UserCountry_getElementFromStringArray($label, $separator, $index,
  *
  * @param string $label A label containing a region code followed by '|' and a country code, eg,
  *                      'P3|GB'.
- * @return string|false The region name or false if $label == Piwik_DataTable::LABEL_SUMMARY_ROW.
+ * @return string|false The region name or false if $label == DataTable::LABEL_SUMMARY_ROW.
  */
 function Piwik_UserCountry_getRegionName($label)
 {
-    if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return false; // so no metadata/column is added
     }
 
@@ -102,11 +104,11 @@ function Piwik_UserCountry_getRegionName($label)
  *
  * @param string $label A label containing a region code followed by '|' and a country code, eg,
  *                      'P3|GB'.
- * @return string|false eg. 'Ile de France, France' or false if $label == Piwik_DataTable::LABEL_SUMMARY_ROW.
+ * @return string|false eg. 'Ile de France, France' or false if $label == DataTable::LABEL_SUMMARY_ROW.
  */
 function Piwik_UserCountry_getPrettyRegionName($label)
 {
-    if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return $label;
     }
 
@@ -117,7 +119,7 @@ function Piwik_UserCountry_getPrettyRegionName($label)
     list($regionCode, $countryCode) = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
 
     $result = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
-    if ($countryCode != Piwik_Tracker_Visit::UNKNOWN_CODE && $countryCode != '') {
+    if ($countryCode != Visit::UNKNOWN_CODE && $countryCode != '') {
         $result .= ', ' . Piwik_CountryTranslate($countryCode);
     }
     return $result;
@@ -130,11 +132,11 @@ function Piwik_UserCountry_getPrettyRegionName($label)
  * @param string $label A label containing a city name, region code + country code,
  *                      separated by two '|' chars: 'Paris|A8|FR'
  * @return string|false eg. 'Paris, Ile de France, France' or false if $label ==
- *                      Piwik_DataTable::LABEL_SUMMARY_ROW.
+ *                      DataTable::LABEL_SUMMARY_ROW.
  */
 function Piwik_UserCountry_getPrettyCityName($label)
 {
-    if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return $label;
     }
 
@@ -146,15 +148,15 @@ function Piwik_UserCountry_getPrettyCityName($label)
     $parts = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
     $cityName = $parts[0];
     $regionCode = $parts[1];
-    $countryCode = $parts[2];
+    $countryCode = @$parts[2];
 
-    if ($cityName == Piwik_Tracker_Visit::UNKNOWN_CODE || $cityName == '') {
+    if ($cityName == Visit::UNKNOWN_CODE || $cityName == '') {
         $cityName = Piwik_Translate('General_Unknown');
     }
 
     $result = $cityName;
-    if ($countryCode != Piwik_Tracker_Visit::UNKNOWN_CODE && $countryCode != '') {
-        if ($regionCode != '' && $regionCode != Piwik_Tracker_Visit::UNKNOWN_CODE) {
+    if ($countryCode != Visit::UNKNOWN_CODE && $countryCode != '') {
+        if ($regionCode != '' && $regionCode != Visit::UNKNOWN_CODE) {
             $regionName = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
             $result .= ', ' . $regionName;
         }

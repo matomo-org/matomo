@@ -8,6 +8,16 @@
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Access;
+use Piwik\Date;
+use Piwik\IP;
+use Piwik\Db;
+use Piwik\Tracker\Cache;
+use Piwik\Url;
+use Piwik\TaskScheduler;
+use Piwik\Site;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -64,9 +74,9 @@ class Piwik_SitesManager_API
         Piwik::checkUserHasViewAccess($idSite);
 
         if (empty($piwikUrl)) {
-            $piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
+            $piwikUrl = Url::getCurrentUrlWithoutFileName();
         }
-        $piwikUrl = Piwik_Common::sanitizeInputValues($piwikUrl);
+        $piwikUrl = Common::sanitizeInputValues($piwikUrl);
 
         $htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl);
         $htmlEncoded = str_replace(array('<br>', '<br />', '<br/>'), '', $htmlEncoded);
@@ -82,8 +92,8 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         $group = trim($group);
 
-        $sites = Zend_Registry::get('db')->fetchAll("SELECT *
-													FROM " . Piwik_Common::prefixTable("site") . "
+        $sites = \Zend_Registry::get('db')->fetchAll("SELECT *
+													FROM " . Common::prefixTable("site") . "
 													WHERE `group` = ?", $group);
         return $sites;
     }
@@ -97,7 +107,7 @@ class Piwik_SitesManager_API
     public function getSitesGroups()
     {
         Piwik::checkUserIsSuperUser();
-        $groups = Zend_Registry::get('db')->fetchAll("SELECT DISTINCT `group` FROM " . Piwik_Common::prefixTable("site"));
+        $groups = \Zend_Registry::get('db')->fetchAll("SELECT DISTINCT `group` FROM " . Common::prefixTable("site"));
         $cleanedGroups = array();
         foreach ($groups as $group) {
             $cleanedGroups[] = $group['group'];
@@ -116,8 +126,8 @@ class Piwik_SitesManager_API
     public function getSiteFromId($idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $site = Zend_Registry::get('db')->fetchRow("SELECT *
-													FROM " . Piwik_Common::prefixTable("site") . "
+        $site = \Zend_Registry::get('db')->fetchRow("SELECT *
+													FROM " . Common::prefixTable("site") . "
 													WHERE idsite = ?", $idSite);
         return $site;
     }
@@ -131,9 +141,9 @@ class Piwik_SitesManager_API
      */
     private function getAliasSiteUrlsFromId($idSite)
     {
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $result = $db->fetchAll("SELECT url
-								FROM " . Piwik_Common::prefixTable("site_url") . "
+								FROM " . Common::prefixTable("site_url") . "
 								WHERE idsite = ?", $idSite);
         $urls = array();
         foreach ($result as $url) {
@@ -152,7 +162,7 @@ class Piwik_SitesManager_API
     public function getSiteUrlsFromId($idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         $urls = $this->getAliasSiteUrlsFromId($idSite);
         return array_merge(array($site->getMainUrl()), $urls);
     }
@@ -165,7 +175,7 @@ class Piwik_SitesManager_API
      */
     private function getSitesId()
     {
-        $result = Piwik_FetchAll("SELECT idsite FROM " . Piwik_Common::prefixTable('site'));
+        $result = Db::fetchAll("SELECT idsite FROM " . Common::prefixTable('site'));
         $idSites = array();
         foreach ($result as $idSite) {
             $idSites[] = $idSite['idsite'];
@@ -181,7 +191,7 @@ class Piwik_SitesManager_API
     public function getAllSites()
     {
         Piwik::checkUserIsSuperUser();
-        $sites = Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Piwik_Common::prefixTable("site"));
+        $sites = \Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable("site"));
         $return = array();
         foreach ($sites as $site) {
             $return[$site['idsite']] = $site;
@@ -219,20 +229,20 @@ class Piwik_SitesManager_API
 
         if (empty($timestamp)) $timestamp = time();
 
-        $time = Piwik_Date::factory((int)$timestamp)->getDatetime();
-        $result = Piwik_FetchAll("
+        $time = Date::factory((int)$timestamp)->getDatetime();
+        $result = Db::fetchAll("
             SELECT
                 idsite
             FROM
-                " . Piwik_Common::prefixTable('site') . " s
+                " . Common::prefixTable('site') . " s
             WHERE EXISTS (
                 SELECT 1 
-                FROM " . Piwik_Common::prefixTable('log_visit') . " v
+                FROM " . Common::prefixTable('log_visit') . " v
                 WHERE v.idsite = s.idsite
                 AND visit_last_action_time > ?
                 AND visit_last_action_time <= ?
                 LIMIT 1)
-        ", array($time, $now = Piwik_Date::now()->addHour(1)->getDatetime()));
+        ", array($time, $now = Date::now()->addHour(1)->getDatetime()));
         $idSites = array();
         foreach ($result as $idSite) {
             $idSites[] = $idSite['idsite'];
@@ -287,7 +297,7 @@ class Piwik_SitesManager_API
      */
     public function getSitesIdWithAdminAccess()
     {
-        $sitesId = Piwik_Access::getInstance()->getSitesIdWithAdminAccess();
+        $sitesId = Access::getInstance()->getSitesIdWithAdminAccess();
         return $sitesId;
     }
 
@@ -299,7 +309,7 @@ class Piwik_SitesManager_API
      */
     public function getSitesIdWithViewAccess()
     {
-        return Piwik_Access::getInstance()->getSitesIdWithViewAccess();
+        return Access::getInstance()->getSitesIdWithViewAccess();
     }
 
     /**
@@ -316,16 +326,16 @@ class Piwik_SitesManager_API
             // but during scheduled task execution, we sometimes want to restrict sites to
             // a different login than the superuser.
             && (Piwik::isUserIsSuperUserOrTheUser($_restrictSitesToLogin)
-                || Piwik_TaskScheduler::isTaskBeingExecuted())
+                || TaskScheduler::isTaskBeingExecuted())
         ) {
-            $accessRaw = Piwik_Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
+            $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
             $sitesId = array();
             foreach ($accessRaw as $access) {
                 $sitesId[] = $access['idsite'];
             }
             return $sitesId;
         } else {
-            return Piwik_Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+            return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
     }
 
@@ -347,9 +357,9 @@ class Piwik_SitesManager_API
             $limit = "LIMIT " . (int)$limit;
         }
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $sites = $db->fetchAll("SELECT *
-								FROM " . Piwik_Common::prefixTable("site") . "
+								FROM " . Common::prefixTable("site") . "
 								WHERE idsite IN (" . implode(", ", $idSites) . ")
 								ORDER BY idsite ASC $limit");
         return $sites;
@@ -376,26 +386,26 @@ class Piwik_SitesManager_API
         $url = $this->removeTrailingSlash($url);
         list($url, $urlBis) = $this->getNormalizedUrls($url);
         if (Piwik::isUserIsSuperUser()) {
-            $ids = Zend_Registry::get('db')->fetchAll(
+            $ids = \Zend_Registry::get('db')->fetchAll(
                 'SELECT idsite
-                FROM ' . Piwik_Common::prefixTable('site') . '
+                FROM ' . Common::prefixTable('site') . '
 					WHERE (main_url = ? OR main_url = ?) ' .
                     'UNION
                     SELECT idsite
-                    FROM ' . Piwik_Common::prefixTable('site_url') . '
+                    FROM ' . Common::prefixTable('site_url') . '
 					WHERE (url = ? OR url = ?) ', array($url, $urlBis, $url, $urlBis));
         } else {
             $login = Piwik::getCurrentUserLogin();
-            $ids = Zend_Registry::get('db')->fetchAll(
+            $ids = \Zend_Registry::get('db')->fetchAll(
                 'SELECT idsite
-                FROM ' . Piwik_Common::prefixTable('site') . '
+                FROM ' . Common::prefixTable('site') . '
 					WHERE (main_url = ? OR main_url = ?)' .
-                    'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ') ' .
+                    'AND idsite IN (' . Access::getSqlAccessSite('idsite') . ') ' .
                     'UNION
                     SELECT idsite
-                    FROM ' . Piwik_Common::prefixTable('site_url') . '
+                    FROM ' . Common::prefixTable('site_url') . '
 					WHERE (url = ? OR url = ?)' .
-                    'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ')',
+                    'AND idsite IN (' . Access::getSqlAccessSite('idsite') . ')',
                 array($url, $urlBis, $login, $url, $urlBis, $login));
         }
 
@@ -414,10 +424,10 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         $timezones = Piwik::getArrayFromApiParameter($timezones);
         $timezones = array_unique($timezones);
-        $ids = Zend_Registry::get('db')->fetchAll(
+        $ids = \Zend_Registry::get('db')->fetchAll(
             'SELECT idsite
-            FROM ' . Piwik_Common::prefixTable('site') . '
-					WHERE timezone IN (' . Piwik_Common::getSqlStringFieldsArray($timezones) . ')
+            FROM ' . Common::prefixTable('site') . '
+					WHERE timezone IN (' . Common::getSqlStringFieldsArray($timezones) . ')
 					ORDER BY idsite ASC',
             $timezones);
         $return = array();
@@ -491,7 +501,7 @@ class Piwik_SitesManager_API
         }
         $this->checkValidCurrency($currency);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         $url = $urls[0];
         $urls = array_slice($urls, 1);
@@ -512,8 +522,8 @@ class Piwik_SitesManager_API
         $bind['sitesearch_keyword_parameters'] = $searchKeywordParameters;
         $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
         $bind['ts_created'] = !is_null($startDate)
-            ? Piwik_Date::factory($startDate)->getDatetime()
-            : Piwik_Date::now()->getDatetime();
+            ? Date::factory($startDate)->getDatetime()
+            : Date::now()->getDatetime();
 
         if (!empty($group)
             && Piwik::isUserIsSuperUser()
@@ -523,14 +533,14 @@ class Piwik_SitesManager_API
             $bind['group'] = "";
         }
 
-        $db->insert(Piwik_Common::prefixTable("site"), $bind);
+        $db->insert(Common::prefixTable("site"), $bind);
 
         $idSite = $db->lastInsertId();
 
         $this->insertSiteUrls($idSite, $urls);
 
         // we reload the access list which doesn't yet take in consideration this new website
-        Piwik_Access::getInstance()->reloadAccess();
+        Access::getInstance()->reloadAccess();
         $this->postUpdateWebsite($idSite);
 
         Piwik_PostEvent('SitesManager.addSite', array($idSite));
@@ -540,8 +550,8 @@ class Piwik_SitesManager_API
 
     private function postUpdateWebsite($idSite)
     {
-        Piwik_Site::clearCache();
-        Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
+        Site::clearCache();
+        Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 
     /**
@@ -565,19 +575,19 @@ class Piwik_SitesManager_API
             throw new Exception(Piwik_TranslateException("SitesManager_ExceptionDeleteSite"));
         }
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
-        $db->query("DELETE FROM " . Piwik_Common::prefixTable("site") . "
+        $db->query("DELETE FROM " . Common::prefixTable("site") . "
 					WHERE idsite = ?", $idSite);
 
-        $db->query("DELETE FROM " . Piwik_Common::prefixTable("site_url") . "
+        $db->query("DELETE FROM " . Common::prefixTable("site_url") . "
 					WHERE idsite = ?", $idSite);
 
-        $db->query("DELETE FROM " . Piwik_Common::prefixTable("access") . "
+        $db->query("DELETE FROM " . Common::prefixTable("access") . "
 					WHERE idsite = ?", $idSite);
 
         // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
-        Piwik_Tracker_Cache::deleteCacheWebsiteAttributes($idSite);
+        Cache::deleteCacheWebsiteAttributes($idSite);
 
         Piwik_PostEvent('SitesManager.deleteSite', array($idSite));
     }
@@ -676,19 +686,19 @@ class Piwik_SitesManager_API
      */
     public function getIpsForRange($ipRange)
     {
-        $range = Piwik_IP::getIpsForRange($ipRange);
+        $range = IP::getIpsForRange($ipRange);
         if ($range === false) {
             return false;
         }
 
-        return array(Piwik_IP::N2P($range[0]), Piwik_IP::N2P($range[1]));
+        return array(IP::N2P($range[0]), IP::N2P($range[1]));
     }
 
     /**
      * Sets IPs to be excluded from all websites. IPs can contain wildcards.
      * Will also apply to websites created in the future.
      *
-     * @param string Comma separated list of IPs to exclude from being tracked (allows wildcards)
+     * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
      * @return bool
      */
     public function setGlobalExcludedIps($excludedIps)
@@ -696,7 +706,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         $excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
         Piwik_SetOption(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         return true;
     }
 
@@ -713,7 +723,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         Piwik_SetOption(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL, $searchKeywordParameters);
         Piwik_SetOption(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL, $searchCategoryParameters);
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         return true;
     }
 
@@ -782,7 +792,7 @@ class Piwik_SitesManager_API
         Piwik_SetOption(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $excludedUserAgents);
 
         // make sure tracker cache will reflect change
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -811,7 +821,7 @@ class Piwik_SitesManager_API
         Piwik_SetOption(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE, $enabled);
 
         // make sure tracker cache will reflect change
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**
@@ -842,14 +852,14 @@ class Piwik_SitesManager_API
         Piwik_SetOption(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL, $enabled);
 
         // make sure tracker cache will reflect change
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
     }
 
     /**
      * Sets list of URL query parameters to be excluded on all websites.
      * Will also apply to websites created in the future.
      *
-     * @param string Comma separated list of URL query parameters to exclude from URLs
+     * @param string $excludedQueryParameters Comma separated list of URL query parameters to exclude from URLs
      * @return bool
      */
     public function setGlobalExcludedQueryParameters($excludedQueryParameters)
@@ -857,7 +867,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         $excludedQueryParameters = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
         Piwik_SetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
-        Piwik_Tracker_Cache::deleteTrackerCache();
+        Cache::deleteTrackerCache();
         return true;
     }
 
@@ -1011,7 +1021,7 @@ class Piwik_SitesManager_API
             $bind['ecommerce'] = (int)(bool)$ecommerce;
         }
         if (!is_null($startDate)) {
-            $bind['ts_created'] = Piwik_Date::factory($startDate)->getDatetime();
+            $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
@@ -1030,8 +1040,8 @@ class Piwik_SitesManager_API
         $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
 
         $bind['name'] = $siteName;
-        $db = Zend_Registry::get('db');
-        $db->update(Piwik_Common::prefixTable("site"),
+        $db = \Zend_Registry::get('db');
+        $db->update(Common::prefixTable("site"),
             $bind,
             "idsite = $idSite"
         );
@@ -1159,7 +1169,7 @@ class Piwik_SitesManager_API
     public function getUniqueSiteTimezones()
     {
         Piwik::checkUserIsSuperUser();
-        $results = Piwik_FetchAll("SELECT distinct timezone FROM " . Piwik_Common::prefixTable('site'));
+        $results = Db::fetchAll("SELECT distinct timezone FROM " . Common::prefixTable('site'));
         $timezones = array();
         foreach ($results as $result) {
             $timezones[] = $result['timezone'];
@@ -1174,9 +1184,9 @@ class Piwik_SitesManager_API
     private function insertSiteUrls($idSite, $urls)
     {
         if (count($urls) != 0) {
-            $db = Zend_Registry::get('db');
+            $db = \Zend_Registry::get('db');
             foreach ($urls as $url) {
-                $db->insert(Piwik_Common::prefixTable("site_url"), array(
+                $db->insert(Common::prefixTable("site_url"), array(
                                                                         'idsite' => $idSite,
                                                                         'url'    => $url
                                                                    )
@@ -1190,8 +1200,8 @@ class Piwik_SitesManager_API
      */
     private function deleteSiteAliasUrls($idsite)
     {
-        $db = Zend_Registry::get('db');
-        $db->query("DELETE FROM " . Piwik_Common::prefixTable("site_url") . "
+        $db = \Zend_Registry::get('db');
+        $db->query("DELETE FROM " . Common::prefixTable("site_url") . "
 					WHERE idsite = ?", $idsite);
     }
 
@@ -1220,7 +1230,7 @@ class Piwik_SitesManager_API
      */
     private function isValidUrl($url)
     {
-        return Piwik_Common::isLookLikeUrl($url);
+        return Common::isLookLikeUrl($url);
     }
 
     /**
@@ -1232,7 +1242,7 @@ class Piwik_SitesManager_API
      */
     private function isValidIp($ip)
     {
-        return Piwik_IP::getIpsForRange($ip) !== false;
+        return IP::getIpsForRange($ip) !== false;
     }
 
     /**
@@ -1308,7 +1318,7 @@ class Piwik_SitesManager_API
                 $url = 'http://' . $url;
             }
             $url = trim($url);
-            $url = Piwik_Common::sanitizeInputValue($url);
+            $url = Common::sanitizeInputValue($url);
         }
         $urls = array_unique($urls);
         return $urls;
@@ -1327,7 +1337,7 @@ class Piwik_SitesManager_API
         }
         $ids_str .= $id_val;
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $bind = array('%' . $pattern . '%', 'http%' . $pattern . '%');
 
         // Also match the idsite
@@ -1337,7 +1347,7 @@ class Piwik_SitesManager_API
             $where = 'OR  s.idsite = ?';
         }
         $sites = $db->fetchAll("SELECT idsite, name, main_url
-								FROM " . Piwik_Common::prefixTable('site') . " s
+								FROM " . Common::prefixTable('site') . " s
 								WHERE (		s.name like ? 
 										OR 	s.main_url like ?
 										 $where ) 

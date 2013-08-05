@@ -1,4 +1,9 @@
 <?php
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -9,15 +14,15 @@
  * @package Piwik_ImageGraph
  */
 
-class Piwik_ImageGraph_Controller extends Piwik_Controller
+class Piwik_ImageGraph_Controller extends Controller
 {
     // Call metadata reports, and draw the default graph for each report.
     public function index()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
-        $period = Piwik_Common::getRequestVar('period', 'day', 'string');
-        $date = Piwik_Common::getRequestVar('date', 'today', 'string');
+        $idSite = Common::getRequestVar('idSite', 1, 'int');
+        $period = Common::getRequestVar('period', 'day', 'string');
+        $date = Common::getRequestVar('date', 'today', 'string');
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
         $reports = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
         $plot = array();
@@ -31,7 +36,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
                 );
             }
         }
-        $view = new Piwik_View('@ImageGraph/index');
+        $view = new View('@ImageGraph/index');
         $view->titleAndUrls = $plot;
         echo $view->render();
     }
@@ -41,11 +46,11 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = new Piwik_View('@ImageGraph/testAllSizes');
+        $view = new View('@ImageGraph/testAllSizes');
         $this->setGeneralVariablesView($view);
 
-        $period = Piwik_Common::getRequestVar('period', 'day', 'string');
-        $date = Piwik_Common::getRequestVar('date', 'today', 'string');
+        $period = Common::getRequestVar('period', 'day', 'string');
+        $date = Common::getRequestVar('date', 'today', 'string');
 
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
         $availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite, $period, $date);

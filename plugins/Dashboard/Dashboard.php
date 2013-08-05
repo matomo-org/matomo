@@ -8,11 +8,17 @@
  * @category Piwik_Plugins
  * @package Piwik_Dashboard
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Plugin;
+use Piwik\Site;
+use Piwik\Db;
+use Piwik\WidgetsList;
 
 /**
  * @package Piwik_Dashboard
  */
-class Piwik_Dashboard extends Piwik_Plugin
+class Piwik_Dashboard extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -41,8 +47,8 @@ class Piwik_Dashboard extends Piwik_Plugin
     {
         $paramsBind = array($login, $idDashboard);
         $query = sprintf('SELECT layout FROM %s WHERE login = ? AND iddashboard = ?',
-            Piwik_Common::prefixTable('user_dashboard'));
-        $return = Piwik_FetchAll($query, $paramsBind);
+            Common::prefixTable('user_dashboard'));
+        $return = Db::fetchAll($query, $paramsBind);
 
         if (count($return) == 0) {
             return false;
@@ -92,8 +98,8 @@ class Piwik_Dashboard extends Piwik_Plugin
 
     public function getAllDashboards($login)
     {
-        $dashboards = Piwik_FetchAll('SELECT iddashboard, name, layout
-                                      FROM ' . Piwik_Common::prefixTable('user_dashboard') .
+        $dashboards = Db::fetchAll('SELECT iddashboard, name, layout
+                                      FROM ' . Common::prefixTable('user_dashboard') .
             ' WHERE login = ? ORDER BY iddashboard', array($login));
 
         $nameless = 1;
@@ -108,7 +114,7 @@ class Piwik_Dashboard extends Piwik_Plugin
                 $nameless++;
             }
 
-            $dashboard['name'] = Piwik_Common::unsanitizeInputValue($dashboard['name']);
+            $dashboard['name'] = Common::unsanitizeInputValue($dashboard['name']);
 
             $layout = '[]';
             if (!empty($dashboard['layout'])) {
@@ -157,7 +163,7 @@ class Piwik_Dashboard extends Piwik_Plugin
                 if (isset($widget->parameters->module)) {
                     $controllerName = $widget->parameters->module;
                     $controllerAction = $widget->parameters->action;
-                    if (!Piwik_IsWidgetDefined($controllerName, $controllerAction)) {
+                    if (!WidgetsList::isDefined($controllerName, $controllerAction)) {
                         unset($row[$widgetId]);
                     }
                 } else {
@@ -179,12 +185,12 @@ class Piwik_Dashboard extends Piwik_Plugin
         $layout = str_replace("\\\"", "\"", $layout);
         $layout = str_replace("\n", "", $layout);
 
-        return Piwik_Common::json_decode($layout, $assoc = false);
+        return Common::json_decode($layout, $assoc = false);
     }
 
     public function encodeLayout($layout)
     {
-        return Piwik_Common::json_encode($layout);
+        return Common::json_encode($layout);
     }
 
     public function addMenus()
@@ -209,8 +215,8 @@ class Piwik_Dashboard extends Piwik_Plugin
     {
         $tooltip = false;
         try {
-            $idSite = Piwik_Common::getRequestVar('idSite');
-            $tooltip = Piwik_Translate('Dashboard_TopLinkTooltip', Piwik_Site::getNameFor($idSite));
+            $idSite = Common::getRequestVar('idSite');
+            $tooltip = Piwik_Translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
         } catch (Exception $ex) {
             // if no idSite parameter, show no tooltip
         }
@@ -236,21 +242,21 @@ class Piwik_Dashboard extends Piwik_Plugin
 
     public function deleteDashboardLayout($userLogin)
     {
-        Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
+        Db::query('DELETE FROM ' . Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
     }
 
     public function install()
     {
         // we catch the exception
         try {
-            $sql = "CREATE TABLE " . Piwik_Common::prefixTable('user_dashboard') . " (
+            $sql = "CREATE TABLE " . Common::prefixTable('user_dashboard') . " (
 					login VARCHAR( 100 ) NOT NULL ,
 					iddashboard INT NOT NULL ,
 					name VARCHAR( 100 ) NULL DEFAULT NULL ,
 					layout TEXT NOT NULL,
 					PRIMARY KEY ( login , iddashboard )
 					)  DEFAULT CHARSET=utf8 ";
-            Piwik_Exec($sql);
+            Db::exec($sql);
         } catch (Exception $e) {
             // mysql code error 1050:table already exists
             // see bug #153 http://dev.piwik.org/trac/ticket/153
@@ -262,6 +268,6 @@ class Piwik_Dashboard extends Piwik_Plugin
 
     public function uninstall()
     {
-        Piwik_DropTables(Piwik_Common::prefixTable('user_dashboard'));
+        Db::dropTables(Common::prefixTable('user_dashboard'));
     }
 }

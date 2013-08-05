@@ -8,6 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * Code originally inspired from OpenX
@@ -19,7 +24,7 @@
  *
  * @package Piwik
  */
-class Piwik_CacheFile
+class CacheFile
 {
     /**
      * @var string
@@ -37,7 +42,7 @@ class Piwik_CacheFile
 
     /**
      * @param string $directory            directory to use
-     * @param int    $timeToLiveInSeconds  TTL
+     * @param int $timeToLiveInSeconds  TTL
      */
     public function __construct($directory, $timeToLiveInSeconds = 300)
     {
@@ -89,7 +94,7 @@ class Piwik_CacheFile
 
     protected function cleanupId($id)
     {
-        if (!Piwik_Common::isValidFilename($id)) {
+        if (!Common::isValidFilename($id)) {
             throw new Exception("Invalid cache ID request $id");
         }
         return $id;
@@ -108,7 +113,7 @@ class Piwik_CacheFile
             return false;
         }
         if (!is_dir($this->cachePath)) {
-            Piwik_Common::mkdir($this->cachePath);
+            Common::mkdir($this->cachePath);
         }
         if (!is_writable($this->cachePath)) {
             return false;

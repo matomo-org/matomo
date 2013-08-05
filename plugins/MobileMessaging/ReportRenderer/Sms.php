@@ -8,13 +8,16 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging_ReportRenderer
  */
-
+use Piwik\Common;
+use Piwik\View;
+use Piwik\ReportRenderer;
+use Piwik\Site;
 
 /**
  *
  * @package Piwik_MobileMessaging_ReportRenderer
  */
-class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
+class Piwik_MobileMessaging_ReportRenderer_Sms extends ReportRenderer
 {
     const FLOAT_REGEXP = '/[-+]?[0-9]*[\.,]?[0-9]+/';
     const SMS_CONTENT_TYPE = 'text/plain';
@@ -29,17 +32,17 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 
     public function sendToDisk($filename)
     {
-        return Piwik_ReportRenderer::writeFile($filename, self::SMS_FILE_EXTENSION, $this->rendering);
+        return ReportRenderer::writeFile($filename, self::SMS_FILE_EXTENSION, $this->rendering);
     }
 
     public function sendToBrowserDownload($filename)
     {
-        Piwik_ReportRenderer::sendToBrowser($filename, self::SMS_FILE_EXTENSION, self::SMS_CONTENT_TYPE, $this->rendering);
+        ReportRenderer::sendToBrowser($filename, self::SMS_FILE_EXTENSION, self::SMS_CONTENT_TYPE, $this->rendering);
     }
 
     public function sendToBrowserInline($filename)
     {
-        Piwik_ReportRenderer::inlineToBrowser(self::SMS_CONTENT_TYPE, $this->rendering);
+        ReportRenderer::inlineToBrowser(self::SMS_CONTENT_TYPE, $this->rendering);
     }
 
     public function getRenderedReport()
@@ -54,7 +57,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 
     public function renderReport($processedReport)
     {
-        $isGoalPluginEnabled = Piwik_Common::isGoalPluginEnabled();
+        $isGoalPluginEnabled = Common::isGoalPluginEnabled();
         $prettyDate = $processedReport['prettyDate'];
         $reportData = $processedReport['reportData'];
 
@@ -110,10 +113,10 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
         $siteHasECommerce = array();
         foreach ($reportRowsMetadata as $rowMetadata) {
             $idSite = $rowMetadata->getColumn('idsite');
-            $siteHasECommerce[$idSite] = Piwik_Site::isEcommerceEnabledFor($idSite);
+            $siteHasECommerce[$idSite] = Site::isEcommerceEnabledFor($idSite);
         }
 
-        $view = new Piwik_View('@MobileMessaging/SMSReport');
+        $view = new View('@MobileMessaging/SMSReport');
         $view->assign("isGoalPluginEnabled", $isGoalPluginEnabled);
         $view->assign("reportRows", $dataRows);
         $view->assign("reportRowsMetadata", $reportRowsMetadata);

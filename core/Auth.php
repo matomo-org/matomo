@@ -9,13 +9,15 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
 /**
  * Interface for authentication modules
  *
  * @package Piwik
  * @subpackage Piwik_Auth
  */
-interface Piwik_Auth
+interface Auth
 {
     /**
      * Authentication module's name, e.g., "Login"
@@ -27,7 +29,7 @@ interface Piwik_Auth
     /**
      * Authenticates user
      *
-     * @return Piwik_Auth_Result
+     * @return AuthResult
      */
     public function authenticate();
 }
@@ -37,10 +39,10 @@ interface Piwik_Auth
  *
  * @package Piwik
  * @subpackage Piwik_Auth
- * @see Zend_Auth_Result, libs/Zend/Auth/Result.php
+ * @see Zend_AuthResult, libs/Zend/Auth/Result.php
  * @link http://framework.zend.com/manual/en/zend.auth.html
  */
-class Piwik_Auth_Result extends Zend_Auth_Result
+class AuthResult extends \Zend_Auth_Result
 {
     /**
      * token_auth parameter used to authenticate in the API
@@ -52,7 +54,7 @@ class Piwik_Auth_Result extends Zend_Auth_Result
     const SUCCESS_SUPERUSER_AUTH_CODE = 42;
 
     /**
-     * Constructor for Piwik_Auth_Result
+     * Constructor for AuthResult
      *
      * @param int $code
      * @param string $login identity
@@ -61,7 +63,7 @@ class Piwik_Auth_Result extends Zend_Auth_Result
      */
     public function __construct($code, $login, $token_auth, array $messages = array())
     {
-        // Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, Piwik_Auth_Result::SUCCESS, Piwik_Auth_Result::FAILURE
+        // AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, AuthResult::SUCCESS, AuthResult::FAILURE
         $this->_code = (int)$code;
         $this->_identity = $login;
         $this->_messages = $messages;

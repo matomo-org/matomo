@@ -5,6 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Piwik;
+use Piwik\Access;
+use Piwik\AssetManager;
 
 /**
  * Tests UI code by grabbing screenshots of webpages and comparing with expected files.
@@ -24,7 +27,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
     
     public static function createAccessInstance()
     {
-        Piwik_Access::setSingletonInstance($access = new Test_Piwik_Access_OverrideLogin());
+        Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
         Piwik_PostEvent('FrontController.initAuthenticationObject');
     }
     
@@ -39,7 +42,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         
         parent::setUpBeforeClass();
         
-        Piwik_AssetManager::removeMergedAssets();
+        AssetManager::removeMergedAssets();
         
         // launch archiving so tests don't run out of time
         Piwik_VisitsSummary_API::getInstance()->get(self::$fixture->idSite, 'year', '2012-08-09');
@@ -75,8 +78,8 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
     {
         parent::tearDown();
         
-        Zend_Registry::get('db')->closeConnection();
-        Zend_Registry::set('db', false);
+        \Zend_Registry::get('db')->closeConnection();
+        \Zend_Registry::set('db', false);
     }
     
     public function getUrlsForTesting()
@@ -86,7 +89,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         $urlBase = 'module=CoreHome&action=index&' . $generalParams;
         $widgetizeParams = "module=Widgetize&action=iframe";
         $segment = urlencode("browserCode==FF");
-        
+
         return array(
             // dashboard
             array('dashboard1', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=1"),
@@ -138,6 +141,15 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
             array("widgetize_goals_table",
                   "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
                 . "&viewDataTable=tableGoals"),
+            array("widgetize_goals_table_ecommerce",
+                  "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
+                . "&viewDataTable=tableGoals&idGoal=ecommerceOrder"),
+            array("widgetize_goals_table_single",
+                  "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
+                . "&viewDataTable=tableGoals&idGoal=1"),
+            array("widgetize_goals_table_full",
+                  "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
+                . "&viewDataTable=tableGoals&idGoal=0"),
             array("widgetize_all_columns_table",
                   "?$widgetizeParams&$generalParams&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry"
                 . "&viewDataTable=tableAllColumns"),
@@ -198,7 +210,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
     {
         $url = self::getProxyUrl() . $urlQuery;
         
-        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=500 2>&1";
+        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=1000 2>&1";
         if (self::$useXvfb) {
             $cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24" ' . $cmd;
         }

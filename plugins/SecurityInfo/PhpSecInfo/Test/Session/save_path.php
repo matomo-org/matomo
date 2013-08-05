@@ -50,7 +50,7 @@ class PhpSecInfo_Test_Session_Save_Path extends PhpSecInfo_Test_Session
      * We are disabling this function on Windows OSes right now until
      * we can be certain of the proper way to check world-readability
      *
-     * @return unknown
+     * @return bool
      */
     function isTestable()
     {

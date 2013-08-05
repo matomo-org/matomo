@@ -8,6 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
+use Piwik\API\Request;
+use Piwik\Piwik;
+use Piwik\SegmentExpression;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
@@ -41,7 +44,7 @@ class Piwik_VisitFrequency_API
             'format'    => 'original',
             'serialize' => 0 // tests set this to 1
         );
-        $table = Piwik_API_Request::processRequest('VisitsSummary.get', $params);
+        $table = Request::processRequest('VisitsSummary.get', $params);
         $this->prefixColumns($table, $period);
         return $table;
     }
@@ -51,7 +54,7 @@ class Piwik_VisitFrequency_API
         if (empty($segment)) {
             $segment = '';
         } else {
-            $segment .= Piwik_SegmentExpression::AND_DELIMITER;
+            $segment .= SegmentExpression::AND_DELIMITER;
         }
         $segment .= self::RETURNING_VISITOR_SEGMENT;
         return $segment;

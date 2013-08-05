@@ -8,11 +8,12 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_9_3_b10 extends Piwik_Updates
+class Piwik_Updates_1_9_3_b10 extends Updates
 {
     static function isMajorUpdate()
     {
@@ -22,7 +23,7 @@ class Piwik_Updates_1_9_3_b10 extends Piwik_Updates
     static function update()
     {
         try {
-            Piwik_PluginsManager::getInstance()->activatePlugin('Annotations');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('Annotations');
         } catch (Exception $e) {
             // pass
         }

@@ -5,12 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
+use Piwik\AuthResult;
+
 class AccessTest extends DatabaseTestCase
 {
     public function setUp()
     {
         parent::setUp();
-        Piwik_Access::setSingletonInstance(null);
+        Access::setSingletonInstance(null);
     }
 
     /**
@@ -19,7 +22,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testGetListAccess()
     {
-        $accessList = Piwik_Access::getListAccess();
+        $accessList = Access::getListAccess();
         $shouldBe = array('noaccess', 'view', 'admin', 'superuser');
         $this->assertEquals($shouldBe, $accessList);
     }
@@ -30,7 +33,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testGetTokenAuthWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $this->assertNull($access->getTokenAuth());
     }
 
@@ -40,7 +43,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testGetLoginWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $this->assertNull($access->getLogin());
     }
 
@@ -50,7 +53,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testIsSuperUserWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $this->assertFalse($access->isSuperUser());
     }
 
@@ -60,7 +63,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testIsSuperUserWithSuperUserAccess()
     {
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
         $this->assertTrue($access->isSuperUser());
     }
@@ -71,7 +74,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testIsSuperUserWithNoSuperUserAccess()
     {
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(false);
         $this->assertFalse($access->isSuperUser());
     }
@@ -82,7 +85,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testGetSitesIdWithAtLeastViewAccessWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $this->assertEmpty($access->getSitesIdWithAtLeastViewAccess());
     }
 
@@ -92,7 +95,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testGetSitesIdWithAdminAccessWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $this->assertEmpty($access->getSitesIdWithAdminAccess());
     }
 
@@ -102,18 +105,18 @@ class AccessTest extends DatabaseTestCase
      */
     public function testGetSitesIdWithViewAccessWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $this->assertEmpty($access->getSitesIdWithViewAccess());
     }
 
     /**
      * @group Core
      * @group Access
-     * @expectedException Piwik_Access_NoAccessException
+     * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserIsSuperUserWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $access->checkUserIsSuperUser();
     }
 
@@ -123,7 +126,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserIsSuperUserWithSuperUserAccess()
     {
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserIsSuperUser();
     }
@@ -131,11 +134,11 @@ class AccessTest extends DatabaseTestCase
     /**
      * @group Core
      * @group Access
-     * @expectedException Piwik_Access_NoAccessException
+     * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasSomeAdminAccessWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $access->checkUserHasSomeAdminAccess();
     }
 
@@ -145,7 +148,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasSomeAdminAccessWithSuperUserAccess()
     {
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserHasSomeAdminAccess();
     }
@@ -157,13 +160,13 @@ class AccessTest extends DatabaseTestCase
     public function testCheckUserHasSomeAdminAccessWithSomeAccess()
     {
         $mock = $this->getMock(
-            'Piwik_Access',
+            'Piwik\Access',
             array('getSitesIdWithAdminAccess')
         );
 
         $mock->expects($this->once())
-            ->method('getSitesIdWithAdminAccess')
-            ->will($this->returnValue(array(2, 9)));
+             ->method('getSitesIdWithAdminAccess')
+             ->will($this->returnValue(array(2, 9)));
 
         $mock->checkUserHasSomeAdminAccess();
     }
@@ -171,11 +174,11 @@ class AccessTest extends DatabaseTestCase
     /**
      * @group Core
      * @group Access
-     * @expectedException Piwik_Access_NoAccessException
+     * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasSomeViewAccessWithEmptyAccess()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $access->checkUserHasSomeViewAccess();
     }
 
@@ -185,7 +188,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasSomeViewAccessWithSuperUserAccess()
     {
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserHasSomeViewAccess();
     }
@@ -197,7 +200,7 @@ class AccessTest extends DatabaseTestCase
     public function testCheckUserHasSomeViewAccessWithSomeAccess()
     {
         $mock = $this->getMock(
-            'Piwik_Access',
+            'Piwik\Access',
             array('getSitesIdWithAtLeastViewAccess')
         );
 
@@ -211,11 +214,11 @@ class AccessTest extends DatabaseTestCase
     /**
      * @group Core
      * @group Access
-     * @expectedException Piwik_Access_NoAccessException
+     * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $access->checkUserHasViewAccess(array());
     }
 
@@ -225,7 +228,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasViewAccessWithSuperUserAccess()
     {
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserHasViewAccess(array());
     }
@@ -237,7 +240,7 @@ class AccessTest extends DatabaseTestCase
     public function testCheckUserHasViewAccessWithSomeAccessSuccessIdSitesAsString()
     {
         $mock = $this->getMock(
-            'Piwik_Access',
+            'Piwik\Access',
             array('getSitesIdWithAtLeastViewAccess')
         );
 
@@ -255,7 +258,7 @@ class AccessTest extends DatabaseTestCase
     public function testCheckUserHasViewAccessWithSomeAccessSuccessAllSites()
     {
         $mock = $this->getMock(
-            'Piwik_Access',
+            'Piwik\Access',
             array('getSitesIdWithAtLeastViewAccess')
         );
 
@@ -269,12 +272,12 @@ class AccessTest extends DatabaseTestCase
     /**
      * @group Core
      * @group Access
-     * @expectedException Piwik_Access_NoAccessException
+     * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithSomeAccessFailure()
     {
         $mock = $this->getMock(
-            'Piwik_Access',
+            'Piwik\Access',
             array('getSitesIdWithAtLeastViewAccess')
         );
 
@@ -291,7 +294,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasAdminAccessWithSuperUserAccess()
     {
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserHasAdminAccess(array());
     }
@@ -299,11 +302,11 @@ class AccessTest extends DatabaseTestCase
     /**
      * @group Core
      * @group Access
-     * @expectedException Piwik_Access_NoAccessException
+     * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $access->checkUserHasViewAccess(array());
     }
 
@@ -314,7 +317,7 @@ class AccessTest extends DatabaseTestCase
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessIdSitesAsString()
     {
         $mock = $this->getMock(
-            'Piwik_Access',
+            'Piwik\Access',
             array('getSitesIdWithAdminAccess')
         );
 
@@ -332,7 +335,7 @@ class AccessTest extends DatabaseTestCase
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessAllSites()
     {
         $mock = $this->getMock(
-            'Piwik_Access',
+            'Piwik\Access',
             array('getSitesIdWithAdminAccess', 'getSitesIdWithAtLeastViewAccess')
         );
 
@@ -350,12 +353,12 @@ class AccessTest extends DatabaseTestCase
     /**
      * @group Core
      * @group Access
-     * @expectedException Piwik_Access_NoAccessException
+     * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasAdminAccessWithSomeAccessFailure()
     {
         $mock = $this->getMock(
-            'Piwik_Access',
+            'Piwik\Access',
             array('getSitesIdWithAdminAccess')
         );
 
@@ -372,7 +375,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testReloadAccessWithEmptyAuth()
     {
-        $access = new Piwik_Access();
+        $access = new Access();
         $this->assertFalse($access->reloadAccess(null));
     }
 
@@ -382,7 +385,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testReloadAccessWithEmptyAuthSuperUser()
     {
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
         $this->assertTrue($access->reloadAccess(null));
     }
@@ -396,9 +399,9 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
         $mock->expects($this->once())
             ->method('authenticate')
-            ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, 'login', 'token')));
+            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'login', 'token')));
 
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertFalse($access->isSuperUser());
     }
@@ -412,9 +415,9 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
         $mock->expects($this->once())
             ->method('authenticate')
-            ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, 'superuser', 'superusertoken')));
+            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'superuser', 'superusertoken')));
 
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertTrue($access->isSuperUser());
     }
@@ -428,9 +431,9 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
         $mock->expects($this->once())
             ->method('authenticate')
-            ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::FAILURE_CREDENTIAL_INVALID, null, null)));
+            ->will($this->returnValue(new AuthResult(AuthResult::FAILURE_CREDENTIAL_INVALID, null, null)));
 
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $this->assertFalse($access->reloadAccess($mock));
     }
 

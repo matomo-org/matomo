@@ -73,7 +73,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
      * @param string $message Main message, must be html encoded before calling
      * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
      * @param bool $optionalLinks If true, will show links to the Piwik website for help
-     * @param bool $goBack if true, displays a link to go back
+     * @param bool $optionalLinkBack If true, displays a link to go back
      */
     function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false)
     {

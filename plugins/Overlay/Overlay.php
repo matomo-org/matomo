@@ -9,7 +9,9 @@
  * @package Piwik_Overlay
  */
 
-class Piwik_Overlay extends Piwik_Plugin
+use Piwik\Plugin;
+
+class Piwik_Overlay extends Plugin
 {
     public function getInformation()
     {

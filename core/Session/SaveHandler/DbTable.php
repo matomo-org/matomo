@@ -9,13 +9,18 @@
  * @package Piwik
  */
 
+namespace Piwik\Session\SaveHandler;
+
+use Zend_Session;
+use Zend_Session_SaveHandler_Interface;
+
 /**
  * Database-backed session save handler
  *
  * @package Piwik
- * @subpackage Piwik_Session
+ * @subpackage Session
  */
-class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Interface
+class DbTable implements Zend_Session_SaveHandler_Interface
 {
     protected $config;
     protected $maxLifetime;
@@ -129,7 +134,7 @@ class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Inte
      * than $maxlifetime (in seconds)
      *
      * @param int $maxlifetime  timestamp in seconds
-     * @return true
+     * @return bool  always true
      */
     public function gc($maxlifetime)
     {

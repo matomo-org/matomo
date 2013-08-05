@@ -8,11 +8,15 @@
  * @category Piwik_Plugins
  * @package Piwik_SegmentEditor
  */
+use Piwik\Common;
+use Piwik\Version;
+use Piwik\Plugin;
+use Piwik\Db;
 
 /**
  * @package Piwik_SegmentEditor
  */
-class Piwik_SegmentEditor extends Piwik_Plugin
+class Piwik_SegmentEditor extends Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation
@@ -23,7 +27,7 @@ class Piwik_SegmentEditor extends Piwik_Plugin
             'description'     => 'Create and reuse custom visitor Segments with the Segment Editor.',
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
+            'version'         => Version::VERSION,
         );
     }
 
@@ -67,7 +71,7 @@ class Piwik_SegmentEditor extends Piwik_Plugin
 
     public function install()
     {
-        $queries[] = 'CREATE TABLE `' . Piwik_Common::prefixTable('segment') . '` (
+        $queries[] = 'CREATE TABLE `' . Common::prefixTable('segment') . '` (
 					`idsegment` INT(11) NOT NULL AUTO_INCREMENT,
 					`name` VARCHAR(255) NOT NULL,
 					`definition` TEXT NOT NULL,
@@ -82,7 +86,7 @@ class Piwik_SegmentEditor extends Piwik_Plugin
 				) DEFAULT CHARSET=utf8';
         try {
             foreach ($queries as $query) {
-                Piwik_Exec($query);
+                Db::exec($query);
             }
         } catch (Exception $e) {
             if (!Zend_Registry::get('db')->isErrNo($e, '1050')) {

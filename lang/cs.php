@@ -372,6 +372,7 @@ $translations = array(
 	'Actions_ColumnSearchesDocumentation' => 'Počet uživatelů, kteří hledali tyto klíčová slova ve vyhledavači na Vašich stránkách.',
 	'Actions_ColumnSearchExits' => '% Nalezených výstupů',
 	'Actions_ColumnPagesPerSearch' => 'Stránka hledaných výsledků',
+	'Actions_AvgGenerationTimeTooltip' => 'Průměr dle %s přístupů %s mezi %s a %s',
 	'AnonymizeIP_PluginDescription' => 'Skryje poslední byte IP adresy návštěvníka, aby souhlasila se zákony vaší země.',
 	'API_PluginDescription' => 'Všechna data v Piwiku jsou dostupná přes jednoduchá API. Tento zásuvný modul je vstupním bodem pro webovou službu, kterou můžete volat abyste získali data ve formátech xml, json, php, csv, atd.',
 	'API_QuickDocumentationTitle' => 'Rychlá dokumentace API',

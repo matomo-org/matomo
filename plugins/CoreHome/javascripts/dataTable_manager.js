@@ -131,7 +131,7 @@
             // render the graph (setTimeout is required, otherwise the graph will not
             // render initially)
             setTimeout(function () {
-                plot.render(graphElement.attr('data-graph-type'), graphId, {
+                plot.render(graphId, {
                     noData: _pk_translate('General_NoDataForGraph_js'),
                     exportTitle: _pk_translate('General_ExportAsImage_js'),
                     exportText: _pk_translate('General_SaveImageOnYourComputer_js'),

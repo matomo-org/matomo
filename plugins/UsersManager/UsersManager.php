@@ -8,13 +8,16 @@
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
  */
+use Piwik\Piwik;
+use Piwik\Option;
+use Piwik\Plugin;
 
 /**
  * Manage Piwik users
  *
  * @package Piwik_UsersManager
  */
-class Piwik_UsersManager extends Piwik_Plugin
+class Piwik_UsersManager extends Plugin
 {
     const PASSWORD_MIN_LENGTH = 6;
     const PASSWORD_MAX_LENGTH = 26;
@@ -59,7 +62,7 @@ class Piwik_UsersManager extends Piwik_Plugin
      */
     public function deleteSite(&$idSite)
     {
-        Piwik_Option::getInstance()->deleteLike('%\_' . Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
+        Option::getInstance()->deleteLike('%\_' . Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
     /**
@@ -99,7 +102,7 @@ class Piwik_UsersManager extends Piwik_Plugin
     /**
      * Returns true if the password is complex enough (at least 6 characters and max 26 characters)
      *
-     * @param string email
+     * @param $input string
      * @return bool
      */
     public static function isValidPasswordString($input)

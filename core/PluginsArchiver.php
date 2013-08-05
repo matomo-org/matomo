@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Piwik - Open source web analytics
  *
@@ -10,16 +9,23 @@
  * @package Piwik_PluginArchiver
  */
 
+namespace Piwik;
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Day;
+use Piwik\DataAccess\LogAggregator;
+
 /**
  * Plugins that archive metrics for websites can implement an Archiver that extends this class
  */
-abstract class Piwik_PluginsArchiver
+abstract class PluginsArchiver
 {
     protected $processor;
 
-    public function __construct(Piwik_ArchiveProcessor $processing)
+    public function __construct(ArchiveProcessor $processing)
     {
-        $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
+        $this->maximumRows = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processing;
     }
 
@@ -30,13 +36,13 @@ abstract class Piwik_PluginsArchiver
     // todo: review this concept, each plugin should somehow maintain the list of report names they generate
     public function shouldArchive()
     {
-        $pluginName = Piwik_Common::unprefixClass(get_class($this));
+        $pluginName = Common::unprefixClass(get_class($this));
         $pluginName = str_replace("_Archiver", "", $pluginName);
         return $this->getProcessor()->shouldProcessReportsForPlugin($pluginName);
     }
 
     /**
-     * @return Piwik_ArchiveProcessor_Day|Piwik_ArchiveProcessor_Period
+     * @return Day|Period
      */
     protected function getProcessor()
     {
@@ -44,7 +50,7 @@ abstract class Piwik_PluginsArchiver
     }
 
     /**
-     * @return Piwik_DataAccess_LogAggregator
+     * @return \Piwik\DataAccess\LogAggregator
      */
     protected function getLogAggregator()
     {

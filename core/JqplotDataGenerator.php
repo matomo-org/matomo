@@ -9,54 +9,63 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
+use Exception;
+use Piwik\Common;
+use Piwik\Metrics;
+use Piwik\DataTable;
+use Piwik\Visualization;
+
 /**
  * Generates JSON data used to configure and populate JQPlot graphs.
- * 
+ *
  * Supports pie graphs, bar graphs and time serieses (aka, evolution graphs).
  */
-class Piwik_JqplotDataGenerator
+class JqplotDataGenerator
 {
     /**
      * View properties. @see Piwik_ViewDataTable for more info.
-     * 
+     *
      * @var array
      */
     protected $properties;
-    
+
     /**
      * This object does most of the work in generating the JQPlot JSON data.
-     * 
-     * @var Piwik_Visualization
+     *
+     * @var Visualization\
      */
     protected $visualization;
-    
+
     /**
      * Creates a new JqplotDataGenerator instance for a graph type and view properties.
-     * 
+     *
      * @param string $type 'pie', 'bar', or 'evolution'
      * @param array $properties The view properties.
-     * @return Piwik_JqplotDataGenerator
+     * @throws \Exception
+     * @return \Piwik\JqplotDataGenerator
      */
     public static function factory($type, $properties)
     {
         switch ($type) {
             case 'evolution':
-                return new Piwik_JqplotDataGenerator_Evolution($properties);
+                return new JqplotDataGenerator\Evolution($properties);
             case 'pie':
-                $visualization = new Piwik_Visualization_Chart_Pie();
-                return new Piwik_JqplotDataGenerator($visualization, $properties);
+                $visualization = new Visualization\Chart\Pie();
+                return new JqplotDataGenerator($visualization, $properties);
             case 'bar':
-                $visualization = new Piwik_Visualization_Chart_VerticalBar();
-                return new Piwik_JqplotDataGenerator($visualization, $properties);
+                $visualization = new Visualization\Chart\VerticalBar();
+                return new JqplotDataGenerator($visualization, $properties);
             default:
                 throw new Exception("Unknown JqplotDataGenerator type '$type'.");
         }
     }
-    
+
     /**
      * Constructor.
-     * 
-     * @param Piwik_Visualization $visualization
+     *
+     * @param Visualization\ $visualization
      * @param array $properties
      */
     public function __construct($visualization, $properties)
@@ -64,11 +73,11 @@ class Piwik_JqplotDataGenerator
         $this->visualization = $visualization;
         $this->properties = $properties;
     }
-    
+
     /**
      * Generates JSON graph data and returns it.
-     * 
-     * @param Piwik_DataTable|Piwik_DataTable_Array $dataTable
+     *
+     * @param DataTable|DataTable\Map $dataTable
      * @return string
      */
     public function generate($dataTable)
@@ -76,9 +85,9 @@ class Piwik_JqplotDataGenerator
         if (!empty($this->properties['graph_limit'])) {
             $offsetStartSummary = $this->properties['graph_limit'] - 1;
             $sortColumn = !empty($this->properties['filter_sort_column'])
-                        ? $this->properties['filter_sort_column']
-                        : Piwik_Metrics::INDEX_NB_VISITS;
-            
+                ? $this->properties['filter_sort_column']
+                : Metrics::INDEX_NB_VISITS;
+
             $dataTable->filter(
                 'AddSummaryRow', array($offsetStartSummary, Piwik_Translate('General_Others'), $sortColumn));
         }
@@ -89,15 +98,18 @@ class Piwik_JqplotDataGenerator
             if (!empty($this->properties['add_total_row'])) {
                 $dataTable->queueFilter('AddSummaryRow', array(0, Piwik_Translate('General_Total'), null, false));
             }
-            
+
             $this->initChartObjectData($dataTable);
         }
-        
+
         $this->visualization->customizeChartProperties();
-        
+
         return $this->visualization->render();
     }
 
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     */
     protected function initChartObjectData($dataTable)
     {
         $dataTable->applyQueuedFilters();
@@ -106,7 +118,7 @@ class Piwik_JqplotDataGenerator
         $dataTable->filter('ColumnCallbackReplace', array('label', 'urldecode'));
 
         $xLabels = $dataTable->getColumn('label');
-        
+
         $columnNames = $this->properties['columns_to_display'];
         if (($labelColumnIndex = array_search('label', $columnNames)) !== false) {
             unset($columnNames[$labelColumnIndex]);
@@ -115,10 +127,10 @@ class Piwik_JqplotDataGenerator
         $columnNameToTranslation = $columnNameToValue = array();
         foreach ($columnNames as $columnName) {
             $columnNameToTranslation[$columnName] = @$this->properties['translations'][$columnName];
-            
+
             $columnNameToValue[$columnName] = $dataTable->getColumn($columnName);
         }
-        
+
         $visualization = $this->visualization;
         $visualization->setAxisXLabels($xLabels);
         $visualization->setAxisYValues($columnNameToValue);
@@ -147,23 +159,23 @@ class Piwik_JqplotDataGenerator
                 $unit = $this->properties['y_axis_unit'];
             }
         }
-        
+
         // the bar charts contain the labels a first series
         // this series has to be removed from the units
-        if ($this->visualization instanceof Piwik_Visualization_Chart_VerticalBar) {
+        if ($this->visualization instanceof Visualization\Chart\VerticalBar) {
             array_shift($units);
         }
-        
+
         return $units;
     }
 
     private function deriveUnitsFromRequestedColumnNames()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-        
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+
         $units = array();
         foreach ($this->properties['columns_to_display'] as $columnName) {
-            $derivedUnit = Piwik_Metrics::getUnit($columnName, $idSite);
+            $derivedUnit = Metrics::getUnit($columnName, $idSite);
             $units[$columnName] = empty($derivedUnit) ? false : $derivedUnit;
         }
         return $units;
@@ -171,12 +183,11 @@ class Piwik_JqplotDataGenerator
 
     /**
      * Used in initChartObjectData to add the series picker config to the view object
-     * @param bool $multiSelect
      */
     protected function addSeriesPickerToView()
     {
         if (count($this->properties['selectable_columns'])
-            && Piwik_Common::getRequestVar('showSeriesPicker', 1) == 1
+            && Common::getRequestVar('showSeriesPicker', $this->properties['show_series_picker']) == 1
         ) {
             $selectableColumns = array();
             foreach ($this->properties['selectable_columns'] as $column) {
@@ -186,7 +197,7 @@ class Piwik_JqplotDataGenerator
                     'displayed'   => in_array($column, $this->properties['columns_to_display'])
                 );
             }
-            
+
             $this->visualization->setSelectableColumns(
                 $selectableColumns, $this->properties['allow_multi_select_series_picker']);
         }

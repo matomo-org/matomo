@@ -5,6 +5,9 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Common;
+use Piwik\TranslationWriter;
+
 require_once 'LanguagesManager/API.php';
 
 class Test_LanguagesManager extends PHPUnit_Framework_TestCase
@@ -24,8 +27,8 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
 
     function getTestDataForLanguageFiles()
     {
-        self::$allLanguages = Piwik_Common::getLanguagesList();
-        self::$allCountries = Piwik_Common::getCountriesList();
+        self::$allLanguages = Common::getLanguagesList();
+        self::$allCountries = Common::getCountriesList();
         self::$englishStringsWithParameters = array();
         self::$englishStringsIndexed = array();
         self::$expectedLanguageKeys = array();
@@ -154,7 +157,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
             }
             if (isset($cleanedStrings[$stringLabel])) {
                 $currentString = $cleanedStrings[$stringLabel];
-                $decoded = Piwik_TranslationWriter::clean($currentString);
+                $decoded = TranslationWriter::clean($currentString);
                 if ($currentString != $decoded) {
                     self::$errors[] = "$language: found encoded entities in $stringLabel, converting entities to characters";
                     $writeCleanedFile = true;
@@ -172,12 +175,12 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
             self::$errors[] = "$language: General_LayoutDirection must be rtl or ltr";
         }
         if ($writeCleanedFile) {
-            $path = Piwik_TranslationWriter::getTranslationPath($language, 'tmp');
+            $path = TranslationWriter::getTranslationPath($language, 'tmp');
 
             // Reorder cleaned up translations as the same order as en.php
             uksort($cleanedStrings, array($this, 'sortTranslationsKeys'));
 
-            Piwik_TranslationWriter::saveTranslation($cleanedStrings, $path);
+            TranslationWriter::saveTranslation($cleanedStrings, $path);
             $output[] = (implode("\n", self::$errors) . "\n" . 'Translation file errors detected in ' . $language . '...
                     Wrote cleaned translation file in: ' . $path . ".
                     You can copy the cleaned files to /lang/\n");
@@ -281,7 +284,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      */
     function testGetLanguagesList()
     {
-        $languages = Piwik_Common::getLanguagesList();
+        $languages = Common::getLanguagesList();
         $this->assertTrue(count($languages) > 0);
         foreach ($languages as $langCode => $langs) {
             $this->assertTrue(strlen($langCode) == 2, "$langCode length = 2");

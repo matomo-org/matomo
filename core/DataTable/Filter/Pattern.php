@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Delete all rows for which the given $columnToFilter do not contain the $patternToSearch
@@ -15,9 +19,9 @@
  * Example: from the keyword report, keep only the rows for which the label contains "piwik"
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
+class Pattern extends Filter
 {
     private $columnToFilter;
     private $patternToSearch;
@@ -25,7 +29,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
     private $invertedMatch;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string $columnToFilter
      * @param string $patternToSearch
      * @param bool $invertedMatch
@@ -65,7 +69,7 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
     }
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {

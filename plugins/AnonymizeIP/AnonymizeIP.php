@@ -8,13 +8,17 @@
  * @category Piwik_Plugins
  * @package Piwik_AnonymizeIP
  */
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\Version;
+use Piwik\Plugin;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
  *
  * @package Piwik_AnonymizeIP
  */
-class Piwik_AnonymizeIP extends Piwik_Plugin
+class Piwik_AnonymizeIP extends Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation
@@ -25,7 +29,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
             'description'     => Piwik_Translate('AnonymizeIP_PluginDescription'),
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
+            'version'         => Version::VERSION,
         );
     }
 
@@ -48,7 +52,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
      */
     static public function applyIPMask($ip, $maskLength)
     {
-        $i = Piwik_Common::strlen($ip);
+        $i = Common::strlen($ip);
         if ($maskLength > $i) {
             $maskLength = $i;
         }
@@ -65,6 +69,6 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
      */
     public function setVisitorIpAddress(&$ip)
     {
-        $ip = self::applyIPMask($ip, Piwik_Config::getInstance()->Tracker['ip_address_mask_length']);
+        $ip = self::applyIPMask($ip, Config::getInstance()->Tracker['ip_address_mask_length']);
     }
 }

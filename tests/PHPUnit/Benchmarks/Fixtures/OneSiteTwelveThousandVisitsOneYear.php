@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Reusable fixture. Tracks twelve thousand page views over a year for one site.
@@ -36,7 +37,7 @@ class Piwik_Test_Fixture_OneSiteTwelveThousandVisitsOneYear
         }
 
         $visitTimes = array();
-        $date = Piwik_Date::factory($this->date);
+        $date = Date::factory($this->date);
         for ($month = 0; $month != 12; ++$month) {
             for ($day = 0; $day != 25; ++$day) {
                 $visitTimes[] = $date->addPeriod($month, 'MONTH')->addDay($day)->getDatetime();

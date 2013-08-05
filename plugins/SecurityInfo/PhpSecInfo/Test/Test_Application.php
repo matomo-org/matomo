@@ -5,6 +5,7 @@
  * @package PhpSecInfo
  * @author Anthon Pang
  */
+use Piwik\Http;
 
 /**
  * require the main PhpSecInfo class
@@ -36,7 +37,7 @@ class PhpSecInfo_Test_Application extends PhpSecInfo_Test
      */
     function isTestable()
     {
-        return Piwik_Http::getTransportMethod() !== null;
+        return Http::getTransportMethod() !== null;
     }
 
     function getMoreInfoURL()

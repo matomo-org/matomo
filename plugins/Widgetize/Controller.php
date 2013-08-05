@@ -8,24 +8,30 @@
  * @category Piwik_Plugins
  * @package Piwik_Widgetize
  */
+use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Controller;
+use Piwik\FrontController;
+use Piwik\View;
+use Piwik\WidgetsList;
 
 /**
  *
  * @package Piwik_Widgetize
  */
-class Piwik_Widgetize_Controller extends Piwik_Controller
+class Piwik_Widgetize_Controller extends Controller
 {
     public function index()
     {
-        $view = new Piwik_View('@Widgetize/index');
-        $view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
+        $view = new View('@Widgetize/index');
+        $view->availableWidgets = Common::json_encode(WidgetsList::get());
         $this->setGeneralVariablesView($view);
         echo $view->render();
     }
 
     public function testJsInclude1()
     {
-        $view = new Piwik_View('@Widgetize/testJsInclude1');
+        $view = new View('@Widgetize/testJsInclude1');
         $view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
         $view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=API&actionToWidgetize=index&method=ExamplePlugin.getGoldenRatio&format=original';
         echo $view->render();
@@ -33,7 +39,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 
     public function testJsInclude2()
     {
-        $view = new Piwik_View('@Widgetize/testJsInclude2');
+        $view = new View('@Widgetize/testJsInclude2');
         $view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
         $view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&idSite=1&period=day&date=yesterday&viewDataTable=cloud&show_footer=0';
         $view->url3 = '?module=Widgetize&action=js&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=table&show_footer=0';
@@ -42,16 +48,16 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 
     public function iframe()
     {
-        Piwik_API_Request::reloadAuthUsingTokenAuth();
+        Request::reloadAuthUsingTokenAuth();
         $this->init();
-        $controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
-        $actionName = Piwik_Common::getRequestVar('actionToWidgetize');
+        $controllerName = Common::getRequestVar('moduleToWidgetize');
+        $actionName = Common::getRequestVar('actionToWidgetize');
         $parameters = array($fetch = true);
-        $outputDataTable = Piwik_FrontController::getInstance()->fetchDispatch($controllerName, $actionName, $parameters);
+        $outputDataTable = FrontController::getInstance()->fetchDispatch($controllerName, $actionName, $parameters);
         if ($controllerName == 'Dashboard' && $actionName == 'index') {
-            $view = new Piwik_View('@Widgetize/iframe_empty');
+            $view = new View('@Widgetize/iframe_empty');
         } else {
-            $view = new Piwik_View('@Widgetize/iframe');
+            $view = new View('@Widgetize/iframe');
         }
         $this->setGeneralVariablesView($view);
         $view->setXFrameOptions('allow');

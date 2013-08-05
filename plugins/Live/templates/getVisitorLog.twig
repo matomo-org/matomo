@@ -2,12 +2,12 @@
      data-report="{{ properties.report_id }}"
      data-params="{{ javascriptVariablesToSet|json_encode }}">
 
-{% if reportDocumentation is not empty %}
-    <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
+{% if properties.documentation|default is not empty %}
+    <div class="reportDocumentation"><p>{{ properties.documentation|raw }}</p></div>
 {% endif %}
 {% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
 
-<span data-graph-id="VisitsSummarygetEvolutionGraph"></span>
+<span data-graph-id="VisitsSummary.getEvolutionGraph"></span>
 
 {% if error is defined %}
     {{ error.message }}
@@ -332,7 +332,7 @@
                     $(this).val(counter);
                     var current = $(this).html();
                     if (current == prevhtml) {
-                        var repeat = prevelement.find(".repeat")
+                        var repeat = prevelement.find(".repeat");
                         if (repeat.length) {
                             repeat.html((parseInt(repeat.html()) + 1) + "x");
                         } else {

@@ -9,11 +9,15 @@
  * @package Piwik
  */
 
+namespace Piwik\Db;
+
+use Exception;
+
 /**
  * @package Piwik
  * @subpackage Piwik_Db
  */
-interface Piwik_Db_Adapter_Interface
+interface AdapterInterface
 {
     /**
      * Reset the configuration variables in this adapter.

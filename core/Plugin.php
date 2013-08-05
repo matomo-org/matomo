@@ -8,51 +8,54 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+use Piwik\Common;
+use Piwik\Plugin\MetadataLoader;
 
 /**
- * @see core/Plugin/MetadataLoader.php
+ * @see Piwik\Plugin\MetadataLoader
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
 
 /**
- * Abstract class to define a Piwik_Plugin.
+ * Abstract class to define a Plugin.
  * Any plugin has to at least implement the abstract methods of this class.
  *
  * @package Piwik
  */
-class Piwik_Plugin
+class Plugin
 {
     /**
      * Name of this plugin.
-     * 
+     *
      * @var string
      */
     protected $pluginName;
-    
+
     /**
      * Holds plugin metadata.
-     * 
+     *
      * @var array
      */
     private $pluginInformation;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
      *                                to last part of the class name.
      */
     public function __construct($pluginName = false)
     {
         if (empty($pluginName)) {
-            $pluginName = Piwik_Common::unprefixClass(get_class($this));
+            $pluginName = Common::unprefixClass(get_class($this));
         }
         $this->pluginName = $pluginName;
-        
-        $metadataLoader = new Piwik_Plugin_MetadataLoader($pluginName);
+
+        $metadataLoader = new MetadataLoader($pluginName);
         $this->pluginInformation = $metadataLoader->load();
     }
-    
+
     /**
      * Returns the plugin details
      * - 'description' => string        // 1-2 sentence description of the plugin
@@ -61,7 +64,7 @@ class Piwik_Plugin
      * - 'homepage' => string           // plugin homepage URL
      * - 'license' => string            // plugin license
      * - 'license_homepage' => string   // license homepage URL
-     * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION; 3rd party plugins must increment the version number with each plugin release
+     * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Version::VERSION; 3rd party plugins must increment the version number with each plugin release
      * - 'theme' => bool                // Whether this plugin is a theme (a theme is a plugin, but a plugin is not necessarily a theme)
      *
      * @return array

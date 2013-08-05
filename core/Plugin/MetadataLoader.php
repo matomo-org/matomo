@@ -8,6 +8,12 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Plugin;
+
+use Exception;
+use Piwik\Common;
+use Piwik\Version;
+use Piwik\PluginsManager;
 
 /**
  * @see core/Version.php
@@ -18,20 +24,20 @@ require_once PIWIK_INCLUDE_PATH . '/core/Version.php';
  * Loads plugin metadata found in the following files:
  * - plugin.piwik.json
  */
-class Piwik_Plugin_MetadataLoader
+class MetadataLoader
 {
     const PLUGIN_JSON_FILENAME = 'plugin.piwik.json';
     
     /**
      * The name of the plugin whose metadata will be loaded.
-     * 
+     *
      * @var string
      */
     private $pluginName;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param string $pluginName Name of the plugin to load metadata.
      */
     public function __construct($pluginName)
@@ -40,8 +46,8 @@ class Piwik_Plugin_MetadataLoader
     }
 
     /**
-     * Loads plugin metadata. @see Piwik_Plugin::getInformation.
-     * 
+     * Loads plugin metadata. @see Plugin::getInformation.
+     *
      * @return array
      */
     public function load()
@@ -51,7 +57,7 @@ class Piwik_Plugin_MetadataLoader
             $this->loadPluginInfoJson()
         );
     }
-    
+
     private function getDefaultPluginInformation()
     {
         $descriptionKey = $this->pluginName . '_PluginDescription';
@@ -62,29 +68,29 @@ class Piwik_Plugin_MetadataLoader
             'author_homepage'  => 'http://piwik.org/',
             'license'          => 'GPL v3 or later',
             'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
-            'version'          => Piwik_Version::VERSION,
+            'version'          => Version::VERSION,
             'theme'            => false,
         );
     }
-    
+
     private function loadPluginInfoJson()
     {
-        $path = Piwik_PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
+        $path = PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
         return $this->loadJsonMetadata($path);
     }
-    
+
     private function loadJsonMetadata($path)
     {
         if (!file_exists($path)) {
             return array();
         }
-        
+
         $json = file_get_contents($path);
         if (!$json) {
             return array();
         }
-        
-        $info = Piwik_Common::json_decode($json, $assoc = true);
+
+        $info = Common::json_decode($json, $assoc = true);
         if (!is_array($info)
             || empty($info)
         ) {

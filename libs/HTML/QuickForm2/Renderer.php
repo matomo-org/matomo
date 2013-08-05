@@ -42,6 +42,7 @@
  * @version    SVN: $Id: Renderer.php 299706 2010-05-24 18:32:37Z avb $
  * @link       http://pear.php.net/package/HTML_QuickForm2
  */
+use Piwik\Plugin;
 
 /**
  * Class with static methods for loading classes and files

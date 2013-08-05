@@ -8,12 +8,19 @@
  * @category Piwik_Plugins
  * @package Piwik_Provider
  */
+use Piwik\Common;
+use Piwik\FrontController;
+use Piwik\IP;
+use Piwik\Plugin;
+use Piwik\ArchiveProcessor;
+use Piwik\Db;
+use Piwik\WidgetsList;
 
 /**
  *
  * @package Piwik_Provider
  */
-class Piwik_Provider extends Piwik_Plugin
+class Piwik_Provider extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -28,6 +35,7 @@ class Piwik_Provider extends Piwik_Plugin
             'Menu.add'                         => 'addMenu',
             'API.getReportMetadata'            => 'getReportMetadata',
             'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }
@@ -57,14 +65,14 @@ class Piwik_Provider extends Piwik_Plugin
         );
     }
 
-    function install()
+    public function install()
     {
         // add column hostname / hostname ext in the visit table
-        $query = "ALTER IGNORE TABLE `" . Piwik_Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR( 100 ) NULL";
+        $query = "ALTER IGNORE TABLE `" . Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR( 100 ) NULL";
 
         // if the column already exist do not throw error. Could be installed twice...
         try {
-            Piwik_Exec($query);
+            Db::exec($query);
         } catch (Exception $e) {
             if (!Zend_Registry::get('db')->isErrNo($e, '1060')) {
                 throw $e;
@@ -73,25 +81,25 @@ class Piwik_Provider extends Piwik_Plugin
 
     }
 
-    function uninstall()
+    public function uninstall()
     {
         // add column hostname / hostname ext in the visit table
-        $query = "ALTER TABLE `" . Piwik_Common::prefixTable('log_visit') . "` DROP `location_provider`";
-        Piwik_Exec($query);
+        $query = "ALTER TABLE `" . Common::prefixTable('log_visit') . "` DROP `location_provider`";
+        Db::exec($query);
     }
 
-    function addWidget()
+    public function addWidget()
     {
-        Piwik_AddWidget('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
+        WidgetsList::add('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
     }
 
-    function addMenu()
+    public function addMenu()
     {
         Piwik_RenameMenuEntry('General_Visitors', 'UserCountry_SubmenuLocations',
             'General_Visitors', 'Provider_SubmenuLocationsProvider');
     }
 
-    function postLoad()
+    public function postLoad()
     {
         Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider', 'footerUserCountry'));
     }
@@ -106,11 +114,11 @@ class Piwik_Provider extends Piwik_Plugin
             return;
         }
 
-        $ip = Piwik_IP::N2P($visitorInfo['location_ip']);
+        $ip = IP::N2P($visitorInfo['location_ip']);
 
         // In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
         if (substr($ip, -2, 2) == '.0') {
-            printDebug("IP Was anonymized so we skip the Provider DNS reverse lookup...");
+            Common::printDebug("IP Was anonymized so we skip the Provider DNS reverse lookup...");
             return;
         }
 
@@ -126,7 +134,7 @@ class Piwik_Provider extends Piwik_Plugin
         if ($hostnameDomain == 'uk') {
             $hostnameDomain = 'gb';
         }
-        if (array_key_exists($hostnameDomain, Piwik_Common::getCountriesList())) {
+        if (array_key_exists($hostnameDomain, Common::getCountriesList())) {
             $visitorInfo['location_country'] = $hostnameDomain;
         }
     }
@@ -177,21 +185,21 @@ class Piwik_Provider extends Piwik_Plugin
      */
     private function getHost($ip)
     {
-        return trim(strtolower(@Piwik_IP::getHostByAddr($ip)));
+        return trim(strtolower(@IP::getHostByAddr($ip)));
     }
 
     static public function footerUserCountry(&$out)
     {
         $out = '<div>
 			<h2>' . Piwik_Translate('Provider_WidgetProviders') . '</h2>';
-        $out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
+        $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
         $out .= '</div>';
     }
 
     /**
      * Daily archive: processes the report Visits by Provider
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_Provider_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -199,11 +207,24 @@ class Piwik_Provider extends Piwik_Plugin
         }
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_Provider_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
+    }
+
+    public function getReportDisplayProperties(&$properties)
+    {
+        $properties['Provider.getProvider'] = $this->getDisplayPropertiesForGetProvider();
+    }
+
+    private function getDisplayPropertiesForGetProvider()
+    {
+        return array(
+            'translations' => array('label' => Piwik_Translate('Provider_ColumnProvider')),
+            'filter_limit' => 5
+        );
     }
 }

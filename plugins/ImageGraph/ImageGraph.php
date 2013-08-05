@@ -1,4 +1,12 @@
 <?php
+use Piwik\Common;
+use Piwik\Period;
+use Piwik\Controller;
+use Piwik\Url;
+use Piwik\Plugin;
+use Piwik\Site;
+use Piwik\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -9,7 +17,7 @@
  * @package Piwik_ImageGraph
  */
 
-class Piwik_ImageGraph extends Piwik_Plugin
+class Piwik_ImageGraph extends Plugin
 {
     static private $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
         'Referers_getRefererType',
@@ -22,7 +30,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
 
     public function getInformation()
     {
-        $suffix = ' Debug: <a href="' . Piwik_Url::getCurrentQueryStringWithParametersModified(
+        $suffix = ' Debug: <a href="' . Url::getCurrentQueryStringWithParametersModified(
             array('module' => 'ImageGraph', 'action' => 'index')) . '">All images</a>';
         $info = parent::getInformation();
         $info['description'] .= ' ' . $suffix;
@@ -68,7 +76,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
         }
 
         // need two sets of period & date, one for single period graphs, one for multiple periods graphs
-        if (Piwik_Period::isMultiplePeriod($info['date'], $info['period'])) {
+        if (Period::isMultiplePeriod($info['date'], $info['period'])) {
             $periodForMultiplePeriodGraph = $info['period'];
             $dateForMultiplePeriodGraph = $info['date'];
 
@@ -78,13 +86,13 @@ class Piwik_ImageGraph extends Piwik_Plugin
             $periodForSinglePeriodGraph = $info['period'];
             $dateForSinglePeriodGraph = $info['date'];
 
-            $piwikSite = new Piwik_Site($idSite);
+            $piwikSite = new Site($idSite);
             if ($periodForSinglePeriodGraph == 'range') {
-                $periodForMultiplePeriodGraph = Piwik_Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
+                $periodForMultiplePeriodGraph = Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
             } else {
                 $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
-                $dateForMultiplePeriodGraph = Piwik_Controller::getDateRangeRelativeToEndDate(
+                $dateForMultiplePeriodGraph = Controller::getDateRangeRelativeToEndDate(
                     $periodForSinglePeriodGraph,
                     'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
                     $dateForSinglePeriodGraph,
@@ -93,7 +101,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
             }
         }
 
-        $token_auth = Piwik_Common::getRequestVar('token_auth', false);
+        $token_auth = Common::getRequestVar('token_auth', false);
 
         $urlPrefix = "index.php?";
         foreach ($reports as &$report) {
@@ -124,12 +132,12 @@ class Piwik_ImageGraph extends Piwik_Plugin
             }
 
             // add the idSubtable if it exists
-            $idSubtable = Piwik_Common::getRequestVar('idSubtable', false);
+            $idSubtable = Common::getRequestVar('idSubtable', false);
             if ($idSubtable !== false) {
                 $parameters['idSubtable'] = $idSubtable;
             }
 
-            $report['imageGraphUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);
+            $report['imageGraphUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
 
             // thanks to API.getRowEvolution, reports with dimensions can now be plotted using an evolution graph
             // however, most reports with a fixed set of dimension values are excluded
@@ -142,7 +150,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
                 && $reportWithDimensionsSupportsEvolution) {
                 $parameters['period'] = $periodForMultiplePeriodGraph;
                 $parameters['date'] = $dateForMultiplePeriodGraph;
-                $report['imageGraphEvolutionUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);
+                $report['imageGraphEvolutionUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
             }
         }
     }

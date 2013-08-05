@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleRssWidget
  */
+use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *
  * @package Piwik_ExampleRssWidget
  */
-class Piwik_ExampleRssWidget extends Piwik_Plugin
+class Piwik_ExampleRssWidget extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -33,7 +35,7 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 
     public function addWidgets()
     {
-        Piwik_AddWidget('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
-        Piwik_AddWidget('Example Widgets', 'Piwik Changelog', 'ExampleRssWidget', 'rssChangelog');
+        WidgetsList::add('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
+        WidgetsList::add('Example Widgets', 'Piwik Changelog', 'ExampleRssWidget', 'rssChangelog');
     }
 }

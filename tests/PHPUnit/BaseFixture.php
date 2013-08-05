@@ -5,6 +5,13 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\Access;
+use Piwik\Date;
+use Piwik\Url;
+use Piwik\ReportRenderer;
+use Piwik\Site;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -62,13 +69,13 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
-        Zend_Registry::get('db')->update(Piwik_Common::prefixTable("site"),
-            array('ts_created' => Piwik_Date::factory($dateTime)->subDay(1)->getDatetime()),
+        \Zend_Registry::get('db')->update(Common::prefixTable("site"),
+            array('ts_created' => Date::factory($dateTime)->subDay(1)->getDatetime()),
             "idsite = $idSite"
         );
 
         // Clear the memory Website cache
-        Piwik_Site::clearCache();
+        Site::clearCache();
 
         return $idSite;
     }
@@ -80,7 +87,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function getRootUrl()
     {
-        $piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
 
         $pathBeforeRoot = 'tests';
         // Running from a plugin
@@ -176,8 +183,8 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     public static function getTokenAuth()
     {
         return Piwik_UsersManager_API::getInstance()->getTokenAuth(
-            Piwik_Config::getInstance()->superuser['login'],
-            Piwik_Config::getInstance()->superuser['password']
+            Config::getInstance()->superuser['login'],
+            Config::getInstance()->superuser['password']
         );
     }
 
@@ -198,7 +205,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'PDFReports.addReport'
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         // retrieve available reports
         $availableReportMetadata = Piwik_PDFReports_API::getReportMetadata($idSite, Piwik_PDFReports::EMAIL_TYPE);
@@ -216,7 +223,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
             'day', // overridden in getApiForTestingScheduledReports()
             0,
             Piwik_PDFReports::EMAIL_TYPE,
-            Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
+            ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
             $availableReportIds,
             array(Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
@@ -253,7 +260,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
                 'day', // overridden in getApiForTestingScheduledReports()
                 0,
                 Piwik_PDFReports::EMAIL_TYPE,
-                Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
+                ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
                 $availableReportIds,
                 array(Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
             );
@@ -265,7 +272,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
                 'day',
                 0,
                 Piwik_PDFReports::EMAIL_TYPE,
-                Piwik_ReportRenderer::HTML_FORMAT,
+                ReportRenderer::HTML_FORMAT,
                 array('Actions_getPageTitles'),
                 array(
                      Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY,
@@ -331,7 +338,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
     protected static function executeLogImporter($logFile, $options)
     {
-        $python = Piwik_Common::isWindows() ? "C:\Python27\python.exe" : 'python';
+        $python = Common::isWindows() ? "C:\Python27\python.exe" : 'python';
 
         // create the command
         $cmd = $python

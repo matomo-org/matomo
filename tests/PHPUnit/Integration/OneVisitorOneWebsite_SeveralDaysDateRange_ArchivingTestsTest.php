@@ -5,6 +5,8 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * Tests some API using range periods & makes sure the correct amount of blob/numeric
@@ -97,11 +99,11 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
             'archive_numeric_2011_01' => 0,
         );
         foreach ($tests as $table => $expectedRows) {
-            $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
-            $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
+            $sql = "SELECT count(*) FROM " . Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
+            $countBlobs = \Zend_Registry::get('db')->fetchOne($sql);
 
             if($expectedRows != $countBlobs) {
-                var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Piwik_Common::prefixTable($table). " WHERE period = " . Piwik::$idPeriods['range'] . " ORDER BY idarchive ASC"));
+                var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable($table). " WHERE period = " . Piwik::$idPeriods['range'] . " ORDER BY idarchive ASC"));
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
         }

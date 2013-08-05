@@ -8,18 +8,22 @@
  * @category Piwik_Plugins
  * @package Piwik_PDFReports
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_PDFReports
  */
-class Piwik_PDFReports_Controller extends Piwik_Controller
+class Piwik_PDFReports_Controller extends Controller
 {
     const DEFAULT_REPORT_TYPE = Piwik_PDFReports::EMAIL_TYPE;
 
     public function index()
     {
-        $view = new Piwik_View('@PDFReports/index');
+        $view = new View('@PDFReports/index');
         $this->setGeneralVariablesView($view);
 
         $view->countWebsites = count(Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess());
@@ -60,7 +64,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
             }
         }
         $view->reports = $reports;
-        $view->reportsJSON = Piwik_Common::json_encode($reportsById);
+        $view->reportsJSON = Common::json_encode($reportsById);
 
         $view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_INLINE;
 

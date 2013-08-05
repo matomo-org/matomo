@@ -5,6 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
+use Piwik\DataTable\Renderer;
+
 class SEOTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -18,7 +21,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
 
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         $user_agents = array(
             'Mozilla/6.0 (Macintosh; I; Intel Mac OS X 11_7_9; de-LI; rv:1.9b4) Gecko/2012010317 Firefox/10.0a4',
@@ -43,7 +46,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
         } catch(Exception $e) {
             $this->markTestSkipped('A SEO http request failed, Skipping this test for now. Error was: '.$e->getMessage());
         }
-        $renderer = Piwik_DataTable_Renderer::factory('php');
+        $renderer = Renderer::factory('php');
         $renderer->setSerialize(false);
         $ranks = $renderer->render($dataTable);
         foreach ($ranks as $rank) {

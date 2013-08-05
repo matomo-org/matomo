@@ -8,6 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_SegmentEditor
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Date;
+use Piwik\Segment;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
@@ -34,13 +38,13 @@ class Piwik_SegmentEditor_API
     protected function checkSegmentValue($definition, $idSite)
     {
         // unsanitize so we don't record the HTML entitied segment
-        $definition = Piwik_Common::unsanitizeInputValue($definition);
+        $definition = Common::unsanitizeInputValue($definition);
         $definition = str_replace("#", '%23', $definition); // hash delimiter
         $definition = str_replace("'", '%27', $definition); // not encoded in JS
         $definition = str_replace("&", '%26', $definition);
 
         try {
-            $segment = new Piwik_Segment($definition, $idSite);
+            $segment = new Segment($definition, $idSite);
             $segment->getHash();
         } catch (Exception $e) {
             throw new Exception("The specified segment is invalid: " . $e->getMessage());
@@ -131,17 +135,17 @@ class Piwik_SegmentEditor_API
         Piwik_PostEvent(self::DELETE_SEGMENT_EVENT, array(&$idSegment));
 
         $segment = $this->getSegmentOrFail($idSegment);
-        $db = Zend_Registry::get('db');
-        $db->delete(Piwik_Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
+        $db = \Zend_Registry::get('db');
+        $db->delete(Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
         return true;
     }
 
     /**
      * Modifies an existing stored segment.
      *
-     * @param $idSegment The ID of the stored segment to modify.
-     * @param $name  The new name of the segment.
-     * @param $definition  The new definition of the segment.
+     * @param int $idSegment The ID of the stored segment to modify.
+     * @param string $name  The new name of the segment.
+     * @param string $definition  The new definition of the segment.
      * @param bool $idSite  If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
@@ -165,11 +169,11 @@ class Piwik_SegmentEditor_API
             'enable_all_users'   => $enabledAllUsers,
             'enable_only_idsite' => $idSite,
             'auto_archive'       => $autoArchive,
-            'ts_last_edit'       => Piwik_Date::now()->getDatetime(),
+            'ts_last_edit'       => Date::now()->getDatetime(),
         );
 
-        $db = Zend_Registry::get('db');
-        $db->update(Piwik_Common::prefixTable("segment"),
+        $db = \Zend_Registry::get('db');
+        $db->update(Common::prefixTable("segment"),
             $bind,
             "idsegment = $idSegment"
         );
@@ -179,8 +183,8 @@ class Piwik_SegmentEditor_API
     /**
      * Adds a new stored segment.
      *
-     * @param $name  The new name of the segment.
-     * @param $definition  The new definition of the segment.
+     * @param string $name  The new name of the segment.
+     * @param string $definition  The new definition of the segment.
      * @param bool $idSite  If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
@@ -196,7 +200,7 @@ class Piwik_SegmentEditor_API
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $bind = array(
             'name'               => $name,
             'definition'         => $definition,
@@ -204,10 +208,10 @@ class Piwik_SegmentEditor_API
             'enable_all_users'   => $enabledAllUsers,
             'enable_only_idsite' => $idSite,
             'auto_archive'       => $autoArchive,
-            'ts_created'         => Piwik_Date::now()->getDatetime(),
+            'ts_created'         => Date::now()->getDatetime(),
             'deleted'            => 0,
         );
-        $db->insert(Piwik_Common::prefixTable("segment"), $bind);
+        $db->insert(Common::prefixTable("segment"), $bind);
         return $db->lastInsertId();
     }
 
@@ -224,8 +228,8 @@ class Piwik_SegmentEditor_API
         if (!is_numeric($idSegment)) {
             throw new Exception("idSegment should be numeric.");
         }
-        $segment = Zend_Registry::get('db')->fetchRow("SELECT * " .
-                                                    " FROM " . Piwik_Common::prefixTable("segment") .
+        $segment = \Zend_Registry::get('db')->fetchRow("SELECT * " .
+                                                    " FROM " . Common::prefixTable("segment") .
                                                     " WHERE idsegment = ?", $idSegment);
 
         if (empty($segment)) {
@@ -276,13 +280,13 @@ class Piwik_SegmentEditor_API
 
         // Query
         $sql = "SELECT * " .
-                " FROM " . Piwik_Common::prefixTable("segment") .
+                " FROM " . Common::prefixTable("segment") .
                 " WHERE ($whereIdSite enable_only_idsite = 0)
                         AND  (enable_all_users = 1 OR login = ?)
                         AND deleted = 0
                         $extraWhere
                       ORDER BY name ASC";
-        $segments = Zend_Registry::get('db')->fetchAll($sql, $bind);
+        $segments = \Zend_Registry::get('db')->fetchAll($sql, $bind);
 
         return $segments;
     }

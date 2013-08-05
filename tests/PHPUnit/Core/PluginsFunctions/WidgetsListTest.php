@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Access;
+use Piwik\WidgetsList;
+
 class WidgetsListTest extends DatabaseTestCase
 {
     /**
@@ -18,7 +21,7 @@ class WidgetsListTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42');
 
@@ -26,9 +29,9 @@ class WidgetsListTest extends DatabaseTestCase
 
         IntegrationTestCase::loadAllPlugins();
 
-        Piwik_WidgetsList::_reset();
-        $widgets = Piwik_GetWidgetsList();
-        Piwik_WidgetsList::_reset();
+        WidgetsList::_reset();
+        $widgets = WidgetsList::get();
+        WidgetsList::_reset();
 
         // number of main categories
         $this->assertEquals(12, count($widgets));
@@ -64,7 +67,7 @@ class WidgetsListTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42');
         Piwik_Goals_API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -73,9 +76,9 @@ class WidgetsListTest extends DatabaseTestCase
 
         IntegrationTestCase::loadAllPlugins();
 
-        Piwik_WidgetsList::_reset();
-        $widgets = Piwik_GetWidgetsList();
-        Piwik_WidgetsList::_reset();
+        WidgetsList::_reset();
+        $widgets = WidgetsList::get();
+        WidgetsList::_reset();
 
         // number of main categories
         $this->assertEquals(12, count($widgets));
@@ -101,7 +104,7 @@ class WidgetsListTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42', true);
         Piwik_Goals_API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -110,9 +113,9 @@ class WidgetsListTest extends DatabaseTestCase
 
         IntegrationTestCase::loadAllPlugins();
 
-        Piwik_WidgetsList::_reset();
-        $widgets = Piwik_GetWidgetsList();
-        Piwik_WidgetsList::_reset();
+        WidgetsList::_reset();
+        $widgets = WidgetsList::get();
+        WidgetsList::_reset();
 
         // number of main categories
         $this->assertEquals(13, count($widgets));

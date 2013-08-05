@@ -8,16 +8,17 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_5_rc6 extends Piwik_Updates
+class Piwik_Updates_1_5_rc6 extends Updates
 {
     static function update()
     {
         try {
-            Piwik_PluginsManager::getInstance()->activatePlugin('PrivacyManager');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('PrivacyManager');
         } catch (Exception $e) {
         }
     }

@@ -1,6 +1,19 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @category Piwik
+ * @package Piwik
+ */
 
-class Piwik_Archive_Parameters
+namespace Piwik\Archive;
+use Exception;
+use Piwik\Segment;
+
+class Parameters
 {
     /**
      * The list of site IDs to query archive data for.
@@ -10,7 +23,7 @@ class Piwik_Archive_Parameters
     private $idSites = array();
 
     /**
-     * The list of Piwik_Period's to query archive data for.
+     * The list of Period's to query archive data for.
      *
      * @var array
      */
@@ -19,7 +32,7 @@ class Piwik_Archive_Parameters
     /**
      * Segment applied to the visits set.
      *
-     * @var Piwik_Segment
+     * @var Segment
      */
     private $segment;
 
@@ -28,7 +41,7 @@ class Piwik_Archive_Parameters
         return $this->segment;
     }
 
-    public function setSegment(Piwik_Segment $segment)
+    public function setSegment(Segment $segment)
     {
         $this->segment = $segment;
     }
@@ -60,7 +73,7 @@ class Piwik_Archive_Parameters
         }
 
         if (empty($array)) {
-            throw new Exception("Piwik_Archive::__construct: \$$paramName is empty.");
+            throw new Exception("Archive::__construct: \$$paramName is empty.");
         }
 
         return $array;

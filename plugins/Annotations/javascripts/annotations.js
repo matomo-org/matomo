@@ -184,7 +184,7 @@
         $('.annotation-period-edit', manager).each(function () {
             createDatePicker($(this).parent().parent());
         });
-    }
+    };
 
     /**
      * Replaces the HTML of an annotation manager element, and resets date/period
@@ -223,7 +223,7 @@
         var newHtml = $(html);
         annotation.html(newHtml.html()).attr('data-date', newHtml.attr('data-date'));
         createDatePicker(annotation);
-    }
+    };
 
     /**
      * Binds events to an annotation manager element.

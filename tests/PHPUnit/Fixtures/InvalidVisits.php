@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Http;
 
 /**
  * Adds one site and sends several invalid tracking requests. The result should be
@@ -47,7 +48,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
 
         // Trigger empty request
         $trackerUrl = self::getTrackerUrl();
-        $response = Piwik_Http::fetchRemoteFile($trackerUrl);
+        $response = Http::fetchRemoteFile($trackerUrl);
         self::assertTrue(strpos($response, 'is a free open source web') !== false, 'Piwik empty request response not correct: ' . $response);
 
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);

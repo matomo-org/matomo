@@ -8,11 +8,12 @@
  * @category Piwik_Plugins
  * @package Piwik_Transitions
  */
+use Piwik\Plugin;
 
 /**
  * @package Piwik_Transitions
  */
-class Piwik_Transitions extends Piwik_Plugin
+class Piwik_Transitions extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

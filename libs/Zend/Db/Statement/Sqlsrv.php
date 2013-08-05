@@ -86,7 +86,7 @@ class Zend_Db_Statement_Sqlsrv extends Zend_Db_Statement
      */
     protected function _bindParam($parameter, &$variable, $type = null, $length = null, $options = null)
     {
-        //Sql server doesn't support bind by name
+        //Db server doesn't support bind by name
         return true;
     }
 

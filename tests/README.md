@@ -54,8 +54,12 @@ Otherwise, if you didn't expect to modify the API outputs, it might be that your
 		<server name="HTTP_HOST" value="localhost"/>
 		<server name="REQUEST_URI" value="/path/to/piwik/"/>
 
+3.	Ensure the `[database_tests]` section in `piwik/config/config.php.ini` is set up correctly, 
+	i.e. with the correct password to prevent the following error:
+	`SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)`
 
-3. 	Run the tests (see the next section to run tests in the browser)
+
+4. 	Run the tests (see the next section to run tests in the browser)
 
 		$ cd /path/to/piwik/tests/PHPUnit
 		$ phpunit
@@ -68,7 +72,7 @@ Otherwise, if you didn't expect to modify the API outputs, it might be that your
 	to run all Core Piwik tests. You may also combine groups like
 	`phpunit --group Core,Plugins`
 
-4.	Write more tests :)
+5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
 ## JavaScript Tests

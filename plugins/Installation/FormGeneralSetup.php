@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_Installation
  */
+use Piwik\Piwik;
+use Piwik\QuickForm2;
 
 /**
  *
  * @package Piwik_Installation
  */
-class Piwik_Installation_FormGeneralSetup extends Piwik_QuickForm2
+class Piwik_Installation_FormGeneralSetup extends QuickForm2
 {
     function __construct($id = 'generalsetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {

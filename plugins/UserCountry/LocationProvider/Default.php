@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * The default LocationProvider, this LocationProvider guesses a visitor's country
@@ -28,12 +30,12 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
      */
     public function getLocation($info)
     {
-        $enableLanguageToCountryGuess = Piwik_Config::getInstance()->Tracker['enable_language_to_country_guess'];
+        $enableLanguageToCountryGuess = Config::getInstance()->Tracker['enable_language_to_country_guess'];
 
         if (empty($info['lang'])) {
-            $info['lang'] = Piwik_Common::getBrowserLanguage();
+            $info['lang'] = Common::getBrowserLanguage();
         }
-        $country = Piwik_Common::getCountry($info['lang'], $enableLanguageToCountryGuess, $info['ip']);
+        $country = Common::getCountry($info['lang'], $enableLanguageToCountryGuess, $info['ip']);
 
         $location = array(parent::COUNTRY_CODE_KEY => $country);
         $this->completeLocationResult($location);
@@ -46,7 +48,7 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
      *
      * This implementation is always available.
      *
-     * @return true
+     * @return bool  always true
      */
     public function isAvailable()
     {
@@ -58,7 +60,7 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
      *
      * This implementation is always working correctly.
      *
-     * @return true
+     * @return bool  always true
      */
     public function isWorking()
     {

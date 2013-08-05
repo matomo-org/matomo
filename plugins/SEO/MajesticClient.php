@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_SEO
  */
+use Piwik\Common;
+use Piwik\Http;
 
 /**
  * Client for Majestic SEO's HTTP API.
@@ -56,14 +58,14 @@ class Piwik_SEO_MajesticClient
             'items' => '1',
             'item0' => $siteDomain
         ));
-        $apiResponse = Piwik_Http::sendHttpRequest($apiUrl, $timeout);
+        $apiResponse = Http::sendHttpRequest($apiUrl, $timeout);
 
         $result = array(
             'backlink_count'         => false,
             'referrer_domains_count' => false
         );
 
-        $apiResponse = Piwik_Common::json_decode($apiResponse, $assoc = true);
+        $apiResponse = Common::json_decode($apiResponse, $assoc = true);
         if (!empty($apiResponse)
             && !empty($apiResponse['Data'])
         ) {

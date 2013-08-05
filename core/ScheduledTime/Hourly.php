@@ -8,15 +8,19 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ScheduledTime;
+
+use Exception;
+use Piwik\ScheduledTime;
 
 /**
- * Piwik_ScheduledTime_Hourly class is used to schedule tasks every hour.
+ * Hourly class is used to schedule tasks every hour.
  *
- * @see Piwik_ScheduledTask
+ * @see ScheduledTask
  * @package Piwik
- * @subpackage Piwik_ScheduledTime
+ * @subpackage ScheduledTime
  */
-class Piwik_ScheduledTime_Hourly extends Piwik_ScheduledTime
+class Hourly extends ScheduledTime
 {
     public function getRescheduledTime()
     {

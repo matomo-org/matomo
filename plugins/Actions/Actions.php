@@ -8,6 +8,17 @@
  * @category Piwik_Plugins
  * @package Piwik_Actions
  */
+use Piwik\API\Request;
+use Piwik\ArchiveProcessor;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Tracker\Action;
+use Piwik\ViewDataTable;
+use Piwik\WidgetsList;
+use Piwik\Plugin;
+use Piwik\SegmentExpression;
+use Piwik\Db;
+use Piwik\Site;
 
 /**
  * Actions plugin
@@ -16,7 +27,7 @@
  *
  * @package Piwik_Actions
  */
-class Piwik_Actions extends Piwik_Plugin
+class Piwik_Actions extends Plugin
 {
     const ACTIONS_REPORT_ROWS_DISPLAY = 100;
     
@@ -137,20 +148,20 @@ class Piwik_Actions extends Piwik_Plugin
     {
         $actionType = $this->guessActionTypeFromSegment($segmentName);
 
-        if ($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL) {
+        if ($actionType == Action::TYPE_ACTION_URL) {
             // for urls trim protocol and www because it is not recorded in the db
             $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
 
-        $valueToMatch = Piwik_Common::sanitizeInputValue(Piwik_Common::unsanitizeInputValue($valueToMatch));
+        $valueToMatch = Common::sanitizeInputValue(Common::unsanitizeInputValue($valueToMatch));
 
         // exact matches work by returning the id directly
-        if ($matchType == Piwik_SegmentExpression::MATCH_EQUAL
-            || $matchType == Piwik_SegmentExpression::MATCH_NOT_EQUAL
+        if ($matchType == SegmentExpression::MATCH_EQUAL
+            || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
-            $sql = Piwik_Tracker_Action::getSqlSelectActionId();
+            $sql = Action::getSqlSelectActionId();
             $bind = array($valueToMatch, $valueToMatch, $actionType);
-            $idAction = Piwik_FetchOne($sql, $bind);
+            $idAction = Db::fetchOne($sql, $bind);
             // if the action is not found, we hack -100 to ensure it tries to match against an integer
             // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
             if (empty($idAction)) {
@@ -162,7 +173,7 @@ class Piwik_Actions extends Piwik_Plugin
         // now, we handle the cases =@ (contains) and !@ (does not contain)
 
         // build the expression based on the match type
-        $sql = 'SELECT idaction FROM ' . Piwik_Common::prefixTable('log_action') . ' WHERE ';
+        $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE ';
         $sqlMatchType = 'AND type = ' . $actionType;
         switch ($matchType) {
             case '=@':
@@ -517,24 +528,24 @@ class Piwik_Actions extends Piwik_Plugin
 
     function addWidgets()
     {
-        Piwik_AddWidget('Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
-        Piwik_AddWidget('Actions_Actions', 'Actions_WidgetPageTitles', 'Actions', 'getPageTitles');
-        Piwik_AddWidget('Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
-        Piwik_AddWidget('Actions_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
-        Piwik_AddWidget('Actions_Actions', 'Actions_WidgetPagesEntry', 'Actions', 'getEntryPageUrls');
-        Piwik_AddWidget('Actions_Actions', 'Actions_WidgetPagesExit', 'Actions', 'getExitPageUrls');
-        Piwik_AddWidget('Actions_Actions', 'Actions_WidgetEntryPageTitles', 'Actions', 'getEntryPageTitles');
-        Piwik_AddWidget('Actions_Actions', 'Actions_WidgetExitPageTitles', 'Actions', 'getExitPageTitles');
+        WidgetsList::add('Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
+        WidgetsList::add('Actions_Actions', 'Actions_WidgetPageTitles', 'Actions', 'getPageTitles');
+        WidgetsList::add('Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
+        WidgetsList::add('Actions_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
+        WidgetsList::add('Actions_Actions', 'Actions_WidgetPagesEntry', 'Actions', 'getEntryPageUrls');
+        WidgetsList::add('Actions_Actions', 'Actions_WidgetPagesExit', 'Actions', 'getExitPageUrls');
+        WidgetsList::add('Actions_Actions', 'Actions_WidgetEntryPageTitles', 'Actions', 'getEntryPageTitles');
+        WidgetsList::add('Actions_Actions', 'Actions_WidgetExitPageTitles', 'Actions', 'getExitPageTitles');
 
         if ($this->isSiteSearchEnabled()) {
-            Piwik_AddWidget('Actions_SubmenuSitesearch', 'Actions_WidgetSearchKeywords', 'Actions', 'getSiteSearchKeywords');
+            WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetSearchKeywords', 'Actions', 'getSiteSearchKeywords');
 
             if (self::isCustomVariablesPluginsEnabled()) {
-                Piwik_AddWidget('Actions_SubmenuSitesearch', 'Actions_WidgetSearchCategories', 'Actions', 'getSiteSearchCategories');
+                WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetSearchCategories', 'Actions', 'getSiteSearchCategories');
             }
-            Piwik_AddWidget('Actions_SubmenuSitesearch', 'Actions_WidgetSearchNoResultKeywords', 'Actions', 'getSiteSearchNoResultKeywords');
-            Piwik_AddWidget('Actions_SubmenuSitesearch', 'Actions_WidgetPageUrlsFollowingSearch', 'Actions', 'getPageUrlsFollowingSiteSearch');
-            Piwik_AddWidget('Actions_SubmenuSitesearch', 'Actions_WidgetPageTitlesFollowingSearch', 'Actions', 'getPageTitlesFollowingSiteSearch');
+            WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetSearchNoResultKeywords', 'Actions', 'getSiteSearchNoResultKeywords');
+            WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetPageUrlsFollowingSearch', 'Actions', 'getPageUrlsFollowingSiteSearch');
+            WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetPageTitlesFollowingSearch', 'Actions', 'getPageTitlesFollowingSiteSearch');
         }
     }
 
@@ -555,11 +566,11 @@ class Piwik_Actions extends Piwik_Plugin
 
     protected function isSiteSearchEnabled()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite', 0, 'int');
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
         if ($idSite == 0) {
             return false;
         }
-        return Piwik_Site::isSiteSearchEnabledFor($idSite);
+        return Site::isSiteSearchEnabledFor($idSite);
     }
 
     /**
@@ -568,7 +579,7 @@ class Piwik_Actions extends Piwik_Plugin
      * For each action we process the "interest statistics" :
      * visits, unique visitors, bounce count, sum visit length.
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_Actions_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -576,7 +587,7 @@ class Piwik_Actions extends Piwik_Plugin
         }
     }
 
-    function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_Actions_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -593,7 +604,7 @@ class Piwik_Actions extends Piwik_Plugin
 
     static protected function isCustomVariablesPluginsEnabled()
     {
-        return Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        return \Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables');
     }
 
     /**
@@ -604,40 +615,34 @@ class Piwik_Actions extends Piwik_Plugin
     protected function guessActionTypeFromSegment($segmentName)
     {
         if (stripos($segmentName, 'pageurl') !== false) {
-            $actionType = Piwik_Tracker_Action::TYPE_ACTION_URL;
+            $actionType = Action::TYPE_ACTION_URL;
             return $actionType;
         } elseif (stripos($segmentName, 'pagetitle') !== false) {
-            $actionType = Piwik_Tracker_Action::TYPE_ACTION_NAME;
+            $actionType = Action::TYPE_ACTION_NAME;
             return $actionType;
         } elseif (stripos($segmentName, 'sitesearch') !== false) {
-            $actionType = Piwik_Tracker_Action::TYPE_SITE_SEARCH;
+            $actionType = Action::TYPE_SITE_SEARCH;
             return $actionType;
         } else {
             throw new Exception(" The segment $segmentName has an unexpected value.");
         }
     }
 
-    public function getReportDisplayProperties(&$properties, $apiAction)
+    public function getReportDisplayProperties(&$properties)
     {
-        $reportViewProperties = array(
-            'Actions.getPageUrls' => $this->getDisplayPropertiesForPageUrls(),
-            'Actions.getEntryPageUrls' => $this->getDisplayPropertiesForEntryPageUrls(),
-            'Actions.getExitPageUrls' => $this->getDisplayPropertiesForExitPageUrls(),
-            'Actions.getSiteSearchKeywords' => $this->getDisplayPropertiesForSiteSearchKeywords(),
-            'Actions.getSiteSearchNoResultKeywords' => $this->getDisplayPropertiesForSiteSearchNoResultKeywords(),
-            'Actions.getSiteSearchCategories' => $this->getDisplayPropertiesForSiteSearchCategories(),
-            'Actions.getPageUrlsFollowingSiteSearch' => $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(false),
-            'Actions.getPageTitlesFollowingSiteSearch' => $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(true),
-            'Actions.getPageTitles' => $this->getDisplayPropertiesForGetPageTitles(),
-            'Actions.getEntryPageTitles' => $this->getDisplayPropertiesForGetEntryPageTitles(),
-            'Actions.getExitPageTitles' => $this->getDisplayPropertiesForGetExitPageTitles(),
-            'Actions.getDownloads' => $this->getDisplayPropertiesForGetDownloads(),
-            'Actions.getOutlinks' => $this->getDisplayPropertiesForGetOutlinks(),
-        );
-        
-        if (isset($reportViewProperties[$apiAction])) {
-            $properties = $reportViewProperties[$apiAction];
-        }
+        $properties['Actions.getPageUrls'] = $this->getDisplayPropertiesForPageUrls();
+        $properties['Actions.getEntryPageUrls'] =  $this->getDisplayPropertiesForEntryPageUrls();
+        $properties['Actions.getExitPageUrls'] =  $this->getDisplayPropertiesForExitPageUrls();
+        $properties['Actions.getSiteSearchKeywords'] =  $this->getDisplayPropertiesForSiteSearchKeywords();
+        $properties['Actions.getSiteSearchNoResultKeywords'] =  $this->getDisplayPropertiesForSiteSearchNoResultKeywords();
+        $properties['Actions.getSiteSearchCategories'] =  $this->getDisplayPropertiesForSiteSearchCategories();
+        $properties['Actions.getPageUrlsFollowingSiteSearch'] =  $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(false);
+        $properties['Actions.getPageTitlesFollowingSiteSearch'] =  $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(true);
+        $properties['Actions.getPageTitles'] =  $this->getDisplayPropertiesForGetPageTitles();
+        $properties['Actions.getEntryPageTitles'] =  $this->getDisplayPropertiesForGetEntryPageTitles();
+        $properties['Actions.getExitPageTitles'] =  $this->getDisplayPropertiesForGetExitPageTitles();
+        $properties['Actions.getDownloads'] =  $this->getDisplayPropertiesForGetDownloads();
+        $properties['Actions.getOutlinks'] =  $this->getDisplayPropertiesForGetOutlinks();
     }
     
     private function addBaseDisplayProperties(&$result)
@@ -654,7 +659,7 @@ class Piwik_Actions extends Piwik_Plugin
         // so users can see that they can set it to 1 (see #3365)
         $result['custom_parameters'] = array('flat' => 0);
         
-        if (Piwik_ViewDataTable::shouldLoadExpanded()) {
+        if (ViewDataTable::shouldLoadExpanded()) {
             $result['show_expanded'] = true;
             
             $result['filters'][] = function ($dataTable) {
@@ -664,7 +669,11 @@ class Piwik_Actions extends Piwik_Plugin
         
         return $result;
     }
-    
+
+    /**
+     * @param \Piwik\DataTable $dataTable
+     * @param int $level
+     */
     public static function setDataTableRowLevels($dataTable, $level = 0)
     {
         foreach ($dataTable->getRows() as $row) {
@@ -679,7 +688,7 @@ class Piwik_Actions extends Piwik_Plugin
     
     private function addExcludeLowPopDisplayProperties(&$result)
     {
-        if (Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') != '0') {
+        if (Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') != '0') {
             $result['filter_excludelowpop'] = 'nb_hits';
             $result['filter_excludelowpop_value'] = function () {
                 // computing minimum value to exclude (2 percent of the total number of actions)
@@ -707,7 +716,7 @@ class Piwik_Actions extends Piwik_Plugin
         );
         
         // prettify avg_time_on_page column
-        $getPrettyTimeFromSeconds = array('Piwik', 'getPrettyTimeFromSeconds');
+        $getPrettyTimeFromSeconds = '\Piwik\Piwik::getPrettyTimeFromSeconds';
         $result['filters'][] = array('ColumnCallbackReplace', array('avg_time_on_page', $getPrettyTimeFromSeconds));
         
         // prettify avg_time_generation column
@@ -757,8 +766,8 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForEntryPageUrls()
     {
         // link to the page, not just the report, but only if not a widget
-        $widget = Piwik_Common::getRequestVar('widget', false);
-        $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
+        $widget = Common::getRequestVar('widget', false);
+        $reportUrl = Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => 'Actions',
             'action' => $widget === false ? 'indexEntryPageUrls' : 'getEntryPageUrls'
         ));
@@ -786,8 +795,8 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForExitPageUrls()
     {
         // link to the page, not just the report, but only if not a widget
-        $widget = Piwik_Common::getRequestVar('widget', false);
-        $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
+        $widget = Common::getRequestVar('widget', false);
+        $reportUrl = Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => 'Actions',
             'action' => $widget === false ? 'indexExitPageUrls' : 'getExitPageUrls'
         ));
@@ -894,8 +903,8 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForGetPageTitles()
     {
         // link to the page, not just the report, but only if not a widget
-        $widget = Piwik_Common::getRequestVar('widget', false);
-        $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
+        $widget = Common::getRequestVar('widget', false);
+        $reportUrl = Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => 'Actions',
             'action' => $widget === false ? 'indexPageTitles' : 'getPageTitles'
         ));
@@ -921,7 +930,7 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForGetEntryPageTitles()
     {
         $entryPageUrlAction =
-            Piwik_Common::getRequestVar('widget', false) === false ? 'indexEntryPageUrls' : 'getEntryPageUrls';
+            Common::getRequestVar('widget', false) === false ? 'indexEntryPageUrls' : 'getEntryPageUrls';
         
         $result = array(
             'translations'       => array(
@@ -946,7 +955,7 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForGetExitPageTitles()
     {
         $exitPageUrlAction =
-            Piwik_Common::getRequestVar('widget', false) === false ? 'indexExitPageUrls' : 'getExitPageUrls';
+            Common::getRequestVar('widget', false) === false ? 'indexExitPageUrls' : 'getExitPageUrls';
         
         $result = array(
             'translations'       => array(

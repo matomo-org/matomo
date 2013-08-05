@@ -9,7 +9,8 @@
  * @package Piwik
  */
 
-require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
+namespace Piwik;
+use Exception;
 
 /**
  * For general performance (and specifically, the Tracker), we use deferred (lazy) initialization
@@ -40,14 +41,14 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
  * @package Piwik
  * @subpackage Piwik_Config
  */
-class Piwik_Config
+class Config
 {
     private static $instance = null;
 
     /**
      * Returns the singleton Piwik_Config
      *
-     * @return Piwik_Config
+     * @return \Piwik\Config
      */
     public static function getInstance()
     {
@@ -125,12 +126,12 @@ class Piwik_Config
         // for unit tests, we set that no plugin is installed. This will force
         // the test initialization to create the plugins tables, execute ALTER queries, etc.
         $this->configCache['PluginsInstalled'] = array('PluginsInstalled' => array());
-        
+
         if (isset($configGlobal['Plugins'])) {
             $this->configCache['Plugins'] = $this->configGlobal['Plugins'];
             $this->configCache['Plugins']['Plugins'][] = 'DevicesDetection';
         }
-        
+
         $this->configCache['disable_merged_assets'] = 1;
     }
 

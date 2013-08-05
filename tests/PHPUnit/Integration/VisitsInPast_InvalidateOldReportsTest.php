@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\API\Request;
 
 /**
  * Track visits before website creation date and test that Piwik handles them correctly.
@@ -69,16 +70,16 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
 
         // 1) Invalidate old reports for the 2 websites
         // Test invalidate 1 date only
-        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6,55,-1,s',1&dates=2010-01-03");
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6,55,-1,s',1&dates=2010-01-03");
         ($r->process());
         // Test invalidate comma separated dates
-        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite . "," . $idSite2 . "&dates=2010-01-06,2009-10-30");
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite . "," . $idSite2 . "&dates=2010-01-06,2009-10-30");
         ($r->process());
         // test invalidate date in the past
-        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2009-06-29");
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2009-06-29");
         ($r->process());
         // invalidate a date more recent to check the date is only updated when it's earlier than current
-        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2010-03-03");
+        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2010-03-03");
         ($r->process());
 
         // 2) Call API again, with an older date, which should now return data

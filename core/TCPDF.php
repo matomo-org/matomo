@@ -9,6 +9,10 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
+use Exception;
+
 /**
  * @see libs/tcpdf/tcpdf.php
  */
@@ -19,7 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/tcpdf/tcpdf.php';
  *
  * @package Piwik
  */
-class Piwik_TCPDF extends TCPDF
+class TCPDF extends \TCPDF
 {
     protected $footerContent = null;
     protected $currentPageNo = null;

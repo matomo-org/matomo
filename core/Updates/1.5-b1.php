@@ -8,16 +8,19 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_5_b1 extends Piwik_Updates
+class Piwik_Updates_1_5_b1 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'CREATE TABLE `' . Piwik_Common::prefixTable('log_conversion_item') . '` (
+            'CREATE TABLE `' . Common::prefixTable('log_conversion_item') . '` (
 												  idsite int(10) UNSIGNED NOT NULL,
 										  		  idvisitor BINARY(8) NOT NULL,
 										          server_time DATETIME NOT NULL,
@@ -35,11 +38,11 @@ class Piwik_Updates_1_5_b1 extends Piwik_Updates
 										          INDEX index_idsite_servertime ( idsite, server_time )
 												)  DEFAULT CHARSET=utf8 '                                                                                            => false,
 
-            'ALTER IGNORE TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER IGNORE TABLE `' . Common::prefixTable('log_visit') . '`
 				 ADD  visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL AFTER visitor_days_since_last,
 				 ADD  visit_goal_buyer TINYINT(1) NOT NULL AFTER visit_goal_converted' => false,
 
-            'ALTER IGNORE TABLE `' . Piwik_Common::prefixTable('log_conversion') . '`
+            'ALTER IGNORE TABLE `' . Common::prefixTable('log_conversion') . '`
 				 ADD visitor_days_since_order SMALLINT(5) UNSIGNED NOT NULL AFTER visitor_days_since_first,
 				 ADD idorder varchar(100) default NULL AFTER buster,
 				 ADD items SMALLINT UNSIGNED DEFAULT NULL,
@@ -54,6 +57,6 @@ class Piwik_Updates_1_5_b1 extends Piwik_Updates
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

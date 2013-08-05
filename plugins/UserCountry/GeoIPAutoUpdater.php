@@ -8,6 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Date;
+use Piwik\Http;
+use Piwik\ScheduledTime\Monthly;
+use Piwik\ScheduledTime\Weekly;
+use Piwik\Unzip;
+use Piwik\ScheduledTask;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's
@@ -46,7 +54,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     public function update()
     {
         try {
-            Piwik_SetOption(self::LAST_RUN_TIME_OPTION_NAME, Piwik_Date::factory('today')->getTimestamp());
+            Piwik_SetOption(self::LAST_RUN_TIME_OPTION_NAME, Date::factory('today')->getTimestamp());
 
             $locUrl = Piwik_GetOption(self::LOC_URL_OPTION_NAME);
             if (!empty($locUrl)) {
@@ -93,7 +101,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 
         // download zipped file to misc dir
         try {
-            $success = Piwik_Http::sendHttpRequest($url, $timeout = 3600, $userAgent = null, $zippedOutputPath);
+            $success = Http::sendHttpRequest($url, $timeout = 3600, $userAgent = null, $zippedOutputPath);
         } catch (Exception $ex) {
             throw new Exception("Piwik_UserCountry_GeoIPAutoUpdater: failed to download '$url' to "
                 . "'$zippedOutputPath': " . $ex->getMessage());
@@ -135,7 +143,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
         // extract file
         if (substr($path, -7, 7) == '.tar.gz') {
             // find the .dat file in the tar archive
-            $unzip = Piwik_Unzip::factory('tar.gz', $path);
+            $unzip = Unzip::factory('tar.gz', $path);
             $content = $unzip->listContent();
 
             if (empty($content)) {
@@ -169,7 +177,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
             fwrite($fd, $unzipped);
             fclose($fd);
         } else if (substr($path, -3, 3) == '.gz') {
-            $unzip = Piwik_Unzip::factory('gz', $path);
+            $unzip = Unzip::factory('gz', $path);
             $success = $unzip->extract($outputPath);
 
             if ($success !== true) {
@@ -239,7 +247,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     /**
      * Creates a ScheduledTask instance based on set option values.
      *
-     * @return Piwik_ScheduledTask
+     * @return ScheduledTask
      */
     public static function makeScheduledTask()
     {
@@ -251,17 +259,17 @@ class Piwik_UserCountry_GeoIPAutoUpdater
         // get new DBs on Wednesday
         switch ($schedulePeriodStr) {
             case self::SCHEDULE_PERIOD_WEEKLY:
-                $schedulePeriod = new Piwik_ScheduledTime_Weekly();
+                $schedulePeriod = new Weekly();
                 $schedulePeriod->setDay(3);
                 break;
             case self::SCHEDULE_PERIOD_MONTHLY:
             default:
-                $schedulePeriod = new Piwik_ScheduledTime_Monthly();
+                $schedulePeriod = new Monthly();
                 $schedulePeriod->setDayOfWeek(3, 0);
                 break;
         }
 
-        return new Piwik_ScheduledTask($instance, 'update', null, $schedulePeriod, Piwik_ScheduledTask::LOWEST_PRIORITY);
+        return new ScheduledTask($instance, 'update', null, $schedulePeriod, ScheduledTask::LOWEST_PRIORITY);
     }
 
     /**
@@ -272,10 +280,10 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     public static function setUpdaterOptionsFromUrl()
     {
         self::setUpdaterOptions(array(
-                                     'loc'    => Piwik_Common::getRequestVar('loc_db', false, 'string'),
-                                     'isp'    => Piwik_Common::getRequestVar('isp_db', false, 'string'),
-                                     'org'    => Piwik_Common::getRequestVar('org_db', false, 'string'),
-                                     'period' => Piwik_Common::getRequestVar('period', false, 'string'),
+                                     'loc'    => Common::getRequestVar('loc_db', false, 'string'),
+                                     'isp'    => Common::getRequestVar('isp_db', false, 'string'),
+                                     'org'    => Common::getRequestVar('org_db', false, 'string'),
+                                     'period' => Common::getRequestVar('period', false, 'string'),
                                 ));
     }
 
@@ -440,15 +448,16 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     /**
      * Avoid downloading archive types we don't support. No point in downloading it,
      * if we can't unzip it...
-     * 
+     *
      * @param string $ext The URL file's extension.
+     * @throws \Exception
      */
     private static function checkForSupportedArchiveType($ext)
     {
         if ($ext != 'tar.gz'
             && $ext != 'gz'
         ) {
-            throw new Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
+            throw new \Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
         }
     }
 
@@ -568,11 +577,11 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     /**
      * Returns the time the auto updater was last run.
      *
-     * @return Piwik_Date|false
+     * @return Date|false
      */
     public static function getLastRunTime()
     {
         $timestamp = Piwik_GetOption(self::LAST_RUN_TIME_OPTION_NAME);
-        return $timestamp === false ? false : Piwik_Date::factory((int)$timestamp);
+        return $timestamp === false ? false : Date::factory((int)$timestamp);
     }
 }

@@ -5,6 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Common;
+use Piwik\Option;
+use Piwik\Db;
+
 require_once "Option.php";
 
 class OptionTest extends DatabaseTestCase
@@ -16,19 +20,19 @@ class OptionTest extends DatabaseTestCase
     public function testGet()
     {
         // empty table, expect false (i.e., not found)
-        $this->assertFalse(Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        $this->assertFalse(Option::getInstance()->get('anonymous_defaultReport'));
 
         // populate table, expect '1' (i.e., found)
-        Piwik_Query("INSERT INTO " . Piwik_Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1', false)");
-        $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Db::query("INSERT INTO " . Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1', false)");
+        $this->assertSame('1', Option::getInstance()->get('anonymous_defaultReport'));
 
         // delete row (bypassing API), expect '1' (i.e., from cache)
-        Piwik_Query("DELETE FROM " . Piwik_Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
-        $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Db::query("DELETE FROM " . Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
+        $this->assertSame('1', Option::getInstance()->get('anonymous_defaultReport'));
 
         // force cache reload, expect false (i.e., not found)
-        Piwik_Option::getInstance()->clearCache();
-        $this->assertFalse(Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Option::getInstance()->clearCache();
+        $this->assertFalse(Option::getInstance()->get('anonymous_defaultReport'));
     }
 
     /**
@@ -41,15 +45,15 @@ class OptionTest extends DatabaseTestCase
         $this->assertFalse(Piwik_GetOption('anonymous_defaultReport'));
 
         // populate table, expect '1' (i.e., found)
-        Piwik_Query("INSERT INTO " . Piwik_Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1',true)");
+        Db::query("INSERT INTO " . Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1',true)");
         $this->assertSame('1', Piwik_GetOption('anonymous_defaultReport'));
 
         // delete row (bypassing API), expect '1' (i.e., from cache)
-        Piwik_Query("DELETE FROM " . Piwik_Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
+        Db::query("DELETE FROM " . Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
         $this->assertSame('1', Piwik_GetOption('anonymous_defaultReport'));
 
         // force cache reload, expect false (i.e., not found)
-        Piwik_Option::getInstance()->clearCache();
+        Option::getInstance()->clearCache();
         $this->assertFalse(Piwik_GetOption('anonymous_defaultReport'));
     }
 
@@ -63,8 +67,8 @@ class OptionTest extends DatabaseTestCase
         $this->assertFalse(Piwik_GetOption('anonymous_defaultReport'));
 
         // populate table, expect '1'
-        Piwik_Option::getInstance()->set('anonymous_defaultReport', '1', true);
-        $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Option::getInstance()->set('anonymous_defaultReport', '1', true);
+        $this->assertSame('1', Option::getInstance()->get('anonymous_defaultReport'));
     }
 
     /**
@@ -78,7 +82,7 @@ class OptionTest extends DatabaseTestCase
 
         // populate table, expect '1'
         Piwik_SetOption('anonymous_defaultReport', '1', false);
-        $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        $this->assertSame('1', Option::getInstance()->get('anonymous_defaultReport'));
     }
 
     /**
@@ -93,28 +97,28 @@ class OptionTest extends DatabaseTestCase
 
         // populate table, expect '1'
         Piwik_SetOption('anonymous_defaultReport', '1', true);
-        Piwik_Option::getInstance()->delete('_defaultReport');
-        $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Option::getInstance()->delete('_defaultReport');
+        $this->assertSame('1', Option::getInstance()->get('anonymous_defaultReport'));
 
         // populate table, expect '2'
         Piwik_SetOption('admin_defaultReport', '2', false);
-        Piwik_Option::getInstance()->delete('_defaultReport');
-        $this->assertSame('2', Piwik_Option::getInstance()->get('admin_defaultReport'));
+        Option::getInstance()->delete('_defaultReport');
+        $this->assertSame('2', Option::getInstance()->get('admin_defaultReport'));
 
         // delete with non-matching value, expect '1'
-        Piwik_Option::getInstance()->delete('anonymous_defaultReport', '2');
-        $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Option::getInstance()->delete('anonymous_defaultReport', '2');
+        $this->assertSame('1', Option::getInstance()->get('anonymous_defaultReport'));
 
         // delete with matching value, expect false
-        Piwik_Option::getInstance()->delete('anonymous_defaultReport', '1');
-        $this->assertFalse(Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Option::getInstance()->delete('anonymous_defaultReport', '1');
+        $this->assertFalse(Option::getInstance()->get('anonymous_defaultReport'));
 
         // this shouldn't have been deleted, expect '2'
-        $this->assertSame('2', Piwik_Option::getInstance()->get('admin_defaultReport'));
+        $this->assertSame('2', Option::getInstance()->get('admin_defaultReport'));
 
         // deleted, expect false
-        Piwik_Option::getInstance()->delete('admin_defaultReport');
-        $this->assertFalse(Piwik_Option::getInstance()->get('admin_defaultReport'));
+        Option::getInstance()->delete('admin_defaultReport');
+        $this->assertFalse(Option::getInstance()->get('admin_defaultReport'));
     }
 
     /**
@@ -134,56 +138,56 @@ class OptionTest extends DatabaseTestCase
 
         // populate table, expect '1'
         Piwik_SetOption('anonymous_defaultReport', '1', true);
-        Piwik_Option::getInstance()->deleteLike('\_defaultReport');
-        $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Option::getInstance()->deleteLike('\_defaultReport');
+        $this->assertSame('1', Option::getInstance()->get('anonymous_defaultReport'));
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // populate table, expect '2'
         Piwik_SetOption('admin_defaultReport', '2', false);
-        Piwik_Option::getInstance()->deleteLike('\_defaultReport');
-        $this->assertSame('2', Piwik_Option::getInstance()->get('admin_defaultReport'));
+        Option::getInstance()->deleteLike('\_defaultReport');
+        $this->assertSame('2', Option::getInstance()->get('admin_defaultReport'));
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // populate table, expect '3'
         Piwik_SetOption('visitor_defaultReport', '3', false);
-        Piwik_Option::getInstance()->deleteLike('\_defaultReport');
-        $this->assertSame('3', Piwik_Option::getInstance()->get('visitor_defaultReport'));
+        Option::getInstance()->deleteLike('\_defaultReport');
+        $this->assertSame('3', Option::getInstance()->get('visitor_defaultReport'));
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // delete with non-matching value, expect '1'
-        Piwik_Option::getInstance()->deleteLike('%\_defaultReport', '4');
-        $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Option::getInstance()->deleteLike('%\_defaultReport', '4');
+        $this->assertSame('1', Option::getInstance()->get('anonymous_defaultReport'));
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // delete with matching pattern, expect false
-        Piwik_Option::getInstance()->deleteLike('%\_defaultReport', '1');
-        $this->assertFalse(Piwik_Option::getInstance()->get('anonymous_defaultReport'));
+        Option::getInstance()->deleteLike('%\_defaultReport', '1');
+        $this->assertFalse(Option::getInstance()->get('anonymous_defaultReport'));
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // this shouldn't have been deleted, expect '2' and '3'
-        $this->assertSame('2', Piwik_Option::getInstance()->get('admin_defaultReport'));
-        $this->assertSame('3', Piwik_Option::getInstance()->get('visitor_defaultReport'));
+        $this->assertSame('2', Option::getInstance()->get('admin_defaultReport'));
+        $this->assertSame('3', Option::getInstance()->get('visitor_defaultReport'));
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // deleted, expect false (except for the guard)
-        Piwik_Option::getInstance()->deleteLike('%\_defaultReport');
-        $this->assertFalse(Piwik_Option::getInstance()->get('admin_defaultReport'));
-        $this->assertFalse(Piwik_Option::getInstance()->get('visitor_defaultReport'));
+        Option::getInstance()->deleteLike('%\_defaultReport');
+        $this->assertFalse(Option::getInstance()->get('admin_defaultReport'));
+        $this->assertFalse(Option::getInstance()->get('visitor_defaultReport'));
 
         // unescaped backslash (single quotes)
-        Piwik_Option::getInstance()->deleteLike('%\_defaultReport');
+        Option::getInstance()->deleteLike('%\_defaultReport');
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // escaped backslash (single quotes)
-        Piwik_Option::getInstance()->deleteLike('%\\_defaultReport');
+        Option::getInstance()->deleteLike('%\\_defaultReport');
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // unescaped backslash (double quotes)
-        Piwik_Option::getInstance()->deleteLike("%\_defaultReport");
+        Option::getInstance()->deleteLike("%\_defaultReport");
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
 
         // escaped backslash (double quotes)
-        Piwik_Option::getInstance()->deleteLike("%\\_defaultReport");
+        Option::getInstance()->deleteLike("%\\_defaultReport");
         $this->assertSame('0', Piwik_GetOption('adefaultReport'));
     }
 }

@@ -7,6 +7,11 @@
  *
  * @package Piwik
  */
+use Piwik\Piwik;
+use Piwik\Timer;
+use Piwik\Tracker;
+use Piwik\Common;
+
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 define('PIWIK_ENABLE_TRACKING', true);
@@ -31,6 +36,7 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 @ignore_user_abort(true);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
+require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
@@ -40,13 +46,13 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/Exception.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/DbException.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/IgnoreCookie.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Visit.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/GoalManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Action.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Referer.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Referrer.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/VisitExcluded.php';
 require_once PIWIK_INCLUDE_PATH . '/core/CacheFile.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
@@ -61,17 +67,17 @@ if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
     require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
     require_once PIWIK_INCLUDE_PATH . '/core/ErrorHandler.php';
     require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
-    $timer = new Piwik_Timer();
+    $timer = new Timer();
     set_error_handler('Piwik_ErrorHandler');
     set_exception_handler('Piwik_ExceptionHandler');
-    printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
-    Piwik_Tracker_Db::enableProfiling();
-    Piwik::createConfigObject();
-    Piwik::createLogObject();
+    Common::printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
+    \Piwik\Tracker\Db::enableProfiling();
+    \Piwik\FrontController::createConfigObject();
+    \Piwik\Log::make();
 }
 
 if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
-    $process = new Piwik_Tracker();
+    $process = new Tracker();
     try {
         $process->main();
     } catch (Exception $e) {
@@ -79,7 +85,7 @@ if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
     }
     ob_end_flush();
     if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
-        printDebug($_COOKIE);
-        printDebug($timer);
+        Common::printDebug($_COOKIE);
+        Common::printDebug($timer);
     }
 }

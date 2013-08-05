@@ -8,16 +8,17 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_6_rc1 extends Piwik_Updates
+class Piwik_Updates_1_6_rc1 extends Updates
 {
     static function update()
     {
         try {
-            Piwik_PluginsManager::getInstance()->activatePlugin('ImageGraph');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('ImageGraph');
         } catch (Exception $e) {
         }
     }

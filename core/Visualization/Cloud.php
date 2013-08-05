@@ -8,6 +8,12 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Visualization;
+
+use Piwik\Common;
+use Piwik\View;
+use Piwik\DataTable;
+use Piwik\DataTableVisualization;
 
 /**
  * Generates a tag cloud from a given data array.
@@ -18,7 +24,7 @@
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Cloud implements Piwik_View_Interface
+class Cloud extends DataTableVisualization
 {
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
@@ -32,7 +38,7 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
      * @param int $value
      * @return string
      */
-    function addWord($word, $value = 1)
+    public function addWord($word, $value = 1)
     {
         if (isset($this->wordsArray[$word])) {
             $this->wordsArray[$word] += $value;
@@ -41,7 +47,47 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
         }
     }
 
-    public function render()
+    /**
+     * Renders this visualization.
+     *
+     * @param DataTable $dataTable
+     * @param array $properties
+     * @return string
+     */
+    public function render($dataTable, $properties)
+    {
+        $view = new View("@CoreHome/_dataTableViz_tagCloud.twig");
+        $view->properties = $properties;
+
+        $columnToDisplay = $properties['columns_to_display'][1];
+
+        $labelMetadata = array();
+        foreach ($dataTable->getRows() as $row) {
+            $logo = false;
+            if ($properties['display_logo_instead_of_label']) {
+                $logo = $row->getMetadata('logo');
+            }
+
+            $label = $row->getColumn('label');
+
+            $labelMetadata[$label] = array(
+                'logo' => $logo,
+                'url'  => $row->getMetadata('url'),
+            );
+
+            $this->addWord($label, $row->getColumn($columnToDisplay));
+        }
+        $cloudValues = $this->getCloudValues();
+        foreach ($cloudValues as &$value) {
+            $value['logoWidth'] = round(max(16, $value['percent']));
+        }
+        $view->labelMetadata = $labelMetadata;
+        $view->cloudValues = $cloudValues;
+
+        return $view->render();
+    }
+
+    private function getCloudValues()
     {
         $this->shuffleCloud();
         $return = array();
@@ -51,8 +97,8 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
         $maxValue = max($this->wordsArray);
         foreach ($this->wordsArray as $word => $popularity) {
             $wordTruncated = $word;
-            if (Piwik_Common::mb_strlen($word) > $this->truncatingLimit) {
-                $wordTruncated = Piwik_Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
+            if (Common::mb_strlen($word) > $this->truncatingLimit) {
+                $wordTruncated = Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
             }
 
             // case hideFutureHoursWhenToday=1 shows hours with no visits

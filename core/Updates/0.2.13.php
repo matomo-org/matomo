@@ -8,18 +8,21 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_13 extends Piwik_Updates
+class Piwik_Updates_0_2_13 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'DROP TABLE IF EXISTS `' . Piwik_Common::prefixTable('option') . '`'    => false,
+            'DROP TABLE IF EXISTS `' . Common::prefixTable('option') . '`'    => false,
 
-            'CREATE TABLE `' . Piwik_Common::prefixTable('option') . "` (
+            'CREATE TABLE `' . Common::prefixTable('option') . "` (
 				option_name VARCHAR( 64 ) NOT NULL ,
 				option_value LONGTEXT NOT NULL ,
 				autoload TINYINT NOT NULL DEFAULT '1',
@@ -30,6 +33,6 @@ class Piwik_Updates_0_2_13 extends Piwik_Updates
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

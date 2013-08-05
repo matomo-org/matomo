@@ -1,4 +1,15 @@
 <?php
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Date;
+use Piwik\FrontController;
+use Piwik\Http;
+use Piwik\Version;
+use Piwik\Url;
+use Piwik\Timer;
+
 $USAGE = "
 Usage: 
 	/path/to/cli/php \"" . @$_SERVER['argv'][0] . "\" --url=http://your-website.org/path/to/piwik/ [arguments]
@@ -52,7 +63,9 @@ define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
-define('PIWIK_MODE_ARCHIVE', true);
+if(!defined('PIWIK_MODE_ARCHIVE')) {
+    define('PIWIK_MODE_ARCHIVE', true);
+}
 
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
@@ -112,7 +125,7 @@ class Archiving
 
         $this->logSection("INIT");
         $this->log("Querying Piwik API at: {$this->piwikUrl}");
-        $this->log("Running Piwik " . Piwik_Version::VERSION . " as Super User: " . $this->login);
+        $this->log("Running Piwik " . Version::VERSION . " as Super User: " . $this->login);
 
         $this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
 
@@ -127,7 +140,7 @@ class Archiving
 
         $this->log("Notes");
         // Information about timeout
-        $this->todayArchiveTimeToLive = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+        $this->todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
         $this->log("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
         $this->log("- Reports for the current week/month/year will be refreshed at most every "
@@ -181,7 +194,7 @@ class Archiving
         $skipped =
         $processed =
         $archivedPeriodsArchivesWebsite = 0;
-        $timer = new Piwik_Timer;
+        $timer = new Timer;
 
         $this->logSection("START");
         $this->log("Starting Piwik reports archiving...");
@@ -194,7 +207,7 @@ class Archiving
                 continue;
             }
 
-            $timerWebsite = new Piwik_Timer;
+            $timerWebsite = new Timer;
 
             $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
             if (!$this->shouldResetState) {
@@ -406,12 +419,12 @@ class Archiving
      * @param $idsite int
      * @param $period
      * @param $lastTimestampWebsiteProcessed
-     * @param Piwik_Timer $timerWebsite
+     * @param Timer $timerWebsite
      * @return bool True on success, false if some request failed
      */
-    private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Piwik_Timer $timerWebsite = null)
+    private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Timer $timerWebsite = null)
     {
-        $timer = new Piwik_Timer;
+        $timer = new Timer;
         $aCurl = array();
         $mh = false;
         $url = $this->piwikUrl . $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed) . $this->requestPrepend;
@@ -479,8 +492,8 @@ class Archiving
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
-        curl_setopt($ch, CURLOPT_USERAGENT, Piwik_Http::getUserAgent());
-        Piwik_Http::configCurlCertificate($ch);
+        curl_setopt($ch, CURLOPT_USERAGENT, Http::getUserAgent());
+        Http::configCurlCertificate($ch);
         return $ch;
     }
 
@@ -535,7 +548,7 @@ class Archiving
         $url = $this->piwikUrl . $url . $this->requestPrepend;
         //$this->log($url);
         try {
-            $response = Piwik_Http::sendHttpRequestBy('curl', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
+            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
         } catch (Exception $e) {
             return $this->logNetworkError($url, $e->getMessage());
         }
@@ -602,10 +615,10 @@ class Archiving
 
     private function initLog()
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
         $config->log['logger_message'] = array("logger_message" => "screen");
-        Piwik::createLogObject();
+        \Piwik\Log::make();
 
         if (!function_exists("curl_multi_init")) {
             $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");
@@ -619,8 +632,8 @@ class Archiving
      */
     private function initCheckCli()
     {
-        if (!Piwik_Common::isPhpCliMode()) {
-            $token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string');
+        if (!Common::isPhpCliMode()) {
+            $token_auth = Common::getRequestVar('token_auth', '', 'string');
             if ($token_auth != $this->token_auth
                 || strlen($token_auth) != 32
             ) {
@@ -638,7 +651,7 @@ class Archiving
     private function initCore()
     {
         try {
-            Piwik_FrontController::getInstance()->init();
+            FrontController::getInstance()->init();
         } catch (Exception $e) {
             echo "ERROR: During Piwik init, Message: " . $e->getMessage();
             exit;
@@ -665,7 +678,7 @@ class Archiving
         ) // in case --force-timeout-for-periods= without [seconds] specified
         {
             // Ensure the cache for periods is at least as high as cache for today
-            $todayTTL = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+            $todayTTL = Rules::getTodayArchiveTimeToLive();
             if ($forceTimeoutPeriod < $todayTTL) {
                 $this->log("WARNING: Automatically increasing --force-timeout-for-periods from $forceTimeoutPeriod to "
                     . $todayTTL
@@ -676,7 +689,7 @@ class Archiving
         }
 
         // Recommend to disable browser archiving when using this script
-        if (Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()) {
+        if (Rules::isBrowserTriggerEnabled()) {
             $this->log("NOTE: if you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings. ");
             $this->log("      see doc at: http://piwik.org/docs/setup-auto-archiving/");
         }
@@ -748,8 +761,8 @@ class Archiving
             $uniqueTimezones = Piwik_SitesManager_API::getInstance()->getUniqueSiteTimezones();
             $timezoneToProcess = array();
             foreach ($uniqueTimezones as &$timezone) {
-                $processedDateInTz = Piwik_Date::factory((int)$timestampActiveTraffic, $timezone);
-                $currentDateInTz = Piwik_Date::factory('now', $timezone);
+                $processedDateInTz = Date::factory((int)$timestampActiveTraffic, $timezone);
+                $currentDateInTz = Date::factory('now', $timezone);
 
                 if ($processedDateInTz->toString() != $currentDateInTz->toString()) {
                     $timezoneToProcess[] = $timezone;
@@ -770,8 +783,8 @@ class Archiving
 
     private function initTokenAuth()
     {
-        $login = Piwik_Config::getInstance()->superuser['login'];
-        $md5Password = Piwik_Config::getInstance()->superuser['password'];
+        $login = Config::getInstance()->superuser['login'];
+        $md5Password = Config::getInstance()->superuser['password'];
         $this->token_auth = md5($login . $md5Password);
         $this->login = $login;
     }
@@ -779,16 +792,16 @@ class Archiving
     private function initPiwikHost()
     {
         // If archive.php run as a web cron, we use the current hostname
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             // example.org/piwik/misc/cron/
-            $piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+            $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
             // example.org/piwik/
             $piwikUrl = $piwikUrl . "../../";
         } // If archive.php run as CLI/shell we require the piwik url to be set
         else {
             $piwikUrl = $this->isParameterSet("url", true);
             if (!$piwikUrl
-                || !Piwik_Common::isLookLikeUrl($piwikUrl)
+                || !Common::isLookLikeUrl($piwikUrl)
             ) {
                 $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ ", $backtrace = false);
             }
@@ -797,7 +810,7 @@ class Archiving
                 $piwikUrl .= '/';
             }
         }
-        if (Piwik_Config::getInstance()->General['force_ssl'] == 1) {
+        if (Config::getInstance()->General['force_ssl'] == 1) {
             $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
         }
         $this->piwikUrl = $piwikUrl . "index.php";
@@ -815,7 +828,7 @@ class Archiving
      */
     private function isParameterSet($parameter, $valuePossible = false)
     {
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             return false;
         }
         $parameters = array(

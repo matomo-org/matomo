@@ -8,28 +8,42 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\JqplotDataGenerator;
+
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\ViewDataTable;
+use Piwik\Url;
+use Piwik\JqplotDataGenerator;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.
  */
-class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
+class Evolution extends JqplotDataGenerator
 {
     protected $rowPickerConfig = array();
-    
+
     /**
      * Constructor.
+     *
+     * @param array $properties
      */
     public function __construct($properties)
     {
-        parent::__construct(new Piwik_Visualization_Chart_Evolution(), $properties);
+        parent::__construct(new \Piwik\Visualization\Chart\Evolution(), $properties);
     }
 
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     */
     protected function initChartObjectData($dataTable)
     {
         // if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
-        // we don't expect plugin developers to return a well defined Piwik_DataTable_Array
-        if ($dataTable instanceof Piwik_DataTable) {
-            return parent::initChartObjectData($dataTable);
+        // we don't expect plugin developers to return a well defined Set
+        if ($dataTable instanceof DataTable) {
+            parent::initChartObjectData($dataTable);
+            return;
         }
 
         $dataTable->applyQueuedFilters();
@@ -43,7 +57,7 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
             $uniqueIdsDataTable[] = $idDataTable;
         }
 
-        $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', null, 'int');
         $requestedColumnNames = $this->properties['columns_to_display'];
         $units = $this->getUnitsForColumnsToDisplay();
 
@@ -86,7 +100,7 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
                 $yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
             }
         }
-        
+
         $visualization = $this->visualization;
         $visualization->setAxisXLabels($xLabels);
         $visualization->setAxisYValues($yAxisLabelToValueCleaned);
@@ -95,6 +109,8 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
         $countGraphElements = $dataTable->getRowsCount();
         $dataTables = $dataTable->getArray();
         $firstDatatable = reset($dataTables);
+
+        /** @var \Piwik\Period $period */
         $period = $firstDatatable->getMetadata('period');
 
         $stepSize = $this->getXAxisStepSize($period->getLabel(), $countGraphElements);
@@ -110,14 +126,14 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
                     'idSite'  => $idSite,
                     'period'  => $period->getLabel(),
                     'date'    => $dateInUrl->toString(),
-                    'segment' => Piwik_ViewDataTable::getRawSegmentFromRequest()
+                    'segment' => \Piwik\API\Request::getRawSegmentFromRequest()
                 );
                 $hash = '';
                 if (!empty($queryStringAsHash)) {
-                    $hash = '#' . Piwik_Url::getQueryStringFromParameters($queryStringAsHash + $parameters);
+                    $hash = '#' . Url::getQueryStringFromParameters($queryStringAsHash + $parameters);
                 }
                 $link = 'index.php?' .
-                    Piwik_Url::getQueryStringFromParameters(array(
+                    Url::getQueryStringFromParameters(array(
                         'module' => 'CoreHome',
                         'action' => 'index',
                     ) + $parameters)
@@ -128,7 +144,7 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
         }
 
         $this->addSeriesPickerToView();
-        
+
         // configure the row picker
         if ($this->properties['row_picker_mach_rows_by'] !== false) {
             $visualization->setSelectableRows(array_values($this->rowPickerConfig));
@@ -201,12 +217,12 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
      */
     private function getQueryStringAsHash()
     {
-        $queryString = Piwik_Url::getArrayFromCurrentQueryString();
+        $queryString = Url::getArrayFromCurrentQueryString();
         $piwikParameters = array('idSite', 'date', 'period', 'XDEBUG_SESSION_START', 'KEY');
         foreach ($piwikParameters as $parameter) {
             unset($queryString[$parameter]);
         }
-        if (Piwik_IsMenuUrlFound($queryString)) {
+        if (\Piwik\Menu\Main::getInstance()->isUrlFound($queryString)) {
             return $queryString;
         }
         return false;
@@ -219,8 +235,8 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
             // 1) Custom Date Range always have link disabled, otherwise
             // the graph data set is way too big and fails to display
             // 2) disableLink parameter is set in the Widgetize "embed" code
-            $linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int')
-                && Piwik_Common::getRequestVar('period', 'day') != 'range';
+            $linkEnabled = !Common::getRequestVar('disableLink', 0, 'int')
+                && Common::getRequestVar('period', 'day') != 'range';
         }
         return $linkEnabled;
     }

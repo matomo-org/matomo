@@ -9,7 +9,12 @@
  * @package Piwik_VisitorInterest
  */
 
-class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
+use Piwik\DataAccess\LogAggregator;
+use Piwik\Metrics;
+use Piwik\DataTable;
+use Piwik\PluginsArchiver;
+
+class Piwik_VisitorInterest_Archiver extends PluginsArchiver
 {
     // third element is unit (s for seconds, default is munutes)
     const TIME_SPENT_RECORD_NAME = 'VisitorInterest_timeGap';
@@ -101,14 +106,14 @@ class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
         );
         $selects = array();
         foreach($aggregatesMetadata as $aggregateMetadata) {
-            $selectsFromRangedColumn = Piwik_DataAccess_LogAggregator::getSelectsFromRangedColumn($aggregateMetadata);
+            $selectsFromRangedColumn = LogAggregator::getSelectsFromRangedColumn($aggregateMetadata);
             $selects = array_merge( $selects, $selectsFromRangedColumn);
         }
         $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = false, $selects, array());
         $row = $query->fetch();
         foreach($prefixes as $recordName => $selectAsPrefix) {
-            $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Metrics::INDEX_NB_VISITS, $selectAsPrefix);
-            $dataTable = Piwik_DataTable::makeFromIndexedArray($cleanRow);
+            $cleanRow = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_VISITS, $selectAsPrefix);
+            $dataTable = DataTable::makeFromIndexedArray($cleanRow);
             $this->getProcessor()->insertBlobRecord($recordName, $dataTable->getSerialized());
         }
     }

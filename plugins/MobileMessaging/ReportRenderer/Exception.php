@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging_ReportRenderer
  */
+use Piwik\ReportRenderer;
 
 /**
  *
  * @package Piwik_MobileMessaging_ReportRenderer
  */
-class Piwik_MobileMessaging_ReportRenderer_Exception extends Piwik_ReportRenderer
+class Piwik_MobileMessaging_ReportRenderer_Exception extends ReportRenderer
 {
     private $rendering = "";
 
@@ -29,7 +30,7 @@ class Piwik_MobileMessaging_ReportRenderer_Exception extends Piwik_ReportRendere
 
     public function sendToDisk($filename)
     {
-        return Piwik_ReportRenderer::writeFile(
+        return ReportRenderer::writeFile(
             $filename,
             Piwik_MobileMessaging_ReportRenderer_Sms::SMS_FILE_EXTENSION,
             $this->rendering
@@ -38,7 +39,7 @@ class Piwik_MobileMessaging_ReportRenderer_Exception extends Piwik_ReportRendere
 
     public function sendToBrowserDownload($filename)
     {
-        Piwik_ReportRenderer::sendToBrowser(
+        ReportRenderer::sendToBrowser(
             $filename,
             Piwik_MobileMessaging_ReportRenderer_Sms::SMS_FILE_EXTENSION,
             Piwik_MobileMessaging_ReportRenderer_Sms::SMS_CONTENT_TYPE,
@@ -48,7 +49,7 @@ class Piwik_MobileMessaging_ReportRenderer_Exception extends Piwik_ReportRendere
 
     public function sendToBrowserInline($filename)
     {
-        Piwik_ReportRenderer::inlineToBrowser(
+        ReportRenderer::inlineToBrowser(
             Piwik_MobileMessaging_ReportRenderer_Sms::SMS_CONTENT_TYPE,
             $this->rendering
         );

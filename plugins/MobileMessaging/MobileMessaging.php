@@ -8,12 +8,15 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging
  */
+use Piwik\Piwik;
+use Piwik\View;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_MobileMessaging
  */
-class Piwik_MobileMessaging extends Piwik_Plugin
+class Piwik_MobileMessaging extends Plugin
 {
     const DELEGATED_MANAGEMENT_OPTION = 'MobileMessaging_DelegatedManagement';
     const PROVIDER_OPTION = 'Provider';
@@ -157,7 +160,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
     public function getRendererInstance(&$reportRenderer, $info)
     {
         if (self::manageEvent($info)) {
-            if (Piwik_PluginsManager::getInstance()->isPluginActivated('MultiSites')) {
+            if (\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites')) {
                 $reportRenderer = new Piwik_MobileMessaging_ReportRenderer_Sms();
             } else {
                 $reportRenderer = new Piwik_MobileMessaging_ReportRenderer_Exception(
@@ -214,7 +217,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
             return;
         }
 
-        $view = new Piwik_View('@MobileMessaging/reportParametersPDFReports');
+        $view = new View('@MobileMessaging/reportParametersPDFReports');
         $view->reportType = self::MOBILE_TYPE;
         $view->phoneNumbers = Piwik_MobileMessaging_API::getInstance()->getActivatedPhoneNumbers();
         $out .= $view->render();

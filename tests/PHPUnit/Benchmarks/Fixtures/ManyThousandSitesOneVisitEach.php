@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Reusable fixture. Adds 20,000 sites and tracks one pageview for each on one day.
@@ -27,7 +28,7 @@ class Piwik_Test_Fixture_ManyThousandSitesOneVisitEach
         
         // track one visit for each site
         $t = BenchmarkTestCase::getLocalTracker(1);
-        $t->setForceVisitDateTime(Piwik_Date::factory($this->date)->addHour(6));
+        $t->setForceVisitDateTime(Date::factory($this->date)->addHour(6));
         for ($idSite = 1; $idSite < $this->siteCount + 1; ++$idSite) {
             $ip = "157.5.6.4";
             $t->setIp($ip);

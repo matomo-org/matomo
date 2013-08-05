@@ -5,6 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
+use Piwik\Site;
+
 class SitesManagerTest extends DatabaseTestCase
 {
     public function setUp()
@@ -14,7 +17,7 @@ class SitesManagerTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     /**
@@ -87,9 +90,9 @@ class SitesManagerTest extends DatabaseTestCase
         $this->assertEquals($timezone, $siteInfo['timezone']);
         $this->assertEquals($currency, $siteInfo['currency']);
         $this->assertEquals($ecommerce, $siteInfo['ecommerce']);
-        $this->assertTrue(Piwik_Site::isEcommerceEnabledFor($idsite));
+        $this->assertTrue(Site::isEcommerceEnabledFor($idsite));
         $this->assertEquals($siteSearch, $siteInfo['sitesearch']);
-        $this->assertTrue(Piwik_Site::isSiteSearchEnabledFor($idsite));
+        $this->assertTrue(Site::isSiteSearchEnabledFor($idsite));
         $this->assertEquals($searchKeywordParameters, $siteInfo['sitesearch_keyword_parameters']);
         $this->assertEquals($searchCategoryParameters, $siteInfo['sitesearch_category_parameters']);
         $this->assertEquals($expectedExcludedQueryParameters, $siteInfo['excluded_parameters']);
@@ -866,7 +869,7 @@ class SitesManagerTest extends DatabaseTestCase
 
         // test that when not specified, defaults are set as expected  
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1", array('http://example.org'));
-        $site = new Piwik_Site($idsite);
+        $site = new Site($idsite);
         $this->assertEquals('UTC', $site->getTimezone());
         $this->assertEquals('USD', $site->getCurrency());
         $this->assertEquals('', $site->getExcludedQueryParameters());
@@ -904,7 +907,7 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1", array('http://example.org'), $ecommerce = 0,
             $siteSearch = 0, $searchKeywordParameters = 'test1,test2', $searchCategoryParameters = 'test2,test1',
             '', '', $newDefaultTimezone);
-        $site = new Piwik_Site($idsite);
+        $site = new Site($idsite);
         $this->assertEquals($newDefaultTimezone, $site->getTimezone());
         $this->assertEquals(date('Y-m-d'), $site->getCreationDate()->toString());
         $this->assertEquals($newDefaultCurrency, $site->getCurrency());
@@ -913,9 +916,9 @@ class SitesManagerTest extends DatabaseTestCase
         $this->assertEquals('test1,test2', $site->getSearchKeywordParameters());
         $this->assertEquals('test2,test1', $site->getSearchCategoryParameters());
         $this->assertFalse($site->isSiteSearchEnabled());
-        $this->assertFalse(Piwik_Site::isSiteSearchEnabledFor($idsite));
+        $this->assertFalse(Site::isSiteSearchEnabledFor($idsite));
         $this->assertFalse($site->isEcommerceEnabled());
-        $this->assertFalse(Piwik_Site::isEcommerceEnabledFor($idsite));
+        $this->assertFalse(Site::isEcommerceEnabledFor($idsite));
     }
 
     /**
@@ -953,7 +956,7 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2", array("http://piwik.com", "http://piwik.net"));
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3", array("http://piwik.com", "http://piwik.org"));
 
-        $saveAccess = Piwik_Access::getInstance();
+        $saveAccess = Access::getInstance();
 
         Piwik_UsersManager_API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
         Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "view", array(1));
@@ -971,7 +974,7 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user1';
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array());
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(1, count($idsites));
 
@@ -986,7 +989,7 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user2';
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array(3));
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(2, count($idsites));
 
@@ -995,11 +998,11 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user3';
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3));
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(3, count($idsites));
 
-        Piwik_Access::setSingletonInstance($saveAccess);
+        Access::setSingletonInstance($saveAccess);
     }
 
     /**

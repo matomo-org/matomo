@@ -8,21 +8,25 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Delete all rows for which a given function returns false for a given column.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_ColumnCallbackDeleteRow extends Piwik_DataTable_Filter
+class ColumnCallbackDeleteRow extends Filter
 {
     private $columnToFilter;
     private $function;
     private $functionParams;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string $columnToFilter
      * @param callback $function
      * @param array $functionParams
@@ -43,7 +47,7 @@ class Piwik_DataTable_Filter_ColumnCallbackDeleteRow extends Piwik_DataTable_Fil
     /**
      * Filters the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {

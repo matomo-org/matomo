@@ -5,6 +5,10 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Common;
+use Piwik\FrontController;
+use Piwik\WidgetsList;
+
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 
 /**
@@ -56,7 +60,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         // collect widgets to add to the layout
         $groupedWidgets = array();
         $dashboard = 0;
-        foreach (Piwik_GetWidgetsList() as $category => $widgets) {
+        foreach (WidgetsList::get() as $category => $widgets) {
             foreach ($widgets as $widget) {
                 if ($widget['uniqueId'] == 'widgetSEOgetRank'
                     || $widget['uniqueId'] == 'widgetReferersgetKeywordsForPage'
@@ -85,9 +89,9 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         
         foreach ($dashboards as $id => $layout) {
             $_GET['name'] = self::makeXssContent('dashboard name' . $id);
-            $_GET['layout'] = Piwik_Common::json_encode($layout);
+            $_GET['layout'] = Common::json_encode($layout);
             $_GET['idDashboard'] = $id + 1;
-            Piwik_FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
+            FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         }
         
         $_GET = $oldGet;
@@ -115,7 +119,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
     {
         $result = "<script>$('body').html('$type XSS!');</script>";
         if ($sanitize) {
-            $result = Piwik_Common::sanitizeInputValue($result);
+            $result = Common::sanitizeInputValue($result);
         }
         return $result;
     }

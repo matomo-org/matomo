@@ -8,13 +8,15 @@
  * @category Piwik_Plugins
  * @package Piwik_Proxy
  */
+use Piwik\Version;
+use Piwik\Plugin;
 
 /**
  * Proxy services for the UI
  *
  * @package Piwik_Proxy
  */
-class Piwik_Proxy extends Piwik_Plugin
+class Piwik_Proxy extends Plugin
 {
     /**
      * Return information about this plugin.
@@ -29,7 +31,7 @@ class Piwik_Proxy extends Piwik_Plugin
             'description'          => 'Proxy services',
             'author'               => 'Piwik',
             'author_homepage'      => 'http://piwik.org/',
-            'version'              => Piwik_Version::VERSION,
+            'version'              => Version::VERSION,
             'translationAvailable' => false,
         );
     }

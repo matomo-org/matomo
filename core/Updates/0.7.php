@@ -8,22 +8,25 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_0_7 extends Piwik_Updates
+class Piwik_Updates_0_7 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('option') . '`
+            'ALTER TABLE `' . Common::prefixTable('option') . '`
 				CHANGE `option_name` `option_name` VARCHAR(255) NOT NULL' => false,
         );
     }
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

@@ -164,7 +164,7 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
     label = label.trim();
     // if we have received the event from the sub table, add the label
     if (subTableLabel) {
-        var separator = ' > '; // Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL
+        var separator = ' > '; // LabelFilter::SEPARATOR_RECURSIVE_LABEL
         label += separator + subTableLabel.trim();
     }
 

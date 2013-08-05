@@ -8,12 +8,22 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Tracker;
+
+use Exception;
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\Tracker;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\Cache;
+use Piwik\Tracker\Referrer;
+use Piwik\Tracker\Request;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
-class Piwik_Tracker_GoalManager
+class GoalManager
 {
     // log_visit.visit_goal_buyer
     const TYPE_BUYER_NONE = 0;
@@ -36,18 +46,18 @@ class Piwik_Tracker_GoalManager
     public $isGoalAnOrder;
 
     /**
-     * @var Piwik_Tracker_Action
+     * @var Action
      */
     protected $action = null;
     protected $convertedGoals = array();
     protected $isThereExistingCartInVisit = false;
     /**
-     * @var Piwik_Tracker_Request
+     * @var Request
      */
     protected $request;
     protected $orderId;
 
-    public function __construct(Piwik_Tracker_Request $request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
         $this->init();
@@ -61,12 +71,12 @@ class Piwik_Tracker_GoalManager
         $this->requestIsEcommerce = ($this->idGoal == 0);
     }
 
-    function getBuyerType($existingType = Piwik_Tracker_GoalManager::TYPE_BUYER_NONE)
+    function getBuyerType($existingType = GoalManager::TYPE_BUYER_NONE)
     {
         // Was there a Cart for this visit prior to the order?
         $this->isThereExistingCartInVisit = in_array($existingType,
-            array(Piwik_Tracker_GoalManager::TYPE_BUYER_OPEN_CART,
-                  Piwik_Tracker_GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART));
+            array(GoalManager::TYPE_BUYER_OPEN_CART,
+                  GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART));
 
         if (!$this->requestIsEcommerce) {
             return $existingType;
@@ -85,7 +95,7 @@ class Piwik_Tracker_GoalManager
 
     static public function getGoalDefinitions($idSite)
     {
-        $websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
+        $websiteAttributes = Cache::getCacheWebsiteAttributes($idSite);
         if (isset($websiteAttributes['goals'])) {
             return $websiteAttributes['goals'];
         }
@@ -117,13 +127,13 @@ class Piwik_Tracker_GoalManager
      * Look at the URL or Page Title and sees if it matches any existing Goal definition
      *
      * @param int $idSite
-     * @param Piwik_Tracker_Action $action
+     * @param Action $action
      * @throws Exception
      * @return int Number of goals matched
      */
     function detectGoalsMatchingUrl($idSite, $action)
     {
-        if (!Piwik_Common::isGoalPluginEnabled()) {
+        if (!Common::isGoalPluginEnabled()) {
             return false;
         }
 
@@ -133,9 +143,9 @@ class Piwik_Tracker_GoalManager
         foreach ($goals as $goal) {
             $attribute = $goal['match_attribute'];
             // if the attribute to match is not the type of the current action
-            if (($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL && $attribute != 'url' && $attribute != 'title')
-                || ($actionType == Piwik_Tracker_Action::TYPE_DOWNLOAD && $attribute != 'file')
-                || ($actionType == Piwik_Tracker_Action::TYPE_OUTLINK && $attribute != 'external_website')
+            if (($actionType == Action::TYPE_ACTION_URL && $attribute != 'url' && $attribute != 'title')
+                || ($actionType == Action::TYPE_DOWNLOAD && $attribute != 'file')
+                || ($actionType == Action::TYPE_OUTLINK && $attribute != 'external_website')
                 || ($attribute == 'manually')
             ) {
                 continue;
@@ -192,7 +202,7 @@ class Piwik_Tracker_GoalManager
 
     function detectGoalId($idSite)
     {
-        if (!Piwik_Common::isGoalPluginEnabled()) {
+        if (!Common::isGoalPluginEnabled()) {
             return false;
         }
         $goals = $this->getGoalDefinitions($idSite);
@@ -202,8 +212,8 @@ class Piwik_Tracker_GoalManager
         $goal = $goals[$this->idGoal];
 
         $url = $this->request->getParam('url');
-        $goal['url'] = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
-        $goal['revenue'] = $this->getRevenue( $this->request->getGoalRevenue($goal['revenue']));
+        $goal['url'] = Action::excludeQueryParametersFromUrl($url, $idSite);
+        $goal['revenue'] = $this->getRevenue($this->request->getGoalRevenue($goal['revenue']));
         $this->convertedGoals[] = $goal;
         return true;
     }
@@ -211,10 +221,10 @@ class Piwik_Tracker_GoalManager
     /**
      * Records one or several goals matched in this request.
      *
-     * @param int    $idSite
-     * @param array  $visitorInformation
-     * @param array  $visitCustomVariables
-     * @param string $action
+     * @param int $idSite
+     * @param array $visitorInformation
+     * @param array $visitCustomVariables
+     * @param Action $action
      */
     public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
     {
@@ -226,9 +236,9 @@ class Piwik_Tracker_GoalManager
 
         $location_country = isset($visitorInformation['location_country'])
             ? $visitorInformation['location_country']
-            : Piwik_Common::getCountry(
+            : Common::getCountry(
                 $browserLanguage,
-                $enableLanguageToCountryGuess = Piwik_Config::getInstance()->Tracker['enable_language_to_country_guess'],
+                $enableLanguageToCountryGuess = Config::getInstance()->Tracker['enable_language_to_country_guess'],
                 $visitorInformation['location_ip']
             );
 
@@ -236,7 +246,7 @@ class Piwik_Tracker_GoalManager
             'idvisit'                  => $visitorInformation['idvisit'],
             'idsite'                   => $idSite,
             'idvisitor'                => $visitorInformation['idvisitor'],
-            'server_time'              => Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
+            'server_time'              => Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
             'location_country'         => $location_country,
             'visitor_returning'        => $visitorInformation['visitor_returning'],
             'visitor_days_since_first' => $visitorInformation['visitor_days_since_first'],
@@ -252,7 +262,7 @@ class Piwik_Tracker_GoalManager
         }
 
         // Copy Custom Variables from Visit row to the Goal conversion
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             if (isset($visitorInformation['custom_var_k' . $i])
                 && strlen($visitorInformation['custom_var_k' . $i])
             ) {
@@ -283,23 +293,23 @@ class Piwik_Tracker_GoalManager
         // 0) In some (unknown!?) cases the campaign is not found in the attribution cookie, but the URL ref was found.
         //    In this case we look up if the current visit is credited to a campaign and will credit this campaign rather than the URL ref (since campaigns have higher priority)
         if (empty($refererCampaignName)
-            && $type == Piwik_Common::REFERER_TYPE_CAMPAIGN
+            && $type == Common::REFERER_TYPE_CAMPAIGN
             && !empty($name)
         ) {
             // Use default values per above
         } // 1) Campaigns from 1st party cookie
         elseif (!empty($refererCampaignName)) {
-            $type = Piwik_Common::REFERER_TYPE_CAMPAIGN;
+            $type = Common::REFERER_TYPE_CAMPAIGN;
             $name = $refererCampaignName;
             $keyword = $refererCampaignKeyword;
             $time = $refererTimestamp;
         } // 2) Referrer URL parsing
         elseif (!empty($refererUrl)) {
-            $referrer = new Piwik_Tracker_Referer();
+            $referrer = new Referrer();
             $referrer = $referrer->getRefererInformation($refererUrl, $currentUrl = '', $idSite);
 
-            // if the parsed referer is interesting enough, ie. website or search engine 
-            if (in_array($referrer['referer_type'], array(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE, Piwik_Common::REFERER_TYPE_WEBSITE))) {
+            // if the parsed referer is interesting enough, ie. website or search engine
+            if (in_array($referrer['referer_type'], array(Common::REFERER_TYPE_SEARCH_ENGINE, Common::REFERER_TYPE_WEBSITE))) {
                 $type = $referrer['referer_type'];
                 $name = $referrer['referer_name'];
                 $keyword = $referrer['referer_keyword'];
@@ -353,14 +363,14 @@ class Piwik_Tracker_GoalManager
         );
 
         if ($this->isThereExistingCartInVisit) {
-            printDebug("There is an existing cart for this visit");
+            Common::printDebug("There is an existing cart for this visit");
         }
         if ($this->isGoalAnOrder) {
-            $orderIdNumeric = Piwik_Common::hashStringToInt($this->orderId);
+            $orderIdNumeric = Common::hashStringToInt($this->orderId);
             $goal['idgoal'] = self::IDGOAL_ORDER;
             $goal['idorder'] = $this->orderId;
             $goal['buster'] = $orderIdNumeric;
-            $goal['revenue_subtotal'] = $this->getRevenue( $this->request->getParam('ec_st'));
+            $goal['revenue_subtotal'] = $this->getRevenue($this->request->getParam('ec_st'));
             $goal['revenue_tax'] = $this->getRevenue($this->request->getParam('ec_tx'));
             $goal['revenue_shipping'] = $this->getRevenue($this->request->getParam('ec_sh'));
             $goal['revenue_discount'] = $this->getRevenue($this->request->getParam('ec_dt'));
@@ -372,9 +382,9 @@ class Piwik_Tracker_GoalManager
             $goal['idgoal'] = self::IDGOAL_CART;
             $debugMessage = 'The conversion is an Ecommerce Cart Update';
         }
-        $goal['revenue'] = $this->getRevenue($this->request->getGoalRevenue( $defaultRevenue = 0));
+        $goal['revenue'] = $this->getRevenue($this->request->getGoalRevenue($defaultRevenue = 0));
 
-        printDebug($debugMessage . ':' . var_export($goal, true));
+        Common::printDebug($debugMessage . ':' . var_export($goal, true));
 
         // INSERT or Sync items in the Cart / Order for this visit & order
         $items = $this->getEcommerceItemsFromRequest();
@@ -401,19 +411,19 @@ class Piwik_Tracker_GoalManager
 
     /**
      * Returns Items read from the request string
-     * @return array|false
+     * @return array|bool
      */
     protected function getEcommerceItemsFromRequest()
     {
-        $items = Piwik_Common::unsanitizeInputValue($this->request->getParam('ec_items'));
+        $items = Common::unsanitizeInputValue($this->request->getParam('ec_items'));
         if (empty($items)) {
-            printDebug("There are no Ecommerce items in the request");
+            Common::printDebug("There are no Ecommerce items in the request");
             // we still record an Ecommerce order without any item in it
             return array();
         }
-        $items = Piwik_Common::json_decode($items, $assoc = true);
+        $items = Common::json_decode($items, $assoc = true);
         if (!is_array($items)) {
-            printDebug("Error while json_decode the Ecommerce items = " . var_export($items, true));
+            Common::printDebug("Error while json_decode the Ecommerce items = " . var_export($items, true));
             return false;
         }
 
@@ -438,7 +448,7 @@ class Piwik_Tracker_GoalManager
 
         // Select all items currently in the Cart if any
         $sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, idorder as idorder_original_value
-				FROM " . Piwik_Common::prefixTable('log_conversion_item') . "
+				FROM " . Common::prefixTable('log_conversion_item') . "
 				WHERE idvisit = ?
 					AND (idorder = ? OR idorder = ?)";
 
@@ -447,10 +457,10 @@ class Piwik_Tracker_GoalManager
                       self::ITEM_IDORDER_ABANDONED_CART
         );
 
-        $itemsInDb = Piwik_Tracker::getDatabase()->fetchAll($sql, $bind);
+        $itemsInDb = Tracker::getDatabase()->fetchAll($sql, $bind);
 
-        printDebug("Items found in current cart, for conversion_item (visit,idorder)=" . var_export($bind, true));
-        printDebug($itemsInDb);
+        Common::printDebug("Items found in current cart, for conversion_item (visit,idorder)=" . var_export($bind, true));
+        Common::printDebug($itemsInDb);
         // Look at which items need to be deleted, which need to be added or updated, based on the SKU
         $skuFoundInDb = $itemsToUpdate = array();
         foreach ($itemsInDb as $itemInDb) {
@@ -473,8 +483,8 @@ class Piwik_Tracker_GoalManager
                 );
 
                 $itemsToUpdate[] = $itemToUpdate;
-                printDebug("Item found in the previous Cart, but no in the current cart/order");
-                printDebug($itemToUpdate);
+                Common::printDebug("Item found in the previous Cart, but no in the current cart/order");
+                Common::printDebug($itemToUpdate);
                 continue;
             }
 
@@ -482,14 +492,14 @@ class Piwik_Tracker_GoalManager
             $newItem = $this->getItemRowCast($newItem);
 
             if (count($itemInDb) != count($newItem)) {
-                printDebug("ERROR: Different format in items from cart and DB");
+                Common::printDebug("ERROR: Different format in items from cart and DB");
                 throw new Exception(" Item in DB and Item in cart have a different format, this is not expected... " . var_export($itemInDb, true) . var_export($newItem, true));
             }
-            printDebug("Item has changed since the last cart. Previous item stored in cart in database:");
-            printDebug($itemInDb);
-            printDebug("New item to UPDATE the previous row:");
+            Common::printDebug("Item has changed since the last cart. Previous item stored in cart in database:");
+            Common::printDebug($itemInDb);
+            Common::printDebug("New item to UPDATE the previous row:");
             $newItem['idorder_original_value'] = $itemInDbOriginal['idorder_original_value'];
-            printDebug($newItem);
+            Common::printDebug($newItem);
             $itemsToUpdate[] = $newItem;
         }
 
@@ -587,12 +597,12 @@ class Piwik_Tracker_GoalManager
         foreach ($cleanedItems as $item) {
             $actionsToLookup = array();
             list($sku, $name, $category, $price, $quantity) = $item;
-            $actionsToLookup[] = array(trim($sku), Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_SKU);
-            $actionsToLookup[] = array(trim($name), Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_NAME);
+            $actionsToLookup[] = array(trim($sku), Action::TYPE_ECOMMERCE_ITEM_SKU);
+            $actionsToLookup[] = array(trim($name), Action::TYPE_ECOMMERCE_ITEM_NAME);
 
             // Only one category
             if (!is_array($category)) {
-                $actionsToLookup[] = array(trim($category), Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+                $actionsToLookup[] = array(trim($category), Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
             } // Multiple categories
             else {
                 $countCategories = 0;
@@ -605,17 +615,17 @@ class Piwik_Tracker_GoalManager
                     if ($countCategories > self::MAXIMUM_PRODUCT_CATEGORIES) {
                         break;
                     }
-                    $actionsToLookup[] = array($productCategory, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+                    $actionsToLookup[] = array($productCategory, Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
                 }
             }
             // Ensure that each row has the same number of columns, fill in the blanks
             for ($i = count($actionsToLookup); $i < $columnsInEachRow; $i++) {
-                $actionsToLookup[] = array(false, Piwik_Tracker_Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
+                $actionsToLookup[] = array(false, Action::TYPE_ECOMMERCE_ITEM_CATEGORY);
             }
             $actionsToLookupAllItems = array_merge($actionsToLookupAllItems, $actionsToLookup);
         }
 
-        $actionsLookedUp = Piwik_Tracker_Action::loadActionId($actionsToLookupAllItems);
+        $actionsLookedUp = Action::loadActionId($actionsToLookupAllItems);
 
         // Replace SKU, name & category by their ID action
         foreach ($cleanedItems as $index => &$item) {
@@ -637,8 +647,8 @@ class Piwik_Tracker_GoalManager
      * Updates the cart items in the DB
      * that have been modified since the last cart update
      *
-     * @param array  $goal
-     * @param array  $itemsToUpdate
+     * @param array $goal
+     * @param array $itemsToUpdate
      *
      * @return void
      */
@@ -647,26 +657,26 @@ class Piwik_Tracker_GoalManager
         if (empty($itemsToUpdate)) {
             return;
         }
-        printDebug("Goal data used to update ecommerce items:");
-        printDebug($goal);
+        Common::printDebug("Goal data used to update ecommerce items:");
+        Common::printDebug($goal);
 
         foreach ($itemsToUpdate as $item) {
             $newRow = $this->getItemRowEnriched($goal, $item);
-            printDebug($newRow);
+            Common::printDebug($newRow);
             $updateParts = $sqlBind = array();
             foreach ($newRow AS $name => $value) {
                 $updateParts[] = $name . " = ?";
                 $sqlBind[] = $value;
             }
-            $sql = 'UPDATE ' . Piwik_Common::prefixTable('log_conversion_item') . "
+            $sql = 'UPDATE ' . Common::prefixTable('log_conversion_item') . "
 					SET " . implode($updateParts, ', ') . "
 						WHERE idvisit = ?
-							AND idorder = ? 
+							AND idorder = ?
 							AND idaction_sku = ?";
             $sqlBind[] = $newRow['idvisit'];
             $sqlBind[] = $item['idorder_original_value'];
             $sqlBind[] = $newRow['idaction_sku'];
-            Piwik_Tracker::getDatabase()->query($sql, $sqlBind);
+            Tracker::getDatabase()->query($sql, $sqlBind);
         }
     }
 
@@ -684,12 +694,12 @@ class Piwik_Tracker_GoalManager
         if (empty($itemsToInsert)) {
             return;
         }
-        printDebug("Ecommerce items that are added to the cart/order");
-        printDebug($itemsToInsert);
+        Common::printDebug("Ecommerce items that are added to the cart/order");
+        Common::printDebug($itemsToInsert);
 
-        $sql = "INSERT INTO " . Piwik_Common::prefixTable('log_conversion_item') . "
-					(idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, 
-					idorder, idsite, idvisitor, server_time, idvisit) 
+        $sql = "INSERT INTO " . Common::prefixTable('log_conversion_item') . "
+					(idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted,
+					idorder, idsite, idvisitor, server_time, idvisit)
 					VALUES ";
         $i = 0;
         $bind = array();
@@ -698,13 +708,13 @@ class Piwik_Tracker_GoalManager
                 $sql .= ',';
             }
             $newRow = array_values($this->getItemRowEnriched($goal, $item));
-            $sql .= " ( " . Piwik_Common::getSqlStringFieldsArray($newRow) . " ) ";
+            $sql .= " ( " . Common::getSqlStringFieldsArray($newRow) . " ) ";
             $i++;
             $bind = array_merge($bind, $newRow);
         }
-        Piwik_Tracker::getDatabase()->query($sql, $bind);
-        printDebug($sql);
-        printDebug($bind);
+        Tracker::getDatabase()->query($sql, $bind);
+        Common::printDebug($sql);
+        Common::printDebug($bind);
     }
 
     protected function getItemRowEnriched($goal, $item)
@@ -733,13 +743,13 @@ class Piwik_Tracker_GoalManager
      * Records a standard non-Ecommerce goal in the DB (URL/Title matching),
      * linking the conversion to the action that triggered it
      * @param $goal
-     * @param Piwik_Tracker_Action $action
+     * @param Action $action
      * @param $visitorInformation
      */
     protected function recordStandardGoals($goal, $action, $visitorInformation)
     {
         foreach ($this->convertedGoals as $convertedGoal) {
-            printDebug("- Goal " . $convertedGoal['idgoal'] . " matched. Recording...");
+            Common::printDebug("- Goal " . $convertedGoal['idgoal'] . " matched. Recording...");
             $newGoal = $goal;
             $newGoal['idgoal'] = $convertedGoal['idgoal'];
             $newGoal['url'] = $convertedGoal['url'];
@@ -773,10 +783,10 @@ class Piwik_Tracker_GoalManager
     {
         $newGoalDebug = $newGoal;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);
-        printDebug($newGoalDebug);
+        Common::printDebug($newGoalDebug);
 
         $fields = implode(", ", array_keys($newGoal));
-        $bindFields = Piwik_Common::getSqlStringFieldsArray($newGoal);
+        $bindFields = Common::getSqlStringFieldsArray($newGoal);
 
         if ($mustUpdateNotInsert) {
             $updateParts = $sqlBind = $updateWhereParts = array();
@@ -788,19 +798,19 @@ class Piwik_Tracker_GoalManager
                 $updateWhereParts[] = $name . " = ?";
                 $sqlBind[] = $value;
             }
-            $sql = 'UPDATE  ' . Piwik_Common::prefixTable('log_conversion') . "
+            $sql = 'UPDATE  ' . Common::prefixTable('log_conversion') . "
 					SET " . implode($updateParts, ', ') . "
 						WHERE " . implode($updateWhereParts, ' AND ');
-            Piwik_Tracker::getDatabase()->query($sql, $sqlBind);
+            Tracker::getDatabase()->query($sql, $sqlBind);
             return true;
         } else {
-            $sql = 'INSERT IGNORE INTO ' . Piwik_Common::prefixTable('log_conversion') . "
+            $sql = 'INSERT IGNORE INTO ' . Common::prefixTable('log_conversion') . "
 					($fields) VALUES ($bindFields) ";
             $bind = array_values($newGoal);
-            $result = Piwik_Tracker::getDatabase()->query($sql, $bind);
+            $result = Tracker::getDatabase()->query($sql, $bind);
 
             // If a record was inserted, we return true
-            return Piwik_Tracker::getDatabase()->rowCount($result) > 0;
+            return Tracker::getDatabase()->rowCount($result) > 0;
         }
     }
 

@@ -8,6 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\IP;
+use Piwik\Version;
 
 /**
  * Server-side http client to retrieve content from remote servers, and optionally save to a local file.
@@ -15,7 +23,7 @@
  *
  * @package Piwik
  */
-class Piwik_Http
+class Http
 {
     /**
      * Get "best" available transport method for sendHttpRequest() calls.
@@ -52,16 +60,16 @@ class Piwik_Http
      * If no $destinationPath is specified, the trimmed response (without header) is returned as a string.
      * If a $destinationPath is specified, the response (without header) is saved to a file.
      *
-     * @param string     $aUrl
-     * @param int        $timeout
-     * @param string     $userAgent
-     * @param string     $destinationPath
-     * @param int        $followDepth
-     * @param bool       $acceptLanguage
+     * @param string $aUrl
+     * @param int $timeout
+     * @param string $userAgent
+     * @param string $destinationPath
+     * @param int $followDepth
+     * @param bool $acceptLanguage
      * @param array|bool $byteRange       For Range: header. Should be two element array of bytes, eg, array(0, 1024)
      *                                    Doesn't work w/ fopen method.
-     * @param bool       $getExtendedInfo True to return status code, headers & response, false if just response.
-     * @param string     $httpMethod      The HTTP method to use. Defaults to 'GET'.
+     * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
+     * @param string $httpMethod      The HTTP method to use. Defaults to 'GET'.
      *
      * @throws Exception
      * @return bool  true (or string) on success; false on HTTP response error code (1xx or 4xx)
@@ -72,7 +80,7 @@ class Piwik_Http
         $file = null;
         if ($destinationPath) {
             // Ensure destination directory exists
-            Piwik_Common::mkdir(dirname($destinationPath));
+            Common::mkdir(dirname($destinationPath));
             if (($file = @fopen($destinationPath, 'wb')) === false || !is_resource($file)) {
                 throw new Exception('Error while creating the file: ' . $destinationPath);
             }
@@ -85,19 +93,19 @@ class Piwik_Http
     /**
      * Sends http request using the specified transport method
      *
-     * @param string      $method
-     * @param string      $aUrl
-     * @param int         $timeout
-     * @param string      $userAgent
-     * @param string      $destinationPath
-     * @param resource    $file
-     * @param int         $followDepth
+     * @param string $method
+     * @param string $aUrl
+     * @param int $timeout
+     * @param string $userAgent
+     * @param string $destinationPath
+     * @param resource $file
+     * @param int $followDepth
      * @param bool|string $acceptLanguage               Accept-language header
-     * @param bool        $acceptInvalidSslCertificate  Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
-     * @param array|bool  $byteRange                    For Range: header. Should be two element array of bytes, eg, array(0, 1024)
+     * @param bool $acceptInvalidSslCertificate  Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
+     * @param array|bool $byteRange                    For Range: header. Should be two element array of bytes, eg, array(0, 1024)
      *                                                  Doesn't work w/ fopen method.
-     * @param bool        $getExtendedInfo              True to return status code, headers & response, false if just response.
-     * @param string      $httpMethod                   The HTTP method to use. Defaults to 'GET'.
+     * @param bool $getExtendedInfo              True to return status code, headers & response, false if just response.
+     * @param string $httpMethod                   The HTTP method to use. Defaults to 'GET'.
      *
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
@@ -127,7 +135,7 @@ class Piwik_Http
         // Piwik services behave like a proxy, so we should act like one.
         $xff = 'X-Forwarded-For: '
             . (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] . ',' : '')
-            . Piwik_IP::getIpFromHeader();
+            . IP::getIpFromHeader();
 
         if (empty($userAgent)) {
             $userAgent = self::getUserAgent();
@@ -135,7 +143,7 @@ class Piwik_Http
 
         $via = 'Via: '
             . (isset($_SERVER['HTTP_VIA']) && !empty($_SERVER['HTTP_VIA']) ? $_SERVER['HTTP_VIA'] . ', ' : '')
-            . Piwik_Version::VERSION . ' '
+            . Version::VERSION . ' '
             . ($userAgent ? " ($userAgent)" : '');
 
         // range header
@@ -145,10 +153,10 @@ class Piwik_Http
         }
 
         // proxy configuration
-        $proxyHost = Piwik_Config::getInstance()->proxy['host'];
-        $proxyPort = Piwik_Config::getInstance()->proxy['port'];
-        $proxyUser = Piwik_Config::getInstance()->proxy['username'];
-        $proxyPassword = Piwik_Config::getInstance()->proxy['password'];
+        $proxyHost = Config::getInstance()->proxy['host'];
+        $proxyPort = Config::getInstance()->proxy['port'];
+        $proxyUser = Config::getInstance()->proxy['username'];
+        $proxyPassword = Config::getInstance()->proxy['password'];
 
         // other result data
         $status = null;
@@ -335,7 +343,7 @@ class Piwik_Http
                     throw new Exception('Timed out waiting for server response');
                 }
 
-                $fileLength += Piwik_Common::strlen($line);
+                $fileLength += Common::strlen($line);
 
                 if (is_resource($file)) {
                     // save to file
@@ -387,13 +395,13 @@ class Piwik_Http
                 $handle = fopen($aUrl, 'rb', false, $ctx);
                 while (!feof($handle)) {
                     $response = fread($handle, 8192);
-                    $fileLength += Piwik_Common::strlen($response);
+                    $fileLength += Common::strlen($response);
                     fwrite($file, $response);
                 }
                 fclose($handle);
             } else {
                 $response = file_get_contents($aUrl, 0, $ctx);
-                $fileLength = Piwik_Common::strlen($response);
+                $fileLength = Common::strlen($response);
             }
 
             // restore the socket_timeout value
@@ -447,7 +455,6 @@ class Piwik_Http
             @curl_setopt_array($ch, $curl_options);
             self::configCurlCertificate($ch);
 
-
             /*
              * as of php 5.2.0, CURLOPT_FOLLOWLOCATION can't be set if
              * in safe_mode or open_basedir is set
@@ -495,7 +502,7 @@ class Piwik_Http
             }
 
             $contentLength = @curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-            $fileLength = is_resource($file) ? @curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : Piwik_Common::strlen($response);
+            $fileLength = is_resource($file) ? @curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : Common::strlen($response);
             $status = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
             @curl_close($ch);
@@ -537,7 +544,7 @@ class Piwik_Http
      *
      * @param string $url            The url to download from.
      * @param string $outputPath     The path to the file to save/append to.
-     * @param bool   $isContinuation True if this is the continuation of a download,
+     * @param bool $isContinuation True if this is the continuation of a download,
      *                               or if we're starting a fresh one.
      *
      * @throws Exception
@@ -557,7 +564,7 @@ class Piwik_Http
         // if we're starting a download, get the expected file size & save as an option
         $downloadOption = $outputPath . '_expectedDownloadSize';
         if (!$isContinuation) {
-            $expectedFileSizeResult = Piwik_Http::sendHttpRequest(
+            $expectedFileSizeResult = Http::sendHttpRequest(
                 $url,
                 $timeout = 300,
                 $userAgent = null,
@@ -598,7 +605,7 @@ class Piwik_Http
         }
 
         // download a chunk of the file
-        $result = Piwik_Http::sendHttpRequest(
+        $result = Http::sendHttpRequest(
             $url,
             $timeout = 300,
             $userAgent = null,
@@ -647,7 +654,7 @@ class Piwik_Http
     {
         return !empty($_SERVER['HTTP_USER_AGENT'])
             ? $_SERVER['HTTP_USER_AGENT']
-            : 'Piwik/' . Piwik_Version::VERSION;
+            : 'Piwik/' . Version::VERSION;
     }
 
     /**

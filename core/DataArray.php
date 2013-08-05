@@ -8,6 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
+use Piwik\Metrics;
+use Piwik\Tracker\GoalManager;
 
 /**
  * The DataArray is a data structure used to aggregate datasets,
@@ -16,7 +21,7 @@
  *
  */
 
-class Piwik_DataArray
+class DataArray
 {
     protected $data = array();
     protected $dataTwoLevels = array();
@@ -57,13 +62,13 @@ class Piwik_DataArray
      */
     static public function makeEmptyRow()
     {
-        return array(Piwik_Metrics::INDEX_NB_UNIQ_VISITORS    => 0,
-                     Piwik_Metrics::INDEX_NB_VISITS           => 0,
-                     Piwik_Metrics::INDEX_NB_ACTIONS          => 0,
-                     Piwik_Metrics::INDEX_MAX_ACTIONS         => 0,
-                     Piwik_Metrics::INDEX_SUM_VISIT_LENGTH    => 0,
-                     Piwik_Metrics::INDEX_BOUNCE_COUNT        => 0,
-                     Piwik_Metrics::INDEX_NB_VISITS_CONVERTED => 0,
+        return array(Metrics::INDEX_NB_UNIQ_VISITORS    => 0,
+                     Metrics::INDEX_NB_VISITS           => 0,
+                     Metrics::INDEX_NB_ACTIONS          => 0,
+                     Metrics::INDEX_MAX_ACTIONS         => 0,
+                     Metrics::INDEX_SUM_VISIT_LENGTH    => 0,
+                     Metrics::INDEX_BOUNCE_COUNT        => 0,
+                     Metrics::INDEX_NB_VISITS_CONVERTED => 0,
         );
     }
 
@@ -81,40 +86,40 @@ class Piwik_DataArray
     {
         // Pre 1.2 format: string indexed rows are returned from the DB
         // Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
-        if (!isset($newRowToAdd[Piwik_Metrics::INDEX_NB_VISITS])) {
-            $oldRowToUpdate[Piwik_Metrics::INDEX_NB_VISITS] += $newRowToAdd['nb_visits'];
-            $oldRowToUpdate[Piwik_Metrics::INDEX_NB_ACTIONS] += $newRowToAdd['nb_actions'];
-            $oldRowToUpdate[Piwik_Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd['nb_uniq_visitors'];
+        if (!isset($newRowToAdd[Metrics::INDEX_NB_VISITS])) {
+            $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd['nb_visits'];
+            $oldRowToUpdate[Metrics::INDEX_NB_ACTIONS] += $newRowToAdd['nb_actions'];
+            $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd['nb_uniq_visitors'];
             if ($onlyMetricsAvailableInActionsTable) {
                 return;
             }
-            $oldRowToUpdate[Piwik_Metrics::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Piwik_Metrics::INDEX_MAX_ACTIONS]);
-            $oldRowToUpdate[Piwik_Metrics::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd['sum_visit_length'];
-            $oldRowToUpdate[Piwik_Metrics::INDEX_BOUNCE_COUNT] += $newRowToAdd['bounce_count'];
-            $oldRowToUpdate[Piwik_Metrics::INDEX_NB_VISITS_CONVERTED] += $newRowToAdd['nb_visits_converted'];
+            $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS]);
+            $oldRowToUpdate[Metrics::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd['sum_visit_length'];
+            $oldRowToUpdate[Metrics::INDEX_BOUNCE_COUNT] += $newRowToAdd['bounce_count'];
+            $oldRowToUpdate[Metrics::INDEX_NB_VISITS_CONVERTED] += $newRowToAdd['nb_visits_converted'];
             return;
         }
 
-        $oldRowToUpdate[Piwik_Metrics::INDEX_NB_VISITS] += $newRowToAdd[Piwik_Metrics::INDEX_NB_VISITS];
-        $oldRowToUpdate[Piwik_Metrics::INDEX_NB_ACTIONS] += $newRowToAdd[Piwik_Metrics::INDEX_NB_ACTIONS];
-        $oldRowToUpdate[Piwik_Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Piwik_Metrics::INDEX_NB_UNIQ_VISITORS];
+        $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
+        $oldRowToUpdate[Metrics::INDEX_NB_ACTIONS] += $newRowToAdd[Metrics::INDEX_NB_ACTIONS];
+        $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];
         if ($onlyMetricsAvailableInActionsTable) {
             return;
         }
 
-        $oldRowToUpdate[Piwik_Metrics::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd[Piwik_Metrics::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Metrics::INDEX_MAX_ACTIONS]);
-        $oldRowToUpdate[Piwik_Metrics::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd[Piwik_Metrics::INDEX_SUM_VISIT_LENGTH];
-        $oldRowToUpdate[Piwik_Metrics::INDEX_BOUNCE_COUNT] += $newRowToAdd[Piwik_Metrics::INDEX_BOUNCE_COUNT];
-        $oldRowToUpdate[Piwik_Metrics::INDEX_NB_VISITS_CONVERTED] += $newRowToAdd[Piwik_Metrics::INDEX_NB_VISITS_CONVERTED];
+        $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd[Metrics::INDEX_MAX_ACTIONS], $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS]);
+        $oldRowToUpdate[Metrics::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd[Metrics::INDEX_SUM_VISIT_LENGTH];
+        $oldRowToUpdate[Metrics::INDEX_BOUNCE_COUNT] += $newRowToAdd[Metrics::INDEX_BOUNCE_COUNT];
+        $oldRowToUpdate[Metrics::INDEX_NB_VISITS_CONVERTED] += $newRowToAdd[Metrics::INDEX_NB_VISITS_CONVERTED];
     }
 
     public function sumMetricsGoals($label, $row)
     {
         $idGoal = $row['idgoal'];
-        if (!isset($this->data[$label][Piwik_Metrics::INDEX_GOALS][$idGoal])) {
-            $this->data[$label][Piwik_Metrics::INDEX_GOALS][$idGoal] = self::makeEmptyGoalRow($idGoal);
+        if (!isset($this->data[$label][Metrics::INDEX_GOALS][$idGoal])) {
+            $this->data[$label][Metrics::INDEX_GOALS][$idGoal] = self::makeEmptyGoalRow($idGoal);
         }
-        $this->doSumGoalsMetrics($row, $this->data[$label][Piwik_Metrics::INDEX_GOALS][$idGoal]);
+        $this->doSumGoalsMetrics($row, $this->data[$label][Metrics::INDEX_GOALS][$idGoal]);
     }
 
     /**
@@ -123,28 +128,28 @@ class Piwik_DataArray
      */
     protected static function makeEmptyGoalRow($idGoal)
     {
-        if ($idGoal > Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
-            return array(Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
-                         Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
-                         Piwik_Metrics::INDEX_GOAL_REVENUE             => 0,
+        if ($idGoal > GoalManager::IDGOAL_ORDER) {
+            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
+                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
+                         Metrics::INDEX_GOAL_REVENUE             => 0,
             );
         }
-        if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
-            return array(Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS             => 0,
-                         Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
-                         Piwik_Metrics::INDEX_GOAL_REVENUE                    => 0,
-                         Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 0,
-                         Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 0,
-                         Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 0,
-                         Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 0,
-                         Piwik_Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 0,
+        if ($idGoal == GoalManager::IDGOAL_ORDER) {
+            return array(Metrics::INDEX_GOAL_NB_CONVERSIONS             => 0,
+                         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
+                         Metrics::INDEX_GOAL_REVENUE                    => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 0,
+                         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 0,
             );
         }
-        // idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART
-        return array(Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
-                     Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
-                     Piwik_Metrics::INDEX_GOAL_REVENUE             => 0,
-                     Piwik_Metrics::INDEX_GOAL_ECOMMERCE_ITEMS     => 0,
+        // idGoal == GoalManager::IDGOAL_CART
+        return array(Metrics::INDEX_GOAL_NB_CONVERSIONS      => 0,
+                     Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
+                     Metrics::INDEX_GOAL_REVENUE             => 0,
+                     Metrics::INDEX_GOAL_ECOMMERCE_ITEMS     => 0,
         );
     }
 
@@ -155,20 +160,20 @@ class Piwik_DataArray
      */
     protected function doSumGoalsMetrics($newRowToAdd, &$oldRowToUpdate)
     {
-        $oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS] += $newRowToAdd[Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS];
-        $oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED] += $newRowToAdd[Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED];
-        $oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_REVENUE] += $newRowToAdd[Piwik_Metrics::INDEX_GOAL_REVENUE];
+        $oldRowToUpdate[Metrics::INDEX_GOAL_NB_CONVERSIONS] += $newRowToAdd[Metrics::INDEX_GOAL_NB_CONVERSIONS];
+        $oldRowToUpdate[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED] += $newRowToAdd[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED];
+        $oldRowToUpdate[Metrics::INDEX_GOAL_REVENUE] += $newRowToAdd[Metrics::INDEX_GOAL_REVENUE];
 
         // Cart & Order
-        if (isset($oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_ITEMS])) {
-            $oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_ITEMS] += $newRowToAdd[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_ITEMS];
+        if (isset($oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS])) {
+            $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS];
 
             // Order only
-            if (isset($oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL])) {
-                $oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] += $newRowToAdd[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL];
-                $oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] += $newRowToAdd[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX];
-                $oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] += $newRowToAdd[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING];
-                $oldRowToUpdate[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] += $newRowToAdd[Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT];
+            if (isset($oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL])) {
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING];
+                $oldRowToUpdate[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT] += $newRowToAdd[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT];
             }
         }
     }
@@ -184,9 +189,9 @@ class Piwik_DataArray
     static protected function makeEmptyActionRow()
     {
         return array(
-            Piwik_Metrics::INDEX_NB_UNIQ_VISITORS => 0,
-            Piwik_Metrics::INDEX_NB_VISITS        => 0,
-            Piwik_Metrics::INDEX_NB_ACTIONS       => 0,
+            Metrics::INDEX_NB_UNIQ_VISITORS => 0,
+            Metrics::INDEX_NB_VISITS        => 0,
+            Metrics::INDEX_NB_ACTIONS       => 0,
         );
     }
 
@@ -197,16 +202,16 @@ class Piwik_DataArray
      * @param $row
      * @throws Exception if the the data row contains non numeric values
      */
-    public function sumMetrics( $label, $row)
+    public function sumMetrics($label, $row)
     {
-        foreach($row as $columnName => $columnValue) {
-            if(empty($columnValue)) {
+        foreach ($row as $columnName => $columnValue) {
+            if (empty($columnValue)) {
                 continue;
             }
-            if(empty($this->data[$label][$columnName])) {
+            if (empty($this->data[$label][$columnName])) {
                 $this->data[$label][$columnName] = 0;
             }
-            if(!is_numeric($columnValue)) {
+            if (!is_numeric($columnValue)) {
                 throw new Exception("DataArray->sumMetricsPivot expects rows of numeric values, non numeric found: " . var_export($columnValue, true) . " for column $columnName");
             }
             $this->data[$label][$columnName] += $columnValue;
@@ -224,10 +229,10 @@ class Piwik_DataArray
     public function sumMetricsGoalsPivot($parentLabel, $label, $row)
     {
         $idGoal = $row['idgoal'];
-        if (!isset($this->dataTwoLevels[$parentLabel][$label][Piwik_Metrics::INDEX_GOALS][$idGoal])) {
-            $this->dataTwoLevels[$parentLabel][$label][Piwik_Metrics::INDEX_GOALS][$idGoal] = self::makeEmptyGoalRow($idGoal);
+        if (!isset($this->dataTwoLevels[$parentLabel][$label][Metrics::INDEX_GOALS][$idGoal])) {
+            $this->dataTwoLevels[$parentLabel][$label][Metrics::INDEX_GOALS][$idGoal] = self::makeEmptyGoalRow($idGoal);
         }
-        $this->doSumGoalsMetrics($row, $this->dataTwoLevels[$parentLabel][$label][Piwik_Metrics::INDEX_GOALS][$idGoal]);
+        $this->doSumGoalsMetrics($row, $this->dataTwoLevels[$parentLabel][$label][Metrics::INDEX_GOALS][$idGoal]);
     }
 
     public function sumMetricsActionsPivot($parentLabel, $label, $row)
@@ -262,27 +267,27 @@ class Piwik_DataArray
     protected function enrichWithConversions(&$data)
     {
         foreach ($data as $label => &$values) {
-            if (!isset($values[Piwik_Metrics::INDEX_GOALS])) {
+            if (!isset($values[Metrics::INDEX_GOALS])) {
                 continue;
             }
             // When per goal metrics are processed, general 'visits converted' is not meaningful because
             // it could differ from the sum of each goal conversions
-            unset($values[Piwik_Metrics::INDEX_NB_VISITS_CONVERTED]);
+            unset($values[Metrics::INDEX_NB_VISITS_CONVERTED]);
             $revenue = $conversions = 0;
-            foreach ($values[Piwik_Metrics::INDEX_GOALS] as $idgoal => $goalValues) {
+            foreach ($values[Metrics::INDEX_GOALS] as $idgoal => $goalValues) {
                 // Do not sum Cart revenue since it is a lost revenue
-                if ($idgoal >= Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
-                    $revenue += $goalValues[Piwik_Metrics::INDEX_GOAL_REVENUE];
-                    $conversions += $goalValues[Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS];
+                if ($idgoal >= GoalManager::IDGOAL_ORDER) {
+                    $revenue += $goalValues[Metrics::INDEX_GOAL_REVENUE];
+                    $conversions += $goalValues[Metrics::INDEX_GOAL_NB_CONVERSIONS];
                 }
             }
-            $values[Piwik_Metrics::INDEX_NB_CONVERSIONS] = $conversions;
+            $values[Metrics::INDEX_NB_CONVERSIONS] = $conversions;
 
             // 25.00 recorded as 25
             if (round($revenue) == $revenue) {
                 $revenue = round($revenue);
             }
-            $values[Piwik_Metrics::INDEX_REVENUE] = $revenue;
+            $values[Metrics::INDEX_REVENUE] = $revenue;
         }
     }
 
@@ -294,6 +299,6 @@ class Piwik_DataArray
      */
     static public function isRowActions($row)
     {
-        return (count($row) == count(self::makeEmptyActionRow())) && isset($row[Piwik_Metrics::INDEX_NB_ACTIONS]);
+        return (count($row) == count(self::makeEmptyActionRow())) && isset($row[Metrics::INDEX_NB_ACTIONS]);
     }
 }

@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleAPI
  */
+use Piwik\Plugin;
 
 /**
  * ExampleAPI plugin
  *
  * @package Piwik_ExampleAPI
  */
-class Piwik_ExampleAPI extends Piwik_Plugin
+class Piwik_ExampleAPI extends Plugin
 {
 }

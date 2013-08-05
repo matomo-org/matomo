@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_Installation
  */
+use Piwik\View;
 
 /**
  *
  * @package Piwik_Installation
  */
-class Piwik_Installation_View extends Piwik_View
+class Piwik_Installation_View extends View
 {
     public function __construct($subtemplatePath, $installationSteps, $currentStepName)
     {

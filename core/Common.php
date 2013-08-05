@@ -8,6 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
+use Piwik\IP;
+use Piwik\Tracker;
+use Piwik\Tracker\Cache;
+use Piwik\PluginsManager;
+use Piwik_UserCountry_LocationProvider_Default;
 
 /**
  * Static class providing functions used by both the CORE of Piwik and the visitor Tracking engine.
@@ -18,10 +26,10 @@
  *
  * @package Piwik
  */
-class Piwik_Common
+class Common
 {
     const CLASSES_PREFIX = 'Piwik_';
-    
+
     /**
      * Const used to map the referer type to an integer in the log_visit table
      */
@@ -62,7 +70,7 @@ class Piwik_Common
      */
     public static function prefixTable($table)
     {
-        $prefix = Piwik_Config::getInstance()->database['tables_prefix'];
+        $prefix = Config::getInstance()->database['tables_prefix'];
         return $prefix . $table;
     }
 
@@ -91,7 +99,7 @@ class Piwik_Common
     {
         static $prefixTable = null;
         if (is_null($prefixTable)) {
-            $prefixTable = Piwik_Config::getInstance()->database['tables_prefix'];
+            $prefixTable = Config::getInstance()->database['tables_prefix'];
         }
         if (empty($prefixTable)
             || strpos($table, $prefixTable) !== 0
@@ -107,7 +115,7 @@ class Piwik_Common
      */
     public static function isGoalPluginEnabled()
     {
-        return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
+        return PluginsManager::getInstance()->isPluginActivated('Goals');
     }
 
     /*
@@ -187,10 +195,10 @@ class Piwik_Common
                 $value = false;
             }
             if (!empty($name)) {
-                $name = Piwik_Common::sanitizeInputValue($name);
+                $name = self::sanitizeInputValue($name);
             }
             if (!empty($value)) {
-                $value = Piwik_Common::sanitizeInputValue($value);
+                $value = self::sanitizeInputValue($value);
             }
 
             // if array without indexes
@@ -248,7 +256,7 @@ class Piwik_Common
     public static function isLookLikeUrl($url)
     {
         return preg_match('~^(ftp|news|http|https)?://(.*)$~D', $url, $matches) !== 0
-            && strlen($matches[2]) > 0;
+        && strlen($matches[2]) > 0;
     }
 
     /*
@@ -499,7 +507,7 @@ class Piwik_Common
         // $_GET and $_REQUEST already urldecode()'d
         // decode
         // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
-        $value = html_entity_decode($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+        $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         // filter
         $value = str_replace(array("\n", "\r", "\0"), '', $value);
@@ -555,7 +563,7 @@ class Piwik_Common
     public static function undoMagicQuotes($value)
     {
         return version_compare(PHP_VERSION, '5.4', '<')
-            && get_magic_quotes_gpc()
+        && get_magic_quotes_gpc()
             ? stripslashes($value)
             : $value;
     }
@@ -613,7 +621,7 @@ class Piwik_Common
         // we deal w/ json differently
         if ($varType == 'json') {
             $value = self::undoMagicQuotes($requestArrayToUse[$varName]);
-            $value = Piwik_Common::json_decode($value, $assoc = true);
+            $value = self::json_decode($value, $assoc = true);
             return self::sanitizeInputValues($value, $alreadyStripslashed = true);
         }
 
@@ -671,7 +679,7 @@ class Piwik_Common
     {
         static $salt = null;
         if (is_null($salt)) {
-            $salt = @Piwik_Config::getInstance()->superuser['salt'];
+            $salt = @Config::getInstance()->superuser['salt'];
         }
         return $salt;
     }
@@ -687,7 +695,7 @@ class Piwik_Common
     {
         static $hashAlgorithm = null;
         if (is_null($hashAlgorithm)) {
-            $hashAlgorithm = @Piwik_Config::getInstance()->General['hash_algorithm'];
+            $hashAlgorithm = @Config::getInstance()->General['hash_algorithm'];
         }
 
         if ($hashAlgorithm) {
@@ -755,10 +763,10 @@ class Piwik_Common
      */
     public static function convertVisitorIdToBin($id)
     {
-        if (strlen($id) !== Piwik_Tracker::LENGTH_HEX_ID_STRING
+        if (strlen($id) !== Tracker::LENGTH_HEX_ID_STRING
             || @bin2hex(self::hex2bin($id)) != $id
         ) {
-            throw new Exception("visitorId is expected to be a " . Piwik_Tracker::LENGTH_HEX_ID_STRING . " hex char string");
+            throw new Exception("visitorId is expected to be a " . Tracker::LENGTH_HEX_ID_STRING . " hex char string");
         }
         return self::hex2bin($id);
     }
@@ -768,7 +776,7 @@ class Piwik_Common
      * This is a backward compatibility function for code that only expects
      * IPv4 addresses (i.e., doesn't support IPv6).
      *
-     * @see Piwik_IP::N2P()
+     * @see IP::N2P()
      *
      * This function does not support the long (or its string representation)
      * returned by the built-in ip2long() function, from Piwik 1.3 and earlier.
@@ -780,7 +788,7 @@ class Piwik_Common
      */
     public static function long2ip($ip)
     {
-        return Piwik_IP::long2ip($ip);
+        return IP::long2ip($ip);
     }
 
     /**
@@ -971,7 +979,7 @@ class Piwik_Common
      * @param string|null $browserLang  Optional browser language, otherwise taken from the request header
      * @return string
      */
-    public static function getBrowserLanguage($browserLang = NULL)
+    public static function getBrowserLanguage($browserLang = null)
     {
         static $replacementPatterns = array(
             // extraneous bits of RFC 3282 that we ignore
@@ -1074,7 +1082,7 @@ class Piwik_Common
      * Returns the visitor language based only on the Browser 'accepted language' information
      *
      * @param string $browserLanguage  Browser's accepted langauge header
-     * @param array  $validLanguages   array of valid language codes
+     * @param array $validLanguages   array of valid language codes
      * @return string  2 letter ISO 639 code
      */
     public static function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
@@ -1130,8 +1138,8 @@ class Piwik_Common
     public static function getCampaignParameters()
     {
         $return = array(
-            Piwik_Config::getInstance()->Tracker['campaign_var_name'],
-            Piwik_Config::getInstance()->Tracker['campaign_keyword_var_name'],
+            Config::getInstance()->Tracker['campaign_var_name'],
+            Config::getInstance()->Tracker['campaign_keyword_var_name'],
         );
 
         foreach ($return as &$list) {
@@ -1174,16 +1182,16 @@ class Piwik_Common
 
         return preg_replace(
             array(
-                 '/^(w+[0-9]*|search)\./',
-                 '/(^|\.)m\./',
-                 '/(\.(com|org|net|co|it|edu))?\.(' . $countries . ')(\/|$)/',
-                 '/(^|\.)(' . $countries . ')\./',
+                '/^(w+[0-9]*|search)\./',
+                '/(^|\.)m\./',
+                '/(\.(com|org|net|co|it|edu))?\.(' . $countries . ')(\/|$)/',
+                '/(^|\.)(' . $countries . ')\./',
             ),
             array(
-                 '',
-                 '$1',
-                 '.{}$4',
-                 '$1{}.',
+                '',
+                '$1',
+                '.{}$4',
+                '$1{}.',
             ),
             $url);
     }
@@ -1203,7 +1211,7 @@ class Piwik_Common
      *
      * @see unit tests in /tests/core/Common.test.php
      * @param string $referrerUrl  URL referer URL, eg. $_SERVER['HTTP_REFERER']
-     * @return array|false false if a keyword couldn't be extracted,
+     * @return array|bool   false if a keyword couldn't be extracted,
      *                        or array(
      *                            'name' => 'Google',
      *                            'keywords' => 'my searched keywords')
@@ -1346,14 +1354,14 @@ class Piwik_Common
                             ($searchEngineName == 'Google'
                                 && ( // First, they started putting an empty q= parameter
                                     strpos($query, '&q=') !== false
-                                        || strpos($query, '?q=') !== false
-                                        // then they started sending the full host only (no path/query string)
-                                        || (empty($query) && (empty($refererPath) || $refererPath == '/') && empty($refererParsed['fragment']))
+                                    || strpos($query, '?q=') !== false
+                                    // then they started sending the full host only (no path/query string)
+                                    || (empty($query) && (empty($refererPath) || $refererPath == '/') && empty($refererParsed['fragment']))
                                 )
                             )
-                                // search engines with no keyword
-                                || $searchEngineName == 'Google Images'
-                                || $searchEngineName == 'DuckDuckGo')
+                            // search engines with no keyword
+                            || $searchEngineName == 'Google Images'
+                            || $searchEngineName == 'DuckDuckGo')
                     ) {
                         $key = false;
                     }
@@ -1405,7 +1413,7 @@ class Piwik_Common
         }
 
         return array(
-            'name'     => $searchEngineName,
+            'name' => $searchEngineName,
             'keywords' => $key,
         );
     }
@@ -1424,7 +1432,7 @@ class Piwik_Common
     {
         $remoteAddr = @$_SERVER['REMOTE_ADDR'];
         return PHP_SAPI == 'cli' ||
-            (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
+        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
     }
 
     /**
@@ -1436,7 +1444,7 @@ class Piwik_Common
     public static function isArchivePhpTriggered()
     {
         return !empty($_GET['trigger'])
-            && $_GET['trigger'] == 'archivephp';
+        && $_GET['trigger'] == 'archivephp';
     }
 
     /**
@@ -1544,7 +1552,7 @@ class Piwik_Common
      */
     public static function getCurrentLocationProviderId()
     {
-        $cache = Piwik_Tracker_Cache::getCacheGeneral();
+        $cache = Cache::getCacheGeneral();
         return empty($cache['currentLocationProviderId'])
             ? Piwik_UserCountry_LocationProvider_Default::ID
             : $cache['currentLocationProviderId'];
@@ -1564,25 +1572,24 @@ class Piwik_Common
         }
         return $class;
     }
-}
 
-/**
- * Mark orphaned object for garbage collection
- *
- * For more information: @link http://dev.piwik.org/trac/ticket/374
- * @param $var
- */
-function destroy(&$var)
-{
-    if (is_object($var) && method_exists($var, '__destruct')) {
-        $var->__destruct();
+
+    /**
+     * Mark orphaned object for garbage collection
+     *
+     * For more information: @link http://dev.piwik.org/trac/ticket/374
+     * @param $var
+     */
+    static public function destroy(&$var)
+    {
+        if (is_object($var) && method_exists($var, '__destruct')) {
+            $var->__destruct();
+        }
+        unset($var);
+        $var = null;
     }
-    unset($var);
-    $var = null;
-}
 
-if (!function_exists('printDebug')) {
-    function printDebug($info = '')
+    static public function printDebug($info = '')
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
             if (is_array($info) || is_object($info)) {
@@ -1595,3 +1602,4 @@ if (!function_exists('printDebug')) {
         }
     }
 }
+

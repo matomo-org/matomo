@@ -8,16 +8,19 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_5_b3 extends Piwik_Updates
+class Piwik_Updates_1_5_b3 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_k2 custom_var_k2 VARCHAR(100) DEFAULT NULL,
@@ -28,7 +31,7 @@ class Piwik_Updates_1_5_b3 extends Piwik_Updates
 				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(100) DEFAULT NULL'                                                                                    => false,
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_conversion') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_k2 custom_var_k2 VARCHAR(100) DEFAULT NULL,
@@ -39,7 +42,7 @@ class Piwik_Updates_1_5_b3 extends Piwik_Updates
 				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(100) DEFAULT NULL'        => false,
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_link_visit_action') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
 				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_k2 custom_var_k2 VARCHAR(100) DEFAULT NULL,
@@ -55,6 +58,6 @@ class Piwik_Updates_1_5_b3 extends Piwik_Updates
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

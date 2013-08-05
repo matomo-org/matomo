@@ -8,12 +8,24 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
+use Piwik\API\Request;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Date;
+use Piwik\AssetManager;
+use Piwik\Controller;
+use Piwik\FrontController;
+use Piwik\View;
+use Piwik\Url;
+use Piwik\UpdateCheck;
+use Piwik\Site;
+
 
 /**
  *
  * @package Piwik_CoreHome
  */
-class Piwik_CoreHome_Controller extends Piwik_Controller
+class Piwik_CoreHome_Controller extends Controller
 {
     function getDefaultAction()
     {
@@ -28,33 +40,33 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 
         // User preference: default report to load is the All Websites dashboard
         if ($defaultReport == 'MultiSites'
-            && Piwik_PluginsManager::getInstance()->isPluginActivated('MultiSites')
+            && \Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites')
         ) {
             $module = 'MultiSites';
         }
         if ($defaultReport == Piwik::getLoginPluginName()) {
             $module = Piwik::getLoginPluginName();
         }
-        $idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
+        $idSite = Common::getRequestVar('idSite', false, 'int');
 
         parent::redirectToIndex($module, $action, !empty($idSite) ? $idSite : null);
     }
 
     public function showInContext()
     {
-        $controllerName = Piwik_Common::getRequestVar('moduleToLoad');
-        $actionName = Piwik_Common::getRequestVar('actionToLoad', 'index');
+        $controllerName = Common::getRequestVar('moduleToLoad');
+        $actionName = Common::getRequestVar('actionToLoad', 'index');
         if ($actionName == 'showInContext') {
             throw new Exception("Preventing infinite recursion...");
         }
         $view = $this->getDefaultIndexView();
-        $view->content = Piwik_FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
+        $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
         echo $view->render();
     }
 
     protected function getDefaultIndexView()
     {
-        $view = new Piwik_View('@CoreHome/getDefaultIndexView');
+        $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
         $view->menu = Piwik_GetMenu();
         $view->content = '';
@@ -63,23 +75,23 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 
     protected function setDateTodayIfWebsiteCreatedToday()
     {
-        $date = Piwik_Common::getRequestVar('date', false);
+        $date = Common::getRequestVar('date', false);
         if ($date == 'today'
-            || Piwik_Common::getRequestVar('period', false) == 'range'
+            || Common::getRequestVar('period', false) == 'range'
         ) {
             return;
         }
-        $websiteId = Piwik_Common::getRequestVar('idSite', false, 'int');
+        $websiteId = Common::getRequestVar('idSite', false, 'int');
         if ($websiteId) {
-            $website = new Piwik_Site($websiteId);
+            $website = new Site($websiteId);
             $datetimeCreationDate = $this->site->getCreationDate()->getDatetime();
-            $creationDateLocalTimezone = Piwik_Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
-            $todayLocalTimezone = Piwik_Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+            $creationDateLocalTimezone = Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
+            $todayLocalTimezone = Date::factory('now', $website->getTimezone())->toString('Y-m-d');
             if ($creationDateLocalTimezone == $todayLocalTimezone) {
                 Piwik::redirectToModule('CoreHome', 'index',
                     array('date'   => 'today',
                           'idSite' => $websiteId,
-                          'period' => Piwik_Common::getRequestVar('period'))
+                          'period' => Common::getRequestVar('period'))
                 );
             }
         }
@@ -100,7 +112,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getCss()
     {
-        $cssMergedFile = Piwik_AssetManager::getMergedCssFileLocation();
+        $cssMergedFile = AssetManager::getMergedCssFileLocation();
         Piwik::serveStaticFile($cssMergedFile, "text/css");
     }
 
@@ -112,7 +124,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getJs()
     {
-        $jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
+        $jsMergedFile = AssetManager::getMergedJsFileLocation();
         Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
     }
 
@@ -127,7 +139,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     public function getRowEvolutionPopover()
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = false);
-        $view = new Piwik_View('@CoreHome/getRowEvolutionPopover');
+        $view = new View('@CoreHome/getRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
@@ -135,7 +147,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     public function getMultiRowEvolutionPopover()
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = true);
-        $view = new Piwik_View('@CoreHome/getMultiRowEvolutionPopover');
+        $view = new View('@CoreHome/getMultiRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
@@ -143,8 +155,8 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     public function getRowEvolutionGraph($fetch = false, $rowEvolution = null)
     {
         if (empty($rowEvolution)) {
-            $paramName = Piwik_CoreHome_DataTableRowAction_MultiRowEvolution::IS_MULTI_EVOLUTION_PARAM;
-            $isMultiRowEvolution = Piwik_Common::getRequestVar($paramName, false, 'int');
+            $label = Common::getRequestVar('label', '', 'string');
+            $isMultiRowEvolution = strpos($label, ',') !== false;
 
             $rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
             $rowEvolution->useAvailableMetrics();
@@ -175,9 +187,9 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         $this->checkTokenInUrl();
 
         // perform check (but only once every 10s)
-        Piwik_UpdateCheck::check($force = false, Piwik_UpdateCheck::UI_CLICK_CHECK_INTERVAL);
+        UpdateCheck::check($force = false, UpdateCheck::UI_CLICK_CHECK_INTERVAL);
 
-        $view = new Piwik_View('@CoreHome/checkForUpdates');
+        $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);
         echo $view->render();
     }
@@ -187,8 +199,8 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getDonateForm()
     {
-        $view = new Piwik_View('@CoreHome/getDonateForm');
-        if (Piwik_Common::getRequestVar('widget', false)
+        $view = new View('@CoreHome/getDonateForm');
+        if (Common::getRequestVar('widget', false)
             && Piwik::isUserIsSuperUser()
         ) {
             $view->footerMessage = Piwik_Translate('CoreHome_OnlyForAdmin');
@@ -201,7 +213,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getPromoVideo()
     {
-        $view = new Piwik_View('@CoreHome/getPromoVideo');
+        $view = new View('@CoreHome/getPromoVideo');
         $view->shareText = Piwik_Translate('CoreHome_SharePiwikShort');
         $view->shareTextLong = Piwik_Translate('CoreHome_SharePiwikLong');
         $view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';
@@ -213,7 +225,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function redirectToPaypal()
     {
-        $parameters = Piwik_API_Request::getRequestArrayFromString($request = null);
+        $parameters = Request::getRequestArrayFromString($request = null);
         foreach ($parameters as $name => $param) {
             if ($name == 'idSite'
                 || $name == 'module'
@@ -223,7 +235,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
             }
         }
         
-        $url = "https://www.paypal.com/cgi-bin/webscr?".Piwik_Url::getQueryStringFromParameters($parameters);
+        $url = "https://www.paypal.com/cgi-bin/webscr?".Url::getQueryStringFromParameters($parameters);
         
         header("Location: $url");
         exit;

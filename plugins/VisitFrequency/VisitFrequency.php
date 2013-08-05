@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
+use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *
  * @package Piwik_VisitFrequency
  */
-class Piwik_VisitFrequency extends Piwik_Plugin
+class Piwik_VisitFrequency extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -55,8 +57,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
 
     function addWidgets()
     {
-        Piwik_AddWidget('General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
-        Piwik_AddWidget('General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
+        WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetOverview', 'VisitFrequency', 'getSparklines');
+        WidgetsList::add('General_Visitors', 'VisitFrequency_WidgetGraphReturning', 'VisitFrequency', 'getEvolutionGraph', array('columns' => array('nb_visits_returning')));
     }
 
     function addMenu()

@@ -8,20 +8,24 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_2_3 extends Piwik_Updates
+class Piwik_Updates_1_2_3 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
         return array(
             // LOAD DATA INFILE uses the database's charset
-            'ALTER DATABASE `' . Piwik_Config::getInstance()->database['dbname'] . '` DEFAULT CHARACTER SET utf8'                                        => false,
+            'ALTER DATABASE `' . Config::getInstance()->database['dbname'] . '` DEFAULT CHARACTER SET utf8'                                        => false,
 
             // Various performance improvements schema updates
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				DROP INDEX index_idsite_datetime_config,
 				DROP INDEX index_idsite_idvisit,
 				ADD INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time),
@@ -31,7 +35,7 @@ class Piwik_Updates_1_2_3 extends Piwik_Updates
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }
 

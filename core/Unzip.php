@@ -9,40 +9,48 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
+use Piwik\Unzip\Gzip;
+use Piwik\Unzip\UncompressInterface;
+use Piwik\Unzip\PclZip;
+use Piwik\Unzip\Tar;
+use Piwik\Unzip\ZipArchive;
+
 /**
  * Unzip wrapper around ZipArchive and PclZip
  *
  * @package Piwik
  */
-class Piwik_Unzip
+class Unzip
 {
     /**
      * Factory method to create an unarchiver
      *
      * @param string $name      Name of unarchiver
      * @param string $filename  Name of .zip archive
-     * @return Piwik_Unzip_Interface
+     * @return \Piwik\Unzip\UncompressInterface
      */
     static public function factory($name, $filename)
     {
         switch ($name) {
             case 'ZipArchive':
                 if (class_exists('ZipArchive', false))
-                    return new Piwik_Unzip_ZipArchive($filename);
+                    return new ZipArchive($filename);
                 break;
             case 'tar.gz':
-                return new Piwik_Unzip_Tar($filename, 'gz');
+                return new Tar($filename, 'gz');
             case 'tar.bz2':
-                return new Piwik_Unzip_Tar($filename, 'bz2');
+                return new Tar($filename, 'bz2');
             case 'gz':
                 if (function_exists('gzopen'))
-                    return new Piwik_Unzip_Gzip($filename);
+                    return new Gzip($filename);
                 break;
             case 'PclZip':
             default:
-                return new Piwik_Unzip_PclZip($filename);
+                return new PclZip($filename);
         }
 
-        return new Piwik_Unzip_PclZip($filename);
+        return new PclZip($filename);
     }
 }

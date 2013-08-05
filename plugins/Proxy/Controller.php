@@ -8,82 +8,20 @@
  * @category Piwik_Plugins
  * @package Piwik_Proxy
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\AssetManager;
+use Piwik\Controller;
+use Piwik\Url;
 
 /**
  * Controller for proxy services
  *
  * @package Piwik_Proxy
  */
-class Piwik_Proxy_Controller extends Piwik_Controller
+class Piwik_Proxy_Controller extends Controller
 {
     const TRANSPARENT_PNG_PIXEL = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
-
-    /**
-     * Display the "Export Image" window.
-     *
-     * @deprecated 1.5.1
-     *
-     * @internal param string $imageData Base-64 encoded image data (via $_POST)
-     */
-    static public function exportImageWindow()
-    {
-        Piwik::checkUserHasSomeViewAccess();
-
-        $view = new Piwik_View('@Proxy/exportImageWindow');
-        $view->imageData = 'data:image/png;base64,' . Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST);
-        echo $view->render();
-    }
-
-    function exportImage()
-    {
-        self::exportImageWindow();
-    }
-
-    /**
-     * Output binary image from base-64 encoded data.
-     *
-     * @deprecated 1.5.1
-     *
-     * @internal param string $imageData Base-64 encoded image data (via $_POST)
-     */
-    static public function outputBinaryImage()
-    {
-        Piwik::checkUserHasSomeViewAccess();
-
-        $rawData = Piwik_Common::getRequestVar('imageData', '', 'string', $_POST);
-
-        // returns false if any illegal characters in input
-        $data = base64_decode($rawData);
-        if ($data !== false) {
-            // check for PNG header
-            if (Piwik_Common::substr($data, 0, 8) === "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a") {
-                header('Content-Type: image/png');
-
-                // more robust validation (if available)
-                if (function_exists('imagecreatefromstring')) {
-                    // validate image data
-                    $imgResource = @imagecreatefromstring($data);
-                    if ($imgResource !== false) {
-                        // output image and clean-up
-                        imagepng($imgResource);
-                        imagedestroy($imgResource);
-                        exit;
-                    }
-                } else {
-                    echo $data;
-                    exit;
-                }
-            }
-        }
-
-        Piwik::setHttpStatus('400 Bad Request');
-        exit;
-    }
-
-    function outputImage()
-    {
-        self::outputBinaryImage();
-    }
 
     /**
      * Output the merged CSS file.
@@ -93,7 +31,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      */
     public function getCss()
     {
-        $cssMergedFile = Piwik_AssetManager::getMergedCssFileLocation();
+        $cssMergedFile = AssetManager::getMergedCssFileLocation();
         Piwik::serveStaticFile($cssMergedFile, "text/css");
     }
 
@@ -105,7 +43,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      */
     public function getJs()
     {
-        $jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
+        $jsMergedFile = AssetManager::getMergedJsFileLocation();
         Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
     }
 
@@ -117,12 +55,12 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      */
     public function redirect()
     {
-        $url = Piwik_Common::getRequestVar('url', '', 'string', $_GET);
+        $url = Common::getRequestVar('url', '', 'string', $_GET);
 
         // validate referrer
-        $referrer = Piwik_Url::getReferer();
-        if (empty($referrer) || !Piwik_Url::isLocalUrl($referrer)) {
-            die('Invalid Referer detected - This means that your web browser is not sending the "Referer URL" which is
+        $referrer = Url::getReferer();
+        if (empty($referrer) || !Url::isLocalUrl($referrer)) {
+            die('Invalid Referrer detected - This means that your web browser is not sending the "Referrer URL" which is
 				required to proceed with the redirect. Verify your browser settings and add-ons, to check why your browser
 				 is not sending this referer.
 
@@ -133,7 +71,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
         if (!self::isPiwikUrl($url)) {
             Piwik::checkUserHasSomeViewAccess();
         }
-        if (!Piwik_Common::isLookLikeUrl($url)) {
+        if (!Common::isLookLikeUrl($url)) {
             die('Please check the &url= parameter: it should to be a valid URL');
         }
         @header('Content-Type: text/html; charset=utf-8');

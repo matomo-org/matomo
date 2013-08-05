@@ -555,7 +555,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.handycafe.com'           => array('InfoSpace', 'q'),
 
         /*
-         * Other InfoSpace powered metasearches are handled in Piwik_Common::extractSearchEngineInformationFromUrl()
+         * Other InfoSpace powered metasearches are handled in Common::extractSearchEngineInformationFromUrl()
          *
          * This includes sites such as:
          * - search.nation.com
@@ -903,7 +903,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.websearch.com'              => array('WebSearch', array('qkw', 'q'), 'search/results2.aspx?q={k}'),
 
         // Wedoo
-        // 2011-02-15 - keyword no longer appears to be in Referer URL; candidate for removal?
+        // 2011-02-15 - keyword no longer appears to be in Referrer URL; candidate for removal?
         'fr.wedoo.com'                   => array('Wedoo', 'keyword'),
         'en.wedoo.com'                   => array('Wedoo'),
         'es.wedoo.com'                   => array('Wedoo'),

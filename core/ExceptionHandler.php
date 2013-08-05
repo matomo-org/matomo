@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Piwik;
+use Piwik\Log;
+use Piwik\Log\ExceptionScreenFormatter;
+use Piwik\FrontController;
 
 /**
  * Exception handler used to display nicely exceptions in Piwik
@@ -18,10 +22,10 @@
 function Piwik_ExceptionHandler(Exception $exception)
 {
     try {
-        Zend_Registry::get('logger_exception')->logEvent($exception);
+        \Zend_Registry::get('logger_exception')->logEvent($exception);
     } catch (Exception $e) {
 
-        if (Piwik_FrontController::shouldRethrowException()) {
+        if (FrontController::shouldRethrowException()) {
             throw $exception;
         }
 
@@ -34,7 +38,7 @@ function Piwik_ExceptionHandler(Exception $exception)
         $event['errline'] = $exception->getLine();
         $event['backtrace'] = $exception->getTraceAsString();
 
-        $formatter = new Piwik_Log_Exception_Formatter_ScreenFormatter();
+        $formatter = new ExceptionScreenFormatter();
 
         $message = $formatter->format($event);
         $message .= "<br /><br />And this exception raised another exception \"" . $e->getMessage() . "\"";

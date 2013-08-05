@@ -8,11 +8,13 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+use Piwik\Piwik;
 
 /**
  * This class holds the various mappings we use to internally store and manipulate metrics.
  */
-class Piwik_Metrics
+class Metrics
 {
     /**
      * When saving DataTables in the DB, we replace all columns name with these IDs. This saves many bytes,
@@ -70,76 +72,76 @@ class Piwik_Metrics
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
     static public $mappingFromIdToName = array(
-        Piwik_Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
-        Piwik_Metrics::INDEX_NB_VISITS                             => 'nb_visits',
-        Piwik_Metrics::INDEX_NB_ACTIONS                            => 'nb_actions',
-        Piwik_Metrics::INDEX_MAX_ACTIONS                           => 'max_actions',
-        Piwik_Metrics::INDEX_SUM_VISIT_LENGTH                      => 'sum_visit_length',
-        Piwik_Metrics::INDEX_BOUNCE_COUNT                          => 'bounce_count',
-        Piwik_Metrics::INDEX_NB_VISITS_CONVERTED                   => 'nb_visits_converted',
-        Piwik_Metrics::INDEX_NB_CONVERSIONS                        => 'nb_conversions',
-        Piwik_Metrics::INDEX_REVENUE                               => 'revenue',
-        Piwik_Metrics::INDEX_GOALS                                 => 'goals',
-        Piwik_Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS            => 'sum_daily_nb_uniq_visitors',
+        Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
+        Metrics::INDEX_NB_VISITS                             => 'nb_visits',
+        Metrics::INDEX_NB_ACTIONS                            => 'nb_actions',
+        Metrics::INDEX_MAX_ACTIONS                           => 'max_actions',
+        Metrics::INDEX_SUM_VISIT_LENGTH                      => 'sum_visit_length',
+        Metrics::INDEX_BOUNCE_COUNT                          => 'bounce_count',
+        Metrics::INDEX_NB_VISITS_CONVERTED                   => 'nb_visits_converted',
+        Metrics::INDEX_NB_CONVERSIONS                        => 'nb_conversions',
+        Metrics::INDEX_REVENUE                               => 'revenue',
+        Metrics::INDEX_GOALS                                 => 'goals',
+        Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS            => 'sum_daily_nb_uniq_visitors',
 
         // Actions metrics
-        Piwik_Metrics::INDEX_PAGE_NB_HITS                          => 'nb_hits',
-        Piwik_Metrics::INDEX_PAGE_SUM_TIME_SPENT                   => 'sum_time_spent',
-        Piwik_Metrics::INDEX_PAGE_SUM_TIME_GENERATION              => 'sum_time_generation',
-        Piwik_Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION     => 'nb_hits_with_time_generation',
-        Piwik_Metrics::INDEX_PAGE_MIN_TIME_GENERATION              => 'min_time_generation',
-        Piwik_Metrics::INDEX_PAGE_MAX_TIME_GENERATION              => 'max_time_generation',
+        Metrics::INDEX_PAGE_NB_HITS                          => 'nb_hits',
+        Metrics::INDEX_PAGE_SUM_TIME_SPENT                   => 'sum_time_spent',
+        Metrics::INDEX_PAGE_SUM_TIME_GENERATION              => 'sum_time_generation',
+        Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION     => 'nb_hits_with_time_generation',
+        Metrics::INDEX_PAGE_MIN_TIME_GENERATION              => 'min_time_generation',
+        Metrics::INDEX_PAGE_MAX_TIME_GENERATION              => 'max_time_generation',
 
-        Piwik_Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS            => 'exit_nb_uniq_visitors',
-        Piwik_Metrics::INDEX_PAGE_EXIT_NB_VISITS                   => 'exit_nb_visits',
-        Piwik_Metrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS  => 'sum_daily_exit_nb_uniq_visitors',
+        Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS            => 'exit_nb_uniq_visitors',
+        Metrics::INDEX_PAGE_EXIT_NB_VISITS                   => 'exit_nb_visits',
+        Metrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS  => 'sum_daily_exit_nb_uniq_visitors',
 
-        Piwik_Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS           => 'entry_nb_uniq_visitors',
-        Piwik_Metrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_entry_nb_uniq_visitors',
-        Piwik_Metrics::INDEX_PAGE_ENTRY_NB_VISITS                  => 'entry_nb_visits',
-        Piwik_Metrics::INDEX_PAGE_ENTRY_NB_ACTIONS                 => 'entry_nb_actions',
-        Piwik_Metrics::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH           => 'entry_sum_visit_length',
-        Piwik_Metrics::INDEX_PAGE_ENTRY_BOUNCE_COUNT               => 'entry_bounce_count',
-        Piwik_Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS => 'nb_hits_following_search',
+        Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS           => 'entry_nb_uniq_visitors',
+        Metrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_entry_nb_uniq_visitors',
+        Metrics::INDEX_PAGE_ENTRY_NB_VISITS                  => 'entry_nb_visits',
+        Metrics::INDEX_PAGE_ENTRY_NB_ACTIONS                 => 'entry_nb_actions',
+        Metrics::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH           => 'entry_sum_visit_length',
+        Metrics::INDEX_PAGE_ENTRY_BOUNCE_COUNT               => 'entry_bounce_count',
+        Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS => 'nb_hits_following_search',
 
         // Items reports metrics
-        Piwik_Metrics::INDEX_ECOMMERCE_ITEM_REVENUE                => 'revenue',
-        Piwik_Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY               => 'quantity',
-        Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE                  => 'price',
-        Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED           => 'price_viewed',
-        Piwik_Metrics::INDEX_ECOMMERCE_ORDERS                      => 'orders',
+        Metrics::INDEX_ECOMMERCE_ITEM_REVENUE                => 'revenue',
+        Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY               => 'quantity',
+        Metrics::INDEX_ECOMMERCE_ITEM_PRICE                  => 'price',
+        Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED           => 'price_viewed',
+        Metrics::INDEX_ECOMMERCE_ORDERS                      => 'orders',
     );
     static public $mappingFromIdToNameGoal = array(
-        Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',
-        Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 'nb_visits_converted',
-        Piwik_Metrics::INDEX_GOAL_REVENUE                    => 'revenue',
-        Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 'revenue_subtotal',
-        Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 'revenue_tax',
-        Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 'revenue_shipping',
-        Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 'revenue_discount',
-        Piwik_Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
+        Metrics::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',
+        Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 'nb_visits_converted',
+        Metrics::INDEX_GOAL_REVENUE                    => 'revenue',
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 'revenue_subtotal',
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 'revenue_tax',
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 'revenue_shipping',
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 'revenue_discount',
+        Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
     );
     static public $mappingFromNameToId = array(
-        'nb_uniq_visitors'           => Piwik_Metrics::INDEX_NB_UNIQ_VISITORS,
-        'nb_visits'                  => Piwik_Metrics::INDEX_NB_VISITS,
-        'nb_actions'                 => Piwik_Metrics::INDEX_NB_ACTIONS,
-        'max_actions'                => Piwik_Metrics::INDEX_MAX_ACTIONS,
-        'sum_visit_length'           => Piwik_Metrics::INDEX_SUM_VISIT_LENGTH,
-        'bounce_count'               => Piwik_Metrics::INDEX_BOUNCE_COUNT,
-        'nb_visits_converted'        => Piwik_Metrics::INDEX_NB_VISITS_CONVERTED,
-        'nb_conversions'             => Piwik_Metrics::INDEX_NB_CONVERSIONS,
-        'revenue'                    => Piwik_Metrics::INDEX_REVENUE,
-        'goals'                      => Piwik_Metrics::INDEX_GOALS,
-        'sum_daily_nb_uniq_visitors' => Piwik_Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
+        'nb_uniq_visitors'           => Metrics::INDEX_NB_UNIQ_VISITORS,
+        'nb_visits'                  => Metrics::INDEX_NB_VISITS,
+        'nb_actions'                 => Metrics::INDEX_NB_ACTIONS,
+        'max_actions'                => Metrics::INDEX_MAX_ACTIONS,
+        'sum_visit_length'           => Metrics::INDEX_SUM_VISIT_LENGTH,
+        'bounce_count'               => Metrics::INDEX_BOUNCE_COUNT,
+        'nb_visits_converted'        => Metrics::INDEX_NB_VISITS_CONVERTED,
+        'nb_conversions'             => Metrics::INDEX_NB_CONVERSIONS,
+        'revenue'                    => Metrics::INDEX_REVENUE,
+        'goals'                      => Metrics::INDEX_GOALS,
+        'sum_daily_nb_uniq_visitors' => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
     );
     static protected $metricsAggregatedFromLogs = array(
-        Piwik_Metrics::INDEX_NB_UNIQ_VISITORS,
-        Piwik_Metrics::INDEX_NB_VISITS,
-        Piwik_Metrics::INDEX_NB_ACTIONS,
-        Piwik_Metrics::INDEX_MAX_ACTIONS,
-        Piwik_Metrics::INDEX_SUM_VISIT_LENGTH,
-        Piwik_Metrics::INDEX_BOUNCE_COUNT,
-        Piwik_Metrics::INDEX_NB_VISITS_CONVERTED,
+        Metrics::INDEX_NB_UNIQ_VISITORS,
+        Metrics::INDEX_NB_VISITS,
+        Metrics::INDEX_NB_ACTIONS,
+        Metrics::INDEX_MAX_ACTIONS,
+        Metrics::INDEX_SUM_VISIT_LENGTH,
+        Metrics::INDEX_BOUNCE_COUNT,
+        Metrics::INDEX_NB_VISITS_CONVERTED,
     );
 
     /* Used in DataTable Sort filter */
@@ -293,5 +295,4 @@ class Piwik_Metrics
         $percentVisitsLabel = str_replace(' ', html_entity_decode('&nbsp;'), Piwik_Translate('General_ColumnPercentageVisits'));
         return $percentVisitsLabel;
     }
-
 }

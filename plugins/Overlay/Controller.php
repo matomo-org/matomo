@@ -1,4 +1,13 @@
 <?php
+use Piwik\API\Request;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\Controller;
+use Piwik\Tracker\Action;
+use Piwik\View;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -9,7 +18,7 @@
  * @package Piwik_Overlay
  */
 
-class Piwik_Overlay_Controller extends Piwik_Controller
+class Piwik_Overlay_Controller extends Controller
 {
 
     /** The index of the plugin */
@@ -18,17 +27,17 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         Piwik::checkUserHasViewAccess($this->idSite);
 
         $template = '@Overlay/index';
-        if (Piwik_Config::getInstance()->General['overlay_disable_framed_mode']) {
+        if (Config::getInstance()->General['overlay_disable_framed_mode']) {
             $template = '@Overlay/index_noframe';
         }
 
-        $view = new Piwik_View($template);
+        $view = new View($template);
 
         $this->setGeneralVariablesView($view);
 
         $view->idSite = $this->idSite;
-        $view->date = Piwik_Common::getRequestVar('date', 'today');
-        $view->period = Piwik_Common::getRequestVar('period', 'day');
+        $view->date = Common::getRequestVar('date', 'today');
+        $view->period = Common::getRequestVar('period', 'day');
 
         $view->ssl = Piwik::isHttps();
 
@@ -38,21 +47,21 @@ class Piwik_Overlay_Controller extends Piwik_Controller
     /** Render the area left of the iframe */
     public function renderSidebar()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite');
-        $period = Piwik_Common::getRequestVar('period');
-        $date = Piwik_Common::getRequestVar('date');
-        $currentUrl = Piwik_Common::getRequestVar('currentUrl');
-        $currentUrl = Piwik_Common::unsanitizeInputValue($currentUrl);
+        $idSite = Common::getRequestVar('idSite');
+        $period = Common::getRequestVar('period');
+        $date = Common::getRequestVar('date');
+        $currentUrl = Common::getRequestVar('currentUrl');
+        $currentUrl = Common::unsanitizeInputValue($currentUrl);
 
-        $normalizedCurrentUrl = Piwik_Tracker_Action::excludeQueryParametersFromUrl($currentUrl, $idSite);
-        $normalizedCurrentUrl = Piwik_Common::unsanitizeInputValue($normalizedCurrentUrl);
+        $normalizedCurrentUrl = Action::excludeQueryParametersFromUrl($currentUrl, $idSite);
+        $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
 
         // load the appropriate row of the page urls report using the label filter
         Piwik_Actions_ArchivingHelper::reloadConfig();
-        $path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
+        $path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_ACTION_URL);
         $path = array_map('urlencode', $path);
         $label = implode('>', $path);
-        $request = new Piwik_API_Request(
+        $request = new Request(
             'method=Actions.getPageUrls'
                 . '&idSite=' . urlencode($idSite)
                 . '&date=' . urlencode($date)
@@ -66,7 +75,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         if ($dataTable->getRowsCount() > 0) {
             $row = $dataTable->getFirstRow();
 
-            $translations = Piwik_Metrics::getDefaultMetricTranslations();
+            $translations = Metrics::getDefaultMetricTranslations();
             $showMetrics = array('nb_hits', 'nb_visits', 'nb_uniq_visitors',
                                  'bounce_rate', 'exit_rate', 'avg_time_on_page');
 
@@ -98,7 +107,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         }
 
         // render template
-        $view = new Piwik_View('@Overlay/renderSidebar');
+        $view = new View('@Overlay/renderSidebar');
         $view->data = $data;
         $view->location = $page;
         $view->normalizedUrl = $normalizedCurrentUrl;
@@ -115,7 +124,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
      */
     public function startOverlaySession()
     {
-        $idSite = Piwik_Common::getRequestVar('idsite', 0, 'int');
+        $idSite = Common::getRequestVar('idsite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
         $sitesManager = Piwik_SitesManager_API::getInstance();
@@ -144,7 +153,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 					var urlToRedirect = window.location.hash.substr(1);
 					var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
 					
-					var knownUrls = ' . Piwik_Common::json_encode($urls) . ';
+					var knownUrls = ' . Common::json_encode($urls) . ';
 					for (var i = 0; i < knownUrls.length; i++) {
 						var testUrl = removeUrlPrefix(knownUrls[i]);
 						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
@@ -183,16 +192,16 @@ class Piwik_Overlay_Controller extends Piwik_Controller
      */
     public function showErrorWrongDomain()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite', 0, 'int');
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
-        $url = Piwik_Common::getRequestVar('url', '');
-        $url = Piwik_Common::unsanitizeInputValue($url);
+        $url = Common::getRequestVar('url', '');
+        $url = Common::unsanitizeInputValue($url);
 
         $message = Piwik_Translate('Overlay_RedirectUrlError', array($url, "\n"));
         $message = nl2br(htmlentities($message));
 
-        $view = new Piwik_View('@Overlay/showErrorWrongDomain');
+        $view = new View('@Overlay/showErrorWrongDomain');
         $view->message = $message;
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
@@ -219,7 +228,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
      */
     public function notifyParentIframe()
     {
-        $view = new Piwik_View('@Overlay/notifyParentIframe');
+        $view = new View('@Overlay/notifyParentIframe');
         echo $view->render();
     }
 

@@ -1,4 +1,10 @@
 <?php
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Access;
+use Piwik\DataTable;
+use Piwik\Tracker\Action;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -74,13 +80,13 @@ class Piwik_Overlay_API
     {
         $this->authenticate($idSite);
 
-        $url = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
+        $url = Action::excludeQueryParametersFromUrl($url, $idSite);
         // we don't unsanitize $url here. it will be done in the Transitions plugin.
 
-        $resultDataTable = new Piwik_DataTable;
+        $resultDataTable = new DataTable;
 
         try {
-            $limitBeforeGrouping = Piwik_Config::getInstance()->General['overlay_following_pages_limit'];
+            $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];
             $transitionsReport = Piwik_Transitions_API::getInstance()->getTransitionsForAction(
                 $url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping,
                 $part = 'followingActions', $returnNormalizedUrls = true);
@@ -109,8 +115,8 @@ class Piwik_Overlay_API
         Piwik_PostEvent('FrontController.initAuthenticationObject',
             array(&$notification, $allowCookieAuthentication = true));
 
-        $auth = Zend_Registry::get('auth');
-        $success = Piwik_Access::getInstance()->reloadAccess($auth);
+        $auth = \Zend_Registry::get('auth');
+        $success = Access::getInstance()->reloadAccess($auth);
 
         if (!$success) {
             throw new Exception('Authentication failed');

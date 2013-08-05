@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
  */
+use Piwik\Piwik;
+use Piwik\Tracker\Request;
 
 /**
  * @see libs/UserAgentParser/UserAgentParser.php
@@ -207,7 +209,7 @@ function Piwik_UserSettings_keepStrlenGreater($value)
 
 function Piwik_getScreenTypeFromResolution($resolution)
 {
-    if ($resolution === Piwik_Tracker_Request::UNKNOWN_RESOLUTION) {
+    if ($resolution === Request::UNKNOWN_RESOLUTION) {
         return $resolution;
     }
 

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Access;
+
 class MobileMessagingTest extends DatabaseTestCase
 {
     protected $idSiteAccess;
@@ -18,12 +20,12 @@ class MobileMessagingTest extends DatabaseTestCase
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         //finally we set the user as a super user by default
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");
 
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging', 'MultiSites'));
-        Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging', 'MultiSites'));
+        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
     }
 
 
@@ -36,8 +38,8 @@ class MobileMessagingTest extends DatabaseTestCase
     public function testWarnUserViaSMSMultiSitesDeactivated()
     {
         // safety net
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging'));
-        $this->assertFalse(Piwik_PluginsManager::getInstance()->isPluginActivated('MultiSites'));
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging'));
+        $this->assertFalse(\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites'));
 
         $PdfReportsAPIInstance = Piwik_PDFReports_API::getInstance();
         $reportId = $PdfReportsAPIInstance->addReport(

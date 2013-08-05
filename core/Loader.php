@@ -9,12 +9,16 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
+use Exception;
+
 /**
  * Piwik auto loader
  *
  * @package Piwik
  */
-class Piwik_Loader
+class Loader
 {
     // our class search path; current directory is intentionally excluded
     protected static $dirs = array('/core/', '/plugins/');
@@ -26,20 +30,25 @@ class Piwik_Loader
      * @return string Class file name
      * @throws Exception if class name is invalid
      */
-    protected static function getClassFileName($class)
+    protected static function  getClassFileName($class)
     {
-        if (!preg_match("/^[A-Za-z0-9_]+$/D", $class)) {
+        if (!preg_match('/^[A-Za-z0-9_\\\\]+$/D', $class)) {
             throw new Exception("Invalid class name \"$class\".");
         }
 
+        // prefixed class
         $class = str_replace('_', '/', $class);
+
+        // namespace \Piwik\Common
+        $class = str_replace('\\', '/', $class);
 
         if ($class == 'Piwik') {
             return $class;
         }
 
-        if (!strncmp($class, 'Piwik/', 6)) {
-            return substr($class, 6);
+        $vendorPrefixToRemove = 'Piwik/';
+        if (strpos($class, $vendorPrefixToRemove) === 0) {
+            return substr($class, strlen($vendorPrefixToRemove));
         }
 
         return $class;
@@ -54,7 +63,9 @@ class Piwik_Loader
     public static function loadClass($class)
     {
         $classPath = self::getClassFileName($class);
-        if ($class == 'Piwik' || !strncmp($class, 'Piwik_', 6)) {
+        if (strpos($class, '\Piwik') === 0
+            || strpos($class, 'Piwik') === 0)
+        {
             // Piwik classes are in core/ or plugins/
             do {
                 // auto-discover class location
@@ -102,7 +113,7 @@ class Piwik_Loader
 // Note: only one __autoload per PHP instance
 if (function_exists('spl_autoload_register')) {
     // use the SPL autoload stack
-    spl_autoload_register(array('Piwik_Loader', 'autoload'));
+    spl_autoload_register(array('Piwik\Loader', 'autoload'));
 
     // preserve any existing __autoload
     if (function_exists('__autoload')) {
@@ -111,6 +122,6 @@ if (function_exists('spl_autoload_register')) {
 } else {
     function __autoload($class)
     {
-        Piwik_Loader::autoload($class);
+        Loader::autoload($class);
     }
 }

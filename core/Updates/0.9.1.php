@@ -8,11 +8,15 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_0_9_1 extends Piwik_Updates
+class Piwik_Updates_0_9_1 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
@@ -33,11 +37,11 @@ class Piwik_Updates_0_9_1 extends Piwik_Updates
         $timezoneList = '"' . implode('","', $brokenTZ) . '"';
 
         return array(
-            'UPDATE ' . Piwik_Common::prefixTable('site') . '
+            'UPDATE ' . Common::prefixTable('site') . '
 				SET timezone = "UTC" 
 				WHERE timezone IN (' . $timezoneList . ')'                                                                  => false,
 
-            'UPDATE `' . Piwik_Common::prefixTable('option') . '`
+            'UPDATE `' . Common::prefixTable('option') . '`
 				SET option_value = "UTC" 
 			WHERE option_name = "SitesManager_DefaultTimezone" 
 				AND option_value IN (' . $timezoneList . ')' => false,
@@ -47,7 +51,7 @@ class Piwik_Updates_0_9_1 extends Piwik_Updates
     static function update()
     {
         if (Piwik::isTimezoneSupportEnabled()) {
-            Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+            Updater::updateDatabase(__FILE__, self::getSql());
         }
     }
 }

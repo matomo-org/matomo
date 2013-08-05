@@ -8,12 +8,16 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Period;
+
+use Piwik\Period\Day;
+use Piwik\Period;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Period
+ * @subpackage Period
  */
-class Piwik_Period_Week extends Piwik_Period
+class Week extends Period
 {
     protected $label = 'week';
 
@@ -45,6 +49,13 @@ class Piwik_Period_Week extends Piwik_Period
         return Piwik_Translate('CoreHome_PeriodWeek') . " " . $string;
     }
 
+    /**
+     * @param string $format
+     * @param \Piwik\Date $dateStart
+     * @param \Piwik\Date $dateEnd
+     *
+     * @return mixed
+     */
     static protected function getTranslatedRange($format, $dateStart, $dateEnd)
     {
         $string = str_replace('From%', '%', $format);
@@ -87,7 +98,7 @@ class Piwik_Period_Week extends Piwik_Period
 
         $currentDay = clone $startWeek;
         while ($currentDay->compareWeek($startWeek) == 0) {
-            $this->addSubperiod(new Piwik_Period_Day($currentDay));
+            $this->addSubperiod(new Day($currentDay));
             $currentDay = $currentDay->addDay(1);
         }
     }

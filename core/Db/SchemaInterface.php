@@ -9,13 +9,15 @@
  * @package Piwik
  */
 
+namespace Piwik\Db;
+
 /**
  * Database schema interface
  *
  * @package Piwik
  * @subpackage Piwik_Db
  */
-interface Piwik_Db_Schema_Interface
+interface SchemaInterface
 {
     /**
      * Is this schema available?

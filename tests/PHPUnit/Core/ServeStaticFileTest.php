@@ -12,6 +12,9 @@
  */
 
 // This is Piwik logo, the static file used in this test suit
+use Piwik\Piwik;
+use Piwik\Common;
+
 define("TEST_FILE_LOCATION", realpath(dirname(__FILE__) . "/../../resources/lipsum.txt"));
 define("TEST_FILE_CONTENT_TYPE", "text/plain");
 
@@ -98,7 +101,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
          * This test would fail on a windows environment because it is not possible to remove reading rights on a
          * windows file using PHP.
          */
-        if (Piwik_Common::isWindows()) {
+        if (Common::isWindows()) {
             return;
         }
 

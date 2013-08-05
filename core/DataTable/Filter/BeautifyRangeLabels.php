@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\ColumnCallbackReplace;
 
 /**
  * A DataTable filter that replaces range label columns with prettier,
@@ -26,7 +30,7 @@
  * This filter can also be extended to beautify ranges differently based
  * on the range values.
  */
-class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_ColumnCallbackReplace
+class BeautifyRangeLabels extends ColumnCallbackReplace
 {
     /**
      * The string to use when the range being beautified is between 1-1 units.
@@ -44,7 +48,7 @@ class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_
     /**
      * Constructor.
      *
-     * @param Piwik_DataTable $table          The DataTable that will be filtered.
+     * @param DataTable $table          The DataTable that will be filtered.
      * @param string $labelSingular  The string to use when the range being beautified
      *                                         is equal to '1-1 units'.
      * @param string $labelPlural    The string to use when the range being beautified
@@ -85,7 +89,7 @@ class Piwik_DataTable_Filter_BeautifyRangeLabels extends Piwik_DataTable_Filter_
             // get the lower bound
             sscanf($value, "%d", $lowerBound);
 
-            if ($lowerBound !== NULL) {
+            if ($lowerBound !== null) {
                 $plusEncoded = urlencode('+');
                 $plusLen = strlen($plusEncoded);
                 $len = strlen($value);

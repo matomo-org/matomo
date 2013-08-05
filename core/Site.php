@@ -9,11 +9,16 @@
  * @package Piwik
  */
 
+namespace Piwik;
+use Exception;
+use Piwik\Date;
+use Piwik_SitesManager_API;
+
 /**
  *
  * @package Piwik
  */
-class Piwik_Site
+class Site
 {
     /**
      * @var int|null
@@ -122,12 +127,12 @@ class Piwik_Site
     /**
      * Returns the creation date of the site
      *
-     * @return Piwik_Date
+     * @return Date
      */
     function getCreationDate()
     {
         $date = $this->get('ts_created');
-        return Piwik_Date::factory($date);
+        return Date::factory($date);
     }
 
     /**

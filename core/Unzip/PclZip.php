@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Unzip;
+
+use Piwik\Unzip\UncompressInterface;
 
 /**
  * @see libs/PclZip
@@ -18,9 +21,9 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
  * Unzip wrapper around PclZip
  *
  * @package Piwik
- * @subpackage Piwik_Unzip
+ * @subpackage Unzip
  */
-class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
+class PclZip implements UncompressInterface
 {
     /**
      * @var PclZip
@@ -38,7 +41,7 @@ class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
      */
     public function __construct($filename)
     {
-        $this->pclzip = new PclZip($filename);
+        $this->pclzip = new \PclZip($filename);
         $this->filename = $filename;
     }
 

@@ -1,4 +1,7 @@
 <?php
+use Piwik\Common;
+use Piwik\Tracker\Action;
+
 /**
  * Tests the URL normalization.
  */
@@ -83,15 +86,15 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
      */
     public function testCheckPostConditions()
     {
-        $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable('log_action');
-        $count = Zend_Registry::get('db')->fetchOne($sql);
+        $sql = "SELECT count(*) FROM " . Common::prefixTable('log_action');
+        $count = \Zend_Registry::get('db')->fetchOne($sql);
         $expected = 9; // 4 urls + 5 titles
         $this->assertEquals($expected, $count, "only $expected actions expected");
 
-        $sql = "SELECT name, url_prefix FROM " . Piwik_Common::prefixTable('log_action')
-            . " WHERE type = " . Piwik_Tracker_Action::TYPE_ACTION_URL
+        $sql = "SELECT name, url_prefix FROM " . Common::prefixTable('log_action')
+            . " WHERE type = " . Action::TYPE_ACTION_URL
             . " ORDER BY idaction ASC";
-        $urls = Zend_Registry::get('db')->fetchAll($sql);
+        $urls = \Zend_Registry::get('db')->fetchAll($sql);
         $expected = array(
             array('name' => 'example.org/foo/bar.html', 'url_prefix' => 0),
             array('name' => 'example.org/foo/bar2.html', 'url_prefix' => 3),

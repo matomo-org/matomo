@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\API\Proxy;
 
 /**
  * This tests the output of the API plugin API
@@ -22,7 +23,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
         // From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we
         // ensure that they still work. This hack allows the API proxy to let us generate example
         // URLs for the ignored functions
-        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(false);
+        Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
     public function tearDown()
@@ -30,7 +31,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
         parent::tearDown();
 
         // reset that value after the test
-        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(true);
+        Proxy::getInstance()->setHideIgnoredFunctions(true);
     }
 
     public function getOutputPrefix()

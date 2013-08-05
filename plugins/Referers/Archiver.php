@@ -1,4 +1,10 @@
 <?php
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\Metrics;
+use Piwik\DataArray;
+use Piwik\PluginsArchiver;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -9,7 +15,7 @@
  * @package Piwik_Referers
  */
 
-class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
+class Piwik_Referers_Archiver extends PluginsArchiver
 {
     const SEARCH_ENGINES_RECORD_NAME = 'Referers_keywordBySearchEngine';
     const KEYWORDS_RECORD_NAME = 'Referers_searchEngineByKeyword';
@@ -24,22 +30,22 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTableLevelZero;
     protected $maximumRowsInSubDataTable;
-    /* @var array[Piwik_DataArray] $arrays */
+    /* @var array[DataArray] $arrays */
     protected $arrays = array();
     protected $distinctUrls = array();
 
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->columnToSortByBeforeTruncation = Piwik_Metrics::INDEX_NB_VISITS;
-        $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
-        $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
+        $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
+        $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
+        $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
     }
 
     public function archiveDay()
     {
         foreach ($this->getRecordNames() as $record) {
-            $this->arrays[$record] = new Piwik_DataArray();
+            $this->arrays[$record] = new DataArray();
         }
         $query = $this->getLogAggregator()->queryVisitsByDimension(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
         $this->aggregateFromVisits($query);
@@ -73,14 +79,14 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     protected function makeRefererTypeNonEmpty(&$row)
     {
         if (empty($row['referer_type'])) {
-            $row['referer_type'] = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+            $row['referer_type'] = Common::REFERER_TYPE_DIRECT_ENTRY;
         }
     }
 
     protected function aggregateVisit($row)
     {
         switch ($row['referer_type']) {
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
                     $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
                 }
@@ -92,7 +98,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
                 $keywordsDataArray->sumMetricsVisitsPivot($row['referer_keyword'], $row['referer_name'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERER_TYPE_WEBSITE:
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_url'], $row);
 
@@ -102,14 +108,14 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
                 }
                 break;
 
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERER_TYPE_CAMPAIGN:
                 if (!empty($row['referer_keyword'])) {
                     $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_keyword'], $row);
                 }
                 $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERER_TYPE_DIRECT_ENTRY:
                 // direct entry are aggregated below in $this->metricsByType array
                 break;
 
@@ -122,7 +128,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
 
     /**
      * @param $name
-     * @return Piwik_DataArray
+     * @return DataArray
      */
     protected function getDataArray($name)
     {
@@ -144,7 +150,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
         }
 
         foreach ($this->arrays as $dataArray) {
-            /* @var Piwik_DataArray $dataArray */
+            /* @var DataArray $dataArray */
             $dataArray->enrichMetricsWithConversions();
         }
     }
@@ -153,7 +159,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     {
         $skipAggregateByType = false;
         switch ($row['referer_type']) {
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
                     $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
                 }
@@ -162,18 +168,18 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
                 $this->getDataArray(self::KEYWORDS_RECORD_NAME)->sumMetricsGoals($row['referer_keyword'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERER_TYPE_WEBSITE:
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERER_TYPE_CAMPAIGN:
                 if (!empty($row['referer_keyword'])) {
                     $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoalsPivot($row['referer_name'], $row['referer_keyword'], $row);
                 }
                 $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERER_TYPE_DIRECT_ENTRY:
                 // Direct entry, no sub dimension
                 break;
 

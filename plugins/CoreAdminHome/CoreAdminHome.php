@@ -8,12 +8,20 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
  */
+use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Piwik;
+use Piwik\Date;
+use Piwik\ScheduledTask;
+use Piwik\Plugin;
+use Piwik\Db;
+use Piwik\ScheduledTime\Daily;
 
 /**
  *
  * @package Piwik_CoreAdminHome
  */
-class Piwik_CoreAdminHome extends Piwik_Plugin
+class Piwik_CoreAdminHome extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -31,19 +39,19 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
     public function getScheduledTasks(&$tasks)
     {
         // general data purge on older archive tables, executed daily
-        $purgeArchiveTablesTask = new Piwik_ScheduledTask ($this,
+        $purgeArchiveTablesTask = new ScheduledTask ($this,
             'purgeOutdatedArchives',
             null,
-            new Piwik_ScheduledTime_Daily(),
-            Piwik_ScheduledTask::HIGH_PRIORITY);
+            new Daily(),
+            ScheduledTask::HIGH_PRIORITY);
         $tasks[] = $purgeArchiveTablesTask;
 
         // lowest priority since tables should be optimized after they are modified
-        $optimizeArchiveTableTask = new Piwik_ScheduledTask ($this,
+        $optimizeArchiveTableTask = new ScheduledTask ($this,
             'optimizeArchiveTable',
             null,
-            new Piwik_ScheduledTime_Daily(),
-            Piwik_ScheduledTask::LOWEST_PRIORITY);
+            new Daily(),
+            ScheduledTask::LOWEST_PRIORITY);
         $tasks[] = $optimizeArchiveTableTask;
     }
 
@@ -71,10 +79,10 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 
     function addMenu()
     {
-        Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', NULL, "", Piwik::isUserHasSomeAdminAccess(), $order = 1);
-        Piwik_AddAdminSubMenu('CoreAdminHome_MenuCommunity', NULL, "", Piwik::isUserHasSomeAdminAccess(), $order = 3);
-        Piwik_AddAdminSubMenu('CoreAdminHome_MenuDiagnostic', NULL, "", Piwik::isUserHasSomeAdminAccess(), $order = 20);
-        Piwik_AddAdminSubMenu('General_Settings', NULL, "", Piwik::isUserHasSomeAdminAccess(), $order = 5);
+        Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 1);
+        Piwik_AddAdminSubMenu('CoreAdminHome_MenuCommunity', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 3);
+        Piwik_AddAdminSubMenu('CoreAdminHome_MenuDiagnostic', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 20);
+        Piwik_AddAdminSubMenu('General_Settings', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 5);
         Piwik_AddAdminSubMenu('General_Settings', 'CoreAdminHome_MenuGeneralSettings',
             array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
             Piwik::isUserHasSomeAdminAccess(),
@@ -88,17 +96,17 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 
     function purgeOutdatedArchives()
     {
-        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
+        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
-            $date = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            $date = ArchiveTableCreator::getDateFromTableName($table);
             list($month, $year) = explode('_', $date);
-            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives(Piwik_Date::factory("$year-$month-15"));
+            ArchiveSelector::purgeOutdatedArchives(Date::factory("$year-$month-15"));
         }
     }
 
     function optimizeArchiveTable()
     {
-        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
-        Piwik_OptimizeTables($archiveTables);
+        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
+        Db::optimizeTables($archiveTables);
     }
 }

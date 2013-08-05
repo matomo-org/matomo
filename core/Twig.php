@@ -8,15 +8,30 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
 
+use Exception;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\AssetManager;
+use Piwik\Translate;
+use Piwik\Url;
+use Piwik\PluginsManager;
+use Piwik\Visualization\Sparkline;
+use Twig_Environment;
+use Twig_Extension_Debug;
+use Twig_Loader_Chain;
+use Twig_Loader_Filesystem;
+use Twig_SimpleFilter;
+use Twig_SimpleFunction;
 
 /**
  * Twig class
  *
  * @package Piwik
- * @subpackage Piwik_Twig
+ * @subpackage Twig
  */
-class Piwik_Twig
+class Twig
 {
     const SPARKLINE_TEMPLATE = '<img class="sparkline" alt="" data-src="%s" width="%d" height="%d" />
     <script type="text/javascript">$(document).ready(function () { piwik.initSparklines(); });</script>';
@@ -38,9 +53,9 @@ class Piwik_Twig
         // Create new Twig Environment and set cache dir
         $this->twig = new Twig_Environment($chainLoader,
             array(
-                 'debug' => true, // to use {{ dump(var) }} in twig templates
+                 'debug'            => true, // to use {{ dump(var) }} in twig templates
                  'strict_variables' => true, // throw an exception if variables are invalid
-                 'cache' => PIWIK_USER_PATH . '/tmp/templates_c',
+                 'cache'            => PIWIK_USER_PATH . '/tmp/templates_c',
             )
         );
         $this->twig->addExtension(new Twig_Extension_Debug());
@@ -51,7 +66,7 @@ class Piwik_Twig
         $this->addFilter_sumTime();
         $this->addFilter_money();
         $this->addFilter_truncate();
-        $this->twig->addFilter( new Twig_SimpleFilter('implode', 'implode'));
+        $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
@@ -70,9 +85,9 @@ class Piwik_Twig
             $assetType = strtolower($params['type']);
             switch ($assetType) {
                 case 'css':
-                    return Piwik_AssetManager::getCssAssets();
+                    return AssetManager::getCssAssets();
                 case 'js':
-                    return Piwik_AssetManager::getJsAssets();
+                    return AssetManager::getJsAssets();
                 default:
                     throw new Exception("The twig function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
             }
@@ -93,9 +108,9 @@ class Piwik_Twig
     protected function addFunction_sparkline()
     {
         $sparklineFunction = new Twig_SimpleFunction('sparkline', function ($src) {
-            $width = Piwik_Visualization_Sparkline::DEFAULT_WIDTH;
-            $height = Piwik_Visualization_Sparkline::DEFAULT_HEIGHT;
-            return sprintf(Piwik_Twig::SPARKLINE_TEMPLATE, $src, $width, $height);
+            $width = Sparkline::DEFAULT_WIDTH;
+            $height = Sparkline::DEFAULT_HEIGHT;
+            return sprintf(Twig::SPARKLINE_TEMPLATE, $src, $width, $height);
         }, array('is_safe' => array('html')));
         $this->twig->addFunction($sparklineFunction);
     }
@@ -108,7 +123,7 @@ class Piwik_Twig
                 return;
             }
             $pluginTranslationsAlreadyLoaded[] = $plugins;
-            $jsTranslations = Piwik_Translate::getInstance()->getJavascriptTranslations($plugins);
+            $jsTranslations = Translate::getInstance()->getJavascriptTranslations($plugins);
             $jsCode = '';
             if ($disableScriptTag) {
                 $jsCode .= $jsTranslations;
@@ -125,7 +140,7 @@ class Piwik_Twig
     protected function addFunction_linkTo()
     {
         $urlFunction = new Twig_SimpleFunction('linkTo', function ($params) {
-            return 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+            return 'index.php' . Url::getCurrentQueryStringWithParametersModified($params);
         });
         $this->twig->addFunction($urlFunction);
     }
@@ -136,8 +151,8 @@ class Piwik_Twig
     private function getDefaultThemeLoader()
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
-            sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, Piwik_PluginsManager::DEFAULT_THEME)
-        ));
+                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, PluginsManager::DEFAULT_THEME)
+                                                  ));
 
         return $themeLoader;
     }
@@ -185,7 +200,7 @@ class Piwik_Twig
     {
         $urlRewriteFilter = new Twig_SimpleFilter('urlRewriteWithParameters', function ($parameters) {
             $parameters['updated'] = null;
-            $url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
+            $url = Url::getCurrentQueryStringWithParametersModified($parameters);
             return $url;
         });
         $this->twig->addFilter($urlRewriteFilter);
@@ -213,9 +228,9 @@ class Piwik_Twig
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
-        $plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
-        foreach($plugins as $name) {
-            $name = Piwik_Common::unprefixClass($name);
+        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
+        foreach ($plugins as $name) {
+            $name = Common::unprefixClass($name);
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {
                 $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $name . '/templates', $name);

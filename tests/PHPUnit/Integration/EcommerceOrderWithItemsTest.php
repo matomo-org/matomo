@@ -5,6 +5,8 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Piwik;
+use Piwik\Date;
 
 /**
  * Tests API methods after ecommerce orders are tracked.
@@ -156,7 +158,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
 
                                 // test Live! output is OK also for the visit that just bought something (other visits leave an abandoned cart)
                                 array('Live.getLastVisitsDetails', array('idSite'  => $idSite,
-                                                                         'date'    => Piwik_Date::factory($dateTime)->addHour(30.65)->getDatetime(),
+                                                                         'date'    => Date::factory($dateTime)->addHour(30.65)->getDatetime(),
                                                                          'periods' => array('day'), 'testSuffix' => '_LiveEcommerceStatusOrdered')),
 
                                 // test API.get method

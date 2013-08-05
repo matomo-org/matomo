@@ -8,16 +8,21 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
+use Piwik\API\Request;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_VisitFrequency
  */
-class Piwik_VisitFrequency_Controller extends Piwik_Controller
+class Piwik_VisitFrequency_Controller extends Controller
 {
     function index()
     {
-        $view = new Piwik_View('@VisitFrequency/index');
+        $view = new View('@VisitFrequency/index');
         $view->graphEvolutionVisitFrequency = $this->getEvolutionGraph(true, array('nb_visits_returning'));
         $this->setSparklinesAndNumbers($view);
         echo $view->render();
@@ -25,7 +30,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 
     public function getSparklines()
     {
-        $view = new Piwik_View('@VisitFrequency/getSparklines');
+        $view = new View('@VisitFrequency/getSparklines');
         $this->setSparklinesAndNumbers($view);
         echo $view->render();
     }
@@ -33,7 +38,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
     public function getEvolutionGraph($fetch = false, array $columns = array())
     {
         if (empty($columns)) {
-            $columns = Piwik_Common::getRequestVar('columns');
+            $columns = Common::getRequestVar('columns');
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
 
@@ -57,7 +62,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
             'avg_time_on_site'
         );
 
-        $period = Piwik_Common::getRequestVar('period', false);
+        $period = Common::getRequestVar('period', false);
         if ($period == 'day') {
             // add number of unique (returning) visitors for period=day
             $selectableColumns = array_merge(
@@ -97,7 +102,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
     protected function getSummary()
     {
         $requestString = "method=VisitFrequency.get&format=original";
-        $request = new Piwik_API_Request($requestString);
+        $request = new Request($requestString);
         return $request->process();
     }
 }

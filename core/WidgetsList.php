@@ -8,11 +8,12 @@
  * @category Piwik
  * @package PluginsFunctions
  */
+namespace Piwik;
 
 /**
  * @package PluginsFunctions
  */
-class Piwik_WidgetsList
+class WidgetsList
 {
     /**
      * List of widgets
@@ -39,7 +40,7 @@ class Piwik_WidgetsList
         self::addWidgets();
         Piwik_PostEvent('WidgetsList.get');
 
-        uksort(self::$widgets, array('Piwik_WidgetsList', '_sortWidgetCategories'));
+        uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
 
         $widgets = array();
         foreach (self::$widgets as $key => $v) {
@@ -102,7 +103,7 @@ class Piwik_WidgetsList
      * @param string $controllerAction
      * @param array $customParameters
      */
-    static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters)
+    static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
     {
         $widgetName = Piwik_Translate($widgetName);
         $widgetUniqueId = 'widget' . $controllerName . $controllerAction;
@@ -171,44 +172,5 @@ class Piwik_WidgetsList
     }
 }
 
-/**
- * Returns all available widgets
- *
- * @see Piwik_WidgetsList::get
- *
- * @return array
- */
-function Piwik_GetWidgetsList()
-{
-    return Piwik_WidgetsList::get();
-}
 
-/**
- * Adds an widget to the list
- *
- * @see Piwik_WidgetsList::add
- *
- * @param string $widgetCategory
- * @param string $widgetName
- * @param string $controllerName
- * @param string $controllerAction
- * @param array $customParameters
- */
-function Piwik_AddWidget($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
-{
-    Piwik_WidgetsList::add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters);
-}
 
-/**
- * Checks if the widget with the given parameters exists in der widget list
- *
- * @see Piwik_WidgetsList::isDefined
- *
- * @param string $controllerName
- * @param string $controllerAction
- * @return bool
- */
-function Piwik_IsWidgetDefined($controllerName, $controllerAction)
-{
-    return Piwik_WidgetsList::isDefined($controllerName, $controllerAction);
-}

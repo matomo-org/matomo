@@ -1,4 +1,6 @@
 <?php
+use Piwik\Common;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -42,7 +44,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testIsUrl($url, $isValid)
     {
-        $this->assertEquals($isValid, Piwik_Common::isLookLikeUrl($url));
+        $this->assertEquals($isValid, Common::isLookLikeUrl($url));
     }
 
     /**
@@ -132,11 +134,11 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
         if (version_compare(PHP_VERSION, '5.4') < 0) {
             $this->assertTrue(@set_magic_quotes_runtime(1));
             $this->assertEquals(1, @get_magic_quotes_runtime());
-            $this->assertEquals($output, Piwik_Common::sanitizeInputValues($input));
+            $this->assertEquals($output, Common::sanitizeInputValues($input));
 
             $this->assertTrue(@set_magic_quotes_runtime(0));
             $this->assertEquals(0, @get_magic_quotes_runtime());
-            $this->assertEquals($output, Piwik_Common::sanitizeInputValues($input));
+            $this->assertEquals($output, Common::sanitizeInputValues($input));
         }
     }
 
@@ -150,7 +152,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     {
         try {
             $_GET[''] = 1;
-            Piwik_Common::getRequestVar('');
+            Common::getRequestVar('');
         } catch (Exception $e) {
             return;
         }
@@ -166,7 +168,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testGetRequestVarNoDefaultNoTypeNoValue()
     {
         try {
-            Piwik_Common::getRequestVar('test');
+            Common::getRequestVar('test');
         } catch (Exception $e) {
             return;
         }
@@ -182,7 +184,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testGetRequestVarNoDefaultNoTypeWithValue()
     {
         $_GET['test'] = 1413.431413;
-        $this->assertEquals($_GET['test'], Piwik_Common::getRequestVar('test'));
+        $this->assertEquals($_GET['test'], Common::getRequestVar('test'));
 
     }
 
@@ -196,7 +198,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     {
         try {
             $_GET['test'] = 1413.431413;
-            Piwik_Common::getRequestVar('test', null, 'string');
+            Common::getRequestVar('test', null, 'string');
         } catch (Exception $e) {
             return;
         }
@@ -212,7 +214,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testGetRequestVarNoDefaultWithTypeWithValue2()
     {
         try {
-            Piwik_Common::getRequestVar('test', null, 'string');
+            Common::getRequestVar('test', null, 'string');
         } catch (Exception $e) {
             return;
         }
@@ -266,7 +268,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testGetRequestVar($varValue, $default, $type, $expected)
     {
         $_GET['test'] = $varValue;
-        $return = Piwik_Common::getRequestVar('test', $default, $type);
+        $return = Common::getRequestVar('test', $default, $type);
         $this->assertEquals($expected, $return);
         // validate correct type
         switch ($type) {
@@ -338,7 +340,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetParameterFromQueryString($queryString, $parameter, $expected)
     {
-        $this->assertSame($expected, Piwik_Common::getParameterFromQueryString($queryString, $parameter));
+        $this->assertSame($expected, Common::getParameterFromQueryString($queryString, $parameter));
     }
 
     /**
@@ -348,7 +350,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPathAndQueryFromUrl()
     {
-        $this->assertEquals('test/index.php?module=CoreHome', Piwik_Common::getPathAndQueryFromUrl('http://piwik.org/test/index.php?module=CoreHome'));
+        $this->assertEquals('test/index.php?module=CoreHome', Common::getPathAndQueryFromUrl('http://piwik.org/test/index.php?module=CoreHome'));
     }
 
     /**
@@ -367,7 +369,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             'f' => array('a'),
             'g' => array('b', 'c'),
         );
-        $this->assertEquals(serialize($expected), serialize(Piwik_Common::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')));
+        $this->assertEquals(serialize($expected), serialize(Common::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')));
     }
 
     /**
@@ -381,7 +383,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             "test", "test.txt", "test.......", "en-ZHsimplified",
         );
         foreach ($valid as $toTest) {
-            $this->assertTrue(Piwik_Common::isValidFilename($toTest), $toTest . " not valid!");
+            $this->assertTrue(Common::isValidFilename($toTest), $toTest . " not valid!");
         }
     }
 
@@ -396,7 +398,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             "../test", "/etc/htpasswd", '$var', ';test', '[bizarre]', '', ".htaccess", "very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename",
         );
         foreach ($notvalid as $toTest) {
-            $this->assertFalse(Piwik_Common::isValidFilename($toTest), $toTest . " valid but shouldn't!");
+            $this->assertFalse(Common::isValidFilename($toTest), $toTest . " valid but shouldn't!");
         }
     }
 
@@ -444,7 +446,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBrowserLanguage($useragent, $browserLanguage)
     {
-        $res = Piwik_Common::getBrowserLanguage($useragent);
+        $res = Common::getBrowserLanguage($useragent);
         $this->assertEquals($browserLanguage, $res);
     }
 
@@ -464,7 +466,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             array("fr-fr,fr-ca", array("us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-fr;q=1.0,fr-ca;q=0.9", array("us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-ca,fr;q=0.1", array("us" => 'amn', "ca" => 'amn'), "ca"),
-            array("en-us,en;q=0.5", Piwik_Common::getCountriesList(), "us"),
+            array("en-us,en;q=0.5", Common::getCountriesList(), "us"),
             array("fr-ca,fr;q=0.1", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "ca"),
             array("fr-fr,fr-ca", array("fr" => 'eur', "us" => 'amn', "ca" => 'amn'), "fr")
         );
@@ -480,8 +482,8 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     {
         include 'DataFiles/LanguageToCountry.php';
 
-        $this->assertEquals($expected, Piwik_Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, true));
-        $this->assertEquals($expected, Piwik_Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, false));
+        $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, true));
+        $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, false));
     }
 
     /**
@@ -509,10 +511,10 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
         include "DataFiles/LanguageToCountry.php";
 
         // do not infer country from language
-        $this->assertEquals($expected, Piwik_Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess = false));
+        $this->assertEquals($expected, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess = false));
 
         // infer country from language
-        $this->assertEquals($expectedInfer, Piwik_Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess = true));
+        $this->assertEquals($expectedInfer, Common::extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess = true));
     }
 
     /**
@@ -547,7 +549,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages, $expected)
     {
-        $this->assertEquals($expected, Piwik_Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages), "test with {$browserLanguage} failed, expected {$expected}");
+        $this->assertEquals($expected, Common::extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages), "test with {$browserLanguage} failed, expected {$expected}");
     }
 
     /**
@@ -605,7 +607,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testExtractSearchEngineInformationFromUrl($url, $engine, $keywords)
     {
         $this->includeDataFilesForSearchEngineTest();
-        $returnedValue = Piwik_Common::extractSearchEngineInformationFromUrl($url);
+        $returnedValue = Common::extractSearchEngineInformationFromUrl($url);
 
         $exptectedValue = false;
 
@@ -643,7 +645,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLossyUrl($input, $expected)
     {
-        $this->assertEquals($expected, Piwik_Common::getLossyUrl($input));
+        $this->assertEquals($expected, Common::getLossyUrl($input));
     }
     
     private function includeDataFilesForSearchEngineTest()

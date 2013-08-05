@@ -9,28 +9,10 @@
  * @package Piwik
  */
 
-if (Piwik_Common::isWindows() || !function_exists('inet_ntop')) {
-    function _inet_ntop($in_addr)
-    {
-        return php_compat_inet_ntop($in_addr);
-    }
-} else {
-    function _inet_ntop($in_addr)
-    {
-        return inet_ntop($in_addr);
-    }
-}
-if (Piwik_Common::isWindows() || !function_exists('inet_pton')) {
-    function _inet_pton($address)
-    {
-        return php_compat_inet_pton($address);
-    }
-} else {
-    function _inet_pton($address)
-    {
-        return inet_pton($address);
-    }
-}
+namespace Piwik;
+
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * Handling IP addresses (both IPv4 and IPv6).
@@ -49,7 +31,7 @@ if (Piwik_Common::isWindows() || !function_exists('inet_pton')) {
  *
  * @package Piwik
  */
-class Piwik_IP
+class IP
 {
     const MAPPED_IPv4_START = '::ffff:';
 
@@ -57,7 +39,7 @@ class Piwik_IP
      * Sanitize human-readable IP address.
      *
      * @param string $ipString  IP address
-     * @return string|false
+     * @return string
      */
     public static function sanitizeIp($ipString)
     {
@@ -105,7 +87,7 @@ class Piwik_IP
      * - wildcards, e.g., 192.168.0.*
      *
      * @param string $ipRangeString  IP address range
-     * @return string|false  IP address range in CIDR notation
+     * @return string|bool  IP address range in CIDR notation OR false
      */
     public static function sanitizeIpRange($ipRangeString)
     {
@@ -131,10 +113,10 @@ class Piwik_IP
         }
 
         // single IP
-        if (($ip = @_inet_pton($ipRangeString)) === false)
+        if (($ip = @self::_inet_pton($ipRangeString)) === false)
             return false;
 
-        $maxbits = Piwik_Common::strlen($ip) * 8;
+        $maxbits = Common::strlen($ip) * 8;
         if (!isset($bits))
             $bits = $maxbits;
 
@@ -154,7 +136,7 @@ class Piwik_IP
     public static function P2N($ipString)
     {
         // use @inet_pton() because it throws an exception and E_WARNING on invalid input
-        $ip = @_inet_pton($ipString);
+        $ip = @self::_inet_pton($ipString);
         return $ip === false ? "\x00\x00\x00\x00" : $ip;
     }
 
@@ -169,7 +151,7 @@ class Piwik_IP
     public static function N2P($ip)
     {
         // use @inet_ntop() because it throws an exception and E_WARNING on invalid input
-        $ipStr = @_inet_ntop($ip);
+        $ipStr = @self::_inet_ntop($ip);
         return $ipStr === false ? '0.0.0.0' : $ipStr;
     }
 
@@ -227,17 +209,17 @@ class Piwik_IP
     public static function long2ip($ip)
     {
         // IPv4
-        if (Piwik_Common::strlen($ip) == 4) {
+        if (Common::strlen($ip) == 4) {
             return self::N2P($ip);
         }
 
         // IPv6 - transitional address?
-        if (Piwik_Common::strlen($ip) == 16) {
+        if (Common::strlen($ip) == 16) {
             if (substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff", 0, 12) === 0
                 || substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 0, 12) === 0
             ) {
                 // remap 128-bit IPv4-mapped and IPv4-compat addresses
-                return self::N2P(Piwik_Common::substr($ip, 12));
+                return self::N2P(Common::substr($ip, 12));
             }
         }
 
@@ -279,7 +261,7 @@ class Piwik_IP
      * Get low and high IP addresses for a specified range.
      *
      * @param array $ipRange  An IP address range in presentation format
-     * @return array|false  Array ($lowIp, $highIp) in network address format, or false if failure
+     * @return array|bool  Array ($lowIp, $highIp) in network address format, or false if failure
      */
     public static function getIpsForRange($ipRange)
     {
@@ -290,12 +272,12 @@ class Piwik_IP
 
         $bits = substr($ipRange, $pos + 1);
         $range = substr($ipRange, 0, $pos);
-        $high = $low = @_inet_pton($range);
+        $high = $low = @self::_inet_pton($range);
         if ($low === false) {
             return false;
         }
 
-        $lowLen = Piwik_Common::strlen($low);
+        $lowLen = Common::strlen($low);
         $i = $lowLen - 1;
         $bits = $lowLen * 8 - $bits;
 
@@ -324,7 +306,7 @@ class Piwik_IP
      */
     public static function isIpInRange($ip, $ipRanges)
     {
-        $ipLen = Piwik_Common::strlen($ip);
+        $ipLen = Common::strlen($ip);
         if (empty($ip) || empty($ipRanges) || ($ipLen != 4 && $ipLen != 16)) {
             return false;
         }
@@ -344,7 +326,7 @@ class Piwik_IP
 
             $low = $range[0];
             $high = $range[1];
-            if (Piwik_Common::strlen($low) != $ipLen) {
+            if (Common::strlen($low) != $ipLen) {
                 continue;
             }
 
@@ -365,7 +347,7 @@ class Piwik_IP
      */
     public static function getIpFromHeader()
     {
-        $clientHeaders = @Piwik_Config::getInstance()->General['proxy_client_headers'];
+        $clientHeaders = @Config::getInstance()->General['proxy_client_headers'];
         if (!is_array($clientHeaders)) {
             $clientHeaders = array();
         }
@@ -388,7 +370,7 @@ class Piwik_IP
      */
     public static function getNonProxyIpFromHeader($default, $proxyHeaders)
     {
-        $proxyIps = @Piwik_Config::getInstance()->General['proxy_ips'];
+        $proxyIps = @Config::getInstance()->General['proxy_ips'];
         if (!is_array($proxyIps)) {
             $proxyIps = array();
         }
@@ -420,19 +402,18 @@ class Piwik_IP
         if ($p !== false) {
             $elements = explode(',', $csv);
             for ($i = count($elements); $i--;) {
-                $element = trim(Piwik_Common::sanitizeInputValue($elements[$i]));
+                $element = trim(Common::sanitizeInputValue($elements[$i]));
                 if (empty($excludedIps) || (!in_array($element, $excludedIps) && !self::isIpInRange(self::P2N(self::sanitizeIp($element)), $excludedIps))) {
                     return $element;
                 }
             }
         }
-        return trim(Piwik_Common::sanitizeInputValue($csv));
+        return trim(Common::sanitizeInputValue($csv));
     }
 
     /**
      * Get hostname for a given IP address
      *
-     * @todo Remove in 2.0?
      * @param string $ipStr  Human-readable IP address
      * @return string  Hostname or unmodified $ipStr if failure
      */
@@ -443,154 +424,172 @@ class Piwik_IP
         $host = strtolower(@gethostbyaddr($ipStr));
         return $host === '' ? $ipStr : $host;
     }
-}
 
-/**
- * Converts a packed internet address to a human readable representation
- *
- * @link http://php.net/inet_ntop
- *
- * @param string $in_addr  32-bit IPv4 or 128-bit IPv6 address
- * @return string|false  string representation of address or false on failure
- */
-function php_compat_inet_ntop($in_addr)
-{
-    $r = bin2hex($in_addr);
+    static private function _inet_ntop($in_addr)
+    {
+        if (Common::isWindows() || !function_exists('inet_ntop')) {
+            return self::php_compat_inet_ntop($in_addr);
+        } else {
+            return inet_ntop($in_addr);
+        }
+    }
 
-    switch (Piwik_Common::strlen($in_addr)) {
-        case 4:
-            // IPv4 address
-            $prefix = '';
-            break;
+    static private function _inet_pton($address)
+    {
+        if (Common::isWindows() || !function_exists('inet_pton')) {
+            return self::php_compat_inet_pton($address);
+        } else {
+            return inet_pton($address);
+        }
+    }
 
-        case 16:
-            // IPv4-mapped address
-            if (substr_compare($r, '00000000000000000000ffff', 0, 24) === 0) {
-                $prefix = '::ffff:';
-                $r = substr($r, 24);
+    /**
+     * Converts a packed internet address to a human readable representation
+     *
+     * @link http://php.net/inet_ntop
+     *
+     * @param string $in_addr  32-bit IPv4 or 128-bit IPv6 address
+     * @return string|bool  string representation of address or false on failure
+     */
+    static public function php_compat_inet_ntop($in_addr)
+    {
+        $r = bin2hex($in_addr);
+
+        switch (Common::strlen($in_addr)) {
+            case 4:
+                // IPv4 address
+                $prefix = '';
                 break;
-            }
 
-            // IPv4-compat address
-            if (substr_compare($r, '000000000000000000000000', 0, 24) === 0 &&
-                substr_compare($r, '0000', 24, 4) !== 0
-            ) {
-                $prefix = '::';
-                $r = substr($r, 24);
-                break;
-            }
-
-            $r = str_split($r, 4);
-            $r = implode(':', $r);
-
-            // compress leading zeros
-            $r = preg_replace(
-                '/(^|:)0{1,3}/',
-                '$1',
-                $r
-            );
-
-            // compress longest (and leftmost) consecutive groups of zeros
-            if (preg_match_all('/(?:^|:)(0(:|$))+/D', $r, $matches)) {
-                $longestMatch = 0;
-                foreach ($matches[0] as $aMatch) {
-                    if (strlen($aMatch) > strlen($longestMatch)) {
-                        $longestMatch = $aMatch;
-                    }
+            case 16:
+                // IPv4-mapped address
+                if (substr_compare($r, '00000000000000000000ffff', 0, 24) === 0) {
+                    $prefix = '::ffff:';
+                    $r = substr($r, 24);
+                    break;
                 }
-                $r = substr_replace($r, '::', strpos($r, $longestMatch), strlen($longestMatch));
-            }
 
-            return $r;
+                // IPv4-compat address
+                if (substr_compare($r, '000000000000000000000000', 0, 24) === 0 &&
+                    substr_compare($r, '0000', 24, 4) !== 0
+                ) {
+                    $prefix = '::';
+                    $r = substr($r, 24);
+                    break;
+                }
 
-        default:
-            return false;
+                $r = str_split($r, 4);
+                $r = implode(':', $r);
+
+                // compress leading zeros
+                $r = preg_replace(
+                    '/(^|:)0{1,3}/',
+                    '$1',
+                    $r
+                );
+
+                // compress longest (and leftmost) consecutive groups of zeros
+                if (preg_match_all('/(?:^|:)(0(:|$))+/D', $r, $matches)) {
+                    $longestMatch = 0;
+                    foreach ($matches[0] as $aMatch) {
+                        if (strlen($aMatch) > strlen($longestMatch)) {
+                            $longestMatch = $aMatch;
+                        }
+                    }
+                    $r = substr_replace($r, '::', strpos($r, $longestMatch), strlen($longestMatch));
+                }
+
+                return $r;
+
+            default:
+                return false;
+        }
+
+        $r = str_split($r, 2);
+        $r = array_map('hexdec', $r);
+        $r = implode('.', $r);
+        return $prefix . $r;
     }
 
-    $r = str_split($r, 2);
-    $r = array_map('hexdec', $r);
-    $r = implode('.', $r);
-    return $prefix . $r;
-}
+    /**
+     * Converts a human readable IP address to its packed in_addr representation
+     *
+     * @link http://php.net/inet_pton
+     *
+     * @param string $address  a human readable IPv4 or IPv6 address
+     * @return string  in_addr representation or false on failure
+     */
+    static public function php_compat_inet_pton($address)
+    {
+        // IPv4 (or IPv4-compat, or IPv4-mapped)
+        if (preg_match('/(^|:)([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/iD', $address, $matches)) {
+            for ($i = count($matches); $i-- > 2;) {
+                if ($matches[$i] > 255 ||
+                    ($matches[$i][0] == '0' && strlen($matches[$i]) > 1)
+                ) {
+                    return false;
+                }
+            }
 
-/**
- * Converts a human readable IP address to its packed in_addr representation
- *
- * @link http://php.net/inet_pton
- *
- * @param string $address  a human readable IPv4 or IPv6 address
- * @return string  in_addr representation or false on failure
- */
-function php_compat_inet_pton($address)
-{
-    // IPv4 (or IPv4-compat, or IPv4-mapped)
-    if (preg_match('/(^|:)([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/iD', $address, $matches)) {
-        for ($i = count($matches); $i-- > 2;) {
-            if ($matches[$i] > 255 ||
-                ($matches[$i][0] == '0' && strlen($matches[$i]) > 1)
-            ) {
+            if (empty($matches[1])) {
+                $r = ip2long($address);
+                if ($r === false) {
+                    return false;
+                }
+
+                return pack('N', $r);
+            }
+
+            $suffix = sprintf("%02x%02x:%02x%02x", $matches[2], $matches[3], $matches[4], $matches[5]);
+            $address = substr_replace($address, $matches[1] . $suffix, strrpos($address, $matches[0]));
+        }
+
+        // IPv6
+        if (strpos($address, ':') === false ||
+            strspn($address, '01234567890abcdefABCDEF:') !== strlen($address)
+        ) {
+            return false;
+        }
+
+        if (substr($address, 0, 2) == '::') {
+            $address = '0' . $address;
+        }
+
+        if (substr($address, -2) == '::') {
+            $address .= '0';
+        }
+
+        $r = explode(':', $address);
+        $count = count($r);
+
+        // grouped zeros
+        if (strpos($address, '::') !== false
+            && $count < 8
+        ) {
+            $zeroGroup = array_search('', $r, 1);
+
+            // we're replacing this cell, so we splice (8 - $count + 1) cells containing '0'
+            array_splice($r, $zeroGroup, 1, array_fill(0, 9 - $count, '0'));
+        }
+
+        // guard against excessive ':' or '::'
+        if ($count > 8 ||
+            array_search('', $r, 1) !== false
+        ) {
+            return false;
+        }
+
+        // leading zeros
+        foreach ($r as $v) {
+            if (strlen(ltrim($v, '0')) > 4) {
                 return false;
             }
         }
 
-        if (empty($matches[1])) {
-            $r = ip2long($address);
-            if ($r === false) {
-                return false;
-            }
+        $r = array_map('hexdec', $r);
+        array_unshift($r, 'n*');
+        $r = call_user_func_array('pack', $r);
 
-            return pack('N', $r);
-        }
-
-        $suffix = sprintf("%02x%02x:%02x%02x", $matches[2], $matches[3], $matches[4], $matches[5]);
-        $address = substr_replace($address, $matches[1] . $suffix, strrpos($address, $matches[0]));
+        return $r;
     }
-
-    // IPv6
-    if (strpos($address, ':') === false ||
-        strspn($address, '01234567890abcdefABCDEF:') !== strlen($address)
-    ) {
-        return false;
-    }
-
-    if (substr($address, 0, 2) == '::') {
-        $address = '0' . $address;
-    }
-
-    if (substr($address, -2) == '::') {
-        $address .= '0';
-    }
-
-    $r = explode(':', $address);
-    $count = count($r);
-
-    // grouped zeros
-    if (strpos($address, '::') !== false
-        && $count < 8
-    ) {
-        $zeroGroup = array_search('', $r, 1);
-
-        // we're replacing this cell, so we splice (8 - $count + 1) cells containing '0'
-        array_splice($r, $zeroGroup, 1, array_fill(0, 9 - $count, '0'));
-    }
-
-    // guard against excessive ':' or '::'
-    if ($count > 8 ||
-        array_search('', $r, 1) !== false
-    ) {
-        return false;
-    }
-
-    // leading zeros
-    foreach ($r as $v) {
-        if (strlen(ltrim($v, '0')) > 4) {
-            return false;
-        }
-    }
-
-    $r = array_map('hexdec', $r);
-    array_unshift($r, 'n*');
-    $r = call_user_func_array('pack', $r);
-
-    return $r;
 }

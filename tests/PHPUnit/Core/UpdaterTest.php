@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Updater;
+
 class UpdaterTest extends DatabaseTestCase
 {
     /**
@@ -13,7 +15,7 @@ class UpdaterTest extends DatabaseTestCase
      */
     public function testUpdaterChecksCoreVersionAndDetectsUpdateFile()
     {
-        $updater = new Piwik_Updater();
+        $updater = new Updater();
         $updater->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/';
         $updater->recordComponentSuccessfullyUpdated('core', '0.1');
         $updater->addComponentToCheck('core', '0.3');
@@ -27,7 +29,7 @@ class UpdaterTest extends DatabaseTestCase
      */
     public function testUpdaterChecksGivenPluginVersionAndDetectsMultipleUpdateFileInOrder()
     {
-        $updater = new Piwik_Updater();
+        $updater = new Updater();
         $updater->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/';
         $updater->recordComponentSuccessfullyUpdated('testpluginUpdates', '0.1beta');
         $updater->addComponentToCheck('testpluginUpdates', '0.1');
@@ -51,7 +53,7 @@ class UpdaterTest extends DatabaseTestCase
      */
     public function testUpdaterChecksCoreAndPluginCheckThatCoreIsRanFirst()
     {
-        $updater = new Piwik_Updater();
+        $updater = new Updater();
         $updater->pathUpdateFilePlugins = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/%s/';
         $updater->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/';
 

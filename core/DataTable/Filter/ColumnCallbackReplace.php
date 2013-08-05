@@ -8,15 +8,21 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Row;
+use Piwik\Piwik;
 
 /**
  * Replace a column value with a new value resulting
  * from the function called with the column's value
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filter
+class ColumnCallbackReplace extends Filter
 {
     private $columnsToFilter;
     private $functionToApply;
@@ -24,7 +30,7 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
     private $extraColumnParameters;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param array|string $columnsToFilter
      * @param callback $functionToApply
      * @param array|null $functionParameters
@@ -48,7 +54,7 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
     /**
      * Filters the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -79,7 +85,7 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
     /**
      * Replaces the given column within given row with the given value
      *
-     * @param Piwik_DataTable_Row $row
+     * @param Row $row
      * @param string $columnToFilter
      * @param mixed $newValue
      */
@@ -91,7 +97,7 @@ class Piwik_DataTable_Filter_ColumnCallbackReplace extends Piwik_DataTable_Filte
     /**
      * Returns the element that should be replaced
      *
-     * @param Piwik_DataTable_Row $row
+     * @param Row $row
      * @param string $columnToFilter
      * @return mixed
      */

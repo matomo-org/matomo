@@ -1,4 +1,7 @@
 <?php
+use Piwik\Common;
+use Piwik\TranslationWriter;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -35,7 +38,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
      */
     public function testClean($data, $expected)
     {
-        $this->assertEquals($expected, Piwik_TranslationWriter::clean($data));
+        $this->assertEquals($expected, TranslationWriter::clean($data));
     }
 
     /**
@@ -62,10 +65,10 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
      */
     public function testQuote($data, $expected)
     {
-        if (Piwik_Common::isWindows() && $data == "\n") {
+        if (Common::isWindows() && $data == "\n") {
             return;
         }
-        $this->assertEquals($expected, Piwik_TranslationWriter::quote($data));
+        $this->assertEquals($expected, TranslationWriter::quote($data));
     }
 
     /**
@@ -75,7 +78,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
     public function testGetTranslationPathInvalidLang()
     {
         try {
-            $path = Piwik_TranslationWriter::getTranslationPath('../index');
+            $path = TranslationWriter::getTranslationPath('../index');
         } catch (Exception $e) {
             return;
         }
@@ -89,7 +92,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
     public function testGetTranslationPathInvalidBasePath()
     {
         try {
-            $path = Piwik_TranslationWriter::getTranslationPath('en', 'core');
+            $path = TranslationWriter::getTranslationPath('en', 'core');
         } catch (Exception $e) {
             return;
         }
@@ -103,11 +106,11 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
     public function testGetTranslationPath()
     {
         // implicit base path
-        $this->assertEquals(PIWIK_INCLUDE_PATH . '/lang/en.php', Piwik_TranslationWriter::getTranslationPath('en'));
+        $this->assertEquals(PIWIK_INCLUDE_PATH . '/lang/en.php', TranslationWriter::getTranslationPath('en'));
 
         // explicit base path
-        $this->assertEquals(PIWIK_INCLUDE_PATH . '/lang/en.php', Piwik_TranslationWriter::getTranslationPath('en', 'lang'));
-        $this->assertEquals(PIWIK_INCLUDE_PATH . '/tmp/en.php', Piwik_TranslationWriter::getTranslationPath('en', 'tmp'));
+        $this->assertEquals(PIWIK_INCLUDE_PATH . '/lang/en.php', TranslationWriter::getTranslationPath('en', 'lang'));
+        $this->assertEquals(PIWIK_INCLUDE_PATH . '/tmp/en.php', TranslationWriter::getTranslationPath('en', 'tmp'));
     }
 
     /**
@@ -117,7 +120,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
     public function testLoadTranslationInvalidLang()
     {
         try {
-            $translations = Piwik_TranslationWriter::loadTranslation('a');
+            $translations = TranslationWriter::loadTranslation('a');
         } catch (Exception $e) {
             return;
         }
@@ -133,7 +136,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         require PIWIK_INCLUDE_PATH . '/lang/en.php';
         $this->assertTrue(is_array($translations));
 
-        $englishTranslations = Piwik_TranslationWriter::loadTranslation('en');
+        $englishTranslations = TranslationWriter::loadTranslation('en');
 
         $this->assertEquals(count($translations), count($englishTranslations));
         $this->assertEquals(0, count(array_diff($translations, $englishTranslations)));
@@ -146,7 +149,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveTranslation()
     {
-        $path = Piwik_TranslationWriter::getTranslationPath('en', 'tmp');
+        $path = TranslationWriter::getTranslationPath('en', 'tmp');
 
         $translations = array(
             'General_Locale' => 'en_CA.UTF-8',
@@ -157,12 +160,12 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
 
         @unlink($path);
 
-        $rc = Piwik_TranslationWriter::saveTranslation($translations, $path);
+        $rc = TranslationWriter::saveTranslation($translations, $path);
         $this->assertNotEquals(false, $rc);
 
         $contents = file_get_contents($path);
         $expected = "<?php\n\$translations = array(\n\t'General_Locale' => 'en_CA.UTF-8',\n\t'General_Id' => 'Id',\n\t'Goals_Goals' => 'Goals',\n\n\t// FOR REVIEW\n\t'Plugin_Body' => 'Message\nBody',\n);\n";
-        if (Piwik_Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
+        if (Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
         $this->assertEquals($expected, $contents);
     }
 }

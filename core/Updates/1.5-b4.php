@@ -8,22 +8,25 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_5_b4 extends Piwik_Updates
+class Piwik_Updates_1_5_b4 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('site') . '`
+            'ALTER TABLE `' . Common::prefixTable('site') . '`
 				 ADD ecommerce TINYINT DEFAULT 0' => false,
         );
     }
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

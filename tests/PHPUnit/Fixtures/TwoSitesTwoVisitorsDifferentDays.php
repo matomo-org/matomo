@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds two websites and tracks visits from two visitors on different days.
@@ -68,11 +69,11 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $visitorA = self::getTracker($idSite, $datetimeSpanOverTwoDays, $defaultInit = true);
         $visitorA->setUrlReferrer('http://referer.com/page.htm?param=valuewith some spaces');
         $visitorA->setUrl('http://example.org/index.htm#ignoredFragment');
-        $visitorA->DEBUG_APPEND_URL = '&_idts=' . Piwik_Date::factory($datetimeSpanOverTwoDays)->getTimestamp();
+        $visitorA->DEBUG_APPEND_URL = '&_idts=' . Date::factory($datetimeSpanOverTwoDays)->getTimestamp();
         $visitorA->setGenerationTime(123);
         self::checkResponse($visitorA->doTrackPageView('first page view'));
 
-        $visitorA->setForceVisitDateTime(Piwik_Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
+        $visitorA->setForceVisitDateTime(Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
         // testing with empty URL and empty page title
         $visitorA->setUrl('  ');
         $visitorA->setGenerationTime(223);
@@ -85,50 +86,50 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $visitorB->setTokenAuth(self::getTokenAuth());
         $visitorB->setIp('100.52.156.83');
         $visitorB->setResolution(800, 300);
-        $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
+        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
         $visitorB->setUrlReferrer('');
         $visitorB->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');
         $visitorB->setUrl('http://example.org/products');
-        $visitorB->DEBUG_APPEND_URL = '&_idts=' . Piwik_Date::factory($dateTime)->addHour(1)->getTimestamp();
+        $visitorB->DEBUG_APPEND_URL = '&_idts=' . Date::factory($dateTime)->addHour(1)->getTimestamp();
         $visitorB->setGenerationTime(153);
         self::assertTrue($visitorB->doTrackPageView('first page view'));
 
         // -
         // Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
-        $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->getDatetime());
+        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->getDatetime());
         // visitor_returning is set to 1 only when visit count more than 1
         // Temporary, until we implement 1st party cookies in PiwikTracker
-        $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts=' . Piwik_Date::factory($dateTime)->getTimestamp();
+        $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts=' . Date::factory($dateTime)->getTimestamp();
 
         $visitorB->setUrlReferrer('http://referer.com/Other_Page.htm');
         $visitorB->setUrl('http://example.org/index.htm');
         $visitorB->setGenerationTime(323);
         self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
         // Second page view 6 minutes later
-        $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
+        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
         $visitorB->setUrl('http://example.org/thankyou');
         $visitorB->setGenerationTime(173);
         self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view'));
 
         // testing a strange combination causing an error in r3767
-        $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.2)->getDatetime());
+        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.2)->getDatetime());
         self::assertTrue($visitorB->doTrackAction('mailto:test@example.org', 'link'));
-        $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
+        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
         self::assertTrue($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
 
         // Actions.getPageTitle tested with this title
-        $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
+        $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
         $visitorB->setGenerationTime(452);
         self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
         self::checkResponse($visitorB->doBulkTrack());
 
         // -
         // First visitor on Idsite 2: one page view, with Website referer
-        $visitorAsite2 = self::getTracker($idSite2, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime(), $defaultInit = true);
+        $visitorAsite2 = self::getTracker($idSite2, Date::factory($dateTime)->addHour(24)->getDatetime(), $defaultInit = true);
         $visitorAsite2->setUserAgent('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0;)');
         $visitorAsite2->setUrlReferrer('http://only-homepage-referer.com/');
         $visitorAsite2->setUrl('http://example2.com/home#notIgnoredFragment#');
-        $visitorAsite2->DEBUG_APPEND_URL = '&_idts=' . Piwik_Date::factory($dateTime)->addHour(24)->getTimestamp();
+        $visitorAsite2->DEBUG_APPEND_URL = '&_idts=' . Date::factory($dateTime)->addHour(24)->getTimestamp();
         $visitorAsite2->setGenerationTime(193);
         self::checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
         // test with invalid URL

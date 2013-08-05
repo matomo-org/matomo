@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Reusable fixture. Tracks twelve thousand page views for 1000 sites on one day.
@@ -46,7 +47,7 @@ class Piwik_Test_Fixture_ThousandSitesTwelveVisitsEachOneDay
         }
 
         $visitTimes = array();
-        $date = Piwik_Date::factory($this->date);
+        $date = Date::factory($this->date);
         for ($i = 0; $i != 4; ++$i) {
             $visitTimes[] = $date->addHour($i)->getDatetime();
         }

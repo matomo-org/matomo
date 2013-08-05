@@ -292,12 +292,12 @@ dataTable.prototype =
                             hide();
                         }
                     });
-                }
+                };
                 var hide = function () {
                     $('.limitSelection ul', domElem).hide();
                     $('.limitSelection', domElem).removeClass('visible');
                     $(document).off('mouseup.limitSelection');
-                }
+                };
                 $('.limitSelection div', domElem).on('click', function () {
                     $('.limitSelection', domElem).is('.visible') ? hide() : show();
                 });
@@ -532,7 +532,7 @@ dataTable.prototype =
                     // set position of evolution annotation icons
                     annotations.css({
                         top: -datatableFeatures.height() - annotationAxisHeight + noteSize / 2,
-                        left: 6 // padding-left of .jqplot-evolution element (in graph.tpl)
+                        left: 6 // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
                     });
 
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
@@ -726,7 +726,7 @@ dataTable.prototype =
                 self.reloadAjaxDataTable();
                 self.notifyWidgetParametersChange($(this), {viewDataTable: self.param.viewDataTable});
             }
-        )
+        );
 
         //handle Graph View icons
         $('.tableGraphViews a', domElem)
@@ -876,16 +876,14 @@ dataTable.prototype =
                     str += '&filter_limit=' + filter_limit;
                 }
                 if (label) {
-                    if (self.param.is_multi_evolution) {
-                        label = label.split(',');
-                    }
+                    label = label.split(',');
                     
-                    if (label instanceof Array) {
+                    if (label.length > 1) {
                         for (var i = 0; i != label.length; ++i) {
                             str += '&label[]=' + encodeURIComponent(label[i]);
                         }
                     } else {
-                        str += '&label=' + encodeURIComponent(label);
+                        str += '&label=' + encodeURIComponent(label[0]);
                     }
                 }
                 return str;

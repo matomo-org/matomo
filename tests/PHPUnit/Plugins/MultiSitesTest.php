@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Access;
+
 class MultiSitesTest extends DatabaseTestCase
 {
     protected $idSiteAccess;
@@ -14,19 +16,19 @@ class MultiSitesTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
 
         $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");
 
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('MultiSites', 'VisitsSummary', 'Actions'));
-        Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('MultiSites', 'VisitsSummary', 'Actions'));
+        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
     }
 
 
     /**
      * Testing that getOne returns a row even when there are no data
-     * This is necessary otherwise Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
+     * This is necessary otherwise ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
      *
      * @group Plugins
      * @group MultiSites

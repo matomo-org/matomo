@@ -8,6 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
+use Piwik\API\ResponseBuilder;
+use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Metrics;
+use Piwik\Date;
+use Piwik\ViewDataTable;
+use Piwik\Url;
+use Piwik\Visualization\Chart\Evolution;
 
 /**
  * ROW EVOLUTION
@@ -43,7 +51,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 
     /**
      * The data
-     * @var Piwik_DataTable_Array
+     * @var Piwik\DataTable
      */
     protected $dataTable;
 
@@ -66,21 +74,21 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
      * The constructor
      * Initialize some local variables from the request
      * @param int $idSite
-     * @param Piwik_Date $date ($this->date from controller)
+     * @param Date $date ($this->date from controller)
      * @param null|string $graphType
      * @throws Exception
      */
     public function __construct($idSite, $date, $graphType = null)
     {
-        $this->apiMethod = Piwik_Common::getRequestVar('apiMethod', '', 'string');
+        $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 
-        $this->label = Piwik_API_ResponseBuilder::getLabelFromRequest($_GET);
+        $this->label = ResponseBuilder::getLabelFromRequest($_GET);
         $this->label = $this->label[0];
 
         if ($this->label === '') throw new Exception("Parameter label not set.");
 
-        $this->period = Piwik_Common::getRequestVar('period', '', 'string');
+        $this->period = Common::getRequestVar('period', '', 'string');
         if (empty($this->period)) throw new Exception("Parameter period not set.");
 
         $this->idSite = $idSite;
@@ -90,9 +98,9 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             // handle day, week, month and year: display last X periods
             $end = $date->toString();
             list($this->date, $lastN) =
-                Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($this->period, $end);
+                \Piwik\Visualization\JqplotGraph\Evolution::getDateRangeAndLastN($this->period, $end);
         }
-        $this->segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
+        $this->segment = \Piwik\API\Request::getRawSegmentFromRequest();
 
         $this->loadEvolutionReport();
     }
@@ -100,7 +108,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     /**
      * Render the popover
      * @param Piwik_CoreHome_Controller
-     * @param Piwik_View (the popover_rowevolution template)
+     * @param View (the popover_rowevolution template)
      */
     public function renderPopover($controller, $view)
     {
@@ -151,9 +159,9 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             $parameters['column'] = $column;
         }
 
-        $url = Piwik_Url::getQueryStringFromParameters($parameters);
+        $url = Url::getQueryStringFromParameters($parameters);
 
-        $request = new Piwik_API_Request($url);
+        $request = new Request($url);
         $report = $request->process();
 
         $this->extractEvolutionReport($report);
@@ -162,7 +170,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     protected function extractEvolutionReport($report)
     {
         $this->dataTable = $report['reportData'];
-        $this->rowLabel = Piwik_Common::sanitizeInputValue($report['label']);
+        $this->rowLabel = Common::sanitizeInputValue($report['label']);
         $this->rowIcon = !empty($report['logo']) ? $report['logo'] : false;
         $this->availableMetrics = $report['metadata']['metrics'];
         $this->dimension = $report['metadata']['dimension'];
@@ -171,28 +179,32 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     /**
      * Generic method to get an evolution graph or a sparkline for the row evolution popover.
      * Do as much as possible from outside the controller.
-     * @return Piwik_ViewDataTable
+     * @param string|bool $graphType
+     * @param array|bool $metrics
+     * @return ViewDataTable
      */
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = Piwik_ViewDataTable::factory($graphType ?: $this->graphType);
+        $view = ViewDataTable::factory(
+            $graphType ?: $this->graphType, $this->apiMethod, $controllerAction = 'CoreHome.getRowEvolutionGraph');
         $view->setDataTable($this->dataTable);
-        $view->init('CoreHome', 'getRowEvolutionGraph', $this->apiMethod);
 
-        if (!empty($this->graphMetrics)) // In row Evolution popover, this is empty
-        {
-            $view->setColumnsToDisplay(array_keys($metrics ?: $this->graphMetrics));
+        if (!empty($this->graphMetrics)) { // In row Evolution popover, this is empty
+            $view->columns_to_display = array_keys($metrics ?: $this->graphMetrics);
         }
-        $view->hideAllViewsIcons();
+
+        $view->show_all_views_icons = false;
+        $view->show_active_view_icon = false;
+        $view->show_related_reports = false;
+        $view->show_series_picker = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
-            $view->setColumnTranslation($metric, $metadata['name']);
+            $view->translations[$metric] = $metadata['name'];
         }
 
-        if (method_exists($view, 'addRowEvolutionSeriesToggle')) {
-            $view->addRowEvolutionSeriesToggle($this->initiallyShowAllMetrics);
-        }
+        $view->external_series_toggle = 'RowEvolutionSeriesToggle';
+        $view->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
 
         return $view;
     }
@@ -203,7 +215,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
      */
     protected function getMetricsToggles()
     {
-        $chart = new Piwik_Visualization_Chart_Evolution;
+        $chart = new Evolution;
         
         $i = 0;
         $metrics = array();
@@ -212,14 +224,14 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             $min = isset($metricData['min']) ? $metricData['min'] : 0;
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
-            $unit = Piwik_Metrics::getUnit($metric, $this->idSite);
+            $unit = Metrics::getUnit($metric, $this->idSite);
             $min .= $unit;
             $max .= $unit;
 
             $details = Piwik_Translate('RowEvolution_MetricBetweenText', array($min, $max));
 
             if ($change !== false) {
-                $lowerIsBetter = Piwik_Metrics::isLowerValueBetter($metric);
+                $lowerIsBetter = Metrics::isLowerValueBetter($metric);
                 if (substr($change, 0, 1) == '+') {
                     $changeClass = $lowerIsBetter ? 'bad' : 'good';
                     $changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';

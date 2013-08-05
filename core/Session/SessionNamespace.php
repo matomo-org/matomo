@@ -8,14 +8,18 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Session;
+
+use Piwik\Common;
+use Zend_Session_Namespace;
 
 /**
  * Session namespace.
  *
  * @package Piwik
- * @subpackage Piwik_Session
+ * @subpackage Session
  */
-class Piwik_Session_Namespace extends Zend_Session_Namespace
+class SessionNamespace extends Zend_Session_Namespace
 {
     /**
      * @param string $namespace
@@ -23,7 +27,7 @@ class Piwik_Session_Namespace extends Zend_Session_Namespace
      */
     public function __construct($namespace = 'Default', $singleInstance = false)
     {
-        if (Piwik_Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             self::$_readable = true;
             return;
         }

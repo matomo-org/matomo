@@ -9,6 +9,8 @@
  * @package Piwik_ImageGraph
  */
 
+use Piwik\Loader;
+
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pImage.class.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pData.class.php";
@@ -77,7 +79,7 @@ abstract class Piwik_ImageGraph_StaticGraph
         if (isset(self::$availableStaticGraphTypes[$graphType])) {
 
             $className = self::$availableStaticGraphTypes[$graphType];
-            Piwik_Loader::loadClass($className);
+            Loader::loadClass($className);
             return new $className;
         } else {
             throw new Exception(
@@ -108,7 +110,7 @@ abstract class Piwik_ImageGraph_StaticGraph
     }
 
     /**
-     * @return rendered static graph
+     * @return Image rendered static graph
      */
     public function getRenderedImage()
     {

@@ -8,12 +8,18 @@
  * @category Piwik_Plugins
  * @package Piwik_Login
  */
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Cookie;
+use Piwik\Option;
+use Piwik\Session;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_Login
  */
-class Piwik_Login extends Piwik_Plugin
+class Piwik_Login extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -47,8 +53,8 @@ class Piwik_Login extends Piwik_Plugin
      */
     public function ApiRequestAuthenticate($tokenAuth)
     {
-        Zend_Registry::get('auth')->setLogin($login = null);
-        Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
+        \Zend_Registry::get('auth')->setLogin($login = null);
+        \Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
     }
 
     /**
@@ -58,7 +64,7 @@ class Piwik_Login extends Piwik_Plugin
     function initAuthenticationObject($allowCookieAuthentication = false)
     {
         $auth = new Piwik_Login_Auth();
-        Zend_Registry::set('auth', $auth);
+        \Zend_Registry::set('auth', $auth);
 
         $action = Piwik::getAction();
         if (Piwik::getModule() === 'API'
@@ -68,10 +74,10 @@ class Piwik_Login extends Piwik_Plugin
             return;
         }
 
-        $authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
+        $authCookieName = Config::getInstance()->General['login_cookie_name'];
         $authCookieExpiry = 0;
-        $authCookiePath = Piwik_Config::getInstance()->General['login_cookie_path'];
-        $authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+        $authCookiePath = Config::getInstance()->General['login_cookie_path'];
+        $authCookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
         $defaultLogin = 'anonymous';
         $defaultTokenAuth = 'anonymous';
         if ($authCookie->isCookieFound()) {
@@ -96,15 +102,15 @@ class Piwik_Login extends Piwik_Plugin
 
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($login, $md5Password);
 
-        $auth = Zend_Registry::get('auth');
+        $auth = \Zend_Registry::get('auth');
         $auth->setLogin($login);
         $auth->setTokenAuth($tokenAuth);
         $authResult = $auth->authenticate();
 
-        $authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
-        $authCookieExpiry = $rememberMe ? time() + Piwik_Config::getInstance()->General['login_cookie_expire'] : 0;
-        $authCookiePath = Piwik_Config::getInstance()->General['login_cookie_path'];
-        $cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+        $authCookieName = Config::getInstance()->General['login_cookie_name'];
+        $authCookieExpiry = $rememberMe ? time() + Config::getInstance()->General['login_cookie_expire'] : 0;
+        $authCookiePath = Config::getInstance()->General['login_cookie_path'];
+        $cookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
         if (!$authResult->isValid()) {
             $cookie->delete();
             throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
@@ -116,7 +122,7 @@ class Piwik_Login extends Piwik_Plugin
         $cookie->setHttpOnly(true);
         $cookie->save();
 
-        @Piwik_Session::regenerateId();
+        @Session::regenerateId();
 
         // remove password reset entry if it exists
         self::removePasswordResetInfo($login);
@@ -144,7 +150,7 @@ class Piwik_Login extends Piwik_Plugin
     public static function removePasswordResetInfo($login)
     {
         $optionName = self::getPasswordResetInfoOptionName($login);
-        Piwik_Option::getInstance()->delete($optionName);
+        Option::getInstance()->delete($optionName);
     }
 
     /**

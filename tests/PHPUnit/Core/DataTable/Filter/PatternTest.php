@@ -5,6 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
+
 class DataTable_Filter_PatternTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -33,16 +36,16 @@ class DataTable_Filter_PatternTest extends PHPUnit_Framework_TestCase
      */
     public function testFilterPattern($test)
     {
-        $table = new Piwik_DataTable;
+        $table = new DataTable;
 
-        $idcol = Piwik_DataTable_Row::COLUMNS;
+        $idcol = Row::COLUMNS;
 
         $rows = array(
             array($idcol => array('label' => 'google')),
             array($idcol => array('label' => 'ask')),
             array($idcol => array('label' => 'piwik')),
             array($idcol => array('label' => 'yahoo')),
-            array(Piwik_DataTable_Row::METADATA => array('label' => 'amazon')),
+            array(Row::METADATA => array('label' => 'amazon')),
             array($idcol => array('label' => '2389752/47578949')),
             array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))'))
         );

@@ -5,6 +5,8 @@
  * @package PhpSecInfo
  * @author Piwik
  */
+use Piwik\Version;
+use Piwik\UpdateCheck;
 
 /**
  * require the PhpSecInfo_Test_Application class
@@ -27,9 +29,9 @@ class PhpSecInfo_Test_Application_Piwik extends PhpSecInfo_Test_Application
 
     function _retrieveCurrentValue()
     {
-        $this->current_value = Piwik_Version::VERSION;
+        $this->current_value = Version::VERSION;
 
-        $this->recommended_value = Piwik_GetOption(Piwik_UpdateCheck::LATEST_VERSION);
+        $this->recommended_value = Piwik_GetOption(UpdateCheck::LATEST_VERSION);
     }
 
     function _execTest()

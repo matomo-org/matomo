@@ -8,12 +8,18 @@
  * @category Piwik_Plugins
  * @package Piwik_CorePluginsAdmin
  */
+use Piwik\Controller\Admin;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\View;
+use Piwik\Url;
 
 /**
  *
  * @package Piwik_CorePluginsAdmin
  */
-class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
+class Piwik_CorePluginsAdmin_Controller extends Admin
 {
     function extend()
     {
@@ -38,7 +44,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     protected function configureView($template)
     {
         Piwik::checkUserIsSuperUser();
-        $view = new Piwik_View($template);
+        $view = new View($template);
         $this->setBasicVariablesView($view);
         $this->displayWarningIfConfigFileNotWritable($view);
         return $view;
@@ -49,21 +55,21 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
         $plugins = array();
 
         $listPlugins = array_merge(
-            Piwik_PluginsManager::getInstance()->readPluginsDirectory(),
-            Piwik_Config::getInstance()->Plugins['Plugins']
+            \Piwik\PluginsManager::getInstance()->readPluginsDirectory(),
+            Config::getInstance()->Plugins['Plugins']
         );
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
-            Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
+            \Piwik\PluginsManager::getInstance()->loadPlugin($pluginName);
             $plugins[$pluginName] = array(
-                'activated'       => Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName),
-                'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
-                'uninstallable'   => Piwik_PluginsManager::getInstance()->isPluginUninstallable($pluginName),
+                'activated'       => \Piwik\PluginsManager::getInstance()->isPluginActivated($pluginName),
+                'alwaysActivated' => \Piwik\PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
+                'uninstallable'   => \Piwik\PluginsManager::getInstance()->isPluginUninstallable($pluginName),
             );
         }
-        Piwik_PluginsManager::getInstance()->loadPluginTranslations();
+        \Piwik\PluginsManager::getInstance()->loadPluginTranslations();
 
-        $loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+        $loadedPlugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($loadedPlugins as $oPlugin) {
             $pluginName = $oPlugin->getPluginName();
             $plugins[$pluginName]['info'] = $oPlugin->getInformation();
@@ -105,14 +111,14 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     public function deactivate($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification();
-        Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
+        \Piwik\PluginsManager::getInstance()->deactivatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
 
     protected function redirectAfterModification($redirectAfter)
     {
         if ($redirectAfter) {
-            Piwik_Url::redirectToReferer();
+            Url::redirectToReferer();
         }
     }
 
@@ -120,23 +126,23 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsSuperUser();
         $this->checkTokenInUrl();
-        $pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
+        $pluginName = Common::getRequestVar('pluginName', null, 'string');
         return $pluginName;
     }
 
     public function activate($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification();
-        Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
+        \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
 
     public function uninstall($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification();
-        $uninstalled = Piwik_PluginsManager::getInstance()->uninstallPlugin($pluginName);
+        $uninstalled = \Piwik\PluginsManager::getInstance()->uninstallPlugin($pluginName);
         if(!$uninstalled) {
-            $path = Piwik_Common::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
+            $path = Common::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
             $messagePermissions = Piwik::getErrorMessageMissingPermissions($path);
 
             $messageIntro = Piwik_Translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",

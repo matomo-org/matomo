@@ -5,6 +5,13 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
+use Piwik\ScheduledTime;
+use Piwik\ScheduledTask;
+use Piwik\ScheduledTime\Daily;
+use Piwik\ScheduledTime\Monthly;
+use Piwik\Site;
+
 require_once 'PDFReports/PDFReports.php';
 
 class PDFReportsTest extends DatabaseTestCase
@@ -17,8 +24,8 @@ class PDFReportsTest extends DatabaseTestCase
 
         // setup the access layer
         self::setSuperUser();
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('API', 'UserCountry', 'PDFReports', 'MobileMessaging'));
-        Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('API', 'UserCountry', 'PDFReports', 'MobileMessaging'));
+        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
 
         Piwik_SitesManager_API::getInstance()->addSite("Test", array("http://piwik.net"));
 
@@ -37,7 +44,7 @@ class PDFReportsTest extends DatabaseTestCase
             'idsite'      => $this->idSite,
             'description' => 'test description"',
             'type'        => 'email',
-            'period'      => Piwik_ScheduledTime::PERIOD_DAY,
+            'period'      => ScheduledTime::PERIOD_DAY,
             'hour'        => '4',
             'format'      => 'pdf',
             'reports'     => array('UserCountry_getCountry'),
@@ -51,7 +58,7 @@ class PDFReportsTest extends DatabaseTestCase
 
         $dataWebsiteTwo = $data;
         $dataWebsiteTwo['idsite'] = 2;
-        $dataWebsiteTwo['period'] = Piwik_ScheduledTime::PERIOD_MONTH;
+        $dataWebsiteTwo['period'] = ScheduledTime::PERIOD_MONTH;
 
         self::addReport($dataWebsiteTwo);
 
@@ -191,7 +198,7 @@ class PDFReportsTest extends DatabaseTestCase
     public function testGetTopMenuTranslationKeyMobileMessagingInactive()
     {
         // unload MobileMessaging plugin
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('PDFReports'));
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports'));
 
         $pdfReportPlugin = new Piwik_PDFReports();
         $this->assertEquals(
@@ -208,7 +215,7 @@ class PDFReportsTest extends DatabaseTestCase
     {
         $anonymousAccess = new FakeAccess;
         FakeAccess::$identity = 'anonymous';
-        Piwik_Access::setSingletonInstance($anonymousAccess);
+        Access::setSingletonInstance($anonymousAccess);
 
         $pdfReportPlugin = new Piwik_PDFReports();
         $this->assertEquals(
@@ -265,7 +272,7 @@ class PDFReportsTest extends DatabaseTestCase
         Piwik_PDFReports_API::getInstance()->addReport(
             1,
             '',
-            Piwik_ScheduledTime::PERIOD_DAY,
+            ScheduledTime::PERIOD_DAY,
             0,
             Piwik_MobileMessaging::MOBILE_TYPE,
             Piwik_MobileMessaging::SMS_FORMAT,
@@ -341,7 +348,7 @@ class PDFReportsTest extends DatabaseTestCase
         // test no exception is raised when a scheduled report is set to never send
         $report6 = self::getMonthlyEmailReportData($this->idSite);
         $report6['idreport'] = 6;
-        $report6['period'] = Piwik_ScheduledTime::PERIOD_NEVER;
+        $report6['period'] = ScheduledTime::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
         $stubbedPDFReportsAPI = $this->getMock('Piwik_PDFReports_API');
@@ -354,29 +361,29 @@ class PDFReportsTest extends DatabaseTestCase
         $stubbedPDFReportsAPIClass->setValue($stubbedPDFReportsAPI);
 
         // initialize sites 1 and 2
-        Piwik_Site::$infoSites = array(
+        Site::$infoSites = array(
             1 => array('timezone' => 'Europe/Paris'),
             2 => array('timezone' => 'UTC-6.5'),
         );
 
         // expected tasks
-        $scheduleTask1 = new Piwik_ScheduledTime_Daily();
+        $scheduleTask1 = new Daily();
         $scheduleTask1->setHour(23); // paris is UTC-1, period ends at 23h UTC
 
-        $scheduleTask2 = new Piwik_ScheduledTime_Monthly();
+        $scheduleTask2 = new Monthly();
         $scheduleTask2->setHour(7); // site is UTC-6.5, period ends at 6h30 UTC, smallest resolution is hour
 
-        $scheduleTask3 = new Piwik_ScheduledTime_Monthly();
+        $scheduleTask3 = new Monthly();
         $scheduleTask3->setHour(7); // paris is UTC-1, configured to be sent at 8h
 
-        $scheduleTask4 = new Piwik_ScheduledTime_Monthly();
+        $scheduleTask4 = new Monthly();
         $scheduleTask4->setHour(15); // site is UTC-6.5, configured to be sent at 8h
 
         $expectedTasks = array(
-            new Piwik_ScheduledTask (Piwik_PDFReports_API::getInstance(), 'sendReport', 1, $scheduleTask1),
-            new Piwik_ScheduledTask (Piwik_PDFReports_API::getInstance(), 'sendReport', 2, $scheduleTask2),
-            new Piwik_ScheduledTask (Piwik_PDFReports_API::getInstance(), 'sendReport', 4, $scheduleTask3),
-            new Piwik_ScheduledTask (Piwik_PDFReports_API::getInstance(), 'sendReport', 5, $scheduleTask4),
+            new ScheduledTask (Piwik_PDFReports_API::getInstance(), 'sendReport', 1, $scheduleTask1),
+            new ScheduledTask (Piwik_PDFReports_API::getInstance(), 'sendReport', 2, $scheduleTask2),
+            new ScheduledTask (Piwik_PDFReports_API::getInstance(), 'sendReport', 4, $scheduleTask3),
+            new ScheduledTask (Piwik_PDFReports_API::getInstance(), 'sendReport', 5, $scheduleTask4),
         );
 
         $pdfReportPlugin = new Piwik_PDFReports();
@@ -445,7 +452,7 @@ class PDFReportsTest extends DatabaseTestCase
         return array(
             'idsite'      => $idSite,
             'description' => 'test description"',
-            'period'      => Piwik_ScheduledTime::PERIOD_DAY,
+            'period'      => ScheduledTime::PERIOD_DAY,
             'hour'        => '7',
             'type'        => 'email',
             'format'      => 'pdf',
@@ -464,7 +471,7 @@ class PDFReportsTest extends DatabaseTestCase
         return array(
             'idsite'      => $idSite,
             'description' => 'very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. ',
-            'period'      => Piwik_ScheduledTime::PERIOD_MONTH,
+            'period'      => ScheduledTime::PERIOD_MONTH,
             'hour'        => '0',
             'type'        => 'email',
             'format'      => 'pdf',
@@ -497,6 +504,6 @@ class PDFReportsTest extends DatabaseTestCase
     {
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
     }
 }

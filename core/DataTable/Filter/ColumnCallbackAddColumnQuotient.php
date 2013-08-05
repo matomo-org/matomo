@@ -8,15 +8,20 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Row;
 
 /**
  * Adds a new column that is a division of two columns of the current row.
  * Useful to process bounce rates, exit rates, average time on page, etc.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataTable_Filter
+class ColumnCallbackAddColumnQuotient extends Filter
 {
     protected $table;
     protected $columnValueToRead;
@@ -28,7 +33,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
     protected $getDivisorFromSummaryRow;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string $columnNameToAdd
      * @param string $columnValueToRead
      * @param number|string $divisorValueOrDivisorColumnName
@@ -57,7 +62,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
     /**
      * Filters the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -101,7 +106,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
      * Returns the dividend to use when calculating the new column value. Can
      * be overridden by descendent classes to customize behavior.
      *
-     * @param Piwik_DataTable_Row $row  The row being modified.
+     * @param Row $row  The row being modified.
      * @return int|float
      */
     protected function getDividend($row)
@@ -113,7 +118,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
      * Returns the divisor to use when calculating the new column value. Can
      * be overridden by descendent classes to customize behavior.
      *
-     * @param Piwik_DataTable_Row $row  The row being modified.
+     * @param Row $row  The row being modified.
      * @return int|float
      */
     protected function getDivisor($row)
@@ -121,7 +126,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient extends Piwik_DataT
         if (!is_null($this->totalValueUsedAsDivisor)) {
             return $this->totalValueUsedAsDivisor;
         } else if ($this->getDivisorFromSummaryRow) {
-            $summaryRow = $this->table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
+            $summaryRow = $this->table->getRowFromId(DataTable::ID_SUMMARY_ROW);
             return $summaryRow->getColumn($this->columnNameUsedAsDivisor);
         } else {
             return $row->getColumn($this->columnNameUsedAsDivisor);

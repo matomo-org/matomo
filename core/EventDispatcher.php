@@ -9,11 +9,15 @@
  * @package Piwik
  */
 
+namespace Piwik;
+use Piwik\Plugin;
+use Piwik\PluginsManager;
+
 /**
  * This class allows code to post events from anywhere in Piwik and for
  * plugins to associate callbacks to be executed when events are posted.
  */
-class Piwik_EventDispatcher
+class EventDispatcher
 {
     // implementation details for postEvent
     const EVENT_CALLBACK_GROUP_FIRST = 0;
@@ -31,7 +35,7 @@ class Piwik_EventDispatcher
     public static function getInstance()
     {
         if (self::$instance === null) {
-            self::$instance = new Piwik_EventDispatcher();
+            self::$instance = new EventDispatcher();
         }
         return self::$instance;
     }
@@ -66,7 +70,7 @@ class Piwik_EventDispatcher
      *                      loaded after the event is fired.
      * @param array|null $plugins The plugins to post events to. If null, the event
      *                            is posted to all plugins. The elements of this array
-     *                            can be either the Piwik_Plugin objects themselves
+     *                            can be either the Plugin objects themselves
      *                            or their string names.
      */
     public function postEvent($eventName, $params, $pending = false, $plugins = null)
@@ -76,7 +80,7 @@ class Piwik_EventDispatcher
         }
         
         if (empty($plugins)) {
-            $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+            $plugins = PluginsManager::getInstance()->getLoadedPlugins();
         }
         
         $callbacks = array();
@@ -84,7 +88,7 @@ class Piwik_EventDispatcher
         // collect all callbacks to execute
         foreach ($plugins as $plugin) {
             if (is_string($plugin)) {
-                $plugin = Piwik_PluginsManager::getInstance()->getLoadedPlugin($plugin);
+                $plugin = PluginsManager::getInstance()->getLoadedPlugin($plugin);
             }
             
             $hooks = $plugin->getListHooksRegistered();
@@ -150,7 +154,7 @@ class Piwik_EventDispatcher
     /**
      * Re-posts all pending events to the given plugin.
      * 
-     * @param Piwik_Plugin $plugin
+     * @param Plugin $plugin
      */
     public function postPendingEventsTo($plugin)
     {
@@ -182,38 +186,3 @@ class Piwik_EventDispatcher
     }
 }
 
-/**
- * Post an event to the dispatcher which will notice the observers.
- *
- * @param string $eventName  The event name.
- * @param array $params The parameter array to forward to observer callbacks.
- * @param bool $pending
- * @param null $plugins
- * @return void
- */
-function Piwik_PostEvent($eventName, $params = array(), $pending = false, $plugins = null)
-{
-    Piwik_EventDispatcher::getInstance()->postEvent($eventName, $params, $pending, $plugins);
-}
-
-/**
- * Register an action to execute for a given event
- *
- * @param string $eventName  Name of event
- * @param callable $function  Callback hook
- */
-function Piwik_AddAction($eventName, $function)
-{
-    Piwik_EventDispatcher::getInstance()->addObserver($eventName, $function);
-}
-
-/**
- * Posts an event if we are currently running tests. Whether we are running tests is
- * determined by looking for the PIWIK_TEST_MODE constant.
- */
-function Piwik_PostTestEvent($eventName, $params = array(), $pending = false, $plugins = null)
-{
-    if (defined('PIWIK_TEST_MODE')) {
-        Piwik_PostEvent($eventName, $params, $pending, $plugins);
-    }
-}

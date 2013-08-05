@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+namespace Piwik\View;
+
 /**
  * Post-update view
  *
@@ -21,7 +23,7 @@
  *
  * @package Piwik
  */
-class Piwik_View_OneClickDone
+class OneClickDone
 {
     /**
      * @var string

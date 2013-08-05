@@ -8,16 +8,18 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+use Piwik\Common;
 
 /**
- * Piwik_Option provides a very simple mechanism to save/retrieve key-values pair
+ * Option provides a very simple mechanism to save/retrieve key-values pair
  * from the database (persistent key-value datastore).
  *
  * This is useful to save Piwik-wide preferences, configuration values.
  *
  * @package Piwik
  */
-class Piwik_Option
+class Option
 {
     /**
      * @var array
@@ -31,14 +33,14 @@ class Piwik_Option
 
     /**
      * Singleton instance
-     * @var self
+     * @var \Piwik\Option
      */
     static private $instance = null;
 
     /**
      * Returns Singleton instance
      *
-     * @return Piwik_Option
+     * @return \Piwik\Option
      */
     static public function getInstance()
     {
@@ -59,7 +61,7 @@ class Piwik_Option
      * Returns the option value for the requested option $name, fetching from database, if not in cache.
      *
      * @param string $name  Key
-     * @return string|false  Value or false, if not found
+     * @return string|bool  Value or false, if not found
      */
     public function get($name)
     {
@@ -67,8 +69,8 @@ class Piwik_Option
         if (isset($this->all[$name])) {
             return $this->all[$name];
         }
-        $value = Piwik_FetchOne('SELECT option_value ' .
-            'FROM `' . Piwik_Common::prefixTable('option') . '`' .
+        $value = Db::fetchOne('SELECT option_value ' .
+            'FROM `' . Common::prefixTable('option') . '`' .
             'WHERE option_name = ?', $name);
         if ($value === false) {
             return false;
@@ -87,7 +89,7 @@ class Piwik_Option
     public function set($name, $value, $autoLoad = 0)
     {
         $autoLoad = (int)$autoLoad;
-        Piwik_Query('INSERT INTO `' . Piwik_Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
+        Db::query('INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
                 ' VALUES (?, ?, ?) ' .
                 ' ON DUPLICATE KEY UPDATE option_value = ?',
             array($name, $value, $autoLoad, $value));
@@ -102,7 +104,7 @@ class Piwik_Option
      */
     public function delete($name, $value = null)
     {
-        $sql = 'DELETE FROM `' . Piwik_Common::prefixTable('option') . '` WHERE option_name = ?';
+        $sql = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?';
         $bind[] = $name;
 
         if (isset($value)) {
@@ -110,7 +112,7 @@ class Piwik_Option
             $bind[] = $value;
         }
 
-        Piwik_Query($sql, $bind);
+        Db::query($sql, $bind);
 
         $this->clearCache();
     }
@@ -124,7 +126,7 @@ class Piwik_Option
      */
     public function deleteLike($name, $value = null)
     {
-        $sql = 'DELETE FROM `' . Piwik_Common::prefixTable('option') . '` WHERE option_name LIKE ?';
+        $sql = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind[] = $name;
 
         if (isset($value)) {
@@ -132,7 +134,7 @@ class Piwik_Option
             $bind[] = $value;
         }
 
-        Piwik_Query($sql, $bind);
+        Db::query($sql, $bind);
 
         $this->clearCache();
     }
@@ -148,8 +150,8 @@ class Piwik_Option
             return;
         }
 
-        $all = Piwik_FetchAll('SELECT option_value, option_name
-								FROM `' . Piwik_Common::prefixTable('option') . '`
+        $all = Db::fetchAll('SELECT option_value, option_name
+								FROM `' . Common::prefixTable('option') . '`
 								WHERE autoload = 1');
         foreach ($all as $option) {
             $this->all[$option['option_name']] = $option['option_value'];
@@ -169,27 +171,4 @@ class Piwik_Option
         $this->loaded = false;
         $this->all = array();
     }
-}
-
-/**
- * Returns the option value for the requested option $name
- *
- * @param string $name  Key
- * @return string|false  Value or false, if not found
- */
-function Piwik_GetOption($name)
-{
-    return Piwik_Option::getInstance()->get($name);
-}
-
-/**
- * Sets the option value in the database
- *
- * @param string $name
- * @param string $value
- * @param int $autoLoad  if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
- */
-function Piwik_SetOption($name, $value, $autoLoad = 0)
-{
-    Piwik_Option::getInstance()->set($name, $value, $autoLoad);
 }

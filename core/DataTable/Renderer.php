@@ -8,21 +8,33 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable;
+
+use Exception;
+use Piwik\Loader;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\DataTable;
+use Piwik\DataTable\Simple;
 
 /**
  * A DataTable Renderer can produce an output given a DataTable object.
  * All new Renderers must be copied in DataTable/Renderer and added to the factory() method.
  * To use a renderer, simply do:
- *  $render = new Piwik_DataTable_Renderer_Xml();
+ *  $render = new Xml();
  *  $render->setTable($dataTable);
  *  echo $render;
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-abstract class Piwik_DataTable_Renderer
+abstract class Renderer
 {
     protected $table;
+
+    /**
+     * @var Exception
+     */
     protected $exception;
     protected $renderSubTables = false;
     protected $hideIdSubDatatable = false;
@@ -56,7 +68,6 @@ abstract class Piwik_DataTable_Renderer
      * @var int
      */
     public $idSite = 'all';
-
 
     public function __construct()
     {
@@ -101,7 +112,7 @@ abstract class Piwik_DataTable_Renderer
     /**
      * Computes the dataTable output and returns the string/binary
      *
-     * @return string
+     * @return mixed
      */
     abstract public function render();
 
@@ -133,16 +144,16 @@ abstract class Piwik_DataTable_Renderer
     /**
      * Set the DataTable to be rendered
      *
-     * @param Piwik_DataTable|Piwik_DataTable_Simple|Piwik_DataTable_Array $table  table to be rendered
+     * @param DataTable|Simple|DataTable\Map $table  table to be rendered
      * @throws Exception
      */
     public function setTable($table)
     {
         if (!is_array($table)
-            && !($table instanceof Piwik_DataTable)
-            && !($table instanceof Piwik_DataTable_Array)
+            && !($table instanceof DataTable)
+            && !($table instanceof DataTable\Map)
         ) {
-            throw new Exception("DataTable renderers renderer accepts only Piwik_DataTable and Piwik_DataTable_Array instances, and array instances.");
+            throw new Exception("DataTable renderers renderer accepts only DataTable and Set instances, and array instances.");
         }
         $this->table = $table;
     }
@@ -160,7 +171,6 @@ abstract class Piwik_DataTable_Renderer
         }
         $this->exception = $exception;
     }
-
 
     /**
      * @var array
@@ -188,20 +198,19 @@ abstract class Piwik_DataTable_Renderer
      *
      * @param string $name
      * @throws Exception If the renderer is unknown
-     * @return Piwik_DataTable_Renderer
+     * @return \Piwik\DataTable\Renderer
      */
     static public function factory($name)
     {
-        $name = ucfirst(strtolower($name));
-        $className = 'Piwik_DataTable_Renderer_' . $name;
-
+        $className = ucfirst(strtolower($name));
+        $className = 'Piwik\DataTable\Renderer\\' . $className;
         try {
-            Piwik_Loader::loadClass($className);
+            Loader::loadClass($className);
             return new $className;
         } catch (Exception $e) {
             $availableRenderers = implode(', ', self::getRenderers());
             @header('Content-Type: text/plain; charset=utf-8');
-            throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($name, $availableRenderers)));
+            throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
         }
     }
 
@@ -264,7 +273,7 @@ abstract class Piwik_DataTable_Renderer
                 return $names;
             }
 
-            $t = Piwik_Metrics::getDefaultMetricTranslations();
+            $t = Metrics::getDefaultMetricTranslations();
             foreach (array('metrics', 'processedMetrics', 'metricsGoal', 'processedMetricsGoal') as $index) {
                 if (isset($meta[$index]) && is_array($meta[$index])) {
                     $t = array_merge($t, $meta[$index]);
@@ -295,7 +304,7 @@ abstract class Piwik_DataTable_Renderer
                 $this->apiMetaData = false;
             }
 
-            $api = Piwik_API_API::getInstance();
+            $api = \Piwik_API_API::getInstance();
             $meta = $api->getMetadata($this->idSite, $apiModule, $apiAction);
             if (is_array($meta[0])) {
                 $meta = $meta[0];
@@ -363,7 +372,7 @@ abstract class Piwik_DataTable_Renderer
      *  - empty array (ie, array())
      *  - array w/ arrays/DataTable instances as values (ie,
      *            array('name' => 'myreport',
-     *                  'reportData' => new Piwik_DataTable())
+     *                  'reportData' => new DataTable())
      *        OR  array('name' => 'myreport',
      *                  'reportData' => array(...)) )
      *

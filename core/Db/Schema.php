@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db;
+
+use Piwik\Config;
 
 /**
  * Schema abstraction
@@ -17,12 +20,12 @@
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Schema
+class Schema
 {
     /**
      * Singleton instance
      *
-     * @var Piwik_Db_Schema
+     * @var \Piwik\Db\Schema
      */
     static private $instance = null;
 
@@ -34,9 +37,9 @@ class Piwik_Db_Schema
     private $schema = null;
 
     /**
-     * Returns the singleton Piwik_Db_Schema
+     * Returns the singleton Schema
      *
-     * @return Piwik_Db_Schema
+     * @return \Piwik\Db\Schema
      */
     static public function getInstance()
     {
@@ -54,7 +57,7 @@ class Piwik_Db_Schema
      */
     private static function getSchemaClassName($schemaName)
     {
-        return 'Piwik_Db_Schema_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($schemaName))));
+        return '\Piwik\Db\Schema\\' . str_replace(' ', '\\', ucwords(str_replace('_', ' ', strtolower($schemaName))));
     }
 
     /**
@@ -130,7 +133,7 @@ class Piwik_Db_Schema
         $schema = null;
         Piwik_PostEvent('Schema.loadSchema', array(&$schema));
         if ($schema === null) {
-            $config = Piwik_Config::getInstance();
+            $config = Config::getInstance();
             $dbInfos = $config->database;
             if (isset($dbInfos['schema'])) {
                 $schemaName = $dbInfos['schema'];
@@ -144,9 +147,9 @@ class Piwik_Db_Schema
     }
 
     /**
-     * Returns an instance that subclasses Piwik_Db_Schema
+     * Returns an instance that subclasses Schema
      *
-     * @return Piwik_Db_Schema_Interface
+     * @return \Piwik\Db\SchemaInterface
      */
     private function getSchema()
     {

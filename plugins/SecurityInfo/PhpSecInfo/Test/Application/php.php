@@ -5,6 +5,8 @@
  * @package PhpSecInfo
  * @author Piwik
  */
+use Piwik\Http;
+use Piwik\UpdateCheck;
 
 /**
  * require the PhpSecInfo_Test_Application class
@@ -30,9 +32,9 @@ class PhpSecInfo_Test_Application_Php extends PhpSecInfo_Test_Application
         $this->current_value = PHP_VERSION;
 
         $url = 'http://php.net/releases/?serialize=1&version=5';
-        $timeout = Piwik_UpdateCheck::SOCKET_TIMEOUT;
+        $timeout = UpdateCheck::SOCKET_TIMEOUT;
         try {
-            $latestVersion = Piwik_Http::sendHttpRequest($url, $timeout);
+            $latestVersion = Http::sendHttpRequest($url, $timeout);
             $versionInfo = safe_unserialize($latestVersion);
             $this->recommended_value = $versionInfo['version'];
         } catch (Exception $e) {

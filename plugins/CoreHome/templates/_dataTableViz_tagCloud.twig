@@ -1,0 +1,18 @@
+{% set cloudColumn = properties.columns_to_display[1] %}
+<div class="tagCloud">
+{% for word,value in cloudValues %}
+    <span title="{{ value.word }} ({{ value.value }} {{ properties.translations[cloudColumn]|default(cloudColumn) }})" class="word size{{ value.size }}
+    {# we strike tags with 0 hits #}
+    {% if value.value == 0 %}valueIsZero{% endif %}">
+    {% if labelMetadata[value.word].url is not sameas(false) %}
+        <a href="{{ labelMetadata[value.word].url }}" target="_blank">
+    {% endif %}
+    {% if labelMetadata[value.word].logo is not sameas(false) %}
+        <img src="{{ labelMetadata[value.word].logo }}" width="{{ value.logoWidth }}" />
+    {% else %}
+        {{ value.wordTruncated }}
+    {% endif %}
+    {% if labelMetadata[value.word].url is not sameas(false) %}</a>{% endif %}
+    </span>
+{% endfor %}
+</div>

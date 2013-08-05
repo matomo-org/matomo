@@ -8,6 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_DoNotTrack
  */
+use Piwik\Plugin;
+use Piwik\Common;
+use Piwik\Tracker\IgnoreCookie;
+use Piwik\Tracker\Request;
 
 /**
  * Ignore visits where user agent's request contains either:
@@ -16,7 +20,7 @@
  *
  * @package Piwik_DoNotTrack
  */
-class Piwik_DoNotTrack extends Piwik_Plugin
+class Piwik_DoNotTrack extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -33,17 +37,17 @@ class Piwik_DoNotTrack extends Piwik_Plugin
         if ((isset($_SERVER['HTTP_X_DO_NOT_TRACK']) && $_SERVER['HTTP_X_DO_NOT_TRACK'] === '1')
             || (isset($_SERVER['HTTP_DNT']) && substr($_SERVER['HTTP_DNT'], 0, 1) === '1')
         ) {
-            $request = new Piwik_Tracker_Request($_REQUEST);
+            $request = new Request($_REQUEST);
             $ua = $request->getUserAgent();
             if (strpos($ua, 'MSIE 10') !== false) {
-                printDebug("INTERNET EXPLORER 10 Enables DNT by default, so Piwik ignores DNT for all IE10 browsers...");
+                Common::printDebug("INTERNET EXPLORER 10 Enables DNT by default, so Piwik ignores DNT for all IE10 browsers...");
                 return;
             }
 
             $exclude = true;
-            printDebug("DoNotTrack found.");
+            Common::printDebug("DoNotTrack found.");
 
-            $trackingCookie = Piwik_Tracker_IgnoreCookie::getTrackingCookie();
+            $trackingCookie = IgnoreCookie::getTrackingCookie();
             $trackingCookie->delete();
 
             // this is an optional supplement to the site's tracking status resource at:

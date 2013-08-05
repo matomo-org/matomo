@@ -8,26 +8,34 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Tracker;
+
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\CacheFile;
+use Piwik\Tracker;
+use Piwik_UserCountry_LocationProvider;
 
 /**
  * Simple cache mechanism used in Tracker to avoid requesting settings from mysql on every request
  *
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
-class Piwik_Tracker_Cache
+class Cache
 {
     /**
      * Public for tests only
-     * @var Piwik_CacheFile
+     * @var CacheFile
      */
     static public $trackerCache = null;
 
     static protected function getInstance()
     {
         if (is_null(self::$trackerCache)) {
-            $ttl = Piwik_Config::getInstance()->Tracker['tracker_cache_file_ttl'];
-            self::$trackerCache = new Piwik_CacheFile('tracker', $ttl);
+            $ttl = Config::getInstance()->Tracker['tracker_cache_file_ttl'];
+            self::$trackerCache = new CacheFile('tracker', $ttl);
         }
         return self::$trackerCache;
     }
@@ -46,8 +54,8 @@ class Piwik_Tracker_Cache
         if (($cacheContent = $cache->get($idSite)) !== false) {
             return $cacheContent;
         }
-        
-        Piwik_Tracker::initCorePiwikInTrackerMode();
+
+        Tracker::initCorePiwikInTrackerMode();
 
         // save current user privilege and temporarily assume super user privilege
         $isSuperUser = Piwik::isUserIsSuperUser();
@@ -92,11 +100,11 @@ class Piwik_Tracker_Cache
             return $cacheContent;
         }
 
-        Piwik_Tracker::initCorePiwikInTrackerMode();
+        Tracker::initCorePiwikInTrackerMode();
         $cacheContent = array(
-            'isBrowserTriggerEnabled' => Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled(),
-            'lastTrackerCronRun'               => Piwik_GetOption('lastTrackerCronRun'),
-            'currentLocationProviderId'        => Piwik_UserCountry_LocationProvider::getCurrentProviderId(),
+            'isBrowserTriggerEnabled'   => Rules::isBrowserTriggerEnabled(),
+            'lastTrackerCronRun'        => Piwik_GetOption('lastTrackerCronRun'),
+            'currentLocationProviderId' => Piwik_UserCountry_LocationProvider::getCurrentProviderId(),
         );
         self::setCacheGeneral($cacheContent);
         return $cacheContent;
@@ -150,5 +158,4 @@ class Piwik_Tracker_Cache
     {
         self::getInstance()->deleteAll();
     }
-
 }

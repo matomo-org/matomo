@@ -9,6 +9,9 @@
  * This decision has a structural impact on the usual unit test file structure
  * serveStaticFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
  */
+use Piwik\Piwik;
+use Piwik\Common;
+
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__).'/../../');
 if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php'))
 {
@@ -58,10 +61,10 @@ define("TEST_FILE_SRV_MODE", "testFile");
  * the execution of Piwik:serveStaticFile(). In this case, unit tests won't be executed
  */
 // Getting the server mode
-$staticFileServerMode = Piwik_Common::getRequestVar(SRV_MODE_REQUEST_VAR, "");
+$staticFileServerMode = Common::getRequestVar(SRV_MODE_REQUEST_VAR, "");
 
 // Setting zlib output compression as requested
-ini_set('zlib.output_compression', Piwik_Common::getRequestVar(ZLIB_OUTPUT_REQUEST_VAR, '0'));
+ini_set('zlib.output_compression', Common::getRequestVar(ZLIB_OUTPUT_REQUEST_VAR, '0'));
 
 if ($staticFileServerMode === "") {
     throw new Exception("When this testing file is used as a static file server, the request parameter " .

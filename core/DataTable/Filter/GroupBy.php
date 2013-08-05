@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * DataTable filter that will group DataTable rows together based on the results
@@ -16,9 +20,9 @@
  * NOTE: This filter should never be queued, it must be applied directly on a DataTable.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
+class GroupBy extends Filter
 {
     /**
      * The name of the columns to reduce.
@@ -40,7 +44,7 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
     /**
      * Constructor.
      *
-     * @param Piwik_DataTable $table           The DataTable to filter.
+     * @param DataTable $table           The DataTable to filter.
      * @param string $groupByColumn   The column name to reduce.
      * @param mixed $reduceFunction  The reduce function. This must alter the $groupByColumn in some way.
      * @param array $parameters      Extra parameters to supply to the reduce function.
@@ -57,7 +61,7 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
     /**
      * Applies the reduce function to each row and merges rows w/ the same reduce result.
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -66,7 +70,7 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
 
         foreach ($table->getRows() as $rowId => $row) {
             // skip the summary row
-            if ($rowId == Piwik_DataTable::ID_SUMMARY_ROW) {
+            if ($rowId == DataTable::ID_SUMMARY_ROW) {
                 continue;
             }
 

@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Unzip;
+
+use Archive_Tar;
+use Piwik\Unzip\UncompressInterface;
 
 /**
  * @see libs/Archive_Tar
@@ -18,9 +22,9 @@ require_once PIWIK_INCLUDE_PATH . '/libs/Archive_Tar/Tar.php';
  * Unzip implementation for Archive_Tar PEAR lib.
  *
  * @package Piwik
- * @subpackage Piwik_Unzip
+ * @subpackage Unzip
  */
-class Piwik_Unzip_Tar implements Piwik_Unzip_Interface
+class Tar implements UncompressInterface
 {
     /**
      * Archive_Tar instance.

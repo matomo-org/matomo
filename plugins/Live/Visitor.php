@@ -8,6 +8,11 @@
  * @category Piwik_Plugins
  * @package Piwik_Live
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\IP;
+use Piwik\Tracker;
+use Piwik\Tracker\Visit;
 
 /**
  * @see plugins/Referers/functions.php
@@ -166,7 +171,7 @@ class Piwik_Live_Visitor
     function getIp()
     {
         if (isset($this->details['location_ip'])) {
-            return Piwik_IP::N2P($this->details['location_ip']);
+            return IP::N2P($this->details['location_ip']);
         }
         return false;
     }
@@ -254,7 +259,7 @@ class Piwik_Live_Visitor
 
     function getContinentCode()
     {
-        return Piwik_Common::getContinent($this->details['location_country']);
+        return Common::getContinent($this->details['location_country']);
     }
 
     function getCityName()
@@ -268,7 +273,7 @@ class Piwik_Live_Visitor
     public function getRegionName()
     {
         $region = $this->getRegionCode();
-        if ($region != '' && $region != Piwik_Tracker_Visit::UNKNOWN_CODE) {
+        if ($region != '' && $region != Visit::UNKNOWN_CODE) {
             return Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes(
                 $this->details['location_country'], $region);
         }
@@ -317,7 +322,7 @@ class Piwik_Live_Visitor
     function getCustomVariables()
     {
         $customVariables = array();
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             if (!empty($this->details['custom_var_k' . $i])) {
                 $customVariables[$i] = array(
                     'customVariableName' . $i  => $this->details['custom_var_k' . $i],
@@ -341,7 +346,7 @@ class Piwik_Live_Visitor
     function getKeyword()
     {
         $keyword = $this->details['referer_keyword'];
-        if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
+        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')
             && $this->getRefererType() == 'search'
         ) {
             $keyword = Piwik_Referers_API::getCleanKeyword($keyword);
@@ -352,7 +357,7 @@ class Piwik_Live_Visitor
     function getRefererUrl()
     {
         if ($this->getRefererType() == 'search') {
-            if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
+            if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')
                 && $this->details['referer_keyword'] == Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED
             ) {
                 return 'http://piwik.org/faq/general/#faq_144';
@@ -368,7 +373,7 @@ class Piwik_Live_Visitor
                 }
             }
         }
-        if (Piwik_Common::isLookLikeUrl($this->details['referer_url'])) {
+        if (Common::isLookLikeUrl($this->details['referer_url'])) {
             return $this->details['referer_url'];
         }
         return null;
@@ -383,7 +388,7 @@ class Piwik_Live_Visitor
             if (empty($url['query'])) {
                 return null;
             }
-            $position = Piwik_Common::getParameterFromQueryString($url['query'], 'cd');
+            $position = Common::getParameterFromQueryString($url['query'], 'cd');
             if (!empty($position)) {
                 return $position;
             }
@@ -510,7 +515,7 @@ class Piwik_Live_Visitor
 
     function getDeviceType()
     {
-        if(Piwik_PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
+        if(\Piwik\PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
             return Piwik_getDeviceTypeLabel($this->details['config_device_type']);
         }
         return false;

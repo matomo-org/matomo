@@ -8,12 +8,17 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db;
+
+use Piwik\Db\AdapterInterface;
+use Piwik\Loader;
+use Zend_Db_Table;
 
 /**
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Adapter
+class Adapter
 {
     /**
      * Create adapter
@@ -21,7 +26,7 @@ class Piwik_Db_Adapter
      * @param string $adapterName database adapter name
      * @param array $dbInfos database connection info
      * @param bool $connect
-     * @return Piwik_Db_Adapter_Interface
+     * @return AdapterInterface
      */
     public static function factory($adapterName, & $dbInfos, $connect = true)
     {
@@ -39,7 +44,7 @@ class Piwik_Db_Adapter
         }
 
         $className = self::getAdapterClassName($adapterName);
-        Piwik_Loader::loadClass($className);
+        Loader::loadClass($className);
 
         /*
          * 5.2.1 fixes various bugs with references that caused PDO_MYSQL getConnection()
@@ -70,7 +75,7 @@ class Piwik_Db_Adapter
      */
     private static function getAdapterClassName($adapterName)
     {
-        return 'Piwik_Db_Adapter_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($adapterName))));
+         return 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace('_', ' ', strtolower($adapterName))));
     }
 
     /**
@@ -94,7 +99,7 @@ class Piwik_Db_Adapter
     {
         static $adapterNames = array(
             // currently supported by Piwik
-            'Pdo_Mysql',
+            'Pdo\Mysql',
             'Mysqli',
 
             // other adapters supported by Zend_Db
@@ -110,7 +115,7 @@ class Piwik_Db_Adapter
         $adapters = array();
 
         foreach ($adapterNames as $adapterName) {
-            $className = 'Piwik_Db_Adapter_' . $adapterName;
+            $className = '\Piwik\Db\Adapter\\' . $adapterName;
             if (call_user_func(array($className, 'isEnabled'))) {
                 $adapters[strtoupper($adapterName)] = call_user_func(array($className, 'getDefaultPort'));
             }

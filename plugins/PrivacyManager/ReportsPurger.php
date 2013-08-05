@@ -8,6 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_PrivacyManager
  */
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Piwik;
+use Piwik\Date;
+use Piwik\Db;
 
 /**
  * Purges archived reports and metrics that are considered old.
@@ -104,18 +108,18 @@ class Piwik_PrivacyManager_ReportsPurger
         if (!empty($oldBlobTables)) {
             // if no reports should be kept, drop tables, otherwise drop individual reports
             if (empty($this->reportPeriodsToKeep) && !$this->keepSegmentReports) {
-                Piwik_DropTables($oldBlobTables);
+                Db::dropTables($oldBlobTables);
             } else {
                 foreach ($oldBlobTables as $table) {
                     $where = $this->getBlobTableWhereExpr($oldNumericTables, $table);
                     if (!empty($where)) {
                         $where = "WHERE $where";
                     }
-                    Piwik_DeleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
+                    Db::deleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
                 }
 
                 if ($optimize) {
-                    Piwik_OptimizeTables($oldBlobTables);
+                    Db::optimizeTables($oldBlobTables);
                 }
             }
         }
@@ -126,15 +130,15 @@ class Piwik_PrivacyManager_ReportsPurger
             if ($this->keepBasicMetrics == 1 && !empty($this->metricsToKeep)) {
                 $where = "WHERE name NOT IN ('" . implode("','", $this->metricsToKeep) . "') AND name NOT LIKE 'done%'";
                 foreach ($oldNumericTables as $table) {
-                    Piwik_DeleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
+                    Db::deleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
                 }
 
                 if ($optimize) {
-                    Piwik_OptimizeTables($oldNumericTables);
+                    Db::optimizeTables($oldNumericTables);
                 }
             } else // drop numeric tables
             {
-                Piwik_DropTables($oldNumericTables);
+                Db::dropTables($oldNumericTables);
             }
         }
     }
@@ -202,21 +206,21 @@ class Piwik_PrivacyManager_ReportsPurger
         // get month for which reports as old or older than, should be deleted
         // reports whose creation date <= this month will be deleted
         // (NOTE: we ignore how far we are in the current month)
-        $toRemoveDate = Piwik_Date::factory('today')->subMonth(1 + $this->deleteReportsOlderThan);
+        $toRemoveDate = Date::factory('today')->subMonth(1 + $this->deleteReportsOlderThan);
 
         // find all archive tables that are older than N months
         $oldNumericTables = array();
         $oldBlobTables = array();
         foreach (Piwik::getTablesInstalled() as $table) {
-            $type = Piwik_DataAccess_ArchiveTableCreator::getTypeFromTableName($table);
+            $type = ArchiveTableCreator::getTypeFromTableName($table);
             if($type === false) {
                 continue;
             }
-            $date = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            $date = ArchiveTableCreator::getDateFromTableName($table);
             list($year, $month) = explode('_', $date);
 
             if (self::shouldReportBePurged($year, $month, $toRemoveDate)) {
-                if ($type == Piwik_DataAccess_ArchiveTableCreator::NUMERIC_TABLE) {
+                if ($type == ArchiveTableCreator::NUMERIC_TABLE) {
                     $oldNumericTables[] = $table;
                 } else {
                     $oldBlobTables[] = $table;
@@ -232,7 +236,7 @@ class Piwik_PrivacyManager_ReportsPurger
      *
      * @param int $reportDateYear The year of the report in question.
      * @param int $reportDateMonth The month of the report in question.
-     * @param Piwik_Date $toRemoveDate The date a report must be older than in order to be purged.
+     * @param Date $toRemoveDate The date a report must be older than in order to be purged.
      * @return bool
      */
     public static function shouldReportBePurged($reportDateYear, $reportDateMonth, $toRemoveDate)
@@ -246,7 +250,7 @@ class Piwik_PrivacyManager_ReportsPurger
 
     private function getNumericTableDeleteCount($table)
     {
-        $maxIdArchive = Piwik_FetchOne("SELECT MAX(idarchive) FROM $table");
+        $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM $table");
 
         $sql = "SELECT COUNT(*)
 				  FROM $table
@@ -255,13 +259,13 @@ class Piwik_PrivacyManager_ReportsPurger
 				   AND idarchive >= ?
 				   AND idarchive < ?";
 
-        $segments = Piwik_SegmentedFetchOne($sql, 0, $maxIdArchive, self::$selectSegmentSize);
+        $segments = Db::segmentedFetchOne($sql, 0, $maxIdArchive, self::$selectSegmentSize);
         return array_sum($segments);
     }
 
     private function getBlobTableDeleteCount($oldNumericTables, $table)
     {
-        $maxIdArchive = Piwik_FetchOne("SELECT MAX(idarchive) FROM $table");
+        $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM $table");
 
         $sql = "SELECT COUNT(*)
 				  FROM $table
@@ -269,7 +273,7 @@ class Piwik_PrivacyManager_ReportsPurger
 				   AND idarchive >= ?
 				   AND idarchive < ?";
 
-        $segments = Piwik_SegmentedFetchOne($sql, 0, $maxIdArchive, self::$selectSegmentSize);
+        $segments = Db::segmentedFetchOne($sql, 0, $maxIdArchive, self::$selectSegmentSize);
         return array_sum($segments);
     }
 
@@ -284,7 +288,7 @@ class Piwik_PrivacyManager_ReportsPurger
             // if not keeping segments make sure segments w/ kept periods are also deleted
             if (!$this->keepSegmentReports) {
                 $this->findSegmentArchives($oldNumericTables);
-                $archiveIds = $this->segmentArchiveIds[Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table)];
+                $archiveIds = $this->segmentArchiveIds[ArchiveTableCreator::getDateFromTableName($table)];
 
                 if (!empty($archiveIds)) {
                     $where .= " OR idarchive IN (" . implode(',', $archiveIds) . ")";
@@ -307,9 +311,9 @@ class Piwik_PrivacyManager_ReportsPurger
         }
 
         foreach ($numericTables as $table) {
-            $tableDate = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
-            $maxIdArchive = Piwik_FetchOne("SELECT MAX(idarchive) FROM $table");
+            $maxIdArchive = Db::fetchOne("SELECT MAX(idarchive) FROM $table");
 
             $sql = "SELECT idarchive
 					  FROM $table
@@ -319,7 +323,7 @@ class Piwik_PrivacyManager_ReportsPurger
 					   AND idarchive < ?";
 
             $this->segmentArchiveIds[$tableDate] = array();
-            foreach (Piwik_SegmentedFetchAll($sql, 0, $maxIdArchive, self::$selectSegmentSize) as $row) {
+            foreach (Db::segmentedFetchAll($sql, 0, $maxIdArchive, self::$selectSegmentSize) as $row) {
                 $this->segmentArchiveIds[$tableDate][] = $row['idarchive'];
             }
         }

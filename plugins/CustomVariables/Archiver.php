@@ -1,4 +1,13 @@
 <?php
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\DataAccess\LogAggregator;
+use Piwik\Metrics;
+use Piwik\DataArray;
+use Piwik\Tracker;
+use Piwik\PluginsArchiver;
+use Piwik\Tracker\GoalManager;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -9,13 +18,13 @@
  * @package Piwik_CustomVariables
  */
 
-class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
+class Piwik_CustomVariables_Archiver extends PluginsArchiver
 {
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
     const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';
 
     /**
-     * @var Piwik_DataArray
+     * @var DataArray
      */
     protected $dataArray;
     protected $maximumRowsInDataTableLevelZero;
@@ -25,15 +34,15 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
-        $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
+        $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
+        $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
     }
 
     public function archiveDay()
     {
-        $this->dataArray = new Piwik_DataArray();
+        $this->dataArray = new DataArray();
 
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             $this->aggregateCustomVariable($i);
         }
 
@@ -42,7 +51,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
         $table = $this->getProcessor()->getDataTableFromDataArray($this->dataArray);
         $blob = $table->getSerialized(
             $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
-            $columnToSort = Piwik_Metrics::INDEX_NB_VISITS
+            $columnToSort = Metrics::INDEX_NB_VISITS
         );
 
         $this->getProcessor()->insertBlobRecord(self::CUSTOM_VARIABLE_RECORD_NAME, $blob);
@@ -74,8 +83,8 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
 
     protected function getSelectAveragePrice()
     {
-        return Piwik_DataAccess_LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
-            . " as `" . Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
+        return LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
+            . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 
     protected function aggregateFromVisits($query, $keyField, $valueField)
@@ -128,12 +137,12 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
             if (substr($value, -2) != '"]') {
                 $value .= '"]';
             }
-            $decoded = @Piwik_Common::json_decode($value);
+            $decoded = @Common::json_decode($value);
             if (is_array($decoded)) {
                 $count = 0;
                 foreach ($decoded as $category) {
                     if (empty($category)
-                        || $count >= Piwik_Tracker_GoalManager::MAXIMUM_PRODUCT_CATEGORIES
+                        || $count >= GoalManager::MAXIMUM_PRODUCT_CATEGORIES
                     ) {
                         continue;
                     }
@@ -153,7 +162,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
         if ($this->isReservedKey($key)) {
             // Price tracking on Ecommerce product/category pages:
             // the average is returned from the SQL query so the price is not "summed" like other metrics
-            $index = Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
+            $index = Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
             if (!empty($row[$index])) {
                 $this->dataArray->setRowColumnPivot($key, $value, $index, (float)$row[$index]);
             }
@@ -184,10 +193,10 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
         $dataArray = &$this->dataArray->getDataArray();
         foreach ($dataArray as $key => &$row) {
             if (!self::isReservedKey($key)
-                && Piwik_DataArray::isRowActions($row)
+                && DataArray::isRowActions($row)
             ) {
-                unset($row[Piwik_Metrics::INDEX_NB_UNIQ_VISITORS]);
-                unset($row[Piwik_Metrics::INDEX_NB_VISITS]);
+                unset($row[Metrics::INDEX_NB_UNIQ_VISITORS]);
+                unset($row[Metrics::INDEX_NB_VISITS]);
             }
         }
     }
@@ -196,6 +205,6 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
     {
         $nameToCount = $this->getProcessor()->aggregateDataTableReports(
             self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
-            $columnToSort = Piwik_Metrics::INDEX_NB_VISITS);
+            $columnToSort = Metrics::INDEX_NB_VISITS);
     }
 }

@@ -8,15 +8,21 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Renderer;
+
+use Exception;
+use Piwik\DataTable;
+use Piwik\DataTable\Simple;
+use Piwik\DataTable\Renderer;
 
 /**
  * Simple HTML output
  * Does not work with recursive DataTable (i.e., when a row can be associated with a subDataTable).
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
+class Html extends Renderer
 {
     protected $tableId;
     protected $allColumns;
@@ -71,23 +77,23 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @return string
      */
     protected function renderTable($table)
     {
         if (is_array($table)) // convert array to DataTable
         {
-            $table = Piwik_DataTable::makeFromSimpleArray($table);
+            $table = DataTable::makeFromSimpleArray($table);
         }
 
-        if ($table instanceof Piwik_DataTable_Array) {
+        if ($table instanceof DataTable\Map) {
             foreach ($table->getArray() as $date => $subtable) {
                 if ($subtable->getRowsCount()) {
                     $this->buildTableStructure($subtable, '_' . $table->getKeyName(), $date);
                 }
             }
-        } else // Piwik_DataTable_Simple
+        } else // Simple
         {
             if ($table->getRowsCount()) {
                 $this->buildTableStructure($table);
@@ -101,7 +107,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
     /**
      * Adds the given data table to the table structure array
      *
-     * @param Piwik_DataTable_Simple $table
+     * @param DataTable $table
      * @param null|string $columnToAdd
      * @param null|string $valueToAdd
      * @throws Exception
@@ -117,7 +123,7 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
          * ROW1 = col1 | col2 | col3 | metadata | idSubTable
          * ROW2 = col1 | col2 (no value but appears) | col3 | metadata | idSubTable
          */
-        if (!($table instanceof Piwik_DataTable)) {
+        if (!($table instanceof DataTable)) {
             throw new Exception("HTML Renderer does not work with this combination of parameters");
         }
         foreach ($table->getRows() as $row) {

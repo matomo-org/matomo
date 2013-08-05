@@ -8,6 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_ImageGraph
  */
+use Piwik\Period;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Translate;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
@@ -142,7 +146,7 @@ class Piwik_ImageGraph_API
         $useUnicodeFont = array(
             'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
         );
-        $languageLoaded = Piwik_Translate::getInstance()->getLanguageLoaded();
+        $languageLoaded = Translate::getInstance()->getLanguageLoaded();
         $font = self::getFontPath(self::DEFAULT_FONT);
         if (in_array($languageLoaded, $useUnicodeFont)) {
             $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
@@ -169,7 +173,7 @@ class Piwik_ImageGraph_API
             $reportHasDimension = !empty($metadata['dimension']);
             $constantRowsCount = !empty($metadata['constantRowsCount']);
 
-            $isMultiplePeriod = Piwik_Period::isMultiplePeriod($date, $period);
+            $isMultiplePeriod = Period::isMultiplePeriod($date, $period);
             if (!$reportHasDimension && !$isMultiplePeriod) {
                 throw new Exception('The graph cannot be drawn for this combination of \'date\' and \'period\' parameters.');
             }
@@ -279,12 +283,12 @@ class Piwik_ImageGraph_API
                 $plottedMetric = reset($ordinateColumns);
 
                 // when no labels are specified, getRowEvolution returns the top N=filter_limit row evolutions
-                // rows are sorted using filter_sort_column (see Piwik_API_DataTableGenericFilter for more info)
+                // rows are sorted using filter_sort_column (see DataTableGenericFilter for more info)
                 if (!$labels) {
-                    $savedFilterSortColumnValue = Piwik_Common::getRequestVar('filter_sort_column', '');
+                    $savedFilterSortColumnValue = Common::getRequestVar('filter_sort_column', '');
                     $_GET['filter_sort_column'] = $plottedMetric;
 
-                    $savedFilterLimitValue = Piwik_Common::getRequestVar('filter_limit', -1, 'int');
+                    $savedFilterLimitValue = Common::getRequestVar('filter_limit', -1, 'int');
                     if ($savedFilterLimitValue == -1 || $savedFilterLimitValue > self::MAX_NB_ROW_LABELS) {
                         $_GET['filter_limit'] = self::DEFAULT_NB_ROW_EVOLUTIONS;
                     }
@@ -375,12 +379,12 @@ class Piwik_ImageGraph_API
                 $reportMetadata = $processedReport['reportMetadata']->getRows();
 
                 $i = 0;
-                // $reportData instanceof Piwik_DataTable
-                foreach ($reportData->getRows() as $row) // Piwik_DataTable_Row[]
+                // $reportData instanceof DataTable
+                foreach ($reportData->getRows() as $row) // Row[]
                 {
-                    // $row instanceof Piwik_DataTable_Row
+                    // $row instanceof Row
                     $rowData = $row->getColumns(); // Associative Array
-                    $abscissaSeries[] = Piwik_Common::unsanitizeInputValue($rowData['label']);
+                    $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
 
                     foreach ($ordinateColumns as $column) {
                         $parsedOrdinateValue = $this->parseOrdinateValue($rowData[$column]);
@@ -405,13 +409,13 @@ class Piwik_ImageGraph_API
                 }
             } else // if the report has no dimension we have multiple reports each with only one row within the reportData
             {
-                // $periodsData instanceof Piwik_DataTable_Simple[]
+                // $periodsData instanceof Simple[]
                 $periodsData = array_values($reportData->getArray());
                 $periodsCount = count($periodsData);
 
                 for ($i = 0; $i < $periodsCount; $i++) {
-                    // $periodsData[$i] instanceof Piwik_DataTable_Simple
-                    // $rows instanceof Piwik_DataTable_Row[]
+                    // $periodsData[$i] instanceof Simple
+                    // $rows instanceof Row[]
                     if (empty($periodsData[$i])) {
                         continue;
                     }
@@ -440,7 +444,7 @@ class Piwik_ImageGraph_API
                     }
 
                     $rowId = $periodsData[$i]->metadata['period']->getLocalizedShortString();
-                    $abscissaSeries[] = Piwik_Common::unsanitizeInputValue($rowId);
+                    $abscissaSeries[] = Common::unsanitizeInputValue($rowId);
                 }
             }
 
@@ -500,7 +504,7 @@ class Piwik_ImageGraph_API
                 $fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . ' ' . str_replace(',', '-', $date) . ' ' . $idSite . '.png';
                 $fileName = str_replace(array(' ', '/'), '_', $fileName);
 
-                if (!Piwik_Common::isValidFilename($fileName)) {
+                if (!Common::isValidFilename($fileName)) {
                     throw new Exception('Error: Image graph filename ' . $fileName . ' is not valid.');
                 }
 
@@ -518,7 +522,7 @@ class Piwik_ImageGraph_API
 
     private function setFilterTruncate($default)
     {
-        $_GET['filter_truncate'] = Piwik_Common::getRequestVar('filter_truncate', $default, 'int');
+        $_GET['filter_truncate'] = Common::getRequestVar('filter_truncate', $default, 'int');
     }
 
     private static function parseOrdinateValue($ordinateValue)

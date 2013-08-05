@@ -8,16 +8,20 @@
  * @category Piwik
  * @package Piwik_Menu
  */
+namespace Piwik\Menu;
+
+use Piwik\Menu\MenuAbstract;
+use Piwik\Piwik;
 
 /**
  * @package Piwik_Menu
  */
-class Piwik_Menu_Admin extends Piwik_Menu_Abstract
+class Admin extends MenuAbstract
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_Menu_Admin
+     * @return \Piwik\Menu\Admin
      */
     static public function getInstance()
     {
@@ -39,75 +43,28 @@ class Piwik_Menu_Admin extends Piwik_Menu_Abstract
         }
         return parent::get();
     }
-}
 
-/**
- * Returns the current AdminMenu name
- *
- * @return boolean
- */
-function Piwik_GetCurrentAdminMenuName()
-{
-    $menu = Piwik_GetAdminMenu();
-    $currentModule = Piwik::getModule();
-    $currentAction = Piwik::getAction();
-    foreach ($menu as $name => $submenu) {
-        foreach ($submenu as $subMenuName => $parameters) {
-            if (strpos($subMenuName, '_') !== 0 &&
-                $parameters['_url']['module'] == $currentModule
-                && $parameters['_url']['action'] == $currentAction
-            ) {
-                return $subMenuName;
+    /**
+     * Returns the current AdminMenu name
+     *
+     * @return boolean
+     */
+    function getCurrentAdminMenuName()
+    {
+        $menu = Piwik_GetAdminMenu();
+        $currentModule = Piwik::getModule();
+        $currentAction = Piwik::getAction();
+        foreach ($menu as $name => $submenu) {
+            foreach ($submenu as $subMenuName => $parameters) {
+                if (strpos($subMenuName, '_') !== 0 &&
+                    $parameters['_url']['module'] == $currentModule
+                    && $parameters['_url']['action'] == $currentAction
+                ) {
+                    return $subMenuName;
+                }
             }
         }
+        return false;
     }
-    return false;
 }
 
-/**
- * Returns the AdminMenu
- *
- * @return Array
- */
-function Piwik_GetAdminMenu()
-{
-    return Piwik_Menu_Admin::getInstance()->get();
-}
-
-/**
- * Adds a new AdminMenu entry.
- *
- * @param string $adminMenuName
- * @param string $url
- * @param boolean $displayedForCurrentUser
- * @param int $order
- */
-function Piwik_AddAdminMenu($adminMenuName, $url, $displayedForCurrentUser = true, $order = 10)
-{
-    Piwik_Menu_Admin::getInstance()->add('General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
-}
-
-/**
- * Adds a new AdminMenu entry with a submenu.
- *
- * @param string $adminMenuName
- * @param string $adminSubMenuName
- * @param string $url
- * @param boolean $displayedForCurrentUser
- * @param int $order
- */
-function Piwik_AddAdminSubMenu($adminMenuName, $adminSubMenuName, $url, $displayedForCurrentUser = true, $order = 10)
-{
-    Piwik_Menu_Admin::getInstance()->add($adminMenuName, $adminSubMenuName, $url, $displayedForCurrentUser, $order);
-}
-
-/**
- * Renames an AdminMenu entry.
- *
- * @param string $adminMenuOriginal
- * @param string $adminMenuRenamed
- */
-function Piwik_RenameAdminMenuEntry($adminMenuOriginal, $adminMenuRenamed)
-{
-    Piwik_Menu_Admin::getInstance()->rename($adminMenuOriginal, null, $adminMenuRenamed, null);
-}

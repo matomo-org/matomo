@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one website and tracks visits on different days over a month
@@ -58,7 +59,7 @@ class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
         $t->enableBulkTracking();
         for ($daysIntoPast = 30; $daysIntoPast >= 0; $daysIntoPast--) {
             // Visit 1: referrer website + test page views
-            $visitDateTime = Piwik_Date::factory($dateTime)->subDay($daysIntoPast)->getDatetime();
+            $visitDateTime = Date::factory($dateTime)->subDay($daysIntoPast)->getDatetime();
 
             $t->setNewVisitorId();
             $t->setIdSite($idSite);
@@ -75,11 +76,11 @@ class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
 
             // Trigger goal n°2 twice
             self::assertTrue($t->doTrackGoal(2));
-            $t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(0.1)->getDatetime());
+            $t->setForceVisitDateTime(Date::factory($visitDateTime)->addHour(0.1)->getDatetime());
             self::assertTrue($t->doTrackGoal(2));
 
             // VISIT 2: search engine
-            $t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(3)->getDatetime());
+            $t->setForceVisitDateTime(Date::factory($visitDateTime)->addHour(3)->getDatetime());
             $t->setUrlReferrer('http://google.com/search?q=' . urlencode($this->keywords[$daysIntoPast % 3]));
             $t->setGenerationTime($daysIntoPast * 100 + 200);
             self::assertTrue($t->doTrackPageView('not an incredible title '));

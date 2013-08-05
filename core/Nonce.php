@@ -8,6 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Piwik\Common;
+use Piwik\Session\SessionNamespace;
+use Piwik\Url;
 
 /**
  * Nonce class.
@@ -22,7 +27,7 @@
  *
  * @package Piwik
  */
-class Piwik_Nonce
+class Nonce
 {
     /**
      * Generate nonce
@@ -34,14 +39,14 @@ class Piwik_Nonce
     static public function getNonce($id, $ttl = 300)
     {
         // save session-dependent nonce
-        $ns = new Piwik_Session_Namespace($id);
+        $ns = new SessionNamespace($id);
         $nonce = $ns->nonce;
 
         // re-use an unexpired nonce (a small deviation from the "used only once" principle, so long as we do not reset the expiration)
         // to handle browser pre-fetch or double fetch caused by some browser add-ons/extensions
         if (empty($nonce)) {
             // generate a new nonce
-            $nonce = md5(Piwik_Common::getSalt() . time() . Piwik_Common::generateUniqId());
+            $nonce = md5(Common::getSalt() . time() . Common::generateUniqId());
             $ns->nonce = $nonce;
             $ns->setExpirationSeconds($ttl, 'nonce');
         }
@@ -58,7 +63,7 @@ class Piwik_Nonce
      */
     static public function verifyNonce($id, $cnonce)
     {
-        $ns = new Piwik_Session_Namespace($id);
+        $ns = new SessionNamespace($id);
         $nonce = $ns->nonce;
 
         // validate token
@@ -67,8 +72,8 @@ class Piwik_Nonce
         }
 
         // validate referer
-        $referer = Piwik_Url::getReferer();
-        if (!empty($referer) && !Piwik_Url::isLocalUrl($referer)) {
+        $referer = Url::getReferer();
+        if (!empty($referer) && !Url::isLocalUrl($referer)) {
             return false;
         }
 
@@ -91,14 +96,14 @@ class Piwik_Nonce
      */
     static public function discardNonce($id)
     {
-        $ns = new Piwik_Session_Namespace($id);
+        $ns = new SessionNamespace($id);
         $ns->unsetAll();
     }
 
     /**
      * Get ORIGIN header, false if not found
      *
-     * @return string|false
+     * @return string|bool
      */
     static public function getOrigin()
     {
@@ -116,7 +121,7 @@ class Piwik_Nonce
      */
     static public function getAcceptableOrigins()
     {
-        $host = Piwik_Url::getCurrentHost(null);
+        $host = Url::getCurrentHost(null);
         $port = '';
 
         // parse host:port

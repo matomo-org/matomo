@@ -9,12 +9,13 @@
  * @category Piwik_Plugins
  * @package Piwik_Widgetize
  */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_Widgetize
  */
-class Piwik_Widgetize extends Piwik_Plugin
+class Piwik_Widgetize extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

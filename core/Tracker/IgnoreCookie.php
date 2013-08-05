@@ -8,39 +8,43 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Tracker;
+
+use Piwik\Config;
+use Piwik\Cookie;
 
 /**
  * Tracking cookies.
  *
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
-class Piwik_Tracker_IgnoreCookie
+class IgnoreCookie
 {
     /**
      * Get tracking cookie
      *
-     * @return Piwik_Cookie
+     * @return Cookie
      */
     static public function getTrackingCookie()
     {
-        $cookie_name = @Piwik_Config::getInstance()->Tracker['cookie_name'];
-        $cookie_path = @Piwik_Config::getInstance()->Tracker['cookie_path'];
+        $cookie_name = @Config::getInstance()->Tracker['cookie_name'];
+        $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
 
-        return new Piwik_Cookie($cookie_name, null, $cookie_path);
+        return new Cookie($cookie_name, null, $cookie_path);
     }
 
     /**
      * Get ignore (visit) cookie
      *
-     * @return Piwik_Cookie
+     * @return Cookie
      */
     static public function getIgnoreCookie()
     {
-        $cookie_name = @Piwik_Config::getInstance()->Tracker['ignore_visits_cookie_name'];
-        $cookie_path = @Piwik_Config::getInstance()->Tracker['cookie_path'];
+        $cookie_name = @Config::getInstance()->Tracker['ignore_visits_cookie_name'];
+        $cookie_path = @Config::getInstance()->Tracker['cookie_path'];
 
-        return new Piwik_Cookie($cookie_name, null, $cookie_path);
+        return new Cookie($cookie_name, null, $cookie_path);
     }
 
     /**

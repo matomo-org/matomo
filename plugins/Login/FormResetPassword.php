@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_Login
  */
+use Piwik\QuickForm2;
 
 /**
  *
  * @package Piwik_Login
  */
-class Piwik_Login_FormResetPassword extends Piwik_QuickForm2
+class Piwik_Login_FormResetPassword extends QuickForm2
 {
     function __construct($id = 'resetpasswordform', $method = 'post', $attributes = null, $trackSubmit = false)
     {

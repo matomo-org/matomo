@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_ExamplePlugin
  */
+use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *
  * @package Piwik_ExamplePlugin
  */
-class Piwik_ExamplePlugin extends Piwik_Plugin
+class Piwik_ExamplePlugin extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -42,7 +44,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
         if ($view->getCurrentControllerName() == 'Referers'
             && $view->getCurrentControllerAction() == 'getWebsites'
         ) {
-            $view->addColumnToDisplay('nb_uniq_visitors');
+            $view->columns_to_display[] = 'nb_uniq_visitors';
         }
     }
 
@@ -50,8 +52,8 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
     {
         // we register the widgets so they appear in the "Add a new widget" window in the dashboard
         // Note that the first two parameters can be either a normal string, or an index to a translation string
-        Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_exampleWidget', 'ExamplePlugin', 'exampleWidget');
-        Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_photostreamMatt', 'ExamplePlugin', 'photostreamMatt');
-        Piwik_AddWidget('ExamplePlugin_exampleWidgets', 'ExamplePlugin_piwikForumVisits', 'ExamplePlugin', 'piwikDownloads');
+        WidgetsList::add('ExamplePlugin_exampleWidgets', 'ExamplePlugin_exampleWidget', 'ExamplePlugin', 'exampleWidget');
+        WidgetsList::add('ExamplePlugin_exampleWidgets', 'ExamplePlugin_photostreamMatt', 'ExamplePlugin', 'photostreamMatt');
+        WidgetsList::add('ExamplePlugin_exampleWidgets', 'ExamplePlugin_piwikForumVisits', 'ExamplePlugin', 'piwikDownloads');
     }
 }

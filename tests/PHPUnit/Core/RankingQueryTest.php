@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\RankingQuery;
+
 class RankingQueryTest extends PHPUnit_Framework_TestCase
 {
 
@@ -15,7 +17,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
      */
     public function testBasic()
     {
-        $query = new Piwik_RankingQuery();
+        $query = new RankingQuery();
         $query->addLabelColumn('label');
         $query->addColumn('column');
         $query->addColumn('columnSum', 'sum');
@@ -56,7 +58,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
      */
     public function testExcludeRows()
     {
-        $query = new Piwik_RankingQuery(20);
+        $query = new RankingQuery(20);
         $query->addLabelColumn('label');
         $query->setColumnToMarkExcludedRows('exclude_marker');
 
@@ -94,7 +96,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
      */
     public function testPartitionResult()
     {
-        $query = new Piwik_RankingQuery(1000);
+        $query = new RankingQuery(1000);
         $query->addLabelColumn('label');
         $query->partitionResultIntoMultipleGroups('partition', array(1, 2, 3));
 
@@ -133,7 +135,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Piwik_RankingQuery $rankingQuery
+     * @param RankingQuery $rankingQuery
      * @param string $innerQuerySql
      * @param string $expected
      */

@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\API\Request;
+use Piwik\Access;
+
 class AnnotationsTest extends IntegrationTestCase
 {
     public static $fixture = null;
@@ -306,18 +309,18 @@ class AnnotationsTest extends IntegrationTestCase
         FakeAccess::$superUser = false;
         FakeAccess::$idSitesAdmin = $hasAdminAccess ? array(self::$fixture->idSite1) : array();
         FakeAccess::$idSitesView = $hasViewAccess ? array(self::$fixture->idSite1) : array();
-        Piwik_Access::setSingletonInstance($access);
+        Access::setSingletonInstance($access);
 
         if ($checkException) {
             try {
-                $request = new Piwik_API_Request($request);
+                $request = new Request($request);
                 $request->process();
                 $this->fail($failMessage);
             } catch (Exception $ex) {
                 // pass
             }
         } else {
-            $request = new Piwik_API_Request($request);
+            $request = new Request($request);
             $request->process();
         }
     }

@@ -8,6 +8,16 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Renderer;
+
+use Piwik\DataTable\Simple;
+use Piwik\DataTable\Renderer;
+use Piwik\Period;
+use Piwik\Period\Range;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Date;
+use Piwik\DataTable;
 
 /**
  * CSV export
@@ -19,9 +29,9 @@
  * Formatting and layout are ignored.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
+class Csv extends Renderer
 {
     /**
      * Column separator
@@ -115,7 +125,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
     /**
      * Computes the output of the given data table
      *
-     * @param Piwik_DataTable|array $table
+     * @param DataTable|array $table
      * @param array $allColumns
      * @return string
      */
@@ -123,10 +133,10 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
     {
         if (is_array($table)) // convert array to DataTable
         {
-            $table = Piwik_DataTable::makeFromSimpleArray($table);
+            $table = DataTable::makeFromSimpleArray($table);
         }
 
-        if ($table instanceof Piwik_DataTable_Array) {
+        if ($table instanceof DataTable\Map) {
             $str = $this->renderDataTableArray($table, $allColumns);
         } else {
             $str = $this->renderDataTable($table, $allColumns);
@@ -137,7 +147,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
     /**
      * Computes the output of the given data table array
      *
-     * @param Piwik_DataTable_Array $table
+     * @param DataTable\Map $table
      * @param array $allColumns
      * @return string
      */
@@ -172,13 +182,13 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
     /**
      * Converts the output of the given simple data table
      *
-     * @param Piwik_DataTable_Simple $table
+     * @param DataTable|Simple $table
      * @param array $allColumns
      * @return string
      */
     protected function renderDataTable($table, &$allColumns = array())
     {
-        if ($table instanceof Piwik_DataTable_Simple) {
+        if ($table instanceof Simple) {
             $row = $table->getFirstRow();
             if ($row !== false) {
                 $columnNameToValue = $row->getColumns();
@@ -343,16 +353,16 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
     {
         $fileName = 'Piwik ' . Piwik_Translate('General_Export');
 
-        $period = Piwik_Common::getRequestVar('period', false);
-        $date = Piwik_Common::getRequestVar('date', false);
+        $period = Common::getRequestVar('period', false);
+        $date = Common::getRequestVar('date', false);
         if ($period || $date) // in test cases, there are no request params set
         {
             if ($period == 'range') {
-                $period = new Piwik_Period_Range($period, $date);
+                $period = new Range($period, $date);
             } else if (strpos($date, ',') !== false) {
-                $period = new Piwik_Period_Range('range', $date);
+                $period = new Range('range', $date);
             } else {
-                $period = Piwik_Period::factory($period, Piwik_Date::factory($date));
+                $period = Period::factory($period, Date::factory($date));
             }
 
             $prettyDate = $period->getLocalizedLongString();

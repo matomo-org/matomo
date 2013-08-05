@@ -1,4 +1,6 @@
 <?php
+use Piwik\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -16,7 +18,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
 
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->setTestEnvironment($userFile, $globalFile);
         $config->init();
 
@@ -44,7 +46,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.written.ini.php';
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
 
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->setTestEnvironment($userFile, $globalFile);
         $config->init();
 
@@ -53,7 +55,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($stringWritten, $config->Category['test']);
         unset($config);
 
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->setTestEnvironment($userFile, $globalFile);
         $config->init();
 
@@ -75,7 +77,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $userFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Config/config.ini.php';
         $globalFile = PIWIK_PATH_TEST_TO_ROOT . '/tests/resources/Config/global.ini.php';
 
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->setTestEnvironment($userFile, $globalFile);
 
         $this->assertEquals("value_overwritten", $config->Category['key1']);
@@ -92,7 +94,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $array = $config->TestArrayOnlyInGlobalFile;
         $this->assertEquals($expectedArray, $array['my_array']);
 
-        Piwik_Config::getInstance()->clear();
+        Config::getInstance()->clear();
     }
 
     /**
@@ -137,7 +139,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     {
         list($a, $b, $expected) = $test;
 
-        $result = Piwik_Config::compareElements($a, $b);
+        $result = Config::compareElements($a, $b);
         $this->assertEquals($expected, $result, $description);
     }
 
@@ -194,7 +196,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testArrayUnmerge($description, $test)
     {
-        $configWriter = Piwik_Config::getInstance();
+        $configWriter = Config::getInstance();
 
         list($a, $b) = $test;
 
@@ -342,7 +344,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testDumpConfig($description, $test)
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
 
         list($configLocal, $configGlobal, $configCache, $expected) = $test;
 

@@ -8,6 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Simple;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\DataTable;
+use Piwik\Tracker\GoalManager;
 
 /**
  * This filter replaces column names using a mapping table that maps from the old name to the new name.
@@ -22,14 +30,14 @@
  * You can specify the mapping array to apply in the constructor.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
+class ReplaceColumnNames extends Filter
 {
     protected $mappingToApply;
 
     /**
-     * @param Piwik_DataTable $table  Table
+     * @param DataTable $table  Table
      * @param array $mappingToApply   Mapping to apply. Must have the format
      *                                           array( OLD_COLUMN_NAME => NEW_COLUMN NAME,
      *                                                  OLD_COLUMN_NAME2 => NEW_COLUMN NAME2,
@@ -38,7 +46,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     public function __construct($table, $mappingToApply = null)
     {
         parent::__construct($table);
-        $this->mappingToApply = Piwik_Metrics::$mappingFromIdToName;
+        $this->mappingToApply = Metrics::$mappingFromIdToName;
         if (!is_null($mappingToApply)) {
             $this->mappingToApply = $mappingToApply;
         }
@@ -47,17 +55,20 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     /**
      * Executes the filter and renames the defined columns
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
-        if($table instanceof Piwik_DataTable_Simple) {
+        if ($table instanceof Simple) {
             $this->filterSimple($table);
         } else {
             $this->filterTable($table);
         }
     }
 
+    /**
+     * @param DataTable $table
+     */
     protected function filterTable($table)
     {
         foreach ($table->getRows() as $key => $row) {
@@ -68,13 +79,16 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
         }
     }
 
-    protected function filterSimple(Piwik_DataTable_Simple $table)
+    /**
+     * @param Simple $table
+     */
+    protected function filterSimple(Simple $table)
     {
         foreach ($table->getRows() as $row) {
-            $columns = array_keys( $row->getColumns() );
-            foreach($columns as $column) {
+            $columns = array_keys($row->getColumns());
+            foreach ($columns as $column) {
                 $newName = $this->getRenamedColumn($column);
-                if($newName) {
+                if ($newName) {
                     $row->renameColumn($column, $newName);
                 }
             }
@@ -131,10 +145,10 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     {
         $newSubColumns = array();
         foreach ($columnValue as $idGoal => $goalValues) {
-            $mapping = Piwik_Metrics::$mappingFromIdToNameGoal;
-            if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART) {
+            $mapping = Metrics::$mappingFromIdToNameGoal;
+            if ($idGoal == GoalManager::IDGOAL_CART) {
                 $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
-            } elseif ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+            } elseif ($idGoal == GoalManager::IDGOAL_ORDER) {
                 $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
             }
             foreach ($goalValues as $id => $goalValue) {

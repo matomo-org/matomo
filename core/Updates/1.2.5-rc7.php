@@ -8,23 +8,26 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Common;
+use Piwik\Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_2_5_rc7 extends Piwik_Updates
+class Piwik_Updates_1_2_5_rc7 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 		    	ADD INDEX index_idsite_idvisitor (idsite, idvisitor)' => false,
         );
     }
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }
 

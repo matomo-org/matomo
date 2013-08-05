@@ -18,12 +18,13 @@
 - without all columns icon
 + update http://piwik.org/participate/user-interface
 */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_ExampleUI
  */
-class Piwik_ExampleUI extends Piwik_Plugin
+class Piwik_ExampleUI extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

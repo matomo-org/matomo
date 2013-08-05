@@ -8,19 +8,27 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Controller;
+
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Controller;
+use Piwik\View;
+use Piwik\Url;
+use Piwik\PluginsManager;
 
 /**
  * Parent class of all plugins Controllers with admin functions
  *
  * @package Piwik
  */
-abstract class Piwik_Controller_Admin extends Piwik_Controller
+abstract class Admin extends Controller
 {
     /**
      * Set the minimal variables in the view object
      * Extended by some admin view specific variables
      *
-     * @param Piwik_View $view
+     * @param View $view
      */
     protected function setBasicVariablesView($view)
     {
@@ -29,22 +37,22 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
         self::setBasicVariablesAdminView($view);
     }
 
-    static public function displayWarningIfConfigFileNotWritable(Piwik_View $view )
+    static public function displayWarningIfConfigFileNotWritable(View $view)
     {
-        $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
+        $view->configFileNotWritable = !Config::getInstance()->isFileWritable();
     }
 
-    static public function setBasicVariablesAdminView(Piwik_View $view)
+    static public function setBasicVariablesAdminView(View $view)
     {
-        $statsEnabled = Piwik_Config::getInstance()->Tracker['record_statistics'];
+        $statsEnabled = Config::getInstance()->Tracker['record_statistics'];
         if ($statsEnabled == "0") {
             $view->statisticsNotRecorded = true;
         }
 
         $view->topMenu = Piwik_GetTopMenu();
-        $view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
+        $view->currentAdminMenuName = \Piwik\Menu\Admin::getInstance()->getCurrentAdminMenuName();
 
-        $view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_settings'];
+        $view->enableFrames = Config::getInstance()->General['enable_framed_settings'];
         if (!$view->enableFrames) {
             $view->setXFrameOptions('sameorigin');
         }
@@ -52,26 +60,26 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
         // for old geoip plugin warning
-        $view->usingOldGeoIPPlugin = Piwik_PluginsManager::getInstance()->isPluginActivated('GeoIP');
+        $view->usingOldGeoIPPlugin = PluginsManager::getInstance()->isPluginActivated('GeoIP');
 
         // for cannot find installed plugin warning
-        $missingPlugins = Piwik_PluginsManager::getInstance()->getMissingPlugins();
+        $missingPlugins = PluginsManager::getInstance()->getMissingPlugins();
         if (!empty($missingPlugins)) {
-            $pluginsLink = Piwik_Url::getCurrentQueryStringWithParametersModified(array(
-                                                                                       'module' => 'CorePluginsAdmin', 'action' => 'index'
-                                                                                  ));
+            $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
+                                                                                 'module' => 'CorePluginsAdmin', 'action' => 'index'
+                                                                            ));
             $view->missingPluginsWarning = Piwik_Translate('CoreAdminHome_MissingPluginsWarning', array(
                                                                                                        '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>',
                                                                                                        '<a href="' . $pluginsLink . '"/>',
                                                                                                        '</a>'
                                                                                                   ));
         }
-        
+
         self::checkPhpVersion($view);
 
         $view->menu = Piwik_GetAdminMenu();
     }
-    
+
     /**
      * Check if the current PHP version is >= 5.3. If not, a warning is displayed
      * to the user.

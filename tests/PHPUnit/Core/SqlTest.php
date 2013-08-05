@@ -1,4 +1,6 @@
 <?php
+use Piwik\Db;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -12,12 +14,12 @@ class SqlTest extends DatabaseTestCase
         parent::setUp();
 
         // create two myisam tables
-        Piwik_Exec("CREATE TABLE table1 (a INT) ENGINE=MYISAM");
-        Piwik_Exec("CREATE TABLE table2 (b INT) ENGINE=MYISAM");
+        Db::exec("CREATE TABLE table1 (a INT) ENGINE=MYISAM");
+        Db::exec("CREATE TABLE table2 (b INT) ENGINE=MYISAM");
 
         // create two innodb tables
-        Piwik_Exec("CREATE TABLE table3 (c INT) ENGINE=InnoDB");
-        Piwik_Exec("CREATE TABLE table4 (d INT) ENGINE=InnoDB");
+        Db::exec("CREATE TABLE table3 (c INT) ENGINE=InnoDB");
+        Db::exec("CREATE TABLE table4 (d INT) ENGINE=InnoDB");
     }
 
     public function tearDown()
@@ -32,12 +34,12 @@ class SqlTest extends DatabaseTestCase
     public function testOptimize()
     {
         // make sure optimizing myisam tables works
-        $this->assertTrue(Piwik_OptimizeTables(array('table1', 'table2')) !== false);
+        $this->assertTrue(Db::optimizeTables(array('table1', 'table2')) !== false);
 
         // make sure optimizing both myisam & innodb results in optimizations
-        $this->assertTrue(Piwik_OptimizeTables(array('table1', 'table2', 'table3', 'table4')) !== false);
+        $this->assertTrue(Db::optimizeTables(array('table1', 'table2', 'table3', 'table4')) !== false);
 
         // make sure innodb tables are skipped
-        $this->assertTrue(Piwik_OptimizeTables(array('table3', 'table4')) === false);
+        $this->assertTrue(Db::optimizeTables(array('table3', 'table4')) === false);
     }
 }

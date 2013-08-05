@@ -8,6 +8,11 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\Archive;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\DataTable;
+use Piwik\Tracker\Visit;
 
 /**
  * @see plugins/UserCountry/functions.php
@@ -48,7 +53,7 @@ class Piwik_UserCountry_API
     {
         $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
-        $getContinent = array('Piwik_Common', 'getContinent');
+        $getContinent = array('Piwik\Common', 'getContinent');
         $dataTable->filter('GroupBy', array('label', $getContinent));
 
         $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
@@ -64,14 +69,14 @@ class Piwik_UserCountry_API
      * @param string $period
      * @param string $date
      * @param string|bool $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getRegion($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::REGION_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $separator = Piwik_UserCountry_Archiver::LOCATION_SEPARATOR;
-        $unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
+        $unk = Visit::UNKNOWN_CODE;
 
         // split the label and put the elements into the 'region' and 'country' metadata fields
         $dataTable->filter('ColumnCallbackAddMetadata',
@@ -106,14 +111,14 @@ class Piwik_UserCountry_API
      * @param string $period
      * @param string $date
      * @param string|bool $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getCity($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::CITY_RECORD_NAME, $idSite, $period, $date, $segment);
 
          $separator = Piwik_UserCountry_Archiver::LOCATION_SEPARATOR;
-        $unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
+        $unk = Visit::UNKNOWN_CODE;
 
         // split the label and put the elements into the 'city_name', 'region', 'country',
         // 'lat' & 'long' metadata fields
@@ -190,9 +195,9 @@ class Piwik_UserCountry_API
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
-        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS));
+        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
@@ -200,7 +205,7 @@ class Piwik_UserCountry_API
     public function getNumberOfDistinctCountries($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         return $archive->getDataTableFromNumeric(Piwik_UserCountry_Archiver::DISTINCT_COUNTRIES_METRIC);
     }
 }

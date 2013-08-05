@@ -8,12 +8,18 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\API;
+
+use Exception;
+use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 
 /**
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Piwik_API_DataTableGenericFilter
+class DataTableGenericFilter
 {
     private static $genericFiltersInfo = null;
 
@@ -30,7 +36,7 @@ class Piwik_API_DataTableGenericFilter
     /**
      * Filters the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -38,7 +44,7 @@ class Piwik_API_DataTableGenericFilter
     }
 
     /**
-     * Returns an array containing the information of the generic Piwik_DataTable_Filter
+     * Returns an array containing the information of the generic Filter
      * to be applied automatically to the data resulting from the API calls.
      *
      * Order to apply the filters:
@@ -70,7 +76,7 @@ class Piwik_API_DataTableGenericFilter
                 ),
                 'AddColumnsProcessedMetricsGoal' => array(
                     'filter_update_columns_when_show_all_goals' => array('integer'),
-                    'idGoal'                                    => array('string', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
+                    'idGoal'                                    => array('string', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
                 ),
                 'Sort'                           => array(
                     'filter_sort_column' => array('string'),
@@ -94,12 +100,12 @@ class Piwik_API_DataTableGenericFilter
      * Apply generic filters to the DataTable object resulting from the API Call.
      * Disable this feature by setting the parameter disable_generic_filters to 1 in the API call request.
      *
-     * @param Piwik_DataTable $datatable
+     * @param DataTable $datatable
      * @return bool
      */
     protected function applyGenericFilters($datatable)
     {
-        if ($datatable instanceof Piwik_DataTable_Array) {
+        if ($datatable instanceof DataTable\Map) {
             $tables = $datatable->getArray();
             $filterWasApplied = false;
             foreach ($tables as $table) {
@@ -131,7 +137,7 @@ class Piwik_API_DataTableGenericFilter
                 }
 
                 try {
-                    $value = Piwik_Common::getRequestVar($name, $defaultValue, $type, $this->request);
+                    $value = Common::getRequestVar($name, $defaultValue, $type, $this->request);
                     settype($value, $type);
                     $filterParameters[] = $value;
                 } catch (Exception $e) {

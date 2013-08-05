@@ -8,6 +8,12 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
+use Piwik\Site;
+use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 
 /**
  * A DataTable filter that calculates the evolution of a metric and adds
@@ -20,10 +26,12 @@
  * The evolution metric is calculated as:
  * <code>((currentValue - pastValue) / pastValue) * 100</code>
  */
-class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage
+class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
     /**
      * The the DataTable that contains past data.
+     *
+     * @var DataTable
      */
     private $pastDataTable;
 
@@ -35,11 +43,11 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
     /**
      * Constructor.
      *
-     * @param Piwik_DataTable $table The DataTable being filtered.
-     * @param string          $pastDataTable
-     * @param string          $columnToAdd
-     * @param string          $columnToRead
-     * @param int             $quotientPrecision
+     * @param DataTable $table The DataTable being filtered.
+     * @param DataTable $pastDataTable
+     * @param string $columnToAdd
+     * @param string $columnToRead
+     * @param int $quotientPrecision
      */
     function __construct($table, $pastDataTable, $columnToAdd, $columnToRead, $quotientPrecision = 0)
     {
@@ -55,7 +63,7 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
      * Returns the difference between the column in the specific row and its
      * sister column in the past DataTable.
      *
-     * @param Piwik_DataTable_Row $row
+     * @param Row $row
      * @return int|float
      */
     protected function getDividend($row)
@@ -66,7 +74,7 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
         // we don't add the new column
         if ($currentValue === false
             && $this->isRevenueEvolution
-            && !Piwik_Site::isEcommerceEnabledFor($row->getColumn('label'))
+            && !Site::isEcommerceEnabledFor($row->getColumn('label'))
         ) {
             return false;
         }
@@ -85,7 +93,7 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
      * Returns the value of the column in $row's sister row in the past
      * DataTable.
      *
-     * @param Piwik_DataTable_Row $row
+     * @param Row $row
      * @return int|float
      */
     protected function getDivisor($row)
@@ -99,7 +107,7 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
     /**
      * Calculates and formats a quotient based on a divisor and dividend.
      *
-     * Unlike Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage's,
+     * Unlike ColumnCallbackAddColumnPercentage's,
      * version of this method, this method will return 100% if the past
      * value of a metric is 0, and the current value is not 0. For a
      * value representative of an evolution, this makes sense.
@@ -118,7 +126,8 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
     /**
      * Utility function. Returns the current row in the past DataTable.
      *
-     * @param Piwik_DataTable_Row $row The row in the 'current' DataTable.
+     * @param Row $row The row in the 'current' DataTable.
+     * @return bool|Row
      */
     private function getPastRowFromCurrent($row)
     {
@@ -128,10 +137,10 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
     /**
      * Calculates the evolution percentage for two arbitrary values.
      *
-     * @param float|int  $currentValue      The current metric value.
-     * @param float|int  $pastValue         The value of the metric in the past. We measure the % change
+     * @param float|int $currentValue      The current metric value.
+     * @param float|int $pastValue         The value of the metric in the past. We measure the % change
      *                                      from this value to $currentValue.
-     * @param float|int  $quotientPrecision The quotient precision to round to.
+     * @param float|int $quotientPrecision The quotient precision to round to.
      *
      * @return string The evolution percent 15%
      */

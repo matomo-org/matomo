@@ -8,16 +8,19 @@
  * @category Piwik
  * @package Piwik_Menu
  */
+namespace Piwik\Menu;
+
+use Piwik\Menu\MenuAbstract;
 
 /**
  * @package Piwik_Menu
  */
-class Piwik_Menu_Top extends Piwik_Menu_Abstract
+class Top extends MenuAbstract
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_Menu_Top
+     * @return \Piwik\Menu\Top
      */
     static public function getInstance()
     {
@@ -60,45 +63,4 @@ class Piwik_Menu_Top extends Piwik_Menu_Abstract
         }
         return parent::get();
     }
-}
-
-/**
- * Returns the TopMenu as an array.
- *
- * @return array
- */
-function Piwik_GetTopMenu()
-{
-    return Piwik_Menu_Top::getInstance()->get();
-}
-
-/**
- * Adds a new entry to the TopMenu.
- *
- * @param string      $topMenuName
- * @param string      $data
- * @param boolean     $displayedForCurrentUser
- * @param int         $order
- * @param bool        $isHTML
- * @param bool|string $tooltip Tooltip to display.
- */
-function Piwik_AddTopMenu($topMenuName, $data, $displayedForCurrentUser = true, $order = 10, $isHTML = false,
-                          $tooltip = false)
-{
-    if ($isHTML) {
-        Piwik_Menu_Top::getInstance()->addHtml($topMenuName, $data, $displayedForCurrentUser, $order, $tooltip);
-    } else {
-        Piwik_Menu_Top::getInstance()->add($topMenuName, null, $data, $displayedForCurrentUser, $order, $tooltip);
-    }
-}
-
-/**
- * Renames a entry of the TopMenu
- *
- * @param string $topMenuOriginal
- * @param string $topMenuRenamed
- */
-function Piwik_RenameTopMenuEntry($topMenuOriginal, $topMenuRenamed)
-{
-    Piwik_Menu_Top::getInstance()->rename($topMenuOriginal, null, $topMenuRenamed, null);
 }

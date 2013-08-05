@@ -1,4 +1,15 @@
 <?php
+namespace Piwik\Tracker;
+
+use Exception;
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\Cookie;
+use Piwik\IP;
+use Piwik\Tracker;
+use Piwik\Tracker\Cache;
+use Piwik_UserCountry_LocationProvider;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -9,7 +20,7 @@
  * @package Piwik
  */
 
-class Piwik_Tracker_Request
+class Request
 {
     /**
      * @var array
@@ -18,7 +29,7 @@ class Piwik_Tracker_Request
 
     public function __construct($params, $tokenAuth = false)
     {
-        if(!is_array($params)) {
+        if (!is_array($params)) {
             $params = array();
         }
         $this->params = $params;
@@ -26,13 +37,13 @@ class Piwik_Tracker_Request
         $this->enforcedIp = false;
 
         // When the 'url' and referer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
-        // The URL can default to the Referer, which will be in this case
+        // The URL can default to the Referrer, which will be in this case
         // the URL of the page containing the Simple Image beacon
         if (empty($this->params['urlref'])
             && empty($this->params['url'])
         ) {
             $url = @$_SERVER['HTTP_REFERER'];
-            if(!empty($url)) {
+            if (!empty($url)) {
                 $this->params['url'] = $url;
             }
         }
@@ -54,22 +65,22 @@ class Piwik_Tracker_Request
      */
     protected function authenticateTrackingApi($tokenAuthFromBulkRequest)
     {
-        $shouldAuthenticate = Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'];
+        $shouldAuthenticate = Config::getInstance()->Tracker['tracking_requests_require_authentication'];
         if ($shouldAuthenticate) {
-            $tokenAuth = $tokenAuthFromBulkRequest || Piwik_Common::getRequestVar('token_auth', false, 'string', $this->params);
+            $tokenAuth = $tokenAuthFromBulkRequest || Common::getRequestVar('token_auth', false, 'string', $this->params);
             try {
                 $idSite = $this->getIdSite();
                 $this->isAuthenticated = $this->authenticateSuperUserOrAdmin($tokenAuth, $idSite);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $this->isAuthenticated = false;
             }
             if (!$this->isAuthenticated) {
                 return;
             }
-            printDebug("token_auth is authenticated!");
+            Common::printDebug("token_auth is authenticated!");
         } else {
             $this->isAuthenticated = true;
-            printDebug("token_auth authentication not required");
+            Common::printDebug("token_auth authentication not required");
         }
     }
 
@@ -78,8 +89,8 @@ class Piwik_Tracker_Request
         if (!$tokenAuth) {
             return false;
         }
-        $superUserLogin = Piwik_Config::getInstance()->superuser['login'];
-        $superUserPassword = Piwik_Config::getInstance()->superuser['password'];
+        $superUserLogin = Config::getInstance()->superuser['login'];
+        $superUserPassword = Config::getInstance()->superuser['password'];
         if (md5($superUserLogin . $superUserPassword) == $tokenAuth) {
             return true;
         }
@@ -88,13 +99,13 @@ class Piwik_Tracker_Request
         if (!empty($idSite)
             && $idSite > 0
         ) {
-            $website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
+            $website = Cache::getCacheWebsiteAttributes($idSite);
             $adminTokenAuth = $website['admin_token_auth'];
             if (in_array($tokenAuth, $adminTokenAuth)) {
                 return true;
             }
         }
-        printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
+        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
 
         return false;
     }
@@ -154,15 +165,15 @@ class Piwik_Tracker_Request
      */
     public function getBrowserLanguage()
     {
-        return Piwik_Common::getRequestVar('lang', Piwik_Common::getBrowserLanguage(), 'string', $this->params);
+        return Common::getRequestVar('lang', Common::getBrowserLanguage(), 'string', $this->params);
     }
 
     public function getLocalTime()
     {
         $localTimes = array(
-            'h' => (string)Piwik_Common::getRequestVar('h', $this->getCurrentDate("H"), 'int', $this->params),
-            'i' => (string)Piwik_Common::getRequestVar('m', $this->getCurrentDate("i"), 'int', $this->params),
-            's' => (string)Piwik_Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params)
+            'h' => (string)Common::getRequestVar('h', $this->getCurrentDate("H"), 'int', $this->params),
+            'i' => (string)Common::getRequestVar('m', $this->getCurrentDate("i"), 'int', $this->params),
+            's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params)
         );
         foreach ($localTimes as $k => $time) {
             if (strlen($time) == 1) {
@@ -186,7 +197,7 @@ class Piwik_Tracker_Request
 
     public function getGoalRevenue($defaultGoalRevenue)
     {
-        return Piwik_Common::getRequestVar('revenue', $defaultGoalRevenue, 'float', $this->params);
+        return Common::getRequestVar('revenue', $defaultGoalRevenue, 'float', $this->params);
     }
 
     public function getParam($name)
@@ -241,7 +252,7 @@ class Piwik_Tracker_Request
         $paramDefaultValue = $supportedParams[$name][0];
         $paramType = $supportedParams[$name][1];
 
-        $value = Piwik_Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+        $value = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
 
         return $value;
     }
@@ -259,7 +270,7 @@ class Piwik_Tracker_Request
 
     public function getIdSite()
     {
-        $idSite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->params);
+        $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
         Piwik_PostEvent('Tracker.setRequest.idSite', array(&$idSite, $this->params));
         if ($idSite <= 0) {
             throw new Exception('Invalid idSite');
@@ -270,7 +281,7 @@ class Piwik_Tracker_Request
     public function getUserAgent()
     {
         $default = @$_SERVER['HTTP_USER_AGENT'];
-        return Piwik_Common::getRequestVar('ua', is_null($default) ? false : $default, 'string', $this->params);
+        return Common::getRequestVar('ua', is_null($default) ? false : $default, 'string', $this->params);
     }
 
     public function getCustomVariables($scope)
@@ -281,7 +292,7 @@ class Piwik_Tracker_Request
             $parameter = 'cvar';
         }
 
-        $customVar = Piwik_Common::unsanitizeInputValues(Piwik_Common::getRequestVar($parameter, '', 'json', $this->params));
+        $customVar = Common::unsanitizeInputValues(Common::getRequestVar($parameter, '', 'json', $this->params));
         if (!is_array($customVar)) {
             return array();
         }
@@ -289,11 +300,11 @@ class Piwik_Tracker_Request
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
             if ($id < 1
-                || $id > Piwik_Tracker::MAX_CUSTOM_VARIABLES
+                || $id > Tracker::MAX_CUSTOM_VARIABLES
                 || count($keyValue) != 2
                 || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
             ) {
-                printDebug("Invalid custom variables detected (id=$id)");
+                Common::printDebug("Invalid custom variables detected (id=$id)");
                 continue;
             }
             if (strlen($keyValue[1]) == 0) {
@@ -313,12 +324,12 @@ class Piwik_Tracker_Request
 
     static public function truncateCustomVariable($input)
     {
-        return substr(trim($input), 0, Piwik_Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
+        return substr(trim($input), 0, Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
     }
 
     protected function shouldUseThirdPartyCookie()
     {
-        return (bool)Piwik_Config::getInstance()->Tracker['use_third_party_id_cookie'];
+        return (bool)Config::getInstance()->Tracker['use_third_party_id_cookie'];
     }
 
     /**
@@ -329,7 +340,7 @@ class Piwik_Tracker_Request
         if (!$this->shouldUseThirdPartyCookie()) {
             return;
         }
-        printDebug("We manage the cookie...");
+        Common::printDebug("We manage the cookie...");
 
         $cookie = $this->makeThirdPartyCookie();
         // idcookie has been generated in handleNewVisit or we simply propagate the old value
@@ -339,27 +350,27 @@ class Piwik_Tracker_Request
 
     protected function makeThirdPartyCookie()
     {
-        $cookie = new Piwik_Cookie(
+        $cookie = new Cookie(
             $this->getCookieName(),
             $this->getCookieExpire(),
             $this->getCookiePath());
-        printDebug($cookie);
+        Common::printDebug($cookie);
         return $cookie;
     }
 
     protected function getCookieName()
     {
-        return Piwik_Config::getInstance()->Tracker['cookie_name'];
+        return Config::getInstance()->Tracker['cookie_name'];
     }
 
     protected function getCookieExpire()
     {
-        return $this->getCurrentTimestamp() + Piwik_Config::getInstance()->Tracker['cookie_expire'];
+        return $this->getCurrentTimestamp() + Config::getInstance()->Tracker['cookie_expire'];
     }
 
     protected function getCookiePath()
     {
-        return Piwik_Config::getInstance()->Tracker['cookie_path'];
+        return Config::getInstance()->Tracker['cookie_path'];
     }
 
     /**
@@ -373,10 +384,10 @@ class Piwik_Tracker_Request
         // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
         $idVisitor = $this->getForcedVisitorId();
         if (!empty($idVisitor)) {
-            if (strlen($idVisitor) != Piwik_Tracker::LENGTH_HEX_ID_STRING) {
-                throw new Exception("Visitor ID (cid) $idVisitor must be " . Piwik_Tracker::LENGTH_HEX_ID_STRING . " characters long");
+            if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
+                throw new Exception("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
             }
-            printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+            Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
             $found = true;
         }
 
@@ -388,7 +399,7 @@ class Piwik_Tracker_Request
                 $cookie = $this->makeThirdPartyCookie();
                 $idVisitor = $cookie->get(0);
                 if ($idVisitor !== false
-                    && strlen($idVisitor) == Piwik_Tracker::LENGTH_HEX_ID_STRING
+                    && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING
                 ) {
                     $found = true;
                 }
@@ -396,13 +407,13 @@ class Piwik_Tracker_Request
         }
         // If a third party cookie was not found, we default to the first party cookie
         if (!$found) {
-            $idVisitor = Piwik_Common::getRequestVar('_id', '', 'string', $this->params);
-            $found = strlen($idVisitor) >= Piwik_Tracker::LENGTH_HEX_ID_STRING;
+            $idVisitor = Common::getRequestVar('_id', '', 'string', $this->params);
+            $found = strlen($idVisitor) >= Tracker::LENGTH_HEX_ID_STRING;
         }
 
         if ($found) {
-            $truncated = substr($idVisitor, 0, Piwik_Tracker::LENGTH_HEX_ID_STRING);
-            $binVisitorId = @Piwik_Common::hex2bin($truncated);
+            $truncated = substr($idVisitor, 0, Tracker::LENGTH_HEX_ID_STRING);
+            $binVisitorId = @Common::hex2bin($truncated);
             if (!empty($binVisitorId)) {
                 return $binVisitorId;
             }
@@ -415,9 +426,9 @@ class Piwik_Tracker_Request
         if (!empty($this->enforcedIp)) {
             $ipString = $this->enforcedIp;
         } else {
-            $ipString = Piwik_IP::getIpFromHeader();
+            $ipString = IP::getIpFromHeader();
         }
-        $ip = Piwik_IP::P2N($ipString);
+        $ip = IP::P2N($ipString);
         return $ip;
     }
 
@@ -461,7 +472,7 @@ class Piwik_Tracker_Request
         foreach ($locationOverrideParams as $queryParamName => $info) {
             list($type, $locationResultKey) = $info;
 
-            $value = Piwik_Common::getRequestVar($queryParamName, false, $type, $this->params);
+            $value = Common::getRequestVar($queryParamName, false, $type, $this->params);
             if (!empty($value)) {
                 $location[$locationResultKey] = $value;
             }
@@ -474,7 +485,7 @@ class Piwik_Tracker_Request
         $pluginsInOrder = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'gears', 'ag', 'cookie');
         $plugins = array();
         foreach ($pluginsInOrder as $param) {
-            $plugins[] = Piwik_Common::getRequestVar($param, 0, 'int', $this->params);
+            $plugins[] = Common::getRequestVar($param, 0, 'int', $this->params);
         }
         return $plugins;
     }

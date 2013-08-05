@@ -9,12 +9,19 @@
  * @package Piwik
  */
 
+namespace Piwik\View;
+
 /**
- * Database Exception
+ * Rendering interface for View and Piwik_Visualization
  *
  * @package Piwik
- * @subpackage Piwik_Tracker
  */
-class Piwik_Tracker_Db_Exception extends Exception
+interface ViewInterface
 {
+    /**
+     * Outputs the data.
+     *
+     * @return mixed (image, array, html...)
+     */
+    function render();
 }

@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
+use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *
  * @package Piwik_CoreHome
  */
-class Piwik_CoreHome extends Piwik_Plugin
+class Piwik_CoreHome extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -32,8 +34,8 @@ class Piwik_CoreHome extends Piwik_Plugin
      */
     public function addWidgets()
     {
-        Piwik_AddWidget('Example Widgets', 'CoreHome_SupportPiwik', 'CoreHome', 'getDonateForm');
-        Piwik_AddWidget('Example Widgets', 'Installation_Welcome', 'CoreHome', 'getPromoVideo');
+        WidgetsList::add('Example Widgets', 'CoreHome_SupportPiwik', 'CoreHome', 'getDonateForm');
+        WidgetsList::add('Example Widgets', 'Installation_Welcome', 'CoreHome', 'getPromoVideo');
     }
 
     public function getCssFiles(&$cssFiles)

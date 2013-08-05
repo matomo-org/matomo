@@ -8,16 +8,19 @@
  * @category Piwik
  * @package Piwik_Menu
  */
+namespace Piwik\Menu;
+
+use Piwik\Menu\MenuAbstract;
 
 /**
  * @package Piwik_Menu
  */
-class Piwik_Menu_Main extends Piwik_Menu_Abstract
+class Main extends MenuAbstract
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_Menu_Abstract
+     * @return MenuAbstract
      */
     static public function getInstance()
     {
@@ -35,7 +38,7 @@ class Piwik_Menu_Main extends Piwik_Menu_Abstract
      */
     public function isUrlFound($url)
     {
-        $menu = Piwik_Menu_Main::getInstance()->get();
+        $menu = Main::getInstance()->get();
 
         foreach ($menu as $mainMenuName => $subMenus) {
             foreach ($subMenus as $subMenuName => $menuUrl) {
@@ -60,66 +63,5 @@ class Piwik_Menu_Main extends Piwik_Menu_Abstract
         }
         return parent::get();
     }
-
 }
 
-/**
- * Checks if an entry uses the URL $url.
- *
- * @param string $url
- * @return boolean
- */
-function Piwik_IsMenuUrlFound($url)
-{
-    return Piwik_Menu_Main::getInstance()->isUrlFound($url);
-}
-
-/**
- * Returns the MainMenu as array.
- *
- * @return array
- */
-function Piwik_GetMenu()
-{
-    return Piwik_Menu_Main::getInstance()->get();
-}
-
-/**
- * Adds a new entry to the MainMenu.
- *
- * @param string $mainMenuName
- * @param string $subMenuName
- * @param string $url
- * @param boolean $displayedForCurrentUser
- * @param int $order
- */
-function Piwik_AddMenu($mainMenuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 10)
-{
-    Piwik_Menu_Main::getInstance()->add($mainMenuName, $subMenuName, $url, $displayedForCurrentUser, $order);
-}
-
-/**
- * Renames a menu entry.
- *
- * @param string $mainMenuOriginal
- * @param string $subMenuOriginal
- * @param string $mainMenuRenamed
- * @param string $subMenuRenamed
- */
-function Piwik_RenameMenuEntry($mainMenuOriginal, $subMenuOriginal,
-                               $mainMenuRenamed, $subMenuRenamed)
-{
-    Piwik_Menu_Main::getInstance()->rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed);
-}
-
-/**
- * Edits the URL of a menu entry.
- *
- * @param string $mainMenuToEdit
- * @param string $subMenuToEdit
- * @param string $newUrl
- */
-function Piwik_EditMenuUrl($mainMenuToEdit, $subMenuToEdit, $newUrl)
-{
-    Piwik_Menu_Main::getInstance()->editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl);
-}

@@ -5,6 +5,9 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Piwik;
+use Piwik\Access;
+use Piwik\Date;
 
 /**
  * Tests the archive.php cron script.
@@ -15,7 +18,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
     
     public static function createAccessInstance()
     {
-        Piwik_Access::setSingletonInstance($access = new Test_Piwik_Access_OverrideLogin());
+        Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
         Piwik_PostEvent('FrontController.initAuthenticationObject');
     }
     
@@ -89,7 +92,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         $periodTypes = array('day', 'periods');
         $idSites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
         
-        $time = Piwik_Date::factory(self::$fixture->dateTime)->subDay(1)->getTimestamp();
+        $time = Date::factory(self::$fixture->dateTime)->subDay(1)->getTimestamp();
         
         foreach ($periodTypes as $period) {
             foreach ($idSites as $idSite) {

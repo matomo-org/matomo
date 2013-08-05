@@ -4,6 +4,8 @@
 //$_SERVER['REQUEST_URI'] = '/piwik-master/index.php';
 //$_SERVER['HTTP_HOST'] = 'localhost';
 
+use Piwik\Http;
+
 if (!defined("PIWIK_PATH_TEST_TO_ROOT")) {
     define('PIWIK_PATH_TEST_TO_ROOT', realpath(dirname(__FILE__) . '/../..'));
 }
@@ -54,6 +56,7 @@ if ($useXhprof) {
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/core/FrontController.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/spyc.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
@@ -93,7 +96,7 @@ Try again.
     // Now testing if the webserver is running
     $piwikServerUrl = Test_Piwik_BaseFixture::getRootUrl();
     try {
-        $fetched = Piwik_Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
+        $fetched = Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
     } catch (Exception $e) {
         $fetched = "ERROR fetching: " . $e->getMessage();
     }
@@ -102,7 +105,7 @@ Try again.
     if (strpos($fetched, $expectedString) === false) {
         echo "\nPiwik should be running at: " . $piwikServerUrl
             . "\nbut this URL returned an unexpected response: '"
-            . substr($fetched, 0, 300) . "...'\n\n";
+            . substr($fetched, 0, 700) . "...'\n\n";
         exit;
     }
 }

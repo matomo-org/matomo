@@ -9,6 +9,9 @@
  * @package Piwik_UserCountry
  */
 
+use Piwik\Common;
+use Piwik\IP;
+
 /**
  * A LocationProvider that uses an GeoIP module installed in an HTTP Server.
  *
@@ -64,12 +67,12 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 
         // geoip modules that are built into servers can't use a forced IP. in this case we try
         // to fallback to another version.
-        $myIP = Piwik_IP::getIpFromHeader();
+        $myIP = IP::getIpFromHeader();
         if (!self::isSameOrAnonymizedIp($ip, $myIP)
             && (!isset($info['disable_fallbacks'])
                 || !$info['disable_fallbacks'])
         ) {
-            printDebug("The request is for IP address: " . $info['ip'] . " but your IP is: $myIP. GeoIP Server Module (apache/nginx) does not support this use case... ");
+            Common::printDebug("The request is for IP address: " . $info['ip'] . " but your IP is: $myIP. GeoIP Server Module (apache/nginx) does not support this use case... ");
             $fallbacks = array(
                 Piwik_UserCountry_LocationProvider_GeoIp_Pecl::ID,
                 Piwik_UserCountry_LocationProvider_GeoIp_Php::ID
@@ -77,11 +80,11 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
             foreach ($fallbacks as $fallbackProviderId) {
                 $otherProvider = Piwik_UserCountry_LocationProvider::getProviderById($fallbackProviderId);
                 if ($otherProvider) {
-                    printDebug("Used $fallbackProviderId to detect this visitor IP");
+                    Common::printDebug("Used $fallbackProviderId to detect this visitor IP");
                     return $otherProvider->getLocation($info);
                 }
             }
-            printDebug("FAILED to lookup the geo location of this IP address, as no fallback location providers is configured. We recommend to configure Geolocation PECL module to fix this error.");
+            Common::printDebug("FAILED to lookup the geo location of this IP address, as no fallback location providers is configured. We recommend to configure Geolocation PECL module to fix this error.");
 
             return false;
         }

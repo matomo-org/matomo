@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging
  */
+use Piwik\Loader;
 
 /**
  * The Piwik_MobileMessaging_SMSProvider abstract class is used as a base class for SMS provider implementations.
@@ -49,7 +50,7 @@ abstract class Piwik_MobileMessaging_SMSProvider
         $className = 'Piwik_MobileMessaging_SMSProvider_' . $providerName;
 
         try {
-            Piwik_Loader::loadClass($className);
+            Loader::loadClass($className);
             return new $className;
         } catch (Exception $e) {
             throw new Exception(

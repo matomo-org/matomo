@@ -8,12 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db\Adapter\Pdo;
+
+use Exception;
+use PDO;
+use PDOException;
+use Piwik\Config;
+use Piwik\Db\AdapterInterface;
+use Zend_Config;
+use Zend_Db_Adapter_Pdo_Mysql;
+use Zend_Db_Select;
+use Zend_Db_Statement_Interface;
 
 /**
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_Adapter_Interface
+class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
     /**
      * Constructor
@@ -83,7 +94,7 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
     public function checkServerVersion()
     {
         $serverVersion = $this->getServerVersion();
-        $requiredVersion = Piwik_Config::getInstance()->General['minimum_mysql_version'];
+        $requiredVersion = Config::getInstance()->General['minimum_mysql_version'];
         if (version_compare($serverVersion, $requiredVersion) === -1) {
             throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
         }
@@ -187,6 +198,9 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
         return null;
     }
 
+    /**
+     * @var \Zend_Db_Statement_Pdo[]
+     */
     private $cachePreparedStatement = array();
 
     /**

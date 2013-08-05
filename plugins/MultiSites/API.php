@@ -8,6 +8,15 @@
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
  */
+use Piwik\API\Request;
+use Piwik\Archive;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
+use Piwik\Period\Range;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\TaskScheduler;
+use Piwik\Site;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
@@ -90,7 +99,7 @@ class Piwik_MultiSites_API
      *                                        Only used when a scheduled task is running
      * @param bool|string $enhanced When true, return additional goal & ecommerce metrics
      * @param bool|string $pattern If specified, only the website which names (or site ID) match the pattern will be returned using SitesManager.getPatternMatchSites
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getAll($period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false, $pattern = false)
     {
@@ -99,7 +108,7 @@ class Piwik_MultiSites_API
         $idSites = $this->getSitesIdFromPattern($pattern);
 
         if(empty($idSites)) {
-            return new Piwik_DataTable();
+            return new DataTable();
         }
         return $this->buildDataTable(
             $idSites,
@@ -125,7 +134,7 @@ class Piwik_MultiSites_API
             return $idSites;
         }
         $idSites = array();
-        $sites = Piwik_API_Request::processRequest('SitesManager.getPatternMatchSites',
+        $sites = Request::processRequest('SitesManager.getPatternMatchSites',
             array('pattern'   => $pattern,
                   // added because caller could overwrite these
                   'serialize' => 0,
@@ -149,7 +158,7 @@ class Piwik_MultiSites_API
      * @param bool|string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
      *                                        Only used when a scheduled task is running
      * @param bool|string $enhanced When true, return additional goal & ecommerce metrics
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getOne($idSite, $period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false)
     {
@@ -173,20 +182,20 @@ class Piwik_MultiSites_API
                 // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
                 // This means this function would return ALL websites in all cases.
                 // Instead, we make sure that only the right set of data is returned
-                && !Piwik_TaskScheduler::isTaskBeingExecuted()
+                && !TaskScheduler::isTaskBeingExecuted()
             ) {
-                Piwik_Site::setSites(
+                Site::setSites(
                     Piwik_SitesManager_API::getInstance()->getAllSites()
                 );
             } else {
-                Piwik_Site::setSitesFromArray(
+                Site::setSitesFromArray(
                     Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin)
                 );
             }
         }
 
         // build the archive type used to query archive data
-        $archive = Piwik_Archive::build(
+        $archive = Archive::build(
             $sites,
             $period,
             $date,
@@ -209,16 +218,16 @@ class Piwik_MultiSites_API
         }
 
         // get the data
-        // $dataTable instanceOf Piwik_DataTable_Array
+        // $dataTable instanceOf Set
         $dataTable = $archive->getDataTableFromNumeric($fieldsToGet);
 
         // get rid of the DataTable_Array that is created by the IndexedBySite archive type
-        if ($dataTable instanceof Piwik_DataTable_Array
+        if ($dataTable instanceof DataTable\Map
             && $multipleWebsitesRequested
         ) {
             $dataTable = $dataTable->mergeChildren();
         } else {
-            if (!($dataTable instanceof Piwik_DataTable_Array)
+            if (!($dataTable instanceof DataTable\Map)
                 && $dataTable->getRowsCount() > 0
             ) {
                 $firstSite = is_array($sites) ? reset($sites) : $sites;
@@ -233,18 +242,18 @@ class Piwik_MultiSites_API
 
         // if the period isn't a range & a lastN/previousN date isn't used, we get the same
         // data for the last period to show the evolution of visits/actions/revenue
-        list($strLastDate, $lastPeriod) = Piwik_Period_Range::getLastDate($date, $period);
+        list($strLastDate, $lastPeriod) = Range::getLastDate($date, $period);
         if ($strLastDate !== false) {
             if ($lastPeriod !== false) {
                 // NOTE: no easy way to set last period date metadata when range of dates is requested.
                 //       will be easier if DataTable_Array::metadata is removed, and metadata that is
-                //       put there is put directly in Piwik_DataTable::metadata.
+                //       put there is put directly in DataTable::metadata.
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
-            $pastArchive = Piwik_Archive::build($sites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
+            $pastArchive = Archive::build($sites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
             $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
             
-            if ($pastData instanceof Piwik_DataTable_Array
+            if ($pastData instanceof DataTable\Map
                 && $multipleWebsitesRequested
             ) {
                 $pastData = $pastData->mergeChildren();
@@ -259,12 +268,12 @@ class Piwik_MultiSites_API
         // remove eCommerce related metrics on non eCommerce Piwik sites
         // note: this is not optimal in terms of performance: those metrics should not be retrieved in the first place
         if ($enhanced) {
-            // $dataTableRows instanceOf Piwik_DataTable_Row[]
+            // $dataTableRows instanceOf Row[]
             $dataTableRows = $dataTable->getRows();
 
             foreach ($dataTableRows as $dataTableRow) {
                 $siteId = $dataTableRow->getColumn('label');
-                if (!Piwik_Site::isEcommerceEnabledFor($siteId)) {
+                if (!Site::isEcommerceEnabledFor($siteId)) {
                     foreach ($apiECommerceMetrics as $metricSettings) {
                         $dataTableRow->deleteColumn($metricSettings[self::METRIC_RECORD_NAME_KEY]);
                         $dataTableRow->deleteColumn($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY]);
@@ -278,8 +287,7 @@ class Piwik_MultiSites_API
 
         // set the label of each row to the site name
         if ($multipleWebsitesRequested) {
-            $getNameFor = array('Piwik_Site', 'getNameFor');
-            $dataTable->filter('ColumnCallbackReplace', array('label', $getNameFor));
+            $dataTable->filter('ColumnCallbackReplace', array('label', '\Piwik\Site::getNameFor'));
         } else {
             $dataTable->filter('ColumnDelete', array('label'));
         }
@@ -292,7 +300,7 @@ class Piwik_MultiSites_API
 
         // filter rows without visits
         // note: if only one website is queried and there are no visits, we can not remove the row otherwise
-        // Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
+        // ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
         if ($multipleWebsitesRequested
         // We don't delete the 0 visits row, if "Enhanced" mode is on.
             && !$enhanced) {
@@ -312,8 +320,8 @@ class Piwik_MultiSites_API
      * Performs a binary filter of two
      * DataTables in order to correctly calculate evolution metrics.
      *
-     * @param Piwik_DataTable|Piwik_DataTable_Array $currentData
-     * @param Piwik_DataTable|Piwik_DataTable_Array $pastData
+     * @param DataTable|DataTable\Map $currentData
+     * @param DataTable|DataTable\Map $pastData
      * @param array $apiMetrics The array of string fields to calculate evolution
      *                          metrics for.
      * @throws Exception
@@ -325,7 +333,7 @@ class Piwik_MultiSites_API
                                . get_class($pastData).".");
         }
         
-        if ($currentData instanceof Piwik_DataTable_Array) {
+        if ($currentData instanceof DataTable\Map) {
             $pastArray = $pastData->getArray();
             foreach ($currentData->getArray() as $subTable) {
                 $this->calculateEvolutionPercentages($subTable, current($pastArray), $apiMetrics);
@@ -349,19 +357,19 @@ class Piwik_MultiSites_API
      * Sets the total visits, actions & revenue for a DataTable returned by
      * $this->buildDataTable.
      *
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      * @param array $apiMetrics Metrics info.
      * @return array Array of three values: total visits, total actions, total revenue
      */
     private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
     {
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getArray() as $table) {
                 $this->setMetricsTotalsMetadata($table, $apiMetrics);
             }
         } else {
             $revenueMetric = '';
-            if (Piwik_Common::isGoalPluginEnabled()) {
+            if (Common::isGoalPluginEnabled()) {
                 $revenueMetric = Piwik_Goals_Archiver::getRecordName(self::GOAL_REVENUE_METRIC);
             }
 
@@ -388,13 +396,13 @@ class Piwik_MultiSites_API
      * Sets the total evolution metadata for a datatable returned by $this->buildDataTable
      * given data for the last period.
      *
-     * @param Piwik_DataTable $dataTable
-     * @param Piwik_DataTable $pastData
+     * @param DataTable|DataTable\Map $dataTable
+     * @param DataTable|DataTable\Map $pastData
      * @param array $apiMetrics Metrics info.
      */
     private function setPastDataMetadata($dataTable, $pastData, $apiMetrics)
     {
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             $pastArray = $pastData->getArray();
             foreach ($dataTable->getArray() as $subTable) {
                 $this->setPastDataMetadata($subTable, current($pastArray), $apiMetrics);
@@ -417,7 +425,7 @@ class Piwik_MultiSites_API
 
                 // calculate & set evolution
                 $currentTotal = $dataTable->getMetadata($totalMetadataName);
-                $evolution = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate($currentTotal, $pastTotal);
+                $evolution = CalculateEvolutionFilter::calculate($currentTotal, $pastTotal);
                 $dataTable->setMetadata($totalEvolutionMetadataName, $evolution);
             }
         }
@@ -429,7 +437,7 @@ class Piwik_MultiSites_API
     public static function getApiMetrics($enhanced)
     {
         $metrics = self::$baseMetrics;
-        if (Piwik_Common::isGoalPluginEnabled()) {
+        if (Common::isGoalPluginEnabled()) {
             // goal revenue metric
             $metrics[self::GOAL_REVENUE_METRIC] = array(
                 self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnRevenue',

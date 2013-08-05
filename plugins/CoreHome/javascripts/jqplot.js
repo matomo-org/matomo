@@ -67,16 +67,18 @@ JQPlot.prototype = {
     },
 
     /** Generic render function */
-    render: function (type, targetDivId, lang) {
+    render: function (targetDivId, lang) {
+        var type = $('#' + targetDivId).closest('div.dataTable').data('dataTableInstance').param['viewDataTable'];
+
         // preapare the appropriate chart type
-        switch (type) {
-            case 'evolution':
+        switch (type) {// TODO: should rely on CSS, not viewDataTable. otherwise ecommerceOrder row evolution will fail
+            case 'graphEvolution':
                 this.prepareEvolutionChart(targetDivId, lang);
                 break;
-            case 'bar':
+            case 'graphVerticalBar':
                 this.prepareBarChart(targetDivId, lang);
                 break;
-            case 'pie':
+            case 'graphPie':
                 this.preparePieChart(targetDivId, lang);
                 break;
             default:
@@ -98,7 +100,7 @@ JQPlot.prototype = {
                     this.innerHTML = '';
                 }
 
-                (new JQPlot(data, self.dataTableId)).render(type, targetDivId, lang);
+                (new JQPlot(data, self.dataTableId)).render(targetDivId, lang);
             });
 
         // show loading
@@ -167,7 +169,7 @@ JQPlot.prototype = {
     
                     var percentage = '';
                     if (typeof self.tooltip.percentages != 'undefined') {
-                        var percentage = self.tooltip.percentages[s][i];
+                        percentage = self.tooltip.percentages[s][i];
                         percentage = ' (' + percentage + '%)';
                     }
     
@@ -215,7 +217,7 @@ JQPlot.prototype = {
                 plotWidth = width;
                 target.trigger('piwikDestroyPlot');
                 (new JQPlot(self.originalData, self.dataTableId))
-                    .render(type, targetDivId, lang);
+                    .render(targetDivId, lang);
             }
         });
         var resizeListener = function () {
@@ -302,7 +304,7 @@ JQPlot.prototype = {
         var popover = $(document.createElement('div'));
         
         popover.append('<div style="font-size: 13px; margin-bottom: 10px;">'
-            + lang.exportText + '</div>').append($(img))
+            + lang.exportText + '</div>').append($(img));
             
         popover.dialog({
             title: lang.exportTitle,
@@ -605,8 +607,18 @@ JQPlot.prototype = {
             seriesColorNames = ['series1', 'series2', 'series3', 'series4', 'series5',
                                 'series6', 'series7', 'series8', 'series9', 'series10'];
 
-        var graphType = $('#' + this.dataTableId).find('.piwik-graph').attr('data-graph-type'),
-            namespace = graphType + '-graph-colors';
+        var viewDataTable = $('#' + this.dataTableId).data('dataTableInstance').param['viewDataTable'];
+
+        var graphType;
+        if (viewDataTable == 'graphEvolution') {
+            graphType = 'evolution';
+        } else if (viewDataTable == 'graphPie') {
+            graphType = 'pie';
+        } else if (viewDataTable == 'graphVerticalBar') {
+            graphType = 'bar';
+        }
+        
+        var namespace = graphType + '-graph-colors';
 
         this.params.seriesColors = colorManager.getColors(namespace, seriesColorNames, true);
         this.params.grid.background = colorManager.getColor(namespace, 'grid-background');

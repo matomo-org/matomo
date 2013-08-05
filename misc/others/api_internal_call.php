@@ -1,4 +1,7 @@
 <?php
+use Piwik\API\Request;
+use Piwik\FrontController;
+
 define('PIWIK_INCLUDE_PATH', realpath('../..'));
 define('PIWIK_USER_PATH', realpath('../..'));
 define('PIWIK_ENABLE_DISPATCH', false);
@@ -10,10 +13,10 @@ define('PIWIK_ENABLE_SESSION_START', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
-Piwik_FrontController::getInstance()->init();
+FrontController::getInstance()->init();
 
 // This inits the API Request with the specified parameters
-$request = new Piwik_API_Request('
+$request = new Request('
 			method=UserSettings.getResolution
 			&idSite=7
 			&date=yesterday

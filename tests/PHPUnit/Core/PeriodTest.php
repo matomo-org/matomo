@@ -5,6 +5,13 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Period;
+use Piwik\Date;
+use Piwik\Period\Month;
+use Piwik\Period\Day;
+use Piwik\Period\Year;
+use Piwik\Period\Week;
+
 class PeriodTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -13,13 +20,13 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testGetId()
     {
-        $period = new Piwik_Period_Day(Piwik_Date::today());
+        $period = new Day(Date::today());
         $this->assertNotEquals(0, $period->getId());
-        $period = new Piwik_Period_Week(Piwik_Date::today());
+        $period = new Week(Date::today());
         $this->assertNotEquals(0, $period->getId());
-        $period = new Piwik_Period_Month(Piwik_Date::today());
+        $period = new Month(Date::today());
         $this->assertNotEquals(0, $period->getId());
-        $period = new Piwik_Period_Year(Piwik_Date::today());
+        $period = new Year(Date::today());
         $this->assertNotEquals(0, $period->getId());
     }
 
@@ -29,19 +36,19 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLabel()
     {
-        $period = new Piwik_Period_Day(Piwik_Date::today());
+        $period = new Day(Date::today());
         $label = $period->getLabel();
         $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
-        $period = new Piwik_Period_Week(Piwik_Date::today());
+        $period = new Week(Date::today());
         $label = $period->getLabel();
         $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
-        $period = new Piwik_Period_Month(Piwik_Date::today());
+        $period = new Month(Date::today());
         $label = $period->getLabel();
         $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
-        $period = new Piwik_Period_Year(Piwik_Date::today());
+        $period = new Year(Date::today());
         $label = $period->getLabel();
         $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
@@ -53,8 +60,8 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryDay()
     {
-        $period = Piwik_Period::factory('day', Piwik_Date::today());
-        $this->assertInstanceOf('Piwik_Period_Day', $period);
+        $period = Period::factory('day', Date::today());
+        $this->assertInstanceOf('\Piwik\Period\Day', $period);
     }
 
     /**
@@ -63,8 +70,8 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryMonth()
     {
-        $period = Piwik_Period::factory('month', Piwik_Date::today());
-        $this->assertInstanceOf('Piwik_Period_Month', $period);
+        $period = Period::factory('month', Date::today());
+        $this->assertInstanceOf('\Piwik\Period\Month', $period);
     }
 
     /**
@@ -73,8 +80,8 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryWeek()
     {
-        $period = Piwik_Period::factory('week', Piwik_Date::today());
-        $this->assertInstanceOf('Piwik_Period_Week', $period);
+        $period = Period::factory('week', Date::today());
+        $this->assertInstanceOf('\Piwik\Period\Week', $period);
     }
 
     /**
@@ -83,8 +90,8 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryYear()
     {
-        $period = Piwik_Period::factory('year', Piwik_Date::today());
-        $this->assertInstanceOf('Piwik_Period_Year', $period);
+        $period = Period::factory('year', Date::today());
+        $this->assertInstanceOf('\Piwik\Period\Year', $period);
     }
 
     /**
@@ -94,7 +101,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     public function testFactoryInvalid()
     {
         try {
-            $period = Piwik_Period::factory('inValid', Piwik_Date::today());
+            $period = Period::factory('inValid', Date::today());
         } catch (Exception $e) {
             return;
         }

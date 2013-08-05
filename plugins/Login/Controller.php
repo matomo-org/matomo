@@ -8,13 +8,27 @@
  * @category Piwik_Plugins
  * @package Piwik_Login
  */
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Controller;
+use Piwik\Cookie;
+use Piwik\IP;
+use Piwik\Mail;
+use Piwik\Nonce;
+use Piwik\View;
+use Piwik\Url;
+use Piwik\QuickForm2;
+use Piwik\Session;
+
+require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * Login controller
  *
  * @package Piwik_Login
  */
-class Piwik_Login_Controller extends Piwik_Controller
+class Piwik_Login_Controller extends Controller
 {
     /**
      * Generate hash on user info and password
@@ -27,9 +41,9 @@ class Piwik_Login_Controller extends Piwik_Controller
     {
         // mitigate rainbow table attack
         $passwordLen = strlen($password) / 2;
-        $hash = Piwik_Common::hash(
+        $hash = Common::hash(
             $userInfo . substr($password, 0, $passwordLen)
-                . Piwik_Common::getSalt() . substr($password, $passwordLen)
+                . Common::getSalt() . substr($password, $passwordLen)
         );
         return $hash;
     }
@@ -60,7 +74,7 @@ class Piwik_Login_Controller extends Piwik_Controller
         $form = new Piwik_Login_FormLogin();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
+            if (Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
                 $login = $form->getSubmitValue('form_login');
                 $password = $form->getSubmitValue('form_password');
                 $rememberMe = $form->getSubmitValue('form_rememberme') == '1';
@@ -75,7 +89,7 @@ class Piwik_Login_Controller extends Piwik_Controller
             }
         }
 
-        $view = new Piwik_View('@Login/login');
+        $view = new View('@Login/login');
         $view->AccessErrorString = $messageNoAccess;
         $view->infoMessage = nl2br($infoMessage);
         $view->addForm($form);
@@ -87,7 +101,7 @@ class Piwik_Login_Controller extends Piwik_Controller
     /**
      * Configure common view properties
      *
-     * @param Piwik_View $view
+     * @param View $view
      */
     private function configureView($view)
     {
@@ -95,10 +109,10 @@ class Piwik_Login_Controller extends Piwik_Controller
 
         $view->linkTitle = Piwik::getRandomTitle();
 
-        $view->forceSslLogin = Piwik_Config::getInstance()->General['force_ssl_login'];
+        $view->forceSslLogin = Config::getInstance()->General['force_ssl_login'];
 
         // crsf token: don't trust the submitted value; generate/fetch it from session data
-        $view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
+        $view->nonce = Nonce::getNonce('Piwik_Login.login');
     }
 
     /**
@@ -111,24 +125,24 @@ class Piwik_Login_Controller extends Piwik_Controller
     {
         self::checkForceSslLogin();
 
-        $password = Piwik_Common::getRequestVar('password', null, 'string');
+        $password = Common::getRequestVar('password', null, 'string');
         if (strlen($password) != 32) {
             throw new Exception(Piwik_TranslateException('Login_ExceptionPasswordMD5HashExpected'));
         }
 
-        $login = Piwik_Common::getRequestVar('login', null, 'string');
-        if ($login == Piwik_Config::getInstance()->superuser['login']) {
+        $login = Common::getRequestVar('login', null, 'string');
+        if ($login == Config::getInstance()->superuser['login']) {
             throw new Exception(Piwik_TranslateException('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
         }
 
         $currentUrl = 'index.php';
 
-        if (($idSite = Piwik_Common::getRequestVar('idSite', false, 'int')) !== false) {
+        if (($idSite = Common::getRequestVar('idSite', false, 'int')) !== false) {
             $currentUrl .= '?idSite=' . $idSite;
         }
 
-        $urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
-        $urlToRedirect = Piwik_Common::unsanitizeInputValue($urlToRedirect);
+        $urlToRedirect = Common::getRequestVar('url', $currentUrl, 'string');
+        $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
         $this->authenticateAndRedirect($login, $password, false, $urlToRedirect);
     }
@@ -148,9 +162,9 @@ class Piwik_Login_Controller extends Piwik_Controller
                       'md5Password' => $md5Password,
                       'rememberMe'  => $rememberMe,
         );
-        Piwik_Nonce::discardNonce('Piwik_Login.login');
+        Nonce::discardNonce('Piwik_Login.login');
         Piwik_PostEvent('Login.initSession', array(&$info));
-        Piwik_Url::redirectToUrl($urlToRedirect);
+        Url::redirectToUrl($urlToRedirect);
     }
 
     protected function getMessageExceptionNoAccess()
@@ -177,7 +191,7 @@ class Piwik_Login_Controller extends Piwik_Controller
         $form = new Piwik_Login_FormResetPassword();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
+            if (Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
                 $formErrors = $this->resetPasswordFirstStep($form);
                 if (empty($formErrors)) {
                     $infoMessage = Piwik_Translate('Login_ConfirmationLinkSent');
@@ -191,7 +205,7 @@ class Piwik_Login_Controller extends Piwik_Controller
             $formErrors = $formData['errors'];
         }
 
-        $view = new Piwik_View('@Login/resetPassword');
+        $view = new View('@Login/resetPassword');
         $view->infoMessage = $infoMessage;
         $view->formErrors = $formErrors;
         echo $view->render();
@@ -200,7 +214,7 @@ class Piwik_Login_Controller extends Piwik_Controller
     /**
      * Saves password reset info and sends confirmation email.
      *
-     * @param Piwik_QuickForm2 $form
+     * @param QuickForm2 $form
      * @return array Error message(s) if an error occurs.
      */
     private function resetPasswordFirstStep($form)
@@ -257,13 +271,13 @@ class Piwik_Login_Controller extends Piwik_Controller
         // construct a password reset token from user information
         $resetToken = self::generatePasswordResetToken($user);
 
-        $ip = Piwik_IP::getIpFromHeader();
-        $url = Piwik_Url::getCurrentUrlWithoutQueryString()
+        $ip = IP::getIpFromHeader();
+        $url = Url::getCurrentUrlWithoutQueryString()
             . "?module=Login&action=confirmResetPassword&login=" . urlencode($login)
             . "&resetToken=" . urlencode($resetToken);
 
         // send email with new password
-        $mail = new Piwik_Mail();
+        $mail = new Mail();
         $mail->addTo($email, $login);
         $mail->setSubject(Piwik_Translate('Login_MailTopicPasswordChange'));
         $bodyText = str_replace(
@@ -273,8 +287,8 @@ class Piwik_Login_Controller extends Piwik_Controller
         ) . "\n";
         $mail->setBodyText($bodyText);
 
-        $fromEmailName = Piwik_Config::getInstance()->General['login_password_recovery_email_name'];
-        $fromEmailAddress = Piwik_Config::getInstance()->General['login_password_recovery_email_address'];
+        $fromEmailName = Config::getInstance()->General['login_password_recovery_email_name'];
+        $fromEmailAddress = Config::getInstance()->General['login_password_recovery_email_address'];
         $mail->setFrom($fromEmailAddress, $fromEmailName);
         @$mail->send();
     }
@@ -287,8 +301,8 @@ class Piwik_Login_Controller extends Piwik_Controller
     {
         $errorMessage = null;
 
-        $login = Piwik_Common::getRequestVar('login', '');
-        $resetToken = Piwik_Common::getRequestVar('resetToken', '');
+        $login = Common::getRequestVar('login', '');
+        $resetToken = Common::getRequestVar('resetToken', '');
 
         try {
             // get password reset info & user info
@@ -311,7 +325,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
         if (is_null($errorMessage)) // if success, show login w/ success message
         {
-            $this->redirectToIndex('Login', 'resetPasswordSuccess');
+            return $this->redirectToIndex('Login', 'resetPasswordSuccess');
         } else {
             // show login page w/ error. this will keep the token in the URL
             return $this->login($errorMessage);
@@ -334,13 +348,13 @@ class Piwik_Login_Controller extends Piwik_Controller
         }
 
         if ($user['email'] == Piwik::getSuperUserEmail()) {
-            if (!Piwik_Config::getInstance()->isFileWritable()) {
+            if (!Config::getInstance()->isFileWritable()) {
                 throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)", "<br/>")));
             }
 
             $user['password'] = $passwordHash;
-            Piwik_Config::getInstance()->superuser = $user;
-            Piwik_Config::getInstance()->forceSave();
+            Config::getInstance()->superuser = $user;
+            Config::getInstance()->forceSave();
         } else {
             Piwik_UsersManager_API::getInstance()->updateUser(
                 $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
@@ -369,12 +383,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 
         $user = null;
         if ($loginMail == Piwik::getSuperUserEmail()
-            || $loginMail == Piwik_Config::getInstance()->superuser['login']
+            || $loginMail == Config::getInstance()->superuser['login']
         ) {
             $user = array(
-                'login'    => Piwik_Config::getInstance()->superuser['login'],
+                'login'    => Config::getInstance()->superuser['login'],
                 'email'    => Piwik::getSuperUserEmail(),
-                'password' => Piwik_Config::getInstance()->superuser['password'],
+                'password' => Config::getInstance()->superuser['password'],
             );
         } else if (Piwik_UsersManager_API::getInstance()->userExists($loginMail)) {
             $user = Piwik_UsersManager_API::getInstance()->getUser($loginMail);
@@ -388,7 +402,7 @@ class Piwik_Login_Controller extends Piwik_Controller
     /**
      * Generate a password reset token.  Expires in (roughly) 24 hours.
      *
-     * @param array user information
+     * @param array $user user information
      * @param int $timestamp Unix timestamp
      * @return string generated token
      */
@@ -441,11 +455,11 @@ class Piwik_Login_Controller extends Piwik_Controller
      */
     static public function clearSession()
     {
-        $authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
-        $cookie = new Piwik_Cookie($authCookieName);
+        $authCookieName = Config::getInstance()->General['login_cookie_name'];
+        $cookie = new Cookie($authCookieName);
         $cookie->delete();
 
-        Piwik_Session::expireSessionCookie();
+        Session::expireSessionCookie();
     }
 
     /**
@@ -458,11 +472,11 @@ class Piwik_Login_Controller extends Piwik_Controller
     {
         self::clearSession();
 
-        $logoutUrl = @Piwik_Config::getInstance()->General['login_logout_url'];
+        $logoutUrl = @Config::getInstance()->General['login_logout_url'];
         if (empty($logoutUrl)) {
             Piwik::redirectToModule('CoreHome');
         } else {
-            Piwik_Url::redirectToUrl($logoutUrl);
+            Url::redirectToUrl($logoutUrl);
         }
     }
 
@@ -474,15 +488,15 @@ class Piwik_Login_Controller extends Piwik_Controller
      */
     protected function checkForceSslLogin()
     {
-        $forceSslLogin = Piwik_Config::getInstance()->General['force_ssl_login'];
+        $forceSslLogin = Config::getInstance()->General['force_ssl_login'];
         if ($forceSslLogin
             && !Piwik::isHttps()
         ) {
             $url = 'https://'
-                . Piwik_Url::getCurrentHost()
-                . Piwik_Url::getCurrentScriptName()
-                . Piwik_Url::getCurrentQueryString();
-            Piwik_Url::redirectToUrl($url);
+                . Url::getCurrentHost()
+                . Url::getCurrentScriptName()
+                . Url::getCurrentQueryString();
+            Url::redirectToUrl($url);
         }
     }
 }

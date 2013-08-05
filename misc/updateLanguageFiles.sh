@@ -2,7 +2,7 @@
 PIWIKPATH=$PWD/..
 
 ENABLEGIT=1;
-if [ $1 == '--no-git' ]; then
+if [ "$1" == '--no-git' ]; then
     ENABLEGIT=0;
     echo "NO-GIT MODE: No git actions will be performed!!"
 fi

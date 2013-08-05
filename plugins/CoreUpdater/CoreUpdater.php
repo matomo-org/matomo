@@ -8,12 +8,19 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
  */
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\FrontController;
+use Piwik\Updater;
+use Piwik\Version;
+use Piwik\UpdateCheck;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_CoreUpdater
  */
-class Piwik_CoreUpdater extends Piwik_Plugin
+class Piwik_CoreUpdater extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -27,10 +34,10 @@ class Piwik_CoreUpdater extends Piwik_Plugin
         return $hooks;
     }
 
-    public static function getComponentUpdates(Piwik_Updater $updater)
+    public static function getComponentUpdates(Updater $updater)
     {
-        $updater->addComponentToCheck('core', Piwik_Version::VERSION);
-        $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+        $updater->addComponentToCheck('core', Version::VERSION);
+        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $pluginName => $plugin) {
             $updater->addComponentToCheck($pluginName, $plugin->getVersion());
         }
@@ -45,11 +52,11 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 
     public function dispatch()
     {
-        $module = Piwik_Common::getRequestVar('module', '', 'string');
-        $action = Piwik_Common::getRequestVar('action', '', 'string');
+        $module = Common::getRequestVar('module', '', 'string');
+        $action = Common::getRequestVar('action', '', 'string');
 
-        $updater = new Piwik_Updater();
-        $updater->addComponentToCheck('core', Piwik_Version::VERSION);
+        $updater = new Updater();
+        $updater->addComponentToCheck('core', Version::VERSION);
         $updates = $updater->getComponentsWithNewVersion();
         if (!empty($updates)) {
             Piwik::deleteAllCacheOnUpdate();
@@ -61,7 +68,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
             && !($module == 'LanguagesManager'
                 && $action == 'saveLanguage')
         ) {
-            if (Piwik_FrontController::shouldRethrowException()) {
+            if (FrontController::shouldRethrowException()) {
                 throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n".
                     "--> Please run the update process first. See documentation: http://piwik.org/docs/update/ \n");
             } else {
@@ -72,6 +79,6 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 
     public function updateCheck()
     {
-        Piwik_UpdateCheck::check();
+        UpdateCheck::check();
     }
 }

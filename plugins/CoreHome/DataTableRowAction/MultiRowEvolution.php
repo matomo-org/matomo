@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
+use Piwik\Common;
+use Piwik\ViewDataTable;
 
 /**
  * MULTI ROW EVOLUTION
@@ -17,8 +19,6 @@
 class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
     extends Piwik_CoreHome_DataTableRowAction_RowEvolution
 {
-    const IS_MULTI_EVOLUTION_PARAM = 'is_multi_evolution';
-
     /** The requested metric */
     protected $metric;
 
@@ -35,7 +35,7 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
      */
     public function __construct($idSite, $date)
     {
-        $this->metric = Piwik_Common::getRequestVar('column', '', 'string');
+        $this->metric = Common::getRequestVar('column', '', 'string');
         parent::__construct($idSite, $date);
     }
 
@@ -57,7 +57,7 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
     /**
      * Render the popover
      * @param Piwik_CoreHome_Controller
-     * @param Piwik_View (the popover_rowevolution template)
+     * @param View (the popover_rowevolution template)
      */
     public function renderPopover($controller, $view)
     {
@@ -69,18 +69,5 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
             . Piwik_Translate('RowEvolution_ComparingRecords', array(count($this->availableMetrics)));
 
         return parent::renderPopover($controller, $view);
-    }
-
-    /**
-     * Generic method to get an evolution graph or a sparkline for the row evolution popover.
-     * Do as much as possible from outside the controller.
-     *
-     * @return Piwik_ViewDataTable
-     */
-    public function getRowEvolutionGraph($graphType = false, $metrics = false)
-    {
-        $view = parent::getRowEvolutionGraph($graphType, $metrics);
-        $view->setCustomParameter(self::IS_MULTI_EVOLUTION_PARAM, 1); // set in JS
-        return $view;
     }
 }

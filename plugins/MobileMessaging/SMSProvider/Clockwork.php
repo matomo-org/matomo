@@ -9,6 +9,8 @@
  * @package Piwik_MobileMessaging_SMSProvider
  */
 
+use Piwik\Http;
+
 require_once PIWIK_INCLUDE_PATH . "/plugins/MobileMessaging/APIException.php";
 /**
  *
@@ -70,8 +72,8 @@ class Piwik_MobileMessaging_SMSProvider_Clockwork extends Piwik_MobileMessaging_
         $timeout = self::SOCKET_TIMEOUT;
 
         try {
-            $result = Piwik_Http::sendHttpRequestBy(
-                Piwik_Http::getTransportMethod(),
+            $result = Http::sendHttpRequestBy(
+                Http::getTransportMethod(),
                 $url,
                 $timeout,
                 $userAgent = null,

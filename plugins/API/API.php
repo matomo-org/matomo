@@ -8,11 +8,27 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\API\Request;
+use Piwik\API\Proxy;
+use Piwik\DataTable\Filter\ColumnDelete;
+use Piwik\DataTable\Row;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\Date;
+use Piwik\DataTable;
+use Piwik\Tracker\GoalManager;
+use Piwik\Version;
+use Piwik\Plugin;
+use Piwik\Translate;
+
+require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * @package Piwik_API
  */
-class Piwik_API extends Piwik_Plugin
+class Piwik_API extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -93,7 +109,7 @@ class Piwik_API_API
     public function getPiwikVersion()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Piwik_Version::VERSION;
+        return Version::VERSION;
     }
 
     /**
@@ -102,7 +118,7 @@ class Piwik_API_API
      */
     public function getSettings()
     {
-        return Piwik_Config::getInstance()->APISettings;
+        return Config::getInstance()->APISettings;
     }
 
     /**
@@ -114,7 +130,7 @@ class Piwik_API_API
      */
     static public function getDefaultMetricTranslations()
     {
-        return Piwik_Metrics::getDefaultMetricTranslations();
+        return Metrics::getDefaultMetricTranslations();
     }
 
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
@@ -131,7 +147,7 @@ class Piwik_API_API
             'segment'        => 'visitIp',
             'acceptedValues' => '13.54.122.1, etc.',
             'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilter'      => array('Piwik_IP', 'P2N'),
+            'sqlFilter'      => array('Piwik\IP', 'P2N'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
@@ -141,7 +157,7 @@ class Piwik_API_API
             'segment'        => 'visitorId',
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
             'sqlSegment'     => 'log_visit.idvisitor',
-            'sqlFilter'      => array('Piwik_Common', 'convertVisitorIdToBin'),
+            'sqlFilter'      => array('Piwik\Common', 'convertVisitorIdToBin'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
@@ -240,10 +256,10 @@ class Piwik_API_API
     }
 
     static protected $visitEcommerceStatus = array(
-        Piwik_Tracker_GoalManager::TYPE_BUYER_NONE                  => 'none',
-        Piwik_Tracker_GoalManager::TYPE_BUYER_ORDERED               => 'ordered',
-        Piwik_Tracker_GoalManager::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
-        Piwik_Tracker_GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
+        GoalManager::TYPE_BUYER_NONE                  => 'none',
+        GoalManager::TYPE_BUYER_ORDERED               => 'ordered',
+        GoalManager::TYPE_BUYER_OPEN_CART             => 'abandonedCart',
+        GoalManager::TYPE_BUYER_ORDERED_AND_OPEN_CART => 'orderedThenAbandonedCart',
     );
 
     /**
@@ -301,15 +317,15 @@ class Piwik_API_API
     public function getLogoUrl($pathOnly = false)
     {
         $logo = 'plugins/Zeitgeist/images/logo.png';
-        if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.png')
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
+            && file_exists(Common::getPathToPiwikRoot() . '/misc/user/logo.png')
         ) {
             $logo = 'misc/user/logo.png';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
         }
-        return Piwik_Common::getPathToPiwikRoot() . '/' . $logo;
+        return Common::getPathToPiwikRoot() . '/' . $logo;
     }
 
     /**
@@ -321,15 +337,15 @@ class Piwik_API_API
     public function getHeaderLogoUrl($pathOnly = false)
     {
         $logo = 'plugins/Zeitgeist/images/logo-header.png';
-        if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo-header.png')
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
+            && file_exists(Common::getPathToPiwikRoot() . '/misc/user/logo-header.png')
         ) {
             $logo = 'misc/user/logo-header.png';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
         }
-        return Piwik_Common::getPathToPiwikRoot() . '/' . $logo;
+        return Common::getPathToPiwikRoot() . '/' . $logo;
     }
 
     /**
@@ -342,15 +358,15 @@ class Piwik_API_API
     public function getSVGLogoUrl($pathOnly = false)
     {
         $logo = 'plugins/Zeitgeist/images/logo.svg';
-        if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
+            && file_exists(Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             $logo = 'misc/user/logo.svg';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
         }
-        return Piwik_Common::getPathToPiwikRoot() . '/' . $logo;
+        return Common::getPathToPiwikRoot() . '/' . $logo;
     }
 
     /**
@@ -360,11 +376,11 @@ class Piwik_API_API
      */
     public function hasSVGLogo()
     {
-        if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 0) {
+        if (Config::getInstance()->branding['use_custom_logo'] == 0) {
             /* We always have our application logo */
             return true;
-        } else if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
+        } else if (Config::getInstance()->branding['use_custom_logo'] == 1
+            && file_exists(Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             return true;
         }
@@ -379,7 +395,7 @@ class Piwik_API_API
     public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        Piwik_Translate::getInstance()->reloadLanguage($language);
+        Translate::getInstance()->reloadLanguage($language);
         $reporter = new Piwik_API_ProcessedReport();
         $metadata =  $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
@@ -391,7 +407,7 @@ class Piwik_API_API
      *
      * @param string $idSites Comma separated list of website Ids
      * @param bool|string $period
-     * @param bool|Piwik_Date $date
+     * @param bool|Date $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
      * @return array
@@ -458,15 +474,15 @@ class Piwik_API_API
             // load the data
             $className = 'Piwik_' . $plugin . '_API';
             $params['columns'] = implode(',', $columns);
-            $dataTable = Piwik_API_Proxy::getInstance()->call($className, 'get', $params);
+            $dataTable = Proxy::getInstance()->call($className, 'get', $params);
             // make sure the table has all columns
-            $array = ($dataTable instanceof Piwik_DataTable_Array ? $dataTable->getArray() : array($dataTable));
+            $array = ($dataTable instanceof DataTable\Map ? $dataTable->getArray() : array($dataTable));
             foreach ($array as $table) {
                 // we don't support idSites=all&date=DATE1,DATE2
-                if ($table instanceof Piwik_DataTable) {
+                if ($table instanceof DataTable) {
                     $firstRow = $table->getFirstRow();
                     if (!$firstRow) {
-                        $firstRow = new Piwik_DataTable_Row;
+                        $firstRow = new Row;
                         $table->addRow($firstRow);
                     }
                     foreach ($columns as $column) {
@@ -494,7 +510,7 @@ class Piwik_API_API
     private function mergeDataTables($table1, $table2)
     {
         // handle table arrays
-        if ($table1 instanceof Piwik_DataTable_Array && $table2 instanceof Piwik_DataTable_Array) {
+        if ($table1 instanceof DataTable\Map && $table2 instanceof DataTable\Map) {
             $subTables2 = $table2->getArray();
             foreach ($table1->getArray() as $index => $subTable1) {
                 $subTable2 = $subTables2[$index];
@@ -505,7 +521,7 @@ class Piwik_API_API
 
         $firstRow1 = $table1->getFirstRow();
         $firstRow2 = $table2->getFirstRow();
-        if ($firstRow2 instanceof Piwik_DataTable_Row) {
+        if ($firstRow2 instanceof Row) {
             foreach ($firstRow2->getColumns() as $metric => $value) {
                 $firstRow1->setColumn($metric, $value);
             }
@@ -519,7 +535,7 @@ class Piwik_API_API
      *
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param string $apiModule
      * @param string $apiAction
      * @param bool|string $label
@@ -551,11 +567,11 @@ class Piwik_API_API
         }
 
         $urls = array_map('urldecode', $urls);
-        $urls = array_map(array('Piwik_Common', 'unsanitizeInputValue'), $urls);
+        $urls = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $urls);
 
         $result = array();
         foreach ($urls as $url) {
-            $req = new Piwik_API_Request($url . '&format=php&serialize=0');
+            $req = new Request($url . '&format=php&serialize=0');
             $result[] = $req->process();
         }
         return $result;
@@ -585,7 +601,7 @@ class Piwik_API_API
             throw new Exception("Requested segment not found.");
         }
 
-        $startDate = Piwik_Date::now()->subDay(60)->toString();
+        $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
             &idSite=$idSite
             &period=range
@@ -606,7 +622,7 @@ class Piwik_API_API
             $requestLastVisits .= "&filter_limit=1000";
         }
 
-        $request = new Piwik_API_Request($requestLastVisits);
+        $request = new Request($requestLastVisits);
         $table = $request->process();
         if (empty($table)) {
             throw new Exception("There was no data to suggest for $segmentName");
@@ -616,7 +632,7 @@ class Piwik_API_API
         $values = $table->getColumn($segmentName);
 
         // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
-        $valuesBis = $table->getColumnsStartingWith($segmentName . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
+        $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $values = array_merge($values, $valuesBis);
 
         // remove false values (while keeping zeros)
@@ -627,7 +643,7 @@ class Piwik_API_API
         arsort($values);
         $values = array_keys($values);
 
-        $values = array_map(array('Piwik_Common', 'unsanitizeInputValue'), $values);
+        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
 
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
         return $values;

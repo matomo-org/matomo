@@ -8,18 +8,22 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Filter template.
  * You can use it if you want to create a new filter.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_Null extends Piwik_DataTable_Filter
+class Null extends Filter
 {
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function __construct($table)
     {
@@ -27,7 +31,7 @@ class Piwik_DataTable_Filter_Null extends Piwik_DataTable_Filter
     }
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {

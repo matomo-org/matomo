@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Plugin\Config;
+
 class Plugin_ConfigTest extends PHPUnit_Framework_TestCase
 {
 
@@ -25,7 +27,7 @@ class Plugin_ConfigTest extends PHPUnit_Framework_TestCase
      */
     function testLoadWithNoConfig()
     {
-        $objectUnderTest = new Piwik_Plugin_Config('ExamplePlugin');
+        $objectUnderTest = new Config('ExamplePlugin');
 
         $this->assertFalse($objectUnderTest->load(), 'load() with no config should fail');
     }
@@ -37,7 +39,7 @@ class Plugin_ConfigTest extends PHPUnit_Framework_TestCase
      */
     function testLoadAlternatePath()
     {
-        $objectUnderTest = new Piwik_Plugin_Config('ExamplePlugin', 'local.config.sample.php');
+        $objectUnderTest = new Config('ExamplePlugin', 'local.config.sample.php');
         $config = $objectUnderTest->load();
 
         $this->assertTrue($config !== false);
@@ -56,7 +58,7 @@ class Plugin_ConfigTest extends PHPUnit_Framework_TestCase
         $dir = PIWIK_USER_PATH . '/plugins/ExamplePlugin/config';
         @copy($dir . '/local.config.sample.php', $dir . '/local.config.php');
 
-        $objectUnderTest = new Piwik_Plugin_Config('ExamplePlugin');
+        $objectUnderTest = new Config('ExamplePlugin');
         $config = $objectUnderTest->load();
 
         $this->assertTrue($config !== false);
@@ -76,13 +78,13 @@ class Plugin_ConfigTest extends PHPUnit_Framework_TestCase
             1, 'mixed', array('a'), 'b' => 'c'
         );
 
-        $objectUnderTest = new Piwik_Plugin_Config('ExamplePlugin');
+        $objectUnderTest = new Config('ExamplePlugin');
         $objectUnderTest->store($config);
 
         $path = PIWIK_USER_PATH . '/plugins/ExamplePlugin/config/local.config.php';
         $this->assertTrue(file_exists($path));
 
-        $objectUnderTest = new Piwik_Plugin_Config('ExamplePlugin');
+        $objectUnderTest = new Config('ExamplePlugin');
         $newConfig = $objectUnderTest->load();
 
         $this->assertTrue($config !== false);

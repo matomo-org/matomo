@@ -8,11 +8,15 @@
  * @category Piwik_Plugins
  * @package Piwik_CustomVariables
  */
+use Piwik\ArchiveProcessor;
+use Piwik\Tracker;
+use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  * @package Piwik_CustomVariables
  */
-class Piwik_CustomVariables extends Piwik_Plugin
+class Piwik_CustomVariables extends Plugin
 {
     public function getInformation()
     {
@@ -27,20 +31,21 @@ class Piwik_CustomVariables extends Piwik_Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
-            'WidgetsList.add'                  => 'addWidgets',
-            'Menu.add'                         => 'addMenus',
-            'Goals.getReportsWithGoalMetrics'  => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'            => 'getReportMetadata',
-            'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
+            'ArchiveProcessing_Day.compute'            => 'archiveDay',
+            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
+            'WidgetsList.add'                          => 'addWidgets',
+            'Menu.add'                                 => 'addMenus',
+            'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'                    => 'getReportMetadata',
+            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }
 
     public function addWidgets()
     {
-        Piwik_AddWidget('General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getCustomVariables');
+        WidgetsList::add('General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getCustomVariables');
     }
 
     public function addMenus()
@@ -77,7 +82,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',
@@ -130,7 +135,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
     /**
      * Hooks on daily archive to trigger various log processing
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -138,11 +143,47 @@ class Piwik_CustomVariables extends Piwik_Plugin
         }
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
+    }
+
+    public function getReportDisplayProperties(&$properties)
+    {
+        $properties['CustomVariables.getCustomVariables'] = $this->getDisplayPropertiesForGetCustomVariables();
+        $properties['CustomVariables.getCustomVariablesValuesFromNameId'] =
+            $this->getDisplayPropertiesForGetCustomVariablesValuesFromNameId();
+    }
+
+    private function getDisplayPropertiesForGetCustomVariables()
+    {
+        $footerMessage = Piwik_Translate('CustomVariables_TrackingHelp',
+            array('<a target="_blank" href="http://piwik.org/docs/custom-variables/">', '</a>'));
+
+        return array(
+            'columns_to_display' => array('label', 'nb_actions', 'nb_visits'),
+            'filter_sort_column' => 'nb_actions',
+            'filter_sort_order' => 'desc',
+            'show_goals' => true,
+            'subtable_controller_action' => 'getCustomVariablesValuesFromNameId',
+            'translations' => array('label' => Piwik_Translate('CustomVariables_ColumnCustomVariableName')),
+            'show_footer_message' => $footerMessage
+        );
+    }
+
+    private function getDisplayPropertiesForGetCustomVariablesValuesFromNameId()
+    {
+        return array(
+            'columns_to_display' => array('label', 'nb_actions', 'nb_visits'),
+            'filter_sort_column' => 'nb_actions',
+            'filter_sort_order' => 'desc',
+            'show_goals' => true,
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue'))
+        );
     }
 }

@@ -8,15 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+use Piwik\Config;
+use Piwik\Common;
+
+use Piwik\Log\Exception;
+use Piwik\Log\Error;
+use Piwik\Log\APICall;
+use Piwik\Log\Message;
 
 /**
  *
  * @package Piwik
- * @subpackage Piwik_Log
+ * @subpackage Log
  * @see Zend_Log, libs/Zend/Log.php
  * @link http://framework.zend.com/manual/en/zend.log.html
  */
-abstract class Piwik_Log extends Zend_Log
+abstract class Log extends \Zend_Log
 {
     protected $logToDatabaseTableName = null;
     protected $logToDatabaseColumnMapping = null;
@@ -25,6 +33,13 @@ abstract class Piwik_Log extends Zend_Log
     protected $screenFormatter = null;
     protected $currentRequestKey;
 
+    /**
+     * @param string                        $logToFileFilename    filename of logfile
+     * @param \Zend_Log_Formatter_Interface $fileFormatter
+     * @param \Zend_Log_Formatter_Interface $screenFormatter
+     * @param  string                       $logToDatabaseTableName
+     * @param  array                        $logToDatabaseColumnMapping
+     */
     function __construct($logToFileFilename,
                          $fileFormatter,
                          $screenFormatter,
@@ -33,9 +48,9 @@ abstract class Piwik_Log extends Zend_Log
     {
         parent::__construct();
 
-        $this->currentRequestKey = substr(Piwik_Common::generateUniqId(), 0, 8);
+        $this->currentRequestKey = substr(Common::generateUniqId(), 0, 8);
 
-        $log_dir = Piwik_Config::getInstance()->log['logger_file_path'];
+        $log_dir = Config::getInstance()->log['logger_file_path'];
         if ($log_dir[0] != '/' && $log_dir[0] != DIRECTORY_SEPARATOR) {
             $log_dir = PIWIK_USER_PATH . '/' . $log_dir;
         }
@@ -43,27 +58,27 @@ abstract class Piwik_Log extends Zend_Log
 
         $this->fileFormatter = $fileFormatter;
         $this->screenFormatter = $screenFormatter;
-        $this->logToDatabaseTableName = Piwik_Common::prefixTable($logToDatabaseTableName);
+        $this->logToDatabaseTableName = Common::prefixTable($logToDatabaseTableName);
         $this->logToDatabaseColumnMapping = $logToDatabaseColumnMapping;
     }
 
     function addWriteToFile()
     {
-        Piwik_Common::mkdir(dirname($this->logToFileFilename));
-        $writerFile = new Zend_Log_Writer_Stream($this->logToFileFilename);
+        Common::mkdir(dirname($this->logToFileFilename));
+        $writerFile = new \Zend_Log_Writer_Stream($this->logToFileFilename);
         $writerFile->setFormatter($this->fileFormatter);
         $this->addWriter($writerFile);
     }
 
     function addWriteToNull()
     {
-        $this->addWriter(new Zend_Log_Writer_Null);
+        $this->addWriter(new \Zend_Log_Writer_Null);
     }
 
     function addWriteToDatabase()
     {
-        $writerDb = new Zend_Log_Writer_Db(
-            Zend_Registry::get('db'),
+        $writerDb = new \Zend_Log_Writer_Db(
+            \Zend_Registry::get('db'),
             $this->logToDatabaseTableName,
             $this->logToDatabaseColumnMapping);
 
@@ -72,7 +87,7 @@ abstract class Piwik_Log extends Zend_Log
 
     function addWriteToScreen()
     {
-        $writerScreen = new Zend_Log_Writer_Stream('php://output');
+        $writerScreen = new \Zend_Log_Writer_Stream('php://output');
         $writerScreen->setFormatter($this->screenFormatter);
         $this->addWriter($writerScreen);
     }
@@ -87,14 +102,14 @@ abstract class Piwik_Log extends Zend_Log
      * @param string $event
      * @param int $priority
      * @param null $extras
-     * @throws Zend_Log_Exception
+     * @throws \Zend_Log_Exception
      * @return void
      */
     public function log($event, $priority, $extras = null)
     {
         // sanity checks
         if (empty($this->_writers)) {
-            throw new Zend_Log_Exception('No writers were added');
+            throw new \Zend_Log_Exception('No writers were added');
         }
 
         $event['timestamp'] = date('Y-m-d H:i:s');
@@ -137,56 +152,55 @@ abstract class Piwik_Log extends Zend_Log
         }
     }
 
-}
 
-/**
- *
- * @package Piwik
- * @subpackage Piwik_Log
- */
-class Piwik_Log_Formatter_FileFormatter implements Zend_Log_Formatter_Interface
-{
     /**
-     * Formats data into a single line to be written by the writer.
-     *
-     * @param  array $event    event data
-     * @return string             formatted line to write to the log
+     * Create log object
+     * @throws Exception
      */
-    public function format($event)
+    static public function make()
     {
-        foreach ($event as &$value) {
-            $value = str_replace("\n", '\n', $value);
-            $value = '"' . $value . '"';
+        $configAPI = Config::getInstance()->log;
+
+        $aLoggers = array(
+            'logger_api_call' => new APICall,
+            'logger_exception' => new Exception,
+            'logger_error' => new Error,
+            'logger_message' => new Message,
+        );
+
+        foreach ($configAPI as $loggerType => $aRecordTo) {
+            if (isset($aLoggers[$loggerType])) {
+                $logger = $aLoggers[$loggerType];
+
+                foreach ($aRecordTo as $recordTo) {
+                    switch ($recordTo) {
+                        case 'screen':
+                            $logger->addWriteToScreen();
+                            break;
+
+                        case 'database':
+                            $logger->addWriteToDatabase();
+                            break;
+
+                        case 'file':
+                            $logger->addWriteToFile();
+                            break;
+
+                        default:
+                            throw new \Exception("'$recordTo' is not a valid Log type. Valid logger types are: screen, database, file.");
+                            break;
+                    }
+                }
+            }
         }
-        $ts = $event['timestamp'];
-        unset($event['timestamp']);
-        return $ts . ' ' . implode(" ", $event) . "\n";
+
+        foreach ($aLoggers as $loggerType => $logger) {
+            if ($logger->getWritersCount() == 0) {
+                $logger->addWriteToNull();
+            }
+            \Zend_Registry::set($loggerType, $logger);
+        }
     }
+
 }
 
-/**
- *
- * @package Piwik
- * @subpackage Piwik_Log
- */
-class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interface
-{
-    function formatEvent($event)
-    {
-        // no injection in error messages, backtrace when displayed on screen
-        return array_map(array('Piwik_Common', 'sanitizeInputValue'), $event);
-    }
-
-    function format($string)
-    {
-        return self::getFormattedString($string);
-    }
-
-    static public function getFormattedString($string)
-    {
-        if (!Piwik_Common::isPhpCliMode()) {
-            @header('Content-Type: text/html; charset=utf-8');
-        }
-        return $string;
-    }
-}

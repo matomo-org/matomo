@@ -1,4 +1,9 @@
 <?php
+use Piwik\Common;
+use Piwik\FrontController;
+use Piwik\WidgetsList;
+use Piwik\Url;
+
 exit;
 $date = date('Y-m-d');
 $period = 'month';
@@ -28,13 +33,13 @@ define('PIWIK_ENABLE_SESSION_START', false);
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
-Piwik_FrontController::getInstance()->init();
-$widgets = Piwik_GetWidgetsList();
+FrontController::getInstance()->init();
+$widgets = WidgetsList::get();
 foreach ($widgets as $category => $widgetsInCategory) {
     echo '<h2>' . $category . '</h2>';
     foreach ($widgetsInCategory as $widget) {
         echo '<h3>' . $widget['name'] . '</h3>';
-        $widgetUrl = Piwik_Common::getArrayFromQueryString($url);
+        $widgetUrl = Common::getArrayFromQueryString($url);
         $widgetUrl['moduleToWidgetize'] = $widget['parameters']['module'];
         $widgetUrl['actionToWidgetize'] = $widget['parameters']['action'];
         $parameters = $widget['parameters'];
@@ -46,7 +51,7 @@ foreach ($widgets as $category => $widgetsInCategory) {
             }
             $widgetUrl[$name] = $value;
         }
-        $widgetUrl = Piwik_Url::getQueryStringFromParameters($widgetUrl);
+        $widgetUrl = Url::getQueryStringFromParameters($widgetUrl);
 
         echo '<div id="widgetIframe"><iframe width="500" height="350"
 			src="' . $widgetUrl . '" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>';

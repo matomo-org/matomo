@@ -8,12 +8,16 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Period;
+
+use Piwik\Period;
+use Piwik\Period\Day;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Period
+ * @subpackage Period
  */
-class Piwik_Period_Month extends Piwik_Period
+class Month extends Period
 {
     protected $label = 'month';
 
@@ -67,7 +71,7 @@ class Piwik_Period_Month extends Piwik_Period
         $startMonth = $date->setDay(1);
         $currentDay = clone $startMonth;
         while ($currentDay->compareMonth($startMonth) == 0) {
-            $this->addSubperiod(new Piwik_Period_Day($currentDay));
+            $this->addSubperiod(new Day($currentDay));
             $currentDay = $currentDay->addDay(1);
         }
     }

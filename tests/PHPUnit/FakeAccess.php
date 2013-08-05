@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Site;
+
 /**
  * FakeAccess for UnitTests
  */
@@ -65,7 +67,7 @@ class FakeAccess
             $websitesAccess = Piwik_SitesManager_API::getInstance()->getAllSitesId();
         }
 
-        $idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites);
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $websitesAccess)) {
                 throw new Exception("checkUserHasAdminAccess Fake exception // string not to be tested");

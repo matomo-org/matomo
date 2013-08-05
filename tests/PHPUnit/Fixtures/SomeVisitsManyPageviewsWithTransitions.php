@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one site and tracks a couple visits with many pageviews. The
@@ -101,7 +102,7 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
         $this->trackPageView($tracker, 0.6, 'to/outlink/page2.html', $this->dateTime, $pageViewType = 'outlink');
         
         // perform new searches/outlinks before & after in later date to test 'month' period
-        $laterDate = Piwik_Date::factory($this->dateTime)->addDay(8)->getDatetime();
+        $laterDate = Date::factory($this->dateTime)->addDay(8)->getDatetime();
         $tracker->setIp('156.5.3.7');
         $tracker->setNewVisitorId();
         $this->trackPageView($tracker, 0, 'page/search.html#q=thirdkwd', $laterDate, $pageViewType = 'site-search',
@@ -132,7 +133,7 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
 
         /** @var $visit PiwikTracker */
         $visit->setUrl($prefix . 'example.org/' . $path);
-        $visit->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour($timeOffset)->getDatetime());
+        $visit->setForceVisitDateTime(Date::factory($dateTime)->addHour($timeOffset)->getDatetime());
         
         if ($pageViewType == 'normal') {
             self::assertTrue($visit->doTrackPageView('page title - ' . $path));

@@ -8,6 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\Common;
+use Piwik\IP;
+use Piwik\Tracker\Cache;
 
 /**
  * @see plugins/UserCountry/LocationProvider/Default.php
@@ -129,7 +132,7 @@ abstract class Piwik_UserCountry_LocationProvider
     /**
      * Returns every available provider instance.
      *
-     * @return array
+     * @return Piwik_UserCountry_LocationProvider[]
      */
     public static function getAllProviders()
     {
@@ -178,7 +181,7 @@ abstract class Piwik_UserCountry_LocationProvider
      *   'status' - Either self::NOT_INSTALLED, self::INSTALLED or self::BROKEN.
      *   'statusMessage' - If the status is self::BROKEN, then the message describes why.
      *   'location' - A pretty formatted location of the current IP address
-     *                (Piwik_IP::getIpFromHeader()).
+     *                (IP::getIpFromHeader()).
      *
      * An example result:
      * array(
@@ -215,8 +218,8 @@ abstract class Piwik_UserCountry_LocationProvider
                 $workingOrError = $provider->isWorking();
                 if ($workingOrError === true) // if the implementation is configured correctly, get the location
                 {
-                    $locInfo = array('ip'                => Piwik_IP::getIpFromHeader(),
-                                     'lang'              => Piwik_Common::getBrowserLanguage(),
+                    $locInfo = array('ip'                => IP::getIpFromHeader(),
+                                     'lang'              => Common::getBrowserLanguage(),
                                      'disable_fallbacks' => true);
 
                     $location = $provider->getLocation($locInfo);
@@ -286,7 +289,7 @@ abstract class Piwik_UserCountry_LocationProvider
                 "Invalid provider ID '$providerId'. The provider either does not exist or is not available");
         }
         Piwik_SetOption(self::CURRENT_PROVIDER_OPTION_NAME, $providerId);
-        Piwik_Tracker_Cache::clearCacheGeneral();
+        Cache::clearCacheGeneral();
         return $provider;
     }
 
@@ -324,7 +327,7 @@ abstract class Piwik_UserCountry_LocationProvider
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
-            $location[self::CONTINENT_CODE_KEY] = Piwik_Common::getContinent($countryCode);
+            $location[self::CONTINENT_CODE_KEY] = Common::getContinent($countryCode);
         }
 
         // fill in continent name if continent code is present
@@ -438,9 +441,9 @@ abstract class Piwik_UserCountry_LocationProvider
     protected function getIpFromInfo($info)
     {
         $ip = $info['ip'];
-        if (Piwik_IP::isMappedIPv4($ip)) {
-            return Piwik_IP::getIPv4FromMappedIPv6($ip);
-        } else if (Piwik_IP::isIPv6($ip)) // IPv6 is not supported (yet)
+        if (IP::isMappedIPv4($ip)) {
+            return IP::getIPv4FromMappedIPv6($ip);
+        } else if (IP::isIPv6($ip)) // IPv6 is not supported (yet)
         {
             return false;
         } else {

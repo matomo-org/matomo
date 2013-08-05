@@ -8,7 +8,11 @@
  * @category Piwik_Plugins
  * @package Piwik_Annotations
  */
-
+use Piwik\Period;
+use Piwik\Period\Range;
+use Piwik\Piwik;
+use Piwik\Date;
+use Piwik\ViewDataTable;
 /**
  * @see plugins/Annotations/AnnotationList.php
  */
@@ -245,7 +249,7 @@ class Piwik_Annotations_API
                     && $result[$idSite][$strDate]['count'] == 1
                 ) {
                     $annotationsForSite = $annotations->search(
-                        $date, Piwik_Date::factory($nextDate->getTimestamp() - 1), $idSite);
+                        $date, Date::factory($nextDate->getTimestamp() - 1), $idSite);
                     $annotation = reset($annotationsForSite[$idSite]);
 
                     $result[$idSite][$strDate]['note'] = $annotation['note'];
@@ -301,7 +305,7 @@ class Piwik_Annotations_API
      * @param bool|int $lastN  Whether to include the last N periods in the range or not.
      *                         Ignored if period == range.
      *
-     * @return array
+     * @return Date[]   array of Date objects or array(false, false)
      * @ignore
      */
     public static function getDateRangeForPeriod($date, $period, $lastN = false)
@@ -315,21 +319,20 @@ class Piwik_Annotations_API
             || $period == 'range'
         ) {
             if ($period == 'range') {
-                $oPeriod = new Piwik_Period_Range('day', $date);
+                $oPeriod = new Range('day', $date);
             } else {
-                $oPeriod = Piwik_Period::factory($period, Piwik_Date::factory($date));
+                $oPeriod = Period::factory($period, Date::factory($date));
             }
 
             $startDate = $oPeriod->getDateStart();
             $endDate = $oPeriod->getDateEnd();
         } else // if the range includes the last N periods
         {
-            list($date, $lastN) =
-                Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($period, $date, $lastN);
+            list($date, $lastN) = \Piwik\Visualization\JqplotGraph\Evolution::getDateRangeAndLastN($period, $date, $lastN);
             list($startDate, $endDate) = explode(',', $date);
 
-            $startDate = Piwik_Date::factory($startDate);
-            $endDate = Piwik_Date::factory($endDate);
+            $startDate = Date::factory($startDate);
+            $endDate = Date::factory($endDate);
         }
         return array($startDate, $endDate);
     }
@@ -358,6 +361,6 @@ class Piwik_Annotations_API
             return;
         }
 
-        Piwik_Date::factory($date);
+        Date::factory($date);
     }
 }

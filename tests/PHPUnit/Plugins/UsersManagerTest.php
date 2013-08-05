@@ -1,4 +1,7 @@
 <?php
+use Piwik\Config;
+use Piwik\Access;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -11,8 +14,8 @@ class UsersManagerTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        Piwik_PluginsManager::getInstance()->loadPlugin('UsersManager');
-        Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\PluginsManager::getInstance()->loadPlugin('UsersManager');
+        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
 
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
@@ -22,10 +25,10 @@ class UsersManagerTest extends DatabaseTestCase
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         // we make sure the tests don't depend on the config file content
-        Piwik_Config::getInstance()->superuser = array(
+        Config::getInstance()->superuser = array(
             'login'    => 'superusertest',
             'password' => 'passwordsuperusertest',
             'email'    => 'superuser@example.com'
@@ -71,7 +74,7 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testAllSuperUserIncluded()
     {
-        Piwik_Config::getInstance()->superuser = array(
+        Config::getInstance()->superuser = array(
             'login'    => 'superusertest',
             'password' => 'passwordsuperusertest',
             'email'    => 'superuser@example.com'

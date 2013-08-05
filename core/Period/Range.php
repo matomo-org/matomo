@@ -8,14 +8,22 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Period;
+
+use Exception;
+use Piwik\Common;
+use Piwik\Period;
+use Piwik\Date;
+use Piwik\Period\Month;
+use Piwik\Period\Week;
 
 /**
  * from a starting date to an ending date
  *
  * @package Piwik
- * @subpackage Piwik_Period
+ * @subpackage Period
  */
-class Piwik_Period_Range extends Piwik_Period
+class Range extends Period
 {
     protected $label = 'range';
 
@@ -23,7 +31,7 @@ class Piwik_Period_Range extends Piwik_Period
      * @param string $strPeriod
      * @param string $strDate
      * @param string $timezone
-     * @param bool|Piwik_Date $today
+     * @param bool|Date $today
      */
     public function __construct($strPeriod, $strDate, $timezone = 'UTC', $today = false)
     {
@@ -32,7 +40,7 @@ class Piwik_Period_Range extends Piwik_Period
         $this->defaultEndDate = null;
         $this->timezone = $timezone;
         if ($today === false) {
-            $today = Piwik_Date::factory('today', $this->timezone);
+            $today = Date::factory('today', $this->timezone);
         }
         $this->today = $today;
     }
@@ -67,7 +75,7 @@ class Piwik_Period_Range extends Piwik_Period
     /**
      * Returns the start date of the period
      *
-     * @return Piwik_Date
+     * @return Date
      * @throws Exception
      */
     public function getDateStart()
@@ -93,12 +101,12 @@ class Piwik_Period_Range extends Piwik_Period
     /**
      *
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param int $n
      * @throws Exception
-     * @return Piwik_Date
+     * @return Date
      */
-    static public function removePeriod($period, Piwik_Date $date, $n)
+    static public function removePeriod($period, Date $date, $n)
     {
         switch ($period) {
             case 'day':
@@ -148,9 +156,9 @@ class Piwik_Period_Range extends Piwik_Period
     /**
      * Sets the default end date of the period
      *
-     * @param Piwik_Date $oDate
+     * @param Date $oDate
      */
-    public function setDefaultEndDate(Piwik_Date $oDate)
+    public function setDefaultEndDate(Date $oDate)
     {
         $this->defaultEndDate = $oDate;
     }
@@ -173,7 +181,7 @@ class Piwik_Period_Range extends Piwik_Period
             if (!is_null($this->defaultEndDate)) {
                 $defaultEndDate = $this->defaultEndDate;
             } else {
-                $defaultEndDate = Piwik_Date::factory('now', $this->timezone);
+                $defaultEndDate = Date::factory('now', $this->timezone);
             }
 
             $period = $this->strPeriod;
@@ -194,10 +202,10 @@ class Piwik_Period_Range extends Piwik_Period
             $lastN = abs($lastN);
 
             $startDate = self::removePeriod($period, $endDate, $lastN);
-        } elseif ($dateRange = Piwik_Period_Range::parseDateRange($this->strDate)) {
+        } elseif ($dateRange = Range::parseDateRange($this->strDate)) {
             $strDateStart = $dateRange[1];
             $strDateEnd = $dateRange[2];
-            $startDate = Piwik_Date::factory($strDateStart);
+            $startDate = Date::factory($strDateStart);
 
             if ($strDateEnd == 'today') {
                 $strDateEnd = 'now';
@@ -209,7 +217,7 @@ class Piwik_Period_Range extends Piwik_Period
             if (strpos($strDateEnd, '-') === false) {
                 $timezone = $this->timezone;
             }
-            $endDate = Piwik_Date::factory($strDateEnd, $timezone);
+            $endDate = Date::factory($strDateEnd, $timezone);
         } else {
             throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
         }
@@ -244,7 +252,7 @@ class Piwik_Period_Range extends Piwik_Period
     /**
      * Returns the end date of the period
      *
-     * @return null|Piwik_Date
+     * @return null|Date
      */
     public function getDateEnd()
     {
@@ -258,8 +266,8 @@ class Piwik_Period_Range extends Piwik_Period
      * Determine which kind of period is best to use
      * See Range.test.php
      *
-     * @param $startDate
-     * @param $endDate
+     * @param Date $startDate
+     * @param Date $endDate
      */
     protected function processOptimalSubperiods($startDate, $endDate)
     {
@@ -267,7 +275,7 @@ class Piwik_Period_Range extends Piwik_Period
             || $startDate == $endDate) {
             $endOfPeriod = null;
 
-            $month = new Piwik_Period_Month($startDate);
+            $month = new Month($startDate);
             $endOfMonth = $month->getDateEnd();
             $startOfMonth = $month->getDateStart();
             if ($startDate == $startOfMonth
@@ -286,7 +294,7 @@ class Piwik_Period_Range extends Piwik_Period
             } else {
                 // From start date,
                 //  Process end of week
-                $week = new Piwik_Period_Week($startDate);
+                $week = new Week($startDate);
                 $startOfWeek = $week->getDateStart();
                 $endOfWeek = $week->getDateEnd();
 
@@ -320,21 +328,21 @@ class Piwik_Period_Range extends Piwik_Period
     /**
      * Adds new subperiods
      *
-     * @param Piwik_Date $startDate
-     * @param Piwik_Date $endDate
+     * @param Date $startDate
+     * @param Date $endDate
      * @param string $period
      */
     protected function fillArraySubPeriods($startDate, $endDate, $period)
     {
         $arrayPeriods = array();
-        $endSubperiod = Piwik_Period::factory($period, $endDate);
+        $endSubperiod = Period::factory($period, $endDate);
         $arrayPeriods[] = $endSubperiod;
 
         // set end date to start of end period since we're comparing against start date.
         $endDate = $endSubperiod->getDateStart();
         while ($endDate->isLater($startDate)) {
             $endDate = self::removePeriod($period, $endDate, 1);
-            $subPeriod = Piwik_Period::factory($period, $endDate);
+            $subPeriod = Period::factory($period, $endDate);
             $arrayPeriods[] = $subPeriod;
         }
         $arrayPeriods = array_reverse($arrayPeriods);
@@ -350,16 +358,16 @@ class Piwik_Period_Range extends Piwik_Period
      * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
      *
      * @return array An array with two elements, a string for the date before $date and
-     *               a Piwik_Period instance for the period before $date.
+     *               a Period instance for the period before $date.
      */
     public static function getLastDate($date = false, $period = false)
     {
         if ($date === false) {
-            $date = Piwik_Common::getRequestVar('date');
+            $date = Common::getRequestVar('date');
         }
 
         if ($period === false) {
-            $period = Piwik_Common::getRequestVar('period');
+            $period = Common::getRequestVar('period');
         }
 
         // can't get the last date for range periods & dates that use lastN/previousN
@@ -368,14 +376,14 @@ class Piwik_Period_Range extends Piwik_Period
         if ($period != 'range' && !preg_match('/(last|previous)([0-9]*)/', $date, $regs)) {
             if (strpos($date, ',')) // date in the form of 2011-01-01,2011-02-02
             {
-                $rangePeriod = new Piwik_Period_Range($period, $date);
+                $rangePeriod = new Range($period, $date);
 
-                $lastStartDate = Piwik_Period_Range::removePeriod($period, $rangePeriod->getDateStart(), $n = 1);
-                $lastEndDate = Piwik_Period_Range::removePeriod($period, $rangePeriod->getDateEnd(), $n = 1);
+                $lastStartDate = Range::removePeriod($period, $rangePeriod->getDateStart(), $n = 1);
+                $lastEndDate = Range::removePeriod($period, $rangePeriod->getDateEnd(), $n = 1);
 
                 $strLastDate = "$lastStartDate,$lastEndDate";
             } else {
-                $lastPeriod = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1);
+                $lastPeriod = Range::removePeriod($period, Date::factory($date), $n = 1);
                 $strLastDate = $lastPeriod->toString();
             }
         }

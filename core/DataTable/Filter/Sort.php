@@ -8,21 +8,28 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Simple;
+use Piwik\DataTable\Row;
+use Piwik\Metrics;
+use Piwik\DataTable;
 
 /**
  * Sort the DataTable based on the value of column $columnToSort ordered by $order.
  * Possible to specify a natural sorting (see php.net/natsort for details)
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
+class Sort extends Filter
 {
     protected $columnToSort;
     protected $order;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string $columnToSort   name of the column to sort by
      * @param string $order          order (asc|desc)
      * @param bool $naturalSort    use natural sort?
@@ -64,27 +71,27 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
      */
     public function sort($a, $b)
     {
-        return !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-            && !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+        return !isset($a->c[Row::COLUMNS][$this->columnToSort])
+            && !isset($b->c[Row::COLUMNS][$this->columnToSort])
 
             ? 0
             : (
-            !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+            !isset($a->c[Row::COLUMNS][$this->columnToSort])
                 ? 1
                 : (
-            !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+            !isset($b->c[Row::COLUMNS][$this->columnToSort])
                 ? -1
-                : (($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort] != $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
-                || !isset($a->c[Piwik_DataTable_Row::COLUMNS]['label']))
+                : (($a->c[Row::COLUMNS][$this->columnToSort] != $b->c[Row::COLUMNS][$this->columnToSort]
+                || !isset($a->c[Row::COLUMNS]['label']))
                 ? ($this->sign * (
-                $a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
-                    < $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
+                $a->c[Row::COLUMNS][$this->columnToSort]
+                    < $b->c[Row::COLUMNS][$this->columnToSort]
                     ? -1
                     : 1)
                 )
                 : -1 * $this->sign * strnatcasecmp(
-                    $a->c[Piwik_DataTable_Row::COLUMNS]['label'],
-                    $b->c[Piwik_DataTable_Row::COLUMNS]['label'])
+                    $a->c[Row::COLUMNS]['label'],
+                    $b->c[Row::COLUMNS]['label'])
             )
             )
             );
@@ -99,16 +106,16 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
      */
     function naturalSort($a, $b)
     {
-        return !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-            && !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+        return !isset($a->c[Row::COLUMNS][$this->columnToSort])
+            && !isset($b->c[Row::COLUMNS][$this->columnToSort])
             ? 0
-            : (!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+            : (!isset($a->c[Row::COLUMNS][$this->columnToSort])
                 ? 1
-                : (!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+                : (!isset($b->c[Row::COLUMNS][$this->columnToSort])
                     ? -1
                     : $this->sign * strnatcasecmp(
-                        $a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort],
-                        $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
+                        $a->c[Row::COLUMNS][$this->columnToSort],
+                        $b->c[Row::COLUMNS][$this->columnToSort]
                     )
                 )
             );
@@ -123,16 +130,16 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
      */
     function sortString($a, $b)
     {
-        return !isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
-            && !isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+        return !isset($a->c[Row::COLUMNS][$this->columnToSort])
+            && !isset($b->c[Row::COLUMNS][$this->columnToSort])
             ? 0
-            : (!isset($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+            : (!isset($a->c[Row::COLUMNS][$this->columnToSort])
                 ? 1
-                : (!isset($b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort])
+                : (!isset($b->c[Row::COLUMNS][$this->columnToSort])
                     ? -1
                     : $this->sign *
-                        strcasecmp($a->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort],
-                            $b->c[Piwik_DataTable_Row::COLUMNS][$this->columnToSort]
+                        strcasecmp($a->c[Row::COLUMNS][$this->columnToSort],
+                            $b->c[Row::COLUMNS][$this->columnToSort]
                         )
                 )
             );
@@ -141,7 +148,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
     /**
      * Sets the column to be used for sorting
      *
-     * @param Piwik_DataTable_Row $row
+     * @param Row $row
      * @return int
      */
     protected function selectColumnToSort($row)
@@ -151,8 +158,8 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
             return $this->columnToSort;
         }
 
-        $columnIdToName = Piwik_Metrics::getMappingFromIdToName();
-        // sorting by "nb_visits" but the index is Piwik_Metrics::INDEX_NB_VISITS in the table
+        $columnIdToName = Metrics::getMappingFromIdToName();
+        // sorting by "nb_visits" but the index is Metrics::INDEX_NB_VISITS in the table
         if (isset($columnIdToName[$this->columnToSort])) {
             $column = $columnIdToName[$this->columnToSort];
             $value = $row->getColumn($column);
@@ -164,7 +171,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 
         // eg. was previously sorted by revenue_per_visit, but this table
         // doesn't have this column; defaults with nb_visits
-        $column = Piwik_Metrics::INDEX_NB_VISITS;
+        $column = Metrics::INDEX_NB_VISITS;
         $value = $row->getColumn($column);
         if ($value !== false) {
             return $column;
@@ -178,12 +185,12 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
     /**
      * Sorts the given data table by defined column and sorting method
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @return mixed
      */
     public function filter($table)
     {
-        if ($table instanceof Piwik_DataTable_Simple) {
+        if ($table instanceof Simple) {
             return;
         }
         if (empty($this->columnToSort)) {

@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_SEO
  */
+use Piwik\Piwik;
+use Piwik\Http;
 
 /**
  * The functions below are derived/adapted from GetRank.org's
@@ -55,7 +57,7 @@ class Piwik_SEO_RankChecker
     private function getPage($url)
     {
         try {
-            return str_replace('&nbsp;', ' ', Piwik_Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
+            return str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
         } catch (Exception $e) {
             return '';
         }

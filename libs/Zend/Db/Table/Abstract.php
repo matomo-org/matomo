@@ -604,7 +604,7 @@ abstract class Zend_Db_Table_Abstract
         }
         if (is_string($db)) {
             // require_once 'Zend/Registry.php';
-            $db = Zend_Registry::get($db);
+            $db = \Zend_Registry::get($db);
         }
         if (!$db instanceof Zend_Db_Adapter_Abstract) {
             // require_once 'Zend/Db/Table/Exception.php';
@@ -699,7 +699,7 @@ abstract class Zend_Db_Table_Abstract
         }
         if (is_string($metadataCache)) {
             // require_once 'Zend/Registry.php';
-            $metadataCache = Zend_Registry::get($metadataCache);
+            $metadataCache = \Zend_Registry::get($metadataCache);
         }
         if (!$metadataCache instanceof Zend_Cache_Core) {
             // require_once 'Zend/Db/Table/Exception.php';
