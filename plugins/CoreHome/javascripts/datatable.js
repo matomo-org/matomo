@@ -367,7 +367,7 @@ dataTable.prototype =
                 // adding an image and the class columnSorted to the TD
                 $(".sortable#" + self.param.filter_sort_column + ' #thDIV', domElem).parent()
                     .addClass('columnSorted')
-                    .prepend('<div id="sortIconContainer"><img id="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
+                    .prepend('<div class="sortIconContainer"><img class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
             }
         }
     },
@@ -394,7 +394,7 @@ dataTable.prototype =
             .show()
             .each(function () {
                 // when enter is pressed in the input field we submit the form
-                $('#keyword', this)
+                $('.searchInput', this)
                     .on("keyup",
                     function (e) {
                         if (isEnterKey(e)) {
@@ -407,7 +407,7 @@ dataTable.prototype =
 
                 $(':submit', this).submit(
                     function () {
-                        var keyword = $(this).siblings('#keyword').val();
+                        var keyword = $(this).siblings('.searchInput').val();
                         self.param.filter_offset = 0;
 
                         if (self.param.search_recursive) {
@@ -436,10 +436,10 @@ dataTable.prototype =
 							<img src="plugins/CoreHome/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear" />\
 							</span>')
                         .click(function () {
-                            $('#keyword', target).val('');
+                            $('.searchInput', target).val('');
                             $(':submit', target).submit();
                         });
-                    $('#keyword', this).after(clearImg);
+                    $('.searchInput', this).after(clearImg);
 
                 }
             }
