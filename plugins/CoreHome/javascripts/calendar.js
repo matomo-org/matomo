@@ -449,7 +449,8 @@
         });
 
         $('body').on('click', function(e) {
-            if (!$(e.target).parents('#periodString').length && !$(e.target).is('#periodString') && !$(e.target).is('option') && $("#periodMore").is(":visible")) {
+            var target = $(e.target);
+            if (target.closest('html').length && !target.closest('#periodString').length && !target.is('option') && $("#periodMore").is(":visible")) {
                 $("#periodMore").hide();
             }
         });
