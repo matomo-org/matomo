@@ -123,7 +123,7 @@ class Piwik_AssetManager
 
         // Disable Merged Assets ==> Check on each request if file needs re-compiling
         if ($mergedCssAlreadyGenerated
-            && $isDevelopingPiwik
+            && !$isDevelopingPiwik
         ) {
             $pathMerged = self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
             $f = fopen($pathMerged, 'r');
