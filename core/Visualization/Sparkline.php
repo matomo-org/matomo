@@ -33,7 +33,7 @@ class Sparkline implements ViewInterface
     const DEFAULT_WIDTH = 100;
     const DEFAULT_HEIGHT = 25;
 
-    private static $colorNames = array('lineColor', 'red', 'blue', 'green');
+    private static $colorNames = array('backgroundColor', 'lineColor', 'minPointColor', 'lastPointColor', 'maxPointColor');
 
     /**
      * Width of the sparkline
@@ -136,9 +136,9 @@ class Sparkline implements ViewInterface
         $sparkline->SetYMin(0);
         $sparkline->SetYMax($max[1]);
         $sparkline->SetPadding(3, 0, 2, 0); // top, right, bottom, left
-        $sparkline->SetFeaturePoint($min[0], $min[1], 'red', 5);
-        $sparkline->SetFeaturePoint($max[0], $max[1], 'green', 5);
-        $sparkline->SetFeaturePoint($last[0], $last[1], 'blue', 5);
+        $sparkline->SetFeaturePoint($min[0], $min[1], 'minPointColor', 5);
+        $sparkline->SetFeaturePoint($max[0], $max[1], 'maxPointColor', 5);
+        $sparkline->SetFeaturePoint($last[0], $last[1], 'lastPointColor', 5);
         $sparkline->SetLineSize(3); // for renderresampled, linesize is on virtual image
         $ratio = 1;
         $sparkline->RenderResampled($width * $ratio, $height * $ratio);

@@ -1,12 +1,24 @@
-@theme-color-text-link: #6C9C50;
+
+@theme-color-background: #141414;
+@theme-color-lightColor: #5F5A60;
+@theme-color-veryLightColor: #343434;
+@theme-color-highlight1: #766F31;
+@theme-color-highlight2: #6C9C50;
+@theme-color-highlight3: #67E750;
+
+@theme-color-text-link: @theme-color-highlight2;
 @theme-color-text-base: #59867D;
-@theme-color-text-focus: #67E750;
-@theme-color-text-active: #766F31;
-@theme-color-box-border: #5F5A60; //#777778;
-@theme-color-box-active: #141414;
+@theme-color-text-focus: @theme-color-highlight3;
+@theme-color-text-active: @theme-color-highlight1;
+@theme-color-box-border: @theme-color-lightColor;
+@theme-color-box-active: @theme-color-background;
 
 @import "_general.less";
 @import "_layout.less";
 @import "_menuDashboard.less";
 @import "_menuAdmin.less";
 @import "_widget.less";
+@import "_dataTable.less";
+@import "_sparklineColors.less";
+@import "_transitionColors.less";
+@import "_jqplotColors.less";

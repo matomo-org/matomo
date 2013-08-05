@@ -7,7 +7,7 @@
 
 (function ($) {
 
-var sparklineColorNames = ['lineColor', 'red', 'blue', 'green'];
+var sparklineColorNames = ['backgroundColor', 'lineColor', 'minPointColor', 'maxPointColor', 'lastPointColor'];
 
 piwik.getSparklineColors = function () {
     return piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);
@@ -15,7 +15,7 @@ piwik.getSparklineColors = function () {
 
 // initializes each sparkline so they use colors defined in CSS
 piwik.initSparklines = function () {
-    $('img.sparkline').each(function () {
+    $('.sparkline > img').each(function () {
         var $self = $(this);
         
         if ($self.attr('src')) {
@@ -36,7 +36,7 @@ window.initializeSparklines = function () {
         // try to find sparklines and add them clickable behaviour
         graph.parent().find('div.sparkline').each(function () {
             // find the sparkline and get it's src attribute
-            var sparklineUrl = $('img.sparkline', this).attr('data-src');
+            var sparklineUrl = $('.sparkline > img', this).attr('data-src');
 
             if (sparklineUrl != "") {
                 var params = broadcast.getValuesFromUrl(sparklineUrl);
