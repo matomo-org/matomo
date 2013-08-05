@@ -28,9 +28,10 @@ menu.prototype =
 
     outMainLI: function () {
         clearTimeout(menu.prototype.resetTimer);
-        menu.prototype.resetTimer = setTimeout(function () {
-            $('.nav>.sfHover').removeClass('sfHover');
-            $('.nav>.sfActive').addClass('sfHover');
+        menu.prototype.resetTimer = setTimeout(function() {
+            $('.nav_tab > .sfHover').removeClass('sfHover');
+            $('.nav_tab > .sfActive').addClass('sfHover');
+            menu.prototype.adaptSubMenuHeight();
         }, 2000);
     },
 
