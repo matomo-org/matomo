@@ -300,7 +300,6 @@ class Piwik_UserSettings extends Plugin
             'filter_sort_column'          => 'nb_visits',
             'filter_sort_order'           => 'desc',
             'show_search'                 => false,
-            'filter_limit'                => false,
             'columns_to_display'          => array('label', 'nb_visits'),
             'show_exclude_low_population' => false,
         );

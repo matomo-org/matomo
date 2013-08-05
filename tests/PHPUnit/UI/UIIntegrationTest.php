@@ -93,9 +93,9 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
 
         return array(
             // dashboard
-            array('dashboard1', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=1"),
+            /*array('dashboard1', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=1"),
             array('dashboard2', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=2"),
-            array('dashboard3', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=3"),
+            array('dashboard3', "?$urlBase#$generalParams&module=Dashboard&action=embeddedIndex&idDashboard=3"),*/
             
             // visitors pages (except real time map since it displays current time)
             array('visitors_overview', "?$urlBase#$generalParams&module=VisitsSummary&action=index"),
@@ -204,7 +204,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         $this->runCutyCapt($urlQuery, $processedScreenshotPath);
         
         // compare processed w/ expected
-        $this->compareScreenshot($name, $expectedScreenshotPath, $processedScreenshotPath);
+        $this->compareScreenshot($name, $expectedScreenshotPath, $processedScreenshotPath, $urlQuery);
     }
     
     private function runCutyCapt($urlQuery, $processedPath)
@@ -225,7 +225,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         return $output;
     }
     
-    private function compareScreenshot($name, $expectedPath, $processedPath)
+    private function compareScreenshot($name, $expectedPath, $processedPath, $urlQuery)
     {
         $processed = file_get_contents($processedPath);
         
@@ -234,6 +234,9 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         }
         
         $expected = file_get_contents($expectedPath);
+        if ($expected != $processed) {
+            echo "\nFail: '$processedPath' for '$urlQuery'\n";
+        }
         $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
     }
     
@@ -262,4 +265,3 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
 }
 
 Test_Piwik_Integration_UIIntegrationTest::$fixture = new Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts();
-

@@ -8,14 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\JqplotDataGenerator;
+namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\ViewDataTable;
 use Piwik\Url;
-use Piwik\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.

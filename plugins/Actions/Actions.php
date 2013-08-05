@@ -60,8 +60,14 @@ class Piwik_Actions extends Plugin
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'AssetManager.getCssFiles'                 => 'getCssFiles',
         );
         return $hooks;
+    }
+
+    public function getCssFiles(&$cssFiles)
+    {
+        $cssFiles[] = "plugins/Actions/stylesheets/dataTableActions.less";
     }
     
     public function getSegmentsMetadata(&$segments)

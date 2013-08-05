@@ -9,22 +9,23 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization\JqplotGraph;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
 use Piwik\Site;
 use Piwik\Controller;
 use Piwik\Period\Range;
-use Piwik\Visualization\JqplotGraph;
-use Piwik\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 /**
- * TODO
+ * Visualization that renders HTML for a line graph using jqPlot.
  */
 class Evolution extends JqplotGraph
 {
-    const GRAPH_HEIGHT = 170;
     const ID = 'graphEvolution';
+    
+    const GRAPH_HEIGHT = 170;
     const SERIES_COLOR_COUNT = 8;
 
     public function __construct($view)

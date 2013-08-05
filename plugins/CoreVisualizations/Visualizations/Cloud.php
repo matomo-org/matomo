@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\Visualization;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\View;
@@ -67,7 +67,7 @@ class Cloud extends DataTableVisualization
      */
     public function render($dataTable, $properties)
     {
-        $view = new View("@CoreHome/_dataTableViz_tagCloud.twig");
+        $view = new View("@CoreVisualizations/_dataTableViz_tagCloud.twig");
         $view->properties = $properties;
 
         $columnToDisplay = $properties['columns_to_display'][1];

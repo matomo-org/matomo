@@ -119,6 +119,11 @@ abstract class DataTableVisualization
 
         $result = array();
         foreach ($visualizations as $viz) {
+            if (!class_exists($viz)) {
+                throw new \Exception(
+                    "Invalid visualization class '$viz' found in DataTableVisualization.getAvailableVisualizations.");
+            }
+
             if (is_subclass_of($viz, __CLASS__)) {
                 $result[$viz::getViewDataTableId()] = $viz;
             }

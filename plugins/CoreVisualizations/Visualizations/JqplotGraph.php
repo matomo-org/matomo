@@ -8,14 +8,17 @@
  * @category Piwik
  * @package Piwik
  */
-
-namespace Piwik\Visualization;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\View;
-use Piwik\JqplotDataGenerator;
 use Piwik\DataTable;
 use Piwik\DataTableVisualization;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Bar.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Pie.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Evolution.php';
 
 /**
  * DataTable visualization that displays DataTable data in a JQPlot graph.
@@ -177,7 +180,7 @@ class JqplotGraph extends DataTableVisualization
      */
     public function render($dataTable, $properties)
     {
-        $view = new View("@CoreHome/_dataTableViz_jqplotGraph.twig");
+        $view = new View("@CoreVisualizations/_dataTableViz_jqplotGraph.twig");
         $view->properties = $properties;
         $view->dataTable = $dataTable;
         $view->data = $this->getGraphData($dataTable, $properties);

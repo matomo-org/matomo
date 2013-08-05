@@ -9,27 +9,28 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization\JqplotGraph;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
-use Piwik\Visualization\JqplotGraph;
-use Piwik\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 /**
- * TODO
+ * Visualization that renders HTML for a Pie graph using jqPlot.
  */
-class Bar extends JqplotGraph
+class Pie extends JqplotGraph
 {
-    const ID = 'graphVerticalBar';
+    const ID = 'graphPie';
 
     public static function getDefaultPropertyValues()
     {
         $result = parent::getDefaultPropertyValues();
         $result['visualization_properties']['max_graph_elements'] = 6;
+        $result['visualization_properties']['allow_multi_select_series_picker'] = false;
         return $result;
     }
 
     protected function makeDataGenerator($properties)
     {
-        return JqplotDataGenerator::factory('bar', $properties);
+        return JqplotDataGenerator::factory('pie', $properties);
     }
 }

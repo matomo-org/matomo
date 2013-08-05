@@ -9,9 +9,9 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization\HtmlTable;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-use Piwik\Visualization\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
  * TODO
@@ -21,7 +21,9 @@ class Goals extends HtmlTable
     const ID = 'tableGoals';
 
     /**
-     * TODO
+     * Constructor.
+     * 
+     * @param ViewDataTable $view
      */
     public function __construct($view)
     {

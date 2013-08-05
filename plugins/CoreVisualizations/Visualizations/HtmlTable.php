@@ -8,8 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-
-namespace Piwik\Visualization;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Piwik;
 use Piwik\DataTable;
@@ -20,6 +19,9 @@ use Piwik\Site;
 use Piwik\DataTableVisualization;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use \Piwik_Goals_API;
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/AllColumns.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/Goals.php';
 
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
@@ -117,7 +119,7 @@ class HtmlTable extends DataTableVisualization
      */
     public function render($dataTable, $properties) // TODO: $properties should be a viewdatatable, I think.
     {
-        $view = new View("@CoreHome/_dataTableViz_htmlTable.twig");
+        $view = new View("@CoreVisualizations/_dataTableViz_htmlTable.twig");
         $view->properties = $properties;
         $view->dataTable = $dataTable;
         return $view->render();

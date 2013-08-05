@@ -292,41 +292,12 @@ class ViewDataTable
         }
 
         $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
-        switch ($type) {
-            case 'cloud':
-                $result = new ViewDataTable('Piwik\\Visualization\\Cloud');
-                break;
 
-            case 'graphPie':
-                $result = new ViewDataTable('Piwik\\Visualization\\JqplotGraph\\Pie');
-                break;
-
-            case 'graphVerticalBar':
-                $result = new ViewDataTable('Piwik\\Visualization\\JqplotGraph\\Bar');
-                break;
-
-            case 'graphEvolution':
-                $result = new ViewDataTable('Piwik\\Visualization\\JqplotGraph\\Evolution');
-                break;
-
-            case 'sparkline':
-                $result = new ViewDataTable\Sparkline();
-                break;
-
-            case 'tableAllColumns': // for backwards compatibility TODO: shouldn't require this viewdatatable... (same for Goals)
-                $result = new ViewDataTable('Piwik\\Visualization\\HtmlTable\\AllColumns');
-                break;
-
-            case 'tableGoals': // for backwards compatibility
-                $result = new ViewDataTable('Piwik\\Visualization\\HtmlTable\\Goals');
-                break;
-
-            case 'table':
-                $result = new ViewDataTable('Piwik\\Visualization\\HtmlTable');
-                break;
-
-            default:
-                break;
+        if ($type == 'sparkline') {
+            $result = new ViewDataTable\Sparkline();
+        } else {
+            $klass = DataTableVisualization::getClassFromId($type);
+            $result = new ViewDataTable($klass);
         }
         
         if ($apiAction !== false) {

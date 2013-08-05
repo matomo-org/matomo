@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\ViewDataTable;
 use Piwik\Url;
 use Piwik\Visualization\Chart\Evolution;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
 /**
  * ROW EVOLUTION
@@ -97,8 +98,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
         if ($this->period != 'range') {
             // handle day, week, month and year: display last X periods
             $end = $date->toString();
-            list($this->date, $lastN) =
-                \Piwik\Visualization\JqplotGraph\Evolution::getDateRangeAndLastN($this->period, $end);
+            list($this->date, $lastN) = EvolutionViz::getDateRangeAndLastN($this->period, $end);
         }
         $this->segment = \Piwik\API\Request::getRawSegmentFromRequest();
 

@@ -9,13 +9,15 @@
  * @package Piwik
  */
 
-namespace Piwik;
+namespace Piwik\Plugins\CoreVisualizations;
 
 use Exception;
 use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\Visualization;
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';
 
 /**
  * Generates JSON data used to configure and populate JQPlot graphs.
