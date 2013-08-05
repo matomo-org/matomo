@@ -314,18 +314,18 @@ class ViewDataTable
                 break;
 
             case 'tableAllColumns': // for backwards compatibility TODO: shouldn't require this viewdatatable... (same for Goals)
-                $result = new ViewDataTable('Piwik\\Visualization\\HtmlTable');
-                $result->visualization_properties->show_extra_columns = true;
+                $result = new ViewDataTable('Piwik\\Visualization\\HtmlTable\\AllColumns');
                 break;
 
             case 'tableGoals': // for backwards compatibility
-                $result = new ViewDataTable('Piwik\\Visualization\\HtmlTable');
-                $result->visualization_properties->show_goals_columns = true;
+                $result = new ViewDataTable('Piwik\\Visualization\\HtmlTable\\Goals');
                 break;
 
             case 'table':
-            default:
                 $result = new ViewDataTable('Piwik\\Visualization\\HtmlTable');
+                break;
+
+            default:
                 break;
         }
         

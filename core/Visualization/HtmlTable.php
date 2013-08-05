@@ -77,9 +77,6 @@ class HtmlTable extends DataTableVisualization
      */
     const DISABLE_SUBTABLE_IN_GOALS_VIEW = 'disable_subtable_when_show_goals';
 
-    // TODO: names for these types of properties are inappropriate. JS properties are actually properties
-    // that get passed for each request. Overridable properties are properties that do not get passed on,
-    // but are visible to client side JS. (change to clientSideProperties & clientSideParameters)
     static public $clientSideParameters = array(
         'search_recursive',
     );
@@ -124,17 +121,6 @@ class HtmlTable extends DataTableVisualization
         $view->properties = $properties;
         $view->dataTable = $dataTable;
         return $view->render();
-    }
-
-    public static function getViewDataTableId($view) // TODO: shouldn't need this override
-    {
-        if ($view->visualization_properties->show_extra_columns) {
-            return 'tableAllColumns';
-        } else if ($view->visualization_properties->show_goals_columns) {
-            return 'tableGoals';
-        } else {
-            return self::ID;
-        }
     }
 
     public static function getDefaultPropertyValues()

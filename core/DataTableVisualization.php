@@ -29,7 +29,16 @@ abstract class DataTableVisualization
     public static function getClientSideParameters()
     {
         if (isset(static::$clientSideParameters)) {
-            return static::$clientSideParameters;
+            $result = array();
+
+            $lineage = static::getThisVisualizationClassLineage();
+            foreach ($lineage as $klass) {
+                if (isset($klass::$clientSideParameters)) {
+                    $result = array_merge($result, $clientSideParameters);
+                }
+            }
+            
+            return $result;
         } else {
             return array();
         }
@@ -41,7 +50,16 @@ abstract class DataTableVisualization
     public static function getClientSideProperties()
     {
         if (isset(static::$clientSideProperties)) {
-            return static::$clientSideProperties;
+            $result = array();
+
+            $lineage = static::getThisVisualizationClassLineage();
+            foreach ($lineage as $klass) {
+                if (isset($klass::$clientSideProperties)) {
+                    $result = array_merge($result, $clientSideProperties);
+                }
+            }
+            
+            return $result;
         } else {
             return array();
         }
@@ -50,7 +68,7 @@ abstract class DataTableVisualization
     /**
      * TODO
      */
-    public static function getViewDataTableId($view)
+    public static function getViewDataTableId()
     {
         if (defined('static::ID')) {
             return static::ID;
@@ -77,9 +95,46 @@ abstract class DataTableVisualization
     /**
      * TODO
      */
+    protected static function getThisVisualizationClassLineage()
+    {
+        return self::getVisualizationClassLineage(__CLASS__);
+    }
+
+    /**
+     * TODO
+     */
     public static function getVisualizationIdsWithInheritance($klass)
     {
         $klasses = self::getVisualizationClassLineage($klass);
         return array_map(array('Piwik\\Piwik', 'getUnnamespacedClassName'), $klasses);
+    }
+
+    /**
+     * TODO
+     */
+    public static function getAvailableVisualizations()
+    {
+        $visualizations = array();
+        Piwik_PostEvent('DataTableVisualization.getAvailable', array(&$visualizations));
+
+        $result = array();
+        foreach ($visualizations as $viz) {
+            if (is_subclass_of($viz, __CLASS__)) {
+                $result[$viz::getViewDataTableId()] = $viz;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * TODO
+     */
+    public static function getClassFromId($id)
+    {
+        $visualizationClasses = self::getAvailableVisualizations();
+        if (!isset($visualizationClasses[$id])) {
+            throw new \Exception("Invalid DataTable visualization ID: '$id'.");
+        }
+        return $visualizationClasses[$id];
     }
 }
