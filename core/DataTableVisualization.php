@@ -14,17 +14,40 @@ namespace Piwik;
 use Piwik\DataTable;
 
 /**
- * TODO
+ * Base class for all DataTable visualizations. Different visualizations are used to
+ * handle different values of the viewDataTable query parameter. Each one will display
+ * DataTable data in a different way.
+ * 
+ * TODO: must be more in depth
  */
 abstract class DataTableVisualization
 {
     /**
-     * TODO
+     * This event is used to gather all available DataTable visualizations. Callbacks
+     * should add visualization class names to the incoming array.
+     * 
+     * Callback Signature: function (&$visualizations) {}
+     */
+    const GET_AVAILABLE_EVENT = 'DataTableVisualization.getAvailable';
+
+    /**
+     * Rendering function. Must return the view HTML.
+     * 
+     * @param Piwik_DataTable|Piwik_DataTable_Map $dataTable The data.
+     * @param array $properties The view properties.
+     * @return string The visualization HTML.
      */
     public abstract function render($dataTable, $properties);
 
     /**
-     * TODO
+     * Returns the array of view properties that a DataTable visualization will require
+     * to be both visible to client side JavaScript, and passed along as query parameters
+     * in every AJAX request.
+     * 
+     * Derived DataTableVisualizations can specify client side parameters by declaring
+     * a static $clientSideParameters field.
+     * 
+     * @return array
      */
     public static function getClientSideParameters()
     {
@@ -45,7 +68,14 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns an array of view property names that a DataTable visualization will
+     * require to be visible to client side JavaScript. Unlike 'client side parameters',
+     * these will not be passed with AJAX requests as query parameters.
+     * 
+     * Derived DataTableVisualizations can specify client side properties by declaring
+     * a static $clientSideProperties field.
+     * 
+     * @return array
      */
     public static function getClientSideProperties()
     {
@@ -66,7 +96,10 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns the viewDataTable ID for this DataTable visualization. Derived classes
+     * should declare a const ID field with the viewDataTable ID.
+     * 
+     * @return string
      */
     public static function getViewDataTableId()
     {
@@ -78,7 +111,12 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns the list of parents for a DataTableVisualization class excluding the
+     * DataTableVisualization class and above.
+     * 
+     * @param string $klass The class name of the DataTableVisualization.
+     * @return array The list of parent classes in order from highest ancestor to
+     *               the descended class.
      */
     public static function getVisualizationClassLineage($klass)
     {
@@ -93,7 +131,11 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns the class lineage for this class. For use with late static bindings.
+     * 
+     * @see self::getVisualizationClassLineage
+     * 
+     * @return array
      */
     protected static function getThisVisualizationClassLineage()
     {
@@ -101,7 +143,11 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns the viewDataTable IDs of a visualization's class lineage.
+     * 
+     * @see self::getVisualizationClassLineage
+     * 
+     * @param string $klass The visualization class.
      */
     public static function getVisualizationIdsWithInheritance($klass)
     {
@@ -110,12 +156,17 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns all registered visualization classes. Uses the 'DataTableVisualization.getAvailable'
+     * event to retrieve visualizations.
+     * 
+     * @return array Array mapping visualization IDs with their associated visualization classes.
+     * @throws Exception If a visualization class does not exist or if a duplicate visualization ID
+     *                   is found.
      */
     public static function getAvailableVisualizations()
     {
         $visualizations = array();
-        Piwik_PostEvent('DataTableVisualization.getAvailable', array(&$visualizations));
+        Piwik_PostEvent(self::GET_AVAILABLE_EVENT, array(&$visualizations));
 
         $result = array();
         foreach ($visualizations as $viz) {
@@ -137,7 +188,9 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns all available visualizations that are not part of the CoreVisualizations plugin.
+     * 
+     * @return array Array mapping visualization IDs with their associated visualization classes.
      */
     public static function getNonCoreVisualizations()
     {
@@ -151,7 +204,11 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns an array mapping visualization IDs with information necessary for adding the
+     * visualizations to the footer of DataTable views.
+     * 
+     * @param array $visualizations An array mapping visualization IDs w/ their associated classes.
+     * @return array
      */
     public static function getVisualizationInfoFor($visualizations)
     {
@@ -163,7 +220,11 @@ abstract class DataTableVisualization
     }
 
     /**
-     * TODO
+     * Returns the visualization class by it's viewDataTable ID.
+     * 
+     * @param string $id The visualization ID.
+     * @return string The visualization class name.
+     * @throws Exception if $id is not a valid visualization ID.
      */
     public static function getClassFromId($id)
     {
