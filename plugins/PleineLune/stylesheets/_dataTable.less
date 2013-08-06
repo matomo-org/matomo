@@ -43,17 +43,24 @@ table.subDataTable thead th {
   border-width: 0 0 1px 1px;
 }
 
-/* Focus */
+/* Hover state */
+table.dataTable tr.subDataTable:hover > td,
+table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
+  background: transparent;
+}
+
+/* Focus widget */
 .ui-dialog-content,
 .widget:hover,
 .cellSubDataTable:hover {
   table.dataTable td,
   table.dataTable td a {
-    color: white;
+    color: @theme-color-text-lightFocus;
   }
+  table.dataTable th,
   table.dataTable tr:hover > td,
   table.dataTable tr:hover > td > a {
-    color: #444;
+    color: @theme-color-text-focus;
   }
 }
 
