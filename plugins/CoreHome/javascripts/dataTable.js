@@ -363,11 +363,13 @@ dataTable.prototype =
                 var imageSortSrc = getSortImageSrc();
                 var imageSortWidth = 16;
                 var imageSortHeight = 16;
+                var ImageSortClass = self.param.filter_sort_order.charAt(0).toUpperCase() + self.param.filter_sort_order.substr(1);
+
                 // we change the style of the column currently used as sort column
                 // adding an image and the class columnSorted to the TD
                 $(".sortable#" + self.param.filter_sort_column + ' #thDIV', domElem).parent()
                     .addClass('columnSorted')
-                    .prepend('<div class="sortIconContainer"><img class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
+                    .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + '"><img class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
             }
         }
     },
