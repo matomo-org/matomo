@@ -28,7 +28,6 @@ a.tableConfigurationIcon.highlighted {
 
 .tableConfiguration ul {
   overflow: visible;
-  background-color: #fff;
   display: none;
   position: relative;
   z-index: 8;
@@ -45,13 +44,13 @@ a.tableConfigurationIcon.highlighted {
   height: 40px;
   margin-top: -80px;
   background-color: #fff;
-  border-left: 1px solid #DFDFDF;
-  border-right: 1px solid #DFDFDF;
+  border: 1px solid #DFDFDF;
+  border-width: 0 1px;
   vertical-align: middle;
 }
 
 .tableConfiguration ul li.firstDummy {
-  border-bottom: 1px solid #DFDFDF;
+  border-bottom-width: 1px;
   border-radius: 0 0 4px 4px;
   height: 25px;
   cursor: default;
@@ -63,7 +62,7 @@ a.tableConfigurationIcon.highlighted {
 }
 
 .tableConfiguration ul li.last {
-  border-top: 1px solid #DFDFDF;
+  border-top-width: 1px;
   border-radius: 4px 4px 0 0;
 }
 
