@@ -282,13 +282,11 @@ dataTable.prototype =
             $('.limitSelection ul li:last', domElem).addClass('last');
 
             if (!self.isEmpty) {
-                var show = function () {
+                var show = function() {
                     $('.limitSelection ul', domElem).show();
                     $('.limitSelection', domElem).addClass('visible');
-                    $(document).on('mouseup.limitSelection', function (e) {
-                        if ((!$(e.target).parents('.limitSelection').length
-                            || $(e.target).parents('.limitSelection') != $('.limitSelection', domElem))
-                            && !$(e.target).is('.limitSelection')) {
+                    $(document).on('mouseup.limitSelection', function(e) {
+                        if (!$(e.target).closest('.limitSelection').length) {
                             hide();
                         }
                     });
@@ -783,7 +781,7 @@ dataTable.prototype =
                 });
                 self.exportToFormatHide(domElem);
             },
-            function () {
+            function() {
                 //Graph icon onmouseout
                 if (self.graphViewStartingKeep) return self.graphViewStartingKeep = false; //exit while icons animate
                 $('a', this).each(function (i) {
