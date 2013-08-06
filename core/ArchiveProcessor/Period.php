@@ -165,7 +165,7 @@ class Period extends ArchiveProcessor
             $table->setColumnAggregationOperations($columnAggregationOperations);
         }
 
-        $data = $this->archiver->getDataTableExpanded($name, $idSubTable = null, $addMetadataSubtableId = false);
+        $data = $this->archiver->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
         if ($data instanceof DataTable\Map) {
             foreach ($data->getArray() as $date => $tableToSum) {
                 $table->addDataTable($tableToSum);

@@ -234,7 +234,7 @@ class DataCollection
      * @throws Exception
      * @return DataTable|DataTable\Map
      */
-    public function getExpandedDataTable($resultIndices, $idSubTable = null, $addMetadataSubTableId = false)
+    public function getExpandedDataTable($resultIndices, $idSubTable = null, $depth = null, $addMetadataSubTableId = false)
     {
         if ($this->dataType != 'blob') {
             throw new Exception("DataCollection: cannot call getExpandedDataTable with "
@@ -248,7 +248,7 @@ class DataCollection
 
         $dataTableFactory = new DataTableFactory(
             $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->defaultRow);
-        $dataTableFactory->expandDataTable($addMetadataSubTableId);
+        $dataTableFactory->expandDataTable($depth, $addMetadataSubTableId);
         $dataTableFactory->useSubtable($idSubTable);
 
         $index = $this->getArray($resultIndices);

@@ -15,8 +15,6 @@ use Piwik\Site;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
-const FIX_ME_OMG = 'this is a warning and reminder to fix this code ';
-
 /**
  * Creates a DataTable or Set instance based on an array
  * index created by DataCollection.
@@ -51,6 +49,14 @@ class DataTableFactory
      * @var bool
      */
     private $addMetadataSubtableId = false;
+
+    /**
+     * The maximum number of subtable levels to create when creating an expanded
+     * DataTable.
+     * 
+     * @var int
+     */
+    private $maxSubtableDepth = null;
 
     /**
      * @see DataCollection::$sitesId.
@@ -96,9 +102,10 @@ class DataTableFactory
      *                                    database to the in-memory DataTables as
      *                                    metadata or not.
      */
-    public function expandDataTable($addMetadataSubtableId = false)
+    public function expandDataTable($maxSubtableDepth = null, $addMetadataSubtableId = false)
     {
         $this->expandDataTable = true;
+        $this->maxSubtableDepth = $maxSubtableDepth;
         $this->addMetadataSubtableId = $addMetadataSubtableId;
     }
 
@@ -292,9 +299,7 @@ class DataTableFactory
                 // would break.
                 if (count($this->dataNames) == 1) {
                     $name = reset($this->dataNames);
-                    $table->addRow(new Row(array(
-                                                                Row::COLUMNS => array($name => 0)
-                                                           )));
+                    $table->addRow(new Row(array(Row::COLUMNS => array($name => 0))));
                 }
             }
 
@@ -329,8 +334,19 @@ class DataTableFactory
      *                       with blob values. This should hold every subtable blob for
      *                       the loaded DataTable.
      */
-    private function setSubtables($dataTable, $blobRow)
+    private function setSubtables($dataTable, $blobRow, $treeLevel = 0)
     {
+        if ($this->maxSubtableDepth
+            && $treeLevel >= $this->maxSubtableDepth
+        ) {
+            // unset the subtables so DataTableManager doesn't throw
+            foreach ($dataTable->getRows() as $row) {
+                $row->removeSubtable();
+            }
+
+            return;
+        }
+
         $dataName = reset($this->dataNames);
 
         foreach ($dataTable->getRows() as $row) {
@@ -342,7 +358,7 @@ class DataTableFactory
             $blobName = $dataName . "_" . $sid;
             if (isset($blobRow[$blobName])) {
                 $subtable = DataTable::fromSerializedArray($blobRow[$blobName]);
-                $this->setSubtables($subtable, $blobRow);
+                $this->setSubtables($subtable, $blobRow, $treeLevel + 1);
 
                 // we edit the subtable ID so that it matches the newly table created in memory
                 // NB: we dont overwrite the datatableid in the case we are displaying the table expanded.
@@ -366,9 +382,7 @@ class DataTableFactory
         $periods = $this->periods;
         $table->filter(function ($table) use ($periods) {
             $table->metadata['site'] = new Site($table->metadata['site']);
-            $table->metadata['period'] = empty($periods[$table->metadata['period']])
-                ? FIX_ME_OMG
-                : $periods[$table->metadata['period']];
+            $table->metadata['period'] = $periods[$table->metadata['period']];
         });
     }
 
@@ -381,9 +395,6 @@ class DataTableFactory
      */
     private function prettifyIndexLabel($labelType, $label)
     {
-        if (empty($this->periods[$label])) {
-            return $label; // BAD BUG FIXME
-        }
         if ($labelType == 'period') { // prettify period labels
             return $this->periods[$label]->getPrettyString();
         }
