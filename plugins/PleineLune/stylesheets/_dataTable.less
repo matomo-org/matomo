@@ -3,10 +3,34 @@ table.dataTable th,
 table.dataTable th.columnSorted {
   background: @theme-color-veryLightColor;
   color: @theme-color-text-base;
-  border-left: 1px solid @theme-color-lightColor;
+  border-left: 0;
+  vertical-align: bottom;
+}
+
+.sortIconContainer {
+  float: right;
+  margin-right: -20px;
+}
+
+.sortIconContainer:after {
+  content: " \25BC";
+  display: inline;
+}
+
+.sortIconContainerAsc:after {
+  content: " \25B2";
+}
+
+.sortIconContainer > img {
+  display: none;
 }
 
 /* Cells */
+table.dataTable td,
+table.dataTable td a {
+  color: @theme-color-text-base;
+}
+
 table.dataTable td,
 table.dataTable td.label,
 table.dataTable td.column {
@@ -16,11 +40,13 @@ table.dataTable td.column {
 table.dataTable td.label,
 table.dataTable td.column {
   background-color: @theme-color-background;
-  border: 1px solid @theme-color-lightColor;
+  border: 1px solid @theme-color-veryLightColor;
 }
+
 table.dataTable td.column {
   border-width: 0 0 1px 1px;
 }
+
 table.dataTable td.label {
   border-width: 0 0 1px 0;
   background-image: none;
@@ -31,19 +57,17 @@ table.dataTable tr:hover > td.cellSubDataTable {
   background: transparent;
 }
 
-table.subDataTable,
 table.subDataTable thead th {
-  background-color: @theme-color-background;
-  border: 1px solid @theme-color-lightColor;
+  border: 1px solid @theme-color-veryLightColor;
 }
-table.subDataTable {
-  border-width: 1px 1px 0;
-}
+
 table.subDataTable thead th {
   border-width: 0 0 1px 1px;
 }
 
 /* Hover state */
+table.dataTable tr:hover > td,
+table.dataTable tr:hover > td .dataTableRowActions,
 table.dataTable tr.subDataTable:hover > td,
 table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
   background: transparent;
@@ -53,19 +77,45 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
 .ui-dialog-content,
 .widget:hover,
 .cellSubDataTable:hover {
+
   table.dataTable td,
   table.dataTable td a {
     color: @theme-color-text-lightFocus;
   }
+
   table.dataTable th,
   table.dataTable tr:hover > td,
   table.dataTable tr:hover > td > a {
     color: @theme-color-text-focus;
   }
-}
 
+  table.dataTable td.label,
+  table.dataTable td.column {
+    border-bottom-color: #404040;
+  }
+}
 
 /* Footer */
 .dataTableFooterIcons {
   border-top: 1px solid @theme-color-lightColor;
+}
+
+/* LimitSelection */
+.limitSelection > div {
+  border-color: @theme-color-veryLightColor;
+  border-radius: 0;
+}
+
+.limitSelection > ul > li {
+  background: @theme-color-background;
+  border-color: @theme-color-veryLightColor;
+}
+
+.limitSelection > ul > li.last {
+  background: @theme-color-background;
+  border-color: @theme-color-veryLightColor;
+}
+
+.limitSelection > ul > li:hover {
+  background-color: @theme-color-veryLightColor;
 }
