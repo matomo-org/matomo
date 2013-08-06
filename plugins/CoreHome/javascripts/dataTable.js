@@ -393,7 +393,7 @@ dataTable.prototype =
         currentPattern = piwikHelper.htmlDecode(currentPattern);
 
         $('.dataTableSearchPattern', domElem)
-            .show()
+            .css({display: 'block'})
             .each(function () {
                 // when enter is pressed in the input field we submit the form
                 $('.searchInput', this)
