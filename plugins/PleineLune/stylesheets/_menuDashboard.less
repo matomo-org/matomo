@@ -15,19 +15,29 @@
   background-color: @theme-color-box-active;
 }
 
-.nav_tab > li.sfHover > a,
-.nav_tab > li.sfActive.sfHover > a {
-  border-bottom: 1px solid @theme-color-box-active;
-}
-
 .nav_tab > li > a,
 .nav_tab > li.sfActive > a {
   color: @theme-color-text-base;
 }
 
+.nav_tab > li:hover > a,
 .nav_tab > li.sfHover > a,
 .nav_tab > li.sfActive.sfHover > a {
+  border-bottom: 1px solid @theme-color-box-active;
   color: @theme-color-text-active;
+}
+
+.nav_tab > li:hover > a,
+.nav_tab > li.sfHover > a,
+.nav_tab > li.sfActive.sfHover > a {
+}
+
+.nav_tab > li:hover > a {
+  text-decoration: none;
+}
+
+.nav_tab > li > a:hover {
+  text-decoration: underline;
 }
 
 /* SECOND LEVEL */
@@ -44,14 +54,10 @@
   color: @theme-color-text-base;
 }
 
-.nav_tab > li li.sfHover > a {
-  color: @theme-color-text-active;
-}
-
 .nav_tab > li li:hover > a,
 .nav_tab > li li:focus > a,
 .nav_tab > li li:active > a {
-  color: @theme-color-text-focus;
+  color: @theme-color-text-active;
 }
 
 /* UNDER THE MENU */
