@@ -100,6 +100,21 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
   border-top: 1px solid @theme-color-lightColor;
 }
 
+.dataTableNext,
+.dataTablePrevious {
+  color: @theme-color-text-link;
+}
+
+.dataTableNext:hover,
+.dataTablePrevious:hover {
+  text-decoration: underline;
+  color: @theme-color-text-focus;
+}
+
+.loadingPiwik {
+  color: @theme-color-text-base;
+}
+
 /* LimitSelection */
 .limitSelection > div {
   border-color: @theme-color-veryLightColor;
@@ -118,4 +133,36 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
 
 .limitSelection > ul > li:hover {
   background-color: @theme-color-veryLightColor;
+}
+
+/* TableConfiguration */
+.tableConfiguration ul {
+  background-color: @theme-color-background;
+}
+
+.tableConfiguration ul li {
+  background-color: @theme-color-background;
+  border-color: @theme-color-veryLightColor;
+}
+
+.tableConfiguration ul li.firstDummy,
+.tableConfiguration ul li.last {
+  border-radius: 0;
+}
+
+.tableConfiguration div.configItem {
+  color: @theme-color-text-base;
+}
+
+.tableConfiguration div.configItem:hover {
+  background-color: @theme-color-veryLightColor;
+}
+
+.tableConfiguration div.configItem span.action {
+  color: @theme-color-text-link;
+}
+
+.tableConfiguration div.configItem:hover span.action {
+  text-decoration: underline;
+  color: @theme-color-text-focus;
 }
