@@ -1,3 +1,64 @@
+/* Header */
+table.dataTable th,
+table.dataTable th.columnSorted {
+  background: @theme-color-veryLightColor;
+  color: @theme-color-text-base;
+  border-left: 1px solid @theme-color-lightColor;
+}
+
+/* Cells */
+table.dataTable td,
+table.dataTable td.label,
+table.dataTable td.column {
+  background-color: @theme-color-background;
+}
+
+table.dataTable td.label,
+table.dataTable td.column {
+  background-color: @theme-color-background;
+  border: 1px solid @theme-color-lightColor;
+}
+table.dataTable td.column {
+  border-width: 0 0 1px 1px;
+}
+table.dataTable td.label {
+  border-width: 0 0 1px 0;
+  background-image: none;
+}
+
+/* SubTable */
+table.dataTable tr:hover > td.cellSubDataTable {
+  background: transparent;
+}
+
+table.subDataTable,
+table.subDataTable thead th {
+  background-color: @theme-color-background;
+  border: 1px solid @theme-color-lightColor;
+}
+table.subDataTable {
+  border-width: 1px 1px 0;
+}
+table.subDataTable thead th {
+  border-width: 0 0 1px 1px;
+}
+
+/* Focus */
+.ui-dialog-content,
+.widget:hover,
+.cellSubDataTable:hover {
+  table.dataTable td,
+  table.dataTable td a {
+    color: white;
+  }
+  table.dataTable tr:hover > td,
+  table.dataTable tr:hover > td > a {
+    color: #444;
+  }
+}
+
+
+/* Footer */
 .dataTableFooterIcons {
   border-top: 1px solid @theme-color-lightColor;
 }

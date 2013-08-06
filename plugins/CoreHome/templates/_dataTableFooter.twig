@@ -1,24 +1,26 @@
 <div class="dataTableFeatures">
 
-    {% if properties.show_offset_information %}
-    <span>
-	    <span class="dataTablePages"></span>
-    </span>
-    {% endif %}
+    <div class="dataTableFooterNavigation">
+        {% if properties.show_offset_information %}
+            <span>
+                <span class="dataTablePages"></span>
+            </span>
+        {% endif %}
 
-    {% if properties.show_pagination_control %}
-    <span>
-	    <span class="dataTablePrevious">&lsaquo; {% if javascriptVariablesToSet.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %} </span>
-	    <span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
-    </span>
-    {% endif %}
+        {% if properties.show_pagination_control %}
+            <span>
+                <span class="dataTablePrevious">&lsaquo; {% if javascriptVariablesToSet.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %} </span>
+                <span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
+            </span>
+        {% endif %}
 
-    {% if properties.show_search %}
-    <span class="dataTableSearchPattern">
-	    <input type="text" class="searchInput" length="15" />
-	    <input type="submit" value="{{ 'General_Search'|translate }}" />
-    </span>
-    {% endif %}
+        {% if properties.show_search %}
+            <span class="dataTableSearchPattern">
+                <input type="text" class="searchInput" length="15" />
+                <input type="submit" value="{{ 'General_Search'|translate }}" />
+            </span>
+        {% endif %}
+    </div>
 
     <span class="loadingPiwik" style='display:none'><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
     {% if properties.show_footer_icons %}

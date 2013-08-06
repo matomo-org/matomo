@@ -1,8 +1,20 @@
 .widget {
-  border: 0;
+  border: 1px solid @theme-color-lightColor;
   border-radius: 0;
+  background: @theme-color-background;
 }
 
 .widgetTop {
-  background: #5F5A60;
+  background: @theme-color-veryLightColor;
+  border-bottom: 1px solid @theme-color-lightColor;
+}
+
+.widgetName {
+  text-shadow: none;
+  color: @theme-color-text-base;
+}
+
+.ui-dialog-content .widgetName,
+.widget:hover .widgetName {
+  color: white;
 }

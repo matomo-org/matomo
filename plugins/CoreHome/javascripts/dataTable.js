@@ -1149,8 +1149,8 @@ dataTable.prototype =
         $("th:first-child", domElem).addClass('label');
         $("td:first-child:odd", domElem).addClass('label labeleven');
         $("td:first-child:even", domElem).addClass('label labelodd');
-        $("tr:odd td", domElem).slice(1).addClass('columnodd');
-        $("tr:even td", domElem).slice(1).addClass('columneven');
+        $("tr:odd td", domElem).slice(1).addClass('column columnodd');
+        $("tr:even td", domElem).slice(1).addClass('column columneven');
 
         $('td span.label', domElem).each(function () { self.truncate($(this)); });
 
@@ -1710,6 +1710,8 @@ actionDataTable.prototype =
             // label (first column of a data row) or not
             $("td:first-child:odd", this).addClass('label labeleven');
             $("td:first-child:even", this).addClass('label labelodd');
+            $("tr:odd td", domElem).slice(1).addClass('column columnodd');
+            $("tr:even td", domElem).slice(1).addClass('column columneven');
         });
     },
 
