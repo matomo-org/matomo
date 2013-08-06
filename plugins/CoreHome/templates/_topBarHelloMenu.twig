@@ -8,7 +8,12 @@
     {% endset %}
     <span class="topBarElem">{{ 'General_HelloUser'|translate(helloAlias)|raw }}</span>
     {% if userLogin != 'anonymous' %}
-        | <span class="topBarElem"><a href='index.php?module=CoreAdminHome'>{{ 'General_Settings'|translate }}</a></span>
+        |
+        {% if isAdminLayout is defined %}
+            <span class="topBarElem topBarElemActive">{{ 'General_Settings'|translate }}</span>
+        {% else %}
+            <span class="topBarElem"><a href='index.php?module=CoreAdminHome'>{{ 'General_Settings'|translate }}</a></span>
+        {% endif %}
     {% endif %}
     | <span class="topBarElem">
         {% if userLogin == 'anonymous' %}
