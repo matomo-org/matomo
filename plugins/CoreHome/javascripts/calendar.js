@@ -533,8 +533,7 @@
             return !isNaN(d.getTime());
         }
 
-        var period = broadcast.getValueFromUrl('period');
-        if (period == 'range') {
+        if (piwik.period == 'range') {
             $("#period_id_range").click();
         }
     });
