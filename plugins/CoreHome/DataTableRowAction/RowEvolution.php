@@ -179,6 +179,8 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     /**
      * Generic method to get an evolution graph or a sparkline for the row evolution popover.
      * Do as much as possible from outside the controller.
+     * @param string|bool $graphType
+     * @param array|bool $metrics
      * @return ViewDataTable
      */
     public function getRowEvolutionGraph($graphType = false, $metrics = false)

@@ -283,7 +283,7 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
     /**
      * Drops the tables created by the privilege checking queries, if they exist.
      *
-     * @param $db The database object to use.
+     * @param \Piwik\Db $db The database object to use.
      */
     private function dropExtraTables($db)
     {

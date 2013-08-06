@@ -31,7 +31,8 @@ class Piwik_CoreAdminHome_Controller extends Admin
 
     public function index()
     {
-        return $this->redirectToIndex('UsersManager', 'userSettings');
+        $this->redirectToIndex('UsersManager', 'userSettings');
+        return;
     }
 
     public function generalSettings()

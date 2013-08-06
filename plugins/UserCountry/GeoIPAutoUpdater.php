@@ -448,15 +448,16 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     /**
      * Avoid downloading archive types we don't support. No point in downloading it,
      * if we can't unzip it...
-     * 
+     *
      * @param string $ext The URL file's extension.
+     * @throws \Exception
      */
     private static function checkForSupportedArchiveType($ext)
     {
         if ($ext != 'tar.gz'
             && $ext != 'gz'
         ) {
-            throw new Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
+            throw new \Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
         }
     }
 

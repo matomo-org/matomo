@@ -112,7 +112,7 @@ abstract class Renderer
     /**
      * Computes the dataTable output and returns the string/binary
      *
-     * @return string
+     * @return mixed
      */
     abstract public function render();
 

@@ -48,7 +48,7 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
      *
      * This implementation is always available.
      *
-     * @return true
+     * @return bool  always true
      */
     public function isAvailable()
     {
@@ -60,7 +60,7 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
      *
      * This implementation is always working correctly.
      *
-     * @return true
+     * @return bool  always true
      */
     public function isWorking()
     {

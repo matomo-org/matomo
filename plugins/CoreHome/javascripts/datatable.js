@@ -292,12 +292,12 @@ dataTable.prototype =
                             hide();
                         }
                     });
-                }
+                };
                 var hide = function () {
                     $('.limitSelection ul', domElem).hide();
                     $('.limitSelection', domElem).removeClass('visible');
                     $(document).off('mouseup.limitSelection');
-                }
+                };
                 $('.limitSelection div', domElem).on('click', function () {
                     $('.limitSelection', domElem).is('.visible') ? hide() : show();
                 });
@@ -726,7 +726,7 @@ dataTable.prototype =
                 self.reloadAjaxDataTable();
                 self.notifyWidgetParametersChange($(this), {viewDataTable: self.param.viewDataTable});
             }
-        )
+        );
 
         //handle Graph View icons
         $('.tableGraphViews a', domElem)

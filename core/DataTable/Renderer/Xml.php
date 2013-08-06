@@ -343,6 +343,8 @@ class Xml extends Renderer
             }
             return $xml;
         }
+
+        return '';
     }
 
     /**

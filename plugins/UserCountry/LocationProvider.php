@@ -132,7 +132,7 @@ abstract class Piwik_UserCountry_LocationProvider
     /**
      * Returns every available provider instance.
      *
-     * @return array
+     * @return Piwik_UserCountry_LocationProvider[]
      */
     public static function getAllProviders()
     {

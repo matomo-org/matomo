@@ -10,7 +10,7 @@ function widgetize() {
 
     this.getInputFormWithHtml = function (inputId, htmlEmbed) {
         return '<input class="formEmbedCode" id="' + inputId + '" value="' + htmlEmbed.replace(/"/g, '&quot;') + '" onclick="javascript:document.getElementById(\'' + inputId + '\').focus();document.getElementById(\'' + inputId + '\').select();" readonly="true" type="text" />';
-    }
+    };
 
     this.getEmbedUrl = function (parameters, exportFormat) {
         var copyParameters = {};
@@ -31,11 +31,11 @@ function widgetize() {
             "&date=" + broadcast.getValueFromUrl('date') +
             "&disableLink=1&widget=1";
         return sourceUrl;
-    }
+    };
 
     this.htmlentities = function (s) {
         return s.replace(/[<>&]/g, function (m) { return "&" + m.charCodeAt(0) + ";"; });
-    }
+    };
 
     this.callbackAddExportButtonsUnderWidget = function (widgetUniqueId, loadedWidgetElement) {
         var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);

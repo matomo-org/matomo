@@ -63,7 +63,7 @@ class FrontController
      * @param string $module
      * @param string $action
      * @param array $parameters
-     * @return mixed The returned value of the calls, often nothing as the module print but don't return data
+     * @return void|mixed  The returned value of the calls, often nothing as the module print but don't return data
      * @see fetchDispatch()
      */
     public function dispatch($module = null, $action = null, $parameters = null)

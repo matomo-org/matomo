@@ -681,7 +681,11 @@ class Piwik_Actions extends Plugin
 
         return $result;
     }
-    
+
+    /**
+     * @param \Piwik\DataTable $dataTable
+     * @param int $level
+     */
     public static function setDataTableRowLevels($dataTable, $level = 0)
     {
         foreach ($dataTable->getRows() as $row) {
