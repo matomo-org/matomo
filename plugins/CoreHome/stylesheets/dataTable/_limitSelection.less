@@ -10,7 +10,7 @@
   display: none;
 }
 
-.limitSelection div {
+.limitSelection > div {
   border: 1px solid #DFDFDF;
   border-radius: 4px;
   background: url(plugins/Zeitgeist/images/sort_subtable_desc_light.png) no-repeat right 2px;
@@ -21,24 +21,24 @@
   cursor: pointer;
 }
 
-.limitSelection.disabled div {
+.limitSelection.disabled > div {
   opacity: 0.5;
   cursor: not-allowed;
   filter: Alpha(opacity=50);
 }
 
-.limitSelection.visible div {
+.limitSelection.visible > div {
   border-radius: 0 0 4px 4px;
   background-image: url(plugins/Zeitgeist/images/sort_subtable_asc_light.png)
 }
 
-.limitSelection ul {
+.limitSelection > ul {
   margin-top: 1px;
   overflow: visible;
   background-color: #fff;
 }
 
-.limitSelection ul li {
+.limitSelection > ul > li {
   cursor: pointer;
   width: 28px;
   padding: 0 10px 0 4px;
@@ -53,12 +53,12 @@
   text-align: right;
 }
 
-.limitSelection ul li.last {
+.limitSelection > ul > li.last {
   border-top: 1px solid #DFDFDF;
   border-radius: 4px 4px 0 0;
 }
 
-.limitSelection ul li:hover {
+.limitSelection > ul > li:hover {
   background-color: #EBEAE6;
 }
 
