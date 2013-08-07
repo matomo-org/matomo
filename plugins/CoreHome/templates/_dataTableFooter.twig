@@ -77,6 +77,13 @@
                             <img width="16" height="16" src="plugins/Zeitgeist/images/tagcloud.png" title="{{ 'General_TagCloud'|translate }}"/>
                         </a>
                     {% endif %}
+                    {% if properties.show_non_core_visualizations %}
+                        {% for format, info in nonCoreVisualizations %}
+                        <a class="tableIcon" format="{{ format }}" var="{{ format }}">
+                            <img width="16" height="16" src="{{ info.table_icon }}" title="{{ info.title|translate }}"/>
+                        </a>
+                        {% endfor %}
+                    {% endif %}
 				    </span>
                 </div>
                 {% endif %}
@@ -88,14 +95,14 @@
                     </span>
 				    <span class="exportToFormatItems" style="display:none">
 					{{ 'General_Export'|translate }}:
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.exportLimit }}">CSV</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.exportLimit }}">TSV (Excel)</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.exportLimit }}">XML</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.exportLimit }}">Json</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.exportLimit }}">Php</a>
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.export_limit }}">CSV</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.export_limit }}">TSV (Excel)</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.export_limit }}">XML</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.export_limit }}">Json</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.export_limit }}">Php</a>
                     {% if properties.show_export_as_rss_feed %}
                         |
-                        <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.exportLimit }}" date="last10">
+                        <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.export_limit }}" date="last10">
                             <img border="0" src="plugins/Zeitgeist/images/feed.png"/>
                         </a>
                     {% endif %}
@@ -130,7 +137,7 @@
                     {% endif %}
                 </ul>
             </div>
-            {% if not properties.hide_annotations_view %}
+            {% if isPluginLoaded('Annotations') and not properties.hide_annotations_view %}
                 <div class="annotationView" title="{{ 'Annotations_IconDesc_js'|translate }}">
                     <a class="tableIcon">
                         <img width="16" height="16" src="plugins/Zeitgeist/images/grey_marker.png"/>
@@ -142,16 +149,16 @@
     {% endif %}
 
     <div class="datatableRelatedReports">
-        {% if (properties.relatedReports is not empty) and properties.show_related_reports %}
-            {% if properties.relatedReports|length == 1 %}
+        {% if (properties.related_reports is not empty) and properties.show_related_reports %}
+            {% if properties.related_reports|length == 1 %}
                 {{ 'General_RelatedReport'|translate }}:
             {% else %}
                 {{ 'General_RelatedReports'|translate }}:
             {% endif %}
-            <ul style="list-style:none;{% if properties.relatedReports|length == 1 %}display:inline-block;{% endif %}}">
+            <ul style="list-style:none;{% if properties.related_reports|length == 1 %}display:inline-block;{% endif %}}">
                 <li><span href="{{ properties.self_url }}" style="display:none;">{{ properties.title }}</span></li>
 
-                {% for reportUrl,reportTitle in properties.relatedReports %}
+                {% for reportUrl,reportTitle in properties.related_reports %}
                     <li><span href="{{ reportUrl }}">{{ reportTitle }}</span></li>
                 {% endfor %}
             </ul>

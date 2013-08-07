@@ -27,6 +27,8 @@ class Request
      */
     protected $params;
 
+    protected $forcedVisitorId = false;
+
     public function __construct($params, $tokenAuth = false)
     {
         if (!is_array($params)) {
@@ -434,7 +436,9 @@ class Request
 
     public function setForceIp($ip)
     {
-        $this->enforcedIp = $ip;
+        if(!empty($ip)) {
+            $this->enforcedIp = $ip;
+        }
     }
 
     public function setForceDateTime($dateTime)
@@ -442,12 +446,16 @@ class Request
         if (!is_numeric($dateTime)) {
             $dateTime = strtotime($dateTime);
         }
-        $this->timestamp = $dateTime;
+        if(!empty($dateTime)) {
+            $this->timestamp = $dateTime;
+        }
     }
 
     public function setForcedVisitorId($visitorId)
     {
-        $this->forcedVisitorId = $visitorId;
+        if(!empty($visitorId)) {
+            $this->forcedVisitorId = $visitorId;
+        }
     }
 
     public function getForcedVisitorId()

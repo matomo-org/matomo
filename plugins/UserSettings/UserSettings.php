@@ -172,86 +172,110 @@ class Piwik_UserSettings extends Plugin
         );
         return $hooks;
     }
-    
+
     public function getReportDisplayProperties(&$properties)
     {
-        $basicUserSettingsProperties = array('show_search'                 => false,
-                                             'show_exclude_low_population' => false,
-                                             'filter_limit'                => 5,
-                                             'graph_limit'                 => 5);
-        
-        $osRelatedReports = array(
-            'UserSettings.getOSFamily' => Piwik_Translate('UserSettings_OperatingSystemFamily'),
-            'UserSettings.getOS'       => Piwik_Translate('UserSettings_OperatingSystems')
-        );
-        
-        $browserRelatedReports = array(
-            'UserSettings.getBrowser' => Piwik_Translate('UserSettings_Browsers'),
-            'UserSettings.getBrowserVersion' => Piwik_Translate('UserSettings_ColumnBrowserVersion')
-        );
-        
-        $wideScreenDeviceTypeRelatedReports = array(
-            'UserSettings.getMobileVsDesktop' => Piwik_Translate('UserSettings_MobileVsDesktop'),
-            'UserSettings.getWideScreen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')
-        );
-        
-        $properties['UserSettings.getResolution'] = array_merge($basicUserSettingsProperties, array(
+        $properties['UserSettings.getResolution'] = $this->getDisplayPropertiesForGetResolution();
+        $properties['UserSettings.getConfiguration'] = $this->getDisplayPropertiesForGetConfiguration();
+        $properties['UserSettings.getOS'] = $this->getDisplayPropertiesForGetOS();
+        $properties['UserSettings.getOSFamily'] = $this->getDisplayPropertiesForGetOSFamily();
+        $properties['UserSettings.getBrowserVersion'] = $this->getDisplayPropertiesForGetBrowserVersion();
+        $properties['UserSettings.getBrowser'] = $this->getDisplayPropertiesForGetBrowser();
+        $properties['UserSettings.getBrowserType'] = $this->getDisplayPropertiesForGetBrowserType();
+        $properties['UserSettings.getWideScreen'] = $this->getDisplayPropertiesForGetWideScreen();
+        $properties['UserSettings.getMobileVsDesktop'] = $this->getDisplayPropertiesForGetMobileVsDesktop();
+        $properties['UserSettings.getPlugin'] = $this->getDisplayPropertiesForGetPlugin();
+        $properties['UserSettings.getLanguage'] = $this->getDisplayPropertiesForGetLanguage();
+    }
+
+    private function getDisplayPropertiesForGetResolution()
+    {
+        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations' => array('label' => Piwik_Translate('UserSettings_ColumnResolution'))
         ));
-            
-        $properties['UserSettings.getConfiguration'] = array_merge($basicUserSettingsProperties, array(
+    }
+
+    private function getDisplayPropertiesForGetConfiguration()
+    {
+        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'filter_limit' => 3,
             'translations' => array('label' => Piwik_Translate('UserSettings_ColumnConfiguration'))
         ));
-            
-        $properties['UserSettings.getOS'] = array_merge($basicUserSettingsProperties, array(
+    }
+
+    private function getDisplayPropertiesForGetOS()
+    {
+        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnOperatingSystem')),
             'title'          => Piwik_Translate('UserSettings_OperatingSystems'),
-            'relatedReports' => $osRelatedReports
+            'related_reports' => $this->getOsRelatedReports()
         ));
-            
-        $properties['UserSettings.getOSFamily'] = array_merge($basicUserSettingsProperties, array(
+    }
+
+    private function getDisplayPropertiesForGetOSFamily()
+    {
+        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'   => array('label' => Piwik_Translate('UserSettings_OperatingSystemFamily')),
             'title'          => Piwik_Translate('UserSettings_OperatingSystemFamily'),
-            'relatedReports' => $osRelatedReports
+            'related_reports' => $this->getOsRelatedReports()
         ));
-            
-        $properties['UserSettings.getBrowserVersion'] = array_merge($basicUserSettingsProperties, array(
+    }
+
+    private function getDisplayPropertiesForGetBrowserVersion()
+    {
+        $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnBrowserVersion')),
-            'graph_limit'    => 7,
             'title'          => Piwik_Translate('UserSettings_ColumnBrowserVersion'),
-            'relatedReports' => $browserRelatedReports
+            'related_reports' => $this->getBrowserRelatedReports()
         ));
-            
-        $properties['UserSettings.getBrowser'] = array_merge($basicUserSettingsProperties, array(
+        $result['visualization_properties']['JqplotGraph']['max_graph_elements'] = 7;
+        return $result;
+    }
+
+    private function getDisplayPropertiesForGetBrowser()
+    {
+        $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnBrowser')),
-            'graph_limit'    => 7,
             'title'          => Piwik_Translate('UserSettings_Browsers'),
-            'relatedReports' => $browserRelatedReports
+            'related_reports' => $this->getBrowserRelatedReports()
         ));
-            
-        $properties['UserSettings.getBrowserType'] = array_merge($basicUserSettingsProperties, array(
+        $result['visualization_properties']['JqplotGraph']['max_graph_elements'] = 7;
+        return $result;
+    }
+
+    private function getDisplayPropertiesForGetBrowserType()
+    {
+        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnBrowserFamily')),
             'show_offset_information' => false,
             'show_pagination_control' => false,
             'default_view_type'       => 'graphPie',
         ));
-            
-        $properties['UserSettings.getWideScreen'] = array_merge($basicUserSettingsProperties, array(
+    }
+
+    private function getDisplayPropertiesForGetWideScreen()
+    {
+        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')),
             'show_offset_information' => false,
             'show_pagination_control' => false,
             'title'                   => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
-            'relatedReports'          => $wideScreenDeviceTypeRelatedReports
+            'related_reports'          => $this->getWideScreenDeviceTypeRelatedReports()
         ));
-            
-        $properties['UserSettings.getMobileVsDesktop'] = array_merge($basicUserSettingsProperties, array(
+    }
+
+    private function getDisplayPropertiesForGetMobileVsDesktop()
+    {
+        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'            => array('label' => Piwik_Translate('UserSettings_MobileVsDesktop')),
             'title'                   => Piwik_Translate('UserSettings_MobileVsDesktop'),
-            'relatedReports'          => $wideScreenDeviceTypeRelatedReports
+            'related_reports'          => $this->getWideScreenDeviceTypeRelatedReports()
         ));
-        
-        $properties['UserSettings.getPlugin'] = array_merge($basicUserSettingsProperties, array(
+    }
+
+    private function getDisplayPropertiesForGetPlugin()
+    {
+        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'             => array(
                 'label'                => Piwik_Translate('UserSettings_ColumnPlugin'),
                 'nb_visits_percentage' =>
@@ -267,15 +291,55 @@ class Piwik_UserSettings extends Plugin
             'filter_limit'             => 10,
             'show_footer_message'      => Piwik_Translate('UserSettings_PluginDetectionDoesNotWorkInIE'),
         ));
-            
-        $properties['UserSettings.getLanguage'] = array(
+    }
+
+    private function getDisplayPropertiesForGetLanguage()
+    {
+        return array(
             'translations'  => array('label' => Piwik_Translate('General_Language')),
             'filter_sort_column'          => 'nb_visits',
             'filter_sort_order'           => 'desc',
             'show_search'                 => false,
-            'filter_limit'                => false,
             'columns_to_display'          => array('label', 'nb_visits'),
             'show_exclude_low_population' => false,
+        );
+    }
+
+    private function getWideScreenDeviceTypeRelatedReports()
+    {
+        return array(
+            'UserSettings.getMobileVsDesktop' => Piwik_Translate('UserSettings_MobileVsDesktop'),
+            'UserSettings.getWideScreen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')
+        );
+    }
+
+    private function getBrowserRelatedReports()
+    {
+        return array(
+            'UserSettings.getBrowser' => Piwik_Translate('UserSettings_Browsers'),
+            'UserSettings.getBrowserVersion' => Piwik_Translate('UserSettings_ColumnBrowserVersion')
+        );
+    }
+
+    private function getOsRelatedReports()
+    {
+        return array(
+            'UserSettings.getOSFamily' => Piwik_Translate('UserSettings_OperatingSystemFamily'),
+            'UserSettings.getOS'       => Piwik_Translate('UserSettings_OperatingSystems')
+        );
+    }
+
+    private function getBasicUserSettingsDisplayProperties()
+    {
+        return array(
+            'show_search'                 => false,
+            'show_exclude_low_population' => false,
+            'filter_limit'                => 5,
+            'visualization_properties' => array(
+                'JqplotGraph' => array(
+                    'max_graph_elements' => 5
+                )
+            )
         );
     }
 

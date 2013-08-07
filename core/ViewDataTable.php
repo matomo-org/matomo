@@ -25,6 +25,7 @@ use Piwik\ViewDataTable\Properties;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik_API_API;
 use Piwik\PluginsManager;
+use Piwik\DataTableVisualization;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -61,10 +62,11 @@ use Piwik\PluginsManager;
 class ViewDataTable
 {
     /**
-     * TODO
-     * TODO: change to private
+     * The class name of the visualization to use.
+     * 
+     * @var string|null
      */
-    protected $visualizationClass;
+    private $visualizationClass;
 
     /**
      * Cache for getAllReportDisplayProperties result.
@@ -72,13 +74,6 @@ class ViewDataTable
      * @var array
      */
     public static $reportPropertiesCache = null;
-
-    /**
-     * Flag used to make sure the main() is only executed once
-     *
-     * @var bool
-     */
-    protected $mainAlreadyExecuted = false;
 
     /**
      * Array of properties that are available in the view
@@ -125,68 +120,55 @@ class ViewDataTable
     /**
      * Default constructor.
      */
-    public function __construct($visualizationClass = null)
+    public function __construct($currentControllerAction,
+                                $apiMethodToRequestDataTable,
+                                $viewProperties = array(),
+                                $visualizationId = null)
     {
+        $visualizationClass = $visualizationId ? DataTableVisualization::getClassFromId($visualizationId) : null;
         $this->visualizationClass = $visualizationClass;
 
-        $this->viewProperties['visualization_properties'] = new VisualizationPropertiesProxy(null);
-        $this->viewProperties['datatable_template'] = '@CoreHome/_dataTable';
-        $this->viewProperties['show_goals'] = false;
-        $this->viewProperties['show_ecommerce'] = false;
-        $this->viewProperties['show_search'] = true;
-        $this->viewProperties['show_table'] = true;
-        $this->viewProperties['show_table_all_columns'] = true;
-        $this->viewProperties['show_all_views_icons'] = true;
-        $this->viewProperties['show_active_view_icon'] = true;
-        $this->viewProperties['hide_annotations_view'] = true;
-        $this->viewProperties['show_bar_chart'] = true;
-        $this->viewProperties['show_pie_chart'] = true;
-        $this->viewProperties['show_tag_cloud'] = true;
-        $this->viewProperties['show_export_as_image_icon'] = false;
-        $this->viewProperties['show_export_as_rss_feed'] = true;
-        $this->viewProperties['show_exclude_low_population'] = true;
-        $this->viewProperties['show_offset_information'] = true;
-        $this->viewProperties['show_pagination_control'] = true;
-        $this->viewProperties['show_limit_control'] = false;
-        $this->viewProperties['show_footer'] = true;
-        $this->viewProperties['show_related_reports'] = true;
-        $this->viewProperties['exportLimit'] = Config::getInstance()->General['API_datatable_default_limit'];
-        $this->viewProperties['highlight_summary_row'] = false;
+        $this->viewProperties['visualization_properties'] = new VisualizationPropertiesProxy($visualizationClass);
         $this->viewProperties['metadata'] = array();
-        $this->viewProperties['relatedReports'] = array();
-        $this->viewProperties['title'] = 'unknown';
-        $this->viewProperties['tooltip_metadata_name'] = false;
-        $this->viewProperties['enable_sort'] = true;
-        $this->viewProperties['disable_generic_filters'] = false;
-        $this->viewProperties['disable_queued_filters'] = false;
-        $this->viewProperties['keep_summary_row'] = false;
-        $this->viewProperties['filter_excludelowpop'] = false;
-        $this->viewProperties['filter_excludelowpop_value'] = false;
-        $this->viewProperties['filter_pattern'] = false;
-        $this->viewProperties['filter_column'] = false;
-        $this->viewProperties['filter_limit'] = false;
-        $this->viewProperties['filter_sort_column'] = false;
-        $this->viewProperties['filter_sort_order'] = false;
-        $this->viewProperties['custom_parameters'] = array();
-        $this->viewProperties['translations'] = array_merge(
-            Metrics::getDefaultMetrics(),
-            Metrics::getDefaultProcessedMetrics()
-        );
-        $this->viewProperties['request_parameters_to_modify'] = array();
-        $this->viewProperties['documentation'] = false;
-        $this->viewProperties['subtable_controller_action'] = false;
-        $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
-        $this->viewProperties['selectable_columns'] = array(); // TODO: only valid for graphs... shouldn't be here.
+        $this->viewProperties['translations'] = array();
         $this->viewProperties['filters'] = array();
-        $this->viewProperties['show_series_picker'] = true; // TODO: only for graphs.
-        $this->viewProperties['graph_limit'] = false; // TODO: only for graph.
-        $this->viewProperties['columns_to_display'] = array();
+        $this->viewProperties['related_reports'] = array();
 
-        $columns = Common::getRequestVar('columns', false);
-        if ($columns !== false) {
-            $this->viewProperties['columns_to_display'] = Piwik::getArrayFromApiParameter($columns);
-            array_unshift($this->viewProperties['columns_to_display'], 'label');
+        list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
+        $this->currentControllerName = $currentControllerName;
+        $this->currentControllerAction = $currentControllerAction;
+
+        $this->setDefaultProperties();
+
+        foreach ($viewProperties as $name => $value) {
+            $this->setViewProperty($name, $value);
         }
+
+        $queryParams = Url::getArrayFromCurrentQueryString();
+        foreach ($this->getClientSideProperties() as $name) {
+            if (isset($queryParams[$name])) {
+                $this->setViewProperty($name, $queryParams[$name]);
+            }
+        }
+
+        $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
+        $this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
+        $this->viewProperties['apiMethodToRequestDataTable'] = $apiMethodToRequestDataTable;
+
+        $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
+        $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
+
+        // the exclude low population threshold value is sometimes obtained by requesting data.
+        // to avoid issuing unecessary requests when display properties are determined by metadata,
+        // we allow it to be a closure.
+        if (isset($this->viewProperties['filter_excludelowpop_value'])
+            && $this->viewProperties['filter_excludelowpop_value'] instanceof \Closure
+        ) {
+            $function = $this->viewProperties['filter_excludelowpop_value'];
+            $this->viewProperties['filter_excludelowpop_value'] = $function();
+        }
+
+        $this->loadDocumentation();
     }
 
     /**
@@ -219,30 +201,11 @@ class ViewDataTable
     }
 
     /**
-     * TODO
+     * Hack to allow property access in Twig (w/ property name checking).
      */
-    public function main()
+    public function __call($name, $arguments)
     {
-        if ($this->mainAlreadyExecuted) {
-            return;
-        }
-        $this->mainAlreadyExecuted = true;
-
-        $visualization = new $this->visualizationClass($this);
-
-        try {
-            $this->loadDataTableFromAPI();
-        } catch (NoAccessException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            Piwik::log("Failed to get data from API: " . $e->getMessage());
-
-            $this->loadingError = array('message' => $e->getMessage());
-        }
-
-        $this->postDataTableLoadedFromAPI();
-
-        $this->view = $this->buildView($visualization);
+        return $this->$name;
     }
 
     /**
@@ -250,7 +213,7 @@ class ViewDataTable
      *
      * @return string
      */
-    protected function getViewDataTableId()
+    public function getViewDataTableId()
     {
         $klass = $this->visualizationClass;
         return $klass::getViewDataTableId($this);
@@ -268,81 +231,36 @@ class ViewDataTable
      * @param string|bool $controllerAction
      * @return ViewDataTable
      */
-    static public function factory($defaultType = null, $apiAction = false, $controllerAction = false)
+    static public function factory($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
     {
-        if ($apiAction !== false) {
-            $defaultProperties = self::getDefaultPropertiesForReport($apiAction);
-            if (isset($defaultProperties['default_view_type'])) {
-                $defaultType = $defaultProperties['default_view_type'];
-            }
-
-            if ($controllerAction === false) {
-                $controllerAction = $apiAction;
-            }
+        if ($controllerAction === false) {
+            $controllerAction = $apiAction;
         }
 
-        if ($defaultType === null) {
-            $defaultType = 'table';
+        $defaultProperties = self::getDefaultPropertiesForReport($apiAction);
+        if (!empty($defaultProperties['default_view_type'])
+            && !$forceDefault
+        ) {
+            $defaultType = $defaultProperties['default_view_type'];
         }
 
-        $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
-        switch ($type) {
-            case 'cloud':
-                $result = new ViewDataTable\Cloud();
-                break;
+        $type = Common::getRequestVar('viewDataTable', $defaultType ?: 'table', 'string');
 
-            case 'graphPie':
-                $result = new ViewDataTable('\\Piwik\\Visualization\\JqplotGraph\\Pie');
-                break;
-
-            case 'graphVerticalBar':
-                $result = new ViewDataTable('\\Piwik\\Visualization\\JqplotGraph\\Bar');
-                break;
-
-            case 'graphEvolution':
-                $result = new ViewDataTable('\\Piwik\\Visualization\\JqplotGraph\\Evolution');
-                break;
-
-            case 'sparkline':
-                $result = new ViewDataTable\Sparkline();
-                break;
-
-            case 'tableAllColumns': // for backwards compatibility TODO: shouldn't require this viewdatatable... (same for Goals)
-                $result = new ViewDataTable('\\Piwik\\Visualization\\HtmlTable');
-                $result->show_extra_columns = true;
-                break;
-
-            case 'tableGoals': // for backwards compatibility
-                $result = new ViewDataTable('\\Piwik\\Visualization\\HtmlTable');
-                $result->show_goals_columns = true;
-                break;
-
-            case 'table':
-            default:
-                $result = new ViewDataTable('\\Piwik\\Visualization\\HtmlTable');
-                break;
-        }
-        
-        if ($apiAction !== false) {
-            list($plugin, $controllerAction) = explode('.', $controllerAction);
-            
-            $subtableAction = $controllerAction;
-            if (isset($defaultProperties['subtable_action'])) {
-                $subtableAction = $defaultProperties['subtable_action'];
-            }
-            
-            $result->init($plugin, $controllerAction, $apiAction, $subtableAction, $defaultProperties);
+        if ($type == 'sparkline') {
+            $result = new ViewDataTable\Sparkline($controllerAction, $apiAction, $defaultProperties);
+        } else {
+            $result = new ViewDataTable($controllerAction, $apiAction, $defaultProperties, $type);
         }
 
         return $result;
     }
 
     /**
-     * Returns the list of view properties that can be overridden by query parameters.
+     * TODO
      *
      * @return array
      */
-    public function getOverridableProperties()
+    public function getClientSideProperties()
     {
         $result = array(
             'show_search',
@@ -350,7 +268,6 @@ class ViewDataTable
             'show_table_all_columns',
             'show_all_views_icons',
             'show_active_view_icon',
-            'hide_annotations_view',
             'show_barchart',
             'show_piechart',
             'show_tag_cloud',
@@ -361,12 +278,12 @@ class ViewDataTable
             'show_pagination_control',
             'show_footer',
             'show_related_reports',
-            'columns'
+            'keep_summary_row',
         );
 
         if ($this->visualizationClass) {
             $klass = $this->visualizationClass;
-            $result = array_merge($result, $klass::getOverridableProperties());
+            $result = array_merge($result, $klass::getClientSideProperties());
         }
 
         return $result;
@@ -378,13 +295,12 @@ class ViewDataTable
      *
      * @return array
      */
-    public function getJavaScriptProperties()
+    public function getClientSideParameters()
     {
         $result = array(
             'enable_sort',
             'disable_generic_filters',
             'disable_queued_filters',
-            'keep_summary_row',
             'filter_excludelowpop',
             'filter_excludelowpop_value',
             'filter_pattern',
@@ -396,101 +312,10 @@ class ViewDataTable
 
         if ($this->visualizationClass) {
             $klass = $this->visualizationClass;
-            $result = array_merge($result, $klass::getJavaScriptProperties());
+            $result = array_merge($result, $klass::getClientSideParameters());
         }
 
         return $result;
-    }
-
-    /**
-     * Inits the object given the $currentControllerName, $currentControllerAction of
-     * the calling controller action, eg. 'Referers' 'getLongListOfKeywords'.
-     * The initialization also requires the $apiMethodToRequestDataTable of the API method
-     * to call in order to get the DataTable, eg. 'Referers.getKeywords'.
-     * The optional $controllerActionCalledWhenRequestSubTable defines the method name of the API to call when there is a idSubtable.
-     * This value would be used by the javascript code building the GET request to the API.
-     *
-     * Example:
-     *    For the keywords listing, a click on the row loads the subTable of the Search Engines for this row.
-     *  In this case $controllerActionCalledWhenRequestSubTable = 'getSearchEnginesFromKeywordId'.
-     *  The GET request will hit 'Referers.getSearchEnginesFromKeywordId'.
-     *
-     * @param string $currentControllerName eg. 'Referers'
-     * @param string $currentControllerAction eg. 'getKeywords'
-     * @param string $apiMethodToRequestDataTable eg. 'Referers.getKeywords'
-     * @param string $controllerActionCalledWhenRequestSubTable eg. 'getSearchEnginesFromKeywordId'
-     * @param array $defaultProperties
-     */
-    public function init($currentControllerName,
-                         $currentControllerAction,
-                         $apiMethodToRequestDataTable,
-                         $controllerActionCalledWhenRequestSubTable = null,
-                         $defaultProperties = array())
-    {
-        $this->currentControllerName = $currentControllerName;
-        $this->currentControllerAction = $currentControllerAction;
-        $this->viewProperties['subtable_controller_action'] = $controllerActionCalledWhenRequestSubTable;
-        $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
-        
-        foreach ($defaultProperties as $name => $value) {
-            $this->setViewProperty($name, $value);
-        }
-
-        $queryParams = Url::getArrayFromCurrentQueryString();
-        foreach ($this->getOverridableProperties() as $name) {
-            if (isset($queryParams[$name])) {
-                $this->setViewProperty($name, $queryParams[$name]);
-            }
-        }
-
-        $this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
-        $this->viewProperties['apiMethodToRequestDataTable'] = $apiMethodToRequestDataTable;
-
-        $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
-        $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
-
-        // the exclude low population threshold value is sometimes obtained by requesting data.
-        // to avoid issuing unecessary requests when display properties are determined by metadata,
-        // we allow it to be a closure.
-        if (isset($this->viewProperties['filter_excludelowpop_value'])
-            && $this->viewProperties['filter_excludelowpop_value'] instanceof \Closure
-        ) {
-            $function = $this->viewProperties['filter_excludelowpop_value'];
-            $this->viewProperties['filter_excludelowpop_value'] = $function();
-        }
-
-        $this->loadDocumentation();
-    }
-
-    /**
-     * Forces the View to use a given template.
-     * Usually the template to use is set in the specific ViewDataTable_*
-     * eg. 'CoreHome/templates/cloud'
-     * But some users may want to force this template to some other value
-     *
-     * TODO: after visualization refactor, should remove this.
-     * 
-     * @param string $tpl eg .'@MyPlugin/templateToUse'
-     */
-    public function setTemplate($tpl)
-    {
-        $this->viewProperties['datatable_template'] = $tpl;
-    }
-
-    /**
-     * Returns the View_Interface.
-     * You can then call render() on this object.
-     *
-     * @return View\ViewInterface
-     * @throws \Exception if the view object was not created
-     */
-    public function getView()
-    {
-        if (is_null($this->view)) {
-            throw new \Exception('The $this->view object has not been created.
-					It should be created in the main() method of the ViewDataTable_* subclass you are using.');
-        }
-        return $this->view;
     }
 
     public function getCurrentControllerAction()
@@ -561,7 +386,7 @@ class ViewDataTable
     
     /**
      * Sets a view property by name. This function handles special view properties
-     * like 'translations' & 'relatedReports' that store arrays.
+     * like 'translations' & 'related_reports' that store arrays.
      *
      * @param string $name
      * @param mixed $value For array properties, $value can be a comma separated string.
@@ -579,10 +404,40 @@ class ViewDataTable
             || $name == 'filters'
         ) {
             $this->viewProperties[$name] = array_merge($this->viewProperties[$name], $value);
-        } else if ($name == 'relatedReports') {
+        } else if ($name == 'related_reports') { // TODO: should process after (in overrideViewProperties)
             $this->addRelatedReports($value);
-        } else {
+        } else if ($name == 'visualization_properties') {
+            $this->setVisualizationPropertiesFromMetadata($value);
+        } else if (Properties::isCoreViewProperty($name)) {
             $this->viewProperties[$name] = $value;
+        } else {
+            $report = $this->currentControllerName . '.' . $this->currentControllerAction;
+            throw new \Exception("Invalid view property '$name' specified in view property metadata for '$report'.");
+        }
+    }
+
+    /**
+     * TODO
+     */
+    private function setVisualizationPropertiesFromMetadata($properties)
+    {
+        if ($this->visualizationClass === null) {
+            return null;
+        }
+
+        $visualizationIds = DataTableVisualization::getVisualizationIdsWithInheritance($this->visualizationClass);
+        foreach ($visualizationIds as $visualizationId) {
+            if (empty($properties[$visualizationId])) {
+                continue;
+            }
+
+            foreach ($properties[$visualizationId] as $key => $value) {
+                if (Properties::isCoreViewProperty($key)) {
+                    $this->viewProperties[$key] = $value;
+                } else {
+                    $this->viewProperties['visualization_properties']->$key = $value;
+                }
+            }
         }
     }
 
@@ -658,8 +513,6 @@ class ViewDataTable
      */
     protected function postDataTableLoadedFromAPI()
     {
-        $this->overrideViewProperties();
-
         if (empty($this->dataTable)) {
             return false;
         }
@@ -899,7 +752,7 @@ class ViewDataTable
         // case of the filter without default values and parameters set directly in this class
         // for example setExcludeLowPopulation
         // we go through all the $this->viewProperties array and set the variables not set yet
-        foreach ($this->getJavaScriptProperties() as $name) {
+        foreach ($this->getClientSideParameters() as $name) {
             if (!isset($javascriptVariablesToSet[$name])
                 && !empty($this->viewProperties[$name])
             ) {
@@ -959,6 +812,20 @@ class ViewDataTable
         }
 
         return $javascriptVariablesToSet;
+    }
+
+    /**
+     * TODO
+     */
+    private function getClientSidePropertiesToSet()
+    {
+        $result = array();
+        foreach ($this->getClientSideProperties() as $name) {
+            if (isset($this->viewProperties[$name])) {
+                $result[$name] = $this->viewProperties[$name];
+            }
+        }
+        return $result;
     }
 
     /**
@@ -1038,7 +905,7 @@ class ViewDataTable
         }
 
         $url = $this->getBaseReportUrl($module, $action, $queryParams);
-        $this->viewProperties['relatedReports'][$url] = $title;
+        $this->viewProperties['related_reports'][$url] = $title;
     }
 
     private function addRelatedReports($relatedReports)
@@ -1148,8 +1015,8 @@ class ViewDataTable
      */
     public function render()
     {
-        $this->main();
-        return $this->getView()->render();
+        $this->buildView();
+        return $this->view->render();
     }
     
     /**
@@ -1173,21 +1040,28 @@ class ViewDataTable
             $this->viewProperties['show_goals'] = false;
         }
 
-        if (!PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
-            $this->viewProperties['hide_annotations_view'] = true;
-        }
-
-        if ($this->idSubtable) {
-            $this->viewProperties['datatable_template'] = $this->viewProperties['subtable_template'];
-        }
-
         if ($this->viewProperties['filter_limit'] == 0) { // TODO: should be possible to set limit to 0 (for whatever reason)
             $this->viewProperties['filter_limit'] = false;
         }
     }
 
-    protected function buildView($visualization)
+    protected function buildView()
     {
+        $visualization = new $this->visualizationClass($this);
+
+        try {
+            $this->loadDataTableFromAPI();
+            $this->postDataTableLoadedFromAPI();
+        } catch (NoAccessException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            Piwik::log("Failed to get data from API: " . $e->getMessage());
+
+            $this->loadingError = array('message' => $e->getMessage());
+        }
+
+        $this->overrideViewProperties();
+
         $template = $this->viewProperties['datatable_template'];
         $view = new View($template);
 
@@ -1196,7 +1070,8 @@ class ViewDataTable
         }
 
         $view->visualization = $visualization;
-        
+        $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
+
         if (!$this->dataTable === null) {
             $view->dataTable = null;
         } else {
@@ -1208,8 +1083,12 @@ class ViewDataTable
             $view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
         }
         $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-        $view->properties = $this->viewProperties;
-        return $view;
+        $view->clientSidePropertiesToSet = $this->getClientSidePropertiesToSet();
+        $view->properties = $this->viewProperties; // TODO: should be $this. need to move non-view properties from the class
+
+        $nonCoreVisualizations = DataTableVisualization::getNonCoreVisualizations();
+        $view->nonCoreVisualizations = DataTableVisualization::getVisualizationInfoFor($nonCoreVisualizations);
+        $this->view = $view;
     }
 
     public function getDefaultDataTableCssClass()
@@ -1217,22 +1096,24 @@ class ViewDataTable
         return 'dataTableViz' . Piwik::getUnnamespacedClassName($this->visualizationClass);
     }
 
-    /**
-     * Sets view properties if they have not been set already.
-     */
-    public function defaultPropertiesTo($defaultValues)
+    private function setViewProperties($values)
     {
-        // TODO: This approach won't work. Will require more typing, but allow there to be a static
-        //       getDefaultProperties function for visualizations. used by constructor.
-        $defaultView = new ViewDataTable(); // bit of a hack...
-
-        foreach ($defaultValues as $name => $value) {
-            if (!array_key_exists($name, $this->viewProperties)
-                || (isset($defaultView->viewProperties[$name])
-                    && $this->viewProperties[$name] === $defaultView->viewProperties[$name])
-            ) {
-                $this->viewProperties[$name] = $value;
-            }
+        foreach ($values as $name => $value) {
+            $this->setViewProperty($name, $value);
         }
+    }
+
+    private function setDefaultProperties()
+    {
+        // set core default properties
+        $this->setViewProperties(Properties::getDefaultPropertyValues());
+
+        // set visualization default properties
+        if ($this->visualizationClass === null) {
+            return;
+        }
+
+        $visualizationClass = $this->visualizationClass;
+        $this->setViewProperties($visualizationClass::getDefaultPropertyValues());
     }
 }

@@ -266,6 +266,7 @@ class AssetManager
             'plugins/Zeitgeist/stylesheets/base.less',
             'plugins/Zeitgeist/stylesheets/',
             'plugins/',
+            'plugins/Dashboard/stylesheets/dashboard.less',
         );
 
         return self::prioritySort($priorityCssOrdered, $cssFiles);

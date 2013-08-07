@@ -88,6 +88,14 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
                                                        'testSuffix'             => '_expandedSubtable',
                                                        'otherRequestParameters' => array('expanded' => '1')));
 
+        // test expanded=1 & depth=1
+        $return[] = array('Actions.getPageUrls', array('idSite'                 => $idSite,
+                                                       'date'                   => $dateTime,
+                                                       'periods'                => array('week'),
+                                                       'testSuffix'             => '_expandedWithDepth',
+                                                       'otherRequestParameters' => array('expanded' => '1',
+                                                                                         'depth' => '1')));
+
         // test flat=1 w/ filter_pattern_recursive
         $return[] = array('Actions.getPageUrls', array('idSite'                 => $idSite,
                                                        'date'                   => $dateTime,

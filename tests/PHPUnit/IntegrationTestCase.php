@@ -243,9 +243,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         $_GET = $_REQUEST = array();
         Translate::getInstance()->unloadEnglishTranslation();
-
-        // re-enable tag cloud shuffling
-        Cloud::$debugDisableShuffle = true;
     }
 
     public function setUp()

@@ -166,13 +166,17 @@ class Piwik_VisitorInterest extends Plugin
             'filter_sort_column' => 'label',
             'filter_sort_order' => 'asc',
             'translations' => array('label' => Piwik_Translate('VisitorInterest_ColumnVisitDuration')),
-            'graph_limit' => 10,
             'enable_sort' => false,
             'show_exclude_low_population' => false,
             'show_offset_information' => false,
             'show_pagination_control' => false,
             'show_search' => false,
             'show_table_all_columns' => false,
+            'visualization_properties' => array(
+                'JqplotGraph' => array(
+                    'max_graph_elements' => 10
+                )
+            )
         );
     }
 
@@ -183,13 +187,17 @@ class Piwik_VisitorInterest extends Plugin
             'filter_sort_column' => 'label',
             'filter_sort_order' => 'asc',
             'translations' => array('label' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit')),
-            'graph_limit' => 10,
             'enable_sort' => false,
             'show_exclude_low_population' => false,
             'show_offset_information' => false,
             'show_pagination_control' => false,
             'show_search' => false,
             'show_table_all_columns' => false,
+            'visualization_properties' => array(
+                'JqplotGraph' => array(
+                    'max_graph_elements' => 10
+                )
+            )
         );
     }
 

@@ -8,14 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\JqplotDataGenerator;
+namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\ViewDataTable;
 use Piwik\Url;
-use Piwik\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.
@@ -70,7 +70,7 @@ class Evolution extends JqplotDataGenerator
                 // put together configuration for row picker.
                 // do this for every data table in the array because rows do not
                 // have to present for each date.
-                if ($this->properties['row_picker_mach_rows_by'] !== false) {
+                if ($this->properties['row_picker_match_rows_by'] !== false) {
                     $rowVisible = $this->handleRowForRowPicker($rowLabel);
                     if (!$rowVisible) {
                         continue;
@@ -146,7 +146,7 @@ class Evolution extends JqplotDataGenerator
         $this->addSeriesPickerToView();
 
         // configure the row picker
-        if ($this->properties['row_picker_mach_rows_by'] !== false) {
+        if ($this->properties['row_picker_match_rows_by'] !== false) {
             $visualization->setSelectableRows(array_values($this->rowPickerConfig));
         }
     }
@@ -162,7 +162,7 @@ class Evolution extends JqplotDataGenerator
     {
         // determine whether row is visible
         $isVisible = true;
-        if ($this->properties['row_picker_mach_rows_by'] == 'label') {
+        if ($this->properties['row_picker_match_rows_by'] == 'label') {
             $isVisible = in_array($rowLabel, $this->properties['row_picker_visible_rows']);
         }
 

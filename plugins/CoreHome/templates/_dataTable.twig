@@ -1,8 +1,9 @@
 {% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
 {% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
-<div class="dataTable {{ properties.datatable_css_class }} {% if isSubtable %}subDataTable{% endif %}"
+<div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %}"
      data-table-type="{{ properties.datatable_js_type|default('dataTable') }}"
      data-report="{{ properties.report_id }}"
+     data-props="{{ clientSidePropertiesToSet|json_encode }}"
      data-params="{{ javascriptVariablesToSet|json_encode }}">
     <div class="reportDocumentation">
         {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}

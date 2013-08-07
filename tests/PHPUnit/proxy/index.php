@@ -6,7 +6,6 @@
 
 // make sure the test environment is loaded
 use Piwik\Tracker\Cache;
-use Piwik\Visualization\Cloud;
 
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
@@ -22,8 +21,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 require_once realpath(dirname(__FILE__)) . '/../../../core/functions.php';
 require_once realpath(dirname(__FILE__)) . "/../../../tests/PHPUnit/TestingEnvironment.php";
 Piwik_TestingEnvironment::addHooks();
-
-Cloud::$debugDisableShuffle = true;
 
 \Piwik\Tracker::setTestEnvironment();
 Cache::deleteTrackerCache();

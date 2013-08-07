@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\Visualization;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\View;
@@ -26,11 +26,22 @@ use Piwik\DataTableVisualization;
  */
 class Cloud extends DataTableVisualization
 {
+    const ID = 'cloud';
+    
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
 
     protected $wordsArray = array();
     public $truncatingLimit = 50;
+
+    public static function getDefaultPropertyValues()
+    {
+        return array(
+            'show_offset_information' => false,
+            'show_exclude_low_population' => false,
+            'display_logo_instead_of_label' => false,
+        );
+    }
 
     /**
      * Assign word to array
@@ -56,7 +67,7 @@ class Cloud extends DataTableVisualization
      */
     public function render($dataTable, $properties)
     {
-        $view = new View("@CoreHome/_dataTableViz_tagCloud.twig");
+        $view = new View("@CoreVisualizations/_dataTableViz_tagCloud.twig");
         $view->properties = $properties;
 
         $columnToDisplay = $properties['columns_to_display'][1];

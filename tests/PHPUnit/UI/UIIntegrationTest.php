@@ -21,6 +21,7 @@ use Piwik\AssetManager;
 class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
 {
     const IMAGE_TYPE = 'png';
+    const CUTYCAPT_DELAY = 1000;
     
     public static $fixture = null; // initialized below class definition
     private static $useXvfb = false;
@@ -203,14 +204,14 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         $this->runCutyCapt($urlQuery, $processedScreenshotPath);
         
         // compare processed w/ expected
-        $this->compareScreenshot($name, $expectedScreenshotPath, $processedScreenshotPath);
+        $this->compareScreenshot($name, $expectedScreenshotPath, $processedScreenshotPath, $urlQuery);
     }
     
     private function runCutyCapt($urlQuery, $processedPath)
     {
         $url = self::getProxyUrl() . $urlQuery;
         
-        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=1000 2>&1";
+        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=".self::CUTYCAPT_DELAY." 2>&1";
         if (self::$useXvfb) {
             $cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24" ' . $cmd;
         }
@@ -224,7 +225,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         return $output;
     }
     
-    private function compareScreenshot($name, $expectedPath, $processedPath)
+    private function compareScreenshot($name, $expectedPath, $processedPath, $urlQuery)
     {
         $processed = file_get_contents($processedPath);
         
@@ -233,6 +234,9 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         }
         
         $expected = file_get_contents($expectedPath);
+        if ($expected != $processed) {
+            echo "\nFail: '$processedPath' for '$urlQuery'\n";
+        }
         $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
     }
     
@@ -261,4 +265,3 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
 }
 
 Test_Piwik_Integration_UIIntegrationTest::$fixture = new Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts();
-

@@ -51,10 +51,8 @@
             $('div.dataTable').each(function () {
                 if (!$(this).attr('id')) {
                     var params = JSON.parse($(this).attr('data-params') || '{}');
-                    var tableType = $(this).attr('data-table-type');
-                    if (!tableType) {
-                        tableType = 'dataTable';
-                    }
+                    var props = JSON.parse($(this).attr('data-props') || '{}');
+                    var tableType = $(this).attr('data-table-type') || 'dataTable';
 
                     // convert values in params that are arrays to comma separated string lists
                     for (var key in params) {
@@ -63,7 +61,7 @@
                         }
                     }
 
-                    self.initSingleDataTable(this, window[tableType], params);
+                    self.initSingleDataTable(this, window[tableType], params, props);
                 }
             });
         },
@@ -74,8 +72,9 @@
          * @param {Element} domElem The DataTable div element.
          * @param {Function} klass The DataTable's JS class.
          * @param {Object} params The request params used.
+         * @param {Object} props The view properties that should be visible to the JS.
          */
-        initSingleDataTable: function (domElem, klass, params) {
+        initSingleDataTable: function (domElem, klass, params, props) {
             var newId = this.getNextId();
 
             $(domElem).attr('id', newId);
@@ -84,6 +83,7 @@
             $(domElem).data('dataTableInstance', table);
 
             table.param = params;
+            table.props = props;
             table.init(newId);
 
             // if the datatable has a graph, init the graph

@@ -60,8 +60,14 @@ class Piwik_Actions extends Plugin
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'AssetManager.getCssFiles'                 => 'getCssFiles',
         );
         return $hooks;
+    }
+
+    public function getCssFiles(&$cssFiles)
+    {
+        $cssFiles[] = "plugins/Actions/stylesheets/dataTableActions.less";
     }
     
     public function getSegmentsMetadata(&$segments)
@@ -647,9 +653,9 @@ class Piwik_Actions extends Plugin
     
     private function addBaseDisplayProperties(&$result)
     {
-        $result['datatable_css_class'] = 'dataTableActions';
         $result['datatable_js_type'] = 'actionDataTable';
-        $result['subtable_template'] = '@CoreHome/_dataTableActions_subDataTable.twig';
+        $result['visualization_properties']['HtmlTable']['subtable_template'] =
+            '@CoreHome/_dataTableActions_subDataTable.twig';
         $result['search_recursive'] = true;
         $result['show_all_views_icons'] = false;
         $result['show_table_all_columns'] = false;
@@ -660,13 +666,19 @@ class Piwik_Actions extends Plugin
         $result['custom_parameters'] = array('flat' => 0);
         
         if (ViewDataTable::shouldLoadExpanded()) {
-            $result['show_expanded'] = true;
+            $result['visualization_properties']['HtmlTable']['show_expanded'] = true;
             
             $result['filters'][] = function ($dataTable) {
                 Piwik_Actions::setDataTableRowLevels($dataTable);
             };
         }
-        
+
+        $result['filters'][] = function ($dataTable, $view) {
+            if ($view->getViewDataTableId() == 'table') {
+                $view->datatable_css_class = 'dataTableActions';
+            }
+        };
+
         return $result;
     }
 
@@ -780,7 +792,7 @@ class Piwik_Actions extends Plugin
             'filter_sort_column' => 'entry_nb_visits',
             'filter_sort_order'  => 'desc',
             'title'              => Piwik_Translate('Actions_SubmenuPagesEntry'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getEntryPageTitles' => Piwik_Translate('Actions_EntryPageTitles')
             ),
             'self_url'           => $reportUrl
@@ -808,7 +820,7 @@ class Piwik_Actions extends Plugin
             'filter_sort_column' => 'exit_nb_visits',
             'filter_sort_order'  => 'desc',
             'title'              => Piwik_Translate('Actions_SubmenuPagesExit'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getExitPageTitles' => Piwik_Translate('Actions_ExitPageTitles')
             ),
             'self_url'           => $reportUrl,
@@ -866,7 +878,11 @@ class Piwik_Actions extends Plugin
             'columns_to_display'     => array('label', 'nb_visits', 'nb_pages_per_search'),
             'show_table_all_columns' => false,
             'show_bar_chart'         => false,
-            'disable_row_evolution'  => false,
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_row_evolution'  => false,
+                )
+            )
         );
     }
 
@@ -891,7 +907,7 @@ class Piwik_Actions extends Plugin
             'filter_sort_order'           => 'desc',
             'show_exclude_low_population' => false,
             'title'                       => $title,
-            'relatedReports'              => $relatedReports
+            'related_reports'             => $relatedReports
         );
         
         $this->addExcludeLowPopDisplayProperties($result);
@@ -914,7 +930,7 @@ class Piwik_Actions extends Plugin
             'columns_to_display' => array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
                                           'avg_time_on_page', 'exit_rate', 'avg_time_generation'),
             'title'              => Piwik_Translate('Actions_SubmenuPageTitles'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getEntryPageTitles' => Piwik_Translate('Actions_EntryPageTitles'),
                 'Actions.getExitPageTitles'  => Piwik_Translate('Actions_ExitPageTitles'),
             ),
@@ -940,7 +956,7 @@ class Piwik_Actions extends Plugin
             ),
             'columns_to_display' => array('label', 'entry_nb_visits', 'entry_bounce_count', 'bounce_rate'),
             'title'              => Piwik_Translate('Actions_EntryPageTitles'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getPageTitles'       => Piwik_Translate('Actions_SubmenuPageTitles'),
                 "Actions.$entryPageUrlAction" => Piwik_Translate('Actions_SubmenuPagesEntry')
             ),
@@ -964,7 +980,7 @@ class Piwik_Actions extends Plugin
             ),
             'columns_to_display' => array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate'),
             'title'              => Piwik_Translate('Actions_ExitPageTitles'),
-            'relatedReports'     => array(
+            'related_reports'    => array(
                 'Actions.getPageTitles'      => Piwik_Translate('Actions_SubmenuPageTitles'),
                 "Actions.$exitPageUrlAction" => Piwik_Translate('Actions_SubmenuPagesExit'),
             ),

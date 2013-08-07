@@ -9,29 +9,30 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization\JqplotGraph;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
 use Piwik\Site;
 use Piwik\Controller;
 use Piwik\Period\Range;
-use Piwik\Visualization\JqplotGraph;
-use Piwik\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 /**
- * TODO
+ * Visualization that renders HTML for a line graph using jqPlot.
  */
 class Evolution extends JqplotGraph
 {
-    const GRAPH_HEIGHT = 170;
     const ID = 'graphEvolution';
+    
+    const GRAPH_HEIGHT = 170;
+    const SERIES_COLOR_COUNT = 8;
 
     public function __construct($view)
     {
         parent::__construct($view);
-        $view->datatable_css_class = 'dataTableEvolutionGraph';
 
-        // period will be overridden when 'range' is requested in the UI // TODO: this code probably shouldn't be here...
+        // period will be overridden when 'range' is requested in the UI
         // but the graph will display for each day of the range.
         // Default 'range' behavior is to return the 'sum' for the range
         if (Common::getRequestVar('period', false) == 'range') {
@@ -41,15 +42,15 @@ class Evolution extends JqplotGraph
         $this->calculateEvolutionDateRange($view);
     }
 
-    protected function getDefaultPropertyValues($view)
+    public static function getDefaultPropertyValues()
     {
-        $result = parent::getDefaultPropertyValues($view);
-        $result['graph_height'] = self::GRAPH_HEIGHT . 'px';
+        $result = parent::getDefaultPropertyValues();
         $result['show_all_views_icons'] = false;
         $result['show_table'] = false;
         $result['show_table'] = false;
         $result['show_table_all_columns'] = false;
         $result['hide_annotations_view'] = false;
+        $result['visualization_properties']['Evolution']['graph_height'] = self::GRAPH_HEIGHT . 'px';
         return $result;
     }
 

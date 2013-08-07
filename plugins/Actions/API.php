@@ -122,9 +122,11 @@ class Piwik_Actions_API
      *
      * @return DataTable|DataTable\Map
      */
-    public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
+    public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
+                                $depth = false)
     {
-        $dataTable = Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::getDataTableFromArchive(
+            'Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;

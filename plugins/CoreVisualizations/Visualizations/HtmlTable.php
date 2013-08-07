@@ -8,8 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-
-namespace Piwik\Visualization;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Piwik;
 use Piwik\DataTable;
@@ -21,6 +20,9 @@ use Piwik\DataTableVisualization;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use \Piwik_Goals_API;
 
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/AllColumns.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/Goals.php';
+
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
  */
@@ -28,16 +30,64 @@ class HtmlTable extends DataTableVisualization
 {
     const ID = 'table';
 
-    // TODO: names for these types of properties are inappropriate. JS properties are actually properties
-    // that get passed for each request. Overridable properties are properties that do not get passed on,
-    // but are visible to client side JS. (change to clientSideProperties & clientSideParameters)
-    static public $javaScriptProperties = array(
-        'search_recursive'
+    /**
+     * Custom template used if displaying a subtable.
+     * 
+     * TODO: Should be replaced w/ allowing custom visualization for
+     *       subtables. Should not directly touch template.
+     */
+    const SUBTABLE_TEMPLATE = 'subtable_template';
+
+    /**
+     * Controls whether the entire DataTable should be rendered (including subtables) or just one
+     * specific table in the tree.
+     */
+    const SHOW_EXPANDED = 'show_expanded';
+
+    /**
+     * Controls whether any DataTable Row Action icons are shown. If true, no icons are shown.
+     * 
+     * @see also self::DISABLE_ROW_EVOLUTION
+     */
+    const DISABLE_ROW_ACTIONS = 'disable_row_actions';
+
+    /**
+     * Controls whether the row evolution DataTable Row Action icon is shown or not.
+     * 
+     * @see also self::DISABLE_ROW_ACTIONS
+     */
+    const DISABLE_ROW_EVOLUTION = 'disable_row_evolution';
+
+    /**
+     * If true, the 'label', 'nb_visits', 'nb_uniq_visitors' (if present), 'nb_actions',
+     * 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate' and 'conversion_rate' (if
+     * goals view is not allowed) are displayed.
+     */
+    const SHOW_EXTRA_COLUMNS = 'show_extra_columns';
+
+    /**
+     * If true, conversions for each existing goal will be displayed for the visits in
+     * each row.
+     */
+    const SHOW_GOALS_COLUMNS = 'show_goals_columns';
+
+    /**
+     * If true, subtables will not be loaded when rows are clicked, but only if the
+     * 'show_goals_columns' property is also true.
+     * 
+     * @see also self::SHOW_GOALS_COLUMNS
+     */
+    const DISABLE_SUBTABLE_IN_GOALS_VIEW = 'disable_subtable_when_show_goals';
+
+    static public $clientSideParameters = array(
+        'search_recursive',
     );
 
-    static public $overridableProperties = array(
+    static public $clientSideProperties = array(
         'show_extra_columns',
-        'show_goals_columns'
+        'show_goals_columns',
+        'disable_row_evolution',
+        'disable_row_actions'
     );
 
     /**
@@ -45,15 +95,19 @@ class HtmlTable extends DataTableVisualization
      */
     public function __construct($view)
     {
-        if ($view->show_extra_columns) {
+        if (Common::getRequestVar('idSubtable', false)
+            && $view->visualization_properties->subtable_template
+        ) {
+            $view->datatable_template = $view->visualization_properties->subtable_template;
+        }
+
+        if ($view->visualization_properties->show_extra_columns) {
             $this->setShowExtraColumnsProperties($view);
         }
 
-        if ($view->show_goals_columns) {
+        if ($view->visualization_properties->show_goals_columns) {
             $this->setShowGoalsColumnsProperties($view);
         }
-
-        $view->defaultPropertiesTo($this->getDefaultPropertyValues());
     }
 
     /**
@@ -65,34 +119,26 @@ class HtmlTable extends DataTableVisualization
      */
     public function render($dataTable, $properties) // TODO: $properties should be a viewdatatable, I think.
     {
-        $view = new View("@CoreHome/_dataTableViz_htmlTable.twig");
+        $view = new View("@CoreVisualizations/_dataTableViz_htmlTable.twig");
         $view->properties = $properties;
         $view->dataTable = $dataTable;
         return $view->render();
     }
 
-    public static function getViewDataTableId($view) // TODO: shouldn't need this override
-    {
-        if ($view->show_extra_columns) {
-            return 'tableAllColumns';
-        } else if ($view->show_goals_columns) {
-            return 'tableGoals';
-        } else {
-            return self::ID;
-        }
-    }
-
-    private function getDefaultPropertyValues()
+    public static function getDefaultPropertyValues()
     {
         $defaults = array(
             'enable_sort' => true,
-            'disable_row_evolution' => false,
-            'disable_row_actions' => false,
-            'subtable_template' => "@CoreHome/_dataTable.twig",
             'datatable_js_type' => 'dataTable',
             'filter_limit' => Config::getInstance()->General['datatable_default_limit'],
-            'show_extra_columns' => false,
-            'disable_subtable_when_show_goals' => false
+            'visualization_properties' => array(
+                'disable_row_evolution' => false,
+                'disable_row_actions' => false,
+                'subtable_template' => "@CoreHome/_dataTable.twig",
+                'show_extra_columns' => false,
+                'show_goals_columns' => false,
+                'disable_subtable_when_show_goals' => false,
+            ),
         );
 
         if (Common::getRequestVar('enable_filter_excludelowpop', false) == '1') {
@@ -153,7 +199,7 @@ class HtmlTable extends DataTableVisualization
                 array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>'));
         }
 
-        if (!$view->disable_subtable_when_show_goals) {
+        if (!$view->visualization_properties->disable_subtable_when_show_goals) {
             $view->subtable_controller_action = null;
         }
 

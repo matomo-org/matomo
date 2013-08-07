@@ -43,6 +43,7 @@ class PluginsManager
         'CoreUpdater',
         'CoreAdminHome',
         'CorePluginsAdmin',
+        'CoreVisualizations',
         'Installation',
         'SitesManager',
         'UsersManager',

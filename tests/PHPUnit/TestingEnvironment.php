@@ -20,5 +20,8 @@ class Piwik_TestingEnvironment
         Piwik_AddAction('Config.createConfigSingleton', function($config) {
             $config->setTestEnvironment();
         });
+        Piwik_AddAction('FrontController.dispatch', function() {
+            \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
+        });
     }
 }

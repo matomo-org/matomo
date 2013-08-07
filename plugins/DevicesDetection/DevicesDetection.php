@@ -318,7 +318,7 @@ class Piwik_DevicesDetection extends Plugin
             'show_exclude_low_population' => false,
             'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemFamily")),
             'title' => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
-            'relatedReports' => $this->getOsRelatedReports()
+            'related_reports' => $this->getOsRelatedReports()
         );
     }
 
@@ -329,7 +329,7 @@ class Piwik_DevicesDetection extends Plugin
             'show_exclude_low_population' => false,
             'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemVersion")),
             'title' => Piwik_Translate('DeviceDetection_OperatingSystemVersions'),
-            'relatedReports' => $this->getOsRelatedReports()
+            'related_reports' => $this->getOsRelatedReports()
         );
     }
 
@@ -340,7 +340,7 @@ class Piwik_DevicesDetection extends Plugin
             'show_exclude_low_population' => false,
             'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrowserFamily")),
             'title' => Piwik_Translate('DevicesDetection_BrowsersFamily'),
-            'relatedReports' => $this->getBrowserRelatedReports()
+            'related_reports' => $this->getBrowserRelatedReports()
         );
     }
 
@@ -350,7 +350,7 @@ class Piwik_DevicesDetection extends Plugin
             'show_search' => false,
             'show_exclude_low_population' => false,
             'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrowserVersion")),
-            'relatedReports' => $this->getBrowserRelatedReports()
+            'related_reports' => $this->getBrowserRelatedReports()
         );
     }
 

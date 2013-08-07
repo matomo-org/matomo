@@ -332,10 +332,14 @@ class Piwik_Referers extends Plugin
             'show_offset_information' => false,
             'show_pagination_control' => false,
             'show_exclude_low_population' => false,
-            'disable_subtable_when_show_goals' => true,
             'show_goals' => true,
             'filter_limit' => 10,
-            'translations' => array('label' => $labelColumnTitle)
+            'translations' => array('label' => $labelColumnTitle),
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
     }
 
@@ -347,7 +351,11 @@ class Piwik_Referers extends Plugin
             'translations' => array('label' => Piwik_Translate('Referers_Referrer')),
             'show_goals' => true,
             'filter_limit' => 20,
-            'custom_parameters' => array('disable_row_actions' => '1'),
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_row_actions' => true
+                )
+            ),
             'filters' => array(
                 array('MetadataCallbackAddMetadata', array('referrer_type', 'html_label_prefix', $setGetAllHtmlPrefix))
             )
@@ -362,7 +370,11 @@ class Piwik_Referers extends Plugin
             'translations' => array('label' => Piwik_Translate('Referers_ColumnKeyword')),
             'show_goals' => true,
             'filter_limit' => 25,
-            'disable_subtable_when_show_goals' => true,
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
     }
 
@@ -383,8 +395,12 @@ class Piwik_Referers extends Plugin
             'show_exclude_low_population' => false,
             'show_goals' => true,
             'filter_limit' => 25,
-            'disable_subtable_when_show_goals' => true,
-            'translations' => array('label' => Piwik_Translate('Referers_ColumnSearchEngine'))
+            'translations' => array('label' => Piwik_Translate('Referers_ColumnSearchEngine')),
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
     }
 
@@ -404,8 +420,12 @@ class Piwik_Referers extends Plugin
             'show_exclude_low_population' => false,
             'show_goals' => true,
             'filter_limit' => 25,
-            'disable_subtable_when_show_goals' => true,
-            'translations' => array('label' => Piwik_Translate('Referers_ColumnWebsite'))
+            'translations' => array('label' => Piwik_Translate('Referers_ColumnWebsite')),
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
     }
 
@@ -417,8 +437,12 @@ class Piwik_Referers extends Plugin
             'show_exclude_low_population' => false,
             'filter_limit' => 10,
             'show_goals' => true,
-            'disable_subtable_when_show_goals' => true,
-            'translations' => array('label' => Piwik_Translate('Referers_ColumnSocial'))
+            'translations' => array('label' => Piwik_Translate('Referers_ColumnSocial')),
+            'visualization_properties' => array(
+                'HtmlTable' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
 
         $widget = Common::getRequestVar('widget', false);

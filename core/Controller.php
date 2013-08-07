@@ -176,8 +176,9 @@ abstract class Controller
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
-        $view = ViewDataTable::factory('graphEvolution');
-        $view->init($currentModuleName, $currentControllerAction, $apiMethod);
+        $view = ViewDataTable::factory(
+            'graphEvolution', $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
+        $view->show_goals = false;
         return $view;
     }
 
@@ -219,14 +220,14 @@ abstract class Controller
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
         $view->columns_to_display = $columnsToDisplay;
-        $view->selectable_columns = array_merge($view->selectable_columns, $selectableColumns);
+        $view->visualization_properties->selectable_columns =
+            array_merge($view->visualization_properties->selectable_columns ?: array(), $selectableColumns);
         $view->translations += $translations;
 
         if ($reportDocumentation) {
             $view->documentation = $reportDocumentation;
         }
 
-        $view->main();
         return $view;
     }
 

@@ -105,7 +105,7 @@ class Piwik_DBStats extends Plugin
 
         $result['show_offset_information'] = false;
         $result['show_pagination_control'] = false;
-        $result['show_all_ticks'] = true;
+        $result['visualization_properties']['JqplotGraph']['show_all_ticks'] = true;
 
         // translate the labels themselves
         $valueToTranslationStr = array(
@@ -146,7 +146,7 @@ class Piwik_DBStats extends Plugin
         $this->addPresentationFilters($result);
 
         $result['title'] = Piwik_Translate('DBStats_MetricTables');
-        $result['relatedReports'] = array(
+        $result['related_reports'] = array(
            'DBStats.getMetricDataSummaryByYear' => Piwik_Translate('DBStats_MetricDataByYear')
         );
 
@@ -161,7 +161,7 @@ class Piwik_DBStats extends Plugin
 
         $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
         $result['title'] = Piwik_Translate('DBStats_MetricDataByYear');
-        $result['relatedReports'] =  array(
+        $result['related_reports'] =  array(
            'DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')
         );
 
@@ -175,7 +175,7 @@ class Piwik_DBStats extends Plugin
         $this->addPresentationFilters($result);
 
         $result['title'] = Piwik_Translate('DBStats_ReportTables');
-        $result['relatedReports'] = array(
+        $result['related_reports'] = array(
             'DBStats.getReportDataSummaryByYear' => Piwik_Translate('DBStats_ReportDataByYear')
         );
 
@@ -190,7 +190,7 @@ class Piwik_DBStats extends Plugin
 
         $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
         $result['title'] = Piwik_Translate('DBStats_ReportDataByYear');
-        $result['relatedReports'] = array(
+        $result['related_reports'] = array(
            'DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')
         );
 
@@ -256,7 +256,7 @@ class Piwik_DBStats extends Plugin
         $properties['show_tag_cloud'] = false;
         $properties['show_table_all_columns'] = false;
         $properties['keep_summary_row'] = true;
-        $properties['disable_row_evolution'] = true;
+        $properties['visualization_properties']['HtmlTable']['disable_row_evolution'] = true;
         $properties['translations'] = array(
             'label'          => Piwik_Translate('DBStats_Table'),
             'year'           => Piwik_Translate('CoreHome_PeriodYear'),

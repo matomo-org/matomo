@@ -73,6 +73,15 @@ class Twig
         $this->addFunction_loadJavascriptTranslations();
         $this->addFunction_sparkline();
         $this->addFunction_postEvent();
+        $this->addFunction_isPluginLoaded();
+    }
+
+    protected function addFunction_isPluginLoaded()
+    {
+        $isPluginLoadedFunction = new Twig_SimpleFunction('isPluginLoaded', function ($pluginName) {
+            return PluginsManager::getInstance()->isPluginLoaded($pluginName);
+        });
+        $this->twig->addFunction($isPluginLoadedFunction);
     }
 
     protected function addFunction_includeAssets()

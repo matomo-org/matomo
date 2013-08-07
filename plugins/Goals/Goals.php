@@ -96,7 +96,7 @@ class Piwik_Goals extends Plugin
             'Menu.add'                         => 'addMenus',
             'SitesManager.deleteSite'          => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'  => 'getActualReportsWithGoalMetrics',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties', // TODO: ViewDataTable should get ALL once
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }
