@@ -542,7 +542,7 @@ Segmentation = (function($) {
                 var oldName = $(e.currentTarget).parents("h3").find("span").text();
                 $(e.currentTarget).parents("h3").find("span").hide();
                 $(e.currentTarget).hide();
-                $(e.currentTarget).before('<input id="edit_segment_name"/>');
+                $(e.currentTarget).before('<input id="edit_segment_name" type="text"/>');
                 $(e.currentTarget).siblings("#edit_segment_name").focus().val(oldName);
             });
 
