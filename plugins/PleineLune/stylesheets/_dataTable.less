@@ -121,6 +121,10 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
   border-radius: 0;
 }
 
+.limitSelection > div > span {
+  color: @theme-color-text-active;
+}
+
 .limitSelection > ul > li {
   background: @theme-color-background-base;
   border-color: @theme-color-background-smallContrast;
@@ -133,6 +137,14 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
 
 .limitSelection > ul > li:hover {
   background-color: @theme-color-background-smallContrast;
+}
+
+.limitSelection > ul > li > span {
+  color: @theme-color-text-link;
+}
+
+.limitSelection > ul > li:hover > span {
+  color: @theme-color-text-focus;
 }
 
 /* TableConfiguration */
