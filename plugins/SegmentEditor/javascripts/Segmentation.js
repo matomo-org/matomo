@@ -978,7 +978,7 @@ Segmentation = (function($) {
                 $("#"+self.targetId).append(html);
                 self.content = $("#"+self.targetId).find(".segmentationContainer");
             }
-            setLeftMargin('.segmentationContainer');
+            setLeftMargin('#segmentEditorPanel');
 
             // assign content to object attribute to make it easil accesible through all widget methods
             bindListEvents();

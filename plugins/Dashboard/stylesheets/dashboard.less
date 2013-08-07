@@ -7,10 +7,18 @@
   height: 32px;
 }
 
-.top_controls_inner {
-  position: relative;
-  height: 32px;
-  padding-bottom: 20px;
+@media all and (max-width: 749px) {
+  .top_controls {
+    height: auto;
+  }
+
+  .top_controls #periodString,
+  .top_controls #dashboardSettings,
+  .top_controls #segmentEditorPanel {
+    position: static;
+    margin: 0 0 10px;
+    float: none;
+  }
 }
 
 #dashboardWidgetsArea {
@@ -218,6 +226,7 @@
     color: #444;
     font-size: 14px;
     cursor: pointer;
+  overflow: hidden;
 }
 
 #dashboardSettings:hover {
