@@ -312,6 +312,17 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
      */
     protected function formatValue($value)
     {
+        // Some custom variables are received as an array, we need to convert them into a string first
+        // Then we can handle it normally
+        if (is_array($value)) {
+            $str = "";
+            foreach ($value as $customVariable => $customValues){
+                foreach ($customValues as $customVariableName => $data) {
+                    $str .= "$customVariableName: $data ";
+                }
+            }
+            $value = $str;
+        }
         if (is_string($value)
             && !is_numeric($value)
         ) {
