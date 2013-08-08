@@ -54,14 +54,14 @@ abstract class DataTableVisualization
         if (isset(static::$clientSideParameters)) {
             $result = array();
 
-            $lineage = static::getThisVisualizationClassLineage();
+            $lineage = static::getVisualizationClassLineage(get_called_class());
             foreach ($lineage as $klass) {
                 if (isset($klass::$clientSideParameters)) {
-                    $result = array_merge($result, $clientSideParameters);
+                    $result = array_merge($result, $klass::$clientSideParameters);
                 }
             }
             
-            return $result;
+            return array_unique($result);
         } else {
             return array();
         }
@@ -82,14 +82,14 @@ abstract class DataTableVisualization
         if (isset(static::$clientSideProperties)) {
             $result = array();
 
-            $lineage = static::getThisVisualizationClassLineage();
+            $lineage = static::getVisualizationClassLineage(get_called_class());
             foreach ($lineage as $klass) {
                 if (isset($klass::$clientSideProperties)) {
-                    $result = array_merge($result, $clientSideProperties);
+                    $result = array_merge($result, $klass::$clientSideProperties);
                 }
             }
             
-            return $result;
+            return array_unique($result);
         } else {
             return array();
         }
@@ -131,18 +131,6 @@ abstract class DataTableVisualization
     }
 
     /**
-     * Returns the class lineage for this class. For use with late static bindings.
-     * 
-     * @see self::getVisualizationClassLineage
-     * 
-     * @return array
-     */
-    protected static function getThisVisualizationClassLineage()
-    {
-        return self::getVisualizationClassLineage(__CLASS__);
-    }
-
-    /**
      * Returns the viewDataTable IDs of a visualization's class lineage.
      * 
      * @see self::getVisualizationClassLineage
@@ -152,7 +140,12 @@ abstract class DataTableVisualization
     public static function getVisualizationIdsWithInheritance($klass)
     {
         $klasses = self::getVisualizationClassLineage($klass);
-        return array_map(array('Piwik\\Piwik', 'getUnnamespacedClassName'), $klasses);
+
+        $result = array();
+        foreach ($klasses as $klass) {
+            $result[] = $klass::getViewDataTableId();
+        }
+        return $result;
     }
 
     /**

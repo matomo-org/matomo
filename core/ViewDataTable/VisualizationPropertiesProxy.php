@@ -83,4 +83,23 @@ class VisualizationPropertiesProxy
         
         return $this->visualizationProperties[$name] = $value;
     }
+
+    /**
+     * Sets a visualization property, but only if the visualization is an instance of a
+     * certain class.
+     * 
+     * @param string $forClass The visualization class to check for.
+     * @param string $name A valid property name for the current visualization.
+     * @param mixed $value
+     * @return mixed Returns $value.
+     * @throws \Exception if the property name is invalid.
+     */
+    public function setForVisualization($forClass, $name, $value)
+    {
+        if ($forClass == $this->visualizationClass
+            || is_subclass_of($this->visualizationClass, $forClass)
+        ) {
+            return $this->__set($name, $value);
+        }
+    }
 }

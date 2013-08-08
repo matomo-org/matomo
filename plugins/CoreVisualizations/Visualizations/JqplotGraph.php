@@ -27,6 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Jq
 class JqplotGraph extends DataTableVisualization
 {
     const DEFAULT_GRAPH_HEIGHT = 250;
+    const ID = 'jqplot_graph';
 
     /**
      * Whether the series picker should allow picking more than one series or not.
@@ -154,7 +155,7 @@ class JqplotGraph extends DataTableVisualization
             'row_picker_match_rows_by' => false,
             'row_picker_visible_rows' => array(),
             'visualization_properties' => array(
-                'JqplotGraph' => array(
+                'jqplot_graph' => array(
                     'add_total_row' => 0,
                     'show_all_ticks' => false,
                     'allow_multi_select_series_picker' => true,

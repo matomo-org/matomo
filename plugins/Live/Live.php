@@ -83,7 +83,7 @@ class Piwik_Live extends Plugin
                 'pageUrlNotDefined' => Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'))
             ),
             'visualization_properties' => array(
-                'HtmlTable' => array(
+                'table' => array(
                     'disable_row_actions' => true,
                 )
             )
