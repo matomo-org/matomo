@@ -654,7 +654,7 @@ class Piwik_Actions extends Plugin
     private function addBaseDisplayProperties(&$result)
     {
         $result['datatable_js_type'] = 'actionDataTable';
-        $result['visualization_properties']['HtmlTable']['subtable_template'] =
+        $result['visualization_properties']['table']['subtable_template'] =
             '@CoreHome/_dataTableActions_subDataTable.twig';
         $result['search_recursive'] = true;
         $result['show_all_views_icons'] = false;
@@ -666,7 +666,7 @@ class Piwik_Actions extends Plugin
         $result['custom_parameters'] = array('flat' => 0);
         
         if (ViewDataTable::shouldLoadExpanded()) {
-            $result['visualization_properties']['HtmlTable']['show_expanded'] = true;
+            $result['visualization_properties']['table']['show_expanded'] = true;
             
             $result['filters'][] = function ($dataTable) {
                 Piwik_Actions::setDataTableRowLevels($dataTable);
@@ -879,7 +879,7 @@ class Piwik_Actions extends Plugin
             'show_table_all_columns' => false,
             'show_bar_chart'         => false,
             'visualization_properties' => array(
-                'HtmlTable' => array(
+                'table' => array(
                     'disable_row_evolution'  => false,
                 )
             )

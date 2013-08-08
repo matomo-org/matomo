@@ -45,6 +45,12 @@ class HtmlTable extends DataTableVisualization
     const SHOW_EXPANDED = 'show_expanded';
 
     /**
+     * When showing an expanded datatable, this property controls whether rows with subtables are
+     * replaced with their subtables, or if they are shown alongside their subtables.
+     */
+    const REPLACE_ROW_WITH_SUBTABLE = 'replace_row_with_subtable';
+
+    /**
      * Controls whether any DataTable Row Action icons are shown. If true, no icons are shown.
      * 
      * @see also self::DISABLE_ROW_EVOLUTION
@@ -132,12 +138,14 @@ class HtmlTable extends DataTableVisualization
             'datatable_js_type' => 'dataTable',
             'filter_limit' => Config::getInstance()->General['datatable_default_limit'],
             'visualization_properties' => array(
-                'disable_row_evolution' => false,
-                'disable_row_actions' => false,
-                'subtable_template' => "@CoreHome/_dataTable.twig",
-                'show_extra_columns' => false,
-                'show_goals_columns' => false,
-                'disable_subtable_when_show_goals' => false,
+                'table' => array(
+                    'disable_row_evolution' => false,
+                    'disable_row_actions' => false,
+                    'subtable_template' => "@CoreHome/_dataTable.twig",
+                    'show_extra_columns' => false,
+                    'show_goals_columns' => false,
+                    'disable_subtable_when_show_goals' => false,
+                ),
             ),
         );
 
