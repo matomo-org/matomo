@@ -47,11 +47,10 @@
             <a href="http://piwik.org" title="{{ linkTitle }}">
         {% endif %}
         {% if hasSVGLogo %}
-            <img src='{{ logoSVG }}' title="{{ linkTitle }}" alt="Piwik" width="240" style='margin-right: 20px'
-             class="ie-hide"/>
+            <img src='{{ logoSVG }}' title="{{ linkTitle }}" alt="Piwik" class="ie-hide"/>
             <!--[if lt IE 9]>
         {% endif %}
-        <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Piwik" width="240" style='margin-right:20px'/>
+        <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Piwik" />
         {% if hasSVGLogo %}<![endif]-->{% endif %}
 
         {% if isCustomLogo %}

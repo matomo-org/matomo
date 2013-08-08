@@ -35,8 +35,9 @@
 #logo img {
     border: 0;
     vertical-align: bottom;
-    width: 260px;
     height: auto;
+    width: 240px;
+    margin-right: 20px;
 }
 
 #logo .h1 {

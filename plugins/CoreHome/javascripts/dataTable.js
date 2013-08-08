@@ -282,13 +282,11 @@ dataTable.prototype =
             $('.limitSelection ul li:last', domElem).addClass('last');
 
             if (!self.isEmpty) {
-                var show = function () {
+                var show = function() {
                     $('.limitSelection ul', domElem).show();
                     $('.limitSelection', domElem).addClass('visible');
-                    $(document).on('mouseup.limitSelection', function (e) {
-                        if ((!$(e.target).parents('.limitSelection').length
-                            || $(e.target).parents('.limitSelection') != $('.limitSelection', domElem))
-                            && !$(e.target).is('.limitSelection')) {
+                    $(document).on('mouseup.limitSelection', function(e) {
+                        if (!$(e.target).closest('.limitSelection').length) {
                             hide();
                         }
                     });
@@ -363,11 +361,13 @@ dataTable.prototype =
                 var imageSortSrc = getSortImageSrc();
                 var imageSortWidth = 16;
                 var imageSortHeight = 16;
+                var ImageSortClass = self.param.filter_sort_order.charAt(0).toUpperCase() + self.param.filter_sort_order.substr(1);
+
                 // we change the style of the column currently used as sort column
                 // adding an image and the class columnSorted to the TD
                 $(".sortable#" + self.param.filter_sort_column + ' #thDIV', domElem).parent()
                     .addClass('columnSorted')
-                    .prepend('<div id="sortIconContainer"><img id="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
+                    .prepend('<div class="sortIconContainer sortIconContainer' + ImageSortClass + '"><img class="sortIcon" width="' + imageSortWidth + '" height="' + imageSortHeight + '" src="' + imageSortSrc + '" /></div>');
             }
         }
     },
@@ -391,10 +391,10 @@ dataTable.prototype =
         currentPattern = piwikHelper.htmlDecode(currentPattern);
 
         $('.dataTableSearchPattern', domElem)
-            .show()
+            .css({display: 'block'})
             .each(function () {
                 // when enter is pressed in the input field we submit the form
-                $('#keyword', this)
+                $('.searchInput', this)
                     .on("keyup",
                     function (e) {
                         if (isEnterKey(e)) {
@@ -407,7 +407,7 @@ dataTable.prototype =
 
                 $(':submit', this).submit(
                     function () {
-                        var keyword = $(this).siblings('#keyword').val();
+                        var keyword = $(this).siblings('.searchInput').val();
                         self.param.filter_offset = 0;
 
                         if (self.param.search_recursive) {
@@ -436,10 +436,10 @@ dataTable.prototype =
 							<img src="plugins/CoreHome/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear" />\
 							</span>')
                         .click(function () {
-                            $('#keyword', target).val('');
+                            $('.searchInput', target).val('');
                             $(':submit', target).submit();
                         });
-                    $('#keyword', this).after(clearImg);
+                    $('.searchInput', this).after(clearImg);
 
                 }
             }
@@ -781,7 +781,7 @@ dataTable.prototype =
                 });
                 self.exportToFormatHide(domElem);
             },
-            function () {
+            function() {
                 //Graph icon onmouseout
                 if (self.graphViewStartingKeep) return self.graphViewStartingKeep = false; //exit while icons animate
                 $('a', this).each(function (i) {
@@ -1149,8 +1149,8 @@ dataTable.prototype =
         $("th:first-child", domElem).addClass('label');
         $("td:first-child:odd", domElem).addClass('label labeleven');
         $("td:first-child:even", domElem).addClass('label labelodd');
-        $("tr:odd td", domElem).slice(1).addClass('columnodd');
-        $("tr:even td", domElem).slice(1).addClass('columneven');
+        $("tr:odd td", domElem).slice(1).addClass('column columnodd');
+        $("tr:even td", domElem).slice(1).addClass('column columneven');
 
         $('td span.label', domElem).each(function () { self.truncate($(this)); });
 
@@ -1710,6 +1710,8 @@ actionDataTable.prototype =
             // label (first column of a data row) or not
             $("td:first-child:odd", this).addClass('label labeleven');
             $("td:first-child:even", this).addClass('label labelodd');
+            $("tr:odd td", domElem).slice(1).addClass('column columnodd');
+            $("tr:even td", domElem).slice(1).addClass('column columneven');
         });
     },
 

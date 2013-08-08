@@ -69,15 +69,11 @@ class Sparkline extends Object {
     //
     $this->SetColorDefaults();
     while (list($k, $v) = each($this->colorList)) {
-      $this->SetColorHandle($k, $this->DrawColorAllocate($k, $this->imageHandle));
+      $this->SetColorHandle($k, $this->DrawColorAllocate($k));
     }
     reset($this->colorList);
 
-    if ($this->IsError()) {
-      return false;
-    } else {
-      return true;
-    }
+    return !$this->IsError();
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -95,9 +91,8 @@ class Sparkline extends Object {
     if (array_key_exists($name, $this->colorList)) {
       $this->colorList[$name]['handle'] = $handle;
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   function SetColorHex($name, $r, $g, $b) {
@@ -117,6 +112,7 @@ class Sparkline extends Object {
   }
 
   function GetColor($name) {
+    $name = strtolower($name);
     if (array_key_exists($name, $this->colorList)) {
       return $this->colorList[$name]['rgb'];
     } else {
@@ -229,7 +225,6 @@ class Sparkline extends Object {
 
   function DrawColorAllocate($color, $handle = false) {
     $this->Debug("Sparkline :: DrawColorAllocate('$color')", DEBUG_DRAW);
-
     if (!$this->IsError() &&
         $colorRGB = $this->GetColor($color)) {
       if ($handle === false) $handle = $this->imageHandle;
