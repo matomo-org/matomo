@@ -29,6 +29,10 @@ p {
     padding: 20px 30px 40px;
 }
 
+#installationPage #logo {
+    height: auto;
+}
+
 h2 {
     font-size: 20px;
     color: #666666;
@@ -106,7 +110,7 @@ code {
 }
 
 /* Cadre general */
-#main {
+#installationPage {
     margin: 30px 5px 5px;
     text-align: left;
 }

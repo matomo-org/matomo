@@ -12,9 +12,9 @@ function initDashboard(dashboardId, dashboardLayout) {
         $('#periodString').after($('#dashboardSettings'));
 
         var leftMargin = $('#periodString')[0].offsetWidth;
-        var segmentSelector = $('.segmentationContainer:visible');
+        var segmentSelector = $('#segmentEditorPanel:visible');
         if(segmentSelector.length) {
-            segmentSelector = $($('.segmentationContainer:visible')[0]);
+            segmentSelector = $($('#segmentEditorPanel:visible')[0]);
             leftMargin = segmentSelector.position().left + segmentSelector.outerWidth();
         }
         $('#dashboardSettings').css({left: leftMargin});

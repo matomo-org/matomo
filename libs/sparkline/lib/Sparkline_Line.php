@@ -31,7 +31,7 @@ class Sparkline_Line extends Sparkline {
     $this->dataSeries          = array();
     $this->dataSeriesStats     = array();
     $this->dataSeriesConverted = array();
-
+    $this->colorBackground     = 'backgroundColor';
     $this->featurePoint        = array();
   } // function Sparkline
 
@@ -167,7 +167,7 @@ class Sparkline_Line extends Sparkline {
                       $this->dataSeriesConverted[1][$i][1] + $this->graphAreaPx[0][1], 
                       $this->dataSeriesConverted[1][$i+1][0] + $this->graphAreaPx[0][0], 
                       $this->dataSeriesConverted[1][$i+1][1] + $this->graphAreaPx[0][1],  
-                      'black');
+                      'lineColor');
     }
 
     // draw features
@@ -245,7 +245,7 @@ class Sparkline_Line extends Sparkline {
                       $this->dataSeriesConverted[1][$i][1],
                       $this->dataSeriesConverted[1][$i+1][0],
                       $this->dataSeriesConverted[1][$i+1][1],
-                      'black', 
+                      'lineColor',
                       $this->GetLineSize(), 
                       $imageVCHandle);
     }

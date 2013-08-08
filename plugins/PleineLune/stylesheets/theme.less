@@ -1,11 +1,32 @@
-@theme-color-text-link: #6C9C50;
+
+@theme-color-background-base: #141414;
+@theme-color-background-contrast: #5F5A60;
+@theme-color-background-smallContrast: #202020;
+@theme-color-background-lighter: #888;
+@theme-color-highlight1: #766F31;
+@theme-color-highlight2: #6C9C50;
+@theme-color-highlight3: #67E750;
+
+@theme-color-text-link: @theme-color-highlight2;
 @theme-color-text-base: #59867D;
-@theme-color-text-focus: #67E750;
-@theme-color-text-active: #766F31;
-@theme-color-box-border: #5F5A60; //#777778;
-@theme-color-box-active: #141414;
+@theme-color-text-lightFocus: #AAA;
+@theme-color-text-focus: @theme-color-highlight3;
+@theme-color-text-active: @theme-color-highlight1;
+@theme-color-box-border: @theme-color-background-contrast;
+@theme-color-box-active: @theme-color-background-smallContrast;
 
 @import "_general.less";
 @import "_layout.less";
+@import "controls/_periodSelect.less";
+@import "controls/_segmentSelect.less";
+@import "controls/_widgetSelect.less";
+@import "controls/_headerMessage.less";
+@import "controls/_siteSelect.less";
 @import "_menuDashboard.less";
 @import "_menuAdmin.less";
+@import "_widget.less";
+@import "_dataTable.less";
+@import "_sparklineColors.less";
+@import "_jqplotColors.less";
+@import "_ui.less";
+@import "../../PleineLune/stylesheets/_transitionColors.less";

@@ -1,0 +1,82 @@
+.tableConfiguration {
+  float: right;
+  position: relative;
+  margin-left: 5px;
+  min-height: 20px;
+  min-width: 25px;
+}
+
+a.tableConfigurationIcon {
+  display: block;
+  width: 30px;
+  height: 22px;
+  background: url(plugins/Zeitgeist/images/configure.png) no-repeat center 2px;
+  position: absolute;
+  z-index: 9;
+  right: 0;
+}
+
+a.tableConfigurationIcon.highlighted {
+  display: block;
+  width: 30px;
+  height: 22px;
+  background-image: url(plugins/Zeitgeist/images/configure-highlight.png);
+  position: absolute;
+  z-index: 9;
+  right: 0;
+}
+
+.tableConfiguration ul {
+  overflow: visible;
+  display: none;
+  position: relative;
+  z-index: 8;
+  text-align: left;
+}
+
+.tableConfiguration ul.open {
+  display: block;
+}
+
+.tableConfiguration ul li {
+  padding: 0;
+  font-size: 1.1em;
+  height: 40px;
+  margin-top: -80px;
+  background-color: #fff;
+  border: 1px solid #DFDFDF;
+  border-width: 0 1px;
+  vertical-align: middle;
+}
+
+.tableConfiguration ul li.firstDummy {
+  border-bottom-width: 1px;
+  border-radius: 0 0 4px 4px;
+  height: 25px;
+  cursor: default;
+  margin-top: -4px;
+}
+
+.tableConfiguration ul li.first {
+  margin-top: -65px;
+}
+
+.tableConfiguration ul li.last {
+  border-top-width: 1px;
+  border-radius: 4px 4px 0 0;
+}
+
+.tableConfiguration div.configItem {
+  cursor: pointer;
+  padding: 5px 10px;
+  line-height: 15px;
+  color: #444;
+}
+
+.tableConfiguration div.configItem:hover {
+  background-color: #EBEAE6;
+}
+
+.tableConfiguration div.configItem span.action {
+  color: @dataTable-link-color;
+}

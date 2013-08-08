@@ -4,8 +4,9 @@
     <div id="Dashboard">
         <ul>
             {% for dashboard in dashboards %}
-                <li class="dashboardMenuItem" id="Dashboard_embeddedIndex_{{ dashboard.iddashboard }}"><a
-                            href="javascript:$('#dashboardWidgetsArea').dashboard('loadDashboard', {{ dashboard.iddashboard }});">{{ dashboard.name|escape }}</a></li>
+                <li class="dashboardMenuItem" id="Dashboard_embeddedIndex_{{ dashboard.iddashboard }}">
+                    <a href="javascript:$('#dashboardWidgetsArea').dashboard('loadDashboard', {{ dashboard.iddashboard }});">{{ dashboard.name|escape }}</a>
+                </li>
             {% endfor %}
         </ul>
     </div>

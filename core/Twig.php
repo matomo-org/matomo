@@ -33,7 +33,7 @@ use Twig_SimpleFunction;
  */
 class Twig
 {
-    const SPARKLINE_TEMPLATE = '<img class="sparkline" alt="" data-src="%s" width="%d" height="%d" />
+    const SPARKLINE_TEMPLATE = '<img alt="" data-src="%s" width="%d" height="%d" />
     <script type="text/javascript">$(document).ready(function () { piwik.initSparklines(); });</script>';
     
     /**
