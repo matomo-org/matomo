@@ -448,6 +448,15 @@ class Properties
     }
 
     /**
+     * Returns true if $name is a valid visualization property for the given visualization class.
+     */
+    public static function isValidVisualizationProperty($visualizationClass, $name)
+    {
+        $properties = self::getVisualizationProperties($visualizationClass);
+        return isset($properties[$name]);
+    }
+
+    /**
      * Checks if a property is a valid ViewDataTable property, and if not, throws an exception.
      *
      * @param string $name The property name.
@@ -470,8 +479,7 @@ class Properties
      */
     public static function checkValidVisualizationProperty($visualizationClass, $name)
     {
-        $properties = self::getVisualizationProperties($visualizationClass);
-        if (!isset($properties[$name])) {
+        if (!self::isValidVisualizationProperty($visualizationClass, $name)) {
             throw new Exception("Invalid Visualization display property '$name' for '$visualizationClass'.");
         }
     }
@@ -527,7 +535,6 @@ class Properties
             ),
             'request_parameters_to_modify' => array(),
             'documentation' => false,
-            'subtable_controller_action' => false,
             'datatable_css_class' => false,
             'filters' => array(),
             'hide_annotations_view' => true,

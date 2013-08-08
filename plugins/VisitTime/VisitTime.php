@@ -135,7 +135,7 @@ class Piwik_VisitTime extends Plugin
             'translations' => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
             'request_parameters_to_modify' => array('hideFutureHoursWhenToday' => 1),
             'visualization_properties' => array(
-                'JqplotGraph' => array(
+                'jqplot_graph' => array(
                     'max_graph_elements' => false,
                 )
             )
@@ -146,7 +146,7 @@ class Piwik_VisitTime extends Plugin
             'title' => Piwik_Translate('VisitTime_ColumnLocalTime'),
             'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
             'visualization_properties' => array(
-                'JqplotGraph' => array(
+                'jqplot_graph' => array(
                     'max_graph_elements' => false,
                 )
             )
@@ -159,7 +159,7 @@ class Piwik_VisitTime extends Plugin
                 Piwik_Translate('General_ReportGeneratedFrom', self::getDateRangeForFooterMessage()),
             'translations' => array('label' => Piwik_Translate('VisitTime_DayOfWeek')),
             'visualization_properties' => array(
-                'JqplotGraph' => array(
+                'jqplot_graph' => array(
                     'show_all_ticks' => true,
                     'max_graph_elements' => false,
                 )

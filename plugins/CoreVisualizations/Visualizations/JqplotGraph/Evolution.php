@@ -50,7 +50,7 @@ class Evolution extends JqplotGraph
         $result['show_table'] = false;
         $result['show_table_all_columns'] = false;
         $result['hide_annotations_view'] = false;
-        $result['visualization_properties']['Evolution']['graph_height'] = self::GRAPH_HEIGHT . 'px';
+        $result['visualization_properties']['graphEvolution']['graph_height'] = self::GRAPH_HEIGHT . 'px';
         return $result;
     }
 

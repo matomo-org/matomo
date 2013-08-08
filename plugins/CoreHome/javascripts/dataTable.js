@@ -1191,7 +1191,7 @@ dataTable.prototype =
                     self.param.enable_filter_excludelowpop = filtersToRestore.enable_filter_excludelowpop;
 
                     self.param.idSubtable = idSubTable;
-                    self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
+                    self.param.action = self.props.subtable_controller_action;
 					
 					delete self.param.totalRows;
 					
@@ -1427,8 +1427,8 @@ dataTable.prototype =
     doHandleRowActions: function (trs) {
         var self = this;
 
-        var availableActionsForReport = DataTable_RowActions_Registry
-            .getAvailableActionsForReport(self.param);
+        var merged = $.extend({}, self.param, self.props);
+        var availableActionsForReport = DataTable_RowActions_Registry.getAvailableActionsForReport(merged);
 
         if (availableActionsForReport.length == 0) {
             return;
@@ -1761,7 +1761,7 @@ actionDataTable.prototype =
             this.param['enable_filter_excludelowpop'] = filtersToRestore['enable_filter_excludelowpop'];
 
             self.param.idSubtable = idSubTable;
-            self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
+            self.param.action = self.props.subtable_controller_action;
 
             self.reloadAjaxDataTable(false, function (resp) {
                 self.actionsSubDataTableLoaded(resp, idSubTable);

@@ -17,7 +17,6 @@ use Piwik\Common;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Tracker\Cache;
 
 /**
@@ -145,7 +144,8 @@ class Rules
         return false;
     }
 
-    public static function getMinTimeProcessedForTemporaryArchive(Date $dateStart, Period $period, Segment $segment, Site $site)
+    public static function getMinTimeProcessedForTemporaryArchive(
+        Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
     {
         $now = time();
         $minimumArchiveTime = $now - Rules::getTodayArchiveTimeToLive();

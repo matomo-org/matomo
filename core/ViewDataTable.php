@@ -128,15 +128,16 @@ class ViewDataTable
         $visualizationClass = $visualizationId ? DataTableVisualization::getClassFromId($visualizationId) : null;
         $this->visualizationClass = $visualizationClass;
 
+        list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
+        $this->currentControllerName = $currentControllerName;
+        $this->currentControllerAction = $currentControllerAction;
+
         $this->viewProperties['visualization_properties'] = new VisualizationPropertiesProxy($visualizationClass);
         $this->viewProperties['metadata'] = array();
         $this->viewProperties['translations'] = array();
         $this->viewProperties['filters'] = array();
         $this->viewProperties['related_reports'] = array();
-
-        list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
-        $this->currentControllerName = $currentControllerName;
-        $this->currentControllerAction = $currentControllerAction;
+        $this->viewProperties['subtable_controller_action'] = $currentControllerAction;
 
         $this->setDefaultProperties();
 
@@ -169,6 +170,16 @@ class ViewDataTable
         }
 
         $this->loadDocumentation();
+    }
+
+    /**
+     * Returns the view's associated visualization class name.
+     * 
+     * @return string
+     */
+    public function getVisualizationClass()
+    {
+        return $this->visualizationClass;
     }
 
     /**
@@ -268,8 +279,8 @@ class ViewDataTable
             'show_table_all_columns',
             'show_all_views_icons',
             'show_active_view_icon',
-            'show_barchart',
-            'show_piechart',
+            'show_bar_chart',
+            'show_pie_chart',
             'show_tag_cloud',
             'show_export_as_image_icon',
             'show_export_as_rss_feed',
@@ -279,6 +290,7 @@ class ViewDataTable
             'show_footer',
             'show_related_reports',
             'keep_summary_row',
+            'subtable_controller_action',
         );
 
         if ($this->visualizationClass) {
@@ -753,10 +765,13 @@ class ViewDataTable
         // for example setExcludeLowPopulation
         // we go through all the $this->viewProperties array and set the variables not set yet
         foreach ($this->getClientSideParameters() as $name) {
-            if (!isset($javascriptVariablesToSet[$name])
-                && !empty($this->viewProperties[$name])
-            ) {
-                $javascriptVariablesToSet[$name] = $this->viewProperties[$name];
+            if (!isset($javascriptVariablesToSet[$name])) {
+                if (!empty($this->viewProperties[$name])) {
+                    $javascriptVariablesToSet[$name] = $this->convertForJson($this->viewProperties[$name]);
+                } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {
+                    $javascriptVariablesToSet[$name] =
+                        $this->convertForJson($this->viewProperties['visualization_properties']->$name);
+                }
             }
         }
 
@@ -775,7 +790,6 @@ class ViewDataTable
         if (!isset($javascriptVariablesToSet['viewDataTable'])) {
             $javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
         }
-        $javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->viewProperties['subtable_controller_action'];
 
         if ($this->dataTable &&
             // Set doesn't have the method
@@ -815,14 +829,19 @@ class ViewDataTable
     }
 
     /**
-     * TODO
+     * Returns array of properties that should be visible to client side JavaScript. The data
+     * will be available in the data-props HTML attribute of the .dataTable div.
+     * 
+     * @return array Maps property names w/ property values.
      */
     private function getClientSidePropertiesToSet()
     {
         $result = array();
         foreach ($this->getClientSideProperties() as $name) {
             if (isset($this->viewProperties[$name])) {
-                $result[$name] = $this->viewProperties[$name];
+                $result[$name] = $this->convertForJson($this->viewProperties[$name]);
+            } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {
+                $result[$name] = $this->convertForJson($this->viewProperties['visualization_properties']->$name);
             }
         }
         return $result;
@@ -1040,7 +1059,7 @@ class ViewDataTable
             $this->viewProperties['show_goals'] = false;
         }
 
-        if ($this->viewProperties['filter_limit'] == 0) { // TODO: should be possible to set limit to 0 (for whatever reason)
+        if ($this->viewProperties['filter_limit'] == 0) {
             $this->viewProperties['filter_limit'] = false;
         }
     }
@@ -1115,5 +1134,10 @@ class ViewDataTable
 
         $visualizationClass = $this->visualizationClass;
         $this->setViewProperties($visualizationClass::getDefaultPropertyValues());
+    }
+
+    private function convertForJson($value)
+    {
+        return is_bool($value) ? (int)$value : $value;
     }
 }

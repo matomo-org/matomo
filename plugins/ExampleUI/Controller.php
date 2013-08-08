@@ -25,12 +25,20 @@ class Piwik_ExampleUI_Controller extends Controller
         $view->translations['label'] = "Hour of day";
         $view->filter_sort_column = 'label';
         $view->filter_sort_order = 'asc';
-        $view->visualization_properties->max_graph_elements = 24;
         $view->filter_limit = 24;
         $view->show_exclude_low_population = false;
         $view->show_table_all_columns = false;
-        $view->visualization_properties->disable_row_evolution = true;
         $view->y_axis_unit = '°C'; // useful if the user requests the bar graph
+        $view->visualization_properties->setForVisualization(
+            'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable',
+            'disable_row_evolution',
+            true
+        );
+        $view->visualization_properties->setForVisualization(
+            'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph',
+            'max_graph_elements',
+            24
+        );
         echo $view->render();
     }
 

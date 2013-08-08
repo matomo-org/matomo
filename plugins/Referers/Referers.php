@@ -336,7 +336,7 @@ class Piwik_Referers extends Plugin
             'filter_limit' => 10,
             'translations' => array('label' => $labelColumnTitle),
             'visualization_properties' => array(
-                'HtmlTable' => array(
+                'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
             ),
@@ -352,7 +352,7 @@ class Piwik_Referers extends Plugin
             'show_goals' => true,
             'filter_limit' => 20,
             'visualization_properties' => array(
-                'HtmlTable' => array(
+                'table' => array(
                     'disable_row_actions' => true
                 )
             ),
@@ -371,7 +371,7 @@ class Piwik_Referers extends Plugin
             'show_goals' => true,
             'filter_limit' => 25,
             'visualization_properties' => array(
-                'HtmlTable' => array(
+                'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
             ),
@@ -397,7 +397,7 @@ class Piwik_Referers extends Plugin
             'filter_limit' => 25,
             'translations' => array('label' => Piwik_Translate('Referers_ColumnSearchEngine')),
             'visualization_properties' => array(
-                'HtmlTable' => array(
+                'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
             ),
@@ -422,7 +422,7 @@ class Piwik_Referers extends Plugin
             'filter_limit' => 25,
             'translations' => array('label' => Piwik_Translate('Referers_ColumnWebsite')),
             'visualization_properties' => array(
-                'HtmlTable' => array(
+                'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
             ),
@@ -439,7 +439,7 @@ class Piwik_Referers extends Plugin
             'show_goals' => true,
             'translations' => array('label' => Piwik_Translate('Referers_ColumnSocial')),
             'visualization_properties' => array(
-                'HtmlTable' => array(
+                'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
             ),
