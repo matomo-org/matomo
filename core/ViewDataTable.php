@@ -395,13 +395,14 @@ class ViewDataTable
 
         return self::$reportPropertiesCache;
     }
-    
+
     /**
      * Sets a view property by name. This function handles special view properties
      * like 'translations' & 'related_reports' that store arrays.
      *
      * @param string $name
      * @param mixed $value For array properties, $value can be a comma separated string.
+     * @throws \Exception
      */
     private function setViewProperty($name, $value)
     {

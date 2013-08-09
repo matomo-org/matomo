@@ -98,6 +98,7 @@ class DataTableFactory
      * Tells the factory instance to expand the DataTables that are created by
      * creating subtables and setting the subtable IDs of rows w/ subtables correctly.
      *
+     * @param null|int $maxSubtableDepth  max depth for subtables.
      * @param bool $addMetadataSubtableId Whether to add the subtable ID used in the
      *                                    database to the in-memory DataTables as
      *                                    metadata or not.

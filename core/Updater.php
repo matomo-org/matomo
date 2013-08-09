@@ -29,6 +29,9 @@ class Updater
     private $componentsToCheck = array();
     private $hasMajorDbUpdate = false;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->pathUpdateFileCore = PIWIK_INCLUDE_PATH . '/core/Updates/';

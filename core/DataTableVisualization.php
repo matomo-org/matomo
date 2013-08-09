@@ -115,8 +115,8 @@ abstract class DataTableVisualization
      * DataTableVisualization class and above.
      * 
      * @param string $klass The class name of the DataTableVisualization.
-     * @return array The list of parent classes in order from highest ancestor to
-     *               the descended class.
+     * @return DataTableVisualization[]  The list of parent classes in order from highest
+     *                                   ancestor to the descended class.
      */
     public static function getVisualizationClassLineage($klass)
     {
@@ -136,6 +136,8 @@ abstract class DataTableVisualization
      * @see self::getVisualizationClassLineage
      * 
      * @param string $klass The visualization class.
+     *
+     * @return DataTableVisualization[]
      */
     public static function getVisualizationIdsWithInheritance($klass)
     {

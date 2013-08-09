@@ -22,6 +22,10 @@ use Piwik\ScheduledTime;
  */
 class Hourly extends ScheduledTime
 {
+    /**
+     * @see ScheduledTime::getRescheduledTime
+     * @return int
+     */
     public function getRescheduledTime()
     {
         $currentTime = $this->getTime();
@@ -37,11 +41,23 @@ class Hourly extends ScheduledTime
         return $rescheduledTime;
     }
 
+    /**
+     * @see ScheduledTime::setHour
+     * @param int $_hour
+     * @throws \Exception
+     * @return int
+     */
     public function setHour($_hour)
     {
         throw new Exception ("Method not supported");
     }
 
+    /**
+     * @see ScheduledTime::setDay
+     * @param int $_day
+     * @throws \Exception
+     * @return int
+     */
     public function setDay($_day)
     {
         throw new Exception ("Method not supported");

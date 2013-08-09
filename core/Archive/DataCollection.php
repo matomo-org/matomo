@@ -228,7 +228,8 @@ class DataCollection
      *                             by the metadata specified here.
      *
      *                             Eg, array('site' => 'idSite', 'period' => 'Date')
-     * @param int $idSubTable The subtable to return.
+     * @param int|null $idSubTable The subtable to return.
+     * @param int|null $depth max depth for subtables.
      * @param bool $addMetadataSubTableId Whether to add the DB subtable ID as metadata
      *                                    to each datatable, or not.
      * @throws Exception

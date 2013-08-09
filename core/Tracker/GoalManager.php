@@ -57,6 +57,10 @@ class GoalManager
     protected $request;
     protected $orderId;
 
+    /**
+     * Constructor
+     * @param Request $request
+     */
     public function __construct(Request $request)
     {
         $this->request = $request;
