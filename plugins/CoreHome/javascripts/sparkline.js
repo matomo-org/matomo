@@ -14,7 +14,7 @@ piwik.getSparklineColors = function () {
 };
 
 // initializes each sparkline so they use colors defined in CSS
-piwik.initSparklines = function () {
+piwik.initSparklines = function() {
     $('.sparkline > img').each(function () {
         var $self = $(this);
         
