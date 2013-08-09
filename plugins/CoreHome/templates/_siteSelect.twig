@@ -29,7 +29,7 @@
     <div class="custom_select">
 
         <a href="#" onclick="return false" class="custom_select_main_link" siteid="{% if idSite is defined %}{{ idSite }}{% else %}{{ sites[0].idsite }}{% endif %}">
-            {% if siteName is defined %}{{ siteName|raw }}{% else %}{{ sites[0].name|raw }}{% endif %}
+            <span>{% if siteName is defined %}{{ siteName|raw }}{% else %}{{ sites[0].name|raw }}{% endif %}</span>
         </a>
 
         <div class="custom_select_block">
