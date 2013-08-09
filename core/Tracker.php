@@ -484,7 +484,7 @@ class Tracker
     public static function factory($configDb)
     {
         switch ($configDb['adapter']) {
-            case 'PDO_MYSQL':
+            case 'PDO\MYSQL':
                 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/Pdo/Mysql.php';
                 return new Mysql($configDb);
 
