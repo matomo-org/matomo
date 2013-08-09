@@ -60,7 +60,7 @@ JQPlot.prototype = {
         }
 
         if (typeof this.params.axes.yaxis.tickOptions == 'undefined') {
-            this.params.yaxis.tickOptions = {
+            this.params.axes.yaxis.tickOptions = {
                 formatString: '%d'
             };
         }
