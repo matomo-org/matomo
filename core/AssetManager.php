@@ -179,15 +179,15 @@ class AssetManager
             $rootDirectoryLength = self::countDirectoriesInPathToRoot();
         }
 
-        $baseDirectory = dirname($relativePath);
         $content = preg_replace_callback(
             "/(url\(['\"]?)([^'\")]*)/",
             create_function(
                 '$matches',
-                "return \$matches[1] . str_replace('\\\\', '/', substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLength));"
+                "return \$matches[1] . str_replace('\\\\', '/', substr(realpath(PIWIK_DOCUMENT_ROOT . '/' . \$matches[2]), $rootDirectoryLength));"
             ),
             $content
         );
+
         return $content;
     }
 
