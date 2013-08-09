@@ -50,6 +50,7 @@ class Piwik_CoreHome extends Plugin
         $cssFiles[] = "plugins/CoreHome/stylesheets/jqplotColors.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/promo.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/color_manager.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
     }
 
     public function getJsFiles(&$jsFiles)
