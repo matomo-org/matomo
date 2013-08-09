@@ -409,9 +409,7 @@
         }
 
         //launch 'sortable' property on every dashboard widgets
-        if ($( "div.col", dashboardElement ).is( ":data('ui-sortable')" )) {
-            $( "div.col", dashboardElement ).sortable('destroy');
-        }
+        $( "div.col:data('ui-sortable')", dashboardElement ).sortable('destroy');
 
         $('div.col', dashboardElement)
                     .sortable({
