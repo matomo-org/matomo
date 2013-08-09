@@ -152,8 +152,8 @@ class AssetManager
 
         $mergedContent =
             $firstLineCompileHash . "\n"
-                . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
-                . $mergedContent;
+            . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
+            . $mergedContent;
 
         self::writeAssetToFile($mergedContent, self::MERGED_CSS_FILE);
     }

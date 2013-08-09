@@ -820,7 +820,6 @@ Segmentation = (function($) {
             self.form = getFormHtml();
             $("#segmentEditorPanel").prepend(self.form);
 
-            setLeftMargin('#segmentEditorPanel > .segment-element');
             bindFormEvents();
             bindSegmentManipulationEvents();
 

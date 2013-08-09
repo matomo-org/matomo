@@ -15,14 +15,24 @@
 }
 
 .admin .sites_autocomplete .custom_select_main_link,
-.sites_autocomplete:hover .custom_select_main_link {
+.sites_autocomplete--dropdown:hover .custom_select_main_link {
   color: @theme-color-text-active;
 }
 
-.sites_autocomplete .custom_select_main_link:after {
+.sites_autocomplete--dropdown .custom_select_main_link:after {
   content: " \25BC";
-  display: inline;
+  float: right;
   font-size: 0.8em;
+  margin-top: 0.2em;
+}
+
+.sites_autocomplete .custom_select_main_link > span {
+  display: inline-block;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
 }
 
 .sites_autocomplete .custom_select {
@@ -31,7 +41,7 @@
   border-radius: 4px 4px 0 0;
   font-size: 14px;
   min-height: 25px;
-  padding: 8px 27px 0;
+  padding: 8px 15px 0;
 }
 
 .sites_autocomplete .custom_select_ul_list li a,

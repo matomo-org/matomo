@@ -201,9 +201,6 @@ $(function () {
                     $(".custom_select_block", selector).css('width', widthSitesSelection);
                 }
             }
-            else {
-                $('.custom_select_main_link', selector).addClass('noselect');
-            }
 
             // handle multi-sites link click (triggers site selected event w/ id=all)
             $('.custom_select_all', selector).click(function () {

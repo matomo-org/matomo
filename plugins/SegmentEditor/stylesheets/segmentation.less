@@ -81,7 +81,10 @@ div.scrollable {
     border: 1px solid #a9a399;
     background-color: #f1f0eb;
     padding: 6px 4px;
-    border-radius: 3px 3px 3px 3px;
+    border-radius: 3px;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .segment-element .custom_select_search {
@@ -128,7 +131,7 @@ div.scrollable {
 }
 
 .segment-element .segment-nav h4.visits {
-    padding-left: 28px;
+    padding-left: 15px;
     background: url(plugins/SegmentEditor/images/icon-users.png) 0 0 no-repeat;
 }
 
@@ -438,14 +441,13 @@ div.scrollable {
 
 #segmentEditorPanel {
     position: absolute;
-    z-index: 2;
+    z-index: 120; /* Should be the same as 'Dashboard widget selector' (z-index: 120) */
     background: #f7f7f7;
     border: 1px solid #e4e5e4;
     padding: 5px 10px 6px 10px;
     border-radius: 4px;
     color: #444;
     font-size: 14px;
-  overflow: hidden;
 }
 
 #segmentEditorPanel:hover {
@@ -534,7 +536,7 @@ div.scrollable {
 }
 
 span.segmentationTitle {
-    background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) right center no-repeat !important;
+    background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) no-repeat right 0;
     padding-right: 20px !important;
     width: 160px !important;
     display: block !important;
@@ -545,8 +547,9 @@ span.segmentationTitle {
     display: none;
 }
 
-.segmentList {
+#segmentList {
     max-height: 250px;
+    overflow: hidden; /* Create a BFC */
 }
 
 .jspVerticalBar {
