@@ -33,7 +33,7 @@ abstract class DataTableVisualization
     /**
      * Rendering function. Must return the view HTML.
      * 
-     * @param Piwik_DataTable|Piwik_DataTable_Map $dataTable The data.
+     * @param DataTable|DataTable\Map $dataTable The data.
      * @param array $properties The view properties.
      * @return string The visualization HTML.
      */
@@ -153,7 +153,7 @@ abstract class DataTableVisualization
      * event to retrieve visualizations.
      * 
      * @return array Array mapping visualization IDs with their associated visualization classes.
-     * @throws Exception If a visualization class does not exist or if a duplicate visualization ID
+     * @throws \Exception If a visualization class does not exist or if a duplicate visualization ID
      *                   is found.
      */
     public static function getAvailableVisualizations()
@@ -171,7 +171,7 @@ abstract class DataTableVisualization
             if (is_subclass_of($viz, __CLASS__)) {
                 $vizId = $viz::getViewDataTableId();
                 if (isset($result[$vizId])) {
-                    throw new Exception("Visualization ID '$vizId' is already in use!");
+                    throw new \Exception("Visualization ID '$vizId' is already in use!");
                 }
 
                 $result[$vizId] = $viz;
@@ -217,7 +217,7 @@ abstract class DataTableVisualization
      * 
      * @param string $id The visualization ID.
      * @return string The visualization class name.
-     * @throws Exception if $id is not a valid visualization ID.
+     * @throws \Exception if $id is not a valid visualization ID.
      */
     public static function getClassFromId($id)
     {

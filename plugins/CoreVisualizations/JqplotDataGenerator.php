@@ -46,7 +46,7 @@ class JqplotDataGenerator
      * @param string $type 'pie', 'bar', or 'evolution'
      * @param array $properties The view properties.
      * @throws \Exception
-     * @return \Piwik\JqplotDataGenerator
+     * @return JqplotDataGenerator
      */
     public static function factory($type, $properties)
     {

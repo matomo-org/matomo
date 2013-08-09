@@ -23,7 +23,7 @@ class Goals extends HtmlTable
     /**
      * Constructor.
      * 
-     * @param ViewDataTable $view
+     * @param \Piwik\ViewDataTable $view
      */
     public function __construct($view)
     {

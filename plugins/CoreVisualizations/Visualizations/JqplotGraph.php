@@ -98,7 +98,7 @@ class JqplotGraph extends DataTableVisualization
     /**
      * Constructor.
      * 
-     * @param Piwik\ViewDataTable $view
+     * @param \Piwik\ViewDataTable $view
      */
     public function __construct($view)
     {
@@ -200,6 +200,11 @@ class JqplotGraph extends DataTableVisualization
         return str_replace(array("\r", "\n"), '', $jsonData);
     }
 
+    /**
+     * Returns a JqplotDataGenerator for the given graph_type in $properties
+     * @param array $properties
+     * @return JqplotDataGenerator
+     */
     protected function makeDataGenerator($properties)
     {
         return JqplotDataGenerator::factory($properties['graph_type'], $properties);
