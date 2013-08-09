@@ -17,8 +17,8 @@
 
 $piwik_errorMessage = '';
 
-// Minimum requirement: ->newInstanceArgs in 5.1.3
-$piwik_minimumPHPVersion = '5.1.3RC';
+// Minimum requirement: Namespaces in 5.3
+$piwik_minimumPHPVersion = '5.3';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
