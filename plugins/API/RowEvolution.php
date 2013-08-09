@@ -201,14 +201,14 @@ class Piwik_API_RowEvolution
     }
 
     /**
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param $apiModule
-     * @param $apiAction
-     * @param $label
-     * @param $segment
-     * @param $idGoal
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param string|bool $label
+     * @param string|bool $segment
+     * @param int|bool $idGoal
      * @throws Exception
      * @return DataTable\Map|DataTable
      */

@@ -30,6 +30,14 @@ class Piwik_VisitFrequency_API
         return self::$instance;
     }
 
+    /**
+     * @param int         $idSite
+     * @param string      $period
+     * @param string      $date
+     * @param bool|string $segment
+     * @param bool|array  $columns
+     * @return mixed
+     */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         $segment = $this->appendReturningVisitorSegment($segment);
