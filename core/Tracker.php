@@ -485,7 +485,7 @@ class Tracker
     {
         switch ($configDb['adapter']) {
             case 'PDO\MYSQL':
-            case 'PDO_MYSQL':
+            case 'PDO_MYSQL': // old format pre Piwik 2
                 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/Pdo/Mysql.php';
                 return new Mysql($configDb);
 
