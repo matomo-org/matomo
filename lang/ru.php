@@ -1084,6 +1084,8 @@ $translations = array(
 	'Live_VisitorsLastVisit' => 'Последнее посещение этого пользователя было %s дней назад.',
 	'Live_NbVisitors' => '%s посетителей',
 	'Live_NbVisitor' => '1 посетитель',
+	'Live_RealTimeVisitorCount' => 'Счётчик посетителей в реальном времени',
+	'Live_SimpleRealTimeWidget_Message' => '%s и %s за последние %s',
 	'Login_PluginDescription' => 'Плагин аутентификации логина читает учетные данные из файла config/config.inc.php для суперпользователя, и из базы данных для других пользователей. Может быть легко применен для введения новых механизмов аутентификации (OpenID, htaccess, custom Auth, etc.).',
 	'Login_LoginPasswordNotCorrect' => 'Логин или пароль неверны',
 	'Login_Password' => 'Пароль',
@@ -2224,6 +2226,7 @@ $translations = array(
 	'SegmentEditor_SegmentDisplayedAllWebsites' => 'все сайты',
 	'SegmentEditor_SaveAndApply' => 'Сохранить и применить',
 	'SegmentEditor_ChooseASegment' => 'Выбрать сегмент',
+	'SegmentEditor_AutoArchiveRealTime' => 'отчёты по сегментам обрабатываются в реальном времени',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Отскоки',
