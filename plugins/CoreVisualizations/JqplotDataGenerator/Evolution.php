@@ -13,6 +13,7 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\ViewDataTable;
 use Piwik\Url;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
@@ -64,7 +65,13 @@ class Evolution extends JqplotDataGenerator
         $yAxisLabelToUnit = array();
         $yAxisLabelToValue = array();
         foreach ($dataTable->getArray() as $idDataTable => $childTable) {
-            foreach ($childTable->getRows() as $row) {
+            if ($childTable->getRowsCount() > 0) {
+                $rows = $childTable->getRows();
+            } else {
+                $rows = array(new Row());
+            }
+
+            foreach ($rows as $row) {
                 $rowLabel = $row->getColumn('label');
 
                 // put together configuration for row picker.
@@ -80,10 +87,9 @@ class Evolution extends JqplotDataGenerator
                 // build data for request columns
                 foreach ($requestedColumnNames as $requestedColumnName) {
                     $yAxisLabel = $this->getSeriesLabel($rowLabel, $requestedColumnName);
-                    if (($columnValue = $row->getColumn($requestedColumnName)) !== false) {
-                        $yAxisLabelToValue[$yAxisLabel][$idDataTable] = $columnValue;
-                        $yAxisLabelToUnit[$yAxisLabel] = $units[$requestedColumnName];
-                    }
+                    
+                    $yAxisLabelToValue[$yAxisLabel][$idDataTable] = $row->getColumn($requestedColumnName) ?: 0;
+                    $yAxisLabelToUnit[$yAxisLabel] = $units[$requestedColumnName];
                 }
             }
         }

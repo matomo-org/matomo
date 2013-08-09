@@ -46,7 +46,7 @@ class Piwik_Installation_FormDatabaseSetup extends QuickForm2
         $user->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupLogin')));
         $requiredPrivileges = Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges::getRequiredPrivilegesPretty();
         $user->addRule('checkUserPrivileges',
-            Piwik_Translate('Installation_InsufficientPrivileges', $requiredPrivileges . '<br/><br/>') .
+            Piwik_Translate('Installation_InsufficientPrivilegesMain', $requiredPrivileges . '<br/><br/>') .
                 Piwik_Translate('Installation_InsufficientPrivilegesHelp'));
 
         $this->addElement('password', 'password')

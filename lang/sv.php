@@ -1030,7 +1030,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik är ett open source webbanalysprogram som gör det enkelt att få den information du vill ha från dina besökare.</p><p>Denna process är uppdelad i %s enkla steg och tar ca 5 minuter.</p>',
 	'Installation_ConfigurationHelp' => 'Din Piwik konfigurationsfil verkar vara felkonfigurerad. Du kan antingen ta bort config / config.ini.php och återuppta installationen, eller korrigera inställningarna för databasanslutningen.',
 	'Installation_ErrorInvalidState' => 'Fel: det verkar som att du försökte hoppa över ett steg av installationsprocessen, eller att dina cookies är inaktiverade eller Piwik\'s konfigurationsfil redan skapats. %1$s Säkerställ att dina cookies är aktiverade%2$s och gå tillbaka %3$s till första sidan av installationen %4$s.',
-	'Installation_InsufficientPrivileges' => 'Otillräckliga rättigheter. Databasanvändaren måste ha följande rättigheter: %s',
 	'Installation_InsufficientPrivilegesHelp' => 'Du kan lägga till dessa behörigheter genom att använda ett verktyg som tex phpMyAdmin eller genom att köra rätt SQL-frågor. Om du inte vet hur man gör dessa saker, vänd dig till din systemadministratör för hjälp med dessa behörigheter.',
 	'Installation_SystemCheckSummaryThereWereErrors' => 'Oj då.. Piwik har upptäckt några %1$skritiska problem%2$s med installationen. %3$sDessa problem bör åtgärdas omgående.%4$s',
 	'Installation_SystemCheckSummaryThereWereWarnings' => 'Det finns vissa problem med systemet. Piwik kommer att köras, men du kan uppleva vissa smärre problem.',

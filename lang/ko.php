@@ -992,7 +992,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik 은 오픈 소스 웹 분석 소프트웨어로써 쉽고 원하는 정보를 당신의 방문자들로부터 얻을 수 있게 해줍니다.</p><p>이 과정은 %s 의 쉬운 단계로 나뉘어 있고 5분 정도만 소요됩니다.</p>',
 	'Installation_ConfigurationHelp' => 'Piwik 설정 파일이 잘못 설정되어있는 것 같습니다. config/config.ini.php를 제거하고 설치를 다시 시작하거나 데이터베이스의 연결 설정을 수정하세요.',
 	'Installation_ErrorInvalidState' => '에러: 설치 과정의 단계를 뛰어넘으려고 하는 것 같습니다, 또는 쿠키가 비활성화거나, 또는 Piwik 설정 파일이 이미 생성되었습니다. %1$s쿠키가 활성화되어 있는지 확인하시고%2$s 설치 첫페이지로 %3$s 돌아가세요 %4$s.',
-	'Installation_InsufficientPrivileges' => '권한이 부족합니다. 데이터베이스 사용자에게 다음 권한이 있어야합니다: %s',
 	'Installation_InsufficientPrivilegesHelp' => 'phpMyAdmin 같은 도구를 사용하거나 올바른 SQL 쿼리를 실행하여 이러한 권한을 추가 할 수 있습니다. 방법을 잘 모를 경우 시스템 관리자에게 문의하여 권한을 부여 받으세요.',
 	'Installation_SystemCheckSummaryThereWereErrors' => '헐! Piwik 설정에서 일부 %1$s심각한 오류%2$s를 감지했습니다. %3$s이 문제는 즉시 해결해야합니다.%4$s',
 	'Installation_SystemCheckSummaryThereWereWarnings' => '시스템에 몇몇 문제가 있습니다. Piwik가 설치되었지만 몇가지 사소한 문제가 발생할 수 있습니다.',

@@ -1050,7 +1050,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik - это открытое программное обеспечение, позволяющее вам вести статистический учет посещений ваших сайтов и анализировать полученную информацию о посетителях. Этот процесс состоит из %s простых шагов и занимает около пяти минут времени.</p>',
 	'Installation_ConfigurationHelp' => 'Похоже, конфигурационный файл Piwik не сконфигурирован надлежащим образом. Вы можете удалить config/config.ini.php, и продолжить установку, или исправить настройки соединения с базой данных.',
 	'Installation_ErrorInvalidState' => 'Ошибка: Похоже, Вы пытаетесь пропустить шаг установочной программы, или cookie запрещены в брауезере, или файл конфигурации Piwik уже существует. %sУбедитесь, что cookies разрешены%s и вернитесь назад %s к первому шагу установки %s.',
-	'Installation_InsufficientPrivileges' => 'Недостаточно прав. Пользователь базы данных должен иметь следующие права: %s',
 	'Installation_InsufficientPrivilegesHelp' => 'Вы можете добавить эти права, используя, например, phpMyAdmin или с помощью соответствующих SQL-запросов. Если вы не знаете, как это работает, пожалуйста, попросите вашего сисадмина, чтобы он добавил вам права.',
 	'Installation_SystemCheckSummaryThereWereErrors' => 'Ой-ой! Piwik обнаружил некоторые %1$sкритические ошибки%2$s. %3$sЭти ошибки должны быть исправленные немедленно.%4$s',
 	'Installation_SystemCheckSummaryThereWereWarnings' => 'Есть некоторые проблемы с вашей системой. Piwik будет работать, но вы можете столкнуться с некоторыми незначительными проблемами.',
@@ -1085,6 +1084,8 @@ $translations = array(
 	'Live_VisitorsLastVisit' => 'Последнее посещение этого пользователя было %s дней назад.',
 	'Live_NbVisitors' => '%s посетителей',
 	'Live_NbVisitor' => '1 посетитель',
+	'Live_RealTimeVisitorCount' => 'Счётчик посетителей в реальном времени',
+	'Live_SimpleRealTimeWidget_Message' => '%s и %s за последние %s',
 	'Login_PluginDescription' => 'Плагин аутентификации логина читает учетные данные из файла config/config.inc.php для суперпользователя, и из базы данных для других пользователей. Может быть легко применен для введения новых механизмов аутентификации (OpenID, htaccess, custom Auth, etc.).',
 	'Login_LoginPasswordNotCorrect' => 'Логин или пароль неверны',
 	'Login_Password' => 'Пароль',
@@ -2225,6 +2226,7 @@ $translations = array(
 	'SegmentEditor_SegmentDisplayedAllWebsites' => 'все сайты',
 	'SegmentEditor_SaveAndApply' => 'Сохранить и применить',
 	'SegmentEditor_ChooseASegment' => 'Выбрать сегмент',
+	'SegmentEditor_AutoArchiveRealTime' => 'отчёты по сегментам обрабатываются в реальном времени',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Отскоки',

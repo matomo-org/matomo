@@ -36,7 +36,7 @@ window.initializeSparklines = function () {
         // try to find sparklines and add them clickable behaviour
         graph.parent().find('div.sparkline').each(function () {
             // find the sparkline and get it's src attribute
-            var sparklineUrl = $('.sparkline > img', this).attr('data-src');
+            var sparklineUrl = $('img', this).attr('data-src');
 
             if (sparklineUrl != "") {
                 var params = broadcast.getValuesFromUrl(sparklineUrl);

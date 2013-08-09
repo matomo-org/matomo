@@ -678,7 +678,6 @@ $translations = array(
 	'Installation_Welcome' => 'Velkommen!',
 	'Installation_WelcomeHelp' => '<p>Piwik er åpen kildekode nettstatistikk-programvare som gjør det enkelt å finne informasjonen du ønsker om dine besøkende.</p><p>Denne prossessen er delt opp i %s lette steg og vil ta ca 5 minutter.</p>',
 	'Installation_ErrorInvalidState' => 'Feil: Det ser ut som om du prøver å hoppe over et steg i installasjonsprosessen eller informasjonskapsler (cookies) er deaktivert eller Piwik sin konfigurasjon er allerede opprettet. %1$sForsikre deg om at du har aktivert informasjonskapsler%2$s og gå tilbake %3$s til første side av installasjonen %4$s.',
-	'Installation_InsufficientPrivileges' => 'Utilstrekkelige rettigheter. Brukeren må ha følgende rettigheter: %s',
 	'Installation_SystemCheckSummaryThereWereWarnings' => 'Det er noen problemer med systemet ditt. Piwik vil kjøre, men du kan oppleve noen mindre problemer.',
 	'Installation_SystemCheckSummaryNoProblems' => 'Hurra! Det er ingen problemer med ditt Piwik-oppsett. Gi deg selv et klapp på skulderen.',
 	'Installation_SeeBelowForMoreInfo' => 'Se nedenfor for mer informasjon.',

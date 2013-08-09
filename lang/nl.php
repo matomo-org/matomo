@@ -974,7 +974,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik is een open source web analytics software pakket die u op simpele wijze de gegevens van uw bezoekers presenteert.</p><p>Dit proces is opgedeeld in %s simpele stappen welke ongeveer 5 minuten in beslag nemen.</p>',
 	'Installation_ConfigurationHelp' => 'Uw Piwik configuratie bestand is waarschijnlijk niet correct geconfigureerd. U kunt ofwel config/config.ini.php verwijderen en de installatie vervolgen of de toegangsgegevens voor de database corrigeren.',
 	'Installation_ErrorInvalidState' => 'Fout: Het lijkt erop dat u probeerde een stap van het installatieproces over te slaan, of dat cookies uitgeschakeld zijn, of dat uw Piwik configuratie bestand reeds was aangemaakt. %1$s Zorg ervoor dat uw cookies zijn ingeschakeld%2$s en ga terug %3$s naar de eerste pagina van de installatie %4$s.',
-	'Installation_InsufficientPrivileges' => 'Onvoldoende privileges. De databasegebruiker dient de volgende privileges te hebben: %s',
 	'Installation_InsufficientPrivilegesHelp' => 'U kunt deze privileges toeveoegen door gebruik te maken van een tool als phpMyAdmin of door het uitvoeren van de juiste SQL queries. Als u niet weet hoe dit moet, dan kunt u het beste de beheerder van uw webserver vragen om de privileges aan te passen.',
 	'Installation_SeeBelowForMoreInfo' => 'Zie hieronder voor meer informatie.',
 	'Installation_Filesystem' => 'Bestandsssysteem',

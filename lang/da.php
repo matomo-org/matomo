@@ -1074,7 +1074,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik er et Open Source statistik-program som gør det nemt at finde information om besøgende.</p><p> Processen er delt op i %s lette trin og vil tage ca. 5 minutter.</p>',
 	'Installation_ConfigurationHelp' => 'Piwik konfigurationsfil synes at være konfigureret forkert. Fjern enten config/config.ini.php og genoptage installation eller ret database forbindelsesindstillinger.',
 	'Installation_ErrorInvalidState' => 'Fejl: Det lader til at du forsøger at springe et skridt af installationen over, eller cookies er slået fra, eller Piwik konfigurationsfil allerede er oprettet. %1$sSørg for, at cookies er aktiveret%2$s og gå tilbage %3$s til den første side i installationen %4$s.',
-	'Installation_InsufficientPrivileges' => 'Utilstrækkelige rettigheder. Databasebrugeren skal have følgende rettigheder: %s',
 	'Installation_InsufficientPrivilegesHelp' => 'Du kan tilføje disse rettigheder ved at bruge et værktøj som phpMyAdmin eller ved at udføre de rigtige SQL-forespørgsler. Hvis du ikke ved hvordan man gør, skal du bede din sysadmin til at tildele rettighederne.',
 	'Installation_SystemCheckSummaryThereWereErrors' => 'Ups! Piwik har opdaget nogle %1$skritiske problemer%2$s med din Piwik opsætning. %3$sDisse problemer skal løses øjeblikkeligt.%4$s',
 	'Installation_SystemCheckSummaryThereWereWarnings' => 'Der er nogle problemer med dit system. Piwik vil virke, men du kan opleve nogle mindre problemer.',

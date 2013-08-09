@@ -924,7 +924,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik on vapaan lähdekoodin verkkosivujen analysointityökalu, joka tekee kävijöiden tietojen keräämisen ja analysoinnin helpoksi.</p><p>Tämä prosessi on jaettu %s helppoon osaan ja vie aikaa noin viisi minuuttia.</p>',
 	'Installation_ConfigurationHelp' => 'Piwikin asetustiedosto on luotu väärin. Voit joko poistaa tiedoston config/config.ini.php ja käyttää asennusohjelmaa uudelleen tai korjata tietokannan asetukset.',
 	'Installation_ErrorInvalidState' => 'Virhe: yrität ohittaa vaiheen asennusprosessista tai keksit (cookies) ei ole sallittu. %1$sVarmista, että keksit on sallittu%2$s ja mene takaisin %3$s asennuksen ensimmäiselle sivulle %4$s.',
-	'Installation_InsufficientPrivileges' => 'Ei oikeuksia. Tietokannan käyttäjällä pitää olla seuraavat oikeudet: %s',
 	'Installation_InsufficientPrivilegesHelp' => 'Voit lisätä nämä oikeudet esim. phpMyAdminilla tai ajamalla oikeat SQL-kyselyt. Jos et tiedä miten tehdä nämä asiat, pyydä järjestelmän ylläpitäjää säätämään oikeudet oikein.',
 	'Installation_SeeBelowForMoreInfo' => 'Katso alempaa lisätietoja.',
 	'Installation_DatabaseAbilities' => 'Tietokannan toiminnot',
