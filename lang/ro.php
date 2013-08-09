@@ -651,7 +651,6 @@ $translations = array(
 	'Installation_DatabaseCreatedSuccess' => 'Database %s created with success!',
 	'Installation_Welcome' => 'Bine ai venit!',
 	'Installation_WelcomeHelp' => '<p>Piwik is an open source web analytics software that makes it easy to get the information you want from your visitors.</p><p>This process is split up into %s easy steps and will take around 5 minutes.</p>',
-	'Installation_InsufficientPrivileges' => 'Privilegii insuficiente. Utilizatorul bazei de date necesită următoarele privilegii: %s',
 	'Login_PluginDescription' => 'Modul de autentintificare, ce citeşte credenţialele din fişierul config/config.inc.php pentru Super User şi din Baza de date pentru alţi useri. Poate fi uşor schimbat pentru a folosi un nou mecanism de Autentificare (OpenID, htaccess, custom Auth, etc.).',
 	'Login_LoginPasswordNotCorrect' => 'Numele sau parola sunt greşite.',
 	'Login_Password' => 'Parola',

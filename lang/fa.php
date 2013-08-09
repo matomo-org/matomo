@@ -923,7 +923,6 @@ $translations = array(
 	'Installation_Welcome' => 'خوش آمدید!',
 	'Installation_WelcomeHelp' => '<p>پیویک یک نرم افزار آمار وب متن باز است که بدست آوردن اطلاعات بازدیدکنندگان وبسایت شما را آسان کرده است.</p><p>فرآیند نصب پیویک به %s مرحله ی آسان تقسیم شده است و فقط حدود 5 دقیقه زمان می برد.</p>',
 	'Installation_ConfigurationHelp' => 'فایل پیکربندی Piwik شما به نظر می رسد بد باشد. شما هم می توانید پیکربندی / config.ini.php و حذف از سر نصب و راه اندازی و یا اصلاح تنظیمات اتصال پایگاه داده.',
-	'Installation_InsufficientPrivileges' => 'مجوزها کافی نیست. کاربر پایگاه داده باید این مجوزها را داشته باشد: %s',
 	'Installation_SystemCheckSummaryThereWereWarnings' => 'چند مشکل با سیستم شما وجود دارد. پیویک اجرا خواهد شد ولی ممکن است شما با مشکلات جزئی را تجربه کنید.',
 	'Installation_SystemCheckSummaryNoProblems' => 'هورا! هیچ مشکلی با نصب پیویک شما نیست.',
 	'Installation_SeeBelowForMoreInfo' => 'برای اطلاعات بیشتر پایین را ببینید.',

@@ -886,7 +886,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik は、ビジターからあなたが必要とする情報を収集することを容易にする、オープンソースのウェブ解析ソフトウェアです。</p><p>この処理は %s の簡単なステップに分かれていて、5分程度で完了します。</p>',
 	'Installation_ConfigurationHelp' => 'Piwik 設定ファイルが誤設定されているようです。 config/config.ini.php を削除してインストールを再開するか、データベースの接続設定を修正してください。',
 	'Installation_ErrorInvalidState' => 'エラー： インストール処理のステップを省略しようとしたか、Cookie が無効か、Piwik 設定ファイルがすでに作成されています。%1$sCookie が有効になっていることを確認してから%2$s、%3$sインストールの最初のページ%4$sに戻ってください。',
-	'Installation_InsufficientPrivileges' => '権限が不十分です。データベースユーザーには以下の権限が必要です： %s',
 	'Installation_InsufficientPrivilegesHelp' => 'phpMyAdminのようなツールを使用するか、正しいSQLクエリを実行することにより、これらの権限を追加できます。やり方がわからない場合は、システム管理者に依頼して、権限を付与してもらってください。',
 	'LanguagesManager_PluginDescription' => 'Piwik インターフェイスで利用可能な言語リストを表示します。 選択された言語は、各ユーザーの優先設定に保存されます。',
 	'LanguagesManager_AboutPiwikTranslations' => 'Piwik の翻訳について',

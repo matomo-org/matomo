@@ -1071,7 +1071,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik 是一个让您能够轻易取得您所想要的访客信息的开放原始码页面分析软件！</p><p>此安装过程分为 %s 个简易的步骤，并且将仅花大约 5 分钟的时间！</p>',
 	'Installation_ConfigurationHelp' => '您的 Piwik 配置文件可能出错了，您可以删除 config/config.ini.php 然后继续安裝，或者改正数据库的参数设定。',
 	'Installation_ErrorInvalidState' => '错误: 看来您正在尝试停止安裝程序的某个步驟，或是您的 cookies 功能未启用，或者 Piwik 配置文件已经建立。%1$s请确定您的 cookies 功能已启用%2$s然后返回%3$s至安裝程序的初始画面 %4$s。',
-	'Installation_InsufficientPrivileges' => '权限不足，数据库用户需要以下权限: %s',
 	'Installation_InsufficientPrivilegesHelp' => '您可以使用 phpMyAdmin 等工具或运行 SQL 语句来添加权限，如果您不知道如何操作，请联系管理员帮忙设置权限。',
 	'Installation_SystemCheckSummaryThereWereErrors' => '糟糕! Piwik 检查到一些 %1$s严重的问题%2$s，%3$s这些问题需要马上修复。%4$s',
 	'Installation_SystemCheckSummaryThereWereWarnings' => '您的系统有些问题，Piwik 可以运行，但是可能会出现些小错误。',
