@@ -169,7 +169,7 @@ class AssetManager
 
     /*
      * Rewrite css url directives
-     * - assumes these are all relative paths
+     * - rewrites relative paths
      *  - rewrite windows directory separator \\ to /
      */
     protected static function rewriteCssPathsDirectives($relativePath, $content)
@@ -182,10 +182,16 @@ class AssetManager
         $baseDirectory = dirname($relativePath);
         $content = preg_replace_callback(
             "/(url\(['\"]?)([^'\")]*)/",
-            create_function(
-                '$matches',
-                "return \$matches[1] . str_replace('\\\\', '/', substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLength));"
-            ),
+            function ($matches) use ($rootDirectoryLength, $baseDirectory) {
+                $absolutePath = substr(realpath(PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2]), $rootDirectoryLength);
+                $rewritten = str_replace('\\', '/', $absolutePath);
+
+                if (is_file($rewritten)) { // only rewrite the URL if transforming it points to a valid file
+                    return $matches[1] . $rewritten;
+                } else {
+                    return $matches[1] . $matches[2];
+                }
+            },
             $content
         );
         return $content;
