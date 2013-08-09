@@ -99,6 +99,7 @@ class Piwik_Live_Controller extends Controller
      */
     public function getVisitorLog($fetch = false)
     {
+        $test = array(); $str = (string)$test;
         return $this->getLastVisitsDetails($fetch);
     }
 
@@ -129,5 +130,19 @@ class Piwik_Live_Controller extends Controller
         $view->pisHalfhour = $last30min['actions'];
         $view->pisToday = $today['actions'];
         return $view;
+    }
+
+    /**
+     * TODO
+     */
+    public function getVisitorProfilePopup()
+    {
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+
+        $view = new View('@Live/getVisitorProfilePopup.twig');
+        $view->idSite = $idSite;
+        $view->goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $view->visitorData = Request::processRequest('Live.getVisitorProfile');
+        echo $view->render();
     }
 }

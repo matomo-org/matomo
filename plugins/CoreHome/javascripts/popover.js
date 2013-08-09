@@ -17,10 +17,11 @@ var Piwik_Popover = (function () {
         }
     };
 
-    var openPopover = function (title) {
+    var openPopover = function (title, dialogClass) {
         createContainer();
 
-        container.dialog({
+        var options = 
+        {
             title: title,
             modal: true,
             width: '950px',
@@ -28,6 +29,10 @@ var Piwik_Popover = (function () {
             resizable: false,
             autoOpen: true,
             open: function (event, ui) {
+                if (dialogClass) {
+                    $(this).parent().addClass(dialogClass).attr('style', '');
+                }
+
                 $('.ui-widget-overlay').on('click.popover', function () {
                     container.dialog('close');
                 });
@@ -45,7 +50,9 @@ var Piwik_Popover = (function () {
                     closeCallback = false;
                 }
             }
-        });
+        };
+
+        container.dialog(options);
 
         // override the undocumented _title function to ensure that the title attribute is not escaped (according to jQueryUI bug #6016)
         container.data( "uiDialog" )._title = function(title) {
@@ -70,7 +77,7 @@ var Piwik_Popover = (function () {
          * @param {string} [popoverSubject]   subject of the popover (e.g. url, optional)
          * @param {int}    [height]           height of the popover in px (optional)
          */
-        showLoading: function (popoverName, popoverSubject, height) {
+        showLoading: function (popoverName, popoverSubject, height, dialogClass) {
             var loading = $(document.createElement('div')).addClass('Piwik_Popover_Loading');
 
             var loadingMessage = popoverSubject ? translations.General_LoadingPopoverFor_js :
@@ -94,7 +101,7 @@ var Piwik_Popover = (function () {
             }
 
             if (!isOpen) {
-                openPopover();
+                openPopover(null, dialogClass);
             }
 
             this.setContent(loading);
@@ -203,9 +210,18 @@ var Piwik_Popover = (function () {
          * @param {string} url
          * @param {string} loadingName
          */
-        createPopupAndLoadUrl: function (url, loadingName) {
+        createPopupAndLoadUrl: function (url, loadingName, dialogClass) {
+            // make sure the minimum top position of the popover is 106px
+            var ensureMinimumTop = function () {
+                var popoverContainer = $('#Piwik_Popover').parent();
+                if (popoverContainer.position().top < 106) {
+                    popoverContainer.css('top', '106px');
+                }
+            };
+
             // open the popover
-            var box = Piwik_Popover.showLoading(loadingName);
+            var box = Piwik_Popover.showLoading(loadingName, null, null, dialogClass);
+            ensureMinimumTop();
 
             var callback = function (html) {
                 function setPopoverTitleIfOneFoundInContainer() {
@@ -218,6 +234,7 @@ var Piwik_Popover = (function () {
 
                 Piwik_Popover.setContent(html);
                 setPopoverTitleIfOneFoundInContainer();
+                ensureMinimumTop();
             };
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(piwikHelper.getArrayFromQueryString(url), 'get');
@@ -226,6 +243,4 @@ var Piwik_Popover = (function () {
             ajaxRequest.send(false);
         }
     };
-
 })();
-

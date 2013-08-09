@@ -41,6 +41,8 @@ class Piwik_CoreHome extends Plugin
     public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
+        $cssFiles[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
+        $cssFiles[] = "libs/jquery/stylesheets/scroll.less";
         $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/coreHome.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/menu.less";
@@ -62,6 +64,9 @@ class Piwik_CoreHome extends Plugin
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
         $jsFiles[] = "libs/jquery/jquery.history.js";
+        $jsFiles[] = "libs/jquery/jquery.jscrollpane.js";
+        $jsFiles[] = "libs/jquery/jquery.mousewheel.js";
+        $jsFiles[] = "libs/jquery/mwheelIntent.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/ajaxHelper.js";

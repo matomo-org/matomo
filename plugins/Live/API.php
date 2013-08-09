@@ -155,6 +155,158 @@ class Piwik_Live_API
         return $dataTable;
     }
 
+    const VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE = 100;
+    const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
+    const VISITOR_PROFILE_DATE_FORMAT = '%day% %shortMonth% %longYear%';
+
+    /**
+     * TODO
+     * TODO: add abandoned cart info.
+     * TODO: check for most recent vs. first visit
+     * TODO: make sure ecommerce is enabled for site, check for goals plugin, etc.
+     */
+    public function getVisitorProfile($idSite, $period, $date, $idVisitor, $segment = false)
+    {
+        if ($segment !== false) {
+            $segment .= '&';
+        }
+        $segment .= 'visitorId==' . $idVisitor; // TODO what happens when visitorId is in the segment?
+
+        $visits = $this->getLastVisitsDetails($idSite, $period, $date, $segment, $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE);
+        if ($visits->getRowsCount() == 0) {
+            return array();
+        }
+
+        $result = array();
+
+        // use the most recent visit for IP/browser/OS/etc. info
+        // TODO: could just do all of this in twig/JS... really need to do it here?
+        $mostRecentVisit = $visits->getFirstRow();
+        $result['latestVisitIp'] = $mostRecentVisit->getColumn('visitIp');
+        $result['visitorId'] = $mostRecentVisit->getColumn('visitorId');
+        $result['browserCode'] = $mostRecentVisit->getColumn('browserCode');
+        $result['browserName'] = Piwik_UserSettings_getBrowserFromBrowserVersion($mostRecentVisit->getColumn('browserName'));
+        $result['browserLogo'] = $mostRecentVisit->getColumn('browserIcon');
+        $result['operatingSystemCode'] = $mostRecentVisit->getColumn('operatingSystemCode');
+        $result['operatingSystemShortName'] = $mostRecentVisit->getColumn('operatingSystemShortName');
+        $result['operatingSystemLogo'] = $mostRecentVisit->getColumn('operatingSystemIcon');
+        $result['resolution'] = $mostRecentVisit->getColumn('resolution');
+        $result['customVariables'] = $mostRecentVisit->getColumn('customVariables');
+
+        // aggregate all requested visits info for total_* info
+        $result['totalVisits'] = 0;
+        $result['totalVisitDuration'] = 0;
+        $result['totalActionCount'] = 0;
+        $result['totalGoalConversions'] = 0;
+        $result['totalEcommerceConversions'] = 0;
+        $result['totalEcommerceRevenue'] = 0;
+        $result['totalEcommerceItems'] = 0;
+        $result['totalAbandonedCarts'] = 0;
+        $result['totalAbandonedCartsRevenue'] = 0;
+        $result['totalAbandonedCartsItems'] = 0;
+        foreach ($visits->getRows() as $visit) {
+            ++$result['totalVisits'];
+
+            $result['totalVisitDuration'] += $visit->getColumn('visitDuration');
+            $result['totalActionCount'] += $visit->getColumn('actions');
+            $result['totalGoalConversions'] += $visit->getColumn('goalConversions');
+
+            // individual goal conversions are stored in action details
+            foreach ($visit->getColumn('actionDetails') as $action) {
+                if ($action['type'] == 'goal') { // handle goal conversion
+                    $idGoal = $action['goalId'];
+
+                    if (!isset($result['totalConversionsByGoal'][$idGoal])) {
+                        $result['totalConversionsByGoal'][$idGoal] = 0;
+                    }
+                    ++$result['totalConversionsByGoal'][$idGoal];
+
+                    if (!empty($action['revenue'])) {
+                        if (!isset($result['totalRevenueByGoal'][$idGoal])) {
+                            $result['totalRevenueByGoal'][$idGoal] = 0;
+                        }
+                        $result['totalRevenueByGoal'][$idGoal] += $action['revenue'];
+                    }
+                } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) { // handle ecommerce order
+                    ++$result['totalEcommerceConversions'];
+                    $result['totalEcommerceRevenue'] += $action['revenue'];
+                    $result['totalEcommerceItems'] += $action['items'];
+                } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) { // handler abandoned cart
+                    ++$result['totalAbandonedCarts'];
+                    $result['totalAbandonedCartsRevenue'] += $action['revenue'];
+                    $result['totalAbandonedCartsItems'] += $action['items'];
+                }
+            }
+        }
+
+        $result['totalVisitDurationPretty'] = Piwik::getPrettyTimeFromSeconds($result['totalVisitDuration']);
+
+        // use requested visits for first/last visit info
+        $result['firstVisit'] = $this->getVisitorProfileVisitSummary(end($visits->getRows()));
+        $result['lastVisit'] = $this->getVisitorProfileVisitSummary(reset($visits->getRows()));
+
+        // use N most recent visits for last_visits
+        $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);
+        $result['lastVisits'] = $visits;
+
+        // use the right date format for the pretty server date
+        $timezone = Site::getTimezoneFor($idSite);
+        foreach ($result['lastVisits']->getRows() as $visit) {
+            $dateTimeVisitFirstAction = Date::factory($visit->getColumn('firstActionTimestamp'), $timezone);
+            $dateTimePretty = $dateTimeVisitFirstAction->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT);
+
+            $visit->setColumn('serverDatePrettyFirstAction', $dateTimePretty);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns a summary for an important visit. Used to describe the first & last visits of a visitor.
+     * 
+     * @param Piwik\DataTable\Row $visit
+     */
+    private function getVisitorProfileVisitSummary($visit)
+    {
+        $today = Date::today();
+
+        $serverDate = $visit->getColumn('serverDate');
+        return array(
+            'date' => $serverDate,
+            'prettyDate' => Date::factory($serverDate)->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT),
+            'daysAgo' => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
+            'referralSummary' => $this->getReferrerSummaryForVisit($visit),
+        );
+    }
+
+    /**
+     * Returns a summary for a visit's referral.
+     * 
+     * @param Piwik\DataTable\Row $visit
+     */
+    private function getReferrerSummaryForVisit($visit)
+    {
+        $referrerType = $visit->getColumn('referrerType');
+        if ($referrerType === false
+            || $referrerType == 'direct'
+        ) {
+            $result = Piwik_Translate('Referers_DirectEntry');
+        } else if ($referrerType == 'search') {
+            $result = $visit->getColumn('referrerName');
+
+            $keyword = $visit->getColumn('referrerKeyword');
+            if ($keyword !== false) {
+                $result .= ' (' . $keyword . ')';
+            }
+        } else if ($referrerType == 'campaign') {
+            $result = Piwik_Translate('Referers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
+        } else {
+            $result = $visit->getColumn('referrerName');
+        }
+
+        return $result;
+    }
+
     /**
      * @deprecated
      */

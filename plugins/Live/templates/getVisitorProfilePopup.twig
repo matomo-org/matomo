@@ -1,0 +1,121 @@
+<div class="visitor-profile">
+    <a href class="visitor-profile-close"></a>
+    <div class="visitor-profile-info">
+        <div>
+            <div class="visitor-profile-avatar">
+                <div>
+                    <div class="visitor-profile-image-frame"><!-- TODO translate -->
+                        <img src="plugins/Live/images/REMOVE_ME_avatar.jpg" alt=""/>
+                    </div>
+                    <img src="plugins/Live/images/paperclip.png" alt=""/>
+                </div>
+                <div>
+                    <h1>Visitor profile</h1>
+                    <div>
+                        <div class="visitor-profile-latest-visit-column">
+                            <ul>
+                                <li><span>IP</span><strong>{{ visitorData.latestVisitIp }}</strong></li>
+                                <li><span>ID</span><strong>{{ visitorData.visitorId }}</strong></li>
+                                <li>
+                                    <div class="visitor-profile-browser">
+                                        <img src="{{ visitorData.browserLogo }}"/><span>{{ visitorData.browserName }}</span>
+                                    </div>
+                                    <div class="visitor-profile-os">
+                                        <img src="{{ visitorData.operatingSystemLogo }}"/><span>{{ visitorData.operatingSystemShortName }}</span>
+                                    </div>
+                                </li>
+                                <li><span>Resolution</span><strong>{{ visitorData.resolution }}</strong></li>
+                            </ul>
+                        </div>
+                        <div class="visitor-profile-latest-visit-column">
+                            <ul>
+                                {% for id,customVariable in visitorData.customVariables %}
+                                {% if loop.index0 < 4 %}
+                                    {% set name='customVariableName' ~ id %}
+                                    {% set value='customVariableValue' ~ id %}
+                                    <li><span>{{ customVariable[name]|truncate(30) }}</span>{% if customVariable[value]|length > 0 %}<strong>{{ customVariable[value]|truncate(50) }}</strong>{% endif %}</li>
+                                {% endif %}
+                                {% endfor %}
+                                {# TODO: Other custom vars go in expanding div. #}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p style="clear:both; border:none!important;"></p>
+            </div>
+            <div style="clear:both; border:none!important;"></div>
+            <div class="visitor-profile-map">
+                <img alt="" src="plugins/Live/images/REMOVE_ME_map.jpg"/> {# TODO: map #}
+            </div>
+            <div class="visitor-profile-important-visits">
+                <div>
+                    <h1>First visit</h1>
+                    <div>
+                        <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong><span> - {{ visitorData.firstVisit.daysAgo }} days ago</span></p>
+                        <p><span>from:</span></p>
+                        <p><strong>{{ visitorData.firstVisit.referralSummary }}</strong></p>
+                    </div>
+                </div>
+                <div>
+                    <h1>Last visit</h1>
+                    <div>
+                        <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong><span> - {{ visitorData.lastVisit.daysAgo }} days ago</span></p>
+                        <p><span>from:</span></p>
+                        <p><strong>{{ visitorData.lastVisit.referralSummary }}</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="visitor-profile-summary">
+                <h1>Summary</h1>
+                <div>
+                    <p>Spent a total of <strong>{{ visitorData.totalVisitDurationPretty|raw }} on the website</strong>, and <strong>viewed {{ visitorData.totalActionCount }} pages in {{ visitorData.totalVisits }} visits.</strong></p>
+                    <p><strong>Converted {{ visitorData.totalGoalConversions }} Goals</strong> (
+                        {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
+                        {%- if not loop.first %}, {% endif -%}{{- totalConversions }} <span class="visitor-profile-goal-name">{{ goals[idGoal]['name'] -}}</span>
+                        {%- endfor -%}
+                    ).</p>
+                    <p>Ecommerce: <strong>{{ visitorData.totalEcommerceConversions }} orders for a total of {{ visitorData.totalEcommerceRevenue|money(idSite)|raw }}</strong>, purchased {{ visitorData.totalEcommerceItems }} items.</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="visitor-profile-location">
+                <h1>Location</h1>
+                <img src="plugins/Live/images/REMOVE_ME_chart.png" alt=""/> {# TODO: country & bar graph #}
+            </div>
+            <div class="visitor-profile-pages-visited">
+                <h1>Visited pages<a href>see all</a></h1>
+            </div>
+            <div class="visitor-profile-actions">
+                <ol>
+                    {% for visitInfo in visitorData.lastVisits.getRows() %}
+                    <li><h2>Visit</h2><span class="visitor-profile-date">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span>
+                        <ol>
+                            {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
+                                                                       'javascriptVariablesToSet': {
+                                                                            'filterEcommerce': false,
+                                                                            'idSite': idSite
+                                                                        },
+                                                                        'overrideLinkStyle': false} %}
+                        </ol>
+                    </li>
+                    {% endfor %}
+                </ol>
+                <br/>
+            </div>
+            <div class="visitor-profile-fog"></div>
+        </div>
+    </div>
+    <div class="visitor-profile-more-info">
+        <a href="#">View more visitor information</a>
+    </div>
+</div>
+<script type="text/javascript">
+$(function() {
+    $('.visitor-profile-actions').jScrollPane({
+        showArrows: true,
+        verticalArrowPositions: 'os',
+        horizontalArrowPositions: 'os'
+    });
+});
+</script>

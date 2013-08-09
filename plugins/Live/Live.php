@@ -35,6 +35,7 @@ class Piwik_Live extends Plugin
     public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/Live/stylesheets/live.less";
+        $cssFiles[] = "plugins/Live/stylesheets/visitor_profile.less";
     }
 
     public function getJsFiles(&$jsFiles)
