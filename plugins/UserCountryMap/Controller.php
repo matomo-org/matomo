@@ -27,7 +27,7 @@ class Piwik_UserCountryMap_Controller extends Controller
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites
     const REAL_TIME_WINDOW = 'last30';
 
-    public function visitorMap($fetch = false)
+    public function visitorMap($fetch = false, $segmentOverride = false)
     {
         $this->checkUserCountryPluginEnabled();
 
@@ -36,7 +36,7 @@ class Piwik_UserCountryMap_Controller extends Controller
 
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
-        $segment = Common::getRequestVar('segment', '', 'string');
+        $segment = $segmentOverride ?: Request::getRawSegmentFromRequest() ?: '';
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = new View('@UserCountryMap/visitorMap');
@@ -47,19 +47,20 @@ class Piwik_UserCountryMap_Controller extends Controller
                 . '&idSite=' . $idSite
                 . '&period=' . $period
                 . '&date=' . $date
+                . '&segment=' . $segment
                 . '&token_auth=' . $token_auth
                 . '&filter_limit=-1'
         );
         $config = array();
         $config['visitsSummary'] = unserialize($request->process());
         $config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
-            $idSite, $period, $date, $token_auth);
+            $idSite, $period, $date, $token_auth, false, $segment);
         $config['regionDataUrl'] = $this->_report('UserCountry', 'getRegion',
-            $idSite, $period, $date, $token_auth, true);
+            $idSite, $period, $date, $token_auth, true, $segment);
         $config['cityDataUrl'] = $this->_report('UserCountry', 'getCity',
-            $idSite, $period, $date, $token_auth, true);
+            $idSite, $period, $date, $token_auth, true, $segment);
         $config['countrySummaryUrl'] = $this->getApiRequestUrl('VisitsSummary', 'get',
-            $idSite, $period, $date, $token_auth, true);
+            $idSite, $period, $date, $token_auth, true, $segment);
         $view->defaultMetric = 'nb_visits';
 
         // some translations
@@ -164,7 +165,9 @@ class Piwik_UserCountryMap_Controller extends Controller
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
         $segment = \Piwik\API\Request::getRawSegmentFromRequest();
-        if(!empty($segment)) {
+        if (!empty($segment)
+            && !empty($params['segment'])
+        ) {
             $params['segment'] = $segment;
         }
 
@@ -204,7 +207,7 @@ class Piwik_UserCountryMap_Controller extends Controller
         return $metrics;
     }
 
-    private function getApiRequestUrl($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false)
+    private function getApiRequestUrl($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
     {
         // use processed reports
         $url = "?module=" . $module
@@ -213,7 +216,7 @@ class Piwik_UserCountryMap_Controller extends Controller
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth
-            . "&segment=" . Common::getRequestVar('segment', '', 'string')
+            . "&segment=" . ($segmentOverride ?: Request::getRawSegmentFromRequest())
             . "&enable_filter_excludelowpop=1"
             . "&showRawMetrics=1";
 
@@ -228,9 +231,9 @@ class Piwik_UserCountryMap_Controller extends Controller
         return $url;
     }
 
-    private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false)
+    private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
     {
-        return $this->getApiRequestUrl('API', 'getProcessedReport&apiModule=' . $module . '&apiAction=' . $action, $idSite, $period, $date, $token_auth, $filter_by_country);
+        return $this->getApiRequestUrl('API', 'getProcessedReport&apiModule=' . $module . '&apiAction=' . $action,
+                                       $idSite, $period, $date, $token_auth, $filter_by_country, $segmentOverride);
     }
-
 }

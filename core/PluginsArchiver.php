@@ -13,8 +13,6 @@ namespace Piwik;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\ArchiveProcessor;
-use Piwik\ArchiveProcessor\Day;
-use Piwik\ArchiveProcessor\Period;
 use Piwik\DataAccess\LogAggregator;
 
 /**
@@ -47,7 +45,7 @@ abstract class PluginsArchiver
     }
 
     /**
-     * @return Day|Period
+     * @return \Piwik\ArchiveProcessor\Day|\Piwik\ArchiveProcessor\Period
      */
     protected function getProcessor()
     {

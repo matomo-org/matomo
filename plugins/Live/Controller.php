@@ -100,7 +100,6 @@ class Piwik_Live_Controller extends Controller
      */
     public function getVisitorLog($fetch = false)
     {
-        $test = array(); $str = (string)$test;
         return $this->getLastVisitsDetails($fetch);
     }
 
@@ -134,7 +133,7 @@ class Piwik_Live_Controller extends Controller
     }
 
     /**
-     * TODO
+     * Echo's HTML for visitor profile popup.
      */
     public function getVisitorProfilePopup()
     {
@@ -150,19 +149,12 @@ class Piwik_Live_Controller extends Controller
 
     private function getUserCountryMapForVisitorProfile()
     {
-        if (empty($_GET['segment'])) {
-            $_GET['segment'] = '';
-            $originalSegment = '';
-        } else {
-            $_GET['segment'] .= '&';
-            $originalSegment = $_GET['segment'];
+        $segment = Request::getRawSegmentFromRequest();
+        if (!empty($segment)) {
+            $segment .= ';';
         }
-        $_GET['segment'] .= 'visitorId==' . Common::getRequestVar('idVisitor');
 
-        $result = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap', array('fetch' => true)); // TODO: check if plugin is enabled?
-
-        $_GET['segment'] = $originalSegment;
-
-        return $result;
+        $params = array('fetch' => true, 'segment' => $segment . 'visitorId==' . Common::getRequestVar('idVisitor'));
+        return FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap', $params); // TODO: check if plugin is enabled?
     }
 }

@@ -152,6 +152,7 @@
 }
 
 .visitor-profile-browser {
+    margin-left: 5px;
     width:75px;
     display:inline-block;
 }
@@ -206,6 +207,10 @@
     margin-top:6px;
 }
 
+.visitor-profile-summary strong {
+    padding-left:0;
+}
+
 .visitor-profile-important-visits {
 
     > div {
@@ -244,7 +249,7 @@
     }
 }
 
-.visitor-profile-actions {
+.visitor-profile-visits-container {
     height:550px;
     overflow-y:auto;
     position:relative;
@@ -253,9 +258,6 @@
     padding:0 18px 0 13px;
 
     ol {
-        counter-reset:item;
-        list-style-type:none;
-
         > li {
             display:block;
             font-size:12px;
@@ -270,6 +272,15 @@
                 padding-left:0;
             }
         }
+    }
+
+    ol.visitor-profile-visits > li {
+        margin-left:0;
+    }
+
+    ol.visitor-profile-actions {
+        counter-reset:item;
+        list-style-type:none;
 
         > li:before {
             content:counter(item) "  ";
@@ -278,19 +289,15 @@
     }
 
     // TODO: unordered lists no longer used, remove
-    ol li ul,ol li ol {
+    ol li ol {
         border-top:1px solid #d1cec8;
-    }
-
-    ol li ul {
-        padding-left:15px;
     }
 
     ol > li > ol > li {
         margin-left:-12px;
     }
 
-    ol li ul li,ol li ol li {
+    ol li ol li {
         display:block;
         color:#5e5e5c;
         font-size:13px;
@@ -303,7 +310,7 @@
         padding-bottom:4px;
     }
 
-    ol li ul li a,ol li ol li a {
+    ol li ol li a {
         display:inline-block;
     }
 

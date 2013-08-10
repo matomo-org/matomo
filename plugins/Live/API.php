@@ -168,7 +168,7 @@ class Piwik_Live_API
     public function getVisitorProfile($idSite, $period, $date, $idVisitor, $segment = false)
     {
         if ($segment !== false) {
-            $segment .= '&';
+            $segment .= ';';
         }
         $segment .= 'visitorId==' . $idVisitor; // TODO what happens when visitorId is in the segment?
 
@@ -177,10 +177,25 @@ class Piwik_Live_API
             return array();
         }
 
+        $isEcommerceEnabled = Site::isEcommerceEnabledFor($idSite);
+
         $result = array();
+        $result['totalVisits'] = 0;
+        $result['totalVisitDuration'] = 0;
+        $result['totalActionCount'] = 0;
+        $result['totalGoalConversions'] = 0;
+        $result['totalConversionsByGoal'] = array();
+
+        if ($isEcommerceEnabled) {
+            $result['totalEcommerceConversions'] = 0;
+            $result['totalEcommerceRevenue'] = 0;
+            $result['totalEcommerceItems'] = 0;
+            $result['totalAbandonedCarts'] = 0;
+            $result['totalAbandonedCartsRevenue'] = 0;
+            $result['totalAbandonedCartsItems'] = 0;
+        }
 
         // use the most recent visit for IP/browser/OS/etc. info
-        // TODO: could just do all of this in twig/JS... really need to do it here?
         $mostRecentVisit = $visits->getFirstRow();
         $result['latestVisitIp'] = $mostRecentVisit->getColumn('visitIp');
         $result['visitorId'] = $mostRecentVisit->getColumn('visitorId');
@@ -194,16 +209,6 @@ class Piwik_Live_API
         $result['customVariables'] = $mostRecentVisit->getColumn('customVariables');
 
         // aggregate all requested visits info for total_* info
-        $result['totalVisits'] = 0;
-        $result['totalVisitDuration'] = 0;
-        $result['totalActionCount'] = 0;
-        $result['totalGoalConversions'] = 0;
-        $result['totalEcommerceConversions'] = 0;
-        $result['totalEcommerceRevenue'] = 0;
-        $result['totalEcommerceItems'] = 0;
-        $result['totalAbandonedCarts'] = 0;
-        $result['totalAbandonedCartsRevenue'] = 0;
-        $result['totalAbandonedCartsItems'] = 0;
         foreach ($visits->getRows() as $visit) {
             ++$result['totalVisits'];
 
@@ -227,11 +232,15 @@ class Piwik_Live_API
                         }
                         $result['totalRevenueByGoal'][$idGoal] += $action['revenue'];
                     }
-                } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) { // handle ecommerce order
+                } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER // handle ecommerce order
+                           && $isEcommerceEnabled
+                ) {
                     ++$result['totalEcommerceConversions'];
                     $result['totalEcommerceRevenue'] += $action['revenue'];
                     $result['totalEcommerceItems'] += $action['items'];
-                } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) { // handler abandoned cart
+                } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART // handler abandoned cart
+                           && $isEcommerceEnabled
+                ) {
                     ++$result['totalAbandonedCarts'];
                     $result['totalAbandonedCartsRevenue'] += $action['revenue'];
                     $result['totalAbandonedCartsItems'] += $action['items'];
