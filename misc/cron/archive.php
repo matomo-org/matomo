@@ -163,16 +163,14 @@ class Archiving
      */
     private function getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed = false)
     {
+        $dateLastMax = $period == 'week' ? self::DEFAULT_DATE_LAST_WEEKS : self::DEFAULT_DATE_LAST;
         if (empty($lastTimestampWebsiteProcessed)) {
-            $dateLast = self::DEFAULT_DATE_LAST;
-            if ($period == 'week') {
-                $dateLast = self::DEFAULT_DATE_LAST_WEEKS;
-            }
+            $dateLast = $dateLastMax;
         } else {
             // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
             $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
-            if ($dateLast > self::DEFAULT_DATE_LAST) {
-                $dateLast = self::DEFAULT_DATE_LAST;
+            if ($dateLast > $dateLastMax) {
+                $dateLast = $dateLastMax;
             }
         }
         return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
