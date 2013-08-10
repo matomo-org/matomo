@@ -150,6 +150,11 @@ class Sparkline implements ViewInterface
         $this->sparkline->Output();
     }
 
+    /**
+     * Sets the sparkline colors
+     *
+     * @param Sparkline_Line $sparkline
+     */
     private function setSparklineColors($sparkline)
     {
         $colors = Common::getRequestVar('colors', false, 'json');

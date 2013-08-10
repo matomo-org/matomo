@@ -161,6 +161,7 @@ abstract class Log extends \Zend_Log
     {
         $configAPI = Config::getInstance()->log;
 
+        /** @var Log[] $aLoggers */
         $aLoggers = array(
             'logger_api_call' => new APICall,
             'logger_exception' => new Exception,

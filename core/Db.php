@@ -46,6 +46,7 @@ class Db
      */
     static public function exec($sql)
     {
+        /** @var \Zend_Db_Adapter_Abstract $db */
         $db = \Zend_Registry::get('db');
         $profiler = $db->getProfiler();
         $q = $profiler->queryStart($sql, \Zend_Db_Profiler::INSERT);

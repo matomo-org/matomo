@@ -261,7 +261,7 @@ abstract class Period
      * Returns Period_Day for a period made of days (week, month),
      *            Period_Month for a period made of months (year)
      *
-     * @return array Period
+     * @return Period[]
      */
     public function getSubperiods()
     {

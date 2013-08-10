@@ -143,6 +143,9 @@ class LabelFilter extends DataTableManipulator
 
     /**
      * Filter a DataTable instance. See @filter for more info.
+     *
+     * @param DataTable\Simple|DataTable\Map $dataTable
+     * @return mixed
      */
     protected function manipulateDataTable($dataTable)
     {

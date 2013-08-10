@@ -31,6 +31,9 @@ class PluginsManager
     protected $pluginsToLoad = array();
 
     protected $doLoadPlugins = true;
+    /**
+     * @var Plugin[]
+     */
     protected $loadedPlugins = array();
     /**
      * Default theme used in Piwik.
@@ -417,7 +420,7 @@ class PluginsManager
      *        'UserSettings' => Plugin $pluginObject,
      *    );
      *
-     * @return array,Plugin
+     * @return Plugin[]
      */
     public function getLoadedPlugins()
     {
@@ -429,7 +432,7 @@ class PluginsManager
      *
      * @param string $name
      * @throws \Exception
-     * @return array
+     * @return Plugin
      */
     public function getLoadedPlugin($name)
     {

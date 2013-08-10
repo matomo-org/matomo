@@ -628,9 +628,9 @@ abstract class Controller
     }
 
     /**
-     * Returns default website that Piwik should load
+     * Returns default website id that Piwik should load
      *
-     * @return Site
+     * @return bool|int
      */
     protected function getDefaultWebsiteId()
     {

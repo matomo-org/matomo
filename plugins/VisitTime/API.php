@@ -124,6 +124,13 @@ class Piwik_VisitTime_API
         return $result;
     }
 
+    /**
+     * @param DataTable $table
+     * @param int       $idSite
+     * @param string    $period
+     * @param string    $date
+     * @return mixed
+     */
     protected function removeHoursInFuture($table, $idSite, $period, $date)
     {
         $site = new Site($idSite);

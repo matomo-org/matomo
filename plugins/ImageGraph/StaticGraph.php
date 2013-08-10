@@ -45,6 +45,9 @@ abstract class Piwik_ImageGraph_StaticGraph
      * @var pImage
      */
     protected $pImage;
+    /**
+     * @var pData
+     */
     protected $pData;
     protected $ordinateLabels;
     protected $showLegend;
@@ -110,7 +113,7 @@ abstract class Piwik_ImageGraph_StaticGraph
     }
 
     /**
-     * @return Image rendered static graph
+     * @return resource  rendered static graph
      */
     public function getRenderedImage()
     {

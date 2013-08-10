@@ -23,6 +23,9 @@ abstract class Piwik_ImageGraph_StaticGraph_PieGraph extends Piwik_ImageGraph_St
 
     const SLICE_COLOR_KEY = "SLICE_COLOR";
 
+    /**
+     * @var pPie
+     */
     protected $pieChart;
     protected $xPosition;
     protected $yPosition;

@@ -76,6 +76,11 @@ class Piwik_API_RowEvolution
         return $data;
     }
 
+    /**
+     * @param array         $labels
+     * @param DataTable\Map $dataTable
+     * @return mixed
+     */
     protected function enrichRowAddMetadataLabelIndex($labels, $dataTable)
     {
         // set label index metadata

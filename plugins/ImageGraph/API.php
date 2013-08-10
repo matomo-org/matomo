@@ -371,6 +371,7 @@ class Piwik_ImageGraph_API
             $abscissaSeries = array();
             $abscissaLogos = array();
             $ordinateSeries = array();
+            /** @var \Piwik\DataTable\Simple|\Piwik\DataTable\Map $reportData */
             $reportData = $processedReport['reportData'];
             $hasData = false;
             $hasNonZeroValue = false;

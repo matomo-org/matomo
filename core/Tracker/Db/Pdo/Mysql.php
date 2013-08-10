@@ -25,6 +25,9 @@ use Piwik\Tracker\Db\DbException;
  */
 class Mysql extends Db
 {
+    /**
+     * @var PDO
+     */
     protected $connection = null;
     protected $dsn;
     protected $username;

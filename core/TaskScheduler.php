@@ -171,6 +171,12 @@ class TaskScheduler
         return self::getTimetableFromOptionValue(Piwik_GetOption(self::TIMETABLE_OPTION_STRING));
     }
 
+    /**
+     * Executes the given taks
+     *
+     * @param ScheduledTask $task
+     * @return string
+     */
     static private function executeTask($task)
     {
         try {

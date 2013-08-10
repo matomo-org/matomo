@@ -43,7 +43,7 @@ class Piwik_Referers_API
      * @param string $name
      * @param int $idSite
      * @param string $period
-     * @param Date $date
+     * @param string|Date $date
      * @param string $segment
      * @param bool $expanded
      * @param int|null $idSubtable

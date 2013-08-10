@@ -340,7 +340,7 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Day $logAggregator
+     * @param Logaggregator $logAggregator
      * @param $limitBeforeGrouping
      * @return DataTable
      */
@@ -413,7 +413,7 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Day $logAggregator
+     * @param LogAggregator $logAggregator
      * @param $limitBeforeGrouping
      * @return array(previousPages:DataTable, loops:integer)
      */

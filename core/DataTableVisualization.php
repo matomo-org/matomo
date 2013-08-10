@@ -137,7 +137,7 @@ abstract class DataTableVisualization
      * 
      * @param string $klass The visualization class.
      *
-     * @return DataTableVisualization[]
+     * @return array
      */
     public static function getVisualizationIdsWithInheritance($klass)
     {
@@ -160,6 +160,7 @@ abstract class DataTableVisualization
      */
     public static function getAvailableVisualizations()
     {
+        /** @var self[] $visualizations */
         $visualizations = array();
         Piwik_PostEvent(self::GET_AVAILABLE_EVENT, array(&$visualizations));
 

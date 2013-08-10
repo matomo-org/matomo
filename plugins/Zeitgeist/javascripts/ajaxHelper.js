@@ -46,6 +46,7 @@ globalAjaxQueue.abort = function () {
  * Global ajax helper to handle requests within piwik
  *
  * @type {Object}
+ * @constructor
  */
 function ajaxHelper() {
 

@@ -264,7 +264,8 @@ class Piwik_Live_API
     /**
      * Returns a summary for an important visit. Used to describe the first & last visits of a visitor.
      * 
-     * @param Piwik\DataTable\Row $visit
+     * @param Row $visit
+     * @return array
      */
     private function getVisitorProfileVisitSummary($visit)
     {
@@ -282,7 +283,8 @@ class Piwik_Live_API
     /**
      * Returns a summary for a visit's referral.
      * 
-     * @param Piwik\DataTable\Row $visit
+     * @param Row $visit
+     * @return bool|mixed|string
      */
     private function getReferrerSummaryForVisit($visit)
     {

@@ -39,6 +39,7 @@ class Piwik_SEO_Controller extends Controller
         $view = new View('@SEO/getRank');
         $view->urlToRank = Piwik_SEO_RankChecker::extractDomainFromUrl($url);
 
+        /** @var \Piwik\DataTable\Renderer\Php $renderer */
         $renderer = Renderer::factory('php');
         $renderer->setSerialize(false);
         $view->ranks = $renderer->render($dataTable);

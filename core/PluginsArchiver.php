@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Day;
+use Piwik\ArchiveProcessor\Period;
 use Piwik\DataAccess\LogAggregator;
 
 /**

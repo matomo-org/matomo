@@ -183,7 +183,7 @@ function showPagination(allSites, params) {
         $("#next").html(html);
     }
     if (params['page'] > 1) {
-        html = '<span style="cursor:pointer;" onClick="changePage(allSites, params, \'prev\');">&#171; ' + params['prev'] + '</span>'
+        html = '<span style="cursor:pointer;" onClick="changePage(allSites, params, \'prev\');">&#171; ' + params['prev'] + '</span>';
         $("#prev").html(html);
     }
     var start = (params['page'] - 1) * params['limit'] + 1;
