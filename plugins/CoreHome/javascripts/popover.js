@@ -76,6 +76,7 @@ var Piwik_Popover = (function () {
          * @param {string} popoverName        name of the popover
          * @param {string} [popoverSubject]   subject of the popover (e.g. url, optional)
          * @param {int}    [height]           height of the popover in px (optional)
+         * @param {string} [dialogClass]      css class to add to dialog
          */
         showLoading: function (popoverName, popoverSubject, height, dialogClass) {
             var loading = $(document.createElement('div')).addClass('Piwik_Popover_Loading');
@@ -209,6 +210,7 @@ var Piwik_Popover = (function () {
          * Create a Popover and load the specified URL in it
          * @param {string} url
          * @param {string} loadingName
+         * @param {string} [dialogClass]      css class to add to dialog
          */
         createPopupAndLoadUrl: function (url, loadingName, dialogClass) {
             // make sure the minimum top position of the popover is 106px
