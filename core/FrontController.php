@@ -366,5 +366,3 @@ class PluginDeactivatedException extends Exception
         parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Piwik.");
     }
 }
-
-

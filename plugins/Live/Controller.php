@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Controller;
 use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\FrontController;
 
 /**
  * @package Piwik_Live
@@ -143,6 +144,25 @@ class Piwik_Live_Controller extends Controller
         $view->idSite = $idSite;
         $view->goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
         $view->visitorData = Request::processRequest('Live.getVisitorProfile');
+        $view->userCountryMap = $this->getUserCountryMapForVisitorProfile();
         echo $view->render();
+    }
+
+    private function getUserCountryMapForVisitorProfile()
+    {
+        if (empty($_GET['segment'])) {
+            $_GET['segment'] = '';
+            $originalSegment = '';
+        } else {
+            $_GET['segment'] .= '&';
+            $originalSegment = $_GET['segment'];
+        }
+        $_GET['segment'] .= 'visitorId==' . Common::getRequestVar('idVisitor');
+
+        $result = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap', array('fetch' => true)); // TODO: check if plugin is enabled?
+
+        $_GET['segment'] = $originalSegment;
+
+        return $result;
     }
 }

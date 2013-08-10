@@ -53,6 +53,10 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
  */
 class Piwik_Live_API
 {
+    const VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE = 100;
+    const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
+    const VISITOR_PROFILE_DATE_FORMAT = '%day% %shortMonth% %longYear%';
+    
     static private $instance = null;
 
     /**
@@ -154,10 +158,6 @@ class Piwik_Live_API
         $dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite, $flat, $doNotFetchActions);
         return $dataTable;
     }
-
-    const VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE = 100;
-    const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
-    const VISITOR_PROFILE_DATE_FORMAT = '%day% %shortMonth% %longYear%';
 
     /**
      * TODO
