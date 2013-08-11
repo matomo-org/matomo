@@ -1,3 +1,7 @@
+table.dataTable {
+  border-collapse: collapse;
+}
+
 /* Header */
 table.dataTable th,
 table.dataTable th.columnSorted {
@@ -40,6 +44,8 @@ table.dataTable th .columnDocumentationTitle {
 
 /* Cells */
 table.dataTable td,
+table.subDataTable td.labeleven,
+table.subDataTable td.columneven,
 table.dataTable td a {
   color: @theme-color-text-base;
 }
@@ -58,6 +64,10 @@ table.dataTable td.column {
 table.dataTable td.label {
   border-width: 0 0 1px 0;
   background-image: none;
+}
+
+table.dataTable td.highlightField {
+  background-color: #303030 !important;
 }
 
 /* SubTable */
@@ -84,6 +94,7 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
 /* Focus widget */
 .ui-dialog-content,
 .widget:hover,
+.dataTable:hover,
 .cellSubDataTable:hover {
 
   table.dataTable td,
