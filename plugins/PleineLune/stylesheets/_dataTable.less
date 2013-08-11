@@ -190,12 +190,6 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
   color: @theme-color-text-focus;
 }
 
-/* MultiSites */
-#mt thead *:first-child,
-#mt thead *:last-child {
-  border-radius: 0;
-}
-
 /* Entity tables */
 .entityTable {
   border-top: 0 !important;
@@ -205,4 +199,10 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
 .entityTable tr td,
 .entityTable tr th {
   border-top: 0 !important;
+  border-bottom: 1px solid @theme-color-background-smallContrast !important;
+}
+
+.entityTable tr.highlighted td,
+.entityTable tr.highlighted:hover td {
+  background: #303030;
 }

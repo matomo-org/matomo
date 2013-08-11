@@ -7,6 +7,12 @@ body,
   color: @theme-color-text-base;
 }
 
+h2,
+h3,
+h4 {
+  color: @theme-color-text-active;
+}
+
 .admin a,
 a {
   color: @theme-color-text-link;
@@ -28,6 +34,10 @@ textarea {
   color: @theme-color-background-smallContrast;
   border: 0;
   border-radius: 0;
+}
+
+input[disabled] {
+  background: @theme-color-background-contrast;
 }
 
 .submit {
