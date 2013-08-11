@@ -24,7 +24,17 @@ a:active {
 select,
 [type="text"] {
   background: @theme-color-background-lighter;
-  border: 0 none;
   color: @theme-color-background-smallContrast;
+  border: 0;
   border-radius: 0;
+}
+
+.submit {
+  border: 0;
+  border-radius: 0;
+  background: @theme-color-text-active;
+}
+
+.submit:hover {
+  background: @theme-color-text-link;
 }
