@@ -977,8 +977,7 @@ class ViewDataTable
             $reportYear = $reportDate->toString('Y');
             $reportMonth = $reportDate->toString('m');
 
-            //TODOA
-            if (class_exists('Piwik\Plugins\PrivacyManager\PrivacyManager')
+            if (PluginsManager::getInstance()->isPluginActivated('PrivacyManager')
                 && Plugins\PrivacyManager\PrivacyManager::shouldReportBePurged($reportYear, $reportMonth)
             ) {
                 return true;
@@ -1013,7 +1012,6 @@ class ViewDataTable
      */
     static public function renderReport($pluginName, $apiAction, $fetch = true)
     {
-        //TODOA
         $namespacedApiClassName = "\\Piwik\\Plugins\\$pluginName\\API";
         if (!method_exists($namespacedApiClassName::getInstance(), $apiAction)) {
             throw new \Exception("$namespacedApiClassName Invalid action name '$apiAction' for '$pluginName' plugin.");

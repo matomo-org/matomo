@@ -16,6 +16,7 @@ use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\DataArray;
 use Piwik\PluginsArchiver;
+use Piwik\PluginsManager;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\Goals\Goals;
 
@@ -333,8 +334,7 @@ class Archiver extends PluginsArchiver
             }
             $label = "Value not defined";
             // Product Name/Category not defined"
-            //TODOA : working?
-            if (class_exists('Piwik\Plugins\CustomVariables\CustomVariables')) {
+            if (PluginsManager::getInstance()->isPluginActivated('CustomVariables')) {
                 $label = \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED;
             }
         }

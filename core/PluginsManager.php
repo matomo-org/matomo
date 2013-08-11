@@ -283,8 +283,9 @@ class PluginsManager
         }
 
         // Only one theme enabled at a time
-        $themeAlreadyEnabled = $this->getThemeEnabled();
-        if($themeAlreadyEnabled) {
+        $themeEnabled = $this->getThemeEnabled();
+        if($themeEnabled) {
+            $themeAlreadyEnabled = $themeEnabled->getPluginName();
             $plugin = $this->loadPlugin($pluginName);
             if($plugin->isTheme()) {
                 $plugins = $this->deactivatePlugin( $themeAlreadyEnabled, $plugins );
@@ -325,16 +326,16 @@ class PluginsManager
      * Returns the name of the non default theme currently enabled.
      * If Zeitgeist is enabled, returns false (nb: Zeitgeist cannot be disabled)
      *
-     * @return string
+     * @return Plugin
      */
-    protected function getThemeEnabled()
+    public function getThemeEnabled()
     {
         $plugins = $this->getLoadedPlugins();
         foreach($plugins as $plugin) {
             /* @var $plugin Plugin */
             if($plugin->isTheme()
                 && $plugin->getPluginName() != self::DEFAULT_THEME) {
-                return $plugin->getPluginName();
+                return $plugin;
             }
         }
         return false;
