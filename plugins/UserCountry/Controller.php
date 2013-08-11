@@ -10,9 +10,9 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
-use Admin;
 use Exception;
 use Piwik\DataTable\Renderer\Json;
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Http;
@@ -31,7 +31,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\ServerBased;
  *
  * @package UserCountry
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends Admin
 {
     public function index()
     {
@@ -87,7 +87,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $this->setUpdaterManageVars($view);
         $this->setBasicVariablesView($view);
-        Admin::setBasicVariablesAdminView($view);
+        $this->setBasicVariablesAdminView($view);
 
         echo $view->render();
     }

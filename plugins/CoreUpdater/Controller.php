@@ -25,7 +25,7 @@ use Piwik\Unzip;
 use Piwik\View\OneClickDone;
 use Piwik\Plugins\CoreUpdater\CoreUpdater;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Updater_UpdateErrorException;
+use Piwik\Updater_UpdateErrorException;
 
 /**
  *
@@ -354,7 +354,7 @@ class Controller extends \Piwik\Controller
         foreach ($componentsWithUpdateFile as $name => $filenames) {
             try {
                 $this->warningMessages = array_merge($this->warningMessages, $updater->update($name));
-            } catch (\Piwik\Updater_UpdateErrorException $e) {
+            } catch (Updater_UpdateErrorException $e) {
                 $this->errorMessages[] = $e->getMessage();
                 if ($name == 'core') {
                     $this->coreError = true;

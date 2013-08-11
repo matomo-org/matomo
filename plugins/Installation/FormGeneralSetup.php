@@ -82,7 +82,7 @@ class Rule_isValidLoginString extends HTML_QuickForm2_Rule
             if (!empty($login)) {
                 Piwik::checkValidLoginString($login);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->setMessage($e->getMessage());
             return false;
         }

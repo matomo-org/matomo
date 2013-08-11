@@ -82,7 +82,7 @@ class Rule_isValidTimezone extends HTML_QuickForm2_Rule
             if (!empty($timezone)) {
                 API::getInstance()->setDefaultTimezone($timezone);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
         return true;

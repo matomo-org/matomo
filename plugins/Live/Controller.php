@@ -143,7 +143,7 @@ class Controller extends \Piwik\Controller
 
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $idSite;
-        $view->goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $view->goals = \Piwik\Plugins\Goals\API::getInstance()->getGoals($idSite);
         $view->visitorData = Request::processRequest('Live.getVisitorProfile');
         $view->userCountryMap = $this->getUserCountryMapForVisitorProfile();
         echo $view->render();

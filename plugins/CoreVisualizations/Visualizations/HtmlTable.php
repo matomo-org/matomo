@@ -18,7 +18,6 @@ use Piwik\Common;
 use Piwik\Site;
 use Piwik\DataTableVisualization;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
-use \Piwik_Goals_API;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/AllColumns.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/Goals.php';
@@ -378,7 +377,7 @@ class HtmlTable extends DataTableVisualization
             $allGoals[$ecommerceGoal['idgoal']] = $ecommerceGoal;
         }
 
-        $siteGoals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $siteGoals = \Piwik\Plugins\Goals\API::getInstance()->getGoals($idSite);
         foreach ($siteGoals as &$goal) {
             $goal['quoted_name'] = '"' . $goal['name'] . '"';
             $allGoals[$goal['idgoal']] = $goal;

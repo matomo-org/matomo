@@ -148,7 +148,7 @@ class Actions extends \Piwik\Plugin
      * @param string $sqlField
      * @param string $matchType
      * @param string $segmentName
-     * @throws Exception
+     * @throws \Exception
      * @return array|int|string
      */
     public function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName)
@@ -191,7 +191,7 @@ class Actions extends \Piwik\Plugin
                 $sql .= '( name NOT LIKE CONCAT(\'%\', ?, \'%\') ' . $sqlMatchType . ' )';
                 break;
             default:
-                throw new Exception("This match type $matchType is not available for action-segments.");
+                throw new \Exception("This match type $matchType is not available for action-segments.");
                 break;
         }
 
@@ -605,7 +605,7 @@ class Actions extends \Piwik\Plugin
     static public function checkCustomVariablesPluginEnabled()
     {
         if (!self::isCustomVariablesPluginsEnabled()) {
-            throw new Exception("To Track Site Search Categories, please ask the Piwik Administrator to enable the 'Custom Variables' plugin in Settings > Plugins.");
+            throw new \Exception("To Track Site Search Categories, please ask the Piwik Administrator to enable the 'Custom Variables' plugin in Settings > Plugins.");
         }
     }
 
@@ -617,7 +617,7 @@ class Actions extends \Piwik\Plugin
     /**
      * @param $segmentName
      * @return int
-     * @throws Exception
+     * @throws \Exception
      */
     protected function guessActionTypeFromSegment($segmentName)
     {
@@ -631,7 +631,7 @@ class Actions extends \Piwik\Plugin
             $actionType = Action::TYPE_SITE_SEARCH;
             return $actionType;
         } else {
-            throw new Exception(" The segment $segmentName has an unexpected value.");
+            throw new \Exception(" The segment $segmentName has an unexpected value.");
         }
     }
 
@@ -705,7 +705,7 @@ class Actions extends \Piwik\Plugin
             $result['filter_excludelowpop'] = 'nb_hits';
             $result['filter_excludelowpop_value'] = function () {
                 // computing minimum value to exclude (2 percent of the total number of actions)
-                $visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary()->getFirstRow();
+                $visitsInfo = \Piwik\Plugins\VisitsSummary\Controller::getVisitsSummary()->getFirstRow();
                 $nbActions = $visitsInfo->getColumn('nb_actions');
                 $nbActionsLowPopulationThreshold = floor(0.02 * $nbActions);
 

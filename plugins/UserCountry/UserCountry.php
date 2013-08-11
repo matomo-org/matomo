@@ -14,7 +14,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
-use Piwik_Url;
+use Piwik\Url;
 use Piwik\Plugins\UserCountry\Archiver;
 use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -378,7 +378,7 @@ class UserCountry extends \Piwik\Plugin
                 if (!$self->isGeoIPWorking()) {
                     $params = array('module' => 'UserCountry', 'action' => 'adminIndex');
                     $footerMessage .= ' ' . Piwik_Translate('UserCountry_NoDataForGeoIPReport2',
-                        array('<a target="_blank" href="' . \Piwik\Url::getCurrentQueryStringWithParametersModified($params) . '">',
+                        array('<a target="_blank" href="' . Url::getCurrentQueryStringWithParametersModified($params) . '">',
                               '</a>',
                               '<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
                               '</a>'));
