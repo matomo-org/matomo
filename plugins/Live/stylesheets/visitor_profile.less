@@ -120,9 +120,9 @@
 .visitor-profile-avatar > div {
     position:relative;
     float:left;
-    height:145px;
+    min-height:145px;
     margin-right:15px;
-    padding:12px 0 13px;
+    padding:12px 0 4px;
 }
 
 .visitor-profile-avatar > div:first-child {
@@ -152,6 +152,10 @@
 
 .visitor-profile-avatar > div:last-child {
     margin-right:0;
+}
+
+.visitor-profile-extra-cvars {
+    border-top: 1px solid #d1cec8;
 }
 
 .visitor-profile-more-info {
@@ -393,4 +397,14 @@ span.visitor-profile-goal-name {
     font-weight:bold;
     font-style:italic;
     font-size:13px;
+}
+
+.visitor-profile-see-more-cvars {
+    text-align:center;
+
+    > a {
+        font-size:11px;
+        display:inline-block;
+        color:#5e5e5c;
+    }
 }

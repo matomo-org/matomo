@@ -1,3 +1,9 @@
+{% macro customVar(id, customVariable) %}
+    {% set name='customVariableName' ~ id %}
+    {% set value='customVariableValue' ~ id %}
+    <li><span>{{ customVariable[name]|truncate(30) }}</span>{% if customVariable[value]|length > 0 %}<strong>{{ customVariable[value]|truncate(50) }}</strong>{% endif %}</li>
+{% endmacro %}
+{% import _self as macros %}
 <div class="visitor-profile">
     <a href class="visitor-profile-close"></a>
     <div class="visitor-profile-info">
@@ -31,13 +37,20 @@
                             <ul>
                                 {% for id,customVariable in visitorData.customVariables %}
                                 {% if loop.index0 < 4 %}
-                                    {% set name='customVariableName' ~ id %}
-                                    {% set value='customVariableValue' ~ id %}
-                                    <li><span>{{ customVariable[name]|truncate(30) }}</span>{% if customVariable[value]|length > 0 %}<strong>{{ customVariable[value]|truncate(50) }}</strong>{% endif %}</li>
+                                    {{ macros.customVar(id, customVariable) }}
                                 {% endif %}
                                 {% endfor %}
-                                {# TODO: Other custom vars go in expanding div. #}
                             </ul>
+                            {% if visitorData.customVariables|length > 4 %}
+                            <ul class="visitor-profile-extra-cvars" style="display:none;">
+                                {% for id,customVariable in visitorData.customVariables %}
+                                {% if loop.index0 >= 4 %}
+                                    {{ macros.customVar(id, customVariable) }}
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                            <p class="visitor-profile-see-more-cvars"><a href="#">&#x25bc;</a></p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -137,5 +150,11 @@ $(function() {
         alert('STUB');
         return false;
     })
+
+    $('.visitor-profile-see-more-cvars>a').click(function (e) {
+        e.preventDefault();
+        $('.visitor-profile-extra-cvars').slideToggle();
+        return false;
+    });
 });
 </script>
