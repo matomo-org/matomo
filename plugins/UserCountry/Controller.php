@@ -10,11 +10,11 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
-use Admin;
 use Exception;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller\Admin;
 use Piwik\Http;
 use Piwik\IP;
 use Piwik\Plugins\UserCountry\LocationProvider;
