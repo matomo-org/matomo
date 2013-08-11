@@ -1,3 +1,7 @@
+table.dataTable {
+  border-collapse: collapse;
+}
+
 /* Header */
 table.dataTable th,
 table.dataTable th.columnSorted {
@@ -25,8 +29,23 @@ table.dataTable th.columnSorted {
   display: none;
 }
 
+table.dataTable th .columnDocumentation {
+  background-color: @theme-color-background-base;
+  border: 1px solid @theme-color-background-contrast;
+  border-radius: 0;
+  box-shadow: none;
+  color: @theme-color-text-base;
+}
+
+table.dataTable th .columnDocumentationTitle {
+  color: @theme-color-text-active;
+  font-weight: normal;
+}
+
 /* Cells */
 table.dataTable td,
+table.subDataTable td.labeleven,
+table.subDataTable td.columneven,
 table.dataTable td a {
   color: @theme-color-text-base;
 }
@@ -34,7 +53,6 @@ table.dataTable td a {
 table.dataTable td,
 table.dataTable td.label,
 table.dataTable td.column {
-  background-color: @theme-color-background-base;
   background-color: @theme-color-background-base;
   border: 1px solid @theme-color-background-smallContrast;
 }
@@ -46,6 +64,10 @@ table.dataTable td.column {
 table.dataTable td.label {
   border-width: 0 0 1px 0;
   background-image: none;
+}
+
+table.dataTable td.highlightField {
+  background-color: #303030 !important;
 }
 
 /* SubTable */
@@ -72,6 +94,7 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
 /* Focus widget */
 .ui-dialog-content,
 .widget:hover,
+.dataTable:hover,
 .cellSubDataTable:hover {
 
   table.dataTable td,
@@ -96,6 +119,8 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
   border-top: 1px solid @theme-color-background-contrast;
 }
 
+.dataTableFooterIcons,
+.dataTableFooterIcons a,
 .dataTableNext,
 .dataTablePrevious {
   color: @theme-color-text-link;
@@ -107,6 +132,7 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
   color: @theme-color-text-focus;
 }
 
+.dataTablePages,
 .loadingPiwik {
   color: @theme-color-text-base;
 }
@@ -175,8 +201,31 @@ table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
   color: @theme-color-text-focus;
 }
 
-/* MultiSites */
-#mt thead *:first-child,
-#mt thead *:last-child {
+/* Entity tables */
+.entityTable {
+  border-top: 0 !important;
+  border-bottom: 1px solid @theme-color-background-smallContrast !important;
+}
+
+.entityTable tr td,
+.entityTable tr th {
+  border-top: 0 !important;
+  border-bottom: 1px solid @theme-color-background-smallContrast !important;
+}
+
+.entityTable tr.highlighted td,
+.entityTable tr.highlighted:hover td {
+  background: #303030;
+}
+
+/* Report documentation */
+.reportDocumentation {
+  background: @theme-color-background-base;
+  border: 1px solid @theme-color-background-contrast;
+  color: @theme-color-text-base;
   border-radius: 0;
+}
+
+.reportDocumentation p {
+  color: @theme-color-text-base;
 }
