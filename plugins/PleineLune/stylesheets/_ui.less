@@ -8,6 +8,14 @@
   border: 1px solid @theme-color-background-contrast;
 }
 
+.ui-widget-content {
+  color: @theme-color-text-base;
+}
+
+.ui-widget-content a {
+  color: @theme-color-text-link;
+}
+
 /* Autocomplete */
 .ui-autocomplete {
   background: @theme-color-background-base;
@@ -20,4 +28,24 @@
 
 .ui-menu .ui-menu-item a.ui-state-focus {
   background: @theme-color-background-smallContrast;
+}
+
+/* Tooltip */
+.ui-tooltip {
+  background: @theme-color-background-smallContrast;
+  border: 1px solid @theme-color-background-contrast;
+  border-radius: 0;
+  color: @theme-color-text-base;
+  box-shadow: none;
+  h3 {
+    color: @theme-color-text-focus;
+  }
+}
+
+/* Inline Help */
+div.ui-state-highlight {
+  background: @theme-color-background-base;
+  border: 1px solid @theme-color-background-contrast;
+  border-radius: 0;
+  color: @theme-color-text-base;
 }

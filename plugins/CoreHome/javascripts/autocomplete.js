@@ -157,8 +157,9 @@ $(function () {
 
             // set event handling code for non-jquery-autocomplete parts of widget
             if ($('li', selector).length > 1) {
+
                 // event handler for when site selector is clicked. shows dropdown w/ first X sites
-                $(".custom_select_main_link", selector).click(function() {
+                $(".custom_select", selector).click(function() {
                     $(".custom_select_block", selector).toggleClass("custom_select_block_show");
                     $(".websiteSearch", selector).val("").focus();
                     return false;

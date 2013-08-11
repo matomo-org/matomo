@@ -83,8 +83,8 @@ div.scrollable {
     padding: 6px 4px;
     border-radius: 3px;
     position: absolute;
-    left: 0;
-    top: 0;
+    left: -1px;
+    top: -1px;
 }
 
 .segment-element .custom_select_search {
@@ -131,7 +131,7 @@ div.scrollable {
 }
 
 .segment-element .segment-nav h4.visits {
-    padding-left: 15px;
+    padding-left: 28px;
     background: url(plugins/SegmentEditor/images/icon-users.png) 0 0 no-repeat;
 }
 
@@ -537,9 +537,9 @@ div.scrollable {
 
 span.segmentationTitle {
     background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) no-repeat right 0;
-    padding-right: 20px !important;
-    width: 160px !important;
-    display: block !important;
+    padding-right: 20px;
+    width: 160px;
+    display: block;
     cursor: pointer;
 }
 
@@ -548,7 +548,6 @@ span.segmentationTitle {
 }
 
 #segmentList {
-    max-height: 250px;
     overflow: hidden; /* Create a BFC */
 }
 
@@ -666,4 +665,14 @@ a.metric_category {
     position: absolute;
     cursor: default;
     z-index: 1000 !important;
+}
+
+@media all and (max-width: 749px) {
+  span.segmentationTitle,
+  .segmentationContainer.visible {
+    width: auto;
+  }
+  .segmentationContainer.visible .add_new_segment {
+    float: left;
+  }
 }
