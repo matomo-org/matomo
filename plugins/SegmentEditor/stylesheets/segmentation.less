@@ -537,9 +537,9 @@ div.scrollable {
 
 span.segmentationTitle {
     background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) no-repeat right 0;
-    padding-right: 20px !important;
-    width: 160px !important;
-    display: block !important;
+    padding-right: 20px;
+    width: 160px;
+    display: block;
     cursor: pointer;
 }
 
@@ -665,4 +665,14 @@ a.metric_category {
     position: absolute;
     cursor: default;
     z-index: 1000 !important;
+}
+
+@media all and (max-width: 749px) {
+  span.segmentationTitle,
+  .segmentationContainer.visible {
+    width: auto;
+  }
+  .segmentationContainer.visible .add_new_segment {
+    float: left;
+  }
 }
