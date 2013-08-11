@@ -25,6 +25,19 @@ table.dataTable th.columnSorted {
   display: none;
 }
 
+table.dataTable th .columnDocumentation {
+  background-color: @theme-color-background-base;
+  border: 1px solid @theme-color-background-contrast;
+  border-radius: 0;
+  box-shadow: none;
+  color: @theme-color-text-base;
+}
+
+table.dataTable th .columnDocumentationTitle {
+  color: @theme-color-text-active;
+  font-weight: normal;
+}
+
 /* Cells */
 table.dataTable td,
 table.dataTable td a {
@@ -34,7 +47,6 @@ table.dataTable td a {
 table.dataTable td,
 table.dataTable td.label,
 table.dataTable td.column {
-  background-color: @theme-color-background-base;
   background-color: @theme-color-background-base;
   border: 1px solid @theme-color-background-smallContrast;
 }
