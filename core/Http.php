@@ -663,14 +663,15 @@ class Http
      * @param string $url
      * @param string $destinationPath
      * @param int $tries
+     * @param int $timeout
      * @throws Exception
      * @return bool  true on success, throws Exception on failure
      */
-    public static function fetchRemoteFile($url, $destinationPath = null, $tries = 0)
+    public static function fetchRemoteFile($url, $destinationPath = null, $tries = 0, $timeout = 10)
     {
         @ignore_user_abort(true);
         Piwik::setMaxExecutionTime(0);
-        return self::sendHttpRequest($url, 10, 'Update', $destinationPath, $tries);
+        return self::sendHttpRequest($url, $timeout, 'Update', $destinationPath, $tries);
     }
 
     /**
