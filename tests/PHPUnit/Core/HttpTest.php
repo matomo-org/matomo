@@ -29,7 +29,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     public function testFetchRemoteFile($method)
     {
         $this->assertNotNull(Http::getTransportMethod());
-        $version = Http::sendHttpRequestBy($method, 'http://api.piwik.org/1.0/getLatestVersion/', 5);
+        $version = Http::sendHttpRequestBy($method, 'http://api.piwik.org/1.0/getLatestVersion/', 30);
         $this->assertTrue((boolean)preg_match('/^([0-9.]+)$/', $version));
     }
 
