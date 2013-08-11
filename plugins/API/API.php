@@ -538,8 +538,8 @@ class API
      * Given a segment, will return a list of the most used values for this particular segment.
      * @param $segmentName
      * @param $idSite
+     * @throws \Exception
      * @return array
-     * @throws Exception
      */
     public function getSuggestedValuesForSegment($segmentName, $idSite)
     {
@@ -555,7 +555,7 @@ class API
             }
         }
         if (empty($segmentFound)) {
-            throw new Exception("Requested segment not found.");
+            throw new \Exception("Requested segment not found.");
         }
 
         $startDate = Date::now()->subDay(60)->toString();
@@ -582,7 +582,7 @@ class API
         $request = new Request($requestLastVisits);
         $table = $request->process();
         if (empty($table)) {
-            throw new Exception("There was no data to suggest for $segmentName");
+            throw new \Exception("There was no data to suggest for $segmentName");
         }
 
         // Cleanup data to return the top suggested (non empty) labels for this segment

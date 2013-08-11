@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Installation;
 
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Translate;
 
 /**
  *
@@ -45,6 +46,9 @@ class Installation extends \Piwik\Plugin
         return new $this->installationControllerName();
     }
 
+    /**
+     * @param \Exception|null $exception
+     */
     public function dispatch($exception = null)
     {
         if ($exception) {

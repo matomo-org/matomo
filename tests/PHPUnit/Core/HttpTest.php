@@ -29,7 +29,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     public function testFetchRemoteFile($method)
     {
         $this->assertNotNull(Http::getTransportMethod());
-        $version = Http::sendHttpRequestBy($method, 'http://api.piwik.org/1.0/getLatestVersion/', 5);
+        $version = Http::sendHttpRequestBy($method, 'http://api.piwik.org/1.0/getLatestVersion/', 30);
         $this->assertTrue((boolean)preg_match('/^([0-9.]+)$/', $version));
     }
 
@@ -52,7 +52,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     public function testFetchLatestZip()
     {
         $destinationPath = PIWIK_USER_PATH . '/tmp/latest/latest.zip';
-        Http::fetchRemoteFile('http://builds.piwik.org/latest.zip', $destinationPath, 3);
+        Http::fetchRemoteFile('http://builds.piwik.org/latest.zip', $destinationPath, 3, 30);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan(0, filesize($destinationPath));
     }
@@ -67,7 +67,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
         $result = Http::sendHttpRequestBy(
             $method,
             'http://builds.piwik.org/latest.zip',
-            5,
+            30,
             $userAgent = null,
             $destinationPath = null,
             $file = null,
@@ -100,7 +100,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
         $result = Http::sendHttpRequestBy(
             $method,
             'http://builds.piwik.org/latest.zip',
-            5,
+            30,
             $userAgent = null,
             $destinationPath = null,
             $file = null,

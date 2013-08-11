@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\ImageGraph;
 
+use Exception;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -145,7 +146,7 @@ class API
 
         // Health check - should we also test for GD2 only?
         if (!Piwik::isGdExtensionEnabled()) {
-            throw new \Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini,
+            throw new Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini,
             and restart your web server.');
         }
 
@@ -317,7 +318,7 @@ class API
 
                 //@review this test will need to be updated after evaluating the @review comment in API/API.php
                 if (!$processedReport) {
-                    throw new \Exception(Piwik_Translate('General_NoDataForGraph_js'));
+                    throw new Exception(Piwik_Translate('General_NoDataForGraph_js'));
                 }
 
                 // restoring generic filter parameters
@@ -455,7 +456,7 @@ class API
             }
 
             if (!$hasData || !$hasNonZeroValue) {
-                throw new \Exception(Piwik_Translate('General_NoDataForGraph_js'));
+                throw new Exception(Piwik_Translate('General_NoDataForGraph_js'));
             }
 
             //Setup the graph

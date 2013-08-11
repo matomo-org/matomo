@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\Installation;
 
+use HTML_QuickForm2_Rule;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use Piwik\QuickForm2;
@@ -82,7 +83,7 @@ class Rule_isValidLoginString extends HTML_QuickForm2_Rule
             if (!empty($login)) {
                 Piwik::checkValidLoginString($login);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->setMessage($e->getMessage());
             return false;
         }
