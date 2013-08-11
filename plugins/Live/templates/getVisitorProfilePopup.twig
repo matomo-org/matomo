@@ -109,7 +109,7 @@
                 <div class="visitor-profile-visits-container">
                     <ol class="visitor-profile-visits">
                         {% for visitInfo in visitorData.lastVisits.getRows() %}
-                        <li><h2>{{ 'General_Visit'|translate }} #{{ loop.index }}</h2><span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span><span class="visitor-profile-date">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span>
+                        <li><h2 class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}">{{ 'General_Visit'|translate }} #{{ loop.index }}</h2><span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span><span class="visitor-profile-date">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span>
                             <ol class="visitor-profile-actions">
                                 {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
                                                                            'javascriptVariablesToSet': {
@@ -155,6 +155,10 @@ $(function() {
         e.preventDefault();
         $('.visitor-profile-extra-cvars').slideToggle();
         return false;
+    });
+
+    $('.visitor-profile-visit-title').click(function () {
+        // TODO
     });
 });
 </script>
