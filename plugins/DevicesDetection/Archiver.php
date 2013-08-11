@@ -6,13 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DevicesDetection
+ * @package DevicesDetection
  */
+
+namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Metrics;
 use Piwik\PluginsArchiver;
 
-class Piwik_DevicesDetection_Archiver extends PluginsArchiver
+class Archiver extends PluginsArchiver
 {
     const DEVICE_TYPE_RECORD_NAME = 'DevicesDetection_types';
     const DEVICE_BRAND_RECORD_NAME = 'DevicesDetection_brands';
@@ -32,16 +34,16 @@ class Piwik_DevicesDetection_Archiver extends PluginsArchiver
 
     public function archiveDay()
     {
-        $this->aggregateByLabel( self::DEVICE_TYPE_FIELD, self::DEVICE_TYPE_RECORD_NAME);
-        $this->aggregateByLabel( self::DEVICE_BRAND_FIELD, self::DEVICE_BRAND_RECORD_NAME);
-        $this->aggregateByLabel( self::DEVICE_MODEL_FIELD, self::DEVICE_MODEL_RECORD_NAME);
-        $this->aggregateByLabel( self::OS_FIELD, self::OS_RECORD_NAME);
-        $this->aggregateByLabel( self::OS_VERSION_FIELD, self::OS_VERSION_RECORD_NAME);
-        $this->aggregateByLabel( self::BROWSER_FIELD, self::BROWSER_RECORD_NAME);
-        $this->aggregateByLabel( self::BROWSER_VERSION_DIMENSION, self::BROWSER_VERSION_RECORD_NAME);
+        $this->aggregateByLabel(self::DEVICE_TYPE_FIELD, self::DEVICE_TYPE_RECORD_NAME);
+        $this->aggregateByLabel(self::DEVICE_BRAND_FIELD, self::DEVICE_BRAND_RECORD_NAME);
+        $this->aggregateByLabel(self::DEVICE_MODEL_FIELD, self::DEVICE_MODEL_RECORD_NAME);
+        $this->aggregateByLabel(self::OS_FIELD, self::OS_RECORD_NAME);
+        $this->aggregateByLabel(self::OS_VERSION_FIELD, self::OS_VERSION_RECORD_NAME);
+        $this->aggregateByLabel(self::BROWSER_FIELD, self::BROWSER_RECORD_NAME);
+        $this->aggregateByLabel(self::BROWSER_VERSION_DIMENSION, self::BROWSER_VERSION_RECORD_NAME);
     }
 
-    private function aggregateByLabel( $labelSQL, $recordName)
+    private function aggregateByLabel($labelSQL, $recordName)
     {
         $metrics = $this->getProcessor()->getMetricsForDimension($labelSQL);
         $table = $this->getProcessor()->getDataTableFromDataArray($metrics);

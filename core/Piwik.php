@@ -25,7 +25,7 @@ use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Url;
-use Piwik_UsersManager_API;
+use Piwik\Plugins\UsersManager\API;
 use Piwik\View;
 use Piwik\Log\ScreenFormatter;
 use Zend_Registry;
@@ -1575,7 +1575,7 @@ class Piwik
     static public function getCurrentUserEmail()
     {
         if (!Piwik::isUserIsSuperUser()) {
-            $user = Piwik_UsersManager_API::getInstance()->getUser(Piwik::getCurrentUserLogin());
+            $user = API::getInstance()->getUser(Piwik::getCurrentUserLogin());
             return $user['email'];
         }
         return self::getSuperUserEmail();

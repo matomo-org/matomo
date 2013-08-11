@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Common;
+use Piwik\Plugins\LanguagesManager\API;
 use Piwik\TranslationWriter;
 
 require_once 'LanguagesManager/API.php';
@@ -32,7 +33,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         self::$englishStringsWithParameters = array();
         self::$englishStringsIndexed = array();
         self::$expectedLanguageKeys = array();
-        $englishStrings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage('en');
+        $englishStrings = API::getInstance()->getTranslationsForLanguage('en');
         foreach ($englishStrings as $englishString) {
             $stringLabel = $englishString['label'];
             $stringValue = $englishString['value'];
@@ -45,7 +46,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         }
 
         // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
-        $languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages();
+        $languages = API::getInstance()->getAvailableLanguages();
 
         $return = array();
         foreach ($languages AS $language) {
@@ -68,7 +69,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         self::$errors = array();
         ob_start();
         $writeCleanedFile = false;
-        $strings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage($language);
+        $strings = API::getInstance()->getTranslationsForLanguage($language);
         $content = ob_get_flush();
         $serializedStrings = serialize($strings);
         $invalids = array("<script", 'document.', 'javascript:', 'src=', 'BACKGROUND=', 'onload=');
@@ -236,7 +237,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      */
     function testGetTranslationsForLanguagesNot()
     {
-        $this->assertFalse(Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage("../no-language"));
+        $this->assertFalse(API::getInstance()->getTranslationsForLanguage("../no-language"));
     }
 
     /**
@@ -247,7 +248,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      */
     function testGetLanguageNamesInEnglish()
     {
-        $languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages();
+        $languages = API::getInstance()->getAvailableLanguages();
         foreach ($languages as $language) {
             require PIWIK_INCLUDE_PATH . "/lang/$language.php";
             $name = $translations['General_EnglishLanguageName'];

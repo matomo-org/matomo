@@ -1,13 +1,4 @@
 <?php
-use Piwik\API\Request;
-use Piwik\Metrics;
-use Piwik\Piwik;
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\Controller;
-use Piwik\Tracker\Action;
-use Piwik\View;
-
 /**
  * Piwik - Open source web analytics
  *
@@ -15,10 +6,21 @@ use Piwik\View;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Overlay
+ * @package Overlay
  */
+namespace Piwik\Plugins\Overlay;
 
-class Piwik_Overlay_Controller extends Controller
+use Piwik\API\Request;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Tracker\Action;
+use Piwik\View;
+use Piwik\Plugins\SitesManager\API;
+
+class Controller extends \Piwik\Controller
 {
 
     /** The index of the plugin */
@@ -57,8 +59,8 @@ class Piwik_Overlay_Controller extends Controller
         $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
 
         // load the appropriate row of the page urls report using the label filter
-        Piwik_Actions_ArchivingHelper::reloadConfig();
-        $path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_ACTION_URL);
+        ArchivingHelper::reloadConfig();
+        $path = ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_ACTION_URL);
         $path = array_map('urlencode', $path);
         $label = implode('>', $path);
         $request = new Request(
@@ -78,7 +80,6 @@ class Piwik_Overlay_Controller extends Controller
             $translations = Metrics::getDefaultMetricTranslations();
             $showMetrics = array('nb_hits', 'nb_visits', 'nb_uniq_visitors',
                                  'bounce_rate', 'exit_rate', 'avg_time_on_page');
-
 
             foreach ($showMetrics as $metric) {
                 $value = $row->getColumn($metric);
@@ -127,7 +128,7 @@ class Piwik_Overlay_Controller extends Controller
         $idSite = Common::getRequestVar('idsite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
-        $sitesManager = Piwik_SitesManager_API::getInstance();
+        $sitesManager = API::getInstance();
         $site = $sitesManager->getSiteFromId($idSite);
         $urls = $sitesManager->getSiteUrlsFromId($idSite);
 
@@ -142,17 +143,17 @@ class Piwik_Overlay_Controller extends Controller
 						return url.replace(/https:\/\//i, "http://");
 					}
 				}
-			
+
 				function removeUrlPrefix(url) {
 					return url.replace(/http(s)?:\/\/(www\.)?/i, "");
 				}
-				
+
 				if (window.location.hash) {
 					var match = false;
-					
+
 					var urlToRedirect = window.location.hash.substr(1);
 					var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
-					
+
 					var knownUrls = ' . Common::json_encode($urls) . ';
 					for (var i = 0; i < knownUrls.length; i++) {
 						var testUrl = removeUrlPrefix(knownUrls[i]);
@@ -170,12 +171,12 @@ class Piwik_Overlay_Controller extends Controller
 							break;
 						}
 					}
-					
+
 					if (!match) {
 						var idSite = window.location.href.match(/idSite=([0-9]+)/i)[1];
 						window.location.href = "index.php?module=Overlay&action=showErrorWrongDomain"
 							+ "&idSite=" + idSite
-							+ "&url=" + encodeURIComponent(urlToRedirect); 
+							+ "&url=" + encodeURIComponent(urlToRedirect);
 					}
 				}
 				else {
@@ -231,5 +232,4 @@ class Piwik_Overlay_Controller extends Controller
         $view = new View('@Overlay/notifyParentIframe');
         echo $view->render();
     }
-
 }

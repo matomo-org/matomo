@@ -6,19 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_AnonymizeIP
+ * @package AnonymizeIP
  */
+namespace Piwik\Plugins\AnonymizeIP;
+
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Version;
-use Piwik\Plugin;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
  *
- * @package Piwik_AnonymizeIP
+ * @package AnonymizeIP
  */
-class Piwik_AnonymizeIP extends Plugin
+class AnonymizeIP extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation

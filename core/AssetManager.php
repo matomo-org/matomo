@@ -254,7 +254,18 @@ class AssetManager
     {
         $cssFiles = array();
         Piwik_PostEvent(self::CSS_IMPORT_EVENT, array(&$cssFiles));
+
         $cssFiles = self::sortCssFiles($cssFiles);
+
+        // We also look for the currently enabled theme and add CSS from the json
+        $theme = PluginsManager::getInstance()->getThemeEnabled();
+        if($theme) {
+            $info = $theme->getInformation();
+            if(isset($info['stylesheet'])) {
+                $themeStylesheetFile = 'plugins/'. $theme->getPluginName() . '/' . $info['stylesheet'];
+            }
+            $cssFiles[] = $themeStylesheetFile;
+        }
         return $cssFiles;
     }
 

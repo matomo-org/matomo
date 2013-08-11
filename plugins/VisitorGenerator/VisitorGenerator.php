@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitorGenerator
+ * @package VisitorGenerator
  */
+namespace Piwik\Plugins\VisitorGenerator;
+
 use Piwik\Piwik;
-use Piwik\Plugin;
 
 /**
  *
- * @package Piwik_VisitorGenerator
+ * @package VisitorGenerator
  */
-class Piwik_VisitorGenerator extends Plugin
+class VisitorGenerator extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

@@ -6,45 +6,51 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PDFReports
+ * @package PDFReports
  */
+namespace Piwik\Plugins\PDFReports;
+
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\PDFReports\API;
 use Piwik\View;
+use Piwik\Plugins\PDFReports\PDFReports;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  *
- * @package Piwik_PDFReports
+ * @package PDFReports
  */
-class Piwik_PDFReports_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
-    const DEFAULT_REPORT_TYPE = Piwik_PDFReports::EMAIL_TYPE;
+    const DEFAULT_REPORT_TYPE = PDFReports::EMAIL_TYPE;
 
     public function index()
     {
         $view = new View('@PDFReports/index');
         $this->setGeneralVariablesView($view);
 
-        $view->countWebsites = count(Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess());
+        $view->countWebsites = count(SitesManagerAPI::getInstance()->getSitesIdWithAtLeastViewAccess());
 
         // get report types
-        $reportTypes = Piwik_PDFReports_API::getReportTypes();
+        $reportTypes = API::getReportTypes();
         $view->reportTypes = $reportTypes;
         $view->defaultReportType = self::DEFAULT_REPORT_TYPE;
-        $view->defaultReportFormat = Piwik_PDFReports::DEFAULT_REPORT_FORMAT;
+        $view->defaultReportFormat = PDFReports::DEFAULT_REPORT_FORMAT;
 
         $reportsByCategoryByType = array();
         $reportFormatsByReportType = array();
         $allowMultipleReportsByReportType = array();
         foreach ($reportTypes as $reportType => $reportTypeIcon) {
             // get report formats
-            $reportFormatsByReportType[$reportType] = Piwik_PDFReports_API::getReportFormats($reportType);
-            $allowMultipleReportsByReportType[$reportType] = Piwik_PDFReports_API::allowMultipleReports($reportType);
+            $reportFormatsByReportType[$reportType] = API::getReportFormats($reportType);
+            $allowMultipleReportsByReportType[$reportType] = API::allowMultipleReports($reportType);
 
             // get report metadata
             $reportsByCategory = array();
-            $availableReportMetadata = Piwik_PDFReports_API::getReportMetadata($this->idSite, $reportType);
+            $availableReportMetadata = API::getReportMetadata($this->idSite, $reportType);
             foreach ($availableReportMetadata as $reportMetadata) {
                 $reportsByCategory[$reportMetadata['category']][] = $reportMetadata;
             }
@@ -57,28 +63,28 @@ class Piwik_PDFReports_Controller extends Controller
         $reports = array();
         $reportsById = array();
         if (!Piwik::isUserIsAnonymous()) {
-            $reports = Piwik_PDFReports_API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
+            $reports = API::getInstance()->getReports($this->idSite, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = true);
             foreach ($reports as &$report) {
-                $report['recipients'] = Piwik_PDFReports_API::getReportRecipients($report);
+                $report['recipients'] = API::getReportRecipients($report);
                 $reportsById[$report['idreport']] = $report;
             }
         }
         $view->reports = $reports;
         $view->reportsJSON = Common::json_encode($reportsById);
 
-        $view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_INLINE;
+        $view->downloadOutputType = API::OUTPUT_INLINE;
 
-        $view->periods = Piwik_PDFReports::getPeriodToFrequency();
-        $view->defaultPeriod = Piwik_PDFReports::DEFAULT_PERIOD;
-        $view->defaultHour = Piwik_PDFReports::DEFAULT_HOUR;
+        $view->periods = PDFReports::getPeriodToFrequency();
+        $view->defaultPeriod = PDFReports::DEFAULT_PERIOD;
+        $view->defaultHour = PDFReports::DEFAULT_HOUR;
 
-        $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
 
         $view->segmentEditorActivated = false;
-        if (Piwik_PDFReports_API::isSegmentEditorActivated()) {
+        if (API::isSegmentEditorActivated()) {
 
             $savedSegmentsById = array();
-            foreach (Piwik_SegmentEditor_API::getInstance()->getAll($this->idSite) as $savedSegment) {
+            foreach (SegmentEditorAPI::getInstance()->getAll($this->idSite) as $savedSegment) {
                 $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
             }
             $view->savedSegmentsById = $savedSegmentsById;

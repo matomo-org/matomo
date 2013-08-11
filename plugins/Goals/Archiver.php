@@ -6,17 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Goals
+ * @package Goals
  */
+
+namespace Piwik\Plugins\Goals;
 
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\DataArray;
 use Piwik\PluginsArchiver;
+use Piwik\PluginsManager;
 use Piwik\Tracker\GoalManager;
+use Piwik\Plugins\Goals\Goals;
 
-class Piwik_Goals_Archiver extends PluginsArchiver
+class Archiver extends PluginsArchiver
 {
     const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
     const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';
@@ -120,7 +124,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
             unset($row['label']);
 
             $values = array();
-            foreach($conversionMetrics as $field => $statement) {
+            foreach ($conversionMetrics as $field => $statement) {
                 $values[$field] = $row[$field];
             }
             $goals->sumMetrics($idGoal, $values);
@@ -173,7 +177,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
                 $recordName = self::getRecordName($metricName, $idGoal);
                 $numericRecords[$recordName] = $value;
             }
-            if(!empty($array[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED])) {
+            if (!empty($array[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED])) {
                 $conversion_rate = $this->getConversionRate($array[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED]);
                 $recordName = self::getRecordName('conversion_rate', $idGoal);
                 $numericRecords[$recordName] = $conversion_rate;
@@ -330,8 +334,8 @@ class Piwik_Goals_Archiver extends PluginsArchiver
             }
             $label = "Value not defined";
             // Product Name/Category not defined"
-            if (class_exists('Piwik_CustomVariables')) {
-                $label = Piwik_CustomVariables_Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED;
+            if (PluginsManager::getInstance()->isPluginActivated('CustomVariables')) {
+                $label = \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED;
             }
         }
 
@@ -403,7 +407,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
 
         $fieldsToSum = array();
         foreach ($goalIdsToSum as $goalId) {
-            $metricsToSum = Piwik_Goals::getGoalColumns($goalId);
+            $metricsToSum = Goals::getGoalColumns($goalId);
             unset($metricsToSum[array_search('conversion_rate', $metricsToSum)]);
             foreach ($metricsToSum as $metricName) {
                 $fieldsToSum[] = self::getRecordName($metricName, $goalId);
@@ -419,13 +423,13 @@ class Piwik_Goals_Archiver extends PluginsArchiver
 
             // sum up the visits to conversion data table & the days to conversion data table
             $this->getProcessor()->aggregateDataTableReports(array(
-                                                         self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $goalId),
-                                                         self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $goalId)));
+                                                                  self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $goalId),
+                                                                  self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $goalId)));
         }
 
         // sum up goal overview reports
         $this->getProcessor()->aggregateDataTableReports(array(
-                                                     self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
-                                                     self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)));
+                                                              self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
+                                                              self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)));
     }
 }

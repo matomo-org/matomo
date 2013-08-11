@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Access;
 use Piwik\Date;
 use Piwik\ArchiveProcessor;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Db;
@@ -39,7 +40,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
      */
     private function _createWebsite($timezone = 'UTC')
     {
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite(
+        $idSite = API::getInstance()->addSite(
             "site1",
             array("http://piwik.net"),
             $ecommerce = 0,

@@ -6,17 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserSettings
+ * @package UserSettings
  */
+namespace Piwik\Plugins\UserSettings;
+
 use Piwik\ArchiveProcessor;
-use Piwik\Plugin;
+use Piwik\Plugins\UserSettings\Archiver;
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_UserSettings
+ * @package UserSettings
  */
-class Piwik_UserSettings extends Plugin
+class UserSettings extends \Piwik\Plugin
 {
     /**
      * Mapping between the browser family shortcode and the displayed name
@@ -433,8 +435,8 @@ class Piwik_UserSettings extends Plugin
      */
     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
-        $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
@@ -444,8 +446,8 @@ class Piwik_UserSettings extends Plugin
      */
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
-        $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }

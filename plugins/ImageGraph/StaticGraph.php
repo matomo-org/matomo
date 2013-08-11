@@ -6,22 +6,28 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph
+ * @package ImageGraph
  */
 
+namespace Piwik\Plugins\ImageGraph;
+
+use Exception;
 use Piwik\Loader;
+use Piwik\Plugins\ImageGraph\API;
+use pData;
+use pImage;
 
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pImage.class.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pData.class.php";
 
 /**
- * The Piwik_ImageGraph_StaticGraph abstract class is used as a base class for different types of static graphs.
+ * The StaticGraph abstract class is used as a base class for different types of static graphs.
  *
- * @package Piwik_ImageGraph
- * @subpackage Piwik_ImageGraph_StaticGraph
+ * @package ImageGraph
+ * @subpackage StaticGraph
  */
-abstract class Piwik_ImageGraph_StaticGraph
+abstract class StaticGraph
 {
     const GRAPH_TYPE_BASIC_LINE = "evolution";
     const GRAPH_TYPE_VERTICAL_BAR = "verticalBar";
@@ -30,11 +36,11 @@ abstract class Piwik_ImageGraph_StaticGraph
     const GRAPH_TYPE_BASIC_PIE = "pie";
 
     static private $availableStaticGraphTypes = array(
-        self::GRAPH_TYPE_BASIC_LINE     => 'Piwik_ImageGraph_StaticGraph_Evolution',
-        self::GRAPH_TYPE_VERTICAL_BAR   => 'Piwik_ImageGraph_StaticGraph_VerticalBar',
-        self::GRAPH_TYPE_HORIZONTAL_BAR => 'Piwik_ImageGraph_StaticGraph_HorizontalBar',
-        self::GRAPH_TYPE_BASIC_PIE      => 'Piwik_ImageGraph_StaticGraph_Pie',
-        self::GRAPH_TYPE_3D_PIE         => 'Piwik_ImageGraph_StaticGraph_3DPie',
+        self::GRAPH_TYPE_BASIC_LINE     => 'Evolution',
+        self::GRAPH_TYPE_VERTICAL_BAR   => 'VerticalBar',
+        self::GRAPH_TYPE_HORIZONTAL_BAR => 'HorizontalBar',
+        self::GRAPH_TYPE_BASIC_PIE      => 'Pie',
+        self::GRAPH_TYPE_3D_PIE         => 'Pie3D',
     );
 
     const ABSCISSA_SERIE_NAME = 'ABSCISSA';
@@ -73,15 +79,16 @@ abstract class Piwik_ImageGraph_StaticGraph
     /**
      * Return the StaticGraph according to the static graph type $graphType
      *
-     * @throws exception If the static graph type is unknown
+     * @throws Exception If the static graph type is unknown
      * @param string $graphType
-     * @return Piwik_ImageGraph_StaticGraph
+     * @return \Piwik\Plugins\ImageGraph\StaticGraph
      */
     public static function factory($graphType)
     {
         if (isset(self::$availableStaticGraphTypes[$graphType])) {
 
             $className = self::$availableStaticGraphTypes[$graphType];
+            $className = __NAMESPACE__ . "\\StaticGraph\\" . $className;
             Loader::loadClass($className);
             return new $className;
         } else {
@@ -141,7 +148,7 @@ abstract class Piwik_ImageGraph_StaticGraph
     public function setFontSize($fontSize)
     {
         if (!is_numeric($fontSize)) {
-            $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE;
+            $fontSize = API::DEFAULT_FONT_SIZE;
         }
         $this->fontSize = $fontSize;
     }
@@ -266,8 +273,8 @@ abstract class Piwik_ImageGraph_StaticGraph
         $this->pImage->setFontProperties(
             array_merge(
                 array(
-                    'FontName' => $this->font,
-                    'FontSize' => $this->fontSize,
+                     'FontName' => $this->font,
+                     'FontSize' => $this->fontSize,
                 ),
                 $this->textColor
             )

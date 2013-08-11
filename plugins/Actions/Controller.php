@@ -6,23 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Actions
+ * @package Actions
  */
-use Piwik\Controller;
+namespace Piwik\Plugins\Actions;
+
 use Piwik\ViewDataTable;
 use Piwik\View;
 
 /**
  * Actions controller
  *
- * @package Piwik_Actions
+ * @package Actions
  */
-class Piwik_Actions_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
-    // 
+    //
     // Actions that render whole pages
-    // 
-    
+    //
+
     public function indexPageUrls($fetch = false)
     {
         return View::singleReport(
@@ -80,16 +81,16 @@ class Piwik_Actions_Controller extends Controller
             Piwik_Translate('Actions_SubmenuOutlinks'),
             $this->getOutlinks(true), $fetch);
     }
-    
-    // 
+
+    //
     // Actions that render individual reports
-    // 
-    
+    //
+
     public function getPageUrls($fetch = false)
     {
         return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
-    
+
     public function getEntryPageUrls($fetch = false)
     {
         return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);

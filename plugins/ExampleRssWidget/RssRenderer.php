@@ -6,14 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ExampleRssWidget
+ * @package ExampleRssWidget
  */
+
+namespace Piwik\Plugins\ExampleRssWidget;
+
+use Zend_Feed;
+use Zend_Feed_Exception;
 
 /**
  *
- * @package Piwik_ExampleRssWidget
+ * @package ExampleRssWidget
  */
-class Piwik_ExampleRssWidget_Rss
+class RssRenderer
 {
     protected $url = null;
     protected $count = 3;

@@ -6,23 +6,25 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitsSummary
+ * @package VisitsSummary
  */
+namespace Piwik\Plugins\VisitsSummary;
+
 use Piwik\API\Request;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Controller;
+use Piwik\Plugins\Actions\API;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\Site;
 
 /**
  *
- * @package Piwik_VisitsSummary
+ * @package VisitsSummary
  */
-class Piwik_VisitsSummary_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     public function index()
     {
@@ -126,7 +128,7 @@ class Piwik_VisitsSummary_Controller extends Controller
         $view->urlSparklineMaxActions = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('max_actions')));
         $view->urlSparklineActionsPerVisit = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_actions_per_visit')));
         $view->urlSparklineBounceRate = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('bounce_rate')));
-		$view->urlSparklineAvgGenerationTime = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_time_generation')));
+        $view->urlSparklineAvgGenerationTime = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_time_generation')));
 
         $idSite = Common::getRequestVar('idSite');
         $displaySiteSearch = Site::isSiteSearchEnabledFor($idSite);
@@ -138,7 +140,7 @@ class Piwik_VisitsSummary_Controller extends Controller
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
 
-        $dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
+        $dataTableActions = API::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
             \Piwik\API\Request::getRawSegmentFromRequest());
         $dataActionsRow =
             $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();
@@ -157,7 +159,7 @@ class Piwik_VisitsSummary_Controller extends Controller
         $view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
         $view->maxActions = (int)$dataRow->getColumn('max_actions');
         $view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
-		$view->averageGenerationTime = $dataActionsRow->getColumn('avg_time_generation');
+        $view->averageGenerationTime = $dataActionsRow->getColumn('avg_time_generation');
 
         if ($displaySiteSearch) {
             $view->nbSearches = (int)$dataActionsRow->getColumn('nb_searches');

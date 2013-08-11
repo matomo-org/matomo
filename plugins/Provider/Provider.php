@@ -6,21 +6,25 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Provider
+ * @package Provider
  */
+namespace Piwik\Plugins\Provider;
+
+use Exception;
 use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\IP;
-use Piwik\Plugin;
 use Piwik\ArchiveProcessor;
 use Piwik\Db;
+use Piwik\Plugins\Provider\Archiver;
 use Piwik\WidgetsList;
+use Zend_Registry;
 
 /**
  *
- * @package Piwik_Provider
+ * @package Provider
  */
-class Piwik_Provider extends Plugin
+class Provider extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -28,13 +32,13 @@ class Piwik_Provider extends Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
-            'Tracker.newVisitorInformation'    => 'logProviderInfo',
-            'WidgetsList.add'                  => 'addWidget',
-            'Menu.add'                         => 'addMenu',
-            'API.getReportMetadata'            => 'getReportMetadata',
-            'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
+            'ArchiveProcessing_Day.compute'            => 'archiveDay',
+            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
+            'Tracker.newVisitorInformation'            => 'logProviderInfo',
+            'WidgetsList.add'                          => 'addWidget',
+            'Menu.add'                                 => 'addMenu',
+            'API.getReportMetadata'                    => 'getReportMetadata',
+            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
@@ -78,7 +82,6 @@ class Piwik_Provider extends Plugin
                 throw $e;
             }
         }
-
     }
 
     public function uninstall()
@@ -101,7 +104,7 @@ class Piwik_Provider extends Plugin
 
     public function postLoad()
     {
-        Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider', 'footerUserCountry'));
+        Piwik_AddAction('template_footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
     }
 
     /**
@@ -201,16 +204,16 @@ class Piwik_Provider extends Plugin
      */
     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
-        $archiving = new Piwik_Provider_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
-        $archiving = new Piwik_Provider_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }

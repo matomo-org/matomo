@@ -1,12 +1,4 @@
 <?php
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Controller;
-use Piwik\ViewDataTable;
-use Piwik\View;
-use Piwik\Db;
-
-
 /**
  * Piwik - Open source web analytics
  *
@@ -14,9 +6,18 @@ use Piwik\Db;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DevicesDetection
+ * @package DevicesDetection
  */
-class Piwik_DevicesDetection_Controller extends Controller
+namespace Piwik\Plugins\DevicesDetection;
+
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\ViewDataTable;
+use Piwik\View;
+use Piwik\Db;
+use UserAgentParserEnhanced;
+
+class Controller extends \Piwik\Controller
 {
     public function index($fetch = false)
     {

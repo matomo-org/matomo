@@ -6,23 +6,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_LanguagesManager
+ * @package LanguagesManager
  *
  */
+namespace Piwik\Plugins\LanguagesManager;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Cookie;
+use Piwik\Plugins\LanguagesManager\API;
 use Piwik\View;
-use Piwik\Plugin;
 use Piwik\Db;
 use Piwik\Translate;
+use Zend_Registry;
 
 /**
  *
- * @package Piwik_LanguagesManager
+ * @package LanguagesManager
  */
-class Piwik_LanguagesManager extends Plugin
+class LanguagesManager extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -75,7 +79,7 @@ class Piwik_LanguagesManager extends Plugin
     private function getLanguagesSelector()
     {
         $view = new View("@LanguagesManager/getLanguagesSelector");
-        $view->languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
+        $view->languages = API::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
         $view->currentLanguageName = self::getLanguageNameForCurrentUser();
         return $view->render();
@@ -86,7 +90,7 @@ class Piwik_LanguagesManager extends Plugin
         if (empty($language)) {
             $language = self::getLanguageCodeForCurrentUser();
         }
-        if (!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)) {
+        if (!API::getInstance()->isLanguageAvailable($language)) {
             $language = Translate::getInstance()->getLanguageDefault();
         }
     }
@@ -132,10 +136,10 @@ class Piwik_LanguagesManager extends Plugin
     static public function getLanguageCodeForCurrentUser()
     {
         $languageCode = self::getLanguageFromPreferences();
-        if (!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages());
+        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
+            $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
         }
-        if (!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode)) {
+        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
             $languageCode = Translate::getInstance()->getLanguageDefault();
         }
         return $languageCode;
@@ -147,7 +151,7 @@ class Piwik_LanguagesManager extends Plugin
     static public function getLanguageNameForCurrentUser()
     {
         $languageCode = self::getLanguageCodeForCurrentUser();
-        $languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
+        $languages = API::getInstance()->getAvailableLanguageNames();
         foreach ($languages as $language) {
             if ($language['code'] === $languageCode) {
                 return $language['name'];
@@ -166,12 +170,11 @@ class Piwik_LanguagesManager extends Plugin
 
         try {
             $currentUser = Piwik::getCurrentUserLogin();
-            return Piwik_LanguagesManager_API::getInstance()->getLanguageForUser($currentUser);
+            return API::getInstance()->getLanguageForUser($currentUser);
         } catch (Exception $e) {
             return false;
         }
     }
-
 
     /**
      * Returns the language for the session
@@ -196,7 +199,7 @@ class Piwik_LanguagesManager extends Plugin
      */
     static public function setLanguageForSession($languageCode)
     {
-        if (!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode)) {
+        if (!API::getInstance()->isLanguageAvailable($languageCode)) {
             return false;
         }
 

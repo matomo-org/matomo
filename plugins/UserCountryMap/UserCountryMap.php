@@ -6,18 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountryMap
+ * @package UserCountryMap
  */
+namespace Piwik\Plugins\UserCountryMap;
+
 use Piwik\FrontController;
 use Piwik\Version;
 use Piwik\WidgetsList;
-use Piwik\Plugin;
 
 /**
  *
- * @package Piwik_UserCountryMap
+ * @package UserCountryMap
  */
-class Piwik_UserCountryMap extends Plugin
+class UserCountryMap extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation
@@ -38,7 +39,7 @@ class Piwik_UserCountryMap extends Plugin
         WidgetsList::add('General_Visitors', Piwik_Translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
         WidgetsList::add('Live!', Piwik_Translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
 
-        Piwik_AddAction('template_leftColumnUserCountry', array('Piwik_UserCountryMap', 'insertMapInLocationReport'));
+        Piwik_AddAction('template_leftColumnUserCountry', array('Piwik\Plugins\UserCountryMap\UserCountryMap', 'insertMapInLocationReport'));
     }
 
     static public function insertMapInLocationReport(&$out)

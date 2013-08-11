@@ -6,17 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Live
+ * @package Live
  */
-use Piwik\Plugin;
+namespace Piwik\Plugins\Live;
+
 use Piwik\Common;
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_Live
+ * @package Live
  */
-class Piwik_Live extends Plugin
+class Live extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -24,10 +25,10 @@ class Piwik_Live extends Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'  => 'getJsFiles',
-            'AssetManager.getCssFiles' => 'getCssFiles',
-            'WidgetsList.add'          => 'addWidget',
-            'Menu.add'                 => 'addMenu',
+            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'AssetManager.getCssFiles'                 => 'getCssFiles',
+            'WidgetsList.add'                          => 'addWidget',
+            'Menu.add'                                 => 'addMenu',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
     }
@@ -63,14 +64,14 @@ class Piwik_Live extends Plugin
     private function getDisplayPropertiesForGetLastVisitsDetails()
     {
         return array(
-            'datatable_template' => "@Live/getVisitorLog.twig",
-            'disable_generic_filters' => true,
-            'enable_sort' => false,
-            'filter_sort_column' => 'idVisit',
-            'filter_sort_order' => 'asc',
-            'show_search' => false,
-            'filter_limit' => 20,
-            'show_offset_information' => false,
+            'datatable_template'          => "@Live/getVisitorLog.twig",
+            'disable_generic_filters'     => true,
+            'enable_sort'                 => false,
+            'filter_sort_column'          => 'idVisit',
+            'filter_sort_order'           => 'asc',
+            'show_search'                 => false,
+            'filter_limit'                => 20,
+            'show_offset_information'     => false,
             'show_exclude_low_population' => false,
             'show_all_views_icons' => false,
             'show_table_all_columns' => false,
@@ -78,9 +79,9 @@ class Piwik_Live extends Plugin
             'documentation' => Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')),
             'custom_parameters' => array(
                 // set a very high row count so that the next link in the footer of the data table is always shown
-                'totalRows' => 10000000,
+                'totalRows'         => 10000000,
 
-                'filterEcommerce' => Common::getRequestVar('filterEcommerce', 0, 'int'),
+                'filterEcommerce'   => Common::getRequestVar('filterEcommerce', 0, 'int'),
                 'pageUrlNotDefined' => Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'))
             ),
             'visualization_properties' => array(

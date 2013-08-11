@@ -6,22 +6,26 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitFrequency
+ * @package VisitFrequency
  */
+namespace Piwik\Plugins\VisitFrequency;
+
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\SegmentExpression;
+use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
- * @package Piwik_VisitFrequency
+ * @package VisitFrequency
  */
-class Piwik_VisitFrequency_API
+class API
 {
     const RETURNING_VISITOR_SEGMENT = "visitorType==returning";
     const COLUMN_SUFFIX = "_returning";
 
     static private $instance = null;
+
     static public function getInstance()
     {
         if (self::$instance == null) {
@@ -79,7 +83,7 @@ class Piwik_VisitFrequency_API
     protected function prefixColumns($table, $period)
     {
         $rename = array();
-        foreach (Piwik_VisitsSummary_API::getInstance()->getColumns($period) as $oldColumn) {
+        foreach (VisitsSummaryAPI::getInstance()->getColumns($period) as $oldColumn) {
             $rename[$oldColumn] = $oldColumn . self::COLUMN_SUFFIX;
         }
         $table->filter('ReplaceColumnNames', array($rename));

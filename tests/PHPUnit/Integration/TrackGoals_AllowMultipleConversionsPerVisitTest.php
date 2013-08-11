@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Plugins\Goals\API;
 
 /**
  * Tests API methods with goals that do and don't allow multiple
@@ -34,11 +35,11 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
         $idSite = self::$fixture->idSite;
 
         // test delete is working as expected
-        $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $goals = API::getInstance()->getGoals($idSite);
         $this->assertTrue(2 == count($goals));
-        Piwik_Goals_API::getInstance()->deleteGoal($idSite, self::$fixture->idGoal_OneConversionPerVisit);
-        Piwik_Goals_API::getInstance()->deleteGoal($idSite, self::$fixture->idGoal_MultipleConversionPerVisit);
-        $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        API::getInstance()->deleteGoal($idSite, self::$fixture->idGoal_OneConversionPerVisit);
+        API::getInstance()->deleteGoal($idSite, self::$fixture->idGoal_MultipleConversionPerVisit);
+        $goals = API::getInstance()->getGoals($idSite);
         $this->assertTrue(empty($goals));
     }
 

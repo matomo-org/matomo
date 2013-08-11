@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DBStats
+ * @package DBStats
  */
+namespace Piwik\Plugins\DBStats;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Db;
-
 
 /**
  * Utility class that provides general information about databases, including the size of
@@ -23,7 +25,7 @@ use Piwik\Db;
  * This class will cache the table information it retrieves from the database. In order to
  * issue a new query instead of using this cache, you must create a new instance of this type.
  */
-class Piwik_DBStats_MySQLMetadataProvider
+class MySQLMetadataProvider
 {
     /**
      * Cached MySQL table statuses. So we won't needlessly re-issue SHOW TABLE STATUS queries.

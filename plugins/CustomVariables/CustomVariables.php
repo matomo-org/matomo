@@ -6,17 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CustomVariables
+ * @package CustomVariables
  */
+namespace Piwik\Plugins\CustomVariables;
+
 use Piwik\ArchiveProcessor;
+use Piwik\Plugins\CustomVariables\Archiver;
 use Piwik\Tracker;
-use Piwik\Plugin;
 use Piwik\WidgetsList;
 
 /**
- * @package Piwik_CustomVariables
+ * @package CustomVariables
  */
-class Piwik_CustomVariables extends Plugin
+class CustomVariables extends \Piwik\Plugin
 {
     public function getInformation()
     {
@@ -137,16 +139,16 @@ class Piwik_CustomVariables extends Plugin
      */
     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
-        $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
-        $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
@@ -164,26 +166,26 @@ class Piwik_CustomVariables extends Plugin
             array('<a target="_blank" href="http://piwik.org/docs/custom-variables/">', '</a>'));
 
         return array(
-            'columns_to_display' => array('label', 'nb_actions', 'nb_visits'),
-            'filter_sort_column' => 'nb_actions',
-            'filter_sort_order' => 'desc',
-            'show_goals' => true,
+            'columns_to_display'         => array('label', 'nb_actions', 'nb_visits'),
+            'filter_sort_column'         => 'nb_actions',
+            'filter_sort_order'          => 'desc',
+            'show_goals'                 => true,
             'subtable_controller_action' => 'getCustomVariablesValuesFromNameId',
-            'translations' => array('label' => Piwik_Translate('CustomVariables_ColumnCustomVariableName')),
-            'show_footer_message' => $footerMessage
+            'translations'               => array('label' => Piwik_Translate('CustomVariables_ColumnCustomVariableName')),
+            'show_footer_message'        => $footerMessage
         );
     }
 
     private function getDisplayPropertiesForGetCustomVariablesValuesFromNameId()
     {
         return array(
-            'columns_to_display' => array('label', 'nb_actions', 'nb_visits'),
-            'filter_sort_column' => 'nb_actions',
-            'filter_sort_order' => 'desc',
-            'show_goals' => true,
-            'show_search' => false,
+            'columns_to_display'          => array('label', 'nb_actions', 'nb_visits'),
+            'filter_sort_column'          => 'nb_actions',
+            'filter_sort_order'           => 'desc',
+            'show_goals'                  => true,
+            'show_search'                 => false,
             'show_exclude_low_population' => false,
-            'translations' => array('label' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue'))
+            'translations'                => array('label' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue'))
         );
     }
 }

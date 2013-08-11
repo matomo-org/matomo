@@ -6,29 +6,33 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Actions
+ * @package Actions
  */
+namespace Piwik\Plugins\Actions;
+
+use PDOStatement;
 use Piwik\Config;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\Tracker\Action;
+use Zend_Db_Statement;
 
 /**
  * This static class provides:
  * - logic to parse/cleanup Action names,
  * - logic to efficiently process aggregate the array data during Archiving
  *
- * @package Piwik_Actions
+ * @package Actions
  */
 
-class Piwik_Actions_ArchivingHelper
+class ArchivingHelper
 {
     const OTHERS_ROW_KEY = '';
 
     /**
-     * FIXME See FIXME related to this function at Piwik_Actions_Archiver::archiveDay.
-     * 
+     * FIXME See FIXME related to this function at Archiver::archiveDay.
+     *
      * @param Zend_Db_Statement|PDOStatement $query
      * @param string|bool $fieldQueried
      * @param array $actionsTablesByType
@@ -90,7 +94,6 @@ class Piwik_Actions_ArchivingHelper
                     continue;
                 }
             }
-
 
             if (is_null($actionRow)) {
                 continue;
@@ -226,7 +229,6 @@ class Piwik_Actions_ArchivingHelper
         DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
 
-
     /**
      * The default row is used when archiving, if data is inconsistent in the DB,
      * there could be pages that have exit/entry hits, but don't yet
@@ -242,11 +244,11 @@ class Piwik_Actions_ArchivingHelper
             // but this action was not properly recorded when it was hit in the first place
             // so we add this fake row information to make sure there is a nb_hits, etc. column for every action
             $row = new Row(array(
-                                                Row::COLUMNS => array(
-                                                    Metrics::INDEX_NB_VISITS        => 1,
-                                                    Metrics::INDEX_NB_UNIQ_VISITORS => 1,
-                                                    Metrics::INDEX_PAGE_NB_HITS     => 1,
-                                                )));
+                                Row::COLUMNS => array(
+                                    Metrics::INDEX_NB_VISITS        => 1,
+                                    Metrics::INDEX_NB_UNIQ_VISITORS => 1,
+                                    Metrics::INDEX_PAGE_NB_HITS     => 1,
+                                )));
         }
         return $row;
     }
@@ -287,7 +289,7 @@ class Piwik_Actions_ArchivingHelper
     /**
      * Explodes action name into an array of elements.
      *
-     * NOTE: before calling this function make sure Piwik_Actions_ArchivingHelper::reloadConfig(); is called
+     * NOTE: before calling this function make sure ArchivingHelper::reloadConfig(); is called
      *
      * for downloads:
      *  we explode link http://piwik.org/some/path/piwik.zip into an array( 'piwik.org', '/some/path/piwik.zip' );
@@ -356,7 +358,6 @@ class Piwik_Actions_ArchivingHelper
         } else {
             $categoryDelimiter = self::$actionUrlCategoryDelimiter;
         }
-
 
         if ($isUrl) {
             $urlFragment = Action::processUrlFragment($urlFragment);
@@ -504,8 +505,8 @@ class Piwik_Actions_ArchivingHelper
     private static function createSummaryRow()
     {
         return new Row(array(
-                                            Row::COLUMNS =>
-                                            array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
-                                       ));
+                            Row::COLUMNS =>
+                            array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
+                       ));
     }
 }

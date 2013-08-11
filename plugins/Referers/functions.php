@@ -6,9 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Referers
+ * @package Referers
  */
+namespace Piwik\Plugins\Referers;
+
 use Piwik\Common;
+use Piwik\Plugins\Referers\API;
 
 /**
  * Returns path component from a URL
@@ -16,7 +19,7 @@ use Piwik\Common;
  * @param string $url
  * @return string path
  */
-function Piwik_getPathFromUrl($url)
+function getPathFromUrl($url)
 {
     $path = Common::getPathAndQueryFromUrl($url);
     if (empty($path)) {
@@ -31,7 +34,7 @@ function Piwik_getPathFromUrl($url)
  * @param string $url e.g. http://www.facebook.com/?sdlfk=lksdfj
  * @return string|false e.g. facebook.com
  */
-function Piwik_Referrers_cleanSocialUrl($url)
+function cleanSocialUrl($url)
 {
     $segment = '[^.:\/]+';
     preg_match('/(?:https?:\/\/)?(?:' . $segment . '\.)?(' . $segment . '(?:\.' . $segment . ')+)/', $url, $matches);
@@ -44,9 +47,9 @@ function Piwik_Referrers_cleanSocialUrl($url)
  * @param string $url
  * @return string
  */
-function Piwik_Referrers_getSocialNetworkFromDomain($url)
+function getSocialNetworkFromDomain($url)
 {
-    $domain = Piwik_Referrers_cleanSocialUrl($url);
+    $domain = cleanSocialUrl($url);
 
     if (isset($GLOBALS['Piwik_socialUrl'][$domain])) {
         return $GLOBALS['Piwik_socialUrl'][$domain];
@@ -63,9 +66,9 @@ function Piwik_Referrers_getSocialNetworkFromDomain($url)
  *                                 for any.
  * @return bool
  */
-function Piwik_Referrers_isSocialUrl($url, $socialName = false)
+function isSocialUrl($url, $socialName = false)
 {
-    $domain = Piwik_Referrers_cleanSocialUrl($url);
+    $domain = cleanSocialUrl($url);
 
     if (isset($GLOBALS['Piwik_socialUrl'][$domain])
         && ($socialName === false
@@ -83,9 +86,9 @@ function Piwik_Referrers_isSocialUrl($url, $socialName = false)
  * @return string path
  * @see plugins/Referers/images/socials/
  */
-function Piwik_getSocialsLogoFromUrl($domain)
+function getSocialsLogoFromUrl($domain)
 {
-    $domain = Piwik_Referrers_cleanSocialUrl($domain);
+    $domain = cleanSocialUrl($domain);
 
     if (isset($GLOBALS['Piwik_socialUrl'][$domain])) {
         // image names are by first domain in list, so make sure we use the first if $domain isn't it
@@ -112,7 +115,7 @@ function Piwik_getSocialsLogoFromUrl($domain)
  * @param string $name
  * @return string URL
  */
-function Piwik_getSearchEngineUrlFromName($name)
+function getSearchEngineUrlFromName($name)
 {
     $searchEngineNames = Common::getSearchEngineNames();
     if (isset($searchEngineNames[$name])) {
@@ -129,7 +132,7 @@ function Piwik_getSearchEngineUrlFromName($name)
  * @param string $url
  * @return string host
  */
-function Piwik_getSearchEngineHostFromUrl($url)
+function getSearchEngineHostFromUrl($url)
 {
     $url = substr($url, strpos($url, '//') + 2);
     if (($p = strpos($url, '/')) !== false) {
@@ -145,10 +148,10 @@ function Piwik_getSearchEngineHostFromUrl($url)
  * @return string path
  * @see plugins/Referers/images/searchEnginges/
  */
-function Piwik_getSearchEngineLogoFromUrl($url)
+function getSearchEngineLogoFromUrl($url)
 {
     $pathInPiwik = 'plugins/Referers/images/searchEngines/%s.png';
-    $pathWithCode = sprintf($pathInPiwik, Piwik_getSearchEngineHostFromUrl($url));
+    $pathWithCode = sprintf($pathInPiwik, getSearchEngineHostFromUrl($url));
     $absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
     if (file_exists($absolutePath)) {
         return $pathWithCode;
@@ -162,7 +165,7 @@ function Piwik_getSearchEngineLogoFromUrl($url)
  * @param string $url
  * @return string host
  */
-function Piwik_getSearchEngineHostPathFromUrl($url)
+function getSearchEngineHostPathFromUrl($url)
 {
     $url = substr($url, strpos($url, '//') + 2);
     return $url;
@@ -177,15 +180,15 @@ function Piwik_getSearchEngineHostPathFromUrl($url)
  * @param string $keyword Keyword, e.g., web+analytics
  * @return string URL, e.g., http://search.piwik.org/q=web+analytics
  */
-function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
+function getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 {
-    if ($keyword === Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED) {
+    if ($keyword === API::LABEL_KEYWORD_NOT_DEFINED) {
         return 'http://piwik.org/faq/general/#faq_144';
     }
     $searchEngineUrls = Common::getSearchEngineUrls();
     $keyword = urlencode($keyword);
     $keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
-    $path = @$searchEngineUrls[Piwik_getSearchEngineHostPathFromUrl($url)][2];
+    $path = @$searchEngineUrls[getSearchEngineHostPathFromUrl($url)][2];
     if (empty($path)) {
         return false;
     }
@@ -196,15 +199,15 @@ function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 /**
  * Return search engine URL for keyword and URL
  *
- * @see Piwik_getSearchEngineUrlFromUrlAndKeyword()
+ * @see Piwik_getSearchEngineUrlFromUrlAndKeyword(getSearchEngineUrlFromUrlAndKeyword
  *
  * @param string $keyword Keyword, e.g., web+analytics
  * @param string $url Domain name, e.g., search.piwik.org
  * @return string URL, e.g., http://search.piwik.org/q=web+analytics
  */
-function Piwik_getSearchEngineUrlFromKeywordAndUrl($keyword, $url)
+function getSearchEngineUrlFromKeywordAndUrl($keyword, $url)
 {
-    return Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword);
+    return getSearchEngineUrlFromUrlAndKeyword($url, $keyword);
 }
 
 /**
@@ -213,7 +216,7 @@ function Piwik_getSearchEngineUrlFromKeywordAndUrl($keyword, $url)
  * @param string $label
  * @return string Referrer type
  */
-function Piwik_getRefererTypeLabel($label)
+function getRefererTypeLabel($label)
 {
     $indexTranslation = '';
     switch ($label) {
@@ -243,7 +246,7 @@ function Piwik_getRefererTypeLabel($label)
  * @throws Exception
  * @return string
  */
-function Piwik_getRefererTypeFromShortName($name)
+function getRefererTypeFromShortName($name)
 {
     $map = array(
         Common::REFERER_TYPE_SEARCH_ENGINE => 'search',
@@ -257,7 +260,7 @@ function Piwik_getRefererTypeFromShortName($name)
     if ($found = array_search($name, $map)) {
         return $found;
     }
-    throw new Exception("Referrer type '$name' is not valid.");
+    throw new \Exception("Referrer type '$name' is not valid.");
 }
 
 /**
@@ -266,7 +269,7 @@ function Piwik_getRefererTypeFromShortName($name)
  * @param string $url
  * @return string
  */
-function Piwik_Referrers_removeUrlProtocol($url)
+function removeUrlProtocol($url)
 {
     if (preg_match('/^[a-zA-Z_-]+:\/\//', $url, $matches)) {
         return substr($url, strlen($matches[0]));

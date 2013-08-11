@@ -6,8 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PrivacyManager
+ * @package PrivacyManager
  */
+namespace Piwik\Plugins\PrivacyManager;
+
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Piwik;
 use Piwik\Date;
@@ -16,7 +18,7 @@ use Piwik\Db;
 /**
  * Purges archived reports and metrics that are considered old.
  */
-class Piwik_PrivacyManager_ReportsPurger
+class ReportsPurger
 {
     // constant used in database purging estimate to signify a table should be dropped
     const DROP_TABLE = -1;
@@ -213,7 +215,7 @@ class Piwik_PrivacyManager_ReportsPurger
         $oldBlobTables = array();
         foreach (Piwik::getTablesInstalled() as $table) {
             $type = ArchiveTableCreator::getTypeFromTableName($table);
-            if($type === false) {
+            if ($type === false) {
                 continue;
             }
             $date = ArchiveTableCreator::getDateFromTableName($table);
@@ -347,7 +349,7 @@ class Piwik_PrivacyManager_ReportsPurger
      */
     public static function make($settings, $metricsToKeep)
     {
-        return new Piwik_PrivacyManager_ReportsPurger(
+        return new ReportsPurger(
             $settings['delete_reports_older_than'],
             $settings['delete_reports_keep_basic_metrics'] == 1,
             self::getReportPeriodsToKeep($settings),

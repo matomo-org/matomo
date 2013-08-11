@@ -6,8 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SitesManager
+ * @package SitesManager
  */
+namespace Piwik\Plugins\SitesManager;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
@@ -18,6 +21,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\TaskScheduler;
 use Piwik\Site;
+use false;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -33,15 +37,15 @@ use Piwik\Site;
  * "setGlobalExcludedQueryParameters" will set the list of URL parameters to remove from URLs for all websites.
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
  * See also the documentation about <a href='http://piwik.org/docs/manage-websites/' target='_blank'>Managing Websites</a> in Piwik.
- * @package Piwik_SitesManager
+ * @package SitesManager
  */
-class Piwik_SitesManager_API
+class API
 {
     static private $instance = null;
     const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,s,search,searchword,k,keyword';
 
     /**
-     * @return Piwik_SitesManager_API
+     * @return \Piwik\Plugins\SitesManager\API
      */
     static public function getInstance()
     {
@@ -209,8 +213,8 @@ class Piwik_SitesManager_API
     {
         Piwik::checkUserIsSuperUser();
         try {
-            return Piwik_SitesManager_API::getInstance()->getSitesId();
-        } catch(Exception $e) {
+            return API::getInstance()->getSitesId();
+        } catch (Exception $e) {
             // can be called before Piwik tables are created so return empty
             return array();
         }
@@ -236,7 +240,7 @@ class Piwik_SitesManager_API
             FROM
                 " . Common::prefixTable('site') . " s
             WHERE EXISTS (
-                SELECT 1 
+                SELECT 1
                 FROM " . Common::prefixTable('log_visit') . " v
                 WHERE v.idsite = s.idsite
                 AND visit_last_action_time > ?
@@ -249,7 +253,6 @@ class Piwik_SitesManager_API
         }
         return $idSites;
     }
-
 
     /**
      * Returns the list of websites with the 'admin' access for the current user.
@@ -344,7 +347,7 @@ class Piwik_SitesManager_API
      * The user access is not checked in this method so the ID have to be accessible by the user!
      *
      * @param array $idSites list of website ID
-     * @param bool  $limit
+     * @param bool $limit
      * @return array
      */
     private function getSitesFromIds($idSites, $limit = false)
@@ -566,7 +569,7 @@ class Piwik_SitesManager_API
     {
         Piwik::checkUserIsSuperUser();
 
-        $idSites = Piwik_SitesManager_API::getInstance()->getSitesId();
+        $idSites = API::getInstance()->getSitesId();
         if (!in_array($idSite, $idSites)) {
             throw new Exception("website id = $idSite not found");
         }
@@ -591,7 +594,6 @@ class Piwik_SitesManager_API
 
         Piwik_PostEvent('SitesManager.deleteSite', array($idSite));
     }
-
 
     /**
      * Checks that the array has at least one element
@@ -659,7 +661,7 @@ class Piwik_SitesManager_API
      * If some URLs given in parameter are already recorded as alias URLs for this website,
      * they won't be duplicated. The 'main_url' of the website won't be affected by this method.
      *
-     * @param int  $idSite
+     * @param int $idSite
      * @param array|string $urls
      * @return int the number of inserted URLs
      */
@@ -985,7 +987,7 @@ class Piwik_SitesManager_API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $idSites = Piwik_SitesManager_API::getInstance()->getSitesId();
+        $idSites = API::getInstance()->getSitesId();
         if (!in_array($idSite, $idSites)) {
             throw new Exception("website id = $idSite not found");
         }
@@ -1187,9 +1189,9 @@ class Piwik_SitesManager_API
             $db = \Zend_Registry::get('db');
             foreach ($urls as $url) {
                 $db->insert(Common::prefixTable("site_url"), array(
-                                                                        'idsite' => $idSite,
-                                                                        'url'    => $url
-                                                                   )
+                                                                  'idsite' => $idSite,
+                                                                  'url'    => $url
+                                                             )
                 );
             }
         }
@@ -1257,7 +1259,6 @@ class Piwik_SitesManager_API
             throw new Exception(Piwik_TranslateException("SitesManager_ExceptionEmptyName"));
         }
     }
-
 
     private function checkSiteSearch($siteSearch)
     {
@@ -1348,10 +1349,10 @@ class Piwik_SitesManager_API
         }
         $sites = $db->fetchAll("SELECT idsite, name, main_url
 								FROM " . Common::prefixTable('site') . " s
-								WHERE (		s.name like ? 
+								WHERE (		s.name like ?
 										OR 	s.main_url like ?
-										 $where ) 
-									AND idsite in ($ids_str) 
+										 $where )
+									AND idsite in ($ids_str)
 								LIMIT " . Piwik::getWebsitesCountToDisplay(),
             $bind);
         return $sites;

@@ -6,15 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
+
+namespace Piwik\Plugins\MobileMessaging;
 
 /**
  * GSM 03.38 Charset
  *
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
-class Piwik_MobileMessaging_GSMCharset
+class GSMCharset
 {
     public static $GSMCharset = array(
 

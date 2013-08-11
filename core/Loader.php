@@ -46,7 +46,13 @@ class Loader
             return $class;
         }
 
-        $vendorPrefixToRemove = 'Piwik/';
+        $class = self::removePrefix($class, 'Piwik/');
+        $class = self::removePrefix($class, 'Plugins/');
+        return $class;
+    }
+
+    protected static function removePrefix($class, $vendorPrefixToRemove)
+    {
         if (strpos($class, $vendorPrefixToRemove) === 0) {
             return substr($class, strlen($vendorPrefixToRemove));
         }

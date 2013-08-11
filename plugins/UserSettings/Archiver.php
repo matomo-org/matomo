@@ -6,8 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserSettings
+ * @package UserSettings
  */
+
+namespace Piwik\Plugins\UserSettings;
 
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
@@ -23,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
  *
  * @see PluginsArchiver
  */
-class Piwik_UserSettings_Archiver extends PluginsArchiver
+class Archiver extends PluginsArchiver
 {
     const LANGUAGE_RECORD_NAME = 'UserSettings_language';
     const PLUGIN_RECORD_NAME = 'UserSettings_plugin';
@@ -80,7 +82,7 @@ class Piwik_UserSettings_Archiver extends PluginsArchiver
 
     protected function aggregateByBrowserType(DataTable $tableBrowser)
     {
-        $tableBrowser->filter('GroupBy', array('label', 'Piwik_getBrowserFamily'));
+        $tableBrowser->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserFamily'));
         $this->insertTable(self::BROWSER_TYPE_RECORD_NAME, $tableBrowser);
     }
 
@@ -94,14 +96,14 @@ class Piwik_UserSettings_Archiver extends PluginsArchiver
     {
         $metrics = $this->getProcessor()->getMetricsForDimension(self::RESOLUTION_DIMENSION);
         $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
-        $table->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_UserSettings_keepStrlenGreater'));
+        $table->filter('ColumnCallbackDeleteRow', array('label', __NAMESPACE__ . '\keepStrlenGreater'));
         $this->insertTable(self::RESOLUTION_RECORD_NAME, $table);
         return $table;
     }
 
     protected function aggregateByScreenType(DataTable $resolutions)
     {
-        $resolutions->filter('GroupBy', array('label', 'Piwik_getScreenTypeFromResolution'));
+        $resolutions->filter('GroupBy', array('label', __NAMESPACE__ . '\getScreenTypeFromResolution'));
         $this->insertTable(self::SCREEN_TYPE_RECORD_NAME, $resolutions);
     }
 
@@ -129,7 +131,7 @@ class Piwik_UserSettings_Archiver extends PluginsArchiver
 
     protected function aggregateByLanguage()
     {
-        $query = $this->getLogAggregator()->queryVisitsByDimension( array("label" => self::LANGUAGE_DIMENSION) );
+        $query = $this->getLogAggregator()->queryVisitsByDimension(array("label" => self::LANGUAGE_DIMENSION));
         $languageCodes = array_keys(Common::getLanguagesList());
         $metricsByLanguage = new DataArray();
         while ($row = $query->fetch()) {

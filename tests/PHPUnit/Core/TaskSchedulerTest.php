@@ -15,8 +15,8 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     private static function getTestTimetable()
     {
         return array(
-            'Piwik_CoreAdminHome.purgeOutdatedArchives' => 1355529607,
-            'Piwik_PrivacyManager.deleteReportData_1'   => 1322229607,
+            'CoreAdminHome.purgeOutdatedArchives' => 1355529607,
+            'PrivacyManager.deleteReportData_1'   => 1322229607,
         );
     }
 
@@ -37,10 +37,10 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
             // valid serialized array
             array(
                 array(
-                    'Piwik_CoreAdminHome.purgeOutdatedArchives' => 1355529607,
-                    'Piwik_PrivacyManager.deleteReportData'     => 1355529607,
+                    'CoreAdminHome.purgeOutdatedArchives' => 1355529607,
+                    'PrivacyManager.deleteReportData'     => 1355529607,
                 ),
-                'a:2:{s:41:"Piwik_CoreAdminHome.purgeOutdatedArchives";i:1355529607;s:37:"Piwik_PrivacyManager.deleteReportData";i:1355529607;}'
+                'a:2:{s:35:"CoreAdminHome.purgeOutdatedArchives";i:1355529607;s:31:"PrivacyManager.deleteReportData";i:1355529607;}'
             ),
         );
     }
@@ -53,10 +53,9 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     public function testGetTimetableFromOptionValue($expectedTimetable, $option)
     {
         $getTimetableFromOptionValue = new ReflectionMethod(
-            '\Piwik\TaskScheduler', 'getTimetableFromOptionValue'
+            '\\Piwik\\TaskScheduler', 'getTimetableFromOptionValue'
         );
         $getTimetableFromOptionValue->setAccessible(true);
-
         $this->assertEquals($expectedTimetable, $getTimetableFromOptionValue->invoke(new TaskScheduler(), $option));
     }
 
@@ -68,9 +67,9 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $timetable = self::getTestTimetable();
 
         return array(
-            array(true, 'Piwik_CoreAdminHome.purgeOutdatedArchives', $timetable),
-            array(true, 'Piwik_PrivacyManager.deleteReportData_1', $timetable),
-            array(false, 'Piwik_PDFReports.weeklySchedule"', $timetable)
+            array(true, 'CoreAdminHome.purgeOutdatedArchives', $timetable),
+            array(true, 'PrivacyManager.deleteReportData_1', $timetable),
+            array(false, 'PDFReports.weeklySchedule"', $timetable)
         );
     }
 
@@ -97,9 +96,9 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $timetable = serialize(self::getTestTimetable());
 
         return array(
-            array(1355529607, 'Piwik_CoreAdminHome', 'purgeOutdatedArchives', null, $timetable),
-            array(1322229607, 'Piwik_PrivacyManager', 'deleteReportData', 1, $timetable),
-            array(false, 'Piwik_PDFReports', 'weeklySchedule', null, $timetable)
+            array(1355529607, 'CoreAdminHome', 'purgeOutdatedArchives', null, $timetable),
+            array(1322229607, 'PrivacyManager', 'deleteReportData', 1, $timetable),
+            array(false, 'PDFReports', 'weeklySchedule', null, $timetable)
         );
     }
 
@@ -125,15 +124,15 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $timetable = self::getTestTimetable();
 
         // set a date in the future (should not run)
-        $timetable['Piwik_CoreAdminHome.purgeOutdatedArchives'] = time() + 60000;
+        $timetable['CoreAdminHome.purgeOutdatedArchives'] = time() + 60000;
 
         // set now (should run)
-        $timetable['Piwik_PrivacyManager.deleteReportData_1'] = time();
+        $timetable['PrivacyManager.deleteReportData_1'] = time();
 
         return array(
-            array(false, 'Piwik_CoreAdminHome.purgeOutdatedArchives', $timetable),
-            array(true, 'Piwik_PrivacyManager.deleteReportData_1', $timetable),
-            array(false, 'Piwik_PDFReports.weeklySchedule"', $timetable)
+            array(false, 'CoreAdminHome.purgeOutdatedArchives', $timetable),
+            array(true, 'PrivacyManager.deleteReportData_1', $timetable),
+            array(false, 'PDFReports.weeklySchedule"', $timetable)
         );
     }
 
@@ -308,7 +307,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedExecutedTasks, $executedTasks);
 
         // assert the timetable is correctly updated
-        $getTimetableFromOptionTable = new ReflectionMethod('\Piwik\TaskScheduler', 'getTimetableFromOptionTable');
+        $getTimetableFromOptionTable = new ReflectionMethod('\\Piwik\\TaskScheduler', 'getTimetableFromOptionTable');
         $getTimetableFromOptionTable->setAccessible(true);
         $this->assertEquals($expectedTimetable, $getTimetableFromOptionTable->invoke(new TaskScheduler()));
 

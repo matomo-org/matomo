@@ -6,6 +6,8 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Version;
 use Piwik\Url;
 use Piwik\Timer;
@@ -325,13 +327,13 @@ class Archiving
                     // Remove this website from the list of websites to be invalidated
                     // since it's now just been re-processing the reports, job is done!
                     if ($websiteIsOldDataInvalidate) {
-                        $websiteIdsInvalidated = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();
+                        $websiteIdsInvalidated = CoreAdminHomeAPI::getWebsiteIdsToInvalidate();
                         if (count($websiteIdsInvalidated)) {
                             $found = array_search($idsite, $websiteIdsInvalidated);
                             if ($found !== false) {
                                 unset($websiteIdsInvalidated[$found]);
 //								$this->log("Websites left to invalidate: " . implode(", ", $websiteIdsInvalidated));
-                                Piwik_SetOption(Piwik_CoreAdminHome_API::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
+                                Piwik_SetOption(CoreAdminHomeAPI::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
                             }
                         }
                     }
@@ -392,8 +394,8 @@ class Archiving
 
     private function initSegmentsToArchive()
     {
-// Fetching segments to process
-        $this->segments = Piwik_CoreAdminHome_API::getInstance()->getKnownSegmentsToArchive();
+        // Fetching segments to process
+        $this->segments = CoreAdminHomeAPI::getInstance()->getKnownSegmentsToArchive();
         if (empty($this->segments)) $this->segments = array();
         if (!empty($this->segments)) {
             $this->log("- Will pre-process " . count($this->segments) . " Segments for each website and each period: " . implode(", ", $this->segments));
@@ -718,7 +720,7 @@ class Archiving
     // Fetching websites to process
     private function initWebsitesToProcess()
     {
-        $this->allWebsites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        $this->allWebsites = SitesManagerAPI::getInstance()->getAllSitesId();
 
         if ($this->shouldArchiveAllWebsites) {
             $this->websites = $this->allWebsites;
@@ -732,7 +734,7 @@ class Archiving
                         . Piwik::getPrettyTimeFromSeconds($this->firstRunActiveWebsitesWithTraffic, true, false)
                 );
             }
-            $this->websites = Piwik_SitesManager_API::getInstance()->getSitesIdWithVisits($timestampActiveTraffic);
+            $this->websites = SitesManagerAPI::getInstance()->getSitesIdWithVisits($timestampActiveTraffic);
             $websiteIds = !empty($this->websites) ? ", IDs: " . implode(", ", $this->websites) : "";
             $prettySeconds = Piwik::getPrettyTimeFromSeconds(empty($this->timeLastCompleted)
                     ? $this->firstRunActiveWebsitesWithTraffic
@@ -745,7 +747,7 @@ class Archiving
 
             // 2) All websites that had reports in the past invalidated recently
             //	eg. when using Python log import script
-            $this->idSitesInvalidatedOldReports = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();
+            $this->idSitesInvalidatedOldReports = CoreAdminHomeAPI::getWebsiteIdsToInvalidate();
             $this->idSitesInvalidatedOldReports = array_intersect($this->idSitesInvalidatedOldReports, $this->allWebsites);
 
             if (count($this->idSitesInvalidatedOldReports) > 0) {
@@ -756,7 +758,7 @@ class Archiving
 
             // 3) Also process all other websites which days have finished since the last run.
             //    This ensures we process the previous day/week/month/year that just finished, even if there was no new visit
-            $uniqueTimezones = Piwik_SitesManager_API::getInstance()->getUniqueSiteTimezones();
+            $uniqueTimezones = SitesManagerAPI::getInstance()->getUniqueSiteTimezones();
             $timezoneToProcess = array();
             foreach ($uniqueTimezones as &$timezone) {
                 $processedDateInTz = Date::factory((int)$timestampActiveTraffic, $timezone);
@@ -767,7 +769,7 @@ class Archiving
                 }
             }
 
-            $websiteDayHasFinishedSinceLastRun = Piwik_SitesManager_API::getInstance()->getSitesIdFromTimezones($timezoneToProcess);
+            $websiteDayHasFinishedSinceLastRun = SitesManagerAPI::getInstance()->getSitesIdFromTimezones($timezoneToProcess);
             $websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $this->websites);
             $this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
             if (count($websiteDayHasFinishedSinceLastRun) > 0) {

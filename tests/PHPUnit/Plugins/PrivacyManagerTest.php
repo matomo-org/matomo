@@ -14,6 +14,12 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\PrivacyManager\LogDataPurger;
+use Piwik\Plugins\PrivacyManager\ReportsPurger;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\VisitorInterest\API as VisitorInterestAPI;
 use Piwik\Site;
 use Piwik\Db;
 use Piwik\Tracker\Cache;
@@ -45,7 +51,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     private static $dbData = null;
 
     /**
-     * @var Piwik_PrivacyManager
+     * @var PrivacyManager
      */
     private $instance = null;
     private $settings = null;
@@ -72,8 +78,8 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        Piwik_PrivacyManager_LogDataPurger::$selectSegmentSize = 2;
-        Piwik_PrivacyManager_ReportsPurger::$selectSegmentSize = 2;
+        LogDataPurger::$selectSegmentSize = 2;
+        ReportsPurger::$selectSegmentSize = 2;
         Piwik::$lockPrivilegeGranted = null;
 
         self::restoreDbTables(self::$dbData);
@@ -106,9 +112,9 @@ class PrivacyManagerTest extends IntegrationTestCase
         $settings['delete_reports_keep_year_reports'] = 0;
         $settings['delete_reports_keep_range_reports'] = 0;
         $settings['delete_reports_keep_segment_reports'] = 0;
-        Piwik_PrivacyManager::savePurgeDataSettings($settings);
+        PrivacyManager::savePurgeDataSettings($settings);
         $this->settings = $settings;
-        $this->instance = new Piwik_PrivacyManager();
+        $this->instance = new PrivacyManager();
     }
 
     public function tearDown()
@@ -120,7 +126,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         Cache::deleteTrackerCache();
         ArchiveTableCreator::clear();
 
-        $tempTableName = Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
+        $tempTableName = Common::prefixTable(LogDataPurger::TEMP_TABLE_NAME);
         Db::query("DROP TABLE IF EXISTS " . $tempTableName);
     }
 
@@ -136,7 +142,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // check that initial option is set
         $this->assertEquals(
-            1, Piwik_GetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
+            1, Piwik_GetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
 
         // perform other checks
         $this->_checkNoDataChanges();
@@ -153,7 +159,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->instance->deleteReportData();
 
         // check that initial option is set
-        $this->assertEquals(1, Piwik_GetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
+        $this->assertEquals(1, Piwik_GetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
 
         // perform other checks
         $this->_checkNoDataChanges();
@@ -169,9 +175,9 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         $yesterdaySecs = Date::factory('yesterday')->getTimestamp();
 
-        Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
-        Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $yesterdaySecs);
-        Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $yesterdaySecs);
+        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
+        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $yesterdaySecs);
+        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $yesterdaySecs);
         $this->instance->deleteLogData();
         $this->instance->deleteReportData();
 
@@ -188,7 +194,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     public function testPurgeDataNotInitialAndTimeToRun()
     {
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $expectedPrediction = array(
@@ -234,13 +240,13 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataBothDisabled()
     {
-        Piwik_PrivacyManager::savePurgeDataSettings(array(
+        PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_logs_enable'    => 0,
                                                          'delete_reports_enable' => 0
                                                     ));
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $expectedPrediction = array();
@@ -269,7 +275,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         }
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $expectedPrediction = array();
@@ -301,12 +307,12 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteReportsKeepBasicMetrics()
     {
-        Piwik_PrivacyManager::savePurgeDataSettings(array(
+        PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_reports_keep_basic_metrics' => 1
                                                     ));
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $expectedPrediction = array(
@@ -358,12 +364,12 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteReportsKeepDailyReports()
     {
-        Piwik_PrivacyManager::savePurgeDataSettings(array(
+        PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_reports_keep_day_reports' => 1
                                                     ));
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $unexplained = 0;//-2;
@@ -395,12 +401,12 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteReportsKeepWeeklyReports()
     {
-        Piwik_PrivacyManager::savePurgeDataSettings(array(
+        PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_reports_keep_week_reports' => 1
                                                     ));
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $unexplained = 0;//-2;
@@ -432,12 +438,12 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteReportsKeepMonthlyReports()
     {
-        Piwik_PrivacyManager::savePurgeDataSettings(array(
+        PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_reports_keep_month_reports' => 1
                                                     ));
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         $unexplained = 0;//-1;
         // perform checks on prediction
@@ -469,12 +475,12 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteReportsKeepYearlyReports()
     {
-        Piwik_PrivacyManager::savePurgeDataSettings(array(
+        PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_reports_keep_year_reports' => 1
                                                     ));
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $unexplained = 0;//-1;
@@ -508,7 +514,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         Piwik_AddAction("LogDataPurger.actionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
 
-        $purger = Piwik_PrivacyManager_LogDataPurger::make($this->settings, true);
+        $purger = LogDataPurger::make($this->settings, true);
 
         $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",
@@ -538,12 +544,12 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteReportsKeepRangeReports()
     {
-        Piwik_PrivacyManager::savePurgeDataSettings(array(
+        PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_reports_keep_range_reports' => 1
                                                     ));
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $unexplained = 0;//-2;
@@ -575,13 +581,13 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteReportsKeepSegmentsReports()
     {
-        Piwik_PrivacyManager::savePurgeDataSettings(array(
+        PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_reports_keep_day_reports'     => 1,
                                                          'delete_reports_keep_segment_reports' => 1
                                                     ));
 
         // get purge data prediction
-        $prediction = Piwik_PrivacyManager::getPurgeEstimate();
+        $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
         $unexplained = 0;//-2;
@@ -635,7 +641,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $start = Date::factory(self::$dateTime);
         self::$idSite = Test_Piwik_BaseFixture::createWebsite('2012-01-01', $ecommerce = 1);
-        $idGoal = Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
+        $idGoal = GoalsAPI::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
 
         $t = Test_Piwik_BaseFixture::getTracker(self::$idSite, $start, $defaultInit = true);
         $t->enableBulkTracking();
@@ -670,8 +676,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $archive = Archive::build(self::$idSite, 'year', $date);
 
-        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
-//        Piwik_Goals_API::getInstance()->get(self::$idSite, 'month', $date, $segment = false, self::$idSite);
+        VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
+//        VisitorInterestAPI::getInstance()->get(self::$idSite, 'month', $date, $segment = false, self::$idSite);
 
         // months are added via the 'year' period, but weeks must be done manually
         for ($daysAgo = self::$daysAgoStart; $daysAgo > 0; $daysAgo -= 7) // every week
@@ -681,7 +687,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             $archive = Archive::build(self::$idSite, 'week', $dateTime);
             $archive->getNumeric('nb_visits');
 
-            Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
+            VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(
                 self::$idSite, 'week', $dateTime);
         }
 
@@ -689,7 +695,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $archive = Archive::build(self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
         $archive->getNumeric('nb_visits', 'nb_hits');
 
-        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
+        VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(
             self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
 
         // add range within January
@@ -700,7 +706,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $rangeArchive = Archive::build(self::$idSite, 'range', $range);
         $rangeArchive->getNumeric('nb_visits', 'nb_hits');
 
-        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
+        VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
 
         // add range between January & February
         $rangeStart = $rangeEnd;
@@ -710,7 +716,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $rangeArchive = Archive::build(self::$idSite, 'range', $range);
         $rangeArchive->getNumeric('nb_visits', 'nb_hits');
 
-        Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
+        VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
 
         // when archiving is initiated, the archive metrics & reports for EVERY loaded plugin
         // are archived. don't want this test to depend on every possible metric, so get rid of
@@ -718,9 +724,9 @@ class PrivacyManagerTest extends IntegrationTestCase
         $metricsToSave = array(
             'nb_visits',
             'nb_actions',
-            Piwik_Goals_Archiver::getRecordName('revenue'),
-            Piwik_Goals_Archiver::getRecordName('nb_conversions', 1),
-            Piwik_Goals_Archiver::getRecordName('revenue', GoalManager::IDGOAL_ORDER)
+            Archiver::getRecordName('revenue'),
+            Archiver::getRecordName('nb_conversions', 1),
+            Archiver::getRecordName('revenue', GoalManager::IDGOAL_ORDER)
         );
 
         $archiveTables = self::_getArchiveTableNames();
@@ -827,7 +833,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             return;
         }
 
-        $tempTableName = Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
+        $tempTableName = Common::prefixTable(LogDataPurger::TEMP_TABLE_NAME);
         $logLinkVisitActionTable = Common::prefixTable("log_link_visit_action");
 
         $sql = "INSERT INTO $logLinkVisitActionTable
@@ -843,9 +849,9 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         $lastDateSecs = Date::factory('today')->subDay(8)->getTimestamp();
 
-        Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
-        Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDateSecs);
-        Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $lastDateSecs);
+        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
+        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDateSecs);
+        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $lastDateSecs);
     }
 
     protected function _getTableCount($tableName, $where = '')

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Piwik - Open source web analytics
  *
@@ -7,8 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DevicesDetection
+ * @package DevicesDetection
  */
+
+namespace Piwik\Plugins\DevicesDetection;
+
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -17,14 +19,14 @@ use Piwik\DataTable;
 /**
  * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
  */
-class Piwik_DevicesDetection_API
+class API
 {
 
     static private $instance = null;
 
     /**
-     * 
-     * @return Piwik_DevicesDetection_API
+     *
+     * @return \Piwik\Plugins\DevicesDetection\API
      */
     static public function getInstance()
     {
@@ -64,9 +66,9 @@ class Piwik_DevicesDetection_API
     public function getType($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_types', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getDeviceTypeLabel'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getDeviceTypeLabel'));
         $dataTable->filter('ColumnCallbackReplace', array('label', 'ucfirst'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getDeviceTypeLogo'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getDeviceTypeLogo'));
         return $dataTable;
     }
 
@@ -81,8 +83,8 @@ class Piwik_DevicesDetection_API
     public function getBrand($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_brands', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getDeviceBrandLabel'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_GetBrandLogo'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getDeviceBrandLabel'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrandLogo'));
         return $dataTable;
     }
 
@@ -97,7 +99,7 @@ class Piwik_DevicesDetection_API
     public function getModel($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_models', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getModelName'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getModelName'));
         return $dataTable;
     }
 
@@ -112,8 +114,8 @@ class Piwik_DevicesDetection_API
     public function getOsFamilies($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_os', $idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', 'Piwik_getOSFamilyFullNameExtended'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOsFamilyLogoExtended'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamilyFullNameExtended'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsFamilyLogoExtended'));
         return $dataTable;
     }
 
@@ -128,15 +130,15 @@ class Piwik_DevicesDetection_API
     public function getOsVersions($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_osVersions', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOsLogoExtended'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getOsFullNameExtended'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOsLogoExtended'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getOsFullNameExtended'));
 
         return $dataTable;
     }
 
     /**
      * Gets datatable displaying number of visits by Browser family (eg. Firefox, InternetExplorer)
-     * @param int    $idSite
+     * @param int $idSite
      * @param string $period
      * @param string $date
      * @param bool|string $segment
@@ -145,8 +147,8 @@ class Piwik_DevicesDetection_API
     public function getBrowserFamilies($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browsers', $idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', 'Piwik_getBrowserFamilyFullNameExtended'));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowserFamilyLogoExtended'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserFamilyFullNameExtended'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserFamilyLogoExtended'));
         return $dataTable;
     }
 
@@ -161,9 +163,8 @@ class Piwik_DevicesDetection_API
     public function getBrowserVersions($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_browserVersions', $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowserLogoExtended'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserNameExtended'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowserLogoExtended'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserNameExtended'));
         return $dataTable;
     }
-
 }

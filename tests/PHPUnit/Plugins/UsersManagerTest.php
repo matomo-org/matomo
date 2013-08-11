@@ -1,6 +1,8 @@
 <?php
 use Piwik\Config;
 use Piwik\Access;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\UsersManager\API;
 
 /**
  * Piwik - Open source web analytics
@@ -54,12 +56,12 @@ class UsersManagerTest extends DatabaseTestCase
         if (is_null($newAlias)) {
             $newAlias = $user['alias'];
         }
-        $userAfter = Piwik_UsersManager_API::getInstance()->getUser($user["login"]);
+        $userAfter = API::getInstance()->getUser($user["login"]);
         unset($userAfter['date_registered']);
 
         // we now compute what the token auth should be, it should always be a hash of the login and the current password
         // if the password has changed then the token_auth has changed!
-        $user['token_auth'] = Piwik_UsersManager_API::getInstance()->getTokenAuth($user["login"], md5($newPassword));
+        $user['token_auth'] = API::getInstance()->getTokenAuth($user["login"], md5($newPassword));
 
         $user['password'] = md5($newPassword);
         $user['email'] = $newEmail;
@@ -84,29 +86,29 @@ class UsersManagerTest extends DatabaseTestCase
                       'password' => "geqgeagae",
                       'email'    => "test@test.com",
                       'alias'    => "alias");
-        Piwik_UsersManager_API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
         $exceptionNotRaised = false;
         try {
-            Piwik_UsersManager_API::getInstance()->addUser('superusertest', 'te', 'fake@fale.co', 'ega');
+            API::getInstance()->addUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
         }
         try {
-            Piwik_UsersManager_API::getInstance()->updateUser('superusertest', 'te', 'fake@fale.co', 'ega');
+            API::getInstance()->updateUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
         }
         try {
-            Piwik_UsersManager_API::getInstance()->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
+            API::getInstance()->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
         }
         try {
-            Piwik_UsersManager_API::getInstance()->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
+            API::getInstance()->deleteUser('superusertest', 'te', 'fake@fale.co', 'ega');
             $exceptionNotRaised = true;
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionSuperUser)", $expected->getMessage());
@@ -130,11 +132,11 @@ class UsersManagerTest extends DatabaseTestCase
                       'email'    => "test@test.com",
                       'alias'    => "alias");
 
-        Piwik_UsersManager_API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
 
         try {
-            Piwik_UsersManager_API::getInstance()->updateUser($login, "pas");
+            API::getInstance()->updateUser($login, "pas");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionInvalidPassword)", $expected->getMessage());
 
@@ -167,7 +169,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testAddUserWrongLogin($userLogin, $password, $email, $alias)
     {
         try {
-            Piwik_UsersManager_API::getInstance()->addUser($userLogin, $password, $email, $alias);
+            API::getInstance()->addUser($userLogin, $password, $email, $alias);
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionInvalidLogin)", $expected->getMessage());
             return;
@@ -184,8 +186,8 @@ class UsersManagerTest extends DatabaseTestCase
     public function testAddUserExistingLogin()
     {
         try {
-            Piwik_UsersManager_API::getInstance()->addUser("test", "password", "email@email.com", "alias");
-            Piwik_UsersManager_API::getInstance()->addUser("test", "password2", "em2ail@email.com", "al2ias");
+            API::getInstance()->addUser("test", "password", "email@email.com", "alias");
+            API::getInstance()->addUser("test", "password2", "em2ail@email.com", "al2ias");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionLoginExists)", $expected->getMessage());
             return;
@@ -215,7 +217,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testAddUserWrongPassword($userLogin, $password, $email, $alias)
     {
         try {
-            Piwik_UsersManager_API::getInstance()->addUser($userLogin, $password, $email, $alias);
+            API::getInstance()->addUser($userLogin, $password, $email, $alias);
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionInvalidPassword)", $expected->getMessage());
             return;
@@ -245,7 +247,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testAddUserWrongEmail($userLogin, $password, $email, $alias)
     {
         try {
-            Piwik_UsersManager_API::getInstance()->addUser($userLogin, $password, $email, $alias);
+            API::getInstance()->addUser($userLogin, $password, $email, $alias);
         } catch (Exception $expected) {
             $this->assertRegExp("(mail)", $expected->getMessage());
             return;
@@ -263,7 +265,7 @@ class UsersManagerTest extends DatabaseTestCase
     {
 
         try {
-            Piwik_UsersManager_API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "", "alias");
+            API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "", "alias");
         } catch (Exception $expected) {
             $this->assertRegExp("(mail)", $expected->getMessage());
             return;
@@ -280,8 +282,8 @@ class UsersManagerTest extends DatabaseTestCase
     public function testAddUserEmptyAlias()
     {
         $login = "geggeqgeqag";
-        Piwik_UsersManager_API::getInstance()->addUser($login, "geqgeagae", "mgeagi@geq.com", "");
-        $user = Piwik_UsersManager_API::getInstance()->getUser($login);
+        API::getInstance()->addUser($login, "geqgeagae", "mgeagi@geq.com", "");
+        $user = API::getInstance()->getUser($login);
         $this->assertEquals($login, $user['alias']);
         $this->assertEquals($login, $user['login']);
     }
@@ -295,8 +297,8 @@ class UsersManagerTest extends DatabaseTestCase
     public function testAddUserNoAliasSpecified()
     {
         $login = "geggeqg455eqag";
-        Piwik_UsersManager_API::getInstance()->addUser($login, "geqgeagae", "mgeagi@geq.com");
-        $user = Piwik_UsersManager_API::getInstance()->getUser($login);
+        API::getInstance()->addUser($login, "geqgeagae", "mgeagi@geq.com");
+        $user = API::getInstance()->getUser($login);
         $this->assertEquals($login, $user['alias']);
         $this->assertEquals($login, $user['login']);
     }
@@ -315,8 +317,8 @@ class UsersManagerTest extends DatabaseTestCase
         $alias = "her is my alias )(&|\" '£%*(&%+))";
 
         $time = time();
-        Piwik_UsersManager_API::getInstance()->addUser($login, $password, $email, $alias);
-        $user = Piwik_UsersManager_API::getInstance()->getUser($login);
+        API::getInstance()->addUser($login, $password, $email, $alias);
+        $user = API::getInstance()->getUser($login);
 
         // check that the date registered is correct
         $this->assertTrue($time <= strtotime($user['date_registered']) && strtotime($user['date_registered']) <= time(),
@@ -344,10 +346,10 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSeleteUserDoesntExist()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
+        API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
 
         try {
-            Piwik_UsersManager_API::getInstance()->deleteUser("geggeqggnew");
+            API::getInstance()->deleteUser("geggeqggnew");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
             return;
@@ -364,7 +366,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testDeleteUserEmptyUser()
     {
         try {
-            Piwik_UsersManager_API::getInstance()->deleteUser("");
+            API::getInstance()->deleteUser("");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
             return;
@@ -381,7 +383,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testDeleteUserNullUser()
     {
         try {
-            Piwik_UsersManager_API::getInstance()->deleteUser(null);
+            API::getInstance()->deleteUser(null);
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionDeleteDoesNotExist)", $expected->getMessage());
             return;
@@ -398,35 +400,35 @@ class UsersManagerTest extends DatabaseTestCase
     public function testDeleteUser()
     {
         //create the 3 websites
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1", array("http://piwik.net", "http://piwik.com/test/"));
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2", array("http://piwik.com/test/"));
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3", array("http://piwik.org"));
+        $idsite = SitesManagerAPI::getInstance()->addSite("site1", array("http://piwik.net", "http://piwik.com/test/"));
+        $idsite = SitesManagerAPI::getInstance()->addSite("site2", array("http://piwik.com/test/"));
+        $idsite = SitesManagerAPI::getInstance()->addSite("site3", array("http://piwik.org"));
 
         //add user and set some rights
-        Piwik_UsersManager_API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
-        Piwik_UsersManager_API::getInstance()->setUserAccess("geggeqgeqag", "view", array(1, 2));
-        Piwik_UsersManager_API::getInstance()->setUserAccess("geggeqgeqag", "admin", array(1, 3));
+        API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
+        API::getInstance()->setUserAccess("geggeqgeqag", "view", array(1, 2));
+        API::getInstance()->setUserAccess("geggeqgeqag", "admin", array(1, 3));
 
         // check rights are set
-        $this->assertNotEquals(array(), Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("geggeqgeqag"));
+        $this->assertNotEquals(array(), API::getInstance()->getSitesAccessFromUser("geggeqgeqag"));
 
         // delete the user
-        Piwik_UsersManager_API::getInstance()->deleteUser("geggeqgeqag");
+        API::getInstance()->deleteUser("geggeqgeqag");
 
         // try to get it, it should raise an exception
         try {
-            $user = Piwik_UsersManager_API::getInstance()->getUser("geggeqgeqag");
+            $user = API::getInstance()->getUser("geggeqgeqag");
             $this->fail("Exception not raised.");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
         }
 
         // add the same user
-        Piwik_UsersManager_API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
+        API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
 
         //checks access have been deleted
         //to do so we recreate the same user login and check if the rights are still there
-        $this->assertEquals(array(), Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("geggeqgeqag"));
+        $this->assertEquals(array(), API::getInstance()->getSitesAccessFromUser("geggeqgeqag"));
     }
 
 
@@ -440,7 +442,7 @@ class UsersManagerTest extends DatabaseTestCase
     {
         // try to get it, it should raise an exception
         try {
-            $user = Piwik_UsersManager_API::getInstance()->getUser("geggeqgeqag");
+            $user = API::getInstance()->getUser("geggeqgeqag");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
             return;
@@ -462,8 +464,8 @@ class UsersManagerTest extends DatabaseTestCase
         $email = "mgeag4544i@geq.com";
         $alias = "";
 
-        Piwik_UsersManager_API::getInstance()->addUser($login, $password, $email, $alias);
-        $user = Piwik_UsersManager_API::getInstance()->getUser($login);
+        API::getInstance()->addUser($login, $password, $email, $alias);
+        $user = API::getInstance()->getUser($login);
 
         // check that all fields are the same
         $this->assertEquals($login, $user['login']);
@@ -483,7 +485,7 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testGetUsersNoUser()
     {
-        $this->assertEquals(Piwik_UsersManager_API::getInstance()->getUsers(), array());
+        $this->assertEquals(API::getInstance()->getUsers(), array());
     }
 
     /**
@@ -495,19 +497,19 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testGetUsers()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        Piwik_UsersManager_API::getInstance()->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
-        Piwik_UsersManager_API::getInstance()->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        API::getInstance()->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
+        API::getInstance()->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
 
-        $users = Piwik_UsersManager_API::getInstance()->getUsers();
+        $users = API::getInstance()->getUsers();
         $users = $this->_removeNonTestableFieldsFromUsers($users);
         $user1 = array('login' => "gegg4564eqgeqag", 'password' => md5("geqgegagae"), 'alias' => "alias", 'email' => "tegst@tesgt.com");
         $user2 = array('login' => "geggeqge632ge56a4qag", 'password' => md5("geqgegeagae"), 'alias' => "alias", 'email' => "tesggt@tesgt.com");
         $user3 = array('login' => "geggeqgeqagqegg", 'password' => md5("geqgeaggggae"), 'alias' => 'geggeqgeqagqegg', 'email' => "tesgggt@tesgt.com");
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
-        $this->assertEquals(array($user1), $this->_removeNonTestableFieldsFromUsers(Piwik_UsersManager_API::getInstance()->getUsers('gegg4564eqgeqag')));
-        $this->assertEquals(array($user1, $user2), $this->_removeNonTestableFieldsFromUsers(Piwik_UsersManager_API::getInstance()->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
+        $this->assertEquals(array($user1), $this->_removeNonTestableFieldsFromUsers(API::getInstance()->getUsers('gegg4564eqgeqag')));
+        $this->assertEquals(array($user1, $user2), $this->_removeNonTestableFieldsFromUsers(API::getInstance()->getUsers('gegg4564eqgeqag,geggeqge632ge56a4qag')));
 
     }
 
@@ -529,11 +531,11 @@ class UsersManagerTest extends DatabaseTestCase
     public function testGetUsersLogin()
     {
 
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        Piwik_UsersManager_API::getInstance()->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
-        Piwik_UsersManager_API::getInstance()->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        API::getInstance()->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com", "alias");
+        API::getInstance()->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
 
-        $logins = Piwik_UsersManager_API::getInstance()->getUsersLogin();
+        $logins = API::getInstance()->getUsersLogin();
 
         $this->assertEquals(array("gegg4564eqgeqag", "geggeqge632ge56a4qag", "geggeqgeqagqegg"), $logins);
     }
@@ -549,7 +551,7 @@ class UsersManagerTest extends DatabaseTestCase
     {
         // try to get it, it should raise an exception
         try {
-            Piwik_UsersManager_API::getInstance()->setUserAccess("nologin", "view", 1);
+            API::getInstance()->setUserAccess("nologin", "view", 1);
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
             return;
@@ -565,11 +567,11 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessWrongAccess()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
         // try to get it, it should raise an exception
         try {
-            Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
+            API::getInstance()->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionAccessValues)", $expected->getMessage());
             return;
@@ -585,14 +587,14 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessIdsitesIsAll()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
         FakeAccess::$superUser = false;
 
-        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "all");
+        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "all");
 
         FakeAccess::$superUser = true;
-        $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
 
         FakeAccess::$superUser = false;
@@ -613,16 +615,16 @@ class UsersManagerTest extends DatabaseTestCase
     {
         FakeAccess::$superUser = true;
 
-        $id1 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = Piwik_SitesManager_API::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = Piwik_SitesManager_API::getInstance()->addSite("test3", array("http://piwik.net", "http://piwik.com/test/"));
-        $id4 = Piwik_SitesManager_API::getInstance()->addSite("test4", array("http://piwik.net", "http://piwik.com/test/"));
-        $id5 = Piwik_SitesManager_API::getInstance()->addSite("test5", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = SitesManagerAPI::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        $id3 = SitesManagerAPI::getInstance()->addSite("test3", array("http://piwik.net", "http://piwik.com/test/"));
+        $id4 = SitesManagerAPI::getInstance()->addSite("test4", array("http://piwik.net", "http://piwik.com/test/"));
+        $id5 = SitesManagerAPI::getInstance()->addSite("test5", array("http://piwik.net", "http://piwik.com/test/"));
 
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "all");
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "all");
 
-        $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array($id1, $id2, $id3, $id4, $id5), array_keys($access));
 
@@ -636,11 +638,11 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessIdsitesEmpty()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
 
         try {
-            Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array());
-            $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+            API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array());
+            $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
         } catch (Exception $e) {
             return;
         }
@@ -655,12 +657,12 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessIdsitesOneSite()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
 
-        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array(1));
+        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array(1));
 
-        $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array(1), array_keys($access));
     }
@@ -674,14 +676,14 @@ class UsersManagerTest extends DatabaseTestCase
     public function testSetUserAccessIdsitesMultipleSites()
     {
 
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id3 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
 
-        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array($id1, $id3));
+        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array($id1, $id3));
 
-        $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array($id1, $id3), array_keys($access));
 
@@ -695,14 +697,14 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessWithIdSitesIsStringCommaSeparated()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id3 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
 
-        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "1,3");
+        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "1,3");
 
-        $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array($id1, $id3), array_keys($access));
     }
@@ -715,14 +717,14 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessMultipleCallDistinctAccessSameUser()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = Piwik_SitesManager_API::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
 
-        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array($id1));
-        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "admin", array($id2));
+        API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array($id1));
+        API::getInstance()->setUserAccess("gegg4564eqgeqag", "admin", array($id2));
 
-        $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+        $access = API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
         $this->assertEquals(array($id1 => 'view', $id2 => 'admin'), $access);
     }
@@ -735,19 +737,19 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessMultipleCallDistinctAccessMultipleUser()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
-        Piwik_UsersManager_API::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
-        $id1 = Piwik_SitesManager_API::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = Piwik_SitesManager_API::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = Piwik_SitesManager_API::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+        API::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
+        $id1 = SitesManagerAPI::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = SitesManagerAPI::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        $id3 = SitesManagerAPI::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
 
-        Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "view", array($id1, $id2));
-        Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "admin", array($id1));
-        Piwik_UsersManager_API::getInstance()->setUserAccess("user2", "view", array($id3, $id2));
+        API::getInstance()->setUserAccess("user1", "view", array($id1, $id2));
+        API::getInstance()->setUserAccess("user2", "admin", array($id1));
+        API::getInstance()->setUserAccess("user2", "view", array($id3, $id2));
 
-        $access1 = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("user1");
+        $access1 = API::getInstance()->getSitesAccessFromUser("user1");
         $access1 = $this->_flatten($access1);
-        $access2 = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("user2");
+        $access2 = API::getInstance()->getSitesAccessFromUser("user2");
         $access2 = $this->_flatten($access2);
         $wanted1 = array($id1 => 'view', $id2 => 'view',);
         $wanted2 = array($id1 => 'admin', $id2 => 'view', $id3 => 'view');
@@ -756,9 +758,9 @@ class UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($wanted2, $access2);
 
 
-        $access1 = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite($id1);
-        $access2 = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite($id2);
-        $access3 = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite($id3);
+        $access1 = API::getInstance()->getUsersAccessFromSite($id1);
+        $access2 = API::getInstance()->getUsersAccessFromSite($id2);
+        $access3 = API::getInstance()->getUsersAccessFromSite($id3);
         $wanted1 = array('user1' => 'view', 'user2' => 'admin',);
         $wanted2 = array('user1' => 'view', 'user2' => 'view');
         $wanted3 = array('user2' => 'view');
@@ -767,8 +769,8 @@ class UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($wanted2, $access2);
         $this->assertEquals($wanted3, $access3);
 
-        $access1 = Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess('view');
-        $access2 = Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess('admin');
+        $access1 = API::getInstance()->getUsersSitesFromAccess('view');
+        $access2 = API::getInstance()->getUsersSitesFromAccess('admin');
         $wanted1 = array('user1' => array($id1, $id2), 'user2' => array($id2, $id3));
         $wanted2 = array('user2' => array($id1));
 
@@ -776,15 +778,15 @@ class UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($wanted2, $access2);
 
         // Test getUsersWithSiteAccess
-        $users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($id1, $access = 'view');
+        $users = API::getInstance()->getUsersWithSiteAccess($id1, $access = 'view');
         $this->assertEquals(1, count($users));
         $this->assertEquals('user1', $users[0]['login']);
-        $users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($id2, $access = 'view');
+        $users = API::getInstance()->getUsersWithSiteAccess($id2, $access = 'view');
         $this->assertEquals(2, count($users));
-        $users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($id1, $access = 'admin');
+        $users = API::getInstance()->getUsersWithSiteAccess($id1, $access = 'admin');
         $this->assertEquals(1, count($users));
         $this->assertEquals('user2', $users[0]['login']);
-        $users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($id3, $access = 'admin');
+        $users = API::getInstance()->getUsersWithSiteAccess($id3, $access = 'admin');
         $this->assertEquals(0, count($users));
     }
 
@@ -796,15 +798,15 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testSetUserAccessMultipleCallOverwriteSingleUserOneSite()
     {
-        Piwik_UsersManager_API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+        API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
 
-        $id1 = Piwik_SitesManager_API::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = Piwik_SitesManager_API::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = SitesManagerAPI::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = SitesManagerAPI::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
 
-        Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "view", array($id1, $id2));
-        Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "admin", array($id1));
+        API::getInstance()->setUserAccess("user1", "view", array($id1, $id2));
+        API::getInstance()->setUserAccess("user1", "admin", array($id1));
 
-        $access1 = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("user1");
+        $access1 = API::getInstance()->getSitesAccessFromUser("user1");
         $access1 = $this->_flatten($access1);
         $wanted1 = array($id1 => 'admin', $id2 => 'view',);
 
@@ -820,7 +822,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testGetSitesAccessFromUserWrongUser()
     {
         try {
-            $access1 = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("user1");
+            $access1 = API::getInstance()->getSitesAccessFromUser("user1");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
             return;
@@ -837,7 +839,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testGetUsersAccessFromSiteWrongSite()
     {
         try {
-            $access1 = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite(1);
+            $access1 = API::getInstance()->getUsersAccessFromSite(1);
         } catch (Exception $e) {
             return;
         }
@@ -853,7 +855,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testGetUsersSitesFromAccessWrongSite()
     {
         try {
-            $access1 = Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess('unknown');
+            $access1 = API::getInstance()->getUsersSitesFromAccess('unknown');
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionAccessValues)", $expected->getMessage());
             return;
@@ -870,7 +872,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testUpdateUserWrongLogin()
     {
         try {
-            Piwik_UsersManager_API::getInstance()->updateUser("lolgin", "password");
+            API::getInstance()->updateUser("lolgin", "password");
         } catch (Exception $expected) {
             $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
             return;
@@ -893,9 +895,9 @@ class UsersManagerTest extends DatabaseTestCase
                       'email'    => "test@test.com",
                       'alias'    => "alias");
 
-        Piwik_UsersManager_API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
-        Piwik_UsersManager_API::getInstance()->updateUser($login, "passowordOK");
+        API::getInstance()->updateUser($login, "passowordOK");
 
         $this->_checkUserHasNotChanged($user, "passowordOK");
     }
@@ -914,9 +916,9 @@ class UsersManagerTest extends DatabaseTestCase
                       'email'    => "test@test.com",
                       'alias'    => "alias");
 
-        Piwik_UsersManager_API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
-        Piwik_UsersManager_API::getInstance()->updateUser($login, "passowordOK", null, "newalias");
+        API::getInstance()->updateUser($login, "passowordOK", null, "newalias");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", null, "newalias");
     }
@@ -935,9 +937,9 @@ class UsersManagerTest extends DatabaseTestCase
                       'email'    => "test@test.com",
                       'alias'    => "alias");
 
-        Piwik_UsersManager_API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
-        Piwik_UsersManager_API::getInstance()->updateUser($login, "passowordOK", "email@geaga.com");
+        API::getInstance()->updateUser($login, "passowordOK", "email@geaga.com");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com");
     }
@@ -986,9 +988,9 @@ class UsersManagerTest extends DatabaseTestCase
                       'email'    => "test@test.com",
                       'alias'    => "alias");
 
-        Piwik_UsersManager_API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
-        Piwik_UsersManager_API::getInstance()->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS");
+        API::getInstance()->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com", "NEW ALIAS");
     }
@@ -1002,7 +1004,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testGetUserByEmailInvalidMail()
     {
         try {
-            $userByMail = Piwik_UsersManager_API::getInstance()->getUserByEmail('email@test.com');
+            $userByMail = API::getInstance()->getUserByEmail('email@test.com');
         } catch (Exception $e) {
             return;
         }
@@ -1022,9 +1024,9 @@ class UsersManagerTest extends DatabaseTestCase
                       'email'    => "test@test.com",
                       'alias'    => "alias");
 
-        Piwik_UsersManager_API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
 
-        $userByMail = Piwik_UsersManager_API::getInstance()->getUserByEmail($user['email']);
+        $userByMail = API::getInstance()->getUserByEmail($user['email']);
 
         $this->assertEquals($user['login'], $userByMail['login']);
         $this->assertEquals($user['email'], $userByMail['email']);
@@ -1037,12 +1039,12 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testGetUserPreferenceDefault()
     {
-        $defaultReportPref = Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT;
-        $defaultReportDatePref = Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE;
+        $defaultReportPref = API::PREFERENCE_DEFAULT_REPORT;
+        $defaultReportDatePref = API::PREFERENCE_DEFAULT_REPORT_DATE;
         
         $this->assertEquals(1,
-            Piwik_UsersManager_API::getInstance()->getUserPreference('someUser', $defaultReportPref));
+            API::getInstance()->getUserPreference('someUser', $defaultReportPref));
         $this->assertEquals('yesterday',
-            Piwik_UsersManager_API::getInstance()->getUserPreference('someUser', $defaultReportDatePref));
+            API::getInstance()->getUserPreference('someUser', $defaultReportDatePref));
     }
 }

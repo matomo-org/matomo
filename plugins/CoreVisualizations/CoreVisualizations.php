@@ -6,10 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreVisualizations
+ * @package CoreVisualizations
  */
 
-use Piwik\Plugin;
+namespace Piwik\Plugins\CoreVisualizations;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Cloud.php';
@@ -20,7 +20,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Jq
  * This plugin contains all core visualizations, such as the normal HTML table and
  * jqPlot graphs.
  */
-class Piwik_CoreVisualizations extends Plugin
+class CoreVisualizations extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -28,9 +28,9 @@ class Piwik_CoreVisualizations extends Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles'              => 'getCssFiles',
-            'AssetManager.getJsFiles'               => 'getJsFiles',
-            'DataTableVisualization.getAvailable'   => 'getAvailableDataTableVisualizations',
+            'AssetManager.getCssFiles'            => 'getCssFiles',
+            'AssetManager.getJsFiles'             => 'getJsFiles',
+            'DataTableVisualization.getAvailable' => 'getAvailableDataTableVisualizations',
         );
     }
 

@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Http;
+use Piwik\Plugins\SitesManager\API;
 
 /**
  * Adds one site and sends several invalid tracking requests. The result should be
@@ -43,8 +44,8 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
 
-        Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
-        Piwik_SitesManager_API::getInstance()->setGlobalExcludedUserAgents('globalexcludeduseragent');
+        API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
+        API::getInstance()->setGlobalExcludedUserAgents('globalexcludeduseragent');
 
         // Trigger empty request
         $trackerUrl = self::getTrackerUrl();
@@ -60,7 +61,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
         // Test IP Exclusion works with or without IP exclusion
         foreach (array(false, true) as $enable) {
             $excludedIp = '154.1.12.34';
-            Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4', $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = 'excludeduseragentstring');
+            API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4', $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = 'excludeduseragentstring');
 
             // Enable IP Anonymization
             $t->DEBUG_APPEND_URL = '&forceIpAnonymization=' . (int)$enable;
@@ -82,7 +83,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
 
             // test with global list of excluded IPs
             $excludedIpBis = '145.5.3.4';
-            Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
+            API::getInstance()->setGlobalExcludedIps($excludedIpBis);
             $t->setIp($excludedIpBis);
             self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
         }

@@ -149,18 +149,23 @@ class Request
             if (!PluginsManager::getInstance()->isPluginActivated($module)) {
                 throw new PluginDeactivatedException($module);
             }
-            $moduleClass = "Piwik_" . $module . "_API";
+            $apiClassName = $this->getClassNameAPI($module);
 
             self::reloadAuthUsingTokenAuth($this->request);
 
             // call the method
-            $returnedValue = Proxy::getInstance()->call($moduleClass, $method, $this->request);
+            $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
 
             $toReturn = $response->getResponse($returnedValue, $module, $method);
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
         return $toReturn;
+    }
+
+    static public function getClassNameAPI($module)
+    {
+        return "\\Piwik\\Plugins\\$module\\API";
     }
 
     /**

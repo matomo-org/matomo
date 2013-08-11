@@ -99,7 +99,7 @@ class FrontController
             throw new PluginDeactivatedException($module);
         }
 
-        $controllerClassName = 'Piwik_' . $module . '_Controller';
+        $controllerClassName = $this->getClassNameController( $module );
 
         // FrontController's autoloader
         if (!class_exists($controllerClassName, false)) {
@@ -110,7 +110,9 @@ class FrontController
             require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
         }
 
-        $controller = new $controllerClassName();
+        $class = $this->getClassNameController($module);
+        /** @var $controller Controller */
+        $controller = new $class;
         if ($action === false) {
             $action = $controller->getDefaultAction();
         }
@@ -133,6 +135,11 @@ class FrontController
             $message = Common::sanitizeInputValue($e->getMessage());
             Piwik_ExitWithMessage($message, '' /* $debugTrace */, true);
         }
+    }
+
+    protected function getClassNameController($module)
+    {
+        return "\\Piwik\\Plugins\\$module\\Controller";
     }
 
     /**

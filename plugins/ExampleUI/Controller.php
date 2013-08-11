@@ -6,17 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ExampleUI
+ * @package ExampleUI
  */
+namespace Piwik\Plugins\ExampleUI;
+
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\ViewDataTable;
 use Piwik\View;
 
 /**
- * @package Piwik_ExampleUI
+ * @package ExampleUI
  */
-class Piwik_ExampleUI_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     public function dataTables()
     {
@@ -130,7 +131,7 @@ class Piwik_ExampleUI_Controller extends Controller
         if ($serverRequested !== false) {
             $view->columns_to_display = array($serverRequested);
         }
-        
+
         echo $view->render();
     }
 

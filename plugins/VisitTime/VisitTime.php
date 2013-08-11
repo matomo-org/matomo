@@ -6,20 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitTime
+ * @package VisitTime
  */
+namespace Piwik\Plugins\VisitTime;
+
+use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Period;
-use Piwik\Plugin;
+use Piwik\Plugins\VisitTime\Archiver;
 use Piwik\Site;
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_VisitTime
+ * @package VisitTime
  */
-class Piwik_VisitTime extends Plugin
+class VisitTime extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -116,7 +119,7 @@ class Piwik_VisitTime extends Plugin
             'acceptedValues' => $acceptedValues
         );
     }
-    
+
     public function getReportDisplayProperties(&$properties)
     {
         $commonProperties = array(
@@ -128,7 +131,7 @@ class Piwik_VisitTime extends Plugin
             'show_pagination_control'     => false,
             'default_view_type'           => 'graphVerticalBar'
         );
-        
+
         $properties['VisitTime.getVisitInformationPerServerTime'] = array_merge($commonProperties, array(
             'filter_limit' => 24,
             'show_goals' => true,
@@ -176,21 +179,20 @@ class Piwik_VisitTime extends Plugin
 
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
-        $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
 
-
     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
-        $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        $archiving = new Archiver($archiveProcessor);
+        if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
-    
+
     private static function getDateRangeForFooterMessage()
     {
         // get query params

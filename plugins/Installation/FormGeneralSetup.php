@@ -6,16 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Installation
+ * @package Installation
  */
-use Piwik\Piwik;
+namespace Piwik\Plugins\Installation;
+
+use HTML_QuickForm2_DataSource_Array;
+use HTML_QuickForm2_Factory;
 use Piwik\QuickForm2;
+use Piwik\Piwik;
 
 /**
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation_FormGeneralSetup extends QuickForm2
+class FormGeneralSetup extends QuickForm2
 {
     function __construct($id = 'generalsetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {
@@ -24,8 +28,8 @@ class Piwik_Installation_FormGeneralSetup extends QuickForm2
 
     function init()
     {
-        HTML_QuickForm2_Factory::registerRule('checkLogin', 'Piwik_Installation_FormGeneralSetup_Rule_isValidLoginString');
-        HTML_QuickForm2_Factory::registerRule('checkEmail', 'Piwik_Installation_FormGeneralSetup_Rule_isValidEmailString');
+        HTML_QuickForm2_Factory::registerRule('checkLogin', 'Rule_isValidLoginString');
+        HTML_QuickForm2_Factory::registerRule('checkEmail', 'Rule_isValidEmailString');
 
         $login = $this->addElement('text', 'login')
             ->setLabel(Piwik_Translate('Installation_SuperUserLogin'));
@@ -67,9 +71,9 @@ class Piwik_Installation_FormGeneralSetup extends QuickForm2
 /**
  * Login id validation rule
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation_FormGeneralSetup_Rule_isValidLoginString extends HTML_QuickForm2_Rule
+class Rule_isValidLoginString extends HTML_QuickForm2_Rule
 {
     function validateOwner()
     {
@@ -89,9 +93,9 @@ class Piwik_Installation_FormGeneralSetup_Rule_isValidLoginString extends HTML_Q
 /**
  * Email address validation rule
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation_FormGeneralSetup_Rule_isValidEmailString extends HTML_QuickForm2_Rule
+class Rule_isValidEmailString extends HTML_QuickForm2_Rule
 {
     function validateOwner()
     {

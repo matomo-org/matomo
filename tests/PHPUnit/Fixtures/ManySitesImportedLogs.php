@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Access;
+use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 /**
  * Imports visits from several log files using the python log importer.
@@ -25,9 +29,9 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         $this->setUpWebsitesAndGoals();
         self::downloadGeoIpDbs();
 
-        Piwik_UserCountry_LocationProvider::$providers = null;
-        Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        Piwik_UserCountry_LocationProvider::setCurrentProvider('geoip_php');
+        LocationProvider::$providers = null;
+        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::setCurrentProvider('geoip_php');
 
         $this->trackVisits();
         $this->setupSegments();
@@ -35,16 +39,16 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 
     public function tearDown()
     {
-        Piwik_UserCountry_LocationProvider::$providers = null;
-        Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        Piwik_UserCountry_LocationProvider::setCurrentProvider('default');
+        LocationProvider::$providers = null;
+        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::setCurrentProvider('default');
     }
 
     public function setUpWebsitesAndGoals()
     {
         // for conversion testing
         self::createWebsite($this->dateTime);
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
+        GoalsAPI::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
         self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
             $siteUrl = 'http://example-site-two.com');
     }
@@ -101,7 +105,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
                 $enabledAllUsers = $info['enabledAllUsers'];
             }
             
-            Piwik_SegmentEditor_API::getInstance()->add(
+            SegmentEditorAPI::getInstance()->add(
                 $segmentName, $info['definition'], $idSite, $autoArchive, $enabledAllUsers);
         }
     }

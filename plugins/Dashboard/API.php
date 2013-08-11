@@ -5,21 +5,22 @@
  * @link     http://piwik.org
  * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @category Piwik_Plugins
- * @package  Piwik_Dashboard
+ * @package  Dashboard
  */
+namespace Piwik\Plugins\Dashboard;
+
 use Piwik\Piwik;
 use Piwik\WidgetsList;
-
 
 /**
  * This API is the <a href='http://piwik.org/docs/analytics-api/reference/' target='_blank'>Dashboard API</a>: it gives information about dashboards.
  *
  * @package Piwik_API
  */
-class Piwik_Dashboard_API
+class API
 {
     /**
-     * @var Piwik_Dashboard_API
+     * @var \Piwik\Plugins\Dashboard\API
      */
     static private $instance = null;
 
@@ -27,11 +28,11 @@ class Piwik_Dashboard_API
 
     public function __construct()
     {
-        $this->dashboard = new Piwik_Dashboard();
+        $this->dashboard = new Dashboard();
     }
 
     /**
-     * @return Piwik_Dashboard_API
+     * @return \Piwik\Plugins\Dashboard\API
      */
     static public function getInstance()
     {
@@ -83,7 +84,7 @@ class Piwik_Dashboard_API
      */
     private function getUserDashboards()
     {
-        $userLogin      = Piwik::getCurrentUserLogin();
+        $userLogin = Piwik::getCurrentUserLogin();
         $userDashboards = $this->dashboard->getAllDashboards($userLogin);
 
         $dashboards = array();
@@ -91,10 +92,9 @@ class Piwik_Dashboard_API
         foreach ($userDashboards as $userDashboard) {
 
             if ($this->hasDashboardColumns($userDashboard)) {
-                $widgets      = $this->getExistingWidgetsWithinDashboard($userDashboard);
+                $widgets = $this->getExistingWidgetsWithinDashboard($userDashboard);
                 $dashboards[] = $this->buildDashboard($userDashboard, $widgets);
             }
-
         }
 
         return $dashboards;
@@ -111,8 +111,8 @@ class Piwik_Dashboard_API
             foreach ($column as $widget) {
 
                 if ($this->widgetIsNotHidden($widget) && $this->widgetExists($widget)) {
-                    $module    = $widget->parameters->module;
-                    $action    = $widget->parameters->action;
+                    $module = $widget->parameters->module;
+                    $action = $widget->parameters->action;
 
                     $widgets[] = array('module' => $module, 'action' => $action);
                 }

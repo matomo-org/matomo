@@ -6,14 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreUpdater
+ * @package CoreUpdater
  */
+namespace Piwik\Plugins\CoreUpdater;
+
+use Exception;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\Http;
 use Piwik\Updater;
 use Piwik\View;
@@ -21,12 +23,15 @@ use Piwik\Version;
 use Piwik\UpdateCheck;
 use Piwik\Unzip;
 use Piwik\View\OneClickDone;
+use Piwik\Plugins\CoreUpdater\CoreUpdater;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Updater_UpdateErrorException;
 
 /**
  *
- * @package Piwik_CoreUpdater
+ * @package CoreUpdater
  */
-class Piwik_CoreUpdater_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
     const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest/';
@@ -232,7 +237,7 @@ class Piwik_CoreUpdater_Controller extends Controller
     {
         $language = Common::getRequestVar('language', '');
         if (!empty($language)) {
-            Piwik_LanguagesManager::setLanguageForSession($language);
+            LanguagesManager::setLanguageForSession($language);
         }
         $this->runUpdaterAndExit();
     }
@@ -240,7 +245,7 @@ class Piwik_CoreUpdater_Controller extends Controller
     protected function runUpdaterAndExit()
     {
         $updater = new Updater();
-        $componentsWithUpdateFile = Piwik_CoreUpdater::getComponentUpdates($updater);
+        $componentsWithUpdateFile = CoreUpdater::getComponentUpdates($updater);
         if (empty($componentsWithUpdateFile)) {
             Piwik::redirectToModule('CoreHome');
         }

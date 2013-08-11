@@ -9,6 +9,12 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\Date;
+use Piwik\Plugins\MobileMessaging\MobileMessaging;
+use Piwik\Plugins\PDFReports\API as PDFReportsAPI;
+use Piwik\Plugins\PDFReports\PDFReports;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Url;
 use Piwik\ReportRenderer;
 use Piwik\Site;
@@ -57,7 +63,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
                                          $siteSearch = 1, $searchKeywordParameters = null,
                                          $searchCategoryParameters = null)
     {
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite(
+        $idSite = SitesManagerAPI::getInstance()->addSite(
             $siteName,
             $siteUrl === false ? "http://piwik.net/" : $siteUrl,
             $ecommerce,
@@ -166,12 +172,12 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
     public static function makeLocation($city, $region, $country, $lat = null, $long = null, $isp = null)
     {
-        return array(Piwik_UserCountry_LocationProvider::CITY_NAME_KEY    => $city,
-                     Piwik_UserCountry_LocationProvider::REGION_CODE_KEY  => $region,
-                     Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY => $country,
-                     Piwik_UserCountry_LocationProvider::LATITUDE_KEY     => $lat,
-                     Piwik_UserCountry_LocationProvider::LONGITUDE_KEY    => $long,
-                     Piwik_UserCountry_LocationProvider::ISP_KEY          => $isp);
+        return array(LocationProvider::CITY_NAME_KEY    => $city,
+                     LocationProvider::REGION_CODE_KEY  => $region,
+                     LocationProvider::COUNTRY_CODE_KEY => $country,
+                     LocationProvider::LATITUDE_KEY     => $lat,
+                     LocationProvider::LONGITUDE_KEY    => $long,
+                     LocationProvider::ISP_KEY          => $isp);
     }
 
     /**
@@ -182,7 +188,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function getTokenAuth()
     {
-        return Piwik_UsersManager_API::getInstance()->getTokenAuth(
+        return UsersManagerAPI::getInstance()->getTokenAuth(
             Config::getInstance()->superuser['login'],
             Config::getInstance()->superuser['password']
         );
@@ -208,7 +214,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         Access::setSingletonInstance($pseudoMockAccess);
 
         // retrieve available reports
-        $availableReportMetadata = Piwik_PDFReports_API::getReportMetadata($idSite, Piwik_PDFReports::EMAIL_TYPE);
+        $availableReportMetadata = PDFReportsAPI::getReportMetadata($idSite, PDFReports::EMAIL_TYPE);
 
         $availableReportIds = array();
         foreach ($availableReportMetadata as $reportMetadata) {
@@ -217,66 +223,66 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
         //@review should we also test evolution graphs?
         // set-up mail report
-        Piwik_PDFReports_API::getInstance()->addReport(
+        PDFReportsAPI::getInstance()->addReport(
             $idSite,
             'Mail Test report',
             'day', // overridden in getApiForTestingScheduledReports()
             0,
-            Piwik_PDFReports::EMAIL_TYPE,
+            PDFReports::EMAIL_TYPE,
             ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
             $availableReportIds,
-            array(Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
+            array(PDFReports::DISPLAY_FORMAT_PARAMETER => PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
 
         // set-up sms report for one website
-        Piwik_PDFReports_API::getInstance()->addReport(
+        PDFReportsAPI::getInstance()->addReport(
             $idSite,
             'SMS Test report, one website',
             'day', // overridden in getApiForTestingScheduledReports()
             0,
-            Piwik_MobileMessaging::MOBILE_TYPE,
-            Piwik_MobileMessaging::SMS_FORMAT,
+            MobileMessaging::MOBILE_TYPE,
+            MobileMessaging::SMS_FORMAT,
             array("MultiSites_getOne"),
             array("phoneNumbers" => array())
         );
 
         // set-up sms report for all websites
-        Piwik_PDFReports_API::getInstance()->addReport(
+        PDFReportsAPI::getInstance()->addReport(
             $idSite,
             'SMS Test report, all websites',
             'day', // overridden in getApiForTestingScheduledReports()
             0,
-            Piwik_MobileMessaging::MOBILE_TYPE,
-            Piwik_MobileMessaging::SMS_FORMAT,
+            MobileMessaging::MOBILE_TYPE,
+            MobileMessaging::SMS_FORMAT,
             array("MultiSites_getAll"),
             array("phoneNumbers" => array())
         );
 
         if (self::canImagesBeIncludedInScheduledReports()) {
             // set-up mail report with images
-            Piwik_PDFReports_API::getInstance()->addReport(
+            PDFReportsAPI::getInstance()->addReport(
                 $idSite,
                 'Mail Test report',
                 'day', // overridden in getApiForTestingScheduledReports()
                 0,
-                Piwik_PDFReports::EMAIL_TYPE,
+                PDFReports::EMAIL_TYPE,
                 ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
                 $availableReportIds,
-                array(Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
+                array(PDFReports::DISPLAY_FORMAT_PARAMETER => PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
             );
 
             // set-up mail report with one row evolution based png graph
-            Piwik_PDFReports_API::getInstance()->addReport(
+            PDFReportsAPI::getInstance()->addReport(
                 $idSite,
                 'Mail Test report',
                 'day',
                 0,
-                Piwik_PDFReports::EMAIL_TYPE,
+                PDFReports::EMAIL_TYPE,
                 ReportRenderer::HTML_FORMAT,
                 array('Actions_getPageTitles'),
                 array(
-                     Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY,
-                     Piwik_PDFReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                     PDFReports::DISPLAY_FORMAT_PARAMETER => PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                     PDFReports::EVOLUTION_GRAPH_PARAMETER => 'true',
                 )
             );
         }

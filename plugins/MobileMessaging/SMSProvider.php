@@ -6,17 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
+namespace Piwik\Plugins\MobileMessaging;
+
+use Exception;
 use Piwik\Loader;
+use Piwik\Plugins\MobileMessaging\GSMCharset;
 
 /**
- * The Piwik_MobileMessaging_SMSProvider abstract class is used as a base class for SMS provider implementations.
+ * The SMSProvider abstract class is used as a base class for SMS provider implementations.
  *
- * @package Piwik_MobileMessaging
- * @subpackage Piwik_MobileMessaging_SMSProvider
+ * @package MobileMessaging
+ * @subpackage SMSProvider
  */
-abstract class Piwik_MobileMessaging_SMSProvider
+abstract class SMSProvider
 {
     const MAX_GSM_CHARS_IN_ONE_UNIQUE_SMS = 160;
     const MAX_GSM_CHARS_IN_ONE_CONCATENATED_SMS = 153;
@@ -26,11 +30,11 @@ abstract class Piwik_MobileMessaging_SMSProvider
     static public $availableSMSProviders = array(
         'Clockwork' => 'You can use <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/"><img src="plugins/MobileMessaging/images/Clockwork.png"/></a> to send SMS Reports from Piwik.<br/>
 			<ul>
-			<li> First, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/">get an API Key from Clockwork</a> (Signup is free!) 
+			<li> First, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/">get an API Key from Clockwork</a> (Signup is free!)
 			</li><li> Enter your Clockwork API Key on this page. </li>
 			</ul>
 			<br/><i>About Clockwork: </i><ul>
-			<li>Clockwork gives you fast, reliable high quality worldwide SMS delivery, over 450 networks in every corner of the globe. 
+			<li>Clockwork gives you fast, reliable high quality worldwide SMS delivery, over 450 networks in every corner of the globe.
 			</li><li>Cost per SMS message is around ~0.08USD (0.06EUR).
 			</li><li>Most countries and networks are supported but we suggest you check the latest position on their coverage map <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/sms-coverage/">here</a>.
 			</li>
@@ -41,13 +45,13 @@ abstract class Piwik_MobileMessaging_SMSProvider
     /**
      * Return the SMSProvider associated to the provider name $providerName
      *
-     * @throws exception If the provider is unknown
+     * @throws Exception If the provider is unknown
      * @param string $providerName
-     * @return Piwik_MobileMessaging_SMSProvider
+     * @return \Piwik\Plugins\MobileMessaging\SMSProvider
      */
     static public function factory($providerName)
     {
-        $className = 'Piwik_MobileMessaging_SMSProvider_' . $providerName;
+        $className = __NAMESPACE__ . '\\SMSProvider\\' . $providerName;
 
         try {
             Loader::loadClass($className);
@@ -70,7 +74,7 @@ abstract class Piwik_MobileMessaging_SMSProvider
      */
     static public function containsUCS2Characters($string)
     {
-        $GSMCharsetAsString = implode(array_keys(Piwik_MobileMessaging_GSMCharset::$GSMCharset));
+        $GSMCharsetAsString = implode(array_keys(GSMCharset::$GSMCharset));
 
         foreach (self::mb_str_split($string) as $char) {
             if (mb_strpos($GSMCharsetAsString, $char) === false) {
@@ -128,7 +132,7 @@ abstract class Piwik_MobileMessaging_SMSProvider
 
         $sizeOfSMSContent = 0;
         foreach (self::mb_str_split($smsContent) as $char) {
-            $sizeOfSMSContent += Piwik_MobileMessaging_GSMCharset::$GSMCharset[$char];
+            $sizeOfSMSContent += GSMCharset::$GSMCharset[$char];
         }
         return $sizeOfSMSContent;
     }

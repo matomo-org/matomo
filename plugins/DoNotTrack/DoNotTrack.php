@@ -6,9 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DoNotTrack
+ * @package DoNotTrack
  */
-use Piwik\Plugin;
+namespace Piwik\Plugins\DoNotTrack;
+
 use Piwik\Common;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Tracker\Request;
@@ -18,9 +19,9 @@ use Piwik\Tracker\Request;
  * - X-Do-Not-Track header (used by AdBlockPlus and NoScript)
  * - DNT header (used by Mozilla)
  *
- * @package Piwik_DoNotTrack
+ * @package DoNotTrack
  */
-class Piwik_DoNotTrack extends Plugin
+class DoNotTrack extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

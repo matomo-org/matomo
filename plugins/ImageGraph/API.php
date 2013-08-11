@@ -6,12 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph
+ * @package ImageGraph
  */
+namespace Piwik\Plugins\ImageGraph;
+
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Translate;
+use Piwik\Plugins\API\API as MetaAPI;
+use Piwik\Plugins\ImageGraph\StaticGraph;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
@@ -24,9 +28,9 @@ use Piwik\Translate;
  *
  * See also <a href='http://piwik.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
  *
- * @package Piwik_ImageGraph
+ * @package ImageGraph
  */
-class Piwik_ImageGraph_API
+class API
 {
     const FILENAME_KEY = 'filename';
     const TRUNCATE_KEY = 'truncate';
@@ -36,31 +40,31 @@ class Piwik_ImageGraph_API
     const MAX_HEIGHT = 2048;
 
     static private $DEFAULT_PARAMETERS = array(
-        Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_LINE     => array(
+        StaticGraph::GRAPH_TYPE_BASIC_LINE     => array(
             self::FILENAME_KEY => 'BasicLine',
             self::TRUNCATE_KEY => 6,
             self::WIDTH_KEY    => 1044,
             self::HEIGHT_KEY   => 290,
         ),
-        Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_VERTICAL_BAR   => array(
+        StaticGraph::GRAPH_TYPE_VERTICAL_BAR   => array(
             self::FILENAME_KEY => 'BasicBar',
             self::TRUNCATE_KEY => 6,
             self::WIDTH_KEY    => 1044,
             self::HEIGHT_KEY   => 290,
         ),
-        Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR => array(
+        StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR => array(
             self::FILENAME_KEY => 'HorizontalBar',
             self::TRUNCATE_KEY => null, // horizontal bar graphs are dynamically truncated
             self::WIDTH_KEY    => 800,
             self::HEIGHT_KEY   => 290,
         ),
-        Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_3D_PIE         => array(
+        StaticGraph::GRAPH_TYPE_3D_PIE         => array(
             self::FILENAME_KEY => '3DPie',
             self::TRUNCATE_KEY => 5,
             self::WIDTH_KEY    => 1044,
             self::HEIGHT_KEY   => 290,
         ),
-        Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_PIE      => array(
+        StaticGraph::GRAPH_TYPE_BASIC_PIE      => array(
             self::FILENAME_KEY => 'BasicPie',
             self::TRUNCATE_KEY => 5,
             self::WIDTH_KEY    => 1044,
@@ -71,11 +75,11 @@ class Piwik_ImageGraph_API
     static private $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
         'UserSettings_getPlugin'  => array(
             false // override if !$isMultiplePeriod
-            => Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,
+            => StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,
         ),
         'Referers_getRefererType' => array(
             false // override if !$isMultiplePeriod
-            => Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,
+            => StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,
         ),
     );
 
@@ -100,7 +104,7 @@ class Piwik_ImageGraph_API
     static private $instance = null;
 
     /**
-     * @return Piwik_ImageGraph_API
+     * @return \Piwik\Plugins\ImageGraph\API
      */
     static public function getInstance()
     {
@@ -118,29 +122,31 @@ class Piwik_ImageGraph_API
         $apiModule,
         $apiAction,
         $graphType = false,
-        $outputType = Piwik_ImageGraph_API::GRAPH_OUTPUT_INLINE,
+        $outputType = API::GRAPH_OUTPUT_INLINE,
         $columns = false,
         $labels = false,
         $showLegend = true,
         $width = false,
         $height = false,
-        $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE,
+        $fontSize = API::DEFAULT_FONT_SIZE,
         $legendFontSize = false,
         $aliasedGraph = true,
         $idGoal = false,
         $colors = false,
-        $textColor = Piwik_ImageGraph_API::DEFAULT_TEXT_COLOR,
-        $backgroundColor = Piwik_ImageGraph_API::DEFAULT_BACKGROUND_COLOR,
-        $gridColor = Piwik_ImageGraph_API::DEFAULT_GRID_COLOR,
+        $textColor = API::DEFAULT_TEXT_COLOR,
+        $backgroundColor = API::DEFAULT_BACKGROUND_COLOR,
+        $gridColor = API::DEFAULT_GRID_COLOR,
         $idSubtable = false,
         $legendAppendMetric = true,
         $segment = false
-    ) {
+    )
+    {
         Piwik::checkUserHasViewAccess($idSite);
 
         // Health check - should we also test for GD2 only?
         if (!Piwik::isGdExtensionEnabled()) {
-            throw new Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini, and restart your web server.');
+            throw new \Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini,
+            and restart your web server.');
         }
 
         $useUnicodeFont = array(
@@ -162,7 +168,7 @@ class Piwik_ImageGraph_API
                 $apiParameters = array('idGoal' => $idGoal);
             }
             // Fetch the metadata for given api-action
-            $metadata = Piwik_API_API::getInstance()->getMetadata(
+            $metadata = MetaAPI::getInstance()->getMetadata(
                 $idSite, $apiModule, $apiAction, $apiParameters, $languageLoaded, $period, $date,
                 $hideMetricsDoc = false, $showSubtableReports = true);
             if (!$metadata) {
@@ -184,12 +190,12 @@ class Piwik_ImageGraph_API
 
             if (empty($graphType)) {
                 if ($isMultiplePeriod) {
-                    $graphType = Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_LINE;
+                    $graphType = StaticGraph::GRAPH_TYPE_BASIC_LINE;
                 } else {
                     if ($constantRowsCount) {
-                        $graphType = Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_VERTICAL_BAR;
+                        $graphType = StaticGraph::GRAPH_TYPE_VERTICAL_BAR;
                     } else {
-                        $graphType = Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR;
+                        $graphType = StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR;
                     }
                 }
 
@@ -198,7 +204,7 @@ class Piwik_ImageGraph_API
                     $graphType = self::$DEFAULT_GRAPH_TYPE_OVERRIDE[$reportUniqueId][$isMultiplePeriod];
                 }
             } else {
-                $availableGraphTypes = Piwik_ImageGraph_StaticGraph::getAvailableStaticGraphTypes();
+                $availableGraphTypes = StaticGraph::getAvailableStaticGraphTypes();
                 if (!in_array($graphType, $availableGraphTypes)) {
                     throw new Exception(
                         Piwik_TranslateException(
@@ -255,8 +261,8 @@ class Piwik_ImageGraph_API
             // sort and truncate filters
             $defaultFilterTruncate = self::$DEFAULT_PARAMETERS[$graphType][self::TRUNCATE_KEY];
             switch ($graphType) {
-                case Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_3D_PIE:
-                case Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_PIE:
+                case StaticGraph::GRAPH_TYPE_3D_PIE:
+                case StaticGraph::GRAPH_TYPE_BASIC_PIE:
 
                     if (count($ordinateColumns) > 1) {
                         // pChart doesn't support multiple series on pie charts
@@ -267,8 +273,8 @@ class Piwik_ImageGraph_API
                     $this->setFilterTruncate($defaultFilterTruncate);
                     break;
 
-                case Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_VERTICAL_BAR:
-                case Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_LINE:
+                case StaticGraph::GRAPH_TYPE_VERTICAL_BAR:
+                case StaticGraph::GRAPH_TYPE_BASIC_LINE:
 
                     if (!$isMultiplePeriod && !$constantRowsCount) {
                         $this->setFilterTruncate($defaultFilterTruncate);
@@ -294,7 +300,7 @@ class Piwik_ImageGraph_API
                     }
                 }
 
-                $processedReport = Piwik_API_API::getInstance()->getRowEvolution(
+                $processedReport = MetaAPI::getInstance()->getRowEvolution(
                     $idSite,
                     $period,
                     $date,
@@ -311,7 +317,7 @@ class Piwik_ImageGraph_API
 
                 //@review this test will need to be updated after evaluating the @review comment in API/API.php
                 if (!$processedReport) {
-                    throw new Exception(Piwik_Translate('General_NoDataForGraph_js'));
+                    throw new \Exception(Piwik_Translate('General_NoDataForGraph_js'));
                 }
 
                 // restoring generic filter parameters
@@ -351,7 +357,7 @@ class Piwik_ImageGraph_API
                     $ordinateLabels[$plottedMetric] = $processedReport['label'] . ' (' . $metrics[$plottedMetric]['name'] . ')';
                 }
             } else {
-                $processedReport = Piwik_API_API::getInstance()->getProcessedReport(
+                $processedReport = MetaAPI::getInstance()->getProcessedReport(
                     $idSite,
                     $period,
                     $date,
@@ -437,7 +443,6 @@ class Piwik_ImageGraph_API
 
                             $ordinateSeries[$column][] = $parsedOrdinateValue;
                         }
-
                     } else {
                         foreach ($ordinateColumns as $column) {
                             $ordinateSeries[$column][] = 0;
@@ -450,11 +455,11 @@ class Piwik_ImageGraph_API
             }
 
             if (!$hasData || !$hasNonZeroValue) {
-                throw new Exception(Piwik_Translate('General_NoDataForGraph_js'));
+                throw new \Exception(Piwik_Translate('General_NoDataForGraph_js'));
             }
 
             //Setup the graph
-            $graph = Piwik_ImageGraph_StaticGraph::factory($graphType);
+            $graph = StaticGraph::factory($graphType);
             $graph->setWidth($width);
             $graph->setHeight($height);
             $graph->setFont($font);
@@ -480,10 +485,9 @@ class Piwik_ImageGraph_API
 
             // render graph
             $graph->renderGraph();
+        } catch (\Exception $e) {
 
-        } catch (Exception $e) {
-
-            $graph = new Piwik_ImageGraph_StaticGraph_Exception();
+            $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();
             $graph->setWidth($width);
             $graph->setHeight($height);
             $graph->setFont($font);

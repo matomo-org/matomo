@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Plugins\VisitsSummary\API;
+
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 
 /**
@@ -23,7 +25,7 @@ class ArchivingProcessBenchmark extends BenchmarkTestCase
      */
     public function testArchivingProcess()
     {
-        Piwik_VisitsSummary_API::getInstance()->get(
+        API::getInstance()->get(
             self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
     }
 }

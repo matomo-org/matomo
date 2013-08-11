@@ -6,22 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreAdminHome
+ * @package CoreAdminHome
  */
+namespace Piwik\Plugins\CoreAdminHome;
+
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\ScheduledTask;
-use Piwik\Plugin;
 use Piwik\Db;
 use Piwik\ScheduledTime\Daily;
 
 /**
  *
- * @package Piwik_CoreAdminHome
+ * @package CoreAdminHome
  */
-class Piwik_CoreAdminHome extends Plugin
+class CoreAdminHome extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -91,7 +92,6 @@ class Piwik_CoreAdminHome extends Plugin
             array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 4);
-
     }
 
     function purgeOutdatedArchives()

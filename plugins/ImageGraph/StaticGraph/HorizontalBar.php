@@ -6,15 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
+namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
+use Piwik\Plugins\ImageGraph\StaticGraph\GridGraph;
 
 /**
  *
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
-class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_StaticGraph_GridGraph
+class HorizontalBar extends GridGraph
 {
     const INTERLEAVE = 0.30;
     const PADDING_CHARS = ' ';
@@ -173,7 +175,7 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
                             - $logoHeight / 2
                             + 1;
 
-                    if(method_exists($this->pImage, $drawingFunction)) {
+                    if (method_exists($this->pImage, $drawingFunction)) {
                         $this->pImage->$drawingFunction(
                             $gridLeftMarginBeforePadding,
                             $logoYPosition,

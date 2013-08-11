@@ -6,12 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Annotations
+ * @package Annotations
  */
+namespace Piwik\Plugins\Annotations;
+
+use Exception;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Date;
+use Piwik\Plugins\Annotations\AnnotationList;
 use Piwik\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
@@ -24,16 +28,16 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Annotations/AnnotationList.php';
  * API for annotations plugin. Provides methods to create, modify, delete & query
  * annotations.
  *
- * @package Piwik_Annotations
+ * @package Annotations
  */
-class Piwik_Annotations_API
+class API
 {
     static private $instance = null;
 
     /**
      * Returns this API's singleton instance.
      *
-     * @return Piwik_Annotations_API
+     * @return \Piwik\Plugins\Annotations\API
      */
     static public function getInstance()
     {
@@ -49,7 +53,7 @@ class Piwik_Annotations_API
      * @param string $idSite The site ID to add the annotation to.
      * @param string $date The date the annotation is attached to.
      * @param string $note The text of the annotation.
-     * @param int    $starred Either 0 or 1. Whether the annotation should be starred.
+     * @param int $starred Either 0 or 1. Whether the annotation should be starred.
      * @return array Returns an array of two elements. The first element (indexed by
      *               'annotation') is the new annotation. The second element (indexed
      *               by 'idNote' is the new note's ID).
@@ -61,7 +65,7 @@ class Piwik_Annotations_API
         $this->checkUserCanAddNotesFor($idSite);
 
         // add, save & return a new annotation
-        $annotations = new Piwik_Annotations_AnnotationList($idSite);
+        $annotations = new AnnotationList($idSite);
 
         $newAnnotation = $annotations->add($idSite, $date, $note, $starred);
         $annotations->save($idSite);
@@ -97,7 +101,7 @@ class Piwik_Annotations_API
         $this->checkDateIsValid($date, $canBeNull = true);
 
         // get the annotations for the site
-        $annotations = new Piwik_Annotations_AnnotationList($idSite);
+        $annotations = new AnnotationList($idSite);
 
         // check permissions
         $this->checkUserCanModifyOrDelete($idSite, $annotations->get($idSite, $idNote));
@@ -125,7 +129,7 @@ class Piwik_Annotations_API
     {
         $this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot delete multiple notes.");
 
-        $annotations = new Piwik_Annotations_AnnotationList($idSite);
+        $annotations = new AnnotationList($idSite);
 
         // check permissions
         $this->checkUserCanModifyOrDelete($idSite, $annotations->get($idSite, $idNote));
@@ -154,7 +158,7 @@ class Piwik_Annotations_API
         Piwik::checkUserHasViewAccess($idSite);
 
         // get single annotation
-        $annotations = new Piwik_Annotations_AnnotationList($idSite);
+        $annotations = new AnnotationList($idSite);
         return $annotations->get($idSite, $idNote);
     }
 
@@ -182,7 +186,7 @@ class Piwik_Annotations_API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $annotations = new Piwik_Annotations_AnnotationList($idSite);
+        $annotations = new AnnotationList($idSite);
 
         // if date/period are supplied, determine start/end date for search
         list($startDate, $endDate) = self::getDateRangeForPeriod($date, $period, $lastN);
@@ -234,7 +238,7 @@ class Piwik_Annotations_API
         $dates[] = $startDate;
 
         // get annotations for the site
-        $annotations = new Piwik_Annotations_AnnotationList($idSite);
+        $annotations = new AnnotationList($idSite);
 
         // create result w/ 0-counts
         $result = array();
@@ -292,7 +296,7 @@ class Piwik_Annotations_API
      */
     private static function checkUserCanAddNotesFor($idSite)
     {
-        if (!Piwik_Annotations_AnnotationList::canUserAddNotesFor($idSite)) {
+        if (!AnnotationList::canUserAddNotesFor($idSite)) {
             throw new Exception("The current user is not allowed to add notes for site #$idSite.");
         }
     }
@@ -303,7 +307,7 @@ class Piwik_Annotations_API
      *
      * @param string|bool $date The start date of the period (or the date range of a range
      *                           period).
-     * @param string   $period The period type ('day', 'week', 'month', 'year' or 'range').
+     * @param string $period The period type ('day', 'week', 'month', 'year' or 'range').
      * @param bool|int $lastN  Whether to include the last N periods in the range or not.
      *                         Ignored if period == range.
      *

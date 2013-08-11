@@ -6,19 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitFrequency
+ * @package VisitFrequency
  */
+namespace Piwik\Plugins\VisitFrequency;
+
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\View;
 
 /**
  *
- * @package Piwik_VisitFrequency
+ * @package VisitFrequency
  */
-class Piwik_VisitFrequency_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     function index()
     {
@@ -96,7 +97,6 @@ class Piwik_VisitFrequency_Controller extends Controller
         $view->avgVisitDurationReturning = $dataRow->getColumn('avg_time_on_site_returning');
         $nbBouncedReturningVisits = $dataRow->getColumn('bounce_count_returning');
         $view->bounceRateReturning = Piwik::getPercentageSafe($nbBouncedReturningVisits, $nbVisitsReturning);
-
     }
 
     protected function getSummary()

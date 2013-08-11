@@ -6,15 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Feedback
+ * @package Feedback
  */
-use Piwik\Plugin;
+namespace Piwik\Plugins\Feedback;
+
 
 /**
  *
- * @package Piwik_Feedback
+ * @package Feedback
  */
-class Piwik_Feedback extends Plugin
+class Feedback extends \Piwik\Plugin
 {
 
     /**

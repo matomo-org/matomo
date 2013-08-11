@@ -14,7 +14,7 @@ use Exception;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Http;
-use Piwik_SitesManager_API;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Url;
 use Piwik\Version;
 
@@ -55,7 +55,7 @@ class UpdateCheck
                 'php_version'   => PHP_VERSION,
                 'url'           => Url::getCurrentUrlWithoutQueryString(),
                 'trigger'       => Common::getRequestVar('module', '', 'string'),
-                'timezone'      => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),
+                'timezone'      => API::getInstance()->getDefaultTimezone(),
             );
 
             $url = Config::getInstance()->General['api_service_url']

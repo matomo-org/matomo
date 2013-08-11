@@ -6,11 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+namespace Piwik\Plugins\UserCountry;
+
+use Exception;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Tracker\Cache;
+use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use ReflectionClass;
 
 /**
  * @see plugins/UserCountry/LocationProvider/Default.php
@@ -29,7 +34,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp.p
  * visitor info. All LocationProviders require a visitor's IP address, some
  * require more, such as the browser language.
  */
-abstract class Piwik_UserCountry_LocationProvider
+abstract class LocationProvider
 {
     const NOT_INSTALLED = 0;
     const INSTALLED = 1;
@@ -139,7 +144,7 @@ abstract class Piwik_UserCountry_LocationProvider
         if (is_null(self::$providers)) {
             self::$providers = array();
             foreach (get_declared_classes() as $klass) {
-                if (is_subclass_of($klass, 'Piwik_UserCountry_LocationProvider')) {
+                if (is_subclass_of($klass, 'Piwik\Plugins\UserCountry\LocationProvider')) {
                     $klassInfo = new ReflectionClass($klass);
                     if ($klassInfo->isAbstract()) {
                         continue;
@@ -188,7 +193,7 @@ abstract class Piwik_UserCountry_LocationProvider
      *     'geoip_php' => array('id' => 'geoip_php',
      *                          'title' => '...',
      *                          'desc' => '...',
-     *                          'status' => Piwik_UserCountry_LocationProvider_GeoIp::BROKEN,
+     *                          'status' => GeoIp::BROKEN,
      *                          'statusMessage' => '...',
      *                          'location' => '...')
      *     'geoip_serverbased' => array(...)
@@ -259,7 +264,7 @@ abstract class Piwik_UserCountry_LocationProvider
     public static function getCurrentProviderId()
     {
         $optionValue = Piwik_GetOption(self::CURRENT_PROVIDER_OPTION_NAME);
-        return $optionValue === false ? Piwik_UserCountry_LocationProvider_Default::ID : $optionValue;
+        return $optionValue === false ? DefaultProvider::ID : $optionValue;
     }
 
     /**
@@ -267,7 +272,7 @@ abstract class Piwik_UserCountry_LocationProvider
      *
      * This function should not be called by the Tracker.
      *
-     * @return Piwik_UserCountry_LocationProvider
+     * @return \Piwik\Plugins\UserCountry\LocationProvider
      */
     public static function getCurrentProvider()
     {
@@ -278,7 +283,7 @@ abstract class Piwik_UserCountry_LocationProvider
      * Sets the provider to use when tracking.
      *
      * @param string $providerId The ID of the provider to use.
-     * @return Piwik_UserCountry_LocationProvider The new current provider.
+     * @return \Piwik\Plugins\UserCountry\LocationProvider The new current provider.
      * @throws Exception If the provider ID is invalid.
      */
     public static function setCurrentProvider($providerId)
@@ -297,7 +302,7 @@ abstract class Piwik_UserCountry_LocationProvider
      * Returns a provider instance by ID or false if the ID is invalid or unavailable.
      *
      * @param string $providerId
-     * @return Piwik_UserCountry_LocationProvider|false
+     * @return \Piwik\Plugins\UserCountry\LocationProvider|false
      */
     public static function getProviderById($providerId)
     {

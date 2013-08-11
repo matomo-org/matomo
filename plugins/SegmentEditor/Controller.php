@@ -6,17 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SegmentEditor
+ * @package SegmentEditor
  */
+namespace Piwik\Plugins\SegmentEditor;
+
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
+use Piwik\Plugins\SegmentEditor\API;
 use Piwik\View;
+use Piwik\Plugins\API\API as MetaAPI;
 
 /**
- * @package Piwik_SegmentEditor
+ * @package SegmentEditor
  */
-class Piwik_SegmentEditor_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
 
     public function getSelector()
@@ -24,12 +27,13 @@ class Piwik_SegmentEditor_Controller extends Controller
         $view = new View('@SegmentEditor/getSelector');
         $idSite = Common::getRequestVar('idSite');
         $this->setGeneralVariablesView($view);
-        $segments = Piwik_API_API::getInstance()->getSegmentsMetadata($idSite);
+        $segments = MetaAPI::getInstance()->getSegmentsMetadata($idSite);
 
         $segmentsByCategory = $customVariablesSegments = array();
-        foreach($segments as $segment) {
-            if($segment['category'] == Piwik_Translate('General_Visit')
-                && $segment['type'] == 'metric') {
+        foreach ($segments as $segment) {
+            if ($segment['category'] == Piwik_Translate('General_Visit')
+                && $segment['type'] == 'metric'
+            ) {
                 $metricsLabel = Piwik_Translate('General_Metrics');
                 $metricsLabel[0] = strtolower($metricsLabel[0]);
                 $segment['category'] .= ' (' . $metricsLabel . ')';
@@ -40,8 +44,8 @@ class Piwik_SegmentEditor_Controller extends Controller
 
         $view->segmentsByCategory = $segmentsByCategory;
 
-        $savedSegments = Piwik_SegmentEditor_API::getInstance()->getAll($idSite);
-        foreach($savedSegments as &$savedSegment) {
+        $savedSegments = API::getInstance()->getAll($idSite);
+        foreach ($savedSegments as &$savedSegment) {
             $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
         }
         $view->savedSegmentsJson = Common::json_encode($savedSegments);
@@ -55,7 +59,7 @@ class Piwik_SegmentEditor_Controller extends Controller
     public function sortSegmentCategories($a, $b)
     {
         // Custom Variables last
-        if($a == Piwik_Translate('CustomVariables_CustomVariables')) {
+        if ($a == Piwik_Translate('CustomVariables_CustomVariables')) {
             return 1;
         }
         return 0;
@@ -86,7 +90,7 @@ class Piwik_SegmentEditor_Controller extends Controller
             '',
             '',
         );
-        foreach($translationKeys as $key) {
+        foreach ($translationKeys as $key) {
             $translations[$key] = Piwik_Translate($key);
         }
         return $translations;

@@ -11,7 +11,7 @@
 namespace Piwik\Menu;
 
 use Piwik\Common;
-use Piwik_SitesManager_API;
+use Piwik\Plugins\SitesManager\API;
 
 /**
  * @package Piwik_Menu
@@ -60,7 +60,7 @@ abstract class MenuAbstract
         if ($displayedForCurrentUser) {
             // make sure the idSite value used is numeric (hack-y fix for #3426)
             if (!is_numeric(Common::getRequestVar('idSite', false))) {
-                $idSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+                $idSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();
                 $url['idSite'] = reset($idSites);
             }
 

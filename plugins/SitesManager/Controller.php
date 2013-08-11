@@ -6,24 +6,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SitesManager
+ * @package SitesManager
  */
+namespace Piwik\Plugins\SitesManager;
+
+use Exception;
 use Piwik\API\ResponseBuilder;
-use Piwik\Controller\Admin;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\IP;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\View;
 use Piwik\Url;
 use Piwik\Site;
 
 /**
  *
- * @package Piwik_SitesManager
+ * @package SitesManager
  */
-class Piwik_SitesManager_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
     /**
      * Main view showing listing of websites and settings
@@ -33,16 +36,16 @@ class Piwik_SitesManager_Controller extends Admin
         $view = new View('@SitesManager/index');
 
         if (Piwik::isUserIsSuperUser()) {
-            $sites = Piwik_SitesManager_API::getInstance()->getAllSites();
+            $sites = API::getInstance()->getAllSites();
             Site::setSites($sites);
             $sites = array_values($sites);
         } else {
-            $sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+            $sites = API::getInstance()->getSitesWithAdminAccess();
             Site::setSitesFromArray($sites);
         }
 
         foreach ($sites as &$site) {
-            $site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);
+            $site['alias_urls'] = API::getInstance()->getSiteUrlsFromId($site['idsite']);
             $site['excluded_ips'] = explode(',', $site['excluded_ips']);
             $site['excluded_parameters'] = explode(',', $site['excluded_parameters']);
             $site['excluded_user_agents'] = explode(',', $site['excluded_user_agents']);
@@ -50,30 +53,30 @@ class Piwik_SitesManager_Controller extends Admin
         $view->adminSites = $sites;
         $view->adminSitesCount = count($sites);
 
-        $timezones = Piwik_SitesManager_API::getInstance()->getTimezonesList();
+        $timezones = API::getInstance()->getTimezonesList();
         $view->timezoneSupported = Piwik::isTimezoneSupportEnabled();
         $view->timezones = Common::json_encode($timezones);
-        $view->defaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
+        $view->defaultTimezone = API::getInstance()->getDefaultTimezone();
 
-        $view->currencies = Common::json_encode(Piwik_SitesManager_API::getInstance()->getCurrencyList());
-        $view->defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
+        $view->currencies = Common::json_encode(API::getInstance()->getCurrencyList());
+        $view->defaultCurrency = API::getInstance()->getDefaultCurrency();
 
         $view->utcTime = Date::now()->getDatetime();
-        $excludedIpsGlobal = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
+        $excludedIpsGlobal = API::getInstance()->getExcludedIpsGlobal();
         $view->globalExcludedIps = str_replace(',', "\n", $excludedIpsGlobal);
-        $excludedQueryParametersGlobal = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
+        $excludedQueryParametersGlobal = API::getInstance()->getExcludedQueryParametersGlobal();
         $view->globalExcludedQueryParameters = str_replace(',', "\n", $excludedQueryParametersGlobal);
 
-        $globalExcludedUserAgents = Piwik_SitesManager_API::getInstance()->getExcludedUserAgentsGlobal();
+        $globalExcludedUserAgents = API::getInstance()->getExcludedUserAgentsGlobal();
         $view->globalExcludedUserAgents = str_replace(',', "\n", $globalExcludedUserAgents);
 
-        $view->globalSearchKeywordParameters = Piwik_SitesManager_API::getInstance()->getSearchKeywordParametersGlobal();
-        $view->globalSearchCategoryParameters = Piwik_SitesManager_API::getInstance()->getSearchCategoryParametersGlobal();
+        $view->globalSearchKeywordParameters = API::getInstance()->getSearchKeywordParametersGlobal();
+        $view->globalSearchCategoryParameters = API::getInstance()->getSearchCategoryParametersGlobal();
         $view->isSearchCategoryTrackingEnabled = \Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables');
         $view->allowSiteSpecificUserAgentExclude =
-            Piwik_SitesManager_API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
+            API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
 
-        $view->globalKeepURLFragments = Piwik_SitesManager_API::getInstance()->getKeepURLFragmentsGlobal();
+        $view->globalKeepURLFragments = API::getInstance()->getKeepURLFragmentsGlobal();
 
         $view->currentIpAddress = IP::getIpFromHeader();
 
@@ -102,7 +105,7 @@ class Piwik_SitesManager_Controller extends Admin
             $enableSiteUserAgentExclude = Common::getRequestVar('enableSiteUserAgentExclude', $default = 0);
             $keepURLFragments = Common::getRequestVar('keepURLFragments', $default = 0);
 
-            $api = Piwik_SitesManager_API::getInstance();
+            $api = API::getInstance();
             $api->setDefaultTimezone($timezone);
             $api->setDefaultCurrency($currency);
             $api->setGlobalExcludedQueryParameters($excludedQueryParameters);
@@ -170,7 +173,7 @@ class Piwik_SitesManager_Controller extends Admin
     function getSitesForAutocompleter()
     {
         $pattern = Common::getRequestVar('term');
-        $sites = Piwik_SitesManager_API::getInstance()->getPatternMatchSites($pattern);
+        $sites = API::getInstance()->getPatternMatchSites($pattern);
         $pattern = str_replace('%', '', $pattern);
         if (!count($sites)) {
             $results[] = array('label' => Piwik_Translate('SitesManager_NotFound') . "&nbsp;<span class='autocompleteMatched'>$pattern</span>.", 'id' => '#');

@@ -14,6 +14,7 @@
 use Piwik\Config;
 use Piwik\DataTable\Manager;
 use Piwik\Option;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -39,7 +40,7 @@ try {
 }
 $trackerPlugins[] = 'DevicesDetection';
 Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
-Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
 Tracker::setTestEnvironment();
 Manager::getInstance()->deleteAll();

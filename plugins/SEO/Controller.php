@@ -6,18 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SEO
+ * @package SEO
  */
+namespace Piwik\Plugins\SEO;
+
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
-use Piwik\Controller;
+use Piwik\Plugins\SEO\API;
 use Piwik\View;
 use Piwik\Site;
+use Piwik\Plugins\SEO\RankChecker;
 
 /**
- * @package Piwik_SEO
+ * @package SEO
  */
-class Piwik_SEO_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     function getRank()
     {
@@ -34,10 +37,10 @@ class Piwik_SEO_Controller extends Controller
             $url = $site->getMainUrl();
         }
 
-        $dataTable = Piwik_SEO_API::getInstance()->getRank($url);
+        $dataTable = API::getInstance()->getRank($url);
 
         $view = new View('@SEO/getRank');
-        $view->urlToRank = Piwik_SEO_RankChecker::extractDomainFromUrl($url);
+        $view->urlToRank = RankChecker::extractDomainFromUrl($url);
 
         /** @var \Piwik\DataTable\Renderer\Php $renderer */
         $renderer = Renderer::factory('php');

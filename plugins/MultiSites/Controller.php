@@ -6,22 +6,25 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_MultiSites
+ * @package MultiSites
  */
+namespace Piwik\Plugins\MultiSites;
+
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Controller;
+use Piwik\Plugins\MultiSites\API as MultiSitesAPI;
 use Piwik\View;
 use Piwik\Site;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  *
- * @package Piwik_MultiSites
+ * @package MultiSites
  */
-class Piwik_MultiSites_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     protected $orderBy = 'visits';
     protected $order = 'desc';
@@ -48,7 +51,6 @@ class Piwik_MultiSites_Controller extends Controller
         $this->getSitesInfo($isWidgetized = true);
     }
 
-
     public function getSitesInfo($isWidgetized = false)
     {
         Piwik::checkUserHasSomeViewAccess();
@@ -56,20 +58,19 @@ class Piwik_MultiSites_Controller extends Controller
 
         $date = Common::getRequestVar('date', 'today');
         $period = Common::getRequestVar('period', 'day');
-        $siteIds = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $siteIds = SitesManagerAPI::getInstance()->getSitesIdWithAtLeastViewAccess();
         list($minDate, $maxDate) = $this->getMinMaxDateAcrossWebsites($siteIds);
 
         // overwrites the default Date set in the parent controller
         // Instead of the default current website's local date,
         // we set "today" or "yesterday" based on the default Piwik timezone
-        $piwikDefaultTimezone = Piwik_SitesManager_API::getInstance()->getDefaultTimezone();
+        $piwikDefaultTimezone = SitesManagerAPI::getInstance()->getDefaultTimezone();
         if ($period != 'range') {
             $date = $this->getDateParameterInTimezone($date, $piwikDefaultTimezone);
             $this->setDate($date);
             $date = $date->toString();
         }
-        $dataTable = Piwik_MultiSites_API::getInstance()->getAll($period, $date, $segment = false);
-
+        $dataTable = MultiSitesAPI::getInstance()->getAll($period, $date, $segment = false);
 
         // put data into a form the template will understand better
         $digestableData = array();

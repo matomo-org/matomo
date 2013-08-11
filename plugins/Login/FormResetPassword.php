@@ -6,15 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Login
+ * @package Login
  */
+namespace Piwik\Plugins\Login;
+
 use Piwik\QuickForm2;
 
 /**
  *
- * @package Piwik_Login
+ * @package Login
  */
-class Piwik_Login_FormResetPassword extends QuickForm2
+class FormResetPassword extends QuickForm2
 {
     function __construct($id = 'resetpasswordform', $method = 'post', $attributes = null, $trackSubmit = false)
     {

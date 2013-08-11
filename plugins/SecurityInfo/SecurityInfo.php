@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SecurityInfo
+ * @package SecurityInfo
  */
+namespace Piwik\Plugins\SecurityInfo;
+
 use Piwik\Piwik;
-use Piwik\Plugin;
 
 /**
  *
- * @package Piwik_SecurityInfo
+ * @package SecurityInfo
  */
-class Piwik_SecurityInfo extends Plugin
+class SecurityInfo extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

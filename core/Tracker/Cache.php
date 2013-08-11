@@ -15,7 +15,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\CacheFile;
 use Piwik\Tracker;
-use Piwik_UserCountry_LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
  * Simple cache mechanism used in Tracker to avoid requesting settings from mysql on every request
@@ -104,7 +104,7 @@ class Cache
         $cacheContent = array(
             'isBrowserTriggerEnabled'   => Rules::isBrowserTriggerEnabled(),
             'lastTrackerCronRun'        => Piwik_GetOption('lastTrackerCronRun'),
-            'currentLocationProviderId' => Piwik_UserCountry_LocationProvider::getCurrentProviderId(),
+            'currentLocationProviderId' => LocationProvider::getCurrentProviderId(),
         );
         self::setCacheGeneral($cacheContent);
         return $cacheContent;

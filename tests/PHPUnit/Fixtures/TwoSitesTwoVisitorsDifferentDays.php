@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * Adds two websites and tracks visits from two visitors on different days.
@@ -41,16 +43,16 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         self::createWebsite($this->dateTime, 0, "Site 2");
 
         if ($this->allowConversions) {
-            Piwik_Goals_API::getInstance()->addGoal($this->idSite1, 'all', 'url', 'http', 'contains', false, 5);
-            Piwik_Goals_API::getInstance()->addGoal($this->idSite2, 'all', 'url', 'http', 'contains');
+            GoalsAPI::getInstance()->addGoal($this->idSite1, 'all', 'url', 'http', 'contains', false, 5);
+            GoalsAPI::getInstance()->addGoal($this->idSite2, 'all', 'url', 'http', 'contains');
         }
 
-        Piwik_SitesManager_API::getInstance()->updateSite(
+        SitesManagerAPI::getInstance()->updateSite(
             $this->idSite1, "Site 1", $urls = null, $ecommerce = null, $siteSearch = null,
             $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null,
             $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null,
             $startDate = null, $excludedUserAgents = null, $keepURLFragments = 2); // KEEP_URL_FRAGMENT_NO No for idSite 1
-        Piwik_SitesManager_API::getInstance()->updateSite(
+        SitesManagerAPI::getInstance()->updateSite(
             $this->idSite2, "Site 2", $urls = null, $ecommerce = null, $siteSearch = null,
             $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null,
             $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null,
