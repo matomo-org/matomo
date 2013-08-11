@@ -1193,7 +1193,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         var el = $(document.createElement('p'))
             .append(checkbox)
-            .append(type == 'column' ? config.translation : config.label)
+            .append('<label>' + (type == 'column' ? config.translation : config.label) + '</label>')
             .addClass(type == 'column' ? 'pickColumn' : 'pickRow');
 
         var replot = function () {
