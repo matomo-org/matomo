@@ -243,7 +243,7 @@ function getRefererTypeLabel($label)
 /**
  * Works in both directions
  * @param string $name
- * @throws Exception
+ * @throws \Exception
  * @return string
  */
 function getRefererTypeFromShortName($name)

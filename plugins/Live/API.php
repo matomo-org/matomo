@@ -205,7 +205,7 @@ class API
         $result['latestVisitIp'] = $mostRecentVisit->getColumn('visitIp');
         $result['visitorId'] = $mostRecentVisit->getColumn('visitorId');
         $result['browserCode'] = $mostRecentVisit->getColumn('browserCode');
-        $result['browserName'] = Piwik_UserSettings_getBrowserFromBrowserVersion($mostRecentVisit->getColumn('browserName'));
+        $result['browserName'] = \Piwik\Plugins\UserSettings\getBrowserFromBrowserVersion($mostRecentVisit->getColumn('browserName'));
         $result['browserLogo'] = $mostRecentVisit->getColumn('browserIcon');
         $result['operatingSystemCode'] = $mostRecentVisit->getColumn('operatingSystemCode');
         $result['operatingSystemShortName'] = $mostRecentVisit->getColumn('operatingSystemShortName');

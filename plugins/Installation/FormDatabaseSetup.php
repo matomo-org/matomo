@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\QuickForm2;
 use Exception;
+use HTML_QuickForm2_Rule;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use Zend_Db_Adapter_Exception;

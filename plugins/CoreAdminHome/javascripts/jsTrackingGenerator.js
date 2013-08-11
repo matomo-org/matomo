@@ -207,7 +207,7 @@
     g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);\n\
   })();\n\
 </script>\n\
-<!-- End Piwik Code -->';
+'+'<!-- End Piwik Code -->';
 
             $('#javascript-text').find('textarea').val(result)
         };

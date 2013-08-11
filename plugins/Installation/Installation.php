@@ -46,6 +46,9 @@ class Installation extends \Piwik\Plugin
         return new $this->installationControllerName();
     }
 
+    /**
+     * @param \Exception|null $exception
+     */
     public function dispatch($exception = null)
     {
         if ($exception) {
