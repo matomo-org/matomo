@@ -103,7 +103,7 @@ class Nonce
     /**
      * Get ORIGIN header, false if not found
      *
-     * @return string|false
+     * @return string|bool
      */
     static public function getOrigin()
     {

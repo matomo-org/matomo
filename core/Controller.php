@@ -19,6 +19,7 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\NoAccessException;
 use Piwik\Date;
 use Piwik\Site;
 use Piwik\Plugins\API\API;
@@ -30,7 +31,6 @@ use Piwik\Url;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\View;
 use Piwik\ViewDataTable;
-use Piwik\ViewDataTable\GenerateGraphHTML\ChartEvolution;
 use Zend_Registry;
 
 /**
@@ -173,12 +173,13 @@ abstract class Controller
      * @param string $currentModuleName
      * @param string $currentControllerAction
      * @param string $apiMethod
-     * @return ChartEvolution
+     * @return ViewDataTable
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
-        $view = ViewDataTable::factory('graphEvolution');
-        $view->init($currentModuleName, $currentControllerAction, $apiMethod);
+        $view = ViewDataTable::factory(
+            'graphEvolution', $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
+        $view->show_goals = false;
         return $view;
     }
 
@@ -194,7 +195,7 @@ abstract class Controller
      * @param bool|string $reportDocumentation
      * @param string $apiMethod The method to request the report from
      *                                (by default, this is API.get but it can be changed for custom stuff)
-     * @return ChartEvolution
+     * @return ViewDataTable
      */
     protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
                                                      $columnsToDisplay, $selectableColumns = array(), $reportDocumentation = false, $apiMethod = 'API.get')
@@ -220,14 +221,14 @@ abstract class Controller
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
         $view->columns_to_display = $columnsToDisplay;
-        $view->selectable_columns = array_merge($view->selectable_columns, $selectableColumns);
+        $view->visualization_properties->selectable_columns =
+            array_merge($view->visualization_properties->selectable_columns ?: array(), $selectableColumns);
         $view->translations += $translations;
 
         if ($reportDocumentation) {
             $view->documentation = $reportDocumentation;
         }
 
-        $view->main();
         return $view;
     }
 
@@ -268,7 +269,7 @@ abstract class Controller
         }
 
         if (is_null($this->site)) {
-            throw new \Piwik\NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
+            throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
         $paramDate = self::getDateRangeRelativeToEndDate($period, $range, $endDate, $this->site);
 
@@ -572,39 +573,6 @@ abstract class Controller
     }
 
     /**
-     * Set metrics variables (displayed metrics, available metrics) used by template
-     * Handles the server-side of the metrics picker
-     *
-     * @param View|ViewDataTable $view
-     * @param string $defaultMetricDay      name of the default metric for period=day
-     * @param string $defaultMetric         name of the default metric for other periods
-     * @param array $metricsForDay         metrics that are only available for period=day
-     * @param array $metricsForAllPeriods  metrics that are available for all periods
-     * @param bool $labelDisplayed        add 'label' to columns to display?
-     * @return void
-     */
-    protected function setMetricsVariablesView(ViewDataTable $view, $defaultMetricDay = 'nb_uniq_visitors',
-                                               $defaultMetric = 'nb_visits', $metricsForDay = array('nb_uniq_visitors'),
-                                               $metricsForAllPeriods = array('nb_visits', 'nb_actions'), $labelDisplayed = true)
-    {// TODO: needed?
-        // columns is set in the request if metrics picker has been used
-        $columns = Common::getRequestVar('columns', false);
-        if ($columns !== false) {
-            $columns = Piwik::getArrayFromApiParameter($columns);
-            $firstColumn = $columns[0];
-        } else {
-            // default columns
-            $firstColumn = isset($view->period) && $view->period == 'day' ? $defaultMetricDay : $defaultMetric;
-            $columns = array($firstColumn);
-        }
-        // displayed columns
-        if ($labelDisplayed) {
-            array_unshift($columns, 'label');
-        }
-        $view->columns_to_display = $columns;
-    }
-
-    /**
      * Helper method used to redirect the current http request to another module/action
      * If specified, will also redirect to a given website, period and /or date
      *
@@ -744,7 +712,7 @@ abstract class Controller
     protected function checkTokenInUrl()
     {
         if (Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-            throw new \Piwik\NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
+            throw new NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
         }
     }
 

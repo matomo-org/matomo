@@ -973,7 +973,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik è un software open source che ti permette di analizzare facilmente le informazioni dei visitatori che visitano i tuoi siti web.</p><p>Questa procedura si divide in %s semplici passaggi e si completa nel giro di 5 minuti.</p>',
 	'Installation_ConfigurationHelp' => 'Il tuo file di configurazioni Piwik sembra essere configurato male. Puoi rimuovere il file config/config.ini.php e ricominciare l\'installazione, o correggere i dati di connessione al database.',
 	'Installation_ErrorInvalidState' => 'Errore: sembra che stai tentando di saltare un passaggio del processo di installazione, i tuoi Cookies sono disabilitati o il file di configurazione Piwik è stato già creato. %1$sControlla che i Cookies siano attivati%2$s e %3$s ripeti l\'installazione dal primo passaggio %4$s.',
-	'Installation_InsufficientPrivileges' => 'Privilegi insufficienti. L\' utente del database deve disporre dei seguenti privilegi: %s',
 	'Installation_InsufficientPrivilegesHelp' => 'È possibile aggiungere questi privilegi utilizzando uno strumento come phpMyAdmin o per l\'esecuzione di corrette query SQL. Se non sai come fare queste cose, chiedi al tuo amministratore di sistema di concederti questi privilegi.',
 	'Installation_Filesystem' => 'Filesystem',
 	'LanguagesManager_PluginDescription' => 'Questo plugin mostrerà la lista delle lingue disponibili per l\'interfaccia Piwik. La lingua selezionata sarà salvata nelle preferenze per ciascun utente.',

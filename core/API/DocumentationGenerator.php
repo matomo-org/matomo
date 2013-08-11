@@ -123,7 +123,7 @@ class DocumentationGenerator
      * @param string $class            the class
      * @param string $methodName       the method
      * @param array $parametersToSet  parameters to set
-     * @return string|false when not possible
+     * @return string|bool when not possible
      */
     public function getExampleUrl($class, $methodName, $parametersToSet = array())
     {

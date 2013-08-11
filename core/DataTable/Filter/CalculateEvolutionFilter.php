@@ -30,6 +30,8 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
     /**
      * The the DataTable that contains past data.
+     *
+     * @var DataTable
      */
     private $pastDataTable;
 
@@ -42,7 +44,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      * Constructor.
      *
      * @param DataTable $table The DataTable being filtered.
-     * @param string $pastDataTable
+     * @param DataTable $pastDataTable
      * @param string $columnToAdd
      * @param string $columnToRead
      * @param int $quotientPrecision
@@ -125,6 +127,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      * Utility function. Returns the current row in the past DataTable.
      *
      * @param Row $row The row in the 'current' DataTable.
+     * @return bool|Row
      */
     private function getPastRowFromCurrent($row)
     {

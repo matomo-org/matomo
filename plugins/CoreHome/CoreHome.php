@@ -42,15 +42,19 @@ class CoreHome extends \Piwik\Plugin
     public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
+        $cssFiles[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
+        $cssFiles[] = "libs/jquery/stylesheets/scroll.less";
         $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/coreHome.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/menu.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/jqplot.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/jqplotColors.less";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/promo.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/color_manager.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -61,11 +65,14 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
         $jsFiles[] = "libs/jquery/jquery.history.js";
+        $jsFiles[] = "libs/jquery/jquery.jscrollpane.js";
+        $jsFiles[] = "libs/jquery/jquery.mousewheel.js";
+        $jsFiles[] = "libs/jquery/mwheelIntent.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/ajaxHelper.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/datatable.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/datatable_rowactions.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/dataTable_rowactions.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/menu.js";
@@ -74,9 +81,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/autocomplete.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/sparkline.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/datatable_manager.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/dataTable_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/jqplot.js";
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/promo.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";

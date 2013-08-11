@@ -623,8 +623,8 @@ class Controller extends \Piwik\Controller\Admin
     /**
      * Redirect to next step
      *
-     * @param string Current step
-     * @return none
+     * @param string $currentStep Current step
+     * @return void
      */
     protected function redirectToNextStep($currentStep)
     {
@@ -637,7 +637,7 @@ class Controller extends \Piwik\Controller\Admin
     /**
      * Skip this step (typically to mark the current function as completed)
      *
-     * @param string function name
+     * @param string $step function name
      */
     protected function skipThisStep($step)
     {

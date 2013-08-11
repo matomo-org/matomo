@@ -45,6 +45,8 @@ abstract class Updates
     /**
      * Tell the updater that this is a major update.
      * Leads to a more visible notice.
+     *
+     * @return bool
      */
     static function isMajorUpdate()
     {

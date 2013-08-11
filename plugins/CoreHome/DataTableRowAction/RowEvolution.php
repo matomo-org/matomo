@@ -15,8 +15,8 @@ use Piwik\Metrics;
 use Piwik\Date;
 use Piwik\ViewDataTable;
 use Piwik\Url;
-use Piwik\ViewDataTable\GenerateGraphHTML\ChartEvolution;
 use Piwik\Visualization\Chart\Evolution;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
 /**
  * ROW EVOLUTION
@@ -52,7 +52,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 
     /**
      * The data
-     * @var DataTable
+     * @var Piwik\DataTable
      */
     protected $dataTable;
 
@@ -98,8 +98,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
         if ($this->period != 'range') {
             // handle day, week, month and year: display last X periods
             $end = $date->toString();
-            list($this->date, $lastN) =
-                ChartEvolution::getDateRangeAndLastN($this->period, $end);
+            list($this->date, $lastN) = EvolutionViz::getDateRangeAndLastN($this->period, $end);
         }
         $this->segment = \Piwik\API\Request::getRawSegmentFromRequest();
 
@@ -180,29 +179,33 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     /**
      * Generic method to get an evolution graph or a sparkline for the row evolution popover.
      * Do as much as possible from outside the controller.
+     * @param string|bool $graphType
+     * @param array|bool $metrics
      * @return ViewDataTable
      */
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = ViewDataTable::factory(
-            $graphType ?: $this->graphType, $this->apiMethod, $controllerAction = 'CoreHome.getRowEvolutionGraph');
+        $view = ViewDataTable::factory($graphType ?: $this->graphType, $this->apiMethod,
+            $controllerAction = 'CoreHome.getRowEvolutionGraph', $forceDefault = true);
         $view->setDataTable($this->dataTable);
 
         if (!empty($this->graphMetrics)) { // In row Evolution popover, this is empty
             $view->columns_to_display = array_keys($metrics ?: $this->graphMetrics);
         }
 
+        $view->show_goals = false;
         $view->show_all_views_icons = false;
         $view->show_active_view_icon = false;
         $view->show_related_reports = false;
+        $view->visualization_properties->show_series_picker = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
             $view->translations[$metric] = $metadata['name'];
         }
 
-        $view->external_series_toggle = 'RowEvolutionSeriesToggle';
-        $view->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
+        $view->visualization_properties->external_series_toggle = 'RowEvolutionSeriesToggle';
+        $view->visualization_properties->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
 
         return $view;
     }
@@ -269,10 +272,9 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     {
         // sparkline is always echoed, so we need to buffer the output
         $view = $this->getRowEvolutionGraph($graphType = 'sparkline', $metrics = array($metric => $metric));
-        $view->main();
 
         ob_start();
-        $view->getView()->render();
+        $view->render();
         $spark = ob_get_contents();
         ob_end_clean();
 

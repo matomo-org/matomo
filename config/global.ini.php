@@ -494,6 +494,7 @@ logger_file_path = tmp/logs
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
 Plugins[] = CoreHome
+Plugins[] = CoreVisualizations
 Plugins[] = Proxy
 Plugins[] = API
 Plugins[] = Widgetize

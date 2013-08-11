@@ -133,35 +133,45 @@ class VisitTime extends \Piwik\Plugin
         );
 
         $properties['VisitTime.getVisitInformationPerServerTime'] = array_merge($commonProperties, array(
-                                                                                                        'filter_limit'             => 24,
-                                                                                                        'graph_limit'              => null,
-                                                                                                        'show_goals'               => true,
-                                                                                                        'translations'             => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
-
-                                                                                                        // custom parameter
-                                                                                                        'hideFutureHoursWhenToday' => 1,
-                                                                                                   ));
-
+            'filter_limit' => 24,
+            'show_goals' => true,
+            'translations' => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
+            'request_parameters_to_modify' => array('hideFutureHoursWhenToday' => 1),
+            'visualization_properties' => array(
+                'jqplot_graph' => array(
+                    'max_graph_elements' => false,
+                )
+            )
+        ));
+            
         $properties['VisitTime.getVisitInformationPerLocalTime'] = array_merge($commonProperties, array(
-                                                                                                       'filter_limit' => 24,
-                                                                                                       'graph_limit'  => null,
-                                                                                                       'title'        => Piwik_Translate('VisitTime_ColumnLocalTime'),
-                                                                                                       'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
-                                                                                                  ));
-
+            'filter_limit' => 24,
+            'title' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+            'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
+            'visualization_properties' => array(
+                'jqplot_graph' => array(
+                    'max_graph_elements' => false,
+                )
+            )
+        ));
+            
         $properties['VisitTime.getByDayOfWeek'] = array_merge($commonProperties, array(
-                                                                                      'filter_limit'        => 7,
-                                                                                      'graph_limit'         => null,
-                                                                                      'enable_sort'         => false,
-                                                                                      'show_all_ticks'      => true,
-                                                                                      'show_footer_message' =>
-                                                                                      Piwik_Translate('General_ReportGeneratedFrom', self::getDateRangeForFooterMessage()),
-                                                                                      'translations'        => array('label' => Piwik_Translate('VisitTime_DayOfWeek')),
-                                                                                 ));
+            'filter_limit' => 7,
+            'enable_sort' => false,
+            'show_footer_message' =>
+                Piwik_Translate('General_ReportGeneratedFrom', self::getDateRangeForFooterMessage()),
+            'translations' => array('label' => Piwik_Translate('VisitTime_DayOfWeek')),
+            'visualization_properties' => array(
+                'jqplot_graph' => array(
+                    'show_all_ticks' => true,
+                    'max_graph_elements' => false,
+                )
+            )
+        ));
 
         // add the visits by day of week as a related report, if the current period is not 'day'
         if (Common::getRequestVar('period', 'day') != 'day') {
-            $properties['VisitTime.getVisitInformationPerLocalTime']['relatedReports'] = array(
+            $properties['VisitTime.getVisitInformationPerLocalTime']['related_reports'] = array(
                 'VisitTime.getByDayOfWeek' => Piwik_Translate('VisitTime_VisitsByDayOfWeek')
             );
         }

@@ -40,14 +40,14 @@ class DataTableSummaryRow extends Row
     }
 
     /**
-     * Reset this row to an empty one and sum the associated subtable again.
+     * Reset this row to an empty one and sum the associated subTable again.
      */
     public function recalculate()
     {
         $id = $this->getIdSubDataTable();
         if ($id !== null) {
-            $subtable = Manager::getInstance()->getTable($id);
-            $this->sumTable($subtable);
+            $subTable = Manager::getInstance()->getTable($id);
+            $this->sumTable($subTable);
         }
     }
 

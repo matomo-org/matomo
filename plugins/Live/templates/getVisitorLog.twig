@@ -187,112 +187,7 @@
                     </strong>
                     <br/>
                     <ol class='visitorLog'>
-                        {% set visitorHasSomeEcommerceActivity %}0{% endset %}
-                        {% for action in visitor.getColumn('actionDetails') %}
-                            {% set customVariablesTooltip %}
-                                {% if action.customVariables is defined %}
-                                    {{ 'CustomVariables_CustomVariables'|translate }}
-                                    {% for id,customVariable in action.customVariables %}
-                                        {% set name = 'customVariablePageName' ~ id %}
-                                        {% set value = 'customVariablePageValue' ~ id %}
-                                        - {{ customVariable[name]|raw }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|raw }}{% endif %}
-                                    {% endfor %}
-                                {% endif %}
-                            {% endset %}
-                            {% if not javascriptVariablesToSet.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
-                                <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
-                                    title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
-                                    {{ action.url }}{% endif %} {% if customVariablesTooltip|trim|length %}
-
-                                    {{ customVariablesTooltip|trim }}{% endif %}{% if action.timeSpentPretty is defined %}
-
-                                    {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}{% if action.generationTime is defined %}
-
-                                    {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}">
-                                    {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
-                                    {# Ecommerce Abandoned Cart / Ecommerce Order #}
-                                        <img src="{{ action.icon }}"/>
-                                        {% if action.type == 'ecommerceOrder' %}
-                                            {% set visitorHasSomeEcommerceActivity %}1{% endset %}
-                                            <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
-                                            <span style='color:#666666'>({{ action.orderId }})</span>
-                                        {% else %}
-                                            <strong>{{'Goals_AbandonedCart'|translate}}</strong>
-
-                                            {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
-                                            {% if javascriptVariablesToSet.filterEcommerce == 2 %}
-                                                {% set visitorHasSomeEcommerceActivity %}1{% endset %}
-                                            {% endif %}
-                                        {% endif %}
-                                        <br/>
-                                        <span {% if not isWidget %}style='margin-left:20px'{% endif %}>
-					                        {% if action.type == 'ecommerceOrder' %}
-                                            <abbr title="
-                                                {{ 'Live_GoalRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}
-                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
-                                                {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
-                                                {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
-                                                {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
-                                                ">{{ 'Live_GoalRevenue'|translate }}:
-                                            {% else %}
-                                                {% set revenueLeft %}{{ 'Live_GoalRevenue'|translate }}{% endset %}
-                                                {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
-                                            {% endif %}
-                                                <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}</strong>
-                                            {% if action.type == 'ecommerceOrder' %}
-                                            </abbr>
-                                            {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
-
-                                            {# Ecommerce items in Cart/Order #}
-                                            {% if action.itemDetails is not empty %}
-                                                <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px'>
-                                                    {% for product in action.itemDetails %}
-                                                        <li>
-                                                            {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}
-                                                            {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
-                                                            ,
-                                                            {{ 'General_Quantity'|translate }}: {{ product.quantity }},
-                                                            {{ 'General_Price'|translate }}: {{ product.price|money(javascriptVariablesToSet.idSite)|raw }}
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% endif %}
-                                        </span>
-                                    {% elseif action.goalName is not defined%}
-                                        {# Page view / Download / Outlink #}
-                                        {% if action.pageTitle is defined %}
-                                            {{ action.pageTitle|truncate(80) }}
-                                        {% endif %}
-                                        {% if action.siteSearchKeyword is defined %}
-                                            {% if action.type == 'search' %}
-                                                <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}'>
-                                            {% endif %}
-                                            {{ action.siteSearchKeyword|truncate(80) }}
-                                        {% endif %}
-                                        {% if action.url is not empty %}
-                                            {% if action.type == 'action' and action.pageTitle is not empty %}<br/>{% endif %}
-                                            {% if action.type == 'download' or action.type == 'outlink' %}
-                                                <img src='{{ action.icon }}'>
-                                            {% endif %}
-                                            <a href="{{ action.url }}" target="_blank"
-                                               style="{% if action.type=='action' and action.pageTitle is not empty %}margin-left: 25px;{% endif %}text-decoration:underline;">
-                                                {{ action.url|truncate(80) }}
-                                            </a>
-                                        {% elseif action.type != 'search' %}
-                                            <br/>
-                                            <span style="margin-left: 25px;">{{ javascriptVariablesToSet.pageUrlNotDefined }}</span>
-                                        {% endif %}
-                                    {% else %}
-                                        {# Goal conversion #}
-                                        <img src="{{ action.icon }}" />
-                                        <strong>{{ action.goalName }}</strong>
-                                        {% if action.revenue > 0 %}, {{ 'Live_GoalRevenue'|translate }}:
-                                            <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}</strong>
-                                        {% endif %}
-                                    {% endif %}
-                                </li>
-                            {% endif %}
-                        {% endfor %}
+                        {% include "@Live/_actionsList.twig" with {'actionDetails': visitor.getColumn('actionDetails')} %}
                     </ol>
                 </td>
             </tr>
@@ -314,11 +209,11 @@
     {% include "@CoreHome/_dataTableJS.twig" %}
     <script type="text/javascript" defer="defer">
 
-        var visitorLogTitle = '{{ 'Live_VisitorLog'|translate|e('js') }}';
+        var visitorLogTitle = '{{ 'Live_VisitorProfile'|translate|e('js') }}';
         function Piwik_Live_LoadVisitorPopover(visitorId) {
             var startingDate = piwik.minDateYear + '-01-01';
-            var url = 'module=Live&action=getVisitorLog&period=range&date=' + startingDate + ',today&show_footer=0&segment=visitorId' + encodeURIComponent('==') + visitorId;
-            return Piwik_Popover.createPopupAndLoadUrl(url, visitorLogTitle);
+            var url = 'module=Live&action=getVisitorProfilePopup&period=range&date=' + startingDate + ',today&idVisitor=' + encodeURIComponent(visitorId);
+            return Piwik_Popover.createPopupAndLoadUrl(url, visitorLogTitle, 'visitor-profile-popup');
         }
 
         $(document).ready(function () {
@@ -332,7 +227,7 @@
                     $(this).val(counter);
                     var current = $(this).html();
                     if (current == prevhtml) {
-                        var repeat = prevelement.find(".repeat")
+                        var repeat = prevelement.find(".repeat");
                         if (repeat.length) {
                             repeat.html((parseInt(repeat.html()) + 1) + "x");
                         } else {

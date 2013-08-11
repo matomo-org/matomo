@@ -102,16 +102,11 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/SegmentEditor/javascripts/jquery.jscrollpane.js";
         $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
-        $jsFiles[] = "plugins/SegmentEditor/javascripts/jquery.mousewheel.js";
-        $jsFiles[] = "plugins/SegmentEditor/javascripts/mwheelIntent.js";
     }
 
     public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
-        $cssFiles[] = "plugins/SegmentEditor/stylesheets/jquery.jscrollpane.css";
-        $cssFiles[] = "plugins/SegmentEditor/stylesheets/scroll.less";
     }
 }

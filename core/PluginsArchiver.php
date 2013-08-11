@@ -23,6 +23,10 @@ abstract class PluginsArchiver
 {
     protected $processor;
 
+    /**
+     * Constructor
+     * @param ArchiveProcessor $processing
+     */
     public function __construct(ArchiveProcessor $processing)
     {
         $this->maximumRows = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];

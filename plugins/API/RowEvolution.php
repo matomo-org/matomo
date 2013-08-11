@@ -93,6 +93,11 @@ class RowEvolution
         return $dataTable;
     }
 
+    /**
+     * @param DataTable\Map  $dataTable
+     * @param array          $labels
+     * @return array
+     */
     protected function getLabelsFromDataTable($dataTable, $labels)
     {
         // if no labels specified, use all possible labels as list
@@ -114,7 +119,7 @@ class RowEvolution
 
     /**
      * Get row evolution for a single label
-     * @param DataTable $dataTable
+     * @param DataTable\Map $dataTable
      * @param array $metadata
      * @param string $apiModule
      * @param string $apiAction
@@ -175,6 +180,13 @@ class RowEvolution
         return $return;
     }
 
+    /**
+     * @param Row     $row
+     * @param string  $apiModule
+     * @param string  $apiAction
+     * @param bool    $labelUseAbsoluteUrl
+     * @return bool|string
+     */
     private function getRowUrlForEvolutionLabel($row, $apiModule, $apiAction, $labelUseAbsoluteUrl)
     {
         $url = $row->getMetadata('url');
@@ -191,14 +203,14 @@ class RowEvolution
     }
 
     /**
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param $apiModule
-     * @param $apiAction
-     * @param $label
-     * @param $segment
-     * @param $idGoal
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param string|bool $label
+     * @param string|bool $segment
+     * @param int|bool $idGoal
      * @throws Exception
      * @return DataTable\Map|DataTable
      */

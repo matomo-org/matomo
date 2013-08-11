@@ -317,9 +317,9 @@ class DevicesDetection extends \Piwik\Plugin
         return array(
             'show_search'                 => false,
             'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemFamily")),
-            'title'                       => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
-            'relatedReports'              => $this->getOsRelatedReports()
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemFamily")),
+            'title' => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
+            'related_reports' => $this->getOsRelatedReports()
         );
     }
 
@@ -328,9 +328,9 @@ class DevicesDetection extends \Piwik\Plugin
         return array(
             'show_search'                 => false,
             'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemVersion")),
-            'title'                       => Piwik_Translate('DeviceDetection_OperatingSystemVersions'),
-            'relatedReports'              => $this->getOsRelatedReports()
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemVersion")),
+            'title' => Piwik_Translate('DeviceDetection_OperatingSystemVersions'),
+            'related_reports' => $this->getOsRelatedReports()
         );
     }
 
@@ -339,9 +339,9 @@ class DevicesDetection extends \Piwik\Plugin
         return array(
             'show_search'                 => false,
             'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrowserFamily")),
-            'title'                       => Piwik_Translate('DevicesDetection_BrowsersFamily'),
-            'relatedReports'              => $this->getBrowserRelatedReports()
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrowserFamily")),
+            'title' => Piwik_Translate('DevicesDetection_BrowsersFamily'),
+            'related_reports' => $this->getBrowserRelatedReports()
         );
     }
 
@@ -350,8 +350,8 @@ class DevicesDetection extends \Piwik\Plugin
         return array(
             'show_search'                 => false,
             'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrowserVersion")),
-            'relatedReports'              => $this->getBrowserRelatedReports()
+            'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelBrowserVersion")),
+            'related_reports' => $this->getBrowserRelatedReports()
         );
     }
 

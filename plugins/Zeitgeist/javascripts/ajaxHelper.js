@@ -10,7 +10,7 @@
  *
  * @type {Array} array holding XhrRequests with automatic cleanup
  */
-var globalAjaxQueue = new Array();
+var globalAjaxQueue = [];
 
 /**
  * Extend Array.push with automatic cleanup for finished requests

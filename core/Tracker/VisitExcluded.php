@@ -21,6 +21,11 @@ use Piwik\Tracker\Request;
  */
 class VisitExcluded
 {
+    /**
+     * @param Request $request
+     * @param bool|string $ip
+     * @param bool|string $userAgent
+     */
     public function __construct(Request $request, $ip = false, $userAgent = false)
     {
         if ($ip === false) {

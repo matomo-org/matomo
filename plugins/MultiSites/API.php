@@ -402,8 +402,8 @@ class API
      * Sets the total evolution metadata for a datatable returned by $this->buildDataTable
      * given data for the last period.
      *
-     * @param DataTable $dataTable
-     * @param DataTable $pastData
+     * @param DataTable|DataTable\Map $dataTable
+     * @param DataTable|DataTable\Map $pastData
      * @param array $apiMetrics Metrics info.
      */
     private function setPastDataMetadata($dataTable, $pastData, $apiMetrics)

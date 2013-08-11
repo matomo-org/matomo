@@ -88,18 +88,18 @@ class Goals extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'AssetManager.getJsFiles'                  => 'getJsFiles',
-            'AssetManager.getCssFiles'                 => 'getCssFiles',
-            'Common.fetchWebsiteAttributes'            => 'fetchGoalsFromDb',
-            'ArchiveProcessing_Day.compute'            => 'archiveDay',
-            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
-            'API.getReportMetadata.end'                => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'WidgetsList.add'                          => 'addWidgets',
-            'Menu.add'                                 => 'addMenus',
-            'SitesManager.deleteSite'                  => 'deleteSiteGoals',
-            'Goals.getReportsWithGoalMetrics'          => 'getActualReportsWithGoalMetrics',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties', // TODO: ViewDataTable should get ALL once
+            'AssetManager.getJsFiles'          => 'getJsFiles',
+            'AssetManager.getCssFiles'         => 'getCssFiles',
+            'Common.fetchWebsiteAttributes'    => 'fetchGoalsFromDb',
+            'ArchiveProcessing_Day.compute'    => 'archiveDay',
+            'ArchiveProcessing_Period.compute' => 'archivePeriod',
+            'API.getReportMetadata.end'        => 'getReportMetadata',
+            'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
+            'WidgetsList.add'                  => 'addWidgets',
+            'Menu.add'                         => 'addMenus',
+            'SitesManager.deleteSite'          => 'deleteSiteGoals',
+            'Goals.getReportsWithGoalMetrics'  => 'getActualReportsWithGoalMetrics',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }

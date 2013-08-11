@@ -1,0 +1,62 @@
+/* Documentation */
+table.dataTable th .columnDocumentation {
+  display: none;
+  width: 165px;
+  text-align: left;
+  background: #f7f7f7;
+  color: #444;
+  font-size: 11px;
+  font-weight: normal;
+  border: 1px solid #e4e5e4;
+  padding: 5px 10px 6px 10px;
+  border-radius: 4px;
+  z-index: 125;
+  position: absolute;
+  box-shadow: 0 0 4px #e4e5e4;
+  cursor: default;
+}
+
+table.dataTable th .columnDocumentationTitle {
+  background: url(plugins/Zeitgeist/images/help.png) no-repeat;
+  line-height: 14px;
+  padding: 2px 0 3px 21px;
+  font-weight: bold;
+}
+
+.reportDocumentation {
+  display: none;
+  background: #f7f7f7;
+  font-size: 12px;
+  font-weight: normal;
+  border: 1px solid #e4e5e4;
+  margin: 0 0 10px 0;
+  padding: 0;
+  border-radius: 4px;
+  max-width: 500px;
+}
+
+.reportDocumentation p {
+  padding: 5px 10px 6px 10px;
+  margin: 0;
+  color: #444;
+  font-size: 12px;
+}
+
+.reportDocumentationIcon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 10px 0;
+  background: url(plugins/Zeitgeist/images/help.png) no-repeat;
+}
+
+h2 .reportDocumentationIcon {
+  position: absolute;
+  margin: 4px 0 0 0;
+  display: none;
+  background: url(plugins/Zeitgeist/images/help_grey.png) no-repeat;
+}
+
+h2 .reportDocumentationIcon.hidden {
+  background: none;
+}

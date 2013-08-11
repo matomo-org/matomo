@@ -43,7 +43,7 @@
 			</td>
 			<td width="164">
 			{% set lastTimeRunNote %}
-				{% if lastTimeUpdaterRun is not empty %}
+				{% if lastTimeUpdaterRun is defined and lastTimeUpdaterRun is not empty %}
 					{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun)|raw }}
 				{% else %}
 					{{ 'UserCountry_UpdaterHasNotBeenRun'|translate }}

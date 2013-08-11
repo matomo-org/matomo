@@ -10,7 +10,7 @@
  */
 
 namespace Piwik;
-use \Piwik\NoAccessException;
+use Piwik\NoAccessException;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
@@ -63,7 +63,7 @@ class FrontController
      * @param string $module
      * @param string $action
      * @param array $parameters
-     * @return mixed The returned value of the calls, often nothing as the module print but don't return data
+     * @return void|mixed  The returned value of the calls, often nothing as the module print but don't return data
      * @see fetchDispatch()
      */
     public function dispatch($module = null, $action = null, $parameters = null)
@@ -128,7 +128,7 @@ class FrontController
 
         try {
             return call_user_func_array(array($params[0], $params[1]), $params[2]);
-        } catch (\Piwik\NoAccessException $e) {
+        } catch (NoAccessException $e) {
             Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
@@ -373,5 +373,3 @@ class PluginDeactivatedException extends Exception
         parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Piwik.");
     }
 }
-
-

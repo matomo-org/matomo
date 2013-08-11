@@ -17,6 +17,7 @@ use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\Plugins\Annotations\AnnotationList;
 use Piwik\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
 /**
  * @see plugins/Annotations/AnnotationList.php
@@ -310,7 +311,7 @@ class API
      * @param bool|int $lastN  Whether to include the last N periods in the range or not.
      *                         Ignored if period == range.
      *
-     * @return array
+     * @return Date[]   array of Date objects or array(false, false)
      * @ignore
      */
     public static function getDateRangeForPeriod($date, $period, $lastN = false)
@@ -333,7 +334,7 @@ class API
             $endDate = $oPeriod->getDateEnd();
         } else // if the range includes the last N periods
         {
-            list($date, $lastN) = \Piwik\ViewDataTable\GenerateGraphHTML\ChartEvolution::getDateRangeAndLastN($period, $date, $lastN);
+            list($date, $lastN) = EvolutionViz::getDateRangeAndLastN($period, $date, $lastN);
             list($startDate, $endDate) = explode(',', $date);
 
             $startDate = Date::factory($startDate);

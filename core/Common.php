@@ -505,7 +505,7 @@ class Common
         // $_GET and $_REQUEST already urldecode()'d
         // decode
         // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
-        $value = html_entity_decode($value, \Piwik\Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+        $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         // filter
         $value = str_replace(array("\n", "\r", "\0"), '', $value);
@@ -790,36 +790,6 @@ class Common
     }
 
     /**
-     * Should we use the replacement json_encode/json_decode functions?
-     *
-     * @return bool  True if broken; false otherwise
-     */
-    private static function useJsonLibrary()
-    {
-        static $useLib;
-
-        if (!isset($useLib)) {
-            /*
-             * 5.1.x - doesn't have json extension; we use lib/upgradephp instead
-             * 5.2 to 5.2.4 - broken in various ways, including:
-             *
-             * @see https://bugs.php.net/bug.php?id=38680 'json_decode cannot decode basic types'
-             * @see https://bugs.php.net/bug.php?id=41403 'json_decode cannot decode floats'
-             * @see https://bugs.php.net/bug.php?id=42785 'json_encode outputs numbers according to locale'
-             */
-            $useLib = false;
-            if (version_compare(PHP_VERSION, '5.2.1') < 0) {
-                $useLib = true;
-            } else if (version_compare(PHP_VERSION, '5.2.5') < 0) {
-                $info = localeconv();
-                $useLib = $info['decimal_point'] != '.';
-            }
-        }
-
-        return $useLib;
-    }
-
-    /**
      * JSON encode wrapper
      * - missing or broken in some php 5.x versions
      *
@@ -828,10 +798,6 @@ class Common
      */
     public static function json_encode($value)
     {
-        if (self::useJsonLibrary()) {
-            return _json_encode($value);
-        }
-
         return @json_encode($value);
     }
 
@@ -845,10 +811,6 @@ class Common
      */
     public static function json_decode($json, $assoc = false)
     {
-        if (self::useJsonLibrary()) {
-            return _json_decode($json, $assoc);
-        }
-
         return json_decode($json, $assoc);
     }
 
@@ -1209,7 +1171,7 @@ class Common
      *
      * @see unit tests in /tests/core/Common.test.php
      * @param string $referrerUrl  URL referer URL, eg. $_SERVER['HTTP_REFERER']
-     * @return array|false false if a keyword couldn't be extracted,
+     * @return array|bool   false if a keyword couldn't be extracted,
      *                        or array(
      *                            'name' => 'Google',
      *                            'keywords' => 'my searched keywords')

@@ -12,6 +12,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Access;
+use Piwik\NoAccessException;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
@@ -251,8 +252,8 @@ class Piwik
     }
 
     /*
- * File and directory operations
- */
+     * File and directory operations
+     */
 
     /**
      * Copy recursively from $source to $target.
@@ -887,8 +888,8 @@ class Piwik
     }
 
     /*
- * PHP environment settings
- */
+     * PHP environment settings
+     */
 
     /**
      * Set maximum script execution time.
@@ -909,7 +910,7 @@ class Piwik
      * compile-time default, so ini_get('memory_limit') may return false.
      *
      * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
-     * @return int|false  memory limit in megabytes, or false if there is no limit
+     * @return int|bool  memory limit in megabytes, or false if there is no limit
      */
     static public function getMemoryLimitValue()
     {
@@ -984,10 +985,11 @@ class Piwik
         return false;
     }
 
-    /*
- * Logging and error handling
- */
-
+    /**
+     * Logging and error handling
+     *
+     * @var bool|null
+     */
     public static $shouldLog = null;
 
     /**
@@ -1059,8 +1061,8 @@ class Piwik
     }
 
     /*
- * Profiling
- */
+     * Profiling
+     */
 
     /**
      * Get total number of queries
@@ -1131,6 +1133,7 @@ class Piwik
     /**
      * Outputs SQL Profiling reports
      * It is automatically called when enabling the SQL profiling in the config file enable_sql_profiler
+     *
      * @throws Exception
      */
     static function printSqlProfilingReportZend()
@@ -1243,9 +1246,9 @@ class Piwik
         return "$usage Mb";
     }
 
-/*
- * Amounts, Percentages, Currency, Time, Math Operations, and Pretty Printing
- */
+    /*
+     * Amounts, Percentages, Currency, Time, Math Operations, and Pretty Printing
+     */
 
     /**
      * Returns a list of currency symbols
@@ -1561,8 +1564,8 @@ class Piwik
     }
 
     /*
- * Access
- */
+     * Access
+     */
 
     /**
      * Get current user email address
@@ -1640,7 +1643,7 @@ class Piwik
      * Check that current user is either the specified user or the superuser
      *
      * @param string $theUser
-     * @throws \Piwik\NoAccessException  if the user is neither the super user nor the user $theUser
+     * @throws NoAccessException  if the user is neither the super user nor the user $theUser
      */
     static public function checkUserIsSuperUserOrTheUser($theUser)
     {
@@ -1649,8 +1652,8 @@ class Piwik
                 // or to the super user
                 Piwik::checkUserIsSuperUser();
             }
-        } catch (\Piwik\NoAccessException $e) {
-            throw new \Piwik\NoAccessException(Piwik_Translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
+        } catch (NoAccessException $e) {
+            throw new NoAccessException(Piwik_Translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
         }
     }
 
@@ -1682,12 +1685,12 @@ class Piwik
     /**
      * Checks if user is not the anonymous user.
      *
-     * @throws \Piwik\NoAccessException  if user is anonymous.
+     * @throws NoAccessException  if user is anonymous.
      */
     static public function checkUserIsNotAnonymous()
     {
         if (self::isUserIsAnonymous()) {
-            throw new \Piwik\NoAccessException(Piwik_Translate('General_YouMustBeLoggedIn'));
+            throw new NoAccessException(Piwik_Translate('General_YouMustBeLoggedIn'));
         }
     }
 
@@ -1817,8 +1820,8 @@ class Piwik
     }
 
     /*
- * Current module, action, plugin
- */
+     * Current module, action, plugin
+     */
 
     /**
      * Returns the name of the Login plugin currently being used.
@@ -1902,8 +1905,8 @@ class Piwik
     }
 
     /*
- * Global database object
- */
+     * Global database object
+     */
 
     /**
      * Create database object and connect to database
@@ -1962,12 +1965,12 @@ class Piwik
     }
 
     /*
- * Global log object
- */
+     * Global log object
+     */
 
     /*
- * User input validation
- */
+     * User input validation
+     */
 
     /**
      * Returns true if the email is a valid email
@@ -2032,8 +2035,8 @@ class Piwik
     }
 
     /*
- * Date / Timezone
- */
+     * Date / Timezone
+     */
 
     /**
      * Determine if this php version/build supports timezone manipulation
@@ -2053,8 +2056,8 @@ class Piwik
     }
 
     /*
- * Database and table definition methods
- */
+     * Database and table definition methods
+     */
 
     /**
      * Is the schema available?
@@ -2481,5 +2484,18 @@ class Piwik
     public static function getArchiveCronLastRunOptionName($period, $idSite)
     {
         return "lastRunArchive" . $period . "_" . $idSite;
+    }
+
+    /**
+     * Returns the class name of an object without its namespace.
+     * 
+     * @param mixed|string $object
+     * @return string
+     */
+    public static function getUnnamespacedClassName($object)
+    {
+        $className = is_string($object) ? $object : get_class($object);
+        $parts = explode('\\', $className);
+        return end($parts);
     }
 }

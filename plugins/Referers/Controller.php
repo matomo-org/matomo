@@ -264,7 +264,7 @@ class Controller extends \Piwik\Controller
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getRefererType');
 
-        $view->add_total_row = true;
+        $view->visualization_properties->add_total_row = true;
 
         // configure displayed columns
         if (empty($columns)) {
@@ -280,7 +280,7 @@ class Controller extends \Piwik\Controller
         } else {
             $selectable = array('nb_visits', 'nb_actions');
         }
-        $view->selectable_columns = $selectable;
+        $view->visualization_properties->selectable_columns = $selectable;
 
         // configure displayed rows
         $visibleRows = Common::getRequestVar('rows', false);
@@ -300,7 +300,7 @@ class Controller extends \Piwik\Controller
             $visibleRows = array($label, $total);
             $view->request_parameters_to_modify['rows'] = $label . ',' . $total;
         }
-        $view->row_picker_mach_rows_by = 'label';
+        $view->row_picker_match_rows_by = 'label';
         $view->row_picker_visible_rows = $visibleRows;
 
         $view->documentation = Piwik_Translate('Referers_EvolutionDocumentation') . '<br />'

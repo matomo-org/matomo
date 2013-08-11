@@ -1,4 +1,5 @@
 {
-    "description": "A dark theme for Piwik, ideal to view your analytics reports before sunrise!",
+    "name": "PleineLune",
+    "description": "A dark theme for Piwik, ideal to view your analytics reports before sunrise.",
     "theme": true
 }

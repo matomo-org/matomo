@@ -38,22 +38,6 @@
 use Piwik\Common;
 
 /**
- * @since PHP 5
- */
-if(!defined('E_STRICT')) {            define('E_STRICT', 2048); }
-
-/**
- * @since PHP 5.2.0
- */
-if(!defined('E_RECOVERABLE_ERROR')) { define('E_RECOVERABLE_ERROR', 4096); }
-
-/**
- * @since PHP 5.3.0
- */
-if(!defined('E_DEPRECATED')) {        define('E_DEPRECATED', 8192); }
-if(!defined('E_USER_DEPRECATED')) {   define('E_USER_DEPRECATED', 16384); }
-
-/**
  *                                   ------------------------------ 5.2 ---
  * @group 5_2
  * @since 5.2
@@ -96,309 +80,11 @@ if(!defined('E_USER_DEPRECATED')) {   define('E_USER_DEPRECATED', 16384); }
  */
 
 /**
- * Converts PHP variable or array into a "JSON" (JavaScript value expression
- * or "object notation") string.
- *
- * @compat
- *    Output seems identical to PECL versions. "Only" 20x slower than PECL version.
- * @bugs
- *    Doesn't take care with unicode too much - leaves UTF-8 sequences alone.
- *
- * @param  $var mixed  PHP variable/array/object
- * @return string      transformed into JSON equivalent
- */
-function _json_encode($var, /*emu_args*/$obj=FALSE) {
-
-   #-- handle locale differences
-   $locale = localeconv();
-
-   #-- prepare JSON string
-   $json = "";
-   
-   #-- add array entries
-   if (is_array($var) || ($obj=is_object($var))) {
-
-      #-- check if array is associative
-      if (!$obj) {
-         $expect = 0;
-         foreach ((array)$var as $i=>$v) {
-            if (!is_int($i) || $i !== $expect++) {
-               $obj = 1;
-               break;
-            }
-         }
-      }
-
-      #-- concat invidual entries
-      foreach ((array)$var as $i=>$v) {
-         $json .= ($json !== '' ? "," : "")    // comma separators
-                . ($obj ? ("\"$i\":") : "")   // assoc prefix
-                . (_json_encode($v));    // value
-      }
-
-      #-- enclose into braces or brackets
-      $json = $obj ? "{".$json."}" : "[".$json."]";
-   }
-
-   #-- strings need some care
-   elseif (is_string($var)) {
-      if (!utf8_decode($var)) {
-         $var = utf8_encode($var);
-      }
-      $var = str_replace(array("\\", "\"", "/", "\b", "\f", "\n", "\r", "\t"), array("\\\\", '\"', "\\/", "\\b", "\\f", "\\n", "\\r", "\\t"), $var);
-      $json = '"' . $var . '"';
-      //@COMPAT: for fully-fully-compliance   $var = preg_replace("/[\000-\037]/", "", $var);
-   }
-
-   #-- basic types
-   elseif (is_bool($var)) {
-      $json = $var ? "true" : "false";
-   }
-   elseif ($var === NULL) {
-      $json = "null";
-   }
-   elseif (is_int($var)) {
-      $json = "$var";
-   }
-   elseif (is_float($var)) {
-      $json = str_replace(
-         array($locale['mon_thousands_sep'], $locale['mon_decimal_point']),
-         array('', '.'),
-         $var
-      );
-   }
-
-   #-- something went wrong
-   else {
-      trigger_error("json_encode: don't know what a '" .gettype($var). "' is.", E_USER_ERROR);
-   }
-   
-   #-- done
-   return($json);
-}
-if (!function_exists("json_encode")) {
-   function json_encode($var, /*emu_args*/$obj=FALSE) {
-      return _json_encode($var);
-   }
-}
-
-/**
- * Parses a JSON (JavaScript value expression) string into a PHP variable
- * (array or object).
- *
- * @compat
- *    Behaves similar to PECL version, but is less quiet on errors.
- *    Now even decodes unicode \uXXXX string escapes into UTF-8.
- *    "Only" 27 times slower than native function.
- * @bugs
- *    Might parse some misformed representations, when other implementations
- *    would scream error or explode.
- * @code
- *    This is state machine spaghetti code. Needs the extranous parameters to
- *    process subarrays, etc. When it recursively calls itself, $n is the
- *    current position, and $waitfor a string with possible end-tokens.
- *
- * @param   $json string   JSON encoded values
- * @param   $assoc bool    (optional) if outer shell should be decoded as object always
- * @return  mixed          parsed into PHP variable/array/object
- */
-function _json_decode($json, $assoc=FALSE, /*emu_args*/$n=0,$state=0,$waitfor=0) {
-
-   #-- result var
-   $val = NULL;
-   static $lang_eq = array("true" => TRUE, "false" => FALSE, "null" => NULL);
-   static $str_eq = array("n"=>"\012", "r"=>"\015", "\\"=>"\\", '"'=>'"', "f"=>"\f", "b"=>"\b", "t"=>"\t", "/"=>"/");
-
-   #-- flat char-wise parsing
-   for (/*n*/; $n<strlen($json); /*n*/) {
-      $c = $json[$n];
-
-      #-= in-string
-      if ($state==='"') {
-
-         if ($c == '\\') {
-            $c = $json[++$n];
-            // simple C escapes
-            if (isset($str_eq[$c])) {
-               $val .= $str_eq[$c];
-            }
-
-            // here we transform \uXXXX Unicode (always 4 nibbles) references to UTF-8
-            elseif ($c == "u") {
-               // read just 16bit (therefore value can't be negative)
-               $hex = hexdec( substr($json, $n+1, 4) );
-               $n += 4;
-               // Unicode ranges
-               if ($hex < 0x80) {    // plain ASCII character
-                  $val .= chr($hex);
-               }
-               elseif ($hex < 0x800) {   // 110xxxxx 10xxxxxx 
-                  $val .= chr(0xC0 + $hex>>6) . chr(0x80 + $hex&63);
-               }
-               elseif ($hex <= 0xFFFF) { // 1110xxxx 10xxxxxx 10xxxxxx 
-                  $val .= chr(0xE0 + $hex>>12) . chr(0x80 + ($hex>>6)&63) . chr(0x80 + $hex&63);
-               }
-               // other ranges, like 0x1FFFFF=0xF0, 0x3FFFFFF=0xF8 and 0x7FFFFFFF=0xFC do not apply
-            }
-
-            // no escape, just a redundant backslash
-            //@COMPAT: we could throw an exception here
-            else {
-               $val .= "\\" . $c;
-            }
-         }
-
-         // end of string
-         elseif ($c == '"') {
-            $state = 0;
-         }
-
-         // yeeha! a single character found!!!!1!
-         else/*if (ord($c) >= 32)*/ { //@COMPAT: specialchars check - but native json doesn't do it?
-            $val .= $c;
-         }
-      }
-
-      #-> end of sub-call (array/object)
-      elseif ($waitfor && (strpos($waitfor, $c) !== false)) {
-         return array($val, $n);  // return current value and state
-      }
-      
-      #-= in-array
-      elseif ($state===']') {
-         list($v, $n) = _json_decode($json, 0, $n, 0, ",]");
-         $val[] = $v;
-         if ($json[$n] == "]") { return array($val, $n); }
-      }
-
-      #-= in-object
-      elseif ($state==='}') {
-         list($i, $n) = _json_decode($json, 0, $n, 0, ":");   // this allowed non-string indicies
-         list($v, $n) = _json_decode($json, $assoc, $n+1, 0, ",}");
-         $val[$i] = $v;
-         if ($json[$n] == "}") { return array($val, $n); }
-      }
-
-      #-- looking for next item (0)
-      else {
-      
-         #-> whitespace
-         if (preg_match("/\s/", $c)) {
-            // skip
-         }
-
-         #-> string begin
-         elseif ($c == '"') {
-            $state = '"';
-         }
-
-         #-> object
-         elseif ($c == "{") {
-            list($val, $n) = _json_decode($json, $assoc, $n+1, '}', "}");
-            if ($val && $n && !$assoc) {
-               $obj = new stdClass();
-               foreach ($val as $i=>$v) {
-                  $obj->{$i} = $v;
-               }
-               $val = $obj;
-               unset($obj);
-            }
-         }
-         #-> array
-         elseif ($c == "[") {
-            list($val, $n) = _json_decode($json, $assoc, $n+1, ']', "]");
-         }
-
-         #-> comment
-         elseif (($c == "/") && ($json[$n+1]=="*")) {
-            // just find end, skip over
-            ($n = strpos($json, "*/", $n+1)) or ($n = strlen($json));
-         }
-
-         #-> numbers
-         elseif (preg_match("#^(-?\d+(?:\.\d+)?)(?:[eE]([-+]?\d+))?#", substr($json, $n), $uu)) {
-            $val = $uu[1];
-            $n += strlen($uu[0]) - 1;
-            if (strpos($val, ".")) {  // float
-               $val = (float)$val;
-            }
-            elseif ($val[0] == "0") {  // oct
-               $val = octdec($val);
-            }
-            else {
-               $val = (int)$val;
-            }
-            // exponent?
-            if (isset($uu[2])) {
-               $val *= pow(10, (int)$uu[2]);
-            }
-         }
-
-         #-> boolean or null
-         elseif (preg_match("#^(true|false|null)\b#", substr($json, $n), $uu)) {
-            $val = $lang_eq[$uu[1]];
-            $n += strlen($uu[1]) - 1;
-         }
-
-         #-- parsing error
-         else {
-            // PHPs native json_decode() breaks here usually and QUIETLY
-           trigger_error("json_decode: error parsing '$c' at position $n", E_USER_WARNING);
-            return $waitfor ? array(NULL, 1<<30) : NULL;
-         }
-
-      }//state
-      
-      #-- next char
-      if ($n === NULL) { return NULL; }
-      $n++;
-   }//for
-
-   #-- final result
-   return ($val);
-}
-if (!function_exists("json_decode")) {
-   function json_decode($json, $assoc=FALSE) {
-      return _json_decode($json, $assoc);
-   }
-}
-
-/**
  * Constants for future 64-bit integer support.
  *
  */
 if (!defined("PHP_INT_SIZE")) { define("PHP_INT_SIZE", 4); }
 if (!defined("PHP_INT_MAX")) { define("PHP_INT_MAX", 2147483647); }
-
-/**
- * @flag bugfix
- * @see #33895
- *
- * Missing constants in 5.1, originally appeared in 4.0.
- */
-if (!defined("M_SQRTPI")) { define("M_SQRTPI", 1.7724538509055); }
-if (!defined("M_LNPI")) { define("M_LNPI", 1.1447298858494); }
-if (!defined("M_EULER")) { define("M_EULER", 0.57721566490153); }
-if (!defined("M_SQRT3")) { define("M_SQRT3", 1.7320508075689); }
-
-/**
- * removes entities &lt; &gt; &amp; and eventually &quot; from HTML string
- *
- */
-if (!function_exists("htmlspecialchars_decode")) {
-   if (!defined("ENT_COMPAT")) { define("ENT_COMPAT", 2); }
-   if (!defined("ENT_QUOTES")) { define("ENT_QUOTES", 3); }
-   if (!defined("ENT_NOQUOTES")) { define("ENT_NOQUOTES", 0); }
-   function htmlspecialchars_decode($string, $quotes=2) {
-      $d = $quotes & ENT_COMPAT;
-      $s = $quotes & ENT_QUOTES;
-      return str_replace(
-         array("&lt;", "&gt;", ($s ? "&quot;" : "&.-;"), ($d ? "&#039;" : "&.-;"), "&amp;"),
-         array("<",    ">",    "'",                      "\"",                     "&"),
-         $string
-      );
-   }
-}
 
 /*
    These functions emulate the "character type" extension, which is
@@ -407,43 +93,6 @@ if (!function_exists("htmlspecialchars_decode")) {
    is eventually faster.
 */
 
-
-#-- regex variants
-if (!function_exists("ctype_alnum")) {
-   function ctype_alnum($text) {
-      return preg_match("/^[A-Za-z\d\300-\377]+$/", $text);
-   }
-   function ctype_alpha($text) {
-      return preg_match("/^[a-zA-Z\300-\377]+$/", $text);
-   }
-   function ctype_digit($text) {
-      return preg_match("/^\d+$/", $text);
-   }
-   function ctype_xdigit($text) {
-      return preg_match("/^[a-fA-F0-9]+$/", $text);
-   }
-   function ctype_cntrl($text) {
-      return preg_match("/^[\000-\037]+$/", $text);
-   }
-   function ctype_space($text) {
-      return preg_match("/^\s+$/", $text);
-   }
-   function ctype_upper($text) {
-      return preg_match("/^[A-Z\300-\337]+$/", $text);
-   }
-   function ctype_lower($text) {
-      return preg_match("/^[a-z\340-\377]+$/", $text);
-   }
-   function ctype_graph($text) {
-      return preg_match("/^[\041-\176\241-\377]+$/", $text);
-   }
-   function ctype_punct($text) {
-      return preg_match("/^[^0-9A-Za-z\000-\040\177-\240\300-\377]+$/", $text);
-   }
-   function ctype_print($text) {
-      return ctype_punct($text) && ctype_graph($text);
-   }
-}
 
 /**
  * Sets the default client character set.
@@ -593,31 +242,6 @@ if(function_exists('parse_ini_file')) {
 }
 
 /**
- * fnmatch() replacement
- *
- * @since fnmatch() added to PHP 4.3.0; PHP 5.3.0 on Windows
- * @author jk at ricochetsolutions dot com
- * @author anthon (dot) pang (at) gmail (dot) com
- *
- * @param string $pattern shell wildcard pattern
- * @param string $string tested string
- * @param int $flags FNM_CASEFOLD (other flags not supported)
- * @return bool True if there is a match, false otherwise
- */
-if(!defined('FNM_CASEFOLD')) { define('FNM_CASEFOLD', 16); }
-if(function_exists('fnmatch')) {
-	// provide a wrapper
-	function _fnmatch($pattern, $string, $flags = 0) {
-		return fnmatch($pattern, $string, $flags);
-	}
-} else {
-    function _fnmatch($pattern, $string, $flags = 0) {
-		$regex = '#^' . strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.')) . '$#' . ($flags & FNM_CASEFOLD ? 'i' : '');
-		return preg_match($regex, $string);
-    }
-}
-
-/**
  * glob() replacement.
  * Behaves like glob($pattern, $flags)
  *
@@ -642,7 +266,7 @@ if(function_exists('glob')) {
 			$matches = array();
 			while(($file = readdir($handle)) !== false) {
 				if(($file[0] != '.')
-						&& _fnmatch($filePattern, $file)
+						&& fnmatch($filePattern, $file)
 						&& (!($flags & GLOB_ONLYDIR) || is_dir("$path/$file"))) {
 					$matches[] = "$path/$file" . ($flags & GLOB_MARK ? '/' : '');
 				}	
@@ -1050,30 +674,5 @@ if (!function_exists('utf8_decode')) {
 if(!function_exists('mb_strtolower')) {
 	function mb_strtolower($input, $charset) {
 		return strtolower($input);
-	}
-}
-
-/**
- * str_getcsv - parse CSV string into array
- *
- * @since php 5.3.0
- *
- * @param string $input
- * @param string $delimeter
- * @param string $enclosure
- * @param string $escape (Not supported)
- * @return array
- */
-if(!function_exists('str_getcsv')) {
-	function str_getcsv($input, $delimiter=',', $enclosure='"', $escape='\\') {
-		$handle = fopen('php://memory', 'rw');
-		$input = str_replace("\n", "\r", $input);
- 		fwrite($handle, $input);
-		fseek($handle, 0);
-		$r = array();
-		$data = fgetcsv($handle, strlen($input), $delimiter, $enclosure /*, $escape='\\' */);
-		$data = str_replace("\r", "\n", $data);
-		fclose($handle);
-		return $data;
 	}
 }

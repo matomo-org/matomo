@@ -8,9 +8,24 @@
 }
 
 .top_controls_inner {
-  position: relative;
-  height: 32px;
-  padding-bottom: 20px;
+   clear: left;
+   position: relative;
+   height: 32px;
+   padding-bottom: 20px;
+}
+
+@media all and (max-width: 749px) {
+  .top_controls {
+    height: auto;
+  }
+
+  .top_controls #periodString,
+  .top_controls #dashboardSettings,
+  .top_controls #segmentEditorPanel {
+    position: static;
+    margin: 0 0 10px;
+    float: none;
+  }
 }
 
 #dashboardWidgetsArea {
@@ -43,7 +58,7 @@
 }
 
 .col.width-33 {
-    width: 33%;
+    width: 33.33%;
 }
 
 .col.width-30 {
@@ -65,6 +80,7 @@
     overflow: hidden;
     border-radius: 4px;
     font-size: 14px;
+    z-index: 1;
 }
 
 .widgetHover {
@@ -86,7 +102,7 @@
 
 .widgetContent.loading {
     opacity: 0.5;
-    background: url(../../../plugins/Zeitgeist/images/loading-blue.gif) no-repeat top right;
+    background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat top right;
 }
 
 .widget h2 {
@@ -95,10 +111,12 @@
     font-weight: bold;
 }
 
+.widget p {
+   margin-left: 10px;
+}
+
 .widgetTop {
-    background: #b5b0a7 url(../../../plugins/Zeitgeist/images/dashboard_h_bg.png) repeat-x 0 0;
-    border-radius: 4px 4px 0 0;
-    width: 100%;
+    background: #b5b0a7 url(plugins/Zeitgeist/images/dashboard_h_bg.png) repeat-x 0 0;
     cursor: move;
     font-size: 10pt;
     font-weight: bold;
@@ -106,7 +124,7 @@
 }
 
 .widgetTopHover {
-    background: #B0A798 url(../../../plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0;
+    background: #B0A798 url(plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0;
 }
 
 .widgetName {
@@ -115,6 +133,11 @@
     font-weight: normal;
     color: #fff;
     text-shadow: 1px 1px 2px #7e7363;
+}
+
+// Overriding some dataTable css for better dashboard display
+.widget .dataTableWrapper {
+    width: 100% !important;
 }
 
 .button {
@@ -157,7 +180,7 @@
 }
 
 .ui-dialog-buttonset input[type=button], .ui-dialog-buttonset button{
-    background: #B5B0A7 url(../../../plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0 !important;
+    background: #B5B0A7 url(plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0 !important;
     color: #fff !important;
     border: 0 !important;
     font-size: 12px !important;
@@ -215,6 +238,7 @@
     color: #444;
     font-size: 14px;
     cursor: pointer;
+  overflow: hidden;
 }
 
 #dashboardSettings:hover {
@@ -223,7 +247,7 @@
 }
 
 #dashboardSettings > span {
-    background: url(../../../plugins/Zeitgeist/images/sort_subtable_desc.png) right center no-repeat;
+    background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) right center no-repeat;
     padding-right: 20px;
     display: block;
 }
@@ -358,7 +382,7 @@ ul.widgetpreview-widgetlist li {
 }
 
 .widgetpreview-base li.widgetpreview-choosen {
-    background: #e4e2d7 url(../../../plugins/Zeitgeist/images/arr_r.png) no-repeat right 6px;
+    background: #e4e2d7 url(plugins/Zeitgeist/images/arr_r.png) no-repeat right 6px;
     color: #255792;
     font-weight: bold;
 }
@@ -487,5 +511,9 @@ div.widgetpreview-preview {
   .col.width-30,
   .col.width-25 {
     width: 100%;
+    .widget {
+      margin-right: 0;
+    }
   }
+
 }

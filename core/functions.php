@@ -97,7 +97,7 @@ namespace {
      * Returns the option value for the requested option $name
      *
      * @param string $name  Key
-     * @return string|false  Value or false, if not found
+     * @return string|bool  Value or false, if not found
      */
     function Piwik_GetOption($name)
     {

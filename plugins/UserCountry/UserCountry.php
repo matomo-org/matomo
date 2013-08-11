@@ -378,7 +378,7 @@ class UserCountry extends \Piwik\Plugin
                 if (!$self->isGeoIPWorking()) {
                     $params = array('module' => 'UserCountry', 'action' => 'adminIndex');
                     $footerMessage .= ' ' . Piwik_Translate('UserCountry_NoDataForGeoIPReport2',
-                        array('<a target="_blank" href="' . Piwik_Url::getCurrentQueryStringWithParametersModified($params) . '">',
+                        array('<a target="_blank" href="' . \Piwik\Url::getCurrentQueryStringWithParametersModified($params) . '">',
                               '</a>',
                               '<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
                               '</a>'));

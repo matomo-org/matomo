@@ -49,7 +49,7 @@ class MetadataCallbackReplace extends ColumnCallbackReplace
     /**
      * @param Row $row
      * @param string $metadataToFilter
-     * @return array|false|mixed
+     * @return array|bool|mixed
      */
     protected function getElementToReplace($row, $metadataToFilter)
     {

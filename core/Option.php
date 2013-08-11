@@ -61,7 +61,7 @@ class Option
      * Returns the option value for the requested option $name, fetching from database, if not in cache.
      *
      * @param string $name  Key
-     * @return string|false  Value or false, if not found
+     * @return string|bool  Value or false, if not found
      */
     public function get($name)
     {

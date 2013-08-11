@@ -29,6 +29,10 @@ class Request
 
     protected $forcedVisitorId = false;
 
+    /**
+     * @param $params
+     * @param bool|string $tokenAuth
+     */
     public function __construct($params, $tokenAuth = false)
     {
         if (!is_array($params)) {
@@ -56,6 +60,9 @@ class Request
 
     const UNKNOWN_RESOLUTION = 'unknown';
 
+    /**
+     * @return bool
+     */
     public function isAuthenticated()
     {
         return $this->isAuthenticated;
@@ -112,6 +119,9 @@ class Request
         return false;
     }
 
+    /**
+     * @return float|int
+     */
     public function getDaysSinceFirstVisit()
     {
         $cookieFirstVisitTimestamp = $this->getParam('_idts');
@@ -125,6 +135,9 @@ class Request
         return $daysSinceFirstVisit;
     }
 
+    /**
+     * @return bool|float|int
+     */
     public function getDaysSinceLastOrder()
     {
         $daysSinceLastOrder = false;
@@ -138,6 +151,9 @@ class Request
         return $daysSinceLastOrder;
     }
 
+    /**
+     * @return float|int
+     */
     public function getDaysSinceLastVisit()
     {
         $daysSinceLastVisit = 0;
@@ -151,6 +167,9 @@ class Request
         return $daysSinceLastVisit;
     }
 
+    /**
+     * @return int|mixed
+     */
     public function getVisitCount()
     {
         $visitCount = $this->getParam('_idvc');
@@ -170,6 +189,9 @@ class Request
         return Common::getRequestVar('lang', Common::getBrowserLanguage(), 'string', $this->params);
     }
 
+    /**
+     * @return string
+     */
     public function getLocalTime()
     {
         $localTimes = array(

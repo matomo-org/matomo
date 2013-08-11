@@ -316,7 +316,7 @@ class ProcessedReport
      * - translate metric names to a separate array : $columns
      *
      * @param int $idSite enables monetary value formatting based on site currency
-     * @param \Piwik\DataTable\Set $dataTable
+     * @param \Piwik\DataTable\Map|\Piwik\DataTable\Simple $dataTable
      * @param array $reportMetadata
      * @param bool $showRawMetrics
      * @return array Simple|Set $newReport with human readable format & array $columns list of translated column names & Simple|Set $rowsMetadata

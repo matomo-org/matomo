@@ -26,7 +26,7 @@
     {% endif %}
     {% if show_sparklines %}
     <td style="width:180px">
-        <div id="sparkline_%idsite%" style="width: 100px; margin: auto">
+        <div id="sparkline_%idsite%" class="sparkline" style="width: 100px; margin: auto">
             <a target="_blank" href="index.php?module=CoreHome&action=index&date=%date%&period=%period%&idSite=%idsite%"
                title="{% set dashboardName %}{{ 'Dashboard_DashboardOf'|translate('%name%') }}{% endset %} {{ 'General_GoTo'|translate(dashboardName) }}">%sparkline%</a>
         </div>

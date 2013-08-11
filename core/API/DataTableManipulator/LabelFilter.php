@@ -64,7 +64,7 @@ class LabelFilter extends DataTableManipulator
      *
      * @param array $labelParts
      * @param DataTable $dataTable
-     * @return Row|false
+     * @return Row|bool
      */
     private function doFilterRecursiveDescend($labelParts, $dataTable)
     {

@@ -17,6 +17,7 @@ use Piwik\Config;
 use Piwik\Plugins\Live\API;
 use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\FrontController;
 
 /**
  * @package Live
@@ -101,6 +102,7 @@ class Controller extends \Piwik\Controller
      */
     public function getVisitorLog($fetch = false)
     {
+        $test = array(); $str = (string)$test;
         return $this->getLastVisitsDetails($fetch);
     }
 
@@ -131,5 +133,38 @@ class Controller extends \Piwik\Controller
         $view->pisHalfhour = $last30min['actions'];
         $view->pisToday = $today['actions'];
         return $view;
+    }
+
+    /**
+     * TODO
+     */
+    public function getVisitorProfilePopup()
+    {
+        $idSite = Common::getRequestVar('idSite', null, 'int');
+
+        $view = new View('@Live/getVisitorProfilePopup.twig');
+        $view->idSite = $idSite;
+        $view->goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $view->visitorData = Request::processRequest('Live.getVisitorProfile');
+        $view->userCountryMap = $this->getUserCountryMapForVisitorProfile();
+        echo $view->render();
+    }
+
+    private function getUserCountryMapForVisitorProfile()
+    {
+        if (empty($_GET['segment'])) {
+            $_GET['segment'] = '';
+            $originalSegment = '';
+        } else {
+            $_GET['segment'] .= '&';
+            $originalSegment = $_GET['segment'];
+        }
+        $_GET['segment'] .= 'visitorId==' . Common::getRequestVar('idVisitor');
+
+        $result = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap', array('fetch' => true)); // TODO: check if plugin is enabled?
+
+        $_GET['segment'] = $originalSegment;
+
+        return $result;
     }
 }

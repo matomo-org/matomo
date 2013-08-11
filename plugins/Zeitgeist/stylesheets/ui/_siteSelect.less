@@ -5,6 +5,7 @@
   position: absolute;
   font-size: 12px;
   display: inline-block;
+  max-height: 30px; /* Hack to not push the dashboard widget bellow */
 }
 
 .top_bar_sites_selector {
@@ -40,17 +41,17 @@
 }
 
 .sites_autocomplete .custom_select_main_link {
-  padding: 0 20px 0 4px;
-  display: block;
-  text-decoration: none;
-  background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) no-repeat right 0;
-}
-
-.sites_autocomplete .custom_select_main_link.noselect {
   padding: 0 8px;
   display: block;
   text-decoration: none;
   background: none;
+  cursor: default;
+}
+
+.sites_autocomplete--dropdown .custom_select_main_link {
+  padding: 0 20px 0 4px;
+  background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) no-repeat right 0;
+  cursor: pointer;
 }
 
 .sites_autocomplete .custom_select_loading {

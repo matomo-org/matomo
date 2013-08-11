@@ -57,6 +57,10 @@ class GoalManager
     protected $request;
     protected $orderId;
 
+    /**
+     * Constructor
+     * @param Request $request
+     */
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -224,7 +228,7 @@ class GoalManager
      * @param int $idSite
      * @param array $visitorInformation
      * @param array $visitCustomVariables
-     * @param string $action
+     * @param Action $action
      */
     public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
     {
@@ -411,7 +415,7 @@ class GoalManager
 
     /**
      * Returns Items read from the request string
-     * @return array|false
+     * @return array|bool
      */
     protected function getEcommerceItemsFromRequest()
     {

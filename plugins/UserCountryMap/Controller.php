@@ -30,7 +30,7 @@ class Controller extends \Piwik\Controller
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites
     const REAL_TIME_WINDOW = 'last30';
 
-    public function visitorMap()
+    public function visitorMap($fetch = false)
     {
         $this->checkUserCountryPluginEnabled();
 
@@ -39,6 +39,7 @@ class Controller extends \Piwik\Controller
 
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
+        $segment = Common::getRequestVar('segment', '', 'string');
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = new View('@UserCountryMap/visitorMap');
@@ -81,6 +82,7 @@ class Controller extends \Piwik\Controller
             'period'                      => $period,
             'idSite'                      => $idSite,
             'date'                        => $date,
+            'segment'                     => $segment,
             'token_auth'                  => $token_auth,
             'enable_filter_excludelowpop' => 1,
             'filter_excludelowpop_value'  => -1
@@ -92,7 +94,11 @@ class Controller extends \Piwik\Controller
         $view->config = Common::json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 
-        echo $view->render();
+        if ($fetch) {
+            return $view->render();
+        } else {
+            echo $view->render();
+        }
     }
 
     /**
@@ -209,7 +215,7 @@ class Controller extends \Piwik\Controller
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth
-            . "&segment=" . \Piwik\API\Request::getRawSegmentFromRequest()
+            . "&segment=" . Common::getRequestVar('segment', '', 'string')
             . "&enable_filter_excludelowpop=1"
             . "&showRawMetrics=1";
 

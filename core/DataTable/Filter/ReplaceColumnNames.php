@@ -66,6 +66,9 @@ class ReplaceColumnNames extends Filter
         }
     }
 
+    /**
+     * @param DataTable $table
+     */
     protected function filterTable($table)
     {
         foreach ($table->getRows() as $key => $row) {
@@ -76,6 +79,9 @@ class ReplaceColumnNames extends Filter
         }
     }
 
+    /**
+     * @param Simple $table
+     */
     protected function filterSimple(Simple $table)
     {
         foreach ($table->getRows() as $row) {

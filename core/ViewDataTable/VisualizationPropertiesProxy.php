@@ -20,11 +20,11 @@ use Piwik\ViewDataTable\Properties;
 class VisualizationPropertiesProxy
 {
     /**
-     * The visualization instance.
+     * The visualization class name.
      * 
-     * @var array
+     * @var string
      */
-    private $visualization;
+    private $visualizationClass;
 
     /**
      * Stores visualization properties.
@@ -36,11 +36,19 @@ class VisualizationPropertiesProxy
     /**
      * Constructor.
      * 
-     * @param \Piwik\Visualization\ $visualization The visualization to get/set properties of.
+     * @param string $visualizationClass The visualization class to get/set properties of.
      */
-    public function __construct($visualization)
+    public function __construct($visualizationClass)
     {
-        $this->visualization = $visualization;
+        $this->visualizationClass = $visualizationClass;
+    }
+
+    /**
+     * Hack to allow property access in Twig (w/ property name checking).
+     */
+    public function __call($name, $arguments)
+    {
+        return $this->$name;
     }
 
     /**
@@ -52,7 +60,10 @@ class VisualizationPropertiesProxy
      */
     public function &__get($name)
     {
-        Properties::checkValidVisualizationProperty($this->visualization, $name);
+        if ($this->visualizationClass !== null) {
+            Properties::checkValidVisualizationProperty($this->visualizationClass, $name);
+        }
+        
         return $this->visualizationProperties[$name];
     }
 
@@ -66,7 +77,29 @@ class VisualizationPropertiesProxy
      */
     public function __set($name, $value)
     {
-        Properties::checkValidVisualizationProperty($this->visualization, $name);
+        if ($this->visualizationClass !== null) {
+            Properties::checkValidVisualizationProperty($this->visualizationClass, $name);
+        }
+        
         return $this->visualizationProperties[$name] = $value;
+    }
+
+    /**
+     * Sets a visualization property, but only if the visualization is an instance of a
+     * certain class.
+     * 
+     * @param string $forClass The visualization class to check for.
+     * @param string $name A valid property name for the current visualization.
+     * @param mixed $value
+     * @return mixed Returns $value.
+     * @throws \Exception if the property name is invalid.
+     */
+    public function setForVisualization($forClass, $name, $value)
+    {
+        if ($forClass == $this->visualizationClass
+            || is_subclass_of($this->visualizationClass, $forClass)
+        ) {
+            return $this->__set($name, $value);
+        }
     }
 }

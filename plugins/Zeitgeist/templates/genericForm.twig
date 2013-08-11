@@ -4,7 +4,7 @@
 		<strong>{{ 'Installation_PleaseFixTheFollowingErrors'|translate }}:</strong>
 		<ul>
             {% for data in form_data.errors %}
-				<li>{{ data }}</li>
+				<li>{{ data|raw }}</li>
             {% endfor %}
 		</ul>	
 	</div>

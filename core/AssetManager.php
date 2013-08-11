@@ -103,9 +103,7 @@ class AssetManager
         $mergedCssAlreadyGenerated = self::isGenerated(self::MERGED_CSS_FILE);
         $isDevelopingPiwik = self::isMergedAssetsDisabled();
 
-        if ($mergedCssAlreadyGenerated
-            && !$isDevelopingPiwik
-        ) {
+        if ($mergedCssAlreadyGenerated && !$isDevelopingPiwik) {
             return;
         }
 
@@ -154,8 +152,8 @@ class AssetManager
 
         $mergedContent =
             $firstLineCompileHash . "\n"
-                . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
-                . $mergedContent;
+            . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
+            . $mergedContent;
 
         self::writeAssetToFile($mergedContent, self::MERGED_CSS_FILE);
     }
@@ -171,7 +169,7 @@ class AssetManager
 
     /*
      * Rewrite css url directives
-     * - assumes these are all relative paths
+     * - rewrites relative paths
      *  - rewrite windows directory separator \\ to /
      */
     protected static function rewriteCssPathsDirectives($relativePath, $content)
@@ -184,10 +182,16 @@ class AssetManager
         $baseDirectory = dirname($relativePath);
         $content = preg_replace_callback(
             "/(url\(['\"]?)([^'\")]*)/",
-            create_function(
-                '$matches',
-                "return \$matches[1] . str_replace('\\\\', '/', substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLength));"
-            ),
+            function ($matches) use ($rootDirectoryLength, $baseDirectory) {
+                $absolutePath = substr(realpath(PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2]), $rootDirectoryLength);
+                $rewritten = str_replace('\\', '/', $absolutePath);
+
+                if (is_file($rewritten)) { // only rewrite the URL if transforming it points to a valid file
+                    return $matches[1] . $rewritten;
+                } else {
+                    return $matches[1] . $matches[2];
+                }
+            },
             $content
         );
         return $content;
@@ -268,6 +272,7 @@ class AssetManager
             'plugins/Zeitgeist/stylesheets/base.less',
             'plugins/Zeitgeist/stylesheets/',
             'plugins/',
+            'plugins/Dashboard/stylesheets/dashboard.less',
         );
 
         return self::prioritySort($priorityCssOrdered, $cssFiles);

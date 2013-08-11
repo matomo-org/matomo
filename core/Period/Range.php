@@ -266,8 +266,8 @@ class Range extends Period
      * Determine which kind of period is best to use
      * See Range.test.php
      *
-     * @param $startDate
-     * @param $endDate
+     * @param Date $startDate
+     * @param Date $endDate
      */
     protected function processOptimalSubperiods($startDate, $endDate)
     {

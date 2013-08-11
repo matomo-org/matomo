@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% include "@CoreHome/_siteSelectHeader.twig" %}
+
 <div class="top_controls_inner">
     {% include "@CoreHome/_periodSelect.twig" %}
 </div>
@@ -26,7 +28,7 @@
 </div>
 
 <script type="text/javascript">
-    var ReportPlugin = new Object();
+    var ReportPlugin = {};
     ReportPlugin.defaultPeriod = '{{ defaultPeriod }}';
     ReportPlugin.defaultHour = '{{ defaultHour }}';
     ReportPlugin.defaultReportType = '{{ defaultReportType }}';

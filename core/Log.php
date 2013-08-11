@@ -33,6 +33,13 @@ abstract class Log extends \Zend_Log
     protected $screenFormatter = null;
     protected $currentRequestKey;
 
+    /**
+     * @param string                        $logToFileFilename    filename of logfile
+     * @param \Zend_Log_Formatter_Interface $fileFormatter
+     * @param \Zend_Log_Formatter_Interface $screenFormatter
+     * @param  string                       $logToDatabaseTableName
+     * @param  array                        $logToDatabaseColumnMapping
+     */
     function __construct($logToFileFilename,
                          $fileFormatter,
                          $screenFormatter,

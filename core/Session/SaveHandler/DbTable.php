@@ -134,7 +134,7 @@ class DbTable implements Zend_Session_SaveHandler_Interface
      * than $maxlifetime (in seconds)
      *
      * @param int $maxlifetime  timestamp in seconds
-     * @return true
+     * @return bool  always true
      */
     public function gc($maxlifetime)
     {

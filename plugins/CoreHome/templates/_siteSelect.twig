@@ -24,12 +24,13 @@
         </a>
     </div>
 {% endset %}
-<div class="sites_autocomplete" {% if siteSelectorId is defined %}id="{{ siteSelectorId }}"{% endif %}
+<div class="sites_autocomplete {% if sites|length > 1 %}sites_autocomplete--dropdown{% endif %}"
+        {% if siteSelectorId is defined %}id="{{ siteSelectorId }}"{% endif %}
         {% if switchSiteOnSelect is not defined or switchSiteOnSelect %}data-switch-site-on-select="1"{% endif %}>
     <div class="custom_select">
 
         <a href="#" onclick="return false" class="custom_select_main_link" siteid="{% if idSite is defined %}{{ idSite }}{% else %}{{ sites[0].idsite }}{% endif %}">
-            {% if siteName is defined %}{{ siteName|raw }}{% else %}{{ sites[0].name|raw }}{% endif %}
+            <span>{% if siteName is defined %}{{ siteName|raw }}{% else %}{{ sites[0].name|raw }}{% endif %}</span>
         </a>
 
         <div class="custom_select_block">

@@ -16,7 +16,7 @@
             daysSinceYearStart = (this_utc - onejan_utc) / 86400000; // constant is millisecs in one day
 
         return Math.ceil((daysSinceYearStart + onejan.getDay()) / 7);
-    }
+    };
 
     var currentYear, currentMonth, currentDay, currentDate, currentWeek;
 
@@ -449,7 +449,8 @@
         });
 
         $('body').on('click', function(e) {
-            if (!$(e.target).parents('#periodString').length && !$(e.target).is('#periodString') && !$(e.target).is('option') && $("#periodMore").is(":visible")) {
+            var target = $(e.target);
+            if (target.closest('html').length && !target.closest('#periodString').length && !target.is('option') && $("#periodMore").is(":visible")) {
                 $("#periodMore").hide();
             }
         });
@@ -532,8 +533,7 @@
             return !isNaN(d.getTime());
         }
 
-        var period = broadcast.getValueFromUrl('period');
-        if (period == 'range') {
+        if (piwik.period == 'range') {
             $("#period_id_range").click();
         }
     });

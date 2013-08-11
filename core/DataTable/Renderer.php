@@ -11,6 +11,7 @@
 namespace Piwik\DataTable;
 
 use Exception;
+use Piwik\Loader;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
@@ -30,6 +31,10 @@ use Piwik\DataTable\Simple;
 abstract class Renderer
 {
     protected $table;
+
+    /**
+     * @var Exception
+     */
     protected $exception;
     protected $renderSubTables = false;
     protected $hideIdSubDatatable = false;
@@ -107,7 +112,7 @@ abstract class Renderer
     /**
      * Computes the dataTable output and returns the string/binary
      *
-     * @return string
+     * @return mixed
      */
     abstract public function render();
 
@@ -200,7 +205,7 @@ abstract class Renderer
         $className = ucfirst(strtolower($name));
         $className = 'Piwik\DataTable\Renderer\\' . $className;
         try {
-            \Piwik\Loader::loadClass($className);
+            Loader::loadClass($className);
             return new $className;
         } catch (Exception $e) {
             $availableRenderers = implode(', ', self::getRenderers());

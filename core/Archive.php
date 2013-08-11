@@ -169,9 +169,9 @@ class Archive
      *
      * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referers_distinctKeywords',
      *                            etc.
-     * @return numeric|array|false False if no value with the given name, numeric if only one site
-     *                             and date and we're not forcing an index, and array if multiple
-     *                             sites/dates are queried.
+     * @return mixed              False if no value with the given name, numeric if only one site
+     *                            and date and we're not forcing an index, and array if multiple
+     *                            sites/dates are queried.
      */
     public function getNumeric($names)
     {
@@ -200,7 +200,7 @@ class Archive
      *
      * @param string|array $names One or more archive names, eg, 'Referers_keywordBySearchEngine'.
      * @param null $idSubtable
-     * @return string|array|false False if no value with the given name, numeric if only one site
+     * @return string|array|bool  False if no value with the given name, numeric if only one site
      *                            and date and we're not forcing an index, and array if multiple
      *                            sites/dates are queried.
      */
@@ -217,9 +217,9 @@ class Archive
      *
      * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referers_distinctKeywords',
      *                            etc.
-     * @return DataTable|false False if no value with the given names. Based on the number
-     *                               of sites/periods, the result can be a DataTable_Array, which
-     *                               contains DataTable instances.
+     * @return DataTable|DataTable\Map|bool False if no value with the given names. Based on the number
+     *                                      of sites/periods, the result can be a DataTable_Array, which
+     *                                      contains DataTable instances.
      */
     public function getDataTableFromNumeric($names)
     {
@@ -237,7 +237,7 @@ class Archive
      *
      * @param string $name The name of the record to get.
      * @param int|string|null $idSubtable The subtable ID (if any) or 'all' if requesting every datatable.
-     * @return DataTable|false
+     * @return DataTable|DataTable\Map|bool
      */
     public function getDataTable($name, $idSubtable = null)
     {
@@ -251,15 +251,17 @@ class Archive
      * Manager::getTable() function.
      *
      * @param string $name The name of the record to get.
-     * @param int|string|null $idSubtable The subtable ID (if any) or self::ID_SUBTABLE_LOAD_ALL_SUBTABLES if requesting every datatable.
+     * @param int|string|null $idSubtable The subtable ID (if any) or self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
+     *                                    if requesting every datatable.
+     * @param int|null $depth The maximum number of subtable levels to load. If null, all levels are loaded.
      * @param bool $addMetadataSubtableId Whether to add the DB subtable ID as metadata to each datatable,
      *                                    or not.
      * @return DataTable
      */
-    public function getDataTableExpanded($name, $idSubtable = null, $addMetadataSubtableId = true)
+    public function getDataTableExpanded($name, $idSubtable = null, $depth = null, $addMetadataSubtableId = true)
     {
         $data = $this->get($name, 'blob', self::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
-        return $data->getExpandedDataTable($this->getResultIndices(), $idSubtable, $addMetadataSubtableId);
+        return $data->getExpandedDataTable($this->getResultIndices(), $idSubtable, $depth, $addMetadataSubtableId);
     }
 
     /**
@@ -291,7 +293,8 @@ class Archive
      * @param int|null $idSubtable
      * @return DataTable|DataTable\Map
      */
-    public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null)
+    public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded,
+                                                   $idSubtable = null, $depth = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -300,7 +303,7 @@ class Archive
         }
 
         if ($expanded) {
-            $dataTable = $archive->getDataTableExpanded($name, $idSubtable);
+            $dataTable = $archive->getDataTableExpanded($name, $idSubtable, $depth);
         } else {
             $dataTable = $archive->getDataTable($name, $idSubtable);
         }
@@ -320,7 +323,7 @@ class Archive
      * @param array|string $archiveNames
      * @param $archiveDataType
      * @param null|int $idSubtable
-     * @return DataCollection
+     * @return Archive\DataCollection
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {

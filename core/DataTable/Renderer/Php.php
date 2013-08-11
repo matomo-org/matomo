@@ -123,7 +123,7 @@ class Php extends Renderer
      *            'col2_name' => value2,
      *            'metadata1_name' => value_metadata )
      *
-     * @param null|DataTable\Map|Simple $dataTable
+     * @param null|DataTable|DataTable\Map|Simple $dataTable
      * @return array  Php array representing the 'flat' version of the datatable
      */
     public function flatRender($dataTable = null)

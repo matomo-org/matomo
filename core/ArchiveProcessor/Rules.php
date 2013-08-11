@@ -144,7 +144,8 @@ class Rules
         return false;
     }
 
-    public static function getMinTimeProcessedForTemporaryArchive(Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
+    public static function getMinTimeProcessedForTemporaryArchive(
+        Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
     {
         $now = time();
         $minimumArchiveTime = $now - Rules::getTodayArchiveTimeToLive();

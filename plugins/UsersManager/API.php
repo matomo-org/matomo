@@ -204,7 +204,7 @@ class API
      * If a user doesn't have any access to the $idSite ('noaccess'),
      * the user will not be in the returned array.
      *
-     * @param int $idSite Website ID
+     * @param int $idSite website ID
      *
      * @return array    The returned array has the format
      *                    array(

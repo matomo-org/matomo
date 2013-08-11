@@ -713,7 +713,7 @@ class Action implements ActionInterface
     /**
      * Returns the ID of the newly created record in the log_link_visit_action table
      *
-     * @return int | false
+     * @return int
      */
     public function getIdLinkVisitAction()
     {

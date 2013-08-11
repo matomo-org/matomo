@@ -52,7 +52,7 @@ class FormDatabaseSetup extends QuickForm2
         $user->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupLogin')));
         $requiredPrivileges = Rule_checkUserPrivileges::getRequiredPrivilegesPretty();
         $user->addRule('checkUserPrivileges',
-            Piwik_Translate('Installation_InsufficientPrivileges', $requiredPrivileges . '<br/><br/>') .
+            Piwik_Translate('Installation_InsufficientPrivilegesMain', $requiredPrivileges . '<br/><br/>') .
                 Piwik_Translate('Installation_InsufficientPrivilegesHelp'));
 
         $this->addElement('password', 'password')
@@ -289,7 +289,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
     /**
      * Drops the tables created by the privilege checking queries, if they exist.
      *
-     * @param $db The database object to use.
+     * @param \Piwik\Db $db The database object to use.
      */
     private function dropExtraTables($db)
     {

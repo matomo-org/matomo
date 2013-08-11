@@ -34,8 +34,8 @@ use Twig_SimpleFunction;
  */
 class Twig
 {
-    const SPARKLINE_TEMPLATE = '<img class="sparkline" alt="" data-src="%s" width="%d" height="%d" />
-    <script type="text/javascript">$(document).ready(function () { piwik.initSparklines(); });</script>';
+    const SPARKLINE_TEMPLATE = '<img alt="" data-src="%s" width="%d" height="%d" />
+    <script type="text/javascript">$(function() { piwik.initSparklines(); });</script>';
     
     /**
      * @var Twig_Environment
@@ -74,6 +74,15 @@ class Twig
         $this->addFunction_loadJavascriptTranslations();
         $this->addFunction_sparkline();
         $this->addFunction_postEvent();
+        $this->addFunction_isPluginLoaded();
+    }
+
+    protected function addFunction_isPluginLoaded()
+    {
+        $isPluginLoadedFunction = new Twig_SimpleFunction('isPluginLoaded', function ($pluginName) {
+            return PluginsManager::getInstance()->isPluginLoaded($pluginName);
+        });
+        $this->twig->addFunction($isPluginLoadedFunction);
     }
 
     protected function addFunction_includeAssets()

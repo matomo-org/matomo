@@ -290,7 +290,7 @@ class Controller extends \Piwik\Controller
             $view->translations[$columnName] = $columnTranslation;
         }
         $view->columns_to_display = $columns;
-        $view->selectable_columns = $selectableColumns;
+        $view->visualization_properties->selectable_columns = $selectableColumns;
 
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
         $view->documentation = Piwik_Translate($langString, '<br />');

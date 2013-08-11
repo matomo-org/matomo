@@ -48,6 +48,11 @@ abstract class ScheduledTime
      */
     public $day = 1;
 
+    /**
+     * @param $period
+     * @return Daily|Monthly|Weekly
+     * @throws \Exception
+     */
     static public function getScheduledTimeForPeriod($period)
     {
         switch ($period) {

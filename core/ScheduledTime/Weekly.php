@@ -23,6 +23,10 @@ use Piwik\ScheduledTime;
 class Weekly extends ScheduledTime
 {
 
+    /**
+     * @see ScheduledTime::getRescheduledTime
+     * @return int
+     */
     public function getRescheduledTime()
     {
         $currentTime = $this->getTime();

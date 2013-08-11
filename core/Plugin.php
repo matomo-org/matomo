@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\Plugin\MetadataLoader;
 
 /**
- * @see core/Plugin/MetadataLoader.php
+ * @see Piwik\Plugin\MetadataLoader
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
 

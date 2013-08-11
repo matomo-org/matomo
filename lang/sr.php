@@ -1067,7 +1067,6 @@ $translations = array(
 	'Installation_WelcomeHelp' => '<p>Piwik je alat otvorenog koda za analizu saobraćaja na sajtovima koji vam na lak način pruža željene informacije o vašim posetiocima.</p><p>Proces instalacije je podeljen na %s jednostavnih koraka i zahteva svega 5 minuta vašeg vremena.</p>',
 	'Installation_ConfigurationHelp' => 'Vaša Piwik podešavanja kao da nisu dobra. Možete ili ukloniti config/config.ini.php datoteku i nastaviti sa instalacijom, ili ispraviti podešavanja u vezi sa povezivanjem na bazu podataka.',
 	'Installation_ErrorInvalidState' => 'Greška: izgleda da ste pokušali da preskočite korak u instalalciji, ili vam je podrška za cookie onemogućena u vašem web čitaču, ili je Piwik datoteka sa podešavanjima već kreirana. %1$sPostarajte se da je podrška za cookie omogućena%2$s i vratite se nazad %3$s na prvu stranicu Piwik instalacije %4$s.',
-	'Installation_InsufficientPrivileges' => 'Nedovoljne privilegije. Korisnik baze mora da ima sledeće privilegije: %s',
 	'Installation_InsufficientPrivilegesHelp' => 'Ove privilegije možete dodati alatima poput phpMyAdmin ili izvršavanjem odgovarajućih SQL komandi. Ukoliko to niste u stanju, zamolite administratora sistema da vam omogući ove privilegije.',
 	'Installation_SystemCheckSummaryThereWereErrors' => 'Piwik je otkrio %1$skritične probleme%2$s sa vašom instalacijom. %3$sPotrebno je da ih odmah rešite.%4$s',
 	'Installation_SystemCheckSummaryThereWereWarnings' => 'Postoje izvesni problemi sa vašim sistemom. Piwik će raditi ali možete iskusiti manje probleme.',

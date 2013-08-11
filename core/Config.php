@@ -73,6 +73,9 @@ class Config
     protected $pathGlobal = null;
     protected $pathLocal = null;
 
+    /**
+     * Constructor
+     */
     protected function __construct()
     {
         $this->pathGlobal = self::getGlobalConfigPath();

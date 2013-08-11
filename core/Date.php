@@ -19,6 +19,8 @@ use Exception;
  */
 class Date
 {
+    const NUM_SECONDS_IN_DAY = 86400;
+
     /**
      * The stored timestamp is always UTC based.
      * The returned timestamp via getTimestamp() will have the conversion applied
@@ -640,5 +642,16 @@ class Date
     public function subPeriod($n, $period)
     {
         return $this->addPeriod(-$n, $period);
+    }
+
+    /**
+     * Returns the number of days represented by a number of seconds.
+     * 
+     * @param int $secs
+     * @return float
+     */
+    public static function secondsToDays($secs)
+    {
+        return $secs / self::NUM_SECONDS_IN_DAY;
     }
 }

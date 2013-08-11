@@ -51,7 +51,7 @@ class DefaultProvider extends LocationProvider
      *
      * This implementation is always available.
      *
-     * @return true
+     * @return bool  always true
      */
     public function isAvailable()
     {
@@ -63,7 +63,7 @@ class DefaultProvider extends LocationProvider
      *
      * This implementation is always working correctly.
      *
-     * @return true
+     * @return bool  always true
      */
     public function isWorking()
     {

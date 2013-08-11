@@ -129,9 +129,11 @@ class API
      *
      * @return DataTable|DataTable\Map
      */
-    public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
+    public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
+                                $depth = false)
     {
-        $dataTable = Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::getDataTableFromArchive(
+            'Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable, $depth);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
@@ -295,7 +297,12 @@ class API
         return $dataTable;
     }
 
-    //Visitors can search, and then click "next" to view more results. This is the average number of search results pages viewed for this keyword.
+    /**
+     * Visitors can search, and then click "next" to view more results. This is the average number of search results pages viewed for this keyword.
+     *
+     * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
+     * @param string $columnToRead
+     */
     protected function addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_hits')
     {
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_pages_per_search', $columnToRead, 'nb_visits', $precision = 1));
@@ -469,6 +476,8 @@ class API
 
     /**
      * Common filters for Page URLs and Page Titles
+     *
+     * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
      */
     protected function filterPageDatatable($dataTable)
     {
@@ -513,7 +522,10 @@ class API
     }
 
     /**
-     * Common filters for all Actions API getters
+     * Common filters for all Actions API
+     *
+     * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
+     * @param bool $expanded
      */
     protected function filterActionsDataTable($dataTable, $expanded = false)
     {

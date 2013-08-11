@@ -19,8 +19,6 @@ use Piwik\ViewDataTable;
 class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
     extends Piwik_CoreHome_DataTableRowAction_RowEvolution
 {
-    const IS_MULTI_EVOLUTION_PARAM = 'is_multi_evolution';
-
     /** The requested metric */
     protected $metric;
 
@@ -71,18 +69,5 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
             . Piwik_Translate('RowEvolution_ComparingRecords', array(count($this->availableMetrics)));
 
         return parent::renderPopover($controller, $view);
-    }
-
-    /**
-     * Generic method to get an evolution graph or a sparkline for the row evolution popover.
-     * Do as much as possible from outside the controller.
-     *
-     * @return ViewDataTable
-     */
-    public function getRowEvolutionGraph($graphType = false, $metrics = false)
-    {
-        $view = parent::getRowEvolutionGraph($graphType, $metrics);
-        $view->custom_parameters[self::IS_MULTI_EVOLUTION_PARAM] = 1; // set in JS
-        return $view;
     }
 }

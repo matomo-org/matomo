@@ -24,6 +24,7 @@ use Piwik\Tracker\Db\Pdo\Mysql;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;
+use Piwik\PluginsManager;
 use Zend_Registry;
 
 /**
@@ -134,11 +135,17 @@ class Tracker
         return self::$pluginsNotToLoad;
     }
 
+    /**
+     * @return array
+     */
     static public function getPluginsToLoad()
     {
         return self::$pluginsToLoad;
     }
 
+    /**
+     * @param array $plugins
+     */
     static public function setPluginsToLoad($plugins)
     {
         self::$pluginsToLoad = $plugins;
@@ -363,7 +370,7 @@ class Tracker
                 Piwik::createDatabaseObject();
             }
 
-            $pluginsManager = \Piwik\PluginsManager::getInstance();
+            $pluginsManager = PluginsManager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
             $pluginsForcedNotToLoad = Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
@@ -477,7 +484,8 @@ class Tracker
     public static function factory($configDb)
     {
         switch ($configDb['adapter']) {
-            case 'PDO_MYSQL':
+            case 'PDO\MYSQL':
+            case 'PDO_MYSQL': // old format pre Piwik 2
                 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/Pdo/Mysql.php';
                 return new Mysql($configDb);
 
@@ -614,9 +622,9 @@ class Tracker
             $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (count($pluginsTracker) > 0) {
                 $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
-                \Piwik\PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
+                PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
-                \Piwik\PluginsManager::getInstance()->loadPlugins($pluginsTracker);
+                PluginsManager::getInstance()->loadPlugins($pluginsTracker);
 
                 Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
             }

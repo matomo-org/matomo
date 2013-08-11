@@ -329,15 +329,19 @@ class Referers extends \Piwik\Plugin
         }
 
         return array(
-            'default_view_type'                => 'tableAllColumns',
-            'show_search'                      => false,
-            'show_offset_information'          => false,
-            'show_pagination_control'          => false,
-            'show_exclude_low_population'      => false,
-            'disable_subtable_when_show_goals' => true,
-            'show_goals'                       => true,
-            'filter_limit'                     => 10,
-            'translations'                     => array('label' => $labelColumnTitle)
+            'default_view_type' => 'tableAllColumns',
+            'show_search' => false,
+            'show_offset_information' => false,
+            'show_pagination_control' => false,
+            'show_exclude_low_population' => false,
+            'show_goals' => true,
+            'filter_limit' => 10,
+            'translations' => array('label' => $labelColumnTitle),
+            'visualization_properties' => array(
+                'table' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
     }
 
@@ -346,11 +350,15 @@ class Referers extends \Piwik\Plugin
         $setGetAllHtmlPrefix = array($this, 'setGetAllHtmlPrefix');
         return array(
             'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik_Translate('Referers_Referrer')),
-            'show_goals'                  => true,
-            'filter_limit'                => 20,
-            'custom_parameters'           => array('disable_row_actions' => '1'),
-            'filters'                     => array(
+            'translations' => array('label' => Piwik_Translate('Referers_Referrer')),
+            'show_goals' => true,
+            'filter_limit' => 20,
+            'visualization_properties' => array(
+                'table' => array(
+                    'disable_row_actions' => true
+                )
+            ),
+            'filters' => array(
                 array('MetadataCallbackAddMetadata', array('referrer_type', 'html_label_prefix', $setGetAllHtmlPrefix))
             )
         );
@@ -359,12 +367,16 @@ class Referers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetKeywords()
     {
         return array(
-            'subtable_controller_action'       => 'getSearchEnginesFromKeywordId',
-            'show_exclude_low_population'      => false,
-            'translations'                     => array('label' => Piwik_Translate('Referers_ColumnKeyword')),
-            'show_goals'                       => true,
-            'filter_limit'                     => 25,
-            'disable_subtable_when_show_goals' => true,
+            'subtable_controller_action' => 'getSearchEnginesFromKeywordId',
+            'show_exclude_low_population' => false,
+            'translations' => array('label' => Piwik_Translate('Referers_ColumnKeyword')),
+            'show_goals' => true,
+            'filter_limit' => 25,
+            'visualization_properties' => array(
+                'table' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
     }
 
@@ -380,13 +392,17 @@ class Referers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetSearchEngines()
     {
         return array(
-            'subtable_controller_action'       => 'getKeywordsFromSearchEngineId',
-            'show_search'                      => false,
-            'show_exclude_low_population'      => false,
-            'show_goals'                       => true,
-            'filter_limit'                     => 25,
-            'disable_subtable_when_show_goals' => true,
-            'translations'                     => array('label' => Piwik_Translate('Referers_ColumnSearchEngine'))
+            'subtable_controller_action' => 'getKeywordsFromSearchEngineId',
+            'show_search' => false,
+            'show_exclude_low_population' => false,
+            'show_goals' => true,
+            'filter_limit' => 25,
+            'translations' => array('label' => Piwik_Translate('Referers_ColumnSearchEngine')),
+            'visualization_properties' => array(
+                'table' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
     }
 
@@ -402,25 +418,33 @@ class Referers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetWebsites()
     {
         return array(
-            'subtable_controller_action'       => 'getUrlsFromWebsiteId',
-            'show_exclude_low_population'      => false,
-            'show_goals'                       => true,
-            'filter_limit'                     => 25,
-            'disable_subtable_when_show_goals' => true,
-            'translations'                     => array('label' => Piwik_Translate('Referers_ColumnWebsite'))
+            'subtable_controller_action' => 'getUrlsFromWebsiteId',
+            'show_exclude_low_population' => false,
+            'show_goals' => true,
+            'filter_limit' => 25,
+            'translations' => array('label' => Piwik_Translate('Referers_ColumnWebsite')),
+            'visualization_properties' => array(
+                'table' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
     }
 
     private function getDisplayPropertiesForGetSocials()
     {
         $result = array(
-            'default_view_type'                => 'graphPie',
-            'subtable_controller_action'       => 'getUrlsForSocial',
-            'show_exclude_low_population'      => false,
-            'filter_limit'                     => 10,
-            'show_goals'                       => true,
-            'disable_subtable_when_show_goals' => true,
-            'translations'                     => array('label' => Piwik_Translate('Referers_ColumnSocial'))
+            'default_view_type' => 'graphPie',
+            'subtable_controller_action' => 'getUrlsForSocial',
+            'show_exclude_low_population' => false,
+            'filter_limit' => 10,
+            'show_goals' => true,
+            'translations' => array('label' => Piwik_Translate('Referers_ColumnSocial')),
+            'visualization_properties' => array(
+                'table' => array(
+                    'disable_subtable_when_show_goals' => true,
+                )
+            ),
         );
 
         $widget = Common::getRequestVar('widget', false);

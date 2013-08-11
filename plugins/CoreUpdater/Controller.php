@@ -354,7 +354,7 @@ class Controller extends \Piwik\Controller
         foreach ($componentsWithUpdateFile as $name => $filenames) {
             try {
                 $this->warningMessages = array_merge($this->warningMessages, $updater->update($name));
-            } catch (Updater_UpdateErrorException $e) {
+            } catch (\Piwik\Updater_UpdateErrorException $e) {
                 $this->errorMessages[] = $e->getMessage();
                 if ($name == 'core') {
                     $this->coreError = true;

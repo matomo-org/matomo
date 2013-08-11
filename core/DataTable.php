@@ -470,7 +470,7 @@ class DataTable
      * Returns the Row that has a column 'label' with the value $label
      *
      * @param string $label  Value of the column 'label' of the row to return
-     * @return \Piwik\DataTable\Row|false  The row if found, false otherwise
+     * @return \Piwik\DataTable\Row|bool  The row if found, false otherwise
      */
     public function getRowFromLabel($label)
     {
@@ -564,7 +564,7 @@ class DataTable
      * Returns a row that has the subtable ID matching the parameter
      *
      * @param int $idSubTable
-     * @return \Piwik\DataTable\Row|false if not found
+     * @return \Piwik\DataTable\Row|bool    false if not found
      */
     public function getRowFromIdSubDataTable($idSubTable)
     {
@@ -714,13 +714,23 @@ class DataTable
      */
     public function getColumns()
     {
+        $result = array();
         foreach ($this->getRows() as $row) {
             $columns = $row->getColumns();
             if (!empty($columns)) {
-                return array_keys($columns);
+                $result = array_keys($columns);
+                break;
             }
         }
-        return array();
+
+        // make sure column names are not DB index values
+        foreach ($result as &$column) {
+            if (isset(Metrics::$mappingFromIdToName[$column])) {
+                $column = Metrics::$mappingFromIdToName[$column];
+            }
+        }
+
+        return $result;
     }
 
     /**

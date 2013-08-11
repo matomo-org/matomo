@@ -43,6 +43,7 @@ class PluginsManager
         'CoreUpdater',
         'CoreAdminHome',
         'CorePluginsAdmin',
+        'CoreVisualizations',
         'Installation',
         'SitesManager',
         'UsersManager',
@@ -281,13 +282,21 @@ class PluginsManager
             return;
         }
 
+        // Only one theme enabled at a time
+        $themeAlreadyEnabled = $this->getThemeEnabled();
+        if($themeAlreadyEnabled) {
+            $plugin = $this->loadPlugin($pluginName);
+            if($plugin->isTheme()) {
+                $plugins = $this->deactivatePlugin( $themeAlreadyEnabled, $plugins );
+            }
+        }
+
+        // Load plugin
         $plugin = $this->loadPlugin($pluginName);
         if ($plugin === null) {
             return;
         }
-
         $this->installPluginIfNecessary($plugin);
-
         $plugin->activate();
 
         // we add the plugin to the list of activated plugins
@@ -296,12 +305,6 @@ class PluginsManager
         }
         $plugins = array_unique($plugins);
 
-        // Only one theme enabled at a time
-        $themeAlreadyEnabled = $this->getThemeEnabled();
-        if($plugin->isTheme()
-            && $themeAlreadyEnabled) {
-            $plugins = $this->deactivatePlugin( $themeAlreadyEnabled, $plugins );
-        }
 
         // the config file will automatically be saved with the new plugin
         $this->updatePluginsConfig($plugins);
@@ -605,7 +608,7 @@ class PluginsManager
     {
         // we are in Tracker mode if Loader is not (yet) loaded
         if (!class_exists('Piwik\Loader', false)) {
-            return;
+            return false;
         }
 
         $pluginName = $plugin->getPluginName();
@@ -652,7 +655,7 @@ class PluginsManager
             $plugins = Config::getInstance()->Plugins['Plugins'];
             foreach ($plugins as $pluginName) {
                 // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-                if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded($pluginName)) {
+                if (!self::getInstance()->isPluginLoaded($pluginName)) {
                     $missingPlugins[] = $pluginName;
                 }
             }

@@ -147,26 +147,26 @@ $(function () {
             // close it
             $('body').on('mouseup', function (e) {
                 var closestSelector = $(e.target).closest('.sites_autocomplete');
-                if (closestSelector != selector) {
-                    reset(selector);
-                    $('.custom_select_block', selector).removeClass('custom_select_block_show');
+                if (!closestSelector.length || !closestSelector.is(selector)) {
+                    if ($('.custom_select_block', selector).hasClass('custom_select_block_show')) {
+                        reset(selector);
+                        $('.custom_select_block', selector).removeClass('custom_select_block_show');
+                    }1
                 }
             });
 
             // set event handling code for non-jquery-autocomplete parts of widget
             if ($('li', selector).length > 1) {
                 // event handler for when site selector is clicked. shows dropdown w/ first X sites
-                $(".custom_select_main_link", selector).click(function () {
-                    $(".custom_select_block", selector).addClass("custom_select_block_show");
-                    $('.custom_select_ul_list', selector).show();
-                    $('.websiteSearch', selector).val('').focus();
+                $(".custom_select_main_link", selector).click(function() {
+                    $(".custom_select_block", selector).toggleClass("custom_select_block_show");
+                    $(".websiteSearch", selector).val("").focus();
                     return false;
                 });
 
-                $('.custom_select_block', selector).on('mouseenter', function () {
-                    $('.custom_select_ul_list li a', selector).each(function () {
+                $('.custom_select_block', selector).on('mouseenter', function() {
+                    $('.custom_select_ul_list > li > a', selector).each(function() {
                         var idSite = $(this).attr('siteid');
-
                         var linkUrl = getUrlForWebsiteId(idSite);
                         $(this).attr('href', linkUrl);
                     });
@@ -174,7 +174,7 @@ $(function () {
 
                 // change selection. fire's site selector's on select event and modifies the attributes
                 // of the selected link
-                $('.custom_select_ul_list li a', selector).each(function () {
+                $('.custom_select_ul_list li a', selector).each(function() {
                     $(this).click(function (e) {
                         var idsite = $(this).attr('siteid'),
                             name = $(this).text();
@@ -200,9 +200,6 @@ $(function () {
                     );
                     $(".custom_select_block", selector).css('width', widthSitesSelection);
                 }
-            }
-            else {
-                $('.custom_select_main_link', selector).addClass('noselect');
             }
 
             // handle multi-sites link click (triggers site selected event w/ id=all)

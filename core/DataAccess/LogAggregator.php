@@ -66,6 +66,13 @@ class LogAggregator
     /** @var \Piwik\Segment */
     protected $segment;
 
+    /**
+     * Constructor
+     * @param Date $dateStart
+     * @param Date $dateEnd
+     * @param Site $site
+     * @param Segment $segment
+     */
     public function __construct(Date $dateStart, Date $dateEnd, Site $site, Segment $segment)
     {
         $this->dateStart = $dateStart;
