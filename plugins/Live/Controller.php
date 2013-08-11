@@ -18,6 +18,7 @@ use Piwik\Plugins\Live\API;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\FrontController;
+use Piwik\Plugins\Goals\API as Goals_API;
 
 /**
  * @package Live
@@ -143,7 +144,7 @@ class Controller extends \Piwik\Controller
 
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $idSite;
-        $view->goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $view->goals = Goals_API::getInstance()->getGoals($idSite);
         $view->visitorData = Request::processRequest('Live.getVisitorProfile');
         $view->userCountryMap = $this->getUserCountryMapForVisitorProfile();
         echo $view->render();
