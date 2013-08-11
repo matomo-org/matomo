@@ -12,14 +12,10 @@
     {% endset %}
     {% if not javascriptVariablesToSet.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
         <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
-            title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
-            {{ action.url }}{% endif %} {% if customVariablesTooltip|trim|length %}
-
-            {{ customVariablesTooltip|trim }}{% endif %}{% if action.timeSpentPretty is defined %}
-
-            {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}{% if action.generationTime is defined %}
-
-            {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}">
+            title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length -%}
+            {{- action.url }}{% endif %}{% if customVariablesTooltip|trim|length %} {{ customVariablesTooltip|trim }}{% endif -%}
+            {%- if action.timeSpentPretty is defined -%} {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif -%}
+            {%- if action.generationTime is defined %} {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}">
             {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
             {# Ecommerce Abandoned Cart / Ecommerce Order #}
                 <img src="{{ action.icon }}"/>
@@ -35,7 +31,7 @@
                         {% set visitorHasSomeEcommerceActivity %}1{% endset %}
                     {% endif %}
                 {% endif %}
-                <br/>
+                <p>
                 <span {% if not isWidget %}style='margin-left:20px'{% endif %}>
                     {% if action.type == 'ecommerceOrder' %}
                     <abbr title="
@@ -69,6 +65,7 @@
                         </ul>
                     {% endif %}
                 </span>
+                </p>
             {% elseif action.goalName is not defined%}
                 {# Page view / Download / Outlink #}
                 {% if action.pageTitle is defined and action.pageTitle is not empty %}
@@ -81,7 +78,7 @@
                     {{ action.siteSearchKeyword|truncate(80) }}
                 {% endif %}
                 {% if action.url is not empty %}
-                    {% if action.type == 'action' and action.pageTitle is not empty %}<br/>{% endif %}
+                    {% if action.type == 'action' and action.pageTitle is not empty %}<p>{% endif %}
                     {% if action.type == 'download' or action.type == 'outlink' %}
                         <img src='{{ action.icon }}'>
                     {% endif %}
@@ -89,9 +86,11 @@
                        {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="{% if action.type=='action' and action.pageTitle is not empty %}margin-left: 25px;{% endif %}text-decoration:underline;"{% endif %}>
                         {{ action.url|truncate(80) }}
                     </a>
+                    {% if action.type == 'action' and action.pageTitle is not empty %}</p>{% endif %}
                 {% elseif action.type != 'search' %}
-                    <br/>
+                    <p>
                     <span style="margin-left: 25px;">{{ javascriptVariablesToSet.pageUrlNotDefined }}</span>
+                    </p>
                 {% endif %}
             {% else %}
                 {# Goal conversion #}
