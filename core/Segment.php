@@ -12,7 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik_API_API;
+use Piwik\Plugins\API\API;
 use Piwik\SegmentExpression;
 
 /**
@@ -90,7 +90,7 @@ class Segment
     protected function getCleanedExpression($expression)
     {
         if (empty($this->availableSegments)) {
-            $this->availableSegments = Piwik_API_API::getInstance()->getSegmentsMetadata($this->idSites, $_hideImplementationData = false);
+            $this->availableSegments = API::getInstance()->getSegmentsMetadata($this->idSites, $_hideImplementationData = false);
         }
 
         $name = $expression[0];
@@ -121,7 +121,7 @@ class Segment
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
                 // sqlFilter-callbacks might return arrays for more complex cases
-                // e.g. see Piwik_Actions::getIdActionFromSegment()
+                // e.g. see Actions::getIdActionFromSegment()
                 if (is_array($value)
                     && isset($value['SQL'])
                 ) {

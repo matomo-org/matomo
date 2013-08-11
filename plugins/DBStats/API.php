@@ -6,11 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DBStats
+ * @package DBStats
  */
+namespace Piwik\Plugins\DBStats;
+
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 
 /**
  * @see plugins/DBStats/MySQLMetadataProvider.php
@@ -20,9 +23,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DBStats/MySQLMetadataProvider.php';
 /**
  * DBStats API is used to request the overall status of the Mysql tables in use by Piwik.
  *
- * @package Piwik_DBStats
+ * @package DBStats
  */
-class Piwik_DBStats_API
+class API
 {
     /** Singleton instance of this class. */
     static private $instance = null;
@@ -48,7 +51,7 @@ class Piwik_DBStats_API
      */
     public function __construct()
     {
-        $this->metadataProvider = new Piwik_DBStats_MySQLMetadataProvider();
+        $this->metadataProvider = new MySQLMetadataProvider();
     }
 
     /**
@@ -57,7 +60,7 @@ class Piwik_DBStats_API
     public function resetTableStatuses()
     {
         Piwik::checkUserIsSuperUser();
-        self::getInstance()->metadataProvider = new Piwik_DBStats_MySQLMetadataProvider();
+        self::getInstance()->metadataProvider = new MySQLMetadataProvider();
     }
 
     /**
@@ -169,8 +172,7 @@ class Piwik_DBStats_API
 
         $dataTable = $this->getMetricDataSummary();
 
-        $getTableYear = array('Piwik_DBStats_API', 'getArchiveTableYear');
-        $dataTable->filter('GroupBy', array('label', $getTableYear));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\API::getArchiveTableYear'));
 
         return $dataTable;
     }
@@ -199,8 +201,7 @@ class Piwik_DBStats_API
 
         $dataTable = $this->getReportDataSummary();
 
-        $getTableYear = array('Piwik_DBStats_API', 'getArchiveTableYear');
-        $dataTable->filter('GroupBy', array('label', $getTableYear));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\API::getArchiveTableYear'));
 
         return $dataTable;
     }

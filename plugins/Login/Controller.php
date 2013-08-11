@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Login
+ * @package Login
  */
+namespace Piwik\Plugins\Login;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Mail;
@@ -20,15 +22,20 @@ use Piwik\View;
 use Piwik\Url;
 use Piwik\QuickForm2;
 use Piwik\Session;
+use Piwik\Plugins\Login\Login;
+use Piwik\Plugins\Login\FormLogin;
+use Piwik\Plugins\Login\FormResetPassword;
+use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Plugins\UsersManager\API;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * Login controller
  *
- * @package Piwik_Login
+ * @package Login
  */
-class Piwik_Login_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     /**
      * Generate hash on user info and password
@@ -71,10 +78,10 @@ class Piwik_Login_Controller extends Controller
     {
         self::checkForceSslLogin();
 
-        $form = new Piwik_Login_FormLogin();
+        $form = new FormLogin();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
+            if (Nonce::verifyNonce('Login.login', $nonce)) {
                 $login = $form->getSubmitValue('form_login');
                 $password = $form->getSubmitValue('form_password');
                 $rememberMe = $form->getSubmitValue('form_rememberme') == '1';
@@ -112,7 +119,7 @@ class Piwik_Login_Controller extends Controller
         $view->forceSslLogin = Config::getInstance()->General['force_ssl_login'];
 
         // crsf token: don't trust the submitted value; generate/fetch it from session data
-        $view->nonce = Nonce::getNonce('Piwik_Login.login');
+        $view->nonce = Nonce::getNonce('Login.login');
     }
 
     /**
@@ -162,7 +169,7 @@ class Piwik_Login_Controller extends Controller
                       'md5Password' => $md5Password,
                       'rememberMe'  => $rememberMe,
         );
-        Nonce::discardNonce('Piwik_Login.login');
+        Nonce::discardNonce('Login.login');
         Piwik_PostEvent('Login.initSession', array(&$info));
         Url::redirectToUrl($urlToRedirect);
     }
@@ -188,10 +195,10 @@ class Piwik_Login_Controller extends Controller
         $infoMessage = null;
         $formErrors = null;
 
-        $form = new Piwik_Login_FormResetPassword();
+        $form = new FormResetPassword();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
+            if (Nonce::verifyNonce('Login.login', $nonce)) {
                 $formErrors = $this->resetPasswordFirstStep($form);
                 if (empty($formErrors)) {
                     $infoMessage = Piwik_Translate('Login_ConfirmationLinkSent');
@@ -225,7 +232,7 @@ class Piwik_Login_Controller extends Controller
 
         // check the password
         try {
-            Piwik_UsersManager::checkPassword($password);
+            UsersManager::checkPassword($password);
         } catch (Exception $ex) {
             return array($ex->getMessage());
         }
@@ -243,14 +250,14 @@ class Piwik_Login_Controller extends Controller
         $login = $user['login'];
 
         // if valid, store password information in options table, then...
-        Piwik_Login::savePasswordResetInfo($login, $password);
+        Login::savePasswordResetInfo($login, $password);
 
         // ... send email with confirmation link
         try {
             $this->sendEmailConfirmationLink($user);
         } catch (Exception $ex) {
             // remove password reset info
-            Piwik_Login::removePasswordResetInfo($login);
+            Login::removePasswordResetInfo($login);
 
             return array($ex->getMessage() . '<br/>' . Piwik_Translate('Login_ContactAdmin'));
         }
@@ -312,7 +319,7 @@ class Piwik_Login_Controller extends Controller
             }
 
             // check that the reset token is valid
-            $resetPassword = Piwik_Login::getPasswordToResetTo($login);
+            $resetPassword = Login::getPasswordToResetTo($login);
             if ($resetPassword === false || !self::isValidToken($resetToken, $user)) {
                 throw new Exception(Piwik_Translate('Login_InvalidOrExpiredToken'));
             }
@@ -356,7 +363,7 @@ class Piwik_Login_Controller extends Controller
             Config::getInstance()->superuser = $user;
             Config::getInstance()->forceSave();
         } else {
-            Piwik_UsersManager_API::getInstance()->updateUser(
+            API::getInstance()->updateUser(
                 $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
         }
     }
@@ -390,10 +397,10 @@ class Piwik_Login_Controller extends Controller
                 'email'    => Piwik::getSuperUserEmail(),
                 'password' => Config::getInstance()->superuser['password'],
             );
-        } else if (Piwik_UsersManager_API::getInstance()->userExists($loginMail)) {
-            $user = Piwik_UsersManager_API::getInstance()->getUser($loginMail);
-        } else if (Piwik_UsersManager_API::getInstance()->userEmailExists($loginMail)) {
-            $user = Piwik_UsersManager_API::getInstance()->getUserByEmail($loginMail);
+        } else if (API::getInstance()->userExists($loginMail)) {
+            $user = API::getInstance()->getUser($loginMail);
+        } else if (API::getInstance()->userEmailExists($loginMail)) {
+            $user = API::getInstance()->getUserByEmail($loginMail);
         }
 
         return $user;

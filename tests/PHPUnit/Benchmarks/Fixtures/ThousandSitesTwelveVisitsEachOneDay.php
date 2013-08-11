@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * Reusable fixture. Tracks twelve thousand page views for 1000 sites on one day.
@@ -18,8 +20,7 @@ class Piwik_Test_Fixture_ThousandSitesTwelveVisitsEachOneDay
 
     public function setUp()
     {
-        $sitesManager = Piwik_SitesManager_API::getInstance();
-        $goals = Piwik_Goals_API::getInstance();
+        $goals = GoalsAPI::getInstance();
 
         // add one thousand sites
         $allIdSites = array();

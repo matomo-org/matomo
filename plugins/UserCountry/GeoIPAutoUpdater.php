@@ -6,22 +6,28 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+namespace Piwik\Plugins\UserCountry;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Http;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime\Weekly;
 use Piwik\Unzip;
 use Piwik\ScheduledTask;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's
  * scheduled task.
  */
-class Piwik_UserCountry_GeoIPAutoUpdater
+class GeoIPAutoUpdater
 {
     const SCHEDULE_PERIOD_MONTHLY = 'month';
     const SCHEDULE_PERIOD_WEEKLY = 'week';
@@ -71,7 +77,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
                 $this->downloadFile('org', $orgUrl);
             }
         } catch (Exception $ex) {
-            // message will already be prefixed w/ 'Piwik_UserCountry_GeoIPAutoUpdater: '
+            // message will already be prefixed w/ 'GeoIPAutoUpdater: '
             Piwik::log($ex->getMessage());
             $this->performRedundantDbChecks();
             throw $ex;
@@ -94,34 +100,34 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      */
     protected function downloadFile($dbType, $url)
     {
-        $ext = Piwik_UserCountry_GeoIPAutoUpdater::getGeoIPUrlExtension($url);
-        $zippedFilename = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$dbType][0] . '.' . $ext;
+        $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
+        $zippedFilename = GeoIp::$dbNames[$dbType][0] . '.' . $ext;
 
-        $zippedOutputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($zippedFilename);
+        $zippedOutputPath = GeoIp::getPathForGeoIpDatabase($zippedFilename);
 
         // download zipped file to misc dir
         try {
             $success = Http::sendHttpRequest($url, $timeout = 3600, $userAgent = null, $zippedOutputPath);
         } catch (Exception $ex) {
-            throw new Exception("Piwik_UserCountry_GeoIPAutoUpdater: failed to download '$url' to "
+            throw new Exception("GeoIPAutoUpdater: failed to download '$url' to "
                 . "'$zippedOutputPath': " . $ex->getMessage());
         }
 
         if ($success !== true) {
-            throw new Exception("Piwik_UserCountry_GeoIPAutoUpdater: failed to download '$url' to "
+            throw new Exception("GeoIPAutoUpdater: failed to download '$url' to "
                 . "'$zippedOutputPath'! (Unknown error)");
         }
 
-        Piwik::log(sprintf("Piwik_UserCountry_GeoIPAutoUpdater: successfully downloaded '%s'", $url));
+        Piwik::log(sprintf("GeoIPAutoUpdater: successfully downloaded '%s'", $url));
 
         try {
             self::unzipDownloadedFile($zippedOutputPath, $unlink = true);
         } catch (Exception $ex) {
-            throw new Exception("Piwik_UserCountry_GeoIPAutoUpdater: failed to unzip '$zippedOutputPath' after "
+            throw new Exception("GeoIPAutoUpdater: failed to unzip '$zippedOutputPath' after "
                 . "downloading " . "'$url': " . $ex->getMessage());
         }
 
-        Piwik::log(sprintf("Piwik_UserCountry_GeoIPAutoUpdater: successfully updated GeoIP database '%s'", $url));
+        Piwik::log(sprintf("GeoIPAutoUpdater: successfully updated GeoIP database '%s'", $url));
     }
 
     /**
@@ -138,7 +144,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 
         $dbFilename = $filenameStart . '.dat';
         $tempFilename = $filenameStart . '.dat.new';
-        $outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($tempFilename);
+        $outputPath = GeoIp::getPathForGeoIpDatabase($tempFilename);
 
         // extract file
         if (substr($path, -7, 7) == '.tar.gz') {
@@ -191,7 +197,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 
         try {
             // test that the new archive is a valid GeoIP database
-            $dbType = Piwik_UserCountry_LocationProvider_GeoIp::getGeoIPDatabaseTypeFromFilename($dbFilename);
+            $dbType = GeoIp::getGeoIPDatabaseTypeFromFilename($dbFilename);
             if ($dbType === false) // sanity check
             {
                 throw new Exception("Unexpected GeoIP archive file name '$path'.");
@@ -204,7 +210,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
             );
             $customDbNames[$dbType] = array($tempFilename);
 
-            $phpProvider = new Piwik_UserCountry_LocationProvider_GeoIp_Php($customDbNames);
+            $phpProvider = new Php($customDbNames);
 
             $location = self::getTestLocationCatchPhpErrors($phpProvider);
 
@@ -213,7 +219,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
             ) {
                 if (self::$unzipPhpError !== null) {
                     list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-                    Piwik::log("Piwik_UserCountry_GeoIPAutoUpdater: Encountered PHP error when testing newly downloaded" .
+                    Piwik::log("GeoIPAutoUpdater: Encountered PHP error when testing newly downloaded" .
                         " GeoIP database: $errno: $errstr on line $errline of $errfile.");
                 }
 
@@ -221,12 +227,12 @@ class Piwik_UserCountry_GeoIPAutoUpdater
             }
 
             // delete the existing GeoIP database (if any) and rename the downloaded file
-            $oldDbFile = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($dbFilename);
+            $oldDbFile = GeoIp::getPathForGeoIpDatabase($dbFilename);
             if (file_exists($oldDbFile)) {
                 unlink($oldDbFile);
             }
 
-            $tempFile = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($tempFilename);
+            $tempFile = GeoIp::getPathForGeoIpDatabase($tempFilename);
             rename($existing = $tempFile, $newName = $oldDbFile);
 
             // delete original archive
@@ -251,7 +257,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      */
     public static function makeScheduledTask()
     {
-        $instance = new Piwik_UserCountry_GeoIPAutoUpdater();
+        $instance = new GeoIPAutoUpdater();
 
         $schedulePeriodStr = self::getSchedulePeriod();
 
@@ -379,7 +385,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      */
     public static function performUpdate()
     {
-        $instance = new Piwik_UserCountry_GeoIPAutoUpdater();
+        $instance = new GeoIPAutoUpdater();
         $instance->update();
     }
 
@@ -412,8 +418,8 @@ class Piwik_UserCountry_GeoIPAutoUpdater
             if (!empty($url)) {
                 // if a database of the type does not exist, but there's a url to update, then
                 // a database is missing
-                $path = Piwik_UserCountry_LocationProvider_GeoIp::getPathToGeoIpDatabase(
-                    Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$key]);
+                $path = GeoIp::getPathToGeoIpDatabase(
+                    GeoIp::$dbNames[$key]);
                 if ($path === false) {
                     $result[] = $key;
                 }
@@ -465,7 +471,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      * Tests a location provider using a test IP address and catches PHP errors
      * (ie, notices) if they occur. PHP error information is held in self::$unzipPhpError.
      *
-     * @param Piwik_UserCountry_LocationProvider $provider The provider to test.
+     * @param LocationProvider $provider The provider to test.
      * @return array|false $location The result of geolocation. False if no location
      *                               can be found.
      */
@@ -475,9 +481,9 @@ class Piwik_UserCountry_GeoIPAutoUpdater
         // in order to delete the files in such a case (which can be caused by a man-in-the-middle attack)
         // we need to catch them, so we set a new error handler.
         self::$unzipPhpError = null;
-        set_error_handler(array('Piwik_UserCountry_GeoIPAutoUpdater', 'catchGeoIPError'));
+        set_error_handler(array('Piwik\Plugins\UserCountry\GeoIPAutoUpdater', 'catchGeoIPError'));
 
-        $location = $provider->getLocation(array('ip' => Piwik_UserCountry_LocationProvider_GeoIp::TEST_IP));
+        $location = $provider->getLocation(array('ip' => GeoIp::TEST_IP));
 
         restore_error_handler();
 
@@ -496,7 +502,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      */
     protected function performRedundantDbChecks()
     {
-        $databaseTypes = array_keys(Piwik_UserCountry_LocationProvider_GeoIp::$dbNames);
+        $databaseTypes = array_keys(GeoIp::$dbNames);
 
         foreach ($databaseTypes as $type) {
             $customNames = array(
@@ -504,16 +510,16 @@ class Piwik_UserCountry_GeoIPAutoUpdater
                 'isp' => array(),
                 'org' => array()
             );
-            $customNames[$type] = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$type];
+            $customNames[$type] = GeoIp::$dbNames[$type];
 
             // create provider that only uses the DB type we're testing
-            $provider = new Piwik_UserCountry_LocationProvider_GeoIp_Php($customNames);
+            $provider = new Php($customNames);
 
             // test the provider. on error, we rename the broken DB.
             self::getTestLocationCatchPhpErrors($provider);
             if (self::$unzipPhpError !== null) {
                 list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-                Piwik::log("Piwik_UserCountry_GeoIPAutoUpdater: Encountered PHP error when performing redundant " .
+                Piwik::log("GeoIPAutoUpdater: Encountered PHP error when performing redundant " .
                     "tests on GeoIP $type database: $errno: $errstr on line $errline of $errfile.");
 
                 // get the current filename for the DB and an available new one to rename it to
@@ -543,7 +549,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      */
     private function getOldAndNewPathsForBrokenDb($possibleDbNames)
     {
-        $pathToDb = Piwik_UserCountry_LocationProvider_GeoIp::getPathToGeoIpDatabase($possibleDbNames);
+        $pathToDb = GeoIp::getPathToGeoIpDatabase($possibleDbNames);
         $newPath = false;
 
         if ($pathToDb !== false) {

@@ -7,6 +7,7 @@
  */
 use Piwik\Access;
 use Piwik\Date;
+use Piwik\Plugins\Annotations\API;
 
 /**
  * A fixture that adds two websites and annotations for each website.
@@ -45,8 +46,8 @@ class Test_Piwik_Fixture_TwoSitesWithAnnotations extends Test_Piwik_BaseFixture
             $site1Text = "$count: Site 1 annotation for " . $dateStart->toString();
             $site2Text = "$count: Site 2 annotation for " . $dateStart->toString();
 
-            Piwik_Annotations_API::getInstance()->add($this->idSite1, $dateStart->toString(), $site1Text, $starred);
-            Piwik_Annotations_API::getInstance()->add($this->idSite2, $dateStart->toString(), $site2Text, $starred);
+            API::getInstance()->add($this->idSite1, $dateStart->toString(), $site1Text, $starred);
+            API::getInstance()->add($this->idSite2, $dateStart->toString(), $site2Text, $starred);
 
             $nextDay = $dateStart->addDay(1);
             ++$count;
@@ -55,8 +56,8 @@ class Test_Piwik_Fixture_TwoSitesWithAnnotations extends Test_Piwik_BaseFixture
             $site1Text = "$count: Site 1 annotation for " . $nextDay->toString();
             $site2Text = "$count: Site 2 annotation for " . $nextDay->toString();
 
-            Piwik_Annotations_API::getInstance()->add($this->idSite1, $nextDay->toString(), $site1Text, $starred);
-            Piwik_Annotations_API::getInstance()->add($this->idSite2, $nextDay->toString(), $site2Text, $starred);
+            API::getInstance()->add($this->idSite1, $nextDay->toString(), $site1Text, $starred);
+            API::getInstance()->add($this->idSite2, $nextDay->toString(), $site2Text, $starred);
 
             $dateStart = $dateStart->addPeriod(1, 'WEEK');
             ++$count;

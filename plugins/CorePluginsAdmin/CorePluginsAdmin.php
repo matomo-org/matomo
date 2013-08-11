@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CorePluginsAdmin
+ * @package CorePluginsAdmin
  */
+namespace Piwik\Plugins\CorePluginsAdmin;
+
 use Piwik\Piwik;
-use Piwik\Plugin;
 
 /**
  *
- * @package Piwik_CorePluginsAdmin
+ * @package CorePluginsAdmin
  */
-class Piwik_CorePluginsAdmin extends Plugin
+class CorePluginsAdmin extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

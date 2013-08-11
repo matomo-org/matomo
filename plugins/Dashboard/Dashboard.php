@@ -6,19 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Dashboard
+ * @package Dashboard
  */
+namespace Piwik\Plugins\Dashboard;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugin;
 use Piwik\Site;
 use Piwik\Db;
 use Piwik\WidgetsList;
+use Zend_Registry;
 
 /**
- * @package Piwik_Dashboard
+ * @package Dashboard
  */
-class Piwik_Dashboard extends Plugin
+class Dashboard extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

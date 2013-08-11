@@ -7,6 +7,9 @@
  */
 
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
@@ -63,8 +66,8 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
     private function setUpWebsitesAndGoals()
     {
         self::createWebsite($this->dateTime, 0, "Site 1");
-        $this->idGoal = Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
-        $this->idGoal2 = Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5);
+        $this->idGoal = API::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
+        $this->idGoal2 = API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5);
     }
 
     private function trackVisits($visitorCount, $setIp = false, $useLocal = true, $doBulk = false)
@@ -167,25 +170,25 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
 
     private function setLocationProvider($file)
     {
-        Piwik_UserCountry_LocationProvider_GeoIp::$dbNames['loc'] = array($file);
-        Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        Piwik_UserCountry_LocationProvider::$providers = null;
-        Piwik_UserCountry_LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
+        GeoIp::$dbNames['loc'] = array($file);
+        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::$providers = null;
+        LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
 
-        if (Piwik_UserCountry_LocationProvider::getCurrentProviderId() !== self::GEOIP_IMPL_TO_TEST) {
+        if (LocationProvider::getCurrentProviderId() !== self::GEOIP_IMPL_TO_TEST) {
             throw new Exception("Failed to set the current location provider to '" . self::GEOIP_IMPL_TO_TEST . "'.");
         }
 
-        $possibleFiles = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames['loc'];
-        if (Piwik_UserCountry_LocationProvider_GeoIp::getPathToGeoIpDatabase($possibleFiles) === false) {
+        $possibleFiles = GeoIp::$dbNames['loc'];
+        if (GeoIp::getPathToGeoIpDatabase($possibleFiles) === false) {
             throw new Exception("The GeoIP location provider cannot find the '$file' file! Tests will fail.");
         }
     }
 
     private function setMockLocationProvider()
     {
-        Piwik_UserCountry_LocationProvider::$providers = null;
-        Piwik_UserCountry_LocationProvider::setCurrentProvider('mock_provider');
+        LocationProvider::$providers = null;
+        LocationProvider::setCurrentProvider('mock_provider');
         MockLocationProvider::$locations = array(
             self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
 
@@ -217,7 +220,7 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
 
     private function unsetLocationProvider()
     {
-        Piwik_UserCountry_LocationProvider::setCurrentProvider('default');
+        LocationProvider::setCurrentProvider('default');
     }
 
 }

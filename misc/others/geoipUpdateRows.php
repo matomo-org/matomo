@@ -5,6 +5,9 @@ use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Db;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;
 
 ini_set("memory_limit", "512M");
 error_reporting(E_ALL | E_NOTICE);
@@ -120,7 +123,7 @@ function geoipUpdateError($message)
 $displayNotes = $start == 0;
 
 // try getting the pecl location provider
-$provider = new Piwik_UserCountry_LocationProvider_GeoIp_Pecl();
+$provider = new Pecl();
 if (!$provider->isAvailable()) {
     if ($displayNotes) {
         Piwik::log("[note] The GeoIP PECL extension is not installed.");
@@ -146,7 +149,7 @@ if (is_null($provider)) {
         Piwik::log("[note] Falling back to PHP API. This may become too slow for you. If so, you can read this link on how to install the PECL extension: http://piwik.org/faq/how-to/#faq_164");
     }
 
-    $provider = new Piwik_UserCountry_LocationProvider_GeoIp_Php();
+    $provider = new Php();
     if (!$provider->isAvailable()) {
         if ($displayNotes) {
             Piwik::log("[note] The GeoIP PHP API is not available. This means you do not have a GeoIP location database in your ./misc directory. The database must be named either GeoIP.dat or GeoIPCity.dat based on the type of database it is.");
@@ -173,11 +176,11 @@ if ($displayNotes) {
 }
 
 // perform update
-$logVisitFieldsToUpdate = array('location_country'   => Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY,
-                                'location_region'    => Piwik_UserCountry_LocationProvider::REGION_CODE_KEY,
-                                'location_city'      => Piwik_UserCountry_LocationProvider::CITY_NAME_KEY,
-                                'location_latitude'  => Piwik_UserCountry_LocationProvider::LATITUDE_KEY,
-                                'location_longitude' => Piwik_UserCountry_LocationProvider::LONGITUDE_KEY);
+$logVisitFieldsToUpdate = array('location_country'   => LocationProvider::COUNTRY_CODE_KEY,
+                                'location_region'    => LocationProvider::REGION_CODE_KEY,
+                                'location_city'      => LocationProvider::CITY_NAME_KEY,
+                                'location_latitude'  => LocationProvider::LATITUDE_KEY,
+                                'location_longitude' => LocationProvider::LONGITUDE_KEY);
 
 if ($displayNotes) {
     Piwik::log("\n$count rows to process in " . Common::prefixTable('log_visit')
@@ -208,9 +211,9 @@ for (; $start < $end; $start += $limit) {
         $ip = IP::N2P($row['location_ip']);
         $location = $provider->getLocation(array('ip' => $ip));
 
-        if (!empty($location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY])) {
-            $location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY] =
-                strtolower($location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY]);
+        if (!empty($location[LocationProvider::COUNTRY_CODE_KEY])) {
+            $location[LocationProvider::COUNTRY_CODE_KEY] =
+                strtolower($location[LocationProvider::COUNTRY_CODE_KEY]);
         }
         $row['location_country'] = strtolower($row['location_country']);
 

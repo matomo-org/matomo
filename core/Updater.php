@@ -141,6 +141,7 @@ class Updater
 
     private function getUpdateClassName($componentName, $fileVersion)
     {
+        ////unprefixClass TODOA FIXME
         $suffix = strtolower(str_replace(array('-', '.'), '_', $fileVersion));
         if ($componentName == 'core') {
             return 'Piwik_Updates_' . $suffix;

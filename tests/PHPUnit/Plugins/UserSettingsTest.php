@@ -1005,7 +1005,7 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
         if ($res === false)
             $this->assertFalse($expected[0]);
         else {
-            $family = Piwik_getBrowserFamily($res['id']);
+            $family = \Piwik\Plugins\UserSettings\getBrowserFamily($res['id']);
             $this->assertEquals($expected[0][0], $res['id']);
             $this->assertEquals($expected[0][1], $res['name']);
             $this->assertEquals($expected[0][2], $res['short_name']);

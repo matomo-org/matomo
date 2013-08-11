@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Piwik - Open source web analytics
  *
@@ -7,9 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DevicesDetection
+ * @package DevicesDetection
  */
-function Piwik_GetBrandLogo($label)
+
+namespace Piwik\Plugins\DevicesDetection;
+
+use UserAgentParserEnhanced;
+
+function getBrandLogo($label)
 {
     $path = dirname(__FILE__) . '/images/brand/' . $label . '.ico';
     if (file_exists($path)) {
@@ -19,7 +23,7 @@ function Piwik_GetBrandLogo($label)
     }
 }
 
-function Piwik_getBrowserFamilyFullNameExtended($label)
+function getBrowserFamilyFullNameExtended($label)
 {
     foreach (UserAgentParserEnhanced::$browserFamilies as $name => $family) {
         if (in_array($label, $family)) {
@@ -29,7 +33,7 @@ function Piwik_getBrowserFamilyFullNameExtended($label)
     return Piwik_Translate('General_Unknown');
 }
 
-function Piwik_getBrowserFamilyLogoExtended($label)
+function getBrowserFamilyLogoExtended($label)
 {
     if (array_key_exists($label, UserAgentParserEnhanced::$browserFamilies)) {
         $path = 'plugins/UserSettings/images/browsers/' . UserAgentParserEnhanced::$browserFamilies[$label][0] . '.gif';
@@ -39,7 +43,7 @@ function Piwik_getBrowserFamilyLogoExtended($label)
     return $path;
 }
 
-function Piwik_getBrowserNameExtended($label)
+function getBrowserNameExtended($label)
 {
     $short = substr($label, 0, 2);
     $ver = substr($label, 3, 10);
@@ -50,17 +54,17 @@ function Piwik_getBrowserNameExtended($label)
     }
 }
 
-function Piwik_getBrowserLogoExtended($label)
+function getBrowserLogoExtended($label)
 {
     $short = substr($label, 0, 2);
 
-    $familyName = Piwik_getBrowserFamilyFullNameExtended($short);
-    $path = Piwik_getBrowserFamilyLogoExtended($familyName);
+    $familyName = getBrowserFamilyFullNameExtended($short);
+    $path = getBrowserFamilyLogoExtended($familyName);
 
     return $path;
 }
 
-function Piwik_getDeviceBrandLabel($label)
+function getDeviceBrandLabel($label)
 {
     if (array_key_exists($label, UserAgentParserEnhanced::$deviceBrands)) {
         return ucfirst(UserAgentParserEnhanced::$deviceBrands[$label]);
@@ -69,7 +73,7 @@ function Piwik_getDeviceBrandLabel($label)
     }
 }
 
-function Piwik_getDeviceTypeLabel($label)
+function getDeviceTypeLabel($label)
 {
     if (isset(UserAgentParserEnhanced::$deviceTypes[$label])) {
         return UserAgentParserEnhanced::$deviceTypes[$label];
@@ -78,7 +82,7 @@ function Piwik_getDeviceTypeLabel($label)
     }
 }
 
-function Piwik_getDeviceTypeLogo($label)
+function getDeviceTypeLogo($label)
 {
     $deviceTypeLogos = Array(
         "Desktop" => "normal.gif",
@@ -97,7 +101,7 @@ function Piwik_getDeviceTypeLogo($label)
     return $path;
 }
 
-function Piwik_getModelName($label)
+function getModelName($label)
 {
     if (!$label) {
         return Piwik_Translate('General_Unknown');
@@ -105,7 +109,7 @@ function Piwik_getModelName($label)
     return $label;
 }
 
-function Piwik_getOSFamilyFullNameExtended($label)
+function getOSFamilyFullNameExtended($label)
 {
     foreach (UserAgentParserEnhanced::$osFamilies as $name => $family) {
         if (in_array($label, $family)) {
@@ -115,7 +119,7 @@ function Piwik_getOSFamilyFullNameExtended($label)
     return Piwik_Translate('General_Unknown');
 }
 
-function Piwik_getOsFamilyLogoExtended($label)
+function getOsFamilyLogoExtended($label)
 {
     if (array_key_exists($label, UserAgentParserEnhanced::$osFamilies)) {
         $path = 'plugins/UserSettings/images/os/' . UserAgentParserEnhanced::$osFamilies[$label][0] . ".gif";
@@ -125,7 +129,7 @@ function Piwik_getOsFamilyLogoExtended($label)
     return $path;
 }
 
-function Piwik_getOsFullNameExtended($label)
+function getOsFullNameExtended($label)
 {
     if (!empty($label) && $label != ";") {
         $os = substr($label, 0, 3);
@@ -140,10 +144,10 @@ function Piwik_getOsFullNameExtended($label)
 
 
 
-function Piwik_getOsLogoExtended($label)
+function getOsLogoExtended($label)
 {
     $short = substr($label, 0, 3);
-    $familyName = Piwik_getOsFamilyFullNameExtended($short);
-    $path = Piwik_getOsFamilyLogoExtended($familyName);
+    $familyName = getOsFamilyFullNameExtended($short);
+    $path = getOsFamilyLogoExtended($familyName);
     return $path;
 }

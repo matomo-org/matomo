@@ -4,6 +4,7 @@
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\FrontController;
+use Piwik\Plugins\SitesManager\API;
 
 exit;
 
@@ -19,7 +20,7 @@ FrontController::getInstance()->init();
 Piwik::setUserIsSuperUser();
 $count = 100;
 for ($i = 0; $i <= $count; $i++) {
-    $id = Piwik_SitesManager_API::getInstance()->addSite(Common::getRandomString(), 'http://piwik.org');
+    $id = API::getInstance()->addSite(Common::getRandomString(), 'http://piwik.org');
     $t = new PiwikTracker($id, 'http://localhost/trunk/piwik.php');
     echo $id . " <img width=100 height=10 border=1 src='" . $t->getUrlTrackPageView('title') . "'><br/>";
 }

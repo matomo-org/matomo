@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SEO
+ * @package SEO
  */
+namespace Piwik\Plugins\SEO;
+
 use Piwik\Version;
-use Piwik\Plugin;
 use Piwik\WidgetsList;
 
 /**
- * @package Piwik_SEO
+ * @package SEO
  */
-class Piwik_SEO extends Plugin
+class SEO extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation

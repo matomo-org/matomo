@@ -6,12 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Overlay
+ * @package Overlay
  */
 
-use Piwik\Plugin;
+namespace Piwik\Plugins\Overlay;
 
-class Piwik_Overlay extends Plugin
+
+class Overlay extends \Piwik\Plugin
 {
     public function getInformation()
     {

@@ -6,18 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UsersManager
+ * @package UsersManager
  */
+namespace Piwik\Plugins\UsersManager;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Option;
-use Piwik\Plugin;
+use Piwik\Plugins\UsersManager\API;
 
 /**
  * Manage Piwik users
  *
- * @package Piwik_UsersManager
+ * @package UsersManager
  */
-class Piwik_UsersManager extends Plugin
+class UsersManager extends \Piwik\Plugin
 {
     const PASSWORD_MIN_LENGTH = 6;
     const PASSWORD_MAX_LENGTH = 26;
@@ -36,7 +39,6 @@ class Piwik_UsersManager extends Plugin
         );
     }
 
-
     /**
      * Hooks when a website tracker cache is flushed (website/user updated, cache deleted, or empty cache)
      * Will record in the tracker config file the list of Admin token_auth for this website. This
@@ -49,7 +51,7 @@ class Piwik_UsersManager extends Plugin
     public function recordAdminUsersInCache(&$array, $idSite)
     {
         // add the 'hosts' entry in the website array
-        $users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($idSite, 'admin');
+        $users = API::getInstance()->getUsersWithSiteAccess($idSite, 'admin');
 
         $tokens = array();
         foreach ($users as $user) {
@@ -62,7 +64,7 @@ class Piwik_UsersManager extends Plugin
      */
     public function deleteSite(&$idSite)
     {
-        Option::getInstance()->deleteLike('%\_' . Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
+        Option::getInstance()->deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
     /**

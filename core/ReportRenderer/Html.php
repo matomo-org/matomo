@@ -13,7 +13,7 @@ namespace Piwik\ReportRenderer;
 use Piwik\Piwik;
 use Piwik\View;
 use Piwik\ReportRenderer;
-use Piwik_API_API;
+use Piwik\Plugins\API\API;
 
 /**
  *
@@ -121,7 +121,7 @@ class Html extends ReportRenderer
         $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
         $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
         $view->assign("currentPath", Piwik::getPiwikUrl());
-        $view->assign("logoHeader", Piwik_API_API::getInstance()->getHeaderLogoUrl());
+        $view->assign("logoHeader", API::getInstance()->getHeaderLogoUrl());
     }
 
     public function renderReport($processedReport)

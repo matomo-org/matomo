@@ -6,22 +6,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
 
-use Piwik\Controller\Admin;
+namespace Piwik\Plugins\MobileMessaging;
+
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\MobileMessaging\API;
 use Piwik\View;
+use Piwik\Plugins\MobileMessaging\CountryCallingCodes;
+use Piwik\Plugins\MobileMessaging\SMSProvider;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
  *
- * @package Piwik_MobileMessaging
+ * @package MobileMessaging
  */
-class Piwik_MobileMessaging_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
     /*
      * Mobile Messaging Settings tab :
@@ -38,7 +43,7 @@ class Piwik_MobileMessaging_Controller extends Admin
 
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
-        $mobileMessagingAPI = Piwik_MobileMessaging_API::getInstance();
+        $mobileMessagingAPI = API::getInstance();
         $view->delegatedManagement = $mobileMessagingAPI->getDelegatedManagement();
         $view->credentialSupplied = $mobileMessagingAPI->areSMSAPICredentialProvided();
         $view->accountManagedByCurrentUser = $view->isSuperUser || $view->delegatedManagement;
@@ -48,23 +53,23 @@ class Piwik_MobileMessaging_Controller extends Admin
             $view->creditLeft = $mobileMessagingAPI->getCreditLeft();
         }
 
-        $view->smsProviders = Piwik_MobileMessaging_SMSProvider::$availableSMSProviders;
+        $view->smsProviders = SMSProvider::$availableSMSProviders;
 
         // construct the list of countries from the lang files
         $countries = array();
         foreach (Common::getCountriesList() as $countryCode => $continentCode) {
-            if (isset(Piwik_MobileMessaging_CountryCallingCodes::$countryCallingCodes[$countryCode])) {
+            if (isset(CountryCallingCodes::$countryCallingCodes[$countryCode])) {
                 $countries[$countryCode] =
                     array(
-                        'countryName'        => Piwik_CountryTranslate($countryCode),
-                        'countryCallingCode' => Piwik_MobileMessaging_CountryCallingCodes::$countryCallingCodes[$countryCode],
+                        'countryName'        => \Piwik\Plugins\UserCountry\countryTranslate($countryCode),
+                        'countryCallingCode' => CountryCallingCodes::$countryCallingCodes[$countryCode],
                     );
             }
         }
         $view->countries = $countries;
 
         $view->defaultCountry = Common::getCountry(
-            Piwik_LanguagesManager::getLanguageCodeForCurrentUser(),
+            LanguagesManager::getLanguageCodeForCurrentUser(),
             true,
             IP::getIpFromHeader()
         );

@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 
 /**
  * Fixture that adds one site with three goals and tracks one pageview & one manual
@@ -33,17 +34,17 @@ class Test_Piwik_Fixture_ThreeGoalsOnePageview extends Test_Piwik_BaseFixture
     private function setUpWebsitesAndGoals()
     {
         self::createWebsite($this->dateTime, $ecommerce = 1);
-        Piwik_Goals_API::getInstance()->addGoal(
+        API::getInstance()->addGoal(
             $this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false,
             $revenue = 10, $allowMultipleConversions = 1
         );
 
-        Piwik_Goals_API::getInstance()->addGoal(
+        API::getInstance()->addGoal(
             $this->idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false,
             $revenue = 10, $allowMultipleConversions = 0
         );
 
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
     }
 
     private function trackVisits()

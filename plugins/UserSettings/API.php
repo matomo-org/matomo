@@ -6,12 +6,15 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserSettings
+ * @package UserSettings
  */
+namespace Piwik\Plugins\UserSettings;
+
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
+use Piwik\Plugins\UserSettings\Archiver;
 
 /**
  * @see plugins/UserSettings/functions.php
@@ -22,9 +25,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
  * The UserSettings API lets you access reports about your Visitors technical settings: browsers, browser types (rendering engine),
  * operating systems, plugins supported in their browser, Screen resolution and Screen types (normal, widescreen, dual screen or mobile).
  *
- * @package Piwik_UserSettings
+ * @package UserSettings
  */
-class Piwik_UserSettings_API
+class API
 {
     static private $instance = null;
 
@@ -49,27 +52,27 @@ class Piwik_UserSettings_API
 
     public function getResolution($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::RESOLUTION_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::RESOLUTION_RECORD_NAME, $idSite, $period, $date, $segment);
         return $dataTable;
     }
 
     public function getConfiguration($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::CONFIGURATION_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getConfigurationLabel'));
+        $dataTable = $this->getDataTable(Archiver::CONFIGURATION_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getConfigurationLabel'));
         return $dataTable;
     }
 
     public function getOS($idSite, $period, $date, $segment = false, $addShortLabel = true)
     {
-        $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::OS_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::OS_RECORD_NAME, $idSite, $period, $date, $segment);
         // these filters are applied directly so other API methods can use GroupBy on the result of this method
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getOSLogo'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getOSLogo'));
         if ($addShortLabel) {
             $dataTable->filter(
-                'ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getOSShortLabel'));
+                'ColumnCallbackAddMetadata', array('label', 'shortLabel', __NAMESPACE__ . '\getOSShortLabel'));
         }
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getOSLabel'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getOSLabel'));
         return $dataTable;
     }
 
@@ -80,7 +83,7 @@ class Piwik_UserSettings_API
     public function getOSFamily($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
-        $dataTable->filter('GroupBy', array('label', 'Piwik_UserSettings_getOSFamily'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamily'));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Translate'));
         return $dataTable;
     }
@@ -91,12 +94,12 @@ class Piwik_UserSettings_API
     public function getMobileVsDesktop($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
-        $dataTable->filter('GroupBy', array('label', 'Piwik_UserSettings_getDeviceTypeFromOS'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getDeviceTypeFromOS'));
         $this->ensureDefaultRowsInTable($dataTable);
 
         // set the logo metadata
         $dataTable->queueFilter('MetadataCallbackReplace',
-            array('logo', 'Piwik_UserSettings_getDeviceTypeImg', null, array('label')));
+            array('logo', __NAMESPACE__ . '\getDeviceTypeImg', null, array('label')));
 
         // translate the labels
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Translate'));
@@ -133,15 +136,15 @@ class Piwik_UserSettings_API
     public function getBrowserVersion($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getBrowserTable($idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'shortLabel', __NAMESPACE__ . '\getBrowserShortLabel'));
         return $dataTable;
     }
 
     protected function getBrowserTable($idSite, $period, $date, $segment)
     {
-        $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::BROWSER_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
+        $dataTable = $this->getDataTable(Archiver::BROWSER_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getBrowsersLogo'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserLabel'));
         return $dataTable;
     }
 
@@ -152,22 +155,22 @@ class Piwik_UserSettings_API
     public function getBrowser($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getBrowserTable($idSite, $period, $date, $segment);
-        $dataTable->filter('GroupBy', array('label', 'Piwik_UserSettings_getBrowserFromBrowserVersion'));
+        $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getBrowserFromBrowserVersion'));
         return $dataTable;
     }
 
     public function getBrowserType($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::BROWSER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::BROWSER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'ucfirst'));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserTypeLabel'));
+        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getBrowserTypeLabel'));
         return $dataTable;
     }
 
     public function getWideScreen($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::SCREEN_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getScreensLogo'));
+        $dataTable = $this->getDataTable(Archiver::SCREEN_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getScreensLogo'));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
         return $dataTable;
     }
@@ -175,8 +178,8 @@ class Piwik_UserSettings_API
     public function getPlugin($idSite, $period, $date, $segment = false)
     {
         // fetch all archive data required
-        $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::PLUGIN_RECORD_NAME, $idSite, $period, $date, $segment);
-        $browserTypes = $this->getDataTable(Piwik_UserSettings_Archiver::BROWSER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::PLUGIN_RECORD_NAME, $idSite, $period, $date, $segment);
+        $browserTypes = $this->getDataTable(Archiver::BROWSER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $visitsSums = $archive->getDataTableFromNumeric('nb_visits');
 
@@ -225,7 +228,6 @@ class Piwik_UserSettings_API
 
             $visitsSum = $visitsSumTotal - $ieVisits;
 
-
             // When Truncate filter is applied, it will call AddSummaryRow which tries to sum all rows.
             // We tell the object to skip the column nb_visits_percentage when aggregating (since it's not correct to sum % values)
             $table->setColumnAggregationOperation('nb_visits_percentage', 'skip');
@@ -236,7 +238,7 @@ class Piwik_UserSettings_API
             $table->filter('RangeCheck', array('nb_visits_percentage'));
         }
 
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getPluginsLogo'));
+        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getPluginsLogo'));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'ucfirst'));
 
         return $dataTable;
@@ -244,8 +246,8 @@ class Piwik_UserSettings_API
 
     public function getLanguage($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_LanguageTranslate'));
+        $dataTable = $this->getDataTable(Archiver::LANGUAGE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\languageTranslate'));
         $dataTable->filter('ReplaceColumnNames');
         return $dataTable;
     }

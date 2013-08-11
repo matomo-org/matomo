@@ -42,7 +42,7 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
         $idSite = self::$fixture->idSite;
         $apiForTesting = array();
 
-        $segments = Piwik_API_API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
+        $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
         foreach ($segments as $segment) {
             $apiForTesting[] = $this->getApiForTestingForSegment($idSite, $segment['segment']);
         }
@@ -102,7 +102,7 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
     public function getAnotherApiForTesting()
     {
         $apiForTesting = array();
-        $segments = Piwik_API_API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
+        $segments = \Piwik\Plugins\API\API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
         foreach ($segments as $segment) {
             $apiForTesting[] = array('VisitsSummary.get',
                                      array('idSite'            => self::$fixture->idSite,

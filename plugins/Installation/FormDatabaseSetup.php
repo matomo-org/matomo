@@ -6,18 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Installation
+ * @package Installation
  */
+namespace Piwik\Plugins\Installation;
+
 use Piwik\Db\Adapter;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\QuickForm2;
+use Exception;
+use HTML_QuickForm2_DataSource_Array;
+use HTML_QuickForm2_Factory;
+use Zend_Db_Adapter_Exception;
 
 /**
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation_FormDatabaseSetup extends QuickForm2
+class FormDatabaseSetup extends QuickForm2
 {
     function __construct($id = 'databasesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {
@@ -26,9 +32,9 @@ class Piwik_Installation_FormDatabaseSetup extends QuickForm2
 
     function init()
     {
-        HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'Piwik_Installation_FormDatabaseSetup_Rule_checkValidFilename');
+        HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'FormDatabaseSetup_Rule_checkValidFilename');
 
-        $checkUserPrivilegesClass = 'Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges';
+        $checkUserPrivilegesClass = 'Rule_checkUserPrivileges';
         HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', $checkUserPrivilegesClass);
 
         $availableAdapters = Adapter::getAdapters();
@@ -44,7 +50,7 @@ class Piwik_Installation_FormDatabaseSetup extends QuickForm2
         $user = $this->addElement('text', 'username')
             ->setLabel(Piwik_Translate('Installation_DatabaseSetupLogin'));
         $user->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_DatabaseSetupLogin')));
-        $requiredPrivileges = Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges::getRequiredPrivilegesPretty();
+        $requiredPrivileges = Rule_checkUserPrivileges::getRequiredPrivilegesPretty();
         $user->addRule('checkUserPrivileges',
             Piwik_Translate('Installation_InsufficientPrivilegesMain', $requiredPrivileges . '<br/><br/>') .
                 Piwik_Translate('Installation_InsufficientPrivilegesHelp'));
@@ -148,9 +154,9 @@ class Piwik_Installation_FormDatabaseSetup extends QuickForm2
  * - DROP
  * - CREATE TEMPORARY TABLES
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
+class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
 {
     const TEST_TABLE_NAME = 'piwik_test_table';
     const TEST_TEMP_TABLE_NAME = 'piwik_test_table_temp';
@@ -228,22 +234,22 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
     {
         return array(
             'CREATE'                  => 'CREATE TABLE ' . self::TEST_TABLE_NAME . ' (
-								   id INT AUTO_INCREMENT,
-								   value INT,
-								   PRIMARY KEY (id),
-								   KEY index_value (value)
-							   )',
+                               id INT AUTO_INCREMENT,
+                               value INT,
+                               PRIMARY KEY (id),
+                               KEY index_value (value)
+                           )',
             'ALTER'                   => 'ALTER TABLE ' . self::TEST_TABLE_NAME . '
-								ADD COLUMN other_value INT DEFAULT 0',
+                            ADD COLUMN other_value INT DEFAULT 0',
             'SELECT'                  => 'SELECT * FROM ' . self::TEST_TABLE_NAME,
             'INSERT'                  => 'INSERT INTO ' . self::TEST_TABLE_NAME . ' (value) VALUES (123)',
             'UPDATE'                  => 'UPDATE ' . self::TEST_TABLE_NAME . ' SET value = 456 WHERE id = 1',
             'DELETE'                  => 'DELETE FROM ' . self::TEST_TABLE_NAME . ' WHERE id = 1',
             'DROP'                    => 'DROP TABLE ' . self::TEST_TABLE_NAME,
             'CREATE TEMPORARY TABLES' => 'CREATE TEMPORARY TABLE ' . self::TEST_TEMP_TABLE_NAME . ' (
-											id INT AUTO_INCREMENT,
-											PRIMARY KEY (id)
-										 )',
+                                        id INT AUTO_INCREMENT,
+                                        PRIMARY KEY (id)
+                                     )',
         );
     }
 
@@ -294,9 +300,9 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
 /**
  * Filename check for prefix/DB name
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation_FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
+class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
 {
     function validateOwner()
     {

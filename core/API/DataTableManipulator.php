@@ -14,7 +14,7 @@ use Exception;
 use Piwik\DataTable\Row;
 use Piwik\Period\Range;
 use Piwik\DataTable;
-use Piwik_API_API;
+use Piwik\Plugins\API\API;
 use Piwik\API\Proxy;
 use Piwik\API\ResponseBuilder;
 
@@ -129,7 +129,7 @@ abstract class DataTableManipulator
             }
         }
 
-        $class = 'Piwik_' . $this->apiModule . '_API';
+        $class = Request::getClassNameAPI( $this->apiModule );
         $method = $this->getApiMethodForSubtable();
 
         $this->manipulateSubtableRequest($request);
@@ -169,7 +169,7 @@ abstract class DataTableManipulator
     private function getApiMethodForSubtable()
     {
         if (!$this->apiMethodForSubtable) {
-            $meta = Piwik_API_API::getInstance()->getMetadata('all', $this->apiModule, $this->apiMethod);
+            $meta = API::getInstance()->getMetadata('all', $this->apiModule, $this->apiMethod);
             if (isset($meta[0]['actionToLoadSubTables'])) {
                 $this->apiMethodForSubtable = $meta[0]['actionToLoadSubTables'];
             } else {

@@ -8,7 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging_ReportRenderer
  */
+namespace Piwik\Plugins\MobileMessaging\ReportRenderer;
+
 use Piwik\Common;
+use Piwik\Plugins\MultiSites\API;
 use Piwik\View;
 use Piwik\ReportRenderer;
 use Piwik\Site;
@@ -17,7 +20,7 @@ use Piwik\Site;
  *
  * @package Piwik_MobileMessaging_ReportRenderer
  */
-class Piwik_MobileMessaging_ReportRenderer_Sms extends ReportRenderer
+class Sms extends ReportRenderer
 {
     const FLOAT_REGEXP = '/[-+]?[0-9]*[\.,]?[0-9]+/';
     const SMS_CONTENT_TYPE = 'text/plain';
@@ -62,9 +65,9 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends ReportRenderer
         $reportData = $processedReport['reportData'];
 
         $evolutionMetrics = array();
-        $multiSitesAPIMetrics = Piwik_MultiSites_API::getApiMetrics($enhanced = true);
+        $multiSitesAPIMetrics = API::getApiMetrics($enhanced = true);
         foreach ($multiSitesAPIMetrics as $metricSettings) {
-            $evolutionMetrics[] = $metricSettings[Piwik_MultiSites_API::METRIC_EVOLUTION_COL_NAME_KEY];
+            $evolutionMetrics[] = $metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY];
         }
 
         // no decimal for all metrics to shorten SMS content (keeps the monetary sign for revenue metrics)

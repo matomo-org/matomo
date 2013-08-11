@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 
 /**
  * Reusable fixture. Adds 20,000 sites and tracks one pageview for each on one day.
@@ -23,7 +24,7 @@ class Piwik_Test_Fixture_ManyThousandSitesOneVisitEach
             $idSite = Test_Piwik_BaseFixture::createWebsite(
                 $this->date, $ecommerce = 1, $siteName = "Site #$i", $siteUrl = "http://site$i.com/");
             
-            Piwik_Goals_API::getInstance()->addGoal($idSite, 'all', 'url', 'http', 'contains', false, 5);
+            API::getInstance()->addGoal($idSite, 'all', 'url', 'http', 'contains', false, 5);
         }
         
         // track one visit for each site

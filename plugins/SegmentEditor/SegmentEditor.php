@@ -6,17 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SegmentEditor
+ * @package SegmentEditor
  */
+namespace Piwik\Plugins\SegmentEditor;
+
+use Exception;
 use Piwik\Common;
+use Piwik\Plugins\SegmentEditor\API;
+use Piwik\Plugins\SegmentEditor\Controller;
 use Piwik\Version;
-use Piwik\Plugin;
 use Piwik\Db;
+use Zend_Registry;
 
 /**
- * @package Piwik_SegmentEditor
+ * @package SegmentEditor
  */
-class Piwik_SegmentEditor extends Plugin
+class SegmentEditor extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation
@@ -47,13 +52,13 @@ class Piwik_SegmentEditor extends Plugin
 
     function getSegmentEditorHtml(&$out)
     {
-        $controller = new Piwik_SegmentEditor_Controller();
+        $controller = new Controller();
         $out .= $controller->getSelector();
     }
 
     public function getKnownSegmentsToArchiveAllSites(&$segments)
     {
-        $segmentsToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getAll($idSite = false, $returnAutoArchived = true);
+        $segmentsToAutoArchive = API::getInstance()->getAll($idSite = false, $returnAutoArchived = true);
         foreach ($segmentsToAutoArchive as $segment) {
             $segments[] = $segment['definition'];
         }
@@ -61,7 +66,7 @@ class Piwik_SegmentEditor extends Plugin
 
     public function getKnownSegmentsToArchiveForSite(&$segments, $idSite)
     {
-        $segmentToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getAll($idSite, $returnAutoArchived = true);
+        $segmentToAutoArchive = API::getInstance()->getAll($idSite, $returnAutoArchived = true);
 
         foreach ($segmentToAutoArchive as $segmentInfo) {
             $segments[] = $segmentInfo['definition'];

@@ -6,18 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PrivacyManager
+ * @package PrivacyManager
  */
+namespace Piwik\Plugins\PrivacyManager;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Plugins\Goals\Archiver;
+use Piwik\Plugins\PrivacyManager\LogDataPurger;
 use Piwik\ScheduledTask;
-use Piwik\Plugin;
 use Piwik\Db;
 use Piwik\ScheduledTime\Daily;
 use Piwik\Tracker\GoalManager;
+use Piwik\Plugins\PrivacyManager\ReportsPurger;
 
 /**
  * @see plugins/PrivacyManager/LogDataPurger.php
@@ -31,9 +36,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
 
 /**
  *
- * @package Piwik_PrivacyManager
+ * @package PrivacyManager
  */
-class Piwik_PrivacyManager extends Plugin
+class PrivacyManager extends \Piwik\Plugin
 {
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
@@ -197,7 +202,7 @@ class Piwik_PrivacyManager extends Plugin
         // set last run time
         Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_REPORTS, Date::factory('today')->getTimestamp());
 
-        Piwik_PrivacyManager_ReportsPurger::make($settings, self::getAllMetricsToKeep())->purgeData();
+        ReportsPurger::make($settings, self::getAllMetricsToKeep())->purgeData();
     }
 
     /**
@@ -236,7 +241,7 @@ class Piwik_PrivacyManager extends Plugin
         Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
         // execute the purge
-        Piwik_PrivacyManager_LogDataPurger::make($settings)->purgeData();
+        LogDataPurger::make($settings)->purgeData();
     }
 
     /**
@@ -259,12 +264,12 @@ class Piwik_PrivacyManager extends Plugin
         $result = array();
 
         if ($settings['delete_logs_enable']) {
-            $logDataPurger = Piwik_PrivacyManager_LogDataPurger::make($settings);
+            $logDataPurger = LogDataPurger::make($settings);
             $result = array_merge($result, $logDataPurger->getPurgeEstimate());
         }
 
         if ($settings['delete_reports_enable']) {
-            $reportsPurger = Piwik_PrivacyManager_ReportsPurger::make($settings, self::getAllMetricsToKeep());
+            $reportsPurger = ReportsPurger::make($settings, self::getAllMetricsToKeep());
             $result = array_merge($result, $reportsPurger->getPurgeEstimate());
         }
 
@@ -303,7 +308,7 @@ class Piwik_PrivacyManager extends Plugin
             $reportsOlderThan = Date::factory('today')->subMonth(1 + $reportsOlderThan);
         }
 
-        return Piwik_PrivacyManager_ReportsPurger::shouldReportBePurged(
+        return ReportsPurger::shouldReportBePurged(
             $reportDateYear, $reportDateMonth, $reportsOlderThan);
     }
 
@@ -347,12 +352,12 @@ class Piwik_PrivacyManager extends Plugin
             foreach ($goalMetricsToKeep as $metric) {
                 for ($i = 1; $i <= $maxGoalId; ++$i) // maxGoalId can be 0
                 {
-                    $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric, $i);
+                    $metricsToKeep[] = Archiver::getRecordName($metric, $i);
                 }
 
-                $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric);
-                $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric, GoalManager::IDGOAL_ORDER);
-                $metricsToKeep[] = Piwik_Goals_Archiver::getRecordName($metric, GoalManager::IDGOAL_CART);
+                $metricsToKeep[] = Archiver::getRecordName($metric);
+                $metricsToKeep[] = Archiver::getRecordName($metric, GoalManager::IDGOAL_ORDER);
+                $metricsToKeep[] = Archiver::getRecordName($metric, GoalManager::IDGOAL_CART);
             }
         }
 

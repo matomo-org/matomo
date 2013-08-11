@@ -6,8 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Annotations
+ * @package Annotations
  */
+namespace Piwik\Plugins\Annotations;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\Site;
@@ -17,7 +20,7 @@ use Piwik\Site;
  * at once.
  *
  * Example use:
- *   $annotations = new Piwik_Annotations_AnnotationList($idSites = "1,2,5");
+ *   $annotations = new AnnotationList($idSites = "1,2,5");
  *   $annotation = $annotations->get($idSite = 1, $idNote = 4);
  *   // do stuff w/ annotation
  *   $annotations->update($idSite = 2, $idNote = 4, $note = "This is the new text.");
@@ -27,9 +30,9 @@ use Piwik\Site;
  * an annotation for the same site, it's possible one of their changes will
  * never get made (as it will be overwritten by the other's).
  *
- * @package Piwik_Annotations
+ * @package Annotations
  */
-class Piwik_Annotations_AnnotationList
+class AnnotationList
 {
     const ANNOTATION_COLLECTION_OPTION_SUFFIX = '_annotations';
 

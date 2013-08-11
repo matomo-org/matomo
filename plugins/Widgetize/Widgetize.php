@@ -7,15 +7,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Widgetize
+ * @package Widgetize
  */
-use Piwik\Plugin;
+
+namespace Piwik\Plugins\Widgetize;
 
 /**
  *
- * @package Piwik_Widgetize
+ * @package Widgetize
  */
-class Piwik_Widgetize extends Plugin
+class Widgetize extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

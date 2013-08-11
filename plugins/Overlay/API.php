@@ -1,10 +1,4 @@
 <?php
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Access;
-use Piwik\DataTable;
-use Piwik\Tracker\Action;
-
 /**
  * Piwik - Open source web analytics
  *
@@ -12,17 +6,29 @@ use Piwik\Tracker\Action;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Overlay
+ * @package Overlay
  */
+namespace Piwik\Plugins\Overlay;
 
-class Piwik_Overlay_API
+use Exception;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Access;
+use Piwik\DataTable;
+use Piwik\Tracker\Action;
+use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\Transitions\API as TransitionsAPI;
+
+
+class API
 {
 
     private static $instance = null;
 
     /**
      * Get Singleton instance
-     * @return Piwik_Overlay_API
+     * @return \Piwik\Plugins\Overlay\API
      */
     public static function getInstance()
     {
@@ -57,11 +63,11 @@ class Piwik_Overlay_API
     {
         $this->authenticate($idSite);
 
-        $sitesManager = Piwik_SitesManager_API::getInstance();
+        $sitesManager = SitesManagerAPI::getInstance();
         $site = $sitesManager->getSiteFromId($idSite);
 
         try {
-            return Piwik_SitesManager::getTrackerExcludedQueryParameters($site);
+            return SitesManager::getTrackerExcludedQueryParameters($site);
         } catch (Exception $e) {
             // an exception is thrown when the user has no view access.
             // do not throw the exception to the outside.
@@ -87,7 +93,7 @@ class Piwik_Overlay_API
 
         try {
             $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];
-            $transitionsReport = Piwik_Transitions_API::getInstance()->getTransitionsForAction(
+            $transitionsReport = TransitionsAPI::getInstance()->getTransitionsForAction(
                 $url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping,
                 $part = 'followingActions', $returnNormalizedUrls = true);
         } catch (Exception $e) {
@@ -124,5 +130,4 @@ class Piwik_Overlay_API
 
         Piwik::checkUserHasViewAccess($idSite);
     }
-
 }

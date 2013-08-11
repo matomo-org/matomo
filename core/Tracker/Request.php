@@ -8,7 +8,7 @@ use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
-use Piwik_UserCountry_LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
  * Piwik - Open source web analytics
@@ -493,11 +493,11 @@ class Request
 
         // check for location override query parameters (ie, lat, long, country, region, city)
         $locationOverrideParams = array(
-            'country' => array('string', Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY),
-            'region'  => array('string', Piwik_UserCountry_LocationProvider::REGION_CODE_KEY),
-            'city'    => array('string', Piwik_UserCountry_LocationProvider::CITY_NAME_KEY),
-            'lat'     => array('float', Piwik_UserCountry_LocationProvider::LATITUDE_KEY),
-            'long'    => array('float', Piwik_UserCountry_LocationProvider::LONGITUDE_KEY),
+            'country' => array('string', LocationProvider::COUNTRY_CODE_KEY),
+            'region'  => array('string', LocationProvider::REGION_CODE_KEY),
+            'city'    => array('string', LocationProvider::CITY_NAME_KEY),
+            'lat'     => array('float', LocationProvider::LATITUDE_KEY),
+            'long'    => array('float', LocationProvider::LONGITUDE_KEY),
         );
         foreach ($locationOverrideParams as $queryParamName => $info) {
             list($type, $locationResultKey) = $info;

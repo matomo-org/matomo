@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Provider
+ * @package Provider
  */
+namespace Piwik\Plugins\Provider;
+
 use Piwik\Metrics;
 use Piwik\PluginsArchiver;
 
-class Piwik_Provider_Archiver extends PluginsArchiver
+class Archiver extends PluginsArchiver
 {
     const PROVIDER_RECORD_NAME = 'Provider_hostnameExt';
     const PROVIDER_FIELD = "location_provider";

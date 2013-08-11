@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Site;
 
 /**
@@ -64,7 +65,7 @@ class FakeAccess
         if (!self::$superUser) {
             $websitesAccess = self::$idSitesAdmin;
         } else {
-            $websitesAccess = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+            $websitesAccess = API::getInstance()->getAllSitesId();
         }
 
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
@@ -81,12 +82,12 @@ class FakeAccess
         if (!self::$superUser) {
             $websitesAccess = array_merge(self::$idSitesView, self::$idSitesAdmin);
         } else {
-            $websitesAccess = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+            $websitesAccess = API::getInstance()->getAllSitesId();
         }
 
         if (!is_array($idSites)) {
             if ($idSites == 'all') {
-                $idSites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+                $idSites = API::getInstance()->getAllSitesId();
             } else {
                 $idSites = explode(',', $idSites);
             }
@@ -134,7 +135,7 @@ class FakeAccess
     public static function getSitesIdWithAdminAccess()
     {
         if (self::$superUser) {
-            return Piwik_SitesManager_API::getInstance()->getAllSitesId();
+            return API::getInstance()->getAllSitesId();
         }
         return self::$idSitesAdmin;
     }
@@ -142,7 +143,7 @@ class FakeAccess
     public static function getSitesIdWithViewAccess()
     {
         if (self::$superUser) {
-            return Piwik_SitesManager_API::getInstance()->getAllSitesId();
+            return API::getInstance()->getAllSitesId();
         }
         return self::$idSitesView;
     }
@@ -150,7 +151,7 @@ class FakeAccess
     public static function getSitesIdWithAtLeastViewAccess()
     {
         if (self::$superUser) {
-            return Piwik_SitesManager_API::getInstance()->getAllSitesId();
+            return API::getInstance()->getAllSitesId();
         }
         return array_merge(self::$idSitesView, self::$idSitesAdmin);
     }

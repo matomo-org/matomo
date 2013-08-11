@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Feedback
+ * @package Feedback
  */
+namespace Piwik\Plugins\Feedback;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Nonce;
@@ -21,14 +23,14 @@ use Piwik\Url;
 
 /**
  *
- * @package Piwik_Feedback
+ * @package Feedback
  */
-class Piwik_Feedback_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     function index()
     {
         $view = new View('@Feedback/index');
-        $view->nonce = Nonce::getNonce('Piwik_Feedback.sendFeedback', 3600);
+        $view->nonce = Nonce::getNonce('Feedback.sendFeedback', 3600);
         echo $view->render();
     }
 
@@ -60,10 +62,10 @@ class Piwik_Feedback_Controller extends Controller
             if (preg_match('/https?:/i', $body)) {
                 throw new Exception(Piwik_TranslateException('Feedback_ExceptionNoUrls'));
             }
-            if (!Nonce::verifyNonce('Piwik_Feedback.sendFeedback', $nonce)) {
+            if (!Nonce::verifyNonce('Feedback.sendFeedback', $nonce)) {
                 throw new Exception(Piwik_TranslateException('General_ExceptionNonceMismatch'));
             }
-            Nonce::discardNonce('Piwik_Feedback.sendFeedback');
+            Nonce::discardNonce('Feedback.sendFeedback');
 
             $mail = new Mail();
             $mail->setFrom(Common::unsanitizeInputValue($email));

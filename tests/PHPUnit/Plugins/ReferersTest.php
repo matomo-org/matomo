@@ -111,8 +111,8 @@ class ReferersTest extends PHPUnit_Framework_TestCase
         );
 
         foreach ($data as $url => $expected) {
-            $this->assertEquals($expected[0], Piwik_getSearchEngineHostFromUrl($url));
-            $this->assertEquals($expected[1], Piwik_getSearchEngineHostPathFromUrl($url));
+            $this->assertEquals($expected[0], \Piwik\Plugins\Referers\getSearchEngineHostFromUrl($url));
+            $this->assertEquals($expected[1], \Piwik\Plugins\Referers\getSearchEngineHostPathFromUrl($url));
         }
     }
 
@@ -138,6 +138,6 @@ class ReferersTest extends PHPUnit_Framework_TestCase
     public function testGetSearchEngineUrlFromUrlAndKeyword($url, $keyword, $expected)
     {
         include PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
-        $this->assertEquals($expected, Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword));
+        $this->assertEquals($expected, \Piwik\Plugins\Referers\getSearchEngineUrlFromUrlAndKeyword($url, $keyword));
     }
 }

@@ -6,15 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitorInterest
+ * @package VisitorInterest
  */
+
+namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\PluginsArchiver;
 
-class Piwik_VisitorInterest_Archiver extends PluginsArchiver
+class Archiver extends PluginsArchiver
 {
     // third element is unit (s for seconds, default is munutes)
     const TIME_SPENT_RECORD_NAME = 'VisitorInterest_timeGap';
@@ -90,9 +92,9 @@ class Piwik_VisitorInterest_Archiver extends PluginsArchiver
         // these prefixes are prepended to the 'SELECT as' parts of each SELECT expression. detecting
         // these prefixes allows us to get all the data in one query.
         $prefixes = array(
-            self::TIME_SPENT_RECORD_NAME => 'tg',
-            self::PAGES_VIEWED_RECORD_NAME => 'pg',
-            self::VISITS_COUNT_RECORD_NAME => 'vbvn',
+            self::TIME_SPENT_RECORD_NAME      => 'tg',
+            self::PAGES_VIEWED_RECORD_NAME    => 'pg',
+            self::VISITS_COUNT_RECORD_NAME    => 'vbvn',
             self::DAYS_SINCE_LAST_RECORD_NAME => 'dslv',
         );
 
@@ -105,13 +107,13 @@ class Piwik_VisitorInterest_Archiver extends PluginsArchiver
             ),
         );
         $selects = array();
-        foreach($aggregatesMetadata as $aggregateMetadata) {
+        foreach ($aggregatesMetadata as $aggregateMetadata) {
             $selectsFromRangedColumn = LogAggregator::getSelectsFromRangedColumn($aggregateMetadata);
-            $selects = array_merge( $selects, $selectsFromRangedColumn);
+            $selects = array_merge($selects, $selectsFromRangedColumn);
         }
         $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = false, $selects, array());
         $row = $query->fetch();
-        foreach($prefixes as $recordName => $selectAsPrefix) {
+        foreach ($prefixes as $recordName => $selectAsPrefix) {
             $cleanRow = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_VISITS, $selectAsPrefix);
             $dataTable = DataTable::makeFromIndexedArray($cleanRow);
             $this->getProcessor()->insertBlobRecord($recordName, $dataTable->getSerialized());

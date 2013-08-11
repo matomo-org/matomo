@@ -6,15 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
+namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
+use Piwik\Plugins\ImageGraph\StaticGraph;
 
 /**
  *
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
-abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_StaticGraph
+abstract class GridGraph extends StaticGraph
 {
     const GRAPHIC_COLOR_KEY = 'GRAPHIC_COLOR';
 
@@ -413,7 +415,6 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
         }
         return $label;
     }
-
     // display min & max values
     // can not currently be used because pChart's label design is not flexible enough
     // e.g: it is not possible to remove the box border & the square icon

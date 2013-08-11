@@ -6,19 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Login
+ * @package Login
  */
+namespace Piwik\Plugins\Login;
+
 use Piwik\Config;
 use Piwik\Common;
-use Piwik\Auth;
 use Piwik\AuthResult;
 use Piwik\Db;
+use Piwik\Plugins\UsersManager\API;
 
 /**
  *
- * @package Piwik_Login
+ * @package Login
  */
-class Piwik_Login_Auth implements Auth
+class Auth implements \Piwik\Auth
 {
     protected $login = null;
     protected $token_auth = null;
@@ -42,7 +44,7 @@ class Piwik_Login_Auth implements Auth
     {
         $rootLogin = Config::getInstance()->superuser['login'];
         $rootPassword = Config::getInstance()->superuser['password'];
-        $rootToken = Piwik_UsersManager_API::getInstance()->getTokenAuth($rootLogin, $rootPassword);
+        $rootToken = API::getInstance()->getTokenAuth($rootLogin, $rootPassword);
 
         if (is_null($this->login)) {
             if ($this->token_auth === $rootToken) {

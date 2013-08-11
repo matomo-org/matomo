@@ -6,15 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
+namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
+use Piwik\Plugins\ImageGraph\StaticGraph;
+use pData;
 
 /**
  *
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
-class Piwik_ImageGraph_StaticGraph_Exception extends Piwik_ImageGraph_StaticGraph
+class Exception extends StaticGraph
 {
     const MESSAGE_RIGHT_MARGIN = 5;
 
@@ -29,7 +32,6 @@ class Piwik_ImageGraph_StaticGraph_Exception extends Piwik_ImageGraph_StaticGrap
     {
         return array();
     }
-
 
     public function setWidth($width)
     {

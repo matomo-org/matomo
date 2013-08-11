@@ -6,13 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PDFReports
+ * @package PDFReports
  */
 
 /**
  * Override settings in libs/tcpdf_config.php
  *
- * @package Piwik_PDFReports
+ * @package PDFReports
  */
 
 define('K_PATH_MAIN', PIWIK_INCLUDE_PATH . '/libs/tcpdf/');

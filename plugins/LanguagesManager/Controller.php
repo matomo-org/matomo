@@ -6,18 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_LanguagesManager
+ * @package LanguagesManager
  *
  */
+namespace Piwik\Plugins\LanguagesManager;
+
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
+use Piwik\Plugins\LanguagesManager\API;
 use Piwik\Url;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Zend_Registry;
 
 /**
- * @package Piwik_LanguagesManager
+ * @package LanguagesManager
  */
-class Piwik_LanguagesManager_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     /**
      * anonymous = in the session
@@ -31,11 +35,11 @@ class Piwik_LanguagesManager_Controller extends Controller
         if (Piwik::isInstalled()) {
             $this->checkTokenInUrl();
         }
-        Piwik_LanguagesManager::setLanguageForSession($language);
+        LanguagesManager::setLanguageForSession($language);
         if (Zend_Registry::isRegistered('access')) {
             $currentUser = Piwik::getCurrentUserLogin();
             if ($currentUser && $currentUser !== 'anonymous') {
-                Piwik_LanguagesManager_API::getInstance()->setLanguageForUser($currentUser, $language);
+                API::getInstance()->setLanguageForUser($currentUser, $language);
             }
         }
         Url::redirectToReferer();

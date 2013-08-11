@@ -6,19 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Annotations
+ * @package Annotations
  */
+namespace Piwik\Plugins\Annotations;
+
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Controller;
+use Piwik\Plugins\Annotations\AnnotationList;
+use Piwik\Plugins\Annotations\API;
 use Piwik\View;
 
 /**
  * Controller for the Annotations plugin.
  *
- * @package Piwik_Annotations
+ * @package Annotations
  */
-class Piwik_Annotations_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     /**
      * Controller action that returns HTML displaying annotations for a site and
@@ -68,7 +71,7 @@ class Piwik_Annotations_Controller extends Controller
         $view->period = $period;
         $view->lastN = $lastN;
 
-        list($startDate, $endDate) = Piwik_Annotations_API::getDateRangeForPeriod($date, $period, $lastN);
+        list($startDate, $endDate) = API::getDateRangeForPeriod($date, $period, $lastN);
         $view->startDate = $startDate->toString();
         $view->endDate = $endDate->toString();
 
@@ -76,7 +79,7 @@ class Piwik_Annotations_Controller extends Controller
         $view->startDatePretty = $startDate->getLocalized($dateFormat);
         $view->endDatePretty = $endDate->getLocalized($dateFormat);
 
-        $view->canUserAddNotes = Piwik_Annotations_AnnotationList::canUserAddNotesFor($idSite);
+        $view->canUserAddNotes = AnnotationList::canUserAddNotesFor($idSite);
 
         if ($fetch) {
             return $view->render();

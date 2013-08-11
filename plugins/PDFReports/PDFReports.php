@@ -6,26 +6,34 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PDFReports
+ * @package PDFReports
  */
+namespace Piwik\Plugins\PDFReports;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Mail;
+use Piwik\Plugins\MobileMessaging\API as MobileMessagingAPI;
+use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\View;
 use Piwik\ScheduledTime;
 use Piwik\ScheduledTask;
 use Piwik\ReportRenderer;
-use Piwik\Plugin;
 use Piwik\Site;
 use Piwik\Db;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Zend_Mime;
+use Zend_Registry;
 
 /**
  *
- * @package Piwik_PDFReports
+ * @package PDFReports
  */
-class Piwik_PDFReports extends Plugin
+class PDFReports extends \Piwik\Plugin
 {
     const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
     const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'PDFReports_EmailReports';
@@ -87,7 +95,7 @@ class Piwik_PDFReports extends Plugin
             'template_reportParametersPDFReports'         => 'template_reportParametersPDFReports',
             'UsersManager.deleteUser'                     => 'deleteUserReport',
             'SitesManager.deleteSite'                     => 'deleteSiteReport',
-            Piwik_SegmentEditor_API::DELETE_SEGMENT_EVENT => 'segmentDeletion',
+            SegmentEditorAPI::DELETE_SEGMENT_EVENT => 'segmentDeletion',
         );
     }
 
@@ -96,11 +104,11 @@ class Piwik_PDFReports extends Plugin
      */
     public function deleteSiteReport(&$idSite)
     {
-        $idReports = Piwik_PDFReports_API::getInstance()->getReports($idSite);
+        $idReports = API::getInstance()->getReports($idSite);
 
         foreach ($idReports as $report) {
             $idReport = $report['idreport'];
-            Piwik_PDFReports_API::getInstance()->deleteReport($idReport);
+            API::getInstance()->deleteReport($idReport);
         }
     }
 
@@ -154,9 +162,9 @@ class Piwik_PDFReports extends Plugin
     public function getReportMetadata(&$reportMetadata, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $idSite = $notificationInfo[Piwik_PDFReports_API::ID_SITE_INFO_KEY];
+            $idSite = $notificationInfo[API::ID_SITE_INFO_KEY];
 
-            $availableReportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
+            $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
 
             $filteredReportMetadata = array();
             foreach ($availableReportMetadata as $reportMetadata) {
@@ -195,7 +203,7 @@ class Piwik_PDFReports extends Plugin
     public function processReports(&$processedReports, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
+            $report = $notificationInfo[API::REPORT_KEY];
 
             $displayFormat = $report['parameters'][self::DISPLAY_FORMAT_PARAMETER];
             $evolutionGraph = $report['parameters'][self::EVOLUTION_GRAPH_PARAMETER];
@@ -222,8 +230,8 @@ class Piwik_PDFReports extends Plugin
                 if ($metadata['module'] == 'MultiSites') {
                     $columns = $processedReport['columns'];
 
-                    foreach (Piwik_MultiSites_API::getApiMetrics($enhanced = true) as $metricSettings) {
-                        unset($columns[$metricSettings[Piwik_MultiSites_API::METRIC_EVOLUTION_COL_NAME_KEY]]);
+                    foreach (\Piwik\Plugins\MultiSites\API::getApiMetrics($enhanced = true) as $metricSettings) {
+                        unset($columns[$metricSettings[\Piwik\Plugins\MultiSites\API::METRIC_EVOLUTION_COL_NAME_KEY]]);
                     }
 
                     $processedReport['metadata'] = $metadata;
@@ -236,13 +244,13 @@ class Piwik_PDFReports extends Plugin
     public function getRendererInstance(&$reportRenderer, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $reportFormat = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY]['format'];
-            $outputType = $notificationInfo[Piwik_PDFReports_API::OUTPUT_TYPE_INFO_KEY];
+            $reportFormat = $notificationInfo[API::REPORT_KEY]['format'];
+            $outputType = $notificationInfo[API::OUTPUT_TYPE_INFO_KEY];
 
             $reportRenderer = ReportRenderer::factory($reportFormat);
 
             if ($reportFormat == ReportRenderer::HTML_FORMAT) {
-                $reportRenderer->setRenderImageInline($outputType != Piwik_PDFReports_API::OUTPUT_SAVE_ON_DISK);
+                $reportRenderer->setRenderImageInline($outputType != API::OUTPUT_SAVE_ON_DISK);
             }
         }
     }
@@ -257,12 +265,12 @@ class Piwik_PDFReports extends Plugin
     public function sendReport($notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
-            $reportTitle = $notificationInfo[Piwik_PDFReports_API::REPORT_TITLE_KEY];
-            $prettyDate = $notificationInfo[Piwik_PDFReports_API::PRETTY_DATE_KEY];
-            $contents = $notificationInfo[Piwik_PDFReports_API::REPORT_CONTENT_KEY];
-            $filename = $notificationInfo[Piwik_PDFReports_API::FILENAME_KEY];
-            $additionalFiles = $notificationInfo[Piwik_PDFReports_API::ADDITIONAL_FILES_KEY];
+            $report = $notificationInfo[API::REPORT_KEY];
+            $reportTitle = $notificationInfo[API::REPORT_TITLE_KEY];
+            $prettyDate = $notificationInfo[API::PRETTY_DATE_KEY];
+            $contents = $notificationInfo[API::REPORT_CONTENT_KEY];
+            $filename = $notificationInfo[API::FILENAME_KEY];
+            $additionalFiles = $notificationInfo[API::ADDITIONAL_FILES_KEY];
 
             $periods = self::getPeriodToFrequencyAsAdjective();
             $message = Piwik_Translate('PDFReports_EmailHello');
@@ -279,8 +287,8 @@ class Piwik_PDFReports extends Plugin
 
             $displaySegmentInfo = false;
             $segmentInfo = null;
-            $segment = Piwik_PDFReports_API::getSegment($report['idsegment']);
-            if($segment != null) {
+            $segment = API::getSegment($report['idsegment']);
+            if ($segment != null) {
                 $displaySegmentInfo = true;
                 $segmentInfo = Piwik_Translate('PDFReports_SegmentAppliedToReports', $segment['name']);
             }
@@ -292,7 +300,7 @@ class Piwik_PDFReports extends Plugin
                     $mail->setType(Zend_Mime::MULTIPART_RELATED);
                     $message .= "<br/>" . Piwik_Translate('PDFReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
 
-                    if($displaySegmentInfo) {
+                    if ($displaySegmentInfo) {
                         $message .= " " . $segmentInfo;
                     }
 
@@ -303,7 +311,7 @@ class Piwik_PDFReports extends Plugin
                 case 'pdf':
                     $message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
 
-                    if($displaySegmentInfo) {
+                    if ($displaySegmentInfo) {
                         $message .= " " . $segmentInfo;
                     }
 
@@ -347,7 +355,7 @@ class Piwik_PDFReports extends Plugin
                     $emails[] = Piwik::getSuperUserEmail();
                 } else {
                     try {
-                        $user = Piwik_UsersManager_API::getInstance()->getUser($report['login']);
+                        $user = UsersManagerAPI::getInstance()->getUser($report['login']);
                     } catch (Exception $e) {
                         return;
                     }
@@ -380,7 +388,7 @@ class Piwik_PDFReports extends Plugin
     public function getReportRecipients(&$recipients, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
+            $report = $notificationInfo[API::REPORT_KEY];
             $parameters = $report['parameters'];
             $eMailMe = $parameters[self::EMAIL_ME_PARAMETER];
 
@@ -411,7 +419,7 @@ class Piwik_PDFReports extends Plugin
     private static function manageEvent($info)
     {
         return in_array(
-            $info[Piwik_PDFReports_API::REPORT_TYPE_INFO_KEY],
+            $info[API::REPORT_TYPE_INFO_KEY],
             array_keys(self::$managedReportTypes)
         );
     }
@@ -419,7 +427,7 @@ class Piwik_PDFReports extends Plugin
     public function getScheduledTasks(&$tasks)
     {
         $arbitraryDateInUTC = Date::factory('2011-01-01');
-        foreach (Piwik_PDFReports_API::getInstance()->getReports() as $report) {
+        foreach (API::getInstance()->getReports() as $report) {
             if (!$report['deleted'] && $report['period'] != ScheduledTime::PERIOD_NEVER) {
                 $midnightInSiteTimezone =
                     date(
@@ -435,7 +443,7 @@ class Piwik_PDFReports extends Plugin
                 $schedule = ScheduledTime::getScheduledTimeForPeriod($report['period']);
                 $schedule->setHour($hourInUTC);
                 $tasks[] = new ScheduledTask (
-                    Piwik_PDFReports_API::getInstance(),
+                    API::getInstance(),
                     'sendReport',
                     $report['idreport'], $schedule
                 );
@@ -445,7 +453,7 @@ class Piwik_PDFReports extends Plugin
 
     public function segmentDeletion(&$idSegment)
     {
-        $reportsUsingSegment = Piwik_PDFReports_API::getInstance()->getReports(false, false, false, true, $idSegment);
+        $reportsUsingSegment = API::getInstance()->getReports(false, false, false, true, $idSegment);
 
         if (count($reportsUsingSegment) > 0) {
 
@@ -486,19 +494,19 @@ class Piwik_PDFReports extends Plugin
             return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
         }
 
-        $reports = Piwik_PDFReports_API::getInstance()->getReports();
+        $reports = API::getInstance()->getReports();
         $reportCount = count($reports);
 
         // if there are no reports and the mobile account is
         //  not configured, display 'Email reports'
         //  configured, display 'Email & SMS reports'
         if ($reportCount == 0)
-            return Piwik_MobileMessaging_API::getInstance()->areSMSAPICredentialProvided() ?
+            return MobileMessagingAPI::getInstance()->areSMSAPICredentialProvided() ?
                 self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
 
         $anyMobileReport = false;
         foreach ($reports as $report) {
-            if ($report['type'] == Piwik_MobileMessaging::MOBILE_TYPE) {
+            if ($report['type'] == MobileMessaging::MOBILE_TYPE) {
                 $anyMobileReport = true;
                 break;
             }
@@ -600,7 +608,7 @@ class Piwik_PDFReports extends Plugin
             ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_DailyReport'),
             ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_WeeklyReport'),
             ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_MonthlyReport'),
-            ScheduledTime::PERIOD_YEAR => Piwik_Translate('General_YearlyReport'),
+            ScheduledTime::PERIOD_YEAR  => Piwik_Translate('General_YearlyReport'),
             ScheduledTime::PERIOD_RANGE => Piwik_Translate('General_RangeReports'),
         );
     }

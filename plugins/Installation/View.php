@@ -6,15 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Installation
+ * @package Installation
  */
-use Piwik\View;
+namespace Piwik\Plugins\Installation;
+
 
 /**
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation_View extends View
+class View extends \Piwik\View
 {
     public function __construct($subtemplatePath, $installationSteps, $currentStepName)
     {

@@ -6,9 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Transitions
+ * @package Transitions
  */
 
+namespace Piwik\Plugins\Transitions;
+
+use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
@@ -20,16 +23,19 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataArray;
+use Piwik\Plugins\Actions\Actions;
+use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
+use Piwik\Plugins\Transitions\Controller;
 
 /**
- * @package Piwik_Transitions
+ * @package Transitions
  */
-class Piwik_Transitions_API
+class API
 {
 
     static private $instance = null;
@@ -139,7 +145,7 @@ class Piwik_Transitions_API
      */
     private function deriveIdAction($actionName, $actionType)
     {
-        $actionsPlugin = new Piwik_Actions;
+        $actionsPlugin = new Actions;
         switch ($actionType) {
             case 'url':
                 $originalActionName = $actionName;
@@ -158,7 +164,7 @@ class Piwik_Transitions_API
                 $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
 
                 if ($id < 0) {
-                    $unknown = Piwik_Actions_ArchivingHelper::getUnknownActionName(
+                    $unknown = ArchivingHelper::getUnknownActionName(
                         Action::TYPE_ACTION_NAME);
 
                     if (trim($actionName) == trim($unknown)) {
@@ -221,14 +227,12 @@ class Piwik_Transitions_API
         }
     }
 
-
-
     /**
      * Get information about the following actions (following pages, site searches, outlinks, downloads)
      *
      * @param $idaction
      * @param $actionType
-     * @param LogAggregator  $logAggregator
+     * @param LogAggregator $logAggregator
      * @param $limitBeforeGrouping
      * @param $includeLoops
      * @return array(followingPages:DataTable, outlinks:DataTable, downloads:DataTable)
@@ -311,11 +315,11 @@ class Piwik_Transitions_API
                 foreach ($data[$type] as &$record) {
                     $actions = intval($record[Metrics::INDEX_NB_ACTIONS]);
                     $dataTable->addRow(new Row(array(
-                                                                    Row::COLUMNS => array(
-                                                                        'label'                         => $this->getPageLabel($record, $isTitle),
-                                                                        Metrics::INDEX_NB_ACTIONS => $actions
-                                                                    )
-                                                               )));
+                                                    Row::COLUMNS => array(
+                                                        'label'                   => $this->getPageLabel($record, $isTitle),
+                                                        Metrics::INDEX_NB_ACTIONS => $actions
+                                                    )
+                                               )));
                     $this->totalTransitionsToFollowingActions += $actions;
                 }
             }
@@ -324,7 +328,6 @@ class Piwik_Transitions_API
 
         return $dataTables;
     }
-
 
     /**
      * After calling this method, the query*()-Methods will return urls in their
@@ -389,7 +392,7 @@ class Piwik_Transitions_API
 
             foreach ($subData as &$row) {
                 if ($referrerType == Common::REFERER_TYPE_SEARCH_ENGINE && empty($row['referrer_data'])) {
-                    $row['referrer_data'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
+                    $row['referrer_data'] = \Piwik\Plugins\Referers\API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
                 $referrerData[$referrerType][Metrics::INDEX_NB_VISITS] += $row[Metrics::INDEX_NB_VISITS];
@@ -466,11 +469,11 @@ class Piwik_Transitions_API
             foreach ($data['result'][1] as &$page) {
                 $nbActions = intval($page[Metrics::INDEX_NB_ACTIONS]);
                 $previousPagesDataTable->addRow(new Row(array(
-                                                                             Row::COLUMNS => array(
-                                                                                 'label'                         => $this->getPageLabel($page, $isTitle),
-                                                                                 Metrics::INDEX_NB_ACTIONS => $nbActions
-                                                                             )
-                                                                        )));
+                                                             Row::COLUMNS => array(
+                                                                 'label'                   => $this->getPageLabel($page, $isTitle),
+                                                                 Metrics::INDEX_NB_ACTIONS => $nbActions
+                                                             )
+                                                        )));
                 $nbPageviews += $nbActions;
             }
         }
@@ -480,11 +483,11 @@ class Piwik_Transitions_API
             foreach ($data['result'][2] as &$search) {
                 $nbActions = intval($search[Metrics::INDEX_NB_ACTIONS]);
                 $previousSearchesDataTable->addRow(new Row(array(
-                                                                                Row::COLUMNS => array(
-                                                                                    'label'                         => $search['name'],
-                                                                                    Metrics::INDEX_NB_ACTIONS => $nbActions
-                                                                                )
-                                                                           )));
+                                                                Row::COLUMNS => array(
+                                                                    'label'                   => $search['name'],
+                                                                    Metrics::INDEX_NB_ACTIONS => $nbActions
+                                                                )
+                                                           )));
                 $nbPageviews += $nbActions;
             }
         }
@@ -513,7 +516,7 @@ class Piwik_Transitions_API
         if ($isTitle) {
             $label = $pageRecord['name'];
             if (empty($label)) {
-                $label = Piwik_Actions_ArchivingHelper::getUnknownActionName(
+                $label = ArchivingHelper::getUnknownActionName(
                     Action::TYPE_ACTION_NAME);
             }
             return $label;
@@ -538,7 +541,6 @@ class Piwik_Transitions_API
 
     private $returnNormalizedUrls = false;
 
-
     /**
      * Get the sum of all transitions to following actions (pages, outlinks, downloads).
      * Only works if queryFollowingActions() has been used directly before.
@@ -552,7 +554,7 @@ class Piwik_Transitions_API
      * Add the external referrers to the report:
      * direct entries, websites, campaigns, search engines
      *
-     * @param LogAggregator  $logAggregator
+     * @param LogAggregator $logAggregator
      * @param $report
      * @param $idaction
      * @param string $actionType
@@ -583,7 +585,7 @@ class Piwik_Transitions_API
                 }
                 $report['referrers'][] = array(
                     'label'     => $this->getReferrerLabel($referrerId),
-                    'shortName' => Piwik_getRefererTypeFromShortName($referrerId),
+                    'shortName' => \Piwik\Plugins\Referers\getRefererTypeFromShortName($referrerId),
                     'visits'    => $visits,
                     'details'   => $details
                 );
@@ -597,7 +599,7 @@ class Piwik_Transitions_API
         if (count($report['referrers']) == 0) {
             $report['referrers'][] = array(
                 'label'     => $this->getReferrerLabel(Common::REFERER_TYPE_DIRECT_ENTRY),
-                'shortName' => Piwik_getRefererTypeLabel(Common::REFERER_TYPE_DIRECT_ENTRY),
+                'shortName' => \Piwik\Plugins\Referers\getRefererTypeLabel(Common::REFERER_TYPE_DIRECT_ENTRY),
                 'visits'    => 0
             );
         }
@@ -607,13 +609,13 @@ class Piwik_Transitions_API
     {
         switch ($referrerId) {
             case Common::REFERER_TYPE_DIRECT_ENTRY:
-                return Piwik_Transitions_Controller::getTranslation('directEntries');
+                return Controller::getTranslation('directEntries');
             case Common::REFERER_TYPE_SEARCH_ENGINE:
-                return Piwik_Transitions_Controller::getTranslation('fromSearchEngines');
+                return Controller::getTranslation('fromSearchEngines');
             case Common::REFERER_TYPE_WEBSITE:
-                return Piwik_Transitions_Controller::getTranslation('fromWebsites');
+                return Controller::getTranslation('fromWebsites');
             case Common::REFERER_TYPE_CAMPAIGN:
-                return Piwik_Transitions_Controller::getTranslation('fromCampaigns');
+                return Controller::getTranslation('fromCampaigns');
             default:
                 return Piwik_Translate('General_Others');
         }
@@ -621,8 +623,7 @@ class Piwik_Transitions_API
 
     public function getTranslations()
     {
-        $controller = new Piwik_Transitions_Controller();
+        $controller = new Controller();
         return $controller->getTranslations();
     }
-
 }

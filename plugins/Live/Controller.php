@@ -6,21 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Live
+ * @package Live
  */
+namespace Piwik\Plugins\Live;
+
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Config;
-use Piwik\Controller;
+use Piwik\Plugins\Live\API;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\FrontController;
 
 /**
- * @package Piwik_Live
+ * @package Live
  */
-class Piwik_Live_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';
 
@@ -81,7 +83,7 @@ class Piwik_Live_Controller extends Controller
         }
         echo $rendered;
     }
-    
+
     public function indexVisitorLog()
     {
         $view = new View('@Live/indexVisitorLog.twig');
@@ -121,9 +123,9 @@ class Piwik_Live_Controller extends Controller
     private function setCounters($view)
     {
         $segment = Request::getRawSegmentFromRequest();
-        $last30min = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment);
+        $last30min = API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment);
         $last30min = $last30min[0];
-        $today = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment);
+        $today = API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment);
         $today = $today[0];
         $view->visitorsCountHalfHour = $last30min['visits'];
         $view->visitorsCountToday = $today['visits'];

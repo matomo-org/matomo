@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tracker\Action;
 use Piwik\Translate;
 
@@ -115,8 +116,8 @@ class ActionsTests extends PHPUnit_Framework_TestCase
      */
     public function testGetActionExplodedNames($params, $expected)
     {
-        Piwik_Actions_ArchivingHelper::reloadConfig();
-        $processed = Piwik_Actions_ArchivingHelper::getActionExplodedNames($params['name'], $params['type'], (isset($params['urlPrefix']) ? $params['urlPrefix'] : null));
+        ArchivingHelper::reloadConfig();
+        $processed = ArchivingHelper::getActionExplodedNames($params['name'], $params['type'], (isset($params['urlPrefix']) ? $params['urlPrefix'] : null));
         $this->assertEquals($expected, $processed);
     }
 }

@@ -6,16 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
+namespace Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+
 use Piwik\Piwik;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 /**
  * A LocationProvider that uses the PHP implementation of GeoIP.
  *
- * @package Piwik_UserCountry
+ * @package UserCountry
  */
-class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_LocationProvider_GeoIp
+class Php extends GeoIp
 {
     const ID = 'geoip_php';
     const TITLE = 'GeoIP (Php)';
@@ -38,7 +41,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
      * This variable is an array mapping either the 'loc', 'isp' or 'org' strings with
      * an array of filenames.
      *
-     * By default, this will be set to Piwik_UserCountry_LocationProvider_GeoIp_Php::$dbNames.
+     * By default, this will be set to Php::$dbNames.
      *
      * @var array
      */

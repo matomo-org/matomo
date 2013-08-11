@@ -12,7 +12,7 @@
 namespace Piwik;
 use Exception;
 use Piwik\Date;
-use Piwik_SitesManager_API;
+use Piwik\Plugins\SitesManager\API;
 
 /**
  *
@@ -37,7 +37,7 @@ class Site
     {
         $this->id = (int)$idsite;
         if (!isset(self::$infoSites[$this->id])) {
-            self::$infoSites[$this->id] = Piwik_SitesManager_API::getInstance()->getSiteFromId($this->id);
+            self::$infoSites[$this->id] = API::getInstance()->getSiteFromId($this->id);
         }
     }
 
@@ -215,7 +215,7 @@ class Site
     static public function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)
     {
         if ($ids === 'all') {
-            return Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
+            return API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
         }
 
         if (!is_array($ids)) {
@@ -256,7 +256,7 @@ class Site
         $idsite = (int)$idsite;
 
         if (!isset(self::$infoSites[$idsite])) {
-            self::$infoSites[$idsite] = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
+            self::$infoSites[$idsite] = API::getInstance()->getSiteFromId($idsite);
         }
 
         return self::$infoSites[$idsite][$field];

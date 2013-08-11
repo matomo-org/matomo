@@ -88,7 +88,7 @@ class Proxy
      *
      * The method will introspect the methods, their parameters, etc.
      *
-     * @param string $className  ModuleName eg. "Piwik_UserSettings_API"
+     * @param string $className  ModuleName eg. "API"
      */
     public function registerClass($className)
     {
@@ -146,7 +146,7 @@ class Proxy
      * It also logs the API calls, with the parameters values, the returned value, the performance, etc.
      * You can enable logging in config/global.ini.php (log_api_call)
      *
-     * @param string $className          The class name (eg. Piwik_Referers_API)
+     * @param string $className          The class name (eg. API)
      * @param string $methodName         The method name
      * @param array $parametersRequest  The parameters pairs (name=>value)
      *
@@ -186,16 +186,14 @@ class Proxy
             $returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);
 
             // allow plugins to manipulate the value
-            if (substr($className, 0, 6) == 'Piwik_' && substr($className, -4) == '_API') {
-                $pluginName = substr($className, 6, -4);
-                Piwik_PostEvent('API.Proxy.processReturnValue', array(
-                                                                     &$returnedValue,
-                                                                     array('className'  => $className,
-                                                                           'module'     => $pluginName,
-                                                                           'action'     => $methodName,
-                                                                           'parameters' => &$parametersRequest)
-                                                                ));
-            }
+            $pluginName = $this->getModuleNameFromClassName($className);
+            Piwik_PostEvent('API.Proxy.processReturnValue', array(
+                                                                 &$returnedValue,
+                                                                 array('className'  => $className,
+                                                                       'module'     => $pluginName,
+                                                                       'action'     => $methodName,
+                                                                       'parameters' => &$parametersRequest)
+                                                            ));
 
             // Restore the request
             $_GET = $saveGET;
@@ -242,12 +240,12 @@ class Proxy
     /**
      * Returns the 'moduleName' part of 'Piwik_moduleName_API' classname
      *
-     * @param string $className  "Piwik_Referers_API"
+     * @param string $className  "API"
      * @return string "Referers"
      */
     public function getModuleNameFromClassName($className)
     {
-        return str_replace(array('Piwik_', '_API'), '', $className);
+        return str_replace(array('\\Piwik\\Plugins\\', '\\API'), '', $className);
     }
 
     /**
@@ -308,9 +306,9 @@ class Proxy
     }
 
     /**
-     * Includes the class Piwik_UserSettings_API by looking up plugins/UserSettings/API.php
+     * Includes the class API by looking up plugins/UserSettings/API.php
      *
-     * @param string $fileName  api class name eg. "Piwik_UserSettings_API"
+     * @param string $fileName  api class name eg. "API"
      * @throws Exception
      */
     private function includeApiFile($fileName)
@@ -403,7 +401,7 @@ class Proxy
     private function checkClassIsSingleton($className)
     {
         if (!method_exists($className, "getInstance")) {
-            throw new Exception("Objects that provide an API must be Singleton and have a 'static public function getInstance()' method.");
+            throw new Exception("$className that provide an API must be Singleton and have a 'static public function getInstance()' method.");
         }
     }
 }

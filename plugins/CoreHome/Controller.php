@@ -6,26 +6,30 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CoreHome
+ * @package CoreHome
  */
+namespace Piwik\Plugins\CoreHome;
+
+use Exception;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\AssetManager;
-use Piwik\Controller;
 use Piwik\FrontController;
 use Piwik\View;
 use Piwik\Url;
 use Piwik\UpdateCheck;
 use Piwik\Site;
-
+use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
+use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
+use Piwik\Plugins\UsersManager\API;
 
 /**
  *
- * @package Piwik_CoreHome
+ * @package CoreHome
  */
-class Piwik_CoreHome_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     function getDefaultAction()
     {
@@ -34,7 +38,7 @@ class Piwik_CoreHome_Controller extends Controller
 
     function redirectToCoreHomeIndex()
     {
-        $defaultReport = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT);
+        $defaultReport = API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), API::PREFERENCE_DEFAULT_REPORT);
         $module = 'CoreHome';
         $action = 'index';
 
@@ -128,7 +132,6 @@ class Piwik_CoreHome_Controller extends Controller
         Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
     }
 
-
     //  --------------------------------------------------------
     //  ROW EVOLUTION
     //  The following methods render the popover that shows the
@@ -170,9 +173,9 @@ class Piwik_CoreHome_Controller extends Controller
     private function makeRowEvolution($isMultiRowEvolution, $graphType = null)
     {
         if ($isMultiRowEvolution) {
-            return new Piwik_CoreHome_DataTableRowAction_MultiRowEvolution($this->idSite, $this->date, $graphType);
+            return new MultiRowEvolution($this->idSite, $this->date, $graphType);
         } else {
-            return new Piwik_CoreHome_DataTableRowAction_RowEvolution($this->idSite, $this->date, $graphType);
+            return new RowEvolution($this->idSite, $this->date, $graphType);
         }
     }
 
@@ -219,7 +222,7 @@ class Piwik_CoreHome_Controller extends Controller
         $view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';
         echo $view->render();
     }
-    
+
     /**
      * Redirects the user to a paypal so they can donate to Piwik.
      */
@@ -234,9 +237,9 @@ class Piwik_CoreHome_Controller extends Controller
                 unset($parameters[$name]);
             }
         }
-        
-        $url = "https://www.paypal.com/cgi-bin/webscr?".Url::getQueryStringFromParameters($parameters);
-        
+
+        $url = "https://www.paypal.com/cgi-bin/webscr?" . Url::getQueryStringFromParameters($parameters);
+
         header("Location: $url");
         exit;
     }

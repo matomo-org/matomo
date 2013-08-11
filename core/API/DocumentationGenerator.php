@@ -33,9 +33,9 @@ class DocumentationGenerator
     {
         $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $plugin) {
-            $plugin = Common::unprefixClass($plugin);
             try {
-                Proxy::getInstance()->registerClass('Piwik_' . $plugin . '_API');
+                $className = Request::getClassNameAPI($plugin);
+                Proxy::getInstance()->registerClass($className);
             } catch (Exception $e) {
             }
         }

@@ -6,9 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CorePluginsAdmin
+ * @package CorePluginsAdmin
  */
-use Piwik\Controller\Admin;
+namespace Piwik\Plugins\CorePluginsAdmin;
+
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
@@ -17,9 +18,9 @@ use Piwik\Url;
 
 /**
  *
- * @package Piwik_CorePluginsAdmin
+ * @package CorePluginsAdmin
  */
-class Piwik_CorePluginsAdmin_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
     function extend()
     {
@@ -141,7 +142,7 @@ class Piwik_CorePluginsAdmin_Controller extends Admin
     {
         $pluginName = $this->initPluginModification();
         $uninstalled = \Piwik\PluginsManager::getInstance()->uninstallPlugin($pluginName);
-        if(!$uninstalled) {
+        if (!$uninstalled) {
             $path = Common::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
             $messagePermissions = Piwik::getErrorMessageMissingPermissions($path);
 

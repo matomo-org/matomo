@@ -6,8 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_VisitorGenerator
+ * @package VisitorGenerator
  */
+namespace Piwik\Plugins\VisitorGenerator;
+
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Controller\Admin;
 use Piwik\Piwik;
@@ -19,23 +21,25 @@ use Piwik\View;
 use Piwik\Url;
 use Piwik\Timer;
 use Piwik\Site;
+use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  *
- * @package Piwik_VisitorGenerator
+ * @package VisitorGenerator
  */
-class Piwik_VisitorGenerator_Controller extends Admin
+class Controller extends Admin
 {
     public function index()
     {
         Piwik::checkUserIsSuperUser();
 
-        $sitesList = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
+        $sitesList = SitesManagerAPI::getInstance()->getSitesWithAdminAccess();
 
         $view = new View('@VisitorGenerator/index');
         $this->setBasicVariablesView($view);
         $view->assign('sitesList', $sitesList);
-        $view->nonce = Nonce::getNonce('Piwik_VisitorGenerator.generate');
+        $view->nonce = Nonce::getNonce('VisitorGenerator.generate');
         $view->countActionsPerRun = count($this->getAccessLog());
         $view->accessLogPath = $this->getAccessLogPath();
         echo $view->render();
@@ -57,11 +61,11 @@ class Piwik_VisitorGenerator_Controller extends Admin
         Piwik::checkUserIsSuperUser();
         $nonce = Common::getRequestVar('form_nonce', '', 'string', $_POST);
         if (Common::getRequestVar('choice', 'no') != 'yes' ||
-            !Nonce::verifyNonce('Piwik_VisitorGenerator.generate', $nonce)
+            !Nonce::verifyNonce('VisitorGenerator.generate', $nonce)
         ) {
             Piwik::redirectToModule('VisitorGenerator', 'index');
         }
-        Nonce::discardNonce('Piwik_VisitorGenerator.generate');
+        Nonce::discardNonce('VisitorGenerator.generate');
 
         $daysToCompute = Common::getRequestVar('daysToCompute', 1, 'int');
 
@@ -83,7 +87,7 @@ class Piwik_VisitorGenerator_Controller extends Admin
             $nbActionsTotal += $nbActionsTotalThisDay;
         }
 
-        $api = Piwik_CoreAdminHome_API::getInstance();
+        $api = CoreAdminHomeAPI::getInstance();
         $api->invalidateArchivedReports($idSite, implode($dates, ","));
 
         $browserArchiving = Rules::isBrowserTriggerEnabled();

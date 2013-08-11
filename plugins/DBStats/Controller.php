@@ -6,18 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_DBStats
+ * @package DBStats
  */
-use Piwik\Controller\Admin;
+namespace Piwik\Plugins\DBStats;
+
 use Piwik\Piwik;
+use Piwik\Plugins\DBStats\API;
 use Piwik\ViewDataTable;
 use Piwik\View;
 
 /**
- *
- * @package Piwik_DBStats
+ * @package DBStats
  */
-class Piwik_DBStats_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
     /**
      * Returns the index for this plugin. Shows every other report defined by this plugin,
@@ -38,7 +39,7 @@ class Piwik_DBStats_Controller extends Admin
         $view->reportDataSummary = $this->getReportDataSummary(true);
         $view->adminDataSummary = $this->getAdminDataSummary(true);
 
-        list($siteCount, $userCount, $totalSpaceUsed) = Piwik_DBStats_API::getInstance()->getGeneralInformation();
+        list($siteCount, $userCount, $totalSpaceUsed) = API::getInstance()->getGeneralInformation();
         $view->siteCount = Piwik::getPrettyNumber($siteCount);
         $view->userCount = Piwik::getPrettyNumber($userCount);
         $view->totalSpaceUsed = Piwik::getPrettySizeFromBytes($totalSpaceUsed);

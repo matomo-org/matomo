@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 
 /**
  * Adds one site with two goals and tracks two visits with custom variables.
@@ -39,8 +40,8 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomVariables extends Test_Piwik_BaseFix
     {
         // tests run in UTC, the Tracker in UTC
         self::createWebsite($this->dateTime);
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'second goal', 'manually', '', '');
+        API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
+        API::getInstance()->addGoal($this->idSite, 'second goal', 'manually', '', '');
     }
 
     private function trackVisits()

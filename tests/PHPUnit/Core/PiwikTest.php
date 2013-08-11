@@ -7,6 +7,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Access;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
 
 class PiwikTest extends DatabaseTestCase
@@ -217,7 +218,7 @@ class PiwikTest extends DatabaseTestCase
         $access = Access::getInstance();
         $access->setSuperUser(true);
 
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");
+        $idsite = API::getInstance()->addSite("test", "http://test");
 
         $this->assertEquals(
             $expected,

@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 
 /**
  * Adds one website and tracks visits on different days over a month
@@ -38,8 +39,8 @@ class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
         $siteCreated = '2010-02-01 11:22:33';
 
         self::createWebsite($siteCreated);
-        Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered php', 'manually', '', '');
-        Piwik_Goals_API::getInstance()->addGoal(
+        API::getInstance()->addGoal($this->idSite, 'triggered php', 'manually', '', '');
+        API::getInstance()->addGoal(
             $this->idSite, 'another triggered php', 'manually', '', '', false, false, true);
 
         self::createWebsite($siteCreated);

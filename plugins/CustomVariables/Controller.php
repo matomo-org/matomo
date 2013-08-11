@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_CustomVariables
+ * @package CustomVariables
  */
-use Piwik\Controller;
+namespace Piwik\Plugins\CustomVariables;
+
 use Piwik\ViewDataTable;
 use Piwik\View;
 
 /**
- * @package Piwik_CustomVariables
+ * @package CustomVariables
  */
-class Piwik_CustomVariables_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     public function index($fetch = false)
     {

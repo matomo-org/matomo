@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * This fixture adds one website and tracks two visits by one visitor.
@@ -41,7 +43,7 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         $idSite = $this->idSite;
 
         if ($this->excludeMozilla) {
-            Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
+            SitesManagerAPI::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
         }
 
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
@@ -56,7 +58,7 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
 
         // testing URL excluded parameters
         $parameterToExclude = 'excluded_parameter';
-        Piwik_SitesManager_API::getInstance()->updateSite(
+        SitesManagerAPI::getInstance()->updateSite(
             $idSite,
             'new name',
             $url = array('http://site.com'),
@@ -102,7 +104,7 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         self::checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
 
         // Create Goal 1: Triggered by JS, after 18 minutes
-        $idGoal = Piwik_Goals_API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
+        $idGoal = GoalsAPI::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
 
         // Change to Thai  browser to ensure the conversion is credited to FR instead (the visitor initial country)
@@ -139,7 +141,7 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         // End of first visit: 24min
 
         // Create Goal 2: Matching on URL
-        Piwik_Goals_API::getInstance()->addGoal($idSite, 'matching purchase.htm', 'url', '(.*)store\/purchase\.(.*)', 'regex', false, $revenue = 1);
+        GoalsAPI::getInstance()->addGoal($idSite, 'matching purchase.htm', 'url', '(.*)store\/purchase\.(.*)', 'regex', false, $revenue = 1);
 
         // -
         // Start of returning visit, 1 hour after first page view

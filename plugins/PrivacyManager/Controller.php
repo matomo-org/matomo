@@ -6,21 +6,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PrivacyManager
+ * @package PrivacyManager
  */
+namespace Piwik\Plugins\PrivacyManager;
+
 use Piwik\Config;
-use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Plugins\DBStats\MySQLMetadataProvider;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\View;
 use Piwik\TaskScheduler;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\PrivacyManager\LogDataPurger;
+use Piwik\Plugins\PrivacyManager\ReportsPurger;
 
 /**
  *
- * @package Piwik_PrivacyManager
+ * @package PrivacyManager
  */
-class Piwik_PrivacyManager_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
 
     const ANONYMIZE_IP_PLUGIN_NAME = "AnonymizeIP";
@@ -42,7 +48,7 @@ class Piwik_PrivacyManager_Controller extends Admin
 
                 case("formDeleteSettings"):
                     $settings = $this->getPurgeSettingsFromRequest();
-                    Piwik_PrivacyManager::savePurgeDataSettings($settings);
+                    PrivacyManager::savePurgeDataSettings($settings);
                     break;
 
                 default: //do nothing
@@ -81,7 +87,7 @@ class Piwik_PrivacyManager_Controller extends Admin
         $settings['delete_reports_keep_range_reports'] = Common::getRequestVar("deleteReportsKeepRange", 0);
         $settings['delete_reports_keep_segment_reports'] = Common::getRequestVar("deleteReportsKeepSegments", 0);
 
-        $settings['delete_logs_max_rows_per_query'] = Piwik_PrivacyManager::DEFAULT_MAX_ROWS_PER_QUERY;
+        $settings['delete_logs_max_rows_per_query'] = PrivacyManager::DEFAULT_MAX_ROWS_PER_QUERY;
 
         return $settings;
     }
@@ -97,7 +103,7 @@ class Piwik_PrivacyManager_Controller extends Admin
 
         $forceEstimate = Common::getRequestVar('forceEstimate', 0);
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
-        $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
 
         echo $view->render();
     }
@@ -124,7 +130,7 @@ class Piwik_PrivacyManager_Controller extends Admin
             $view->canDeleteLogActions = Piwik::isLockPrivilegeGranted();
             $view->dbUser = Config::getInstance()->database['username'];
         }
-        $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->displayWarningIfConfigFileNotWritable($view);
         $this->setBasicVariablesView($view);
         echo $view->render();
@@ -146,14 +152,14 @@ class Piwik_PrivacyManager_Controller extends Admin
             return $this->redirectToIndex('PrivacyManager', 'privacySettings');
         }
 
-        $settings = Piwik_PrivacyManager::getPurgeDataSettings();
+        $settings = PrivacyManager::getPurgeDataSettings();
         if ($settings['delete_logs_enable']) {
-            $logDataPurger = Piwik_PrivacyManager_LogDataPurger::make($settings);
+            $logDataPurger = LogDataPurger::make($settings);
             $logDataPurger->purgeData();
         }
         if ($settings['delete_reports_enable']) {
-            $reportsPurger = Piwik_PrivacyManager_ReportsPurger::make(
-                $settings, Piwik_PrivacyManager::getAllMetricsToKeep());
+            $reportsPurger = ReportsPurger::make(
+                $settings, PrivacyManager::getAllMetricsToKeep());
             $reportsPurger->purgeData(true);
         }
     }
@@ -164,13 +170,13 @@ class Piwik_PrivacyManager_Controller extends Admin
         if ($getSettingsFromQuery) {
             $settings = $this->getPurgeSettingsFromRequest();
         } else {
-            $settings = Piwik_PrivacyManager::getPurgeDataSettings();
+            $settings = PrivacyManager::getPurgeDataSettings();
         }
 
         $doDatabaseSizeEstimate = Config::getInstance()->Deletelogs['enable_auto_database_size_estimate'];
 
         // determine the DB size & purged DB size
-        $metadataProvider = new Piwik_DBStats_MySQLMetadataProvider();
+        $metadataProvider = new MySQLMetadataProvider();
         $tableStatuses = $metadataProvider->getAllTablesStatus();
 
         $totalBytes = 0;
@@ -186,7 +192,7 @@ class Piwik_PrivacyManager_Controller extends Admin
         if ($doDatabaseSizeEstimate || $forceEstimate == 1) {
             // maps tables whose data will be deleted with number of rows that will be deleted
             // if a value is -1, it means the table will be dropped.
-            $deletedDataSummary = Piwik_PrivacyManager::getPurgeEstimate($settings);
+            $deletedDataSummary = PrivacyManager::getPurgeEstimate($settings);
 
             $totalAfterPurge = $totalBytes;
             foreach ($tableStatuses as $status) {
@@ -195,7 +201,7 @@ class Piwik_PrivacyManager_Controller extends Admin
                     $tableTotalBytes = $status['Data_length'] + $status['Index_length'];
 
                     // if dropping the table
-                    if ($deletedDataSummary[$tableName] === Piwik_PrivacyManager_ReportsPurger::DROP_TABLE) {
+                    if ($deletedDataSummary[$tableName] === ReportsPurger::DROP_TABLE) {
                         $totalAfterPurge -= $tableTotalBytes;
                     } else // if just deleting rows
                     {
@@ -233,11 +239,11 @@ class Piwik_PrivacyManager_Controller extends Admin
         Piwik::checkUserIsSuperUser();
         $deleteDataInfos = array();
         $taskScheduler = new TaskScheduler();
-        $deleteDataInfos["config"] = Piwik_PrivacyManager::getPurgeDataSettings();
+        $deleteDataInfos["config"] = PrivacyManager::getPurgeDataSettings();
         $deleteDataInfos["deleteTables"] =
-            "<br/>" . implode(", ", Piwik_PrivacyManager_LogDataPurger::getDeleteTableLogTables());
+            "<br/>" . implode(", ", LogDataPurger::getDeleteTableLogTables());
 
-        $scheduleTimetable = $taskScheduler->getScheduledTimeForMethod("Piwik_PrivacyManager", "deleteLogTables");
+        $scheduleTimetable = $taskScheduler->getScheduledTimeForMethod("PrivacyManager", "deleteLogTables");
 
         $optionTable = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS);
 
@@ -278,7 +284,7 @@ class Piwik_PrivacyManager_Controller extends Admin
 
     protected function handlePluginState($state = 0)
     {
-        $pluginController = new Piwik_CorePluginsAdmin_Controller();
+        $pluginController = new \Piwik\Plugins\CorePluginsAdmin\Controller();
 
         if ($state == 1 && !\Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
             $pluginController->activate($redirectAfter = false);

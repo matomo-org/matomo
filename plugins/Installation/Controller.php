@@ -6,10 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Installation
+ * @package Installation
  */
+namespace Piwik\Plugins\Installation;
+
+use Exception;
 use Piwik\API\Request;
-use Piwik\Controller\Admin;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db\Adapter;
 use Piwik\Piwik;
@@ -24,32 +26,39 @@ use Piwik\Version;
 use Piwik\Url;
 use Piwik\ProxyHeaders;
 use Piwik\Db;
+use Piwik\Plugins\Installation\FormDatabaseSetup;
+use Piwik\Plugins\Installation\FormFirstWebsiteSetup;
+use Piwik\Plugins\Installation\FormGeneralSetup;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Zend_Db_Adapter_Exception;
 
 /**
  * Installation controller
  *
- * @package Piwik_Installation
+ * @package Installation
  */
-class Piwik_Installation_Controller extends Admin
+class Controller extends \Piwik\Controller\Admin
 {
     // public so plugins can add/delete installation steps
     public $steps = array(
-        'welcome'               => 'Installation_Welcome',
-        'systemCheck'           => 'Installation_SystemCheck',
-        'databaseSetup'         => 'Installation_DatabaseSetup',
-        'databaseCheck'         => 'Installation_DatabaseCheck',
-        'tablesCreation'        => 'Installation_Tables',
-        'generalSetup'          => 'Installation_SuperUser',
-        'firstWebsiteSetup'     => 'Installation_SetupWebsite',
-        'trackingCode'          => 'Installation_JsTag',
-        'finished'              => 'Installation_Congratulations',
+        'welcome'           => 'Installation_Welcome',
+        'systemCheck'       => 'Installation_SystemCheck',
+        'databaseSetup'     => 'Installation_DatabaseSetup',
+        'databaseCheck'     => 'Installation_DatabaseCheck',
+        'tablesCreation'    => 'Installation_Tables',
+        'generalSetup'      => 'Installation_SuperUser',
+        'firstWebsiteSetup' => 'Installation_SetupWebsite',
+        'trackingCode'      => 'Installation_JsTag',
+        'finished'          => 'Installation_Congratulations',
     );
 
     protected $session;
 
     public function __construct()
     {
-        $this->session = new SessionNamespace('Piwik_Installation');
+        $this->session = new SessionNamespace('Installation');
         if (!isset($this->session->currentStepDone)) {
             $this->session->currentStepDone = '';
             $this->session->skipThisStep = array();
@@ -87,7 +96,7 @@ class Piwik_Installation_Controller extends Admin
         // Delete merged js/css files to force regenerations based on updated activated plugin list
         Piwik::deleteAllCacheOnUpdate();
 
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/welcome',
             $this->getInstallationSteps(),
             __FUNCTION__
@@ -107,7 +116,7 @@ class Piwik_Installation_Controller extends Admin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/systemCheck',
             $this->getInstallationSteps(),
             __FUNCTION__
@@ -147,11 +156,11 @@ class Piwik_Installation_Controller extends Admin
 
         // case the user hits the back button
         $this->session->skipThisStep = array(
-            'firstWebsiteSetup'     => false,
-            'trackingCode'          => false,
+            'firstWebsiteSetup' => false,
+            'trackingCode'      => false,
         );
 
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/databaseSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
@@ -160,7 +169,7 @@ class Piwik_Installation_Controller extends Admin
 
         $view->showNextStep = false;
 
-        $form = new Piwik_Installation_FormDatabaseSetup();
+        $form = new FormDatabaseSetup();
 
         if ($form->validate()) {
             try {
@@ -187,7 +196,7 @@ class Piwik_Installation_Controller extends Admin
     function databaseCheck()
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/databaseCheck',
             $this->getInstallationSteps(),
             __FUNCTION__
@@ -246,7 +255,7 @@ class Piwik_Installation_Controller extends Admin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/tablesCreation',
             $this->getInstallationSteps(),
             __FUNCTION__
@@ -281,8 +290,8 @@ class Piwik_Installation_Controller extends Admin
             Access::getInstance();
             Piwik::setUserIsSuperUser();
             if ($baseTablesInstalled >= $minimumCountPiwikTables &&
-                count(Piwik_SitesManager_API::getInstance()->getAllSitesId()) > 0 &&
-                count(Piwik_UsersManager_API::getInstance()->getUsers()) > 0
+                count(SitesManagerAPI::getInstance()->getAllSitesId()) > 0 &&
+                count(SitesManagerAPI::getInstance()->getUsers()) > 0
             ) {
                 $view->showReuseExistingTables = true;
                 // when the user reuses the same tables we skip the website creation step
@@ -313,14 +322,14 @@ class Piwik_Installation_Controller extends Admin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/generalSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
         $this->skipThisStep(__FUNCTION__);
 
-        $form = new Piwik_Installation_FormGeneralSetup();
+        $form = new FormGeneralSetup();
 
         if ($form->validate()) {
             $superUserInfos = array(
@@ -370,14 +379,14 @@ class Piwik_Installation_Controller extends Admin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/firstWebsiteSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
         $this->skipThisStep(__FUNCTION__);
 
-        $form = new Piwik_Installation_FormFirstWebsiteSetup();
+        $form = new FormFirstWebsiteSetup();
         if (!isset($this->session->generalSetupSuccessMessage)) {
             $view->displayGeneralSetupSuccess = true;
             $this->session->generalSetupSuccessMessage = true;
@@ -407,7 +416,6 @@ class Piwik_Installation_Controller extends Admin
             } catch (Exception $e) {
                 $view->errorMessage = $e->getMessage();
             }
-
         }
         $view->addForm($form);
         echo $view->render();
@@ -420,7 +428,7 @@ class Piwik_Installation_Controller extends Admin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/trackingCode',
             $this->getInstallationSteps(),
             __FUNCTION__
@@ -458,7 +466,7 @@ class Piwik_Installation_Controller extends Admin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
-        $view = new Piwik_Installation_View(
+        $view = new View(
             '@Installation/finished',
             $this->getInstallationSteps(),
             __FUNCTION__
@@ -562,7 +570,7 @@ class Piwik_Installation_Controller extends Admin
     public function saveLanguage()
     {
         $language = Common::getRequestVar('language');
-        Piwik_LanguagesManager::setLanguageForSession($language);
+        LanguagesManager::setLanguageForSession($language);
         Url::redirectToReferer();
     }
 
@@ -601,7 +609,7 @@ class Piwik_Installation_Controller extends Admin
             }
         }
         if ($error) {
-            Piwik_Login_Controller::clearSession();
+            \Piwik\Plugins\Login\Controller::clearSession();
             $message = Piwik_Translate('Installation_ErrorInvalidState',
                 array('<br /><b>',
                       '</b>',
@@ -693,20 +701,20 @@ class Piwik_Installation_Controller extends Admin
 
         $directoriesToCheck = array();
 
-        if(!Piwik::isInstalled()) {
+        if (!Piwik::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
             $directoriesToCheck[] = '/config/';
         }
 
         $directoriesToCheck = array_merge($directoriesToCheck, array(
-                                    '/tmp/',
-                                    '/tmp/templates_c/',
-                                    '/tmp/cache/',
-                                    '/tmp/assets/',
-                                    '/tmp/latest/',
-                                    '/tmp/tcpdf/',
-                                    '/tmp/sessions/',
-        ));
+                                                                    '/tmp/',
+                                                                    '/tmp/templates_c/',
+                                                                    '/tmp/cache/',
+                                                                    '/tmp/assets/',
+                                                                    '/tmp/latest/',
+                                                                    '/tmp/tcpdf/',
+                                                                    '/tmp/sessions/',
+                                                               ));
 
         $infos['directories'] = Piwik::checkDirectoriesWritable($directoriesToCheck);
 
@@ -905,7 +913,6 @@ class Piwik_Installation_Controller extends Admin
                 $blacklistFunctions = array_map('strtolower', array_map('trim', explode(',', $blacklist)));
                 return $exists && !in_array($functionName, $blacklistFunctions);
             }
-
         }
         return $exists;
     }

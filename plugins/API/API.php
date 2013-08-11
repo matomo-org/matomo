@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+namespace Piwik\Plugins\API;
+
 use Piwik\API\Request;
 use Piwik\API\Proxy;
 use Piwik\DataTable\Filter\ColumnDelete;
@@ -20,54 +22,9 @@ use Piwik\Date;
 use Piwik\DataTable;
 use Piwik\Tracker\GoalManager;
 use Piwik\Version;
-use Piwik\Plugin;
 use Piwik\Translate;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
-
-/**
- * @package Piwik_API
- */
-class Piwik_API extends Plugin
-{
-    /**
-     * @see Piwik_Plugin::getListHooksRegistered
-     */
-    public function getListHooksRegistered()
-    {
-        return array(
-            'AssetManager.getCssFiles' => 'getCssFiles',
-            'TopMenu.add'              => 'addTopMenu',
-        );
-    }
-
-    public function addTopMenu()
-    {
-        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
-        $tooltip = Piwik_Translate('API_TopLinkTooltip');
-
-        Piwik_AddTopMenu('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
-
-        $this->addTopMenuMobileApp();
-    }
-
-    protected function addTopMenuMobileApp()
-    {
-        if (empty($_SERVER['HTTP_USER_AGENT'])) {
-            return;
-        }
-        require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
-        $os = UserAgentParser::getOperatingSystem($_SERVER['HTTP_USER_AGENT']);
-        if ($os && in_array($os['id'], array('AND', 'IPD', 'IPA', 'IPH'))) {
-            Piwik_AddTopMenu('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
-        }
-    }
-
-    public function getCssFiles(&$cssFiles)
-    {
-        $cssFiles[] = "plugins/API/stylesheets/listAllAPI.less";
-    }
-}
 
 /**
  * This API is the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
@@ -87,12 +44,12 @@ class Piwik_API extends Plugin
  *
  * @package Piwik_API
  */
-class Piwik_API_API
+class API
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_API_API
+     * @return \Piwik\Plugins\API\API
      */
     static public function getInstance()
     {
@@ -230,7 +187,7 @@ class Piwik_API_API
             'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
                 . '. ' . Piwik_Translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
             'sqlSegment'     => 'log_visit.visit_goal_buyer',
-            'sqlFilter'      => array('Piwik_API_API', 'getVisitEcommerceStatus'),
+            'sqlFilter'      => __NAMESPACE__ . '\API::getVisitEcommerceStatus',
         );
 
         $segments[] = array(
@@ -268,7 +225,7 @@ class Piwik_API_API
     static public function getVisitEcommerceStatusFromId($id)
     {
         if (!isset(self::$visitEcommerceStatus[$id])) {
-            throw new Exception("Unexpected ECommerce status value ");
+            throw new \Exception("Unexpected ECommerce status value ");
         }
         return self::$visitEcommerceStatus[$id];
     }
@@ -280,7 +237,7 @@ class Piwik_API_API
     {
         $id = array_search($status, self::$visitEcommerceStatus);
         if ($id === false) {
-            throw new Exception("Invalid 'visitEcommerceStatus' segment value");
+            throw new \Exception("Invalid 'visitEcommerceStatus' segment value");
         }
         return $id;
     }
@@ -396,8 +353,8 @@ class Piwik_API_API
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
         Translate::getInstance()->reloadLanguage($language);
-        $reporter = new Piwik_API_ProcessedReport();
-        $metadata =  $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $reporter = new ProcessedReport();
+        $metadata = $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
 
@@ -415,8 +372,8 @@ class Piwik_API_API
     public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false,
                                       $showSubtableReports = false)
     {
-        $reporter = new Piwik_API_ProcessedReport();
-        $metadata =  $reporter->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
+        $reporter = new ProcessedReport();
+        $metadata = $reporter->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
 
@@ -424,8 +381,8 @@ class Piwik_API_API
                                        $apiParameters = false, $idGoal = false, $language = false,
                                        $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false)
     {
-        $reporter = new Piwik_API_ProcessedReport();
-        $processed =  $reporter->getProcessedReport( $idSite, $period, $date, $apiModule, $apiAction, $segment,
+        $reporter = new ProcessedReport();
+        $processed = $reporter->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
             $apiParameters, $idGoal, $language, $showTimer, $hideMetricsDoc, $idSubtable, $showRawMetrics);
 
         return $processed;
@@ -446,7 +403,7 @@ class Piwik_API_API
 
         // find out which columns belong to which plugin
         $columnsByPlugin = array();
-        $meta = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
+        $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
         foreach ($meta as $reportMeta) {
             // scan all *.get reports
             if ($reportMeta['action'] == 'get'
@@ -472,7 +429,7 @@ class Piwik_API_API
         $params = compact('idSite', 'period', 'date', 'segment', 'idGoal');
         foreach ($columnsByPlugin as $plugin => $columns) {
             // load the data
-            $className = 'Piwik_' . $plugin . '_API';
+            $className = Request::getClassNameAPI($plugin);
             $params['columns'] = implode(',', $columns);
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
             // make sure the table has all columns
@@ -549,7 +506,7 @@ class Piwik_API_API
      */
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
     {
-        $rowEvolution = new Piwik_API_RowEvolution();
+        $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
             $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl);
     }
@@ -603,12 +560,12 @@ class Piwik_API_API
 
         $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
-            &idSite=$idSite
-            &period=range
-            &date=$startDate,today
-            &format=original
-            &serialize=0
-            &flat=1";
+        &idSite=$idSite
+        &period=range
+        &date=$startDate,today
+        &format=original
+        &serialize=0
+        &flat=1";
 
         // Select non empty fields only
         // Note: this optimization has only a very minor impact
@@ -661,5 +618,55 @@ class Piwik_API_API
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage;
         return $doesSegmentNeedActionsInfo;
+    }
+}
+
+/**
+ * @package Piwik_API
+ */
+class Plugin extends \Piwik\Plugin
+{
+    public function __construct()
+    {
+        // this class is named 'Plugin', manually set the 'API' plugin
+        parent::__construct($pluginName = 'API');
+    }
+
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
+    {
+        return array(
+            'AssetManager.getCssFiles' => 'getCssFiles',
+            'TopMenu.add'              => 'addTopMenu',
+        );
+    }
+
+    public function addTopMenu()
+    {
+        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
+        $tooltip = Piwik_Translate('API_TopLinkTooltip');
+
+        Piwik_AddTopMenu('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
+
+        $this->addTopMenuMobileApp();
+    }
+
+    protected function addTopMenuMobileApp()
+    {
+        if (empty($_SERVER['HTTP_USER_AGENT'])) {
+            return;
+        }
+        require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
+        $os = \UserAgentParser::getOperatingSystem($_SERVER['HTTP_USER_AGENT']);
+        if ($os && in_array($os['id'], array('AND', 'IPD', 'IPA', 'IPH'))) {
+            Piwik_AddTopMenu('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
+        }
+    }
+
+    public function getCssFiles(&$cssFiles)
+    {
+        $cssFiles[] = "plugins/API/stylesheets/listAllAPI.less";
     }
 }

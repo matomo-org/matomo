@@ -8,6 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+namespace Piwik\Plugins\API;
+
+use Exception;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\API\ResponseBuilder;
 use Piwik\API\Request;
@@ -25,7 +28,7 @@ use Piwik\Url;
  *
  * @package Piwik_API
  */
-class Piwik_API_RowEvolution
+class RowEvolution
 {
 
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
@@ -42,7 +45,6 @@ class Piwik_API_RowEvolution
 
         $label = ResponseBuilder::unsanitizeLabelParameter($label);
         $labels = Piwik::getArrayFromApiParameter($label);
-
 
         $dataTable = $this->loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $idGoal);
 
@@ -290,8 +292,8 @@ class Piwik_API_RowEvolution
         if (!empty($idGoal) && $idGoal > 0) {
             $apiParameters = array('idGoal' => $idGoal);
         }
-        $reportMetadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
-                                                    $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
+        $reportMetadata = API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
+            $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
 
         if (empty($reportMetadata)) {
             throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite "
@@ -480,16 +482,13 @@ class Piwik_API_RowEvolution
     private function getRowEvolutionRowFromLabelIdx($table, $labelIdx)
     {
         $labelIdx = (int)$labelIdx;
-        foreach ($table->getRows() as $row)
-        {
-            if ($row->getMetadata(LabelFilter::FLAG_IS_ROW_EVOLUTION) === $labelIdx)
-            {
+        foreach ($table->getRows() as $row) {
+            if ($row->getMetadata(LabelFilter::FLAG_IS_ROW_EVOLUTION) === $labelIdx) {
                 return $row;
             }
         }
         return false;
     }
-
 
     /**
      * Returns a prettier, more comprehensible version of a row evolution label

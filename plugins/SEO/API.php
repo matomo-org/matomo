@@ -6,10 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_SEO
+ * @package SEO
  */
+namespace Piwik\Plugins\SEO;
+
 use Piwik\Piwik;
 use Piwik\DataTable;
+use Piwik\Plugins\SEO\MajesticClient;
+use Piwik\Plugins\SEO\RankChecker;
 
 /**
  * @see plugins/Referers/functions.php
@@ -20,14 +24,14 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
  * The SEO API lets you access a list of SEO metrics for the specified URL: Google Pagerank, Goolge/Bing indexed pages
  * Alexa Rank, age of the Domain name and count of DMOZ entries.
  *
- * @package Piwik_SEO
+ * @package SEO
  */
-class Piwik_SEO_API
+class API
 {
     static private $instance = null;
 
     /**
-     * @return Piwik_SEO_API
+     * @return \Piwik\Plugins\SEO\API
      */
     static public function getInstance()
     {
@@ -46,29 +50,29 @@ class Piwik_SEO_API
     public function getRank($url)
     {
         Piwik::checkUserHasSomeViewAccess();
-        $rank = new Piwik_SEO_RankChecker($url);
+        $rank = new RankChecker($url);
 
-        $linkToMajestic = Piwik_SEO_MajesticClient::getLinkForUrl($url);
+        $linkToMajestic = MajesticClient::getLinkForUrl($url);
 
         $data = array(
             'Google PageRank'                          => array(
                 'rank' => $rank->getPageRank(),
-                'logo' => Piwik_getSearchEngineLogoFromUrl('http://google.com'),
+                'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://google.com'),
                 'id'   => 'pagerank'
             ),
             Piwik_Translate('SEO_Google_IndexedPages') => array(
                 'rank' => $rank->getIndexedPagesGoogle(),
-                'logo' => Piwik_getSearchEngineLogoFromUrl('http://google.com'),
+                'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://google.com'),
                 'id'   => 'google-index',
             ),
             Piwik_Translate('SEO_Bing_IndexedPages')   => array(
                 'rank' => $rank->getIndexedPagesBing(),
-                'logo' => Piwik_getSearchEngineLogoFromUrl('http://bing.com'),
+                'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://bing.com'),
                 'id'   => 'bing-index',
             ),
             Piwik_Translate('SEO_AlexaRank')           => array(
                 'rank' => $rank->getAlexaRank(),
-                'logo' => Piwik_getSearchEngineLogoFromUrl('http://alexa.com'),
+                'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://alexa.com'),
                 'id'   => 'alexa',
             ),
             Piwik_Translate('SEO_DomainAge')           => array(
@@ -95,7 +99,7 @@ class Piwik_SEO_API
         // Add DMOZ only if > 0 entries found
         $dmozRank = array(
             'rank' => $rank->getDmoz(),
-            'logo' => Piwik_getSearchEngineLogoFromUrl('http://dmoz.org'),
+            'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://dmoz.org'),
             'id'   => 'dmoz',
         );
         if ($dmozRank['rank'] > 0) {

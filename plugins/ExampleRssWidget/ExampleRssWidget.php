@@ -6,16 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ExampleRssWidget
+ * @package ExampleRssWidget
  */
-use Piwik\Plugin;
+namespace Piwik\Plugins\ExampleRssWidget;
+
 use Piwik\WidgetsList;
 
 /**
  *
- * @package Piwik_ExampleRssWidget
+ * @package ExampleRssWidget
  */
-class Piwik_ExampleRssWidget extends Plugin
+class ExampleRssWidget extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

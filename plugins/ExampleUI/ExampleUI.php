@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ExampleUI
+ * @package ExampleUI
  */
 
 /*
@@ -18,13 +18,14 @@
 - without all columns icon
 + update http://piwik.org/participate/user-interface
 */
-use Piwik\Plugin;
+namespace Piwik\Plugins\ExampleUI;
+
 
 /**
  *
- * @package Piwik_ExampleUI
+ * @package ExampleUI
  */
-class Piwik_ExampleUI extends Plugin
+class ExampleUI extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

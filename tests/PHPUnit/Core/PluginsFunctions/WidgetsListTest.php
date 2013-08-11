@@ -7,6 +7,7 @@
  */
 
 use Piwik\Access;
+use Piwik\Plugins\Goals\API;
 use Piwik\WidgetsList;
 
 class WidgetsListTest extends DatabaseTestCase
@@ -70,7 +71,7 @@ class WidgetsListTest extends DatabaseTestCase
         Access::setSingletonInstance($pseudoMockAccess);
 
         Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42');
-        Piwik_Goals_API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
+        API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
 
         $_GET['idSite'] = 1;
 
@@ -107,7 +108,7 @@ class WidgetsListTest extends DatabaseTestCase
         Access::setSingletonInstance($pseudoMockAccess);
 
         Test_Piwik_BaseFixture::createWebsite('2009-01-04 00:11:42', true);
-        Piwik_Goals_API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
+        API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
 
         $_GET['idSite'] = 1;
 

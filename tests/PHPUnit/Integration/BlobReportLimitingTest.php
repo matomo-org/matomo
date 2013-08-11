@@ -7,6 +7,7 @@
  */
 
 use Piwik\Config;
+use Piwik\Plugins\Actions\ArchivingHelper;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
@@ -109,7 +110,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 4;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 4;
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
-        Piwik_Actions_ArchivingHelper::reloadConfig();
+        ArchivingHelper::reloadConfig();
 
         foreach ($this->getApiForTesting() as $pair) {
             list($apiToCall, $params) = $pair;

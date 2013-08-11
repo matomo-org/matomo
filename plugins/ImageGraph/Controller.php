@@ -1,9 +1,4 @@
 <?php
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Controller;
-use Piwik\View;
-
 /**
  * Piwik - Open source web analytics
  *
@@ -11,10 +6,16 @@ use Piwik\View;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph
+ * @package ImageGraph
  */
+namespace Piwik\Plugins\ImageGraph;
 
-class Piwik_ImageGraph_Controller extends Controller
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\View;
+use Piwik\Plugins\API\API;
+
+class Controller extends \Piwik\Controller
 {
     // Call metadata reports, and draw the default graph for each report.
     public function index()
@@ -24,7 +25,7 @@ class Piwik_ImageGraph_Controller extends Controller
         $period = Common::getRequestVar('period', 'day', 'string');
         $date = Common::getRequestVar('date', 'today', 'string');
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
-        $reports = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
+        $reports = API::getInstance()->getReportMetadata($idSite, $period, $date);
         $plot = array();
         foreach ($reports as $report) {
             if (!empty($report['imageGraphUrl'])) {
@@ -53,7 +54,7 @@ class Piwik_ImageGraph_Controller extends Controller
         $date = Common::getRequestVar('date', 'today', 'string');
 
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
-        $availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite, $period, $date);
+        $availableReports = API::getInstance()->getReportMetadata($this->idSite, $period, $date);
         $view->availableReports = $availableReports;
         $view->graphTypes = array(
             '', // default graph type
@@ -73,5 +74,4 @@ class Piwik_ImageGraph_Controller extends Controller
         );
         echo $view->render();
     }
-
 }

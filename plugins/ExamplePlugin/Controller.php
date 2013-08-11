@@ -6,21 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ExamplePlugin
+ * @package ExamplePlugin
  */
+namespace Piwik\Plugins\ExamplePlugin;
+
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\View;
 use Piwik\Db;
 use Piwik\WidgetsList;
-
+use Piwik\Plugins\SitesManager\API;
 
 /**
  *
- * @package Piwik_ExamplePlugin
+ * @package ExamplePlugin
  */
-class Piwik_ExamplePlugin_Controller extends Controller
+class Controller extends \Piwik\Controller
 {
     /**
      * Go to /piwik/?module=ExamplePlugin&action=helloWorld to execute this method
@@ -89,7 +90,6 @@ class Piwik_ExamplePlugin_Controller extends Controller
         $out .= '<code>WidgetsList::add( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array());</code> - Adds a widget that users can add in the dashboard, or export using the Widgets link at the top of the screen. See the example in the <a href="https://github.com/piwik/piwik/blob/1.0/plugins/UserCountry/UserCountry.php#L70">UserCountry Plugin file</a> or any other plugin)<br />';
         $out .= '<code>Common::prefixTable("site")</code> = <b>' . Common::prefixTable("site") . '</b><br />';
 
-
         $out .= '<h2>User access</h2>';
         $out .= '<code>Piwik::getCurrentUserLogin()</code> = <b>' . Piwik::getCurrentUserLogin() . '</b><br />';
         $out .= '<code>Piwik::isUserHasSomeAdminAccess()</code> = <b>' . self::boolToString(Piwik::isUserHasSomeAdminAccess()) . '</b><br />';
@@ -112,19 +112,19 @@ class Piwik_ExamplePlugin_Controller extends Controller
         $out .= 'At this point, we have: <code>$fetched[\'token_auth\'] == <b>' . var_export($token_auth, true) . '</b></code><br />';
 
         $out .= '<h2>Example Sites information API</h2>';
-        $out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess()</code> = <b><pre>' . var_export(Piwik_SitesManager_API::getInstance()->getSitesWithViewAccess(), true) . '</pre></b><br />';
-        $out .= '<code>Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess()</code> = <b><pre>' . var_export(Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess(), true) . '</pre></b><br />';
+        $out .= '<code>API::getInstance()->getSitesWithViewAccess()</code> = <b><pre>' . var_export(API::getInstance()->getSitesWithViewAccess(), true) . '</pre></b><br />';
+        $out .= '<code>API::getInstance()->getSitesWithAdminAccess()</code> = <b><pre>' . var_export(API::getInstance()->getSitesWithAdminAccess(), true) . '</pre></b><br />';
 
         $out .= '<h2>Example API  Users information</h2>';
         $out .= 'View the list of API methods you can call on <a href="http://piwik.org/docs/analytics-api/reference">API reference</a><br />';
-        $out .= 'For example you can try <code>Piwik_UsersManager_API::getInstance()->getUsersSitesFromAccess("view");</code> or <code>Piwik_UsersManager_API::getInstance()->deleteUser("userToDelete");</code><br />';
+        $out .= 'For example you can try <code>API::getInstance()->getUsersSitesFromAccess("view");</code> or <code>API::getInstance()->deleteUser("userToDelete");</code><br />';
 
         $out .= '<h2>Javascript in Piwik</h2>';
         $out .= '<h3>i18n internationalization</h3>';
         $out .= 'In order to translate strings within Javascript code, you can use the javascript function _pk_translate( token );.
 				<ul><li>The "token" parameter is the string unique key found in the translation file. For this token string to be available in Javascript, you must
 				suffix your token by "_js" in the language file. For example, you can add <code>\'Goals_AddGoal_js\' => \'Add Goal\',</code> in the lang/en.php file</li>
-				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling a custom-made Twig modifier before the Javascript code requiring translations, eg. 
+				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling a custom-made Twig modifier before the Javascript code requiring translations, eg.
 					<code>{loadJavascriptTranslations plugins=\'$YOUR_PLUGIN_NAME\'}</code>. In our previous example, the $YOUR_PLUGIN_NAME being Goals, we would write <code>{loadJavascriptTranslations plugins=\'Goals\'}</code>
 					</li><li>You can then print this string from your JS code by doing <code>_pk_translate(\'Goals_AddGoal_js\');</code>.
 					</li></ul>';

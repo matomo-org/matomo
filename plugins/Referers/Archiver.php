@@ -1,10 +1,4 @@
 <?php
-use Piwik\Common;
-use Piwik\Config;
-use Piwik\Metrics;
-use Piwik\DataArray;
-use Piwik\PluginsArchiver;
-
 /**
  * Piwik - Open source web analytics
  *
@@ -12,10 +6,20 @@ use Piwik\PluginsArchiver;
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_Referers
+ * @package Referers
  */
+namespace Piwik\Plugins\Referers;
 
-class Piwik_Referers_Archiver extends PluginsArchiver
+use Exception;
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\Metrics;
+use Piwik\DataArray;
+use Piwik\Plugins\Referers\API;
+use Piwik\PluginsArchiver;
+
+
+class Archiver extends PluginsArchiver
 {
     const SEARCH_ENGINES_RECORD_NAME = 'Referers_keywordBySearchEngine';
     const KEYWORDS_RECORD_NAME = 'Referers_searchEngineByKeyword';
@@ -88,7 +92,7 @@ class Piwik_Referers_Archiver extends PluginsArchiver
         switch ($row['referer_type']) {
             case Common::REFERER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
-                    $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
+                    $row['referer_keyword'] = API::LABEL_KEYWORD_NOT_DEFINED;
                 }
                 $searchEnginesArray = $this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME);
                 $searchEnginesArray->sumMetricsVisits($row['referer_name'], $row);
@@ -161,7 +165,7 @@ class Piwik_Referers_Archiver extends PluginsArchiver
         switch ($row['referer_type']) {
             case Common::REFERER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
-                    $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
+                    $row['referer_keyword'] = API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
                 $this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);

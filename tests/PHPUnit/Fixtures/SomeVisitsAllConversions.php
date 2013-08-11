@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
+use Piwik\Plugins\Goals\API;
 
 /**
  * Adds one site and tracks a couple conversions.
@@ -33,13 +34,13 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Test_Piwik_BaseFixture
         self::createWebsite($this->dateTime);
 
         // First, a goal that is only recorded once per visit
-        Piwik_Goals_API::getInstance()->addGoal(
+        API::getInstance()->addGoal(
             $this->idSite, 'triggered js ONCE', 'title', 'Thank you', 'contains', $caseSensitive = false,
             $revenue = 10, $allowMultipleConversions = false
         );
 
         // Second, a goal allowing multiple conversions
-        Piwik_Goals_API::getInstance()->addGoal(
+        API::getInstance()->addGoal(
             $this->idSite, 'triggered js MULTIPLE ALLOWED', 'manually', '', '', $caseSensitive = false,
             $revenue = 10, $allowMultipleConversions = true
         );
@@ -68,10 +69,10 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Test_Piwik_BaseFixture
         self::checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 366));
 
         // Update & set to not allow multiple
-        $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+        $goals = API::getInstance()->getGoals($idSite);
         $goal = $goals[$idGoal_OneConversionPerVisit];
         self::assertTrue($goal['allow_multiple'] == 0);
-        Piwik_Goals_API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1);
+        API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1);
         self::assertTrue($goal['allow_multiple'] == 1);
 
         // 1st goal should Now be tracked

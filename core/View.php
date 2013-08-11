@@ -20,8 +20,8 @@ use Piwik\Url;
 use Piwik\UpdateCheck;
 use Piwik\Twig;
 use Piwik\QuickForm2;
-use Piwik_SitesManager_API;
-use Piwik_UsersManager_API;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
 use Zend_Registry;
@@ -110,7 +110,7 @@ class View implements ViewInterface
 
             $count = Piwik::getWebsitesCountToDisplay();
 
-            $sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($count);
+            $sites = SitesManagerAPI::getInstance()->getSitesWithAtLeastViewAccess($count);
             usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
             $this->sites = $sites;
             $this->url = Common::sanitizeInputValue(Url::getCurrentUrl());
@@ -128,7 +128,7 @@ class View implements ViewInterface
 
             $this->loginModule = Piwik::getLoginPluginName();
 
-            $user = Piwik_UsersManager_API::getInstance()->getUser($userLogin);
+            $user = UsersManagerAPI::getInstance()->getUser($userLogin);
             $this->userAlias = $user['alias'];
         } catch (Exception $e) {
             // can fail, for example at installation (no plugin loaded yet)

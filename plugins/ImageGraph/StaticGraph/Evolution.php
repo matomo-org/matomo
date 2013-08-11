@@ -6,15 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
+namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
+use Piwik\Plugins\ImageGraph\StaticGraph\GridGraph;
 
 /**
  *
- * @package Piwik_ImageGraph_StaticGraph
+ * @package StaticGraph
  */
-class Piwik_ImageGraph_StaticGraph_Evolution extends Piwik_ImageGraph_StaticGraph_GridGraph
+class Evolution extends GridGraph
 {
 
     public function renderGraph()

@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Access;
+use Piwik\Plugins\SitesManager\API;
 
 /**
  * Tests the log importer.
@@ -58,13 +59,13 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
         Access::getInstance()->setSuperUser(true);
 
         // make sure sites aren't created twice
-        $piwikDotNet = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
+        $piwikDotNet = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
         $this->assertEquals(1, count($piwikDotNet));
 
-        $anothersiteDotCom = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://anothersite.com');
+        $anothersiteDotCom = API::getInstance()->getSitesIdFromSiteUrl('http://anothersite.com');
         $this->assertEquals(1, count($anothersiteDotCom));
 
-        $whateverDotCom = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://whatever.com');
+        $whateverDotCom = API::getInstance()->getSitesIdFromSiteUrl('http://whatever.com');
         $this->assertEquals(1, count($whateverDotCom));
     }
 

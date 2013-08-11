@@ -8,6 +8,7 @@
 use Piwik\Piwik;
 use Piwik\Access;
 use Piwik\Date;
+use Piwik\Plugins\SitesManager\API;
 
 /**
  * Tests the archive.php cron script.
@@ -90,7 +91,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
     private function setLastRunArchiveOptions()
     {
         $periodTypes = array('day', 'periods');
-        $idSites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        $idSites = API::getInstance()->getAllSitesId();
         
         $time = Date::factory(self::$fixture->dateTime)->subDay(1)->getTimestamp();
         
