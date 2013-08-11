@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package SMSProvider
  */
+namespace Piwik\Plugins\MobileMessaging\SMSProvider;
+
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 
 /**
@@ -15,7 +17,7 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
  *
  * @package SMSProvider
  */
-class Piwik_MobileMessaging_SMSProvider_StubbedProvider extends SMSProvider
+class StubbedProvider extends SMSProvider
 {
 
     public function verifyCredential($apiKey)

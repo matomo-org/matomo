@@ -317,7 +317,7 @@ class API
 
                 //@review this test will need to be updated after evaluating the @review comment in API/API.php
                 if (!$processedReport) {
-                    throw new Exception(Piwik_Translate('General_NoDataForGraph_js'));
+                    throw new \Exception(Piwik_Translate('General_NoDataForGraph_js'));
                 }
 
                 // restoring generic filter parameters
@@ -454,7 +454,7 @@ class API
             }
 
             if (!$hasData || !$hasNonZeroValue) {
-                throw new Exception(Piwik_Translate('General_NoDataForGraph_js'));
+                throw new \Exception(Piwik_Translate('General_NoDataForGraph_js'));
             }
 
             //Setup the graph
@@ -484,7 +484,7 @@ class API
 
             // render graph
             $graph->renderGraph();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             $graph = new \Piwik\Plugins\ImageGraph\StaticGraph\Exception();
             $graph->setWidth($width);

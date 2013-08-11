@@ -242,20 +242,19 @@ abstract class ArchiveProcessor
     }
 
     /**
-     * A flag mechanism to store whether
+     * A flag mechanism to store whether visits were selected from archive
+     *
      * @param $visitsMetricCached
      * @param bool $convertedVisitsMetricCached
      */
     protected function setNumberOfVisits($visitsMetricCached, $convertedVisitsMetricCached = false)
     {
-        if (empty($visitsMetricCached)) {
-            $visitsMetricCached = 0;
+        if($visitsMetricCached === false) {
+            $this->visitsMetricCached = $this->convertedVisitsMetricCached = false;
+        } else {
+            $this->visitsMetricCached = (int)$visitsMetricCached;
+            $this->convertedVisitsMetricCached = (int)$convertedVisitsMetricCached;
         }
-        if (empty($convertedVisitsMetricCached)) {
-            $convertedVisitsMetricCached = 0;
-        }
-        $this->visitsMetricCached = (int)$visitsMetricCached;
-        $this->convertedVisitsMetricCached = (int)$convertedVisitsMetricCached;
     }
 
     public function getNumberOfVisits()

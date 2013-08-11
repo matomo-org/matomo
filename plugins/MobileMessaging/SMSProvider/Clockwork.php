@@ -9,6 +9,9 @@
  * @package SMSProvider
  */
 
+namespace Piwik\Plugins\MobileMessaging\SMSProvider;
+
+use Exception;
 use Piwik\Http;
 use Piwik\Plugins\MobileMessaging\APIException;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
@@ -18,7 +21,7 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/MobileMessaging/APIException.php";
  *
  * @package SMSProvider
  */
-class Piwik_MobileMessaging_SMSProvider_Clockwork extends SMSProvider
+class Clockwork extends SMSProvider
 {
     const SOCKET_TIMEOUT = 15;
 
@@ -85,7 +88,7 @@ class Piwik_MobileMessaging_SMSProvider_Clockwork extends SMSProvider
                 $acceptLanguage = false,
                 $acceptInvalidSslCertificate = true
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $result = self::ERROR_STRING . " " . $e->getMessage();
         }
 

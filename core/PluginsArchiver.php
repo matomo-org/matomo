@@ -13,7 +13,6 @@ namespace Piwik;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\ArchiveProcessor;
-use Piwik\ArchiveProcessor\Day;
 use Piwik\DataAccess\LogAggregator;
 
 /**
@@ -41,12 +40,15 @@ abstract class PluginsArchiver
     public function shouldArchive()
     {
         $className = get_class($this);
-        $pluginName = str_replace(array("\\Piwik\\Plugins\\", "\\Archiver"), "", $className);
+        $pluginName = str_replace(array("Piwik\\Plugins\\", "\\Archiver"), "", $className);
+        if(strpos($pluginName, "\\") !== false) {
+            throw new \Exception("unexpected plugin name $pluginName in shouldArchive()");
+        }
         return $this->getProcessor()->shouldProcessReportsForPlugin($pluginName);
     }
 
     /**
-     * @return Day|Period
+     * @return \Piwik\ArchiveProcessor\Day|\Piwik\ArchiveProcessor\Period
      */
     protected function getProcessor()
     {

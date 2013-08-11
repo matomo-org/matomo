@@ -8,16 +8,18 @@
  * @category Piwik_Plugins
  * @package CoreHome
  */
+namespace Piwik\Plugins\CoreHome\DataTableRowAction;
+
 use Piwik\Common;
 use Piwik\ViewDataTable;
+use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 
 /**
  * MULTI ROW EVOLUTION
  * The class handles the popover that shows the evolution of a multiple rows in a data table
  * @package CoreHome
  */
-class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
-    extends Piwik_CoreHome_DataTableRowAction_RowEvolution
+class MultiRowEvolution extends RowEvolution
 {
     /** The requested metric */
     protected $metric;

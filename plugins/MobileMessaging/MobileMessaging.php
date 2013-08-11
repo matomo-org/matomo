@@ -14,8 +14,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\API as MobileMessagingAPI;
 use Piwik\View;
 use Piwik\Plugins\API\API;
-use Piwik_MobileMessaging_ReportRenderer_Exception;
-use Piwik_MobileMessaging_ReportRenderer_Sms;
+use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
+use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 use Piwik\Plugins\PDFReports\API as PDFReportsAPI;
 
 /**
@@ -167,9 +167,9 @@ class MobileMessaging extends \Piwik\Plugin
     {
         if (self::manageEvent($info)) {
             if (\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites')) {
-                $reportRenderer = new Piwik_MobileMessaging_ReportRenderer_Sms();
+                $reportRenderer = new Sms();
             } else {
-                $reportRenderer = new Piwik_MobileMessaging_ReportRenderer_Exception(
+                $reportRenderer = new ReportRendererException(
                     Piwik_Translate('MobileMessaging_MultiSites_Must_Be_Activated')
                 );
             }

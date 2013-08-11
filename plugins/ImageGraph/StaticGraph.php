@@ -85,6 +85,7 @@ abstract class StaticGraph
         if (isset(self::$availableStaticGraphTypes[$graphType])) {
 
             $className = self::$availableStaticGraphTypes[$graphType];
+            $className = __NAMESPACE__ . "\\StaticGraph\\" . $className;
             Loader::loadClass($className);
             return new $className;
         } else {

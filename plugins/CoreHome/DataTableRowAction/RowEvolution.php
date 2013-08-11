@@ -8,6 +8,9 @@
  * @category Piwik_Plugins
  * @package CoreHome
  */
+namespace Piwik\Plugins\CoreHome\DataTableRowAction;
+
+use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\API\Request;
 use Piwik\Common;
@@ -23,7 +26,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as Evo
  * The class handles the popover that shows the evolution of a singe row in a data table
  * @package CoreHome
  */
-class Piwik_CoreHome_DataTableRowAction_RowEvolution
+class RowEvolution
 {
 
     /** The current site id */
@@ -52,7 +55,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 
     /**
      * The data
-     * @var Piwik\DataTable
+     * @var \Piwik\DataTable
      */
     protected $dataTable;
 
@@ -186,12 +189,12 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = ViewDataTable::factory($graphType ?: $this->graphType, $this->apiMethod,
+        $view = ViewDataTable::factory($graphType ? : $this->graphType, $this->apiMethod,
             $controllerAction = 'CoreHome.getRowEvolutionGraph', $forceDefault = true);
         $view->setDataTable($this->dataTable);
 
         if (!empty($this->graphMetrics)) { // In row Evolution popover, this is empty
-            $view->columns_to_display = array_keys($metrics ?: $this->graphMetrics);
+            $view->columns_to_display = array_keys($metrics ? : $this->graphMetrics);
         }
 
         $view->show_goals = false;
@@ -217,7 +220,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     protected function getMetricsToggles()
     {
         $chart = new Evolution;
-        
+
         $i = 0;
         $metrics = array();
         foreach ($this->availableMetrics as $metric => $metricData) {

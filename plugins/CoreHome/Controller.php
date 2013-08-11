@@ -21,8 +21,8 @@ use Piwik\View;
 use Piwik\Url;
 use Piwik\UpdateCheck;
 use Piwik\Site;
-use Piwik_CoreHome_DataTableRowAction_MultiRowEvolution;
-use Piwik_CoreHome_DataTableRowAction_RowEvolution;
+use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
+use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 use Piwik\Plugins\UsersManager\API;
 
 /**
@@ -173,9 +173,9 @@ class Controller extends \Piwik\Controller
     private function makeRowEvolution($isMultiRowEvolution, $graphType = null)
     {
         if ($isMultiRowEvolution) {
-            return new Piwik_CoreHome_DataTableRowAction_MultiRowEvolution($this->idSite, $this->date, $graphType);
+            return new MultiRowEvolution($this->idSite, $this->date, $graphType);
         } else {
-            return new Piwik_CoreHome_DataTableRowAction_RowEvolution($this->idSite, $this->date, $graphType);
+            return new RowEvolution($this->idSite, $this->date, $graphType);
         }
     }
 

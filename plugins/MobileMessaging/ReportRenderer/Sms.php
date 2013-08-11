@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging_ReportRenderer
  */
+namespace Piwik\Plugins\MobileMessaging\ReportRenderer;
+
 use Piwik\Common;
 use Piwik\Plugins\MultiSites\API;
 use Piwik\View;
@@ -18,7 +20,7 @@ use Piwik\Site;
  *
  * @package Piwik_MobileMessaging_ReportRenderer
  */
-class Piwik_MobileMessaging_ReportRenderer_Sms extends ReportRenderer
+class Sms extends ReportRenderer
 {
     const FLOAT_REGEXP = '/[-+]?[0-9]*[\.,]?[0-9]+/';
     const SMS_CONTENT_TYPE = 'text/plain';
