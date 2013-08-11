@@ -43,70 +43,75 @@
                 </div>
                 <p style="clear:both; border:none!important;"></p>
             </div>
-            <div style="clear:both; border:none!important;"></div>
-            <div class="visitor-profile-map">
-                {{ userCountryMap|raw }}
-            </div>
-            <div class="visitor-profile-important-visits">
-                <div>
-                    <h1>{{ 'Live_FirstVisit'|translate }}</h1>
-                    <div>
-                        <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</span></p>
-                        <p><span>{{ 'General_FromReferrer'|translate }}:</span>
-                        <strong>{{ visitorData.firstVisit.referralSummary }}</strong></p>
-                    </div>
-                </div>
-                <div>
-                    <h1>{{ 'Live_LastVisit'|translate }}</h1>
-                    <div>
-                        <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</span></p>
-                        <p><span>{{ 'General_FromReferrer'|translate }}:</span>
-                        <strong>{{ visitorData.lastVisit.referralSummary }}</strong></p>
-                    </div>
-                </div>
-            </div>
-            <div class="visitor-profile-summary">
-                <h1>{{ 'General_Summary'|translate }}</h1>
-                <div>
-                    <p>{{ 'Live_VisitSummary'|translate('<strong>', visitorData.totalVisitDurationPretty, '</strong>', '<strong>', visitorData.totalActionCount, visitorData.totalVisits, '</strong>')|raw }}</p>
-                    <p><strong>{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}</strong>
-                    {%- if visitorData.totalGoalConversions %} (
-                        {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
-                        {%- if not loop.first %}, {% endif -%}{{- totalConversions }} <span class="visitor-profile-goal-name">{{ goals[idGoal]['name'] -}}</span>
-                        {%- endfor -%}
-                    ){% endif %}.</p>
-                    {% if visitorData.totalEcommerceConversions is defined %}
-                    <p>{{ 'Live_EcommerceSummary'|translate('<strong>', visitorData.totalEcommerceConversions, visitorData.totalEcommerceRevenue|money(idSite), '</strong>', visitorData.totalEcommerceItems)|raw }}</p>
-                    {% endif %}
+            <div>
+                <div class="visitor-profile-location">
+                    <h1>{{ 'UserCountry_Location'|translate }}</h1>
+                    <img src="plugins/Live/images/REMOVE_ME_chart.png" alt=""/> {# TODO: bar graph #}
                 </div>
             </div>
         </div>
         <div>
-            <div class="visitor-profile-location">
-                <h1>{{ 'UserCountry_Location'|translate }}</h1>
-                <img src="plugins/Live/images/REMOVE_ME_chart.png" alt=""/> {# TODO: bar graph #}
+            <div>
+                <div class="visitor-profile-map">
+                    {{ userCountryMap|raw }}
+                </div>
+                <div class="visitor-profile-important-visits">
+                    <div>
+                        <h1>{{ 'Live_FirstVisit'|translate }}</h1>
+                        <div>
+                            <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</span></p>
+                            <p><span>{{ 'General_FromReferrer'|translate }}:</span>
+                            <strong>{{ visitorData.firstVisit.referralSummary }}</strong></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h1>{{ 'Live_LastVisit'|translate }}</h1>
+                        <div>
+                            <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</span></p>
+                            <p><span>{{ 'General_FromReferrer'|translate }}:</span>
+                            <strong>{{ visitorData.lastVisit.referralSummary }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="visitor-profile-summary">
+                    <h1>{{ 'General_Summary'|translate }}</h1>
+                    <div>
+                        <p>{{ 'Live_VisitSummary'|translate('<strong>', visitorData.totalVisitDurationPretty, '</strong>', '<strong>', visitorData.totalActionCount, visitorData.totalVisits, '</strong>')|raw }}</p>
+                        <p><strong>{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}</strong>
+                        {%- if visitorData.totalGoalConversions %} (
+                            {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
+                            {%- if not loop.first %}, {% endif -%}{{- totalConversions }} <span class="visitor-profile-goal-name">{{ goals[idGoal]['name'] -}}</span>
+                            {%- endfor -%}
+                        ){% endif %}.</p>
+                        {% if visitorData.totalEcommerceConversions is defined %}
+                        <p>{{ 'Live_EcommerceSummary'|translate('<strong>', visitorData.totalEcommerceConversions, visitorData.totalEcommerceRevenue|money(idSite), '</strong>', visitorData.totalEcommerceItems)|raw }}</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <div class="visitor-profile-pages-visited">
-                <h1>{{ 'Live_VisitedPages'|translate }}<a href>{{ 'General_SeeAll'|translate }}</a></h1>
+            <div>
+                <div class="visitor-profile-pages-visited">
+                    <h1>{{ 'Live_VisitedPages'|translate }}<a href>{{ 'General_SeeAll'|translate }}</a></h1>
+                </div>
+                <div class="visitor-profile-visits-container">
+                    <ol class="visitor-profile-visits">
+                        {% for visitInfo in visitorData.lastVisits.getRows() %}
+                        <li><h2>{{ 'General_Visit'|translate }} #{{ loop.index }}</h2><span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span><span class="visitor-profile-date">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span>
+                            <ol class="visitor-profile-actions">
+                                {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
+                                                                           'javascriptVariablesToSet': {
+                                                                                'filterEcommerce': false,
+                                                                                'idSite': idSite
+                                                                            },
+                                                                            'overrideLinkStyle': false} %}
+                            </ol>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    <br/>
+                </div>
+                <div class="visitor-profile-fog"></div>
             </div>
-            <div class="visitor-profile-visits-container">
-                <ol class="visitor-profile-visits">
-                    {% for visitInfo in visitorData.lastVisits.getRows() %}
-                    <li><h2>{{ 'General_Visit'|translate }} #{{ loop.index }}</h2><span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span><span class="visitor-profile-date">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span>
-                        <ol class="visitor-profile-actions">
-                            {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
-                                                                       'javascriptVariablesToSet': {
-                                                                            'filterEcommerce': false,
-                                                                            'idSite': idSite
-                                                                        },
-                                                                        'overrideLinkStyle': false} %}
-                        </ol>
-                    </li>
-                    {% endfor %}
-                </ol>
-                <br/>
-            </div>
-            <div class="visitor-profile-fog"></div>
         </div>
     </div>
     <div class="visitor-profile-more-info">
