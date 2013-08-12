@@ -21,7 +21,6 @@ use Piwik\Access;
 use Piwik\Http;
 use Piwik\Session\SessionNamespace;
 use Piwik\Updater;
-use Piwik\View;
 use Piwik\Version;
 use Piwik\Url;
 use Piwik\ProxyHeaders;
