@@ -129,10 +129,10 @@
                     maintainAtBottom = settings.stickToBottom && isCloseToBottom();
                     maintainAtRight = settings.stickToRight && isCloseToRight();
 
-                    hasContainingSpaceChanged = elem.innerWidth() + originalPaddingTotalWidth != paneWidth || elem.outerHeight() != paneHeight;
+                    hasContainingSpaceChanged = elem.innerWidth() != paneWidth - originalPaddingTotalWidth || elem.outerHeight() != paneHeight;
 
                     if (hasContainingSpaceChanged) {
-                        paneWidth = elem.innerWidth() + originalPaddingTotalWidth;
+                        paneWidth = elem.innerWidth();
                         paneHeight = elem.innerHeight();
                         container.css({
                             width: paneWidth + 'px',

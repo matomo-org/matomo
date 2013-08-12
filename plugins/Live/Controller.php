@@ -157,14 +157,31 @@ class Controller extends \Piwik\Controller
         echo $view->render();
     }
 
+    public function getVisitList()
+    {
+        $view = new View('@Live/getVisitList.twig');
+        $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->startCounter = Common::getRequestVar('filter_offset', 1, 'int');
+        $view->visits = Request::processRequest('Live.getLastVisitsDetails', array(
+            'segment' => self::getSegmentWithVisitorId(),
+            'filter_limit' => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
+            'disable_generic_filters' => 1
+        ));
+        echo $view->render();
+    }
+
     private function getUserCountryMapForVisitorProfile()
+    {
+        $params = array('fetch' => true, 'segment' => self::getSegmentWithVisitorId());
+        return FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap', $params); // TODO: check if plugin is enabled?
+    }
+
+    private static function getSegmentWithVisitorId()
     {
         $segment = Request::getRawSegmentFromRequest();
         if (!empty($segment)) {
             $segment .= ';';
         }
-
-        $params = array('fetch' => true, 'segment' => $segment . 'visitorId==' . Common::getRequestVar('idVisitor'));
-        return FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap', $params); // TODO: check if plugin is enabled?
+        return $segment . 'visitorId==' . Common::getRequestVar('idVisitor');
     }
 }

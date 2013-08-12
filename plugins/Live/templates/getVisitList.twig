@@ -1,0 +1,13 @@
+{% for visitInfo in visits.getRows() %}
+<li><h2 class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}">{{ 'General_Visit'|translate }} #{{ startCounter }}</h2><span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span><span class="visitor-profile-date">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span>
+    <ol class="visitor-profile-actions">
+        {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
+                                                   'javascriptVariablesToSet': {
+                                                        'filterEcommerce': false,
+                                                        'idSite': idSite
+                                                    },
+                                                    'overrideLinkStyle': false} %}
+    </ol>
+</li>
+{% set startCounter = startCounter + 1 %}
+{% endfor %}

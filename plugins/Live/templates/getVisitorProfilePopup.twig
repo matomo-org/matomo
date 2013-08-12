@@ -1,4 +1,4 @@
-<div class="visitor-profile">
+<div class="visitor-profile" data-visitor-id="{{ visitorData.lastVisits.getFirstRow().getColumn('visitorId') }}">
     <a href class="visitor-profile-close"></a>
     <div class="visitor-profile-info">
         <div>
@@ -63,26 +63,22 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="visitor-profile-visits-info">
                 <div class="visitor-profile-pages-visited">
-                    <h1>{{ 'Live_VisitedPages'|translate }}<a href>{{ 'General_SeeAll'|translate }}</a></h1>
+                    <h1>{{ 'Live_VisitedPages'|translate }}</h1>
                 </div>
                 <div class="visitor-profile-visits-container">
                     <ol class="visitor-profile-visits">
-                        {% for visitInfo in visitorData.lastVisits.getRows() %}
-                        <li><h2 class="visitor-profile-visit-title" data-idvisit="{{ visitInfo.getColumn('idVisit') }}">{{ 'General_Visit'|translate }} #{{ loop.index }}</h2><span>&nbsp;- ({{ visitInfo.getColumn('visitDurationPretty')|raw }})</span><span class="visitor-profile-date">{{ visitInfo.getColumn('serverDatePrettyFirstAction') }}</span>
-                            <ol class="visitor-profile-actions">
-                                {% include "@Live/_actionsList.twig" with {'actionDetails': visitInfo.getColumn('actionDetails'),
-                                                                           'javascriptVariablesToSet': {
-                                                                                'filterEcommerce': false,
-                                                                                'idSite': idSite
-                                                                            },
-                                                                            'overrideLinkStyle': false} %}
-                            </ol>
-                        </li>
-                        {% endfor %}
+                        {% include "@Live/getVisitList.twig" with {'visits': visitorData.lastVisits, 'startCounter': 1} %}
                     </ol>
                     <br/>
+                </div>
+                <div class="loadingPiwik" style='display:none'>
+                    <div>
+                        <div>
+                            <img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}
+                        </div>
+                    </div>
                 </div>
                 <div class="visitor-profile-fog"></div>
             </div>
@@ -108,7 +104,35 @@ $(function() {
 
     $('.visitor-profile-pages-visited,.visitor-profile-more-info').click(function (e) {
         e.preventDefault();
-        alert('STUB');
+
+        var loading = $('.visitor-profile-visits-info > .loadingPiwik');
+        loading.css('display', 'table');
+
+        var ajax = new ajaxHelper();
+        ajax.addParams({
+            module: 'Live',
+            action: 'getVisitList',
+            period: 'range',
+            date: piwik.minDateYear + '-01-01' + ',today',
+            idVisitor: $(this).closest('.visitor-profile').attr('data-visitor-id'),
+            filter_offset: $('.visitor-profile-visits>li').length
+        }, 'GET');
+        ajax.setCallback(function (response) {
+            loading.css('display', 'none');
+
+            var jsp = $('.visitor-profile-visits-container').data('jsp');
+            if (response == '') {
+                jsp.scrollToElement($('.visitor-profile-visits>li:last-child').children().last(), false, true);
+            } else {
+                response = $(response);
+                $('.visitor-profile-visits').append(response);
+                jsp.reinitialise();
+                jsp.scrollToElement(response[0], true, true);
+            }
+        });
+        ajax.setFormat('html');
+        ajax.send();
+
         return false;
     });
 

@@ -375,7 +375,7 @@
     height:25px;
     width:546px;
     position:absolute;
-    bottom:54px;
+    bottom:0;
     right:28px;
     background:url(../images/visitor_profile_gradient.png) repeat-x;
 }
@@ -420,4 +420,31 @@ span.visitor-profile-goal-name {
 .visitor-profile-avatar .loadingPiwik {
     padding:0;
     margin:0;
+}
+
+.visitor-profile-visits-info {
+    position: relative;
+}
+
+.visitor-profile-visits-info > .loadingPiwik {
+    position: absolute;
+    top: 0;
+    left: 2px;
+    width: 545px;
+    height: unit(@visitor_profile_2nd_row_2nd_col_total_height - 16, px);
+    background-color: rgba(0,0,0,0.3);
+    z-index: 2;
+
+    > div {
+        display:table-cell;
+        vertical-align:middle;
+        text-align:center;
+
+        > div {
+            display:inline-block;
+            color:white;
+            background-color: rgba(0,0,0,0.7);
+            padding: 4px 8px;
+        }
+    }
 }
