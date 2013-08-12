@@ -213,11 +213,11 @@ var Piwik_Popover = (function () {
          * @param {string} [dialogClass]      css class to add to dialog
          */
         createPopupAndLoadUrl: function (url, loadingName, dialogClass) {
-            // make sure the minimum top position of the popover is 106px
+            // make sure the minimum top position of the popover is 15px
             var ensureMinimumTop = function () {
                 var popoverContainer = $('#Piwik_Popover').parent();
                 if (popoverContainer.position().top < 106) {
-                    popoverContainer.css('top', '106px');
+                    popoverContainer.css('top', '15px');
                 }
             };
 
