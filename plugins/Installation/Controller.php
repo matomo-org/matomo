@@ -443,7 +443,7 @@ class Controller extends \Piwik\Controller\Admin
         $idSite = $this->session->site_idSite;
 
         // Load the Tracking code and help text from the SitesManager
-        $viewTrackingHelp = new View('@SitesManager/_displayJavascriptCode');
+        $viewTrackingHelp = new \Piwik\View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
         $viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Url::getCurrentUrlWithoutFileName());
         $viewTrackingHelp->idSite = $idSite;
