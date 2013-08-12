@@ -29,8 +29,8 @@ class FormGeneralSetup extends QuickForm2
 
     function init()
     {
-        HTML_QuickForm2_Factory::registerRule('checkLogin', 'Rule_isValidLoginString');
-        HTML_QuickForm2_Factory::registerRule('checkEmail', 'Rule_isValidEmailString');
+        HTML_QuickForm2_Factory::registerRule('checkLogin', 'Piwik\Plugins\Installation\Rule_isValidLoginString');
+        HTML_QuickForm2_Factory::registerRule('checkEmail', 'Piwik\Plugins\Installation\Rule_isValidEmailString');
 
         $login = $this->addElement('text', 'login')
             ->setLabel(Piwik_Translate('Installation_SuperUserLogin'));

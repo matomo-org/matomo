@@ -29,7 +29,7 @@ class FormFirstWebsiteSetup extends QuickForm2
 
     function init()
     {
-        HTML_QuickForm2_Factory::registerRule('checkTimezone', 'Rule_isValidTimezone');
+        HTML_QuickForm2_Factory::registerRule('checkTimezone', 'Piwik\Plugins\Installation\Rule_isValidTimezone');
 
         $urlExample = 'http://example.org';
         $javascriptOnClickUrlExample = "javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';";

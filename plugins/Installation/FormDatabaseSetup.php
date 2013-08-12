@@ -33,9 +33,9 @@ class FormDatabaseSetup extends QuickForm2
 
     function init()
     {
-        HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'FormDatabaseSetup_Rule_checkValidFilename');
+        HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidFilename');
 
-        $checkUserPrivilegesClass = 'Rule_checkUserPrivileges';
+        $checkUserPrivilegesClass = 'Piwik\Plugins\Installation\Rule_checkUserPrivileges';
         HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', $checkUserPrivilegesClass);
 
         $availableAdapters = Adapter::getAdapters();
