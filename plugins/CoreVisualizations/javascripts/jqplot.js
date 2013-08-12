@@ -71,11 +71,15 @@ JQPlot.prototype = {
         var dataTableDiv = $('#' + targetDivId).closest('div.dataTable');
 
         // preapare the appropriate chart type
+        var type;
         if (dataTableDiv.hasClass('dataTableVizEvolution')) {
+            type = 'evolution';
             this.prepareEvolutionChart(targetDivId, lang);
         } else if (dataTableDiv.hasClass('dataTableVizBar')) {
+            type = 'bar';
             this.prepareBarChart(targetDivId, lang);
         } else if (dataTableDiv.hasClass('dataTableVizPie')) {
+            type = 'pie';
             this.preparePieChart(targetDivId, lang);
         } else {
             return;
