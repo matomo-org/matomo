@@ -200,19 +200,6 @@ class API
             $result['totalAbandonedCartsItems'] = 0;
         }
 
-        // use the most recent visit for IP/browser/OS/etc. info
-        $mostRecentVisit = $visits->getFirstRow();
-        $result['latestVisitIp'] = $mostRecentVisit->getColumn('visitIp');
-        $result['visitorId'] = $mostRecentVisit->getColumn('visitorId');
-        $result['browserCode'] = $mostRecentVisit->getColumn('browserCode');
-        $result['browserName'] = \Piwik\Plugins\UserSettings\getBrowserFromBrowserVersion($mostRecentVisit->getColumn('browserName'));
-        $result['browserLogo'] = $mostRecentVisit->getColumn('browserIcon');
-        $result['operatingSystemCode'] = $mostRecentVisit->getColumn('operatingSystemCode');
-        $result['operatingSystemShortName'] = $mostRecentVisit->getColumn('operatingSystemShortName');
-        $result['operatingSystemLogo'] = $mostRecentVisit->getColumn('operatingSystemIcon');
-        $result['resolution'] = $mostRecentVisit->getColumn('resolution');
-        $result['customVariables'] = $mostRecentVisit->getColumn('customVariables');
-
         // aggregate all requested visits info for total_* info
         foreach ($visits->getRows() as $visit) {
             ++$result['totalVisits'];
@@ -273,6 +260,24 @@ class API
         }
 
         return $result;
+    }
+
+    /**
+     * Returns visit data for a single visit.
+     * 
+     * @param string $idVisit
+     * @param array
+     */
+    public function getSingleVisitSummary($idVisit)
+    {
+        $sql = 'SELECT * from '.Common::prefixTable('log_visit').' WHERE idvisit = ?';
+        $bind = array($idVisit);
+
+        $visitorData = Db::fetchAll($sql, $bind);
+        $table = $this->getCleanedVisitorsFromDetails($visitorData, $visitorData[0]['idsite'], $flat = false, $doNotFetchActions = true);
+        $r = $table->getFirstRow()->getColumns();
+        $r['resolution'] = '1x1';
+        return $r;
     }
 
     /**

@@ -1,0 +1,40 @@
+{% macro customVar(id, customVariable) %}
+    {% set name='customVariableName' ~ id %}
+    {% set value='customVariableValue' ~ id %}
+    <li><span>{{ customVariable[name]|truncate(30) }}</span>{% if customVariable[value]|length > 0 %}<strong>{{ customVariable[value]|truncate(50) }}</strong>{% endif %}</li>
+{% endmacro %}
+{% import _self as macros %}
+<div class="visitor-profile-latest-visit-column">
+    <ul>
+        <li><span>{{ 'General_IP'|translate }}</span><strong>{{ visitData.visitIp }}</strong></li>
+        <li><span>{{ 'General_Id'|translate|upper }}</span><strong>{{ visitData.visitorId }}</strong></li>
+        <li>
+            <div class="visitor-profile-browser">
+                <img src="{{ visitData.browserIcon }}"/><span>{{ visitData.browserName|split(' ')[0] }}</span>
+            </div>
+            <div class="visitor-profile-os">
+                <img src="{{ visitData.operatingSystemIcon }}"/><span>{{ visitData.operatingSystemShortName }}</span>
+            </div>
+        </li>
+        <li><span>{{ 'UserSettings_ColumnResolution'|translate }}</span><strong>{{ visitData.resolution }}</strong></li>
+    </ul>
+</div>
+<div class="visitor-profile-latest-visit-column">
+    <ul>
+        {% for id,customVariable in visitData.customVariables %}
+        {% if loop.index0 < 4 %}
+            {{ macros.customVar(id, customVariable) }}
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% if visitData.customVariables|length > 4 %}
+    <ul class="visitor-profile-extra-cvars" style="display:none;">
+        {% for id,customVariable in visitData.customVariables %}
+        {% if loop.index0 >= 4 %}
+            {{ macros.customVar(id, customVariable) }}
+        {% endif %}
+        {% endfor %}
+    </ul>
+    <p class="visitor-profile-see-more-cvars"><a href="#">&#x25bc;</a></p>
+    {% endif %}
+</div>

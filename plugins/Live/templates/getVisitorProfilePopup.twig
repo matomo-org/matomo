@@ -1,9 +1,3 @@
-{% macro customVar(id, customVariable) %}
-    {% set name='customVariableName' ~ id %}
-    {% set value='customVariableValue' ~ id %}
-    <li><span>{{ customVariable[name]|truncate(30) }}</span>{% if customVariable[value]|length > 0 %}<strong>{{ customVariable[value]|truncate(50) }}</strong>{% endif %}</li>
-{% endmacro %}
-{% import _self as macros %}
 <div class="visitor-profile">
     <a href class="visitor-profile-close"></a>
     <div class="visitor-profile-info">
@@ -16,42 +10,9 @@
                     <img src="plugins/Live/images/paperclip.png" alt=""/>
                 </div>
                 <div>
-                    <h1>{{ 'Live_VisitorProfile'|translate }}</h1>
-                    <div>
-                        <div class="visitor-profile-latest-visit-column">
-                            <ul>
-                                <li><span>{{ 'General_IP'|translate }}</span><strong>{{ visitorData.latestVisitIp }}</strong></li>
-                                <li><span>{{ 'General_Id'|translate|upper }}</span><strong>{{ visitorData.visitorId }}</strong></li>
-                                <li>
-                                    <div class="visitor-profile-browser">
-                                        <img src="{{ visitorData.browserLogo }}"/><span>{{ visitorData.browserName }}</span>
-                                    </div>
-                                    <div class="visitor-profile-os">
-                                        <img src="{{ visitorData.operatingSystemLogo }}"/><span>{{ visitorData.operatingSystemShortName }}</span>
-                                    </div>
-                                </li>
-                                <li><span>{{ 'UserSettings_ColumnResolution'|translate }}</span><strong>{{ visitorData.resolution }}</strong></li>
-                            </ul>
-                        </div>
-                        <div class="visitor-profile-latest-visit-column">
-                            <ul>
-                                {% for id,customVariable in visitorData.customVariables %}
-                                {% if loop.index0 < 4 %}
-                                    {{ macros.customVar(id, customVariable) }}
-                                {% endif %}
-                                {% endfor %}
-                            </ul>
-                            {% if visitorData.customVariables|length > 4 %}
-                            <ul class="visitor-profile-extra-cvars" style="display:none;">
-                                {% for id,customVariable in visitorData.customVariables %}
-                                {% if loop.index0 >= 4 %}
-                                    {{ macros.customVar(id, customVariable) }}
-                                {% endif %}
-                                {% endfor %}
-                            </ul>
-                            <p class="visitor-profile-see-more-cvars"><a href="#">&#x25bc;</a></p>
-                            {% endif %}
-                        </div>
+                    <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style='display:none' src="plugins/Zeitgeist/images/loading-blue.gif"/></h1>
+                    <div class="visitor-profile-latest-visit">
+                        {% include "@Live/getSingleVisitSummary.twig" with {'visitData': visitorData.lastVisits.getFirstRow().getColumns()} %}
                     </div>
                 </div>
                 <p style="clear:both; border:none!important;"></p>
@@ -158,7 +119,20 @@ $(function() {
     });
 
     $('.visitor-profile-visit-title').click(function () {
-        // TODO
+        var ajax = new ajaxHelper();
+
+        $('.visitor-profile-avatar .loadingPiwik').css('display', 'inline-block');
+        ajax.addParams({
+            module: 'Live',
+            action: 'getSingleVisitSummary',
+            idVisit: $(this).attr('data-idvisit')
+        }, 'GET');
+        ajax.setCallback(function (response) {
+            $('.visitor-profile-avatar .loadingPiwik').hide();
+            $('.visitor-profile-latest-visit').html(response);
+        });
+        ajax.setFormat('html');
+        ajax.send();
     });
 });
 </script>

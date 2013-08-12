@@ -150,6 +150,13 @@ class Controller extends \Piwik\Controller
         echo $view->render();
     }
 
+    public function getSingleVisitSummary()
+    {
+        $view = new View('@Live/getSingleVisitSummary.twig');
+        $view->visitData = Request::processRequest('Live.getSingleVisitSummary');
+        echo $view->render();
+    }
+
     private function getUserCountryMapForVisitorProfile()
     {
         $segment = Request::getRawSegmentFromRequest();
