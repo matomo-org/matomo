@@ -20,7 +20,7 @@ use Piwik\Translate;
  */
 class Installation extends \Piwik\Plugin
 {
-    protected $installationControllerName = 'Controller';
+    protected $installationControllerName = '\\Piwik\\Plugins\\Installation\\Controller';
 
     /**
      * @see Piwik_Plugin::getListHooksRegistered
