@@ -4,7 +4,7 @@ Create a Theme for Piwik
 Quick start
 ------------
 
-1. Create a file to describe your plugin with the following path: "plugins/&lt;yourPluginName>/plugin.piwik.json"
+1. Create a file describing your plugin at the following path: "plugins/YourPluginName/plugin.piwik.json"
 
 ```json
 {
@@ -13,7 +13,7 @@ Quick start
 }
 ```
 
-2. Create your stylesheet file with the following path: "plugins/&lt;yourPluginName>/stylesheets/theme.less"
+2. Create your stylesheet file with the following path: "plugins/YourPluginName/stylesheets/theme.less"
 
 3. Activate your theme on the Piwik instance: Settings > Platform > Themes
 
