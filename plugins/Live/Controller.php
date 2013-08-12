@@ -172,8 +172,8 @@ class Controller extends \Piwik\Controller
 
     private function getUserCountryMapForVisitorProfile()
     {
-        $params = array('fetch' => true, 'segment' => self::getSegmentWithVisitorId());
-        return FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap', $params); // TODO: check if plugin is enabled?
+        $params = array('standalone' => true, 'fetch' => true, 'segment' => self::getSegmentWithVisitorId());
+        return FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap', $params); // TODO: check if plugin is enabled?
     }
 
     private static function getSegmentWithVisitorId()

@@ -113,7 +113,7 @@ class Controller extends \Piwik\Controller
     /**
      * @param bool $standalone When set to true, the Top controls will be hidden to provide better full screen view
      */
-    public function realtimeMap($standalone = false)
+    public function realtimeMap($standalone = false, $fetch = false, $segmentOverride = false)
     {
         $this->checkUserCountryPluginEnabled();
 
@@ -153,14 +153,20 @@ class Controller extends \Piwik\Controller
                                              'goal_conversions' => Piwik_Translate('UserCountryMap_GoalConversions'),
                                         ));
 
+        $segment = $segmentOverride ?: Request::getRawSegmentFromRequest() ?: '';
         $view->reqParamsJSON = $this->getEnrichedRequest(array(
                                                               'period'     => 'range',
                                                               'idSite'     => $idSite,
                                                               'date'       => self::REAL_TIME_WINDOW,
+                                                              'segment'    => $segment,
                                                               'token_auth' => $token_auth,
                                                          ));
 
-        echo $view->render();
+        if ($fetch) {
+            return $view->render();
+        } else {
+            echo $view->render();
+        }
     }
 
     private function getEnrichedRequest($params)
