@@ -243,8 +243,9 @@ class API
         $result['totalVisitDurationPretty'] = Piwik::getPrettyTimeFromSeconds($result['totalVisitDuration']);
 
         // use requested visits for first/last visit info
-        $result['firstVisit'] = $this->getVisitorProfileVisitSummary(end($visits->getRows()));
-        $result['lastVisit'] = $this->getVisitorProfileVisitSummary(reset($visits->getRows()));
+        $rows = $visits->getRows();
+        $result['firstVisit'] = $this->getVisitorProfileVisitSummary(end($rows));
+        $result['lastVisit'] = $this->getVisitorProfileVisitSummary(reset($rows));
 
         // use N most recent visits for last_visits
         $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);
@@ -275,9 +276,7 @@ class API
 
         $visitorData = Db::fetchAll($sql, $bind);
         $table = $this->getCleanedVisitorsFromDetails($visitorData, $visitorData[0]['idsite'], $flat = false, $doNotFetchActions = true);
-        $r = $table->getFirstRow()->getColumns();
-        $r['resolution'] = '1x1';
-        return $r;
+        return $table->getFirstRow()->getColumns();
     }
 
     /**
