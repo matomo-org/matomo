@@ -56,7 +56,7 @@
                  title="{{ visitor.getColumn('operatingSystem') }}, {{ visitor.getColumn('resolution') }} ({{ visitor.getColumn('screenType') }})"/>
             {% if visitor.getColumn('visitorTypeIcon') %}
                 {% if visitor.getColumn('visitorId') is not empty %}
-                    <a class="rightLink" href="javascript:Piwik_Live_LoadVisitorPopover('{{ visitor.getColumn('visitorId') }}')">
+                    <a class="rightLink" href="javascript:Piwik_Live_LoadVisitorPopover('{{ visitor.getColumn("visitorId") }}')">
                 {% endif %}
                 &nbsp;-
                 <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
