@@ -104,20 +104,6 @@ class Piwik
     }
 
     /**
-     * Prefix class name (if needed)
-     *
-     * @param string $class
-     * @return string
-     */
-    static public function prefixClass($class)
-    {
-        if (!strncmp($class, Common::CLASSES_PREFIX, strlen(Common::CLASSES_PREFIX))) {
-            return $class;
-        }
-        return Common::CLASSES_PREFIX . $class;
-    }
-
-    /**
      * Uninstallation helper
      */
     static public function uninstall()
