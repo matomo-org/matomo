@@ -1,4 +1,4 @@
-<div class='entityAddContainer' style='display:none'>
+<div class="entityAddContainer" style="display:none;">
     <div class='entityCancel'>
         {{ 'PDFReports_CancelAndReturnToReports'|translate("<a class='entityCancelLink'>","</a>")|raw }}
     </div>
@@ -13,7 +13,7 @@
             <tbody>
             <tr>
                 <td class="first">{{ 'General_Website'|translate }} </td>
-                <td style="width:650px">
+                <td style="width:650px;">
                     {{ siteName }}
                 </td>
             </tr>
@@ -69,12 +69,12 @@
                 </td>
             </tr>
 
-            <tr {% if reportTypes|length == 1 %}style='display:none'{% endif %}>
-                <td class='first'>
+            <tr {% if reportTypes|length == 1 %}style="display:none;"{% endif %}>
+                <td class="first">
                     {{ 'PDFReports_ReportType'|translate }}
                 </td>
                 <td>
-                    <select id='report_type'>
+                    <select id="report_type">
                         {% for reportType, reportTypeIcon in reportTypes %}
                             <option value="{{ reportType }}">{{ reportType|upper }}</option>
                         {% endfor %}
@@ -83,7 +83,7 @@
             </tr>
 
             <tr>
-                <td class='first'>
+                <td class="first">
                     {{ 'PDFReports_ReportFormat'|translate }}
                 </td>
 

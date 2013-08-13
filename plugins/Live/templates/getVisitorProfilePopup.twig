@@ -10,7 +10,7 @@
                     <img src="plugins/Live/images/paperclip.png" alt=""/>
                 </div>
                 <div>
-                    <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style='display:none' src="plugins/Zeitgeist/images/loading-blue.gif"/></h1>
+                    <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/></h1>
                     <div class="visitor-profile-latest-visit">
                         {% include "@Live/getSingleVisitSummary.twig" with {'visitData': visitorData.lastVisits.getFirstRow().getColumns()} %}
                     </div>
@@ -73,7 +73,7 @@
                     </ol>
                     <br/>
                 </div>
-                <div class="loadingPiwik" style='display:none'>
+                <div class="loadingPiwik" style="display:none;">
                     <div>
                         <div>
                             <img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}

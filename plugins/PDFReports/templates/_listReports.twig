@@ -62,7 +62,7 @@
                         <br/>
                     {% endfor %}
                     {# send now link #}
-                    <a href='#' idreport='{{ report.idreport }}' name='linkSendNow' class="link_but" style='margin-top:3px'>
+                    <a href="#" idreport="{{ report.idreport }}" name="linkSendNow" class="link_but" style="margin-top:3px;">
                         <img border=0 src='{{ reportTypes[report.type] }}'/>
                         {{ 'PDFReports_SendReportNow'|translate }}
                     </a>

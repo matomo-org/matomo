@@ -1,7 +1,7 @@
 {# untrusted host warning #}
 {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
-    <div class="ajaxSuccess" style='clear:both;width:800px'>
-        <a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="plugins/Zeitgeist/images/help_grey.png"/></a>
+    <div class="ajaxSuccess" style="clear:both;width:800px;">
+        <a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="plugins/Zeitgeist/images/help_grey.png"/></a>
         <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidHostMessage }}
     </div>
 {% endif %}

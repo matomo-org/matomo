@@ -87,7 +87,7 @@
                 {% for category,segmentsInCategory in segmentsByCategory %}
                 <li data="visit">
                     <a class="metric_category" href="#">{{ category }}</a>
-                    <ul style="display:none">
+                    <ul style="display:none;">
                         {% for segmentInCategory in segmentsInCategory %}
                             <li data-metric="{{ segmentInCategory.segment }}"><a class="ddmetric" href="#">{{ segmentInCategory.name }}</a></li>
                         {% endfor %}

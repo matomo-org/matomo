@@ -14,7 +14,7 @@
  * - idSite The currently selected idSite. Defaults to the first id in $sites set by View.
  #}
 {% set sitesSelector_allWebsitesLink %}
-    <div class="custom_select_all" style="clear: both">
+    <div class="custom_select_all" style="clear: both;">
         <a href="#" {% if showAllSitesItem is defined and showAllSitesItem == false %}style="display:none;"{% endif %}>
             {% if allSitesItemText is defined %}
                 {{ allSitesItemText }}
@@ -40,7 +40,7 @@
             <div class="custom_select_container">
                 <ul class="custom_select_ul_list">
                     {% for info in sites %}
-                        <li {% if (showSelectedSite is not defined or showSelectedSite == false) and idSite == info.idsite %} style="display: none"{% endif %}>
+                        <li {% if (showSelectedSite is not defined or showSelectedSite == false) and idSite == info.idsite %} style="display: none;"{% endif %}>
                             <a href="#" siteid="{{ info.idsite }}">{{ info.name|raw }}</a>
                         </li>
                     {% endfor %}

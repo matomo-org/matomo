@@ -10,9 +10,9 @@
         </div>
         <div class="annotation-period {% if annotation.canEditOrDelete %}annotation-enter-edit-mode{% endif %}">({{ annotation.date }})</div>
         {% if annotation.canEditOrDelete %}
-            <div class="annotation-period-edit" style="display:none">
+            <div class="annotation-period-edit" style="display:none;">
                 <a href="#">{{ annotation.date }}</a>
-                <div class="datepicker" style="display:none"/>
+                <div class="datepicker" style="display:none;"/>
             </div>
         {% endif %}
     </td>
@@ -25,7 +25,7 @@
             {% endif %}
         </div>
         {% if annotation.canEditOrDelete %}
-            <div class="annotation-edit-mode" style="display:none">
+            <div class="annotation-edit-mode" style="display:none;">
                 <input class="annotation-edit" type="text" value="{{ annotation.note|e('html') }}"/>
                 <br/>
                 <input class="annotation-save submit" type="button" value="{{ 'General_Save'|translate }}"/>
@@ -37,7 +37,7 @@
         <td class="annotation-user-cell">
             <span class="annotation-user">{{ annotation.user }}</span><br/>
             {% if annotation.canEditOrDelete %}
-                <a href="#" class="delete-annotation" style="display:none" title="{{ 'Annotations_ClickToDelete'|translate }}">{{ 'General_Delete'|translate }}</a>
+                <a href="#" class="delete-annotation" style="display:none;" title="{{ 'Annotations_ClickToDelete'|translate }}">{{ 'General_Delete'|translate }}</a>
             {% endif %}
         </td>
     {% endif %}

@@ -22,7 +22,7 @@
     {% endif %}
 
     {% if displayTable %}
-        <table style="border-collapse:collapse; margin-left: 5px">
+        <table style="border-collapse:collapse; margin-left: 5px;">
             <thead style="background-color: rgb({{ tableHeaderBgColor }}); color: rgb({{ tableHeaderTextColor }}); font-size: {{ reportTableHeaderTextSize }}pt;">
             {% for columnName in reportColumns %}
                 <th style="padding: 6px 0;">
@@ -74,7 +74,7 @@
         </table>
     {% endif %}
     <br/>
-    <a style="text-decoration:none; color: rgb({{ reportTitleTextColor }}); font-size: {{ reportBackToTopTextSize }}pt" href="#reportTop">
+    <a style="text-decoration:none; color: rgb({{ reportTitleTextColor }}); font-size: {{ reportBackToTopTextSize }}pt;" href="#reportTop">
         {{ 'PDFReports_TopOfReport'|translate }}
     </a>
 {% endif %}

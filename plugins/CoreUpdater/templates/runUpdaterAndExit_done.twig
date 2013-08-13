@@ -50,7 +50,7 @@
 
             {% if deactivatedPlugins is defined and deactivatedPlugins|length > 0 %}
                 {% set listOfDeactivatedPlugins=deactivatedPlugins|join(', ') %}
-                <p style="color:red">
+                <p style="color:red;">
                     <img src="plugins/Zeitgeist/images/error_medium.png"/>
                     {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
                 </p>

@@ -181,8 +181,8 @@
                 <td width="250">{{ 'PrivacyManager_ReportsDataSavedEstimate'|translate }}<br/></td>
                 <td width="500">
                     <div id="deleteDataEstimate"></div>
-                    <span class='loadingPiwik' style='display:none'><img
-                                src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'General_LoadingData'|translate }}</span>
+                    <span class="loadingPiwik" style="display:none;"><img
+                                src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
                 </td>
                 <td width="200">
                     {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
@@ -218,8 +218,8 @@
                         <br/>
                         <br/>
                         <em><a id="purgeDataNowLink" href="#">{{ 'PrivacyManager_PurgeNow'|translate }}</a></em>
-                        <span class='loadingPiwik' style='display:none'><img
-                                    src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
+                        <span class="loadingPiwik" style="display:none;"><img
+                                    src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
                         <span id="db-purged-message" style="display: none;"><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
                     {% endset %}
                     {{ piwik.inlineHelp(purgeStats) }}
@@ -243,7 +243,7 @@
                         {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
                     {% endif %}
                 </p>
-			<span style='margin-left:20px'>
+			<span style="margin-left:20px;">
 			<a href='{{ {'module':'CorePluginsAdmin','token_auth':token_auth,'action':action,'pluginName':'DoNotTrack'} | urlRewriteWithParameters }}#DNT'>&rsaquo;
                 {% if dntSupport %}{{ 'PrivacyManager_DoNotTrack_Disable'|translate }} {{ 'General_NotRecommended'|translate }}
                 {% else %}{{ 'PrivacyManager_DoNotTrack_Enable'|translate }} {{ 'General_Recommended'|translate }}{% endif %}
@@ -266,5 +266,5 @@
     {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
 </p>
 
-<div style='height:100px'></div>
+<div style="height:100px;"></div>
 {% endblock %}
