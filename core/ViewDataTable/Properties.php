@@ -410,7 +410,9 @@ class Properties
     /**
      * Returns the set of all valid properties for the given visualization class. The result is an
      * array with property names as keys. Values of the array are undefined.
-     * 
+     *
+     * @param string  $visualizationClass
+     *
      * @return array
      */
     public static function getVisualizationProperties($visualizationClass)

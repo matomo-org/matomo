@@ -120,12 +120,13 @@ class API
     }
 
     /**
-     * @param int $idSite
-     * @param string $period
-     * @param Date $date
-     * @param bool $segment
-     * @param bool $expanded
-     * @param bool $idSubtable
+     * @param int      $idSite
+     * @param string   $period
+     * @param Date     $date
+     * @param bool     $segment
+     * @param bool     $expanded
+     * @param bool|int $idSubtable
+     * @param bool|int $depth
      *
      * @return DataTable|DataTable\Map
      */

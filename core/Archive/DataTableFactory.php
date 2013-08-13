@@ -331,9 +331,10 @@ class DataTableFactory
      * the subtable IDs of each DataTable row.
      *
      * @param DataTable $dataTable
-     * @param array $blobRow An array associating record names (w/ subtable if applicable)
-     *                       with blob values. This should hold every subtable blob for
-     *                       the loaded DataTable.
+     * @param array     $blobRow An array associating record names (w/ subtable if applicable)
+     *                           with blob values. This should hold every subtable blob for
+     *                           the loaded DataTable.
+     * @param int       $treeLevel
      */
     private function setSubtables($dataTable, $blobRow, $treeLevel = 0)
     {
