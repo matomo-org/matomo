@@ -496,7 +496,11 @@ class Controller extends \Piwik\Controller\Admin
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = new View('@Installation/systemCheckPage');
+        $view = new View(
+            '@Installation/systemCheckPage',
+            $this->getInstallationSteps(),
+            __FUNCTION__
+        );
         $this->setBasicVariablesView($view);
 
         $view->duringInstall = false;
