@@ -332,10 +332,12 @@ class Controller extends \Piwik\Controller
 
         if (is_null($errorMessage)) // if success, show login w/ success message
         {
-            return $this->redirectToIndex('Login', 'resetPasswordSuccess');
+            $this->redirectToIndex('Login', 'resetPasswordSuccess');
+            return;
         } else {
             // show login page w/ error. this will keep the token in the URL
-            return $this->login($errorMessage);
+            $this->login($errorMessage);
+            return;
         }
     }
 
@@ -375,7 +377,7 @@ class Controller extends \Piwik\Controller
      */
     public function resetPasswordSuccess()
     {
-        return $this->login($errorMessage = null, $infoMessage = Piwik_Translate('Login_PasswordChanged'));
+        $this->login($errorMessage = null, $infoMessage = Piwik_Translate('Login_PasswordChanged'));
     }
 
     /**
