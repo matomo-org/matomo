@@ -112,6 +112,10 @@ class Controller extends \Piwik\Controller
 
     /**
      * @param bool $standalone When set to true, the Top controls will be hidden to provide better full screen view
+     * @param bool $fetch
+     * @param bool|string $segmentOverride
+     *
+     * @return string
      */
     public function realtimeMap($standalone = false, $fetch = false, $segmentOverride = false)
     {

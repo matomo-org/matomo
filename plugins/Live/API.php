@@ -267,7 +267,7 @@ class API
      * Returns visit data for a single visit.
      * 
      * @param string $idVisit
-     * @param array
+     * @return array
      */
     public function getSingleVisitSummary($idVisit)
     {
