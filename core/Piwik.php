@@ -1150,7 +1150,7 @@ class Piwik
         }
         uasort($infoIndexedByQuery, 'sortTimeDesc');
 
-        $str = '<hr /><b>SQL Profiler</b><hr /><b>Summary</b><br/>';
+        $str = '<hr /><strong>SQL Profiler</strong><hr /><strong>Summary</strong><br/>';
         $totalTime = $profiler->getTotalElapsedSecs();
         $queryCount = $profiler->getTotalNumQueries();
         $longestTime = 0;
@@ -1176,7 +1176,7 @@ class Piwik
      */
     static private function getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery)
     {
-        $output = '<hr /><b>Breakdown by query</b><br/>';
+        $output = '<hr /><strong>Breakdown by query</strong><br/>';
         foreach ($infoIndexedByQuery as $query => $queryInfo) {
             $timeMs = round($queryInfo['sumTimeMs'], 1);
             $count = $queryInfo['count'];

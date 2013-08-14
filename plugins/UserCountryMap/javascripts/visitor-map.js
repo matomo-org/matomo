@@ -114,7 +114,7 @@
             function formatValueForTooltips(data, metric, id) {
 
                 var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric] ? data[metric] : data[metric].toFixed(1),
-                    v = _[metric].replace('%s', '<b>' + val + '</b>');
+                    v = _[metric].replace('%s', '<strong>' + val + '</strong>');
 
                 if (val == 1 && metric == 'nb_visits') v = _.one_visit;
 
@@ -404,7 +404,7 @@
                     $('.map-stats').html(formatValueForTooltips(UserCountryMap.countriesByIso[id], metric, 'world'));
                 } else {
                     $('.map-stats').html(
-                        _.nb_visits.replace('%s', '<b>' + formatNumber(totalVisits) + '</b>') + (id != 'world' ? ' (' +
+                        _.nb_visits.replace('%s', '<strong>' + formatNumber(totalVisits) + '</strong>') + (id != 'world' ? ' (' +
                             formatPercentage(totalVisits / worldTotalVisits) + ')' : '')
                     );
                 }
@@ -709,7 +709,7 @@
                                     var metric = $$('.userCountryMapSelectMetrics').val(),
                                         region = regionDict[regionCode(data)];
                                     if (region === undefined) {
-                                        return '<h3>' + data.name + '</h3><p>' + _.nb_visits.replace('%s', '<b>0</b>') + '</p>';
+                                        return '<h3>' + data.name + '</h3><p>' + _.nb_visits.replace('%s', '<strong>0</strong>') + '</p>';
                                     }
                                     return '<h3>' + data.name + '</h3>' +
                                         formatValueForTooltips(region, metric, iso);

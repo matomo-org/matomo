@@ -174,7 +174,7 @@ JQPlot.prototype = {
                     }
     
                     var label = self.params.axes.xaxis.labels[i];
-                    var text = '<b>' + value + '</b> ' + series + percentage;
+                    var text = '<strong>' + value + '</strong> ' + series + percentage;
                     $(this).tooltip({
                                 track:   true,
                                 items:   '*',
@@ -190,7 +190,7 @@ JQPlot.prototype = {
     
                     var label = self.data[0][i][0];
     
-                    var text = '<b>' + percentage + '%</b> (' + value + ' ' + series + ')';
+                    var text = '<strong>' + percentage + '%</strong> (' + value + ' ' + series + ')';
                     $(this).tooltip({
                                 track:   true,
                                 items:   '*',
@@ -391,7 +391,7 @@ JQPlot.prototype = {
                 for (var d = 0; d < self.data.length; d++) {
                     var value = self.formatY(self.data[d][tick], d);
                     var series = self.params.series[d].label;
-                    text.push('<b>' + value + '</b> ' + series);
+                    text.push('<strong>' + value + '</strong> ' + series);
                 }
                 $(this).tooltip({
                             track:   true,

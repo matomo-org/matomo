@@ -84,7 +84,7 @@ Segmentation = (function($) {
             {
                 var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
                 var foundItems = $(selector);
-                var title = $('<b></b>');
+                var title = $('<strong></strong>');
                 if( foundItems.length > 0) {
                     var name = $(foundItems).first().find("span.segname").text();
                     title.text(name);
