@@ -107,7 +107,7 @@ class DBStats extends \Piwik\Plugin
 
         $result['show_offset_information'] = false;
         $result['show_pagination_control'] = false;
-        $result['visualization_properties']['jqplot_graph']['show_all_ticks'] = true;
+        $result['visualization_properties']['graph']['show_all_ticks'] = true;
 
         // translate the labels themselves
         $valueToTranslationStr = array(

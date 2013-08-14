@@ -13,31 +13,16 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 use Piwik\Common;
 use Piwik\View;
 use Piwik\DataTable;
-use Piwik\DataTableVisualization;
+use Piwik\Visualization\Graph;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
-
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Bar.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Pie.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Evolution.php';
 
 /**
  * DataTable visualization that displays DataTable data in a JQPlot graph.
  * TODO: should merge all this logic w/ jqplotdatagenerator & 'Chart' visualizations.
  */
-class JqplotGraph extends DataTableVisualization
+class JqplotGraph extends Graph
 {
     const ID = 'jqplot_graph';
-
-    /**
-     * Whether the series picker should allow picking more than one series or not.
-     */
-    const ALLOW_MULTI_SELECT_SERIES_PICKER = 'allow_multi_select_series_picker';
-
-    /**
-     * The maximum number of elements to render when rendering a jqPlot graph. All other elements
-     * will be aggregated in an 'Others' element.
-     */
-    const MAX_GRAPH_ELEMENTS = 'max_graph_elements';
 
     /**
      * The name of the JavaScript class to use as this graph's external series toggle. The class
@@ -55,36 +40,6 @@ class JqplotGraph extends DataTableVisualization
     const EXTERNAL_SERIES_TOGGLE_SHOW_ALL = 'external_series_toggle_show_all';
 
     /**
-     * Array property that contains the names of columns that can be selected in the Series Picker.
-     */
-    const SELECTABLE_COLUMNS = 'selectable_columns';
-
-    /**
-     * Controls whether all ticks & labels are shown on a graph's x-axis or just some.
-     */
-    const SHOW_ALL_TICKS = 'show_all_ticks';
-
-    /**
-     * If true, a row with totals of each DataTable column is added.
-     */
-    const ADD_TOTAL_ROW = 'add_total_row';
-
-    /**
-     * Controls whether the Series Picker is shown or not. The Series Picker allows users to
-     * choose between displaying data of different columns.
-     */
-    const SHOW_SERIES_PICKER = 'show_series_picker';
-
-    /**
-     * Controls whether the percentage of the total is displayed as a tooltip in Jqplot graphs.
-     * 
-     * NOTE: Sometimes this percentage is meaningless (when the total of the column values is
-     * not the total number of elements in the set). In this case the tooltip should not be
-     * displayed.
-     */
-    const DISPLAY_PERCENTAGE_IN_TOOLTIP = 'display_percentage_in_tooltip';
-
-    /**
      * Constructor.
      * 
      * @param \Piwik\ViewDataTable $view
@@ -97,15 +52,6 @@ class JqplotGraph extends DataTableVisualization
         // the queued filters will be manually applied later. This is to ensure that filtering using search
         // will be done on the table before the labels are enhanced (see ReplaceColumnNames)
         $this->request_parameters_to_modify['disable_queued_filters'] = true;
-
-        if ($view->show_goals) {
-            $goalMetrics = array('nb_conversions', 'revenue');
-            $view->visualization_properties->selectable_columns = array_merge(
-                $view->visualization_properties->selectable_columns, $goalMetrics);
-
-            $view->translations['nb_conversions'] = Piwik_Translate('Goals_ColumnConversions');
-            $view->translations['revenue'] = Piwik_Translate('General_TotalRevenue');
-        }
 
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
         if ($view->filter_sort_column != 'label') {
@@ -128,13 +74,8 @@ class JqplotGraph extends DataTableVisualization
      */
     public static function getDefaultPropertyValues()
     {
-        // selectable columns
-        $selectableColumns = array('nb_visits', 'nb_actions');
-        if (Common::getRequestVar('period', false) == 'day') { // TODO: should depend on columns datatable has.
-            $selectableColumns[] = 'nb_uniq_visitors';
-        }
-
-        return array(
+        $result = parent::getDefaultPropertyValues();
+        return array_merge_recursive($result, array(
             'show_offset_information' => false,
             'show_pagination_control' => false,
             'show_exclude_low_population' => false,
@@ -145,18 +86,11 @@ class JqplotGraph extends DataTableVisualization
             'row_picker_visible_rows' => array(),
             'visualization_properties' => array(
                 'jqplot_graph' => array(
-                    'add_total_row' => 0,
-                    'show_all_ticks' => false,
-                    'allow_multi_select_series_picker' => true,
-                    'max_graph_elements' => false,
-                    'selectable_columns' => $selectableColumns,
                     'external_series_toggle' => false,
                     'external_series_toggle_show_all' => false,
-                    'show_series_picker' => true,
-                    'display_percentage_in_tooltip' => true,
                 )
             )
-        );
+        ));
     }
     
     /**
@@ -197,3 +131,7 @@ class JqplotGraph extends DataTableVisualization
         return JqplotDataGenerator::factory($properties['graph_type'], $properties);
     }
 }
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Bar.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Pie.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Evolution.php';

@@ -45,8 +45,8 @@ class Pie extends JqplotGraph
     public static function getDefaultPropertyValues()
     {
         $result = parent::getDefaultPropertyValues();
-        $result['visualization_properties']['jqplot_graph']['max_graph_elements'] = 6;
-        $result['visualization_properties']['jqplot_graph']['allow_multi_select_series_picker'] = false;
+        $result['visualization_properties']['graph']['max_graph_elements'] = 6;
+        $result['visualization_properties']['graph']['allow_multi_select_series_picker'] = false;
         return $result;
     }
 

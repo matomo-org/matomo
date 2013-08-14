@@ -175,7 +175,7 @@ class VisitorInterest extends \Piwik\Plugin
             'show_search' => false,
             'show_table_all_columns' => false,
             'visualization_properties' => array(
-                'jqplot_graph' => array(
+                'graph' => array(
                     'max_graph_elements' => 10
                 )
             )
@@ -196,7 +196,7 @@ class VisitorInterest extends \Piwik\Plugin
             'show_search' => false,
             'show_table_all_columns' => false,
             'visualization_properties' => array(
-                'jqplot_graph' => array(
+                'graph' => array(
                     'max_graph_elements' => 10
                 )
             )

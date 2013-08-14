@@ -173,7 +173,7 @@ abstract class DataTableVisualization
         /** @var self[] $visualizations */
         $visualizations = array();
         Piwik_PostEvent(self::GET_AVAILABLE_EVENT, array(&$visualizations));
-
+        
         $result = array();
         foreach ($visualizations as $viz) {
             if (!class_exists($viz)) {
