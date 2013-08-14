@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    if ($('.nav').size()) {
+$(function () {
+    if ($('.Menu--dashboard').size()) {
         piwikMenu = new menu();
         piwikMenu.init();
         piwikMenu.loadFirstSection();
