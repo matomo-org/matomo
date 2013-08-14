@@ -258,7 +258,7 @@
 <p>{{ 'CoreAdminHome_OptOutExplanation'|translate }}
     {% set optOutUrl %}{{ piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ language }}{% endset %}
     {% set iframeOptOut %}
-        <iframe frameborder="no" width="600px" height="200px" src="{{ optOutUrl }}"></iframe>
+        <iframe frameborder="no" width="600" height="200" src="{{ optOutUrl }}"></iframe>
     {% endset %}
     <code>{{ iframeOptOut }}</code>
     <br/>
