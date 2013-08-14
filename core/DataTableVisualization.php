@@ -40,6 +40,16 @@ abstract class DataTableVisualization
     public abstract function render($dataTable, $properties);
 
     /**
+     * Default implementation of getDefaultPropertyValues static function.
+     * 
+     * @return array
+     */
+    public static function getDefaultPropertyValues()
+    {
+        return array();
+    }
+
+    /**
      * Returns the array of view properties that a DataTable visualization will require
      * to be both visible to client side JavaScript, and passed along as query parameters
      * in every AJAX request.
