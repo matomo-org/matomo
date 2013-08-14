@@ -17,6 +17,7 @@ use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\Visualization;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';
 
@@ -163,7 +164,7 @@ class JqplotDataGenerator
 
         // the bar charts contain the labels a first series
         // this series has to be removed from the units
-        if ($this->visualization instanceof Visualization\Chart\VerticalBar) {
+        if ($this->visualization instanceof Bar) {
             array_shift($units);
         }
 
