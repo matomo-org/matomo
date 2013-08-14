@@ -231,7 +231,7 @@
                         if (repeat.length) {
                             repeat.html((parseInt(repeat.html()) + 1) + "x");
                         } else {
-                            prevelement.append($("<em title='{{ 'Live_PageRefreshed'|translate|e('js') }}' class='repeat'>2x</em>"));
+                            prevelement.append($("<em>2x</em>").attr({'class': 'repeat', 'title': '{{ 'Live_PageRefreshed'|translate|e('js') }}'}));
                         }
                         $(this).hide();
                     } else {
