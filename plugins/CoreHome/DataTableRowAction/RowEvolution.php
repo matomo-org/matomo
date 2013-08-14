@@ -18,7 +18,7 @@ use Piwik\Metrics;
 use Piwik\Date;
 use Piwik\ViewDataTable;
 use Piwik\Url;
-use Piwik\Visualization\Chart\Evolution;
+use Piwik\Visualization\Chart;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
 /**
@@ -219,8 +219,6 @@ class RowEvolution
      */
     protected function getMetricsToggles()
     {
-        $chart = new Evolution;
-
         $i = 0;
         $metrics = array();
         foreach ($this->availableMetrics as $metric => $metricData) {

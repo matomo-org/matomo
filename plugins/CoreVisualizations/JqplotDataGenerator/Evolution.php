@@ -26,16 +26,6 @@ class Evolution extends JqplotDataGenerator
     protected $rowPickerConfig = array();
 
     /**
-     * Constructor.
-     *
-     * @param array $properties
-     */
-    public function __construct($properties)
-    {
-        parent::__construct(new \Piwik\Visualization\Chart\Evolution(), $properties);
-    }
-
-    /**
      * @param DataTable|DataTable\Map $dataTable
      */
     protected function initChartObjectData($dataTable)

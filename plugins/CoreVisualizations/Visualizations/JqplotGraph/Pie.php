@@ -21,6 +21,27 @@ class Pie extends JqplotGraph
 {
     const ID = 'graphPie';
 
+    public function __construct($view)
+    {
+        parent::__construct($view);
+        $view->visualization_properties->show_all_ticks = true;
+    }
+
+    public function render($dataTable, $properties)
+    {
+        // make sure only one non-label column is displayed
+        $metricColumn = false;
+        foreach ($properties['columns_to_display'] as $column) {
+            if ($column != 'label') {
+                $metricColumn = $column;
+                break;
+            }
+        }
+        $properties['columns_to_display'] = array($metricColumn ?: 'nb_visits');
+
+        return parent::render($dataTable, $properties);
+    }
+
     public static function getDefaultPropertyValues()
     {
         $result = parent::getDefaultPropertyValues();

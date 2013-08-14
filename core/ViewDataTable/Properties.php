@@ -515,7 +515,7 @@ class Properties
             'export_limit' => Config::getInstance()->General['API_datatable_default_limit'],
             'highlight_summary_row' => false,
             'related_reports' => array(),
-            'title' => 'unknown',
+            'title' => '',
             'tooltip_metadata_name' => false,
             'enable_sort' => true,
             'disable_generic_filters' => false,
