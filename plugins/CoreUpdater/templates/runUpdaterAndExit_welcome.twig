@@ -69,7 +69,7 @@
     {% endif %}
 
     {% if warningMessages|length > 0 %}
-        <p><i>{{ warningMessages[0] }}</i>
+        <p><em>{{ warningMessages[0] }}</em>
             {% if warningMessages|length > 1 %}
                 <button id="more-results" class="ui-button ui-state-default ui-corner-all">{{ 'General_Details'|translate }}</button>
             {% endif %}

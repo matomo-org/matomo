@@ -74,7 +74,7 @@ class PhpSecInfo_Test_Core_Magic_Quotes_GPC extends PhpSecInfo_Test_Core
         $this->setMessageForResult(PHPSECINFO_TEST_RESULT_OK, 'en', 'magic_quotes_gpc is disabled, which is the recommended setting');
         $this->setMessageForResult(PHPSECINFO_TEST_RESULT_NOTICE, 'en', 'magic_quotes_gpc is enabled.  This
 				feature is inconsistent in blocking attacks, and can in some cases cause data loss with
-				uploaded files.  You should <i>not</i> rely on magic_quotes_gpc to block attacks.  It is
+				uploaded files.  You should <em>not</em> rely on magic_quotes_gpc to block attacks.  It is
 				recommended that magic_quotes_gpc be disabled, and input filtering be handled by your PHP
 				scripts');
     }

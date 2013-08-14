@@ -279,7 +279,7 @@ class Config
         }
 
         if ($section === null) {
-            throw new Exception("Error while trying to read a specific config file entry <b>'$name'</b> from your configuration files.</b>If you just completed a Piwik upgrade, please check that the file config/global.ini.php was overwritten by the latest Piwik version.");
+            throw new Exception("Error while trying to read a specific config file entry <strong>'$name'</strong> from your configuration files.</b>If you just completed a Piwik upgrade, please check that the file config/global.ini.php was overwritten by the latest Piwik version.");
         }
 
         // cache merged section for later

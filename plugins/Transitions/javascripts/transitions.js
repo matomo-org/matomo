@@ -236,7 +236,7 @@ Piwik_Transitions.prototype.preparePopover = function () {
 
                 var text = Piwik_Transitions_Translations.ShareOfAllPageviews;
                 text = text.replace(/%s/, self.model.pageviews).replace(/%s/, share + '%');
-                text += '<br /><i>' + Piwik_Transitions_Translations.DateRange + ' ' + self.model.date + '</i>';
+                text += '<br /><em>' + Piwik_Transitions_Translations.DateRange + ' ' + self.model.date + '</em>';
 
                 var title = '<h3>' + piwikHelper.addBreakpointsToUrl(self.actionName) + '</h3>';
 
@@ -386,7 +386,7 @@ Piwik_Transitions.prototype.renderCenterBox = function () {
 Piwik_Transitions.prototype.addTooltipShowingPercentageOfAllPageviews = function(element, metric) {
     var tip = Piwik_Transitions_Translations.XOfAllPageviews;
     var percentage = this.model.getPercentage(metric, true);
-    tip = tip.replace(/%s/, '<b>' + percentage + '</b>');
+    tip = tip.replace(/%s/, '<strong>' + percentage + '</strong>');
 
     element.tooltip({
         track: true,
@@ -539,7 +539,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
         }
 
         var tooltip = Piwik_Transitions_Translations.XOfY;
-        tooltip = '<b>' + tooltip.replace(/%s/, data.referrals + '</b>').replace(/%s/, nbTransitions);
+        tooltip = '<strong>' + tooltip.replace(/%s/, data.referrals + '</strong>').replace(/%s/, nbTransitions);
         tooltip = this.model.getShareInGroupTooltip(tooltip, groupName);
 
         var fullLabel = label;

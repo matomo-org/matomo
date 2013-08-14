@@ -150,7 +150,7 @@ class Rss extends Renderer
     protected function renderDataTable($table)
     {
         if ($table->getRowsCount() == 0) {
-            return "<b><i>Empty table</i></b><br />\n";
+            return "<strong><em>Empty table</em></strong><br />\n";
         }
 
         $i = 1;
@@ -183,7 +183,7 @@ class Rss extends Renderer
                 if ($this->translateColumnNames) {
                     $name = $this->translateColumnName($name);
                 }
-                $html .= "\n\t<td><b>$name</b></td>";
+                $html .= "\n\t<td><strong>$name</strong></td>";
             }
         }
         $html .= "\n</tr>";

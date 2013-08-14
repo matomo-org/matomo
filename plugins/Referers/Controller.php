@@ -455,7 +455,7 @@ function DisplayTopKeywords($url = "")
 		";
 
         echo "
-		<p><b>Notes</b>: You can for example edit the code to to make the Top search keywords link to your Website search result pages.
+		<p><strong>Notes</strong>: You can for example edit the code to to make the Top search keywords link to your Website search result pages.
 		<br/>On medium to large traffic websites, we recommend to cache this data, as to minimize the performance impact of calling the Piwik API on each page view.
 		</p>
 		";

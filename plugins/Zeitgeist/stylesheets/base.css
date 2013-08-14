@@ -742,7 +742,7 @@ body .ui-tooltip.small {
   vertical-align: middle;
   margin: 0 0 0 6px;
 }
-#periodString b {
+#periodString strong {
   color: #255792;
 }
 #periodString h6 {
