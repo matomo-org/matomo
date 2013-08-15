@@ -5,7 +5,7 @@
   position: absolute;
   font-size: 12px;
   display: inline-block;
-  max-height: 30px; /* Hack to not push the dashboard widget bellow */
+  height: 30px; /* Hack to not push the dashboard widget bellow */
 }
 
 .top_bar_sites_selector {
@@ -42,39 +42,59 @@
 }
 
 .sites_autocomplete .custom_select_main_link {
-  padding: 0 8px;
   display: block;
   text-decoration: none;
   background: none;
   cursor: default;
 }
 
-.sites_autocomplete--dropdown .custom_select_main_link {
+.sites_autocomplete .custom_select_ul_list li a,
+.sites_autocomplete .custom_select_all a,
+.sites_autocomplete .custom_select_main_link > span {
+  display: block;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding: 0 20px 0 4px;
-  background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) no-repeat right 0;
+}
+
+.sites_autocomplete--dropdown .custom_select_main_link:before {
+  content: " \25BC";
+  position: absolute;
+  right: 0;
+  font-size: 0.8em;
+  margin-top: 0.2em;
+  color: #444;
+}
+
+.sites_autocomplete--dropdown .custom_select_main_link {
   cursor: pointer;
+  position: relative;
 }
 
 .sites_autocomplete .custom_select_loading {
   background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
 }
 
-.sites_autocomplete .custom_select_ul_list, .sites_autocomplete ul.ui-autocomplete {
+.sites_autocomplete .custom_select_ul_list,
+.sites_autocomplete ul.ui-autocomplete {
   position: relative;
   list-style: none;
   line-height: 18px;
   padding: 0 0 15px 0;
 }
 
-.sites_autocomplete .custom_select_ul_list li a, .sites_autocomplete .custom_select_all a {
+.sites_autocomplete .custom_select_ul_list li a,
+.sites_autocomplete .custom_select_all a {
   line-height: 18px;
-  padding: 0 20px 0 4px;
   height: auto;
   display: block;
   text-decoration: none;
 }
 
-.sites_autocomplete .custom_select_ul_list li a:hover, .sites_autocomplete .custom_select_all a:hover {
+.sites_autocomplete .custom_select_ul_list li a:hover,
+.sites_autocomplete .custom_select_all a:hover {
   background: #ebeae6;
 }
 
@@ -126,6 +146,9 @@
 .custom_select_block_show {
   height: auto;
   overflow: visible;
+}
+
+.sites_selector_container {
   padding-top: 5px;
 }
 

@@ -1,21 +1,21 @@
-.nav {
+.Menu--dashboard {
   position: relative;
 }
 
-.nav_tab {
+.Menu--dashboard > .Menu-tabList {
     line-height: 1;
     display: table;      // The nav has the height og his children
     margin-bottom: -1px; // Allow tabs to merge with the submenu
 }
 
-.nav_tab ul {
+.Menu--dashboard > .Menu-tabList ul {
     background: #fff; /*IE6 needs this*/
     float: left;
     position: relative;
 }
 
 /* LEVEL1 NORMAL */
-.nav_tab > li {
+.Menu--dashboard > .Menu-tabList > li {
     background: #f1f1f1;
     float: left;
     list-style: none;
@@ -26,7 +26,7 @@
     border-radius: 4px 4px 0 0;
 }
 
-.nav_tab a {
+.Menu--dashboard > .Menu-tabList a {
     color: #444;
     font-size: 18px;
     display: block;
@@ -38,28 +38,28 @@
 }
 
 /* LEVEL1 HOVER */
-.nav_tab > li:hover,
-.nav_tab > li.sfHover {
+.Menu--dashboard > .Menu-tabList > li:hover,
+.Menu--dashboard > .Menu-tabList > li.sfHover {
     background: #fff;
 }
 
-.nav_tab > li:hover > a,
-.nav_tab > li.sfHover > a,
-.nav_tab > li.sfActive > a,
-.nav_tab a:hover {
+.Menu--dashboard > .Menu-tabList > li:hover > a,
+.Menu--dashboard > .Menu-tabList > li.sfHover > a,
+.Menu--dashboard > .Menu-tabList > li.sfActive > a,
+.Menu--dashboard > .Menu-tabList a:hover {
     color: #e87500;
 }
 
-.nav_tab > li:hover > a {
+.Menu--dashboard > .Menu-tabList > li:hover > a {
     text-decoration: underline;
 }
 
-.nav_tab > li.sfHover > a {
+.Menu--dashboard > .Menu-tabList > li.sfHover > a {
     border-bottom: 1px solid #fff;
 }
 
 /* LEVEL2 NORMAL */
-.nav_tab > li > ul {
+.Menu--dashboard > .Menu-tabList > li > ul {
   padding: 9px 0 5px 0;
   left: 0;
   top: -999em;
@@ -69,14 +69,14 @@
   background: none;
 }
 
-.nav_tab > li li {
+.Menu--dashboard > .Menu-tabList > li li {
     float: left;
     background: none;
     border: 0;
     text-align: center;
 }
 
-.nav_tab > li li > a {
+.Menu--dashboard > .Menu-tabList > li li > a {
     padding: 5px 15px;
     font-size: 14px;
     border: 0;
@@ -89,8 +89,8 @@
 }
 
 /* LEVEL2 HOVER */
-.nav_tab > li.sfHover > ul,
-.nav_tab > li:hover > ul {
+.Menu--dashboard > .Menu-tabList > li.sfHover > ul,
+.Menu--dashboard > .Menu-tabList > li:hover > ul {
   z-index: 1;
   top: 100%;
   opacity: 1;
@@ -100,12 +100,12 @@
   transition: opacity 300ms ease-out 10ms;
 }
 
-.nav_tab > li li:hover > a,
-.nav_tab > li li.sfHover > a {
+.Menu--dashboard > .Menu-tabList > li li:hover > a,
+.Menu--dashboard > .Menu-tabList > li li.sfHover > a {
     color: #e87500;
 }
 
-.nav_tab > li li.sfHover > a {
+.Menu--dashboard > .Menu-tabList > li li.sfHover > a {
     font-weight: bold;
     text-decoration: none !important;
 }
@@ -117,15 +117,15 @@
 }
 
 @media all and (max-width: 749px) {
-  .nav_tab a {
+  .Menu--dashboard > .Menu-tabList a {
     padding-left: 8px;
     padding-right: 8px;
   }
 }
 
 @media all and (max-width: 549px) {
-  ul.nav_tab > li.sfHover > a,
-  ul.nav_tab > li.sfActive.sfHover > a {
+  .Menu--dashboard > ul.Menu-tabList > li.sfHover > a,
+  .Menu--dashboard > ul.Menu-tabList > li.sfActive.sfHover > a {
     border-bottom: 0;
   }
 }

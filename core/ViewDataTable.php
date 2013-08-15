@@ -954,8 +954,8 @@ class ViewDataTable
 
         if ($strPeriod !== false
             && $strDate !== false
-            && (is_null($this->dataTable) || $this->dataTable->getRowsCount() == 0)
-        ) {
+            && (is_null($this->dataTable)
+                || (!empty($this->dataTable) && $this->dataTable->getRowsCount() == 0))) {
             // if range, only look at the first date
             if ($strPeriod == 'range') {
                 $idSite = Common::getRequestVar('idSite', '');

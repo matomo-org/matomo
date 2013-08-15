@@ -12,7 +12,7 @@ function switchSite(id, name, showAjaxLoading, idCanBeAll) {
     }
     else {
         $('.sites_autocomplete input').val(id);
-        $('.custom_select_main_link')
+        $('.custom_select_main_link > span')
             .text(name)
             .addClass('custom_select_loading');
         broadcast.propagateNewPage('segment=&idSite=' + id, showAjaxLoading);
@@ -103,29 +103,7 @@ $(function () {
                     $('.custom_select_main_link', selector).addClass('custom_select_loading');
                 },
                 open: function (event, ui) {
-                    var widthSitesSelection = +$('.custom_select_ul_list', selector).width();
-
                     $('.custom_select_main_link', selector).removeClass('custom_select_loading');
-
-                    var maxSitenameWidth = $('.max_sitename_width', selector);
-                    if (widthSitesSelection > maxSitenameWidth.val()) {
-                        maxSitenameWidth.val(widthSitesSelection);
-                    }
-                    else {
-                        maxSitenameWidth = +maxSitenameWidth.val(); // convert to int
-                    }
-
-                    $('.custom_select_ul_list', selector).hide();
-
-                    // customize jquery-ui's autocomplete positioning
-                    var cssToRemove = {float: 'none', position: 'static'};
-                    $('.siteSelect.ui-autocomplete', selector)
-                        .show().width(widthSitesSelection).css(cssToRemove)
-                        .find('li,a').each(function () {
-                            $(this).css(cssToRemove);
-                        });
-
-                    $('.custom_select_block_show', selector).width(widthSitesSelection);
                 }
             }).data("ui-autocomplete")._renderItem = function (ul, item) {
                 $(ul).addClass('siteSelect');
@@ -151,7 +129,7 @@ $(function () {
                     if ($('.custom_select_block', selector).hasClass('custom_select_block_show')) {
                         reset(selector);
                         $('.custom_select_block', selector).removeClass('custom_select_block_show');
-                    }1
+                    }
                 }
             });
 
@@ -159,9 +137,11 @@ $(function () {
             if ($('li', selector).length > 1) {
 
                 // event handler for when site selector is clicked. shows dropdown w/ first X sites
-                $(".custom_select", selector).click(function() {
-                    $(".custom_select_block", selector).toggleClass("custom_select_block_show");
-                    $(".websiteSearch", selector).val("").focus();
+                $(".custom_select", selector).click(function(e) {
+                    if(!$(e.target).parents('.custom_select_block').length) {
+                        $(".custom_select_block", selector).toggleClass("custom_select_block_show");
+                        $(".websiteSearch", selector).val("").focus();
+                    }
                     return false;
                 });
 
@@ -178,11 +158,14 @@ $(function () {
                 $('.custom_select_ul_list li a', selector).each(function() {
                     $(this).click(function (e) {
                         var idsite = $(this).attr('siteid'),
-                            name = $(this).text();
+                            name = $(this).text(),
+                          	mainLinkElem = $(".custom_select_main_link > span", selector)
+                          	oldName = mainLinkElem.text();
 
-                        $(".custom_select_main_link", selector)
+                        mainLinkElem
                             .attr('siteid', idsite)
                             .text(name);
+                        $(this).text(oldName);
 
                         selector.trigger('piwik:siteSelected', {id: idsite, name: name});
 
@@ -192,15 +175,6 @@ $(function () {
                         e.preventDefault();
                     });
                 });
-
-                var inlinePaddingWidth = 22, staticPaddingWidth = 34;
-                if ($(".custom_select_block ul", selector)[0]) {
-                    var widthSitesSelection = Math.max(
-                        $(".custom_select_block ul", selector).width() + inlinePaddingWidth,
-                        $(".custom_select_main_link", selector).width() + staticPaddingWidth
-                    );
-                    $(".custom_select_block", selector).css('width', widthSitesSelection);
-                }
             }
 
             // handle multi-sites link click (triggers site selected event w/ id=all)
