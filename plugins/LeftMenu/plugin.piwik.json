@@ -1,0 +1,5 @@
+{
+    "description": "Position the dashboard menu to the left.",
+    "theme": true,
+    "stylesheet": "stylesheets/theme.less"
+}
