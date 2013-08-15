@@ -286,7 +286,7 @@ class MySQLMetadataProvider
                     $columnType = substr($columnType, 0, $paren);
                 }
 
-                $fixedSizeColumnLength += $this->sizeOfMySQLColumn($columnType);
+                $fixedSizeColumnLength += $this->getSizeOfDatabaseType($columnType);
             }
         }
         // calculate the average row size
@@ -301,7 +301,7 @@ class MySQLMetadataProvider
     }
 
     /** Returns the size in bytes of a fixed size MySQL data type. Returns 0 for unsupported data type. */
-    private function sizeOfMySQLColumn($columnType)
+    private function getSizeOfDatabaseType($columnType)
     {
         switch (strtolower($columnType)) {
             case "tinyint":
