@@ -391,7 +391,7 @@ class ViewDataTable
     {
         if (self::$reportPropertiesCache === null) {
             self::$reportPropertiesCache = array();
-            Piwik_PostEvent('ViewDataTable.getReportDisplayProperties', array(self::$reportPropertiesCache));
+            Piwik_PostEvent('ViewDataTable.getReportDisplayProperties', array(&self::$reportPropertiesCache));
         }
 
         return self::$reportPropertiesCache;
