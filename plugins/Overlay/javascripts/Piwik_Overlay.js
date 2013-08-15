@@ -60,7 +60,7 @@ var Piwik_Overlay = (function () {
                         track: true,
                         items: '*',
                         tooltipClass: 'Overlay_Tooltip',
-                        content: '<b>' + Piwik_Overlay_Translations.domain + ':</b> ' +
+                        content: '<strong>' + Piwik_Overlay_Translations.domain + ':</strong> ' +
                                   piwikHelper.addBreakpointsToUrl(iframeDomain),
                         show: false,
                         hide: false

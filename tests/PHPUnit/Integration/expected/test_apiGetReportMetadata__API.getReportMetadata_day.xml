@@ -112,7 +112,7 @@
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
 		<dimension>Server time</dimension>
-		<documentation>This graph shows what time it was in the &lt;b&gt; server's time zone &lt;/b&gt; during the visits.</documentation>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -152,7 +152,7 @@
 		<module>VisitTime</module>
 		<action>getVisitInformationPerLocalTime</action>
 		<dimension>Local time</dimension>
-		<documentation>This graph shows what time it was in the &lt;b&gt; visitors' time zones &lt;/b&gt; during their visits.</documentation>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_visits>Visits</nb_visits>

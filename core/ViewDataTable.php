@@ -236,9 +236,11 @@ class ViewDataTable
      * If defaultType is specified and if there is no 'viewDataTable' in the URL, a ViewDataTable of this $defaultType will be returned.
      * If force is set to true, a ViewDataTable of the $defaultType will be returned in all cases.
      *
-     * @param string $defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
+     * @param string      $defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
      * @param string|bool $apiAction
      * @param string|bool $controllerAction
+     * @param bool        $forceDefault
+     *
      * @return ViewDataTable
      */
     static public function factory($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
@@ -1067,6 +1069,7 @@ class ViewDataTable
     protected function buildView()
     {
         $visualization = new $this->visualizationClass($this);
+        $this->overrideViewProperties();
 
         try {
             $this->loadDataTableFromAPI();
@@ -1078,8 +1081,6 @@ class ViewDataTable
 
             $this->loadingError = array('message' => $e->getMessage());
         }
-
-        $this->overrideViewProperties();
 
         $template = $this->viewProperties['datatable_template'];
         $view = new View($template);

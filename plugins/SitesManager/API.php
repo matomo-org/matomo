@@ -21,7 +21,6 @@ use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\TaskScheduler;
 use Piwik\Site;
-use false;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.

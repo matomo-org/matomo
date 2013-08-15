@@ -5,7 +5,7 @@
 {% if isSuperUser %}
     <h2>{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
-        See also our official guide <b><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></b></p>
+        See also our official guide <strong><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></strong></p>
     <h2 id="anonymizeIPAnchor">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
     <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength" name="formMaskLength">
         <div id='anonymizeIpSettings'>
@@ -153,23 +153,24 @@
                     <span class="form-description">{{ 'PrivacyManager_LeastMonthsInput'|translate("3") }}</span><br/><br/>
                     <label><input type="checkbox" name="deleteReportsKeepBasic" value="1"
                                   {% if deleteData.config.delete_reports_keep_basic_metrics %}checked="true"{% endif %}>{{ 'PrivacyManager_KeepBasicMetrics'|translate }}
-                        <span class="form-description">{{ 'General_Recommended'|translate }}</span></input>
+                        <span class="form-description">{{ 'General_Recommended'|translate }}</span>
                     </label><br/><br/>
                     {{ 'PrivacyManager_KeepDataFor'|translate }}<br/>
                     <label><input type="checkbox" name="deleteReportsKeepDay" value="1"
-                                  {% if deleteData.config.delete_reports_keep_day_reports %}checked="true"{% endif %}>{{ 'General_DailyReports'|translate }}</input></label><br/>
+                                  {% if deleteData.config.delete_reports_keep_day_reports %}checked="true"{% endif %}>{{ 'General_DailyReports'|translate }}</label><br/>
                     <label><input type="checkbox" name="deleteReportsKeepWeek" value="1"
-                                  {% if deleteData.config.delete_reports_keep_week_reports %}checked="true"{% endif %}>{{ 'General_WeeklyReports'|translate }}</input></label><br/>
+                                  {% if deleteData.config.delete_reports_keep_week_reports %}checked="true"{% endif %}>{{ 'General_WeeklyReports'|translate }}</label><br/>
                     <label><input type="checkbox" name="deleteReportsKeepMonth" value="1"
                                   {% if deleteData.config.delete_reports_keep_month_reports %}checked="true"{% endif %}>{{ 'General_MonthlyReports'|translate }}<span
-                                class="form-description">{{ 'General_Recommended'|translate }}</span></input></label><br/>
+                                class="form-description">{{ 'General_Recommended'|translate }}</span></label><br/>
                     <label><input type="checkbox" name="deleteReportsKeepYear" value="1"
                                   {% if deleteData.config.delete_reports_keep_year_reports %}checked="true"{% endif %}>{{ 'General_YearlyReports'|translate }}<span
-                                class="form-description">{{ 'General_Recommended'|translate }}</span></input></label><br/>
+                                class="form-description">{{ 'General_Recommended'|translate }}</span></label><br/>
                     <label><input type="checkbox" name="deleteReportsKeepRange" value="1"
-                                  {% if deleteData.config.delete_reports_keep_range_reports %}checked="true"{% endif %}>{{ 'General_RangeReports'|translate }}</input></label><br/><br/>
+                                  {% if deleteData.config.delete_reports_keep_range_reports %}checked="true"{% endif %}>{{ 'General_RangeReports'|translate }}
+                    </label><br/><br/>
                     <label><input type="checkbox" name="deleteReportsKeepSegments" value="1"
-                                  {% if deleteData.config.delete_reports_keep_segment_reports %}checked="true"{% endif %}>{{ 'PrivacyManager_KeepReportSegments'|translate }}</input></label><br/>
+                                  {% if deleteData.config.delete_reports_keep_segment_reports %}checked="true"{% endif %}>{{ 'PrivacyManager_KeepReportSegments'|translate }}</label><br/>
                 </td>
                 <td width="200">
 
@@ -180,8 +181,8 @@
                 <td width="250">{{ 'PrivacyManager_ReportsDataSavedEstimate'|translate }}<br/></td>
                 <td width="500">
                     <div id="deleteDataEstimate"></div>
-                    <span class='loadingPiwik' style='display:none'><img
-                                src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'General_LoadingData'|translate }}</span>
+                    <span class="loadingPiwik" style="display:none;"><img
+                                src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
                 </td>
                 <td width="200">
                     {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
@@ -217,8 +218,8 @@
                         <br/>
                         <br/>
                         <em><a id="purgeDataNowLink" href="#">{{ 'PrivacyManager_PurgeNow'|translate }}</a></em>
-                        <span class='loadingPiwik' style='display:none'><img
-                                    src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
+                        <span class="loadingPiwik" style="display:none;"><img
+                                    src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
                         <span id="db-purged-message" style="display: none;"><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
                     {% endset %}
                     {{ piwik.inlineHelp(purgeStats) }}
@@ -234,7 +235,7 @@
                 <p>
                     {% if dntSupport %}
                         {% set action='deactivate' %}
-                        <b>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</b>
+                        <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
                         <br/>
                         {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
                     {% else %}
@@ -242,7 +243,7 @@
                         {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
                     {% endif %}
                 </p>
-			<span style='margin-left:20px'>
+			<span style="margin-left:20px;">
 			<a href='{{ {'module':'CorePluginsAdmin','token_auth':token_auth,'action':action,'pluginName':'DoNotTrack'} | urlRewriteWithParameters }}#DNT'>&rsaquo;
                 {% if dntSupport %}{{ 'PrivacyManager_DoNotTrack_Disable'|translate }} {{ 'General_NotRecommended'|translate }}
                 {% else %}{{ 'PrivacyManager_DoNotTrack_Enable'|translate }} {{ 'General_Recommended'|translate }}{% endif %}
@@ -265,5 +266,5 @@
     {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
 </p>
 
-<div style='height:100px'></div>
+<div style="height:100px;"></div>
 {% endblock %}

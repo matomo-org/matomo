@@ -9,7 +9,10 @@
 //								DataTable
 //-----------------------------------------------------------------------------
 
-//DataTable constructor
+/**
+ * DataTable
+ * @constructor
+ */
 function dataTable() {
     this.param = {};
 }
@@ -1570,7 +1573,10 @@ dataTable.prototype =
 actionDataTable.prototype = new dataTable;
 actionDataTable.prototype.constructor = actionDataTable;
 
-//actionDataTable constructor
+/**
+ * actionDataTable
+ * @constructor
+ */
 function actionDataTable() {
     dataTable.call(this);
     this.parentAttributeParent = '';

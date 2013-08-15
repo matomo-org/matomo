@@ -97,7 +97,7 @@ class ErrorScreenFormatter extends ScreenFormatter
                 $strReturned .= "Unknown error ($errno)";
                 break;
         }
-        $strReturned .= ":</strong> <i>$errstr</i> in <b>$errfile</b> on line <b>$errline</b>\n";
+        $strReturned .= ":</strong> <em>$errstr</em> in <strong>$errfile</strong> on line <strong>$errline</strong>\n";
         $strReturned .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\">";
         $strReturned .= str_replace(array("\n", '#'), array("<br />\n", "<br />\n#"), $backtrace);
         $strReturned .= "</div><br />";

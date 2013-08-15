@@ -1,10 +1,10 @@
 <div class="UserCountryMap" style="position:relative; overflow:hidden;">
     <div class="UserCountryMap_container">
-        <div class="UserCountryMap_map" style="overflow:hidden"></div>
+        <div class="UserCountryMap_map" style="overflow:hidden;"></div>
         <div class="UserCountryMap-overlay UserCountryMap-title">
             <div class="content">
                 <!--<div class="map-title" style="font-weight:bold; color:#9A9386;"></div>-->
-                <div class="map-stats" style="color:#565656;"><b></b></div>
+                <div class="map-stats" style="color:#565656;"></div>
             </div>
         </div>
         <div class="UserCountryMap-overlay UserCountryMap-legend">
@@ -27,7 +27,7 @@
             </span>
         {% endif %}
     </div>
-    <div class="dataTableFeatures" style="padding-top:0px;">
+    <div class="dataTableFeatures" style="padding-top:0;">
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
                 <img class="UserCountryMap-activeItem dataTableFooterActiveItem" src="{{ piwikUrl }}plugins/Zeitgeist/images/data_table_footer_active_item.png" style="left: 25px;" />
@@ -44,22 +44,22 @@
                         <a var="tableAllColumns" class="UserCountryMap-btn-region tableIcon activeIcon" format="tableAllColumns"
                            data-region="{{ 'UserCountryMap_Regions'|translate }}" data-country="{{ 'UserCountryMap_Countries'|translate }}">
                             <img src="{{ piwikUrl }}plugins/UserCountryMap/images/regions.png" title="Show visitors per region/country" />
-                            <span style="margin:0">{{ 'UserCountryMap_Countries'|translate }}</span>&nbsp;
+                            <span style="margin:0;">{{ 'UserCountryMap_Countries'|translate }}</span>&nbsp;
                         </a>
                         <a var="tableGoals" class="UserCountryMap-btn-city tableIcon inactiveIco" format="tableGoals">
                             <img src="{{ piwikUrl }}plugins/UserCountryMap/images/cities.png" title="Show visitors per city" />
-                            <span style="margin:0">{{ 'UserCountryMap_Cities'|translate }}</span>&nbsp;
+                            <span style="margin:0;">{{ 'UserCountryMap_Cities'|translate }}</span>&nbsp;
                         </a>
                     </span>
                 </div>
             </div>
 
-            <select class="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 9em;font-size:10px">
+            <select class="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 9em;font-size:10px;">
                 {% for metric in metrics %}
                     <option value="{{ metric[0] }}" {% if metric[0] == defaultMetric %}selected="selected"{% endif %}}>{{ metric[1] }}</option>
                 {% endfor %}
             </select>
-            <select class="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 9em;font-size:10px">
+            <select class="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 9em;font-size:10px;">
                 <option value="world">{{ 'UserCountryMap_WorldWide'|translate }}</option>
                 <option disabled="disabled">––––––</option>
                 <option value="AF">{{ 'UserCountry_continent_afr'|translate }}</option>

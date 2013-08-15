@@ -55,35 +55,35 @@
         <table style="width:900px;" class="adminTable">
             <tbody>
             <tr>
-                <td style="width:480px">
+                <td style="width:480px;">
                     <strong>{{ 'MobileMessaging_Settings_PhoneNumbers_Add'|translate }}</strong>
                     <br/><br/>
 	
-                <span id='suspiciousPhoneNumber' style='display:none;'>
+                <span id="suspiciousPhoneNumber" style="display:none;">
                     {{ 'MobileMessaging_Settings_SuspiciousPhoneNumber'|translate('54184032') }}
                     <br/><br/>
                 </span>
 
-                + <input id='countryCallingCode' size='4' maxlength='4'/>&nbsp;
-                <input id='newPhoneNumber'/>
-                <input type='submit' value='{{ 'MobileMessaging_Settings_AddPhoneNumber'|translate }}'
-                       id='addPhoneNumberSubmit'/>
+                + <input id="countryCallingCode" size="4" maxlength="4"/>&nbsp;
+                <input id="newPhoneNumber"/>
+                <input type="submit" value='{{ 'MobileMessaging_Settings_AddPhoneNumber'|translate }}'
+                       id="addPhoneNumberSubmit"/>
                 <br/>
 		
 		<span style=' font-size: 11px;'><span
                     class="form-description">{{ 'MobileMessaging_Settings_CountryCode'|translate }}</span>
 			<span class="form-description"
-                  style="margin-left:50px">{{ 'MobileMessaging_Settings_PhoneNumber'|translate }}</span></span>
+                  style="margin-left:50px;">{{ 'MobileMessaging_Settings_PhoneNumber'|translate }}</span></span>
                     <br/><br/>
 
                     {{ 'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate }}
 
-                    <select id='countries'>
+                    <select id="countries">
                         {# this is a trick to avoid selecting the first country when no default could be found #}
-                        <option value=''>&nbsp;</option>
+                        <option value="">&nbsp;</option>
                         {% for countryCode, country in countries %}
                             <option value='{{ country.countryCallingCode }}'
-                                    {% if defaultCountry==countryCode %} selected='selected' {% endif %}
+                                    {% if defaultCountry==countryCode %} selected="selected" {% endif %}
                                     >
                                 {{ country.countryName }}
                             </option>
@@ -91,7 +91,7 @@
                     </select>
 
                 </td>
-                <td style="width:220px">
+                <td style="width:220px;">
                     {% import 'macros.twig' as piwik %}
                     {{ piwik.inlineHelp(strHelpAddPhone) }}
                 </td>
@@ -154,8 +154,8 @@
         <h2>{{ 'MobileMessaging_Settings_SuperAdmin'|translate }}</h2>
         <table class='adminTable' style='width:650px;'>
             <tr>
-                <td style='width:400px'>{{ 'MobileMessaging_Settings_LetUsersManageAPICredential'|translate }}</td>
-                <td style='width:250px'>
+                <td style="width:400px;">{{ 'MobileMessaging_Settings_LetUsersManageAPICredential'|translate }}</td>
+                <td style="width:250px;">
                     <fieldset>
                         <label>
                             <input

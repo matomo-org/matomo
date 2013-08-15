@@ -32,8 +32,8 @@ class MultiRowEvolution extends RowEvolution
 
     /**
      * The constructor
-     * @param int
-     * @param Piwik_Date ($this->date from controller)
+     * @param int $idSite
+     * @param \Piwik\Date $date ($this->date from controller)
      */
     public function __construct($idSite, $date)
     {

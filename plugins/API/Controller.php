@@ -108,12 +108,12 @@ class Controller extends \Piwik\Controller
         }
 
         echo "
-		<b>Dimensions</b>
+		<strong>Dimensions</strong>
 		<table>
 		$tableDimensions
 		</table>
 		<br/>
-		<b>Metrics</b>
+		<strong>Metrics</strong>
 		<table>
 		$tableMetrics
 		</table>

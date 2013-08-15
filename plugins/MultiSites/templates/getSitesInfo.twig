@@ -57,21 +57,21 @@
                         <span>{{ 'General_Website'|translate }}</span>
                         <span class="arrow {% if evolutionBy=='names' %}multisites_{{ order }}{% endif %}"></span>
                     </th>
-                    <th id="visits" class="multisites-column" style="width: 100px" onClick="params = setOrderBy(this,allSites, params, 'visits');">
+                    <th id="visits" class="multisites-column" style="width: 100px;" onClick="params = setOrderBy(this,allSites, params, 'visits');">
                         <span>{{ 'General_ColumnNbVisits'|translate }}</span>
                         <span class="arrow {% if evolutionBy=='visits' %}multisites_{{ order }}{% endif %}"></span>
                     </th>
-                    <th id="pageviews" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'pageviews');">
+                    <th id="pageviews" class="multisites-column" style="width: 110px;" onClick="params = setOrderBy(this,allSites, params, 'pageviews');">
                         <span>{{ 'General_ColumnPageviews'|translate }}</span>
                         <span class="arrow {% if evolutionBy=='pageviews' %}multisites_{{ order }}{% endif %}"></span>
                     </th>
                     {% if displayRevenueColumn %}
-                        <th id="revenue" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'revenue');">
+                        <th id="revenue" class="multisites-column" style="width: 110px;" onClick="params = setOrderBy(this,allSites, params, 'revenue');">
                             <span>{{ 'Goals_ColumnRevenue'|translate }}</span>
                             <span class="arrow {% if evolutionBy=='revenue' %}multisites_{{ order }}{% endif %}"></span>
                         </th>
                     {% endif %}
-                    <th id="evolution" style=" width:350px" colspan="{% if show_sparklines %}2{% else %}1{% endif %}">
+                    <th id="evolution" style=" width:350px;" colspan="{% if show_sparklines %}2{% else %}1{% endif %}">
                         <span class="arrow "></span>
                         <span class="evolution" style="cursor:pointer;"
                               onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {{ 'MultiSites_Evolution'|translate }}</span>
@@ -93,7 +93,7 @@
                 <tfoot>
                 {% if isSuperUser %}
                     <tr>
-                        <td colspan="8" class="clean" style="text-align: right; padding-top: 15px;padding-right:10px">
+                        <td colspan="8" class="clean" style="text-align: right; padding-top: 15px;padding-right:10px;">
                             <a href="{{ url }}&module=SitesManager&action=index&showaddsite=1">
                                 <img src='plugins/UsersManager/images/add.png' alt="" style="margin: 0;"/> {{ 'SitesManager_AddSite'|translate }}
                             </a>
@@ -101,7 +101,7 @@
                     </tr>
                 {% endif %}
                 <tr row_id="last">
-                    <td colspan="8" class="clean" style="padding: 20px">
+                    <td colspan="8" class="clean" style="padding: 20px;">
                         <span id="prev" class="pager" style="padding-right: 20px;"></span>
                         <span class="dataTablePages">
                             <span id="counter">

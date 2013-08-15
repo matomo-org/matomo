@@ -496,7 +496,11 @@ class Controller extends \Piwik\Controller\Admin
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = new View('@Installation/systemCheckPage');
+        $view = new View(
+            '@Installation/systemCheckPage',
+            $this->getInstallationSteps(),
+            __FUNCTION__
+        );
         $this->setBasicVariablesView($view);
 
         $view->duringInstall = false;
@@ -610,8 +614,8 @@ class Controller extends \Piwik\Controller\Admin
         if ($error) {
             \Piwik\Plugins\Login\Controller::clearSession();
             $message = Piwik_Translate('Installation_ErrorInvalidState',
-                array('<br /><b>',
-                      '</b>',
+                array('<br /><strong>',
+                      '</strong>',
                       '<a href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
                       '</a>')
             );

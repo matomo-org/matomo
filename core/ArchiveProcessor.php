@@ -310,7 +310,7 @@ abstract class ArchiveProcessor
     /**
      * Returns the minimum archive processed datetime to look at
      *
-     * @return string Datetime string, or false if must look at any archive available
+     * @return int|bool  Datetime timestamp, or false if must look at any archive available
      *
      * @public for tests
      */

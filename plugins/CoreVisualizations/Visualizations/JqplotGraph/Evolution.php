@@ -5,8 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
+ * @category Piwik_Plugins
+ * @package CoreVisualizations
  */
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
@@ -25,7 +25,6 @@ class Evolution extends JqplotGraph
 {
     const ID = 'graphEvolution';
     
-    const GRAPH_HEIGHT = 170;
     const SERIES_COLOR_COUNT = 8;
 
     public function __construct($view)
@@ -50,7 +49,6 @@ class Evolution extends JqplotGraph
         $result['show_table'] = false;
         $result['show_table_all_columns'] = false;
         $result['hide_annotations_view'] = false;
-        $result['visualization_properties']['graphEvolution']['graph_height'] = self::GRAPH_HEIGHT . 'px';
         return $result;
     }
 

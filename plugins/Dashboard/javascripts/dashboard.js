@@ -24,19 +24,20 @@ function initDashboard(dashboardId, dashboardLayout) {
     if (!$('#topBars').length) {
         $('#dashboardSettings').css({left: 0});
         $('#dashboardSettings').after($('#Dashboard'));
-        $('#Dashboard').find('> ul li a').each(function () {$(this).css({width: this.offestWidth + 30, paddingLeft: 0, paddingRight: 0});});
         $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
     }
 
-    $('#dashboardSettings').on('click', function () {
-        $('#dashboardSettings').toggleClass('visible');
-        if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
-            $('#removeDashboardLink').hide();
-        } else {
-            $('#removeDashboardLink').show();
+    $('#dashboardSettings').on('click', function (e) {
+        if ($(e.target).is('#dashboardSettings') || $(e.target).is('#dashboardSettings>span')) {
+            $('#dashboardSettings').toggleClass('visible');
+            if ($('#dashboardWidgetsArea').dashboard('isDefaultDashboard')) {
+                $('#removeDashboardLink').hide();
+            } else {
+                $('#removeDashboardLink').show();
+            }
+            // fix position
+            $('#dashboardSettings').find('.widgetpreview-widgetlist').css('paddingTop', $('#dashboardSettings').find('.widgetpreview-categorylist').parent('li').position().top);
         }
-        // fix position
-        $('#dashboardSettings').find('.widgetpreview-widgetlist').css('paddingTop', $('#dashboardSettings').find('.widgetpreview-categorylist').parent('li').position().top);
     });
     $('body').on('mouseup', function (e) {
         if (!$(e.target).parents('#dashboardSettings').length && !$(e.target).is('#dashboardSettings')) {

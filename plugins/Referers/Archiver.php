@@ -131,7 +131,7 @@ class Archiver extends PluginsArchiver
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return DataArray
      */
     protected function getDataArray($name)

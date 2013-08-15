@@ -12,7 +12,7 @@
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 
-<table id='userSettingsTable' class="adminTable" style='width:1050px'>
+<table id='userSettingsTable' class="adminTable" style="width:1050px;">
     <tr>
         <td><label for="username">{{ 'General_Username'|translate }} </label></td>
         <td>
@@ -106,7 +106,7 @@
    {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>")|raw }}
 {% endif %}
 </p>
-<span style='margin-left:20px'>
+<span style="margin-left:20px;">
 <a href='{{ linkTo({'token_auth':token_auth, 'action':'setIgnoreCookie'}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
     {% else %}{{'UsersManager_ClickHereToSetTheCookieOnDomain'|translate(piwikHost) }}{% endif %}
     <br/>
@@ -116,7 +116,7 @@
 {% if isSuperUser %}
     <h2>{{ 'UsersManager_MenuAnonymousUserSettings'|translate }}</h2>
     {% if anonymousSites|length == 0 %}
-        <h3 class='form-description'><b>{{ 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2'|translate }}</b></h3>
+        <h3 class='form-description'><strong>{{ 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2'|translate }}</strong></h3>
         <br/>
     {% else %}
         <br/>
@@ -124,7 +124,7 @@
         {{ ajax.loadingDiv('ajaxLoadingAnonymousUserSettings') }}
         <table id='anonymousUserSettingsTable' class="adminTable" style='width:850px;'>
             <tr>
-                <td style='width:400px'>{{ 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate }}</td>
+                <td style="width:400px;">{{ 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate }}</td>
                 <td>
                     <fieldset>
                         <label><input type="radio" value="Login"

@@ -130,7 +130,7 @@
             }
 
             function relativeTime(ds) {
-                var val = function (val) { return '<b>' + Math.round(val) + '</b>'; };
+                var val = function (val) { return '<strong>' + Math.round(val) + '</strong>'; };
                 return (ds < 90 ? _.seconds_ago.replace('%s', val(ds))
                     : ds < 5400 ? _.minutes_ago.replace('%s', val(ds / 60))
                     : ds < 129600 ? _.hours_ago.replace('%s', val(ds / 3600))
@@ -158,11 +158,11 @@
                     // local time
                     '<small>' + _.local_time + ': ' + r.visitLocalTime + '</small><br />' +
                     // goals, if available
-                    (self.config.siteHasGoals && r.goalConversions ? '<small>' + _.goal_conversions.replace('%s', '<b>' + r.goalConversions + '</b>') +
+                    (self.config.siteHasGoals && r.goalConversions ? '<small>' + _.goal_conversions.replace('%s', '<strong>' + r.goalConversions + '</strong>') +
                         (r.searches > 0 ? ', ' + _.searches.replace('%s', r.searches) : '') + '</small><br />' : '') +
                     // actions and searches
-                    '<small>' + _.actions.replace('%s', '<b>' + r.actions + '</b>') +
-                    (r.searches > 0 ? ', ' + _.searches.replace('%s', '<b>' + r.searches + '</b>') : '') + '</small>';
+                    '<small>' + _.actions.replace('%s', '<strong>' + r.actions + '</strong>') +
+                    (r.searches > 0 ? ', ' + _.searches.replace('%s', '<strong>' + r.searches + '</strong>') : '') + '</small>';
             }
 
             /*

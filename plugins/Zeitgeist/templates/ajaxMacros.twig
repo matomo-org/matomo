@@ -1,9 +1,9 @@
 {% macro errorDiv(id) %}
-    <div class="ajaxError" id="{{ id }}" style="display:none"></div>
+    <div class="ajaxError" id="{{ id }}" style="display:none;"></div>
 {% endmacro %}
 
 {% macro loadingDiv(id='ajaxLoadingDiv') %}
-<div id="{{ id }}" style="display:none">
+<div id="{{ id }}" style="display:none;">
     <div class="loadingPiwik">
         <img src="plugins/Zeitgeist/images/loading-blue.gif" alt="{{ 'General_LoadingData'|translate }}" />{{ 'General_LoadingData'|translate }}
     </div>

@@ -5,7 +5,7 @@
 {% endif %}
 {{ graphEvolution|raw }}
 
-<div id='leftcolumn' {% if not isWidget %}style='width:33%'{% endif %}>
+<div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
     <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
         {% if ecommerce is defined %}
             <strong>{{ nb_conversions }}</strong>
@@ -37,7 +37,7 @@
     {% endif %}
 
 </div>
-<div id='leftcolumn' {% if not isWidget %}style='width:33%'{% endif %}>
+<div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
     <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
         {% if ecommerce is defined %}
             {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
@@ -52,9 +52,9 @@
     {% endif %}
 </div>
 {% if ecommerce is defined %}
-    <div id='rightcolumn' {% if not isWidget %}style='width:30%'{% endif %}>
+    <div id='rightcolumn' {% if not isWidget %}style='width:30%;'{% endif %}>
         <div>
-            <img src='plugins/Zeitgeist/images/ecommerceAbandonedCart.gif'> <i>{{ 'General_AbandonedCarts'|translate }}</i>
+            <img src='plugins/Zeitgeist/images/ecommerceAbandonedCart.gif'> <em>{{ 'General_AbandonedCarts'|translate }}</em>
         </div>
 
         <div class="sparkline">

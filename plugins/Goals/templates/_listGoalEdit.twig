@@ -17,7 +17,7 @@
                 <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
                     {% if goal.pattern_type is defined %}
                         <br/>
-                        {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}</b>
+                        {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}
                     {% endif %}
                 </td>
                 <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>

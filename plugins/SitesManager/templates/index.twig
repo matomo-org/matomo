@@ -143,7 +143,7 @@
                     <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
                     <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"})|raw }}</th>
                     <th id='exclude-user-agent-header'
-                        {% if not allowSiteSpecificUserAgentExclude %}style="display:none"{% endif %}>{{ 'SitesManager_ExcludedUserAgents'|translate }}</th>
+                        {% if not allowSiteSpecificUserAgentExclude %}style="display:none;"{% endif %}>{{ 'SitesManager_ExcludedUserAgents'|translate }}</th>
                     <th>{{ 'Actions_SubmenuSitesearch'|translate }}</th>
                     <th>{{ 'SitesManager_Timezone'|translate }}</th>
                     <th>{{ 'SitesManager_Currency'|translate }}</th>
@@ -176,18 +176,18 @@
                             {%- endfor -%}
                         </td>
                         <td id="excludedUserAgents" class="editableSite"
-                            {% if not allowSiteSpecificUserAgentExclude %}style="display:none"{% endif %}>
+                            {% if not allowSiteSpecificUserAgentExclude %}style="display:none;"{% endif %}>
                             {%- for ua in site.excluded_user_agents -%}
                                 {{- ua|raw -}}<br />
                             {%- endfor -%}
                         </td>
                         <td id="sitesearch" class="editableSite">
                             {% if site.sitesearch %}
-                                <span class='sitesearchActive'>{{ 'General_Yes'|translate }}</span>
+                                <span class="sitesearchActive">{{ 'General_Yes'|translate }}</span>
                             {% else %}
-                                <span class='sitesearchInactive'>-</span>
+                                <span class="sitesearchInactive">-</span>
                             {% endif %}
-                            <span class='sskp' sitesearch_keyword_parameters="{{- site.sitesearch_keyword_parameters -}}"
+                            <span class="sskp" sitesearch_keyword_parameters="{{- site.sitesearch_keyword_parameters -}}"
                                 sitesearch_category_parameters="{{- site.sitesearch_category_parameters -}}"
                                 id="sitesearch_parameters">
                             </span>
@@ -243,7 +243,7 @@
 
         <h2 id="globalSettings">{{ 'SitesManager_GlobalWebsitesSettings'|translate }}</h2>
         <br/>
-        <table style='width:600px' class="adminTable">
+        <table style="width:600px;" class="adminTable">
 
             <tr>
                 <td colspan="2">
@@ -265,7 +265,7 @@
 
             <tr>
                 <td colspan="2">
-                    <b>{{ 'SitesManager_GlobalListExcludedQueryParameters'|translate }}</b>
+                    <strong>{{ 'SitesManager_GlobalListExcludedQueryParameters'|translate }}</strong>
 
                     <p>{{ 'SitesManager_ListOfQueryParametersToBeExcludedOnAllWebsites'|translate }} </p>
                 </td>
@@ -308,8 +308,8 @@
                     <label for="enableSiteUserAgentExclude">
                         {{ 'SitesManager_EnableSiteSpecificUserAgentExclude'|translate }}
                     </label>
-            <span id='enableSiteUserAgentExclude-loading' class='loadingPiwik' style='display:none'>
-                <img src='plugins/Zeitgeist/images/loading-blue.gif'/>
+            <span id="enableSiteUserAgentExclude-loading" class="loadingPiwik" style="display:none;">
+                <img src="plugins/Zeitgeist/images/loading-blue.gif"/>
             </span>
                 </td>
                 <td>
@@ -335,10 +335,10 @@
             {# global site search #}
             <tr>
                 <td colspan="2">
-                    <b id="globalSiteSearch">{{ 'SitesManager_TrackingSiteSearch'|translate }}</b>
+                    <strong id="globalSiteSearch">{{ 'SitesManager_TrackingSiteSearch'|translate }}</strong>
 
                     <p>{{ sitesearchIntro }}</p>
-            <span class="form-description" style='font-size:8pt'>
+            <span class="form-description" style="font-size:8pt;">
                 {{ 'SitesManager_SearchParametersNote'|translate }} {{ 'SitesManager_SearchParametersNote2'|translate }}
             </span>
                 </td>
@@ -408,7 +408,7 @@
                 </td>
             </tr>
         </table>
-        <span style="margin-left:20px">
+        <span style="margin-left:20px;">
     <input type="submit" class="submit" id='globalSettingsSubmit' value="{{ 'General_Save'|translate }}"/>
 </span>
         {{ ajax.errorDiv('ajaxErrorGlobalSettings') }}

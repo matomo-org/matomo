@@ -2,7 +2,7 @@
 
 {% block content %}
 {% spaceless %}
-<span style="float:right">{{ postEvent('template_topBar')|raw }}</span>
+<span style="float:right;">{{ postEvent('template_topBar')|raw }}</span>
 {% set helpMessage %}
     {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
 {% endset %}
@@ -43,14 +43,14 @@
         {% endif %}
         <ul>
             <li>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate(commandUpgradePiwik)|raw }}</li>
-            <li>It is also recommended for high traffic Piwik servers to <a target='_blank'
+            <li>It is also recommended for high traffic Piwik servers to <a target="_blank"
                                                                             href='?module=Proxy&action=redirect&url={{ "http://piwik.org/faq/how-to/#faq_111"|url_encode }}'>momentarily
                     disable visitor Tracking and put the Piwik User Interface in maintenance mode</a>.
             </li>
             <li>{{ 'CoreUpdater_YouCouldManuallyExecuteSqlQueries'|translate }}<br/>
-                <a href='#' id='showSql' style='margin-left:20px'>› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a>
+                <a href="#" id="showSql" style="margin-left:20px;">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a>
 
-                <div id='sqlQueries' style='display:none'>
+                <div id="sqlQueries" style="display:none;">
                     <br/>
                     <code>
                         # {{ 'CoreUpdater_NoteItIsExpectedThatQueriesFail'|translate }}<br/><br/>
@@ -64,12 +64,12 @@
         </ul>
         <br/>
         <br/>
-        <h4 id='titleUpdate'>{{ 'CoreUpdater_ReadyToGo'|translate }}</h4>
+        <h4 id="titleUpdate">{{ 'CoreUpdater_ReadyToGo'|translate }}</h4>
         <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>
     {% endif %}
 
     {% if warningMessages|length > 0 %}
-        <p><i>{{ warningMessages[0] }}</i>
+        <p><em>{{ warningMessages[0] }}</em>
             {% if warningMessages|length > 1 %}
                 <button id="more-results" class="ui-button ui-state-default ui-corner-all">{{ 'General_Details'|translate }}</button>
             {% endif %}

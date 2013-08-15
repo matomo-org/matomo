@@ -12,8 +12,8 @@
     {{ ajax.loadingDiv('ajaxLoading') }}
     <table class="adminTable" style='width:900px;'>
         <tr>
-            <td style='width:400px'>{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
-            <td style='width:220px'>
+            <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
+            <td style="width:220px;">
                 <fieldset>
                     <label>
                         <input type="radio" value="1" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==1 %} checked="checked"{% endif %} />
@@ -62,8 +62,8 @@
             </td>
         </tr>
         <tr>
-            <td style='width:400px'>{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</td>
-            <td style='width:220px'>
+            <td style="width:400px;">{{ 'CoreAdminHome_CheckReleaseGetVersion'|translate }}</td>
+            <td style="width:220px;">
                 <fieldset>
                     <label><input type="radio" value="0" name="enableBetaReleaseCheck"{% if enableBetaReleaseCheck==0 %} checked="checked"{% endif %} />
                         {{ 'CoreAdminHome_LatestStableRelease'|translate }} <br/>
@@ -92,7 +92,7 @@
                 <td>{{ 'General_UseSMTPServerForEmail'|translate }}<br/>
                     <span class="form-description">{{ 'General_SelectYesIfYouWantToSendEmailsViaServer'|translate }}</span>
                 </td>
-                <td style='width:200px'>
+                <td style="width:200px;">
                     <label><input type="radio" name="mailUseSmtp" value="1" {% if mail.transport == 'smtp' %} checked {% endif %}/> {{ 'General_Yes'|translate }}</label>
                     <label><input type="radio" name="mailUseSmtp" value="0"
                                   style="margin-left:20px;" {% if mail.transport == '' %} checked {% endif %}/>  {{ 'General_No'|translate }}</label>
@@ -104,7 +104,7 @@
         <table class="adminTable" style='width:550px;'>
             <tr>
                 <td><label for="mailHost">{{ 'General_SmtpServerAddress'|translate }}</label></td>
-                <td style='width:200px'><input type="text" id="mailHost" value="{{ mail.host }}"></td>
+                <td style="width:200px;"><input type="text" id="mailHost" value="{{ mail.host }}"></td>
             </tr>
             <tr>
                 <td><label for="mailPort">{{ 'General_SmtpPort'|translate }}</label><br/>
@@ -163,7 +163,7 @@
         {# untrusted host warning (display again) #}
         {% if isValidHost is defined and invalidHostMessage is defined and not isValidHost %}
             <div class="ajaxSuccess">
-                <a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank">
+                <a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank">
                     <img src="plugins/Zeitgeist/images/help_grey.png"/>
                 </a>
                 <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidHostMessage }}
@@ -176,8 +176,8 @@
             <p>{{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}:</p>
             <table class="adminTable">
                 <tr>
-                    <th style="width:250px">{{ 'CoreAdminHome_ValidPiwikHostname'|translate }}</th>
-                    <th style="width:10px">&nbsp;</th>
+                    <th style="width:250px;">{{ 'CoreAdminHome_ValidPiwikHostname'|translate }}</th>
+                    <th style="width:10px;">&nbsp;</th>
                 </tr>
                 {% for hostIdx, host in trustedHosts %}
                     <tr>
@@ -196,10 +196,10 @@
     <h2>{{ 'CoreAdminHome_BrandingSettings'|translate }}</h2>
     <div id='brandSettings'>
         {{ 'CoreAdminHome_CustomLogoHelpText'|translate }}
-        <table class="adminTable" style='width:600px;'>
+        <table class="adminTable" style="width:600px;">
             <tr>
                 <td>{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
-                <td style='width:200px'>
+                <td style="width:200px;">
                     <label>
                         <input type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
                         {{ 'General_Yes'|translate }}
@@ -227,7 +227,7 @@
                                 <span class="form-description">{{ 'CoreAdminHome_LogoUploadDescription'|translate("JPG / PNG / GIF",110) }}</span>
                             </label>
                         </td>
-                        <td style='width:200px'>
+                        <td style="width:200px;">
                             <input name="customLogo" type="file" id="customLogo"/>
                             <img src="misc/user/logo.png?r={math equation='rand(10,1000)'}" id="currentLogo" height="150"/>
                         </td>
@@ -258,7 +258,7 @@
 <p>{{ 'CoreAdminHome_OptOutExplanation'|translate }}
     {% set optOutUrl %}{{ piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ language }}{% endset %}
     {% set iframeOptOut %}
-        <iframe frameborder="no" width="600px" height="200px" src="{{ optOutUrl }}"></iframe>
+        <iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>
     {% endset %}
     <code>{{ iframeOptOut }}</code>
     <br/>

@@ -1,4 +1,4 @@
-<div id="geoipdb-update-info" {% if not geoIPDatabasesInstalled %}style="display:none"{% endif %}>
+<div id="geoipdb-update-info" {% if not geoIPDatabasesInstalled %}style="display:none;"{% endif %}>
     <p>{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">','</a>',
         '<a href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}
         <br/><br/>
@@ -7,7 +7,7 @@
 	<br/><br/>{{ 'UserCountry_GeoIPUpdaterIntro'|translate }}:
 	{% endif %}
 	</p>
-	<table class="adminTable" style="width:900px">
+	<table class="adminTable" style="width:900px;">
 		<tr>
 			<th>{{ 'Live_GoalType'|translate }}</th>
 			<th>{{ 'Actions_ColumnDownloadURL'|translate }}</th>
@@ -53,13 +53,13 @@
 			</td>
 		</tr>
 	</table>
-	<p style="display:inline-block;vertical-align:top">
+	<p style="display:inline-block;vertical-align:top;">
 		<input type="button" class="submit" value="{% if not geoIPDatabasesInstalled %}{{ 'General_Continue'|translate }}{% else %}{{ 'General_Save'|translate }}{% endif %}" id="update-geoip-links"/>
 	</p>
-	<div style="display:inline-block;width:700px">
-		<span style="display:none" class="ajaxSuccess" id="done-updating-updater">{{ 'General_Done'|translate }}!</span>
-		<span id="geoipdb-update-info-error" style="display:none" class="error"></span>
-		<div id="geoip-progressbar-container" style="display:none">
+	<div style="display:inline-block;width:700px;">
+		<span style="display:none;" class="ajaxSuccess" id="done-updating-updater">{{ 'General_Done'|translate }}!</span>
+		<span id="geoipdb-update-info-error" style="display:none;" class="error"></span>
+		<div id="geoip-progressbar-container" style="display:none;">
 			<div id="geoip-updater-progressbar"></div>
 			<span id="geoip-updater-progressbar-label"></span>
 		</div>

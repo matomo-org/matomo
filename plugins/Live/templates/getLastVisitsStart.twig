@@ -4,10 +4,10 @@
 <ul id='visitsLive'>
     {% for visitor in visitors %}
         <li id="{{ visitor.idVisit }}" class="visit">
-            <div style="display:none" class="idvisit">{{ visitor.idVisit }}</div>
+            <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
             <div title="{{ visitor.actionDetails|length }} {{ 'Live_Actions'|translate }}" class="datetime">
-                <span style='display:none' class='serverTimestamp'>{{ visitor.serverTimestamp|raw }}</span>
-                {{ visitor.serverDatePretty }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}<i>({{ visitor.visitDurationPretty|raw }})</i>{% endif %}
+                <span style="display:none;" class="serverTimestamp">{{ visitor.serverTimestamp|raw }}</span>
+                {{ visitor.serverDatePretty }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}<em>({{ visitor.visitDurationPretty|raw }})</em>{% endif %}
                 &nbsp;<img src="{{ visitor.countryFlag }}" title="{{ visitor.location }}, {{ 'Provider_ColumnProvider'|translate }} {{ visitor.providerName }}"/>
                 &nbsp;<img src="{{ visitor.browserIcon }}" title="{{ visitor.browserName }}, {{ 'UserSettings_Plugins'|translate }}: {{ visitor.plugins }}"/>
                 &nbsp;<img src="{{ visitor.operatingSystemIcon }}" title="{{ visitor.operatingSystem }}, {{ visitor.resolution }}"/>
@@ -125,7 +125,7 @@
                     {% endif %}
                 {% endfor %}
                 {% if visitor.actionDetails|length > maxPagesDisplayedByVisitor %}
-                    <i>({{ 'Live_MorePagesNotDisplayed'|translate }})</i>
+                    <em>({{ 'Live_MorePagesNotDisplayed'|translate }})</em>
                 {% endif %}
             </div>
         </li>

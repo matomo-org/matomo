@@ -5,6 +5,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/**
+ * @constructor
+ */
 function menu() {
     this.param = {};
 }
@@ -29,23 +32,20 @@ menu.prototype =
     outMainLI: function () {
         clearTimeout(menu.prototype.resetTimer);
         menu.prototype.resetTimer = setTimeout(function() {
-            $('.nav_tab > .sfHover').removeClass('sfHover');
-            $('.nav_tab > .sfActive').addClass('sfHover');
+            $('.Menu-tabList > .sfHover', this.menuNode).removeClass('sfHover');
+            $('.Menu-tabList > .sfActive', this.menuNode).addClass('sfHover');
             menu.prototype.adaptSubMenuHeight();
         }, 2000);
     },
 
     onItemClick: function (item) {
-        $('.nav').trigger('piwikSwitchPage', item);
+        $('.Menu--dashboard').trigger('piwikSwitchPage', item);
         broadcast.propagateAjax( $(item).attr('href').substr(1) );
         return false;
     },
 
     init: function () {
-        this.menuNode = $('.nav');
-
-        //sub LI auto height
-        $('.nav li li a').each(function () {$(this).css({width: $(this).width() + 30, paddingLeft: 0, paddingRight: 0});});
+        this.menuNode = $('.Menu--dashboard');
 
         this.menuNode.find("li:has(ul)").hover(this.overMainLI, this.outMainLI);
 
@@ -57,7 +57,7 @@ menu.prototype =
             var module = broadcast.getValueFromUrl("module", url);
             var action = broadcast.getValueFromUrl("action", url);
             var moduleId = broadcast.getValueFromUrl("idGoal", url) || broadcast.getValueFromUrl("idDashboard", url);
-            var main_menu = $(this).parent().hasClass('nav_tab') ? true : false;
+            var main_menu = $(this).parent().hasClass('Menu-tabList') ? true : false;
             if (main_menu) {
                 $(this).attr({id: module});
             }

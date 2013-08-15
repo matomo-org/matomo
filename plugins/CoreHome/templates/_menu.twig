@@ -1,5 +1,5 @@
-<div class="nav">
-    <ul class="nav_tab">
+<div class="Menu--dashboard">
+    <ul class="Menu-tabList">
         {% for level1,level2 in menu %}
             <li id="{{ level2._url|urlRewriteWithParameters }}">
                 <a href="#{{ level2._url|urlRewriteWithParameters|slice(1) }}"

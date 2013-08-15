@@ -151,7 +151,7 @@ $(function () {
                     if ($('.custom_select_block', selector).hasClass('custom_select_block_show')) {
                         reset(selector);
                         $('.custom_select_block', selector).removeClass('custom_select_block_show');
-                    }1
+                    }
                 }
             });
 

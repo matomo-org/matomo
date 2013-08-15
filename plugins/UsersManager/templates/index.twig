@@ -28,9 +28,9 @@
 {{ ajax.errorDiv }}
 {{ ajax.loadingDiv }}
 
-<div class="entityContainer" style='width:600px'>
+<div class="entityContainer" style="width:600px;">
     {% if anonymousHasViewAccess %}
-        <div class="ajaxSuccess" style="display:inline-block">
+        <div class="ajaxSuccess" style="display:inline-block;">
             {{ 'UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'") }}<br/>
             {{ 'UsersManager_AnonymousUserHasViewAccess2'|translate }}
         </div>
@@ -93,7 +93,7 @@
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.errorDiv('ajaxErrorUsersManagement') }}
     {{ ajax.loadingDiv('ajaxLoadingUsersManagement') }}
-    <div class="entityContainer" style='margin-bottom:50px'>
+    <div class="entityContainer" style="margin-bottom:50px;">
         <table class="entityTable dataTable" id="users">
             <thead>
             <tr>

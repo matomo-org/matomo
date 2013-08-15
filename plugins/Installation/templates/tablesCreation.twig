@@ -7,11 +7,9 @@
     <div class="warning">{{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>")|raw }}
         <img src="plugins/Zeitgeist/images/warning_medium.png"/>
     </div>
-    <div id="toggle" style="display:none;color:#4F2410">
-        <small>
-            <i>{{ 'Installation_TablesFound'|translate }}: <br/>
-                {{ tablesInstalled }} </i>
-        </small>
+    <div id="toggle" style="display:none;color:#4F2410;font-size: small;">
+            <em>{{ 'Installation_TablesFound'|translate }}: <br/>
+                {{ tablesInstalled }} </em>
     </div>
     {% if showReuseExistingTables is defined %}
         <p>{{ 'Installation_TablesWarningHelp'|translate }}</p>

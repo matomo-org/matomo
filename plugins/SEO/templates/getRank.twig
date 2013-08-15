@@ -13,15 +13,15 @@
         {% import "ajaxMacros.twig" as ajax %}
         {{ ajax.LoadingDiv('ajaxLoadingSEO') }}
 
-        <div id="rankStats" align="left" style='margin-top:10px'>
+        <div id="rankStats" align="left" style="margin-top:10px;">
             {% if ranks is empty %}
                 {{ 'General_Error'|translate }}
             {% else %}
                 {% set cleanUrl %}
-                    <a href='http://{{ urlToRank }}' target='_blank'>{{ urlToRank }}</a>
+                    <a href="http://{{ urlToRank }}" target="_blank">{{ urlToRank }}</a>
                 {% endset %}
                 {{ 'SEO_SEORankingsFor'|translate(cleanUrl)|raw }}
-                <table cellspacing='2' style='margin:auto;line-height:1.5em;padding-top:10px'>
+                <table cellspacing="2" style="margin:auto;line-height:1.5em;padding-top:10px;">
                     {% for rank in ranks %}
                         <tr>
 {% set seoLink %}{% if rank.logo_link is defined %}<a class="linkContent" href="?module=Proxy&action=redirect&url={{ rank.logo_link|url_encode }}"
@@ -34,7 +34,7 @@
                                 majesticLink})|raw }}
                             </td>
                             <td>
-                                <div style='margin-left:15px'>
+                                <div style="margin-left:15px;">
                                 {% if rank.logo_link is defined %}{{ seoLink|raw }}{% endif %}
                                     {% if rank.rank %}{{ rank.rank|raw }}{% else %}-{% endif %}
                                     {% if rank.id=='pagerank' %} /10

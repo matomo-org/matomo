@@ -57,13 +57,13 @@ How to theme
 
 Images
 ----------
-You can stock your images in the folder "plugins/&lt;yourPluginName>/images".
+You can stock your images in the folder "plugins/YourPluginName/images".
 To use images in CSS, you have to use a relative path that start at the root folder.
 
 Example: 
 
 ```css
-  background-image: url(plugins/<yourPluginName>/images/dropDown.jpg);
+  background-image: url(plugins/YourPluginName/images/dropDown.jpg);
 ```
 
 Multiple stylesheets files
@@ -74,7 +74,7 @@ But you can import other Less files from the main theme file:
 Example: 
 
 ```css
-  @import "../../plugins/<yourPluginName>/stylesheets/_<yourSubStylesheetName>.less"
+  @import "../../plugins/YourPluginName/stylesheets/_yourSubStylesheetName.less"
 ```
 
 It's important to use this complex path to prevent compilation bugs.

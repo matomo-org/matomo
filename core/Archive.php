@@ -284,13 +284,15 @@ class Archive
      * Optionally loads the table recursively,
      * or optionally fetches a given subtable with $idSubtable
      *
-     * @param string $name
-     * @param int $idSite
-     * @param string $period
-     * @param Date $date
-     * @param string $segment
-     * @param bool $expanded
+     * @param string   $name
+     * @param int      $idSite
+     * @param string   $period
+     * @param Date     $date
+     * @param string   $segment
+     * @param bool     $expanded
      * @param int|null $idSubtable
+     * @param int|null $depth
+     *
      * @return DataTable|DataTable\Map
      */
     public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded,

@@ -5,24 +5,19 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
+ * @category Piwik_Plugins
+ * @package CoreVisualizations
  */
-namespace Piwik\Visualization;
+namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\View\ViewInterface;
 
 /**
  * Generates the data in the Open Flash Chart format, from the given data.
- *
- * @package Piwik
- * @subpackage Piwik_Visualization
  */
-abstract class Chart implements ViewInterface
+class Chart
 {
-
     // the data kept here conforms to the jqplot data layout
     // @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
     protected $series = array();
@@ -32,7 +27,6 @@ abstract class Chart implements ViewInterface
     protected $seriesPicker = array();
 
     // other attributes (not directly used for jqplot)
-    protected $maxValue;
     protected $yUnit = '';
     protected $displayPercentageInTooltip = true;
     protected $xSteps = 2;
@@ -168,7 +162,6 @@ abstract class Chart implements ViewInterface
             'seriesPicker' => &$this->seriesPicker
         );
 
-        Piwik_PostEvent('Visualization_Chart.render', array(&$data));
         return Common::json_encode($data);
     }
 
@@ -183,5 +176,27 @@ abstract class Chart implements ViewInterface
                 }
             }
         }
+
+        if ($this->displayPercentageInTooltip) {
+            foreach ($this->data as $seriesIndex => &$series) {
+                $sum = array_sum($series);
+
+                foreach ($series as $valueIndex => $value) {
+                    $value = (float)$value;
+
+                    $percentage = 0;
+                    if ($sum > 0) {
+                        $percentage = round(100 * $value / $sum);
+                    }
+
+                    $this->tooltip['percentages'][$seriesIndex][$valueIndex] = $percentage;
+                }
+            }
+        }
+    }
+
+    public function setSelectableRows($selectableRows)
+    {
+        $this->seriesPicker['selectableRows'] = $selectableRows;
     }
 }
