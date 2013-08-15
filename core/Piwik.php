@@ -1116,6 +1116,11 @@ class Piwik
         Piwik::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
     }
 
+    static private function sortTimeDesc($a, $b)
+    {
+        return $a['sumTimeMs'] < $b['sumTimeMs'];
+    }
+
     /**
      * Outputs SQL Profiling reports
      * It is automatically called when enabling the SQL profiling in the config file enable_sql_profiler
@@ -1142,13 +1147,7 @@ class Piwik
             $infoIndexedByQuery[$query->getQuery()] = $new;
         }
 
-        if (!function_exists('sortTimeDesc')) {
-            function sortTimeDesc($a, $b)
-            {
-                return $a['sumTimeMs'] < $b['sumTimeMs'];
-            }
-        }
-        uasort($infoIndexedByQuery, 'sortTimeDesc');
+        uasort($infoIndexedByQuery, 'self::sortTimeDesc');
 
         $str = '<hr /><strong>SQL Profiler</strong><hr /><strong>Summary</strong><br/>';
         $totalTime = $profiler->getTotalElapsedSecs();
