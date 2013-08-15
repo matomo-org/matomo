@@ -141,7 +141,7 @@ var piwikHelper = {
 
     /**
      * Returns the current query string with the given parameters modified
-     * @param {object} newparams parameters to be modified
+     * @param {String} newparams parameters to be modified
      * @return {String}
      */
     getCurrentQueryStringWithParametersModified: function(newparams)
