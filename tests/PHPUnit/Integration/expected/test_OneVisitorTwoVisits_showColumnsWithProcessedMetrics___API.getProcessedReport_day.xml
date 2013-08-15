@@ -8,7 +8,7 @@
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
 		<dimension>Server time</dimension>
-		<documentation>This graph shows what time it was in the &lt;b&gt; server's time zone &lt;/b&gt; during the visits.</documentation>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
