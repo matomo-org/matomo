@@ -230,7 +230,7 @@ class UserSettings extends \Piwik\Plugin
             'title'          => Piwik_Translate('UserSettings_ColumnBrowserVersion'),
             'related_reports' => $this->getBrowserRelatedReports()
         ));
-        $result['visualization_properties']['jqplot_graph']['max_graph_elements'] = 7;
+        $result['visualization_properties']['graph']['max_graph_elements'] = 7;
         return $result;
     }
 
@@ -241,7 +241,7 @@ class UserSettings extends \Piwik\Plugin
             'title'          => Piwik_Translate('UserSettings_Browsers'),
             'related_reports' => $this->getBrowserRelatedReports()
         ));
-        $result['visualization_properties']['jqplot_graph']['max_graph_elements'] = 7;
+        $result['visualization_properties']['graph']['max_graph_elements'] = 7;
         return $result;
     }
 
@@ -338,7 +338,7 @@ class UserSettings extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'filter_limit'                => 5,
             'visualization_properties' => array(
-                'jqplot_graph' => array(
+                'graph' => array(
                     'max_graph_elements' => 5
                 )
             )

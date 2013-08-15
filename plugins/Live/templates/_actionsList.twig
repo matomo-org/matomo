@@ -22,7 +22,7 @@
                 {% if action.type == 'ecommerceOrder' %}
                     {% set visitorHasSomeEcommerceActivity %}1{% endset %}
                     <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
-                    <span style='color:#666666'>({{ action.orderId }})</span>
+                    <span style='color:#666;'>({{ action.orderId }})</span>
                 {% else %}
                     <strong>{{'Goals_AbandonedCart'|translate}}</strong>
 
@@ -32,7 +32,7 @@
                     {% endif %}
                 {% endif %}
                 <p>
-                <span {% if not isWidget %}style='margin-left:20px'{% endif %}>
+                <span {% if not isWidget %}style='margin-left:20px;'{% endif %}>
                     {% if action.type == 'ecommerceOrder' %}
                     <abbr title="
                         {{ 'Live_GoalRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}
@@ -52,7 +52,7 @@
 
                     {# Ecommerce items in Cart/Order #}
                     {% if action.itemDetails is not empty %}
-                        <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px'>
+                        <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px;'>
                             {% for product in action.itemDetails %}
                                 <li>
                                     {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}

@@ -34,21 +34,19 @@
     {% endfor %}
     {% if infos.adapters|length == 0 %}
         <tr>
-            <td colspan="2" class="error">
-                <small>
-                    {{ 'Installation_SystemCheckDatabaseHelp'|translate }}
-                    <p>
-                        {% if infos.isWindows %}
-                            {{ 'Installation_SystemCheckWinPdoAndMysqliHelp'|translate("<br /><br /><code>extension=php_mysqli.dll</code><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />")|raw|nl2br }}
-                        {% else %}
-                            {{ 'Installation_SystemCheckPdoAndMysqliHelp'|translate("<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />","<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />")|raw }}
-                        {% endif %}
-                        {{ 'Installation_RestartWebServer'|translate }}
-                        <br/>
-                        <br/>
-                        {{ 'Installation_SystemCheckPhpPdoAndMysqliSite'|translate }}
-                    </p>
-                </small>
+            <td colspan="2" class="error" style="font-size: small;">
+                {{ 'Installation_SystemCheckDatabaseHelp'|translate }}
+                <p>
+                    {% if infos.isWindows %}
+                        {{ 'Installation_SystemCheckWinPdoAndMysqliHelp'|translate("<br /><br /><code>extension=php_mysqli.dll</code><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />")|raw|nl2br }}
+                    {% else %}
+                        {{ 'Installation_SystemCheckPdoAndMysqliHelp'|translate("<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />","<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />")|raw }}
+                    {% endif %}
+                    {{ 'Installation_RestartWebServer'|translate }}
+                    <br/>
+                    <br/>
+                    {{ 'Installation_SystemCheckPhpPdoAndMysqliSite'|translate }}
+                </p>
             </td>
         </tr>
     {% endif %}
@@ -70,14 +68,12 @@
     </tr>
     {% if infos.missing_extensions|length > 0 %}
         <tr>
-            <td colspan="2" class="error">
-                <small>
-                    {% for missing_extension in infos.missing_extensions %}
-                        <p>
-                            <i>{{ helpMessages[missing_extension]|translate }}</i>
-                        </p>
-                    {% endfor %}
-                </small>
+            <td colspan="2" class="error" style="font-size: small;">
+                {% for missing_extension in infos.missing_extensions %}
+                    <p>
+                        <em>{{ helpMessages[missing_extension]|translate }}</em>
+                    </p>
+                {% endfor %}
             </td>
         </tr>
     {% endif %}
@@ -90,7 +86,7 @@
                     <span class='err'>{{ needed_function }}</span>
                     {% set hasError %}1{% endset %}
                     <p>
-                        <i>{{ helpMessages[needed_function]|translate }}</i>
+                        <em>{{ helpMessages[needed_function]|translate }}</em>
                     </p>
                 {% else %}
                     {{ ok }} {{ needed_function }}
@@ -104,18 +100,16 @@
         <td valign="top">
             {{ 'Installation_SystemCheckWriteDirs'|translate }}
         </td>
-        <td>
-            <small>
-                {% for dir, bool in infos.directories %}
-                    {% if bool %}
-                        {{ ok }}
-                    {% else %}
-                        <span style="color:red">{{ error }}</span>
-                    {% endif %}
-                    {{ dir }}
-                    <br/>
-                {% endfor %}
-            </small>
+        <td style="font-size: small;">
+            {% for dir, bool in infos.directories %}
+                {% if bool %}
+                    {{ ok }}
+                {% else %}
+                    <span style="color:red;">{{ error }}</span>
+                {% endif %}
+                {{ dir }}
+                <br/>
+            {% endfor %}
         </td>
     </tr>
     {% if problemWithSomeDirectories %}
@@ -147,10 +141,10 @@
             {% else %}
                 {% if infos.integrity %}
                     {{ warning }}
-                    <i>{{ infos.integrityErrorMessages[0] }}</i>
+                    <em>{{ infos.integrityErrorMessages[0] }}</em>
                 {% else %}
                     {{ error }}
-                    <i>{{ infos.integrityErrorMessages[0] }}</i>
+                    <em>{{ infos.integrityErrorMessages[0] }}</em>
                 {% endif %}
                 {% if infos.integrityErrorMessages|length > 1 %}
                     <button id="more-results" class="ui-button ui-state-default ui-corner-all">{{ 'General_Details'|translate }}</button>

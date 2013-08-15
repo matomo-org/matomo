@@ -410,7 +410,9 @@ class Properties
     /**
      * Returns the set of all valid properties for the given visualization class. The result is an
      * array with property names as keys. Values of the array are undefined.
-     * 
+     *
+     * @param string  $visualizationClass
+     *
      * @return array
      */
     public static function getVisualizationProperties($visualizationClass)
@@ -515,7 +517,7 @@ class Properties
             'export_limit' => Config::getInstance()->General['API_datatable_default_limit'],
             'highlight_summary_row' => false,
             'related_reports' => array(),
-            'title' => 'unknown',
+            'title' => '',
             'tooltip_metadata_name' => false,
             'enable_sort' => true,
             'disable_generic_filters' => false,

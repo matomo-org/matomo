@@ -21,9 +21,12 @@ class Exception extends StaticGraph
 {
     const MESSAGE_RIGHT_MARGIN = 5;
 
+    /**
+     * @var \Exception
+     */
     private $exception;
 
-    public function setException($exception)
+    public function setException(\Exception $exception)
     {
         $this->exception = $exception;
     }

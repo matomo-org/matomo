@@ -22,7 +22,7 @@ $piwik_minimumPHPVersion = '5.3';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
-    $piwik_errorMessage .= "<p><b>To run Piwik you need at least PHP version $piwik_minimumPHPVersion</b></p>
+    $piwik_errorMessage .= "<p><strong>To run Piwik you need at least PHP version $piwik_minimumPHPVersion</strong></p>
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
 				<p>Please try to update your PHP version, Piwik is really worth it! Nowadays most web hosts 
 				support PHP $piwik_minimumPHPVersion.</p>
@@ -30,25 +30,25 @@ if ($minimumPhpInvalid) {
 } else {
     $piwik_zend_compatibility_mode = ini_get("zend.ze1_compatibility_mode");
     if ($piwik_zend_compatibility_mode == 1) {
-        $piwik_errorMessage .= "<p><b>Piwik is not compatible with the directive <code>zend.ze1_compatibility_mode = On</code></b></p>
+        $piwik_errorMessage .= "<p><strong>Piwik is not compatible with the directive <code>zend.ze1_compatibility_mode = On</code></strong></p>
 					<p>It seems your php.ini file has <pre>zend.ze1_compatibility_mode = On</pre>It makes PHP5 behave like PHP4.
 					If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file, and restart your web server. You may have to ask your system administrator.</p>";
     }
 
     if (!class_exists('ArrayObject')) {
-        $piwik_errorMessage .= "<p><b>Piwik and Zend Framework require the SPL extension</b></p>
+        $piwik_errorMessage .= "<p><strong>Piwik and Zend Framework require the SPL extension</strong></p>
 					<p>It appears your PHP was compiled with <pre>--disable-spl</pre>.
 					To enjoy Piwik, you need PHP compiled without that configure option.</p>";
     }
 
     if (!extension_loaded('session')) {
-        $piwik_errorMessage .= "<p><b>Piwik and Zend_Session require the session extension</b></p>
+        $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the session extension</strong></p>
 					<p>It appears your PHP was compiled with <pre>--disable-session</pre>.
 					To enjoy Piwik, you need PHP compiled without that configure option.</p>";
     }
 
     if (!function_exists('ini_set')) {
-        $piwik_errorMessage .= "<p><b>Piwik and Zend_Session require the <code>ini_set()</code> function</b></p>
+        $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the <code>ini_set()</code> function</strong></p>
 					<p>It appears your PHP has disabled this function.
 					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }

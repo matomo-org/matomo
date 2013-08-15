@@ -84,7 +84,7 @@ Segmentation = (function($) {
             {
                 var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
                 var foundItems = $(selector);
-                var title = $('<b></b>');
+                var title = $('<strong></strong>');
                 if( foundItems.length > 0) {
                     var name = $(foundItems).first().find("span.segname").text();
                     title.text(name);
@@ -100,21 +100,21 @@ Segmentation = (function($) {
 
         var getAndDiv = function(){
             if(typeof andDiv === "undefined"){
-                var andDiv = $("#SegmentEditor > div.segment-and").clone();
+                var andDiv = $("#SegmentEditor").find("> div.segment-and").clone();
             }
             return andDiv.clone();
         };
 
         var getOrDiv = function(){
             if(typeof orDiv === "undefined"){
-                var orDiv = $("#SegmentEditor > div.segment-or").clone();
+                var orDiv = $("#SegmentEditor").find("> div.segment-or").clone();
             }
             return orDiv.clone();
         };
 
         var getMockedInputSet = function(){
             if(typeof mockedInputSet === "undefined"){
-                var mockedInputSet = $("#SegmentEditor div.segment-row-inputs").clone();
+                var mockedInputSet = $("#SegmentEditor").find("div.segment-row-inputs").clone();
             }
             return mockedInputSet.clone();
         };
@@ -129,7 +129,7 @@ Segmentation = (function($) {
         var getMockedFormRow = function(){
             if(typeof mockedFormRow === "undefined")
             {
-                var mockedFormRow = $("#SegmentEditor div.segment-rows").clone();
+                var mockedFormRow = $("#SegmentEditor").find("div.segment-rows").clone();
                 $(mockedFormRow).find(".segment-row").append(getMockedInputSet()).after(getAddOrBlockButtonHtml).after(getOrDiv());
             }
             return mockedFormRow.clone();
@@ -137,7 +137,7 @@ Segmentation = (function($) {
 
         var getInitialStateRowsHtml = function(){
             if(typeof initialStateRows === "undefined"){
-                var content = $("#SegmentEditor div.initial-state-rows").html();
+                var content = $("#SegmentEditor").find("div.initial-state-rows").html();
                 var initialStateRows = $(content).clone();
             }
             return initialStateRows;
@@ -199,7 +199,7 @@ Segmentation = (function($) {
         };
 
         var getListHtml = function() {
-            var html = $("#SegmentEditor > .listHtml").clone();
+            var html = $("#SegmentEditor").find("> .listHtml").clone();
             var segment, injClass;
 
             var listHtml = '<li data-idsegment="" ' +
@@ -239,7 +239,7 @@ Segmentation = (function($) {
         };
 
         var getFormHtml = function() {
-            var html = $("#SegmentEditor > .segment-element").clone();
+            var html = $("#SegmentEditor").find("> .segment-element").clone();
             // set left margin to center form
             //$("body").append(html);
             var segmentsDropdown = $(html).find("#available_segments_select");
@@ -485,7 +485,7 @@ Segmentation = (function($) {
         {
             if(typeof addNewBlockButton === "undefined")
             {
-                var addNewBlockButton = $("#SegmentEditor > div.segment-add-row").clone();
+                var addNewBlockButton = $("#SegmentEditor").find("> div.segment-add-row").clone();
             }
             return addNewBlockButton.clone();
 
@@ -494,7 +494,7 @@ Segmentation = (function($) {
         var getAddOrBlockButtonHtml = function(){
             if(typeof addOrBlockButton === "undefined")
             {
-                var addOrBlockButton = $("#SegmentEditor div.segment-add-or").clone();
+                var addOrBlockButton = $("#SegmentEditor").find("div.segment-add-or").clone();
             }
             return addOrBlockButton.clone();
         };
@@ -959,9 +959,9 @@ Segmentation = (function($) {
 
         function toggleLoadingMessage(segmentIsSet) {
             if (segmentIsSet) {
-                $('#ajaxLoading .loadingSegment').show();
+                $('#ajaxLoading').find('.loadingSegment').show();
             } else {
-                $('#ajaxLoading .loadingSegment').hide();
+                $('#ajaxLoading').find('.loadingSegment').hide();
             }
         }
 
@@ -1001,7 +1001,7 @@ $(document).ready( function(){
     }
 
     var changeSegment = function(segmentDefinition){
-        $('#segmentEditorPanel a.close').click();
+        $('#segmentEditorPanel').find('a.close').click();
         segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
         segmentDefinition = encodeURIComponent(segmentDefinition);
         return broadcast.propagateNewPage('segment=' + segmentDefinition, true);

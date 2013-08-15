@@ -175,7 +175,7 @@ $(document).ready(function () {
 
             // setup the auto-updater
             var ajaxRequest = new ajaxHelper();
-            var periodSelected = $('#geoip-update-period-cell>input:checked').val();
+            var periodSelected = $('#geoip-update-period-cell').find('>input:checked').val();
             ajaxRequest.addParams({
                 period: periodSelected
             }, 'get');

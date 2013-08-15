@@ -126,7 +126,7 @@ a#Overlay_Transitions:hover {
 }
 
 h2.Overlay_MainMetrics {
-    background: url(../images/info.png) 0 1px no-repeat
+    background: url(../images/info.png) 0 1px no-repeat;
 }
 
 body .ui-tooltip.Overlay_Tooltip {
@@ -135,7 +135,7 @@ body .ui-tooltip.Overlay_Tooltip {
 }
 
 #Overlay_NoFrame {
-    padding: 20px 0 40px 2px
+    padding: 20px 0 40px 2px;
 }
 
 #Overlay_Error_NotLoading {

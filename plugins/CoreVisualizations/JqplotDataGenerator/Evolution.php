@@ -5,8 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
+ * @category Piwik_Plugins
+ * @package CoreVisualizations
  */
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
@@ -24,16 +24,6 @@ use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 class Evolution extends JqplotDataGenerator
 {
     protected $rowPickerConfig = array();
-
-    /**
-     * Constructor.
-     *
-     * @param array $properties
-     */
-    public function __construct($properties)
-    {
-        parent::__construct(new \Piwik\Visualization\Chart\Evolution(), $properties);
-    }
 
     /**
      * @param DataTable|DataTable\Map $dataTable

@@ -22,7 +22,7 @@
         {% endif %}
     </div>
 
-    <span class="loadingPiwik" style='display:none'><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+    <span class="loadingPiwik" style="display:none;"><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
     {% if properties.show_footer_icons %}
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="{{ javascriptVariablesToSet.viewDataTable }}">
@@ -93,7 +93,7 @@
                             <img width="16" height="16" src="plugins/Zeitgeist/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
                         </a>
                     </span>
-				    <span class="exportToFormatItems" style="display:none">
+				    <span class="exportToFormatItems" style="display:none;">
 					{{ 'General_Export'|translate }}:
 					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.export_limit }}">CSV</a> |
 					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.export_limit }}">TSV (Excel)</a> |
@@ -171,6 +171,6 @@
 
 </div>
 
-<span class="loadingPiwikBelow" style='display:none'><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+<span class="loadingPiwikBelow" style="display:none;"><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
 
 <div class="dataTableSpacer"></div>

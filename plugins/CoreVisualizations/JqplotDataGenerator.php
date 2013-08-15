@@ -5,8 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * @category Piwik
- * @package Piwik
+ * @category Piwik_Plugins
+ * @package CoreVisualizations
  */
 
 namespace Piwik\Plugins\CoreVisualizations;
@@ -16,6 +16,8 @@ use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\Visualization;
+use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';
 
@@ -54,11 +56,8 @@ class JqplotDataGenerator
             case 'evolution':
                 return new JqplotDataGenerator\Evolution($properties);
             case 'pie':
-                $visualization = new Visualization\Chart\Pie();
-                return new JqplotDataGenerator($visualization, $properties);
             case 'bar':
-                $visualization = new Visualization\Chart\VerticalBar();
-                return new JqplotDataGenerator($visualization, $properties);
+                return new JqplotDataGenerator($properties);
             default:
                 throw new Exception("Unknown JqplotDataGenerator type '$type'.");
         }
@@ -70,9 +69,9 @@ class JqplotDataGenerator
      * @param Visualization\ $visualization
      * @param array $properties
      */
-    public function __construct($visualization, $properties)
+    public function __construct($properties)
     {
-        $this->visualization = $visualization;
+        $this->visualization = new Chart();
         $this->properties = $properties;
     }
 
@@ -165,7 +164,7 @@ class JqplotDataGenerator
 
         // the bar charts contain the labels a first series
         // this series has to be removed from the units
-        if ($this->visualization instanceof Visualization\Chart\VerticalBar) {
+        if ($this->visualization instanceof Bar) {
             array_shift($units);
         }
 

@@ -56,7 +56,7 @@ class Controller extends \Piwik\Controller\Admin
             }
         }
 
-        return $this->redirectToIndex('PrivacyManager', 'privacySettings', null, null, null, array('updated' => 1));
+        $this->redirectToIndex('PrivacyManager', 'privacySettings', null, null, null, array('updated' => 1));
     }
 
     /**
@@ -149,7 +149,8 @@ class Controller extends \Piwik\Controller\Admin
         if ($_SERVER["REQUEST_METHOD"] != "POST"
             && !Common::isPhpCliMode()
         ) {
-            return $this->redirectToIndex('PrivacyManager', 'privacySettings');
+            $this->redirectToIndex('PrivacyManager', 'privacySettings');
+            return;
         }
 
         $settings = PrivacyManager::getPurgeDataSettings();

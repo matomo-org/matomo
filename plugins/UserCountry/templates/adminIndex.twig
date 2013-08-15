@@ -6,14 +6,14 @@
 
 <h2 id="location-providers">{{ 'UserCountry_Geolocation'|translate }}</h2>
 
-<div style="width:900px">
+<div style="width:900px;">
 
     <p>{{ 'UserCountry_GeolocationPageDesc'|translate }}</p>
 
     {% if not isThereWorkingProvider %}
-        <h3 style="margin-top:0">{{ 'UserCountry_HowToSetupGeoIP'|translate }}</h3>
+        <h3 style="margin-top:0;">{{ 'UserCountry_HowToSetupGeoIP'|translate }}</h3>
         <p>{{ 'UserCountry_HowToSetupGeoIPIntro'|translate }}</p>
-        <ul style="list-style:disc;margin-left:2em">
+        <ul style="list-style:disc;margin-left:2em;">
             <li>{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz">','</a>','<a target="_blank" href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}</li>
             <li>{{ 'UserCountry_HowToSetupGeoIP_Step2'|translate("'GeoLiteCity.dat'",'<strong>','</strong>')|raw }}</li>
             <li>{{ 'UserCountry_HowToSetupGeoIP_Step3'|translate('<strong>','</strong>','<span style="color:green"><strong>','</strong></span>')|raw }}</li>
@@ -35,8 +35,8 @@
                     <input class="location-provider" name="location-provider" value="{{ id }}" type="radio" {% if currentProviderId == id %}checked="checked"{% endif %}
                            id="provider_input_{{ id }}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
                     <label for="provider_input_{{ id }}">{{ provider.title|translate }}</label><br/>
-                    <span class='loadingPiwik' style='display:none'><img src='./plugins/Zeitgeist/images/loading-blue.gif'/></span>
-                    <span class="ajaxSuccess" style='display:none'>{{ 'General_Done'|translate }}</span>
+                    <span class="loadingPiwik" style="display:none;"><img src=""./plugins/Zeitgeist/images/loading-blue.gif"/></span>
+                    <span class="ajaxSuccess" style="display:none;">{{ 'General_Done'|translate }}</span>
                 </p>
 
                 <p class="loc-provider-status">
@@ -64,9 +64,9 @@
                             {{ 'UserCountry_CurrentLocationIntro'|translate }}:
                             <div style="text-align:left;">
                                 <br/>
-                                <span class='loadingPiwik' style='display:none;position:absolute'>
-                                    <img src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'General_Loading_js'|translate }}</span>
-                                <span class='location'><strong><em>{{ provider.location }}</em></strong></span>
+                                <span class="loadingPiwik" style="display:none;position:absolute;">
+                                    <img src="./plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_Loading_js'|translate }}</span>
+                                <span class="location"><strong><em>{{ provider.location }}</em></strong></span>
                             </div>
                             <div style="text-align:right;">
                                 <a href="#" class="refresh-loc" data-impl-id="{{ id }}"><em>{{ 'Dashboard_Refresh_js'|translate }}</em></a>
@@ -103,7 +103,7 @@
 {% endif %}
 
 {% if showGeoIPUpdateSection %}
-    <div id="manage-geoip-dbs" style="width:900px" class="adminTable">
+    <div id="manage-geoip-dbs" style="width:900px;" class="adminTable">
 
     {% if not geoIPDatabasesInstalled %}
         <div id="geoipdb-screen1">
@@ -118,7 +118,7 @@
                 <input type="button" class="submit" value="{{ 'General_GetStarted'|translate }}..." id="start-automatic-update-geoip"/>
             </div>
         </div>
-        <div id="geoipdb-screen2-download" style="display:none">
+        <div id="geoipdb-screen2-download" style="display:none;">
             <p class='loadingPiwik'><img src='./plugins/Zeitgeist/images/loading-blue.gif'/>
             {{ 'UserCountry_DownloadingDb'|translate('<a href="'~geoLiteUrl~'">GeoLiteCity.dat</a>')|raw }}...</p>
 	        <div id="geoip-download-progress"></div>
@@ -126,7 +126,7 @@
     {% endif %}
     {% include "@UserCountry/_updaterManage.twig" %}
 {% else %}
-<p style="width:900px" class="form-description">{{ 'UserCountry_CannotSetupGeoIPAutoUpdating'|translate }}</p>
+<p style="width:900px;" class="form-description">{{ 'UserCountry_CannotSetupGeoIPAutoUpdating'|translate }}</p>
 {% endif %}
 </div>
 

@@ -2,7 +2,7 @@
 
 {% block content %}
 <br/>
-<p><b>{{ 'CoreUpdater_ThereIsNewVersionAvailableForUpdate'|translate }}</b></p>
+<p><strong>{{ 'CoreUpdater_ThereIsNewVersionAvailableForUpdate'|translate }}</strong></p>
 
 {% if can_auto_update %}
     <p>{{ 'CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage'|translate(piwik_new_version) }}</p>
@@ -19,12 +19,12 @@
     <input type="hidden" name="action" value="oneClickUpdate"/>
     <input type="submit" class="submit" value="{{ 'CoreUpdater_UpdateAutomatically'|translate }}"/>
     {% endif %}
-    <a style="margin-left:50px" class="submit button"
+    <a style="margin-left:50px;" class="submit button"
        href="{{ piwik_latest_version_url }}?cb={{ piwik_new_version }}">{{ 'CoreUpdater_DownloadX'|translate(piwik_new_version) }}</a><br/>
     {% if can_auto_update %}
 </form>
 {% endif %}
 <br/>
-<a href='index.php'>&laquo; {{ 'General_BackToPiwik'|translate }}</a>
+<a href="index.php">&laquo; {{ 'General_BackToPiwik'|translate }}</a>
 {% endblock %}
 

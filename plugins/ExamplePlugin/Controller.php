@@ -43,7 +43,7 @@ class Controller extends \Piwik\Controller
         echo "<p>Hello world! <br /> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
 		<br />Widgets can include graphs, tables, flash, text, images, etc.
 		<br />It's very easy to create a new plugin and widgets in Piwik. Have a look at this example file (/plugins/ExamplePlugin/ExamplePlugin.php).
-		<div id='happycoding'><i>Happy coding!</i></div>
+		<div id='happycoding'><em>Happy coding!</em></div>
 		<div id='jsenabled'>You can easily use Jquery in widgets</div>
 		<p>
 		<script type=\"text/javascript\">$('#happycoding').hide().fadeIn(5000);$('#jsenabled').hide().css({'color':'red'}).fadeIn(10000);</script>";
@@ -51,7 +51,7 @@ class Controller extends \Piwik\Controller
 
     public function photostreamMatt()
     {
-        echo '<object width="400" height="400"> <param name="flashvars" value="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to="></param> <param name="movie" value="http://www.flickr.com/apps/slideshow/show.swf?v=109615"></param> <param name="allowFullScreen" value="true"></param><embed type="application/x-shockwave-flash" src="http://www.flickr.com/apps/slideshow/show.swf?v=109615" allowFullScreen="true" flashvars="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to=" width="400" height="400"></embed></object>';
+        echo '<object width="400" height="400"> <param name="flashvars" value="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to=" /> <param name="movie" value="http://www.flickr.com/apps/slideshow/show.swf?v=109615" /> <param name="allowFullScreen" value="true" /><embed type="application/x-shockwave-flash" src="http://www.flickr.com/apps/slideshow/show.swf?v=109615" allowFullScreen="true" flashvars="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to=" width="400" height="400"></embed></object>';
     }
 
     /**
@@ -73,13 +73,13 @@ class Controller extends \Piwik\Controller
     public function index()
     {
         $out = '';
-        $out .= '<i>This page aims to list the different functions you can use when programming plugins for Piwik.</i><br />';
-        $out .= '<b>Be careful, the following APIs may change in the near future as Piwik is still in development.</b><br />';
+        $out .= '<em>This page aims to list the different functions you can use when programming plugins for Piwik.</em><br />';
+        $out .= '<strong>Be careful, the following APIs may change in the near future as Piwik is still in development.</strong><br />';
 
         $out .= '<h2>General</h2>';
         $out .= '<h3>Accessible from your plugin controller</h3>';
 
-        $out .= '<code>$this->date</code> = current selected <b>Date</b> object (<a href="https://github.com/piwik/piwik/blob/master/core/Date.php">class</a>)<br />';
+        $out .= '<code>$this->date</code> = current selected <strong>Date</strong> object (<a href="https://github.com/piwik/piwik/blob/master/core/Date.php">class</a>)<br />';
         $out .= '<code>$period = Common::getRequestVar("period");</code> - Get the current selected period<br />';
         $out .= '<code>$idSite = Common::getRequestVar("idSite");</code> - Get the selected idSite<br />';
         $out .= '<code>$site = new Site($idSite);</code> - Build the Site object (<a href="https://github.com/piwik/piwik/tree/master/core/Site.php">class</a>)<br />';

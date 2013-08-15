@@ -20,14 +20,14 @@
     {% endif %}
 
     <p>
-        <b>{{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}</b>
+        <strong>{{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}</strong>
     </p>
 
     <h2>{{ 'API_UserAuthentication'|translate }}</h2>
 
     <p>
         {{ 'API_UsingTokenAuth'|translate('<b>','</b>',"")|raw }}<br/>
-        <span id='token_auth'>&amp;token_auth=<b>{{ token_auth }}</b></span><br/>
+        <span id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></span><br/>
         {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
         {{ list_api_methods_with_links|raw }}
         <br/>

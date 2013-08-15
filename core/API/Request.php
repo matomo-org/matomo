@@ -165,7 +165,7 @@ class Request
 
     static public function getClassNameAPI($module)
     {
-        return "\\Piwik\\Plugins\\$module\\API";
+        return sprintf('\Piwik\Plugins\%s\API', $module);
     }
 
     /**

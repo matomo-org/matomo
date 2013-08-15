@@ -614,8 +614,8 @@ class Controller extends \Piwik\Controller\Admin
         if ($error) {
             \Piwik\Plugins\Login\Controller::clearSession();
             $message = Piwik_Translate('Installation_ErrorInvalidState',
-                array('<br /><b>',
-                      '</b>',
+                array('<br /><strong>',
+                      '</strong>',
                       '<a href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
                       '</a>')
             );

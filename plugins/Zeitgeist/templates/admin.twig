@@ -40,17 +40,17 @@
                     {% include "@CoreHome/_headerMessage.twig" %}
 
                     {% if configFileNotWritable is defined and configFileNotWritable%}
-                    <div class="ajaxSuccess" style="display:inline-block">
+                    <div class="ajaxSuccess" style="display:inline-block;">
                         {{ 'General_ConfigFileIsNotWritable'|translate("(config/config.ini.php)","<br/>")|raw }}
                     </div>
                     {% elseif false %}
-                    <div class="ajaxSuccess" style="display:inline-block">
+                    <div class="ajaxSuccess" style="display:inline-block;">
                         {{ 'General_YourChangesHaveBeenSaved'|translate }}
                     </div>
                     {% endif %}
 
                     {% if statisticsNotRecorded is defined and statisticsNotRecorded is not empty %}
-                    <div class="ajaxSuccess" style="display:inline-block">
+                    <div class="ajaxSuccess" style="display:inline-block;">
                         {{ 'General_StatisticsAreNotRecorded'|translate }}
                     </div>
                     {% endif %}

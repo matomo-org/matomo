@@ -1069,6 +1069,7 @@ class ViewDataTable
     protected function buildView()
     {
         $visualization = new $this->visualizationClass($this);
+        $this->overrideViewProperties();
 
         try {
             $this->loadDataTableFromAPI();
@@ -1080,8 +1081,6 @@ class ViewDataTable
 
             $this->loadingError = array('message' => $e->getMessage());
         }
-
-        $this->overrideViewProperties();
 
         $template = $this->viewProperties['datatable_template'];
         $view = new View($template);

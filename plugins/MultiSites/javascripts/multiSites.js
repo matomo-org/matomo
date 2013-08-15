@@ -208,13 +208,13 @@ function changePage(allSites, params, kind) {
 
 function getImageForSummary(value) {
     if (value > 0) {
-        return '<img src="plugins/MultiSites/images/arrow_up.png" alt="" /> <b style="color: green;">' + value + '&nbsp;%</b>';
+        return '<img src="plugins/MultiSites/images/arrow_up.png" alt="" /> <strong style="color: green;">' + value + '&nbsp;%</strong>';
     }
     else if (value == 0) {
-        return '<img src="plugins/MultiSites/images/stop.png" alt="" /> <b>' + value + '%</b>';
+        return '<img src="plugins/MultiSites/images/stop.png" alt="" /> <strong>' + value + '%</strong>';
     }
     else {
-        return '<img src="plugins/MultiSites/images/arrow_down.png" alt="" /> <b style="color: red;">' + value + '&nbsp;%</b>';
+        return '<img src="plugins/MultiSites/images/arrow_down.png" alt="" /> <strong style="color: red;">' + value + '&nbsp;%</strong>';
     }
 }
 
