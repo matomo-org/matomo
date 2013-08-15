@@ -137,9 +137,11 @@ $(function () {
             if ($('li', selector).length > 1) {
 
                 // event handler for when site selector is clicked. shows dropdown w/ first X sites
-                $(".custom_select", selector).click(function() {
-                    $(".custom_select_block", selector).toggleClass("custom_select_block_show");
-                    $(".websiteSearch", selector).val("").focus();
+                $(".custom_select", selector).click(function(e) {
+                    if(!$(e.target).parents('.custom_select_block').length) {
+                        $(".custom_select_block", selector).toggleClass("custom_select_block_show");
+                        $(".websiteSearch", selector).val("").focus();
+                    }
                     return false;
                 });
 
