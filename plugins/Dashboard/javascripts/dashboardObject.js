@@ -442,7 +442,6 @@
                         dashboardName = dashboards[i].name;
                     }
                 }
-                $('li a', dashboardMenuList).each(function () {$(this).css({width: $(this).width() + 30, paddingLeft: 0, paddingRight: 0});});
                 $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
             } else {
                 dashboardMenuList.hide();

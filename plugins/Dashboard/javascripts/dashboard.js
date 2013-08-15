@@ -24,7 +24,6 @@ function initDashboard(dashboardId, dashboardLayout) {
     if (!$('#topBars').length) {
         $('#dashboardSettings').css({left: 0});
         $('#dashboardSettings').after($('#Dashboard'));
-        $('#Dashboard').find('> ul li a').each(function () {$(this).css({width: this.offestWidth + 30, paddingLeft: 0, paddingRight: 0});});
         $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
     }
 

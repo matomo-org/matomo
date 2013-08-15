@@ -44,9 +44,6 @@ menu.prototype =
     init: function () {
         this.menuNode = $('.Menu--dashboard');
 
-        //sub LI auto height
-        $('.Menu--dashboard li li a', this.menuNode).each(function () {$(this).css({width: $(this).width() + 30, paddingLeft: 0, paddingRight: 0});});
-
         this.menuNode.find("li:has(ul)").hover(this.overMainLI, this.outMainLI);
 
         // add id to all li menu to support menu identification.
