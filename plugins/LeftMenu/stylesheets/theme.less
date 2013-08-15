@@ -35,7 +35,6 @@
   min-height: 0;
   max-height: 0;
   padding: 0;
-  transition: max-height 1s;
   overflow: hidden;
   position: static;
   float: none;
@@ -43,7 +42,7 @@
 
 .Menu--dashboard > .Menu-tabList > .sfActive > ul {
   padding-bottom: 5px;
-  max-height: 1000px;
+  max-height: 500px; /* That's a hack for CSS transitions */
 }
 
 .Menu--dashboard > .Menu-tabList li {
