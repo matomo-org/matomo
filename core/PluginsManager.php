@@ -617,7 +617,7 @@ class PluginsManager
 
         $pluginName = $plugin->getPluginName();
 
-        $path = self::getPluginsDirectory() . $pluginName . '/lang/%s.php';
+        $path = self::getPluginsDirectory() . $pluginName . '/lang/%s.json';
 
         $defaultLangPath = sprintf($path, $langCode);
         $defaultEnglishLangPath = sprintf($path, 'en');
@@ -625,13 +625,19 @@ class PluginsManager
         $translations = array();
 
         if (file_exists($defaultLangPath)) {
-            require $defaultLangPath;
+            $data = file_get_contents($defaultLangPath);
+            $translations = json_decode($data, true);
         } elseif (file_exists($defaultEnglishLangPath)) {
-            require $defaultEnglishLangPath;
+            $data = file_get_contents($defaultEnglishLangPath);
+            $translations = json_decode($data, true);
         } else {
             return false;
         }
-        Translate::getInstance()->mergeTranslationArray($translations);
+
+        if(isset($translations[$pluginName])) {
+            // only merge translations of plugin - prevents overwritten strings
+            Translate::getInstance()->mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+        }
         return true;
     }
 

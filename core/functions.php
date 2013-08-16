@@ -66,8 +66,12 @@ namespace {
         if (!is_array($args)) {
             $args = array($args);
         }
-        if (isset($GLOBALS['Piwik_translations'][$string])) {
-            $string = $GLOBALS['Piwik_translations'][$string];
+
+        if(strpos($string, "_") !== FALSE) {
+            list($plugin, $key) = explode("_", $string, 2);
+            if (isset($GLOBALS['Piwik_translations'][$plugin]) && isset($GLOBALS['Piwik_translations'][$plugin][$key])) {
+                $string = $GLOBALS['Piwik_translations'][$plugin][$key];
+            }
         }
         if (count($args) == 0) {
             return $string;

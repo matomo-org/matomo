@@ -73,12 +73,12 @@ class Translate
 
     private function loadCoreTranslationFile($language)
     {
-        $translations = array();
-        $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
+        $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.json';
         if (!Common::isValidFilename($language) || !is_readable($path)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
         }
-        require $path;
+	    $data = file_get_contents($path);
+        $translations = json_decode($data, true);
         $this->mergeTranslationArray($translations);
         $this->setLocale();
         $this->loadedLanguage = $language;
@@ -90,7 +90,7 @@ class Translate
             $GLOBALS['Piwik_translations'] = array();
         }
         // we could check that no string overlap here
-        $GLOBALS['Piwik_translations'] = array_merge($GLOBALS['Piwik_translations'], array_filter($translation, 'strlen'));
+        $GLOBALS['Piwik_translations'] = array_merge_recursive($GLOBALS['Piwik_translations'], $translation);
     }
 
     /**
@@ -140,22 +140,25 @@ class Translate
 
         $js = 'var translations = {';
 
-        $moduleRegex = '#^(';
-        foreach ($moduleList as $module) {
-            $moduleRegex .= $module . '|';
-        }
-        $moduleRegex = substr($moduleRegex, 0, -1);
-        $moduleRegex .= ')_.*_js$#i';
+        $moduleRegex = '#^.*_js$#i';
 
-        // Hack: common translations used in JS but not only, force as them to be defined in JS
+        // Hack: common translations used in JS but not only, force them to be defined in JS
         $translations = $GLOBALS['Piwik_translations'];
         $toSetInJs = array('General_Save', 'General_OrCancel');
         foreach ($toSetInJs as $toSetId) {
-            $translations[$toSetId . '_js'] = $translations[$toSetId];
+            list($plugin, $key) = explode("_", $toSetId, 2);
+            $translations[$plugin][$key . '_js'] = $translations[$plugin][$key];
         }
-        foreach ($translations as $key => $value) {
-            if (preg_match($moduleRegex, $key)) {
-                $js .= '"' . $key . '": "' . str_replace('"', '\"', $value) . '",';
+        foreach ($translations as $module => $keys) {
+            // Skip modules
+            if(!in_array($module, $moduleList)) {
+                continue;
+            }
+            foreach($keys as $key => $value) {
+                // Find keys ending with _js
+                if (preg_match($moduleRegex, $key)) {
+                    $js .= sprintf('"%s_%s": "%s",', $module, $key, str_replace('"', '\"', $value));
+                }
             }
         }
         $js = substr($js, 0, -1);
@@ -175,7 +178,7 @@ class Translate
      */
     private function setLocale()
     {
-        $locale = $GLOBALS['Piwik_translations']['General_Locale'];
+        $locale = $GLOBALS['Piwik_translations']['General']['Locale'];
         $locale_variant = str_replace('UTF-8', 'UTF8', $locale);
         setlocale(LC_ALL, $locale, $locale_variant);
         setlocale(LC_CTYPE, '');
