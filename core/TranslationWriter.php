@@ -61,7 +61,7 @@ class TranslationWriter
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($lang)));
         }
 
-        return PIWIK_INCLUDE_PATH . '/' . $base . '/' . $lang . '.php';
+        return PIWIK_INCLUDE_PATH . '/' . $base . '/' . $lang . '.json';
     }
 
     /**
@@ -73,13 +73,13 @@ class TranslationWriter
      */
     static public function loadTranslation($lang)
     {
-        $translations = array();
         $path = self::getTranslationPath($lang);
         if (!is_readable($path)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($lang)));
         }
 
-        require $path;
+        $data = file_get_contents($path);
+        $translations = json_decode($data, true);
         return $translations;
     }
 

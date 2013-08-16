@@ -106,11 +106,11 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
     public function testGetTranslationPath()
     {
         // implicit base path
-        $this->assertEquals(PIWIK_INCLUDE_PATH . '/lang/en.php', TranslationWriter::getTranslationPath('en'));
+        $this->assertEquals(PIWIK_INCLUDE_PATH . '/lang/en.json', TranslationWriter::getTranslationPath('en'));
 
         // explicit base path
-        $this->assertEquals(PIWIK_INCLUDE_PATH . '/lang/en.php', TranslationWriter::getTranslationPath('en', 'lang'));
-        $this->assertEquals(PIWIK_INCLUDE_PATH . '/tmp/en.php', TranslationWriter::getTranslationPath('en', 'tmp'));
+        $this->assertEquals(PIWIK_INCLUDE_PATH . '/lang/en.json', TranslationWriter::getTranslationPath('en', 'lang'));
+        $this->assertEquals(PIWIK_INCLUDE_PATH . '/tmp/en.json', TranslationWriter::getTranslationPath('en', 'tmp'));
     }
 
     /**
@@ -133,12 +133,13 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadTranslation()
     {
-        require PIWIK_INCLUDE_PATH . '/lang/en.php';
+        $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/en.json');
+        $translations = json_decode($data, true);
         $this->assertTrue(is_array($translations));
 
         $englishTranslations = TranslationWriter::loadTranslation('en');
 
-        $this->assertEquals(count($translations), count($englishTranslations));
+        $this->assertEquals(count($translations, COUNT_RECURSIVE), count($englishTranslations, COUNT_RECURSIVE));
         $this->assertEquals(0, count(array_diff($translations, $englishTranslations)));
         $this->assertEquals(0, count(array_diff_assoc($translations, $englishTranslations)));
     }
@@ -152,10 +153,16 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         $path = TranslationWriter::getTranslationPath('en', 'tmp');
 
         $translations = array(
-            'General_Locale' => 'en_CA.UTF-8',
-            'General_Id'     => 'Id',
-            'Goals_Goals'    => 'Goals',
-            'Plugin_Body'    => "Message\nBody",
+            'General' => array(
+                'Locale' => 'en_CA.UTF-8',
+                'Id'     => 'Id'
+            ),
+            'Goals' => array(
+                'Goals'  => 'Goals',
+            ),
+            'Plugin' => array(
+                'Body'    => "Message\nBody"
+            )
         );
 
         @unlink($path);
@@ -164,7 +171,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(false, $rc);
 
         $contents = file_get_contents($path);
-        $expected = "<?php\n\$translations = array(\n\t'General_Locale' => 'en_CA.UTF-8',\n\t'General_Id' => 'Id',\n\t'Goals_Goals' => 'Goals',\n\n\t// FOR REVIEW\n\t'Plugin_Body' => 'Message\nBody',\n);\n";
+        $expected = '{\n    "General": {\n        "Locale": "en_CA.UTF-8",\n        "Id": "Id"\n    },\n    "Goals"';
         if (Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
         $this->assertEquals($expected, $contents);
     }
