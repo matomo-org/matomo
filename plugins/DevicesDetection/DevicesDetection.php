@@ -49,7 +49,7 @@ class DevicesDetection extends \Piwik\Plugin
     public function getInformation()
     {
         return array(
-            'description'     => "[Beta Plugin] " . Piwik_Translate("DevicesDetection_description"),
+            'description'     => "[Beta Plugin] " . Piwik_Translate("DevicesDetection_PluginDescription"),
             'author'          => 'Piwik and Clearcode.cc',
             'author_homepage' => 'http://clearcode.cc',
             'version'         => '1.12-b6',
