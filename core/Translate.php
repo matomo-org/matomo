@@ -77,7 +77,7 @@ class Translate
         if (!Common::isValidFilename($language) || !is_readable($path)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
         }
-	    $data = file_get_contents($path);
+        $data = file_get_contents($path);
         $translations = json_decode($data, true);
         $this->mergeTranslationArray($translations);
         $this->setLocale();
@@ -90,7 +90,7 @@ class Translate
             $GLOBALS['Piwik_translations'] = array();
         }
         // we could check that no string overlap here
-        $GLOBALS['Piwik_translations'] = array_merge_recursive($GLOBALS['Piwik_translations'], $translation);
+        $GLOBALS['Piwik_translations'] = array_replace_recursive($GLOBALS['Piwik_translations'], $translation);
     }
 
     /**
