@@ -69,12 +69,12 @@ class API
             return $this->languageNames;
         }
         $path = PIWIK_INCLUDE_PATH . "/lang/";
-        $languages = _glob($path . "*.php");
+        $languages = _glob($path . "*.json");
         $pathLength = strlen($path);
         $languageNames = array();
         if ($languages) {
             foreach ($languages as $language) {
-                $languageNames[] = substr($language, $pathLength, -strlen('.php'));
+                $languageNames[] = substr($language, $pathLength, -strlen('.json'));
             }
         }
         $this->languageNames = $languageNames;
@@ -88,20 +88,34 @@ class API
      */
     public function getAvailableLanguagesInfo()
     {
-        require PIWIK_INCLUDE_PATH . '/lang/en.php';
+        $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/en.json');
+        $translations = json_decode($data, true);
         $englishTranslation = $translations;
         $filenames = $this->getAvailableLanguages();
         $languagesInfo = array();
         foreach ($filenames as $filename) {
-            require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
-            $translationStringsDone = array_intersect_key($englishTranslation, array_filter($translations, 'strlen'));
-            $percentageComplete = count($translationStringsDone) / count($englishTranslation);
+            $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/$filename.json');
+            $translations = json_decode($data, true);
+
+            $intersect = function($array, $array2) {
+                $res = $array();
+                foreach($array as $module => $keys) {
+                    if(!isset($array2[$module])) {
+                        unset($res[$module]);
+                    } else {
+                        $res[$module] = array_intersect_key($res[$module], array_filter($array2[$module], 'strlen'));
+                    }
+                }
+                return $res;
+            };
+            $translationStringsDone = $intersect($englishTranslation, $translations);
+            $percentageComplete = count($translationStringsDone, COUNT_RECURSIVE) / count($englishTranslation, COUNT_RECURSIVE);
             $percentageComplete = round(100 * $percentageComplete, 0);
             $languageInfo = array('code'                => $filename,
-                                  'name'                => $translations['General_OriginalLanguageName'],
-                                  'english_name'        => $translations['General_EnglishLanguageName'],
-                                  'translators'         => $translations['General_TranslatorName'],
-                                  'translators_email'   => $translations['General_TranslatorEmail'],
+                                  'name'                => $translations['General']['OriginalLanguageName'],
+                                  'english_name'        => $translations['General']['EnglishLanguageName'],
+                                  'translators'         => $translations['General']['TranslatorName'],
+                                  'translators_email'   => $translations['General']['TranslatorEmail'],
                                   'percentage_complete' => $percentageComplete . '%',
             );
             $languagesInfo[] = $languageInfo;
@@ -121,13 +135,14 @@ class API
         }
 
         $filenames = $this->getAvailableLanguages();
-        $translations = $languagesInfo = array();
+        $languagesInfo = array();
         foreach ($filenames as $filename) {
-            require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
+            $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$filename.json");
+            $translations = json_decode($data, true);
             $languagesInfo[] = array(
                 'code'         => $filename,
-                'name'         => $translations['General_OriginalLanguageName'],
-                'english_name' => $translations['General_EnglishLanguageName']
+                'name'         => $translations['General']['OriginalLanguageName'],
+                'english_name' => $translations['General']['EnglishLanguageName']
             );
         }
         $this->availableLanguageNames = $languagesInfo;
@@ -145,11 +160,16 @@ class API
         if (!$this->isLanguageAvailable($languageCode)) {
             return false;
         }
-        $translations = array();
-        require PIWIK_INCLUDE_PATH . "/lang/$languageCode.php";
+        $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$languageCode.json");
+        $translations = json_decode($data, true);
         $languageInfo = array();
-        foreach ($translations as $key => $value) {
-            $languageInfo[] = array('label' => $key, 'value' => $value);
+        foreach ($translations as $module => $keys) {
+            foreach($keys as $key => $value) {
+                $languageInfo[] = array(
+                    'label' => sprintf("%s_%s", $module, $key),
+                    'value' => $value
+                );
+            }
         }
         return $languageInfo;
     }

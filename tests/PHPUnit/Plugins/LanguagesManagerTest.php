@@ -250,8 +250,9 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
     {
         $languages = API::getInstance()->getAvailableLanguages();
         foreach ($languages as $language) {
-            require PIWIK_INCLUDE_PATH . "/lang/$language.php";
-            $name = $translations['General_EnglishLanguageName'];
+            $data = file_get_contents(PIWIK_INCLUDE_PATH . "/lang/$language.json");
+            $translations = json_decode($data, true);
+            $name = $translations['General']['EnglishLanguageName'];
 
             if ($language != 'en') {
                 $this->assertFalse($name == 'English', "for $language");
