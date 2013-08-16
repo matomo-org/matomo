@@ -1,0 +1,9 @@
+{
+    "ExamplePlugin": {
+        "exampleWidgets": "Example Widgets",
+        "exampleWidget": "Example Widget",
+        "photostreamMatt": "Matt\'s Photos",
+        "piwikForumVisits": "Piwik Forums visits",
+        "PiwikForumReceivedVisits": "On %s, Piwik forums received %s visits."
+    }
+}
