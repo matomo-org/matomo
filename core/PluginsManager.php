@@ -622,8 +622,6 @@ class PluginsManager
         $defaultLangPath = sprintf($path, $langCode);
         $defaultEnglishLangPath = sprintf($path, 'en');
 
-        $translations = array();
-
         if (file_exists($defaultLangPath)) {
             $data = file_get_contents($defaultLangPath);
             $translations = json_decode($data, true);
