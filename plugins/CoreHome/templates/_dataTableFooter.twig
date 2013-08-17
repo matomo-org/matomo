@@ -31,12 +31,12 @@
                     <span class="{{ footerIconGroup.class }}">
                     {% for footerIcon in footerIconGroup.buttons %}
                         <span>
-                        {% if properties.show_active_view_icon and javascriptVariablesToSet.viewDataTable == footerIcon.format %}
+                            {% if properties.show_active_view_icon and javascriptVariablesToSet.viewDataTable == footerIcon.format %}
                             <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
-                        {% endif %}
-                        <a class="tableIcon" format="{{ footerIcon.format }}" var="{{ footerIcon.var }}">
-                            <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
-                        </a>
+                            {% endif %}
+                            <a class="tableIcon" format="{{ footerIcon.format }}" var="{{ footerIcon.var }}">
+                                <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
+                            </a>
                         </span>
                     {% endfor %}
                     </span>
