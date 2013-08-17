@@ -1140,9 +1140,9 @@ class ViewDataTable
 
         if ($this->show_goals) {
             if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
-                $icon = 'plugins/Zeitgeist/images/goal.png';
-            } else {
                 $icon = 'plugins/Zeitgeist/images/ecommerceOrder.gif';
+            } else {
+                $icon = 'plugins/Zeitgeist/images/goal.png';
             }
             
             $normalViewIcons['buttons'][] = array(
