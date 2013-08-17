@@ -89,16 +89,15 @@ class API
     public function getAvailableLanguagesInfo()
     {
         $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/en.json');
-        $translations = json_decode($data, true);
-        $englishTranslation = $translations;
+        $englishTranslation = json_decode($data, true);
         $filenames = $this->getAvailableLanguages();
         $languagesInfo = array();
         foreach ($filenames as $filename) {
-            $data = file_get_contents(PIWIK_INCLUDE_PATH . '/lang/$filename.json');
+            $data = file_get_contents(sprintf('%s/lang/%s.json', PIWIK_INCLUDE_PATH, $filename));
             $translations = json_decode($data, true);
 
             $intersect = function($array, $array2) {
-                $res = $array();
+                $res = $array;
                 foreach($array as $module => $keys) {
                     if(!isset($array2[$module])) {
                         unset($res[$module]);
