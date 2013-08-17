@@ -36,7 +36,7 @@
                             {% endif %}
                             <a class="tableIcon {% if javascriptVariablesToSet.viewDataTable == footerIcon.format %}activeIcon{% endif %}" format="{{ footerIcon.format }}" var="{{ footerIcon.var }}">
                                 <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
-                                {% if footerIcon.text is defined %}{{ footerIcon.text }}{% endif %}
+                                {% if footerIcon.text is defined %}<span>{{ footerIcon.text }}</span>{% endif %}
                             </a>
                         </span>
                     {% endfor %}
