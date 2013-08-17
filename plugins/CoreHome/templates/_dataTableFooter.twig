@@ -32,7 +32,7 @@
                     {% for footerIcon in footerIconGroup.buttons %}
                         <span>
                         {% if properties.show_active_view_icon and javascriptVariablesToSet.viewDataTable == footerIcon.format %}
-                            <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem" style=""/>
+                            <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                         {% endif %}
                         <a class="tableIcon" format="{{ footerIcon.format }}" var="{{ footerIcon.var }}">
                             <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
@@ -43,6 +43,9 @@
                 </div>
                 {% endfor %}
                 <div class="tableIconsGroup">
+                    {% if footerIcons is empty %}
+                    <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
+                    {% endif %}
                     <span class="exportToFormatIcons">
                         <a class="tableIcon" var="export">
                             <img width="16" height="16" src="plugins/Zeitgeist/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
