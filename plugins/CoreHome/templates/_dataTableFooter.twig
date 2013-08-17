@@ -26,67 +26,22 @@
     {% if properties.show_footer_icons %}
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="{{ javascriptVariablesToSet.viewDataTable }}">
-                {% if properties.show_active_view_icon %}
-                    <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
-                {% endif %}
+                {% for footerIconGroup in footerIcons %}
                 <div class="tableIconsGroup">
-            	<span class="tableAllColumnsSwitch">
-                    {% if properties.show_table %}
-                        <a class="tableIcon" format="table" var="table">
-                            <img title="{{ 'General_DisplaySimpleTable'|translate }}" src="plugins/Zeitgeist/images/table.png"/>
+                    <span class="{{ footerIconGroup.class }}">
+                    {% for footerIcon in footerIconGroup.buttons %}
+                        <span>
+                        {% if properties.show_active_view_icon and javascriptVariablesToSet.viewDataTable == footerIcon.format %}
+                            <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem" style=""/>
+                        {% endif %}
+                        <a class="tableIcon" format="{{ footerIcon.format }}" var="{{ footerIcon.var }}">
+                            <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
                         </a>
-                    {% endif %}
-                    {% if properties.show_table_all_columns %}
-                        <a class="tableIcon" format="tableAllColumns" var="tableAllColumns">
-                            <img title="{{ 'General_DisplayTableWithMoreMetrics'|translate }}" src="plugins/Zeitgeist/images/table_more.png"/>
-                        </a>
-                    {% endif %}
-                    {% if properties.show_goals %}
-                        <a class="tableIcon" format="tableGoals" var="tableGoals">
-                            <img title="{{ 'General_DisplayTableWithGoalMetrics'|translate }}"
-                                 src="plugins/Zeitgeist/images/{% if javascriptVariablesToSet.idGoal is defined and javascriptVariablesToSet.idGoal=='ecommerceOrder' %}ecommerceOrder.gif{% else %}goal.png{% endif %}"/>
-                        </a>
-                    {% endif %}
-                    {% if properties.show_ecommerce %}
-                        <a class="tableIcon" format="ecommerceOrder" var="ecommerceOrder">
-                            <img title="{{ 'General_EcommerceOrders'|translate }}" src="plugins/Zeitgeist/images/ecommerceOrder.gif" />
-                            <span>{{ 'General_EcommerceOrders'|translate }}</span>
-                        </a>
-                        <a class="tableIcon" format="ecommerceAbandonedCart" var="ecommerceAbandonedCart">
-                            <img title="{{ 'General_AbandonedCarts'|translate }}" src="plugins/Zeitgeist/images/ecommerceAbandonedCart.gif" />
-                            <span>{{ 'General_AbandonedCarts'|translate }}</span>
-                        </a>
-                    {% endif %}
-                </span>
+                        </span>
+                    {% endfor %}
+                    </span>
                 </div>
-                {% if properties.show_all_views_icons %}
-                <div class="tableIconsGroup">
-            	    <span class="tableGraphViews tableGraphCollapsed">
-                    {% if properties.show_bar_chart %}
-                        <a class="tableIcon" format="graphVerticalBar" var="graphVerticalBar">
-                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_bar.png" title="{{ 'General_VBarGraph'|translate }}"/>
-                        </a>
-                    {% endif %}
-                    {% if properties.show_pie_chart %}
-                        <a class="tableIcon" format="graphPie" var="graphPie">
-                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_pie.png" title="{{ 'General_Piechart'|translate }}"/>
-                        </a>
-                    {% endif %}
-                    {% if properties.show_tag_cloud %}
-                        <a class="tableIcon" format="cloud" var="cloud">
-                            <img width="16" height="16" src="plugins/Zeitgeist/images/tagcloud.png" title="{{ 'General_TagCloud'|translate }}"/>
-                        </a>
-                    {% endif %}
-                    {% if properties.show_non_core_visualizations %}
-                        {% for format, info in nonCoreVisualizations %}
-                        <a class="tableIcon" format="{{ format }}" var="{{ format }}">
-                            <img width="16" height="16" src="{{ info.table_icon }}" title="{{ info.title|translate }}"/>
-                        </a>
-                        {% endfor %}
-                    {% endif %}
-				    </span>
-                </div>
-                {% endif %}
+                {% endfor %}
                 <div class="tableIconsGroup">
                     <span class="exportToFormatIcons">
                         <a class="tableIcon" var="export">
