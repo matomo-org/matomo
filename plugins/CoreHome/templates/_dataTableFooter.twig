@@ -36,6 +36,7 @@
                             {% endif %}
                             <a class="tableIcon" format="{{ footerIcon.format }}" var="{{ footerIcon.var }}">
                                 <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
+                                {% if footerIcon.text is defined %}{{ footerIcon.text }}{% endif %}
                             </a>
                         </span>
                     {% endfor %}
