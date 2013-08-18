@@ -13,7 +13,7 @@ use Piwik\Plugins\VisitsSummary\API;
 /**
  * Tests UI code by grabbing screenshots of webpages and comparing with expected files.
  * 
- * Uses cutycapt.
+ * Uses slimerjs or phantomjs.
  * 
  * TODO:
  * - allow instrumentation javascript to be injected before screenshot is taken (so we can, say,
@@ -22,10 +22,9 @@ use Piwik\Plugins\VisitsSummary\API;
 class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
 {
     const IMAGE_TYPE = 'png';
-    const CUTYCAPT_DELAY = 1000;
+    const CAPTURE_PROGRAM = 'phantomjs';
     
     public static $fixture = null; // initialized below class definition
-    private static $useXvfb = false;
     
     public static function createAccessInstance()
     {
@@ -35,11 +34,21 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
     
     public static function setUpBeforeClass()
     {
-        if (self::isXvfbAvailable()) {
-            self::$useXvfb = true;
-        } else if (!self::isCutyCaptAvailable()) {
-            self::markTestSkipped("cutycapt is not available, skipping UI integration tests. "
-                                . "(install with 'sudo apt-get intsall cutycapt')");
+        if (!self::isXvfbAvailable()) {
+            self::markTestSkipped("xvfb is not available, skipping UI integration tests. (install with 'sudo apt-get install xvfb')");
+        } else if (self::CAPTURE_PROGRAM == 'slimerjs'
+                   && !self::isSlimerJsAvailable()
+        ) {
+            self::markTestSkipped("slimerjs is not available, skipping UI integration tests. "
+                                . "(install by downloading http://slimerjs.org/download.html)");
+        } else if (self::CAPTURE_PROGRAM == 'phantomjs'
+                   && !self::isPhantomJsAvailable()
+        ) {
+            self::markTestSkipped("phantomjs is not available, skipping UI integration tests. "
+                                . "(install by downloading http://phantomjs.org/download.html)");
+        } else {
+            self::markTestSkipped("No way to take screenshots of URLs, skipping UI integration tests. (Enable by installing "
+                                . "phantomjs (http://phantomjs.org/download.html) or slimerjs (http://slimerjs.org/download.html).");
         }
         
         parent::setUpBeforeClass();
@@ -48,10 +57,35 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         
         // launch archiving so tests don't run out of time
         API::getInstance()->get(self::$fixture->idSite, 'year', '2012-08-09');
+
+        // make sure processed & expected dirs exist
+        list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
+        if (!is_dir($processedDir)) {
+            mkdir($processedDir);
+        }
+        if (!is_dir($expectedDir)) {
+            mkdir($expectedDir);
+        }
+
+        // run slimerjs/phantomjs w/ all urls so we only invoke it once
+        $urls = array();
+        foreach (self::getUrlsForTesting() as $testInfo) {
+            list($name, $urlQuery) = $testInfo;
+
+            list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
+            $urls[] = array($processedScreenshotPath, self::getProxyUrl() . $urlQuery);
+        }
+        
+        echo "Generating screenshots...\n";
+        self::runCaptureProgram($urls);
     }
     
     public static function tearDownAfterClass()
     {
+        if (file_exists("C:\\nppdf32Log\\debuglog.txt")) { // remove slimerjs oddity
+            unlink("C:\\nppdf32Log\\debuglog.txt");
+        }
+
         if (!Zend_Registry::get('db')) {
             Piwik::createDatabaseObject();
         }
@@ -62,14 +96,6 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        
-        list($processedDir, $expectedDir) = $this->getProcessedAndExpectedDirs();
-        if (!is_dir($processedDir)) {
-            mkdir($processedDir);
-        }
-        if (!is_dir($expectedDir)) {
-            mkdir($expectedDir);
-        }
         
         if (!Zend_Registry::get('db')) {
             Piwik::createDatabaseObject();
@@ -84,7 +110,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         \Zend_Registry::set('db', false);
     }
     
-    public function getUrlsForTesting()
+    public static function getUrlsForTesting()
     {
         $generalParams = 'idSite=1&period=week&date=2012-08-09';
         $evolutionParams = 'idSite=1&period=day&date=2012-08-11&evolution_day_last_n=30';
@@ -196,33 +222,26 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
      */
     public function testUIUrl($name, $urlQuery)
     {
-        list($processedDir, $expectedDir) = $this->getProcessedAndExpectedDirs();
-        
-        $processedScreenshotPath = $processedDir . "$name." . self::IMAGE_TYPE;
-        $expectedScreenshotPath = $expectedDir . "$name." . self::IMAGE_TYPE;
-        
-        // run cutycapt w/ url and output to /processed-ui-screenshots/$name.svg
-        $this->runCutyCapt($urlQuery, $processedScreenshotPath);
+        list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
         
         // compare processed w/ expected
         $this->compareScreenshot($name, $expectedScreenshotPath, $processedScreenshotPath, $urlQuery);
     }
     
-    private function runCutyCapt($urlQuery, $processedPath)
+    private static function runCaptureProgram($urlInfo)
     {
-        $url = self::getProxyUrl() . $urlQuery;
-        
-        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=".self::CUTYCAPT_DELAY." 2>&1";
-        if (self::$useXvfb) {
-            $cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24" ' . $cmd;
-        }
+        file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/urls.txt', json_encode($urlInfo));
+        $cmd = self::CAPTURE_PROGRAM . " \"" . PIWIK_INCLUDE_PATH . "/tests/resources/screenshot-capture/capture.js\" 2>&1";
+        $cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24" ' . $cmd;
         
         exec($cmd, $output, $result);
-        
-        if ($result !== 0) {
-            throw new Exception("cutycapt failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
+        $output = implode("\n", $output);
+        if ($result !== 0
+            || strpos($output, "ERROR") !== false
+        ) {
+            echo self::CAPTURE_PROGRAM . " failed: " . $output . "\n\ncommand used: $cmd\n";
+            throw new Exception("phantomjs failed");
         }
-
         return $output;
     }
     
@@ -241,21 +260,40 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
     }
     
-    private static function isCutyCaptAvailable()
+    private static function isSlimerJsAvailable()
     {
-        exec("cutycapt --help 2>&1", $output, $result);
-        return $result === 0 || $result === 1;
+        return self::isProgramAvailable('slimerjs');
+    }
+
+    private static function isPhantomJsAvailable()
+    {
+        return self::isProgramAvaialble('phantomjs');
     }
     
     private static function isXvfbAvailable()
     {
-        exec("xvfb-run --help 2>&1", $output, $result);
+        return self::isProgramAvailable('xvfb-run');
+    }
+
+    private static function isProgramAvailable($name)
+    {
+        exec($name . ' --help 2>&1', $output, $result);
         return $result === 0 || $result === 1;
     }
-    
-    protected function getProcessedAndExpectedDirs()
+
+    private static function getProcessedAndExpectedScreenshotPaths($name)
     {
-        $path = $this->getPathToTestDirectory() . '/../UI';
+        list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
+
+        $processedScreenshotPath = $processedDir . "$name." . self::IMAGE_TYPE;
+        $expectedScreenshotPath = $expectedDir . "$name." . self::IMAGE_TYPE;
+
+        return array($processedScreenshotPath, $expectedScreenshotPath);
+    }
+    
+    protected static function getProcessedAndExpectedDirs()
+    {
+        $path = self::getPathToTestDirectory() . '/../UI';
         return array($path . '/processed-ui-screenshots/', $path . '/expected-ui-screenshots/');
     }
     

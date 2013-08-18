@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url(tests/resources/screenshot-override/open_sans.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url(tests/resources/screenshot-override/open_sans_b.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url(tests/resources/screenshot-override/open_sans_i.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: url(tests/resources/screenshot-override/open_sans_bi.woff) format('woff');
+}
+
+* {
+    font-family: 'Open Sans';
+}
