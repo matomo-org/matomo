@@ -5,6 +5,7 @@
         "TranslatorEmail": "petar@benke.co.uk, info@maksin.ms, nikola@codingcat.com",
         "EnglishLanguageName": "Serbian",
         "OriginalLanguageName": "Srpski",
+        "LayoutDirection": "ltr",
         "HelloUser": "Pozdrav, %s!",
         "OpenSourceWebAnalytics": "Web Analitika",
         "Dashboard": "Konzola",
@@ -597,7 +598,7 @@
         "ForBetaTestersOnly": "Samo za beta testere",
         "CheckReleaseGetVersion": "Kada kliknem na novu verziju Piwik-a, uvek mi prikaži",
         "DevelopmentProcess": "Iako se naš %srazvojni proces%s zasniva na preko hiljadu automatskih testova, beta testeri igraju ključnu ulogu u postizanju \"Politike bez bagova\"",
-        "StableReleases": "Ukoliko Piwik čini kritičan deo vašeg poslovanja, preporučujemo vam da koristite poslednju stabilnu verziju.    Ukoliko koristite poslednju beta verziju i nađete bag ili imate predlog, molimo vas %spogledajte ovde%s.",
+        "StableReleases": "Ukoliko Piwik čini kritičan deo vašeg poslovanja, preporučujemo vam da koristite poslednju stabilnu verziju.\n\nUkoliko koristite poslednju beta verziju i nađete bag ili imate predlog, molimo vas %spogledajte ovde%s.",
         "YouAreCurrentlyUsingPHP": "Trenutno koristite PHP %1$s.",
         "OldPHPVersionWarning_Part1": "Piwik se brzo razvija i da bismo vam pružili modernu analitičku platformu, uskoro ćemo podići minimalnu neophodnu verziju PHP-a na 5.3. %1$sMolimo vas da kontaktirate administratora vašeg servera ili hosting provajdera kako bi nadogradio PHP na poslednju verziju, po mogućstvu na 5.4.%2$s",
         "OldPHPVersionWarning_Part2": "Kada nadogradite PHP na 5.3 ili višu verziju, ova poruka će nestati i Piwik server će obrađivati izveštaje znatno brže koristeći manje memorije.  %1$sNadogradite PHP i iskoristite Piwik do maksimuma!%2$s"
@@ -624,7 +625,7 @@
         "ShareThis": "Podeli",
         "ViewAllPiwikVideoTutorials": "Prikaži sve Piwik video tutorijale",
         "SharePiwikShort": "Piwik! Besplatna web analitika otvorenog koda. Budite vlasnici svojih podataka.",
-        "SharePiwikLong": "Ćaos! Upravo sam naleteo na strava program: Piwik!    Piwik je besplatan program otvorenog koda za praćenje posetilaca na tvom sajtu. Definitvno moraš da ga isprobaš!",
+        "SharePiwikLong": "Ćaos! Upravo sam naleteo na strava program: Piwik!\n\nPiwik je besplatan program otvorenog koda za praćenje posetilaca na tvom sajtu. Definitvno moraš da ga isprobaš!",
         "PluginDescription": "Struktura izveštaja web analitike",
         "WebAnalyticsReports": "Izveštaj web analitike",
         "NoPrivilegesAskPiwikAdmin": "Prijavljeni ste kao '%s' ali izgleda da nemate postavljena nikakva ovlašćenja. %s Tražite od Piwik administratora (kliknite za poruku)%s da vam dozvoli 'prikaz' na sajtu.",
@@ -726,7 +727,6 @@
         "MainDescription": "Dodaci proširuju funkcionalnost Piwik-a. Jednom instaliran dodatak se ovde može aktivirati ili deaktivirati.",
         "Plugin": "Dodatak",
         "Version": "Verzija",
-        "Status": "Status",
         "Action": "Akcija",
         "AuthorHomepage": "Autorov sajt",
         "LicenseHomepage": "Podaci o licenci",
@@ -953,7 +953,6 @@
         "Manually": "ručno",
         "ManuallyTriggeredUsingJavascriptFunction": "Cilj je ručno dostignut pomoću JavaScript API trackGoal()",
         "VisitUrl": "Poseti datu adresu (stranicu ili grupu stranica)",
-        "URL": "URL",
         "PageTitle": "Naslov stranice",
         "Filename": "datoteka",
         "ExternalWebsiteUrl": "adresa eksternog sajta",
@@ -1000,7 +999,6 @@
         "DatabaseSetupPassword": "lozinka",
         "DatabaseSetupDatabaseName": "ime baze",
         "DatabaseSetupTablePrefix": "prefiks tabela",
-        "DatabaseSetupAdapter": "adapter",
         "DatabaseErrorConnect": "Greška prilikom povezivanja sa bazom",
         "DatabaseCheck": "Provera baze",
         "DatabaseServerVersion": "Verzija servera",
@@ -1070,7 +1068,6 @@
         "SystemCheckGzcompressHelp": "Potrebno je da uključite zlib proširenje i funkciju gzcompress",
         "SystemCheckGzuncompressHelp": "Potrebno je da uključite zlib proširenje i funkciju gzcompress",
         "SystemCheckPackHelp": "pack() funkcija je neophodna za praćenje posetilaca.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "mbstring proširenje je neophodno radi višebajtnih znakova u API odgovorima koji koriste dokumente u CSV i TSV formatima",
         "SystemCheckMbstringExtensionGeoIpHelp": "Takođe je potrebno kako bi GeoIP integracija radila.",
         "SystemCheckMbstringFuncOverloadHelp": "Trebalo bi da postavite vrednost mbstring.func_overload na \"0\".",
@@ -1332,7 +1329,6 @@
         "PluginDescription": "Zasnovan na PhpSecInfo PHP konzorcijuma za sigurnost, ovaj dodatak prikazuje sigurnosne informacije vašeg PHP okruženja i nudi predloge za poboljšanja.",
         "Security": "Sigurnost",
         "SecurityInformation": "Informacije o PHP sigurnosti",
-        "Test": "Test",
         "Result": "Rezultat"
     },
     "SEO": {
@@ -1899,7 +1895,6 @@
         "AnonymousUserHasViewAccess2": "Vaši analitički podaci i informacije o vašim posetiocima su javno vidljivi.",
         "Password": "Lozinka",
         "Email": "Elektronska adresa",
-        "Alias": "Alias",
         "TheSuperUserAliasCannotBeChanged": "Alias superkorisnika ne može biti promenjen.",
         "ReportToLoadByDefault": "Izveštaj koji podrazumevano treba prikazati",
         "ReportDateToLoadByDefault": "Datum izveštaja koji podrazumevano treba prikazati",
@@ -1987,12 +1982,8 @@
         "WidgetPagesDocumentation": "U ovom izveštaju možete videti koliko poseta je imalo određeni broj pregleda stranica. Izveštaj je inicijalno prikazan kao oblak tagova a najčešći rezultati su prikazani većim brojevima.",
         "WidgetVisitsByNumDocumentation": "U ovom izveštaju možete da vidite broj poseta koje su n-te posete, na primer posetioce koji su došli na vaš sajt barem n puta.",
         "Engagement": "Zainteresovanost",
-        "OneMinute": "1 min",
-        "PlusXMin": "%s min",
-        "BetweenXYMinutes": "%1$s-%2$s min",
         "OnePage": "1 stranica",
         "NPages": "%s stranica",
-        "BetweenXYSeconds": "%1$s-%2$ss",
         "VisitsByDaysSinceLast": "Poseta po danima od poslednje posete",
         "WidgetVisitsByDaysSinceLast": "Poseta po danima od poslednje posete",
         "WidgetVisitsByDaysSinceLastDocumentation": "U ovom izveštaju možete da vidite koliko ima poseta od strane posetilaca čija poslednja poseta je bila pre određenog broja dana."
@@ -2049,7 +2040,6 @@
         "PluginDescription": "Napravite i preuzmite izveštaje putem elektronske pošte dnevno, nedeljno ili mesečno.",
         "ManageEmailReports": "Upravljanje izveštajima",
         "EmailReports": "Slanje elektronskom poštom",
-        "PDF": "PDF",
         "SendReportNow": "Pošalji sad",
         "EmailSchedule": "Zakaži slanje",
         "SendReportTo": "Pošalji na",
@@ -2152,7 +2142,6 @@
         "OneClick": "1 klik",
         "Clicks": "%s klikova",
         "ClicksFromXLinks": "%1$s klikova sa jednog od %2$s linkova",
-        "Link": "Link",
         "RedirectUrlError": "Pokušali ste da otvorite stranicu za URL \"%s\". %s Nijedan od domena iz Piwik podešavanja ne odgovara ovom linku.",
         "RedirectUrlErrorUser": "Zamolite administratora da doda domen kao dodatni URL.",
         "RedirectUrlErrorAdmin": "Možete dodati domen kao dodatni URL %su podešavanjima%s.",
@@ -2366,10 +2355,7 @@
         "Language_yo": "Joruba",
         "Language_za": "Čueng",
         "Language_zh": "Kineski",
-        "Language_zu": "Zulu",
-        "Language": "Jezici",
-        "SubmenuLanguage": "Jezici",
-        "WidgetLanguage": "Jezici posetilaca"
+        "Language_zu": "Zulu"
     },
     "SegmentEditor": {
         "AddNewSegment": "Dodavanje novog segmenta",
@@ -2393,17 +2379,5 @@
         "LoadingSegmentedDataMayTakeSomeTime": "Obrada podataka može potrajati par trenutaka...",
         "AutoArchiveRealTime": "segmentirani izveštaji se obrađuju u realnom vremenu",
         "AutoArchivePreProcessed": "segmentirani izveštaji su unapred pripremljeni (brže, zahteva archive.php cron)"
-    },
-    "EntryPage": {
-        "Bounces": "Odbijene posete",
-        "Referrers": "Reference"
-    },
-    "Forecast": {
-        "Actions": "Pregledi stranica",
-        "Bounce": "Korisnici koji su odmah otišli",
-        "Column": "Prognoza",
-        "ReturnVisits": "ponovne posete",
-        "Visitors": "Posetioci",
-        "Widget": "Prognoza za danas"
     }
 }

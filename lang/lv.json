@@ -41,7 +41,10 @@
         "Description": "Apraksts",
         "Done": "Pabeigts",
         "PoweredBy": "Darbina",
+        "MetricsToPlot_js": "Mērījumi plānošanai",
         "RowsToDisplay": "Rindas parādīšanai",
+        "MetricToPlot_js": "Mērījums plānošanai",
+        "RecordsToPlot_js": "Ieraksti plānošanai",
         "Name": "Vārds",
         "Value": "Vērtība",
         "Total": "Kopā",
@@ -75,6 +78,8 @@
         "NumberOfVisits": "Apmeklējumu skaits",
         "VisitConvertedGoal": "Apmeklējums sasniedza vismaz vienu mērķi",
         "VisitConvertedGoalId": "Apmeklējums sasniedza konkrētu mērķi ar Id",
+        "EcommerceVisitStatusDesc": "Apmeklējuma e-komercijas statuss apmeklējuma beigās",
+        "EcommerceVisitStatusEg": "Piemēra, lai izvēlētos visus apmeklējumus, kuros tikai veikts e-komercijas pasūtījums, API pieprasījums saturētu %s",
         "VisitConvertedNGoals": "Apmeklējums sasniedza %s mērķus",
         "NewVisitor": "Jauns apmeklētājs",
         "NewVisits": "Jauni apmeklējumi",
@@ -182,6 +187,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Vidēja un augsta apmklējuma vietnēm iesakam apstrādāt atskaites ne biežāk kā katru pusstundu (%s sekundes) vai katru stundu (%s sekundes).",
         "RequiresFlash": "Lai Piwik parādītu grafikus ir nepieciešams Flash",
         "GraphHelp": "Vairāk informācijas par grafiku parādīšanu Piwik",
+        "NoDataForGraph_js": "Nav datu šim grafikam.",
         "NoDataForTagCloud": "Nav datu šim iezīmju mākonim.",
         "DisplaySimpleTable": "Rādīt vienkāršu tabulu",
         "DisplayTableWithMoreMetrics": "Rādīt tabulu ar vairāk datiem",
@@ -378,19 +384,6 @@
         "UseCustomLogo": "Lietot izvēles logo",
         "LogoUpload": "Izvēlēties logo augšuplādei"
     },
-    "PrivacyManager": {
-        "TeaserHeadline": "Privātuma iestatījumi",
-        "MenuPrivacySettings": "Privātums",
-        "UseAnonymizeIp": "Anonimizēt apmeklētāju IP adreses",
-        "DeleteLogInfo": "Tiks dzēsti žurnāli no sekojošām tabulām: %s",
-        "UseDeleteLog": "Regulāri dzēst no datubāzes vecus apmeklētāju žurnālus",
-        "DeleteLogsOlderThan": "Dzēst vecākus žurnālus par",
-        "DeleteMaxRows": "Maksimālais rindu skaits ko dzēst vienā reizē:",
-        "LastDelete": "Pēdējā dzēšana notika",
-        "NextDelete": "Nākošā dzēšana paredzēta",
-        "ClickHereSettings": "Klikšķiniet šeit lai piekļūtu %s iestatījumiem.",
-        "LeastDaysInput": "Lūdzu izvēlieties dienu skaitu lielāku par %s."
-    },
     "CoreHome": {
         "PluginDescription": "Tīkla analīzes atskaišu struktūra",
         "WebAnalyticsReports": "Tīkla analīzes atskaites",
@@ -408,6 +401,19 @@
         "PeriodWeeks": "nedēļas",
         "PeriodMonths": "mēneši",
         "PeriodYears": "gadi"
+    },
+    "PrivacyManager": {
+        "TeaserHeadline": "Privātuma iestatījumi",
+        "MenuPrivacySettings": "Privātums",
+        "UseAnonymizeIp": "Anonimizēt apmeklētāju IP adreses",
+        "DeleteLogInfo": "Tiks dzēsti žurnāli no sekojošām tabulām: %s",
+        "UseDeleteLog": "Regulāri dzēst no datubāzes vecus apmeklētāju žurnālus",
+        "DeleteLogsOlderThan": "Dzēst vecākus žurnālus par",
+        "DeleteMaxRows": "Maksimālais rindu skaits ko dzēst vienā reizē:",
+        "LastDelete": "Pēdējā dzēšana notika",
+        "NextDelete": "Nākošā dzēšana paredzēta",
+        "ClickHereSettings": "Klikšķiniet šeit lai piekļūtu %s iestatījumiem.",
+        "LeastDaysInput": "Lūdzu izvēlieties dienu skaitu lielāku par %s."
     },
     "CorePluginsAdmin": {
         "PluginDescription": "Spraudņu administrācijas skats",
@@ -543,7 +549,6 @@
         "WhereThe": ", kur",
         "Manually": "manuāli",
         "ManuallyTriggeredUsingJavascriptFunction": "Mērķis tiem manuāli sasniegts izmantojot JavaScript API trackGoal() metodi",
-        "URL": "URL",
         "PageTitle": "Lapas virsraksts",
         "Filename": "datnes nosaukums",
         "ExternalWebsiteUrl": "ārējās vietnes URL",
@@ -624,7 +629,6 @@
         "SystemCheckGD": "GD > 2.x (grafika)",
         "SystemCheckFunctions": "Nepieciešamās metodes",
         "SystemCheckOtherFunctions": "Citas metodes",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckFileIntegrity": "Datņu integritāte",
         "Tables": "Tiek izveidotas tabulas",
         "TablesCreatedSuccess": "Tabulas veiksmīgi izveidotas!",
@@ -1207,8 +1211,7 @@
         "PlusXMin": "%s min.",
         "BetweenXYMinutes": "%1$s-%2$s min.",
         "OnePage": "1 lapa",
-        "NPages": "%s lapas",
-        "BetweenXYSeconds": "%1$s-%2$ss"
+        "NPages": "%s lapas"
     },
     "VisitsSummary": {
         "NbVisits": "%s apmeklējumi",
@@ -1238,7 +1241,6 @@
     },
     "PDFReports": {
         "EmailReports": "E-pasta atskaites",
-        "PDF": "PDF",
         "SendReportNow": "Sūtīt atskaiti tagad",
         "SendReportTo": "Sūtīt atskaites uz",
         "ReportFormat": "Atskaites formāts",

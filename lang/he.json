@@ -129,6 +129,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "לאתרים בעלי תעבודה בינונית עד גבוהה, אנו ממליצים לעבד דוחות להיום לכל היותר בכל חצי שעה (%s שניות) או בכל שעה (%s שניות)",
         "RequiresFlash": "הצגת גרפים ב-Piwik מצריכה Flash",
         "GraphHelp": "מידע נוסף עבור הצגת גרפים ב Piwik.",
+        "NoDataForGraph_js": "חסר מידע עבור גרף זה.",
         "NoDataForTagCloud": "חסר מידע עבור ענן תגים זה.",
         "DisplaySimpleTable": "להציג טבלה פשוטה",
         "DisplayTableWithMoreMetrics": "להציג טבלה עם יותר נתונים",
@@ -764,7 +765,6 @@
         "PluginDescription": "התוסף מקל מאוד על ייצוא יישומונים של Piwik מבלוג, אתר או בIgoogle וNetvibes!"
     },
     "PDFReports": {
-        "PDF": "PDF",
         "SendReportTo": "שלח דוח אל",
         "SentToMe": "שלח אלי"
     },

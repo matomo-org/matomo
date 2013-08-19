@@ -5,6 +5,7 @@
         "TranslatorEmail": "kristalin[at]kividesign[dot]com, Virosss[at]abv[dot]bg, tomivr[at]abv[dot]bg, pak69[at]abv[dot]bg, pamir[at]abv[dot]bg",
         "EnglishLanguageName": "Bulgarian",
         "OriginalLanguageName": "Български",
+        "LayoutDirection": "ltr",
         "HelloUser": "Здравей, %s!",
         "OpenSourceWebAnalytics": "Уеб Брояч с Отворен Код",
         "Dashboard": "Табло",
@@ -46,7 +47,10 @@
         "Description": "Описание",
         "Done": "Готово",
         "PoweredBy": "Разработка на",
+        "MetricsToPlot_js": "Метрики за показване",
         "RowsToDisplay": "Редове за показване",
+        "MetricToPlot_js": "Метрика за показване",
+        "RecordsToPlot_js": "Записи за",
         "Name": "Име",
         "Value": "Стойност",
         "Total": "Общо",
@@ -81,6 +85,8 @@
         "NumberOfVisits": "Брой посетители",
         "VisitConvertedGoal": "Посещението се превръща в най-малко една цел",
         "VisitConvertedGoalId": "Посещение, което се счита като Id на специална цел",
+        "EcommerceVisitStatusDesc": "Статус на посещението на електронен магазин в неговия край",
+        "EcommerceVisitStatusEg": "Например, за да изберете всички посещения, които са направили поръчка от електронен магазин, API заявката ще съдържа %s",
         "VisitConvertedNGoals": "Посещението преобразува %s цели",
         "NewVisitor": "Нов посетител",
         "NewVisits": "Нови посещения",
@@ -509,7 +515,7 @@
         "JavaScriptTracking": "JavaScript Проследяване",
         "LatestStableRelease": "Най-новата стабилна версия",
         "LatestBetaRelease": "Най-новата бета версия",
-        "StableReleases": "Ако Piwik е критично важен за вашият бизнес, използвайте последната стабилна версия.    Ако използвате последна бета и откриете бъг или имате предложение, моля %sвижте тук%s.",
+        "StableReleases": "Ако Piwik е критично важен за вашият бизнес, използвайте последната стабилна версия.\n\nАко използвате последна бета и откриете бъг или имате предложение, моля %sвижте тук%s.",
         "YouAreCurrentlyUsingPHP": "В момента използвате PHP %1$s."
     },
     "CoreHome": {
@@ -539,8 +545,6 @@
         "PageOf_js": "%1$s от %2$s",
         "FlattenDataTable_js": "Този доклад е йерархичен %s Направете го плосък",
         "UnFlattenDataTable_js": "Този доклад е плосък %s Направете го йерархичен",
-        "DateFormat": "%дълъгДен% %ден% %дълъгМесец% %дългаГодина%",
-        "LongMonthFormat": "%дългаГодина%, %дълъгМесец%",
         "PeriodDay": "Ден",
         "PeriodWeek": "Седмица",
         "PeriodMonth": "Месец",
@@ -827,7 +831,6 @@
         "Manually": "ръчно",
         "ManuallyTriggeredUsingJavascriptFunction": "Целта е ръчно задействана с помощта на JavaScript API trackGoal()",
         "VisitUrl": "посетят определен URL (страница или група от страници)",
-        "URL": "URL",
         "PageTitle": "Заглавие на страница",
         "Filename": "име на файла",
         "ExternalWebsiteUrl": "външен URL",
@@ -941,7 +944,6 @@
         "SystemCheckGzcompressHelp": "Вие трябва да активирате zlib и gzcompress разширенията.",
         "SystemCheckGzuncompressHelp": "Вие трябва да активирате zlib и gzcompress разширенията.",
         "SystemCheckPackHelp": "Функцията \"pack()\" е нужна, за да следите посетителите в Piwik.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "В mbstring удължаване е необходимо за многобайтови символи в отговорите API използват разделени със запетая стойности (CSV) или разделени с табулатор стойности (TSV).",
         "SystemCheckMbstringFuncOverloadHelp": "Трябва да зададете mbstring.func_overload на \"0\".",
         "SystemCheckFileIntegrity": "Файл целостта",
@@ -1750,7 +1752,6 @@
         "PluginDescription": "Създайте и изтеглете Вашите персонализирани отчети,и ги изпращайте по имейл ежедневно, ежеседмично или ежемесечно.",
         "ManageEmailReports": "Управление на Email докладите",
         "EmailReports": "Email доклади",
-        "PDF": "PDF",
         "SendReportNow": "Изпрати доклад сега",
         "EmailSchedule": "Списък с е-пощи",
         "SendReportTo": "Изпрати доклад до",
@@ -1803,6 +1804,7 @@
         "IncomingTraffic": "Входящ трафик",
         "OutgoingTraffic": "Изходящ трафик",
         "Including": "включително",
+        "XOutOfYVisits": "%s (от %s)",
         "FromPreviousPages": "От вътрешни страници",
         "FromPreviousPagesInline": "%s от вътреши страници",
         "FromPreviousSiteSearches": "От вътрешни търсения",
@@ -2030,10 +2032,7 @@
         "Language_yo": "йоруба",
         "Language_za": "зуанг",
         "Language_zh": "китайски",
-        "Language_zu": "зулуски",
-        "Language": "Езици",
-        "SubmenuLanguage": "Езици",
-        "WidgetLanguage": "Езици на посетителя"
+        "Language_zu": "зулуски"
     },
     "SegmentEditor": {
         "AddNewSegment": "Добави нов сигмент",
@@ -2046,13 +2045,5 @@
         "SegmentDisplayedThisWebsiteOnly": "само този уебсайт",
         "SaveAndApply": "Запази & Приложи",
         "ChooseASegment": "Избери сигмент"
-    },
-    "EntryPage": {
-        "Referrers": "Реферали"
-    },
-    "Forecast": {
-        "Actions": "Посещения на страницата",
-        "ReturnVisits": "завърнали се",
-        "Visitors": "Посетители"
     }
 }

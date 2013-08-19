@@ -165,6 +165,7 @@
         "NSeconds": "%s saniye",
         "RequiresFlash": "Piwik'in grafikleri gösterebilmesi için Flash gereklidir.",
         "GraphHelp": "Piwik'in grafikleri göstermesi hakkında daha fazla bilgi.",
+        "NoDataForGraph_js": "Bu grafikte veri yok.",
         "NoDataForTagCloud": "Bu etiket bulutunda veri yok.",
         "DisplaySimpleTable": "Basit tablo göster",
         "NewUpdatePiwikX": "Yeni Güncelleme: Piwik %s",
@@ -431,6 +432,7 @@
         "LogoUpload": "Yüklemek için logo seçiniz",
         "LogoUploadDescription": "Arka planı transparan olmayan dosyalarınızı %s formatlarında ve minimum yüksekliği %s olarak yükleyiniz.",
         "LogoNotWriteable": "Logoyu değiştirmek için, Piwik için tema dizinindeki logo dosyalarına yazma hakkı gerekir: %s",
+        "TrustedHostSettings": "Güvenilir Piwik Sunucu adı",
         "TrustedHostConfirm": "Güvenilir alan adınızı değiştirmek istediğinizden emin misiniz?",
         "PiwikIsInstalledAt": "Piwikde yüklenir",
         "ValidPiwikHostname": "Geçerli Alanadı",
@@ -454,6 +456,7 @@
         "ImageTrackingLink": "Resimle İzleme Linki",
         "ImportingServerLogs": "Sunucu Loglarını İçe Aktar",
         "JavaScriptTracking": "Javascript İzleme Kodu",
+        "LatestStableRelease": "En son kararlı sürüm",
         "LatestBetaRelease": "En son beta sürümü",
         "ForBetaTestersOnly": "Yalnızca beta test edenler için",
         "CheckReleaseGetVersion": "Yeni sürüm kontrolü yapılırken her zaman ulaşın."
@@ -472,7 +475,6 @@
         "ShowJSCode": "Eklenecek JavaScript kodu göster",
         "Default_js": "varsayılan",
         "PageOf_js": "%1$s nin %2$s",
-        "DateFormat": "%uzunGün% %kısaGün% %uzunAy% %uzunYıl%",
         "PeriodDay": "Gün",
         "PeriodWeek": "Hafta",
         "PeriodMonth": "Ay",
@@ -494,6 +496,7 @@
         "Plugins": "Eklentiler",
         "PluginsManagement": "Eklenti Yönetimi",
         "Plugin": "Eklenti",
+        "Theme": "Tema",
         "Version": "Versiyon",
         "Status": "Durum",
         "Action": "Eylem",
@@ -623,7 +626,6 @@
         "ExceptionNoUrls": "Spam mesajlardan kaçınmak için mesajınız URL içeremez."
     },
     "Goals": {
-        "Goals": "Goals",
         "Ecommerce": "Eticaret",
         "GoalsOverview": "Hedefe Genel bakış",
         "GoalsManagement": "Goals Yönetimi",
@@ -696,7 +698,6 @@
         "SystemCheckOtherExtensions": "Diğer eklentiler",
         "SystemCheckMemoryLimit": "Hafıza limiti",
         "SystemCheckFunctions": "Gerekli fonksiyonlar",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckFileIntegrity": "Dosya bütünlüğü",
         "SystemCheckError": "Bir hata oluştu. Devam edebilmek için hatayı gidermelisiniz.",
         "SystemCheckWarning": "Piwik normal olarak çalışacaktır ancak bazı özellikler eksik olacak.",
@@ -773,7 +774,6 @@
     "SecurityInfo": {
         "Security": "Güvenlik",
         "SecurityInformation": "PHP Güvenlik Bilgilendirmesi",
-        "Test": "Test",
         "Result": "Sonuç"
     },
     "SEO": {
@@ -1216,7 +1216,6 @@
         "ColumnLocalTime": "Yerel saat",
         "WidgetLocalTime": "Yerel saate göre Ziyaretler",
         "WidgetServerTime": "Sunucu saatine göre Ziyaretler",
-        "NHour": "%sh",
         "VisitsByDayOfWeek": "Haftanın günlerine göre Ziyaretler",
         "DayOfWeek": "Haftanın günü"
     },
@@ -1437,14 +1436,6 @@
         "Language_yo": "Yoruba",
         "Language_za": "Zhuang",
         "Language_zh": "Çince",
-        "Language_zu": "Zulu",
-        "Language": "Diller",
-        "SubmenuLanguage": "Diller",
-        "WidgetLanguage": "Ziyaretçi Dili"
-    },
-    "Forecast": {
-        "Actions": "Sayfa ziyaretleri",
-        "Column": "Tahmin",
-        "Visitors": "Ziyaretçiler"
+        "Language_zu": "Zulu"
     }
 }

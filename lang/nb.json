@@ -5,6 +5,7 @@
         "TranslatorEmail": "hans@nordhaug.priv.no",
         "EnglishLanguageName": "Norwegian Bokmål",
         "OriginalLanguageName": "Norsk (bokmål)",
+        "LayoutDirection": "ltr",
         "HelloUser": "Hallo, %s!",
         "OpenSourceWebAnalytics": "Åpen kildekode nettstatistikk",
         "Dashboard": "Oversikt",
@@ -457,7 +458,6 @@
         "MainDescription": "Tillegg kan utvide eller begrense funksjonaliteten i Piwik. Når et tillegg har blitt installert, kan du slå det av eller på her.",
         "Plugin": "Tillegg",
         "Version": "Versjon",
-        "Status": "Status",
         "Action": "Handling",
         "PluginHomepage": "Hjemmeside for tillegg",
         "Activated": "Påslått",
@@ -487,7 +487,7 @@
         "ErrorDIYHelp_3": "manuelt oppdater \"option\"-tabellen i din Piwik-database; sett verdien av version_core til versjonen for den oppdateringen som feilet",
         "ErrorDIYHelp_4": "start oppdateringen på nytt (enten i nettleseren eller på kommandolinja) for å fortsette med de gjenstående oppdateringene",
         "ErrorDIYHelp_5": "rapporter problemet (og løsningen) slik at Piwik kan bli forbedret",
-        "HelpMessageContent": "Sjekk %s Piwik FAQ-en %s som prøver å forklare de mest vanlige feil under oppdatering. %s Spør din systemadministrator - vedkommende kan kanskje hjelpe deg med feilen som antakelig har sammenheng med din tjener eller MySQL-installasjon.",
+        "HelpMessageContent": "Sjekk %1$s Piwik FAQ-en %2$s som prøver å forklare de mest vanlige feil under oppdatering. %3$s Spør din systemadministrator - vedkommende kan kanskje hjelpe deg med feilen som antakelig har sammenheng med din tjener eller MySQL-installasjon.",
         "CriticalErrorDuringTheUpgradeProcess": "Kritisk feil under oppdateringen:",
         "HelpMessageIntroductionWhenError": "Over vises feilmeldingen. Den bør hjelpe deg med å forklare årsaken, men hvis du trenger mer hjelp, vennligst:",
         "HelpMessageIntroductionWhenWarning": "Oppdateringen er fullført, men det var noen småproblemer under prossessen. Les beskrivelsene over for mer informasjon. For videre hjelp:",
@@ -502,7 +502,7 @@
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Du kan oppdatere til versjon %s automatisk eller laste ned pakken og installere manuelt.",
         "YouMustDownloadPackageOrFixPermissions": "Piwik klarte ikke skrive over din nåværende installasjon. Du kan enten fikse mappe\/filrettighetene eller laste ned pakken og installere versjon %s manuelt:",
         "DownloadX": "Last ned %s",
-        "UpdateHasBeenCancelledExplanation": "Den automatiske oppdateringen av Piwik har blitt avbrutt. Hvis du ikke kan fikse feilen over, anbefales det at du oppdaterer Piwik manuelt. %s Les  %soppdateringsdokumentasjonen%s for å komme i gang!",
+        "UpdateHasBeenCancelledExplanation": "Den automatiske oppdateringen av Piwik har blitt avbrutt. Hvis du ikke kan fikse feilen over, anbefales det at du oppdaterer Piwik manuelt. %1$s Les  %2$soppdateringsdokumentasjonen%3$s for å komme i gang!",
         "DownloadingUpdateFromX": "Laster ned oppdatering fra %s",
         "UnpackingTheUpdate": "Pakker ut oppdateringen",
         "VerifyingUnpackedFiles": "Verifiserer de utpakkede filene",
@@ -603,7 +603,6 @@
         "GoalName": "Målnavn",
         "WhenVisitors": "når besøkende",
         "Manually": "manuelt",
-        "URL": "URL",
         "PageTitle": "Sidetittel",
         "Filename": "filnavn",
         "Download": "Last ned en fil",
@@ -627,7 +626,6 @@
         "DatabaseSetupPassword": "passord",
         "DatabaseSetupDatabaseName": "databasenavn",
         "DatabaseSetupTablePrefix": "tabellprefiks",
-        "DatabaseSetupAdapter": "adapter",
         "DatabaseErrorConnect": "Klarte ikke koble til databasetjeneren",
         "DatabaseCheck": "Databasesjekk",
         "DatabaseServerVersion": "Databasetjener-versjon",
@@ -684,14 +682,13 @@
         "SystemCheckGzcompressHelp": "Du må aktivere zlib utvidelsen og gzcompress-funksjonen.",
         "SystemCheckGzuncompressHelp": "Du må aktivere zlib utvidelsen og gzuncompress-funksjonen.",
         "SystemCheckPackHelp": "pack()-funksjonen er nødvendig for å spore besøkende i Piwik.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringFuncOverloadHelp": "Du bør sette mbstring.func_overload til \"0\".",
         "SystemCheckFileIntegrity": "Filintegritet",
         "SystemCheckError": "En feil oppstod - må fikses før du kan fortsette",
         "SystemCheckWarning": "Piwik vil virke normalt, men noen tjenester vil kanskje mangle",
         "SystemCheckSecureProtocol": "Sikker protokoll",
         "Tables": "Oppretter tabellene",
-        "TablesWithSameNamesFound": "Noen %s tabeller i databasen din %s har samme navn som de tabellene Piwik prøver å opprette",
+        "TablesWithSameNamesFound": "Noen %1$s tabeller i databasen din %2$s har samme navn som de tabellene Piwik prøver å opprette",
         "TablesFound": "Følgende tabeller ble funnet i databasen",
         "TablesWarningHelp": "Enten velg å bruke de eksisterende tabellene eller velg en ren installasjon for å slette all eksisterende data i databasen.",
         "TablesReuse": "Bruk de eksisterende tabellene",
@@ -725,7 +722,6 @@
         "Referrer_URL": "Henvisnings-URL",
         "LastMinutes": "Siste %s minutter",
         "LastHours": "Siste %s timer",
-        "GoalType": "Type",
         "GoalDetails": "Detaljer",
         "NbVisitors": "%s besøkende",
         "NbVisitor": "1 besøkende",
@@ -835,7 +831,6 @@
     "SecurityInfo": {
         "Security": "Sikkerhet",
         "SecurityInformation": "PHP-sikkerhetsinformasjon",
-        "Test": "Test",
         "Result": "Resultat"
     },
     "SEO": {
@@ -1233,7 +1228,6 @@
         "WidgetResolutions": "Skjermoppløsninger",
         "WidgetBrowsers": "Besøkendes nettlesere",
         "WidgetPlugins": "Liste over tillegg",
-        "WidgetWidescreen": "Normal \/ Widescreen",
         "WidgetBrowserFamilies": "Nettlesere etter familie",
         "WidgetOperatingSystems": "Operativsystemer",
         "WidgetGlobalVisitors": "Besøkendes konfigurasjon",
@@ -1252,11 +1246,9 @@
         "User": "Bruker",
         "PrivNone": "Ingen tilgang",
         "PrivView": "Vis",
-        "PrivAdmin": "Admin",
         "ChangeAllConfirm": "Er du sikker på at du vil endre '%s' rettigheter på alle nettstedene?",
         "Password": "Passord",
         "Email": "E-post",
-        "Alias": "Alias",
         "TheSuperUserAliasCannotBeChanged": "Superbruker-aliaset kan ikke endres.",
         "ReportToLoadByDefault": "Rapport som skal lastes som standard",
         "ReportDateToLoadByDefault": "Rapportdato som skal lastes som standard",
@@ -1280,7 +1272,7 @@
         "YourUsernameCannotBeChanged": "Brukernavnet ditt kan ikke endres.",
         "ExceptionLoginExists": "Brukernavn '%s' eksisterer allerede.",
         "ExceptionEmailExists": "Bruker med e-post '%s' eksisterer allerede.",
-        "ExceptionInvalidLoginFormat": "Brukernavnet må være mellom %s og %s tegn langt og inneholde kun bokstaver, tall eller tegnene '_', '-' og '.'.",
+        "ExceptionInvalidLoginFormat": "Brukernavnet må være mellom %1$s og %2$s tegn langt og inneholde kun bokstaver, tall eller tegnene '_', '-' og '.'.",
         "ExceptionInvalidEmail": "Epost-adressen er ikke i gyldig format.",
         "ExceptionDeleteDoesNotExist": "Bruker '%s' eksisterer ikke og kan derfor ikke bli slettet.",
         "ExceptionAdminAnonymous": "Du kan ikke gi administrator-tilgang til 'anonymous'-brukeren.",
@@ -1317,12 +1309,8 @@
         "WidgetLengths": "Besøkslengde",
         "WidgetPages": "Sider pr besøk",
         "Engagement": "Engasjement",
-        "OneMinute": "1 min",
-        "PlusXMin": "%s min",
-        "BetweenXYMinutes": "%1$s-%2$s min",
         "OnePage": "1 side",
-        "NPages": "%s sider",
-        "BetweenXYSeconds": "%1$s-%2$ss"
+        "NPages": "%s sider"
     },
     "VisitsSummary": {
         "PluginDescription": "Rapporterer generell statistikk: Besøk, unike besøkende, antall handlinger, sprettfrekvens, osv.",
@@ -1364,7 +1352,6 @@
     "PDFReports": {
         "ManageEmailReports": "Administrer e-postrapporter",
         "EmailReports": "E-postrapporter",
-        "PDF": "PDF",
         "SendReportNow": "Send rapport nå",
         "EmailSchedule": "E-postplan",
         "SendReportTo": "Send rapport til",
@@ -1390,6 +1377,7 @@
         "OutgoingTraffic": "Utgående trafikk",
         "ToInternalPages": "til interne sider",
         "Including": "inkludert",
+        "XOutOfYVisits": "%s (av %s)",
         "FromPreviousPagesInline": "%s fra interne sider",
         "FromPreviousSiteSearches": "Fra interne søk",
         "FromPreviousSiteSearchesInline": "%s fra interne søk",
@@ -1605,9 +1593,7 @@
         "Language_yo": "joruba",
         "Language_za": "zhuang",
         "Language_zh": "kinesisk",
-        "Language_zu": "zulu",
-        "Language": "Språk",
-        "SubmenuLanguage": "Språk"
+        "Language_zu": "zulu"
     },
     "SegmentEditor": {
         "AddNewSegment": "Legg til nytt segment",
@@ -1619,8 +1605,5 @@
         "VisibleToAllUsers": "alle brukere",
         "SegmentIsDisplayedForWebsite": "og vises for",
         "ChooseASegment": "Velg et segment"
-    },
-    "Forecast": {
-        "Visitors": "Besøkende"
     }
 }

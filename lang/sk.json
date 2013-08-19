@@ -41,6 +41,9 @@
         "Description": "Popis",
         "Done": "Hotovo",
         "PoweredBy": "Beží na",
+        "MetricsToPlot_js": "Metriky na zobrazenie",
+        "MetricToPlot_js": "Metrika na zobrazenie",
+        "RecordsToPlot_js": "Záznamy na zobrazenie",
         "Name": "Meno",
         "Value": "Hodnota",
         "Total": "Spolu",
@@ -74,6 +77,8 @@
         "NumberOfVisits": "Počet návštev",
         "VisitConvertedGoal": "Návšteva dokončila aspoň jeden cieľ",
         "VisitConvertedGoalId": "Návšteva dokončila špecifické ID cieľu",
+        "EcommerceVisitStatusDesc": "Navštívte stav Ecommerce návštevy na konci trvania návštevy",
+        "EcommerceVisitStatusEg": "Napríklad: Pre výber všetkých návštev, ktoré vykonali online objednávku by API požiadavka obsahovala %s",
         "VisitConvertedNGoals": "Návšteva dokončila %s cieľov",
         "NewVisitor": "Nový návštevník",
         "NewVisits": "Nové návštevy",
@@ -181,6 +186,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Pre webové sídla, ktoré majú stredne veľkú až veľkú návštevnosť, odporúčame pre spracovanie štatistík nastavenie v daný deň maximálne na každú každú pol hodinu (%s sekúnd), alebo každú hodinu (%s sekúnd).",
         "RequiresFlash": "Zobrazenie grafu vyžaduje Flash",
         "GraphHelp": "Ďalšie informácie o zobrazení grafov.",
+        "NoDataForGraph_js": "Pre tento graf nie sú dáta.",
         "NoDataForTagCloud": "Pre tento oblak nie sú dáta.",
         "DisplaySimpleTable": "Zobrazenie jednoduchej tabuľky",
         "DisplayTableWithMoreMetrics": "Zobraziť tabuľku s viacerými metrikami",
@@ -503,7 +509,6 @@
         "Manually": "ručne",
         "ManuallyTriggeredUsingJavascriptFunction": "Cieľom je ručne spúšťa pomocou JavaScript API trackGoal()",
         "VisitUrl": "Navštívte zadanú URL (stránku alebo skupinu stránok)",
-        "URL": "URL",
         "Filename": "názov súboru",
         "ExternalWebsiteUrl": "externá adresa web stránky(URL)",
         "Download": "Stiahnuť súbor",
@@ -1006,11 +1011,9 @@
         "User": "Používatelia",
         "PrivNone": "Bez prístupu",
         "PrivView": "Prezeranie",
-        "PrivAdmin": "Admin",
         "ChangeAllConfirm": "Ste si istý, že chcete zmeniť '%s' práva pre všetky webstránky?",
         "Password": "Heslo",
         "Email": "E-mail",
-        "Alias": "Alias",
         "Edit": "Upraviť",
         "AddUser": "Pridať nového používateľa",
         "MenuUsers": "Používatelia",
@@ -1069,11 +1072,8 @@
         "WidgetLengths": "Trvanie návštev",
         "WidgetPages": "Strany na návštevu",
         "Engagement": "Záujem",
-        "PlusXMin": "%s min",
-        "BetweenXYMinutes": "%1$s-%2$s min",
         "OnePage": "1 stránka",
-        "NPages": "%s stránok",
-        "BetweenXYSeconds": "%1$s-%2$ss"
+        "NPages": "%s stránok"
     },
     "VisitsSummary": {
         "PluginDescription": "Všeobecný analytický report: návštevy, jedinečné návštevy, počet akcií, Bounce Rate, atď",
@@ -1101,15 +1101,13 @@
         "ColumnLocalTime": "Miestny čas",
         "WidgetLocalTime": "Návštevníci podľa lokálneho času",
         "WidgetServerTime": "Návštevníci podľa serverového času",
-        "SubmenuTimes": "Časy",
-        "NHour": "%sh"
+        "SubmenuTimes": "Časy"
     },
     "Widgetize": {
         "PluginDescription": "Je veľmi jednoduché vložiť widget na svoj blog, web alebo na stránku iGoogle a Netvibes!"
     },
     "PDFReports": {
         "EmailReports": "Reporty e-mailom",
-        "PDF": "PDF",
         "SendReportNow": "Teraz poslať report",
         "EmailSchedule": "E-mail report",
         "SendReportTo": "Poslať report",

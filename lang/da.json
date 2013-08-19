@@ -534,7 +534,6 @@
         "MenuDiagnostic": "Diagnosticering",
         "MenuGeneralSettings": "Generelle indstillinger",
         "MenuManage": "Administrere",
-        "Administration": "Administration",
         "EmailServerSettings": "E-mail-server indstillinger",
         "OptOutForYourVisitors": "Piwik opt-out for dine besøgende",
         "OptOutExplanation": "Piwik er dedikeret til at værne om personlige oplysninger på internettet. For at give dine besøgende valgmulighed for at framelde Piwik Web Analyse, kan du tilføje den følgende HTML-kode på en af dine hjemmesider, f. eks. på en fortrolighedspolitik side.",
@@ -598,7 +597,7 @@
         "ForBetaTestersOnly": "Kun for beta testere",
         "CheckReleaseGetVersion": "Når der kontrolleres for en ny version af Piwik, altid få",
         "DevelopmentProcess": "Mens vores%s udviklingsproces%s omfatter tusindvis af automatiske tests, spiller betatestere en nøglerolle i at opnå \"ingen fejl politikken\" i Piwik.",
-        "StableReleases": "Hvis Piwik er en kritisk del af virksomheden, anbefaler vi at man bruger den nyeste stabile udgave.    Hvis man bruger den nyeste beta, og finder en fejl eller har et forslag, %sse her%s.",
+        "StableReleases": "Hvis Piwik er en kritisk del af virksomheden, anbefaler vi at man bruger den nyeste stabile udgave.\n\nHvis man bruger den nyeste beta, og finder en fejl eller har et forslag, %sse her%s.",
         "YouAreCurrentlyUsingPHP": "Du bruger i øjeblikket PHP %1$s.",
         "OldPHPVersionWarning_Part1": "Piwik forbedres løbende og for at give dig en forbedret 'state-of-the-art' web analytse-platform, vil vi snart øge den nødvendige minimum PHP version til PHP 5.3. %1$s Spørg din server administrator eller web-udbyder om at opdatere PHP til den nyeste version, ideelt PHP 5.4.%2$s",
         "OldPHPVersionWarning_Part2": "Når du opgraderer til PHP 5.3 eller højere, forsvinder denne meddelelse, og din Piwik server vil behandle rapporter meget hurtigere og bruge mindre hukommelse. %1$sOpdater PHP og få mest ud af Piwik!%2$s"
@@ -625,7 +624,7 @@
         "ShareThis": "Del dette",
         "ViewAllPiwikVideoTutorials": "Vis alle Piwik videoselvstudier",
         "SharePiwikShort": "Piwik! Gratis og open source internet analyse. Ej dine egne data.",
-        "SharePiwikLong": "Hej! Jeg har lige fundet et fantastisk open source program: Piwik!    Piwik kan gratis spore besøgende på din hjemmeside. Du bør helt klart undersøge det!",
+        "SharePiwikLong": "Hej! Jeg har lige fundet et fantastisk open source program: Piwik!\n\nPiwik kan gratis spore besøgende på din hjemmeside. Du bør helt klart undersøge det!",
         "PluginDescription": "Struktur for webanalyse-rapporter.",
         "WebAnalyticsReports": "Webanalyse-rapporter",
         "NoPrivilegesAskPiwikAdmin": "Du er logget på som '%s' men det ser ikke ud som du har adgang til Piwik. %s Spørg Piwik administratoren (klik for at sende e-mail)%s for at give dig 'se' adgang til et websted.",
@@ -730,8 +729,6 @@
         "ThemesDescription": "Temaer kan ændre udseendet af Piwik brugergrænsefladen,og giver en helt ny visuel oplevelse af dine analytiske rapporter.",
         "Plugin": "Udvidelsesmodul",
         "Theme": "Tema",
-        "Version": "Version",
-        "Status": "Status",
         "Action": "Handling",
         "AuthorHomepage": "Forfatter hjemmeside",
         "LicenseHomepage": "Licens hjemmeside",
@@ -741,7 +738,6 @@
         "Inactive": "Inaktiv",
         "Deactivate": "Deaktiver",
         "Activate": "Aktiver",
-        "MenuPlatform": "Platform",
         "MenuExtend": "Udvid",
         "PluginCannotBeFound": "Dette udvidelsesmodul kan ikke findes!"
     },
@@ -997,7 +993,6 @@
     },
     "Installation": {
         "PluginDescription": "Installation af Piwik. Installationen sker som regel kun én gang. Hvis konfigurationsfilen config\/config.inc.php slettes starter installationen igen.",
-        "Installation": "Installation",
         "InstallationStatus": "Installationstatus",
         "PercentDone": "%s %% udført",
         "NoConfigFound": "Piwik-konfigurationsfil blev ikke fundet og du prøver at få adgang til Piwik. <ul><li>Du kan <a href='index.php'>installere Piwik nu<\/a><\/b><small> Hvis du har installeret Piwik tidligere og har nogle tabeller i databasen, kan du genbruge tabellerne og holde dine eksisterende data!<\/small>",
@@ -1043,7 +1038,6 @@
         "Extension": "udvidelse",
         "SystemCheck": "Systemcheck",
         "RestartWebServer": "Efter ændringen er have foretaget  - genstart webserveren.",
-        "SystemCheckPhp": "PHP version",
         "SystemCheckExtensions": "Andre nødvendige udvidelser",
         "SystemCheckDatabaseHelp": "Piwik behøver enten mysqli udvidelsen eller både PDO og pdo_mysql udvidelserne.",
         "SystemCheckPdoAndMysqliHelp": "På en linux-server kan php kompileres med følgende valg: %1$sn i php.ini, tilføj følgende linjer: %2$s",
@@ -1077,7 +1071,6 @@
         "SystemCheckGzcompressHelp": "zlib udvidelsen og gzcompress funktionen skal aktiveres.",
         "SystemCheckGzuncompressHelp": "zlib udvidelsen og gzuncompress funktionen skal aktiveres.",
         "SystemCheckPackHelp": "Funktionen pack() er nødvendig for at spore besøgende i Piwik.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "mbstring udvidelse er nødvendig for multibyte tegn i API-svarene ved kommaseparerede værdier (CSV) eller tab-separeret værdier (TSV).",
         "SystemCheckMbstringExtensionGeoIpHelp": "Det er også påkrævet for at GeoIP integrationen virker.",
         "SystemCheckMbstringFuncOverloadHelp": "Angiv mbstring.func_overload til \"0\".",
@@ -1136,7 +1129,6 @@
         "LastMinutes": "Sidste %s minutter",
         "LastHours": "Sidste %s timer",
         "MorePagesNotDisplayed": "yderligere sider vises ikke for denne besøgende",
-        "GoalType": "Type",
         "PageRefreshed": "Antal gange siden er blevet vist \/ opdateret i træk.",
         "GoalTime": "1. konverterings tid",
         "KeywordRankedOnSearchResultForThisVisitor": "Nøgleordet %1$s blev rangeret %2$s på %3$s side med søgeresultater for denne besøgende",
@@ -1198,7 +1190,6 @@
         "ReleaseToRefresh": "Slip for at opdatere...",
         "ShowAll": "Vis alle",
         "ShowLess": "Vis mindre",
-        "HttpTimeout": "HTTP Timeout",
         "VerifyAccount": "Bekræftelse af konto",
         "VerifyLoginData": "Kontroller at kombinationen af brugernavn og adgangskode er korrekt.",
         "AnonymousAccess": "Anonym adgang",
@@ -1339,7 +1330,6 @@
         "PluginDescription": "Baseret på PhpSecInfo fra PHP Security Consortium, giver udvidelsesmodulet sikkerhedsoplysninger om PHP-miljøet, og giver forslag til forbedringer. Det er et værktøj i en flersidig sikkerhedstilgang. Det erstatter ikke sikker udviklingspraksis eller revision af kode\/program.",
         "Security": "Sikkerhed",
         "SecurityInformation": "PHP sikkerhedsinformation",
-        "Test": "Test",
         "Result": "Resultat"
     },
     "SEO": {
@@ -1439,7 +1429,6 @@
         "MenuLanguages": "Sprog",
         "LanguageCode": "Sprogkode",
         "Plugin": "Udvidelsesmodul",
-        "Definition": "Definition",
         "DefaultString": "Standard (English)",
         "TranslationString": "Oversættelse (nuværende sprog: %s)",
         "StatusOfStringsTranslated": "Status: %1$s af %2$s strenge er oversat.",
@@ -1863,7 +1852,6 @@
         "Resolutions": "Opløsninger",
         "WideScreen": "Bredformat",
         "ColumnBrowserFamily": "Browsertype",
-        "ColumnBrowser": "Browser",
         "ColumnBrowserVersion": "Browserversion",
         "ColumnPlugin": "Udvidelsesmodul",
         "ColumnConfiguration": "Konfiguration",
@@ -1906,7 +1894,6 @@
         "AnonymousUserHasViewAccess2": "Analyserapporter og besøgendes oplysninger er offentligt tilgængelige.",
         "Password": "Adgangskode",
         "Email": "E-mail",
-        "Alias": "Alias",
         "TheSuperUserAliasCannotBeChanged": "Superbruger alias kan ikke ændres.",
         "ReportToLoadByDefault": "Standard rapport",
         "ReportDateToLoadByDefault": "Standard rapport dato",
@@ -1993,7 +1980,6 @@
         "WidgetPages": "Sidevisninger pr. besøg",
         "WidgetPagesDocumentation": "Rapporten viser, hvor mange besøg, der er involveret i et bestemt antal sidevisninger. Rapporten vises som en emnesky, mere almindelige antal sider vises med en større skrifttype.",
         "WidgetVisitsByNumDocumentation": "Rapporten viser antallet af besøg, som var det N'te besøg, dvs. besøgende, der besøgte hjemmesiden mindst N gange.",
-        "Engagement": "Engagement",
         "OneMinute": "1 min.",
         "PlusXMin": "%s min.",
         "BetweenXYMinutes": "%1$s-%2$s min.",
@@ -2056,7 +2042,6 @@
         "PluginDescription": "Opret og hent brugerdefinerede rapporter, og få dem sendt dagligt, ugentligt eller månedligt.",
         "ManageEmailReports": "Administrer e-mail rapporter",
         "EmailReports": "E-mail rapporter",
-        "PDF": "PDF",
         "SendReportNow": "Send rapport nu",
         "EmailSchedule": "E-mail tidsplan",
         "SendReportTo": "Send rapport til",
@@ -2159,7 +2144,6 @@
         "OneClick": "1 klik",
         "Clicks": "%s klik",
         "ClicksFromXLinks": "%1$s klik fra et af %2$s link",
-        "Link": "Link",
         "RedirectUrlError": "Du forsøger at åbne sideoverlejring for URL \"%s\". %s Ingen af ​​domæner fra Piwiks indstillinger matcher linket.",
         "RedirectUrlErrorUser": "Spørg administratoren om at tilføje domænet som en yderligere URL.",
         "RedirectUrlErrorAdmin": "Du kan tilføje domænet som en yderligere URL %si indstillingerne%s.",
@@ -2373,10 +2357,7 @@
         "Language_yo": "Yoruba",
         "Language_za": "Zhuang",
         "Language_zh": "Kinesisk",
-        "Language_zu": "Zulu",
-        "Language": "Sprog",
-        "SubmenuLanguage": "Sprog",
-        "WidgetLanguage": "Besøgssprog"
+        "Language_zu": "Zulu"
     },
     "SegmentEditor": {
         "AddNewSegment": "Tilføj nyt segment",
@@ -2400,17 +2381,5 @@
         "LoadingSegmentedDataMayTakeSomeTime": "Behandling af besøgendes segmenterede data kan tage et par minutter ...",
         "AutoArchiveRealTime": "Segmenterede rapporter behandles tidstro",
         "AutoArchivePreProcessed": "Segmenterede rapporter behandles på forhånd (er hurtigere, kræver archive.php cron)"
-    },
-    "EntryPage": {
-        "Bounces": "Afvisninger",
-        "Referrers": "Henvisninger"
-    },
-    "Forecast": {
-        "Actions": "Side besøg",
-        "Bounce": "Afviste besøgende",
-        "Column": "Prognose",
-        "ReturnVisits": "tilbagevendende besøg",
-        "Visitors": "Besøgende",
-        "Widget": "Prognose for i dag"
     }
 }

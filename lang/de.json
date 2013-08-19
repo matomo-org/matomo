@@ -23,6 +23,7 @@
         "NotValid": "%s ist nicht gültig",
         "NotDefined": "%s nicht definiert",
         "Id": "Id",
+        "IP": "IP",
         "Error": "Fehler",
         "Warning": "Warnung",
         "BackToHomepage": "Zurück zur Piwik Homepage",
@@ -208,7 +209,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Für Seiten mit mittlerem bis hohem Trafficaufkommen empfehlen wir, Berichte für den heutigen Tag maximal jede halbe Stunde (%s Sekunden) oder jede Stunde (%s Sekunden) abzuarbeiten.",
         "RequiresFlash": "Die Darstellung von Graphen in Piwik erfordert Flash.",
         "GraphHelp": "Mehr Informationen über die Darstellung von Graphen in Piwik.",
-        "NoDataForGraph_js": "Keine Daten für diesen Graphen",
+        "NoDataForGraph_js": "Keine Daten für diesen Graphen.",
         "DataForThisGraphHasBeenPurged": "Die Daten für diese Grafik sind älter als %s Monate und wurden gelöscht",
         "NoDataForTagCloud": "Keine Daten für diese Schlagwortwolke.",
         "DataForThisTagCloudHasBeenPurged": "Die Daten für diese Schlagwortwolke sind älter als %s Monate und wurden gelöscht.",
@@ -390,6 +391,8 @@
         "DefaultAppended": "(Standard)",
         "SearchNoResults": "Keine Ergebnisse",
         "ReadThisToLearnMore": "%1$sErfahren Sie hier mehr darüber.%2$s",
+        "Summary": "Zusammenfassung",
+        "SeeAll": "alle ansehen",
         "YearShort_js": "j",
         "DaySu_js": "So",
         "DayMo_js": "Mo",
@@ -548,7 +551,7 @@
         "ClickHereToOptOut": "Klicken Sie hier, damit Ihr Besuch nicht mehr erfasst wird.",
         "ClickHereToOptIn": "Klicken Sie hier, um Ihren Besuch wieder erfassen zu lassen.",
         "BrandingSettings": "Branding Einstellungen",
-        "CustomLogoHelpText": "Hier kann das Piwik-Logo angepasst werden, das in der Benutzetroberfläche sowie in E-Mail-Berichten verwendet wird.",
+        "CustomLogoHelpText": "Hier kann das Piwik-Logo angepasst werden, das in der Benutzeroberfläche sowie in E-Mail-Berichten verwendet wird.",
         "CustomLogoFeedbackInfo": "Wenn Sie das Piwik-Logo anpassen, ist sicher auch das Verstecken des %s-Links in der Navigation von Interesse. Bitte dazu das Feedback Plugin auf der %sManage Plugins%s Seite deaktivieren.",
         "UseCustomLogo": "Eigenes Logo verwenden",
         "LogoUpload": "Wählen Sie ein Logo für den Upload",
@@ -625,7 +628,7 @@
         "ShareThis": "Teilen",
         "ViewAllPiwikVideoTutorials": "Zeige alle Piwik Video Tutorials an",
         "SharePiwikShort": "Piwik! Kostenlose und Open Source Web Analyse. Behalten Sie Ihre Daten.",
-        "SharePiwikLong": "Hi! Ich habe gerade diese großartige Open Soruce Software gefunden: Piwik! Piwik ermöglicht es Besucher einer Webseite zu tracken und ist kostenlos. Du solltest es dir unbedingt einmal ansehen!",
+        "SharePiwikLong": "Hi! Ich habe gerade diese großartige Open Soruce Software gefunden: Piwik!\nPiwik ermöglicht es Besucher einer Webseite zu tracken und ist kostenlos. Du solltest es dir unbedingt einmal ansehen!",
         "PluginDescription": "Web Analytik Berichts-Struktur",
         "WebAnalyticsReports": "Web Analytik Berichte",
         "NoPrivilegesAskPiwikAdmin": "Sie sind eingeloggt als '%s', aber es wurden keine Berechtigungen für diesen Benutzer in Piwik gesetzt. %s Bitte fragen Sie Ihren Piwik Administrator (klicken für E-Mail)%s um Zugriff auf die Webseite zu erhalten.",
@@ -723,9 +726,13 @@
     "CorePluginsAdmin": {
         "PluginDescription": "Oberfläche zur Plugin-Verwaltung",
         "Plugins": "Plugins",
+        "Themes": "Themes",
         "PluginsManagement": "Pluginverwaltung",
+        "ThemesManagement": "Themes verwalten",
         "MainDescription": "Plugins erweitern die Funktionalität von Piwik. Wenn ein Plugin installiert wurde, können Sie es hier aktivieren oder deaktivieren.",
+        "ThemesDescription": "Themes können das Aussehen der Benutzeroberfläche für Piwik Anwender ändern, und bringen so ein komplett neues visuelles Erlebnis, das Ihnen die Analyse Ihrer Berichte angenehm gestaltet.",
         "Plugin": "Plugin",
+        "Theme": "Theme",
         "Version": "Version",
         "Status": "Status",
         "Action": "Aktion",
@@ -1100,6 +1107,7 @@
         "WelcomeHelp": "<p>Piwik ist eine freiverfügbare Webanalyse-Software, um einfach Informationen über die Besucher Ihrer Webseite zu erhalten.<\/p><p>Der Prozess teilt sich in %s einfache Schritte und wird rund 5 Minuten dauern.<\/p>",
         "ConfigurationHelp": "Ihre Konfigurationsdatei enthält Fehler. Sie können entweder die config\/config.php löschen und neu installieren, oder die Einstellung zur Datenbankverbindung korrigieren.",
         "ErrorInvalidState": "Fehler: Sie scheinen zu versuchen, einen Schritt des Installationsvorgangs zu überspringen oder Ihre Cookies sind deaktiviert, oder die Piwik-Konfigurationsdatei wurde bereits erstellt. %1$sStellen Sie sicher, dass Ihre Cookies aktiviert%2$s sind und gehen Sie zurück %3$s zur ersten Seite der Installation. %4$s",
+        "InsufficientPrivilegesMain": "Entweder existiert die Datenbank nicht (und konnte nicht erstellt werden), oder der angegebene Benutzer hat unzureichende Berechtigungen. Der Datenbankbenutzer muss folgende Berechtigungen besitzen: %s",
         "InsufficientPrivilegesHelp": "Sie können diese Rechte mit einem Tool wie phpMyAdmin oder den entsprechenden SQL Kommandos hinzufügen. Wenn Sie nicht wissen, was zu tun ist, wenden Sie sich bitte an den System Administrator, damit er für Sie diese Rechte setzt.",
         "SystemCheckSummaryThereWereErrors": "Ohje! Piwik hat einige %1$skritische Fehler%2$s mit Ihrer Installation festgestellt. %3$sDiese sollten schnellstmöglich behoben werden.%4$s",
         "SystemCheckSummaryThereWereWarnings": "Es gibt einige Ungereimtheiten mit Ihrem System. Piwik wird funktionieren, aber es könnten geringfügige Probleme auftauchen.",
@@ -1142,7 +1150,15 @@
         "NbVisitors": "%s Besucher",
         "NbVisitor": "1 Besucher",
         "RealTimeVisitorCount": "Echtzeit-Besucherzähler",
-        "SimpleRealTimeWidget_Message": "%s und %s in den letzten %s."
+        "SimpleRealTimeWidget_Message": "%s und %s in den letzten %s.",
+        "VisitorProfile": "Besucherprofil",
+        "FirstVisit": "Erster Besuch",
+        "LastVisit": "Letzter Besuch",
+        "VisitSummary": "Verbrachte insgesamt %1$s%2$s auf der Webseite%3$s, und %4$sgezeigten %5$s Seiten in %6$s Besuchen.%7$s",
+        "ConvertedNGoals": "%s Ziele konvertiert",
+        "EcommerceSummary": "Ecommerce: %1$s%2$s Bestellungen mit einem Total von %3$s%4$s, %5$s  Produkte gekauft.",
+        "VisitedPages": "Besuchte Seiten",
+        "ViewMoreVisitInfo": "Mehr Besucherinformationen ansehen"
     },
     "Login": {
         "PluginDescription": "Plugin für die Anmeldung. Die Daten werden dabei für den Administrator aus der Konfigurationsdatei config\/config.inc.php und für die anderen Benutzer aus der Datenbank ausgelesen. Kann leicht durch eine andere Authentifizierungsmethode (OpenID, htaccess, custom Auth, etc.) ersetzt werden.",
@@ -1785,7 +1801,7 @@
         "GeoIPDocumentationSuffix": "Um Daten für diesen Bericht sehen zu können, müssen Sie GeoIP im Geolokalisierungs Administrations Reiter konfigurieren. Die kommerziellen %1$sMaxmind%2$s GeoIP Datenbanken sind weit genauer als die kostenlosen. Um zu sehen wie genau sie sind, klicken Sie %3$shier%4$s.",
         "OldGeoIPWarning": "Es wurde das alte GeoIP-Plugin erkannt. Dieses Plugin ist veraltet, da GeoIP nun fest in Piwik integriert wurde. Die neuen Berichte für Regionen und Städte werden nicht angezeigt solange dieses Plugin geladen ist. %1$sBitte deaktivieren Sie dieses Plugin%2$s und %3$skonfigurieren Sie GeoIP%4$s. Fall Sie Standortdaten für alte Besuche wünschen führen Sie das %5$shier%6$s beschriebene Skript aus und %7$slassen Sie die Berichte neu erstellen%8$s.",
         "NoDataForGeoIPReport1": "Es sind keine Daten für diesen Bericht vorhanden, da entweder keine Lokalisierungsdaten vorhanden sind oder die Besucher IP-Adresse nicht geortet werden kann.",
-        "NoDataForGeoIPReport2": "Um die vollständige Ortungsmöglichkeit zu aktivieren ändern Sie bitte %1$shier%2$s die Einstellungen und benutzen eine %2$sStädtebasierte Datenbank%4$s.",
+        "NoDataForGeoIPReport2": "Um die vollständige Ortungsmöglichkeit zu aktivieren ändern Sie bitte %1$shier%2$s die Einstellungen und benutzen eine %3$sStädtebasierte Datenbank%4$s.",
         "ToGeolocateOldVisits": "Für Standortdaten für vergangene Besuche verwenden Sie bitte das %1$shier beschriebene Skript%2$s.",
         "GeoIPPeclCustomDirNotSet": "Die php.ini Einstellung für %s ist nicht gesetzt.",
         "GeoIPServerVarsFound": "Piwik hat folgende GeoIP %s Variablen erkannt",
@@ -2369,10 +2385,7 @@
         "Language_yo": "Yoruba",
         "Language_za": "Zhuang",
         "Language_zh": "Chinesisch",
-        "Language_zu": "IsiZulu",
-        "Language": "Sprachen",
-        "SubmenuLanguage": "Sprachen",
-        "WidgetLanguage": "Besuchersprachen"
+        "Language_zu": "IsiZulu"
     },
     "SegmentEditor": {
         "AddNewSegment": "Neues Segment hinzufügen",
@@ -2396,17 +2409,5 @@
         "LoadingSegmentedDataMayTakeSomeTime": "Die Verarbeitung der segmentierten Besucherdaten kann einige Minuten dauern...",
         "AutoArchiveRealTime": "Segmentierte Berichte werden in Echtzeit verarbeitet.",
         "AutoArchivePreProcessed": "Segmentierte Berichte werden im Voraus verarbeitet (schneller, benötigt archive.php Cron)"
-    },
-    "EntryPage": {
-        "Bounces": "Absprünge",
-        "Referrers": "Verweise"
-    },
-    "Forecast": {
-        "Actions": "Seitenbesuche",
-        "Bounce": "abgesprungene Besucher",
-        "Column": "Erwartung",
-        "ReturnVisits": "wiederkehrende Besucher",
-        "Visitors": "Besucher",
-        "Widget": "Vorhersage für Heute"
     }
 }

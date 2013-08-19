@@ -106,6 +106,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Á vefsvæðum með umferð yfir meðallagi, er mælt með að úrvinnsla skýrslna sé ekki framkvæmd tíðar en á hálftíma fresti (%s sekúndur) eða á klukkustundar fresti (%s seconds).",
         "RequiresFlash": "Til að birta gröf í Piwik þarf Flash.",
         "GraphHelp": "Nánari upplýsingar um birtingu grafa í Piwik.",
+        "NoDataForGraph_js": "Engin gögn fyrir þetta graf.",
         "NoDataForTagCloud": "Engin gögn fyrir þetta klisjuský.",
         "DisplaySimpleTable": "Sýna einfalda töflu.",
         "DisplayTableWithMoreMetrics": "Sýna töflu með mörgum mæligildum.",
@@ -354,7 +355,6 @@
         "Manually": "handvirkt",
         "ManuallyTriggeredUsingJavascriptFunction": "Markmið er kveikt handvirkt með því að nota JavaScript API trackGoal()",
         "VisitUrl": "Skoða gefinn URL (vefsíðu eða hóp síðna)",
-        "URL": "URL",
         "Filename": "skrárnafn",
         "ExternalWebsiteUrl": "utanaðkumandi vefslóð URL",
         "Download": "Sækja skrá",
@@ -788,7 +788,6 @@
         "PrivView": "Sýn",
         "Password": "Lykilorð",
         "Email": "Netfang",
-        "Alias": "Alias",
         "ReportToLoadByDefault": "Skýrsla sem sjálfgefið er að sækja",
         "ForAnonymousUsersReportDateToLoadByDefault": "Sjálfgefið að sýna skýrslu fyrir notendur sem ekki eru auðkenndir",
         "ExcludeVisitsViaCookie": "Útiloka þínar heimsóknir með því að nota smáköku",
@@ -829,8 +828,7 @@
         "PlusXMin": "%s mín",
         "BetweenXYMinutes": "%1$s-%2$s mín",
         "OnePage": "1 síða",
-        "NPages": "%s síður",
-        "BetweenXYSeconds": "%1$s-%2$ss"
+        "NPages": "%s síður"
     },
     "VisitsSummary": {
         "PluginDescription": "Gefur skýrslu um almennar greiningartölur: heimsóknir, einstakir gestir, fjöldi aðgerða, skopptíðni, o.s.frv.",
@@ -863,7 +861,6 @@
     },
     "PDFReports": {
         "EmailReports": "Senda skýrslur með tölvupósti",
-        "PDF": "PDF",
         "SendReportNow": "Senda skýrslu strax",
         "EmailSchedule": "Tímaáætlun fyrir tölvupóst",
         "SendReportTo": "Senda skýrslu til",

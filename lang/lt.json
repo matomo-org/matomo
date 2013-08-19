@@ -5,6 +5,7 @@
         "TranslatorEmail": "info@teraxit.com",
         "EnglishLanguageName": "Lithuanian",
         "OriginalLanguageName": "Lietuvių",
+        "LayoutDirection": "ltr",
         "HelloUser": "Sveiki, %s!",
         "OpenSourceWebAnalytics": "Atvirojo kodo žiniatinklio analizės sprendimas",
         "Dashboard": "Skydelis",
@@ -152,6 +153,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Vidutinio ir didelio srauto svetainėms rekomenduojame generuoti kasdienines ataskaitas kas pusę valandos (%s sekundės) arba kas valandą (%s sekundės).",
         "RequiresFlash": "Grafikų atvaizdavimui reikalingas Flash",
         "GraphHelp": "Daugiau informacijos apie grafikų atvaizdavimą",
+        "NoDataForGraph_js": "Šiam grafikui duomenų nėra",
         "NoDataForTagCloud": "Šiam žymių debesiui duomenų nėra",
         "DisplaySimpleTable": "Rodyti paprastą lentelę",
         "DisplayTableWithMoreMetrics": "Rodyti lentelę su daugiau duomenų",
@@ -339,15 +341,6 @@
         "MenuGeneralSettings": "Pagrindiniai nustatymai",
         "Administration": "Administravimas"
     },
-    "PrivacyManager": {
-        "TeaserHeadline": "Privatumo nustatymai",
-        "MenuPrivacySettings": "Privatumas",
-        "UseAnonymizeIp": "Paslėpti lankytojų IP adresus",
-        "DeleteLogsOlderThan": "Ištrinti įrašus senesnius nei",
-        "DeleteMaxRows": "Maksimalus vienu metu trinamų eilučių kiekis:",
-        "LastDelete": "Paskutinis išvalymas atliktas",
-        "NextDelete": "Kitas suplanuotas išvalymas"
-    },
     "CoreHome": {
         "PluginDescription": "Žiniatinklio analizės sprendimo ataskaitų struktūra.",
         "WebAnalyticsReports": "Žiniatinklio analizės sprendimo ataskaitos",
@@ -364,6 +357,15 @@
         "PeriodWeeks": "savaitės",
         "PeriodMonths": "mėnesiai",
         "PeriodYears": "metai"
+    },
+    "PrivacyManager": {
+        "TeaserHeadline": "Privatumo nustatymai",
+        "MenuPrivacySettings": "Privatumas",
+        "UseAnonymizeIp": "Paslėpti lankytojų IP adresus",
+        "DeleteLogsOlderThan": "Ištrinti įrašus senesnius nei",
+        "DeleteMaxRows": "Maksimalus vienu metu trinamų eilučių kiekis:",
+        "LastDelete": "Paskutinis išvalymas atliktas",
+        "NextDelete": "Kitas suplanuotas išvalymas"
     },
     "CorePluginsAdmin": {
         "PluginDescription": "Papildinių administravimo sąsaja.",
@@ -511,7 +513,6 @@
         "Manually": "rankiniu būdu",
         "ManuallyTriggeredUsingJavascriptFunction": "Uždavinys paleistas rankiniu būdu naudojantis JavaScript API trackGoal()",
         "VisitUrl": "Aplankyti pateiktą URL (puslapį ar puslapių grupę)",
-        "URL": "URL",
         "Filename": "failo pavadinimas",
         "ExternalWebsiteUrl": "išorinės svetainės URL",
         "Download": "Atsisiųsti failą",
@@ -590,7 +591,6 @@
         "SystemCheckWriteDirsHelp": "Šios klaidos pataisymui Linux sistemoje, išbandykite šią komandą (-as)",
         "SystemCheckMemoryLimit": "Atminties limitas",
         "SystemCheckMemoryLimitHelp": "Didelio lankytojų srauto svetainėse archyvavimas gali reikalauti daugiau atminties nei šiuo metu yra.<br \/>Pasitikrinkite reikšmę memory_limit savo php.ini faile, jeigu būtina.",
-        "SystemCheckOpenURL": "Open URL",
         "SystemCheckOpenURLHelp": "Naujienlaiškių prenumeratos, atnaujinimų pranešimai ir \"vieno spustelėjimo\" naujinimai reikalauja \"curl\" plėtinio, allow_url_fopen=On, arba aktyvuoto fsockopen()",
         "SystemCheckGD": "GD > 2.x (grafika)",
         "SystemCheckGDHelp": "Mažos diagramos neveiks.",
@@ -600,7 +600,6 @@
         "SystemCheckMailHelp": "Atsiliepimų ir prarastų slpatažodžių pranešimai nebus siunčiami be mail() funkcijos.",
         "SystemCheckParseIniFileHelp": "Ši integruota funkcija yra išjungta Jūsų serveryje. Piwik pabandys emuliuoti šią funkciją, tačiau galimi saugumo suvaržymai ateityje. Stebėjimo sparta taip pat gali būti paveikta.",
         "SystemCheckEvalHelp": "Reikalinga HTML QuickForm ir Smarty šablonų sistema.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "Mbstring plėtinys reikalingas daugiabitiniams simboliams API užklausose naudojant kableliu atskirtas reikšmes (CSV) arba tarpais atskirtas reikšmes (TSV)",
         "SystemCheckMbstringFuncOverloadHelp": "Turite nustatyti mbstring.func_overload į \"0\".",
         "SystemCheckFileIntegrity": "Failo vientisumas",
@@ -1181,7 +1180,6 @@
         "WidgetLengths": "Apsilankymų trukmė",
         "WidgetPages": "Puslapių per apsilankymą",
         "Engagement": "Įsipareigojimai",
-        "PlusXMin": "%s min",
         "BetweenXYMinutes": "%1$s-%2$s min.",
         "OnePage": "1 puslapis",
         "NPages": "%s puslapiai",
@@ -1213,8 +1211,7 @@
         "ColumnLocalTime": "Vietinis laikas",
         "WidgetLocalTime": "Apsilankymai vietiniu laiku",
         "WidgetServerTime": "Apsilankymai serverio laiku",
-        "SubmenuTimes": "Laikai",
-        "NHour": "%sh"
+        "SubmenuTimes": "Laikai"
     },
     "Widgetize": {
         "PluginDescription": "Šis papildinys leidžia itin paprastai eksportuoti bet kurį Piwik valdiklį į Jūsų interneto dienoraštį, svetainę ar į Igoogle bei Netvibes!"
@@ -1223,7 +1220,6 @@
         "PluginDescription": "Sukurkite ir atsisiųskite savo ataskaitas arba nustatytike jų kadieninį, kas savaitinį ar mėnesinį atsisiuntimą.",
         "ManageEmailReports": "Administruoti ataskaitas",
         "EmailReports": "Ataskaitos el. paštu",
-        "PDF": "PDF",
         "SendReportNow": "Siųsti ataskaitą dabar",
         "EmailSchedule": "Siuntimo tvarkaraštis",
         "SendReportTo": "Siųsti ataskaitą į",
