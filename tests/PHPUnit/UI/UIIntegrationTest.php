@@ -267,7 +267,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
 
     private static function isPhantomJsAvailable()
     {
-        return self::isProgramAvaialble('phantomjs');
+        return self::isProgramAvailable('phantomjs');
     }
     
     private static function isXvfbAvailable()
