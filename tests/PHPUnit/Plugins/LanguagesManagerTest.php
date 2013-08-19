@@ -19,7 +19,6 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
     }
 
-    static $errors;
     static $englishStringsIndexed = array();
     static $englishStringsWithParameters = array();
     static $allLanguages = array();
@@ -38,7 +37,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
             $stringLabel = $englishString['label'];
             $stringValue = $englishString['value'];
             $count = $this->getCountParametersToReplace($stringValue);
-            if ($count > 0) {
+            if (array_sum($count) > 0) {
                 self::$englishStringsWithParameters[$stringLabel] = $count;
             }
             self::$englishStringsIndexed[$stringLabel] = $stringValue;
@@ -66,49 +65,40 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      */
     function testGetTranslationsForLanguages($language)
     {
-        self::$errors = array();
-        ob_start();
+        /** Indicates wether the translation files needs to be changed */
         $writeCleanedFile = false;
+        $errorsInCurrentFile = array();
+
         $strings = API::getInstance()->getTranslationsForLanguage($language);
-        $content = ob_get_flush();
+
+        // check if any translation contains restricted script tags
         $serializedStrings = serialize($strings);
         $invalids = array("<script", 'document.', 'javascript:', 'src=', 'BACKGROUND=', 'onload=');
         foreach ($invalids as $invalid) {
             $this->assertTrue(stripos($serializedStrings, $invalid) === false, "$language: language file containing javascript");
         }
+
+        // check for at least 250 translation in file
         $this->assertTrue(count($strings) > 250, "$language: expecting at least 250 translations in the language file");
-        $this->assertTrue(strlen($content) == 0, "$language: buffer was " . strlen($content) . " long but should be zero. Translation file for '$language' must be buggy.");
 
         $cleanedStrings = array();
         foreach ($strings as $string) {
             $stringLabel = $string['label'];
             $stringValue = $string['value'];
 
-            $plugin = substr($stringLabel, 0, strpos($stringLabel, '_'));
-            $plugins[$plugin] = true;
-            // Testing that the translated string is not empty => '',
-            if (empty($stringValue) || trim($stringValue) === '') {
+            // translations that are empty or don't exist in english translations should be removed
+            if (empty($stringValue) || trim($stringValue) === '' || !in_array($stringLabel, self::$expectedLanguageKeys)) {
+
                 $writeCleanedFile = true;
-                self::$errors[] = "$language: The string $stringLabel is empty in the translation file, removing the line.";
-                $cleanedStrings[$stringLabel] = false;
-            } elseif (!in_array($stringLabel, self::$expectedLanguageKeys)
-                // translation files should not contain 3rd plugin translations, but if they are there, we shall not delete them
-                // since translators have spent time working on it... at least for now we shall leave them in (until V2 and plugin repository is done)
-                && !in_array($plugin, array('GeoIP', 'Forecast', 'EntryPage', 'UserLanguage'))
-            ) {
-                $writeCleanedFile = true;
-                self::$errors[] = "$language: The string $stringLabel was not found in the English language file, removing the line.";
-                $cleanedStrings[$stringLabel] = false;
+
             } else {
                 // checking that translated strings have the same number of %s as the english source strings
                 if (isset(self::$englishStringsWithParameters[$stringLabel])) {
                     $englishParametersCount = self::$englishStringsWithParameters[$stringLabel];
                     $countTranslation = $this->getCountParametersToReplace($stringValue);
                     if ($englishParametersCount != $countTranslation) {
-                        // Write fixed file in given location
-                        // Will trigger a ->fail()
                         $writeCleanedFile = true;
-                        self::$errors[] = "$language: The string $stringLabel has $englishParametersCount parameters in English, but $countTranslation in this translation.";
+                        $errorsInCurrentFile[] = "$language: The string $stringLabel has ".json_encode($englishParametersCount)." parameters in English, but ".json_encode($countTranslation)." in this translation.";
                     } else {
                         $cleanedStrings[$stringLabel] = $stringValue;
                     }
@@ -120,30 +110,35 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
 
             // If the translation is the same as in English, we remove it from the translation file (as it might have been copied by
             // the translator but this would skew translation stats
-            if (isset($englishStringsIndexed[$stringLabel])
-                && $englishStringsIndexed[$stringLabel] == $stringValue
+            if (isset(self::$englishStringsIndexed[$stringLabel])
+                && self::$englishStringsIndexed[$stringLabel] == $stringValue
                 // Do not however remove the General_ since there are definiely legit translations that are same as in english (eg. short days)
                 && strpos($stringLabel, 'General_') === false
                 && strpos($stringLabel, 'CoreHome_') === false
                 && strpos($stringLabel, 'UserCountry_') === false
+                && strpos($stringLabel, 'UserLanguage_') === false
                 && $language != 'de'
             ) {
                 $writeCleanedFile = true;
-                self::$errors[] = "$language: The string $stringLabel is the same as in English, removing...";
-                $cleanedStrings[$stringLabel] = false;
+                $errorsInCurrentFile[] = "$language: The string $stringLabel is the same as in English, removing...";
+                unset($cleanedStrings[$stringLabel]);
             }
+
             // remove excessive line breaks (and leading/trailing whitespace) from translations
             if (!empty($cleanedStrings[$stringLabel])) {
                 $stringNoLineBreak = trim($cleanedStrings[$stringLabel]);
-                if ($stringLabel != 'Login_MailPasswordChangeBody') {
-                    $stringNoLineBreak = str_replace(array("\n", "\r"), " ", $stringNoLineBreak);
+                $stringNoLineBreak = str_replace("\r", "", $stringNoLineBreak); # remove useless carrige renturns
+                $stringNoLineBreak = preg_replace('/([\n]{2,})/', "\n\n", $stringNoLineBreak); # remove excessive line breaks
+                if (!isset(self::$englishStringsIndexed[$stringLabel]) || !substr_count(self::$englishStringsIndexed[$stringLabel], "\n")) {
+                    $stringNoLineBreak = str_replace("\n", " ", $stringNoLineBreak); # remove all line breaks if english string doesn't contain any
                 }
                 if ($cleanedStrings[$stringLabel] !== $stringNoLineBreak) {
-                    self::$errors[] = "$language: found unnecessary whitespace in some strings in $stringLabel";
+                    $errorsInCurrentFile[] = "$language: found unnecessary whitespace in some strings in $stringLabel";
                     $writeCleanedFile = true;
                     $cleanedStrings[$stringLabel] = $stringNoLineBreak;
                 }
             }
+
             // Test locale
             if ($stringLabel == 'General_Locale'
                 && !empty($cleanedStrings[$stringLabel])
@@ -160,20 +155,21 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
                 $currentString = $cleanedStrings[$stringLabel];
                 $decoded = TranslationWriter::clean($currentString);
                 if ($currentString != $decoded) {
-                    self::$errors[] = "$language: found encoded entities in $stringLabel, converting entities to characters";
+                    $errorsInCurrentFile[] = "$language: found encoded entities in $stringLabel, converting entities to characters";
                     $writeCleanedFile = true;
                     $cleanedStrings[$stringLabel] = $decoded;
                 }
             }
         }
+
         $this->assertTrue(!empty($cleanedStrings['General_TranslatorName']), "$language: translator info not specified");
         $this->assertTrue(!empty($cleanedStrings['General_TranslatorEmail']), "$language: translator email not specified");
+
         if (!empty($cleanedStrings['General_LayoutDirection'])
             && !in_array($cleanedStrings['General_LayoutDirection'], array('rtl', 'ltr'))
         ) {
             $writeCleanedFile = true;
-            $cleanedStrings['General_LayoutDirection'] = false;
-            self::$errors[] = "$language: General_LayoutDirection must be rtl or ltr";
+            $errorsInCurrentFile[] = "$language: General_LayoutDirection must be rtl or ltr";
         }
         if ($writeCleanedFile) {
             $path = TranslationWriter::getTranslationPath($language, 'tmp');
@@ -181,8 +177,15 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
             // Reorder cleaned up translations as the same order as en.php
             uksort($cleanedStrings, array($this, 'sortTranslationsKeys'));
 
+            $nested = array();
+            foreach ($cleanedStrings as $key => $value) {
+                list($plugin, $nkey) = explode("_", $key, 2);
+                $nested[$plugin][$nkey] = $value;
+            }
+            $cleanedStrings = $nested;
+
             TranslationWriter::saveTranslation($cleanedStrings, $path);
-            $output[] = (implode("\n", self::$errors) . "\n" . 'Translation file errors detected in ' . $language . '...
+            $output[] = (implode("\n", $errorsInCurrentFile) . "\n" . 'Translation file errors detected in ' . $language . '...
                     Wrote cleaned translation file in: ' . $path . ".
                     You can copy the cleaned files to /lang/\n");
         }
@@ -221,10 +224,15 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
 
     private function getCountParametersToReplace($string)
     {
-        $sprintfParameters = array('%s', '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s');
-        $count = 0;
+        $sprintfParameters = array('%s', '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s', '%7$s', '%8$s', '%9$s');
+        $count = array();
         foreach ($sprintfParameters as $parameter) {
-            $count += substr_count($string, $parameter);
+
+            $placeholderCount = substr_count($string, $parameter);
+            if ($placeholderCount > 0) {
+
+                $count[$parameter] = $placeholderCount;
+            }
         }
         return $count;
     }
