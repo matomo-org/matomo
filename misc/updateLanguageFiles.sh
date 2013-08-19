@@ -111,14 +111,38 @@ rm -f $PIWIKPATH/tmp/language_pack.tar.gz
 ################################
 # Check extracted files
 #
-# remove some useless files from package data
+# remove files from package data, that shouldn't be used (en.php)
 rm -f en.php
 rm -f pt_BR.php
 rm -f zh_CN.php
 rm -f zh_TW.php
 
-# copy all files to /lang (except en.php)
-mv *.php ../lang/
+# convert downloaded php files to json
+cd $PIWIKPATH
+php -r '
+$nest = true;
+foreach (glob("tmp/*.php") as $filename) {
+    echo sprintf("Converting %s\n", basename($filename));
+    require_once "tmp/" . basename($filename);
+    $basename = explode(".", basename($filename));
+    if ($nest) {
+        $nested = array();
+        foreach ($translations as $key => $value) {
+            list($plugin, $nkey) = explode("_", $key, 2);
+            $nested[$plugin][$nkey] = $value;
+        }
+        $translations = $nested;
+    }
+    $data = json_encode($translations, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    $newFile = sprintf("tmp/%s.json", $basename[0]);
+    file_put_contents($newFile, $data);
+}'
+cd $PIWIKPATH/tmp
+
+rm -f *.php
+
+# copy all files to /lang
+mv *.json ../lang/
 
 # get untracked files and ask if each file should be removed or added
 cd $PIWIKPATH
@@ -178,7 +202,7 @@ while true; do
     # move cleaned files from /tmp to /lang
     echo "Moving cleaned language files from /tmp to /lang"
     cd $PIWIKPATH/tmp
-    mv *.php ../lang/
+    mv *.json ../lang/
 
     counter=$(($counter + 1))
 done
