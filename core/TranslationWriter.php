@@ -86,7 +86,7 @@ class TranslationWriter
     /**
      * Output translations to string
      *
-     * @param array $translations Array of translations ( key => translated string )
+     * @param array $translations multidimensional Array of translations ( plugin => array (key => translated string ) )
      * @return string
      */
     static public function outputTranslation($translations)
@@ -96,33 +96,18 @@ class TranslationWriter
         }
         $en = self::$baseTranslation;
 
-        $output = array('<?php', '$translations = array(');
-        $deferoutput = array();
+        $cleanedTranslations = array();
 
-        /* write all the translations that exist in en.php */
-        foreach ($en as $key => $en_translation) {
-            if (isset($translations[$key]) && !empty($translations[$key])) {
-                $tmp = self::quote($translations[$key]);
-                $output[] = "\t'$key' => $tmp,";
+        // filter out all translations that don't exist in english translations
+        foreach ($en AS $plugin => $enTranslations) {
+            foreach ($enTranslations as $key => $en_translation) {
+                if (isset($translations[$plugin][$key]) && !empty($translations[$plugin][$key])) {
+                    $cleanedTranslations[$plugin][$key] = $translations[$plugin][$key];
+                }
             }
         }
 
-        /* write the remaining translations (that don't exist in en.php) */
-        foreach ($translations as $key => $translation) {
-            if (!isset($en[$key]) && !empty($translation)) {
-                $tmp = self::quote($translation);
-                $deferoutput[] = "\t'$key' => $tmp,";
-            }
-        }
-
-        if (count($deferoutput) > 0) {
-            $output[] = "\n\t// FOR REVIEW";
-            $output = array_merge($output, $deferoutput);
-        }
-
-        $output[] = ');';
-
-        return implode($output, "\n") . "\n";
+        return json_encode($cleanedTranslations, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 
     /**
