@@ -87,6 +87,9 @@ class HtmlTable extends DataTableVisualization
 
     static public $clientSideParameters = array(
         'search_recursive',
+        'filter_limit',
+        'filter_sort_column',
+        'filter_sort_order',
     );
 
     static public $clientSideProperties = array(

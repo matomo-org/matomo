@@ -46,13 +46,6 @@ class JqplotGraph extends Graph
      */
     public function __construct($view)
     {
-        // Graphs require the full dataset, so no filters
-        $this->request_parameters_to_modify['disable_generic_filters'] = true;
-        
-        // the queued filters will be manually applied later. This is to ensure that filtering using search
-        // will be done on the table before the labels are enhanced (see ReplaceColumnNames)
-        $this->request_parameters_to_modify['disable_queued_filters'] = true;
-
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
         if ($view->filter_sort_column != 'label') {
             $columns = $view->columns_to_display;

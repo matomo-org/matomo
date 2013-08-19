@@ -318,9 +318,6 @@ class ViewDataTable
             'filter_excludelowpop_value',
             'filter_pattern',
             'filter_column',
-            'filter_limit',
-            'filter_sort_column',
-            'filter_sort_order',
         );
 
         if ($this->visualizationClass) {
