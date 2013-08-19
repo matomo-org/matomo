@@ -46,9 +46,6 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
         ) {
             self::markTestSkipped("phantomjs is not available, skipping UI integration tests. "
                                 . "(install by downloading http://phantomjs.org/download.html)");
-        } else {
-            self::markTestSkipped("No way to take screenshots of URLs, skipping UI integration tests. (Enable by installing "
-                                . "phantomjs (http://phantomjs.org/download.html) or slimerjs (http://slimerjs.org/download.html).");
         }
         
         parent::setUpBeforeClass();
