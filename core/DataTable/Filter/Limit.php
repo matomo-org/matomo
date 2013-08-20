@@ -45,10 +45,6 @@ class Limit extends Filter
      */
     public function filter($table)
     {
-        if ($this->limit <= 0) {
-            return;
-        }
-        
         $table->setRowsCountBeforeLimitFilter();
 
         if ($this->keepSummaryRow) {

@@ -705,6 +705,12 @@ class ViewDataTable
 
         $requestArray = array_merge($requestArray, $this->request_parameters_to_modify);
 
+        if (!empty($requestArray['filter_limit'])
+            && $requestArray['filter_limit'] === 0
+        ) {
+            unset($requestArray['filter_limit']);
+        }
+
         return $requestArray;
     }
 
