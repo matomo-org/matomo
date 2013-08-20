@@ -79,6 +79,13 @@ abstract class Graph extends DataTableVisualization
             $view->translations['nb_conversions'] = Piwik_Translate('Goals_ColumnConversions');
             $view->translations['revenue'] = Piwik_Translate('General_TotalRevenue');
         }
+
+        $view->request_parameters_to_modify['filter_limit'] = false;
+        $view->request_parameters_to_modify['filter_offset'] = false;
+
+        if ($view->visualization_properties->max_graph_elements) {
+            $view->request_parameters_to_modify['filter_truncate'] = $view->visualization_properties->max_graph_elements - 1;
+        }
     }
 
     public static function getDefaultPropertyValues()

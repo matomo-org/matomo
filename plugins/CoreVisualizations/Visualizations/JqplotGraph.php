@@ -46,6 +46,8 @@ class JqplotGraph extends Graph
      */
     public function __construct($view)
     {
+        parent::__construct($view);
+        
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
         if ($view->filter_sort_column != 'label') {
             $columns = $view->columns_to_display;

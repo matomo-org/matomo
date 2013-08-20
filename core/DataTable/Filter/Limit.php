@@ -29,14 +29,11 @@ class Limit extends Filter
      * @param int $limit           Number of rows to keep (specify -1 to keep all rows)
      * @param bool $keepSummaryRow  Whether to keep the summary row or not.
      */
-    public function __construct($table, $offset, $limit = null, $keepSummaryRow = false)
+    public function __construct($table, $offset, $limit = -1, $keepSummaryRow = false)
     {
         parent::__construct($table);
         $this->offset = $offset;
 
-        if (is_null($limit)) {
-            $limit = -1;
-        }
         $this->limit = $limit;
         $this->keepSummaryRow = $keepSummaryRow;
     }
@@ -48,6 +45,10 @@ class Limit extends Filter
      */
     public function filter($table)
     {
+        if ($this->limit <= 0) {
+            return;
+        }
+        
         $table->setRowsCountBeforeLimitFilter();
 
         if ($this->keepSummaryRow) {

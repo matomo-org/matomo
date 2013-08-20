@@ -703,7 +703,7 @@ class ViewDataTable
             $requestArray['expanded'] = 1;
         }
 
-        $requestArray = array_merge($requestArray, $this->viewProperties['request_parameters_to_modify']);
+        $requestArray = array_merge($requestArray, $this->request_parameters_to_modify);
 
         return $requestArray;
     }
@@ -1056,10 +1056,6 @@ class ViewDataTable
     {
         if (!PluginsManager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = false;
-        }
-
-        if ($this->viewProperties['filter_limit'] == 0) {
-            $this->viewProperties['filter_limit'] = false;
         }
     }
 
