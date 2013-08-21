@@ -111,6 +111,7 @@
         "Website": "Web",
         "GeneralSettings": "Configuración Xeral",
         "NSeconds": "%s segs",
+        "NoDataForGraph_js": "Sin datos para este Gráfico",
         "NoDataForTagCloud": "Sin datos para esta Nube",
         "DisplaySimpleTable": "Amosar táboa sinxela",
         "DisplayTableWithMoreMetrics": "Amosar táboa con máis medidas",
@@ -198,7 +199,6 @@
         "PeriodYear": "Ano"
     },
     "CorePluginsAdmin": {
-        "Plugins": "Plugins",
         "Activated": "Activado",
         "Deactivate": "Desactivar",
         "Activate": "Activar"
@@ -281,7 +281,6 @@
         "Sites": "Sitios",
         "NoWebsites": "Vostede non ten ningunha web que administrar",
         "AddSite": "Engadir un sitio",
-        "Urls": "URLs",
         "MenuSites": "Sitios",
         "DeleteConfirm_js": "Está seguro de querer eliminar o sitio %s?",
         "ExceptionDeleteSite": "Non é posible eliminar este sitio xa que é o único que hai rexistrado. Antes de eliminalo, engada un novo.",
@@ -571,7 +570,6 @@
     "UserSettings": {
         "BrowserFamilies": "Familias de navegadores",
         "Browsers": "Navegadores",
-        "Plugins": "Plugins",
         "Configurations": "Configuracións",
         "OperatingSystems": "Sistemas Operativos",
         "Resolutions": "Resolucións",
@@ -593,11 +591,9 @@
         "User": "Usuario",
         "PrivNone": "Acceso denegado",
         "PrivView": "Ver",
-        "PrivAdmin": "Admin",
         "ChangeAllConfirm": "Está seguro que quere cambiar '%s' permisos en todas as páxinas web?",
         "Password": "Contrasinal",
         "Email": "Enderezo electrónico",
-        "Alias": "Alias",
         "Edit": "Modificar",
         "AddUser": "Engadir un novo usuario",
         "MenuUsers": "Usuario",

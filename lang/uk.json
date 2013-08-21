@@ -108,6 +108,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Для веб-сайтів з середнім та високим трафіком рекомендується обробляти звіти за поточний день не частіше ніж кожні пів години (%s секунд) або що години (%s секунд).",
         "RequiresFlash": "Для відображення графіків в Piwik необхідно Flash",
         "GraphHelp": "Дізнатися більше інформації про відображення графіків в Piwik",
+        "NoDataForGraph_js": "Немає даних для цього графіку",
         "NoDataForTagCloud": "Немає даних для цієї хмари тегів",
         "DisplaySimpleTable": "Показати просту таблицю",
         "DisplayTableWithMoreMetrics": "Показати таблицю з більшою кількістю показників",
@@ -468,7 +469,6 @@
         "Manually": "вручну",
         "ManuallyTriggeredUsingJavascriptFunction": "Ціль спрацьовує вручну використовуючи JavaScript API trackGoal()",
         "VisitUrl": "Відвідано заданий URL (сторінку або групу сторінок)",
-        "URL": "URL",
         "Filename": "ім’я файла",
         "ExternalWebsiteUrl": "URL на зовнішній веб-сайт",
         "Download": "Завантажено файл",
@@ -566,7 +566,6 @@
         "SystemCheckEvalHelp": "Необхідно для роботи HTML QuickForm та системи шаблонів Smarty.",
         "SystemCheckGzcompressHelp": "Необхідно увімкнути розширення zlib та функцію gzcompress.",
         "SystemCheckGzuncompressHelp": "Необхідно увімкнути розширення zlib та функцію gzuncompress.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "Розширення mbstring необхідне для обробки багато-байтових символів в відповідях API що повертають значення розділені комою (CSV) або значення розділені табуляцією (TSV).",
         "SystemCheckMbstringFuncOverloadHelp": "Необхідно встановити mbstring.func_overload в \"0\".",
         "SystemCheckFileIntegrity": "Цілісність файлу",
@@ -685,9 +684,7 @@
     },
     "SEO": {
         "SeoRankings": "SEO Рейтинги",
-        "AlexaRank": "Alexa Rank",
         "DomainAge": "Вік домену",
-        "Rank": "Rank",
         "Pages": "Сторінки",
         "SEORankingsFor": "SEO Рейтинги за %s"
     },
@@ -1198,7 +1195,6 @@
     },
     "PDFReports": {
         "EmailReports": "Звіти на е-майл",
-        "PDF": "PDF",
         "SendReportNow": "Надіслати звіт зараз",
         "EmailSchedule": "Розклад розсилки",
         "SendReportTo": "Надіслати звіт на:",

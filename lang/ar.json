@@ -42,7 +42,10 @@
         "Description": "الوصف",
         "Done": "تم",
         "PoweredBy": "مدعوم من",
+        "MetricsToPlot_js": "مقاييس لمؤامرة",
         "RowsToDisplay": "الصفوف التي تريد عرضها",
+        "MetricToPlot_js": "متري لرسم",
+        "RecordsToPlot_js": "السجلات لرسم",
         "Name": "الاسم",
         "Value": "القيمة",
         "Total": "مجموع",
@@ -150,6 +153,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "للمواقع متوسطة وعالية الزيارات، نفضل معالجة تقارير اليوم الحالي على الأكثر كل نصف ساعة (%s ثانية) أو كل ساعة (%s ثانية).",
         "RequiresFlash": "عرض الرسوم البيانات في Piwik يتطلب مشغل Flash.",
         "GraphHelp": "لمزيد من المعلومات حول عرض الرسومات البيانية في Piwik.",
+        "NoDataForGraph_js": "لا توجد بيانات لهذا الرسم البياني.",
         "NoDataForTagCloud": "لا توجد بيانات لسحابة الوسوم هذه.",
         "DisplaySimpleTable": "عرض جدول مبسط",
         "DisplayTableWithMoreMetrics": "عرض جدول مع المزيد من المتغيرات",
@@ -458,7 +462,7 @@
         "CheckPiwikOut": "تفحص بايويك!",
         "ShareThis": "شارك هذا",
         "ViewAllPiwikVideoTutorials": "مشاهدة كافة دروس بايويك الفيديوية",
-        "SharePiwikLong": "مرحباً.. وجدت تطبيقاً رائعاً مفتوح المصدر: Piwik!    سيمكنك بايويك من تتبع زوار موقعك مجاناً، ويتوجب عليك حقاً أن تجربه الآن!",
+        "SharePiwikLong": "مرحباً.. وجدت تطبيقاً رائعاً مفتوح المصدر: Piwik!\n\nسيمكنك بايويك من تتبع زوار موقعك مجاناً، ويتوجب عليك حقاً أن تجربه الآن!",
         "PluginDescription": "بنية تقارير تحليلات ويب.",
         "WebAnalyticsReports": "تقارير تحليلات ويب",
         "NoPrivilegesAskPiwikAdmin": "لقد سجلت الدخول بصفتك '%s' ولكن يبدو أنه لا توجد أي صلاحيات لك في Piwik. %s اسأل مدير Piwik (انقر لمراسلته)%s gلمنحك صلاحيات \"المشاهدة\" لموقع ما.",
@@ -756,7 +760,6 @@
         "SystemCheckWriteDirsHelp": "لإصلاح هذا الخطأ على نظام لينوكس، حوال كتابة الأمر\/الأوامر التالية",
         "SystemCheckMemoryLimit": "حد الذاكرة",
         "SystemCheckMemoryLimitHelp": "في المواقع ذات الزيارات الكبيرة، فإن عملية الأرشفة تتطلب ذاكرة أعلى مما هو مسموح به حالياً. إذا تطلب الأمر، قم بتغيير memory_limit في ملف php.ini الخاص بك.",
-        "SystemCheckOpenURL": "Open URL",
         "SystemCheckOpenURLHelp": "الاشتراك في النشرة الدورية، إعلامات التحديثات والتحديث السريع يتطلب إضافة 'cURL' وتفعيل 'allow_url_fopen=On' أو 'fsockopen()'.",
         "SystemCheckGD": "GD > 2.x (رسوميات)",
         "SystemCheckGDHelp": "لن تعمل خاصية sparklines (الرسومات المصغرة).",
@@ -772,7 +775,6 @@
         "SystemCheckGzcompressHelp": "تحتاج إلى تفعيل إضافة zlib ودالة gzcompress.",
         "SystemCheckGzuncompressHelp": "تحتاج إلى تفعيل إضافة zlib ودالة gzcompress.",
         "SystemCheckPackHelp": "الدالة pack() مطلوبة ليتمكن Piwik من تتبع الزوار.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "إضافة mbstring مطلوبة للرموز متعددة البايتات في استجابات واجهة برمجة التطبيقات باستخدام CSV و TSV.",
         "SystemCheckMbstringFuncOverloadHelp": "يتوجب عليك ضبط mbstring.func_overload إلى صفر.",
         "SystemCheckFileIntegrity": "سلامة الملفات",
@@ -1424,7 +1426,6 @@
         "PluginDescription": "أنشأ وحمل تقاريرك المخصصة، واجعلها تُرسل إليك يومياً، أسبوعياً أو شهرياً.",
         "ManageEmailReports": "إدارة تقارير البريد",
         "EmailReports": "التقارير البريدية",
-        "PDF": "PDF",
         "SendReportNow": "أرسل التقرير الآن",
         "EmailSchedule": "جدولة البريد",
         "SendReportTo": "أرسل التقرير إلى",
@@ -1654,13 +1655,5 @@
         "Language_za": "الزهيونج",
         "Language_zh": "الصينية",
         "Language_zu": "الزولو"
-    },
-    "EntryPage": {
-        "Bounces": "الارتدادات"
-    },
-    "Forecast": {
-        "Bounce": "الزوار المرتدون",
-        "ReturnVisits": "زيارات مُكررة",
-        "Widget": "توقعات اليوم"
     }
 }

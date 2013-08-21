@@ -46,7 +46,10 @@
         "Description": "Forklaring",
         "Done": "Ferdig",
         "PoweredBy": "Levert av",
+        "MetricsToPlot_js": "Verdiar å teikna",
         "RowsToDisplay": "Vis radar",
+        "MetricToPlot_js": "Verdi å teikna",
+        "RecordsToPlot_js": "Postar å teikna",
         "Name": "Namn",
         "Value": "Verdi",
         "Total": "Total",
@@ -77,6 +80,8 @@
         "DaysSinceFirstVisit": "Dagar sidan fyrste vitjing",
         "DaysSinceLastEcommerceOrder": "Dagar sidan førre ordre i netthandel",
         "NumberOfVisits": "Tal på vitjingar",
+        "EcommerceVisitStatusDesc": "Netthandelstatus på slutten av vitjinga",
+        "EcommerceVisitStatusEg": "Til dømes, for å velja alle vitjingar som har lagt inn ein ordre i netthandelen, vil API-spurnaden innehalda %s",
         "NewVisitor": "Ny vitjar",
         "NewVisits": "Nye vitjingar",
         "ReturningVisitor": "Attendevendande vitjar",
@@ -181,6 +186,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "For nettstader med middels til høg trafikk, tilrår me å handsama rapportar for idag maksimalt kvar halve (%s sekundar) eller heile time (%s sekundar).",
         "RequiresFlash": "Grafar i Piwik krev Flash",
         "GraphHelp": "Meir informasjon om visning av grafar i Piwik.",
+        "NoDataForGraph_js": "Ingen data for denne grafen.",
         "DataForThisGraphHasBeenPurged": "Data for denne grafen er meir enn %s månader gammal og er fjerna.",
         "NoDataForTagCloud": "Ingen data for denne emneskyen.",
         "DataForThisTagCloudHasBeenPurged": "Data for denne emneskypen er meir enn %s månader gammal og er fjerna.",
@@ -425,10 +431,6 @@
         "LogoUploadDescription": "Last opp ei fil i %s format, ikkje gjennomsynleg bakgrunn, og minimum %s pikslar høg.",
         "LogoNotWriteable": "For å bruka ein tilpassa logo, krev Piwik skrivetilgang til logofilene i bunad-katalogen: %s"
     },
-    "PrivacyManager": {
-        "KeepBasicMetrics": "Behald standardverdiar (vitjingar, sidevisningar, hoppfrekvens, målkonverteringar, netthandelkonverteringar, osb)",
-        "KeepDataFor": "Behald all data for:"
-    },
     "CoreHome": {
         "PluginDescription": "Rapportstruktur for nettstatistikk",
         "WebAnalyticsReports": "Nettstatistikkrapportar",
@@ -461,6 +463,10 @@
         "ReportGeneratedOn": "Rapport generert den %s",
         "ReportGeneratedXAgo": "Rapport generert %s sidan"
     },
+    "PrivacyManager": {
+        "KeepBasicMetrics": "Behald standardverdiar (vitjingar, sidevisningar, hoppfrekvens, målkonverteringar, netthandelkonverteringar, osb)",
+        "KeepDataFor": "Behald all data for:"
+    },
     "CorePluginsAdmin": {
         "PluginDescription": "Administrasjon av innstikk.",
         "Plugins": "Innstikk",
@@ -468,7 +474,6 @@
         "MainDescription": "Innstikk utvidar funksjonane til Piwik. Når eit innstikk er lagt til, kan du slå det av og på her.",
         "Plugin": "Innstikk",
         "Version": "Versjon",
-        "Status": "Status",
         "Action": "Handling",
         "AuthorHomepage": "Nettsida til forfattaren av innstikket",
         "LicenseHomepage": "Lisensen til innstikket",
@@ -640,7 +645,6 @@
         "WhereThe": "når",
         "Manually": "manuelt",
         "VisitUrl": "Vitj ein gitt URL (side eller gruppe av sider)",
-        "URL": "URL",
         "PageTitle": "Sidetittel",
         "Filename": "filnamn",
         "ExternalWebsiteUrl": "URLen til den eksterne nettstaden",
@@ -667,7 +671,6 @@
         "DatabaseSetupPassword": "passord",
         "DatabaseSetupDatabaseName": "databasenamn",
         "DatabaseSetupTablePrefix": "tabellprefiks",
-        "DatabaseSetupAdapter": "adapter",
         "DatabaseErrorConnect": "Feil under tilkopling til databasetenar",
         "DatabaseCheck": "Databasesjekk",
         "DatabaseServerVersion": "Databasetenarversjon",
@@ -717,7 +720,6 @@
         "SystemCheckWriteDirsHelp": "For å fiksa denne feilen på din Linux-tenar, prøv føljande kommando(ar)",
         "SystemCheckMemoryLimit": "Minnegrense",
         "SystemCheckMemoryLimitHelp": "På ein nettstad med høg trafikk, kan arkiveringsprosessen nytta meir minne enn den hev lov til.<br \/>Sjå innstillinga memory_limit i php.ini-fila di viss det trengst.",
-        "SystemCheckOpenURL": "Open URL",
         "SystemCheckOpenURLHelp": "Tinging av nyhendebrev, oppdateringsvarsel og eittklikks-oppdatering krev \"curl\"-utvidinga, allow_url_fopen=On, eller fsockopen() påslegen.",
         "SystemCheckGD": "GD > 2.x (biletehandsaming)",
         "SystemCheckGDHelp": "Gnistlinjene (små bilete) og biletgrafane (i e-postrapportar og i mobilappen til Piwik) vil ikkje fungera.",
@@ -759,7 +761,6 @@
         "LastMinutes": "Seinaste %s minutt",
         "LastHours": "Seinaste %s timar",
         "MorePagesNotDisplayed": "fleire sider av denne vitjaren er ikkje vist",
-        "GoalType": "Type",
         "PageRefreshed": "Tal på gonger denne sida var vist \/ oppdatert.",
         "GoalRevenue": "Inntekter",
         "GoalDetails": "Detaljar",
@@ -817,7 +818,6 @@
     },
     "SecurityInfo": {
         "Security": "Tryggleik",
-        "Test": "Test",
         "Result": "Resultat"
     },
     "SEO": {
@@ -1194,7 +1194,6 @@
         "ChangeAllConfirm": "Er du sikker på at du vil endra '%s' tilgangar på alle nettstadene?",
         "Password": "Passord",
         "Email": "Epost",
-        "Alias": "Alias",
         "TheSuperUserAliasCannotBeChanged": "Namnet på superbrukaren kan ikkje endrast.",
         "ExcludeVisitsViaCookie": "Utelukk dine vitjingar frå Piwik med ein informasjonskapsel.",
         "YourVisitsAreIgnoredOnDomain": "%sDine vitjingar blir ignorert av Piwik på %s %s (Informasjonskapselen frå Piwik vart funnen i din nettlesar).",
@@ -1250,7 +1249,6 @@
         "WidgetLengths": "Lengda på vitjingane",
         "WidgetPages": "Sider per vitjing",
         "Engagement": "Engasjement",
-        "PlusXMin": "%s min",
         "OnePage": "1 side",
         "NPages": "%s sider"
     },

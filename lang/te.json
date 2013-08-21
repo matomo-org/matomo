@@ -90,6 +90,7 @@
         "Website": "వెబ్‌సైటు",
         "GeneralSettings": "సాధారణ అమరికలు",
         "NSeconds": "%s క్షణాలు",
+        "NoDataForGraph_js": "ఈ గ్రాఫుకి భోగట్టా లేదు.",
         "NewUpdatePiwikX": "నవీకరణ: పివిక్ %s",
         "AboutPiwikX": "పివిక్ %s గురించి",
         "BackToPiwik": "తిరిగి పివిక్‌కి",
@@ -217,11 +218,6 @@
         "MenuGeneralSettings": "సాధారణ అమరికలు",
         "Administration": "నిర్వహణ"
     },
-    "PrivacyManager": {
-        "TeaserHeadline": "గోప్యతా అమరికలు",
-        "MenuPrivacySettings": "గోప్యత",
-        "DeleteMaxRowsNoLimit": "పరిమితి లేదు"
-    },
     "CoreHome": {
         "Default_js": "అప్రమేయం",
         "PageOf_js": "%2$sలో %1$sవది",
@@ -235,6 +231,11 @@
         "PeriodWeeks": "వారాలు",
         "PeriodMonths": "నెలలు",
         "PeriodYears": "సంవత్సరాలు"
+    },
+    "PrivacyManager": {
+        "TeaserHeadline": "గోప్యతా అమరికలు",
+        "MenuPrivacySettings": "గోప్యత",
+        "DeleteMaxRowsNoLimit": "పరిమితి లేదు"
     },
     "CorePluginsAdmin": {
         "Plugins": "ప్లగిన్లు",
@@ -917,12 +918,6 @@
         "Language_yo": "యోరుబా",
         "Language_za": "జువాన్",
         "Language_zh": "చైనీస్",
-        "Language_zu": "జూలూ",
-        "Language": "భాషలు",
-        "SubmenuLanguage": "భాషలు",
-        "WidgetLanguage": "సందర్శకుల భాషలు"
-    },
-    "Forecast": {
-        "Visitors": "సందర్శకులు"
+        "Language_zu": "జూలూ"
     }
 }

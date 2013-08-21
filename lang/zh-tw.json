@@ -5,6 +5,7 @@
         "TranslatorEmail": "pserics@gmail.com, php.twn@gmail.com",
         "EnglishLanguageName": "Traditional Chinese (Taiwan)",
         "OriginalLanguageName": "繁體中文",
+        "LayoutDirection": "ltr",
         "HelloUser": "您好， %s！",
         "OpenSourceWebAnalytics": "開放原始碼的網站流量分析軟體",
         "Dashboard": "展示板",
@@ -111,6 +112,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "對於中或高流量的網站，我們建議最多每隔半小時(%s 秒)或每小時(%s 秒)處理報告。",
         "RequiresFlash": "在 Piwik 顯示圖表必須有 Flash",
         "GraphHelp": "更多關於 Piwik 顯示圖表的資訊",
+        "NoDataForGraph_js": "此圖表無任何資料。",
         "NoDataForTagCloud": "此標籤雲無任何資料。",
         "DisplaySimpleTable": "顯示簡易表格",
         "DisplayTableWithMoreMetrics": "顯示更多數據表",
@@ -1395,14 +1397,6 @@
         "Language_yo": "约鲁巴文",
         "Language_za": "壮语",
         "Language_zh": "中文",
-        "Language_zu": "祖鲁文",
-        "WidgetLanguage": "訪客使用語言"
-    },
-    "EntryPage": {
-        "Bounces": "跳出次數"
-    },
-    "Forecast": {
-        "Bounce": "跳出訪客數",
-        "Visitors": "訪客"
+        "Language_zu": "祖鲁文"
     }
 }

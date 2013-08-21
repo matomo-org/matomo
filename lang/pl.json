@@ -41,6 +41,7 @@
         "Description": "Opis",
         "Done": "Wykonano",
         "PoweredBy": "Wspierane przez",
+        "MetricsToPlot_js": "Dane do porównania",
         "RowsToDisplay": "Ilość wierszy",
         "Name": "Nazwa",
         "Value": "Parametr",
@@ -181,6 +182,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Dla serwisów o średnim natężeniu ruchu, zaleca się przetwarzanie raportowania dziennego najwyżej do pół godziny (%s sekund) lub co godzinę (%s sekund).",
         "RequiresFlash": "Wyświetlanie grafik przez analitykę Piwik wymaga do działania technologii Flash",
         "GraphHelp": "Więcej informacji na temat wyświetlania grafik znajdziesz na stronach Piwik.",
+        "NoDataForGraph_js": "Brak danych dla tego wykresu.",
         "NoDataForTagCloud": "brak danych dla tej chmury tagów.",
         "DisplaySimpleTable": "Uproszczony widok tabeli",
         "DisplayTableWithMoreMetrics": "Widok tabeli z większą ilością danych",
@@ -409,23 +411,6 @@
         "LogoUploadDescription": "Proszę przesłać plik w formacie %s, nie zawierający przezroczystego tła, o minimalnej wysokości %s pikseli.",
         "LogoNotWriteable": "Aby użyć niestandardowego logo Piwik wymagany jest dostępu do zapisu plików logo w katalogu temat: %s"
     },
-    "PrivacyManager": {
-        "TeaserHeadline": "Ustawienia prywatności",
-        "MenuPrivacySettings": "Prywatność",
-        "UseAnonymizeIp": "Anonimizacja odwiedzających' adres IP",
-        "AnonymizeIpDescription": "Wybierz \"Tak\" jeśli chcesz aby nie śledzić w pełni wykwalifikowanych adresów IP.",
-        "AnonymizeIpMaskLengtDescription": "Wybierz ile bajtów z odwiedzających' adresów IP powinny być zamaskowane.",
-        "DeleteLogInfo": "Logi z poniższych tabel zostaną usunięte: %s",
-        "UseDeleteLog": "Regularnie usuwanie starych logów odwiedzających z bazy danych",
-        "DeleteLogDescription2": "Po włączeniu automatycznego usuwania logów należy się upewnić, że wszystkie poprzednie raporty dzienne zostały przetworzone, tak że żadne dane nie zostaną utracone.",
-        "DeleteLogsOlderThan": "Usuń logi starsze niż",
-        "DeleteMaxRows": "Maksymalna liczba wierszy, aby usunąć w jednym przebiegu:",
-        "DeleteMaxRowsNoLimit": "bez limitu",
-        "LastDelete": "Ostatnio był usunięte",
-        "NextDelete": "Następne skreślenie zaplanowano w",
-        "ClickHereSettings": "Kliknij tutaj, aby uzyskać dostęp do %s ustawień.",
-        "LeastDaysInput": "Proszę podać liczbę dni większą niż %s."
-    },
     "CoreHome": {
         "PluginDescription": "Struktura raportu z analityki statystyk stron.",
         "WebAnalyticsReports": "Raport analityki statystyk stron",
@@ -443,6 +428,23 @@
         "PeriodMonths": "miesięcy",
         "PeriodYears": "lat"
     },
+    "PrivacyManager": {
+        "TeaserHeadline": "Ustawienia prywatności",
+        "MenuPrivacySettings": "Prywatność",
+        "UseAnonymizeIp": "Anonimizacja odwiedzających' adres IP",
+        "AnonymizeIpDescription": "Wybierz \"Tak\" jeśli chcesz aby nie śledzić w pełni wykwalifikowanych adresów IP.",
+        "AnonymizeIpMaskLengtDescription": "Wybierz ile bajtów z odwiedzających' adresów IP powinny być zamaskowane.",
+        "DeleteLogInfo": "Logi z poniższych tabel zostaną usunięte: %s",
+        "UseDeleteLog": "Regularnie usuwanie starych logów odwiedzających z bazy danych",
+        "DeleteLogDescription2": "Po włączeniu automatycznego usuwania logów należy się upewnić, że wszystkie poprzednie raporty dzienne zostały przetworzone, tak że żadne dane nie zostaną utracone.",
+        "DeleteLogsOlderThan": "Usuń logi starsze niż",
+        "DeleteMaxRows": "Maksymalna liczba wierszy, aby usunąć w jednym przebiegu:",
+        "DeleteMaxRowsNoLimit": "bez limitu",
+        "LastDelete": "Ostatnio był usunięte",
+        "NextDelete": "Następne skreślenie zaplanowano w",
+        "ClickHereSettings": "Kliknij tutaj, aby uzyskać dostęp do %s ustawień.",
+        "LeastDaysInput": "Proszę podać liczbę dni większą niż %s."
+    },
     "CorePluginsAdmin": {
         "PluginDescription": "Interfejs zarządzania wtyczkami.",
         "Plugins": "Wtyczki",
@@ -450,7 +452,6 @@
         "MainDescription": "Wtyczki zwiększają i rozszerzają funkcjonalność statystyk Piwik. Po instalacji wtyczki, możesz ją tutaj włączyć lub wyłączyć.",
         "Plugin": "Wtyczka pluginu",
         "Version": "Wersja",
-        "Status": "Status",
         "Action": "Aktywność",
         "AuthorHomepage": "Strona główna Piwik",
         "LicenseHomepage": "Licencja strony głównej",
@@ -561,7 +562,6 @@
         "ContactThePiwikTeam": "Kontakt z ekipą Piwik!",
         "IWantTo": "Pragnę:",
         "CategoryShareStory": "Podziel się pozytywną opowieścią o tym, do czego przydały ci się statystyki Piwik",
-        "CategorySponsor": "Sponsor Piwik",
         "CategoryHire": "Zatrudnij konsultanta z ekipy Piwik",
         "CategorySecurity": "Zgłoś problem dotyczący bezpieczeństwa skryptu",
         "MyEmailAddress": "Mój adres e-mail:",
@@ -607,7 +607,6 @@
         "Manually": "ręcznie",
         "ManuallyTriggeredUsingJavascriptFunction": "Założenie osiągnięcia celu jest ręcznie uruchamiane używając API Javascript z funkcją trackGoal()",
         "VisitUrl": "odwiedź dany adres URL (stronę lub grupę stron)",
-        "URL": "URL",
         "PageTitle": "tytuł strony",
         "Filename": "nazwa pliku",
         "ExternalWebsiteUrl": "adres zewnętrzny URL",
@@ -644,11 +643,9 @@
         "NoConfigFound": "Plik konfiguracyjny Piwik nie został odnaleziony, a ty próbujesz uzyskać dostęp do strony Piwik.<br \/><b>  » Możesz <a href='index.php'>zainstalować statystyki Piwik teraz<\/a><\/b><br \/><small>Jeżeli zainstalowałeś Piwik poprzednio i masz swoje tabele w bazie danych, nie przejmuj się, możesz uzyć tych samych tabel i zachować istniejące w nich dane!<\/small>",
         "DatabaseSetup": "Konfiguracja bazy danych",
         "DatabaseSetupServer": "Serwer bazy danych",
-        "DatabaseSetupLogin": "login",
         "DatabaseSetupPassword": "hasło",
         "DatabaseSetupDatabaseName": "nazwa bazy",
         "DatabaseSetupTablePrefix": "prefix tabel",
-        "DatabaseSetupAdapter": "adapter",
         "DatabaseErrorConnect": "Błąd podczas próby połączenia się z serwerem baz danych",
         "DatabaseCheck": "Sprawdzenie bazy danych",
         "DatabaseServerVersion": "Wersja serwera bazy danych",
@@ -714,7 +711,6 @@
         "SystemCheckGzcompressHelp": "Musisz włączyć rozszerzenie zlib i funkcję gzcompress.",
         "SystemCheckGzuncompressHelp": "Musisz włączyć rozszerzenie zlib i funkcję gzuncompress.",
         "SystemCheckPackHelp": "Funkcja pack() jest wymagana do działania, celem umożliwienia śledzenia odwiedzających w Piwik.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "Rozszerzenie mbstring jest wymagane dla wielobajtowych znaków w środowisku API odpowiedzialnym za stosowanie wartości (CSV) oddzielonych przecinkami (CSV) lub separatorami tabulacji o wartości (TSV).",
         "SystemCheckMbstringFuncOverloadHelp": "Ustaw parametr mbstring.func_overload na \"0\".",
         "SystemCheckFileIntegrity": "Integralność pliku",
@@ -842,7 +838,6 @@
         "PluginDescription": "W oparciu o PhpSecInfo z PHP Security Consortium, ta wtyczka dostarcza informacji o zabezpieczeniach środowiska PHP i przedstawia sposoby na ulepszenia. Jest to narzędzie w wielowarstwowym podejściu do bezpieczeństwa. Nie zastępuje jednak zdrowego rozsądku i praktycznego rozwoju  i nie przeprowadza audytu kodu czy aplikacji.",
         "Security": "Bezpieczeństwo",
         "SecurityInformation": "Informacje o zabezpieczeniach PHP",
-        "Test": "Test",
         "Result": "Wynik"
     },
     "SEO": {
@@ -1255,11 +1250,9 @@
         "User": "Użytkownik",
         "PrivNone": "Brak dostępu",
         "PrivView": "Widok",
-        "PrivAdmin": "Admin",
         "ChangeAllConfirm": "Czy masz pewność, że chcesz zmienić '%s' prawa dostępu do wszystkich stron?",
         "Password": "Hasło",
         "Email": "e-mail",
-        "Alias": "Alias",
         "TheSuperUserAliasCannotBeChanged": "Alias Super Użytkownika nie może być zmieniony.",
         "ReportToLoadByDefault": "Raport jako domyślny do wczytania",
         "ReportDateToLoadByDefault": "Data raportu jako domyślna do wczytania, dotyczy",
@@ -1332,11 +1325,8 @@
         "WidgetLengths": "Czas wizyt",
         "WidgetPages": "Stron w czasie wizyty",
         "Engagement": "Zaangażowanie",
-        "PlusXMin": "%s min",
-        "BetweenXYMinutes": "%1$s-%2$s min",
         "OnePage": "1 strona",
-        "NPages": "%s stron",
-        "BetweenXYSeconds": "%1$s-%2$ss"
+        "NPages": "%s stron"
     },
     "VisitsSummary": {
         "PluginDescription": "Ogólne raporty liczbowe odnośnie: odwiedzin, jednorazowych odwiedzin, zakres ich działań, współczynnik rezygnacji, etc.",
@@ -1368,8 +1358,7 @@
         "ColumnLocalTime": "Czas lokalny",
         "WidgetLocalTime": "Odwiedziny według lokalnego czasu",
         "WidgetServerTime": "Odwiedziny według czasu serwera",
-        "SubmenuTimes": "Czas",
-        "NHour": "%sh"
+        "SubmenuTimes": "Czas"
     },
     "Widgetize": {
         "PluginDescription": "Wtyczka sprawia, że możemy w prosty sposób umieścić widżet z Piwik na swoim blogu, zwykłej stronie, czy na iGoogle lub Netvibes!"
@@ -1377,7 +1366,6 @@
     "PDFReports": {
         "ManageEmailReports": "Administracja raportami pocztowymi",
         "EmailReports": "Raporty pocztowe",
-        "PDF": "PDF",
         "SendReportNow": "Wyślij raport teraz",
         "EmailSchedule": "Kalendarium poczty e-mail",
         "SendReportTo": "Wyślij raport do",

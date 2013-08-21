@@ -99,6 +99,7 @@
         "NSeconds": "%s segundo",
         "RequiresFlash": "Piwik-en grafikoak bistaratzeko Flash behar da",
         "GraphHelp": "Piwik-en grafikoak bistaratzeko informazio gehiago.",
+        "NoDataForGraph_js": "Daturik ez grafiko honentzat.",
         "NoDataForTagCloud": "Daturik ez etiketa-hodei honentzat.",
         "DisplaySimpleTable": "Bistaratu taula sinplea",
         "DisplayTableWithMoreMetrics": "Bistaratu taula estatistika gehiagorekin",
@@ -843,7 +844,6 @@
         "ChangeAllConfirm": "Ziur zaude '%s'(r)en baimenak aldatu nahi dituzula webgune guztietan?",
         "Password": "Pasahitza",
         "Email": "E-posta",
-        "Alias": "Alias",
         "Edit": "Editatu",
         "AddUser": "Gehitu erabiltzaile berria",
         "MenuUsers": "Erabiltzaileak",
@@ -878,7 +878,6 @@
         "ColumnPagesPerVisit": "Orriak bisitako",
         "WidgetLengths": "Bisiten iraupena",
         "WidgetPages": "Orriak bisitako",
-        "PlusXMin": "%s min",
         "OnePage": "orri bat",
         "NPages": "%s orri"
     },
@@ -903,8 +902,7 @@
         "ColumnLocalTime": "Ordu lokala",
         "WidgetLocalTime": "Ordu lokaleko bisitak",
         "WidgetServerTime": "Zerbitzariaren orduko bisitak",
-        "SubmenuTimes": "Orduak",
-        "NHour": "%sh"
+        "SubmenuTimes": "Orduak"
     },
     "UserLanguage": {
         "Language_af": "afrikaans",

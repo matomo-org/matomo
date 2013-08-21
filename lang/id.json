@@ -498,7 +498,6 @@
         "ColumnSiteSearchKeywords": "Kata Kunci Unik",
         "ColumnSearchesDocumentation": "Jumlah kunjungan dengan pencarian kata kunci ini dalam mesin pencari Anda.",
         "ColumnSearchExits": "% Pencarian Keluar",
-        "ColumnSearchExitsDocumentation": "The percentage of visits that left the website after searching for this Keyword on your Site Search engine.",
         "ColumnPagesPerSearch": "Halaman Hasil Pencarian",
         "ColumnPagesPerSearchDocumentation": "Pengunjung akan melakukan pencarian dalam situs Anda, dan terkadang mengeklik  \"Selanjutnya\" untuk melihat hasil lebih. Ini merupakan jumlah rerata halaman ditampilkan untuk kata kunci ini.",
         "EntryPagesReportDocumentation": "Laporan ini mengandung informasi tentang halaman masuk yang digunakan  selama periode tertentu. Halaman masuk merupakan halaman pertama yang ditampilkan selama kunjungan pengguna. %s URL masuk ditampilkan sebagai struktur map.",
@@ -598,7 +597,7 @@
         "ForBetaTestersOnly": "Hanya untuk pemeriksa beta saja",
         "CheckReleaseGetVersion": "Ketika memeriksa versi baru Piwik, selalu memperoleh",
         "DevelopmentProcess": "Ketika %sproses pengembangan%s kami menyertakan ribuan pemeriksaan otomatis, Pemeriksa Betta menjalankan peran kunci dalam pengarsipan \"Kebijakan Tanpa Kutu\" di Piwik.",
-        "StableReleases": "Bila Piwik merupakan hal yang penting dalam usaha Anda, kami menyarankan Anda menggunakan rilis stabil terkini.    \tBila Anda menggunakan beta terkini dan Anda menemukan sebuah kutu atau sebuah sarah, harap %slihat di sini%s.",
+        "StableReleases": "Bila Piwik merupakan hal yang penting dalam usaha Anda, kami menyarankan Anda menggunakan rilis stabil terkini.\n\n\tBila Anda menggunakan beta terkini dan Anda menemukan sebuah kutu atau sebuah sarah, harap %slihat di sini%s.",
         "YouAreCurrentlyUsingPHP": "Anda saat ini menggunakan PHP %1$s.",
         "OldPHPVersionWarning_Part1": "Piwik secara cepat meningkatkan dan dalam rangka menyediakan kepada Anda dengan sebuah karya seni tertingkatkan pelantar Analisis Ramatraya, kami akan segera meningkatkan prasyarat minimum versi PHP ke PHP 5.3. %1$sHarap berbicara dengan pengelola peladen atau penginang ramatraya Anda agar meningkatkan PHP Anda ke versi mutakhir, secara  ideal adalah PHP 5.4.%2$s",
         "OldPHPVersionWarning_Part2": "Bila Anda meningkatkan tingkat ke PHP 5.3 atau lebih tinggi, pesan ini akan menghilang dan peladen Piwik Anda akan mengolah laporan lebih cepat dengan memori yang lebih kecil. %1$sPerbarui PHP dan peroleh hasil maksimal dari Piwik!%2$s"
@@ -625,7 +624,7 @@
         "ShareThis": "Bagi ini",
         "ViewAllPiwikVideoTutorials": "Tampilkan seluruh Video Tutorial Piwik",
         "SharePiwikShort": "Piwik! Analisis ramatraya sumber terbuka dan gratis. Miliki sendiri data Anda.",
-        "SharePiwikLong": "Hai! Saya baru saja menemukan sebuah kepingan luar biasa perangkat lunak sumber terbuka: Piwik!    Piwik memungkinkan kamu untuk melacak pengunjung situs kamu secara gratis. Kamu harus segera melihatnya!",
+        "SharePiwikLong": "Hai! Saya baru saja menemukan sebuah kepingan luar biasa perangkat lunak sumber terbuka: Piwik!\n\nPiwik memungkinkan kamu untuk melacak pengunjung situs kamu secara gratis. Kamu harus segera melihatnya!",
         "PluginDescription": "Struktur Laporan Analisis Web.",
         "WebAnalyticsReports": "Laporan Analisis Web",
         "NoPrivilegesAskPiwikAdmin": "Anda masuk sebagai '%s' tetapi sepertinya Anda tidak memiliki izin apapun di Piwik. %s Tanyakan kepada pengelola Piwik Anda (klik untuk kirim surel)%s untuk memberikan akses 'Lihat' ke situs.",
@@ -727,7 +726,6 @@
         "MainDescription": "Pengaya menambah dan memperluas kegunaan dari Piwik. Sekali pengaya terinstal, Anda dapat mengaktifkan dan mematikan di sini.",
         "Plugin": "Pengaya",
         "Version": "Versi",
-        "Status": "Status",
         "Action": "Tindakan",
         "AuthorHomepage": "Alamat Penulis",
         "LicenseHomepage": "Alamat Lisensi",
@@ -954,7 +952,6 @@
         "Manually": "manual",
         "ManuallyTriggeredUsingJavascriptFunction": "Tujuan terpicu secara manual menggunakan API JavaScript trackGoal()",
         "VisitUrl": "Kunjungi URL yang diberikan (halaman atau kelompok halaman)",
-        "URL": "URL",
         "PageTitle": "Judul Halaman",
         "Filename": "nama berkas",
         "ExternalWebsiteUrl": "URL situs luar",
@@ -1071,7 +1068,6 @@
         "SystemCheckGzcompressHelp": "Anda dapat mengaktifkan ekstensi zlib dan fungsi gzcompress.",
         "SystemCheckGzuncompressHelp": "Anda dapat mengaktifkam ekstensi zlib dan fungsi gzuncompress.",
         "SystemCheckPackHelp": "Fungsi pack() dibutuhkan untuk melacak pengunjung di Piwik.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "Ekstensi mbstring dibutuhkan untuk karakter banyak-bita dalam respon API menggunakan nilai dipisahkan-koma (comma-separated values, CSV) atau nilai dipisahkan-tabulasi (tab-separated values, TSV).",
         "SystemCheckMbstringExtensionGeoIpHelp": "Ini juga membutuhkan pemaduan GeoIP untuk berkerja.",
         "SystemCheckMbstringFuncOverloadHelp": "Anda harus mengeset mbstring.func_overload ke \"0\".",
@@ -1158,7 +1154,7 @@
         "InvalidNonceOrHeadersOrReferer": "Borang keamanan gagal. Silkan muat ulang borang dan periksa apakah kuki Anda telah aktif. Bila Anda menggunakan peladen wali, Anda harus %s mengkonfigurasi Piwik untuk menerima `header` wali%s yang meneruskan `header` Inang. Serta, periksa apakah `header` Pengarah telah terkirim dengan benar.",
         "InvalidOrExpiredToken": "Kepingan tak sahih atau telah kedaluwarsa.",
         "MailTopicPasswordChange": "Konfirmasi Pengubahan Sandi",
-        "MailPasswordChangeBody": "Hai %1$s,\r\n\r\nSebuah permintaan atur ulang sandi telah diterima dari %2$s. Untuk mengkonfirmasi pengubahan sandi, Anda dapat masuk-log dengan mandat baru Anda, kunjungi tautan berikut:\r\n\r\n%3$s\r\n\r\nCatatan: kepingan ini akan kedaluwarsa dalam 24 jam.\r\nDan terima kasih menggunakan Piwik!",
+        "MailPasswordChangeBody": "Hai %1$s,\n\nSebuah permintaan atur ulang sandi telah diterima dari %2$s. Untuk mengkonfirmasi pengubahan sandi, Anda dapat masuk-log dengan mandat baru Anda, kunjungi tautan berikut:\n\n%3$s\n\nCatatan: kepingan ini akan kedaluwarsa dalam 24 jam.\nDan terima kasih menggunakan Piwik!",
         "ConfirmationLinkSent": "Tautan konfirmasi telah dikirim ke kotak masuk Anda. Periksa surel Anda dan kunjungi tautan ini untuk memberi izin permintaan perubahan sandi Anda.",
         "PasswordChanged": "Sandi Anda telah berubah.",
         "ContactAdmin": "Kemungkinan: inang Anda kemungkinan mematikan fungsi mail(). <br \/>Silakan hubungi pengelola Piwik Anda.",
@@ -1993,7 +1989,6 @@
         "BetweenXYMinutes": "%1$s-%2$s menit",
         "OnePage": "1 halaman",
         "NPages": "%s halaman",
-        "BetweenXYSeconds": "%1$s-%2$ss",
         "VisitsByDaysSinceLast": "Pengunjung berdasar hari sejak kunjungan terakhir",
         "WidgetVisitsByDaysSinceLast": "Kunjungan berdasar Hari sejak Kunjungan Terakhir",
         "WidgetVisitsByDaysSinceLastDocumentation": "Di laporan ini, Anda dapat melihat berapa banyak kunjungan dari pengunjung beberapa hari yang lalu."
@@ -2050,7 +2045,6 @@
         "PluginDescription": "Buat dan unduh laporan tersesuai, dan mengatur surel laporan harian, mingguan atau bulanan.",
         "ManageEmailReports": "Pengatur Laporan Surel",
         "EmailReports": "Laporan Surel",
-        "PDF": "PDF",
         "SendReportNow": "Kirim Laporan sekarang",
         "EmailSchedule": "Jadwal Surel",
         "SendReportTo": "Kirim laporan ke",
@@ -2367,10 +2361,7 @@
         "Language_yo": "Yoruba",
         "Language_za": "Zhuang",
         "Language_zh": "Cina",
-        "Language_zu": "Zulu",
-        "Language": "Bahasa",
-        "SubmenuLanguage": "Bahasa",
-        "WidgetLanguage": "Bahasa Pengunjung"
+        "Language_zu": "Zulu"
     },
     "SegmentEditor": {
         "AddNewSegment": "Tambah pecahan baru",
@@ -2394,17 +2385,5 @@
         "LoadingSegmentedDataMayTakeSomeTime": "Memproses pecahan data pengunjung mungkin membutuhkan waktu beberapa menit...",
         "AutoArchiveRealTime": "laporan terpecah diproses dalam waktu nyata",
         "AutoArchivePreProcessed": "laporan terpecah merupakan praproses (lebih cepat, membutuhkan cron archive.php)"
-    },
-    "EntryPage": {
-        "Bounces": "Pentalan",
-        "Referrers": "Pengarah"
-    },
-    "Forecast": {
-        "Actions": "Kunjungan Halaman",
-        "Bounce": "Pengunjung Pentalan",
-        "Column": "Cuaca",
-        "ReturnVisits": "kunjungan kembali",
-        "Visitors": "Pengunjung",
-        "Widget": "Cuaca untuk hari ini"
     }
 }

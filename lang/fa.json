@@ -47,7 +47,10 @@
         "Description": "توضیحات",
         "Done": "انجام شد",
         "PoweredBy": "نیرو گرفته به وسیله",
+        "MetricsToPlot_js": "معیار ها به طرح",
         "RowsToDisplay": "ردیف در صفحه نمایش",
+        "MetricToPlot_js": "معیار به طرح",
+        "RecordsToPlot_js": "سوابق به طرح",
         "Name": "نام",
         "Value": "مقدار",
         "Total": "کل",
@@ -82,6 +85,8 @@
         "NumberOfVisits": "تعداد بازدید ها",
         "VisitConvertedGoal": "بازدید حداقل یک بار به هدف رسیده",
         "VisitConvertedGoalId": "بازدید که به یک هدف مشخص تبدیل شده",
+        "EcommerceVisitStatusDesc": "وضعیت تجارت الکترونیک در پایان این دیدار است",
+        "EcommerceVisitStatusEg": "به عنوان مثال،برای انتخاب تمام بازدیدکننده داشته است را ساخته اند که به منظور تجارت الکترونیک، درخواست API حاوی %s",
         "VisitConvertedNGoals": "بازدید تبدیل شده %s به هدف",
         "NewVisitor": "بازدید کننده جدید",
         "NewVisits": "بازدید جدید",
@@ -196,6 +201,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "برای وبسایت های با ترافیک متوسط یا بالا , ما توصیه می کنیم که گزارش های هرروز را حداکثر هر نیم ساعت (%s ثانیه) یا هر ساعت (%s ثانیه) پردازش کنید.",
         "RequiresFlash": "نمایش نمودارها درپیویک به فلش نیاز دارد",
         "GraphHelp": "اطلاعات بیشتر در مورد نمایش نمودارها در Piwik.",
+        "NoDataForGraph_js": "اطلاعاتی برای این نمودار نیست.",
         "DataForThisGraphHasBeenPurged": "داده های این نمودار قدیمی تر از %s ماه می باشند و پاکسازی شده اند.",
         "NoDataForTagCloud": "هیچ داده ای برای این برچسب.",
         "DataForThisTagCloudHasBeenPurged": "داده های این ابر برچسب قدیمی تر از %s ماه می باشند و پاکسازی شده اند.",
@@ -542,7 +548,6 @@
         "PageOf_js": "%1$s از %2$s",
         "FlattenDataTable_js": "این گزارش سلسله مراتبی است %sآن را مسطح کن",
         "UnFlattenDataTable_js": "این گزارش مسطح است %s آن را سلسله مراتبی کن",
-        "DateFormat": "فرمت",
         "ShortDateFormat": "%shortDay% %day% %shortMonth%",
         "ShortDateFormatWithYear": "%day% %shortMonth% %shortYear%",
         "LongMonthFormat": "%longYear% - %longMonth%",
@@ -927,7 +932,6 @@
         "SystemCheckGzcompressHelp": "شما نیاز به فعال کردن پسوند zlib می و gzcompress تابع.",
         "SystemCheckGzuncompressHelp": "شما نیاز به فعال کردن پسوند zlib می و gzuncompress تابع.",
         "SystemCheckPackHelp": "بسته تابع () موظف است نسبت به ردیابی بازدید کننده در Piwik.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "فرمت mbstring را برای شخصیت های چند بایتی در پاسخ API با استفاده از کاما جدا ارزش (CSV) و یا تب جدا ارزش (TSV) مورد نیاز است.",
         "SystemCheckMbstringFuncOverloadHelp": "شما باید mbstring.func_overload را به \"0\" را تنظیم کنید.",
         "SystemCheckFileIntegrity": "یکپارچگی فایل",
@@ -1835,6 +1839,7 @@
         "XOfAllPageviews": "%s از همه ی بازدیدهای این صفحه",
         "ToInternalPages": "به صفحه های داخلی",
         "Including": "شامل",
+        "XOutOfYVisits": "%s (از %s)",
         "FromPreviousPages": "از صفحه های داخلی",
         "FromPreviousPagesInline": "%s از صفحه های داخلی",
         "FromPreviousSiteSearches": "از جستجوی داخلی",
@@ -2071,21 +2076,9 @@
         "Language_yo": "یوروبایی",
         "Language_za": "چوانگی",
         "Language_zh": "چینی",
-        "Language_zu": "زولویی",
-        "Language": "زبان ها",
-        "SubmenuLanguage": "زبان ها",
-        "WidgetLanguage": "زبان های بازدیدکنندگان"
+        "Language_zu": "زولویی"
     },
-    "EntryPage": {
-        "Bounces": "پس زده گی",
-        "Referrers": "ارجاع دهنده ها"
-    },
-    "Forecast": {
-        "Actions": "بازدیدهای صفحه",
-        "Bounce": "بازدیدکننده های پس زده",
-        "Column": "پیش بینی",
-        "ReturnVisits": "بازدیدهای برگشتی",
-        "Visitors": "بازدیدکنندگان",
-        "Widget": "پیش بینی امروز"
+    "SegmentEditor": {
+        "AddNewSegment": "اضافه کردن سگمنت جدید"
     }
 }

@@ -41,7 +41,10 @@
         "Description": "Përshkrim",
         "Done": "U bë",
         "PoweredBy": "Bazuar në",
+        "MetricsToPlot_js": "Matje për t'u hedhur në grafik",
         "RowsToDisplay": "Rreshta për shfaqje",
+        "MetricToPlot_js": "Matje për t'u hedhur në grafik",
+        "RecordsToPlot_js": "Regjistrime për t'u hedhur në grafik",
         "Name": "Emër",
         "Value": "Vlerë",
         "Total": "Gjithsej",
@@ -75,6 +78,8 @@
         "NumberOfVisits": "Numër vizitash",
         "VisitConvertedGoal": "Vizita shndërroi të paktën një Objektiv",
         "VisitConvertedGoalId": "Vizita shndërroi një Id specifike Objektivi",
+        "EcommerceVisitStatusDesc": "Shihni gjendjen e E-trgtisë në fund të vizitës",
+        "EcommerceVisitStatusEg": "Për shembull, për të përzgjedhur krejt vizitat që janë bërë një porosi E-tregti, kërkesa API do të duhej të përmbante %s",
         "VisitConvertedNGoals": "Vizita shndërroi %s Objektiva",
         "NewVisitor": "Vizitor i Ri",
         "NewVisits": "Vizita të reja",
@@ -183,6 +188,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Për site-e web me trafik të shumtë, këshillojmë t'i përpunoni raportet për ditën e sotme e shumta çdo gjysmë ore (%s sekonda) ose çdo një orë (%s sekonda).",
         "RequiresFlash": "Shfaqja e Grafikëve në Piwik lyp Flash-in",
         "GraphHelp": "Më tepër të dhëna rreth shfaqjes së grafikëve në Piwik.",
+        "NoDataForGraph_js": "Pa të dhëna për këtë grafik",
         "NoDataForTagCloud": "Pa të dhëna për këtë re etiketash.",
         "DisplaySimpleTable": "Shfaq një tabelë të thjeshtë",
         "DisplayTableWithMoreMetrics": "Shfaq një tabelë me më tepër matje",
@@ -511,7 +517,6 @@
         "PluginsManagement": "Administrim Shtojcash",
         "MainDescription": "Shtojcat zgjerojnë dhe thellojnë funksionet e Piwik-ut. Pasi një shtojcë të jetë instaluar, mund ta aktivizoni ose çaktivizoni prej këtu.",
         "Plugin": "Shtojca",
-        "Version": "Version",
         "Status": "Gjendje",
         "Action": "Veprim",
         "AuthorHomepage": "Faqja Hyrëse e Autorit",
@@ -699,7 +704,6 @@
         "Manually": "dorazi",
         "ManuallyTriggeredUsingJavascriptFunction": "Objektivi vihet në punë dorazi duke përdorur JavaScript API trackGoal()",
         "VisitUrl": "Viziton një URL të dhënë (faqe ose grup faqesh)",
-        "URL": "URL",
         "PageTitle": "Titull Faqeje",
         "Filename": "emër kartele",
         "ExternalWebsiteUrl": "URL site-i web të jashtëm",
@@ -769,7 +773,6 @@
         "SuperUserLogin": "emër hyrjeje për super përdoruesin",
         "Password": "fjalëkalim",
         "PasswordRepeat": "fjalëkalim (rijepeni)",
-        "Email": "email",
         "SecurityNewsletter": "njoftomë me email për përditësime të rëndësishme të Piwik-ut dhe njoftime lidhur me sigurinë",
         "CommunityNewsletter": "njoftomë me email për përditësime nga bashkësia (shtojca të reja, veçori të reja, etj.)",
         "PasswordDoNotMatch": "fjalëkalimet nuk përputhen",
@@ -812,7 +815,6 @@
         "SystemCheckGzcompressHelp": "Lypset të aktivizoni zgjerimin zlib dhe funksionin gzcompress.",
         "SystemCheckGzuncompressHelp": "Lypset të aktivizoni zgjerimin zlib dhe funksionin gzuncompress.",
         "SystemCheckPackHelp": "Që të gjurmohen vizitorët me Piwik-un, funksioni pack() është i domosdoshëm.",
-        "SystemCheckMbstring": "mbstring",
         "SystemCheckMbstringExtensionHelp": "Zgjerimi mbstring është i nevojshëm për shenja shumëbajtshe në përgjigje API që përdorin vlera të ndara me presje (CSV) ose vlera të ndara me shenjën tab (TSV).",
         "SystemCheckMbstringFuncOverloadHelp": "Do të duhej ta vinit mbstring.func_overload \"0\".",
         "SystemCheckFileIntegrity": "Pacënueshmëri kartele",
@@ -883,8 +885,7 @@
         "ExceptionInvalidSuperUserAuthenticationMethod": "Super Përdoruesi nuk mund të kalojë mirëfilltësimin duke përdorur mekanizmin '%s'."
     },
     "MultiSites": {
-        "PluginDescription": "Shfaq përmbledhje\/statistika ekzekutive multi-site-i. Hëpërhë trajtohet si shtojcë bazë e Piwik-ut.",
-        "Evolution": "Evolution"
+        "PluginDescription": "Shfaq përmbledhje\/statistika ekzekutive multi-site-i. Hëpërhë trajtohet si shtojcë bazë e Piwik-ut."
     },
     "Provider": {
         "PluginDescription": "Raporton Mundësuesin e vizitorëve.",
@@ -1372,12 +1373,9 @@
         "User": "Përdorues",
         "PrivNone": "Pa hyrje",
         "PrivView": "Parje",
-        "PrivAdmin": "Admin",
         "ChangeAllConfirm": "Jeni i sigurt se doni të ndryshoni lejet e '%s' në tërë \"site\"-et web?",
         "ChangePasswordConfirm": "Ndryshimi i fjalëkalimit do të sjellë gjithashtu ndryshimin e “token_auth” të përdoruesit. Doni vërtet të vazhdohet?",
         "Password": "Fjalëkalim",
-        "Email": "Email",
-        "Alias": "Alias",
         "TheSuperUserAliasCannotBeChanged": "Aliasi i Super Përdoruesit nuk mund të ndryshohet.",
         "ReportToLoadByDefault": "Raport që duhet ngarkuar si parazgjedhje",
         "ReportDateToLoadByDefault": "Datë raporti që duhet ngarkuar si parazgjedhje",
@@ -1462,12 +1460,8 @@
         "WidgetPagesDocumentation": "Në këtë raport, mund të shihni sa vizitorë panë një numër të dhënë faqesh. Fillimisht, ky raport shfaqet si re etiketash, me numrat më të shpeshtë të faqeve të treguara me shkronja më të mëdha.",
         "WidgetVisitsByNumDocumentation": "Në këtë raport, mund të shihni numrin e vizitave që kanë qenë vizita e N-të, d.m.th. vizitorët që e kanë vizituar site-in tuaj web të paktën N herë.",
         "Engagement": "Angazhim",
-        "OneMinute": "1 min",
-        "PlusXMin": "%s min",
-        "BetweenXYMinutes": "%1$s-%2$s min",
         "OnePage": "1 faqe",
         "NPages": "%s faqe",
-        "BetweenXYSeconds": "%1$s-%2$ss",
         "VisitsByDaysSinceLast": "Vizita sipas ditësh që pas vizitës së fundit",
         "WidgetVisitsByDaysSinceLastDocumentation": "Në këtë raport, mund të shihni se sa vizita kanë qenë prej vizitorësh vizita e fundit e të cilëve ka ndodhur një numër ditësh më parë."
     },
@@ -1506,8 +1500,7 @@
         "WidgetLocalTimeDocumentation": "Ky grafik shfaq kohën sipas %s zonës kohore të vizitorit %s kur ka ndodhur një vizitë.",
         "WidgetServerTime": "Vizita sipas kohës së shërbyesit",
         "WidgetServerTimeDocumentation": "Ky grafik shfaq kohën sipas %s zonës kohore të shërbyesit %s kur ka ndodhur një vizitë.",
-        "SubmenuTimes": "Kohë",
-        "NHour": "%sh"
+        "SubmenuTimes": "Kohë"
     },
     "Widgetize": {
         "PluginDescription": "Shtojca e bën shumë të lehtë të eksportohet çfarëdo Widget-i Piwik-u te Blogu juaj, site-i juaj web ose te Igoogle apo Netvibes!"
@@ -1516,7 +1509,6 @@
         "PluginDescription": "Krijoni dhe shkarkoni raporte të personalizuar, dhe merrini ata përditë, përjavë ose përmuaj, me email.",
         "ManageEmailReports": "Administroni Raporte Email",
         "EmailReports": "Dërgo Raportet Me Email",
-        "PDF": "PDF",
         "SendReportNow": "Dërgoje Raportin tani",
         "EmailSchedule": "Plan Dërgimi me Email",
         "SendReportTo": "Raportin dërgoje te",

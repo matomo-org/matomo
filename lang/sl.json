@@ -48,7 +48,10 @@
         "Description": "Opis",
         "Done": "Narejeno",
         "PoweredBy": "Poganja",
+        "MetricsToPlot_js": "Metrično v spletko",
         "RowsToDisplay": "Vrst za prikaz",
+        "MetricToPlot_js": "Metrično v spletko",
+        "RecordsToPlot_js": "Zapisi za prikaz",
         "Name": "Ime",
         "Value": "Vrednost",
         "Total": "Skupaj",
@@ -82,6 +85,8 @@
         "NumberOfVisits": "Število obiskov",
         "VisitConvertedGoal": "Obisk je spreobrnil vsaj en Cilj",
         "VisitConvertedGoalId": "Obisk je spreobrnil specifičen Id Cilja",
+        "EcommerceVisitStatusDesc": "Obiščite 'Status naročil' na koncu obiska",
+        "EcommerceVisitStatusEg": "Na primer, za izbiro vseh ob obiskov, ki so opravili naročilo, bi API zahtevek vseboval %s",
         "VisitConvertedNGoals": "Obisk spreobrnil %s Ciljev",
         "NewVisitor": "Nov Obiskovalec",
         "NewVisits": "Novi obiski",
@@ -197,6 +202,7 @@
         "MediumToHighTrafficItIsRecommendedTo": "Za srednje velike in velike spletne strani vam priporočamo, da procesirate poročila največ na pol ure (%s sekund) ali na eno uro (%s sekund).",
         "RequiresFlash": "Za prikazovanje Grafov v Piwik-u potrebujete Flash",
         "GraphHelp": "Več informacij o prikazovanju Grafov v Piwik-u.",
+        "NoDataForGraph_js": "Nobenih podatkov za ta graf.",
         "DataForThisGraphHasBeenPurged": "Podatki za ta graf so stari več kot %s mesecev in so bili izbrisani.",
         "NoDataForTagCloud": "Ni podatkov za oblaček z etiketami",
         "DataForThisTagCloudHasBeenPurged": "Podatki za ta oblak oznak so stari več kot %s mesecev in so bili izbrisani.",
@@ -508,7 +514,6 @@
         "MainDescription": "Vtičniki razširjajo Piwik-ovo funkcionalnost. Ko je vtičnik enkrat nameščen, ga lahko tukaj aktivirate oziroma deaktivirate.",
         "Plugin": "Vtičnik",
         "Version": "Različica",
-        "Status": "Status",
         "Action": "Dejanje",
         "AuthorHomepage": "Spletna stran avtorja",
         "LicenseHomepage": "Spletna stran licence",
@@ -618,7 +623,6 @@
     },
     "Goals": {
         "Goals": "Cilji",
-        "Ecommerce": "Ecommerce",
         "EcommerceOverview": "Ecommerce pregled",
         "EcommerceOrder": "Ecommerce naročilo",
         "EcommerceLog": "Ecommerce zgodovina",
@@ -641,7 +645,6 @@
         "GoalName": "Ime Cilja",
         "WhenVisitors": "ko obiskovalci",
         "Manually": "ročno",
-        "URL": "URL",
         "PageTitle": "Naslov strani",
         "Filename": "ime datoteke",
         "ExternalWebsiteUrl": "URL zunanje strani",
@@ -684,7 +687,6 @@
         "SuperUserLogin": "vpis super uporabnika",
         "Password": "geslo",
         "PasswordRepeat": "geslo (ponovno)",
-        "Email": "email",
         "SecurityNewsletter": "obveščajte me o najpomembnejših varnostnih opozorilh Piwik-a",
         "PasswordDoNotMatch": "gesli se ne ujemata",
         "Requirements": "Piwik-ovi minimalni pogoji",
@@ -788,7 +790,6 @@
     "SecurityInfo": {
         "Security": "Varnost",
         "SecurityInformation": "PHP varnostni podatki",
-        "Test": "Test",
         "Result": "Rezultat"
     },
     "SEO": {
@@ -1168,9 +1169,7 @@
         "User": "Uporabnik",
         "PrivNone": "Ni dostopa",
         "PrivView": "Pogled",
-        "PrivAdmin": "Admin",
         "Password": "Geslo",
-        "Email": "Email",
         "Alias": "Psevdonim",
         "Edit": "Uredi",
         "AddUser": "Dodaj novega uporabnika",
@@ -1220,8 +1219,6 @@
         "VisitNum": "Številka obiska",
         "WidgetLengths": "Dolžina obiskov",
         "WidgetPages": "Strani na obisk",
-        "OneMinute": "1 min",
-        "PlusXMin": "%s min",
         "OnePage": "1 stran",
         "NPages": "%s strani"
     },
@@ -1260,13 +1257,11 @@
         "ColumnLocalTime": "Lokalni čas",
         "WidgetLocalTime": "Obiski glede na lokalni čas",
         "WidgetServerTime": "Obiski glede na čas na strežniku",
-        "SubmenuTimes": "Časi",
-        "NHour": "%sh"
+        "SubmenuTimes": "Časi"
     },
     "PDFReports": {
         "ManageEmailReports": "Urejaj Email Poročila",
         "EmailReports": "Email Poročila",
-        "PDF": "PDF",
         "SendReportNow": "Pošlji Poročilo zdaj",
         "EmailSchedule": "Urnik Emailov",
         "SendReportTo": "Pošlji poročilo k",
@@ -1504,15 +1499,5 @@
     },
     "SegmentEditor": {
         "DefaultAllVisits": "Vsi obiski"
-    },
-    "EntryPage": {
-        "Bounces": "Odboji"
-    },
-    "Forecast": {
-        "Actions": "Obiski strani",
-        "Column": "Napoved",
-        "ReturnVisits": "ponovni obiski",
-        "Visitors": "Obiskovalci",
-        "Widget": "Napoved za danes"
     }
 }
