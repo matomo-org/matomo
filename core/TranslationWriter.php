@@ -107,7 +107,10 @@ class TranslationWriter
             }
         }
 
-        return json_encode($cleanedTranslations, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        /*
+         * ToDo: Use JSON_UNESCAPED_UNICODE and JSON_PRETTY_PRINT for PHP >= 5.4
+         */
+        return json_encode($cleanedTranslations);
     }
 
     /**
