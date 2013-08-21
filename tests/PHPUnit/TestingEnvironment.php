@@ -23,5 +23,12 @@ class Piwik_TestingEnvironment
         Piwik_AddAction('FrontController.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
         });
+        Piwik_AddAction('AssetManager.getCssFiles', function(&$cssFiles) {
+            $cssFiles[] = 'tests/resources/screenshot-override/override.css';
+        });
+        Piwik_AddAction('AssetManager.getJsFiles', function(&$jsFiles) {
+            $jsFiles[] = 'tests/resources/screenshot-override/jquery.waitforimages.js';
+            $jsFiles[] = 'tests/resources/screenshot-override/override.js';
+        });
     }
 }

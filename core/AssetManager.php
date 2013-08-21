@@ -284,6 +284,7 @@ class AssetManager
             'plugins/Zeitgeist/stylesheets/',
             'plugins/',
             'plugins/Dashboard/stylesheets/dashboard.less',
+            'tests/',
         );
 
         return self::prioritySort($priorityCssOrdered, $cssFiles);
@@ -380,6 +381,7 @@ class AssetManager
             'plugins/Zeitgeist/javascripts/',
             'plugins/CoreHome/javascripts/broadcast.js',
             'plugins/',
+            'tests/',
         );
 
         return self::prioritySort($priorityJsOrdered, $jsFiles);

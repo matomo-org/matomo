@@ -635,7 +635,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                                         $abandonedCarts = false, $idGoal = false, $apiModule = false, $apiAction = false,
                                         $otherRequestParameters = array(), $supertableApi = false, $fileExtension = false)
     {
-        list($pathProcessed, $pathExpected) = $this->getProcessedAndExpectedDirs();
+        list($pathProcessed, $pathExpected) = self::getProcessedAndExpectedDirs();
 
         if ($periods === false) {
             $periods = 'day';
@@ -866,9 +866,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         return $input;
     }
 
-    protected function getProcessedAndExpectedDirs()
+    protected static function getProcessedAndExpectedDirs()
     {
-        $path = $this->getPathToTestDirectory();
+        $path = self::getPathToTestDirectory();
         return array($path . '/processed/', $path . '/expected/');
     }
 
@@ -879,7 +879,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $filename .= ".$format";
         }
 
-        list($processedDir, $expectedDir) = $this->getProcessedAndExpectedDirs();
+        list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
 
         return array($processedDir . $filename, $expectedDir . $filename);
     }
@@ -1062,9 +1062,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Path where expected/processed output files are stored. Can be overridden.
+     * Path where expected/processed output files are stored.
      */
-    public function getPathToTestDirectory()
+    public static function getPathToTestDirectory()
     {
         return dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Integration';
     }

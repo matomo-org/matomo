@@ -83,16 +83,6 @@ class JqplotDataGenerator
      */
     public function generate($dataTable)
     {
-        if (!empty($this->properties['visualization_properties']->max_graph_elements)) {
-            $offsetStartSummary = $this->properties['visualization_properties']->max_graph_elements - 1;
-            $sortColumn = !empty($this->properties['filter_sort_column'])
-                ? $this->properties['filter_sort_column']
-                : Metrics::INDEX_NB_VISITS;
-
-            $dataTable->filter(
-                'AddSummaryRow', array($offsetStartSummary, Piwik_Translate('General_Others'), $sortColumn));
-        }
-
         if ($dataTable->getRowsCount() > 0) {
             // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
             // different metrics

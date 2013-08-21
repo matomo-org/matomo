@@ -714,8 +714,6 @@ dataTable.prototype =
                 // we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
                 // this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
 
-                self.setActiveIcon(this, domElem);
-
                 var viewDataTable = $(this).attr('format');
                 self.param.viewDataTable = viewDataTable;
 
@@ -735,7 +733,6 @@ dataTable.prototype =
         $('.tableGraphViews a', domElem)
             .click(function () {
                 var viewDataTable = $(this).attr('format');
-                self.setActiveIcon(this, domElem);
 
                 var filters = self.resetAllFilters();
                 self.param.flat = filters.flat;
@@ -778,8 +775,7 @@ dataTable.prototype =
                         $(this).show('fast', function () {self.graphViewStartingThreads--});
                     }
                     else if (self.graphViewEnabled) {
-                        //set footer arrow position
-                        $('.dataTableFooterActiveItem', domElem).animate({left: $(this).parent().position().left + i * (this.offsetWidth + 1)}, "fast", function () {self.graphViewStartingThreads--});
+                        self.graphViewStartingThreads--;
                     }
                 });
                 self.exportToFormatHide(domElem);
@@ -792,10 +788,6 @@ dataTable.prototype =
                         //hide other icons
                         $(this).hide('fast');
                     }
-                    else if (self.graphViewEnabled) {
-                        //set footer arrow position
-                        $('.dataTableFooterActiveItem', domElem).animate({left: $(this).parent().position().left}, "fast");
-                    }
                 });
                 $(this).removeClass('tableIconsGroupActive');
             }
@@ -805,7 +797,7 @@ dataTable.prototype =
         self.exportToFormat = null;
         $('.exportToFormatIcons a', domElem).click(function () {
             self.exportToFormat = {};
-            self.exportToFormat.lastActiveIcon = self.setActiveIcon(this, domElem);
+            self.exportToFormat.lastActiveIcon = this;
             self.exportToFormat.target = $(this).parent().siblings('.exportToFormatItems').show('fast');
             self.exportToFormat.obj = $(this).hide();
         });
@@ -892,12 +884,6 @@ dataTable.prototype =
                 return str;
             }
         );
-
-        // Initialize arrow footer to correct icon
-        $('.dataTableFooterWrap a.tableIcon', domElem).each(function () {
-            if (self.jsViewDataTable == $(this).attr('var')) self.setActiveIcon(this, domElem);
-        });
-
     },
 
     exportToFormatHide: function (domElem, noAnimation) {
@@ -1058,30 +1044,6 @@ dataTable.prototype =
                 close();
             }, 400);
         }
-    },
-
-    //footer arrow position handler
-    setActiveIcon: function (obj, domElem) {
-        if (!obj) return false;
-
-        var lastActiveIcon = this.lastActiveIcon;
-
-        if (lastActiveIcon) {
-            $(lastActiveIcon).removeClass("activeIcon");
-        }
-
-        $(obj).addClass("activeIcon");
-        this.lastActiveIcon = obj;
-
-        var target = $('.dataTableFooterActiveItem', domElem);
-
-        //set arrow position with delay (for ajax widget loading)
-        setTimeout(function () {
-            target.css({left: $(obj).position().left});
-        }, 100);
-
-        return lastActiveIcon;
-
     },
 
     // Tell parent widget that the parameters of this table was updated,
@@ -1603,7 +1565,6 @@ actionDataTable.prototype =
     onClickSort: dataTable.prototype.onClickSort,
     truncate: dataTable.prototype.truncate,
     handleOffsetInformation: dataTable.prototype.handleOffsetInformation,
-    setActiveIcon: dataTable.prototype.setActiveIcon,
     resetAllFilters: dataTable.prototype.resetAllFilters,
     restoreAllFilters: dataTable.prototype.restoreAllFilters,
     exportToFormatHide: dataTable.prototype.exportToFormatHide,

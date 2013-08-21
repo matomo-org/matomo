@@ -394,16 +394,13 @@ var broadcast = {
             }
         }
 
-        var ajaxRequest = {
-            type: 'POST',
-            url: urlAjax,
-            dataType: 'html',
-            async: true,
-            error: broadcast.customAjaxHandleError,	// Callback when the request fails
-            success: sectionLoaded, // Callback when the request succeeds
-            data: {}
-        };
-        globalAjaxQueue.push($.ajax(ajaxRequest));
+        var ajax = new ajaxHelper();
+        ajax.setUrl(urlAjax);
+        ajax.setErrorCallback(broadcast.customAjaxHandleError);
+        ajax.setCallback(sectionLoaded);
+        ajax.setFormat('html');
+        ajax.send();
+
         return false;
     },
 

@@ -11,6 +11,20 @@
  * @type {Array} array holding XhrRequests with automatic cleanup
  */
 var globalAjaxQueue = [];
+globalAjaxQueue.active = 0;
+
+/**
+ * Removes all finished requests from the queue.
+ * 
+ * @return {void}
+ */
+globalAjaxQueue.clean = function () {
+    for (var i = this.length; i--;) {
+        if (!this[i] || this[i].readyState == 4) {
+            this.splice(i, 1);
+        }
+    }
+};
 
 /**
  * Extend Array.push with automatic cleanup for finished requests
@@ -18,12 +32,11 @@ var globalAjaxQueue = [];
  * @return {Object}
  */
 globalAjaxQueue.push = function () {
+    this.active += arguments.length;
+
     // cleanup ajax queue
-    for (var i = this.length; i--;) {
-        if (!this[i] || this[i].readyState == 4) {
-            this.splice(i, 1);
-        }
-    }
+    this.clean();
+
     // call original array push
     return Array.prototype.push.apply(this, arguments);
 };
@@ -40,6 +53,8 @@ globalAjaxQueue.abort = function () {
     }
     // remove all elements from array
     this.splice(0, this.length);
+
+    this.active = 0;
 };
 
 /**
@@ -86,6 +101,13 @@ function ajaxHelper() {
     this.getParams =      {};
 
     /**
+     * Base URL used in the AJAX request. Can be set by setUrl.
+     * @type {String}
+     * @see ajaxHelper.setUrl
+     */
+    this.getUrl = 'index.php?';
+
+    /**
      * Params to be passed as GET params
      * @type {Object}
      * @see ajaxHelper._mixinDefaultPostParams
@@ -119,6 +141,10 @@ function ajaxHelper() {
      * @return {void}
      */
     this.addParams = function (params, type) {
+        if (typeof params == 'string') {
+            params = broadcast.getValuesFromUrl(params);
+        }
+
         for (var key in params) {
             if(type.toLowerCase() == 'get') {
                 this.getParams[key] = params[key];
@@ -128,6 +154,15 @@ function ajaxHelper() {
         }
     };
     
+    /**
+     * Sets the base URL to use in the AJAX request.
+     * 
+     * @param {string} url
+     */
+    this.setUrl = function (url) {
+        this.getUrl = url;
+    };
+
     /**
      * Gets this helper instance ready to send a bulk request. Each argument to this
      * function is a single request to use.
@@ -300,7 +335,10 @@ function ajaxHelper() {
 
         var parameters = this._mixinDefaultGetParams(this.getParams);
 
-        var url = 'index.php?';
+        var url = this.getUrl;
+        if (url[url.length - 1] != '?') {
+            url += '&';
+        }
 
         // we took care of encoding &segment properly already, so we don't use $.param for it ($.param URL encodes the values)
         if(parameters['segment']) {
@@ -328,10 +366,17 @@ function ajaxHelper() {
                         $(that.errorElement).html(response.message).fadeIn();
                         piwikHelper.lazyScrollTo(that.errorElement, 250);
                     }
-                    return;
+                } else {
+                    that.callback(response);
                 }
 
-                that.callback(response);
+                --globalAjaxQueue.active;
+                var piwik = window.piwik;
+                if (piwik
+                    && piwik.ajaxRequestFinished
+                ) {
+                    piwik.ajaxRequestFinished();
+                }
             },
             data:     this._mixinDefaultPostParams(this.postParams)
         };

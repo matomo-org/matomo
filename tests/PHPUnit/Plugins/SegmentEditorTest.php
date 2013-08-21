@@ -140,6 +140,11 @@ class SegmentEditorTest extends DatabaseTestCase
         );
 
         $newSegment = API::getInstance()->get($idSegment2);
+
+        // avoid test failures for when ts_created/ts_last_edit are different by between 1/2 secs
+        $this->removeSecondsFromSegmentInfo($updatedSegment);
+        $this->removeSecondsFromSegmentInfo($newSegment);
+
         $this->assertEquals($newSegment, $updatedSegment);
 
         // Check the other segmenet was not updated
@@ -163,5 +168,15 @@ class SegmentEditorTest extends DatabaseTestCase
 
         // and this should work
         API::getInstance()->get($idSegment1);
+    }
+
+    private function removeSecondsFromSegmentInfo(&$segmentInfo)
+    {
+        $timestampProperties = array('ts_last_edit', 'ts_created');
+        foreach ($timestampProperties as $propertyName) {
+            if (isset($segmentInfo[$propertyName])) {
+                $segmentInfo[$propertyName] = substr($segmentInfo[$propertyName], 0, strlen($segmentInfo[$propertyName] - 2));
+            }
+        }
     }
 }

@@ -318,9 +318,6 @@ class ViewDataTable
             'filter_excludelowpop_value',
             'filter_pattern',
             'filter_column',
-            'filter_limit',
-            'filter_sort_column',
-            'filter_sort_order',
         );
 
         if ($this->visualizationClass) {
@@ -706,7 +703,13 @@ class ViewDataTable
             $requestArray['expanded'] = 1;
         }
 
-        $requestArray = array_merge($requestArray, $this->viewProperties['request_parameters_to_modify']);
+        $requestArray = array_merge($requestArray, $this->request_parameters_to_modify);
+
+        if (!empty($requestArray['filter_limit'])
+            && $requestArray['filter_limit'] === 0
+        ) {
+            unset($requestArray['filter_limit']);
+        }
 
         return $requestArray;
     }
@@ -1060,10 +1063,6 @@ class ViewDataTable
         if (!PluginsManager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = false;
         }
-
-        if ($this->viewProperties['filter_limit'] == 0) {
-            $this->viewProperties['filter_limit'] = false;
-        }
     }
 
     protected function buildView()
@@ -1105,10 +1104,130 @@ class ViewDataTable
         $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
         $view->clientSidePropertiesToSet = $this->getClientSidePropertiesToSet();
         $view->properties = $this->viewProperties; // TODO: should be $this. need to move non-view properties from the class
+        $view->footerIcons = $this->getFooterIconsToShow();
 
-        $nonCoreVisualizations = DataTableVisualization::getNonCoreVisualizations();
-        $view->nonCoreVisualizations = DataTableVisualization::getVisualizationInfoFor($nonCoreVisualizations);
         $this->view = $view;
+    }
+
+    private function getFooterIconsToShow()
+    {
+        $result = array();
+
+        // add normal view icons (eg, normal table, all columns, goals)
+        $normalViewIcons = array(
+            'class' => 'tableAllColumnsSwitch',
+            'buttons' => array(),
+        );
+
+        if ($this->show_table) {
+            $normalViewIcons['buttons'][] = array(
+                'format' => 'table',
+                'var' => 'table',
+                'title' => Piwik_Translate('General_DisplaySimpleTable'),
+                'icon' => 'plugins/Zeitgeist/images/table.png',
+            );
+        }
+
+        if ($this->show_table_all_columns) {
+            $normalViewIcons['buttons'][] = array(
+                'format' => 'tableAllColumns',
+                'var' => 'tableAllColumns',
+                'title' => Piwik_Translate('General_DisplayTableWithMoreMetrics'),
+                'icon' => 'plugins/Zeitgeist/images/table_more.png'
+            );
+        }
+
+        if ($this->show_goals) {
+            if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
+                $icon = 'plugins/Zeitgeist/images/ecommerceOrder.gif';
+            } else {
+                $icon = 'plugins/Zeitgeist/images/goal.png';
+            }
+            
+            $normalViewIcons['buttons'][] = array(
+                'format' => 'tableGoals',
+                'var' => 'tableGoals',
+                'title' => Piwik_Translate('General_DisplayTableWithGoalMetrics'),
+                'icon' => $icon
+            );
+        }
+
+        if ($this->show_ecommerce) {
+            $normalViewIcons['buttons'][] = array(
+                'format' => 'ecommerceOrder',
+                'var' => 'ecommerceOrder',
+                'title' => Piwik_Translate('General_EcommerceOrders'),
+                'icon' => 'plugins/Zeitgeist/images/ecommerceOrder.gif',
+                'text' => Piwik_Translate('General_EcommerceOrders')
+            );
+
+            $normalViewIcons['buttons'][] = array(
+                'format' => 'ecommerceAbandonedCart',
+                'var' => 'ecommerceAbandonedCart',
+                'title' => Piwik_Translate('General_AbandonedCarts'),
+                'icon' => 'plugins/Zeitgeist/images/ecommerceAbandonedCart.gif',
+                'text' => Piwik_Translate('General_AbandonedCarts')
+            );
+        }
+
+        if (!empty($normalViewIcons['buttons'])) {
+            $result[] = $normalViewIcons;
+        }
+
+        // add graph views
+        $graphViewIcons = array(
+            'class' => 'tableGraphViews tableGraphCollapsed',
+            'buttons' => array(),
+        );
+
+        if ($this->show_all_views_icons) {
+            if ($this->show_bar_chart) {
+                $graphViewIcons['buttons'][] = array(
+                    'format' => 'graphVerticalBar',
+                    'var' => 'graphVerticalBar', // TODO: is var actually used anywhere?
+                    'title' => Piwik_Translate('General_VBarGraph'),
+                    'icon' => 'plugins/Zeitgeist/images/chart_bar.png'
+                );
+            }
+
+            if ($this->show_pie_chart) {
+                $graphViewIcons['buttons'][] = array(
+                    'format' => 'graphPie',
+                    'var' => 'graphPie',
+                    'title' => Piwik_Translate('General_Piechart'),
+                    'icon' => 'plugins/Zeitgeist/images/chart_pie.png'
+                );
+            }
+
+            if ($this->show_tag_cloud) {
+                $graphViewIcons['buttons'][] = array(
+                    'format' => 'cloud',
+                    'var' => 'cloud',
+                    'title' => Piwik_Translate('General_TagCloud'),
+                    'icon' => 'plugins/Zeitgeist/images/tagcloud.png'
+                );
+            }
+
+            if ($this->show_non_core_visualizations) {
+                $nonCoreVisualizations = DataTableVisualization::getNonCoreVisualizations();
+                $nonCoreVisualizationInfo = DataTableVisualization::getVisualizationInfoFor($nonCoreVisualizations);
+
+                foreach ($nonCoreVisualizationInfo as $format => $info) {
+                    $graphViewIcons['buttons'][] = array(
+                        'format' => $format,
+                        'var' => $format,
+                        'title' => Piwik_Translate($info['title']),
+                        'icon' => $info['icon']
+                    );
+                }
+            }
+        }
+
+        if (!empty($graphViewIcons['buttons'])) {
+            $result[] = $graphViewIcons;
+        }
+
+        return $result;
     }
 
     public function getDefaultDataTableCssClass()
