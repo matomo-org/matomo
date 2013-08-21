@@ -146,7 +146,7 @@
 		<category>Visit</category>
 		<name>Visit Ecommerce status at the end of the visit</name>
 		<segment>visitEcommerceStatus</segment>
-		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart.  For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
+		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

@@ -18,7 +18,7 @@
 			<nb_pages_per_search>Visitors will search on your website, and sometimes click &quot;next&quot; to view more results. This is the average number of search results pages viewed for this keyword.</nb_pages_per_search>
 			<exit_rate>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</exit_rate>
 		</metricsDocumentation>
-		<documentation>This report lists the Categories that visitors selected when they made a Search on your website. &lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
+		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchCategories&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchCategories&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getSiteSearchCategories</uniqueId>
