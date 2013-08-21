@@ -179,7 +179,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(false, $rc);
 
         $contents = file_get_contents($path);
-        $expected = '{"General":{"Locale":"en_CA.UTF-8","Id":"Id"},"Goals":{"Goals":"Goals"},"Plugin":{"Body":"Message\nBody"}}';
+        $expected = '{"General":{"Locale":"en_CA.UTF-8","Id":"Id"},"Goals":{"Goals":"Goals"}}';
 
         if (Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
         $this->assertEquals($expected, $contents);
