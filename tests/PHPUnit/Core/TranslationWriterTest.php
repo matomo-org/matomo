@@ -140,8 +140,11 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         $englishTranslations = TranslationWriter::loadTranslation('en');
 
         $this->assertEquals(count($translations, COUNT_RECURSIVE), count($englishTranslations, COUNT_RECURSIVE));
-        $this->assertEquals(0
-            , count(array_diff($translations, $englishTranslations)));
+        foreach($translations as $key => $value) {
+            $this->assertEquals(0,
+                count(array_diff($translations[$key], $englishTranslations[$key]))
+            );
+        }
         $this->assertEquals(0, count(array_diff_assoc($translations, $englishTranslations)));
     }
 
