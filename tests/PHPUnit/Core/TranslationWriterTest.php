@@ -145,7 +145,11 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
                 count(array_diff($translations[$key], $englishTranslations[$key]))
             );
         }
-        $this->assertEquals(0, count(array_diff_assoc($translations, $englishTranslations)));
+        foreach($translations as $key => $value) {
+            $this->assertEquals(0,
+                count(array_diff_assoc($translations[$key], $englishTranslations[$key]))
+            );
+        }
     }
 
     /**
