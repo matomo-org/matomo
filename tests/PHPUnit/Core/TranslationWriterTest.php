@@ -140,7 +140,8 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         $englishTranslations = TranslationWriter::loadTranslation('en');
 
         $this->assertEquals(count($translations, COUNT_RECURSIVE), count($englishTranslations, COUNT_RECURSIVE));
-        $this->assertEquals(0, count(array_diff($translations, $englishTranslations)));
+        $this->assertEquals(0
+            , count(array_diff($translations, $englishTranslations)));
         $this->assertEquals(0, count(array_diff_assoc($translations, $englishTranslations)));
     }
 
@@ -171,7 +172,18 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(false, $rc);
 
         $contents = file_get_contents($path);
-        $expected = '{\n    "General": {\n        "Locale": "en_CA.UTF-8",\n        "Id": "Id"\n    },\n    "Goals"';
+        $expected = <<<'EOD'
+{
+    "General": {
+        "Locale": "en_CA.UTF-8",
+        "Id": "Id"
+    },
+    "Goals": {
+        "Goals": "Goals"
+    }
+}
+EOD;
+
         if (Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
         $this->assertEquals($expected, $contents);
     }
