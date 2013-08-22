@@ -350,7 +350,7 @@ dataTable.prototype =
             return imageSortSrc;
         }
 
-        if (self.param.enable_sort) {
+        if (self.props.enable_sort) {
             $('.sortable', domElem).off('click.dataTableSort').on('click.dataTableSort',
                 function () {
                     $(this).off('click.dataTableSort');
@@ -364,7 +364,9 @@ dataTable.prototype =
                 var imageSortSrc = getSortImageSrc();
                 var imageSortWidth = 16;
                 var imageSortHeight = 16;
-                var ImageSortClass = self.param.filter_sort_order.charAt(0).toUpperCase() + self.param.filter_sort_order.substr(1);
+
+                var sortOrder = self.param.filter_sort_order;
+                var ImageSortClass = sortOrder.charAt(0).toUpperCase() + sortOrder.substr(1);
 
                 // we change the style of the column currently used as sort column
                 // adding an image and the class columnSorted to the TD
