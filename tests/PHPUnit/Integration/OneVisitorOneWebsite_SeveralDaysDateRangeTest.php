@@ -85,7 +85,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'oneVisitor_oneWebsite_severalDays_DateRange';
     }

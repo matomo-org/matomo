@@ -52,7 +52,7 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'trackGoals_allowMultipleConversionsPerVisit';
     }

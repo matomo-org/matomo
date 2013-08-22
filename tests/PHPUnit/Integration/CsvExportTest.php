@@ -57,7 +57,7 @@ class Test_Piwik_Integration_CsvExport extends IntegrationTestCase
         $this->runApiTests($api, $params);
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'csvExport';
     }

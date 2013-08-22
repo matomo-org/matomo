@@ -39,7 +39,7 @@ class Test_Piwik_Integration_OneVisitor_LongUrlsTruncated extends IntegrationTes
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'OneVisitor_LongUrlsTruncated';
     }

@@ -16,7 +16,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
 {
     public static $fixture = null; // initialized below test definition
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'oneVisitor_oneWebsite_severalDays_DateRange';
     }

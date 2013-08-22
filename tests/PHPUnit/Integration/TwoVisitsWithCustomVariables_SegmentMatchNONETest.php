@@ -70,7 +70,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
         return $segment;
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'twoVisitsWithCustomVariables_segmentMatchNONE';
     }

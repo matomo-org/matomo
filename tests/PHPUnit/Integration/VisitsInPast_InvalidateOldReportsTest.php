@@ -115,7 +115,7 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'VisitsInPast_InvalidateOldReports';
     }

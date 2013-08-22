@@ -81,7 +81,7 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
         return $result;
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'SiteSearch';
     }

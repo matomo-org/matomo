@@ -71,7 +71,7 @@ class Test_Piwik_Integration_Transitions extends IntegrationTestCase
         return $return;
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'Transitions';
     }

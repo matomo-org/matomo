@@ -38,7 +38,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'twoVisitsWithCustomVariables_segmentMatchALL_noGoalData';
     }

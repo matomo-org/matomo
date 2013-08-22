@@ -96,7 +96,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
         }
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'twoVisitsWithCustomVariables_segmentMatchVisitorType';
     }

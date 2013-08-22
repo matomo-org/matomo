@@ -37,7 +37,7 @@ class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends IntegrationTe
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'OneVisitor_NoKeywordSpecified';
     }

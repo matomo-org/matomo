@@ -34,7 +34,7 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'PiwikTracker_trackForceUsingVisitId_insteadOfHeuristics_alsoTestsCampaignTracking';
     }

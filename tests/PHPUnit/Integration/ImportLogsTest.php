@@ -69,7 +69,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
         $this->assertEquals(1, count($whateverDotCom));
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'ImportLogs';
     }

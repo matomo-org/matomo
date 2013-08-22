@@ -93,7 +93,7 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
         return $result;
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'periodIsRange_dateIsLastN_MetadataAndNormalAPI';
     }
