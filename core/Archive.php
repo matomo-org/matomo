@@ -363,7 +363,7 @@ class Archive
                 $value = $this->uncompress($row['value']);
                 $result->addMetadata($idSite, $periodStr, 'ts_archived', $row['ts_archived']);
             }
-            //FIXMEA
+            
             $resultRow = & $result->get($idSite, $periodStr);
             $resultRow[$row['name']] = $value;
         }
