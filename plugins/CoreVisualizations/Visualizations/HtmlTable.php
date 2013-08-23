@@ -88,6 +88,7 @@ class HtmlTable extends DataTableVisualization
     static public $clientSideParameters = array(
         'search_recursive',
         'filter_limit',
+        'filter_offset',
         'filter_sort_column',
         'filter_sort_order',
     );
@@ -96,7 +97,10 @@ class HtmlTable extends DataTableVisualization
         'show_extra_columns',
         'show_goals_columns',
         'disable_row_evolution',
-        'disable_row_actions'
+        'disable_row_actions',
+        'enable_sort',
+        'keep_summary_row',
+        'subtable_controller_action',
     );
 
     /**

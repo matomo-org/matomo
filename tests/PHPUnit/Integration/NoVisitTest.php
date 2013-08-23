@@ -39,7 +39,7 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'noVisit';
     }

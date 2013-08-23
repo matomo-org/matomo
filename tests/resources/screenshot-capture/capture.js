@@ -8,11 +8,9 @@ var PageRenderer = function() {
     this.urlIndex = 0;
     this.urls = JSON.parse(readFileSync('../../tmp/urls.txt'));
 
-    this.webpage = require('webpage').create();
     this.outputPath = '';
     this.url = '';
 
-    this._setupWebpageEvents();
     this._setScriptTimeout();
 };
 
@@ -32,38 +30,41 @@ PageRenderer.prototype = {
 
         console.log("SAVING " + this.url + " at " + this._getElapsedExecutionTime());
 
-        this.webpage.viewportSize = {width:1350, height:768};
-        this.webpage.open(this.url);
+        if (this.webpage) {
+            this.webpage.close();
+        }
 
-        this._setPageTimeouts();
+        this.webpage = require('webpage').create();
+        this._setupWebpageEvents();
+        
+        this.webpage.viewportSize = {width:1350, height:768};
+
+        var self = this;
+        this.webpage.open(this.url, function () {
+            self._setPageTimeouts();
+        });
     },
 
     _setPageTimeouts: function () {
         var url = this.url, self = this;
-        this.webpage.onLoadFinished = function () {
-            // check that we're still on the same url
-            if (url != self.url) {
-                return;
+
+        // in case there are no ajax requests, try triggering after a sec
+        setTimeout(function () {
+            if (url == self.url) {
+                self.webpage.evaluate(function () {
+                    window.piwik.ajaxRequestFinished();
+                });
             }
+        }, 1000)
 
-            // in case there are no ajax requests, try triggering after a sec
-            setTimeout(function () {
-                if (url == self.url) {
-                    self.webpage.evaluate(function () {
-                        window.piwik.ajaxRequestFinished();
-                    });
-                }
-            }, 1000)
-
-            // only allowed at most one minute to load
-            setTimeout(function () {
-                if (url == self.url) {
-                    self.webpage.evaluate(function () {
-                        window.piwik._triggerRenderInsane();
-                    });
-                }
-            }, 1000 * 60);
-        };
+        // only allowed at most one minute to load
+        setTimeout(function () {
+            if (url == self.url) {
+                self.webpage.evaluate(function () {
+                    window.piwik._triggerRenderInsane();
+                });
+            }
+        }, 1000 * 60);
     },
 
     _setupWebpageEvents: function () {

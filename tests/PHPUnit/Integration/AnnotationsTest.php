@@ -14,7 +14,7 @@ class AnnotationsTest extends IntegrationTestCase
 {
     public static $fixture = null;
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'annotations';
     }

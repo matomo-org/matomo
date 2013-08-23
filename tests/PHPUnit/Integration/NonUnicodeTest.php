@@ -40,7 +40,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'NonUnicode';
     }

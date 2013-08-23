@@ -139,17 +139,8 @@ class ViewDataTable
         $this->viewProperties['subtable_controller_action'] = $currentControllerAction;
 
         $this->setDefaultProperties();
-
-        foreach ($viewProperties as $name => $value) {
-            $this->setViewProperty($name, $value);
-        }
-
-        $queryParams = Url::getArrayFromCurrentQueryString();
-        foreach ($this->getClientSideProperties() as $name) {
-            if (isset($queryParams[$name])) {
-                $this->setViewProperty($name, $queryParams[$name]);
-            }
-        }
+        $this->setViewProperties($viewProperties);
+        $this->overrideViewPropertiesWithQueryParams();
 
         $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
         $this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
@@ -274,25 +265,7 @@ class ViewDataTable
      */
     public function getClientSideProperties()
     {
-        $result = array(
-            'show_search',
-            'show_table',
-            'show_table_all_columns',
-            'show_all_views_icons',
-            'show_active_view_icon',
-            'show_bar_chart',
-            'show_pie_chart',
-            'show_tag_cloud',
-            'show_export_as_image_icon',
-            'show_export_as_rss_feed',
-            'show_exclude_low_population',
-            'show_offset_information',
-            'show_pagination_control',
-            'show_footer',
-            'show_related_reports',
-            'keep_summary_row',
-            'subtable_controller_action',
-        );
+        $result = array();
 
         if ($this->visualizationClass) {
             $klass = $this->visualizationClass;
@@ -311,9 +284,6 @@ class ViewDataTable
     public function getClientSideParameters()
     {
         $result = array(
-            'enable_sort',
-            'disable_generic_filters',
-            'disable_queued_filters',
             'filter_excludelowpop',
             'filter_excludelowpop_value',
             'filter_pattern',
@@ -733,25 +703,6 @@ class ViewDataTable
         // build javascript variables to set
         $javascriptVariablesToSet = array();
 
-        $genericFilters = \Piwik\API\DataTableGenericFilter::getGenericFiltersInformation();
-        foreach ($genericFilters as $filter) {
-            foreach ($filter as $filterVariableName => $filterInfo) {
-                // if there is a default value for this filter variable we set it
-                // so that it is propagated to the javascript
-                if (isset($filterInfo[1])) {
-                    $javascriptVariablesToSet[$filterVariableName] = $filterInfo[1];
-
-                    // we set the default specified column and Order to sort by
-                    // when this javascript variable is not set already
-                    // for example during an AJAX call this variable will be set in the URL
-                    // so this will not be executed (and the default sorted not be used as the sorted column might have changed in the meanwhile)
-                    if (false !== ($defaultValue = $this->getDefault($filterVariableName))) {
-                        $javascriptVariablesToSet[$filterVariableName] = $defaultValue;
-                    }
-                }
-            }
-        }
-
         foreach ($this->viewProperties['custom_parameters'] as $name => $value) {
             $javascriptVariablesToSet[$name] = $value;
         }
@@ -765,13 +716,11 @@ class ViewDataTable
             $javascriptVariablesToSet[$name] = $requestValue;
         }
 
-        // at this point there are some filters values we  may have not set,
-        // case of the filter without default values and parameters set directly in this class
-        // for example setExcludeLowPopulation
-        // we go through all the $this->viewProperties array and set the variables not set yet
         foreach ($this->getClientSideParameters() as $name) {
             if (!isset($javascriptVariablesToSet[$name])) {
-                if (!empty($this->viewProperties[$name])) {
+                if (isset($this->viewProperties[$name])
+                    && $this->viewProperties[$name] !== false
+                ) {
                     $javascriptVariablesToSet[$name] = $this->convertForJson($this->viewProperties[$name]);
                 } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {
                     $javascriptVariablesToSet[$name] =
@@ -1259,5 +1208,18 @@ class ViewDataTable
     private function convertForJson($value)
     {
         return is_bool($value) ? (int)$value : $value;
+    }
+
+    private function overrideViewPropertiesWithQueryParams()
+    {
+        // TODO: should mark properties that are overridable so not all properties can be overidden this way
+        $queryParams = Url::getArrayFromCurrentQueryString();
+        foreach ($queryParams as $name => $value) {
+            if (Properties::isCoreViewProperty($name)) {
+                $this->viewProperties[$name] = $value;
+            } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {
+                $this->viewProperties['visualization_properties']->$name = $value;
+            }
+        }
     }
 }

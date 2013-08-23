@@ -210,7 +210,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         return $return;
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'RowEvolution';
     }

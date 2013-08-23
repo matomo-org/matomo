@@ -37,7 +37,7 @@ class Test_Piwik_Integration_TrackerWindowLookBack extends IntegrationTestCase
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'TrackerWindowLookBack';
     }

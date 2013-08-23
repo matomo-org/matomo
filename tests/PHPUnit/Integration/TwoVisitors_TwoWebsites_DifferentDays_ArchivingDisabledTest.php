@@ -53,7 +53,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisa
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'TwoVisitors_twoWebsites_differentDays_ArchivingDisabled';
     }

@@ -66,8 +66,17 @@ class Properties
 
     /**
      * The number of items to truncate the data set to before rendering the DataTable view.
+     * 
+     * @see self::OFFSET
      */
     const LIMIT = 'filter_limit';
+
+    /**
+     * The number of items from the start of the data set that should be ignored.
+     * 
+     * @see self::LIMIT
+     */
+    const OFFSET = 'filter_offset';
 
     /**
      * Controls whether the 'Exclude Low Population' option (visible in the popup that displays after
@@ -528,8 +537,9 @@ class Properties
             'filter_pattern' => false,
             'filter_column' => false,
             'filter_limit' => false,
+            'filter_offset' => 0,
             'filter_sort_column' => false,
-            'filter_sort_order' => false,
+            'filter_sort_order' => 'desc',
             'custom_parameters' => array(),
             'translations' => array_merge(
                 Metrics::getDefaultMetrics(),

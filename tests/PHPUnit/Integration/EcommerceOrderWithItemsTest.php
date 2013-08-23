@@ -174,7 +174,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                            ), self::getApiForTestingScheduledReports($dateTime, 'week'));
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'ecommerceOrderWithItems';
     }

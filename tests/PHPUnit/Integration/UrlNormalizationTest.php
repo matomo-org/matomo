@@ -104,7 +104,7 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
         $this->assertEquals($expected, $urls, "normalization went wrong");
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'UrlNormalization';
     }

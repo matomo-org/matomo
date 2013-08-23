@@ -80,8 +80,9 @@ abstract class Graph extends DataTableVisualization
             $view->translations['revenue'] = Piwik_Translate('General_TotalRevenue');
         }
 
+        // TODO: this should not be required here. filter_limit should not be a view property, instead HtmlTable should use 'limit' or something,
+        //       and manually set request_parameters_to_modify['filter_limit'] based on that. (same for filter_offset).
         $view->request_parameters_to_modify['filter_limit'] = false;
-        $view->request_parameters_to_modify['filter_offset'] = false;
 
         if ($view->visualization_properties->max_graph_elements) {
             $view->request_parameters_to_modify['filter_truncate'] = $view->visualization_properties->max_graph_elements - 1;

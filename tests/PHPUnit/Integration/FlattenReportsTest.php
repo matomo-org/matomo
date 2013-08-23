@@ -112,7 +112,7 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
         return $return;
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'FlattenReports';
     }

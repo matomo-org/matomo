@@ -941,9 +941,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     /**
      * Gets the string prefix used in the name of the expected/processed output files.
      */
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
-        return str_replace('Test_Piwik_Integration_', '', get_class($this));
+        return str_replace('Test_Piwik_Integration_', '', get_called_class());
     }
 
     protected function _setCallableApi($api)
@@ -974,7 +974,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected function runApiTests($api, $params)
     {
-        $testName = 'test_' . $this->getOutputPrefix();
+        $testName = 'test_' . static::getOutputPrefix();
         $this->missingExpectedFiles = array();
         $this->comparisonFailures = array();
 

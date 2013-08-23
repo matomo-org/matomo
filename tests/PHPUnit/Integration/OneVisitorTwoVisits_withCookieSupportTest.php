@@ -36,7 +36,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Integ
         );
     }
 
-    public function getOutputPrefix()
+    public static function getOutputPrefix()
     {
         return 'OneVisitorTwoVisits_withCookieSupport';
     }

@@ -16,7 +16,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
  */
 class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 {
-    public $dateTime = '2010-03-06 11:22:33';
+    public $dateTime = '2012-08-09 11:22:33';
     public $idSite = 1;
     public $idSite2 = 2;
     public $idGoal = 1;

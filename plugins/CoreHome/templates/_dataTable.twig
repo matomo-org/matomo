@@ -3,8 +3,8 @@
 <div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %}"
      data-table-type="{{ properties.datatable_js_type|default('dataTable') }}"
      data-report="{{ properties.report_id }}"
-     data-props="{{ clientSidePropertiesToSet|json_encode }}"
-     data-params="{{ javascriptVariablesToSet|json_encode }}">
+     data-props="{% if clientSidePropertiesToSet is empty %}{}{% else %}{{ clientSidePropertiesToSet|json_encode }}{% endif %}"
+     data-params="{% if javascriptVariablesToSet is empty %}{}{% else %}{{ javascriptVariablesToSet|json_encode }}{% endif %}">
     <div class="reportDocumentation">
         {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}
         {% if properties.metadata.archived_date is defined %}<span class='helpDate'>{{ properties.metadata.archived_date }}</span>{% endif %}
