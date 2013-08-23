@@ -34,8 +34,8 @@ class DevicesDetection extends \Piwik\Plugin
     {
         parent::__construct();
         $this->osRelatedReports = array(
-            'DevicesDetection.getOsFamilies' => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
-            'DevicesDetection.getOsVersions' => Piwik_Translate('DeviceDetection_OperatingSystemVersions')
+            'DevicesDetection.getOsFamilies' => Piwik_Translate('DevicesDetection_OperatingSystemFamilies'),
+            'DevicesDetection.getOsVersions' => Piwik_Translate('DevicesDetection_OperatingSystemVersions')
         );
         $this->browserRelatedReports = array(
             'DevicesDetection.getBrowserFamilies' => Piwik_Translate('DevicesDetection_BrowsersFamily'),
@@ -115,18 +115,18 @@ class DevicesDetection extends \Piwik\Plugin
             // device OS family report
             array(
                 'DevicesDetection_DevicesDetection',
-                'DeviceDetection_OperatingSystemFamilies',
+                'DevicesDetection_OperatingSystemFamilies',
                 'DevicesDetection',
                 'getOsFamilies',
-                'DeviceDetection_OperatingSystemFamilies',
+                'DevicesDetection_OperatingSystemFamilies',
             ),
             // device OS version report
             array(
                 'DevicesDetection_DevicesDetection',
-                'DeviceDetection_OperatingSystemVersions',
+                'DevicesDetection_OperatingSystemVersions',
                 'DevicesDetection',
                 'getOsVersions',
-                'DeviceDetection_OperatingSystemVersions',
+                'DevicesDetection_OperatingSystemVersions',
             ),
             // Browser family report
             array(
@@ -318,7 +318,7 @@ class DevicesDetection extends \Piwik\Plugin
             'show_search'                 => false,
             'show_exclude_low_population' => false,
             'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemFamily")),
-            'title' => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
+            'title' => Piwik_Translate('DevicesDetection_OperatingSystemFamilies'),
             'related_reports' => $this->getOsRelatedReports()
         );
     }
@@ -329,7 +329,7 @@ class DevicesDetection extends \Piwik\Plugin
             'show_search'                 => false,
             'show_exclude_low_population' => false,
             'translations' => array('label' => Piwik_Translate("DevicesDetection_dataTableLabelSystemVersion")),
-            'title' => Piwik_Translate('DeviceDetection_OperatingSystemVersions'),
+            'title' => Piwik_Translate('DevicesDetection_OperatingSystemVersions'),
             'related_reports' => $this->getOsRelatedReports()
         );
     }
@@ -358,8 +358,8 @@ class DevicesDetection extends \Piwik\Plugin
     private function getOsRelatedReports()
     {
         return array(
-            'DevicesDetection.getOsFamilies' => Piwik_Translate('DeviceDetection_OperatingSystemFamilies'),
-            'DevicesDetection.getOsVersions' => Piwik_Translate('DeviceDetection_OperatingSystemVersions')
+            'DevicesDetection.getOsFamilies' => Piwik_Translate('DevicesDetection_OperatingSystemFamilies'),
+            'DevicesDetection.getOsVersions' => Piwik_Translate('DevicesDetection_OperatingSystemVersions')
         );
     }
 
