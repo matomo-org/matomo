@@ -82,13 +82,13 @@ class DataTableGenericFilter
                     'filter_sort_column' => array('string'),
                     'filter_sort_order'  => array('string', 'desc'),
                 ),
-                'Truncate'                       => array(
-                    'filter_truncate' => array('integer'),
-                ),
                 'Limit'                          => array(
                     'filter_offset'    => array('integer', '0'),
                     'filter_limit'     => array('integer'),
                     'keep_summary_row' => array('integer', '0'),
+                ),
+                'Truncate'                       => array(
+                    'filter_truncate' => array('integer'),
                 ),
             );
         }

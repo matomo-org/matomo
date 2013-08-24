@@ -373,6 +373,8 @@ class Properties
      * Controls whether the 'prev'/'next' links are shown in the DataTable footer. These links
      * change the 'filter_offset' query parameter, thus allowing pagination.
      * 
+     * TODO: pagination/offset is only valid for HtmlTables... should only display for those visualizations.
+     * 
      * @see self::SHOW_OFFSET_INFORMATION
      */
     const SHOW_PAGINATION_CONTROL = 'show_pagination_control';
@@ -566,9 +568,17 @@ class Properties
     {
         $klass = new ReflectionClass($klass);
         $constants = $klass->getConstants();
+        
         unset($constants['ID']);
         unset($constants['FOOTER_ICON']);
         unset($constants['FOOTER_ICON_TITLE']);
+
+        foreach ($constants as $name => $value) {
+            if (!is_string($value)) {
+                unset($constants[$name]);
+            }
+        }
+
         return array_flip($constants);
     }
 }

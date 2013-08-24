@@ -61,6 +61,18 @@ use Piwik\Plugins\API\API;
 class ViewDataTable
 {
     /**
+     * This event is called after a visualization is created. Plugins can use this event to
+     * override view properties for individual reports or visualizations.
+     * 
+     * Themes can use this event to make sure reports look nice with their themes. Plugins
+     * that provide new visualizations can use this event to make sure certain reports
+     * are configured differently when viewed with the new visualization.
+     * 
+     * Callback Signature: function (ViewDataTable $view) {}
+     */
+    const CONFIGURE_VIEW_EVENT = 'ViewDataTable.configureReportView';
+
+    /**
      * The class name of the visualization to use.
      * 
      * @var string|null
@@ -163,6 +175,16 @@ class ViewDataTable
     }
 
     /**
+     * Returns the API method that will be called to obatin the report data.
+     * 
+     * @return string e.g. 'Actions.getPageUrls'
+     */
+    public function getReportApiMethod()
+    {
+        return $this->viewProperties['apiMethodToRequestDataTable'];
+    }
+
+    /**
      * Returns the view's associated visualization class name.
      * 
      * @return string
@@ -259,7 +281,9 @@ class ViewDataTable
     }
 
     /**
-     * TODO
+     * Returns the list of view properties that should be sent with the HTML response
+     * as JSON. These properties are visible to the UI JavaScript, but are not passed
+     * with every request.
      *
      * @return array
      */
@@ -277,7 +301,7 @@ class ViewDataTable
 
     /**
      * Returns the list of view properties that should be sent with the HTML response
-     * as JSON. These properties can be manipulated via the ViewDataTable UI.
+     * and resent by the UI JavaScript in every subsequent AJAX request.
      *
      * @return array
      */
@@ -494,10 +518,6 @@ class ViewDataTable
      */
     protected function postDataTableLoadedFromAPI()
     {
-        if (empty($this->dataTable)) {
-            return false;
-        }
-        
         $columns = $this->dataTable->getColumns();
         $haveNbVisits = in_array('nb_visits', $columns);
         $haveNbUniqVisitors = in_array('nb_uniq_visitors', $columns);
@@ -566,6 +586,8 @@ class ViewDataTable
         }
 
         if (!$this->areQueuedFiltersDisabled()) {
+            $this->dataTable->applyQueuedFilters();
+
             // Finally, apply datatable filters that were queued (should be 'presentation' filters that
             // do not affect the number of rows)
             foreach ($otherFilters as $filter) {
@@ -642,7 +664,8 @@ class ViewDataTable
         $requestArray = array(
             'method'                  => $this->viewProperties['apiMethodToRequestDataTable'],
             'format'                  => 'original',
-            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int')
+            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int'),
+            'disable_queued_filters'  => Common::getRequestVar('disable_queued_filters', 1, 'int')
         );
 
         $toSetEventually = array(
@@ -654,7 +677,6 @@ class ViewDataTable
             'filter_excludelowpop_value',
             'filter_column',
             'filter_pattern',
-            'disable_queued_filters',
         );
 
         foreach ($toSetEventually as $varToSet) {
@@ -1017,6 +1039,7 @@ class ViewDataTable
     protected function buildView()
     {
         $visualization = new $this->visualizationClass($this);
+        Piwik_PostEvent(self::CONFIGURE_VIEW_EVENT, array($this));
         $this->overrideViewProperties();
 
         try {
@@ -1027,14 +1050,14 @@ class ViewDataTable
         } catch (\Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());
 
-            $this->loadingError = array('message' => $e->getMessage());
+            $loadingError = array('message' => $e->getMessage());
         }
 
         $template = $this->viewProperties['datatable_template'];
         $view = new View($template);
 
-        if (!empty($this->loadingError)) {
-            $view->error = $this->loadingError;
+        if (!empty($loadingError)) {
+            $view->error = $loadingError;
         }
 
         $view->visualization = $visualization;
@@ -1166,7 +1189,7 @@ class ViewDataTable
                         'format' => $format,
                         'var' => $format,
                         'title' => Piwik_Translate($info['title']),
-                        'icon' => $info['icon']
+                        'icon' => $info['table_icon']
                     );
                 }
             }

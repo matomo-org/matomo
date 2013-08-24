@@ -309,7 +309,7 @@ class ResponseBuilder
         $datatable->queueFilter('SafeDecodeLabel');
 
         // if the flag disable_queued_filters is defined we skip the filters that were queued
-        if (Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->request) == 'false') {
+        if (Common::getRequestVar('disable_queued_filters', '0', 'string', $this->request) == 0) {
             $datatable->applyQueuedFilters();
         }
 

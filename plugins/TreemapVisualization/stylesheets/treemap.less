@@ -1,0 +1,33 @@
+.infoviz-treemap-node-label {
+    margin: 3px 6px 0 6px;
+    display: block;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+
+.infoviz-treemap-enterable-node {
+    cursor:pointer;
+}
+
+.infoviz-treemap {
+    width:450px;
+    height:320px;
+
+    .node {
+        overflow:hidden;
+    }
+}
+
+.infoviz-treemap-full-width > .dataTableWrapper {
+    width:100%;
+
+    .infoviz-treemap {
+        width:100%;
+        height:640px;
+    }
+}
+
+.widget .infoviz-treemap {
+    width:100% !important;
+}

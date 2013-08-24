@@ -82,6 +82,7 @@ dataTable.prototype =
             'filter_pattern_recursive',
             'enable_filter_excludelowpop',
             'filter_offset',
+            'filter_limit',
             'filter_sort_column',
             'filter_sort_order',
             'disable_generic_filters',

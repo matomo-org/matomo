@@ -64,6 +64,10 @@ abstract class Graph extends DataTableVisualization
      */
     const DISPLAY_PERCENTAGE_IN_TOOLTIP = 'display_percentage_in_tooltip';
 
+    public static $clientSideParameters = array(
+        'columns'
+    );
+
     /**
      * Constructor.
      * 
