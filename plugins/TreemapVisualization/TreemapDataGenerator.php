@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\DataTable;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 
 /**
  * A utility class that generates JSON data meant to be used with the JavaScript
@@ -43,6 +44,13 @@ class TreemapDataGenerator
     private $metricToGraph;
 
     /**
+     * Whether to include evolution values in the output JSON.
+     * 
+     * @var bool
+     */
+    private $showEvolutionValues = false;
+
+    /**
      * Constructor.
      * 
      * @param string $metricToGraph @see self::$metricToGraph
@@ -73,6 +81,15 @@ class TreemapDataGenerator
     }
 
     /**
+     * Configures the generator to calculate the evolution of column values and include
+     * this data in the outputted tree structure.
+     */
+    public function showEvolutionValues()
+    {
+        $this->showEvolutionValues = true;
+    }
+
+    /**
      * Generates an array that can be encoded as JSON and used w/ the JavaScript Infovis Toolkit.
      * 
      * @param Piwik\DataTable $dataTable
@@ -80,30 +97,57 @@ class TreemapDataGenerator
      */
     public function generate($dataTable)
     {
+        // if showEvolutionValues is true, $dataTable must be a DataTable\Map w/ two child tables
+        $pastData = false;
+        if ($this->showEvolutionValues) {
+            list($pastData, $dataTable) = array_values($dataTable->getArray());
+        }
+
         $root = $this->makeNode('treemap-root', $this->rootName);
-        $this->addDataTableToNode($root, $dataTable, $tableId = '', $this->firstRowOffset);
+        $this->addDataTableToNode($root, $dataTable, $pastData, $tableId = '', $this->firstRowOffset);
         return $root;
     }
 
-    private function addDataTableToNode(&$node, $dataTable, $tableId = '', $offset = 0)
+    private function addDataTableToNode(&$node, $dataTable, $pastData = false, $tableId = '', $offset = 0)
     {
         foreach ($dataTable->getRows() as $rowId => $row) {
-            $id = $this->getNodeId($tableId, $rowId);
-            
-            $columnValue = $row->getColumn($this->metricToGraph) ?: 0;
-            $childNode = $this->makeNode($id, $row->getColumn('label'), $data = array('$area' => $columnValue));
+            $pastRow = $pastData ? $pastData->getRowFromLabel($row->getColumn('label')) : false;
+
+            $childNode = $this->makeNodeFromRow($tableId, $rowId, $row, $pastRow);
 
             if ($rowId == DataTable::ID_SUMMARY_ROW) {
                 $childNode['data']['aggregate_offset'] = $offset + $dataTable->getRowsCount() - 1;
             } else if ($row->getIdSubDataTable() !== null) {
-                $this->addSubtableToNode($childNode, $row);
+                $this->addSubtableToNode($childNode, $row, $pastRow);
             }
 
             $node['children'][] = $childNode;
         }
     }
 
-    private function addSubtableToNode(&$childNode, $subTableRow)
+    private function makeNodeFromRow($tableId, $rowId, $row, $pastRow)
+    {
+        $label = $row->getColumn('label');
+        $columnValue = $row->getColumn($this->metricToGraph) ?: 0;
+
+        $data = array();
+        $data['$area'] = $columnValue;
+
+        if ($pastRow !== false) {
+            $pastValue = $pastRow->getColumn($this->metricToGraph) ?: 0;
+
+            if ($pastRow === false) {
+                $data['evolution'] = 0;
+            } else {
+                $data['evolution'] = CalculateEvolutionFilter::calculate(
+                    $columnValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = false);
+            }
+        }
+
+        return $this->makeNode($this->getNodeId($tableId, $rowId), $label, $data);
+    }
+
+    private function addSubtableToNode(&$childNode, $subTableRow, $pastRow)
     {
         $childNode['data']['idSubtable'] = $subTableRow->getIdSubDataTable();
         $childNode['data']['loaded'] = 1;
@@ -111,7 +155,12 @@ class TreemapDataGenerator
         $subTable = $subTableRow->getSubtable();
         $subTable->filter('AddSummaryRow', array(4, Piwik_Translate('General_Others'), $columnToSort = $this->metricToGraph)); //TODO: make constants customizable
 
-        $this->addDataTableToNode($childNode, $subTable, $subTableRow->getIdSubDataTable());
+        $pastSubtable = false;
+        if ($pastRow) {
+            $pastSubtable = $pastRow->getSubtable();
+        }
+
+        $this->addDataTableToNode($childNode, $subTable, $pastSubtable, $subTableRow->getIdSubDataTable());
     }
 
     private function getNodeId($tableId, $rowId)
