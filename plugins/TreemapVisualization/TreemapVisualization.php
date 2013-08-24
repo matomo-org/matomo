@@ -80,6 +80,11 @@ class TreemapVisualization extends \Piwik\Plugin
                 && $view->getViewDataTableId() == Treemap::ID
             ) {
                 $view->datatable_css_class = 'infoviz-treemap-full-width';
+                $view->visualization_properties->max_graph_elements = 50;
+            }
+        } else {
+            if ($view->getViewDataTableId() == Treemap::ID) {
+                $view->visualization_properties->max_graph_elements = max(10, $view->visualization_properties->max_graph_elements);
             }
         }
     }

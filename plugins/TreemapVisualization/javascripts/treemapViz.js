@@ -63,6 +63,9 @@
                 onCreateLabel: function (nodeElement, node) {
                     self._initNode(nodeElement, node);
                 },
+                onPlaceLabel: function (nodeElement, node) {
+                    self._toggleLabelBasedOnAvailableSpace(nodeElement, node);
+                },
             });
 
             this.data = JSON.parse(treemapContainer.attr('data-data'));
@@ -85,6 +88,16 @@
             if (this._canEnterNode(node)) {
                 $(nodeElement).addClass("infoviz-treemap-enterable-node");
             }
+        },
+
+        /**
+         * Shows/hides the label depending on whether there's enough vertical space in the node
+         * to show it.
+         */
+        _toggleLabelBasedOnAvailableSpace: function (nodeElement, node) {
+            var $nodeElement = $(nodeElement),
+                $label = $nodeElement.children('span');
+            $label.toggle($nodeElement.height() > $label.height());
         },
 
         /**
@@ -154,6 +167,10 @@
          * Enters a treemap node that is a node for an aggregate row.
          */
         _enterOthersNode: function (node) {
+            if (node.data.loading) {
+                return;
+            }
+
             if (!node.data.loaded) {
                 var self = this;
                 this._loadOthersNodeChildren(node, function (newNode) {
@@ -168,6 +185,10 @@
          * Enter a treemap node that is a node for a row w/ a subtable.
          */
         _enterSubtable: function (node) {
+            if (node.data.loading) {
+                return;
+            }
+
             if (!node.data.loaded) {
                 var self = this;
                 this._loadSubtableNodeChildren(node, function (newNode) {
@@ -206,18 +227,21 @@
                     action: 'index',
                     apiMethod: this.param.module + '.' + this.param.action, // TODO: will this work for all subtables?
                     format: 'json',
-                    columns: this.param.columns,
+                    column: this.param.columns,
                     filter_truncate: this.props.max_graph_elements - 1,
                     filter_limit: -1
                 });
 
             // make sure parallel load data requests aren't made
-            node.data.loaded = dataNode.data.loaded = true;
+            node.data.loading = dataNode.data.loading = true;
 
             var ajax = new ajaxHelper();
             ajax.addParams(params, 'get');
             ajax.setLoadingElement('#' + self.workingDivId + ' .loadingPiwikBelow');
             ajax.setCallback(function (response) {
+                dataNode.loaded = true;
+                delete dataNode.loading;
+
                 self._prependDataTableIdToNodeIds(self.workingDivId, response);
                 self._setTreemapColors(response);
 

@@ -61,7 +61,7 @@ use Piwik\Plugins\API\API;
 class ViewDataTable
 {
     /**
-     * This event is called after a visualization is created. Plugins can use this event to
+     * This event is called before a visualization is created. Plugins can use this event to
      * override view properties for individual reports or visualizations.
      * 
      * Themes can use this event to make sure reports look nice with their themes. Plugins
@@ -1038,8 +1038,9 @@ class ViewDataTable
 
     protected function buildView()
     {
-        $visualization = new $this->visualizationClass($this);
         Piwik_PostEvent(self::CONFIGURE_VIEW_EVENT, array($this));
+
+        $visualization = new $this->visualizationClass($this);
         $this->overrideViewProperties();
 
         try {
