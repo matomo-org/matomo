@@ -370,10 +370,9 @@ class GoalManager
             Common::printDebug("There is an existing cart for this visit");
         }
         if ($this->isGoalAnOrder) {
-            $orderIdNumeric = Common::hashStringToInt($this->orderId);
             $goal['idgoal'] = self::IDGOAL_ORDER;
             $goal['idorder'] = $this->orderId;
-            $goal['buster'] = $orderIdNumeric;
+            $goal['buster'] = Common::hashStringToInt($this->orderId);
             $goal['revenue_subtotal'] = $this->getRevenue($this->request->getParam('ec_st'));
             $goal['revenue_tax'] = $this->getRevenue($this->request->getParam('ec_tx'));
             $goal['revenue_shipping'] = $this->getRevenue($this->request->getParam('ec_sh'));
