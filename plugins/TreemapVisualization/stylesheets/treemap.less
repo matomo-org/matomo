@@ -1,9 +1,21 @@
 .infoviz-treemap-node-label {
     margin: 3px 6px 0 6px;
     display: block;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    overflow:hidden;
+
+    > img {
+        margin: 2px 6px 0 0;
+        display:inline-block;
+        vertical-align:top;
+        float:left;
+    }
+
+    > span {
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
+        vertical-align:top;
+        display:block;
+    }
 }
 
 .infoviz-treemap-enterable-node {

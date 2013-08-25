@@ -45,12 +45,16 @@
                 titleHeight: 24,
                 animate: true, // TODO: disable on ipad/w/o native canvas support
                 offset: 1,
-                levelsToShow: 2,
+                levelsToShow: (self.props.depth || 1) + 1,
                 constrained: true,
                 Events: {
                     enable: true,
-                    onClick: function (node) {
-                        self._onLeftClickNode(node);
+                    onClick: function (node, info, event) {
+                        if (event.which == 2) {
+                            self._onMiddleClick(node);
+                        } else {
+                            self._onLeftClickNode(node);
+                        }
                     },
                     onRightClick: function (node) {
                         self._onRightClickNode(node);
@@ -77,16 +81,69 @@
         },
 
         /**
+         * Recursively iterates over the entire data tree and executes a function with
+         * each node.
+         * 
+         * @param {Function} f The function to execute. Accepts one argument, the node.
+         * @param {Object} [node] The JSON node object to start from. This defaults to the root
+         *                        of the entire tree.
+         */
+        foreachNode: function (f, node) {
+            node = node || this.data;
+
+            f(node);
+            for (var i = 0; i != (node.children || []).length; ++i) {
+                this.foreachNode(f, node.children[i]);
+            }
+        },
+
+        /**
          * Initializes the display of a treemap node element.
          */
         _initNode: function (nodeElement, node) {
-            // add label & set node tooltip
-            var label = $('<span></span>').text(node.name).addClass("infoviz-treemap-node-label");
-            $(nodeElement).append(label).attr('title', node.name);
+            var $nodeElement = $(nodeElement),
+                nodeHasUrl = node.data.metadata && node.data.metadata.url,
+                nodeHasLogo = node.data.metadata && node.data.metadata.logo;
+
+            // add label (w/ logo if it exists)
+            var $label = $('<div></div>').addClass("infoviz-treemap-node-label");
+            $label.append($('<span></span>').text(node.name));
+
+            var leftImage = null;
+            if (nodeHasLogo) {
+                leftImage = node.data.metadata.logo;
+            } else if (nodeHasUrl) {
+                leftImage = 'plugins/Zeitgeist/images/link.gif';
+            }
+
+            if (leftImage) {
+                $label.prepend($('<img></img>').attr('src', leftImage));
+            }
+
+            $nodeElement.append($label);
+
+            // set node tooltip
+            if (nodeHasUrl) {
+                var tooltip = node.data.metadata.url;
+            } else {
+                var tooltip = node.name;
+            }
+            if (node.data.evolution) {
+                var greaterOrLess = node.data.evolution > 0 ? '>' : '<';
+                tooltip += ' ' + greaterOrLess + ' ' + Math.abs(node.data.evolution) + '%';
+            }
+            $nodeElement.attr('title', tooltip);
+
+            // set label color
+            if (this.labelColor) {
+                $label.css('color', this.labelColor);
+            }
 
             // if the node can be clicked into, show a pointer cursor over it
-            if (this._canEnterNode(node)) {
-                $(nodeElement).addClass("infoviz-treemap-enterable-node");
+            if (this._canEnterNode(node)
+                || nodeHasUrl
+            ) {
+                $nodeElement.addClass("infoviz-treemap-enterable-node");
             }
         },
 
@@ -115,32 +172,79 @@
 
         /**
          * Sets the color of each treemap node.
-         * TODO: shouldn't use series colors, color should reperesent the % evolution from past period
          */
         _setTreemapColors: function (root) {
+            if (this.props.show_evolution_values) {
+                this._setTreemapColorsFromEvolution(root);
+            } else {
+                this._setTreemapColorsNormal(root);
+            }
+        },
+
+        _setTreemapColorsFromEvolution: function (root) {
+            // get colors
+            var colorManager = piwik.ColorManager;
+            var colorNames = ['no-change', 'negative-change-max', 'positive-change-max', 'label'];
+            var colors = colorManager.getColors('infoviz-treemap-evolution-colors', colorNames);
+
+            // find min-max evolution values to make colors relative to
+            var minEvolution = -100, maxEvolution = 100;
+            this.foreachNode(function (node) {
+                var evolution = node.data.evolution || 0;
+
+                if (evolution < 0) {
+                    minEvolution = Math.min(minEvolution, evolution);
+                } else if (evolution > 0) {
+                    maxEvolution = Math.max(maxEvolution, evolution);
+                }
+            }, root);
+
+            // color each node
+            var self = this,
+                negativeChangeColor = colorManager.getRgb(colors['negative-change-max'] || '#f00'),
+                positiveChangeColor = colorManager.getRgb(colors['positive-change-max'] || '#0f0'),
+                noChangeColor = colorManager.getRgb(colors['no-change'] || '#333');
+
+            this.foreachNode(function (node) {
+                var evolution = node.data.evolution || 0;
+
+                var color;
+                if (evolution < 0) {
+                    var colorPercent = (minEvolution - evolution) / minEvolution;
+                    color = colorManager.getSingleColorFromGradient(negativeChangeColor, noChangeColor, colorPercent);
+                } else if (evolution > 0) {
+                    var colorPercent = (maxEvolution - evolution) / maxEvolution;
+                    color = colorManager.getSingleColorFromGradient(positiveChangeColor, noChangeColor, colorPercent);
+                } else {
+                    color = colors['no-change'];
+                }
+
+                node.data.$color = color;
+            }, root);
+
+            this.labelColor = colors.label;
+        },
+
+        /**
+         * Sets the color of treemap nodes using pie-graph-colors.
+         */
+        _setTreemapColorsNormal: function (root) {
             var seriesColorNames = ['series1', 'series2', 'series3', 'series4', 'series5',
                                     'series6', 'series7', 'series8', 'series9', 'series10'];
             var colors = piwik.ColorManager.getColors('pie-graph-colors', seriesColorNames, true);
 
-            this._setTreemapNodeColors(colors, root, 0);
+            var colorIdx = 0;
+            this.foreachNode(function (node) {
+                node.data.$color = colors[colorIdx];
+                colorIdx = (colorIdx + 1) % colors.length;
+            });
         },
-
-        /**
-         * Sets the colors for a node and it's children.
-         */
-         _setTreemapNodeColors: function (colors, node, colorIdx) {
-            node.data.$color = colors[colorIdx];
-            ++colorIdx;
-
-            for (var i = 0; i != node.children.length; ++i, ++colorIdx) {
-                this._setTreemapNodeColors(colors, node.children[i], colorIdx % colors.length);
-            }
-         },
 
         /**
          * Event handler for when a node is left-clicked.
          * 
-         * This function will enter the node if it can be entered.
+         * This function will enter the node if it can be entered. If it can't be entered, we try
+         * and open the node's associated URL, if it has one.
          */
         _onLeftClickNode: function (node) {
             if (!node) {
@@ -151,6 +255,32 @@
                 this._enterOthersNode(node);
             } else if (this._nodeHasSubtable(node)) {
                 this._enterSubtable(node);
+            } else {
+                this._openNodeUrl(node);
+            }
+        },
+
+        /**
+         * Event handler for when a node is middle clicked.
+         * 
+         * If the node has a url, this function will load the URL in a new tab/window.
+         */
+        _onMiddleClick: function (node) {
+            if (!node) {
+                return;
+            }
+
+            this._openNodeUrl(node);
+        },
+
+        /**
+         * If the given node has an associated URL, it is opened in a new tab/window.
+         */
+        _openNodeUrl: function (node) {
+            if (node.data.metadata
+                && node.data.metadata.url
+            ) {
+                window.open(node.data.metadata.url, '_blank');
             }
         },
 
@@ -229,7 +359,10 @@
                     format: 'json',
                     column: this.param.columns,
                     filter_truncate: this.props.max_graph_elements - 1,
-                    filter_limit: -1
+                    filter_limit: -1,
+                    expanded: 1,
+                    depth: this.props.depth || 1,
+                    show_evolution_values: this.props.show_evolution_values || 0
                 });
 
             // make sure parallel load data requests aren't made
@@ -239,8 +372,8 @@
             ajax.addParams(params, 'get');
             ajax.setLoadingElement('#' + self.workingDivId + ' .loadingPiwikBelow');
             ajax.setCallback(function (response) {
-                dataNode.loaded = true;
-                delete dataNode.loading;
+                dataNode.data.loaded = true;
+                delete dataNode.data.loading;
 
                 self._prependDataTableIdToNodeIds(self.workingDivId, response);
                 self._setTreemapColors(response);

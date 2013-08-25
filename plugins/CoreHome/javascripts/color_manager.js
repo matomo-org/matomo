@@ -73,6 +73,81 @@
         },
 
         /**
+         * Returns a color that is N % between two other colors.
+         * 
+         * @param {String|Array} spectrumStart The start color. If percentFromStart is 0, this color will
+         *                                     be returned. Can be either a hex color or RGB array.
+         *                                     It will be converted to an RGB array if a hex color is supplied.
+         * @param {String|Array} spectrumEnd The end color. If percentFromStart is 1, this color will be
+         *                                   returned. Can be either a hex color or RGB array. It will be
+         *                                   converted to an RGB array if a hex color is supplied.
+         * @param {Number} percentFromStart The percent from spectrumStart and twoard spectrumEnd that the
+         *                                  result color should be. Must be a value between 0.0 & 1.0.
+         * @return {String} A hex color.
+         */
+        getSingleColorFromGradient: function (spectrumStart, spectrumEnd, percentFromStart) {
+            if (!(spectrumStart instanceof Array)) {
+                spectrumStart = this.getRgb(spectrumStart);
+            }
+
+            if (!(spectrumEnd instanceof Array)) {
+                spectrumEnd = this.getRgb(spectrumEnd);
+            }
+
+            var result = [];
+            for (var channel = 0; channel != spectrumStart.length; ++channel) {
+                var delta = (spectrumEnd[channel] - spectrumStart[channel]) * percentFromStart;
+
+                result[channel] = Math.floor(spectrumStart[channel] + delta);
+            }
+
+            return this.getHexColor(result);
+        },
+
+        /**
+         * Utility function that converts a hex color (ie, #fff or #1a1a1a) to an array of
+         * RGB values.
+         * 
+         * @param {String} hexColor The color to convert.
+         * @return {Array} An array with three integers between 0 and 255.
+         */
+        getRgb: function (hexColor) {
+            if (hexColor[0] == '#') {
+                hexColor = hexColor.substring(1);
+            }
+
+            if (hexColor.length == 3) {
+                return [
+                    parseInt(hexColor[0], 16),
+                    parseInt(hexColor[1], 16),
+                    parseInt(hexColor[2], 16),
+                ];
+            } else {
+                return [
+                    parseInt(hexColor.substring(0,2), 16),
+                    parseInt(hexColor.substring(2,4), 16),
+                    parseInt(hexColor.substring(4,6), 16),
+                ];
+            }
+        },
+
+        /**
+         * Utility function that converts an RGB array to a hex color.
+         * 
+         * @param {Array} rgbColor An array with three integers between 0 and 255.
+         * @return {String} The hex color, eg, #1a1a1a.
+         */
+        getHexColor: function (rgbColor) {
+            // convert channels to hex with one leading 0
+            for (var i = 0; i != rgbColor.length; ++i) {
+                rgbColor[i] = ("00" + rgbColor[i].toString(16)).slice(-2);
+            }
+
+            // create hex string
+            return '#' + rgbColor.join('');
+        },
+
+        /**
          * Turns a color string that might be an rgb value rgb(12, 34, 56) into
          * a hex color string.
          */
@@ -88,13 +163,8 @@
                 var parts = color.split(/[()rgb,\s]+/);
                 parts = [+parts[1], +parts[2], +parts[3]];
 
-                // convert parts to hex with one leading 0
-                for (var i = 0; i != parts.length; ++i) {
-                    parts[i] = ("00" + parts[i].toString(16)).slice(-2);
-                }
-
-                // create hex string
-                color = '#' + parts.join('');
+                // convert to hex
+                color = this.getHexColor(parts);
             }
             return color;
         },

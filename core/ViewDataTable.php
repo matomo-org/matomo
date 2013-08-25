@@ -1067,6 +1067,12 @@ class ViewDataTable
         if (!$this->dataTable === null) {
             $view->dataTable = null;
         } else {
+            // TODO: this hook seems inappropriate. should be able to find data that is requested for (by site/date) and check if that
+            //       has data.
+            if (method_exists($visualization, 'isThereDataToDisplay')) {
+                $view->dataTableHasNoData = !$visualization->isThereDataToDisplay($this->dataTable, $this);
+            }
+
             $view->dataTable = $this->dataTable;
 
             // if it's likely that the report data for this data table has been purged,

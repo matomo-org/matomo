@@ -141,13 +141,16 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
      * @param float|int $pastValue         The value of the metric in the past. We measure the % change
      *                                      from this value to $currentValue.
      * @param float|int $quotientPrecision The quotient precision to round to.
+     * @param bool $appendPercentSign      Whether to append a '%' sign to the end of the number or not.
      *
      * @return string The evolution percent 15%
      */
-    public static function calculate($currentValue, $pastValue, $quotientPrecision = 0)
+    public static function calculate($currentValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = true)
     {
         $number = self::getPercentageValue($currentValue - $pastValue, $pastValue, $quotientPrecision);
-        $number = self::appendPercentSign($number);
+        if ($appendPercentSign) {
+            $number = self::appendPercentSign($number);
+        }
         return $number;
     }
 
