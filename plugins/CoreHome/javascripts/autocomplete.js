@@ -79,7 +79,7 @@ $(function () {
                     if (ui.item.id > 0) {
                         // set attributes of selected site display (what shows in the box)
                         $('.custom_select_main_link', selector)
-                            .attr('siteid', ui.item.id)
+                            .attr('data-siteid', ui.item.id)
                             .text(ui.item.name);
 
                         // hide the dropdown
@@ -147,7 +147,7 @@ $(function () {
 
                 $('.custom_select_block', selector).on('mouseenter', function() {
                     $('.custom_select_ul_list > li > a', selector).each(function() {
-                        var idSite = $(this).attr('siteid');
+                        var idSite = $(this).attr('data-siteid');
                         var linkUrl = getUrlForWebsiteId(idSite);
                         $(this).attr('href', linkUrl);
                     });
@@ -157,13 +157,13 @@ $(function () {
                 // of the selected link
                 $('.custom_select_ul_list li a', selector).each(function() {
                     $(this).click(function (e) {
-                        var idsite = $(this).attr('siteid'),
+                        var idsite = $(this).attr('data-siteid'),
                             name = $(this).text(),
                           	mainLinkElem = $(".custom_select_main_link > span", selector)
                           	oldName = mainLinkElem.text();
 
                         mainLinkElem
-                            .attr('siteid', idsite)
+                            .attr('data-siteid', idsite)
                             .text(name);
                         $(this).text(oldName);
 
