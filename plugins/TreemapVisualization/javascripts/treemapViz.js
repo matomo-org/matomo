@@ -128,6 +128,10 @@
             } else {
                 var tooltip = node.name;
             }
+            if (node.data.evolution) {
+                var greaterOrLess = node.data.evolution > 0 ? '>' : '<';
+                tooltip += ' ' + greaterOrLess + ' ' + Math.abs(node.data.evolution) + '%';
+            }
             $nodeElement.attr('title', tooltip);
 
             // set label color
@@ -193,7 +197,7 @@
                 } else if (evolution > 0) {
                     maxEvolution = Math.max(maxEvolution, evolution);
                 }
-            });
+            }, root);
 
             // color each node
             var self = this,
@@ -216,7 +220,7 @@
                 }
 
                 node.data.$color = color;
-            });
+            }, root);
 
             this.labelColor = colors.label;
         },
@@ -355,7 +359,10 @@
                     format: 'json',
                     column: this.param.columns,
                     filter_truncate: this.props.max_graph_elements - 1,
-                    filter_limit: -1
+                    filter_limit: -1,
+                    expanded: 1,
+                    depth: this.props.depth || 1,
+                    show_evolution_values: this.props.show_evolution_values || 0
                 });
 
             // make sure parallel load data requests aren't made

@@ -14,6 +14,7 @@ namespace Piwik\Plugins\TreemapVisualization;
 use Piwik\Common;
 use Piwik\View;
 use Piwik\Period\Range;
+use Piwik\DataTable\Map;
 use Piwik\Visualization\Graph;
 
 /**
@@ -111,7 +112,7 @@ class Treemap extends Graph
      */
     public function isThereDataToDisplay($dataTable, $view)
     {
-        if ($view->visualization_properties->show_evolution_values) {
+        if ($dataTable instanceof Map) { // will be true if calculating evolution values
             $childTables = $dataTable->getArray();
             $dataTable = end($childTables);
         }
@@ -124,7 +125,9 @@ class Treemap extends Graph
         $generator = new TreemapDataGenerator($this->getMetricToGraph($properties['columns_to_display']));
         $generator->setRootNodeName($properties['title']);
         $generator->setInitialRowOffset($properties['filter_offset'] ?: 0);
-        if ($properties['visualization_properties']->show_evolution_values) {
+        if ($properties['visualization_properties']->show_evolution_values
+            && Common::getRequestVar('period') != 'range'
+        ) {
             $generator->showEvolutionValues();
         }
 

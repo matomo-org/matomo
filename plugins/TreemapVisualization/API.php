@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
+use Piwik\Period\Range;
 use Piwik\API\Request;
 
 class API
@@ -33,17 +34,33 @@ class API
      *                          to data usable by the treemap visualization. E.g. 'Actions.getPageUrls'.
      * @param string $column The column to generate metric data for. If more than one column is supplied,
      *                       the first is used and the rest discarded.
+     * @param string $period
+     * @param string $date
+     * @param int|bool $show_evolution_values Whether to calculate evolution values for each row or not.
      * @return array
      */
-    public function getTreemapData($apiMethod, $column)
+    public function getTreemapData($apiMethod, $column, $period, $date, $show_evolution_values = false)
     {
-        $dataTable = Request::processRequest("$apiMethod");
+        if ($period == 'range') {
+            $show_evolution_values = false;
+        }
+
+        $params = array();
+        if ($show_evolution_values) {
+            list($previousDate, $ignore) = Range::getLastDate($date, $period);
+            $params['date'] = $previousDate . ',' . $date;
+        }
+
+        $dataTable = Request::processRequest("$apiMethod", $params);
 
         $columns = explode(',', $column);
         $column = reset($columns);
 
         $generator = new TreemapDataGenerator($column);
         $generator->setInitialRowOffset(Common::getRequestVar('filter_offset', 0, 'int'));
+        if ($show_evolution_values) {
+            $generator->showEvolutionValues();
+        }
         return $generator->generate($dataTable);
     }
 }

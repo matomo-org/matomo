@@ -149,12 +149,13 @@ class TreemapDataGenerator
         }
 
         // add evolution
-        if ($pastRow !== false) {
-            $pastValue = $pastRow->getColumn($this->metricToGraph) ?: 0;
-
+        if ($rowId !== DataTable::ID_SUMMARY_ROW
+            && $this->showEvolutionValues
+        ) {
             if ($pastRow === false) {
-                $data['evolution'] = 0;
+                $data['evolution'] = 100;
             } else {
+                $pastValue = $pastRow->getColumn($this->metricToGraph) ?: 0;
                 $data['evolution'] = CalculateEvolutionFilter::calculate(
                     $columnValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = false);
             }
