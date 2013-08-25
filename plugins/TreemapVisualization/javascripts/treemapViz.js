@@ -49,8 +49,12 @@
                 constrained: true,
                 Events: {
                     enable: true,
-                    onClick: function (node) {
-                        self._onLeftClickNode(node);
+                    onClick: function (node, info, event) {
+                        if (event.which == 2) {
+                            self._onMiddleClick(node);
+                        } else {
+                            self._onLeftClickNode(node);
+                        }
                     },
                     onRightClick: function (node) {
                         self._onRightClickNode(node);
@@ -97,17 +101,45 @@
          * Initializes the display of a treemap node element.
          */
         _initNode: function (nodeElement, node) {
-            // add label & set node tooltip
-            var $label = $('<span></span>').text(node.name).addClass("infoviz-treemap-node-label");
-            $(nodeElement).append($label).attr('title', node.name);
+            var $nodeElement = $(nodeElement),
+                nodeHasUrl = node.data.metadata && node.data.metadata.url,
+                nodeHasLogo = node.data.metadata && node.data.metadata.logo;
 
+            // add label (w/ logo if it exists)
+            var $label = $('<div></div>').addClass("infoviz-treemap-node-label");
+            $label.append($('<span></span>').text(node.name));
+
+            var leftImage = null;
+            if (nodeHasLogo) {
+                leftImage = node.data.metadata.logo;
+            } else if (nodeHasUrl) {
+                leftImage = 'plugins/Zeitgeist/images/link.gif';
+            }
+
+            if (leftImage) {
+                $label.prepend($('<img></img>').attr('src', leftImage));
+            }
+
+            $nodeElement.append($label);
+
+            // set node tooltip
+            if (nodeHasUrl) {
+                var tooltip = node.data.metadata.url;
+            } else {
+                var tooltip = node.name;
+            }
+            $nodeElement.attr('title', tooltip);
+
+            // set label color
             if (this.labelColor) {
                 $label.css('color', this.labelColor);
             }
 
             // if the node can be clicked into, show a pointer cursor over it
-            if (this._canEnterNode(node)) {
-                $(nodeElement).addClass("infoviz-treemap-enterable-node");
+            if (this._canEnterNode(node)
+                || nodeHasUrl
+            ) {
+                $nodeElement.addClass("infoviz-treemap-enterable-node");
             }
         },
 
@@ -207,7 +239,8 @@
         /**
          * Event handler for when a node is left-clicked.
          * 
-         * This function will enter the node if it can be entered.
+         * This function will enter the node if it can be entered. If it can't be entered, we try
+         * and open the node's associated URL, if it has one.
          */
         _onLeftClickNode: function (node) {
             if (!node) {
@@ -218,6 +251,32 @@
                 this._enterOthersNode(node);
             } else if (this._nodeHasSubtable(node)) {
                 this._enterSubtable(node);
+            } else {
+                this._openNodeUrl(node);
+            }
+        },
+
+        /**
+         * Event handler for when a node is middle clicked.
+         * 
+         * If the node has a url, this function will load the URL in a new tab/window.
+         */
+        _onMiddleClick: function (node) {
+            if (!node) {
+                return;
+            }
+
+            this._openNodeUrl(node);
+        },
+
+        /**
+         * If the given node has an associated URL, it is opened in a new tab/window.
+         */
+        _openNodeUrl: function (node) {
+            if (node.data.metadata
+                && node.data.metadata.url
+            ) {
+                window.open(node.data.metadata.url, '_blank');
             }
         },
 
@@ -306,8 +365,8 @@
             ajax.addParams(params, 'get');
             ajax.setLoadingElement('#' + self.workingDivId + ' .loadingPiwikBelow');
             ajax.setCallback(function (response) {
-                dataNode.loaded = true;
-                delete dataNode.loading;
+                dataNode.data.loaded = true;
+                delete dataNode.data.loading;
 
                 self._prependDataTableIdToNodeIds(self.workingDivId, response);
                 self._setTreemapColors(response);

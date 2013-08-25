@@ -20,6 +20,13 @@ use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 class TreemapDataGenerator
 {
     /**
+     * The list of row metadata that should appear in treemap JSON data, if in the row.
+     * 
+     * @var array
+     */
+    private static $rowMetadataToCopy = array('logo', 'url');
+
+    /**
      * The name of the root node.
      * 
      * @var string
@@ -133,6 +140,15 @@ class TreemapDataGenerator
         $data = array();
         $data['$area'] = $columnValue;
 
+        // add metadata
+        foreach (self::$rowMetadataToCopy as $metadataName) {
+            $metadataValue = $row->getMetadata($metadataName);
+            if ($metadataValue !== false) {
+                $data['metadata'][$metadataName] = $metadataValue;
+            }
+        }
+
+        // add evolution
         if ($pastRow !== false) {
             $pastValue = $pastRow->getColumn($this->metricToGraph) ?: 0;
 
