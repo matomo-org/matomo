@@ -1036,11 +1036,13 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 //  SERIES PICKER
 // ------------------------------------------------------------
 
-(function ($) {
+(function ($, require) {
     $.jqplot.preInitHooks.push(function (target, data, options) {
+        var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
+
         // add plugin as an attribute to the plot
         var dataTable = $('#' + target).closest('.dataTable').data('dataTableInstance');
-        var seriesPicker = new piwik.SeriesPicker(dataTable);
+        var seriesPicker = new SeriesPicker(dataTable);
 
         // handle placeSeriesPicker event
         var plot = this;
@@ -1060,7 +1062,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.postDrawHooks.push(function () {
         this.plugins.seriesPicker.init();
     });
-})(jQuery);
+})(jQuery, require);
 
 // ------------------------------------------------------------
 //  PIE CHART LEGEND PLUGIN FOR JQPLOT

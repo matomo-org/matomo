@@ -1,14 +1,14 @@
 /**
  * Piwik - Web Analytics
  *
- * Adapter for jqplot
+ * Series Picker widget addition for DataTable visualizations.
  *
  * @link http://www.jqplot.com
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-(function ($, doc) {
+(function ($, doc, require) {
 
     /**
      * This class creates and manages the Series Picker for certain DataTable visualizations.
@@ -335,6 +335,7 @@
         },
     };
 
-    piwik.SeriesPicker = SeriesPicker;
+    var exports = require('piwik/DataTableVisualizations/Widgets');
+    exports.SeriesPicker = SeriesPicker;
 
-})(jQuery, document);
+})(jQuery, document, require);
