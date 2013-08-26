@@ -64,14 +64,11 @@ class Evolution extends JqplotDataGenerator
             foreach ($rows as $row) {
                 $rowLabel = $row->getColumn('label');
 
-                // put together configuration for row picker.
-                // do this for every data table in the array because rows do not
-                // have to present for each date.
-                if ($this->properties['row_picker_match_rows_by'] !== false) {
-                    $rowVisible = $this->handleRowForRowPicker($rowLabel);
-                    if (!$rowVisible) {
-                        continue;
-                    }
+                // only process 'visible' rows (visibility is determined by row_picker_visible_rows property)
+                if ($this->properties['visualization_properties']->row_picker_match_rows_by == 'label'
+                    && !in_array($rowLabel, $this->properties['visualization_properties']->row_picker_visible_rows)
+                ) {
+                    continue;
                 }
 
                 // build data for request columns
@@ -138,40 +135,6 @@ class Evolution extends JqplotDataGenerator
             }
             $visualization->setAxisXOnClick($axisXOnClick);
         }
-
-        $this->addSeriesPickerToView();
-
-        // configure the row picker
-        if ($this->properties['row_picker_match_rows_by'] !== false) {
-            $visualization->setSelectableRows(array_values($this->rowPickerConfig));
-        }
-    }
-
-    /**
-     * This method is called for every row of every table in the DataTable_Array.
-     * It incrementally builds the row picker configuration and determines whether
-     * the row is initially visible or not.
-     * @param string $rowLabel
-     * @return bool
-     */
-    private function handleRowForRowPicker(&$rowLabel)
-    {
-        // determine whether row is visible
-        $isVisible = true;
-        if ($this->properties['row_picker_match_rows_by'] == 'label') {
-            $isVisible = in_array($rowLabel, $this->properties['row_picker_visible_rows']);
-        }
-
-        // build config
-        if (!isset($this->rowPickerConfig[$rowLabel])) {
-            $this->rowPickerConfig[$rowLabel] = array(
-                'label'     => $rowLabel,
-                'matcher'   => $rowLabel,
-                'displayed' => $isVisible
-            );
-        }
-
-        return $isVisible;
     }
 
     /**

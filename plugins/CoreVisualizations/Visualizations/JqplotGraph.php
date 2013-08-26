@@ -77,8 +77,6 @@ class JqplotGraph extends Graph
             'show_search' => false,
             'show_export_as_image_icon' => true,
             'y_axis_unit' => '',
-            'row_picker_match_rows_by' => false,
-            'row_picker_visible_rows' => array(),
             'visualization_properties' => array(
                 'jqplot_graph' => array(
                     'external_series_toggle' => false,
