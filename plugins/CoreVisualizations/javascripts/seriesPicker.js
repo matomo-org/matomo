@@ -13,6 +13,28 @@
     /**
      * This class creates and manages the Series Picker for certain DataTable visualizations.
      * 
+     * To add the series picker to your DataTable visualization, create a SeriesPicker instance
+     * and after your visualization has been rendered, call the 'init' method.
+     * 
+     * To customize SeriesPicker placement and behavior, you can bind callbacks to the following
+     * events before calling 'init':
+     * 
+     * 'placeSeriesPicker': Triggered after the DOM element for the series picker link is created.
+     *                      You can use this event to position the link however you want to.
+     * 
+     *                      Callback Signature: function () {}
+     * 
+     * 'seriesPicked':      Triggered when the user selects one or more columns/rows.
+     * 
+     *                      Callback Signature: function (eventInfo, columns, rows) {}
+     * 
+     * Events are triggered via jQuery, so you bind callbacks to them like this:
+     * 
+     * var picker = new SeriesPicker(dataTable);
+     * $(picker).bind('placeSeriesPicker', function () {
+     *   $(this.domElem).doSomething(...);
+     * });
+     * 
      * @param {dataTable} The dataTable instance to add a series picker to.
      */
     var SeriesPicker = function (dataTable) {
@@ -47,9 +69,10 @@
     SeriesPicker.prototype = {
 
         /**
-         * TODO
+         * Initializes the series picker by creating the element. Must be called when
+         * the data table the picker is being attached to is ready for it to be drawn.
          */
-        createElement: function () {
+        init: function () {
             if (!this.show) {
                 return;
             }
@@ -76,12 +99,12 @@
                         $this.css('opacity', 1);
                         if (!$this.hasClass('open')) {
                             $this.addClass('open');
-                            self.showPicker();
+                            self._showPicker();
                         }
                     },
                     function () {
                         // do nothing on mouseout because using this event doesn't work properly.
-                        // instead, the timeout check beneath is used (checkPickerLeave()).
+                        // instead, the timeout check beneath is used (_bindCheckPickerLeave()).
                     }
                 )
                 .click(function (e) {
@@ -89,13 +112,13 @@
                     return false;
                 });
 
-            $(this).trigger('placeSeriesPicker'); // TODO: document this & other events
+            $(this).trigger('placeSeriesPicker');
         },
 
         /**
-         * TODO
+         * Creates the popover DOM element, binds event handlers to it, and then displays it.
          */
-        showPicker: function () {
+        _showPicker: function () {
             this._pickerState = {manipulated: false};
             this._pickerPopover = this._createPopover();
 
@@ -103,16 +126,16 @@
 
             // hide and replot on mouse leave
             var self = this;
-            this.checkPickerLeave(function () {
+            this._bindCheckPickerLeave(function () {
                 var replot = self._pickerState.manipulated;
-                self.hidePicker(replot);
+                self._hidePicker(replot);
             });
         },
 
         /**
-         * TODO
+         * Creates a checkbox and related elements for a selectable column or selectable row.
          */
-        createPickerPopupItem: function (config, type) {
+        _createPickerPopupItem: function (config, type) {
             var self = this;
 
             if (type == 'column') {
@@ -143,8 +166,8 @@
                 .addClass(cssClass);
 
             var replot = function () {
-                self.unbindPickerLeaveCheck();
-                self.hidePicker(true);
+                self._unbindPickerLeaveCheck();
+                self._hidePicker(true);
             };
 
             var checkBox = function (box) {
@@ -175,9 +198,9 @@
         },
 
         /**
-         * TODO
+         * Binds an event to document that checks if the user has left the series picker.
          */
-        checkPickerLeave: function (onLeaveCallback) {
+        _bindCheckPickerLeave: function (onLeaveCallback) {
             var offset = this._pickerPopover.offset();
             var minX = offset.left;
             var minY = offset.top;
@@ -190,7 +213,7 @@
                 if (currentX < minX || currentX > maxX
                     || currentY < minY || currentY > maxY
                 ) {
-                    self.unbindPickerLeaveCheck();
+                    self._unbindPickerLeaveCheck();
                     onLeaveCallback();
                 }
             };
@@ -199,16 +222,17 @@
         },
 
         /**
-         * TODO
+         * Unbinds the callback that was bound in _bindCheckPickerLeave.
          */
-        unbindPickerLeaveCheck: function () {
+        _unbindPickerLeaveCheck: function () {
             $(doc).unbind('mousemove', this._onMouseMove);
         },
 
         /**
-         * TODO
+         * Removes and destroys the popover dom element. If any columns/rows were selected, the
+         * 'seriesPicked' event is triggered.
          */
-        hidePicker: function (replot) {
+        _hidePicker: function (replot) {
             // hide picker
             this._pickerPopover.hide();
             this.domElem.trigger('hide').removeClass('open');
@@ -228,7 +252,7 @@
                 var noRowSelected = this._pickerPopover.find('.pickRow').size() > 0
                                  && this._pickerPopover.find('.pickRow input:checked').size() == 0;
                 if (columns.length > 0 && !noRowSelected) {
-                    $(this).trigger('seriesPicked', [columns, rows]); // TODO: document this event
+                    $(this).trigger('seriesPicked', [columns, rows]);
 
                     // inform dashboard widget about changed parameters (to be restored on reload)
                     $('#' + this.dataTableId).closest('[widgetId]').trigger('setParameters', {columns: columns, rows: rows});
@@ -238,6 +262,10 @@
             this._pickerPopover.remove();
         },
 
+        /**
+         * Creates and returns the popover element. This element shows a list of checkboxes, one
+         * for each selectable column/row.
+         */
         _createPopover: function () {
             var popover = $('<div/>')
                 .addClass('jqplot-seriespicker-popover');
@@ -250,7 +278,7 @@
             if (this.selectableColumns) {
                 for (var i = 0; i < this.selectableColumns.length; i++) {
                     var column = this.selectableColumns[i];
-                    popover.append(this.createPickerPopupItem(column, 'column'));
+                    popover.append(this._createPickerPopupItem(column, 'column'));
                 }
             }
 
@@ -263,7 +291,7 @@
                 // render the selectable rows
                 for (var i = 0; i < this.selectableRows.length; i++) {
                     var row = this.selectableRows[i];
-                    popover.append(this.createPickerPopupItem(row, 'row'));
+                    popover.append(this._createPickerPopupItem(row, 'row'));
                 }
             }
 
@@ -272,6 +300,9 @@
             return popover;
         },
 
+        /**
+         * Positions the popover element.
+         */
         _positionPopover: function () {
             var popover = this._pickerPopover,
                 pickerLink = this.domElem,

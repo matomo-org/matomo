@@ -1058,7 +1058,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     });
 
     $.jqplot.postDrawHooks.push(function () {
-        this.plugins.seriesPicker.createElement();
+        this.plugins.seriesPicker.init();
     });
 })(jQuery);
 
