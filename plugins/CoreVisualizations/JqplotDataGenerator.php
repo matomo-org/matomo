@@ -137,8 +137,6 @@ class JqplotDataGenerator
 
         $units = $this->getUnitsForColumnsToDisplay();
         $visualization->setAxisYUnits($units);
-
-        $this->addSeriesPickerToView();
     }
 
     protected function getUnitsForColumnsToDisplay()
@@ -171,28 +169,5 @@ class JqplotDataGenerator
             $units[$columnName] = empty($derivedUnit) ? false : $derivedUnit;
         }
         return $units;
-    }
-
-    /**
-     * Used in initChartObjectData to add the series picker config to the view object
-     */
-    protected function addSeriesPickerToView()
-    {
-        $defaultShowSeriesPicker = $this->properties['visualization_properties']->show_series_picker;
-        if (count($this->properties['visualization_properties']->selectable_columns)
-            && Common::getRequestVar('showSeriesPicker', $defaultShowSeriesPicker) == 1
-        ) {
-            $selectableColumns = array();
-            foreach ($this->properties['visualization_properties']->selectable_columns as $column) {
-                $selectableColumns[] = array(
-                    'column'      => $column,
-                    'translation' => @$this->properties['translations'][$column],
-                    'displayed'   => in_array($column, $this->properties['columns_to_display'])
-                );
-            }
-
-            $this->visualization->setSelectableColumns(
-                $selectableColumns, $this->properties['visualization_properties']->allow_multi_select_series_picker);
-        }
     }
 }

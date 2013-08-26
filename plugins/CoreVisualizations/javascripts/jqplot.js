@@ -331,7 +331,6 @@ JQPlot.prototype = {
 
     prepareEvolutionChart: function (targetDivId, lang) {
         this.setYTicks();
-        this.addSeriesPicker(targetDivId, lang);
 
         defaultParams.axes = {
             xaxis: {
@@ -419,8 +418,6 @@ JQPlot.prototype = {
     // ------------------------------------------------------------
 
     preparePieChart: function (targetDivId, lang) {
-        this.addSeriesPicker(targetDivId, lang);
-
         this.params.seriesDefaults = {
             renderer: $.jqplot.PieRenderer,
             rendererOptions: {
@@ -465,7 +462,6 @@ JQPlot.prototype = {
 
     prepareBarChart: function (targetDivId, lang) {
         this.setYTicks();
-        this.addSeriesPicker(targetDivId, lang);
 
         this.params.seriesDefaults = {
             renderer: $.jqplot.BarRenderer,
@@ -565,19 +561,6 @@ JQPlot.prototype = {
         }
 
         return value;
-    },
-
-    addSeriesPicker: function (targetDivId, lang) {
-        this.params.seriesPicker = {
-            show: typeof this.seriesPicker.selectableColumns == 'object'
-                || typeof this.seriesPicker.selectableRows == 'object',
-            selectableColumns: this.seriesPicker.selectableColumns,
-            selectableRows: this.seriesPicker.selectableRows,
-            multiSelect: this.seriesPicker.multiSelect,
-            targetDivId: targetDivId,
-            dataTableId: this.dataTableId,
-            lang: lang
-        };
     },
 
     /**
@@ -1051,247 +1034,33 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
 // ------------------------------------------------------------
 //  SERIES PICKER
-//  For line charts
 // ------------------------------------------------------------
 
 (function ($) {
-
-    $.jqplot.SeriesPicker = function (options) {
-        // dom element
-        this.domElem = null;
-        // render the picker?
-        this.show = false;
-        // the columns that can be selected
-        this.selectableColumns = null;
-        // the rows that can be selected
-        this.selectableRows = null;
-        // can multiple rows we selected?
-        this.multiSelect = true;
-        // css id of the target div dom element
-        this.targetDivId = "";
-        // the id of the current data table
-        this.dataTableId = "";
-        // language strings
-        this.lang = {};
-
-        $.extend(true, this, options);
-    };
-
-    $.jqplot.SeriesPicker.init = function (target, data, opts) {
+    $.jqplot.preInitHooks.push(function (target, data, options) {
         // add plugin as an attribute to the plot
-        var options = opts || {};
-        this.plugins.seriesPicker = new $.jqplot.SeriesPicker(options.seriesPicker);
-    };
+        var dataTable = $('#' + target).closest('.dataTable').data('dataTableInstance');
+        var seriesPicker = new piwik.SeriesPicker(dataTable);
 
-    // render the link to add series
-    $.jqplot.SeriesPicker.postDraw = function () {
+        // handle placeSeriesPicker event
         var plot = this;
-        var picker = plot.plugins.seriesPicker;
+        $(seriesPicker).bind('placeSeriesPicker', function () {
+            this.domElem.css('margin-left', (plot._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
+            plot.baseCanvas._elem.before(this.domElem);
+        })
 
-        if (!picker.show) {
-            return;
-        }
-
-        // initialize dom element
-        picker.domElem = $(document.createElement('a'))
-            .addClass('jqplot-seriespicker')
-            .attr('href', '#').html('+')
-            .css('marginLeft', (plot._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
-
-        picker.domElem.on('hide',function () {
-            $(this).css('opacity', .55);
-        }).trigger('hide');
-
-        plot.baseCanvas._elem.before(picker.domElem);
-
-        // show picker on hover
-        picker.domElem.hover(function () {
-            picker.domElem.css('opacity', 1);
-            if (!picker.domElem.hasClass('open')) {
-                picker.domElem.addClass('open');
-                showPicker(picker, plot._width);
-            }
-        },function () {
-            // do nothing on mouseout because using this event doesn't work properly.
-            // instead, the timeout check beneath is used (checkPickerLeave()).
-        }).click(function () {
-                return false;
-            });
-    };
-
-    // show the series picker
-    function showPicker(picker, plotWidth) {
-        var pickerLink = picker.domElem;
-        var pickerPopover = $(document.createElement('div'))
-            .addClass('jqplock-seriespicker-popover');
-
-        var pickerState = {manipulated: false};
-
-        // headline
-        var title = picker.multiSelect ? picker.lang.metricsToPlot : picker.lang.metricToPlot;
-        pickerPopover.append($(document.createElement('p'))
-            .addClass('headline').html(title));
-
-        if (picker.selectableColumns !== null) {
-            // render the selectable columns
-            for (var i = 0; i < picker.selectableColumns.length; i++) {
-                var column = picker.selectableColumns[i];
-                pickerPopover.append(createPickerPopupItem(picker, column, 'column', pickerState, pickerPopover, pickerLink));
-            }
-        }
-
-        if (picker.selectableRows !== null) {
-            // "records to plot" subheadline
-            pickerPopover.append($(document.createElement('p'))
-                .addClass('headline').addClass('recordsToPlot')
-                .html(picker.lang.recordsToPlot));
-
-            // render the selectable rows
-            for (var i = 0; i < picker.selectableRows.length; i++) {
-                var row = picker.selectableRows[i];
-                pickerPopover.append(createPickerPopupItem(picker, row, 'row', pickerState, pickerPopover, pickerLink));
-            }
-        }
-
-        $('body').prepend(pickerPopover.hide());
-        var neededSpace = pickerPopover.outerWidth() + 10;
-
-        // try to display popover to the right
-        var linkOffset = pickerLink.offset();
-        if (navigator.appVersion.indexOf("MSIE 7.") != -1) {
-            linkOffset.left -= 10;
-        }
-        var margin = (parseInt(pickerLink.css('marginLeft'), 10) - 4);
-        if (margin + neededSpace < plotWidth
-            // make sure it's not too far to the left
-            || margin - neededSpace + 60 < 0) {
-            pickerPopover.css('marginLeft', (linkOffset.left - 4) + 'px').show();
-        } else {
-            // display to the left
-            pickerPopover.addClass('alignright')
-                .css('marginLeft', (linkOffset.left - neededSpace + 38) + 'px')
-                .css('backgroundPosition', (pickerPopover.outerWidth() - 25) + 'px 4px')
-                .show();
-        }
-        pickerPopover.css('marginTop', (linkOffset.top - 5) + 'px').show();
-
-        // hide and replot on mouse leave
-        checkPickerLeave(pickerPopover, function () {
-            var replot = pickerState.manipulated;
-            hidePicker(picker, pickerPopover, pickerLink, replot);
-        });
-    }
-
-    function createPickerPopupItem(picker, config, type, pickerState, pickerPopover, pickerLink) {
-        var checkbox = $(document.createElement('input')).addClass('select')
-            .attr('type', picker.multiSelect ? 'checkbox' : 'radio');
-
-        if (config.displayed && !(!picker.multiSelect && pickerState.oneChecked)) {
-            checkbox.prop('checked', true);
-            pickerState.oneChecked = true;
-        }
-
-        // if we are rendering a column, remember the column name
-        // if it's a row, remember the string that can be used to match the row
-        checkbox.data('name', type == 'column' ? config.column : config.matcher);
-
-        var el = $(document.createElement('p'))
-            .append(checkbox)
-            .append('<label>' + (type == 'column' ? config.translation : config.label) + '</label>')
-            .addClass(type == 'column' ? 'pickColumn' : 'pickRow');
-
-        var replot = function () {
-            unbindPickerLeaveCheck();
-            hidePicker(picker, pickerPopover, pickerLink, true);
-        };
-
-        var checkBox = function (box) {
-            if (!picker.multiSelect) {
-                pickerPopover.find('input.select:not(.current)').prop('checked', false);
-            }
-            box.prop('checked', true);
-            replot();
-        };
-
-        el.click(function (e) {
-            pickerState.manipulated = true;
-            var box = $(this).find('input.select');
-            if (!$(e.target).is('input.select')) {
-                if (box.is(':checked')) {
-                    box.prop('checked', false);
-                } else {
-                    checkBox(box);
-                }
-            } else {
-                if (box.is(':checked')) {
-                    checkBox(box);
-                }
-            }
+        // handle seriesPicked event
+        $(seriesPicker).bind('seriesPicked', function (e, columns, rows) {
+            $('#' + this.dataTableId + ' .piwik-graph').trigger('changeSeries', [columns, rows]);
         });
 
-        return el;
-    }
+        this.plugins.seriesPicker = seriesPicker;
+    });
 
-    // check whether the mouse has left the picker
-    var onMouseMove;
-
-    function checkPickerLeave(pickerPopover, onLeaveCallback) {
-        var offset = pickerPopover.offset();
-        var minX = offset.left;
-        var minY = offset.top;
-        var maxX = minX + pickerPopover.outerWidth();
-        var maxY = minY + pickerPopover.outerHeight();
-        var currentX, currentY;
-        onMouseMove = function (e) {
-            currentX = e.pageX;
-            currentY = e.pageY;
-            if (currentX < minX || currentX > maxX
-                || currentY < minY || currentY > maxY) {
-                unbindPickerLeaveCheck();
-                onLeaveCallback();
-            }
-        };
-        $(document).mousemove(onMouseMove);
-    }
-
-    function unbindPickerLeaveCheck() {
-        $(document).unbind('mousemove', onMouseMove);
-    }
-
-    function hidePicker(picker, pickerPopover, pickerLink, replot) {
-        // hide picker
-        pickerPopover.hide();
-        pickerLink.trigger('hide').removeClass('open');
-
-        // replot
-        if (replot) {
-            var columns = [];
-            var rows = [];
-            pickerPopover.find('input:checked').each(function () {
-                if ($(this).closest('p').hasClass('pickRow')) {
-                    rows.push($(this).data('name'));
-                } else {
-                    columns.push($(this).data('name'));
-                }
-            });
-            var noRowSelected = pickerPopover.find('.pickRow').size() > 0
-                && pickerPopover.find('.pickRow input:checked').size() == 0;
-            if (columns.length > 0 && !noRowSelected) {
-
-                $('#' + picker.targetDivId).trigger('changeSeries', [columns, rows]);
-                // inform dashboard widget about changed parameters (to be restored on reload)
-                $('#' + picker.targetDivId).parents('[widgetId]').trigger('setParameters', {columns: columns, rows: rows});
-            }
-        }
-
-        pickerPopover.remove();
-    }
-
-    $.jqplot.preInitHooks.push($.jqplot.SeriesPicker.init);
-    $.jqplot.postDrawHooks.push($.jqplot.SeriesPicker.postDraw);
-
+    $.jqplot.postDrawHooks.push(function () {
+        this.plugins.seriesPicker.createElement();
+    });
 })(jQuery);
-
 
 // ------------------------------------------------------------
 //  PIE CHART LEGEND PLUGIN FOR JQPLOT

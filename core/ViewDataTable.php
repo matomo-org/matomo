@@ -147,6 +147,7 @@ class ViewDataTable
         $this->viewProperties['metadata'] = array();
         $this->viewProperties['translations'] = array();
         $this->viewProperties['filters'] = array();
+        $this->viewProperties['after_data_loaded_functions'] = array();
         $this->viewProperties['related_reports'] = array();
         $this->viewProperties['subtable_controller_action'] = $currentControllerAction;
 
@@ -407,6 +408,7 @@ class ViewDataTable
 
         if ($name == 'translations'
             || $name == 'filters'
+            || $name == 'after_data_loaded_functions'
         ) {
             $this->viewProperties[$name] = array_merge($this->viewProperties[$name], $value);
         } else if ($name == 'related_reports') { // TODO: should process after (in overrideViewProperties)
@@ -1046,6 +1048,7 @@ class ViewDataTable
         try {
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI();
+            $this->executeAfterDataLoadedCallbacks();
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
@@ -1086,6 +1089,13 @@ class ViewDataTable
         $view->footerIcons = $this->getFooterIconsToShow();
 
         $this->view = $view;
+    }
+
+    private function executeAfterDataLoadedCallbacks()
+    {
+        foreach ($this->after_data_loaded_functions as $callback) {
+            $callback($this->dataTable, $this);
+        }
     }
 
     private function getFooterIconsToShow()

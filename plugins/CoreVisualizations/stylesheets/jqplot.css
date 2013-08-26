@@ -211,7 +211,7 @@ a.rowevolution-startmulti:hover {
     text-indent: -999px;
 }
 
-.jqplock-seriespicker-popover {
+.jqplot-seriespicker-popover {
     display: block;
     position: absolute;
     z-index: 1010; /* must be above ui dialog */
@@ -227,33 +227,33 @@ a.rowevolution-startmulti:hover {
     box-shadow: 1px 1px 2px #666;
 }
 
-.jqplock-seriespicker-popover p {
+.jqplot-seriespicker-popover p {
     margin: 0;
     padding: 0 4px 0 0;
     line-height: 15px;
     vertical-align: middle;
 }
 
-.jqplock-seriespicker-popover p.headline {
+.jqplot-seriespicker-popover p.headline {
     font-weight: bold;
     font-size: 12px;
     padding: 0 0 6px 22px;
     color: #7E7363;
 }
 
-.jqplock-seriespicker-popover p.headline.recordsToPlot {
+.jqplot-seriespicker-popover p.headline.recordsToPlot {
     padding: 8px 0 3px 0;
 }
 
-.jqplock-seriespicker-popover.alignright p.headline {
+.jqplot-seriespicker-popover.alignright p.headline {
     padding: 0 22px 6px 0;
 }
 
-.jqplock-seriespicker-popover input.select {
+.jqplot-seriespicker-popover input.select {
     margin-right: 8px;
 }
 
-.jqplock-seriespicker-popover p.pickColumn,
-.jqplock-seriespicker-popover p.pickRow {
+.jqplot-seriespicker-popover p.pickColumn,
+.jqplot-seriespicker-popover p.pickRow {
     cursor: pointer;
 }

@@ -188,20 +188,6 @@ class Properties
     const CUSTOM_PARAMETERS = 'custom_parameters';
 
     /**
-     * Contains the column (if any) of the values used in the Row Picker.
-     * 
-     * @see self::ROW_PICKER_VISIBLE_VALUES
-     */
-    const ROW_PICKER_VALUE_COLUMN = 'row_picker_match_rows_by';
-
-    /**
-     * Contains the list of values available for the Row Picker.
-     * 
-     * @see self::ROW_PICKER_VALUE_COLUMN
-     */
-    const ROW_PICKER_VISIBLE_VALUES = 'row_picker_visible_rows';
-
-    /**
      * Whether to run generic filters on the DataTable before rendering or not.
      * 
      * @see Piwik_API_DataTableGenericFilter
@@ -363,6 +349,18 @@ class Properties
      * If a closure is used, the view is appended as a parameter.
      */
     const FILTERS = 'filters';
+
+    /**
+     * Array of callbacks that are called after the data for a ViewDataTable is successfully
+     * loaded. Each callback is invoked with the DataTable instance obtained from the API
+     * and the ViewDatable instance that loaded it.
+     * 
+     * Functions can be appended to this array property when it's necessary to configure
+     * a ViewDataTable after data has been loaded. If you need to use properties that are
+     * only set after data is loaded (like 'columns_to_display'), you'll have to use this
+     * property.
+     */
+    const AFTER_DATA_LOADED_FUNCTIONS = 'after_data_loaded_functions';
 
     /**
      * Contains the controller action to call when requesting subtables of the current report.
@@ -551,6 +549,7 @@ class Properties
             'documentation' => false,
             'datatable_css_class' => false,
             'filters' => array(),
+            'after_data_loaded_functions' => array(),
             'hide_annotations_view' => true,
             'columns_to_display' => array(),
         );

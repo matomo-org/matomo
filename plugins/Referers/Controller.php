@@ -300,8 +300,8 @@ class Controller extends \Piwik\Controller
             $visibleRows = array($label, $total);
             $view->request_parameters_to_modify['rows'] = $label . ',' . $total;
         }
-        $view->row_picker_match_rows_by = 'label';
-        $view->row_picker_visible_rows = $visibleRows;
+        $view->visualization_properties->row_picker_match_rows_by = 'label';
+        $view->visualization_properties->row_picker_visible_rows = $visibleRows;
 
         $view->documentation = Piwik_Translate('Referers_EvolutionDocumentation') . '<br />'
             . Piwik_Translate('General_BrokenDownReportDocumentation') . '<br />'
