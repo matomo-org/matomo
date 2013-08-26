@@ -1042,17 +1042,23 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var dataTable = $('#' + target).closest('.dataTable').data('dataTableInstance');
         var seriesPicker = new piwik.SeriesPicker(dataTable);
 
+        // handle placeSeriesPicker event
         var plot = this;
         $(seriesPicker).bind('placeSeriesPicker', function () {
             this.domElem.css('margin-left', (plot._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
             plot.baseCanvas._elem.before(this.domElem);
         })
 
+        // handle seriesPicked event
+        $(seriesPicker).bind('seriesPicked', function (e, columns, rows) {
+            $('#' + this.dataTableId + ' .piwik-graph').trigger('changeSeries', [columns, rows]);
+        });
+
         this.plugins.seriesPicker = seriesPicker;
     });
 
     $.jqplot.postDrawHooks.push(function () {
-        this.plugins.seriesPicker.createElement(this);
+        this.plugins.seriesPicker.createElement();
     });
 })(jQuery);
 
