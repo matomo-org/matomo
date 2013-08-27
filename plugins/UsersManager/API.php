@@ -541,8 +541,7 @@ class API
             throw new Exception(Piwik_TranslateException("UsersManager_ExceptionAdminAnonymous"));
         }
 
-        // in case idSites is null we grant access to all the websites on which the current connected user
-        // has an 'admin' access
+        // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
         if ($idSites === 'all') {
             $idSites = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
         } // in case the idSites is an integer we build an array
