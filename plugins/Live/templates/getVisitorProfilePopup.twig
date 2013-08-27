@@ -26,8 +26,20 @@
         </div>
         <div>
             <div>
-                <div class="visitor-profile-map">
-                    {{ userCountryMap|raw }}
+                <div class="visitor-profile-summary">
+                    <h1>{{ 'General_Summary'|translate }}</h1>
+                    <div>
+                        <p>{{ 'Live_VisitSummary'|translate('<strong>', visitorData.totalVisitDurationPretty, '</strong>', '<strong>', visitorData.totalActionCount, visitorData.totalVisits, '</strong>')|raw }}</p>
+                        <p><strong>{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}</strong>
+                        {%- if visitorData.totalGoalConversions %} (
+                            {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
+                            {%- if not loop.first %}, {% endif -%}{{- totalConversions }} <span class="visitor-profile-goal-name">{{ goals[idGoal]['name'] -}}</span>
+                            {%- endfor -%}
+                        ){% endif %}.</p>
+                        {% if visitorData.totalEcommerceConversions is defined %}
+                        <p>{{ 'Live_EcommerceSummary'|translate('<strong>', visitorData.totalEcommerceConversions, visitorData.totalEcommerceRevenue|money(idSite), '</strong>', visitorData.totalEcommerceItems)|raw }}</p>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="visitor-profile-important-visits">
                     <div>
@@ -47,20 +59,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="visitor-profile-summary">
-                    <h1>{{ 'General_Summary'|translate }}</h1>
-                    <div>
-                        <p>{{ 'Live_VisitSummary'|translate('<strong>', visitorData.totalVisitDurationPretty, '</strong>', '<strong>', visitorData.totalActionCount, visitorData.totalVisits, '</strong>')|raw }}</p>
-                        <p><strong>{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}</strong>
-                        {%- if visitorData.totalGoalConversions %} (
-                            {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
-                            {%- if not loop.first %}, {% endif -%}{{- totalConversions }} <span class="visitor-profile-goal-name">{{ goals[idGoal]['name'] -}}</span>
-                            {%- endfor -%}
-                        ){% endif %}.</p>
-                        {% if visitorData.totalEcommerceConversions is defined %}
-                        <p>{{ 'Live_EcommerceSummary'|translate('<strong>', visitorData.totalEcommerceConversions, visitorData.totalEcommerceRevenue|money(idSite), '</strong>', visitorData.totalEcommerceItems)|raw }}</p>
-                        {% endif %}
-                    </div>
+                <div class="visitor-profile-map">
+                    {{ userCountryMap|raw }}
                 </div>
             </div>
             <div class="visitor-profile-visits-info">
