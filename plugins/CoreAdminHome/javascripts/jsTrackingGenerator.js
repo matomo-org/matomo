@@ -137,7 +137,7 @@
         // function that generates JS code
         var generateJsCode = function () {
             // get data
-            var idSite = $('#js-tracker-website').find('.custom_select_main_link').attr('siteid'),
+            var idSite = $('#js-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
                 groupPageTitlesByDomain = $('#javascript-tracking-group-by-domain').is(':checked'),
                 mergeSubdomains = $('#javascript-tracking-all-subdomains').is(':checked'),
                 mergeAliasUrls = $('#javascript-tracking-all-aliases').is(':checked'),
@@ -215,7 +215,7 @@
         // function that generates image tracker link
         var generateImageTrackerLink = function () {
             // get data ( (("https:" == document.location.protocol)?"https://' + piwikHost + '":"http://' + piwikHost + '") )
-            var idSite = $('#image-tracker-website').find('.custom_select_main_link').attr('siteid'),
+            var idSite = $('#image-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
                 path = document.location.pathname,
                 piwikURL = ("https:" == document.location.protocol ? "https://" + piwikHost : "http://" + piwikHost) + path.substring(0, path.lastIndexOf('/')) + '/piwik.php',
                 actionName = $('#image-tracker-action-name').val(),
@@ -324,10 +324,10 @@
 
         // initial generation
         getSiteData(
-            $('#js-tracker-website').find('.custom_select_main_link').attr('siteid'),
+            $('#js-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
             '#js-code-options,#image-tracking-code-options',
             function () {
-                var imageTrackerSiteId = $('#image-tracker-website').find('.custom_select_main_link').attr('siteid');
+                var imageTrackerSiteId = $('#image-tracker-website').find('.custom_select_main_link').attr('data-siteid');
                 resetGoalSelectItems(imageTrackerSiteId, 'image-tracker-goal');
 
                 generateJsCode();

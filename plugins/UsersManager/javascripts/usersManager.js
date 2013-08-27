@@ -60,7 +60,7 @@ function sendAddUserAJAX(row) {
 }
 
 function getIdSites() {
-    return $('.custom_select_main_link').attr('siteid');
+    return $('.custom_select_main_link').attr('data-siteid');
 }
 
 function sendUpdateUserAccess(login, access, successCallback) {
