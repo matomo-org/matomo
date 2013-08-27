@@ -145,6 +145,7 @@ class VisitExcluded
                 || strpos($this->userAgent, 'Google Page Speed Insights') !== false // #4049
                 || strpos($this->userAgent, 'bingbot') !== false // Bingbot
                 || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
+                || strpos($this->userAgent, 'CloudFlare') !== false // CloudFlare-AlwaysOnline
                 || IP::isIpInRange($this->ip, $this->getBotIpRanges()));
     }
 
