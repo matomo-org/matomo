@@ -1,7 +1,7 @@
 /**
  * Piwik - Web Analytics
  *
- * Series Picker widget addition for DataTable visualizations.
+ * Series Picker control addition for DataTable visualizations.
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later

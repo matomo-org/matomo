@@ -42,6 +42,7 @@ class Live extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Live/javascripts/live.js";
+        $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
     }
 
     function addMenu()

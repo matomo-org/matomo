@@ -20,7 +20,7 @@
             <div>
                 <div class="visitor-profile-location">
                     <h1>{{ 'UserCountry_Location'|translate }}</h1>
-                    <img src="plugins/Live/images/REMOVE_ME_chart.png" alt=""/> {# TODO: bar graph #}
+                    <img src="plugins/Live/images/REMOVE_ME_chart.png" alt=""/>
                 </div>
             </div>
         </div>
@@ -89,74 +89,5 @@
     </div>
 </div>
 <script type="text/javascript">
-$(function() {
-    $('.visitor-profile-visits-container').jScrollPane({
-        showArrows: true,
-        verticalArrowPositions: 'os',
-        horizontalArrowPositions: 'os'
-    });
-
-    $('.visitor-profile-close').click(function (e) {
-        e.preventDefault();
-        Piwik_Popover.close();
-        return false;
-    });
-
-    $('.visitor-profile-pages-visited,.visitor-profile-more-info').click(function (e) {
-        e.preventDefault();
-
-        var loading = $('.visitor-profile-visits-info > .loadingPiwik');
-        loading.css('display', 'table');
-
-        var ajax = new ajaxHelper();
-        ajax.addParams({
-            module: 'Live',
-            action: 'getVisitList',
-            period: 'range',
-            date: piwik.minDateYear + '-01-01' + ',today',
-            idVisitor: $(this).closest('.visitor-profile').attr('data-visitor-id'),
-            filter_offset: $('.visitor-profile-visits>li').length
-        }, 'GET');
-        ajax.setCallback(function (response) {
-            loading.css('display', 'none');
-
-            var jsp = $('.visitor-profile-visits-container').data('jsp');
-            if (response == '') {
-                jsp.scrollToElement($('.visitor-profile-visits>li:last-child').children().last(), false, true);
-            } else {
-                response = $(response);
-                $('.visitor-profile-visits').append(response);
-                jsp.reinitialise();
-                jsp.scrollToElement(response[0], true, true);
-            }
-        });
-        ajax.setFormat('html');
-        ajax.send();
-
-        return false;
-    });
-
-    $('.visitor-profile-see-more-cvars>a').click(function (e) {
-        e.preventDefault();
-        $('.visitor-profile-extra-cvars').slideToggle();
-        return false;
-    });
-
-    $('.visitor-profile-visit-title').click(function () {
-        var ajax = new ajaxHelper();
-
-        $('.visitor-profile-avatar .loadingPiwik').css('display', 'inline-block');
-        ajax.addParams({
-            module: 'Live',
-            action: 'getSingleVisitSummary',
-            idVisit: $(this).attr('data-idvisit')
-        }, 'GET');
-        ajax.setCallback(function (response) {
-            $('.visitor-profile-avatar .loadingPiwik').hide();
-            $('.visitor-profile-latest-visit').html(response);
-        });
-        ajax.setFormat('html');
-        ajax.send();
-    });
-});
+$(function() { require('piwik/UI').VisitorProfileControl.initElements(); });
 </script>
