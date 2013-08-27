@@ -144,7 +144,8 @@ abstract class Graph extends DataTableVisualization
     }
 
     /**
-     * TODO
+     * Defaults the selectable_columns property if it has not been set and then transforms
+     * it into something the SeriesPicker JavaScript class can use.
      */
     private function transformSelectableColumns($view)
     {
@@ -178,7 +179,8 @@ abstract class Graph extends DataTableVisualization
     }
 
     /**
-     * TODO
+     * Determines what rows are selectable and stores them in the selectable_rows property in
+     * a format the SeriesPicker JavaScript class can use.
      */
     private function transformSelectableRows($view)
     {
