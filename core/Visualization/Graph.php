@@ -108,10 +108,6 @@ abstract class Graph extends DataTableVisualization
     public function __construct($view)
     {
         if ($view->show_goals) {
-            $goalMetrics = array('nb_conversions', 'revenue');
-            $view->visualization_properties->selectable_columns = array_merge(
-                $view->visualization_properties->selectable_columns, $goalMetrics);
-
             $view->translations['nb_conversions'] = Piwik_Translate('Goals_ColumnConversions');
             $view->translations['revenue'] = Piwik_Translate('General_TotalRevenue');
         }
@@ -162,6 +158,11 @@ abstract class Graph extends DataTableVisualization
                 if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
                     $selectableColumns[] = 'nb_uniq_visitors';
                 }
+            }
+
+            if ($view->show_goals) {
+                $goalMetrics = array('nb_conversions', 'revenue');
+                $selectableColumns = array_merge($selectableColumns, $goalMetrics);
             }
 
             $transformed = array();
