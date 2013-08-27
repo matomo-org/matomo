@@ -314,7 +314,20 @@ var broadcast = {
     },
 
     /**
-     * Update the part after the second hash
+     * Loads a popover by adding a 'popover' query parameter to the current URL and
+     * indirectly executing the popover handler.
+     * 
+     * This function should be called to open popovers that can be opened by URL alone.
+     * That is, if you want users to be able to copy-paste the URL displayed when a popover
+     * is open into a new browser window/tab and have the same popover open, you should
+     * call this function.
+     * 
+     * In order for this function to open a popover, there must be a popover handler
+     * associated with handlerName. To associate one, call broadcast.addPopoverHandler.
+     * 
+     * @param {String} handlerName The name of the popover handler.
+     * @param {String} value The String value that should be passed to the popover 
+     *                       handler.
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         // init broadcast if not already done (it is required to make popovers work in widgetize mode)
@@ -352,7 +365,14 @@ var broadcast = {
     },
 
     /**
-     * Add a handler for the popover parameter
+     * Adds a handler for the 'popover' query parameter.
+     * 
+     * @see broadcast#propagateNewPopoverParameter
+     * 
+     * @param {String} handlerName The handler name, eg, 'visitorProfile'. Should identify
+     *                             the popover that the callback will open up.
+     * @param {Function} callback This function should open the popover. It should take
+     *                            one string parameter.
      */
     addPopoverHandler: function (handlerName, callback) {
         broadcast.popoverHandlers[handlerName] = callback;

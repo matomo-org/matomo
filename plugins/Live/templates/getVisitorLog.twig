@@ -209,11 +209,8 @@
     {% include "@CoreHome/_dataTableJS.twig" %}
     <script type="text/javascript" defer="defer">
 
-        var visitorLogTitle = '{{ 'Live_VisitorProfile'|translate|e('js') }}';
         function Piwik_Live_LoadVisitorPopover(visitorId) {
-            var startingDate = piwik.minDateYear + '-01-01';
-            var url = 'module=Live&action=getVisitorProfilePopup&period=range&date=' + startingDate + ',today&idVisitor=' + encodeURIComponent(visitorId);
-            return Piwik_Popover.createPopupAndLoadUrl(url, visitorLogTitle, 'visitor-profile-popup');
+            broadcast.propagateNewPopoverParameter('visitorProfile', visitorId);
         }
 
         $(document).ready(function () {

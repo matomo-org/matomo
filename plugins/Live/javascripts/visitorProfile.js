@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-(function ($, require, Piwik_Popover, ajaxHelper) {
+(function ($, require) {
 
     var piwik = require('piwik'),
         exports = require('piwik/UI');
@@ -38,6 +38,21 @@
                 $(this).attr('data-inited', 1);
             }
         });
+    };
+
+    /**
+     * Shows the visitor profile popover for a visitor ID. This should not be called directly.
+     * Instead broadcast.propagateNewPopoverParameter('visitorProfile', visitorId) should be
+     * called. This would make sure the popover would be opened if the URL is copied and pasted
+     * in a new tab/window.
+     * 
+     * @param {String} visitorId The string visitor ID.
+     */
+    VisitorProfileControl.showPopover = function (visitorId) {
+        var startingDate = piwik.minDateYear + '-01-01';
+        var url = 'module=Live&action=getVisitorProfilePopup&period=range&date=' + startingDate
+                + ',today&idVisitor=' + encodeURIComponent(visitorId);
+        Piwik_Popover.createPopupAndLoadUrl(url, '', 'visitor-profile-popup');
     };
 
     VisitorProfileControl.prototype = {
@@ -130,4 +145,7 @@
 
     exports.VisitorProfileControl = VisitorProfileControl;
 
-})(jQuery, require, Piwik_Popover, ajaxHelper);
+    // add the popup handler that creates a visitor profile
+    broadcast.addPopoverHandler('visitorProfile', VisitorProfileControl.showPopover);
+
+})(jQuery, require);
