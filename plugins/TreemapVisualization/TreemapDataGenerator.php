@@ -51,6 +51,13 @@ class TreemapDataGenerator
     private $metricToGraph;
 
     /**
+     * The internationalized label of the metric to graph. Used in the tooltip of each node.
+     * 
+     * @var string
+     */
+    private $metricTranslation;
+
+    /**
      * Whether to include evolution values in the output JSON.
      * 
      * @var bool
@@ -62,9 +69,10 @@ class TreemapDataGenerator
      * 
      * @param string $metricToGraph @see self::$metricToGraph
      */
-    public function __construct($metricToGraph)
+    public function __construct($metricToGraph, $metricTranslation)
     {
         $this->metricToGraph = $metricToGraph;
+        $this->metricTranslation = $metricTranslation;
     }
 
     /**
@@ -159,6 +167,13 @@ class TreemapDataGenerator
                 $data['evolution'] = CalculateEvolutionFilter::calculate(
                     $columnValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = false);
             }
+        }
+
+        // add node tooltip
+        $data['metadata']['tooltip'] = ' ' . $columnValue . ' ' . $this->metricTranslation;
+        if (isset($data['evolution'])) {
+            $greaterOrLess = $data['evolution'] > 0 ? '>' : '<';
+            $data['metadata']['tooltip'] .= ' ' . $greaterOrLess . ' ' . abs($data['evolution']) . '%';
         }
 
         return $this->makeNode($this->getNodeId($tableId, $rowId), $label, $data);

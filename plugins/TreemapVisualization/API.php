@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
+use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\API\Request;
 
@@ -56,7 +57,10 @@ class API
         $columns = explode(',', $column);
         $column = reset($columns);
 
-        $generator = new TreemapDataGenerator($column);
+        $translations = Metrics::getDefaultMetricTranslations();
+        $translation = empty($translations[$column]) ? $column : $translations[$column];
+
+        $generator = new TreemapDataGenerator($column, $translation);
         $generator->setInitialRowOffset(Common::getRequestVar('filter_offset', 0, 'int'));
         if ($show_evolution_values) {
             $generator->showEvolutionValues();

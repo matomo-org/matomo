@@ -19,7 +19,8 @@
      * events before calling 'init':
      * 
      * 'placeSeriesPicker': Triggered after the DOM element for the series picker link is created.
-     *                      You can use this event to position the link however you want to.
+     *                      You must use this event to add the link to the dataTable. YOu can also
+     *                      use this event to position the link however you want.
      * 
      *                      Callback Signature: function () {}
      * 
@@ -112,6 +113,22 @@
                 });
 
             $(this).trigger('placeSeriesPicker');
+        },
+
+        /**
+         * Returns the translation of a metric that can be selected.
+         * 
+         * @param {String} metric The name of the metric, ie, 'nb_visits' or 'nb_actions'.
+         * @return {String} The metric translation. If one cannot be found, the metric itself
+         *                  is returned.
+         */
+        getMetricTranslation: function (metric) {
+            for (var i = 0; i != this.selectableColumns.length; ++i) {
+                if (this.selectableColumns[i].column == metric) {
+                    return this.selectableColumns[i].translation;
+                }
+            }
+            return metric;
         },
 
         /**

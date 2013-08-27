@@ -97,6 +97,7 @@ class Treemap extends Graph
     {
         $result = parent::getDefaultPropertyValues();
         $result['visualization_properties']['graph']['max_graph_elements'] = 10;
+        $result['visualization_properties']['graph']['allow_multi_select_series_picker'] = false;
         $result['visualization_properties']['infoviz-treemap']['show_evolution_values'] = true;
         $result['visualization_properties']['infoviz-treemap']['depth'] = 1;
         return $result;
@@ -122,8 +123,10 @@ class Treemap extends Graph
 
     private function getGraphData($dataTable, $properties)
     {
-        $generator = new TreemapDataGenerator($this->getMetricToGraph($properties['columns_to_display']));
-        $generator->setRootNodeName($properties['title']);
+        $metric = $this->getMetricToGraph($properties['columns_to_display']);
+        $translation = empty($properties['translations'][$metric]) ? $metric : $properties['translations'][$metric];
+
+        $generator = new TreemapDataGenerator($metric, $translation);
         $generator->setInitialRowOffset($properties['filter_offset'] ?: 0);
         if ($properties['visualization_properties']->show_evolution_values
             && Common::getRequestVar('period') != 'range'

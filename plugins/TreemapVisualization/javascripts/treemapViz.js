@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-(function ($, $jit) {
+(function ($, $jit, require) {
 
     var dataTable = window.dataTable,
         dataTablePrototype = dataTable.prototype;
@@ -72,12 +72,9 @@
                 },
             });
 
-            this.data = JSON.parse(treemapContainer.attr('data-data'));
-            this._prependDataTableIdToNodeIds(this.workingDivId, this.data);
-            this._setTreemapColors(this.data);
-
-            this.treemap.loadJSON(this.data);
-            this.treemap.refresh();
+            this.data = this._prepareTreemapData(treemapContainer.attr('data-data'));
+            this._refreshTreemap({animate: true});
+            this._addSeriesPicker(domElem);
         },
 
         /**
@@ -95,6 +92,50 @@
             for (var i = 0; i != (node.children || []).length; ++i) {
                 this.foreachNode(f, node.children[i]);
             }
+        },
+
+        /**
+         * Changes the metric the treemap displays.
+         * 
+         * @param {String} metric The name of the metric, e.g. 'nb_visits', 'nb_actions', etc.
+         */
+        changeMetric: function (metric) {
+            this.param.columns = metric;
+            this.reloadAjaxDataTable();
+        },
+
+        /**
+         * Adds the SeriesPicker DataTable visualization widget to this treemap visualization.
+         */
+        _addSeriesPicker: function (dataTableDomElem) {
+            var self = this;
+            var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
+
+            this._seriesPicker = new SeriesPicker(this);
+
+            $(this._seriesPicker).bind('placeSeriesPicker', function () {
+                var displayedColumn = this.getMetricTranslation(self.param.columns);
+
+                var metricLabel = $('<span/>')
+                    .addClass('infoviz-treemap-colors')
+                    .attr('data-name', 'header-color')
+                    .text("— " + displayedColumn)
+                    ;
+
+                var seriesPickerContainer = $('<div/>') // TODO: this behavior should probably be a part of SeriesPicker
+                    .addClass('infoviz-treemap-series-picker')
+                    .append(metricLabel)
+                    .append(this.domElem)
+                    ;
+
+                dataTableDomElem.prepend(seriesPickerContainer);
+            });
+
+            $(this._seriesPicker).bind('seriesPicked', function (e, columns) {
+                self.changeMetric(columns[0]);
+            });
+
+            this._seriesPicker.init();
         },
 
         /**
@@ -128,9 +169,10 @@
             } else {
                 var tooltip = node.name;
             }
-            if (node.data.evolution) {
-                var greaterOrLess = node.data.evolution > 0 ? '>' : '<';
-                tooltip += ' ' + greaterOrLess + ' ' + Math.abs(node.data.evolution) + '%';
+            if (node.data.metadata
+                && node.data.metadata.tooltip
+            ) {
+                tooltip += ' ' + node.data.metadata.tooltip;
             }
             $nodeElement.attr('title', tooltip);
 
@@ -155,6 +197,36 @@
             var $nodeElement = $(nodeElement),
                 $label = $nodeElement.children('span');
             $label.toggle($nodeElement.height() > $label.height());
+        },
+
+        /**
+         * Prepares data obtained from Piwik server-side code to be used w/ the JIT Treemap
+         * visualization. Will make sure each node ID is unique and has a color.
+         */
+        _prepareTreemapData: function (data) {
+            if (typeof data == 'string') {
+                data = JSON.parse(data);
+            }
+
+            this._prependDataTableIdToNodeIds(this.workingDivId, data);
+            this._setTreemapColors(data);
+            return data;
+        },
+
+        /**
+         * Reloads the treemap visualization using this.data.
+         */
+        _refreshTreemap: function (options) {
+            if (!options.animate) {
+                this.treemap.config.animate = false;
+            }
+
+            this.treemap.loadJSON(this.data);
+            this.treemap.refresh();
+
+            if (!options.animate) {
+                this.treemap.config.animate = true;
+            }
         },
 
         /**
@@ -375,16 +447,10 @@
                 dataNode.data.loaded = true;
                 delete dataNode.data.loading;
 
-                self._prependDataTableIdToNodeIds(self.workingDivId, response);
-                self._setTreemapColors(response);
-
+                var repsonse = self._prepareTreemapData(response);
                 dataNode.children = response.children;
-                self.treemap.loadJSON(self.data);
 
-                // refresh the treemap w/o animation
-                self.treemap.config.animate = false;
-                self.treemap.refresh();
-                self.treemap.config.animate = true;
+                self._refreshTreemap({animate: false});
 
                 callback(self.treemap.graph.getNode(node.id));
             });
@@ -443,4 +509,4 @@
         },
     });
 
-}(jQuery, $jit));
+}(jQuery, $jit, require));
