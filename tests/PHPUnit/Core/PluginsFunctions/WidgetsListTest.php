@@ -40,7 +40,7 @@ class WidgetsListTest extends DatabaseTestCase
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
             'VisitsSummary_VisitsSummary'  => 6,
-            'Live!'                        => 3,
+            'Live!'                        => 4,
             'General_Visitors'             => 12,
             'UserSettings_VisitorSettings' => 11,
             'Actions_Actions'              => 8,
