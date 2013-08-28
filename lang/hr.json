@@ -176,7 +176,6 @@
         "NSeconds": "%s sekundi",
         "SmallTrafficYouCanLeaveDefault": "Za stranice sa manjim prometom možete koristiti pretpostavljenu vrijednost od %s sekundi i pristupati izvještajima u realnom vremenu.",
         "MediumToHighTrafficItIsRecommendedTo": "Za stranice sa srednjim i velikim prometom preporučamo da izvještaje za tekući dan najviše svakih pola sata (%s sekundi) ili svakih sat vremena (%s sekundi).",
-        "RequiresFlash": "Piwik zahtjeva Flash za prikaz grafova",
         "GraphHelp": "Više informacija o prikazu grafova u Piwiku.",
         "NoDataForGraph_js": "Nema podataka za ovaj graf.",
         "NoDataForTagCloud": "Nema podataka za ovaj oblak oznaka.",

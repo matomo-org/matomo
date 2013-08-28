@@ -186,7 +186,6 @@
         "NSeconds": "%s sekonda",
         "SmallTrafficYouCanLeaveDefault": "Për site-e web me trafik të pakët, mund të lini parazgjedhjen prej %s sekondash, dhe të konsultoni krejt raportet në kohë reale.",
         "MediumToHighTrafficItIsRecommendedTo": "Për site-e web me trafik të shumtë, këshillojmë t'i përpunoni raportet për ditën e sotme e shumta çdo gjysmë ore (%s sekonda) ose çdo një orë (%s sekonda).",
-        "RequiresFlash": "Shfaqja e Grafikëve në Piwik lyp Flash-in",
         "GraphHelp": "Më tepër të dhëna rreth shfaqjes së grafikëve në Piwik.",
         "NoDataForGraph_js": "Pa të dhëna për këtë grafik",
         "NoDataForTagCloud": "Pa të dhëna për këtë re etiketash.",

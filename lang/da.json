@@ -206,7 +206,6 @@
         "NSeconds": "%s sekunder",
         "SmallTrafficYouCanLeaveDefault": "For hjemmesider med lidt trafik brug standard %s sekunder og få adgang til alle rapporter i realtid.",
         "MediumToHighTrafficItIsRecommendedTo": "For hjemmesider med medium til høj trafik anbefales det kun at behandle rapporter for i dag højst hver halve time (%s sekunder) eller hver time (%s sekunder).",
-        "RequiresFlash": "Visning af diagrammer i Piwik kræver Flash",
         "GraphHelp": "Flere oplysninger om visning af diagrammer i Piwik.",
         "NoDataForGraph_js": "Ingen data for denne graf.",
         "DataForThisGraphHasBeenPurged": "Dataene for denne graf er mere end %s måneder gamle og er blevet slettet.",

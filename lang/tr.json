@@ -163,7 +163,6 @@
         "Website": "Web sayfası",
         "GeneralSettings": "Genel Ayarlar",
         "NSeconds": "%s saniye",
-        "RequiresFlash": "Piwik'in grafikleri gösterebilmesi için Flash gereklidir.",
         "GraphHelp": "Piwik'in grafikleri göstermesi hakkında daha fazla bilgi.",
         "NoDataForGraph_js": "Bu grafikte veri yok.",
         "NoDataForTagCloud": "Bu etiket bulutunda veri yok.",

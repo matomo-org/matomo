@@ -197,7 +197,6 @@
         "NSeconds": "%s secunde",
         "SmallTrafficYouCanLeaveDefault": "Pentru site-uri cu trafic mic, puteti lasa intervalul %%s secunde si accesa rapoartele in timp real.",
         "MediumToHighTrafficItIsRecommendedTo": "Pentru site-uri cu trafic mediu sau mare, este recomandata procesarea rapoartelor la fiecare jumate de ora (%s secunde) sau ora (%s secunde)",
-        "RequiresFlash": "Afisarea graficelor in Piwik necesita Flash",
         "GraphHelp": "Mai multe informatii despre afisarea graficelor in Piwik",
         "NoDataForGraph_js": "Nici o informatie pentru acest grafic",
         "DataForThisGraphHasBeenPurged": "Datele din acest grafic sunt mai vechi de %s luni şi au fost curăţate.",

@@ -184,7 +184,6 @@
         "NSeconds": "%s sekúnd",
         "SmallTrafficYouCanLeaveDefault": "Pri malej návštevnosti webového sídla, môžete ponechať predvolený počet sekúnd %s, a prístup do všetkých správ v reálnom čase.",
         "MediumToHighTrafficItIsRecommendedTo": "Pre webové sídla, ktoré majú stredne veľkú až veľkú návštevnosť, odporúčame pre spracovanie štatistík nastavenie v daný deň maximálne na každú každú pol hodinu (%s sekúnd), alebo každú hodinu (%s sekúnd).",
-        "RequiresFlash": "Zobrazenie grafu vyžaduje Flash",
         "GraphHelp": "Ďalšie informácie o zobrazení grafov.",
         "NoDataForGraph_js": "Pre tento graf nie sú dáta.",
         "NoDataForTagCloud": "Pre tento oblak nie sú dáta.",

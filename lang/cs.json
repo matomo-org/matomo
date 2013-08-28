@@ -188,7 +188,6 @@
         "NSeconds": "%s sekund",
         "SmallTrafficYouCanLeaveDefault": "Pro sídla s malým provozem můžete ponechat výchozích %s sekund a uvidíte všechna hlášení v reálném čase",
         "MediumToHighTrafficItIsRecommendedTo": "Pro sídla se středním, nebo velkým provozem doporučujeme zpracovat dnešní hlášení každou půlhodinu (%s vteřin), nebo každou hodinu (%s vteřin)",
-        "RequiresFlash": "Zobrazování grafu v Piwiku vyžaduje Flash",
         "GraphHelp": "Více informací o zobrazování grafů v Piwiku",
         "NoDataForGraph_js": "Pro tento graf nejsou k dispozici žádná data",
         "NoDataForTagCloud": "Pro tento oblak tagů nejsou k dispozici žádná data.",

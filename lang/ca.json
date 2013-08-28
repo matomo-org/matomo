@@ -202,7 +202,6 @@
         "NSeconds": "%s segons",
         "SmallTrafficYouCanLeaveDefault": "Per llocs amb poc transit, pots deixar el valor per defecte de %s segons i accedir als informes en temps real.",
         "MediumToHighTrafficItIsRecommendedTo": "Per llocs de mig i alt transit, recomanem processar informes per avui com a molt cada mitja hora (%s segons) o cada hora (%s segons)",
-        "RequiresFlash": "Mostrar gràfics en el Piwik requereix Flash",
         "GraphHelp": "Més informació sobre mostrar gràfiques al Piwik.",
         "NoDataForGraph_js": "No hi ha dades...",
         "DataForThisGraphHasBeenPurged": "Les dades per aquest gràfic tenen més de %s mesos d'antiguitat i s'han purgat",

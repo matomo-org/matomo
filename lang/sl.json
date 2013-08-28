@@ -200,7 +200,6 @@
         "NSeconds": "%s sekund",
         "SmallTrafficYouCanLeaveDefault": "Za manjše spletne strani lahko pustite privzetih %s sekund in dostopate do poročil v realnem času.",
         "MediumToHighTrafficItIsRecommendedTo": "Za srednje velike in velike spletne strani vam priporočamo, da procesirate poročila največ na pol ure (%s sekund) ali na eno uro (%s sekund).",
-        "RequiresFlash": "Za prikazovanje Grafov v Piwik-u potrebujete Flash",
         "GraphHelp": "Več informacij o prikazovanju Grafov v Piwik-u.",
         "NoDataForGraph_js": "Nobenih podatkov za ta graf.",
         "DataForThisGraphHasBeenPurged": "Podatki za ta graf so stari več kot %s mesecev in so bili izbrisani.",

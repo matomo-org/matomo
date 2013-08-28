@@ -97,7 +97,6 @@
         "Website": "Webgunea",
         "GeneralSettings": "Ezarpen orokorrak",
         "NSeconds": "%s segundo",
-        "RequiresFlash": "Piwik-en grafikoak bistaratzeko Flash behar da",
         "GraphHelp": "Piwik-en grafikoak bistaratzeko informazio gehiago.",
         "NoDataForGraph_js": "Daturik ez grafiko honentzat.",
         "NoDataForTagCloud": "Daturik ez etiketa-hodei honentzat.",

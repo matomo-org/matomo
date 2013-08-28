@@ -199,7 +199,6 @@
         "NSeconds": "%s sekuntia",
         "SmallTrafficYouCanLeaveDefault": "Jos verkkosivulla on vain vähän liikennettä, voit jättää oletuksen (%s sekuntia) ja käyttää kaikkia raportteja reaaliaikaisina.",
         "MediumToHighTrafficItIsRecommendedTo": "Keskisuurille ja vilkkaille verkkosivuille on suositeltavaa käsitellä raportit enintään kerran puolessa tunnissa (%s sekuntia) tai tunnissa (%s sekuntia).",
-        "RequiresFlash": "Piwikin kuvaajien näyttämiseen tarvitaan Flash.",
         "GraphHelp": "Lisätietoa Piwikin kuvaajista.",
         "NoDataForGraph_js": "Ei tietoja tähän kuvaajaan",
         "DataForThisGraphHasBeenPurged": "Tämän kuvaajan tiedot ovat yli %s kuukautta vanhoja ja ne on poistettu.",

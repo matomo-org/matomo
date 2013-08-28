@@ -207,7 +207,6 @@
         "NSeconds": "%s seconds",
         "SmallTrafficYouCanLeaveDefault": "For small traffic websites, you can leave the default %s seconds, and access all reports in real time.",
         "MediumToHighTrafficItIsRecommendedTo": "For medium to high traffic websites, we recommend to process reports for today at most every half hour (%s seconds) or every hour (%s seconds).",
-        "RequiresFlash": "Displaying Graphs in Piwik requires Flash",
         "GraphHelp": "More information about displaying graphs in Piwik.",
         "NoDataForGraph_js": "No data for this graph.",
         "DataForThisGraphHasBeenPurged": "The data for this graph is more than %s months old and has been purged.",

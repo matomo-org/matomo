@@ -171,7 +171,6 @@
         "ReportsContainingTodayWillBeProcessedAtMostEvery": "Bydd adroddiadau ar gyfer heddiw (neu unrhyw amrediad arall o ddyddiadau gan gynnwys heddiw) yn cael eu prosesu yn y rhan fwyaf pob",
         "NSeconds": "%s eiliad",
         "SmallTrafficYouCanLeaveDefault": "Ar gyfer gwefannau heb lawer o draffig, gallwch adael yr  eiliadau %s diofyn, a agor pob adroddiad mewn amser real.",
-        "RequiresFlash": "Mae angen Flash i ddangos Graffiau yn Piwik",
         "GraphHelp": "Mwy o wybodaeth am ddangos graffiau yn Piwik.",
         "NoDataForGraph_js": "Nid oes data ar gyfer y graff yma.",
         "NoDataForTagCloud": "Dim data ar gyfer y tag cwmwl.",

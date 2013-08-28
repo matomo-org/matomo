@@ -184,7 +184,6 @@
         "NSeconds": "%s segundos",
         "SmallTrafficYouCanLeaveDefault": "Para websites com pouco tráfego, pode deixar os %s segundos pré-definidos, e aceder a todos os relatórios em tempo real.",
         "MediumToHighTrafficItIsRecommendedTo": "Para websites com tráfego médio ou elevado, recomendamos que processe os relatórios de hoje no máximo cada meia hora (%s segundos) ou de hora em hora (%s segundos).",
-        "RequiresFlash": "Mostrar Gráficos em Piwik necessita de Flash",
         "GraphHelp": "Mais informação sobre mostrar gráficos em Piwik.",
         "NoDataForGraph_js": "Sem dados para este gráfico.",
         "NoDataForTagCloud": "Sem dados para esta nuvem de tags.",

@@ -104,7 +104,6 @@
         "NSeconds": "%s sekúndur",
         "SmallTrafficYouCanLeaveDefault": "Á vefjum með litla umferðgeturðu notað sjálfgefna tímann %s sekúndur, og skoðað skýrlurnar í rauntíma.",
         "MediumToHighTrafficItIsRecommendedTo": "Á vefsvæðum með umferð yfir meðallagi, er mælt með að úrvinnsla skýrslna sé ekki framkvæmd tíðar en á hálftíma fresti (%s sekúndur) eða á klukkustundar fresti (%s seconds).",
-        "RequiresFlash": "Til að birta gröf í Piwik þarf Flash.",
         "GraphHelp": "Nánari upplýsingar um birtingu grafa í Piwik.",
         "NoDataForGraph_js": "Engin gögn fyrir þetta graf.",
         "NoDataForTagCloud": "Engin gögn fyrir þetta klisjuský.",
