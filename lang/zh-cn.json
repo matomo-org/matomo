@@ -1003,7 +1003,6 @@
         "DatabaseSetupPassword": "数据库密码",
         "DatabaseSetupDatabaseName": "数据库名称",
         "DatabaseSetupTablePrefix": "数据表前綴词",
-        "DatabaseSetupAdapter": "Adapter",
         "DatabaseErrorConnect": "连接至数据库服务器时发生错误",
         "DatabaseCheck": "数据库检查",
         "DatabaseServerVersion": "数据库服务器版本",

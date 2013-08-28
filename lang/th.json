@@ -734,7 +734,6 @@
         "DatabaseSetupPassword": "รหัสผ่าน",
         "DatabaseSetupDatabaseName": "ชื่อฐานข้อมูล",
         "DatabaseSetupTablePrefix": "คำนำหน้าตาราง",
-        "DatabaseSetupAdapter": "Adapter",
         "DatabaseErrorConnect": "ข้อผิดพลาดขณะพยายามที่จะเชื่อมต่อไปยังเซิร์ฟเวอร์ฐานข้อมูล",
         "DatabaseCheck": "ตรวจสอบฐานข้อมูล",
         "DatabaseServerVersion": "เวอร์ชั่นของเซิร์ฟเวอร์ฐานข้อมูล",

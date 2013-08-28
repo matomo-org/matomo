@@ -1002,7 +1002,6 @@
         "DatabaseSetupPassword": "Adgangskode",
         "DatabaseSetupDatabaseName": "Databasenavn",
         "DatabaseSetupTablePrefix": "Tabel præfiks",
-        "DatabaseSetupAdapter": "Adapter",
         "DatabaseErrorConnect": "Fejl ved tilkobling til databaseserveren",
         "DatabaseCheck": "Database check",
         "DatabaseServerVersion": "Databaseserver version",

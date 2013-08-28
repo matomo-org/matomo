@@ -515,7 +515,6 @@
         "DatabaseSetupPassword": "資料庫密碼",
         "DatabaseSetupDatabaseName": "資料庫名稱",
         "DatabaseSetupTablePrefix": "資料表前綴詞",
-        "DatabaseSetupAdapter": "Adapter",
         "DatabaseErrorConnect": "連線至資料庫伺服器時發生錯誤",
         "DatabaseCheck": "資料庫檢查",
         "DatabaseServerVersion": "資料庫伺服器版本",
