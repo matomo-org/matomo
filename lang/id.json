@@ -206,7 +206,6 @@
         "NSeconds": "%s detik",
         "SmallTrafficYouCanLeaveDefault": "Untuk kunjungan kecil, Anda dapat membiarkan dalam %s detik, dan mengakses seluruh laporan dalam waktu nyata.",
         "MediumToHighTrafficItIsRecommendedTo": "Untuk kunjungan menengah hingga tinggi, kami menyarankan untuk mengolah laporan untuk hari ini setiap setengah jam (%s detik) atau satu jam (%s detik).",
-        "RequiresFlash": "Menampilkan Grafik di Piwik memerlukan Flash",
         "GraphHelp": "Informasi lebih lanjut tentang menampilkan grafik di Piwik.",
         "NoDataForGraph_js": "Tidak ada data untuk grafik ini.",
         "DataForThisGraphHasBeenPurged": "Data untuk grafik ini berumur lebih dari %s bulan dan telah dibersihkan.",

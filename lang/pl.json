@@ -180,7 +180,6 @@
         "NSeconds": "%s sekundy",
         "SmallTrafficYouCanLeaveDefault": "Dla serwisów o małym natężeniu ruchu, możesz pozostawić domyślne %s sekund, by mieć dostęp do wszystkich raportów w czasie rzeczywistym.",
         "MediumToHighTrafficItIsRecommendedTo": "Dla serwisów o średnim natężeniu ruchu, zaleca się przetwarzanie raportowania dziennego najwyżej do pół godziny (%s sekund) lub co godzinę (%s sekund).",
-        "RequiresFlash": "Wyświetlanie grafik przez analitykę Piwik wymaga do działania technologii Flash",
         "GraphHelp": "Więcej informacji na temat wyświetlania grafik znajdziesz na stronach Piwik.",
         "NoDataForGraph_js": "Brak danych dla tego wykresu.",
         "NoDataForTagCloud": "brak danych dla tej chmury tagów.",

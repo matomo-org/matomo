@@ -184,7 +184,6 @@
         "NSeconds": "%s sekund.",
         "SmallTrafficYouCanLeaveDefault": "For små nettstader kan du la dei standard %s sekundane stå, og sjå alle rapportane i sanntid.",
         "MediumToHighTrafficItIsRecommendedTo": "For nettstader med middels til høg trafikk, tilrår me å handsama rapportar for idag maksimalt kvar halve (%s sekundar) eller heile time (%s sekundar).",
-        "RequiresFlash": "Grafar i Piwik krev Flash",
         "GraphHelp": "Meir informasjon om visning av grafar i Piwik.",
         "NoDataForGraph_js": "Ingen data for denne grafen.",
         "DataForThisGraphHasBeenPurged": "Data for denne grafen er meir enn %s månader gammal og er fjerna.",

@@ -189,7 +189,6 @@
         "NSeconds": "%s 秒",
         "SmallTrafficYouCanLeaveDefault": "トラフィックの少ないウェブサイトでは、デフォルトの %s 秒の設定で、リアルタイムにすべてのリポートにアクセス可能です。",
         "MediumToHighTrafficItIsRecommendedTo": "比較的トラフィックの高いウェブサイトでは、今日のリポートの処理間隔を 30分（%s 秒） または 1時間（%s 秒） に設定することをお勧めします。",
-        "RequiresFlash": "Piwik でのグラフの表示には Flash が必要となります",
         "GraphHelp": "Piwik でのグラフ表示の詳細です。",
         "NoDataForGraph_js": "このグラフのデータはありません。",
         "NoDataForTagCloud": "このタグクラウドのデータはありません。",

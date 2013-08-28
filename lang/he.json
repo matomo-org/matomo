@@ -127,7 +127,6 @@
         "NSeconds": "%s שניות",
         "SmallTrafficYouCanLeaveDefault": "לאתרים בעלי תעבורה נמוכה, ניתן להשאיר את ברירת המחדל של %s שניות ולגשת לדוחות בזמן אמת.",
         "MediumToHighTrafficItIsRecommendedTo": "לאתרים בעלי תעבודה בינונית עד גבוהה, אנו ממליצים לעבד דוחות להיום לכל היותר בכל חצי שעה (%s שניות) או בכל שעה (%s שניות)",
-        "RequiresFlash": "הצגת גרפים ב-Piwik מצריכה Flash",
         "GraphHelp": "מידע נוסף עבור הצגת גרפים ב Piwik.",
         "NoDataForGraph_js": "חסר מידע עבור גרף זה.",
         "NoDataForTagCloud": "חסר מידע עבור ענן תגים זה.",

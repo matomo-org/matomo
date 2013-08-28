@@ -55,6 +55,7 @@ class Live extends \Piwik\Plugin
         WidgetsList::add('Live!', 'Live_VisitorsInRealTime', 'Live', 'widget');
         WidgetsList::add('Live!', 'Live_VisitorLog', 'Live', 'getVisitorLog');
         WidgetsList::add('Live!', 'Live_RealTimeVisitorCount', 'Live', 'getSimpleLastVisitCount');
+        WidgetsList::add('Live!', 'Live_VisitorProfile', 'Live', 'getVisitorProfilePopup');
     }
 
     public function getReportDisplayProperties(&$properties)

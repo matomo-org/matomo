@@ -172,7 +172,7 @@ class Controller extends \Piwik\Controller
 
     private function getUserCountryMapForVisitorProfile()
     {
-        $params = array('standalone' => true, 'fetch' => true, 'segment' => self::getSegmentWithVisitorId());
+        $params = array('standalone' => false, 'fetch' => true, 'segment' => self::getSegmentWithVisitorId());
         return FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap', $params); // TODO: check if plugin is enabled?
     }
 
@@ -182,6 +182,12 @@ class Controller extends \Piwik\Controller
         if (!empty($segment)) {
             $segment .= ';';
         }
-        return $segment . 'visitorId==' . Common::getRequestVar('idVisitor');
+
+        $idVisitor = Common::getRequestVar('idVisitor', false);
+        if ($idVisitor === false) {
+            $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
+        }
+
+        return $segment . 'visitorId==' . $idVisitor;
     }
 }

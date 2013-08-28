@@ -206,7 +206,6 @@
         "NSeconds": "%s sekundi",
         "SmallTrafficYouCanLeaveDefault": "Za sajtove sa manjim saobraćajem možete ostaviti podrazumevanih %s sekundi i pristupiti svim izveštajima u realnom vremenu",
         "MediumToHighTrafficItIsRecommendedTo": "Za sajtove sa osrednjim ili velikim saobraćajem preporučujemo da današnje izveštaje procerirate na svakih barem pola sata (%s sekundi) ili svaki sat (%s sekundi)",
-        "RequiresFlash": "Za prikaz grafikona morate imati instaliran Flash",
         "GraphHelp": "Više informacija o prikazivanju grafikona u Piwik",
         "NoDataForGraph_js": "Nema podataka za ovaj grafikon.",
         "DataForThisGraphHasBeenPurged": "Podaci za ovaj grafikon su više od %s meseci stari te su izbrisani.",

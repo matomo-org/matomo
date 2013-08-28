@@ -185,7 +185,6 @@
         "NSeconds": "%s sekundes",
         "SmallTrafficYouCanLeaveDefault": "Maza apmeklējuma vietnēm Jūs varat atstāt pēc noklusējuma iestatītās %s sekundes un visas atskates būs pieejamas reāllaikā.",
         "MediumToHighTrafficItIsRecommendedTo": "Vidēja un augsta apmklējuma vietnēm iesakam apstrādāt atskaites ne biežāk kā katru pusstundu (%s sekundes) vai katru stundu (%s sekundes).",
-        "RequiresFlash": "Lai Piwik parādītu grafikus ir nepieciešams Flash",
         "GraphHelp": "Vairāk informācijas par grafiku parādīšanu Piwik",
         "NoDataForGraph_js": "Nav datu šim grafikam.",
         "NoDataForTagCloud": "Nav datu šim iezīmju mākonim.",

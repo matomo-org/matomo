@@ -207,7 +207,6 @@
         "NSeconds": "%s seconds",
         "SmallTrafficYouCanLeaveDefault": "For small traffic websites, you can leave the default %s seconds, and access all reports in real time.",
         "MediumToHighTrafficItIsRecommendedTo": "For medium to high traffic websites, we recommend to process reports for today at most every half hour (%s seconds) or every hour (%s seconds).",
-        "RequiresFlash": "Displaying Graphs in Piwik requires Flash",
         "GraphHelp": "More information about displaying graphs in Piwik.",
         "NoDataForGraph_js": "No data for this graph.",
         "DataForThisGraphHasBeenPurged": "The data for this graph is more than %s months old and has been purged.",
@@ -1158,7 +1157,9 @@
         "ConvertedNGoals": "Converted %s Goals",
         "EcommerceSummary": "Ecommerce: %1$s%2$s orders for a total of %3$s%4$s, purchased %5$s items.",
         "VisitedPages": "Visited pages",
-        "ViewMoreVisitInfo": "View more visitor information"
+        "ViewMoreVisitInfo": "View more visitor information",
+        "PreviousVisitor": "Previous visitor",
+        "NextVisitor": "Next visitor"
     },
     "Login": {
         "PluginDescription": "Login Authentication plugin, reading the credentials from the config\/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).",

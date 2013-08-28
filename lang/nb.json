@@ -148,7 +148,6 @@
         "ArchivingTriggerDescription": "For større Piwik-installasjoner anbefales det at du setter opp en %scron-jobb%s for å behandle rapporter automatisk.",
         "SeeTheOfficialDocumentationForMoreInformation": "Se %sden offisielle dokumentasjonen%s for mer informasjon.",
         "NSeconds": "%s sekund",
-        "RequiresFlash": "Visning av grafikk i Piwik krever Flash",
         "GraphHelp": "Mer informasjon om visning av grafikk i Piwik",
         "NoDataForGraph_js": "Ingen data for denne grafen.",
         "NoDataForTagCloud": "Ingen data for denne merkelappskyen.",

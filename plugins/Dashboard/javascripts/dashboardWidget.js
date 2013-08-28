@@ -131,7 +131,7 @@
         /**
          * Reloads the widgets content with the currently set parameters
          */
-        reload: function (hideLoading, notJQueryUI) {
+        reload: function (hideLoading, notJQueryUI, overrideParams) {
             if (!notJQueryUI) {
                 piwikHelper.log('widget.reload() was called by jquery.ui, ignoring', arguments.callee.caller);
                 return;
@@ -155,7 +155,8 @@
                 $('.widgetContent', currentWidget).addClass('loading');
             }
 
-            widgetsHelper.loadWidgetAjax(this.uniqueId, this.widgetParameters, onWidgetLoadedReplaceElementWithContent);
+            var params = $.extend(this.widgetParameters, overrideParams || {});
+            widgetsHelper.loadWidgetAjax(this.uniqueId, params, onWidgetLoadedReplaceElementWithContent);
 
             return this;
         },

@@ -207,7 +207,6 @@
         "NSeconds": "%s Sekunden",
         "SmallTrafficYouCanLeaveDefault": "Für Seiten mit wenig Traffic können Sie den Standard von %s Sekunden beibehalten und alle Berichte in Echtzeit anzeigen.",
         "MediumToHighTrafficItIsRecommendedTo": "Für Seiten mit mittlerem bis hohem Trafficaufkommen empfehlen wir, Berichte für den heutigen Tag maximal jede halbe Stunde (%s Sekunden) oder jede Stunde (%s Sekunden) abzuarbeiten.",
-        "RequiresFlash": "Die Darstellung von Graphen in Piwik erfordert Flash.",
         "GraphHelp": "Mehr Informationen über die Darstellung von Graphen in Piwik.",
         "NoDataForGraph_js": "Keine Daten für diesen Graphen.",
         "DataForThisGraphHasBeenPurged": "Die Daten für diese Grafik sind älter als %s Monate und wurden gelöscht",

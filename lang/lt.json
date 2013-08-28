@@ -151,7 +151,6 @@
         "NSeconds": "%s sekundės",
         "SmallTrafficYouCanLeaveDefault": "Mažo srauto svetainėms galite palikti numatytąsias %s sekundes ir gauti ataskaitas realiuoju laiku.",
         "MediumToHighTrafficItIsRecommendedTo": "Vidutinio ir didelio srauto svetainėms rekomenduojame generuoti kasdienines ataskaitas kas pusę valandos (%s sekundės) arba kas valandą (%s sekundės).",
-        "RequiresFlash": "Grafikų atvaizdavimui reikalingas Flash",
         "GraphHelp": "Daugiau informacijos apie grafikų atvaizdavimą",
         "NoDataForGraph_js": "Šiam grafikui duomenų nėra",
         "NoDataForTagCloud": "Šiam žymių debesiui duomenų nėra",

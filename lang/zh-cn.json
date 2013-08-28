@@ -206,7 +206,6 @@
         "NSeconds": "%s 秒处理一次",
         "SmallTrafficYouCanLeaveDefault": "对于低流量的网站，可以使用默认的%s秒，实时处理所有报表。",
         "MediumToHighTrafficItIsRecommendedTo": "对于中高流量的网站，我们建议最多每隔半小时(%s秒)或一小时(%s秒)处理一次报表。",
-        "RequiresFlash": "在 Piwik 显示图表必須有 Flash",
         "GraphHelp": "更多关于 Piwik 显示图表的资讯",
         "NoDataForGraph_js": "本图形没有数据",
         "DataForThisGraphHasBeenPurged": "本图表的数据是%s个月前的，已清空。",

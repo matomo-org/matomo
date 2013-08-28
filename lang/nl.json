@@ -200,7 +200,6 @@
         "NSeconds": "%s seconden",
         "SmallTrafficYouCanLeaveDefault": "Voor kleine websites, kunt u de standaardwaarden op %s seconden laten staan en kunt u alle rapporten realtime bekijken.",
         "MediumToHighTrafficItIsRecommendedTo": "Voor middelgrote tot grote websites, raden we u aan rapporten te genereren voor vandaag, met een maximale frequentie van eens per half uur (%s seconden) of elk uur (%s seconden).",
-        "RequiresFlash": "Flash is vereist om grafieken weer te geven in Piwik",
         "GraphHelp": "Meer informatie over grafieken weergeven in Piwik.",
         "NoDataForGraph_js": "Geen data gevonden voor deze grafiek.",
         "DataForThisGraphHasBeenPurged": "De data voor deze grafiek is meer dan %s maanden oud en is reeds opgeschoond.",

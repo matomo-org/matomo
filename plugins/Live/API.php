@@ -168,16 +168,22 @@ class API
      * TODO
      * TODO: add abandoned cart info.
      * TODO: check for most recent vs. first visit
-     * TODO: make sure ecommerce is enabled for site, check for goals plugin, etc.
+     * TODO: check for goals plugin, etc.
      */
-    public function getVisitorProfile($idSite, $period, $date, $idVisitor, $segment = false)
+    public function getVisitorProfile($idSite, $idVisitor = false, $segment = false)
     {
+        if ($idVisitor === false) {
+            $idVisitor = $this->getMostRecentVisitorId($idSite, $segment);
+        }
+
         if ($segment !== false) {
             $segment .= ';';
         }
         $segment .= 'visitorId==' . $idVisitor; // TODO what happens when visitorId is in the segment?
 
-        $visits = $this->getLastVisitsDetails($idSite, $period, $date, $segment, $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE);
+        $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment,
+                                              $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
+                                              $filter_offset = false, $visitorId = false, $minTimestamp = false);
         if ($visits->getRowsCount() == 0) {
             return array();
         }
@@ -260,7 +266,73 @@ class API
             $visit->setColumn('serverDatePrettyFirstAction', $dateTimePretty);
         }
 
+        // get visitor IDs that are adjacent to this one in log_visit
+        // TODO: make sure order of visitor ids is not changed if a returning visitor visits while the user is
+        //       looking at the popup.
+        $latestVisitTime = reset($rows)->getColumn('lastActionDateTime');
+        $result['nextVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $getNext = true);
+        $result['prevVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $getNext = false);
+
         return $result;
+    }
+
+    /**
+     * Returns the visitor ID of the most recent visit.
+     * 
+     * @param int $idSite
+     * @param string|false $segment
+     * @return string
+     */
+    public function getMostRecentVisitorId($idSite, $segment = false)
+    {
+        $visitDetails = $this->loadLastVisitorDetailsFromDatabase(
+            $idSite, $period = false, $date = false, $segment, $filter_limit = 1, $filter_offset = false,
+            $visitorId = false, $minTimestamp = false
+        );
+
+        if (empty($visitDetails)) {
+            return false;
+        }
+
+        $visitor = new Visitor($visitDetails[0]);
+        return $visitor->getVisitorId();
+    }
+
+    /**
+     * Returns the ID of a visitor that is adjacent to another visitor (by time of last action)
+     * in the log_visit table.
+     * 
+     * @param int $idSite The ID of the site whose visits should be looked at.
+     * @param string $idVisitor The ID of the visitor to get an adjacent visitor for.
+     * @param string $visitLastActionTime The last action time of the latest visit for $idVisitor.
+     * @param bool $getNext Whether to retrieve the next visitor or the previous visitor. The next
+     *                      visitor will be the visitor that appears chronologically later in the
+     *                      log_visit table. The previous visitor will be the visitor that appears
+     *                      earlier.
+     * @return string The hex visitor ID.
+     */
+    private function getAdjacentVisitorId($idSite, $idVisitor, $visitLastActionTime, $getNext)
+    {
+        if ($getNext) {
+            $visitLastActionTimeCondition = "visit_last_action_time <= ?";
+            $orderByDir = "DESC";
+        } else {
+            $visitLastActionTimeCondition = "visit_last_action_time >= ?";
+            $orderByDir = "ASC";
+        }
+
+        $sql = "SELECT idvisitor, MAX(visit_last_action_time)
+                  FROM " . Common::prefixTable('log_visit') . "
+                 WHERE idsite = ? AND idvisitor <> UNHEX(?) AND $visitLastActionTimeCondition
+              GROUP BY idvisitor
+              ORDER BY MAX(visit_last_action_time) $orderByDir
+                 LIMIT 1";
+
+        $idVisitor = Db::fetchOne($sql, array($idSite, $idVisitor, $visitLastActionTime));
+        if (!empty($idVisitor)) {
+            $idVisitor = bin2hex($idVisitor);
+        }
+        return $idVisitor;
     }
 
     /**
@@ -496,7 +568,8 @@ class API
                 : 1);
     }
 
-    private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $filter_offset = false, $visitorId = false, $minTimestamp = false)
+    private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $filter_limit = false,
+                                                        $filter_offset = false, $visitorId = false, $minTimestamp = false)
     {
         if (empty($filter_limit)) {
             $filter_limit = 100;
@@ -519,9 +592,11 @@ class API
 
         // If no other filter, only look at the last 24 hours of stats
         if (empty($visitorId)
+            && empty($filter_limit)
             && empty($filter_offset)
             && empty($period)
             && empty($date)
+            && empty($searchThroughAllData)
         ) {
             $period = 'day';
             $date = 'yesterdaySameTime';

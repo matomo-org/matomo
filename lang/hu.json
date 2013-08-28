@@ -177,7 +177,6 @@
         "NSeconds": "%s másodperc",
         "SmallTrafficYouCanLeaveDefault": "Kis forgalmú weboldalak esetén megtarthatja az alapértelmezett %s másodperces beállítását, így az összes jelentéshez akár valós időben is hozzáférhet.",
         "MediumToHighTrafficItIsRecommendedTo": "Közepes vagy nagy forgalmú weboldalak esetén javasoljuk, hogy a jelentések legfeljebb félóránként (%s másodpercenként) vagy óránként (%s másodpercenként) kerüljenek feldolgozásra.",
-        "RequiresFlash": "A Piwik grafikonok megjelenítéséhez Flash kiegészítő szükséges.",
         "GraphHelp": "További információ a Piwik grafikonok megjelenítéséről.",
         "NoDataForGraph_js": "Nincs adat ehhez a grafikonhoz",
         "NoDataForTagCloud": "Nincs adat ehhez a címkefelhőhöz.",
