@@ -168,16 +168,22 @@ class API
      * TODO
      * TODO: add abandoned cart info.
      * TODO: check for most recent vs. first visit
-     * TODO: make sure ecommerce is enabled for site, check for goals plugin, etc.
+     * TODO: check for goals plugin, etc.
      */
-    public function getVisitorProfile($idSite, $period, $date, $idVisitor, $segment = false)
+    public function getVisitorProfile($idSite, $idVisitor = false, $segment = false)
     {
+        if ($idVisitor === false) {
+            $idVisitor = $this->getMostRecentVisitorId($idSite, $segment);
+        }
+
         if ($segment !== false) {
             $segment .= ';';
         }
         $segment .= 'visitorId==' . $idVisitor; // TODO what happens when visitorId is in the segment?
 
-        $visits = $this->getLastVisitsDetails($idSite, $period, $date, $segment, $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE);
+        $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment,
+                                              $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
+                                              $filter_offset = false, $visitorId = false, $minTimestamp = false);
         if ($visits->getRowsCount() == 0) {
             return array();
         }
@@ -261,6 +267,28 @@ class API
         }
 
         return $result;
+    }
+
+    /**
+     * Returns the visitor ID of the most recent visit.
+     * 
+     * @param int $idSite
+     * @param string|false $segment
+     * @return string
+     */
+    public function getMostRecentVisitorId($idSite, $segment = false)
+    {
+        $visitDetails = $this->loadLastVisitorDetailsFromDatabase(
+            $idSite, $period = false, $date = false, $segment, $filter_limit = 1, $filter_offset = false,
+            $visitorId = false, $minTimestamp = false
+        );
+
+        if (empty($visitDetails)) {
+            return false;
+        }
+
+        $visitor = new Visitor($visitDetails[0]);
+        return $visitor->getVisitorId();
     }
 
     /**
@@ -496,7 +524,8 @@ class API
                 : 1);
     }
 
-    private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $filter_offset = false, $visitorId = false, $minTimestamp = false)
+    private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $filter_limit = false,
+                                                        $filter_offset = false, $visitorId = false, $minTimestamp = false)
     {
         if (empty($filter_limit)) {
             $filter_limit = 100;
@@ -519,9 +548,11 @@ class API
 
         // If no other filter, only look at the last 24 hours of stats
         if (empty($visitorId)
+            && empty($filter_limit)
             && empty($filter_offset)
             && empty($period)
             && empty($date)
+            && empty($searchThroughAllData)
         ) {
             $period = 'day';
             $date = 'yesterdaySameTime';

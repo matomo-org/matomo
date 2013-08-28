@@ -49,9 +49,7 @@
      * @param {String} visitorId The string visitor ID.
      */
     VisitorProfileControl.showPopover = function (visitorId) {
-        var startingDate = piwik.minDateYear + '-01-01';
-        var url = 'module=Live&action=getVisitorProfilePopup&period=range&date=' + startingDate
-                + ',today&idVisitor=' + encodeURIComponent(visitorId);
+        var url = 'module=Live&action=getVisitorProfilePopup&idVisitor=' + encodeURIComponent(visitorId);
         Piwik_Popover.createPopupAndLoadUrl(url, '', 'visitor-profile-popup');
     };
 
