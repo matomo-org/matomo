@@ -184,7 +184,7 @@ class Controller extends \Piwik\Controller
         }
 
         $idVisitor = Common::getRequestVar('idVisitor', false);
-        if ($idVisitor ===false) {
+        if ($idVisitor === false) {
             $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
         }
 

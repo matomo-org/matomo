@@ -1,4 +1,8 @@
-<div class="visitor-profile" data-visitor-id="{{ visitorData.lastVisits.getFirstRow().getColumn('visitorId') }}">
+<div class="visitor-profile"
+     data-visitor-id="{{ visitorData.lastVisits.getFirstRow().getColumn('visitorId') }}"
+     data-next-visitor="{{ visitorData.nextVisitorId }}"
+     data-prev-visitor="{{ visitorData.prevVisitorId }}"
+     tabindex="0">
     <a href class="visitor-profile-close"></a>
     <div class="visitor-profile-info">
         <div>
@@ -16,6 +20,10 @@
                     </div>
                 </div>
                 <p style="clear:both; border:none!important;"></p>
+                <div class="visitor-profile-navigation">
+                    {% if visitorData.prevVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#">&lt;&lt; {{ 'Live_PreviousVisitor'|translate }}</a>{% endif %}
+                    {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#">{{ 'Live_NextVisitor'|translate }} &gt;&gt;</a>{% endif %}
+                </div>
             </div>
             <div>
                 <div class="visitor-profile-location">

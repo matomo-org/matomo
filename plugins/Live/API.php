@@ -266,6 +266,13 @@ class API
             $visit->setColumn('serverDatePrettyFirstAction', $dateTimePretty);
         }
 
+        // get visitor IDs that are adjacent to this one in log_visit
+        // TODO: make sure order of visitor ids is not changed if a returning visitor visits while the user is
+        //       looking at the popup.
+        $latestVisitTime = reset($rows)->getColumn('lastActionDateTime');
+        $result['nextVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $getNext = true);
+        $result['prevVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $getNext = false);
+
         return $result;
     }
 
@@ -289,6 +296,43 @@ class API
 
         $visitor = new Visitor($visitDetails[0]);
         return $visitor->getVisitorId();
+    }
+
+    /**
+     * Returns the ID of a visitor that is adjacent to another visitor (by time of last action)
+     * in the log_visit table.
+     * 
+     * @param int $idSite The ID of the site whose visits should be looked at.
+     * @param string $idVisitor The ID of the visitor to get an adjacent visitor for.
+     * @param string $visitLastActionTime The last action time of the latest visit for $idVisitor.
+     * @param bool $getNext Whether to retrieve the next visitor or the previous visitor. The next
+     *                      visitor will be the visitor that appears chronologically later in the
+     *                      log_visit table. The previous visitor will be the visitor that appears
+     *                      earlier.
+     * @return string The hex visitor ID.
+     */
+    private function getAdjacentVisitorId($idSite, $idVisitor, $visitLastActionTime, $getNext)
+    {
+        if ($getNext) {
+            $visitLastActionTimeCondition = "visit_last_action_time <= ?";
+            $orderByDir = "DESC";
+        } else {
+            $visitLastActionTimeCondition = "visit_last_action_time >= ?";
+            $orderByDir = "ASC";
+        }
+
+        $sql = "SELECT idvisitor, MAX(visit_last_action_time)
+                  FROM " . Common::prefixTable('log_visit') . "
+                 WHERE idsite = ? AND idvisitor <> UNHEX(?) AND $visitLastActionTimeCondition
+              GROUP BY idvisitor
+              ORDER BY MAX(visit_last_action_time) $orderByDir
+                 LIMIT 1";
+
+        $idVisitor = Db::fetchOne($sql, array($idSite, $idVisitor, $visitLastActionTime));
+        if (!empty($idVisitor)) {
+            $idVisitor = bin2hex($idVisitor);
+        }
+        return $idVisitor;
     }
 
     /**

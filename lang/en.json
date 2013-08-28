@@ -1157,7 +1157,9 @@
         "ConvertedNGoals": "Converted %s Goals",
         "EcommerceSummary": "Ecommerce: %1$s%2$s orders for a total of %3$s%4$s, purchased %5$s items.",
         "VisitedPages": "Visited pages",
-        "ViewMoreVisitInfo": "View more visitor information"
+        "ViewMoreVisitInfo": "View more visitor information",
+        "PreviousVisitor": "Previous visitor",
+        "NextVisitor": "Next visitor"
     },
     "Login": {
         "PluginDescription": "Login Authentication plugin, reading the credentials from the config\/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).",
