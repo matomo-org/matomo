@@ -206,6 +206,9 @@ class API
             $result['totalAbandonedCartsItems'] = 0;
         }
 
+        $countries = array();
+        $continents = array();
+
         // aggregate all requested visits info for total_* info
         foreach ($visits->getRows() as $visit) {
             ++$result['totalVisits'];
@@ -244,7 +247,13 @@ class API
                     $result['totalAbandonedCartsItems'] += $action['items'];
                 }
             }
+
+            $countries[] = $visit->getColumn('countryCode');
+            $continents[] = $visit->getColumn('continentCode');
         }
+
+        $result['countries'] = implode(',', array_unique($countries));
+        $result['continents'] = implode(',', array_unique($continents));
 
         $result['totalVisitDurationPretty'] = Piwik::getPrettyTimeFromSeconds($result['totalVisitDuration']);
 

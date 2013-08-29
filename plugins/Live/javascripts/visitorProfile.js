@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-(function ($, require, doc) {
+(function ($, require) {
 
     var piwik = require('piwik'),
         exports = require('piwik/UI');
@@ -213,4 +213,4 @@
     // add the popup handler that creates a visitor profile
     broadcast.addPopoverHandler('visitorProfile', VisitorProfileControl.showPopover);
 
-})(jQuery, require, document);
+})(jQuery, require);
