@@ -159,8 +159,6 @@
         "MainDescription": "Pluginurile extind functionaliatatea lui Piwik. Orice plugin instalat , poate fi activat sau dezactivat aici.",
         "MenuExtend": "Extinde",
         "MenuPlatform": "Platformă",
-        "MenuPlugins": "Pluginuri",
-        "MenuPluginsInstalled": "Instalat",
         "Plugin": "Pluginuri",
         "PluginCannotBeFound": "Plugin-ul nu poate fi găsit!",
         "PluginDescription": "Interfaţa de administrare plugin-uri.",
@@ -273,9 +271,6 @@
         "Table": "Tabel",
         "TotalSize": "Marime totala"
     },
-    "ExamplePlugin": {
-        "exampleWidget": "Exemplu de widget"
-    },
     "Feedback": {
         "CategoryHire": "Angajază un consultant Piwik",
         "CategorySponsor": "Devine sponsor Piwik",
@@ -291,12 +286,6 @@
         "SpecialRequest": "Ai o cerece deosebită către echipa Piwik?",
         "ThePiwikTeam": "Echipa Piwik",
         "WantToThankConsiderDonating": "Crezi că Piwik e superb şi doreşti să ne mulţumeşti? Ai putea să donezi"
-    },
-    "Forecast": {
-        "Actions": "Vizitatori pagină",
-        "Column": "Prognoză",
-        "Visitors": "Vizitatori",
-        "Widget": "Prognoza pentru astăzi"
     },
     "General": {
         "AbandonedCarts": "Cosuri abandonate",
@@ -405,7 +394,6 @@
         "DisplaySimpleTable": "Afisarea unui tabel simplu",
         "DisplayTableWithGoalMetrics": "Afişează tabelul cu parametrii ţintelor",
         "DisplayTableWithMoreMetrics": "Afisarea unui tabel cu mai multi metrici",
-        "Documentation": "Documentaţie",
         "Donate": "Donează",
         "Done": "Gata",
         "Download": "Descarca",
@@ -451,7 +439,6 @@
         "FileIntegrityWarningExplanation": "Verificare integritatii fisierelor a esuat si a raportat erori. Acest lucru s-a intamplat din cauza incarcarii partiale a unor fisiere Piwik. Ar trebui sa urcati din nou toate fisierele Piwik in mod BINARY si sa faceti refresh.",
         "First": "Prima",
         "ForExampleShort": "ex.",
-        "Forums": "Forumuri",
         "FromReferrer": "de la",
         "GeneralInformation": "Informaţii Generale",
         "GeneralSettings": "Setări generale",
@@ -527,7 +514,6 @@
         "MonthNovember_js": "Noiembrie",
         "MonthOctober_js": "Octombrie",
         "MonthSeptember_js": "Septembrie",
-        "More": "Mai multe",
         "MoreDetails": "Mai multe detalii",
         "MultiSitesSummary": "Toate site-urile",
         "Name": "Nume",
@@ -577,7 +563,6 @@
         "ParameterMustIntegerBetween": "Parametrul %s trebuie sa fie o valoare intreaga intre %s si %s.",
         "Period": "Perioada",
         "Piechart": "Diagrama",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s este un proiect colaborativ. %3$s Daca sunteti fan Piwik, puteti ajuta! Vedeti %4$s Cum sa participati la Piwik?%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s este disponibil. Va rugam notificati administratorul.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s este disponibil. %2$s Actualizeaza-l acum!%3$s (see %4$s changes%5$s).",
         "PleaseSpecifyValue": "Va rugam specificati o valoare pentru '%s'.",
@@ -596,7 +581,6 @@
         "Refresh": "Reinprospateaza pagina",
         "RelatedReport": "Raport asemănător",
         "RelatedReports": "Rapoarte asemănătoare",
-        "Remove": "Şterge",
         "Report": "Raport",
         "ReportGeneratedFrom": "Acest raport a fost creat în baza datelor din %s.",
         "Reports": "Rapoarte",
@@ -671,7 +655,6 @@
         "Today": "Azi",
         "Total": "Total",
         "TotalRevenue": "Venit total",
-        "TotalVisitsActionsRevenue": "(Total: %s vizite, %s actiuni, %s venit)",
         "TransitionsRowActionTooltip_js": "Vezi ce au făcut vizitatorii până la şi după vizionarea acestei pagini",
         "TranslatorEmail": "astonsoftware@gmail.com",
         "TranslatorName": "astonsoftware",
@@ -818,41 +801,24 @@
         "Logout": "Ieșire",
         "LostYourPassword": "Ai pierdut parola?",
         "MailTopicPasswordChange": "Confirmă schimbarea parolei",
-        "MailTopicPasswordRecovery": "Recuperare parola",
         "Password": "Parola",
         "PasswordChanged": "Parola ta a fost schimbată",
-        "PasswordReminder": "Introduce-ti nume si adresa de mail. Vei primi parola pe adresa de mail indicata.",
         "PasswordRepeat": "Parolă (repetă)",
-        "PasswordResetToken": "Resetează jeton parolă",
         "PasswordsDoNotMatch": "Parolele nu se potrivesc.",
-        "PasswordSent": "Parola a fost trimisa. Verifica emailul.",
-        "PasswordSuccessfullyChanged": "Parola a fost schimbată cu succes!",
         "PluginDescription": "Modul de autentintificare, ce citeşte credenţialele din fişierul config\/config.inc.php pentru Super User şi din Baza de date pentru alţi useri. Poate fi uşor schimbat pentru a folosi un nou mecanism de Autentificare (OpenID, htaccess, custom Auth, etc.).",
         "RememberMe": "Ţine-mă minte",
-        "RemindPassword": "Reaminteste-mi parola",
         "ResetPasswordInstructions": "Introduce o parolă nouă pentru contul tău."
     },
     "Mobile": {
         "AccessUrlLabel": "URL Acces Piwik",
-        "Account": "Cont",
         "ChooseMetric": "Alege Metrica",
         "ChooseReport": "Alege raportul",
-        "ConfirmRemoveAccount": "Doreşti să ştergi acest cont?",
         "DefaultReportDate": "Data raportului",
-        "HowtoLoginAnonymous": "Pentru anonimitate, omite numele şi parola.",
-        "LoadingReport": "Se încarcă %s.",
         "LoginUseHttps": "Folosește https",
         "NavigationBack": "Înapoi",
-        "NetworkError": "Eroare de reţea",
-        "NetworkErrorWithStatusCodeShort": "Eroarea de reţea %s",
-        "NoDataShort": "Nu sunt date",
-        "NoReportsShort": "Rapoarte nu există",
         "NoVisitorFound": "Nu a fost găsit nici un vizitator",
-        "NoVisitorsShort": "Nu sunt vizitatori",
-        "NoWebsitesShort": "Nu sunt site-uri",
         "RatingNotNow": "Nu acum",
         "SaveSuccessError": "URL-ul Piwik sau combinaţia nume utilizator şi parolă este greşită.",
-        "TryIt": "Încearcă!",
         "VerifyLoginData": "Ai grijă să introduci corect numele şi parola utilizatorului."
     },
     "MobileMessaging": {
@@ -985,7 +951,6 @@
     },
     "SEO": {
         "AlexaRank": "Poziţie în Alexa",
-        "Backlinks": "Backlink-uri",
         "Bing_IndexedPages": "Pagini indexate de Bing",
         "DomainAge": "Vechime domeniu",
         "Google_IndexedPages": "Pagini indexate de Google",
@@ -1347,7 +1312,6 @@
         "WorldWide": "World-Wide"
     },
     "UserLanguage": {
-        "Language": "Limbi",
         "Language_aa": "Afar",
         "Language_ab": "abhază",
         "Language_ae": "avestană",
@@ -1531,9 +1495,7 @@
         "Language_yo": "yoruba",
         "Language_za": "zhuang",
         "Language_zh": "chineză",
-        "Language_zu": "zulu",
-        "SubmenuLanguage": "Limbi",
-        "WidgetLanguage": "Limbile vizitatorilor"
+        "Language_zu": "zulu"
     },
     "UserSettings": {
         "BrowserFamilies": "Tip browser",
@@ -1579,7 +1541,6 @@
         "ChangePassword": "Schimbă parola",
         "ChangePasswordConfirm": "Schimbarea parolei va modifica token_auth al utilizatorului. Într-adevăr doreşti să continui?",
         "DeleteConfirm_js": "Eşti sigur că vrei să ştergi utilizatorul %s?",
-        "Edit": "Editează",
         "Email": "Email",
         "ExceptionAdminAnonymous": "Nu poti autoriza 'admin' accesul la 'anonymous' user.",
         "ExceptionDeleteDoesNotExist": "Userul '%s' nu exista pentru ca a fost sters.",
@@ -1646,7 +1607,6 @@
     "VisitsSummary": {
         "AverageGenerationTime": "%s timpul mediu de generare",
         "AverageVisitDuration": "%s durata medie a vizitei",
-        "EvolutionOverLastPeriods": "Evoluţia pentru următoarele %s %s",
         "GenerateQueries": "%s interogari executate",
         "GenerateTime": "%s secunde pentru generarea pagini",
         "MaxNbActions": "%s actiuni maxime pe vizita",

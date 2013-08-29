@@ -246,8 +246,6 @@
         "Inactive": "Neaktivno",
         "LicenseHomepage": "Podaci o licenci",
         "MainDescription": "Dodaci proširuju funkcionalnost Piwik-a. Jednom instaliran dodatak se ovde može aktivirati ili deaktivirati.",
-        "MenuPlugins": "Dodaci",
-        "MenuPluginsInstalled": "Instaliran",
         "Plugin": "Dodatak",
         "PluginCannotBeFound": "Ovaj dodatak nije nađen!",
         "PluginDescription": "Interfejs za upravljanje dodacima",
@@ -379,13 +377,6 @@
     "DoNotTrack": {
         "PluginDescription": "Ignoriši posete sa zaglavljima X-Do-Not-Track i DNT."
     },
-    "EntryPage": {
-        "Bounces": "Odbijene posete",
-        "Referrers": "Reference"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Vidžet"
-    },
     "Feedback": {
         "CategoryHire": "Unajmite konsultanta za Piwik",
         "CategorySecurity": "Prijavite sigurnosni propust",
@@ -415,14 +406,6 @@
         "WantToThankConsiderDonating": "Da li smatrate da je Piwik izuzetan i želite da nam zahvalite? Razmislite o donaciji",
         "WhyAreMyVisitsNoTracked": "Zašto se posete mom sajtu ne beleže?",
         "WhyWrongCountry": "Zašto Piwik prikazuje moje posete pod pogrešnom zemljom?"
-    },
-    "Forecast": {
-        "Actions": "Pregledi stranica",
-        "Bounce": "Korisnici koji su odmah otišli",
-        "Column": "Prognoza",
-        "ReturnVisits": "ponovne posete",
-        "Visitors": "Posetioci",
-        "Widget": "Prognoza za danas"
     },
     "General": {
         "AbandonedCarts": "Napuštene korpe",
@@ -724,7 +707,6 @@
         "ParameterMustIntegerBetween": "Parametar %s mora biti celobrojna vrednost između %s i %s",
         "Period": "Period",
         "Piechart": "Grafikon",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s je projekat otvorenog koda. %3$s Ako vam se sviđa Piwik, možete pomoći. Proverite %4$s kako možete doprineti razvoju Piwik-a%5$s",
         "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s je zajednički projekat. %3$s Ako vam se sviđa Piwik, možete pomoći. Proverite %4$s kako možete doprineti razvoju Piwik-a%5$s ili%6$s %7$sizvršite donaciju%8$s kako biste pomogli finansiranju Piwik 2.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s je na raspolaganju. Molimo vas da obavestite administratora sajta",
         "PiwikXIsAvailablePleaseUpdateNow": "Objavljen je Piwik %1$s. %2$s Molimo Vas da izvršite nadogradnju!%3$s (pogledajte %4$spromene%5$s).",
@@ -824,7 +806,6 @@
         "Today": "Danas",
         "Total": "Ukupno",
         "TotalRevenue": "Ukupan prihod",
-        "TotalVisitsActionsRevenue": "(Ukupno: %s poseta, %s akcija, %s zarada)",
         "TotalVisitsPageviewsRevenue": "(Ukupno poseta %s, prikaza %s, zarada %s)",
         "TransitionsRowActionTooltip_js": "Pogledajte šta su posetioci radili pre i posle posete ovoj stranici",
         "TransitionsRowActionTooltipTitle_js": "Otvori tranzicije",
@@ -1141,20 +1122,13 @@
         "Logout": "Odjavljivanje",
         "LostYourPassword": "Zaboravili ste lozinku?",
         "MailPasswordChangeBody": "Pozdrav %1$s. Sa %2$s je poslat zahtev za resetovanje lozinke. Ukoliko želite da promenite lozinku kako biste mogli da se ponovo prijavite na sistem, otvorite sledeći link: %3$s Ovaj token je validan naredna 24 sata.",
-        "MailPasswordRecoveryBody": "Pozdrav %1$s. Primljen je zahtev za promenu lozinke od strane %2$s. Ukoliko zaista želite da promenite lozinku: 1) Idite na stranicu %3$s 2) Upišite sledeći token: %4$s 3) Popunite formu (upišite novu lozinku dva puta) i pošaljite je. Pažnja: ovaj token je validan narednih 24 sata.",
         "MailTopicPasswordChange": "Potvrdite promenu lozinke",
-        "MailTopicPasswordRecovery": "Oporavak lozinke",
         "Password": "Lozinka",
         "PasswordChanged": "Vaša lozinka je promenjena.",
-        "PasswordReminder": "Molimo vas da upišete vaše korisničko ime ili elektronsku adresu. Elektronskom poštom ćete dobiti informaciju o novoj lozinki",
         "PasswordRepeat": "Lozinka (ponovo)",
-        "PasswordResetToken": "Token za novu lozinku",
         "PasswordsDoNotMatch": "Lozinka se ne poklapa",
-        "PasswordSent": "Lozinka vam je upravo poslata. Proverite vašu elektronsku poštu.",
-        "PasswordSuccessfullyChanged": "Lozinka je uspešno promenjena!",
         "PluginDescription": "Dodatak za proveru prijavljivanja, čitanje podataka iz datoteke onfig\/config.inc.php za superkorisnika i podataka iz baze za ostale korisnike. Može lako biti zamenjen zarad nekih novih mehanizama prijave na sistem (OpenID, htaccess itd.)",
         "RememberMe": "Zapamti me",
-        "RemindPassword": "Pošalji novu lozinku",
         "ResetPasswordInstructions": "Upišite novu lozinku za vaš nalog."
     },
     "Mobile": {
@@ -1491,7 +1465,6 @@
     },
     "SEO": {
         "AlexaRank": "Alexa rangiranje",
-        "Backlinks": "Povratni linkovi",
         "Bing_IndexedPages": "Stranice koje je indeksirao Bing",
         "Dmoz": "DMOZ stavke",
         "DomainAge": "Starost domena",
@@ -2027,7 +2000,6 @@
         "WorldWide": "Ceo svet"
     },
     "UserLanguage": {
-        "Language": "Jezici",
         "Language_aa": "Afar",
         "Language_ab": "Abhazijski",
         "Language_ae": "Avestan",
@@ -2211,9 +2183,7 @@
         "Language_yo": "Joruba",
         "Language_za": "Čueng",
         "Language_zh": "Kineski",
-        "Language_zu": "Zulu",
-        "SubmenuLanguage": "Jezici",
-        "WidgetLanguage": "Jezici posetilaca"
+        "Language_zu": "Zulu"
     },
     "UserSettings": {
         "BrowserFamilies": "Porodica brauzera",
@@ -2268,7 +2238,6 @@
         "ClickHereToDeleteTheCookie": "Kliknite ovde kako biste obrisali kolačić i time omogućili Piwik da prati i vaše posete",
         "ClickHereToSetTheCookieOnDomain": "Kliknite ovde kako biste postavili kolačić i time onemogućili Piwik da prati i vaše posete %s",
         "DeleteConfirm_js": "Da li ste sigurni da želite da obrišete korisnika %s?",
-        "Edit": "Izmena",
         "Email": "Elektronska adresa",
         "EmailYourAdministrator": "%1$sObavestite administratora o ovom problemu%2$s.",
         "ExceptionAccessValues": "Parametar pristupa mora da ima jednu od sledećih vrednosti: [ %s ]",
@@ -2376,7 +2345,6 @@
     "VisitsSummary": {
         "AverageGenerationTime": "%s prosečno vreme generisanja",
         "AverageVisitDuration": "Prosečno trajanje posete: %s",
-        "EvolutionOverLastPeriods": "Trend za poslednjih %s %s",
         "GenerateQueries": "Izvršeno upita: %s",
         "GenerateTime": "Vreme generisanja izveštaja u sekundama: %s",
         "MaxNbActions": "Maksimum akcija u jednoj poseti: %s",

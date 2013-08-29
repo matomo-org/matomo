@@ -187,7 +187,6 @@
         "Inactive": "Inactivo",
         "LicenseHomepage": "Licencia de la Wrb",
         "MainDescription": "Los plugins extienden y amplían las funcionalidades de Piwik. Una vez que el plugin esté instalado, usted puede activarlo o desactivarlo desde aquí.",
-        "MenuPlugins": "Plugins",
         "Plugin": "Plugin",
         "PluginCannotBeFound": "Esta extensión no puede encontrarse!",
         "PluginDescription": "Interfaz de Administración de Plugins",
@@ -316,13 +315,6 @@
         "TotalSize": "Tamaño total",
         "TrackerTables": "Tablas de Rastreadores"
     },
-    "EntryPage": {
-        "Bounces": "Rebotes",
-        "Referrers": "Enlaces de origen"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Widget de ejemplo"
-    },
     "Feedback": {
         "CategoryHire": "Contratar un consultor Piwik",
         "CategorySecurity": "Informar de un problema de seguridad",
@@ -351,14 +343,6 @@
         "VisitTheForums": "Visita el %sForo%s",
         "WhyAreMyVisitsNoTracked": "¿Porque no se rastrean las visitas a mi sitio web?",
         "WhyWrongCountry": "Porque Piwik muestra mis visitas en un país equivocado?"
-    },
-    "Forecast": {
-        "Actions": "Visitas a Páginas",
-        "Bounce": "Visitantes rebotados",
-        "Column": "Pronóstico",
-        "ReturnVisits": "Visitantes que regresan",
-        "Visitors": "Visitantes",
-        "Widget": "Pronóstico para hoy"
     },
     "General": {
         "AbandonedCarts": "Carros Abandonados",
@@ -636,7 +620,6 @@
         "ParameterMustIntegerBetween": "El parámetro %s debe ser un número entero entre %s y %s.",
         "Period": "Periodo",
         "Piechart": "Gráfica circular",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s es un proyecto colaborativo. %3$s ¡Si te gusta Piwik, puedes ayudar! Comprueba %4$s ¿Cómo contribuir con Piwik?%5$s",
         "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s es un proyecto colaborativo. %3$s Si es un entusiasta, un fanático de Piwik, puede ayudar: encuéntrelo en %4$sComo participar en Piwik%5$s, o%6$s %7$sdonar ahora%8$s para ayudar a financiar Piwik 2.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s está disponible. Por favor, notifique al administrador.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s está disponible. %2$s  ¡Por favor, actualice ahora!%3$s (ver %4$schanges%5$s).",
@@ -731,7 +714,6 @@
         "Today": "Hoy",
         "Total": "Total",
         "TotalRevenue": "Ingresos Totales",
-        "TotalVisitsActionsRevenue": "(Total: %s visitas, %s acciones, %s ingresos)",
         "TotalVisitsPageviewsRevenue": "(Total: %s visitas, %s páginas vistas, %s ingresos)",
         "TransitionsRowActionTooltip_js": "Vea que hicieron los visitantes antes y después de observar esta página",
         "TransitionsRowActionTooltipTitle_js": "Transiciones abiertas",
@@ -1034,20 +1016,13 @@
         "Logout": "Desconectar",
         "LostYourPassword": "¿Olvidó la contraseña?",
         "MailPasswordChangeBody": "Estimado %1$s:\n\nSe ha recibido una solicitud de modificación de contraseña desde %2$s. Para confirmar el cambio y de esta manera permitir tu inicio de sesión con nuevas credenciales, visita esta enlace:\n\n%3$s\n\nNota: Este código vencerá en 24 hora.\n\n¡Y gracias por usar Piwik!",
-        "MailPasswordRecoveryBody": "Hola %1$s, recibimos una petición de restablecimiento de contraseña desde %2$s. Para restablecer su contraseña: 1) Ir al formulario para restablecer una contraseña en: %3$s 2) Introduzca el token: %4$s 3) Complete el formulario (escribir la nueva contraseña dos veces) y envíelo. Nota: este token expirará en 24 horas.",
         "MailTopicPasswordChange": "Confirma el Cambio de Contraseña",
-        "MailTopicPasswordRecovery": "Recuperar contraseña",
         "Password": "Contraseña",
         "PasswordChanged": "Tu contraseña ha sido modificada.",
-        "PasswordReminder": "Por favor, introduzca su nombre de usuario o dirección de email. Recibirá una nueva contraseña por email",
         "PasswordRepeat": "Contraseña (repetir)",
-        "PasswordResetToken": "Indicio de restablecimiento de contraseña",
         "PasswordsDoNotMatch": "Las contraseñas no coinciden.",
-        "PasswordSent": "La contraseña acaba de ser enviada. Comprueba tu email.",
-        "PasswordSuccessfullyChanged": "¡Contraseña cambiada correctamente!",
         "PluginDescription": "Plugin de Autenticación de Ingreso, leyendo las credenciales desde el archivo config\/config.inc.php para el Super Usuario, y desde la base de datos para los usuarios. Puede ser fácilmente reemplazado para introducir un nuevo mecanismo de Autenticación (OpenID, htaccess, Custom Auth, etc).",
         "RememberMe": "Recuerdeme",
-        "RemindPassword": "Recordar Contraseña",
         "ResetPasswordInstructions": "Ingresa una nueva contraseña para tu cuenta."
     },
     "Mobile": {
@@ -1347,7 +1322,6 @@
     },
     "SEO": {
         "AlexaRank": "Ranking Alexa",
-        "Backlinks": "Backlinks",
         "Bing_IndexedPages": "páginas indexadas por Bing",
         "Dmoz": "Entradas DMOZ",
         "DomainAge": "Edad del dominio",
@@ -1853,7 +1827,6 @@
         "worldMap": "mapamundi"
     },
     "UserLanguage": {
-        "Language": "Idiomas",
         "Language_aa": "Lejos",
         "Language_ab": "Abjasia",
         "Language_ae": "Avéstico",
@@ -2037,9 +2010,7 @@
         "Language_yo": "Yoruba",
         "Language_za": "Chuang",
         "Language_zh": "Chino",
-        "Language_zu": "Zulú",
-        "SubmenuLanguage": "Idiomas",
-        "WidgetLanguage": "Idiomas del visitante"
+        "Language_zu": "Zulú"
     },
     "UserSettings": {
         "BrowserFamilies": "Familia de Navegadores",
@@ -2089,7 +2060,6 @@
         "ClickHereToDeleteTheCookie": "Haga clic aquí para borrar la cookie y permitir que Piwik realice un seguimiento de sus visitas",
         "ClickHereToSetTheCookieOnDomain": "Haga clic aquí para configurar la cookie que excluirá sus visitas a los sitios web a los que Piwik realiza seguimiento en %s",
         "DeleteConfirm_js": "¿Está seguro que desea eliminar al usuario %s?",
-        "Edit": "Editar",
         "Email": "Email",
         "EmailYourAdministrator": "%1$sEnviar un correo electrónico a su administrador acerca de este problema%2$s.",
         "ExceptionAccessValues": "El parámetro debe tener acceso a uno de los siguientes valores: [ %s ]",
@@ -2196,7 +2166,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s duración promedio de la visita",
-        "EvolutionOverLastPeriods": "Evolución en los últimos %s",
         "GenerateQueries": "%s consultas ejecutadas",
         "GenerateTime": "%s segundos para generar la página",
         "MaxNbActions": "%s acciones máximas en una visita",

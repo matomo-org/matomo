@@ -155,7 +155,6 @@
         "MenuManage": "Beheer",
         "MissingPluginsWarning": "De volgende plugins werden niet geladen, omdat ze niet gevonden werden in de 'plugins' map: %1$s. Je kunt deze plugins uitschakelen op de %2$sBeheer Plugins%3$s pagina.",
         "OldPHPVersionWarning_Part1": "Piwik wordt snel bijgewerkt en om je een uitstekend Web Analyse platform te bieden, zal binnenkort de minimum PHP versie verhoogd worden naar PHP 5.3. %1$s Vraag je serverbeheerder of web hosting provider om PHP up te daten naar de laatste versie, liefst PHP 5.4.%2$s",
-        "OldPHPVersionWarning_Part2": "Wanneer je update naar PHP 5.3 of hoger, zal dit bericht verdwijnen en zal je Piwik server sneller en met lager geuhengebruik rapporten genereren. %1$sUpdate PHP%2$s en haal het meeste uit Piwik!%2$s",
         "OptOutComplete": "Opt-out ingesteld; Uw bezoeken aan deze website zullen niet worden geregistreerd in de Web Analytics tool.",
         "OptOutCompleteBis": "Als u uw cookies verwijderd, de opt-out cookie verwijderd of wisselt van computer of webbrowser, dan zult u deze opt-out procedure opnieuw moeten uitvoeren.",
         "OptOutExplanation": "Piwik is ingericht om de privacy op internet te respecteren. U kunt uw bezoekers de keuze opting-out van Piwik Web Analytics aanbieden. Daartoe kunt u de volgende HTML-code toevoegen aan één van uw webpagina's, bijvoorbeeld op een pagina met de Privacy Policy.",
@@ -171,7 +170,6 @@
         "UseCustomLogo": "Gebruik een aangepast logo",
         "ValidPiwikHostname": "Geldige Piwik hostnaam.",
         "WithOptionalRevenue": "Met optionele inkomsten",
-        "YouAreCurrentlyUsingPHP": "Je gebruikt momenteel PHP %s$s.",
         "YouAreOptedIn": "U bent momenteel aangemeld.",
         "YouAreOptedOut": "U bent momenteel afgemeld.",
         "YouMayOptOut": "Je kunt ervoor kiezen om geen uniek cookie identificatie nummer van je computer te hebben, zodat er op deze website van uw apparaat geen data verzameld of geanalyseerd kan worden.",
@@ -197,7 +195,6 @@
         "IncludeRowsWithLowPopulation_js": "Rijen met een lage populatie zijn verborgen %s Laat alle rijen zien",
         "InjectedHostEmailBody": "Hallo, ik probeerde Piwik vandaag te benaderen, en kreeg de onbekende hostnaam waarschuwing.",
         "InjectedHostEmailSubject": "Piwik werd bezocht via een onbekende hostnaam: %s",
-        "InjectedHostNonSuperUserWarning": "%1$sKlik hier om Piwik veilig te benaderen%2$s en deze waarschuwing te verwijderen. Je verwittigt best ook je Piwik beheerder en meld hen dit probleem (£3$sKlik hier om te emailen%4$s).",
         "InjectedHostSuperUserWarning": "Piwik is waarschijnlijk verkeerd geconfigureerd (bijv. Piwik werd verplaatst naar een nieuwe server of URL). %1$sKlik hier en voeg %2$s toe als een toegestane Piwik hostnaam indien je die vertrouwd%3$s, of %4$sklik hier en ga naar %5$s om Piwik veilig te banaderen%6$s.",
         "InjectedHostWarningIntro": "Je bezoekt nu Piwik van %1$s, maar Piwik is geconfigureerd om op dit adres te draaien: %2$s.",
         "JavascriptDisabled": "JavaScript moet ingeschakeld zijn om Piwik in standaard weergave te bekijken. <br\/> Het lijkt erop dat JavaScript is uitgeschakeld of niet ondersteund wordt door uw browser.<br\/> Om de standaard weergave te gebruiken, schakel JavaScript in door uw browser instellingen te wijzigen, probeer het daarna %1$s opnieuw %2$s.<br\/>",
@@ -248,8 +245,6 @@
         "MainDescription": "Met plugins breidt u de functionaliteit van piwik uit. Wanneer een plugin geïnstalleerd is, kan deze hier aan- en uitgeschakeld worden.",
         "MenuExtend": "Meer",
         "MenuPlatform": "Platform",
-        "MenuPlugins": "Plugins",
-        "MenuPluginsInstalled": "Geïnstalleerd",
         "Plugin": "Plugin",
         "PluginCannotBeFound": "Deze plugin kan niet worden gevonden!",
         "PluginDescription": "Plugin admin interface",
@@ -385,13 +380,6 @@
     "DoNotTrack": {
         "PluginDescription": "Negeer bezoeken met X-Do-Not-Track of DNT header."
     },
-    "EntryPage": {
-        "Bounces": "Bounces",
-        "Referrers": "Referrers"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Voorbeeld Widget"
-    },
     "Feedback": {
         "CategoryHire": "Huur een Piwik consultant",
         "CategorySecurity": "Meld een veiligheids probleem",
@@ -420,11 +408,6 @@
         "WantToThankConsiderDonating": "Denk ja dat Piwik geweldig is en wil je ons bedanken? Overweeg een donatie",
         "WhyAreMyVisitsNoTracked": "Waarom worden bezoeken op mijn websites niet bijgehouden?",
         "WhyWrongCountry": "Waarom toont Piwik mijn bezoek uit een ander land?"
-    },
-    "Forecast": {
-        "Actions": "Pagina bezoeken",
-        "Column": "Voorspelling",
-        "Visitors": "Bezoekers"
     },
     "General": {
         "AbandonedCarts": "Niet afgeronde bestellingen",
@@ -701,7 +684,6 @@
         "ParameterMustIntegerBetween": "Parameter %s moet een geheel getal tussen %s en %s zijn.",
         "Period": "Periode",
         "Piechart": "Taartdiagram",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s is een samenwerkingsproject. %3$s Als u Piwik handig vindt, dan kunt u helpen! Zoek uit %4$s Bekijk hoe u kan meehelpen aan Piwik.%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s is beschikbaar. Gelieve de site admin te verwittigen.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s is beschikbaar. %2$s Gelieve nu te updaten! %3$s 'zie %4$s wijzigingen%5$s)",
         "PleaseSpecifyValue": "Gelieve een waarde op te geven voor '%s'.",
@@ -795,7 +777,6 @@
         "Today": "Vandaag",
         "Total": "Totaal",
         "TotalRevenue": "Totale Inkomsten",
-        "TotalVisitsActionsRevenue": "(Totaal: %s bezoeken, %s acties, %s inkomsten)",
         "TransitionsRowActionTooltip_js": "Bekijk wat bezoekers voor en na het bekijken van deze pagina deden",
         "TransitionsRowActionTooltipTitle_js": "Open transities",
         "TranslatorEmail": "martijn@mvanlaar.net, hannes@randomize.be, benkheil.abdelouali@gmail.com, info@depree.nl",
@@ -1085,20 +1066,13 @@
         "LoginPasswordNotCorrect": "Gebruikersnaam & Wachtwoord niet correct",
         "Logout": "Uitloggen",
         "LostYourPassword": "Wachtwoord vergeten?",
-        "MailPasswordRecoveryBody": "Hallo %1$s, een wachtwoord reset aanvraag was ontvangen van %2$s. Om uw wachtwoord te resetten: 1) Ga naar het wachtwoord reset formulier op %3$s 2) Vul het volgende token in: %4$s 3) Vul het formulier in (uw wachtwoord twee maal invoeren) en verzend. Opmerking: Deze token vervalt na 24 uur.",
         "MailTopicPasswordChange": "Bevestig wachtwoord wijziging",
-        "MailTopicPasswordRecovery": "Wachtwoord terughalen",
         "Password": "Wachtwoord",
         "PasswordChanged": "Je wachtwoord is veranderd.",
-        "PasswordReminder": "Vul uw gebruikersnaam of e-mail adres in. U zal middels een e-mail een nieuw wachtwoord ontvangen.",
         "PasswordRepeat": "Wachtwoord (herhaal)",
-        "PasswordResetToken": "Wachtwoord reset token",
         "PasswordsDoNotMatch": "Wachtwoorden komen niet overeen",
-        "PasswordSent": "Uw wachtwoord is verzonden. Controleer uw e-mail.",
-        "PasswordSuccessfullyChanged": "Wachtwoord succesvol aangepast!",
         "PluginDescription": "Login authenticatie plugin, leest de logingegevens uit het config\/config.inc.php bestand voor de Superuser en uit de database voor de andere gebruikers. Kan eenvoudig worden vervangen om een nieuw Authenticatie mechanisme te introduceren (OpenID, htaccess, eigen Auth, enz.).",
         "RememberMe": "Onthoud mij",
-        "RemindPassword": "Stuur wachtwoord reset",
         "ResetPasswordInstructions": "Voer een nieuw wachtwoord in voor je account."
     },
     "Mobile": {
@@ -1342,7 +1316,6 @@
     },
     "SEO": {
         "AlexaRank": "Alexa Rank",
-        "Backlinks": "Links naar uw website",
         "DomainAge": "Domein leeftijd",
         "Pages": "Pagina's",
         "Rank": "Ranking",
@@ -1754,7 +1727,6 @@
         "WorldWide": "Wereldwijd"
     },
     "UserLanguage": {
-        "Language": "Talen",
         "Language_aa": "Afar",
         "Language_ab": "Abchazisch",
         "Language_ae": "Avestisch",
@@ -1938,8 +1910,7 @@
         "Language_yo": "Yoruba",
         "Language_za": "Zhuang",
         "Language_zh": "Chinees",
-        "Language_zu": "Zulu",
-        "SubmenuLanguage": "Talen"
+        "Language_zu": "Zulu"
     },
     "UserSettings": {
         "BrowserFamilies": "Browser per type",
@@ -1989,7 +1960,6 @@
         "ClickHereToDeleteTheCookie": "Klik hier om de cookie te verwijderen en laat Piwik uw bezoeken volgen.",
         "ClickHereToSetTheCookieOnDomain": "Klik hier om een cookie te plaatsen dat uw bezoeken uitsluit van Piwik op %s",
         "DeleteConfirm_js": "Weet u zeker dat u de volgende gebruiker wilt verwijderen: %s?",
-        "Edit": "Bewerk",
         "Email": "E-mail",
         "ExceptionAccessValues": "De parameter toegang moet één van de volgede waarden bevatten : [ %s ]",
         "ExceptionAdminAnonymous": "U kunt geen adminrechten toekennen aan de 'anonieme' gebruiker.",
@@ -2093,7 +2063,6 @@
     "VisitsSummary": {
         "AverageGenerationTime": "%s gemiddelde laadtijd",
         "AverageVisitDuration": "%s gemiddelde duur bezoek",
-        "EvolutionOverLastPeriods": "Trendlijn over de laatste %s",
         "GenerateQueries": "%s queries uitgevoerd",
         "GenerateTime": "%s seconden om deze pagina te genereren",
         "MaxNbActions": "%s hoogste aantal acties per bezoek",

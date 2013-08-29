@@ -245,8 +245,6 @@
         "Inactive": "Tak Aktif",
         "LicenseHomepage": "Alamat Lisensi",
         "MainDescription": "Pengaya menambah dan memperluas kegunaan dari Piwik. Sekali pengaya terinstal, Anda dapat mengaktifkan dan mematikan di sini.",
-        "MenuPlugins": "Pengaya",
-        "MenuPluginsInstalled": "Terpasang",
         "Plugin": "Pengaya",
         "PluginCannotBeFound": "Pengaya ini tidak dapa ditemukan!",
         "PluginDescription": "Antarmuka Pengaturan Pengaya.",
@@ -378,13 +376,6 @@
     "DoNotTrack": {
         "PluginDescription": "Abaikan kunjungan dengan kepala Jangan-Lacak \"X-Do-Not-Track\" atau \"DNT\"."
     },
-    "EntryPage": {
-        "Bounces": "Pentalan",
-        "Referrers": "Pengarah"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Gawit Contoh"
-    },
     "Feedback": {
         "CategoryHire": "Menyewa konsultan Piwik",
         "CategorySecurity": "Laporkan masalah keamanan",
@@ -414,14 +405,6 @@
         "WantToThankConsiderDonating": "Apakah Anda pikir Piwik mengagumkan dan ingin berterima kasih kepada kami? Pertimbangkan untuk menyumbang",
         "WhyAreMyVisitsNoTracked": "Kenapa saya mengunjungi situs saya tak dilacak?",
         "WhyWrongCountry": "Kenapa Piwik menampilkan kunjungan saya dari negara yang salah?"
-    },
-    "Forecast": {
-        "Actions": "Kunjungan Halaman",
-        "Bounce": "Pengunjung Pentalan",
-        "Column": "Cuaca",
-        "ReturnVisits": "kunjungan kembali",
-        "Visitors": "Pengunjung",
-        "Widget": "Cuaca untuk hari ini"
     },
     "General": {
         "AbandonedCarts": "Keranjang Terabaikan",
@@ -723,7 +706,6 @@
         "ParameterMustIntegerBetween": "Parameter %s harus bilangan bulat antara %s dan %s.",
         "Period": "Periode",
         "Piechart": "Bagan Lingkaran",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s merupakan sebuah proyek kolaboratif. %3$s Bila Anda merupakan penggemar Piwik, Anda dapat membantu! Cari tahu %4$sBagaimana ikut serta di Piwik?%5$s",
         "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s merupakan sebuah proyek kolaboratif. %3$s Bila Anda merupakan penggemar Piwik, Anda dapat membantu: cari tahu %4$s Bagaimana ikut serta di Piwik%5$s, atau%6$s %7$smenyumbang sekarang%8$s untuk membantu pendanaan Piwik 2.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s tersedia. Harap memberitahu pengelola situs.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s tersedia. %2$sSilakan memperbarui sekarang!%3$s (lihat %4$sperubahan%5$s).",
@@ -823,7 +805,6 @@
         "Today": "Hari ini",
         "Total": "Jumlah",
         "TotalRevenue": "Jumalh Pendapatan",
-        "TotalVisitsActionsRevenue": "(Jumlah: %s kunjungan, %s tindakan, %s pendapatan)",
         "TotalVisitsPageviewsRevenue": "(Jumlah: %s kunjungan, %s tampilan halaman, %s pendapatan)",
         "TransitionsRowActionTooltip_js": "Lihat apa yang pengujung lakukan sebelum dan sesudah melihat halaman ini",
         "TransitionsRowActionTooltipTitle_js": "Buka Peralihan",
@@ -1140,20 +1121,13 @@
         "Logout": "Keluar",
         "LostYourPassword": "Lupa sandi?",
         "MailPasswordChangeBody": "Hai %1$s,\n\nSebuah permintaan atur ulang sandi telah diterima dari %2$s. Untuk mengkonfirmasi pengubahan sandi, Anda dapat masuk-log dengan mandat baru Anda, kunjungi tautan berikut:\n\n%3$s\n\nCatatan: kepingan ini akan kedaluwarsa dalam 24 jam.\nDan terima kasih menggunakan Piwik!",
-        "MailPasswordRecoveryBody": "Hai %1$s,\n\n\tSebuah permintaan atur ulang sandi telah diterima dari %2$s.\n\n\tUntuk mengatur ulang sandi Anda:\n\n\t1) Pergi ke Borang Atur Ulang Sandi pada:\n\t\t%3$s\n\n\t2) Masukkan kepingan berikut:\n\t\t%4$s\n\n\t3) Isi borang (masukkan sandi baru Anda dua kali) dan kirim.\n\n\tCatatan: kepingan ini akan kedaluwarsa dalam 24 jam.",
         "MailTopicPasswordChange": "Konfirmasi Pengubahan Sandi",
-        "MailTopicPasswordRecovery": "Pemulihan sandi",
         "Password": "Sandi",
         "PasswordChanged": "Sandi Anda telah berubah.",
-        "PasswordReminder": "Harap masukkan nama-id dan alamat surel Anda. Anda akan menerima sebuah surel dengan informasi untuk mengatur ulang sandi Anda.",
         "PasswordRepeat": "Sandi (ulangi)",
-        "PasswordResetToken": "Kepingan atur ulang sandi",
         "PasswordsDoNotMatch": "Sandi tak sesuai.",
-        "PasswordSent": "Informasi untuk mengatur ulang sandi Anda telah dikirim. Harap periksa sandi Anda.",
-        "PasswordSuccessfullyChanged": "Sandi berhasil diubah!",
         "PluginDescription": "Pengaya Otentikasi Masuk-log, membaca identitas dari berkas config\/config.inc.php dari Pengguna Super, dan basisdata dari pengguna lain. Dapat dengan mudah diganti untuk memperkenalkan mekanisme Otentikasi baru. (OpenID, htaccess, Otentikasi kustom, dsb.).",
         "RememberMe": "Ingat Saya",
-        "RemindPassword": "Kirim pengatur ulang sandi",
         "ResetPasswordInstructions": "Masukkan sebuah sandi baru untuk akun Anda."
     },
     "Mobile": {
@@ -1490,7 +1464,6 @@
     },
     "SEO": {
         "AlexaRank": "Peringkat Alexa",
-        "Backlinks": "Tuatan Kembali",
         "Bing_IndexedPages": "Halaman terindeks Bing",
         "Dmoz": "Msukan DMOZ",
         "DomainAge": "Umut Ranah",
@@ -2026,7 +1999,6 @@
         "WorldWide": "Seluruh Dunia"
     },
     "UserLanguage": {
-        "Language": "Bahasa",
         "Language_aa": "Afar",
         "Language_ab": "Abkhaz",
         "Language_ae": "Avestan",
@@ -2210,9 +2182,7 @@
         "Language_yo": "Yoruba",
         "Language_za": "Zhuang",
         "Language_zh": "Cina",
-        "Language_zu": "Zulu",
-        "SubmenuLanguage": "Bahasa",
-        "WidgetLanguage": "Bahasa Pengunjung"
+        "Language_zu": "Zulu"
     },
     "UserSettings": {
         "BrowserFamilies": "Keluarga Peramban",
@@ -2267,7 +2237,6 @@
         "ClickHereToDeleteTheCookie": "Klik di sini untuk menghapus kuki dan mengizinkan Piwik melacak kunjungan Anda",
         "ClickHereToSetTheCookieOnDomain": "Klik di sini untuk mengatur kuki yang akan mengecualikan kunjungan Anda ke situs yang dilacak oleh Piwik %s",
         "DeleteConfirm_js": "Apakah Anda yakin menghapus pengguna %s?",
-        "Edit": "Sunting",
         "Email": "Surel",
         "EmailYourAdministrator": "%1$sKirim surel kepada pengelola Anda tentang masalah ini%2$s.",
         "ExceptionAccessValues": "Akses parameter harus memiliki salah satu dari nilai berikut: [ %s ]",
@@ -2375,7 +2344,6 @@
     "VisitsSummary": {
         "AverageGenerationTime": "%s rerata waktu pembangkitan",
         "AverageVisitDuration": "%s rerata waktu kunjungan",
-        "EvolutionOverLastPeriods": "Perubahan selama %s terakhir %s",
         "GenerateQueries": "%s kueri dijalankan",
         "GenerateTime": "%s detik untuk menghasilkan halaman",
         "MaxNbActions": "%s tindakan maksimum dalam satu kunjungan",

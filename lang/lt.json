@@ -60,7 +60,6 @@
         "Deactivate": "Pasyvinti",
         "Inactive": "Pasyvus",
         "MainDescription": "Papildiniai suteikia Piwik papildomų galimybių. Įdiegę papildinį, čia galite jį aktyvinti arba pasyvinti",
-        "MenuPlugins": "Papildiniai",
         "Plugin": "Papildinys",
         "PluginDescription": "Papildinių administravimo sąsaja.",
         "PluginHomepage": "Papildinio svetainė",
@@ -368,7 +367,6 @@
         "Others": "Kita",
         "Period": "Periodas",
         "Piechart": "Skritulinė diagrama",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s yra bendras projektas. %3$s Jei Jums patinka Piwik, Jūs taip pat galite prisijungti! %4$s Kaip prisidėti prie Piwik? %5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "Pasirodė %s. Prašome pranešti svetainės administratoriui.",
         "PiwikXIsAvailablePleaseUpdateNow": "Išleista Piwik %1$s versija. %2$s Atnaujinkite dabar!%3$s (peržiūrėti %4$s pasikeitimus%5$s).",
         "PleaseSpecifyValue": "Prašome nurodyti '%s' reikšmę.",
@@ -447,7 +445,6 @@
         "Today": "Šiandien",
         "Total": "Iš viso",
         "TotalRevenue": "Pajamų iš viso",
-        "TotalVisitsActionsRevenue": "(Iš viso: %s apsilankymų, %s veiksmų, %s pajamų)",
         "TranslatorEmail": "info@teraxit.com",
         "TranslatorName": "Donatas Stonys (Blue Whale SEO)",
         "UniquePurchases": "Unikalūs pirkimai",
@@ -651,18 +648,11 @@
         "LoginPasswordNotCorrect": "Naudotojo vardas ir slaptažodis neteisingi",
         "Logout": "Atsijungti",
         "LostYourPassword": "Pamiršote slaptažodį?",
-        "MailPasswordRecoveryBody": "Sveiki, %1$s, Iš %2$s buvo gautas slaptažodžio nustatymo iš naujo prašymas. Slaptažodžio nustatymui iš naujo: 1) Eikite į slaptažodžio nustatymo formą: %3$s 2) Įveskite šią žymą: %4$s 3) Užpildykite formą (dukart pakartojant slaptažodį) ir išsiųskite. Pastaba: ši žymas nustos galioti po 24 val.",
-        "MailTopicPasswordRecovery": "Slaptažodžio atkūrimas",
         "Password": "Slaptažodis",
-        "PasswordReminder": "Prašome įvesti naudotojo vardą arba el. pašto adresą. Naują slaptažodį gausite el. paštu.",
         "PasswordRepeat": "Slaptažodis (pakartoti)",
-        "PasswordResetToken": "Slaptažodžio keitimo talonas",
         "PasswordsDoNotMatch": "Slaptažodžiai nesutampa",
-        "PasswordSent": "Slaptažodis nusiųstas. Pasitikrinkite el. paštą.",
-        "PasswordSuccessfullyChanged": "Slaptažodis pakeistas sėkmingai!",
         "PluginDescription": "Prisijungimo autentifikacijos papildinys, nuskaitantis prisijungimo informaciją iš config\/config.inc.php failo Super User'iui, ir iš duomenų bazės kitiems naudotojams. Galima lengvai pakeisti kitais autentifikacijos mechanizmais (OpenID, htaccess, custom Auth ir t.t.)",
-        "RememberMe": "Prisiminti mane",
-        "RemindPassword": "Priminti slaptažodį"
+        "RememberMe": "Prisiminti mane"
     },
     "MultiSites": {
         "Evolution": "Raida"
@@ -755,7 +745,6 @@
     },
     "SEO": {
         "AlexaRank": "Alexa reitingas",
-        "Backlinks": "Nuorodos į svetainę",
         "DomainAge": "Adresų srities amžius",
         "Pages": "Puslapiai",
         "Rank": "Reitingas",
@@ -1344,7 +1333,6 @@
         "ClickHereToDeleteTheCookie": "Spauskite čia, kad ištrintumėte slapuką ir Piwik stebėtų Jūsų apsilankymus",
         "ClickHereToSetTheCookieOnDomain": "Spauskite čia, kad sukurtumėte slapuką, kuris neleis Piwik sekti Jūsų apsilankymų %s",
         "DeleteConfirm_js": "Ar tikrai norite pašalinti naudotoją %s?",
-        "Edit": "Redaguoti",
         "Email": "El. paštas",
         "ExceptionAccessValues": "Parametras access privalo turėti vieną iš šių reikšmių: [ %s ]",
         "ExceptionAdminAnonymous": "Negalite priskirti 'administratorius' teisių 'anonimas' naudotojui.",
@@ -1416,7 +1404,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s vidutinio apsilankymo trukmė",
-        "EvolutionOverLastPeriods": "Paskutinio %s raida",
         "GenerateQueries": "%s aktyvuotos užklausos",
         "GenerateTime": "%s sekundės puslapiui sugeneruoti",
         "MaxNbActions": "%s daugiausia veiksmų per apsilankymą",

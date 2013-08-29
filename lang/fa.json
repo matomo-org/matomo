@@ -127,7 +127,7 @@
         "UseCustomLogo": "استفاده از آرم های سفارشی",
         "ValidPiwikHostname": "نام هاست",
         "WithOptionalRevenue": "با درآمد اختیاری",
-        "YouAreCurrentlyUsingPHP": "شما در حال حاضر استفاده میکنید \nPHP %1$s",
+        "YouAreCurrentlyUsingPHP": "شما در حال حاضر استفاده میکنید  PHP %1$s",
         "YouAreOptedIn": "شما در حال حاضر تصمیم گرفتند شوید.",
         "YouAreOptedOut": "شما در حال حاضر تصمیم گرفتند.",
         "YouMayOptOut": "شما می توانید به تجزیه و تحلیل ترافیک وب منحصر به فرد کوکی برای نگهداری اطلاعات استفاده می شماره شناسایی اختصاص داده شده را به کامپیوتر خود را برای جلوگیری از تجمع و تجزیه و تحلیل داده های جمع آوری شده در این وب سایت نیست.",
@@ -185,8 +185,6 @@
         "Inactive": "غیر فعال",
         "LicenseHomepage": "صفحه خانگی مجوز",
         "MainDescription": "افزونه ها عملکرد و کارایی پیویک را گسترش می دهند. هنگامی که یک افزونه نصب شد , شما می توانید آنها را در اینجا فعال یا غیر فعال کنید.",
-        "MenuPlugins": "افزونه ها",
-        "MenuPluginsInstalled": "نصب شد",
         "Plugin": "افزونه",
         "PluginCannotBeFound": "این افزونه پیدا نشد!",
         "PluginDescription": "رابط مدیریت افزونه ها.",
@@ -310,13 +308,6 @@
         "TotalSize": "سایز کل",
         "TrackerTables": "جدول های ردیاب"
     },
-    "EntryPage": {
-        "Bounces": "پس زده گی",
-        "Referrers": "ارجاع دهنده ها"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "ابزار نمونه"
-    },
     "Feedback": {
         "CategoryHire": "استخدام مشاور از Piwik",
         "CategorySecurity": "یک مورد امنیتی را گزارش کنید",
@@ -346,14 +337,6 @@
         "WantToThankConsiderDonating": "آیا شما فکر می کنید که پیویک فوق العاده و جالب است و می خواهید از ما تشکر کنید؟ به کمک مالی به پیویک فکر کنید",
         "WhyAreMyVisitsNoTracked": "چرا بازدیدکننده به وب سایت من حساب نشده است؟",
         "WhyWrongCountry": "چرا پیویک بازید من را از کشور اشتباهی نشان می دهد؟"
-    },
-    "Forecast": {
-        "Actions": "بازدیدهای صفحه",
-        "Bounce": "بازدیدکننده های پس زده",
-        "Column": "پیش بینی",
-        "ReturnVisits": "بازدیدهای برگشتی",
-        "Visitors": "بازدیدکنندگان",
-        "Widget": "پیش بینی امروز"
     },
     "General": {
         "AbandonedCarts": "رها چرخ دستی",
@@ -720,7 +703,6 @@
         "Today": "امروز",
         "Total": "کل",
         "TotalRevenue": "درآمد کل",
-        "TotalVisitsActionsRevenue": "(کل: %s بازدیدها, %s عملیات, %s revenue)",
         "TotalVisitsPageviewsRevenue": "(مجموع : %s بازدید ، %sبازدیدازصفحه ،%sدرآمد)",
         "TransitionsRowActionTooltip_js": "کارهایی که بازدیدکنندگان قبل و بعد از دیدن این صفحه انجام داده اند را ببینید",
         "TranslatorEmail": "rasez_secure@yahoo.com, info[at]sweddata[.]com , info[at]parsigate[.]com , Hojat.ghanad@gmail.com",
@@ -999,20 +981,13 @@
         "LoginPasswordNotCorrect": "نام کاربری و کلمه عبور درست نیست.",
         "Logout": "خروج",
         "LostYourPassword": "کلمه عبور خود را گم کرده اید؟",
-        "MailPasswordRecoveryBody": "Hi %1$s,A password reset request was received from %2$s.To reset your password:1) Go to the Password Reset Form at:\t%3$s2) Enter the following token:\t%4$s3) Fill out the form (entering your new password twice) and submit.Note: this token will expire in 24 hrs.",
         "MailTopicPasswordChange": "تایید تغییر رمزعبور",
-        "MailTopicPasswordRecovery": "بازیابی رمزعبور",
         "Password": "رمزعبور",
         "PasswordChanged": "رمزعبور شما تغییر کرد.",
-        "PasswordReminder": "لطفا نام کاربری خود و یا آدرس ایمیل را وارد کنید. شما یک ایمیل با اطلاعات دریافت رمز عبور خود را تنظیم مجدد کنید.",
         "PasswordRepeat": "تکرار رمزعبور",
-        "PasswordResetToken": "رمز رمز تنظیم مجدد",
         "PasswordsDoNotMatch": "رمزعبور ها یکسان نیستند.",
-        "PasswordSent": "اطلاعات برای تنظیم مجدد رمزعبور فرستاده شده است. ایمیل خود را بررسی کنید.",
-        "PasswordSuccessfullyChanged": "رمز عبور با موفقیت تغییر!",
         "PluginDescription": "پلاگین انتقالها، خواندن اعتبارنامه از فایل پیکربندی \/ config.inc.php به کاربر فوق العاده، و از پایگاه داده را برای کاربران دیگر را وارد نمایید. می تواند به راحتی جایگزین را به شما معرفی مکانیزم احراز هویت جدید (ایجاد حساب کاربری، htaccess تغییر نام دهید، تایید سفارشی، و غیره).",
         "RememberMe": "مرا به خاطر داشته باش",
-        "RemindPassword": "ارسال رمز بازیابی",
         "ResetPasswordInstructions": "یک رمزعبور جدید برای حساب کاربری تان وارد کنید."
     },
     "Mobile": {
@@ -1266,7 +1241,6 @@
     },
     "SEO": {
         "AlexaRank": "رتبه الکسا",
-        "Backlinks": "بک لینک",
         "Bing_IndexedPages": "صفحه های نمایه (ایندکس) شده در بینگ",
         "Dmoz": "ورودی های DMOZ",
         "DomainAge": "سن دامنه",
@@ -1729,7 +1703,6 @@
         "WorldWide": "سراسر جهان"
     },
     "UserLanguage": {
-        "Language": "زبان ها",
         "Language_aa": "آفاری",
         "Language_ab": "آبخازیایی",
         "Language_ae": "اوستایی",
@@ -1913,9 +1886,7 @@
         "Language_yo": "یوروبایی",
         "Language_za": "چوانگی",
         "Language_zh": "چینی",
-        "Language_zu": "زولویی",
-        "SubmenuLanguage": "زبان ها",
-        "WidgetLanguage": "زبان های بازدیدکنندگان"
+        "Language_zu": "زولویی"
     },
     "UserSettings": {
         "BrowserFamilies": "خانواده مرورگرها",
@@ -1965,7 +1936,6 @@
         "ClickHereToDeleteTheCookie": "اینجا را کلیک کنید کوکی را برای حذف و Piwik پیگیری بازدیدکننده داشته است خود را",
         "ClickHereToSetTheCookieOnDomain": "اینجا کلیک کنید تا یک کوکی تنظیم شود که مانع ردیابی بازدیدهای شما از سایت هایی شود که توسط پیویک ردیابی می شوند روی %s",
         "DeleteConfirm_js": "آیا شما مطمئنید که میخواهید  کاربر  %s را حذف کنید?",
-        "Edit": "ویرایش",
         "Email": "ایمیل",
         "EmailYourAdministrator": "%1$s درباره این مشکل %2$s به مدیریت ایمیل بزنید.",
         "ExceptionAccessValues": "دسترسی پارامتر باید یکی از مقادیر زیر را داشته باشد: [%s]",
@@ -2068,7 +2038,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s میانگین مدت بازدید",
-        "EvolutionOverLastPeriods": "تکامل در طول %s %s آخر",
         "GenerateQueries": "%s پرس و جو  های اجرا شده",
         "GenerateTime": "%s ثانیه برای تولید صفحه",
         "MaxNbActions": "%s بیشترین عملیات در یک بازدید",

@@ -185,8 +185,6 @@
         "Deactivate": "Devre dışı",
         "Inactive": "Pasif",
         "LicenseHomepage": "Lisans Ana sayfası",
-        "MenuPlugins": "Eklentiler",
-        "MenuPluginsInstalled": "Yüklendi",
         "Plugin": "Eklenti",
         "PluginCannotBeFound": "Eklenti bulunamadı!",
         "PluginDescription": "Eklenti yönetim arabirimi.",
@@ -311,11 +309,6 @@
         "VisitTheForums": "%sForumları%s ziyaret edin",
         "WhyAreMyVisitsNoTracked": "Neden sitemin ziyaretleri izlenmiyor?",
         "WhyWrongCountry": "Neden Piwik benim ziyaretlerimi yanlış ülkede gösteriyor?"
-    },
-    "Forecast": {
-        "Actions": "Sayfa ziyaretleri",
-        "Column": "Tahmin",
-        "Visitors": "Ziyaretçiler"
     },
     "General": {
         "AboutPiwikX": "Piwik %s Hakkında",
@@ -533,7 +526,6 @@
         "ParameterMustIntegerBetween": "%s değeri %s ve %s arasında sayısal bir değer olmalıdır.",
         "Period": "Zaman aralığı",
         "Piechart": "Pasta grafik",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s işbirlikçi bir projedir. %3$s Eğer Piwik'den hoşlandıysanız, yardım edebilirsiniz! %4$s Piwik'e nasıl katılacağınızı%5$s kontrol edin?",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s mevcut. Lütfen site yöneticisine bildiriniz.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s kullanılabilir durumda.. %2$s Lütfen şimdi güncelleyin!%3$s (%4$s değişiklikleri%5$s görün).",
         "PleaseSpecifyValue": "Lütfen '%s' için bir değer belirtiniz.",
@@ -616,7 +608,6 @@
         "Today": "Bugün",
         "Total": "Toplam",
         "TotalRevenue": "Toplam Kazanç",
-        "TotalVisitsActionsRevenue": "(Toplam: %s ziyaretçi, %s eylem, %s kazanç)",
         "TranslatorEmail": "halfdan@xnorfz.de, dev@yazici.info, hello@emresaracoglu.com",
         "TranslatorName": "Fabian Becker, Emre Yazici, Emre Saraçoğlu",
         "UniquePurchases": "Tekil Satın Alımlar",
@@ -758,16 +749,10 @@
         "LoginPasswordNotCorrect": "Kullanıcı adı & Şifre yanlış",
         "Logout": "Oturumu kapat",
         "LostYourPassword": "Şifrenizi mi unuttunuz?",
-        "MailTopicPasswordRecovery": "Şifre kurtarma",
         "Password": "Şifre",
-        "PasswordReminder": "Lütfen kullanıcı adınızı veya e-posta adresinizi giriniz. Şifrenizi sıfırlamak için bilgi e-postası alacaksınız.",
         "PasswordRepeat": "Şifre (Tekrar)",
-        "PasswordResetToken": "Parola sıfırlama kodu",
         "PasswordsDoNotMatch": "Şifre eşleşmedi",
-        "PasswordSent": "Sizin parolanızın sıfırlama bilgilendirmesi gönderildi. Lütfen e-postanızı kontrol ediniz.",
-        "PasswordSuccessfullyChanged": "Şifre başarıyla değiştirildi!",
-        "RememberMe": "Beni Hatırla",
-        "RemindPassword": "Parola sıfırlama gönder"
+        "RememberMe": "Beni Hatırla"
     },
     "Mobile": {
         "Accounts": "Hesaplar",
@@ -822,7 +807,6 @@
     },
     "SEO": {
         "AlexaRank": "Alexa Sırası",
-        "Backlinks": "Dönünen Linkler",
         "DomainAge": "Alan Ad Yaşı",
         "Pages": "Sayfalar",
         "Rank": "Sıralama",
@@ -1171,7 +1155,6 @@
         "worldMap": "Dünya Haritası"
     },
     "UserLanguage": {
-        "Language": "Diller",
         "Language_aa": "Afar",
         "Language_ab": "Abazca",
         "Language_ae": "Avestçe",
@@ -1355,9 +1338,7 @@
         "Language_yo": "Yoruba",
         "Language_za": "Zhuang",
         "Language_zh": "Çince",
-        "Language_zu": "Zulu",
-        "SubmenuLanguage": "Diller",
-        "WidgetLanguage": "Ziyaretçi Dili"
+        "Language_zu": "Zulu"
     },
     "UserSettings": {
         "BrowserFamilies": "Tarayıcı aileleri",
@@ -1395,7 +1376,6 @@
         "ChangePassword": "Şifre değiştir",
         "ClickHereToDeleteTheCookie": "Çerezleri silmek ve sizin ziyaretlerinizi takip etmek için burayi tıklayınız",
         "DeleteConfirm_js": "%s kullanıcısını silmekten emin misiniz?",
-        "Edit": "Düzenle",
         "Email": "Eposta",
         "ExceptionAdminAnonymous": "'Misafir' kullanıcıya 'yönetici' ünvani verilemez.",
         "ExceptionDeleteDoesNotExist": "'%s' kullanıcısı bazı nedenlerle silinemez.",
@@ -1436,7 +1416,6 @@
         "WidgetLengths": "Ziyaret Süresi"
     },
     "VisitsSummary": {
-        "EvolutionOverLastPeriods": "Son %s değerlendirmesi",
         "GenerateQueries": "%s sorgu çalıştırılmıştır.",
         "GenerateTime": "sayfa %s saniyede oluşturulmuştur.",
         "MaxNbActions": "Bir ziyarette yapılan max etkinlik %s",

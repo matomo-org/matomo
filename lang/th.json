@@ -123,8 +123,6 @@
         "Inactive": "ไม่ทำงาน",
         "LicenseHomepage": "หน้าแรกใบอนุญาต",
         "MainDescription": "อธิบายการใช้งานปลั้กอินและแสดงการทำงานของ Piwik เมื่อปลั๊กอินที่ติดตั้งอยู่คุณสามารถเปิดใช้งานหรือยกเลิกการใช้งานได้ ที่นี่",
-        "MenuPlugins": "ปลั๊กอิน",
-        "MenuPluginsInstalled": "ติดตั้งแล้ว",
         "Plugin": "ชื่อปลั้กอิน",
         "PluginCannotBeFound": "ไม่พบปลั๊กอินที่ต้องการ!",
         "PluginDescription": "การจัดการระบบปลั๊กอิน",
@@ -518,7 +516,6 @@
         "ParameterMustIntegerBetween": "พารามิเตอร์ %s จะต้องเป็นค่าจำนวนเต็มระหว่าง %s และ %s",
         "Period": "ช่วงเวลา",
         "Piechart": "กราฟวงกลม",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s เป็นโปรเจ็กที่ทำงานร่วมมือกัน %3$s หากคุณชอบ Piwik คุณสามารถช่วยเราได้! คุณลองดูสิว่า %4$s คุณจะสามารถสนับสนุน Piwik ได้อย่างไร? %5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s ใช้งานได้ กรุณาแจ้งต่อผู้จัดการระบบ",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s ออกเวอร์ชั่นใหม่แล้ว %2$s กรุณาอัพเดตเดี๋ยวนี้ %3$s (ดู %4$s การเปลี่ยนแปลง %5$s)",
         "PleaseSpecifyValue": "กรุณาระบุค่าสำหรับ '%s'.",
@@ -607,7 +604,6 @@
         "Today": "วันนี้",
         "Total": "รวม",
         "TotalRevenue": "รายได้รวม",
-        "TotalVisitsActionsRevenue": "(รวมทั้งหมด: %s การเข้าชม, %s การกระทำ, %s รายได้)",
         "TranslatorEmail": "jaideejung007@gmail.com",
         "TranslatorName": "coyoty, jaideejung007, ariesanywhere",
         "UniquePurchases": "Unique Purchases",
@@ -855,20 +851,13 @@
         "LoginPasswordNotCorrect": "ชื่อผู้ใช้และรหัสผ่านไม่ถูกต้อง",
         "Logout": "ออกจากระบบ",
         "LostYourPassword": "ลืมรหัสผ่าน?",
-        "MailPasswordRecoveryBody": "สวัสดี %1$s รหัสผ่านร้องขอใหม่ได้รับจาก %2$s เมื่อต้องการตั้งค่ารหัสผ่านของคุณ: 1) ไปยังฟอร์มการตั้งค่ารหัสผ่านที่: %3$s 2) ป้อนโทเค็นการดังต่อไปนี้: %4$s 3) เติมออกจากแบบฟอร์ม (ป้อนรหัสผ่านของคุณใหม่สองครั้ง) และทำการกดส่ง หมายเหตุ: ตรวจสอบกลุ่มนี้จะหมดอายุภายใน 24 ชั่วโมง",
         "MailTopicPasswordChange": "ยืนยันการเปลี่ยนรหัสผ่าน",
-        "MailTopicPasswordRecovery": "การกู้คืนรหัสผ่าน",
         "Password": "รหัสผ่าน",
         "PasswordChanged": "รหัสผ่านของคุณได้ถูกเปลี่ยนแปลงแล้ว",
-        "PasswordReminder": "กรุณากรอกชื่อผู้ใช้หรืออีเมล์ของคุณ คุณจะได้รับอีเมล์พร้อมรายละเอียดสำหรับการรีเซ็ตรหัสผ่านของคุณ",
         "PasswordRepeat": "รหัสผ่าน (อีกครั้ง)",
-        "PasswordResetToken": "รหัสผ่านถูกรีเซ็ต",
         "PasswordsDoNotMatch": "รหัสผ่านไม่ตรงกัน",
-        "PasswordSent": "รหัสผ่านได้ส่งไปให้คุณแล้ว กรุณาเช็คอีเมล์ของคุณ",
-        "PasswordSuccessfullyChanged": "เปลี่ยนรหัสผ่านเรียบร้อยแล้ว!",
         "PluginDescription": "ปลั๊กอินรับรองความถูกต้องของการเข้าสู่ระบบ โดยจะอ่านข้อมูลจากไฟล์ config\/config.inc.php สำหรับ Super User และมาจากฐานข้อมูลสำหรับผู้ใช้อื่นๆ สามารถถูกแทนที่ได้อย่างง่ายดาย ด้วยกลไกการตรวจสอบแบบใหม่ (OpenID, htaccess, การรับรองความถูกต้องที่กำหนดเอง, ฯลฯ)",
         "RememberMe": "จำฉันไว้ในระบบ",
-        "RemindPassword": "ขอรหัสผ่านใหม่",
         "ResetPasswordInstructions": "กรอกรหัสผ่านสำหรับบัญชีของคุณ"
     },
     "Mobile": {
@@ -1025,7 +1014,6 @@
     },
     "SEO": {
         "AlexaRank": "อันดับใน Alexa",
-        "Backlinks": "แบคลิงค์",
         "DomainAge": "อายุโดเมน",
         "Pages": "หน้า",
         "Rank": "อันดับ",
@@ -1402,7 +1390,6 @@
         "worldMap": "แผนที่โลก"
     },
     "UserLanguage": {
-        "Language": "ภาษา",
         "Language_aa": "อะฟาร์",
         "Language_ab": "อับคาซ",
         "Language_ae": "อเวสตะ",
@@ -1586,9 +1573,7 @@
         "Language_yo": "โยรูบา",
         "Language_za": "จ้วง",
         "Language_zh": "จีน",
-        "Language_zu": "ซูลู",
-        "SubmenuLanguage": "ภาษา",
-        "WidgetLanguage": "ภาษาของผู้เข้าชม"
+        "Language_zu": "ซูลู"
     },
     "UserSettings": {
         "BrowserFamilies": "ตระกูลเบราว์เซอร์",
@@ -1630,7 +1615,6 @@
         "ClickHereToDeleteTheCookie": "คลิกที่นี่เพื่อลบคุกกี้ และมี Piwik ติดตามเข้าชมของคุณ",
         "ClickHereToSetTheCookieOnDomain": "คลิกที่นี่เพื่อตั้งค่าคุกกี้ ที่จะไม่รวมการเข้าชมของคุณบนเว็บไซต์ที่ถูกติดตาม โดย Piwik บน %s",
         "DeleteConfirm_js": "คุณแน่ใจหรือไม่ที่จะลบผู้ใช้ %s ?",
-        "Edit": "แก้ไข",
         "Email": "อีเมล์",
         "ExceptionAccessValues": "พารามิเตอร์เข้าถึงต้องมีหนึ่งค่าต่อไปนี้: [ %s ]",
         "ExceptionAdminAnonymous": "คุณไม่สามารถให้สิทธิ์ 'admin' การเข้าถึงแก่ผู้ใช้ 'anonymous' ได้",
@@ -1717,7 +1701,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "เฉลี่ยระยะเวลาการเข้าชม %s",
-        "EvolutionOverLastPeriods": "ความเปลี่ยนแปลงในช่วงเวลาล่าสุด %s",
         "GenerateQueries": "%s การค้นหา",
         "GenerateTime": "%s วินาทีที่ใช้",
         "MaxNbActions": "%s หน้าสูงสุดในหนึ่งผู้เข้าชม",

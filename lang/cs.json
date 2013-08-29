@@ -137,8 +137,6 @@
         "Inactive": "Zakázán",
         "LicenseHomepage": "Povolená domovská stránka",
         "MainDescription": "Zásuvné moduly rozšiřují funkce Piwiku. Po instalaci zásuvného modulu jej můžete povolit nebo zakázat zde.",
-        "MenuPlugins": "Zásuvné moduly",
-        "MenuPluginsInstalled": "Instalováno",
         "Plugin": "Plugin",
         "PluginCannotBeFound": "Zásuvné moduly nelze najít!",
         "PluginDescription": "Administrační rozhraní zásuvných modulů",
@@ -256,12 +254,6 @@
         "Table": "Tabulka",
         "TotalSize": "Celková velikost"
     },
-    "EntryPage": {
-        "Bounces": "Odrazy"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Vzorový widget"
-    },
     "Feedback": {
         "CategoryHire": "Pronajmout si konzultanta Piwiku",
         "CategorySecurity": "Nahlásit bezpečnostní problém",
@@ -289,13 +281,6 @@
         "VisitTheForums": "Navštivte %s forum%s",
         "WhyAreMyVisitsNoTracked": "Proč nejsou návštěvy mého sídla zaznamenány?",
         "WhyWrongCountry": "Proč Piwik zobrazuje moje návštěvy ze špatné země?"
-    },
-    "Forecast": {
-        "Actions": "Zobrazení stránky",
-        "Column": "Odhad",
-        "ReturnVisits": "vracející se návštěvníci",
-        "Visitors": "Návštěvníci",
-        "Widget": "Odhad na dnešní den"
     },
     "General": {
         "AbandonedCarts": "Neobjednané košíky",
@@ -548,7 +533,6 @@
         "ParameterMustIntegerBetween": "Proměnná %s musí být číselná hodnota mezi %s a %s.",
         "Period": "Období",
         "Piechart": "Koláčový graf",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%s Piwik %s je společný projekt. %s Pokud se Vám líbí, můžete nám pomoct! Prohlédněte si %s Jak přispět do Piwiku?%s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "Byla vydána nová verze Piwik %s. Kontaktuje svého správce.",
         "PiwikXIsAvailablePleaseUpdateNow": "Je k dispozici Piwik %1$s. %2$s Prosím aktualizujte jej!%3$s (viz %4$s změny%5$s).",
         "PleaseSpecifyValue": "Prosím zapiště hodnotu pro '%s'.",
@@ -637,7 +621,6 @@
         "Today": "Dnes",
         "Total": "Celkem",
         "TotalRevenue": "Celková hodnota",
-        "TotalVisitsActionsRevenue": "(Celkem: %s návštěv, %s akcí, %s cílů)",
         "TotalVisitsPageviewsRevenue": "(Celkem: %s návštěv, %s zobrazení stránek, %s tržby)",
         "TransitionsRowActionTooltipTitle_js": "Otevřít překlady",
         "TranslatorEmail": "info@joomladev.eu, salab@email.cz, michal@cihar.com",
@@ -890,20 +873,13 @@
         "LoginPasswordNotCorrect": "Uživatelské jméno & heslo nejsou správné",
         "Logout": "Odhlásit",
         "LostYourPassword": "Zapomněli jste vaše heslo?",
-        "MailPasswordRecoveryBody": "Ahoj %1$s,A požadavek na reset hesla byl obdržen z %2$s.Ke změně hesla:1) Jdi na formulář pro reset hesla na:\t%3$s2) Volžte následující klíč:\t%4$s3) Vyplňte formulář(zadejte vaše nové heslo dvakrát) a odešlete jej.Poznámka: tento klíč expiruje za 24 hodin.",
         "MailTopicPasswordChange": "Potvrďte změnu hesla",
-        "MailTopicPasswordRecovery": "Záchrana hesla",
         "Password": "Heslo",
         "PasswordChanged": "Vaše heslo bylo změněno.",
-        "PasswordReminder": "Prosím zadejte vaše uživatelské jméno, nebo e-mailovou adresu. Nové heslo dostanete e-mailem.",
         "PasswordRepeat": "Heslo (pro kontrolu)",
-        "PasswordResetToken": "Token pro změnu hesla",
         "PasswordsDoNotMatch": "Hesla si neodpovídají",
-        "PasswordSent": "Heslo bylo právě odesláno. Zkontrolujte si váš e-mail.",
-        "PasswordSuccessfullyChanged": "Heslo bylo úspěšně změněno",
         "PluginDescription": "Plugin pro autentifikaci přihlášením. Přihlašovací údaje čte pro 'Super Uživatele' z config\/config.ini a pro ostetní uživatelé z databáze. Pro nový autentizační mechanizmus(OpenID, htaccess, vlastní autentifikace, atd.) může být jednoduše vyměněn.",
         "RememberMe": "Zapamatovat si",
-        "RemindPassword": "Připomenout heslo",
         "ResetPasswordInstructions": "Zadejte nové heslo k Vašemu účtu."
     },
     "Mobile": {
@@ -1041,7 +1017,6 @@
     },
     "SEO": {
         "AlexaRank": "Hodnocení Alexa",
-        "Backlinks": "Zpětné odkazy",
         "Bing_IndexedPages": "Stránek zaindexovaných Bingem",
         "Dmoz": "Záznamů v katalogu DMOZ",
         "DomainAge": "Staří domény",
@@ -1635,9 +1610,7 @@
         "Language_yo": "yoruba",
         "Language_za": "zhuang",
         "Language_zh": "čínština",
-        "Language_zu": "zulu",
-        "SubmenuLanguage": "Jazyky",
-        "WidgetLanguage": "Jazyk návštěvníků"
+        "Language_zu": "zulu"
     },
     "UserSettings": {
         "BrowserFamilies": "Rodiny Web prohlížečů",
@@ -1682,7 +1655,6 @@
         "ClickHereToDeleteTheCookie": "Klinětě zde pro vymazání cookie a zaznamenávání vaších návštěv",
         "ClickHereToSetTheCookieOnDomain": "Klikněte zde pro nastavení cookie, která vynechá vaše návštěvy na sídlech monitorováných Piwikem na %s",
         "DeleteConfirm_js": "Jste si jistí, že chcete vymazat uživatele %s?",
-        "Edit": "Upravit",
         "Email": "E-mail",
         "ExceptionAccessValues": "Parametr přístupu musí mít jednu z následujících hodnot : [ %s ]",
         "ExceptionAdminAnonymous": "Nemůžete dát 'admin' přístup 'anonymous' uživateli.",
@@ -1774,7 +1746,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s průměrná doba návštěvy",
-        "EvolutionOverLastPeriods": "Vývoj za poslední %s",
         "GenerateQueries": "%s provedeno dotazů",
         "GenerateTime": "%s sekund k vygenerování stránky",
         "MaxNbActions": "%s maximální počet akcí na návštěvu",

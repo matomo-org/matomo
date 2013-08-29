@@ -25,7 +25,6 @@
         "Deactivate": "Lülita välja",
         "Inactive": "Mitteaktiivne",
         "MainDescription": "Plugins võimendavad ja suurendavad Piwik-i funktsionaalsust. Kui plugin on installeeritud ja aktiveeritud saad seda sisse ja välja lülitada siin.",
-        "MenuPlugins": "Pluginad",
         "Plugin": "Plugin",
         "PluginHomepage": "Plugina koduleht",
         "Plugins": "Pluginad",
@@ -233,11 +232,7 @@
         "LoginPasswordNotCorrect": "Kasutajanimi & salasõna olid valed",
         "Logout": "Välju",
         "LostYourPassword": "Kaotasid oma salasõna?",
-        "MailTopicPasswordRecovery": "Salasõna taastamine",
-        "Password": "Salasõna",
-        "PasswordReminder": "Palun sisesta kasutaja või e-mail address. Sulle saadetakse salasõna e-mailiga.",
-        "PasswordSent": "Salasõna saadetud. Kontrolli oma e-maili.",
-        "RemindPassword": "Meenuta salasõna"
+        "Password": "Salasõna"
     },
     "Provider": {
         "SubmenuLocationsProvider": "Asukoht & pakkuja",
@@ -779,7 +774,6 @@
         "ApplyToAllWebsites": "Laienda kõigile veebilehtedele",
         "ChangeAllConfirm": "Kas sa oled kindel soovis anda '%s' õigused kõigile veebilehtedele?",
         "DeleteConfirm_js": "Kas oled kindel, et soovid %s kustutada?",
-        "Edit": "Muuda",
         "Email": "Email",
         "ExceptionAdminAnonymous": "Sa ei saa anda 'admin' õiguseid 'anonymous' kasutajale.",
         "ExceptionDeleteDoesNotExist": "Kasutajat nimega '%s' ei eksisteeri seepärast ei saa teda ka kustutada.",

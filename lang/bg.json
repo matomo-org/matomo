@@ -161,8 +161,6 @@
         "Inactive": "Неактивен",
         "LicenseHomepage": "Начало на лиценз",
         "MainDescription": "Плъгините спомагат за по-обширното функциониране на Piwik. Веднъж инсталиран плъгин би могъл да бъде активиран (пускан) или деактивиран (спиран).",
-        "MenuPlugins": "Плъгини",
-        "MenuPluginsInstalled": "Инсталиран",
         "Plugin": "Плъгин",
         "PluginCannotBeFound": "Тази добавка не може да бъде открита!",
         "PluginDescription": "Интерфейс за администрация на плъгините.",
@@ -285,12 +283,6 @@
         "TotalSize": "Общ размер",
         "TrackerTables": "Таблици на тракера"
     },
-    "EntryPage": {
-        "Referrers": "Реферали"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Примерна джаджа"
-    },
     "Feedback": {
         "CategoryHire": "Наемане на Piwik консултант",
         "CategorySecurity": "Докладвай проблем в сигурността",
@@ -318,11 +310,6 @@
         "VisitTheForums": "Посетете нашият %sФорум%s",
         "WhyAreMyVisitsNoTracked": "Защо посещенията в сайта ми не се отчитат?",
         "WhyWrongCountry": "Защо Piwik не отчита правилно държавата от която съм?"
-    },
-    "Forecast": {
-        "Actions": "Посещения на страницата",
-        "ReturnVisits": "завърнали се",
-        "Visitors": "Посетители"
     },
     "General": {
         "AbandonedCarts": "Отказани колички",
@@ -611,7 +598,6 @@
         "ParameterMustIntegerBetween": "Параметърът %s трябва да има цифрова стойност от %s до %s.",
         "Period": "Период",
         "Piechart": "Диаграма",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s е отворен проект. %3$s Ако Piwik, Ви допада можете да ни помогнете! Научете %4$s как можете да ни помогнете?%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s е на разположение. Моля уведомете администратора на сайта.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s е наличен. %2$s Обновете сега. %3$s (вижте %4$s промените%5$s).",
         "PleaseSpecifyValue": "Моля, въведете стойност за '%s'.",
@@ -705,7 +691,6 @@
         "Today": "Днес",
         "Total": "Общо",
         "TotalRevenue": "Общо приход",
-        "TotalVisitsActionsRevenue": "Общо: %s посещения, %s действия, %s приход",
         "TotalVisitsPageviewsRevenue": "(Всичко: %s посещения, %s разглеждания, %s средно)",
         "TranslatorEmail": "kristalin[at]kividesign[dot]com, Virosss[at]abv[dot]bg, tomivr[at]abv[dot]bg, pak69[at]abv[dot]bg, pamir[at]abv[dot]bg",
         "TranslatorName": "Kristalin Chavdarov, <a href=\"http:\/\/coffebreak.info\">Андон Иванов<\/a>, Tom Atanasov, Dimitar Stamenov, Панайотис Кондоянис",
@@ -762,7 +747,6 @@
         "BestReferers": "Вашето най-добро конвертиране на посещения от сайтове е:",
         "CaseSensitive": "Отчитане на съвпадения",
         "ClickOutlink": "натиснат върху връзката, водеща към външен сайт",
-        "ColumnAverageOrderRevenueDocumentation": "Цялостната печалба, генерирана от %s.",
         "ColumnAveragePriceDocumentation": "Средната печалба за този %s.",
         "ColumnAverageQuantityDocumentation": "Средното количество за този %s продадени чрез поръчки от електронен магазин.",
         "ColumnConversionRateDocumentation": "Брой конверсии за %s.",
@@ -998,20 +982,13 @@
         "LoginPasswordNotCorrect": "Потребителското име & Паролата не са верни",
         "Logout": "Изход",
         "LostYourPassword": "Забравена парола?",
-        "MailPasswordRecoveryBody": "Здравей %1$s,Искането за възстановяване на парола генерира формуляр, който трябва да попълните %2$s.За да възстановите паролата си:1) Отидете на Възстановяване на парола от тук:\t%3$s2) Въведете следния token:\t%4$s3) Попълнете формуляра (въведете паролата си) и изпратете.Забележка: този token ще изтече след 24 часа.",
         "MailTopicPasswordChange": "Потвърждение смяната на паролата",
-        "MailTopicPasswordRecovery": "Възстановяване на парола",
         "Password": "Парола",
         "PasswordChanged": "Вашата парола е сменена.",
-        "PasswordReminder": "Въведете Вашето потребителско име или имейл. Ние ще изпратим информация как да смените паролата си.",
         "PasswordRepeat": "Парола (повторно)",
-        "PasswordResetToken": "Паролата възстанови token",
         "PasswordsDoNotMatch": "Паролите не съвпадат.",
-        "PasswordSent": "Информацията относно възстановяването на паролата в изпратена. Проверете електронната си поща.",
-        "PasswordSuccessfullyChanged": "Паролата успешно е сменена!",
         "PluginDescription": "Login Authentication плъгин прочита пълномощията от config\/config.inc.php файл за Супер Потребителите и от базата данни за другите потребители. Може лесно да се заменя, за да се въведе нов механизъм за идентификация (OpenID, htaccess, custom Auth, друго).",
         "RememberMe": "Запомни ме",
-        "RemindPassword": "Изпрати",
         "ResetPasswordInstructions": "Въведете нова парола за акаунта си."
     },
     "Mobile": {
@@ -1259,7 +1236,6 @@
     },
     "SEO": {
         "AlexaRank": "Alexa ранг",
-        "Backlinks": "Препратки",
         "DomainAge": "Възраст на домейна",
         "Pages": "Страници",
         "Rank": "Провери",
@@ -1689,7 +1665,6 @@
         "worldMap": "световна карта"
     },
     "UserLanguage": {
-        "Language": "Езици",
         "Language_aa": "афарски",
         "Language_ab": "абхазки",
         "Language_ae": "авестийски",
@@ -1873,9 +1848,7 @@
         "Language_yo": "йоруба",
         "Language_za": "зуанг",
         "Language_zh": "китайски",
-        "Language_zu": "зулуски",
-        "SubmenuLanguage": "Езици",
-        "WidgetLanguage": "Езици на посетителя"
+        "Language_zu": "зулуски"
     },
     "UserSettings": {
         "BrowserFamilies": "Фамилия браузъри",
@@ -1925,7 +1898,6 @@
         "ClickHereToDeleteTheCookie": "Натиснете тук, за да изтриете бисквитката и Piwik да отчита Вашите посещения",
         "ClickHereToSetTheCookieOnDomain": "Натиснете тук, за да зададете бисквитка, която ще Ви гарантира, че Вашите посещения няма да се отчитат от Piwik в %s",
         "DeleteConfirm_js": "Наистина ли искате да изтриете потребителя %s?",
-        "Edit": "Редактирай",
         "Email": "Имейл",
         "EmailYourAdministrator": "%1$sПишете на администратора Ви за този проблем%2$s.",
         "ExceptionAccessValues": "Този параметър може да има само един от следните параметри : [ %s ]",
@@ -2032,7 +2004,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s средно времетраене на посещението",
-        "EvolutionOverLastPeriods": "Развитие за последните %s",
         "GenerateQueries": "%s заявки са изпълнени",
         "GenerateTime": "%s секунди за генериране на страницата",
         "MaxNbActions": "%s макс. действия при едно посещение",

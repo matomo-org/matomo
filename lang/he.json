@@ -68,7 +68,6 @@
         "Inactive": "לא פעיל",
         "LicenseHomepage": "אתר רישון השימוש",
         "MainDescription": "תוספים מרחיבים את היכולות של Piwik. ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
-        "MenuPlugins": "תוספים",
         "Plugin": "תוסף",
         "PluginDescription": "ממשק ניהול תוספים.",
         "PluginHomepage": "אתר התוסף",
@@ -340,7 +339,6 @@
         "Others": "אחרים",
         "Period": "תקופה",
         "Piechart": "גרף עוגה",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s הוא פרוייקט שיתופי. %3$s כל מעריץ של Piwik יכול לתרום! כנסו ל %4$s כיצד לתרום לPiwik? %5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s עכשיו זמינה. אנא הודיעו לבעלי האתר.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s עכשיו זמינה. %2$s נא לשדרג עכשיו! %3$s (ראו %4$s שינויים %5$s)",
         "PleaseSpecifyValue": "יד להגדיר ערך עבור '%s'.",
@@ -471,14 +469,10 @@
         "LoginPasswordNotCorrect": "שם משתמש וסיסמה אינם תואמים",
         "Logout": "התנתקות",
         "LostYourPassword": "שכחת סיסמה?",
-        "MailTopicPasswordRecovery": "שחזור סיסמה",
         "Password": "סיסמה",
         "PasswordRepeat": "סיסמה (שוב)",
-        "PasswordResetToken": "כרטיס איפוס סיסמה",
         "PasswordsDoNotMatch": "הסיסמאות אינן תואמות.",
-        "PasswordSuccessfullyChanged": "סיסמה שונתה בהצלחה!",
-        "RememberMe": "זכור אותי",
-        "RemindPassword": "שליחת איפוס סיסמה"
+        "RememberMe": "זכור אותי"
     },
     "PDFReports": {
         "PDF": "PDF",
@@ -952,7 +946,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s זמן ביקור ממוצע",
-        "EvolutionOverLastPeriods": "צמיחה ב%s האחרון\/ה",
         "GenerateQueries": "%s שאילתות בוצעו",
         "GenerateTime": "%s שניות בכדי לחולל את העמוד",
         "MaxNbActions": "%s מספר פעולות מקסימלי בביקור אחד",

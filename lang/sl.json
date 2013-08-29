@@ -118,7 +118,6 @@
         "Inactive": "Neaktivno",
         "LicenseHomepage": "Spletna stran licence",
         "MainDescription": "Vtičniki razširjajo Piwik-ovo funkcionalnost. Ko je vtičnik enkrat nameščen, ga lahko tukaj aktivirate oziroma deaktivirate.",
-        "MenuPlugins": "Vtičniki",
         "Plugin": "Vtičnik",
         "PluginHomepage": "Spletna stran vtičnika",
         "Plugins": "Vtičniki",
@@ -197,9 +196,6 @@
         "Table": "Tabela",
         "TotalSize": "Skupna velikost"
     },
-    "EntryPage": {
-        "Bounces": "Odboji"
-    },
     "Feedback": {
         "CategoryHire": "Najemite Piwiki-svetovalca",
         "CategorySecurity": "Prijavi varnostno napako",
@@ -225,13 +221,6 @@
         "VisitTheForums": "Obiščite %sForume%s",
         "WhyAreMyVisitsNoTracked": "Zakaj niso obiskovalci moje spletne strani sledeni?",
         "WhyWrongCountry": "Zakaj Piwik prikazuje moje obiske iz napačne države?"
-    },
-    "Forecast": {
-        "Actions": "Obiski strani",
-        "Column": "Napoved",
-        "ReturnVisits": "ponovni obiski",
-        "Visitors": "Obiskovalci",
-        "Widget": "Napoved za danes"
     },
     "General": {
         "AbandonedCarts": "Opuščeni Vozički",
@@ -495,7 +484,6 @@
         "ParameterMustIntegerBetween": "Parameter %s mora biti celo število med %s in %s.",
         "Period": "Obdobje",
         "Piechart": "Kolačni diagram",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s je skupinski projekt. %3$s Če ti je Piwik všeč lahko pomagaš! Oglej si %4$s Kako lahko sodelujem?%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s je na voljo. Prosimo, da o tem obvestite skrbnika strani.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s je na voljo. %2$sProsimo posodobite ga zdaj!ow!%3$s (oglejte si %4$sspremembe%5$s).",
         "PleaseSpecifyValue": "Prosimo, navedite vrednost za \"%s\"",
@@ -587,7 +575,6 @@
         "Today": "Danes",
         "Total": "Skupaj",
         "TotalRevenue": "Skupni prihodki",
-        "TotalVisitsActionsRevenue": "(Skupaj: %s obiskov, %s dejanj, %s prihodkov)",
         "TranslatorEmail": "alazanski@tuts23.com, tom@hupso.com",
         "TranslatorName": "Aleksej Lazanski, <a href=\"http:\/\/www.hupso.com\">Tom Merc<\/a>",
         "UniquePurchases": "Edinstveni nakupi",
@@ -744,13 +731,10 @@
         "LoginPasswordNotCorrect": "Napačna kombinacija uporabniškega imena in gesla.",
         "Logout": "Izpis",
         "LostYourPassword": "Ste pozabili geslo?",
-        "MailTopicPasswordRecovery": "Povrnitev gesla",
         "Password": "Geslo",
         "PasswordRepeat": "Geslo (ponovno)",
         "PasswordsDoNotMatch": "Gesli se ne ujemata.",
-        "PasswordSuccessfullyChanged": "Geslo je bilo uspešno spremenjeno!",
-        "RememberMe": "Zapomni si me",
-        "RemindPassword": "Ponovno pošlji geslo"
+        "RememberMe": "Zapomni si me"
     },
     "Mobile": {
         "AccessUrlLabel": "Piwik dostopni URL",
@@ -852,7 +836,6 @@
     },
     "SEO": {
         "AlexaRank": "Alexa položaj",
-        "Backlinks": "Povratne povezave",
         "Bing_IndexedPages": "Bing indeksirane strani",
         "DomainAge": "Starost domene",
         "Google_IndexedPages": "Google indeksirane strani",
@@ -1439,7 +1422,6 @@
         "ApplyToAllWebsites": "Uveljavi za vse spletne strani",
         "ChangePassword": "Spremeni geslo",
         "DeleteConfirm_js": "Ste prepričani, da želite izbrisati uporabnika %s?",
-        "Edit": "Uredi",
         "Email": "Email",
         "ExceptionAdminAnonymous": "\"Anonimnemu\" uporabniku ne morate dodeliti administrativnih dovoljenj.",
         "ExceptionDeleteDoesNotExist": "Uporabnik '%s' ne obstaja, ter ga tako ni moč izbrisati.",
@@ -1502,7 +1484,6 @@
     "VisitsSummary": {
         "AverageGenerationTime": "%s povprečni čas generiranja",
         "AverageVisitDuration": "%s povprečno trajanje obiska",
-        "EvolutionOverLastPeriods": "Dogajanje zadnjih nekaj %s",
         "GenerateQueries": "%s ukazov izvršenih",
         "GenerateTime": "%s sekund za prikaz strani",
         "MaxNbActions": "%s največje število akcij v enem obisku",

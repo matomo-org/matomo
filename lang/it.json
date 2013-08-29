@@ -237,8 +237,6 @@
         "Inactive": "Inattivo",
         "LicenseHomepage": "Licenza Homepage",
         "MainDescription": "I Plugins estendono le funzionalità di Piwik. Una volta installati, è possibile attivarli o disattivarli qui (non tutti sono in italiano).",
-        "MenuPlugins": "Plugins",
-        "MenuPluginsInstalled": "Installato",
         "Plugin": "Plugin",
         "PluginCannotBeFound": "Plugin non trovato!",
         "PluginDescription": "Interfaccia di amministrazione plugins.",
@@ -369,13 +367,6 @@
     "DoNotTrack": {
         "PluginDescription": "Ignora le visite con l'header X-Do-Not-Track o DNT."
     },
-    "EntryPage": {
-        "Bounces": "Rimbalzi",
-        "Referrers": "Provenienze"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Widget di esempio"
-    },
     "Feedback": {
         "CategoryHire": "Ingaggia un consulente Piwik",
         "CategorySecurity": "Segnala un problema di sicurezza",
@@ -405,14 +396,6 @@
         "WantToThankConsiderDonating": "Pensate che Piwik sia impressionante e vorreste ringraziorci? Considerate una donazione",
         "WhyAreMyVisitsNoTracked": "Perchè i visitatori del mio sito non sono tracciati?",
         "WhyWrongCountry": "Perchè Piwik mostra le mie visite dallo stato sbagliato?"
-    },
-    "Forecast": {
-        "Actions": "Pagine visitate",
-        "Bounce": "Visitatori rimbalzati",
-        "Column": "Previsione",
-        "ReturnVisits": "visite di ritorno",
-        "Visitors": "Visitatori",
-        "Widget": "Previsioni per oggi"
     },
     "General": {
         "AbandonedCarts": "Ordini abbandonati",
@@ -699,7 +682,6 @@
         "ParameterMustIntegerBetween": "Parametro %s deve essere un valore integer tra %s e %s",
         "Period": "Periodo",
         "Piechart": "Torta",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s è un progetto a cui tutti possono partecipare. %3$s Se ti piace, puoi farlo anche tu! Vedi %4$s Come posso aiutare Piwik?%5$s",
         "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s è un progetto collaborativo. %3$s Se sei un fan di Piwik, puoi aiutarci: scopri %4$s Come partecipare in Piwik%5$s, oppure%6$s %7$sfai una donazione%8$s per aiutare a finanziare Piwik 2.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s è disponibile. Per favore, contatta l'amministratore del sito.",
         "PiwikXIsAvailablePleaseUpdateNow": "La versione %1$s di Piwik è disponibile. %2$s Aggiorna ora!%3$s (%4$svedi le modifiche%5$s).",
@@ -789,9 +771,8 @@
         "Today": "Oggi",
         "Total": "Totale",
         "TotalRevenue": "Totale guadagni",
-        "TotalVisitsActionsRevenue": "(Totale: %s visite, %s azioni, %s guadagni)",
         "TotalVisitsPageviewsRevenue": "(Totale: visite %s,pagine %s, ricavi %s)",
-        "TranslatorEmail": "php_staff@yahoo.it, francesco@pixelstyle.it, contact@yusefmaali.net, aepic@cilea.it, fabriziorocca.bolzano@gmail.com, tmosbyd@gmail.com,\ninfo@alfioemanuele.it, giovanni94m@yahoo.it",
+        "TranslatorEmail": "php_staff@yahoo.it, francesco@pixelstyle.it, contact@yusefmaali.net, aepic@cilea.it, fabriziorocca.bolzano@gmail.com, tmosbyd@gmail.com, info@alfioemanuele.it, giovanni94m@yahoo.it",
         "TranslatorName": "Alessandro Coscia, Giovdi, Yusef Maali, Andrea Marchitelli (CILEA), <a href=\"http:\/\/www.worldoftechnology.it\/\">Fabrizio Rocca<\/a>, Ted Mosby, Alfio E. Fresta, Giovanni Matina",
         "UniquePurchases": "Acquisti unici",
         "Unknown": "Sconosciuto",
@@ -1056,18 +1037,11 @@
         "Logout": "Esci",
         "LostYourPassword": "Hai perso la password?",
         "MailPasswordChangeBody": "Ciao %1$s, una richiesta di reimpostazione della password è stata ricevuta da %2$s. Per confermare la modifica della password in modo da poter accedere con le nuove credenziali, visitare il seguente link: %3$s Nota: questo token scade tra 24 ore. E vi ringrazio per l'utilizzo di Piwik!",
-        "MailPasswordRecoveryBody": "Ciao %1$s, una richiesta di reset della password è stata ricevuta da %2$s. Per resettare la tua password: 1) Vai al form per resettare la password qui: %3$s 2) Inserisci il seguente token %4$s 3) Completa il form (inserendo la tua passowrd due volte) e invia.Nota: questo token scadrà in 24 ore.",
-        "MailTopicPasswordRecovery": "Recupero Password",
         "Password": "Password",
-        "PasswordReminder": "Per favore, inserisci il tuo username o l'indirizzo e-mail. Riceverai una nuova password via e-mail.",
         "PasswordRepeat": "Password (ripeti)",
-        "PasswordResetToken": "Azzeramento token della password",
         "PasswordsDoNotMatch": "La password non combacia.",
-        "PasswordSent": "La password è stata inviata. Controlla la tua casella e-mail.",
-        "PasswordSuccessfullyChanged": "Password cambiata correttamente.",
         "PluginDescription": "Plugin di Autenticazione Login, legge le credenziali dal file config\/config.inc.php per il Super Utente, e dal Database per gli altri utenti. Può facilmente essere rimpiazzato per introdurre un nuovo meccanismo di Autenticazione (OpenID, htaccess, Auth personalizzata, ecc.).",
-        "RememberMe": "Ricordami",
-        "RemindPassword": "Ricorda password"
+        "RememberMe": "Ricordami"
     },
     "Mobile": {
         "AccessUrlLabel": "Url accesso Piwik",
@@ -1228,7 +1202,6 @@
     },
     "SEO": {
         "AlexaRank": "Alexa Rank",
-        "Backlinks": "Backlinks",
         "DomainAge": "Età del dominio",
         "Pages": "Pagine",
         "Rank": "Rank",
@@ -1827,7 +1800,6 @@
         "ClickHereToDeleteTheCookie": "Clicca qui per cancellare il cookie e fare di nuovo in modo che Piwik tracci le tue visite",
         "ClickHereToSetTheCookieOnDomain": "Clicca qui per creare un cookie che farà escludere da Piwik le tue visite dai siti in cui hai installato Piwik %s",
         "DeleteConfirm_js": "Sei sicuro di voler cancellare l'utente '%s'?",
-        "Edit": "Modifica",
         "Email": "Email",
         "ExceptionAccessValues": "Il parametro per l'accesso deve avere uno dei seguenti valori: [ %s ]",
         "ExceptionAdminAnonymous": "Non puoi dare privilegi da amministratore agli utenti anonimi.",
@@ -1911,7 +1883,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s durata stimata visita",
-        "EvolutionOverLastPeriods": "Evoluzione negli ultimi %s",
         "GenerateQueries": "%s queries eseguite",
         "GenerateTime": "%s secondi per generare la pagina",
         "MaxNbActions": "%s è il massimo delle pagine viste in 1 visita",

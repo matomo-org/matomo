@@ -49,7 +49,6 @@
         "Active": "చేతనం",
         "Deactivate": "అచేతనించు",
         "Inactive": "అచేతనం",
-        "MenuPlugins": "ప్లగిన్లు",
         "Plugin": "ప్లగిన్",
         "Plugins": "ప్లగిన్లు",
         "PluginsManagement": "ప్లగిన్ల నిర్వహణ",
@@ -78,9 +77,6 @@
     "Feedback": {
         "DetailsPlease": "(దయచేసి వివరాలను ఇవ్వండి)",
         "ThePiwikTeam": "పివిక్ జట్టు"
-    },
-    "Forecast": {
-        "Visitors": "సందర్శకులు"
     },
     "General": {
         "AboutPiwikX": "పివిక్ %s గురించి",
@@ -260,7 +256,6 @@
         "Today": "ఈరోజు",
         "Total": "మొత్తం",
         "TotalRevenue": "మొత్తం ఆదాయం",
-        "TotalVisitsActionsRevenue": "(మొత్తం: %s సందర్శనలు, %s చర్యలు, %s ఆదాయం)",
         "TranslatorEmail": "veeven@gmail.com",
         "TranslatorName": "వీవెన్ (Veeven)",
         "Upload": "ఎక్కించు",
@@ -677,7 +672,6 @@
         "worldMap": "ప్రపంచ పటం"
     },
     "UserLanguage": {
-        "Language": "భాషలు",
         "Language_aa": "అఫార్",
         "Language_ab": "అబ్ఖాజియన్",
         "Language_ae": "అవేస్టాన్",
@@ -861,9 +855,7 @@
         "Language_yo": "యోరుబా",
         "Language_za": "జువాన్",
         "Language_zh": "చైనీస్",
-        "Language_zu": "జూలూ",
-        "SubmenuLanguage": "భాషలు",
-        "WidgetLanguage": "సందర్శకుల భాషలు"
+        "Language_zu": "జూలూ"
     },
     "UserSettings": {
         "BrowserFamilies": "విహారిణి కుటుంబాలు",
@@ -890,7 +882,6 @@
         "AddUser": "ఒక కొత్త వాడుకరిని చేర్చు",
         "Alias": "మారుపేరు",
         "AllWebsites": "అన్ని వెబ్‌సైట్లూ",
-        "Edit": "మార్చు",
         "Email": "ఈమెయిలు",
         "ExceptionEmailExists": "'%s' అనే ఈమెయిలుతో వాడుకరి ఇప్పటికే ఉన్నారు.",
         "ExceptionInvalidEmail": "ఈ ఈమెయిలు సరైన రీతిలో లేదు.",

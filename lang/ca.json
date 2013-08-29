@@ -191,7 +191,6 @@
         "Inactive": "Inactiu",
         "LicenseHomepage": "Pàgina de la llicència",
         "MainDescription": "Els connectors augmenten la funcionalitat del Piwik. Un cop hi ha un connector instal·lat, podeu activar-lo i desactivar-lo aquí.",
-        "MenuPlugins": "Connectors",
         "Plugin": "Connector",
         "PluginCannotBeFound": "No s'ha pogut trobar el plugin",
         "PluginDescription": "Interfíce d'administració d'extensions.",
@@ -320,13 +319,6 @@
         "TotalSize": "Grandària total",
         "TrackerTables": "Taules de rastreig"
     },
-    "EntryPage": {
-        "Bounces": "Rebots",
-        "Referrers": "Referents"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Giny d'exemple"
-    },
     "Feedback": {
         "CategoryHire": "Contractar un consultor de Piwik",
         "CategorySecurity": "Informa d'un error de seguretat",
@@ -355,14 +347,6 @@
         "VisitTheForums": "Entra als %s Forums%s",
         "WhyAreMyVisitsNoTracked": "Perquè no es mostren les visites al meu lloc web?",
         "WhyWrongCountry": "Perquè el Piwik mostra la meva primera visita d'un pais equivocat?"
-    },
-    "Forecast": {
-        "Actions": "Visites de pàgina",
-        "Bounce": "Vistants rebotats",
-        "Column": "Previsió",
-        "ReturnVisits": "visitants que retornen",
-        "Visitors": "Visitants",
-        "Widget": "Previsió per avui"
     },
     "General": {
         "AbandonedCarts": "Cistelles abandonades",
@@ -640,7 +624,6 @@
         "ParameterMustIntegerBetween": "El paràmetre %s ha de ser un enter entre %s i %s",
         "Period": "Període",
         "Piechart": "Gràfic de sectors",
-        "PiwikIsACollaborativeProjectYouCanContribute": "El %1$s Piwik %2$s és un projecte col·laboratiu. %3$s Si us agrada, podeu ajudar-nos! Mireu-vos %4$s Com col·laborar amb el Piwik (en anglès)%5$s",
         "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s es un projecte col·laboratiu. %3$s Si sou fan de Piwik, podeu ajudar al seu desenvolupament:  %4$s Com participar al Piwik %5$s, o %6$s %7$sfeu una donació ara%8$s per col·laborar amb el Piwik 2.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s és disponible. Si us plau notifiqueu l'administrador del lloc.",
         "PiwikXIsAvailablePleaseUpdateNow": "Hi ha una nova versió del Piwik, %1$s, disponible! %2$s Si us plau, actualitzeu ara!%3$s (%4$s Mostra els canvis%5$s)",
@@ -735,7 +718,6 @@
         "Today": "Avui",
         "Total": "Total",
         "TotalRevenue": "Total Ingressos",
-        "TotalVisitsActionsRevenue": "(Total: %s visite, %s accions, %s ingressos)",
         "TotalVisitsPageviewsRevenue": "(Total: %s visites, %s visualitzacions de pàgina, %s ingressos)",
         "TransitionsRowActionTooltip_js": "Observar que van fer els visitants abans i desprès de veure aquesta pàgina",
         "TransitionsRowActionTooltipTitle_js": "Obre les transicions",
@@ -1039,20 +1021,13 @@
         "Logout": "Surt",
         "LostYourPassword": "Heu perdut la contrasenya?",
         "MailPasswordChangeBody": "Hola %1$s,\n\nS'ha rebut una petició per restablir la contrasenya de %2$s. Per confirmar aquest canvi de contrasenya (per a que pogueu entrar amb les noves credencials), visiteu el següent enllaç:\n\n%3$s\n\nNota: aquest enllaç caduca en 24 hores.\n\nUs donem les gràcies per utiltizar el Piwik!",
-        "MailPasswordRecoveryBody": "Hola %1$s, una petició de reinicialització de la contrasenya ha estat rebuda de %2$s. Per a reiniciar-la: 1)Aneu al formulari de reinicialització de contrasenyes a %3$s 2)Introduïu el següent codi: %4$s 3)Ompliu el formulari (introduint la nova contrasenya dos cops) i envieu-lo. Nota: el codi caduca en 24 hores.",
         "MailTopicPasswordChange": "Confirmeu el canvi de contrasenya",
-        "MailTopicPasswordRecovery": "Recuperació de la contrasenya",
         "Password": "Contrasenya",
         "PasswordChanged": "S'ha canviat la vostra contrasenya",
-        "PasswordReminder": "Si us plau, inseriu el vostre nom d'usuari o el vostre correu-e. Rebreu una contrasenya nova al vostre correu-e.",
         "PasswordRepeat": "Contrasenya (torneu-la a escriure)",
-        "PasswordResetToken": "Codi de reinicialització de la contrasenya.",
         "PasswordsDoNotMatch": "Les contrasenyes no coincideixen",
-        "PasswordSent": "La informació per a canviar la contrasenya s'ha enviat. Reviseu el vostre correu-e",
-        "PasswordSuccessfullyChanged": "La contrasenya ha estat canviada amb èxit!",
         "PluginDescription": "Pàgina d'inici de sessió, dóna les credencials als usuaris",
         "RememberMe": "Recorda'm",
-        "RemindPassword": "Recorda la contrasenya",
         "ResetPasswordInstructions": "Introduiu una nova contrasenya pel vostre compte."
     },
     "Mobile": {
@@ -1130,7 +1105,7 @@
     },
     "MultiSites": {
         "Evolution": "Evolució",
-        "PluginDescription": "Mostra resum\/estadístiques de multiples llocs web.\nActualment mangingut com una extensió del nucli de Piwik.",
+        "PluginDescription": "Mostra resum\/estadístiques de multiples llocs web. Actualment mangingut com una extensió del nucli de Piwik.",
         "TopLinkTooltip": "Compareu les estadístiques anàlitiques de tots els vostres llocs web."
     },
     "Overlay": {
@@ -1336,7 +1311,6 @@
     },
     "SEO": {
         "AlexaRank": "Ranking Alexa",
-        "Backlinks": "Enllaços cap a aquesta pàgina",
         "Bing_IndexedPages": "Pàgines indexades per Bing",
         "Dmoz": "Entrades DMOZ",
         "DomainAge": "Edat del domini",
@@ -1842,7 +1816,6 @@
         "worldMap": "Mapa mundial"
     },
     "UserLanguage": {
-        "Language": "Idiomes",
         "Language_aa": "Afar",
         "Language_ab": "Abkhazian",
         "Language_ae": "Avestan",
@@ -2026,9 +1999,7 @@
         "Language_yo": "Yoruba",
         "Language_za": "Chuang",
         "Language_zh": "Xinès",
-        "Language_zu": "Zulu",
-        "SubmenuLanguage": "Idiomes",
-        "WidgetLanguage": "Idioma del visitant"
+        "Language_zu": "Zulu"
     },
     "UserSettings": {
         "BrowserFamilies": "Motors dels navegadors",
@@ -2078,7 +2049,6 @@
         "ClickHereToDeleteTheCookie": "Feu click aquí per eliminar la galeta i permetre al Piwik rastrejar les vostres visites.",
         "ClickHereToSetTheCookieOnDomain": "Feu click aquí per guardar una galeta que exclourà les vostres visitis al Piwik de %s",
         "DeleteConfirm_js": "Esteu segur que voleu eliminar l'usuari %s?",
-        "Edit": "Edita",
         "Email": "Correu-e",
         "EmailYourAdministrator": "%1$sEnvieu un email al vostre administrador explicant el problema%2$s.",
         "ExceptionAccessValues": "El paràmetre permisos ha de tenir un dels següents valors: [ %s ]",
@@ -2184,7 +2154,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s duració mitja de la visita",
-        "EvolutionOverLastPeriods": "Evolució dels darrers %s",
         "GenerateQueries": "S'ha executat un total de %s consultes",
         "GenerateTime": "S'han trigat %s segons en generar la pàgina",
         "MaxNbActions": "Hi ha %s accions màximes en una visita",

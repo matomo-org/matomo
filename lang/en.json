@@ -1931,7 +1931,6 @@
         "YourVisitsAreNotIgnored": "%sYour visits are not ignored by Piwik%s (the Piwik ignore cookie was not found in your browser).",
         "ClickHereToDeleteTheCookie": "Click here to delete the cookie and have Piwik track your visits",
         "ClickHereToSetTheCookieOnDomain": "Click here to set a cookie that will exclude your visits on websites tracked by Piwik on %s",
-        "Edit": "Edit",
         "AddUser": "Add a new user",
         "MenuUsers": "Users",
         "MenuUserSettings": "User settings",

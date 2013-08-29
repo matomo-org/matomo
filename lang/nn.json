@@ -108,7 +108,6 @@
         "Inactive": "Av",
         "LicenseHomepage": "Lisensen til innstikket",
         "MainDescription": "Innstikk utvidar funksjonane til Piwik. Når eit innstikk er lagt til, kan du slå det av og på her.",
-        "MenuPlugins": "Innstikk",
         "Plugin": "Innstikk",
         "PluginDescription": "Administrasjon av innstikk.",
         "PluginHomepage": "Nettsida til innstikket",
@@ -489,7 +488,6 @@
         "ParameterMustIntegerBetween": "Parameteren %s må vera eit heiltal mellom %s og %s.",
         "Period": "Periode",
         "Piechart": "Kakestykke",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s er eit samarbeidsprosjekt. %3$s Om du liker Piwik, kan du hjelpa til! Sjekk ut %4$s Korleis delta i Piwik?%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s er tilgjengeleg. Varsle administratoren for nettstaden.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s er komen. %2$s Oppdater no!%3$s (sjå %4$s endringar%5$s).",
         "PleaseSpecifyValue": "Oppgje ein verdi for '%s'.",
@@ -575,7 +573,6 @@
         "Today": "Idag",
         "Total": "Total",
         "TotalRevenue": "Totale inntekter",
-        "TotalVisitsActionsRevenue": "(Totalt: %s vitjingar, %s handlingar, %s inntekter)",
         "TranslatorEmail": "kristoffer.egil@bonarjee.in,simonboba@gmail.com",
         "TranslatorName": "Kristoffer Egil Bonarjee,Simon Hansen",
         "UniquePurchases": "Unike sal",
@@ -781,14 +778,9 @@
         "LoginPasswordNotCorrect": "Brukarnamn og passord er feil",
         "Logout": "Logg ut",
         "LostYourPassword": "Hev du gløymd passordet?",
-        "MailTopicPasswordRecovery": "Passordpåminning",
         "Password": "Passord",
-        "PasswordReminder": "Skriv inn enten ditt brukarnamn eller din epost-adresse. Du vil få eit nytt passord via epost.",
         "PasswordRepeat": "Passord (gjenta)",
-        "PasswordsDoNotMatch": "Passorda stemmer ikkje",
-        "PasswordSent": "Passordet har akkurat blitt sendt. Sjekk eposten din.",
-        "PasswordSuccessfullyChanged": "Passordbytte vart vellykka!",
-        "RemindPassword": "Minn meg på passordet"
+        "PasswordsDoNotMatch": "Passorda stemmer ikkje"
     },
     "MultiSites": {
         "Evolution": "Evolusjon"
@@ -837,7 +829,6 @@
         "Test": "Test"
     },
     "SEO": {
-        "Backlinks": "Attendelenkjar",
         "Pages": "Sider"
     },
     "SitesManager": {
@@ -1390,7 +1381,6 @@
         "ChangePassword": "Bytt passord",
         "ClickHereToDeleteTheCookie": "Klikk her for å sletta informasjonskapselen slik at Piwik loggar dine vitjingar",
         "DeleteConfirm_js": "Er du sikker på at du vil fjerna brukar %s?",
-        "Edit": "Endre",
         "Email": "Epost",
         "ExceptionAccessValues": "Parameteren tilgang må ha ein av dei følgjande verdiane :    [ %s ]",
         "ExceptionAdminAnonymous": "Du kan ikkje gjeva administrasjonstilgang til den anonyme brukaren.",
@@ -1458,7 +1448,6 @@
         "WidgetPages": "Sider per vitjing"
     },
     "VisitsSummary": {
-        "EvolutionOverLastPeriods": "Utvikling over den siste %s",
         "GenerateQueries": "%s spørjingar køyrd",
         "GenerateTime": "%s sekundar å generera denne siden",
         "MaxNbActions": "%s maks mengd handlingar på ein vitjing",

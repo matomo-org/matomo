@@ -64,7 +64,6 @@
         "Inactive": "Slökkt",
         "LicenseHomepage": "Heimasíða hugbúnaðarleyfis",
         "MainDescription": "Íbætur auka og víkka virknina í Piwik. Hérna geturðu kveikteða slökkt á íbót þegar búið er að setja hana inn í kerfið.",
-        "MenuPlugins": "Íbætur",
         "Plugin": "Íbót",
         "PluginDescription": "Viðmót fyrir Íbótastjórnun",
         "PluginHomepage": "Heimasíða íbótar",
@@ -244,7 +243,6 @@
         "Others": "Aðrir",
         "Period": "Tímabil",
         "Piechart": "Kökurit",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s er samvinnuverkefni. %3$s Ef þú ert aðdáandi Piwik, þá geturðu hjálpað til! Kannaðu %4$s hvernig hægt er að taka þátt í Piwik?%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s er aðgengilegt. Vinsamlegast láttu umsjónaraðila vefsins vita.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s er tiltækt. %2$sVinsamlegast uppfærðu núna!%3$s (sjá %4$schanges%5$s).",
         "PleaseSpecifyValue": "Vinsamlegast settu gildi í %s.",
@@ -402,15 +400,10 @@
         "LoginPasswordNotCorrect": "Notendanafn & Lykilroð ekki rétt",
         "Logout": "Útskrá",
         "LostYourPassword": "Tapaðirðu lykilroðinu?",
-        "MailTopicPasswordRecovery": "Endurheimta lykilroð",
         "Password": "Lykilorð",
-        "PasswordReminder": "Vinsamlegast sláðu inn notendanafn eða tölvupóstfang. Þú munt fá sendan tóölvupóst með upplýsingum til að endurnýja lykilorðið þitt.",
         "PasswordRepeat": "Lykilorð (endurtekið)",
         "PasswordsDoNotMatch": "Lykilorðin stemma ekki.",
-        "PasswordSent": "Upplýsingar til að endurnýja lykilorðið hava verið sendar. Skoðaðu tölvupóstinn þinn.",
-        "PasswordSuccessfullyChanged": "Lykilorði hefur verið breytt.",
-        "RememberMe": "Mundu mig",
-        "RemindPassword": "Senda lykilorðs endurnýjun"
+        "RememberMe": "Mundu mig"
     },
     "PDFReports": {
         "AlsoSendReportToTheseEmails": "Senda skýrsluna einnig á þessi netföng (eitt í hverja línu):",
@@ -1002,7 +995,6 @@
         "AllWebsites": "Allir vefir",
         "ApplyToAllWebsites": "Virkja fyrir alla vefi",
         "ChangePassword": "Breyta lykilorði",
-        "Edit": "Breyta",
         "Email": "Netfang",
         "ExcludeVisitsViaCookie": "Útiloka þínar heimsóknir með því að nota smáköku",
         "ForAnonymousUsersReportDateToLoadByDefault": "Sjálfgefið að sýna skýrslu fyrir notendur sem ekki eru auðkenndir",
@@ -1052,7 +1044,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s meðallengd heimsóknar",
-        "EvolutionOverLastPeriods": "Þróun yfir síðustu %s",
         "GenerateQueries": "%s fyrirspurnir framkvæmdar",
         "GenerateTime": "%s sekúndur að gera þessa síðu",
         "MaxNbActions": "%s hámark aðgerða í einni heimsókn",

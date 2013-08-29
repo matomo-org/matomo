@@ -81,7 +81,6 @@
         "Deactivate": "停用",
         "Inactive": "停用中",
         "MainDescription": "外掛延伸並擴展了 Piwik 的功能。 當一個外掛安裝了以後，您可以在這裏啟用或停用它。",
-        "MenuPlugins": "外掛",
         "Plugin": "外掛",
         "PluginDescription": "外掛管理介面。",
         "PluginHomepage": "外掛首頁",
@@ -164,12 +163,6 @@
         "Table": "資料表",
         "TotalSize": "總容量"
     },
-    "EntryPage": {
-        "Bounces": "跳出次數"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "範例組件"
-    },
     "Feedback": {
         "CategoryHire": "雇用一位 Piwik 顧問",
         "CategorySecurity": "回報一個安全性問題",
@@ -198,10 +191,6 @@
         "VisitTheForums": "訪問 %s 論壇%s",
         "WhyAreMyVisitsNoTracked": "為什麼我的訪問沒有被追蹤？",
         "WhyWrongCountry": "為什麼 Piwik 顯示了錯誤的來源國家？"
-    },
-    "Forecast": {
-        "Bounce": "跳出訪客數",
-        "Visitors": "訪客"
     },
     "General": {
         "AboutPiwikX": "關於 Piwik %s",
@@ -375,7 +364,6 @@
         "Others": "其他",
         "Period": "期間",
         "Piechart": "圓餅圖",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s 是一個協同專案。 %3$s 如果你喜歡 Piwik，你可以提供協助！ 請查看 %4$s 如何參與 Piwik？%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s 已經可用。請通知網站管理員。",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s 已經可用。 %2$s 請立即更新！%3$s （查看 %4$s 與%5$s 的差異）。",
         "PleaseSpecifyValue": "請為 '%s' 設定一個數值。",
@@ -1254,8 +1242,7 @@
         "Language_yo": "约鲁巴文",
         "Language_za": "壮语",
         "Language_zh": "中文",
-        "Language_zu": "祖鲁文",
-        "WidgetLanguage": "訪客使用語言"
+        "Language_zu": "祖鲁文"
     },
     "UserSettings": {
         "BrowserFamilies": "瀏覽器家族",
@@ -1297,7 +1284,6 @@
         "ClickHereToDeleteTheCookie": "點擊這裡刪除 cookie 並讓 Piwik 追蹤你的訪問紀錄",
         "ClickHereToSetTheCookieOnDomain": "點擊這裡設定一個 cookie 讓 %s 的 Piwik 排除你的訪問紀錄",
         "DeleteConfirm_js": "你確定要刪除使用者 %s 嗎？",
-        "Edit": "編輯",
         "Email": "E-mail",
         "ExceptionAccessValues": "參數存取必須有一個以下的值： [ %s ]",
         "ExceptionAdminAnonymous": "你不能把'管理員'存取權限給匿名用戶。",

@@ -39,7 +39,6 @@
         "Deactivate": "Ezgaitu",
         "Inactive": "Ezgaituta",
         "MainDescription": "Piwik-en funtzionaltasunak hedatu eta zabaltzen dituzte pluginek. Plugin bat instalatu ondoren, hemendik gaitu edo ezgaitu dezakezu.",
-        "MenuPlugins": "Pluginak",
         "Plugin": "Plugina",
         "PluginHomepage": "Pluginaren hasiera-orria",
         "Plugins": "Pluginak",
@@ -137,7 +136,6 @@
         "ColumnNbUniqVisitors": "Bisitari desberdinak",
         "ColumnNbVisits": "Bisitak",
         "ColumnPageviews": "Orri-bistaratzeak",
-        "ColumnPercentageVisits": "%s bisita",
         "ColumnSumVisitLength": "Bisitariek guztira igarotako denbora (segundotan)",
         "ColumnUniquePageviews": "Orri-bistaratze desberdinak",
         "ColumnValuePerVisit": "Balioa bisitako",
@@ -254,7 +252,6 @@
         "Others": "Besteak",
         "Period": "Tartea",
         "Piechart": "Tarta-diagrama",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s auzolaneko proiektua da. %3$s Piwik gustoko baduzu, laguntza eman dezakezu! Emaiozu begirada: %4$s Nola lagundu Piwik-en?%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s eskura dago. Mesedez jakinarazi gunearen kudeatzaileari.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s eskura dago. %2$s Eguneratu orain!%3$s (ikusi %4$s aldaketak%5$s).",
         "PleaseSpecifyValue": "Mesedez zehaztu balioa '%s'(r)entzat.",
@@ -448,16 +445,9 @@
         "LoginPasswordNotCorrect": "Erabiltzaile-izena eta pasahitza ez datoz bat",
         "Logout": "Amaitu saioa",
         "LostYourPassword": "Pasahitza galdu duzu?",
-        "MailPasswordRecoveryBody": "Kaixo %1$s,\n\nPasahitza berrezartzeko eskaria jaso da %2$s helbidetik.\n\nZure pasahitza berrezartzeko:\n\n1) Zoaz pasahitza berrezartzeko inprimakira:\n\n\t%3$s\n\n2) Idatz ezazu ondorengo tokena:\n\n\t%4$s\n\n3) Bete eta bidal ezazu inprimakia (zure pasahitz berria birritan sartuz) inprimakia.\n\nOharra: tokena 24 ordutan iraungiko da.",
-        "MailTopicPasswordRecovery": "Pasahitza berreskuratzea",
         "Password": "Pasahitza",
-        "PasswordReminder": "Idatzi zure erabiltzaile-izen edo e-posta. Mezu elektroniko bat jasoko duzu zure pasahitza berrezartzeko informazioarekin.",
         "PasswordRepeat": "Pasahitza (errepikatu)",
-        "PasswordResetToken": "Pasahitza berrezartzeko tokena",
-        "PasswordsDoNotMatch": "Pasahitzak ez datoz bat.",
-        "PasswordSent": "Zure pasahitza berrezartzeko informazioa bidali da. Begira ezazu zure posta elektronikoa.",
-        "PasswordSuccessfullyChanged": "Pasahitza ondo aldatu da!",
-        "RemindPassword": "Bidali pasahitz berrezartzea"
+        "PasswordsDoNotMatch": "Pasahitzak ez datoz bat."
     },
     "Provider": {
         "ColumnProvider": "Hornitzailea",
@@ -997,7 +987,6 @@
         "ApplyToAllWebsites": "Aplikatu webgune guztiei",
         "ChangeAllConfirm": "Ziur zaude '%s'(r)en baimenak aldatu nahi dituzula webgune guztietan?",
         "DeleteConfirm_js": "Ziur zaude %s erabiltzailea ezabatu nahi duzula?",
-        "Edit": "Editatu",
         "Email": "E-posta",
         "ExceptionAccessValues": "access parametroak ondorengo balioetako bat izan behar du: [ %s ]",
         "ExceptionAdminAnonymous": "Ezin diozu 'admin' atzipena eman 'anonymous' erabiltzaileari.",
@@ -1045,7 +1034,6 @@
         "WidgetPages": "Orriak bisitako"
     },
     "VisitsSummary": {
-        "EvolutionOverLastPeriods": "Bilakaera azken %san zehar",
         "GenerateQueries": "%s galdera exekutatuta",
         "GenerateTime": "%s segundo orria sortzeko",
         "MaxNbActions": "%s ekintza gehienez bisita batean",

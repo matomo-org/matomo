@@ -239,8 +239,6 @@
         "Inactive": "Неактивный",
         "LicenseHomepage": "Дом. страница лицензии",
         "MainDescription": "Плагины расширяют функциональность Piwik. После установки плагина Вы можете активировать или деактивировать его здесь.",
-        "MenuPlugins": "Плагины",
-        "MenuPluginsInstalled": "Установленные",
         "Plugin": "Плагин",
         "PluginCannotBeFound": "Этот плагин не может быть найден!",
         "PluginDescription": "Админпанель плагинов.",
@@ -369,13 +367,6 @@
     "DoNotTrack": {
         "PluginDescription": "Игнорирование посетителей с HTTP-заголовком X-Do-Not-Track или DNT header"
     },
-    "EntryPage": {
-        "Bounces": "Отскоки",
-        "Referrers": "Источники"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "Виджет для примера"
-    },
     "Feedback": {
         "CategoryHire": "Нанять консультанта Piwik",
         "CategorySecurity": "Сообщить о проблеме безопасности",
@@ -405,14 +396,6 @@
         "WantToThankConsiderDonating": "Вы думаете что Piwik потрясающий и Вы хотите отблагодарить нас? Подумайте о пожертвовании",
         "WhyAreMyVisitsNoTracked": "Почему посещения на мой сайт не отслеживаются?",
         "WhyWrongCountry": "Почему Piwik определяет мои посещения как из другой страны?"
-    },
-    "Forecast": {
-        "Actions": "Посещений страницы",
-        "Bounce": "Отскочившие посетители",
-        "Column": "Прогноз",
-        "ReturnVisits": "вернувшиеся посетители",
-        "Visitors": "Посетители",
-        "Widget": "Прогноз на сегодня"
     },
     "General": {
         "AbandonedCarts": "Не реализованные корзины",
@@ -709,7 +692,6 @@
         "ParameterMustIntegerBetween": "Параметр %s должен быть целым числом между %s и %s.",
         "Period": "Период",
         "Piechart": "Круговая диаграмма",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s - это коллективный проект. %3$s Если Вам нравится Piwik, Вы можете помочь! Проверьте, пожалуйста %4$s как Вы можете это сделать?%5$s",
         "PiwikIsACollaborativeProjectYouCanContributeAndDonate": "%1$s Piwik %2$s - совместный проект. %3$s Если вам нравится Piwik - узнайте %4$sкак помочь проекту (en)%5$s или%6$s %7$sсделайте пожертвование%8$s для помощи в финансировании Piwik 2.0!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s уже доступен. Пожалуйста, сообщите администратору сайта.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s доступен для скачивания. %2$s Пожалуйста, обновитесь!%3$s (см. %4$s изменения%5$s).",
@@ -809,7 +791,6 @@
         "Today": "Сегодня",
         "Total": "Всего",
         "TotalRevenue": "Общая прибыль",
-        "TotalVisitsActionsRevenue": "(Всего: %s посещений, %s действий, %s дохода)",
         "TotalVisitsPageviewsRevenue": "(Всего: %s посещений, %s просмотров страниц, %s прибыли)",
         "TransitionsRowActionTooltip_js": "Посмотрите, что посетители делали до и после просмотра этой страницы",
         "TransitionsRowActionTooltipTitle_js": "Открыть переходы",
@@ -1121,20 +1102,13 @@
         "Logout": "Выйти",
         "LostYourPassword": "Потеряли пароль?",
         "MailPasswordChangeBody": "Привет %1$s, был зафиксирован сброс пароля от %2$s. Чтобы подтвердить смену пароля, залогиньтесь под новыми авторизационными данными по этой ссылке: %3$s Подсказка: ссылка перестанет действовать через 24 часа. И спасибо вам за то, что пользуетесь Piwik!",
-        "MailPasswordRecoveryBody": "Здравствуйте %1$s,\n\n\tОт пользователя %2$s получен запрос на восстановление пароля.\n\n\tЧтоб восстановить ваш пароль:\n\n\t1) Перейдите к форме сброса пароля здесь:\n\t%3$s\n\n\t2) введите следующий ключ:\n\t%4$s\n\n\t3) Заполните форму (введите ваш новый пароль дважды) и отправьте.\n\n\tПримечание: ключ действителен в течении 24 часов.",
         "MailTopicPasswordChange": "Подтвердите смену пароля",
-        "MailTopicPasswordRecovery": "Восстановление пароля",
         "Password": "Пароль",
         "PasswordChanged": "Ваш пароль был изменен.",
-        "PasswordReminder": "Пожалуйста, введите свой логин или e-mail. Новый пароль прийдет вам по e-mail.",
         "PasswordRepeat": "Пароль еще раз",
-        "PasswordResetToken": "Обозначение изменения пароля",
         "PasswordsDoNotMatch": "Пароли не совпадают.",
-        "PasswordSent": "Пароль выслан, проверьте свою почту.",
-        "PasswordSuccessfullyChanged": "Пароль изменен!",
         "PluginDescription": "Плагин аутентификации логина читает учетные данные из файла config\/config.inc.php для суперпользователя, и из базы данных для других пользователей. Может быть легко применен для введения новых механизмов аутентификации (OpenID, htaccess, custom Auth, etc.).",
         "RememberMe": "Запомнить меня",
-        "RemindPassword": "Вспомнить пароль",
         "ResetPasswordInstructions": "Введите новый пароль для вашего аккаунта."
     },
     "Mobile": {
@@ -1433,7 +1407,6 @@
     },
     "SEO": {
         "AlexaRank": "Рейтинг Alexa",
-        "Backlinks": "Ссылающиеся ссылки",
         "Bing_IndexedPages": "Страниц в индексе Bing",
         "Dmoz": "Записей в каталоге DMOZ",
         "DomainAge": "Возраст домена",
@@ -1957,7 +1930,6 @@
         "WorldWide": "Весь мир"
     },
     "UserLanguage": {
-        "Language": "Языки",
         "Language_aa": "афар",
         "Language_ab": "абхазский",
         "Language_ae": "авестийский",
@@ -2141,9 +2113,7 @@
         "Language_yo": "йоруба",
         "Language_za": "чжуань",
         "Language_zh": "китайский",
-        "Language_zu": "зулу",
-        "SubmenuLanguage": "Языки",
-        "WidgetLanguage": "Языки посетителей"
+        "Language_zu": "зулу"
     },
     "UserSettings": {
         "BrowserFamilies": "По семейству браузеров",
@@ -2195,7 +2165,6 @@
         "ClickHereToDeleteTheCookie": "Нажмите здесь, чтобы удалить cookie игнорирования, и разрешить системе Веб-аналитики отслеживать ваши посещения",
         "ClickHereToSetTheCookieOnDomain": "Нажмите здесь, чтобы установить cookie игнорирования Веб-аналитики, после установки которого система вас будет игнорировать при посещении %s",
         "DeleteConfirm_js": "Вы уверены, что хотите удалить пользователя %s?",
-        "Edit": "Редактировать",
         "Email": "Email",
         "EmailYourAdministrator": "%1$sНапишите вашему администратору об этой проблеме%2$s.",
         "ExceptionAccessValues": "Параметр доступа может иметь только одно из следующих значений: [ %s ]",
@@ -2303,7 +2272,6 @@
     "VisitsSummary": {
         "AverageGenerationTime": "%s среднее время генерации страницы",
         "AverageVisitDuration": "%s средняя продолжительность посещения",
-        "EvolutionOverLastPeriods": "Эволюция за %s последних дней",
         "GenerateQueries": "%s запросов выполнено",
         "GenerateTime": "Страница сгенерирована за %s секунд",
         "MaxNbActions": "%s макс. действий за одно посещение",

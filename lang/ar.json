@@ -209,8 +209,6 @@
         "Inactive": "معطل",
         "LicenseHomepage": "صفحة الرخصة",
         "MainDescription": "التطبيقات تزيد من إمكانيات Piwik. ما أن يتم تنصيب تطبيق، يمكنك تفعيل أو تعطيل التطبيق من هنا.",
-        "MenuPlugins": "التطبيقات",
-        "MenuPluginsInstalled": "مُثبت",
         "Plugin": "التطبيق",
         "PluginDescription": "واجهة إدارة التطبيقات",
         "PluginHomepage": "صفحة التطبيقات الرئيسية",
@@ -317,12 +315,6 @@
         "TotalSize": "الحجم الإجمالي",
         "TrackerTables": "جداول المتتبع"
     },
-    "EntryPage": {
-        "Bounces": "الارتدادات"
-    },
-    "ExamplePlugin": {
-        "exampleWidget": "مثال تطبيق"
-    },
     "Feedback": {
         "CategoryHire": "الاستعانة باستشاري من Piwik",
         "CategorySecurity": "الإبلاغ عن مشكلة أمنية",
@@ -351,11 +343,6 @@
         "WantToThankConsiderDonating": "هل ترى أن بايويك رائع وتريد أن تشكرنا؟ ما رأيك في التبرع لنا؟",
         "WhyAreMyVisitsNoTracked": "لماذا لا يتم تتبع زيارات موقعي؟",
         "WhyWrongCountry": "لماذا يعرض Piwik زياراتي كأنها من دولة أخرى؟"
-    },
-    "Forecast": {
-        "Bounce": "الزوار المرتدون",
-        "ReturnVisits": "زيارات مُكررة",
-        "Widget": "توقعات اليوم"
     },
     "General": {
         "AbandonedCarts": "تخلى عربات",
@@ -562,7 +549,6 @@
         "Others": "أخرى",
         "Period": "الفترة",
         "Piechart": "رسم بياني",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s هي مشروع مشترك. %3$s إذا كنت معجباً به، فيمكنك المساعدة! انظر %4$s كيف يمكنك المشاركة في Piwik؟%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s متوفر الآن. الرجاء إعلام مدير الموقع.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s متوفر الآن. %2$s الرجاء التحديث الآن! %3$s (انظر %4$s التغييرات %5$s).",
         "PleaseSpecifyValue": "الرجاء تحديد قيمة للحقل \"%s\".",
@@ -870,18 +856,11 @@
         "LoginPasswordNotCorrect": "اسم المستخدم أو كلمة المرور غير صحيحة",
         "Logout": "تسجيل الخروج",
         "LostYourPassword": "فقدت كلمة المرور؟",
-        "MailPasswordRecoveryBody": "مرحباً %1$s، تم طلب إعادة تنضيد كلمة المرةر من %2$s. لإعادة تنضيد كلمة المرور: 1) اذهب إلى نموذج تنضيد كلمة المرور في %3$s 2) أدخل الشفرة التالية: %4$s 3)إملأ النموذج (بإدخال كلمة المرور الجديدة مرتين) ثم أرسلها. ملاحظة: ستنتهي صلاحية الشفرة خلال 24 ساعة.",
-        "MailTopicPasswordRecovery": "استعادة كلمة المرور",
         "Password": "كلمة المرور",
-        "PasswordReminder": "الرجاء إدخال اسم المستخدم أو عنوان البريد الإلكتروني. سيصلك رسالة بريد إلكتروني بمعلومات حول كيفية إعادة تنضيد كلمة مرورك.",
         "PasswordRepeat": "كلمة المرور (تأكيد)",
-        "PasswordResetToken": "شفرة تنضيد كلمة المرور",
         "PasswordsDoNotMatch": "كلمتي المرور غير متطابقتين.",
-        "PasswordSent": "تم إرسال معلومات إعادة تنضيد كلمة مرورك. راجع بريدك الإلكتروني.",
-        "PasswordSuccessfullyChanged": "تم تغيير كلمة المرور بنجاح!",
         "PluginDescription": "تطبيق مصادقة تسجيل الدخول يقرأ بيانات تسجيل الدخول من ملف config\/config.inc.php للمدير العام ومن قاعدة البيانات للمستخدمين الآخرين. يمكن استبداله بسهولة لإضافة آليات مصادقة أخرى (OpenID, ملف htacess أو أسلوب مصادقة مخصص، إلخ).",
-        "RememberMe": "تذكرني",
-        "RemindPassword": "أرسل طلب تنضيد كلمة المرور"
+        "RememberMe": "تذكرني"
     },
     "MultiSites": {
         "Evolution": "التطور",
@@ -970,7 +949,6 @@
     },
     "SEO": {
         "AlexaRank": "رتبة أليكسا",
-        "Backlinks": "الروابط المرتدة",
         "DomainAge": "عمر اسن النطاق",
         "Pages": "الصفحات",
         "Rank": "الرتبة",
@@ -1564,7 +1542,6 @@
         "ChangePassword": "تغيير كلمة المرور",
         "ClickHereToDeleteTheCookie": "انقر هنا لحذف الكوكيز وليتتبع Piwik زياراتك",
         "DeleteConfirm_js": "هل ترغب حقاً في حذف المستخدم %s؟",
-        "Edit": "تحرير",
         "Email": "البريد الإلكتروني",
         "ExceptionAccessValues": "بارامتيرات الوصول يجب أن تتضمن أحد القيم التالية: [%s]",
         "ExceptionAdminAnonymous": "لا يمكنك منح \"المدير\" وصولاً للمستخدم \"مجهول\"",
@@ -1652,7 +1629,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s متوسط زمن الزيارة",
-        "EvolutionOverLastPeriods": "التقييم خلال آخر %s",
         "GenerateQueries": "%s استعلام تم تنفيذهم",
         "GenerateTime": "%s ثانية لإنشاء هذه الصفحة",
         "MaxNbActions": "%s أقصى عدد للسلوكيات في زيارة واحدة",

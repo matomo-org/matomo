@@ -143,7 +143,6 @@
         "Inactive": "Ei käytössä",
         "LicenseHomepage": "Lisenssisivu",
         "MainDescription": "Lisäosilla voi laajentaa ja parantaa Piwikin toiminnallisuutta. Kun lisäosa on asennettu, voit aktivoida ja poistaa käytöstä sen täällä.",
-        "MenuPlugins": "Lisäosat",
         "Plugin": "Lisäosa",
         "PluginCannotBeFound": "Tätä lisäosaa ei löydy!",
         "PluginDescription": "Lisäosien hallinta.",
@@ -270,10 +269,6 @@
         "TotalSize": "Koko yhteensä",
         "TrackerTables": "Seurantataulut"
     },
-    "EntryPage": {
-        "Bounces": "Käväisyt",
-        "Referrers": "Referoijat"
-    },
     "Feedback": {
         "CategoryHire": "Palkata Piwik-konsultin",
         "CategorySecurity": "Raportoida turvallisuusongelman",
@@ -302,14 +297,6 @@
         "VisitTheForums": "Käy %s foorumeilla %s",
         "WhyAreMyVisitsNoTracked": "Miksi sivujeni kävijöitä ei seurata?",
         "WhyWrongCountry": "Miksi Piwik näyttää käyntini väärästä maasta?"
-    },
-    "Forecast": {
-        "Actions": "Sivukäynnit",
-        "Bounce": "Käväisyt",
-        "Column": "Ennuste",
-        "ReturnVisits": "palaavat käynnit",
-        "Visitors": "Kävijät",
-        "Widget": "Tämän päivän ennuste"
     },
     "General": {
         "AbandonedCarts": "Hylätyt ostoskorit",
@@ -576,7 +563,6 @@
         "ParameterMustIntegerBetween": "Parametrin %s täytyy olla kokonaisluku väliltä %s ja %s.",
         "Period": "Aikaväli",
         "Piechart": "Ympyräkaavio",
-        "PiwikIsACollaborativeProjectYouCanContribute": "%1$s Piwik %2$s on yhteistyöprojekti. %3$s Jos pidät Piwikistä, voit auttaa! Katso %4$s miten voit auttaa Piwikiä%5$s",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s on saatavilla. Pyydä sivun ylläpitäjää päivittämään.",
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s on saatavilla. %2$s Päivitä nyt!%3$s (katso %4$s muutokset%5$s).",
         "PleaseSpecifyValue": "Ole hyvä ja anna arvo kentälle '%s'.",
@@ -670,7 +656,6 @@
         "Today": "Tänään",
         "Total": "Yhteensä",
         "TotalRevenue": "Tulot yhteensä",
-        "TotalVisitsActionsRevenue": "(Yhteensä: %s käyntiä, %s toimintoa, %s tuottoa)",
         "TotalVisitsPageviewsRevenue": "(Yhteensä: %s käyntiä, %s sivunlatausta, %s tuottoa)",
         "TransitionsRowActionTooltip_js": "Näe mitä kävijät tekivät ennen ja jälkeen tällä sivulla käymistä",
         "TransitionsRowActionTooltipTitle_js": "Avaa muutokset",
@@ -964,20 +949,13 @@
         "Logout": "Kirjaudu ulos",
         "LostYourPassword": "Unohtuiko salasana?",
         "MailPasswordChangeBody": "Hei %1$s,\n\nPyyntö salasanan resetoimiseen tuli %2$s:ltä. Jos haluat vaihtaa salasanan, avaa seuraava linkki:\n\n%3$s\n\nJos et tilannut uutta salasanaa, voit jätttää tämän sähköpostin huomiotta.\n\nHuom. tämä linkki vanhenee 24 tunnissa.\n\nKiitos Piwikin käyttämisestä!",
-        "MailPasswordRecoveryBody": "Hei %1$s, salasanan nollauspyyntö vastaanotettiin %2$s:ltä. Voit nollata salasanasi noudattamalla ohjeita: 1) Mene salasanan nollauslomakkeelle: %3$s 2) Avaimesi on %4$s 3) Täytä lomake ja lähetä. Huomioi: tämä avain vanhenee 24 tunnissa.",
         "MailTopicPasswordChange": "Varmista salasanan vaihto",
-        "MailTopicPasswordRecovery": "Salasanan palautus",
         "Password": "Salasana",
         "PasswordChanged": "Salasana on vaihdettu.",
-        "PasswordReminder": "Kirjoita käyttäjätunnus tai sähköpostiosoite. Saat uuden salasanan sähköpostilla.",
         "PasswordRepeat": "Salasana (uudelleen)",
-        "PasswordResetToken": "Salasanan nollaus",
         "PasswordsDoNotMatch": "Salasanat eivät täsmää.",
-        "PasswordSent": "Salasana on lähetetty. Tarkista sähköpostisi.",
-        "PasswordSuccessfullyChanged": "Salasana vaihdettiin onnistuneesti!",
         "PluginDescription": "Sisäänkirjautumislisäosa, lukee kirjautumistiedot config\/config.inc.php:stä ylläpitäjälle ja tietokannasta muille. Voi helposti korvata tukemaan uutta autentikointimenetelmää (OpenID, htaccess, muokattu autentikointi jne.)",
         "RememberMe": "Muista minut",
-        "RemindPassword": "Salasanamuistutus",
         "ResetPasswordInstructions": "Anna uusi salasana."
     },
     "Mobile": {
@@ -1232,7 +1210,6 @@
     },
     "SEO": {
         "AlexaRank": "Alexa-tulos",
-        "Backlinks": "Linkit",
         "DomainAge": "Sivun ikä",
         "Pages": "Sivut",
         "Rank": "Sijoitus",
@@ -1653,7 +1630,6 @@
         "worldMap": "maailmankartta"
     },
     "UserLanguage": {
-        "Language": "Kielet",
         "Language_aa": "afar",
         "Language_ab": "abkhazian",
         "Language_ae": "avestan",
@@ -1837,9 +1813,7 @@
         "Language_yo": "yoruba",
         "Language_za": "chuang",
         "Language_zh": "kiinan kieli",
-        "Language_zu": "zulu",
-        "SubmenuLanguage": "Kielet",
-        "WidgetLanguage": "Kävijöiden kielet"
+        "Language_zu": "zulu"
     },
     "UserSettings": {
         "BrowserFamilies": "Selainluokat",
@@ -1889,7 +1863,6 @@
         "ClickHereToDeleteTheCookie": "Paina tästä poistaaksesi cookie",
         "ClickHereToSetTheCookieOnDomain": "Paina tästä luodaksesi cookie sivulle %s",
         "DeleteConfirm_js": "Haluatko varmasti poistaa käyttäjän %s?",
-        "Edit": "Muokkaa",
         "Email": "Sähköposti",
         "ExceptionAccessValues": "Oikeuksien täytyy olla yksi seuraavista arvoista: [ %s ]",
         "ExceptionAdminAnonymous": "Et voi sallia  ylläpito-oikeuksia anonyymikäyttäjälle.",
@@ -1994,7 +1967,6 @@
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s keskimääräinen käynnin kesto",
-        "EvolutionOverLastPeriods": "Muutos edellisen %s aikana",
         "GenerateQueries": "%s kyselyä ajettu",
         "GenerateTime": "%s sekuntia sivun luomiseen",
         "MaxNbActions": "%s toimintoa maksimissaan yhdellä käynnillä",
