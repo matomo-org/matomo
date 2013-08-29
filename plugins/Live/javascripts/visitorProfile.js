@@ -19,12 +19,8 @@
      *                          action. Should have the CSS class 'visitor-profile'.
      */
     var VisitorProfileControl = function (element) {
-        this.$element = $(element);
-
-        this._setupControl();
+        this.$element = $(element).focus();
         this._bindEventCallbacks();
-
-        this.$element.focus();
     };
 
     /**
@@ -56,14 +52,6 @@
     };
 
     VisitorProfileControl.prototype = {
-
-        _setupControl: function () {
-            $('.visitor-profile-visits-container', this.$element).jScrollPane({
-                showArrows: true,
-                verticalArrowPositions: 'os',
-                horizontalArrowPositions: 'os'
-            });
-        },
 
         _bindEventCallbacks: function () {
             var self = this,
@@ -110,14 +98,36 @@
                     self._loadNextVisitor();
                 }
             });
+
+            var mapShown = false;
+            $element.on('click', '.visitor-profile-show-map', function (e) {
+                e.preventDefault();
+
+                var $map = $('.visitor-profile-map', $element);
+                if ($map.is(':hidden')) {
+                    if (!mapShown) {
+                        $map.resize();
+                        mapShown = true;
+                    }
+
+                    $map.slideDown('slow');
+                    var newLabel = 'Live_HideMap_js';
+                } else {
+                    $map.slideUp('slow');
+                    var newLabel = 'Live_ShowMap_js';
+                }
+                $('a', this).text(_pk_translate(newLabel));
+
+                return false;
+            });
         },
 
         _loadMoreVisits: function () {
             var self = this,
                 $element = this.$element;
 
-            var loading = $('.visitor-profile-visits-info > .loadingPiwik', $element);
-            loading.css('display', 'table');
+            var loading = $('.visitor-profile-more-info > .loadingPiwik', $element);
+            loading.show();
 
             var ajax = new ajaxHelper();
             ajax.addParams({
@@ -129,7 +139,7 @@
                 filter_offset: $('.visitor-profile-visits>li', $element).length
             }, 'GET');
             ajax.setCallback(function (response) {
-                loading.css('display', 'none');
+                loading.hide();
 
                 var jsp = $('.visitor-profile-visits-container', $element).data('jsp');
                 if (response == '') {

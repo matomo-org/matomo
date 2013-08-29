@@ -1,3 +1,4 @@
+{{ loadJavascriptTranslations(['Live']) }}
 <div class="visitor-profile"
      data-visitor-id="{{ visitorData.lastVisits.getFirstRow().getColumn('visitorId') }}"
      data-next-visitor="{{ visitorData.nextVisitorId }}"
@@ -6,34 +7,33 @@
     <a href class="visitor-profile-close"></a>
     <div class="visitor-profile-info">
         <div>
-            <div class="visitor-profile-avatar">
-                <div>
-                    <div class="visitor-profile-image-frame">
-                        <img src="plugins/Live/images/REMOVE_ME_avatar.jpg" alt=""/>
-                    </div>
-                    <img src="plugins/Live/images/paperclip.png" alt=""/>
-                </div>
-                <div>
-                    <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/></h1>
-                    <div class="visitor-profile-latest-visit">
-                        {% include "@Live/getSingleVisitSummary.twig" with {'visitData': visitorData.lastVisits.getFirstRow().getColumns()} %}
-                    </div>
-                </div>
-                <p style="clear:both; border:none!important;"></p>
-                <div class="visitor-profile-navigation">
-                    {% if visitorData.prevVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#">&lt;&lt; {{ 'Live_PreviousVisitor'|translate }}</a>{% endif %}
-                    {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#">{{ 'Live_NextVisitor'|translate }} &gt;&gt;</a>{% endif %}
-                </div>
-            </div>
             <div>
-                <div class="visitor-profile-location">
-                    <h1>{{ 'UserCountry_Location'|translate }}</h1>
-                    <img src="plugins/Live/images/REMOVE_ME_chart.png" alt=""/>
+                <div class="visitor-profile-avatar">
+                    <div>
+                        <div class="visitor-profile-image-frame">
+                            <img src="plugins/Live/images/REMOVE_ME_avatar.jpg" alt=""/>
+                        </div>
+                        <img src="plugins/Live/images/paperclip.png" alt=""/>
+                    </div>
+                    <div>
+                        <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/></h1>
+                        <div class="visitor-profile-latest-visit">
+                            {% include "@Live/getSingleVisitSummary.twig" with {'visitData': visitorData.lastVisits.getFirstRow().getColumns()} %}
+                        </div>
+                    </div>
+                    <p style="clear:both; border:none!important;"></p>
+                    <div class="visitor-profile-navigation">
+                        {% if visitorData.prevVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#">&lt;&lt; {{ 'Live_PreviousVisitor'|translate }}</a>{% endif %}
+                        {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#">{{ 'Live_NextVisitor'|translate }} &gt;&gt;</a>{% endif %}
+                    </div>
+                    <p style="clear:both"/>
                 </div>
-            </div>
-        </div>
-        <div>
-            <div>
+                <div>
+                    <div class="visitor-profile-location">
+                        <h1>{{ 'UserCountry_Location'|translate }}</h1>
+                        <img src="plugins/Live/images/REMOVE_ME_chart.png" alt=""/>
+                    </div>
+                </div>
                 <div class="visitor-profile-summary">
                     <h1>{{ 'General_Summary'|translate }}</h1>
                     <div>
@@ -67,8 +67,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="visitor-profile-map">
+                <div class="visitor-profile-map" style="display:none">
                     {{ userCountryMap|raw }}
+                </div>
+                <div class="visitor-profile-show-map">
+                    <a href="#">{{ 'Live_ShowMap_js'|translate }}</a>
                 </div>
             </div>
             <div class="visitor-profile-visits-info">
@@ -79,21 +82,12 @@
                     <ol class="visitor-profile-visits">
                         {% include "@Live/getVisitList.twig" with {'visits': visitorData.lastVisits, 'startCounter': 1} %}
                     </ol>
-                    <br/>
                 </div>
-                <div class="loadingPiwik" style="display:none;">
-                    <div>
-                        <div>
-                            <img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}
-                        </div>
-                    </div>
+                <div class="visitor-profile-more-info">
+                    <a href="#">{{ 'Live_ViewMoreVisitInfo'|translate }}</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
                 </div>
-                <div class="visitor-profile-fog"></div>
             </div>
         </div>
-    </div>
-    <div class="visitor-profile-more-info">
-        <a href="#">{{ 'Live_ViewMoreVisitInfo'|translate }}</a>
     </div>
 </div>
 <script type="text/javascript">

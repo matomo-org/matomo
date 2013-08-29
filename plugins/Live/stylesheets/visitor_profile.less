@@ -98,7 +98,7 @@
             vertical-align:top;
             height:auto;
             display:inline-block;
-            border-right:1px solid #d1cec8;
+            border-left:1px solid #d1cec8;
         }
 
         > div:first-child { // first column
@@ -113,7 +113,7 @@
     }
 }
 
-.visitor-profile-summary,.visitor-profile-important-visits {
+.visitor-profile-summary,.visitor-profile-important-visits,.visitor-profile-avatar,.visitor-profile-location {
     border-bottom:1px solid #d1cec8;
 }
 
@@ -160,16 +160,19 @@
 
 .visitor-profile-more-info {
     height:18px;
-    border-top:1px solid #fff;
     border-radius:0 0 5px 5px;
     text-align:center;
-    padding:20px 0 13px;
+    padding:0 0 13px;
 
     > a {
         font-size:14px;
         text-decoration:none;
         color:#255792;
         text-shadow:0 1px 0 rgba(255,255,255,1);
+    }
+
+    > .loadingPiwik {
+        padding:0 0 0 4px;
     }
 }
 
@@ -214,7 +217,7 @@
 }
 
 .visitor-profile-map {
-    padding:unit(@visitor_profile_map_pad_top, px) 2px unit(@visitor_profile_map_pad_bottom, px) 21px;
+    padding:unit(@visitor_profile_map_pad_top, px) 21px 4px 21px;
 
     .dataTableFeatures,.no_data {
         display:none !important;
@@ -224,14 +227,32 @@
 .visitor-profile-map > div {
     border-radius:2px;
     background-color:#fff;
-    width:532px;
-    height:unit(@visitor_profile_map_height, px);
+}
+
+.visitor-profile-show-map {
+    height:auto;
+    width:100%;
+    display:block;
+    text-align:center;
+    padding-bottom:unit(@visitor_profile_map_pad_bottom, px);
+
+    > a {
+        font-size:14px;
+        font-weight:bold;
+    }
 }
 
 .visitor-profile-summary,.visitor-profile-important-visits {
     overflow:hidden;
-    height:unit(@visitor_profile_aggregate_section_height, px);
     padding:unit(@visitor_profile_aggregate_section_pad_top, px) 0 0 22px;
+}
+
+.visitor-profile-summary {
+    padding-bottom:18px;
+}
+
+.visitor-profile-important-visits {
+    padding-bottom:16px;
 }
 
 .visitor-profile-summary > div {
@@ -281,7 +302,6 @@
 }
 
 .visitor-profile-visits-container {
-    height:unit(@visitor_profile_visits_list_height, px);
     overflow-y:auto;
     position:relative;
     margin-right:10px;
@@ -375,7 +395,7 @@
     height:25px;
     width:546px;
     position:absolute;
-    bottom:0;
+    bottom:51px;
     right:28px;
     background:url(../images/visitor_profile_gradient.png) repeat-x;
 }

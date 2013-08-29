@@ -1159,7 +1159,9 @@
         "VisitedPages": "Visited pages",
         "ViewMoreVisitInfo": "View more visitor information",
         "PreviousVisitor": "Previous visitor",
-        "NextVisitor": "Next visitor"
+        "NextVisitor": "Next visitor",
+        "ShowMap_js": "Show map",
+        "HideMap_js": "Hide map"
     },
     "Login": {
         "PluginDescription": "Login Authentication plugin, reading the credentials from the config\/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).",
