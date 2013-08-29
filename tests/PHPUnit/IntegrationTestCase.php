@@ -276,7 +276,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'Annotations',
         'SegmentEditor',
         'UserCountry.getLocationFromIP',
-        'Dashboard'
+        'Dashboard',
     );
 
     const DEFAULT_USER_PASSWORD = 'nopass';
@@ -714,7 +714,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     protected function _testApiUrl($testName, $apiId, $requestUrl)
     {
         $isTestLogImportReverseChronological = strpos($testName, 'ImportedInRandomOrderTest') === false;
-        $isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false
+        $isLiveMustDeleteDates = (strpos($requestUrl, 'Live.getLastVisits') !== false
+                                  || strpos($requestUrl, 'Live.getVisitorProfile') !== false)
                                 // except for that particular test that we care about dates!
                                 && $isTestLogImportReverseChronological;
 
@@ -840,6 +841,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             'goalTimePretty',
             'serverTimePretty',
             'visitorId',
+            'nextVisitorId',
+            'prevVisitorId',
             'visitServerHour',
         );
         foreach ($toRemove as $xml) {
