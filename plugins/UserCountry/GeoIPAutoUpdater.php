@@ -417,14 +417,14 @@ class Piwik_UserCountry_GeoIPAutoUpdater
         // check for &suffix= query param that is special to MaxMind URLs
         if (preg_match('/suffix=([^&]+)/', $url, $matches)) {
             $ext = $matches[1];
-        }
-
-        // use basename of url
-        $filenameParts = explode('.', basename($url), 2);
-        if (count($filenameParts) > 1) {
-            $ext = end($filenameParts);
         } else {
-            $ext = reset($filenameParts);
+            // use basename of url
+            $filenameParts = explode('.', basename($url), 2);
+            if (count($filenameParts) > 1) {
+                $ext = end($filenameParts);
+            } else {
+                $ext = reset($filenameParts);
+            }
         }
 
         self::checkForSupportedArchiveType($ext);
