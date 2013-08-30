@@ -174,6 +174,39 @@ class API
     }
 
     /**
+     * Returns translation strings by language for given plugin
+     *
+     * @param string $pluginName name of plugin
+     * @param string $languageCode ISO language code
+     * @return array|false Array of arrays, each containing 'label' (translation index)  and 'value' (translated string); false if language unavailable
+     */
+    public function getPluginTranslationsForLanguage($pluginName, $languageCode)
+    {
+        if (!$this->isLanguageAvailable($languageCode)) {
+            return false;
+        }
+
+        $languageFile = PIWIK_INCLUDE_PATH . "/plugins/$pluginName/lang/$languageCode.json";
+
+        if (!file_exists($languageFile)) {
+            return false;
+        }
+
+        $data = file_get_contents($languageFile);
+        $translations = json_decode($data, true);
+        $languageInfo = array();
+        foreach ($translations as $module => $keys) {
+            foreach($keys as $key => $value) {
+                $languageInfo[] = array(
+                    'label' => sprintf("%s_%s", $module, $key),
+                    'value' => $value
+                );
+            }
+        }
+        return $languageInfo;
+    }
+
+    /**
      * Returns the language for the user
      *
      * @param string $login
