@@ -95,7 +95,7 @@
         "GenerateVisits": "Se oggi non hai ricevuto visite, le puoi generare usando il plugin %s. Abilita il plugin %s, quindi clicca su \"Generatore di Visite\" nell'area amministrazione Piwik.",
         "KeepTokenSecret": "Questo token_auth è segreto come il tuo login e la tua password, %s non condividerlo %s!",
         "LoadedAPIs": "Sono state caricate con successo %s APIs",
-        "MoreInformation": "Per ulteriori informazioni sulle API di Piwik, si prega di dare un'occhiata all' introduzione delle API di Pwik %s e a %s  %s Piwik API di riferimento API %s.",
+        "MoreInformation": "Per ulteriori informazioni sulle API di Piwik, si prega di dare un'occhiata all' introduzione delle API di Pwik %s e a %s %s Piwik API di riferimento API %s.",
         "PluginDescription": "Tutti i dati in Piwik sono disponibili tramite semplici API. Questo plugin è il punto di accesso web service che puoi chiamare per avere le tue statistiche in xml, json, php, csv, ecc...",
         "QuickDocumentationTitle": "Veloce documentazione sulle API",
         "TopLinkTooltip": "Accedi ai tuoi dati di Web Analytics tramite le semplici API in JSON, XML, ecc",
@@ -819,7 +819,7 @@
         "AddNewGoalOrEditExistingGoal": "%sAggiungi un nuovo obiettivo%s o %sModifica%s un obiettivo esistente",
         "AllowGoalConvertedMoreThanOncePerVisit": "Consenti di convertire Goal più di una volta per visita",
         "AllowMultipleConversionsPerVisit": "Permetti conversioni multiple per visita",
-        "BestCountries": "I tuoi stati che  convertono meglio sono:",
+        "BestCountries": "I tuoi stati che convertono meglio sono:",
         "BestKeywords": "Le tue keyword che convertono meglio sono:",
         "BestReferers": "I tuoi referer che convertono meglio sono:",
         "CaseSensitive": "Match sensibile alle maiuscole e minuscole",
@@ -862,7 +862,7 @@
         "ManuallyTriggeredUsingJavascriptFunction": "L'obiettivo è innescato usando l'API Javascript trackGoal()",
         "MatchesExpression": "soddisfa l'espressione %s",
         "NewVisitorsConversionRateIs": "Il rapporto di conversione dei nuovi visitatori è %s",
-        "NoGoalsNeedAccess": "Solo un Amministratore o il Super Utente possono aggiungere Obiettivi per un sito. Chiedi a tuo amministratore di Piwik di settare un Obiettivo per il tuo sito.<br\/>    Tracciare gli obiettivi è un ottimo aiuto per capire e massimizzare le prestazioni del tuo sito!",
+        "NoGoalsNeedAccess": "Solo un Amministratore o il Super Utente possono aggiungere Obiettivi per un sito. Chiedi a tuo amministratore di Piwik di settare un Obiettivo per il tuo sito.<br\/> Tracciare gli obiettivi è un ottimo aiuto per capire e massimizzare le prestazioni del tuo sito!",
         "Optional": "(opzionale)",
         "OverallConversionRate": "%s rapporto di conversione complessivo (visite con un obiettivo completato)",
         "OverallRevenue": "%s ricavo complessivo",
@@ -1080,7 +1080,7 @@
     },
     "MultiSites": {
         "Evolution": "Evoluzione",
-        "PluginDescription": "Mostra un sommario delle statistiche per il multi-sito.    Attualmente mantenuto come un plugin Piwik del core."
+        "PluginDescription": "Mostra un sommario delle statistiche per il multi-sito. Attualmente mantenuto come un plugin Piwik del core."
     },
     "PDFReports": {
         "AlsoSendReportToTheseEmails": "Manda il report a questi indirizzi email (un indirizzo email per linea):",

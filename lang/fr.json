@@ -300,7 +300,7 @@
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Le procédé de mise à jour peut être long, veuillez patienter.",
         "UnpackingTheUpdate": "Décompression de la mise à jour",
         "UpdateAutomatically": "Mettre à jour automatiquement",
-        "UpdateHasBeenCancelledExplanation": "La mise à jour de Piwik en un clic a été désactivée. Si vous ne pouvez pas corriger la cause du message d'erreur ci-dessous, il est recommandé que vous fassiez manuellement la mise à jour de Piwik. %1$sConsultez la documentation%2$s de la mise à jour%3$s  pour commencer!",
+        "UpdateHasBeenCancelledExplanation": "La mise à jour de Piwik en un clic a été désactivée. Si vous ne pouvez pas corriger la cause du message d'erreur ci-dessous, il est recommandé que vous fassiez manuellement la mise à jour de Piwik. %1$sConsultez la documentation%2$s de la mise à jour%3$s pour commencer!",
         "UpdateTitle": "Mise à jour",
         "UpgradeComplete": "Mise à jour complète !",
         "UpgradePiwik": "Mettez Piwik à jour",
@@ -1050,7 +1050,7 @@
         "SystemCheckOtherFunctions": "Autres fonctions",
         "SystemCheckPackHelp": "La fonction pack() est requise pour suivre les visiteurs dans Piwik.",
         "SystemCheckParseIniFileHelp": "Cette fonction incluse a été désactivée sur votre serveur. Piwik va essayer d'émuler cette fonction mais il est possible que vous rencontriez des restrictions de sécurité par la suite. Les performances seront aussi impactées.",
-        "SystemCheckPdoAndMysqliHelp": "Sur un serveur linux vous pouvez compiler PHP avec les options suivantes : %1$s                 Dans votre php.ini, ajoutez les lignes suivantes: %2$s",
+        "SystemCheckPdoAndMysqliHelp": "Sur un serveur linux vous pouvez compiler PHP avec les options suivantes : %1$s Dans votre php.ini, ajoutez les lignes suivantes: %2$s",
         "SystemCheckPhp": "Version PHP",
         "SystemCheckPhpPdoAndMysqliSite": "Plus d'informations sur: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> et <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
         "SystemCheckSecureProtocol": "Protocole de sécurité",
@@ -2285,7 +2285,7 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quand les utilisateurs ne sont pas connectés et accèdent à Piwik, ils verront",
         "YourUsernameCannotBeChanged": "Votre nom d'utilisateur ne peut pas être modifié.",
         "YourVisitsAreIgnoredOnDomain": "%sVos visites sont ignorées par Piwik sur %s %s(Le cookie d'exclusion de Piwik est présent sur votre navigateur)",
-        "YourVisitsAreNotIgnored": "%sVos visites sont prises en compte par Piwik%s (le cookie d'exclusion de Piwik n'a  pas été trouvé sur votre navigateur)."
+        "YourVisitsAreNotIgnored": "%sVos visites sont prises en compte par Piwik%s (le cookie d'exclusion de Piwik n'a pas été trouvé sur votre navigateur)."
     },
     "VisitFrequency": {
         "ColumnActionsByReturningVisits": "Actions des visites retour",

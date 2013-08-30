@@ -672,7 +672,7 @@
         "ColumnVisits": "Numër vizitash gjithsej, pavarësisht nëse u shkaktua a jo veprimtari te një objektiv.",
         "ColumnVisitsProductDocumentation": "Numri i vizitave te faqja Produkt\/Kategori. Kjo përdoret gjithashtu për të përpunuar koeficientin %s e shndërrimeve. Kjo llogaritje gjendet te raporti nëse ndjekja e parjeve E-tregti është rregulluar te faqet Produkt\/Kategori.",
         "Contains": "përmban %s",
-        "ConversionByTypeReportDocumentation": "Ky raport ofron të dhëna të hollësishme rreth funksionimit të objektivave (shndërrime, koeficient shndërrimesh dhe të ardhura për vizitë) për secilën prej kategorive të mundshme  te paneli majtas. %s Ju lutem, klikoni mbi një nga këto kategori që të shihni raportin. %s Për më tepër të dhëna, lexoni %sdokumentimin për Ndjekje Objektivash te piwik.org%s",
+        "ConversionByTypeReportDocumentation": "Ky raport ofron të dhëna të hollësishme rreth funksionimit të objektivave (shndërrime, koeficient shndërrimesh dhe të ardhura për vizitë) për secilën prej kategorive të mundshme te paneli majtas. %s Ju lutem, klikoni mbi një nga këto kategori që të shihni raportin. %s Për më tepër të dhëna, lexoni %sdokumentimin për Ndjekje Objektivash te piwik.org%s",
         "ConversionRate": "Koeficient shndërrimi %s",
         "Conversions": "Shndërrime %s",
         "ConversionsOverview": "Përmbledhje Shndërrimesh",
@@ -742,7 +742,7 @@
     },
     "Installation": {
         "CommunityNewsletter": "njoftomë me email për përditësime nga bashkësia (shtojca të reja, veçori të reja, etj.)",
-        "ConfigurationHelp": "Kartela juaj për formësimin e Piwik-ut duket se është e keqformësuar.  Ose mund të hiqni config\/config.ini.php dhe rinisni instalimin, ose ndreqni rregullimet për lidhjen me bazën e të dhënave.",
+        "ConfigurationHelp": "Kartela juaj për formësimin e Piwik-ut duket se është e keqformësuar. Ose mund të hiqni config\/config.ini.php dhe rinisni instalimin, ose ndreqni rregullimet për lidhjen me bazën e të dhënave.",
         "ConfirmDeleteExistingTables": "Jeni i sigurt se doni të fshihen tabelat: %s prej bazës së të dhënave? KUJDES: NUK DO TË MUND TË RIKTHENI TË DHËNAT PREJ KËTYRE TABELAVE!",
         "Congratulations": "Urime",
         "CongratulationsHelp": "<p>Urime! Instalimi juaj i Piwik-ut u plotësua.<\/p><p>Sigurohuni që keni futur kodin JavaScript te faqet tuaja, dhe prisni për vizitorët e parë!<\/p>",
@@ -823,7 +823,7 @@
         "SystemCheckSplHelp": "Lypset të formësoni dhe krijoni PHP-në me Librarinë Standarde PHP të aktivizuar (si parazgjedhje).",
         "SystemCheckTimeLimitHelp": "Në \"site\" web me shumë trafik, përmbushja e procesit të arkivimit mund të dojë më tepër kohë se sa i është dhënë tani. Në u dashtë, ndryshojeni parametrin max_execution_time te kartela juaj php.ini.",
         "SystemCheckTracker": "Gjendje gjurmuesi",
-        "SystemCheckTrackerHelp": "Kërkesa GET te piwik.php dështoi.  Provoni ta hidhni te lista e bardhë këtë URL prej mod_security dhe Mirëfilltësimit HTTP.",
+        "SystemCheckTrackerHelp": "Kërkesa GET te piwik.php dështoi. Provoni ta hidhni te lista e bardhë këtë URL prej mod_security dhe Mirëfilltësimit HTTP.",
         "SystemCheckWarnDomHelp": "Do të duhej të aktivizonit zgjerimin \"dom\" (p.sh., instaloni paketën \"php-dom\" dhe\/ose \"php-xml\").",
         "SystemCheckWarning": "Piwik-u do të punojë normalisht por mund t'i mungojnë disa veçori",
         "SystemCheckWarnJsonHelp": "Do të duhej të aktivizonit zgjerimin \"json\" (p.sh., instaloni paketën \"php-json\") për punim më të mirë.",
@@ -847,7 +847,7 @@
     },
     "LanguagesManager": {
         "AboutPiwikTranslations": "Mbi përkthimet e Piwik-ut",
-        "PluginDescription": "Kjo shtojcë  do të shfaqë një listë të gjuhëve të mundshme për ndërfaqen e Piwik-ut. Gjuha e përzgjedhur do të ruhet te parapëlqimet e çdo përdoruesi."
+        "PluginDescription": "Kjo shtojcë do të shfaqë një listë të gjuhëve të mundshme për ndërfaqen e Piwik-ut. Gjuha e përzgjedhur do të ruhet te parapëlqimet e çdo përdoruesi."
     },
     "Live": {
         "Action": "Veprim",
@@ -1573,7 +1573,7 @@
         "UsersManagementMainDescription": "Krijoni përdoruesa të rinj ose përditësoni përdoruesit ekzistues. Mandej mund t'u caktoni lejet më sipër.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kur përdoruesit nuk janë të futur dhe vizitojnë Piwik-un, do të duhej të hynin",
         "YourUsernameCannotBeChanged": "Emri juaj i përdoruesit nuk mund të ndryshohet.",
-        "YourVisitsAreIgnoredOnDomain": "%sVizitat tuaja te %s %s janë shpërfillur nga Piwik-u  (te shfletuesi juaj u gjet \"cookie\" për shpërfillje nga Piwik-u).",
+        "YourVisitsAreIgnoredOnDomain": "%sVizitat tuaja te %s %s janë shpërfillur nga Piwik-u (te shfletuesi juaj u gjet \"cookie\" për shpërfillje nga Piwik-u).",
         "YourVisitsAreNotIgnored": "%sVizitat tuaja nuk janë shpërfillur nga Piwik-u%s (te shfletuesi juaj nuk u gjet \"cookie\" për shpërfillje nga Piwik-u)."
     },
     "VisitFrequency": {

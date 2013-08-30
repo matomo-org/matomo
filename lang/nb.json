@@ -170,7 +170,7 @@
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Databaseoppgraderingen kan ta en stund, vennligst vær litt tålmodig.",
         "UnpackingTheUpdate": "Pakker ut oppdateringen",
         "UpdateAutomatically": "Oppdater automatisk",
-        "UpdateHasBeenCancelledExplanation": "Den automatiske oppdateringen av Piwik har blitt avbrutt. Hvis du ikke kan fikse feilen over, anbefales det at du oppdaterer Piwik manuelt. %1$s Les  %2$soppdateringsdokumentasjonen%3$s for å komme i gang!",
+        "UpdateHasBeenCancelledExplanation": "Den automatiske oppdateringen av Piwik har blitt avbrutt. Hvis du ikke kan fikse feilen over, anbefales det at du oppdaterer Piwik manuelt. %1$s Les %2$soppdateringsdokumentasjonen%3$s for å komme i gang!",
         "UpdateTitle": "Oppdater",
         "UpgradeComplete": "Oppgradering fullført!",
         "UpgradePiwik": "Oppgrader Piwik",

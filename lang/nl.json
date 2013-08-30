@@ -880,7 +880,7 @@
         "GoalsOverview": "Overzicht van doelen",
         "GoalsOverviewDocumentation": "Dit is een overzicht van uw doelconversies. Het eerste deel van het overzicht toont de som van alle conversies. %s Onder de grafiek ziet u de conversierapporten voor elk van uw doelen. De sparklines kunnen vergroot worden door erop te klikken.",
         "GoalX": "Doel %s",
-        "HelpOneConversionPerVisit": "Als een pagina  - die dit doel bevat -  wordt ververst of meerdere keren wordt opgevraagd in één bezoek, dan wordt de doelconversie geregistreerd tijdens de éérste keer dat de pagina werd opgevraagd.",
+        "HelpOneConversionPerVisit": "Als een pagina - die dit doel bevat - wordt ververst of meerdere keren wordt opgevraagd in één bezoek, dan wordt de doelconversie geregistreerd tijdens de éérste keer dat de pagina werd opgevraagd.",
         "IsExactly": "is exact %s",
         "LearnMoreAboutGoalTrackingDocumentation": "Leer meer over %s doelen bijhouden in Piwik%s in de gebruikersdocumentatie of stel nu een doel in!",
         "LeftInCart": "%s achtergelaten in winkelwagen",
@@ -1239,7 +1239,7 @@
     "Provider": {
         "ColumnProvider": "Provider",
         "PluginDescription": "Rapporteert de provider van de bezoekers",
-        "ProviderReportDocumentation": "Dit rapport toont de Internet Service Providers die uw bezoekers gebruiken om de website te bezoeken. Klik op een  provider naam voor meer informatie. %s Als Piwik de naam van de provider niet kan achterhalen, dan wordt deze vermeld als IP.",
+        "ProviderReportDocumentation": "Dit rapport toont de Internet Service Providers die uw bezoekers gebruiken om de website te bezoeken. Klik op een provider naam voor meer informatie. %s Als Piwik de naam van de provider niet kan achterhalen, dan wordt deze vermeld als IP.",
         "SubmenuLocationsProvider": "Lokatie & provider",
         "WidgetProviders": "Providers"
     },

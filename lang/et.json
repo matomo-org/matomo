@@ -211,7 +211,7 @@
         "SystemCheckMemoryLimit": "Mälu limiit",
         "SystemCheckMemoryLimitHelp": "Suure liiklusega veebileht võib vajada arhiveerimiseks rohkem mälu, kui hetkel lubatud.<br \/>Vaata üle oma memory_limit oma php.ini failis, kui see osutub vajalikuks.",
         "SystemCheckPhp": "PHP versioon",
-        "SystemCheckTimeLimitHelp": "Suure liiklusega veebilehe puhul, või arhiveerimisprotssess võtta rohkem aega, kui hetkel lubatud.<br \/>Vaata direktiiv max_execution_time  oma php.ini failis, kui see on vajalik",
+        "SystemCheckTimeLimitHelp": "Suure liiklusega veebilehe puhul, või arhiveerimisprotssess võtta rohkem aega, kui hetkel lubatud.<br \/>Vaata direktiiv max_execution_time oma php.ini failis, kui see on vajalik",
         "SystemCheckWarning": "Piwik toimib normaalselt, kuid osad võimalused võivad puududa.",
         "SystemCheckWriteDirsHelp": "Parandamaks seda viga linux süsteemis, trüki sisse käsk\/käsud.",
         "Tables": "Tabelite loomine",

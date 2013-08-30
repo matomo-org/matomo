@@ -834,7 +834,7 @@
         "TablesWithSameNamesFound": "Některé %1$s tabulky ve vaší databázi %2$s mají stejná jména jako tabulky, které se snaží vytvořit Piwik",
         "Timezone": "časová zóna sídla",
         "Welcome": "Vítejte!",
-        "WelcomeHelp": "<p>Piwik je open source program pro analýzu webu, pomocí kterého můžete jednoduše získat informace, které chcete od vaších návštěvníků.<\/p><p>Tento proces je rozdělen to  %s jednoduchých kroků a zabere přibližne 5 minut.<\/p>"
+        "WelcomeHelp": "<p>Piwik je open source program pro analýzu webu, pomocí kterého můžete jednoduše získat informace, které chcete od vaších návštěvníků.<\/p><p>Tento proces je rozdělen to %s jednoduchých kroků a zabere přibližne 5 minut.<\/p>"
     },
     "LanguagesManager": {
         "AboutPiwikTranslations": "O překladech Piwiku",
@@ -864,7 +864,7 @@
     "Login": {
         "ChangePassword": "Změnit heslo",
         "ContactAdmin": "Možná příčina: Váš hosting zakázal funkci mail().. <br \/>Prosím kontaktujte vašeho administrátora Piwiku.",
-        "ExceptionInvalidSuperUserAuthenticationMethod": "'Super uživatel' nemůže být přihlášení pomocí mechanismu  '%s'",
+        "ExceptionInvalidSuperUserAuthenticationMethod": "'Super uživatel' nemůže být přihlášení pomocí mechanismu '%s'",
         "ExceptionPasswordMD5HashExpected": "Parametr hesla je očekáván jako MD5 hash hesla",
         "InvalidOrExpiredToken": "Klíč je neplatný, nebo vypršel",
         "InvalidUsernameEmail": "Neplatné uživatelské jméno a\/nebo e-mailová adresa",
@@ -1032,7 +1032,7 @@
     "SitesManager": {
         "AddSite": "Přídat nové sídlo",
         "AdvancedTimezoneSupportNotFound": "Pokročilá podpora časových zón nebyla ve vašem PHP (podporována v PHP >=5.2) nalezena. Stále můžete použít ruční UTF offset.",
-        "AliasUrlHelp": "Je doporučeno, ale ne vyžadováno, specifikovat různé URL, jednu na řádku, které vaší návštěvníci používají pro přístup ke stránkám.  Aliasy se neobjeví hlášení Odkazující stránky>WWW sídla.  Všimněte si, že není nutné zadávat URL s a bez 'www'. Piwik automaticky rozezná obě.",
+        "AliasUrlHelp": "Je doporučeno, ale ne vyžadováno, specifikovat různé URL, jednu na řádku, které vaší návštěvníci používají pro přístup ke stránkám. Aliasy se neobjeví hlášení Odkazující stránky>WWW sídla. Všimněte si, že není nutné zadávat URL s a bez 'www'. Piwik automaticky rozezná obě.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Změna vaší časové zóny se projeví pouze v nových datech a nebude aplikována zpětně.",
         "ChooseCityInSameTimezoneAsYou": "Zvolte město ve stejné časové zóně jako se nacházíte vy",
         "Currency": "Měna",

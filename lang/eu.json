@@ -409,7 +409,7 @@
         "SystemCheckMemoryLimitHelp": "Trafiko handiko webgune batean, artxibatzeko prozesuak onartutako memoria baino gehiago har lezake. Beharrezkoa bada, aldatu memory_limit direktiba zure php.ini fitxategian.",
         "SystemCheckOpenURL": "Ireki URLa",
         "SystemCheckOpenURLHelp": "Buletinen harpidetzek, eguneraketen jakinarazpenek eta klik bakarreko eguneraketek \"curl\" hedapena, allow_url_fopen=On edo fsockopen() gaituta egotea behar dute.",
-        "SystemCheckPdoAndMysqliHelp": "Linux zerbitzari batean ondorengo aukerekin konpila dezakezu php:: %1$s    Gehitu ondorengo lerroak zure php.ini fitxategian: %2$s",
+        "SystemCheckPdoAndMysqliHelp": "Linux zerbitzari batean ondorengo aukerekin konpila dezakezu php:: %1$s Gehitu ondorengo lerroak zure php.ini fitxategian: %2$s",
         "SystemCheckPhp": "PHP bertsioa",
         "SystemCheckPhpPdoAndMysqliSite": "Argibide gehiago: <a style=\"color:red\" href=\"http:\/\/php.net\/pdo\">PHP PDO<\/a> eta <a style=\"color:red\" href=\"http:\/\/php.net\/mysqli\">MYSQLI<\/a>.",
         "SystemCheckSplHelp": "Standard PHP Library (SPL) lehenetsita gaituta duela konfiguratu eta birkonpilatu behar duzu PHP.",
@@ -497,7 +497,7 @@
     },
     "SitesManager": {
         "AddSite": "Gehitu webgune berria",
-        "AliasUrlHelp": "Gomendagarria da, baina ez beharrezkoa, bisitariek webgune hau atzitzeko erabiltzen dituzten URL ezberdinak zehaztea.     Webgune baterako alias URLak ez dira agertuko Erreferenteak > Webguneak txostenean.     Konturatu ez dela beharrezkoa URLak 'www'-rekin edo gabe zehaztea, Piwik-ek automatikoki biak hartzen baititu kontuan.",
+        "AliasUrlHelp": "Gomendagarria da, baina ez beharrezkoa, bisitariek webgune hau atzitzeko erabiltzen dituzten URL ezberdinak zehaztea. Webgune baterako alias URLak ez dira agertuko Erreferenteak > Webguneak txostenean. Konturatu ez dela beharrezkoa URLak 'www'-rekin edo gabe zehaztea, Piwik-ek automatikoki biak hartzen baititu kontuan.",
         "Currency": "Moneta",
         "DeleteConfirm_js": "Ziur zaude %s webgunea ezabatu nahi duzula?",
         "ExceptionDeleteSite": "Ezin da webgune hau ezabatu erregistratutako bakarra delako. Gehitu webgune berri bat lehenik eta ezabatu hau ondoren.",

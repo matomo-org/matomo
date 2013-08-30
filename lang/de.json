@@ -119,7 +119,7 @@
         "ImageTrackingIntro3": "Eine vollständige Liste an Möglichkeiten, die Ihnen das Tracking mit einem Bild bietet, finden Sie in der %1$sTracking API Dokumentation%2$s",
         "ImageTrackingLink": "Link zum Tracking mit Hilfe eines Bildes",
         "ImportingServerLogs": "Import von Server Log-Dateien",
-        "ImportingServerLogsDesc": "Eine Alternative zum Tracken der Besucher im Browser (entweder mit JavaScript oder mit einem Bild-Link) ist der kontinuierliche Import von Server Logdateien. Erfahren Sie mehr über  %1$sServer Logdatei Analyse%2$s",
+        "ImportingServerLogsDesc": "Eine Alternative zum Tracken der Besucher im Browser (entweder mit JavaScript oder mit einem Bild-Link) ist der kontinuierliche Import von Server Logdateien. Erfahren Sie mehr über %1$sServer Logdatei Analyse%2$s",
         "JavaScriptTracking": "Tracking mit JavaScript",
         "JSTracking_CampaignKwdParam": "Kampagnen Stichwort Parameter",
         "JSTracking_CampaignNameParam": "Parameter für Kampagnenname",
@@ -234,7 +234,7 @@
         "UnFlattenDataTable_js": "Der Bericht ist flach %s Hierarchisch anzeigen",
         "ViewAllPiwikVideoTutorials": "Zeige alle Piwik Video Tutorials an",
         "WebAnalyticsReports": "Web Analytik Berichte",
-        "YouAreUsingTheLatestVersion_js": "Sie verwenden die aktuellste Version  von Piwik!"
+        "YouAreUsingTheLatestVersion_js": "Sie verwenden die aktuellste Version von Piwik!"
     },
     "CorePluginsAdmin": {
         "Action": "Aktion",
@@ -320,7 +320,7 @@
         "PluginDescription": "Benutzerdefinierte Variablen sind Namen-Werte-Paare, die Sie über die setVisitCustomVariables() Funktion der Javascript-API setzen können. Piwik wird dann für jeden dieser Namen und Werte die Anzahl der Besuche, die Seiten sowie die Konversionen erfassen.",
         "ScopePage": "Anwendungsbereich Seite",
         "ScopeVisit": "Anwendungsbereich Besuch",
-        "TrackingHelp": "Hilfe:  %1$sBenutzerdefinierte Variablen in Piwik tracken%2$s"
+        "TrackingHelp": "Hilfe: %1$sBenutzerdefinierte Variablen in Piwik tracken%2$s"
     },
     "Dashboard": {
         "AddAWidget": "Ein Widget hinzufügen",
@@ -964,7 +964,7 @@
         "PluginDescription": "Plugin zum Generieren von statischen Graphen (PNG-Bilder) für jeden Piwik Bericht."
     },
     "Installation": {
-        "CommunityNewsletter": "Senden Sie mir  per E-Mail Community-Aktualisierungen (neue Plugins, neue Funktionen usw.)",
+        "CommunityNewsletter": "Senden Sie mir per E-Mail Community-Aktualisierungen (neue Plugins, neue Funktionen usw.)",
         "ConfigurationHelp": "Ihre Konfigurationsdatei enthält Fehler. Sie können entweder die config\/config.php löschen und neu installieren, oder die Einstellung zur Datenbankverbindung korrigieren.",
         "ConfirmDeleteExistingTables": "Wollen Sie wirklich die Tabellen: %s aus der Datenbank löschen? WARNUNG: DATEN AUS DIESEN TABELLEN KÖNNEN NICHT WIEDERHERGESTELLT WERDEN!",
         "Congratulations": "Glückwunsch",
@@ -1070,7 +1070,7 @@
         "SystemCheckWarnDomHelp": "Sie sollten die \"dom\" Erweiterung aktivieren (z.Bsp. installieren Sie das \"php-dom\" und\/oder das \"php-xml\" Paket).",
         "SystemCheckWarning": "Piwik wird funktionieren, aber einige Funktionen werden fehlen",
         "SystemCheckWarnJsonHelp": "Für eine bessere Performance sollten Sie die \"json\" Erweiterung aktivieren (installieren Sie z.B. das \"php-json\" Paket).",
-        "SystemCheckWarnLibXmlHelp": "Sie müssen die \"libxml\" Erweiterung aktivieren (z.Bsp.  installieren Sie das \"php-libxml\" Paket), wie es auch von anderen PHP-Erweiterungen benötigt wird.",
+        "SystemCheckWarnLibXmlHelp": "Sie müssen die \"libxml\" Erweiterung aktivieren (z.Bsp. installieren Sie das \"php-libxml\" Paket), wie es auch von anderen PHP-Erweiterungen benötigt wird.",
         "SystemCheckWarnSimpleXMLHelp": "Sie sollten die \"SimpleXML\" Erweiterung aktivieren (z.Bsp. installieren Sie das \"php-simplexml\" und\/oder \"php-xml\" Paket).",
         "SystemCheckWinPdoAndMysqliHelp": "Auf einem Windows-Server können Sie die folgenden Zeile in Ihre php.ini einfügen: %s",
         "SystemCheckWriteDirs": "Verzeichnisse mit Schreibzugriff",
@@ -1096,7 +1096,7 @@
         "Action": "Aktion",
         "Actions": "Aktionen",
         "ConvertedNGoals": "%s Ziele konvertiert",
-        "EcommerceSummary": "Ecommerce: %1$s%2$s Bestellungen mit einem Total von %3$s%4$s, %5$s  Produkte gekauft.",
+        "EcommerceSummary": "Ecommerce: %1$s%2$s Bestellungen mit einem Total von %3$s%4$s, %5$s Produkte gekauft.",
         "FirstVisit": "Erster Besuch",
         "GoalDetails": "Details",
         "GoalRevenue": "Einnahmen",
