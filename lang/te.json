@@ -70,10 +70,6 @@
         "TitleWidgetInDashboard_js": "విడ్జెట్ ఇప్పటికే డాష్‌బోర్డులో ఉంది",
         "WidgetPreview_js": "విడ్జెట్ మునుజూపు"
     },
-    "DBStats": {
-        "OtherTables": "ఇతర పట్టికలు",
-        "Table": "పట్టిక"
-    },
     "Feedback": {
         "DetailsPlease": "(దయచేసి వివరాలను ఇవ్వండి)",
         "ThePiwikTeam": "పివిక్ జట్టు"

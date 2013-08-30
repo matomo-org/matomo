@@ -1,0 +1,12 @@
+{
+    "DBStats": {
+        "DatabaseUsage": "Datu-basearen erabilera",
+        "MainDescription": "Zure web analitiken datu guztiak MySQL datu-basean biltegiratzen ari da Piwik. Une honetan Piwik-en taulek tamaina hau hartzen dute: %s.",
+        "LearnMore": "Piwik-ek datuak nola prozesatzen dituen eta Piwik trafiko ertain eta handikjo webguneetarako nola moldatu jakiteko, emaiozu begirada dokumentazioari: %s.",
+        "Table": "Taula",
+        "RowCount": "Errenkada kopurua",
+        "DataSize": "Datuen tamaina",
+        "IndexSize": "Indizearen tamaina",
+        "TotalSize": "Tamaina osoa"
+    }
+}
