@@ -21,6 +21,11 @@
 		<english_name>Bulgarian</english_name>
 	</row>
 	<row>
+		<code>bs</code>
+		<name>Bosnian</name>
+		<english_name>Bosnian</english_name>
+	</row>
+	<row>
 		<code>ca</code>
 		<name>Català</name>
 		<english_name>Catalan</english_name>
