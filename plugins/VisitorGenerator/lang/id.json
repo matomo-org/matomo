@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Apakah Anda yakin membuat kunjungan palsu?",
+        "ChoiceYes": "Ya, saya yakin!",
+        "DaysToCompute": "Hari untuk dihitung",
+        "NbRequestsPerSec": "Permintaan tiap detik",
+        "NotReversible": "Ini %s tidak%s mungkin mudah menghapus kunjungan tersebut dari catatan piwik.",
+        "PluginDescription": "Pengaya untuk membuat kunjungan palsu. Ini dapat digunakan oleh pengguna Piwik atau pengembang sebagai cara mudah untuk membuat data palsu untuk mengisi laporan Piwik.",
+        "SelectWebsite": "Pilih Situs",
+        "Submit": "Kirim",
+        "VisitorGenerator": "Pembangkit Kunjungan",
+        "Warning": "Anda akan menghasilkan kunjungan palsu yang akan disimpan dalam basisdata Piwik Anda."
+    }
+}

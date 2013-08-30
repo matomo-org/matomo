@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Jeni i sigurt se doni të prodhohen vizita gjasme?",
+        "ChoiceYes": "Po, jam i sigurt!",
+        "DaysToCompute": "Ditë llogaritjeje",
+        "NbRequestsPerSec": "Kërkesa për sekondë",
+        "NotReversible": "%sNuk%s do të jetë e mundur të fshihen kollaj këto vizita nga regjistrat e piwik-ut.",
+        "PluginDescription": "Shtojcë për krijim vizitash gjoja. Kjo mund të përdoret nga përdorues ose zhvillues të Piwik-ut si një rrugë e lehtë për të prodhuar të dhëna gjasme, për të mbushur raporte të Piwik-ut për prova.",
+        "SelectWebsite": "Përzgjidhni site web",
+        "Submit": "Parashtroje",
+        "VisitorGenerator": "Prodhues Vizitorësh",
+        "Warning": "Ju ndan një hap nga prodhimi i vizitave gjasme, që do të regjistrohen te baza juaj e të dhënave Piwik."
+    }
+}

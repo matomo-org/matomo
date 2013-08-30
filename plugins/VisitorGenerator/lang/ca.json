@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Esteu segur de generar visiteu falses?",
+        "ChoiceYes": "Sí, n'estic segur!",
+        "DaysToCompute": "Dies per calcular",
+        "NbRequestsPerSec": "Sol·licituds per segon",
+        "NotReversible": "%s No %s serà possible esborar aquestes visitis de forma fàcil dels logs de Piwik.",
+        "PluginDescription": "Extensió per crear visites falses. Pot ser utiltizat pels usuaris o desenvolupadors de Piwik per tal de generar informació falsa que emplenin els informes de Piwik.",
+        "SelectWebsite": "Seleccioneu un lloc web",
+        "Submit": "Transmet",
+        "VisitorGenerator": "Generador de visites",
+        "Warning": "Esteu a punt de genrar visites falses que es guardaran a la base de dades del Piwik"
+    }
+}

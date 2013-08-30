@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": " Er du sikker på at du vil generere kunstige besøg?",
+        "ChoiceYes": "Ja, jeg er sikker!",
+        "DaysToCompute": "Antal dage",
+        "NbRequestsPerSec": "Anmodninger pr sekund",
+        "NotReversible": "Det er %s ikke%s muligt nemt at slette disse besøg fra Piwiks log.",
+        "PluginDescription": "Programudvidelse til at generer kunstige besøg. Kan bruges af Piwik brugere eller udviklere som en let måde at generere kunstige data til at udfylde Piwik rapporter.",
+        "SelectWebsite": "Vælg hjemmeside",
+        "Submit": "Generer",
+        "VisitorGenerator": "Besøgsgenerator",
+        "Warning": " Du er ved at generere kunstige besøg, som vil blive gemt i Piwik databasen."
+    }
+}

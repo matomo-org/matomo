@@ -1,0 +1,7 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Er du sikker på at du vil generera falske vitjingar?",
+        "ChoiceYes": "Ja, eg er sikker!",
+        "SelectWebsite": "Vel nettstad"
+    }
+}

@@ -896,9 +896,6 @@
         "ColumnReturningVisits": "పునః సందర్శనలు",
         "SubmenuFrequency": "తరచుదనం"
     },
-    "VisitorGenerator": {
-        "Submit": "దాఖలుచెయ్యి"
-    },
     "VisitorInterest": {
         "BetweenXYMinutes": "%1$s-%2$s నిమి",
         "BetweenXYSeconds": "%1$s-%2$sక్ష",

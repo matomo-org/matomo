@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Biztosan szeretnél fals adatokat generálni?",
+        "ChoiceYes": "Igen, biztos vagyok benne!",
+        "DaysToCompute": "Napok száma",
+        "NbRequestsPerSec": "Lekérések másodpercenként",
+        "NotReversible": "A műlátogatásokat %snem%s lehet egyszerűen kitörölni a Piwik naplófájlokból",
+        "PluginDescription": "Műlátogatásokat generáló kiegészítő. Hasznos eszköz Piwik felhasználók és fejlesztők számára ahhoz, hogy egyszerűen feltöltsék fals adatokkal a különböző Piwik jelentéseket.",
+        "SelectWebsite": "Weboldal kiválasztása",
+        "Submit": "Elküld",
+        "VisitorGenerator": "Látogatógenerátor",
+        "Warning": "Fals látogatások generálására készülsz, melyeket rögzíteni fogunk a Piwik adatbázisban."
+    }
+}

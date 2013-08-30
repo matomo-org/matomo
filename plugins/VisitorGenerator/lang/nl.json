@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Weet u zeker dat u testbezoeken wilt genereren?",
+        "ChoiceYes": "Ja, ik ben zeker!",
+        "DaysToCompute": "Aantal dagen",
+        "NbRequestsPerSec": "Verzoeken per seconde",
+        "NotReversible": "Het is %s niet%s mogelijk om deze testgegevens weer makkelijk te verwijderen uit de Piwik logs.",
+        "PluginDescription": "Plugin om bezoekersdata creëren. Dit kan worden gebruikt door Piwikgebruikers of ontwikkelaars als een makkelijke manier om Piwik te vullen met testgegevens.",
+        "SelectWebsite": "Selecteer Website",
+        "Submit": "Verzend",
+        "VisitorGenerator": "Bezoekers Generator",
+        "Warning": "U staat op het punt om testbezoeken te genereren die opgeslagen zullen worden in uw Piwik database."
+    }
+}

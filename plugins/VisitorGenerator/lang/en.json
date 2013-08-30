@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "PluginDescription": "Plugin to create fake visits. This can be used by Piwik users or developers as an easy way to generate fake data to populate Piwik reports.",
+        "VisitorGenerator": "Visitor Generator",
+        "Warning": "You are about to generate fake visits which will be recorded in your Piwik database.",
+        "NotReversible": "It will %s not%s be possible to easily delete these visits from the piwik logs.",
+        "AreYouSure": "Are you sure you want to generate fake visits?",
+        "ChoiceYes": "Yes, I am sure!",
+        "Submit": "Submit",
+        "SelectWebsite": "Select Website",
+        "NbRequestsPerSec": "Requests per second",
+        "DaysToCompute": "Days to compute"
+    }
+}

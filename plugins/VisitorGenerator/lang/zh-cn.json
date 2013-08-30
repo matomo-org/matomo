@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "您确定要产生假的访客吗？",
+        "ChoiceYes": "是，我确定！",
+        "DaysToCompute": "计算天数",
+        "NbRequestsPerSec": "每秒请求数",
+        "NotReversible": "它可能%s无法%s简单地从 piwik 记录中刪除。",
+        "PluginDescription": "这个插件用于建立假的访客。这可以让 Piwik 用户或开发人员轻松产生假的资料来填充 Piwik 报表。",
+        "SelectWebsite": "选择网站",
+        "Submit": "送出",
+        "VisitorGenerator": "访客产生器",
+        "Warning": "您将产生的假访客将会记录在您的 Piwik 数据库里。"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Ste prepričani, da želite generirate navidezne obiske?",
+        "ChoiceYes": "Da, prepričan sem!",
+        "NbRequestsPerSec": "Zahtev na sekundo",
+        "PluginDescription": "Vtičnik za ustvarjanje navideznih obiskov. Tega lahko uporabljajo uporabniki ali pa razvijalci, ter tako generirajo lažne podatke in z njimi napolnijo Piwik-ova poročila.",
+        "SelectWebsite": "Izberi spletno stran",
+        "Submit": "Uveljavi",
+        "VisitorGenerator": "Generator Obiskovalcev",
+        "Warning": "Ravnokar boste generirali navidezne obiske, ki bodo shranjeni v podatkovno bazo vašega sistema Piwik."
+    }
+}
