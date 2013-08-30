@@ -844,6 +844,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             'nextVisitorId',
             'prevVisitorId',
             'visitServerHour',
+            'date',
+            'prettyDate'
         );
         foreach ($toRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
