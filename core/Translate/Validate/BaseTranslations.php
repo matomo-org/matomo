@@ -34,6 +34,10 @@ class BaseTranslations extends ValidateAbstract
 
     /**
      * Validates the given translations
+     *  * There need to be more than 250 translations presen
+     *  * Locale, TranslatorName and TranslatorEmail needs to be set in plugin General
+     *  * LayoutDirection needs to be ltr or rtl if present
+     *  * Locale must be valid (format, language & country)
      *
      * @param array $translations
      *

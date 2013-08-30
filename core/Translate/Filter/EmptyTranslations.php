@@ -20,7 +20,7 @@ use Piwik\Translate\Filter\FilterAbstract;
 class EmptyTranslations extends FilterAbstract
 {
     /**
-     * Filter the given translations
+     * Removes all empty translations
      *
      * @param array $translations
      *

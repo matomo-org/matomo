@@ -20,9 +20,9 @@ use Piwik\Translate\Filter\FilterAbstract;
 class ByParameterCount extends FilterAbstract
 {
     /**
-     * Filter the given translations
+     * Removes all translations where the placeholder parameter count differs to base translation
      *
-     * @param array $translations
+     * @param  array  $translations
      *
      * @return array   filtered translations
      *

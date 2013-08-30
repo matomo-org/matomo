@@ -22,6 +22,7 @@ class NoScripts extends ValidateAbstract
 {
     /**
      * Validates the given translations
+     *  * No script like parts should be present in any part of the translations
      *
      * @param array $translations
      *

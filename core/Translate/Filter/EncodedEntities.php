@@ -21,7 +21,7 @@ use Piwik\TranslationWriter;
 class EncodedEntities extends FilterAbstract
 {
     /**
-     * Filter the given translations
+     * Decodes all encoded entities in the given translations
      *
      * @param array $translations
      *

@@ -20,18 +20,16 @@ use Piwik\Translate\Filter\FilterAbstract;
 class ByBaseTranslations extends FilterAbstract
 {
     /**
-     * Filter the given translations
+     * Removes all translations that aren't present in the base translations set in constructor
      *
-     * @param array $translations
+     * @param  array  $translations
      *
      * @return array   filtered translations
-     *
      */
     public function filter($translations)
     {
         $cleanedTranslations = array();
 
-        // filter out all translations that don't exist in english translations
         foreach ($translations AS $pluginName => $pluginTranslations) {
 
             if (empty($this->_baseTranslations[$pluginName])) {
