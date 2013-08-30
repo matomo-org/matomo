@@ -934,6 +934,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'qc.yahoo.com'                   => array('Yahoo!'),
         'one.cn.yahoo.com'               => array('Yahoo!'),
         'video.search.yahoo.co.jp'       => array('Yahoo!'),
+        'image.search.yahoo.co.jp'       => array('Yahoo!'),
 
         // Powered by Yahoo APIs
         'www.cercato.it'                 => array('Yahoo!', 'q'),
