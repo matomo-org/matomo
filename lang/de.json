@@ -1432,13 +1432,6 @@
         "PickAnotherRow": "Wählen Sie eine andere Zeile zum vergleichen",
         "PickARow": "Wählen Sie eine Zeile zum vergleichen"
     },
-    "SecurityInfo": {
-        "PluginDescription": "Basierend auf der PhpSecInfo des PHP Sicherheitskonsortiums zeigt dieses Plugin Sicherheitsinformationen zu Ihrer PHP-Umgebung an und unterbreitet Vorschläge zu dessen Verbesserung. Es ist ein Werkzeug mit mehrschichtigen Sicherheitsaspekten. Es ersetzt weder die Verwendung sicherer Programmiertechniken noch die Durchführung von Sicherheits-Audits.",
-        "Result": "Ergebnis",
-        "Security": "Sicherheit",
-        "SecurityInformation": "PHP-Sicherheitsinformationen",
-        "Test": "Test"
-    },
     "SegmentEditor": {
         "AddANDorORCondition": "%s Bedingung hinzufügen",
         "AddNewSegment": "Neues Segment hinzufügen",

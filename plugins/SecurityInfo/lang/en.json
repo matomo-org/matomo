@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Based on PhpSecInfo from the PHP Security Consortium, this plugin provides security information about your PHP environment and offers suggestions for improvement. It is a tool in a multilayered security approach. It does not replace secure development practices nor audit the code\/application.",
+        "Security": "Security",
+        "SecurityInformation": "PHP Security Information",
+        "Test": "Test",
+        "Result": "Result"
+    }
+}

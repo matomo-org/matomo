@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "A PHP Security Consortium által fejlesztett PhpSecInfo-ra épülő kiegészítő biztonsági információkat szolgáltat a szervered PHP környezetéről, és javaslatokat tesz annak biztonságosabbá tételére. Egy az eszköz a többrétegű biztonsági megközelítést használja. Nem helyettesítheti a biztonságra törekvő fejlesztési eljárásokat, sem a kódok és alkalmazások auditját.",
+        "Result": "Eredmény",
+        "Security": "Biztonság",
+        "SecurityInformation": "PHP biztonsági információ",
+        "Test": "Teszt"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Zasnovan na PhpSecInfo PHP konzorcijuma za sigurnost, ovaj dodatak prikazuje sigurnosne informacije vašeg PHP okruženja i nudi predloge za poboljšanja.",
+        "Result": "Rezultat",
+        "Security": "Sigurnost",
+        "SecurityInformation": "Informacije o PHP sigurnosti",
+        "Test": "Test"
+    }
+}

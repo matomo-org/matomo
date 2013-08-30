@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Sukurtas pagal PhpSecInfo iš PHP Saugumo Konsorciumo, šis papildinys pateikia saugumo informaciją apie Jūsų PHP aplinką bei pateikia pasiūlymus kaip ją pagerinti.",
+        "Result": "Rezultatas",
+        "Security": "Saugumas",
+        "SecurityInformation": "PHP saugumo informacija",
+        "Test": "Testas"
+    }
+}
