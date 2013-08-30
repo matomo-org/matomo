@@ -16,6 +16,8 @@ abstract class UITest extends IntegrationTestCase
     const IMAGE_TYPE = 'png';
     const CAPTURE_PROGRAM = 'phantomjs';
     
+    private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
+
     public static function createAccessInstance()
     {
         Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
@@ -47,13 +49,7 @@ abstract class UITest extends IntegrationTestCase
         API::getInstance()->get(static::$fixture->idSite, 'year', $date);
 
         // make sure processed & expected dirs exist
-        list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
-        if (!is_dir($processedDir)) {
-            mkdir($processedDir);
-        }
-        if (!is_dir($expectedDir)) {
-            mkdir($expectedDir);
-        }
+        self::makeDirsAndLinks();
 
         // run slimerjs/phantomjs w/ all urls so we only invoke it once
         $urls = array();
@@ -73,6 +69,8 @@ abstract class UITest extends IntegrationTestCase
         if (file_exists("C:\\nppdf32Log\\debuglog.txt")) { // remove slimerjs oddity
             unlink("C:\\nppdf32Log\\debuglog.txt");
         }
+
+        self::removeRecursiveLinks();
 
         if (!Zend_Registry::get('db')) {
             Piwik::createDatabaseObject();
@@ -174,5 +172,32 @@ abstract class UITest extends IntegrationTestCase
     public static function getProxyUrl()
     {
         return Test_Piwik_BaseFixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php';
+    }
+
+    private static function makeDirsAndLinks()
+    {
+        $dirs = self::getProcessedAndExpectedDirs();
+        foreach ($dirs as $dir) {
+            if (!is_dir($dir)) {
+                mkdir($dir);
+            }
+        }
+
+        foreach (self::$recursiveProxyLinkNames as $linkName) {
+            $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
+            if (!file_exists($linkPath)) {
+                symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);
+            }
+        }
+    }
+
+    private static function removeRecursiveLinks()
+    {
+        foreach (self::$recursiveProxyLinkNames as $linkName) {
+            $wholePath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
+            if (file_exists($wholePath)) {
+                unlink($wholePath);
+            }
+        }
     }
 }
