@@ -67,6 +67,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
             foreach ($widgets as $widget) {
                 if ($widget['uniqueId'] == 'widgetSEOgetRank'
                     || $widget['uniqueId'] == 'widgetReferersgetKeywordsForPage'
+                    || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
                     || strpos($widget['uniqueId'], 'widgetExample') === 0
                 ) {
                     continue;
