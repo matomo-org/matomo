@@ -481,6 +481,11 @@ class DataTable
         if (is_int($rowId) && isset($this->rows[$rowId])) {
             return $this->rows[$rowId];
         }
+        if ($rowId == self::ID_SUMMARY_ROW
+            && !empty($this->summaryRow)
+        ) {
+            return $this->summaryRow;
+        }
         return false;
     }
 
@@ -532,7 +537,7 @@ class DataTable
      */
     private function rebuildIndex()
     {
-        foreach ($this->rows as $id => $row) {
+        foreach ($this->getRows() as $id => $row) {
             $label = $row->getColumn('label');
             if ($label !== false) {
                 $this->rowsIndexByLabel[$label] = $id;
@@ -624,6 +629,7 @@ class DataTable
     public function addSummaryRow(Row $row)
     {
         $this->summaryRow = $row;
+        $this->rowsIndexByLabel[$row->getColumn('label')] = self::ID_SUMMARY_ROW;
         return $row;
     }
 

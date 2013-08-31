@@ -42,18 +42,17 @@ abstract class Graph extends DataTableVisualization
     /**
      * Contains the column (if any) of the values used in the Row Picker.
      * 
-     * @see self::ROW_PICKER_VISIBLE_VALUES
+     * @see self::ROWS_TO_DISPLAY
      */
     const ROW_PICKER_VALUE_COLUMN = 'row_picker_match_rows_by';
 
     /**
-     * Contains the list of values available for the Row Picker.
-     * TODO: row_picker_visible_rows & selectable_rows are different, but it seems like they shouldn't
-     *       be...
+     * Contains the list of values identifying rows that should be displayed as separate series.
+     * The values are of a specific column determined by the row_picker_match_rows_by column.
      * 
      * @see self::ROW_PICKER_VALUE_COLUMN
      */
-    const ROW_PICKER_VISIBLE_VALUES = 'row_picker_visible_rows';
+    const ROWS_TO_DISPLAY = 'rows_to_display';
 
     /**
      * Contains the list of values available for the Row Picker. Currently set to be all visible
@@ -137,7 +136,8 @@ abstract class Graph extends DataTableVisualization
                     'show_series_picker' => true,
                     'display_percentage_in_tooltip' => true,
                     'row_picker_match_rows_by' => false,
-                    'row_picker_visible_rows' => array(),
+                    'rows_to_display' => false,
+                    'selectable_rows' => false
                 )
             )
         );
@@ -191,13 +191,7 @@ abstract class Graph extends DataTableVisualization
         // collect all selectable rows
         $selectableRows = array();
         $view->filters[] = function ($dataTable, $view) use (&$selectableRows) {
-            if ($dataTable->getRowsCount() > 0) {
-                $rows = $dataTable->getRows();
-            } else {
-                $rows = array(new Row());
-            }
-
-            foreach ($rows as $row) {
+            foreach ($dataTable->getRows() as $row) {
                 $rowLabel = $row->getColumn('label');
                 if ($rowLabel === false) {
                     continue;
@@ -206,7 +200,7 @@ abstract class Graph extends DataTableVisualization
                 // determine whether row is visible
                 $isVisible = true;
                 if ($view->visualization_properties->row_picker_match_rows_by == 'label') {
-                    $isVisible = in_array($rowLabel, $view->visualization_properties->row_picker_visible_rows);
+                    $isVisible = in_array($rowLabel, $view->visualization_properties->rows_to_display);
                 }
 
                 // build config

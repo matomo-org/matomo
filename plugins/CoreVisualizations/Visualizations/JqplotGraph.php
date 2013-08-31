@@ -40,6 +40,11 @@ class JqplotGraph extends Graph
     const EXTERNAL_SERIES_TOGGLE_SHOW_ALL = 'external_series_toggle_show_all';
 
     /**
+     * The number of x-axis ticks between x-axis labels.
+     */
+    const X_AXIS_STEP_SIZE = 'x_axis_step_size';
+
+    /**
      * Constructor.
      * 
      * @param \Piwik\ViewDataTable $view
@@ -81,6 +86,7 @@ class JqplotGraph extends Graph
                 'jqplot_graph' => array(
                     'external_series_toggle' => false,
                     'external_series_toggle_show_all' => false,
+                    'x_axis_step_size' => 2
                 )
             )
         ));

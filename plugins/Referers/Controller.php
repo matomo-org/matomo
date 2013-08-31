@@ -301,7 +301,7 @@ class Controller extends \Piwik\Controller
             $view->request_parameters_to_modify['rows'] = $label . ',' . $total;
         }
         $view->visualization_properties->row_picker_match_rows_by = 'label';
-        $view->visualization_properties->row_picker_visible_rows = $visibleRows;
+        $view->visualization_properties->rows_to_display = $visibleRows;
 
         $view->documentation = Piwik_Translate('Referers_EvolutionDocumentation') . '<br />'
             . Piwik_Translate('General_BrokenDownReportDocumentation') . '<br />'

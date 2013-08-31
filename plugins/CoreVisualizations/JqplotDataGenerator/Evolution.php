@@ -23,101 +23,66 @@ use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
  */
 class Evolution extends JqplotDataGenerator
 {
-    protected $rowPickerConfig = array();
-
     /**
      * @param DataTable|DataTable\Map $dataTable
      */
-    protected function initChartObjectData($dataTable)
+    protected function initChartObjectData($dataTable, $visualization)
     {
         // if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
         // we don't expect plugin developers to return a well defined Set
+        /* TODO remove completely? unecessary if DataTableCollection is created
         if ($dataTable instanceof DataTable) {
             parent::initChartObjectData($dataTable);
             return;
-        }
-
-        $dataTable->applyQueuedFilters();
+        }*/
 
         // the X label is extracted from the 'period' object in the table's metadata
-        $xLabels = $uniqueIdsDataTable = array();
-        foreach ($dataTable->getArray() as $idDataTable => $metadataDataTable) {
-            //eg. "Aug 2009"
-            $xLabels[] = $metadataDataTable->getMetadata('period')->getLocalizedShortString();
-            // we keep track of all unique data table that we need to set a Y value for
-            $uniqueIdsDataTable[] = $idDataTable;
+        $xLabels = array();
+        foreach ($dataTable->getArray() as $metadataDataTable) {
+            $xLabels[] = $metadataDataTable->getMetadata('period')->getLocalizedShortString(); // eg. "Aug 2009"
         }
 
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-        $requestedColumnNames = $this->properties['columns_to_display'];
         $units = $this->getUnitsForColumnsToDisplay();
 
-        $yAxisLabelToUnit = array();
-        $yAxisLabelToValue = array();
-        foreach ($dataTable->getArray() as $idDataTable => $childTable) {
-            if ($childTable->getRowsCount() > 0) {
-                $rows = $childTable->getRows();
-            } else {
-                $rows = array(new Row());
-            }
+        // if rows to display are not specified, default to all rows (TODO: perhaps this should be done elsewhere?)
+        $rowsToDisplay = $this->properties['visualization_properties']->rows_to_display
+            ?: array_unique($dataTable->getColumn('label'))
+            ?: array(false) // make sure that a series is plotted even if there is no data
+            ;
 
-            foreach ($rows as $row) {
-                $rowLabel = $row->getColumn('label');
+        // collect series data to show. each row-to-display/column-to-display creates a series.
+        $allSeriesData = array();
+        $seriesUnits = array();
+        foreach ($rowsToDisplay as $rowLabel) {
+            foreach ($this->properties['columns_to_display'] as $columnName) {
+                $seriesLabel = $this->getSeriesLabel($rowLabel, $columnName);
+                $seriesData = $this->getSeriesData($rowLabel, $columnName, $dataTable);
 
-                // only process 'visible' rows (visibility is determined by row_picker_visible_rows property)
-                if ($this->properties['visualization_properties']->row_picker_match_rows_by == 'label'
-                    && !in_array($rowLabel, $this->properties['visualization_properties']->row_picker_visible_rows)
-                ) {
-                    continue;
-                }
-
-                // build data for request columns
-                foreach ($requestedColumnNames as $requestedColumnName) {
-                    $yAxisLabel = $this->getSeriesLabel($rowLabel, $requestedColumnName);
-                    
-                    $yAxisLabelToValue[$yAxisLabel][$idDataTable] = $row->getColumn($requestedColumnName) ?: 0;
-                    $yAxisLabelToUnit[$yAxisLabel] = $units[$requestedColumnName];
-                }
+                $allSeriesData[$seriesLabel] = $seriesData;
+                $seriesUnits[$seriesLabel] = $units[$columnName];
             }
         }
 
-        // make sure all column values are set to at least zero (no gap in the graph)
-        $yAxisLabelToValueCleaned = array();
-        foreach ($uniqueIdsDataTable as $uniqueIdDataTable) {
-            foreach ($yAxisLabelToValue as $yAxisLabel => $idDataTableToColumnValue) {
-                if (isset($idDataTableToColumnValue[$uniqueIdDataTable])) {
-                    $columnValue = $idDataTableToColumnValue[$uniqueIdDataTable];
-                } else {
-                    $columnValue = 0;
-                }
-                $yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
-            }
-        }
+        $visualization->dataTable = $dataTable;
+        $visualization->properties = $this->properties;
 
-        $visualization = $this->visualization;
         $visualization->setAxisXLabels($xLabels);
-        $visualization->setAxisYValues($yAxisLabelToValueCleaned);
-        $visualization->setAxisYUnits($yAxisLabelToUnit);
+        $visualization->setAxisYValues($allSeriesData);
+        $visualization->setAxisYUnits($seriesUnits);
 
-        $countGraphElements = $dataTable->getRowsCount();
         $dataTables = $dataTable->getArray();
-        $firstDatatable = reset($dataTables);
-
-        /** @var \Piwik\Period $period */
-        $period = $firstDatatable->getMetadata('period');
-
-        $stepSize = $this->getXAxisStepSize($period->getLabel(), $countGraphElements);
-        $visualization->setXSteps($stepSize);
 
         if ($this->isLinkEnabled()) {
+            $idSite = Common::getRequestVar('idSite', null, 'int');
+            $periodLabel = reset($dataTables)->getMetadata('period')->getLabel();
+
             $axisXOnClick = array();
             $queryStringAsHash = $this->getQueryStringAsHash();
             foreach ($dataTable->getArray() as $idDataTable => $metadataDataTable) {
-                $period = $metadataDataTable->getMetadata('period');
-                $dateInUrl = $period->getDateStart();
+                $dateInUrl = $metadataDataTable->getMetadata('period')->getDateStart();
                 $parameters = array(
                     'idSite'  => $idSite,
-                    'period'  => $period->getLabel(),
+                    'period'  => $periodLabel,
                     'date'    => $dateInUrl->toString(),
                     'segment' => \Piwik\API\Request::getRawSegmentFromRequest()
                 );
@@ -135,6 +100,27 @@ class Evolution extends JqplotDataGenerator
             }
             $visualization->setAxisXOnClick($axisXOnClick);
         }
+    }
+
+    private function getSeriesData($rowLabel, $columnName, $dataTable)
+    {
+        $seriesData = array();
+        foreach ($dataTable->getArray() as $childTable) {
+            // get the row for this label (use the first if $rowLabel is false)
+            if ($rowLabel === false) {
+                $row = $childTable->getFirstRow();
+            } else {
+                $row = $childTable->getRowFromLabel($rowLabel);
+            }
+
+            // get series data point. defaults to 0 if no row or no column value.
+            if ($row === false) {
+                $seriesData[] = 0;
+            } else {
+                $seriesData[] = $row->getColumn($columnName) ?: 0;
+            }
+        }
+        return $seriesData;
     }
 
     /**
@@ -198,34 +184,5 @@ class Evolution extends JqplotDataGenerator
                 && Common::getRequestVar('period', 'day') != 'range';
         }
         return $linkEnabled;
-    }
-
-    private function getXAxisStepSize($periodLabel, $countGraphElements)
-    {
-        // when the number of elements plotted can be small, make sure the X legend is useful
-        if ($countGraphElements <= 7) {
-            return 1;
-        }
-
-        switch ($periodLabel) {
-            case 'day':
-                $steps = 5;
-                break;
-            case 'week':
-                $steps = 4;
-                break;
-            case 'month':
-                $steps = 5;
-                break;
-            case 'year':
-                $steps = 5;
-                break;
-            default:
-                $steps = 5;
-                break;
-        }
-
-        $paddedCount = $countGraphElements + 2; // pad count so last label won't be cut off
-        return ceil($paddedCount / $steps);
     }
 }

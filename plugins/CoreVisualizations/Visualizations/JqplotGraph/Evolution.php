@@ -39,6 +39,14 @@ class Evolution extends JqplotGraph
         }
 
         $this->calculateEvolutionDateRange($view);
+
+        // default x_axis_step_size property if not currently set
+        if ($view->visualization_properties->x_axis_step_size === false) {
+            $view->after_data_loaded_functions[] = function ($dataTable, $view) {
+                $view->visualization_properties->x_axis_step_size =
+                    $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
+            };
+        }
     }
 
     public static function getDefaultPropertyValues()
@@ -49,6 +57,7 @@ class Evolution extends JqplotGraph
         $result['show_table'] = false;
         $result['show_table_all_columns'] = false;
         $result['hide_annotations_view'] = false;
+        $result['visualization_properties']['jqplot_graph']['x_axis_step_size'] = false;
         return $result;
     }
 
@@ -144,5 +153,36 @@ class Evolution extends JqplotGraph
     public static function getLastNParamName($period)
     {
         return "evolution_{$period}_last_n";
+    }
+
+    private function getDefaultXAxisStepSize($countGraphElements)
+    {
+        // when the number of elements plotted can be small, make sure the X legend is useful
+        if ($countGraphElements <= 7) {
+            return 1;
+        }
+
+        $periodLabel = Common::getRequestVar('period');
+        switch ($periodLabel) {
+            case 'day':
+            case 'range':
+                $steps = 5;
+                break;
+            case 'week':
+                $steps = 4;
+                break;
+            case 'month':
+                $steps = 5;
+                break;
+            case 'year':
+                $steps = 5;
+                break;
+            default:
+                $steps = 5;
+                break;
+        }
+
+        $paddedCount = $countGraphElements + 2; // pad count so last label won't be cut off
+        return ceil($paddedCount / $steps);
     }
 }

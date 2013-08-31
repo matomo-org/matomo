@@ -24,12 +24,13 @@ class Chart
     protected $data = array();
     protected $axes = array();
     protected $tooltip = array();
-    protected $seriesPicker = array();
 
     // other attributes (not directly used for jqplot)
     protected $yUnit = '';
-    protected $displayPercentageInTooltip = true;
-    protected $xSteps = 2;
+
+    // temporary
+    public $dataTable;
+    public $properties;
 
     /**
      * Whether to show every x-axis tick or only every other one.
@@ -123,22 +124,6 @@ class Chart
         }
     }
 
-    public function setSelectableColumns($selectableColumns, $multiSelect = true)
-    {
-        $this->seriesPicker['selectableColumns'] = $selectableColumns;
-        $this->seriesPicker['multiSelect'] = $multiSelect;
-    }
-
-    public function setDisplayPercentageInTooltip($display)
-    {
-        $this->displayPercentageInTooltip = $display;
-    }
-
-    public function setXSteps($steps)
-    {
-        $this->xSteps = $steps;
-    }
-
     /**
      * Show every x-axis tick instead of just every other one.
      */
@@ -159,7 +144,6 @@ class Chart
             ),
             'data'         => &$this->data,
             'tooltip'      => &$this->tooltip,
-            'seriesPicker' => &$this->seriesPicker
         );
 
         return Common::json_encode($data);
@@ -169,15 +153,16 @@ class Chart
     {
         // x axis labels with steps
         if (isset($this->axes['xaxis']['ticks'])) {
+            $xSteps = $this->properties['visualization_properties']->x_axis_step_size;
             foreach ($this->axes['xaxis']['ticks'] as $i => &$xLabel) {
                 $this->axes['xaxis']['labels'][$i] = $xLabel;
-                if (!$this->showAllTicks && ($i % $this->xSteps) != 0) {
+                if (!$this->showAllTicks && ($i % $xSteps) != 0) {
                     $xLabel = ' ';
                 }
             }
         }
 
-        if ($this->displayPercentageInTooltip) {
+        if ($this->properties['visualization_properties']->display_percentage_in_tooltip) {
             foreach ($this->data as $seriesIndex => &$series) {
                 $sum = array_sum($series);
 
@@ -193,10 +178,5 @@ class Chart
                 }
             }
         }
-    }
-
-    public function setSelectableRows($selectableRows)
-    {
-        $this->seriesPicker['selectableRows'] = $selectableRows;
     }
 }

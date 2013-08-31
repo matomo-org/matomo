@@ -35,12 +35,8 @@ class JqplotDataGenerator
      */
     protected $properties;
 
-    /**
-     * This object does most of the work in generating the JQPlot JSON data.
-     *
-     * @var Visualization\
-     */
-    protected $visualization;
+
+    protected $graphType;
 
     /**
      * Creates a new JqplotDataGenerator instance for a graph type and view properties.
@@ -54,10 +50,10 @@ class JqplotDataGenerator
     {
         switch ($type) {
             case 'evolution':
-                return new JqplotDataGenerator\Evolution($properties);
+                return new JqplotDataGenerator\Evolution($properties, $type);
             case 'pie':
             case 'bar':
-                return new JqplotDataGenerator($properties);
+                return new JqplotDataGenerator($properties, $type);
             default:
                 throw new Exception("Unknown JqplotDataGenerator type '$type'.");
         }
@@ -69,10 +65,10 @@ class JqplotDataGenerator
      * @param Visualization\ $visualization
      * @param array $properties
      */
-    public function __construct($properties)
+    public function __construct($properties, $graphType)
     {
-        $this->visualization = new Chart();
         $this->properties = $properties;
+        $this->graphType = $graphType;
     }
 
     /**
@@ -83,28 +79,29 @@ class JqplotDataGenerator
      */
     public function generate($dataTable)
     {
+        $visualization = new Chart();
+
         if ($dataTable->getRowsCount() > 0) {
             // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
             // different metrics
-            if (!empty($this->properties['visualization_properties']->add_total_row)) {
+            if ($this->properties['visualization_properties']->add_total_row) {
                 $dataTable->queueFilter('AddSummaryRow', array(0, Piwik_Translate('General_Total'), null, false));
             }
 
-            $this->initChartObjectData($dataTable);
+            $dataTable->applyQueuedFilters();
+            $this->initChartObjectData($dataTable, $visualization);
         }
 
-        $this->visualization->customizeChartProperties();
+        $visualization->customizeChartProperties();
 
-        return $this->visualization->render();
+        return $visualization->render();
     }
 
     /**
      * @param DataTable|DataTable\Map $dataTable
      */
-    protected function initChartObjectData($dataTable)
+    protected function initChartObjectData($dataTable, $visualization)
     {
-        $dataTable->applyQueuedFilters();
-
         // We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
         $dataTable->filter('ColumnCallbackReplace', array('label', 'urldecode'));
 
@@ -122,13 +119,13 @@ class JqplotDataGenerator
             $columnNameToValue[$columnName] = $dataTable->getColumn($columnName);
         }
 
-        $visualization = $this->visualization;
+        $visualization->dataTable = $dataTable;
+        $visualization->properties = $this->properties;
+
         $visualization->setAxisXLabels($xLabels);
         $visualization->setAxisYValues($columnNameToValue);
         $visualization->setAxisYLabels($columnNameToTranslation);
         $visualization->setAxisYUnit($this->properties['y_axis_unit']);
-        $visualization->setDisplayPercentageInTooltip(
-            $this->properties['visualization_properties']->display_percentage_in_tooltip);
 
         // show_all_ticks is not real query param, it is set by GenerateGraphHTML.
         if ($this->properties['visualization_properties']->show_all_ticks) {
@@ -152,7 +149,7 @@ class JqplotDataGenerator
 
         // the bar charts contain the labels a first series
         // this series has to be removed from the units
-        if ($this->visualization instanceof Bar) {
+        if ($this->graphType == 'bar') {
             array_shift($units);
         }
 
