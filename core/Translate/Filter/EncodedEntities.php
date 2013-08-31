@@ -12,7 +12,7 @@
 namespace Piwik\Translate\Filter;
 
 use Piwik\Translate\Filter\FilterAbstract;
-use Piwik\TranslationWriter;
+use Piwik\Translate;
 
 /**
  * @package Piwik
@@ -34,7 +34,7 @@ class EncodedEntities extends FilterAbstract
             foreach ($pluginTranslations AS $key => $translation) {
 
                 // remove encoded entities
-                $decoded = TranslationWriter::clean($translation);
+                $decoded = Translate::clean($translation);
                 if ($translation != $decoded) {
                     $this->_filteredData[$pluginName][$key] = $translation;
                     $translations[$pluginName][$key] = $decoded;

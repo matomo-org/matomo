@@ -33,6 +33,17 @@ class Translate
         return self::$instance;
     }
 
+    /**
+     * Clean a string that may contain HTML special chars, single/double quotes, HTML entities, leading/trailing whitespace
+     *
+     * @param string $s
+     * @return string
+     */
+    static public function clean($s)
+    {
+        return html_entity_decode(trim($s), ENT_QUOTES, 'UTF-8');
+    }
+
     public function loadEnglishTranslation()
     {
         $this->loadCoreTranslationFile('en');
