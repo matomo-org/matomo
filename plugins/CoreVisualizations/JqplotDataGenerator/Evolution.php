@@ -50,7 +50,7 @@ class Evolution extends JqplotDataGenerator
             ?: array(false) // make sure that a series is plotted even if there is no data
             ;
 
-        // collect series data to show. each row-to-display/column-to-display creates a series.
+        // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = array();
         $seriesUnits = array();
         foreach ($rowsToDisplay as $rowLabel) {
