@@ -18,7 +18,7 @@ use Piwik\Common;
  * @package Piwik
  * @subpackage Piwik_Translate
  */
-class BaseTranslations extends ValidateAbstract
+class CoreTranslations extends ValidateAbstract
 {
     /**
      * Error States

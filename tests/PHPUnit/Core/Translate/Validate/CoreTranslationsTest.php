@@ -1,5 +1,5 @@
 <?php
-use Piwik\Translate\Validate\BaseTranslations;
+use Piwik\Translate\Validate\CoreTranslations;
 
 /**
  * Piwik - Open source web analytics
@@ -32,7 +32,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
      */
     public function testFilterValid($translations)
     {
-        $filter = new BaseTranslations();
+        $filter = new CoreTranslations();
         $result = $filter->isValid($translations);
         $this->assertTrue($result);
     }
@@ -46,7 +46,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
                         'bla' => 'test text'
                     )
                 ),
-                BaseTranslations::__ERRORSTATE_MINIMUMTRANSLATIONS__
+                CoreTranslations::__ERRORSTATE_MINIMUMTRANSLATIONS__
             ),
             array(
                 array(
@@ -54,7 +54,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
                         'bla' => 'test text'
                     ))
                 ),
-                BaseTranslations::__ERRORSTATE_LOCALEREQUIRED__
+                CoreTranslations::__ERRORSTATE_LOCALEREQUIRED__
             ),
             array(
                 array(
@@ -62,7 +62,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
                         'Locale' => 'de_DE.UTF-8'
                     ))
                 ),
-                BaseTranslations::__ERRORSTATE_TRANSLATORINFOREQUIRED__
+                CoreTranslations::__ERRORSTATE_TRANSLATORINFOREQUIRED__
             ),
             array(
                 array(
@@ -71,7 +71,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
                         'TranslatorName' => 'name',
                     ))
                 ),
-                BaseTranslations::__ERRORSTATE_TRANSLATOREMAILREQUIRED__
+                CoreTranslations::__ERRORSTATE_TRANSLATOREMAILREQUIRED__
             ),
             array(
                 array(
@@ -82,7 +82,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
                         'LayoutDirection' => 'afd'
                     ))
                 ),
-                BaseTranslations::__ERRORSTATE_LAYOUTDIRECTIONINVALID__
+                CoreTranslations::__ERRORSTATE_LAYOUTDIRECTIONINVALID__
             ),
             array(
                 array(
@@ -93,7 +93,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
                         'LayoutDirection' => 'ltr'
                     ))
                 ),
-                BaseTranslations::__ERRORSTATE_LOCALEINVALID__
+                CoreTranslations::__ERRORSTATE_LOCALEINVALID__
             ),
             array(
                 array(
@@ -104,7 +104,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
                         'LayoutDirection' => 'ltr'
                     ))
                 ),
-                BaseTranslations::__ERRORSTATE_LOCALEINVALIDLANGUAGE__
+                CoreTranslations::__ERRORSTATE_LOCALEINVALIDLANGUAGE__
             ),
             array(
                 array(
@@ -115,7 +115,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
                         'LayoutDirection' => 'ltr'
                     ))
                 ),
-                BaseTranslations::__ERRORSTATE_LOCALEINVALIDCOUNTRY__
+                CoreTranslations::__ERRORSTATE_LOCALEINVALIDCOUNTRY__
             ),
         );
     }
@@ -130,7 +130,7 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
         include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
         include PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 
-        $filter = new BaseTranslations();
+        $filter = new CoreTranslations();
         $result = $filter->isValid($translations);
         $this->assertFalse($result);
         $this->assertEquals($msg, $filter->getError());
