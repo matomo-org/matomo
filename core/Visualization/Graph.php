@@ -92,7 +92,8 @@ abstract class Graph extends DataTableVisualization
         'show_series_picker',
         'allow_multi_select_series_picker',
         'selectable_columns',
-        'selectable_rows'
+        'selectable_rows',
+        'display_percentage_in_tooltip'
     );
 
     public static $clientSideParameters = array(

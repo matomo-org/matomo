@@ -60,7 +60,7 @@
                             params[key] = params[key].join(',');
                         }
                     }
-
+                    
                     self.initSingleDataTable(this, window[tableType], params, props);
                 }
             });
@@ -85,61 +85,6 @@
             table.param = params;
             table.props = props;
             table.init(newId);
-
-            // if the datatable has a graph, init the graph
-            var graphElement = $('.piwik-graph', domElem);
-            if (graphElement[0]) {
-                this.initJQPlotGraph(graphElement, newId);
-            }
-        },
-
-        /**
-         * Initializes and renders a JQPlot graph contained in a
-         * dataTable.
-         *
-         * @param {Element} graphElement The empty graph div element. Will
-         *                               usually have the .piwik-graph class.
-         * @param {String} dataTableId The ID of the containing datatable.
-         */
-        initJQPlotGraph: function (graphElement, dataTableId) {
-            graphElement = $(graphElement);
-
-            // set a unique ID for the graph element
-            var graphId = dataTableId + 'Chart';
-            graphElement.attr('id', graphId);
-
-            var graphData;
-            try {
-                graphData = JSON.parse(graphElement.attr('data-data'));
-            } catch (e) {
-                console.error('JSON.parse Error: "' + e + "\" in:\n" + graphElement.attr('data-data'));
-                return;
-            }
-
-            var plot = new JQPlot(graphData, dataTableId);
-
-            // add external series toggle if it should be added
-            var externalSeriesToggle = graphElement.attr('data-external-series-toggle');
-            if (externalSeriesToggle) {
-                plot.addExternalSeriesToggle(
-                    window[externalSeriesToggle], // get the function w/ string name
-                    graphId,
-                    graphElement.attr('data-external-series-show-all') == 1
-                );
-            }
-
-            // render the graph (setTimeout is required, otherwise the graph will not
-            // render initially)
-            setTimeout(function () {
-                plot.render(graphId, {
-                    noData: _pk_translate('General_NoDataForGraph_js'),
-                    exportTitle: _pk_translate('General_ExportAsImage_js'),
-                    exportText: _pk_translate('General_SaveImageOnYourComputer_js'),
-                    metricsToPlot: _pk_translate('General_MetricsToPlot_js'),
-                    metricToPlot: _pk_translate('General_MetricToPlot_js'),
-                    recordsToPlot: _pk_translate('General_RecordsToPlot_js')
-                });
-            }, 1);
         },
 
         /**

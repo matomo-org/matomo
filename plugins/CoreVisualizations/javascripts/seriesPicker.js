@@ -70,7 +70,7 @@
 
         /**
          * Initializes the series picker by creating the element. Must be called when
-         * the data table the picker is being attached to is ready for it to be drawn.
+         * the datatable the picker is being attached to is ready for it to be drawn.
          */
         init: function () {
             if (!this.show) {

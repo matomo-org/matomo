@@ -23,23 +23,28 @@ class Chart
     protected $series = array();
     protected $data = array();
     protected $axes = array();
-    protected $tooltip = array();
-
-    // other attributes (not directly used for jqplot)
-    protected $yUnit = '';
 
     // temporary
     public $dataTable;
     public $properties;
 
-    /**
-     * Whether to show every x-axis tick or only every other one.
-     */
-    protected $showAllTicks = false;
-
-    public function setAxisXLabels(&$xLabels)
+    public function setAxisXLabels($xLabels)
     {
-        $this->axes['xaxis']['ticks'] = & $xLabels;
+        $xSteps = $this->properties['visualization_properties']->x_axis_step_size;
+        $showAllTicks = $this->properties['visualization_properties']->show_all_ticks;
+
+        $this->axes['xaxis']['labels'] = array_values($xLabels);
+
+        $ticks = array_values($xLabels);
+        if (!$showAllTicks) {
+            // unset labels so there are $xSteps number of blank ticks between labels
+            foreach ($ticks as $i => &$label) {
+                if ($i % $xSteps != 0) {
+                    $label = ' ';
+                }
+            }
+        }
+        $this->axes['xaxis']['ticks'] = $ticks;
     }
 
     public function setAxisXOnClick(&$onClick)
@@ -63,54 +68,29 @@ class Chart
         }
     }
 
-    protected function addTooltipToValue($seriesIndex, $valueIndex, $tooltipTitle, $tooltipText)
-    {
-        $this->tooltip[$seriesIndex][$valueIndex] = array($tooltipTitle, $tooltipText);
-    }
-
-    public function setAxisYUnit($yUnit)
-    {
-        $yUnits = array();
-        for ($i = 0; $i < count($this->data); $i++) {
-            $yUnits[] = $yUnit;
-        }
-        $this->setAxisYUnits($yUnits);
-    }
-
     public function setAxisYUnits($yUnits)
     {
-        // generate an axis config for each unit
-        $axesIds = array();
-        // associate each series with the appropriate axis
-        $seriesAxes = array();
-        // units for tooltips
-        $seriesUnits = array();
-        foreach ($yUnits as $unit) {
-            // handle axes ids: first y[]axis, then y[2]axis, y[3]axis...
-            $nextAxisId = empty($axesIds) ? '' : count($axesIds) + 1;
+        $yUnits = array_values(array_map('strval', $yUnits));
 
-            $unit = $unit ? $unit : '';
+        // generate axis IDs for each unique y unit
+        $axesIds = array();
+        foreach ($yUnits as $idx => $unit) {
             if (!isset($axesIds[$unit])) {
-                $axesIds[$unit] = array('id' => $nextAxisId, 'unit' => $unit);
-                $seriesAxes[] = 'y' . $nextAxisId . 'axis';
-            } else {
-                // reuse existing axis
-                $seriesAxes[] = 'y' . $axesIds[$unit]['id'] . 'axis';
+                // handle axes ids: first y[]axis, then y[2]axis, y[3]axis...
+                $nextAxisId = empty($axesIds) ? '' : count($axesIds) + 1;
+
+                $axesIds[$unit] = 'y' . $nextAxisId . 'axis';
             }
-            $seriesUnits[] = $unit;
         }
 
         // generate jqplot axes config
-        foreach ($axesIds as $axis) {
-            $axisKey = 'y' . $axis['id'] . 'axis';
-            $this->axes[$axisKey]['tickOptions']['formatString'] = '%s' . $axis['unit'];
+        foreach ($axesIds as $unit => $axisId) {
+            $this->axes[$axisId]['tickOptions']['formatString'] = '%s' . $unit;
         }
 
-        $this->tooltip['yUnits'] = $seriesUnits;
-
-        // add axis config to series
-        foreach ($seriesAxes as $i => $axisName) {
-            $this->series[$i]['yaxis'] = $axisName;
+        // map each series to appropriate yaxis
+        foreach ($yUnits as $idx => $unit) {
+            $this->series[$idx]['yaxis'] = $axesIds[$unit];
         }
     }
 
@@ -124,14 +104,6 @@ class Chart
         }
     }
 
-    /**
-     * Show every x-axis tick instead of just every other one.
-     */
-    public function showAllTicks()
-    {
-        $this->showAllTicks = true;
-    }
-
     public function render()
     {
         Piwik::overrideCacheControlHeaders();
@@ -142,41 +114,9 @@ class Chart
                 'axes'   => &$this->axes,
                 'series' => &$this->series
             ),
-            'data'         => &$this->data,
-            'tooltip'      => &$this->tooltip,
+            'data'         => &$this->data
         );
 
         return Common::json_encode($data);
-    }
-
-    public function customizeChartProperties()
-    {
-        // x axis labels with steps
-        if (isset($this->axes['xaxis']['ticks'])) {
-            $xSteps = $this->properties['visualization_properties']->x_axis_step_size;
-            foreach ($this->axes['xaxis']['ticks'] as $i => &$xLabel) {
-                $this->axes['xaxis']['labels'][$i] = $xLabel;
-                if (!$this->showAllTicks && ($i % $xSteps) != 0) {
-                    $xLabel = ' ';
-                }
-            }
-        }
-
-        if ($this->properties['visualization_properties']->display_percentage_in_tooltip) {
-            foreach ($this->data as $seriesIndex => &$series) {
-                $sum = array_sum($series);
-
-                foreach ($series as $valueIndex => $value) {
-                    $value = (float)$value;
-
-                    $percentage = 0;
-                    if ($sum > 0) {
-                        $percentage = round(100 * $value / $sum);
-                    }
-
-                    $this->tooltip['percentages'][$seriesIndex][$valueIndex] = $percentage;
-                }
-            }
-        }
     }
 }

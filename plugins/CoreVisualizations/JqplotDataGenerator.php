@@ -92,8 +92,6 @@ class JqplotDataGenerator
             $this->initChartObjectData($dataTable, $visualization);
         }
 
-        $visualization->customizeChartProperties();
-
         return $visualization->render();
     }
 
@@ -125,12 +123,6 @@ class JqplotDataGenerator
         $visualization->setAxisXLabels($xLabels);
         $visualization->setAxisYValues($columnNameToValue);
         $visualization->setAxisYLabels($columnNameToTranslation);
-        $visualization->setAxisYUnit($this->properties['y_axis_unit']);
-
-        // show_all_ticks is not real query param, it is set by GenerateGraphHTML.
-        if ($this->properties['visualization_properties']->show_all_ticks) {
-            $visualization->showAllTicks();
-        }
 
         $units = $this->getUnitsForColumnsToDisplay();
         $visualization->setAxisYUnits($units);
@@ -141,10 +133,7 @@ class JqplotDataGenerator
         // derive units from column names
         $units = $this->deriveUnitsFromRequestedColumnNames();
         if (!empty($this->properties['y_axis_unit'])) {
-            // force unit to the value set via $this->setAxisYUnit()
-            foreach ($units as &$unit) {
-                $unit = $this->properties['y_axis_unit'];
-            }
+            $units = array_fill(0, count($units), $this->properties['y_axis_unit']);
         }
 
         // the bar charts contain the labels a first series

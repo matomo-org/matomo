@@ -30,7 +30,7 @@
                 domElem = $('#' + workingDivId);
             }
 
-            dataTablePrototype.init.apply(this, arguments);
+            dataTablePrototype.init.call(this, workingDivId, domElem);
 
             var treemapContainerId = this.workingDivId + '-infoviz-treemap';
             var treemapContainer = $('.infoviz-treemap', domElem).attr('id', treemapContainerId);

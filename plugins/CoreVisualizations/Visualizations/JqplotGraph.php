@@ -44,6 +44,11 @@ class JqplotGraph extends Graph
      */
     const X_AXIS_STEP_SIZE = 'x_axis_step_size';
 
+    public static $clientSideProperties = array(
+        'external_series_toggle',
+        'external_series_toggle_show_all'
+    );
+
     /**
      * Constructor.
      * 
@@ -65,6 +70,8 @@ class JqplotGraph extends Graph
             $result['filter_sort_column'] = $firstColumn;
             $result['filter_sort_order'] = 'desc';
         }
+
+        $view->datatable_js_type = 'JqplotGraphDataTable';
     }
 
     /**
