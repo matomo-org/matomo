@@ -29,6 +29,10 @@ class Request
 
     protected $forcedVisitorId = false;
 
+    protected $isAuthenticated = false;
+
+    const UNKNOWN_RESOLUTION = 'unknown';
+
     /**
      * @param $params
      * @param bool|string $tokenAuth
@@ -55,10 +59,6 @@ class Request
         }
         $this->authenticateTrackingApi($tokenAuth);
     }
-
-    protected $isAuthenticated = false;
-
-    const UNKNOWN_RESOLUTION = 'unknown';
 
     /**
      * @return bool
@@ -346,7 +346,7 @@ class Request
         return $customVariables;
     }
 
-    static public function truncateCustomVariable($input)
+    public static function truncateCustomVariable($input)
     {
         return substr(trim($input), 0, Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
     }
@@ -512,7 +512,7 @@ class Request
 
     public function getPlugins()
     {
-        $pluginsInOrder = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'gears', 'ag', 'cookie');
+        static $pluginsInOrder = array('fla', 'java', 'dir', 'qt', 'realp', 'pdf', 'wma', 'gears', 'ag', 'cookie');
         $plugins = array();
         foreach ($pluginsInOrder as $param) {
             $plugins[] = Common::getRequestVar($param, 0, 'int', $this->params);
