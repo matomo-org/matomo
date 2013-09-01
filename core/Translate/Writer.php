@@ -99,10 +99,16 @@ class Writer
 
     /**
      * @param string $language  ISO 639-1 alpha-2 language code
+     *
+     * @throws \Exception
      */
     public function setLanguage($language)
     {
-        $this->_language = $language;
+        if (!preg_match('/^([a-z]{2,3}(-[a-z]{2,3})?)$/i', $language)) {
+            throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
+        }
+
+        $this->_language = strtolower($language);
     }
 
     /**
@@ -185,20 +191,7 @@ class Writer
     {
         if (empty($lang)) $lang = $this->getLanguage();
 
-        if (!Common::isValidFilename($lang) ||
-            ($base !== 'lang' && $base !== 'tmp')
-        ) {
-            throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($lang)));
-        }
-
         if (!empty($this->_pluginName)) {
-
-            $installedPlugins = PluginsManager::getInstance()->readPluginsDirectory();
-
-            if (!in_array($this->_pluginName, $installedPlugins)) {
-
-                throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($lang)));
-            }
 
             if ($base == 'tmp') {
                 return sprintf('%s/tmp/plugins/%s/lang/%s.json', PIWIK_INCLUDE_PATH, $this->_pluginName, $lang);

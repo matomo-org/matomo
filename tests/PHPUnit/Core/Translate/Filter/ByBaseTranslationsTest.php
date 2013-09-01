@@ -30,7 +30,7 @@ class ByBaseTranslationsTest extends PHPUnit_Framework_TestCase
                     'test' => array()
                 ),
             ),
-            // empty values/plugins are removed
+            // not existing values/plugins are removed
             array(
                 array(
                     'test' => array(
@@ -55,7 +55,7 @@ class ByBaseTranslationsTest extends PHPUnit_Framework_TestCase
                     )
                 ),
             ),
-            // no change if no empty value
+            // no change if all exist
             array(
                 array(
                     'test' => array(
@@ -74,7 +74,7 @@ class ByBaseTranslationsTest extends PHPUnit_Framework_TestCase
                 ),
                 array()
             ),
-            // empty values are removed, others stay
+            // unavailable removed, others stay
             array(
                 array(
                     'empty' => array(
@@ -102,6 +102,38 @@ class ByBaseTranslationsTest extends PHPUnit_Framework_TestCase
                     )
                 ),
                 array(
+                    'test' => array(
+                        'empty' => '     ',
+                    )
+                )
+            ),
+            array(
+                array(
+                    'empty' => array(
+                        'test' => 'test'
+                    ),
+                    'test' => array(
+                        'test' => 'test',
+                        'empty' => '     ',
+                    )
+                ),
+                array(
+                    'empty' => array(
+                        'bla' => 'test'
+                    ),
+                    'test' => array(
+                        'test' => 'test',
+                    )
+                ),
+                array(
+                    'test' => array(
+                        'test' => 'test'
+                    )
+                ),
+                array(
+                    'empty' => array(
+                        'test' => 'test'
+                    ),
                     'test' => array(
                         'empty' => '     ',
                     )

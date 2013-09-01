@@ -7,8 +7,14 @@ use Piwik\Translate\Validate\CoreTranslations;
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class BaseTranslationsTest extends PHPUnit_Framework_TestCase
+class CoreTranslationsTest extends PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
+        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
+    }
+
     public function getFilterTestDataValid()
     {
         return array(
@@ -127,9 +133,6 @@ class BaseTranslationsTest extends PHPUnit_Framework_TestCase
      */
     public function testFilterInvalid($translations, $msg)
     {
-        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
-        include PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
-
         $filter = new CoreTranslations();
         $result = $filter->isValid($translations);
         $this->assertFalse($result);
