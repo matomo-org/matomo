@@ -32,14 +32,6 @@
                         }
                     }
                 },
-                seriesDefaults: {
-                    lineWidth: 1,
-                    markerOptions: {
-                        style: "filledCircle",
-                        size: 6,
-                        shadow: false
-                    }
-                },
                 piwikTicks: {
                     showTicks: true,
                     showGrid: true,
@@ -47,6 +39,29 @@
                     tickColor: this.tickColor
                 },
             };
+
+            if (this.props.show_line_graph) {
+                defaultParams.seriesDefaults = {
+                    lineWidth: 1,
+                    markerOptions: {
+                        style: "filledCircle",
+                        size: 6,
+                        shadow: false
+                    }
+                };
+            } else {
+                defaultParams.seriesDefaults = {
+                    renderer: $.jqplot.BarRenderer,
+                    rendererOptions: {
+                        shadowOffset: 1,
+                        shadowDepth: 2,
+                        shadowAlpha: .2,
+                        fillToZero: true,
+                        barMargin: this.data[0].length > 10 ? 2 : 10
+                    }
+                };
+            }
+
             var overrideParams = {
                 legend: {
                     show: false

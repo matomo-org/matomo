@@ -24,9 +24,15 @@ use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 class Evolution extends JqplotGraph
 {
     const ID = 'graphEvolution';
-    
     const SERIES_COLOR_COUNT = 8;
 
+    /**
+     * Whether to show a line graph or a bar graph.
+     */
+    const SHOW_LINE_GRAPH = 'show_line_graph';
+
+    public static $clientSideProperties = array('show_line_graph');
+    
     public function __construct($view)
     {
         parent::__construct($view);
@@ -60,6 +66,7 @@ class Evolution extends JqplotGraph
         $result['show_table_all_columns'] = false;
         $result['hide_annotations_view'] = false;
         $result['visualization_properties']['jqplot_graph']['x_axis_step_size'] = false;
+        $result['visualization_properties']['graphEvolution']['show_line_graph'] = true;
         return $result;
     }
 
