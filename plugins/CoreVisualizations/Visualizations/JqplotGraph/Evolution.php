@@ -47,6 +47,8 @@ class Evolution extends JqplotGraph
                     $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
             };
         }
+
+        $view->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
     public static function getDefaultPropertyValues()

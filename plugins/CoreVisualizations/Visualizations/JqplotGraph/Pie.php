@@ -25,6 +25,7 @@ class Pie extends JqplotGraph
     {
         parent::__construct($view);
         $view->visualization_properties->show_all_ticks = true;
+        $view->datatable_js_type = 'JqplotPieGraphDataTable';
     }
 
     public function render($dataTable, $properties)

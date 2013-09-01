@@ -55,5 +55,8 @@ class CoreVisualizations extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/seriesPicker.js";
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplot.js";
+        $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplotBarGraph.js";
+        $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplotPieGraph.js";
+        $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplotEvolutionGraph.js";
     }
 }

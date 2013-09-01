@@ -1,7 +1,7 @@
 /**
  * Piwik - Web Analytics
  *
- * Adapter for jqplot
+ * DataTable UI class for JqplotGraph.
  *
  * @link http://www.jqplot.com
  * @link http://piwik.org
@@ -59,20 +59,9 @@
 
             this.data = graphData.data;
             this._setJqplotParameters(graphData.params);
-            this._setColors();
 
             if (this.props.display_percentage_in_tooltip) {
                 this._setTooltipPercentages();
-            }
-
-            // determine the graph type
-            var dataTableDiv = $('#' + this.workingDivId);
-            if (dataTableDiv.hasClass('dataTableVizEvolution')) {
-                this.type = 'evolution';
-            } else if (dataTableDiv.hasClass('dataTableVizBar')) {
-                this.type = 'bar';
-            } else if (dataTableDiv.hasClass('dataTableVizPie')) {
-                this.type = 'pie';
             }
 
             this._bindEvents();
@@ -123,6 +112,8 @@
             };
 
             this.jqplotParams = $.extend(true, {}, defaultParams, params);
+
+            this._setColors();
         },
 
         _setTooltipPercentages: function () {
@@ -139,17 +130,6 @@
         },
 
         _bindEvents: function () {
-            // preapare the appropriate chart type
-            if (this.type == 'evolution') {
-                this.prepareEvolutionChart();
-            } else if (this.type == 'bar') {
-                this.prepareBarChart();
-            } else if (this.type == 'pie') {
-                this.preparePieChart();
-            } else {
-                return;
-            }
-
             var self = this;
             var target = $('#' + this.targetDivId);
 
@@ -158,11 +138,7 @@
                 self._showDataPointTooltip(this, seriesIndex, valueIndex);
             })
             .on('jqplotDataUnhighlight', function () {
-                if (self.type != 'evolution') {
-                    if ($(this).is( ":data('ui-tooltip')" )) {
-                        $(this).tooltip('destroy');
-                    }
-                }
+                self._destroyDataPointTooltip($(this));
             });
 
             // handle window resize
@@ -210,42 +186,14 @@
             $(window).on('resize', this._resizeListener);
         },
 
-        _showDataPointTooltip: function (element, seriesIndex, valueIndex) {
-            if (this.type == 'bar') {
-                var value = this.formatY(this.data[seriesIndex][valueIndex], seriesIndex);
-                var series = this.jqplotParams.series[seriesIndex].label;
-
-                var percentage = '';
-                if (typeof this.tooltip.percentages != 'undefined') {
-                    percentage = this.tooltip.percentages[seriesIndex][valueIndex];
-                    percentage = ' (' + percentage + '%)';
-                }
-
-                var label = this.jqplotParams.axes.xaxis.labels[valueIndex];
-                var text = '<strong>' + value + '</strong> ' + series + percentage;
-                $(element).tooltip({
-                    track:   true,
-                    items:   '*',
-                    content: '<h3>' + label + '</h3>' + text,
-                    show: false,
-                    hide: false
-                }).trigger('mouseover');
-            } else if (this.type == 'pie') {
-                var value = this.formatY(this.data[0][valueIndex][1], 0);
-                var series = this.jqplotParams.series[0].label;
-                var percentage = this.tooltip.percentages[0][valueIndex];
-
-                var label = this.data[0][valueIndex][0];
-
-                var text = '<strong>' + percentage + '%</strong> (' + value + ' ' + series + ')';
-                $(element).tooltip({
-                    track:   true,
-                    items:   '*',
-                    content: '<h3>' + label + '</h3>' + text,
-                    show: false,
-                    hide: false
-                }).trigger('mouseover');
+        _destroyDataPointTooltip: function ($element) {
+            if ($element.is( ":data('ui-tooltip')" )) {
+                $element.tooltip('destroy');
             }
+        },
+
+        _showDataPointTooltip: function (element, seriesIndex, valueIndex) {
+            // empty
         },
 
         changeSeries: function (columns, rows) {
@@ -410,182 +358,6 @@
                     $(this).dialog("destroy").remove();
                 }
             });
-        },
-
-
-        // ------------------------------------------------------------
-        //  EVOLUTION CHART
-        // ------------------------------------------------------------
-
-        prepareEvolutionChart: function () {
-            var targetDivId = this.targetDivId;
-            var lang = this._lang;
-
-            this.setYTicks();
-
-            defaultParams.axes = {
-                xaxis: {
-                    pad: 1.0,
-                    renderer: $.jqplot.CategoryAxisRenderer,
-                    tickOptions: {
-                        showGridline: false
-                    }
-                }
-            };
-
-            defaultParams.seriesDefaults = {
-                lineWidth: 1,
-                markerOptions: {
-                    style: "filledCircle",
-                    size: 6,
-                    shadow: false
-                }
-            };
-
-            defaultParams.piwikTicks = {
-                showTicks: true,
-                showGrid: true,
-                showHighlight: true,
-                tickColor: this.tickColor
-            };
-
-            this.jqplotParams = $.extend(true, {}, defaultParams, this.jqplotParams);
-
-            var self = this;
-            var lastTick = false;
-
-            $('#' + targetDivId)
-                .on('jqplotMouseLeave', function (e, s, i, d) {
-                    $(this).css('cursor', 'default');
-                    if ($(this).is( ":data('ui-tooltip')" )) {
-                        $(this).tooltip('destroy');
-                    }
-                })
-                .on('jqplotClick', function (e, s, i, d) {
-                    if (lastTick !== false && typeof self.jqplotParams.axes.xaxis.onclick != 'undefined'
-                        && typeof self.jqplotParams.axes.xaxis.onclick[lastTick] == 'string') {
-                        var url = self.jqplotParams.axes.xaxis.onclick[lastTick];
-                        piwikHelper.redirectToUrl(url);
-                    }
-                })
-                .on('jqplotPiwikTickOver', function (e, tick) {
-                    lastTick = tick;
-                    var label;
-                    if (typeof self.jqplotParams.axes.xaxis.labels != 'undefined') {
-                        label = self.jqplotParams.axes.xaxis.labels[tick];
-                    } else {
-                        label = self.jqplotParams.axes.xaxis.ticks[tick];
-                    }
-        
-                    var text = [];
-                    for (var d = 0; d < self.data.length; d++) {
-                        var value = self.formatY(self.data[d][tick], d);
-                        var series = self.jqplotParams.series[d].label;
-                        text.push('<strong>' + value + '</strong> ' + series);
-                    }
-                    $(this).tooltip({
-                                track:   true,
-                                items:   'div',
-                                content: '<h3>'+label+'</h3>'+text.join('<br />'),
-                                show: false,
-                                hide: false
-                            }).trigger('mouseover');
-                    if (typeof self.jqplotParams.axes.xaxis.onclick != 'undefined'
-                        && typeof self.jqplotParams.axes.xaxis.onclick[lastTick] == 'string') {
-                        $(this).css('cursor', 'pointer');
-                    }
-                });
-
-            this.jqplotParams.legend = {
-                show: false
-            };
-            this.jqplotParams.canvasLegend = {
-                show: true
-            };
-        },
-
-        // ------------------------------------------------------------
-        //  PIE CHART
-        // ------------------------------------------------------------
-
-        preparePieChart: function () {
-            var targetDivId = this.targetDivId;
-            var lang = this._lang;
-
-            this.jqplotParams.seriesDefaults = {
-                renderer: $.jqplot.PieRenderer,
-                rendererOptions: {
-                    shadow: false,
-                    showDataLabels: false,
-                    sliceMargin: 1,
-                    startAngle: 35
-                }
-            };
-
-            this.jqplotParams.piwikTicks = {
-                showTicks: false,
-                showGrid: false,
-                showHighlight: false,
-                tickColor: this.tickColor
-            };
-
-            this.jqplotParams.legend = {
-                show: false
-            };
-            this.jqplotParams.pieLegend = {
-                show: true,
-                labelColor: this.singleMetricColor
-            };
-            this.jqplotParams.canvasLegend = {
-                show: true,
-                singleMetric: true,
-                singleMetricColor: this.singleMetricColor
-            };
-
-            // pie charts have a different data format
-            if (!(this.data[0][0] instanceof Array)) { // check if already in different format
-                for (var i = 0; i < this.data[0].length; i++) {
-                    this.data[0][i] = [this.jqplotParams.axes.xaxis.ticks[i], this.data[0][i]];
-                }
-            }
-        },
-
-        // ------------------------------------------------------------
-        //  BAR CHART
-        // ------------------------------------------------------------
-
-        prepareBarChart: function () {
-            var targetDivId = this.targetDivId;
-            var lang = this._lang;
-
-            this.setYTicks();
-
-            this.jqplotParams.seriesDefaults = {
-                renderer: $.jqplot.BarRenderer,
-                rendererOptions: {
-                    shadowOffset: 1,
-                    shadowDepth: 2,
-                    shadowAlpha: .2,
-                    fillToZero: true,
-                    barMargin: this.data[0].length > 10 ? 2 : 10
-                }
-            };
-
-            this.jqplotParams.piwikTicks = {
-                showTicks: true,
-                showGrid: false,
-                showHighlight: false,
-                tickColor: this.tickColor
-            };
-
-            this.jqplotParams.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
-            this.jqplotParams.axes.xaxis.tickOptions = {
-                showGridline: false
-            };
-
-            this.jqplotParams.canvasLegend = {
-                show: true
-            };
         },
 
         // ------------------------------------------------------------

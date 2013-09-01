@@ -70,8 +70,6 @@ class JqplotGraph extends Graph
             $result['filter_sort_column'] = $firstColumn;
             $result['filter_sort_order'] = 'desc';
         }
-
-        $view->datatable_js_type = 'JqplotGraphDataTable';
     }
 
     /**
