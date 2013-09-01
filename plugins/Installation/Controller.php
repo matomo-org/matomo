@@ -290,7 +290,7 @@ class Controller extends \Piwik\Controller\Admin
             Piwik::setUserIsSuperUser();
             if ($baseTablesInstalled >= $minimumCountPiwikTables &&
                 count(SitesManagerAPI::getInstance()->getAllSitesId()) > 0 &&
-                count(SitesManagerAPI::getInstance()->getUsers()) > 0
+                count(UsersManagerAPI::getInstance()->getUsers()) > 0
             ) {
                 $view->showReuseExistingTables = true;
                 // when the user reuses the same tables we skip the website creation step
