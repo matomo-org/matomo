@@ -226,7 +226,7 @@ class Request
 
     public function getParam($name)
     {
-        $supportedParams = array(
+        static $supportedParams = array(
             // Name => array( defaultValue, type )
             '_refts'       => array(0, 'int'),
             '_ref'         => array('', 'string'),
@@ -492,7 +492,7 @@ class Request
         }
 
         // check for location override query parameters (ie, lat, long, country, region, city)
-        $locationOverrideParams = array(
+        static $locationOverrideParams = array(
             'country' => array('string', LocationProvider::COUNTRY_CODE_KEY),
             'region'  => array('string', LocationProvider::REGION_CODE_KEY),
             'city'    => array('string', LocationProvider::CITY_NAME_KEY),
