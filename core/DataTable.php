@@ -597,10 +597,8 @@ class DataTable
         ) {
             if ($this->summaryRow === null) // create the summary row if necessary
             {
-                $this->addSummaryRow(new Row(array(
-                                                                  Row::COLUMNS => $row->getColumns()
-                                                             )));
-                $this->summaryRow->setColumn('label', self::LABEL_SUMMARY_ROW);
+                $columns = array('label' => self::LABEL_SUMMARY_ROW) + $row->getColumns();
+                $this->addSummaryRow(new Row(array(Row::COLUMNS => $columns)));
             } else {
                 $this->summaryRow->sumRow($row, $enableCopyMetadata = false, $this->columnAggregationOperations);
             }
