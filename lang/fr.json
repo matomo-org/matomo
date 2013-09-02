@@ -836,24 +836,6 @@
         "DashboardEmptyNotification": "Votre tableau de bord ne contient aucun gadget. COmmencez par ajouter quelques gadgets ou réinitialisez le tableau de bord à la selection de gadgets par défaut.",
         "TopLinkTooltip": "Afficher les rapport de statistiques web pour %s."
     },
-    "DBStats": {
-        "PluginDescription": "Ce plugin effectue des rapports sur l'utilisation de la base de données MySQL par les tables de Piwik.",
-        "DatabaseUsage": "Utilisation de la base de données",
-        "MainDescription": "Piwik stocke toutes vos donnés de statistiques web dans la base de données MySQL. En ce moment les tables de Piwik utilisent %s.",
-        "LearnMore": "Pour en apprendre plus à propos de la manière dont Piwik traite les données et sur comment faire fonctionner Piwik correctement pour les sites à moyen et fort trafic, consultez la documentation %s.",
-        "RowCount": "Nombre de lignes",
-        "DataSize": "Taille des données",
-        "IndexSize": "Taille de l'index",
-        "TotalSize": "Taille totale",
-        "DBSize": "Taille de la BDD",
-        "ReportDataByYear": "Tables de rapports par année",
-        "MetricDataByYear": "Tables de métriques par année",
-        "EstimatedSize": "Taille estimée",
-        "TrackerTables": "Tables de suivi",
-        "ReportTables": "Tables de rapport",
-        "MetricTables": "Tables de métriques",
-        "OtherTables": "Autres tables"
-    },
     "DoNotTrack": {
         "PluginDescription": "Ignorer les visites avec l'entête X-Do-Not-Track ou DNT."
     },
@@ -1315,12 +1297,6 @@
         "ViewReferrersBy": "Afficher les référents par %s",
         "ViewAllReferrers": "Afficher tous les référents",
         "WidgetTopKeywordsForPages": "Meilleurs mots clefs pour l'URL"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Basé sur PhpSecInfo du Consortium de Sécurité de PHP, ce plugin fournit des information de sécurité à propos de votre environnement PHP et donne des suggestions pour son amélioration. C'est un outil d'approche sécurité multi-couches. Cela ne remplace ni les pratiques de développement sécurisé ni les audits du code.",
-        "Security": "Sécurité",
-        "SecurityInformation": "Information de sécurité de PHP",
-        "Result": "Résultat"
     },
     "SEO": {
         "SeoRankings": "Notations des SEO",
@@ -1937,18 +1913,6 @@
         "WidgetOverview": "Récapitulatif de la Fréquence",
         "WidgetGraphReturning": "Graphique de visites de visiteurs connus",
         "SubmenuFrequency": "Fréquence"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Plugin visant à créer de fausses visites. Il peut être utilisé par les utilisateurs Piwik ou par les développeurs comme un moyen aisé de générer de fausses données de manière à peupler les rapports Piwik.",
-        "VisitorGenerator": "Générateur de visites",
-        "Warning": "Vous êtes sur le point de générer de fausses visites qui seront enregistrées dans votre base de donnés Piwik",
-        "NotReversible": "Il sera %s impossible%s de supprimer facilement ces données des logs Piwik.",
-        "AreYouSure": "Êtes-vous sûrs de vouloir générer de fausses visites?",
-        "ChoiceYes": "Oui, je suis sûr!",
-        "Submit": "Soumettre",
-        "SelectWebsite": "Sélectionner le site Web",
-        "NbRequestsPerSec": "Requêtes par seconde",
-        "DaysToCompute": "Jours à calculer"
     },
     "VisitorInterest": {
         "PluginDescription": "Effectue des rapports à propos des intérêts des visiteurs: nombre de pages vues, temps passé sur le site.",

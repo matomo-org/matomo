@@ -774,25 +774,6 @@
         "DashboardEmptyNotification": "대시보드에 위젯이 하나도 없습니다. 대시 보드 위젯을 추가하거나 대시 보드를 기본 위젯으로 재설정하세요.",
         "TopLinkTooltip": "%s에 대한 웹 로그 분석 보고서를 볼 수 있습니다."
     },
-    "DBStats": {
-        "PluginDescription": "Piwik 테이블의 MySQL 데이터베이스 사용량을 보고합니다.",
-        "DatabaseUsage": "데이터베이스 사용량",
-        "MainDescription": "Piwik은 모든 웹 분석 데이터를 MySQL 데이터베이스에 저장하고 있습니다. 현재, Piwik 테이블은 %s 를 사용하고 있습니다.",
-        "LearnMore": "트래픽이 비교적 높은 웹 사이트에서 Piwik 데이터를 처리 방법이나 Piwik을 작동시키는 방법에 대한 자세한 내용은 %s 문서를 참조하세요.",
-        "Table": "테이블",
-        "RowCount": "행 수",
-        "DataSize": "데이터 용량",
-        "IndexSize": "인덱스 용량",
-        "TotalSize": "전체 용량",
-        "DBSize": "DB 용량",
-        "ReportDataByYear": "연별 보고표",
-        "MetricDataByYear": "연별 통계 표",
-        "EstimatedSize": "예상 용량",
-        "TrackerTables": "추적기 표",
-        "ReportTables": "보고표",
-        "MetricTables": "통계표",
-        "OtherTables": "기타 표"
-    },
     "Feedback": {
         "PluginDescription": "Piwik 팀에 의견을 제출합니다. 당신의 아이디어와 제안을 우리와 공유하해 주세요!",
         "DoYouHaveBugReportOrFeatureRequest": "발견한 버그나 기능에 대한 의견을 보고하시겠습니까?",
@@ -1246,13 +1227,6 @@
         "ViewReferrersBy": "%s별 리퍼러 보기",
         "ViewAllReferrers": "모든 리퍼러 보기",
         "WidgetTopKeywordsForPages": "패지 URL의 상위 키워드"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "PHP 보안 컨소시엄 PhpSecInfo에 따라 PHP 환경에 대한 보안 및 개선을위한 제안을 제공합니다. 이것은 다층 보안 접근의 도구이며 안전한 개발 사례를 대체도 코드\/응용프로그램 감사도 없습니다.",
-        "Security": "보안",
-        "SecurityInformation": "PHP 보안 정보",
-        "Test": "테스트",
-        "Result": "결과"
     },
     "SEO": {
         "SeoRankings": "SEO 랭킹",
@@ -1870,18 +1844,6 @@
         "WidgetOverview": "프리퀸시 개요",
         "WidgetGraphReturning": "돌아온 방문 수 그래프",
         "SubmenuFrequency": "프리퀸시"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "가짜 방문을 작성하는 플러그인입니다. Piwik 사용자와 개발자가 Piwik 보고서에 잘못된 데이터를 생성하는 간단한 방법으로 사용할 수 있습니다.",
-        "VisitorGenerator": "방문자 생성기",
-        "Warning": "Piwik 데이터베이스에 기록되는 가짜 방문을 생성하려고합니다.",
-        "NotReversible": "Piwik 로그에서 이러한 방문을 %s 쉽게 제거할 수 없습니다 %s.",
-        "AreYouSure": "정말로 가상 방문을 생성 하시겠습니까?",
-        "ChoiceYes": "네, 물론입니다!",
-        "Submit": "제출",
-        "SelectWebsite": "웹사이트 선택",
-        "NbRequestsPerSec": "초 단위의 요청수",
-        "DaysToCompute": "일별 계산"
     },
     "VisitorInterest": {
         "PluginDescription": "방문자 관심 분야에 대한 보고서: 이 페이지뷰 수는 웹사이트에 보낸 시간입니다.",

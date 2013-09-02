@@ -840,25 +840,6 @@
         "DashboardEmptyNotification": "您的面板没有任何小工具，请增加一些小工具或重置为默认的小工具选择。",
         "TopLinkTooltip": "查看%s的统计报表"
     },
-    "DBStats": {
-        "PluginDescription": "这个插件能报告 Piwik 的数据表使用情况。",
-        "DatabaseUsage": "数据库使用状况",
-        "MainDescription": "Piwik 在MySQL中保存您的所有网站分析数据。 目前， Piwik 数据表已经使用了 %s！",
-        "LearnMore": "了解更多关于 Piwik 如何处理数据以及使 Piwik 在中高流量的网站上运作事宜，请查阅说明文件 %s。",
-        "Table": "数据表",
-        "RowCount": "行计算",
-        "DataSize": "占用空间",
-        "IndexSize": "索引空间大小",
-        "TotalSize": "总容量",
-        "DBSize": "数据库大小",
-        "ReportDataByYear": "年度报表",
-        "MetricDataByYear": "按年的指标表",
-        "EstimatedSize": "估计大小",
-        "TrackerTables": "跟踪表",
-        "ReportTables": "报表",
-        "MetricTables": "指标表",
-        "OtherTables": "其它表"
-    },
     "DoNotTrack": {
         "PluginDescription": "忽略带 X-Do-Not-Track 或者 DNT 头的访问。"
     },
@@ -1325,13 +1306,6 @@
         "ViewReferrersBy": "查看来源 %s",
         "ViewAllReferrers": "查看所有来源",
         "WidgetTopKeywordsForPages": "主要关键词"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "基于 PHP 安全协会的 PhpSecInfo，这个插件提供安全性资讯，并提供您的PHP环境改善建议。它是一个多层次的安全工具。它不会从源码 \/ 应用程序来取代。",
-        "Security": "安全",
-        "SecurityInformation": "PHP 安全信息",
-        "Test": "测试",
-        "Result": "结果"
     },
     "SEO": {
         "SeoRankings": "SEO排名",
@@ -1957,18 +1931,6 @@
         "WidgetOverview": "频率总表",
         "WidgetGraphReturning": "老访客趋势",
         "SubmenuFrequency": "频率"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "这个插件用于建立假的访客。这可以让 Piwik 用户或开发人员轻松产生假的资料来填充 Piwik 报表。",
-        "VisitorGenerator": "访客产生器",
-        "Warning": "您将产生的假访客将会记录在您的 Piwik 数据库里。",
-        "NotReversible": "它可能%s无法%s简单地从 piwik 记录中刪除。",
-        "AreYouSure": "您确定要产生假的访客吗？",
-        "ChoiceYes": "是，我确定！",
-        "Submit": "送出",
-        "SelectWebsite": "选择网站",
-        "NbRequestsPerSec": "每秒请求数",
-        "DaysToCompute": "计算天数"
     },
     "VisitorInterest": {
         "PluginDescription": "关于访客兴趣的报表: 页面浏览次数、停留时间。",

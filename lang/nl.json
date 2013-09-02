@@ -782,25 +782,6 @@
         "DashboardEmptyNotification": "Uw dashboard bevat geen widgets. Start met het toevoegen van nieuwe widgets of reset het dashboard naar de standaard widget selectie.",
         "TopLinkTooltip": "Bekijk web anlyse rapporten voor %s."
     },
-    "DBStats": {
-        "PluginDescription": "Deze plugin toont het MySQL database verbruik door de Piwik tabellen.",
-        "DatabaseUsage": "Database gebruik",
-        "MainDescription": "Piwik slaat alle analysedata op in een MySQL database. Momenteel is de omvang van deze database %s.",
-        "LearnMore": "Voor meer informatie over de manier waarop Piwik de data verwerkt en over de werking van Piwik in combinatie met middelgrote en grote website's, zie de documentatie %s.",
-        "Table": "Tabel",
-        "RowCount": "Aantal rijen",
-        "DataSize": "Data omvang",
-        "IndexSize": "Index grootte",
-        "TotalSize": "Totale grootte",
-        "DBSize": "DB grootte",
-        "ReportDataByYear": "Rapport tabellen per jaar",
-        "MetricDataByYear": "Metric tabellen per jaar",
-        "EstimatedSize": "Geschatte grootte",
-        "TrackerTables": "Tracker tabellen",
-        "ReportTables": "Rapport tabellen",
-        "MetricTables": "Metric tabellen",
-        "OtherTables": "Andere tabellen"
-    },
     "DoNotTrack": {
         "PluginDescription": "Negeer bezoeken met X-Do-Not-Track of DNT header."
     },
@@ -1195,12 +1176,6 @@
         "WidgetSocials": "Lijst van sociale netwerken",
         "WidgetSearchEngines": "Top zoekmachines",
         "WidgetOverview": "Overzicht"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Deze plugin is gebaseerd op PhpSecInfo van het PHP Security Consortium en geeft veiligheidsinformatie over uw PHP omgeving en suggesties voor verbetering. Het is een tool met een veiligheidsaanpak op verschillende niveau's. Het vervangt niet de richtlijnen voor veilige ontwikkeling en ook geen audit op de code of de applicatie.",
-        "Security": "Veiligheid",
-        "SecurityInformation": "Php veiligheidsinformatie",
-        "Result": "Resultaat"
     },
     "SEO": {
         "SeoRankings": "SEO rankings",
@@ -1716,18 +1691,6 @@
         "WidgetOverview": "Frequentie overzicht",
         "WidgetGraphReturning": "Grafiek terugkerende bezoeken",
         "SubmenuFrequency": "Frequentie"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Plugin om bezoekersdata creëren. Dit kan worden gebruikt door Piwikgebruikers of ontwikkelaars als een makkelijke manier om Piwik te vullen met testgegevens.",
-        "VisitorGenerator": "Bezoekers Generator",
-        "Warning": "U staat op het punt om testbezoeken te genereren die opgeslagen zullen worden in uw Piwik database.",
-        "NotReversible": "Het is %s niet%s mogelijk om deze testgegevens weer makkelijk te verwijderen uit de Piwik logs.",
-        "AreYouSure": "Weet u zeker dat u testbezoeken wilt genereren?",
-        "ChoiceYes": "Ja, ik ben zeker!",
-        "Submit": "Verzend",
-        "SelectWebsite": "Selecteer Website",
-        "NbRequestsPerSec": "Verzoeken per seconde",
-        "DaysToCompute": "Aantal dagen"
     },
     "VisitorInterest": {
         "PluginDescription": "Rapporten over de interesses van de bezoekers: aantal bekeken pagina's, tijdsduur op de website.",

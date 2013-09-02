@@ -708,25 +708,6 @@
         "DashboardEmptyNotification": "Työpöytäsi on tyhjä. Voit aloittaa lisäämällä elementtejä tai resetoimalla työpöydän oletusasetuksiin.",
         "TopLinkTooltip": "Katso analytiikkaa %s"
     },
-    "DBStats": {
-        "PluginDescription": "Tämä lisäosa raportoi MySQL-tietokannan käyttöä.",
-        "DatabaseUsage": "Tietokannan käyttö",
-        "MainDescription": "Piwik tallentaa kaikki tiedot MySQL-tietokantaan. Piwikin taulut käyttävät %s.",
-        "LearnMore": "Jos haluat tietää enemmän Piwin tietojen käsittelystä ja Piwikin optimoinnista isoille verkkosivuille, voit katsoa dokumentaation %s.",
-        "Table": "Taulu",
-        "RowCount": "Rivien määrä",
-        "DataSize": "Tietojen koko",
-        "IndexSize": "Indeksien koko",
-        "TotalSize": "Koko yhteensä",
-        "DBSize": "Tietokannan koko",
-        "ReportDataByYear": "Raporttitaulut vuosittain",
-        "MetricDataByYear": "Metriikat vuosittain",
-        "EstimatedSize": "Arvioitu koko",
-        "TrackerTables": "Seurantataulut",
-        "ReportTables": "Raporttitaulut",
-        "MetricTables": "Metriikkataulut",
-        "OtherTables": "Muut taulut"
-    },
     "Feedback": {
         "PluginDescription": "Lähetä palautetta Piwikin tiimille. Jaa ideoita kanssamme!",
         "DoYouHaveBugReportOrFeatureRequest": "Onko sinulle virheraportti tai pyyntö uudesta ominaisuudesta?",
@@ -1135,13 +1116,6 @@
         "WidgetExternalWebsites": "Lista ulkoisista verkkosivuista",
         "WidgetSearchEngines": "Parhaat hakukoneet",
         "WidgetOverview": "Yleiskatsaus"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Tämä lisäosa antaa lisätietoa ja ehdotuksia PHP:n asetuksista. Tiedot perustuvat PHP Security Consortiumin PhpSecInfoon. Se on työkalu monitasoiseen turvallisuuteen. Se ei poista tarvetta turvalliseen ohjelmointiin ja auditointiin.",
-        "Security": "Turvallisuus",
-        "SecurityInformation": "PHP:n turvallisuustiedot",
-        "Test": "Testi",
-        "Result": "Tulos"
     },
     "SEO": {
         "SeoRankings": "SEO-tulos",
@@ -1648,18 +1622,6 @@
         "WidgetOverview": "Yleiskatsaus yleisyydestä",
         "WidgetGraphReturning": "Palaavat käynnit",
         "SubmenuFrequency": "Yleisyys"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Lisäosa valheellisten käyntien luomiseen. Tätä voi käyttää helppona tapana luoda Piwikiin valheellisia tietoja testaamista varten.",
-        "VisitorGenerator": "Kävijöiden luonti",
-        "Warning": "Olet luomassa valheellisia",
-        "NotReversible": "Näitä käyntejä %sei voi%s helposti poistaa Piwikin logeista.",
-        "AreYouSure": "Haluatko varmasti luoda valheellisia käyntejä?",
-        "ChoiceYes": "Kyllä, olen varma!",
-        "Submit": "Lähetä",
-        "SelectWebsite": "Valitse verkkosivu",
-        "NbRequestsPerSec": "Pyyntöä \/ sekunti",
-        "DaysToCompute": "Päivien määrä"
     },
     "VisitorInterest": {
         "PluginDescription": "Raportit kävijöiden kiinnostuksista: ladattujen sivujen määrä, sivuilla käytetty aika.",

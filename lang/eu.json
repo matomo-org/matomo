@@ -321,16 +321,6 @@
         "LoadingWidget_js": "Widget-a kargatzen, itxaron mesedez...",
         "WidgetNotFound_js": "Ez da widget-a aurkitu"
     },
-    "DBStats": {
-        "DatabaseUsage": "Datu-basearen erabilera",
-        "MainDescription": "Zure web analitiken datu guztiak MySQL datu-basean biltegiratzen ari da Piwik. Une honetan Piwik-en taulek tamaina hau hartzen dute: %s.",
-        "LearnMore": "Piwik-ek datuak nola prozesatzen dituen eta Piwik trafiko ertain eta handikjo webguneetarako nola moldatu jakiteko, emaiozu begirada dokumentazioari: %s.",
-        "Table": "Taula",
-        "RowCount": "Errenkada kopurua",
-        "DataSize": "Datuen tamaina",
-        "IndexSize": "Indizearen tamaina",
-        "TotalSize": "Tamaina osoa"
-    },
     "Goals": {
         "Goals": "Helburuak",
         "GoalsOverview": "Helburuen ikuspegi orokorra",
@@ -487,13 +477,6 @@
         "WidgetExternalWebsites": "Kanpoko webguneen zerrenda",
         "WidgetSearchEngines": "Gehien erabilitako bilaketa-motorrak",
         "WidgetOverview": "Orokorra"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "PHP Security Consortium-en PhpSecInfo-n oinarrituta, plugin honen zure PHP ingurunearen segurtasun-informazioa ematen du eta hobekuntzak egiteko gomendioak ematen ditu. Hainbat geruzetan oinarritutako hurbilpena darabilen segurtasun tresna da. Ez ditu garapen-praktika seguruak edo kodearen\/aplikazioaren auditoriak ordezkatzen.",
-        "Security": "Segurtasuna",
-        "SecurityInformation": "PHP segurtasun-informazioa",
-        "Test": "Probatu",
-        "Result": "Emaitza"
     },
     "SitesManager": {
         "Sites": "Webguneak",

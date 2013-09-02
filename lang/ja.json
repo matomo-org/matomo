@@ -723,25 +723,6 @@
         "NotUndo": "この操作は取り消せません。",
         "DashboardEmptyNotification": "ダッシュボードには一つもウィジェットがありません。ダッシュボードにウィジェットを追加するか、あるいはダッシュボードをデフォルトのウィジェットにリセットしてから始めてください。"
     },
-    "DBStats": {
-        "PluginDescription": "Piwik テーブルによる MySQL データベースの使用量をリポートします。",
-        "DatabaseUsage": "データベースの使用量",
-        "MainDescription": "Piwik はすべてのウェブ解析データを Mysql データベースに保存します。 現在のところ、Piwik テーブルは %s を使用しています。",
-        "LearnMore": "Piwik のデータ処理方法やトラフィックの比較的高いウェブサイトで Piwik をうまく機能させる方法についての詳細は、ドキュメント %s を参照してください。",
-        "Table": "テーブル",
-        "RowCount": "行数",
-        "DataSize": "データサイズ",
-        "IndexSize": "インデックスサイズ",
-        "TotalSize": "総サイズ",
-        "DBSize": "DB サイズ",
-        "ReportDataByYear": "年次のリポート表",
-        "MetricDataByYear": "年次のメトリック表",
-        "EstimatedSize": "推定サイズ",
-        "TrackerTables": "トラッカー表",
-        "ReportTables": "リポート表",
-        "MetricTables": "メトリック表",
-        "OtherTables": "その他の表"
-    },
     "Feedback": {
         "PluginDescription": "Piwik チームにフィードバックを送信します。 あなたのアイディアや提案を私たちと共有してください！",
         "DoYouHaveBugReportOrFeatureRequest": "報告するべきバグや機能要望がありますか？",
@@ -1081,13 +1062,6 @@
         "WidgetExternalWebsites": "外部ウェブサイト一覧",
         "WidgetSearchEngines": "ベスト検索エンジン",
         "WidgetOverview": "概観"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "PHP セキュリティコンソーシアムの PhpSecInfo に基づき、PHP 環境に関するセキュリティ情報と、改善のための提案を提供します。 これは、多層のセキュリティアプローチにおけるツールであり、安全な開発プラクティスに取って代わるものでも、コード／アプリケーション監査でもありません。",
-        "Security": "セキュリティ",
-        "SecurityInformation": "PHP セキュリティ情報",
-        "Test": "テスト",
-        "Result": "結果"
     },
     "SEO": {
         "SeoRankings": "SEO ランキング",
@@ -1577,18 +1551,6 @@
         "WidgetOverview": "頻度の概観",
         "WidgetGraphReturning": "リピートビジットのグラフ",
         "SubmenuFrequency": "頻度"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "偽のビジットを作成するプラグインです。 Piwik のユーザーや開発者が、Piwik リポートに偽のデータを生成する簡単な方法として使用することができます。",
-        "VisitorGenerator": "ビジタージェネレータ",
-        "Warning": "Piwik データベースに記録される偽のビジットを生成しようとしています。",
-        "NotReversible": "Piwik のログからこれらのビジットを%s容易に削除することはできません%s。",
-        "AreYouSure": "本当に偽のビジットを生成しますか？",
-        "ChoiceYes": "はい、お願いします！",
-        "Submit": "実行",
-        "SelectWebsite": "ウェブサイトの選択",
-        "NbRequestsPerSec": "秒単位のリクエスト数",
-        "DaysToCompute": "算出する日数"
     },
     "VisitorInterest": {
         "PluginDescription": "ビジターの興味（表示したページ数、ウェブサイト滞在時間）についてリポートします。",

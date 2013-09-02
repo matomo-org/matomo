@@ -609,24 +609,6 @@
         "NotUndo": "Nemůžete vrátit zpět tuto operaci.",
         "TopLinkTooltip": "Zobraz analytické hlášení webu pro %s."
     },
-    "DBStats": {
-        "PluginDescription": "Tento zásuvný modul hlásí využití databáze MySQL tabulkami Piwiku",
-        "DatabaseUsage": "Využití databáze",
-        "MainDescription": "Piwik ukládá všechny vaše data webové analýzy v MySQL databázi. Nyní tabulky Piwiku využívají %s.",
-        "LearnMore": "Abyste lépe zjistili, jak Piwik zpracovává data a jak jej nastavit pro sídla se středním a velkým provozem, podívejte se do dokumentace %s.",
-        "Table": "Tabulka",
-        "RowCount": "Počet řádků",
-        "DataSize": "Velikost dat",
-        "IndexSize": "Velikost indexu",
-        "TotalSize": "Celková velikost",
-        "DBSize": "Velikost databáze",
-        "ReportDataByYear": "Hlášení tabulek za rok",
-        "MetricDataByYear": "Měření tabulek za rok",
-        "EstimatedSize": "Odhadovaná velikost",
-        "ReportTables": "Hlášení tabulek",
-        "MetricTables": "Měřené tabulky",
-        "OtherTables": "Osttaní tabulky"
-    },
     "Feedback": {
         "PluginDescription": "Pošlete ohlas teamu Piwiku. Sdílejte s námi vaše nápady a návrhy!",
         "DoYouHaveBugReportOrFeatureRequest": "Máte hlášení chyby, nebo námět na vylepšení?",
@@ -948,12 +930,6 @@
         "WidgetExternalWebsites": "Seznam externích web sídel",
         "WidgetSearchEngines": "Nejlepší vyhledávače",
         "WidgetOverview": "Přehled"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Založeno na PhpSecInfo od PHP Security Consorcium. Tento zásuvný modul poskytuje informace o zabezpečení prostředí PHP a nabízí rady na vylepšení. Jedná se o nástroj pro vícevrstvé přiblížení se bezpečnosti. Nepoužívejte jej místo bezpečných praktit vývoje, nebo auditu kódu\/aplikace.",
-        "Security": "Zabezpečení",
-        "SecurityInformation": "Informace o zabezpečení PHP",
-        "Result": "Výsledek"
     },
     "SEO": {
         "SeoRankings": "Hodnocení SEO",
@@ -1464,18 +1440,6 @@
         "WidgetOverview": "Přehled frekvencí",
         "WidgetGraphReturning": "Graf opakujících se návštěv",
         "SubmenuFrequency": "Frekvence"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Zásuvný modul pro vytvoření falešných návštěv. Může být použit vývojaři, nebo uživateli Piwiku jako jednoduchá cesta k vygenerování testovacích návštěv k naplnění hlášení Piwiku.",
-        "VisitorGenerator": "Generátor návštěv",
-        "Warning": "Chystáte se vygenerovat falešné návštěvy, které budou zaznamenány do vaší databáze Piwiku",
-        "NotReversible": "Tyto návštěvy %s nebude%s možné jednoduše vymazat z logů Piwiku",
-        "AreYouSure": "Jste si jistý, že chcete vygenerovat falešné návštěvy",
-        "ChoiceYes": "Ano, jsem si jistý",
-        "Submit": "Odeslat",
-        "SelectWebsite": "Zvolte sídlo",
-        "NbRequestsPerSec": "Požadavků za sekundu",
-        "DaysToCompute": "Dní na výpočet"
     },
     "VisitorInterest": {
         "PluginDescription": "Hlášení o zájmů návštěvníků: počet otevřených stránek, čas strávený na sídle",

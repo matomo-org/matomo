@@ -843,25 +843,6 @@
         "DashboardEmptyNotification": "Kontrolpanelet indeholder ikke nogen moduler. Start med at tilføje nogle moduler eller nulstille kontrolpanel til standard.",
         "TopLinkTooltip": "Vis webanalyse-rapporter for %s."
     },
-    "DBStats": {
-        "PluginDescription": "Programudvidelsen viser MySQL-database brugen af Piwik tabeller.",
-        "DatabaseUsage": "Database brug",
-        "MainDescription": "Piwik gemmer al statistik i MySQL-databasen. Lige nu bruger Piwik-tabellerne %s.",
-        "LearnMore": "Hvis du vil vide mere om, hvordan Piwik behandler data, og hvordan man kan få Piwik til arbejde godt på mellem til stærkt trafikerede hjemmesider, se dokumentationen på %s.",
-        "Table": "Tabel",
-        "RowCount": "Række antal",
-        "DataSize": "Data",
-        "IndexSize": "Indeks",
-        "TotalSize": "Samlet størrelse",
-        "DBSize": "DB størrelse",
-        "ReportDataByYear": "Rapport tabeller fordelt på år",
-        "MetricDataByYear": "Målings tabeller fordelt på år",
-        "EstimatedSize": "Anslået størrelse",
-        "TrackerTables": "Sporings tabeller",
-        "ReportTables": "Rapport tabeller",
-        "MetricTables": "Målings tabeller",
-        "OtherTables": "Andre tabeller"
-    },
     "DoNotTrack": {
         "PluginDescription": "Ignorer besøg med X-Do-Not-Track eller DNT header."
     },
@@ -1334,12 +1315,6 @@
         "ViewReferrersBy": "Vis henvisninger efter %s",
         "ViewAllReferrers": "Vis alle henvisninger",
         "WidgetTopKeywordsForPages": "Top søgeord til side URL"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Baseret på PhpSecInfo fra PHP Security Consortium, giver udvidelsesmodulet sikkerhedsoplysninger om PHP-miljøet, og giver forslag til forbedringer. Det er et værktøj i en flersidig sikkerhedstilgang. Det erstatter ikke sikker udviklingspraksis eller revision af kode\/program.",
-        "Security": "Sikkerhed",
-        "SecurityInformation": "PHP sikkerhedsinformation",
-        "Result": "Resultat"
     },
     "SEO": {
         "SeoRankings": "SEO - søgemaskineoptimering",
@@ -1962,18 +1937,6 @@
         "WidgetOverview": "Hyppighedsoversigt",
         "WidgetGraphReturning": "Tilbagevendende besøg",
         "SubmenuFrequency": "Hyppighed"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Programudvidelse til at generer kunstige besøg. Kan bruges af Piwik brugere eller udviklere som en let måde at generere kunstige data til at udfylde Piwik rapporter.",
-        "VisitorGenerator": "Besøgsgenerator",
-        "Warning": " Du er ved at generere kunstige besøg, som vil blive gemt i Piwik databasen.",
-        "NotReversible": "Det er %s ikke%s muligt nemt at slette disse besøg fra Piwiks log.",
-        "AreYouSure": " Er du sikker på at du vil generere kunstige besøg?",
-        "ChoiceYes": "Ja, jeg er sikker!",
-        "Submit": "Generer",
-        "SelectWebsite": "Vælg hjemmeside",
-        "NbRequestsPerSec": "Anmodninger pr sekund",
-        "DaysToCompute": "Antal dage"
     },
     "VisitorInterest": {
         "PluginDescription": " Rapporter om besøgendes interesser: antal besøgte sider, tidsforbrug på hjemmesiden.",

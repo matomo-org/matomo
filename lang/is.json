@@ -317,16 +317,6 @@
         "LoadingWidget_js": "Hleð inn aukahlut, vinsamlegast bíðið...",
         "WidgetNotFound_js": "Aukahlutur fannst ekki"
     },
-    "DBStats": {
-        "PluginDescription": "Þessi íbót birtir MySQL gagnagrunnsnotkun á töflum Piwik.",
-        "DatabaseUsage": "Notkun gagnagrunns",
-        "MainDescription": "Piwik vistar öll vefgreiningagögn inn í MySQL gagnagrunn. Núna eru Piwik töflurnar að nota %s.",
-        "Table": "Tafla",
-        "RowCount": "Fjöldi raða",
-        "DataSize": "Gagnastærð",
-        "IndexSize": "stærð vísitöflu",
-        "TotalSize": "Heildarstærð"
-    },
     "Goals": {
         "Goals": "Markmið",
         "GoalsOverview": "Yfirlit Markmiða",

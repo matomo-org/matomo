@@ -583,20 +583,6 @@
         "RemoveDashboardConfirm": "\"%s\" panelini kaldırmak istediğinize emin misiniz?",
         "NotUndo": "Bu eylemi geri alamazsınız."
     },
-    "DBStats": {
-        "PluginDescription": "Bu eklenti Piwik tabloları ile MySQL veritabanı kullanım raporu.",
-        "DatabaseUsage": "Veritabanı kullanımı",
-        "MainDescription": "Piwik tüm web istatistiklerinizi MySQL veritabanında saklar. Piwik tabloları %s kullanıyor.",
-        "Table": "Tablo",
-        "RowCount": "Satır sayısı",
-        "DataSize": "Veri boyutu",
-        "IndexSize": "Dizin boyutu",
-        "TotalSize": "Toplam boyut",
-        "DBSize": "Veritabanı boyutu",
-        "EstimatedSize": "Tahmin edilen boyut",
-        "ReportTables": "Rapor Tabloları",
-        "OtherTables": "Diğer Tablolar"
-    },
     "Feedback": {
         "PluginDescription": "Piwik takımına geribildirimlerinizi gönderin. Düşüncelerinizi ve önerilerinizi paylaşın!",
         "DoYouHaveBugReportOrFeatureRequest": "Hata raporu veya özellik öneriniz mi var?",
@@ -770,11 +756,6 @@
         "WidgetCampaigns": "Kampanyalar",
         "WidgetExternalWebsites": "Yönlendiren Siteler",
         "WidgetOverview": "Genel Bakış"
-    },
-    "SecurityInfo": {
-        "Security": "Güvenlik",
-        "SecurityInformation": "PHP Güvenlik Bilgilendirmesi",
-        "Result": "Sonuç"
     },
     "SEO": {
         "SeoRankings": "SEO Sıralamaları",
@@ -1186,12 +1167,6 @@
         "ExceptionDeleteDoesNotExist": "'%s' kullanıcısı bazı nedenlerle silinemez.",
         "ExceptionAdminAnonymous": "'Misafir' kullanıcıya 'yönetici' ünvani verilemez.",
         "ExceptionUserDoesNotExist": "'%s' Kullanıcı yok."
-    },
-    "VisitorGenerator": {
-        "AreYouSure": "Sahte ziyaretçi oluşturmak isteğinizden emin misiniz?",
-        "ChoiceYes": "Evet, eminim!",
-        "Submit": "Gönder",
-        "SelectWebsite": "Website seçimi"
     },
     "VisitorInterest": {
         "WidgetLengths": "Ziyaret Süresi"

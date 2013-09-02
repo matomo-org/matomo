@@ -476,15 +476,6 @@
         "LoadingWidget_js": "Načítavanie miniaplikácie, prosím čakajte…",
         "WidgetNotFound_js": "Miniaplikácia nebola nájdená"
     },
-    "DBStats": {
-        "DatabaseUsage": "Využitie databázy",
-        "MainDescription": "Piwik ukladá všetky vaše web analýzy do Mysql databázy. Aktuálne Piwik tabuľky používajú %s.",
-        "Table": "Tabuľka",
-        "RowCount": "Počet riadkov",
-        "DataSize": "Veľkosť dát",
-        "IndexSize": "Veľkosť indexu",
-        "TotalSize": "Celková veľkosť"
-    },
     "Goals": {
         "Goals": "Ciele",
         "GoalsOverview": "Prehľad cieľov",
@@ -1054,18 +1045,6 @@
         "WidgetOverview": "Prehľad frekvencií",
         "WidgetGraphReturning": "Graf vracajúcich sa",
         "SubmenuFrequency": "Frekvencia"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Plugin pre vytvorenie falošnej návštevy. Toto môže byť používané užívatelia Analytik nástroja alebo vývojári ako jednoduchý spôsob, ako vytvárať falošné údaje k naplneniu Analytického nástroja správy.",
-        "VisitorGenerator": "Generátor návštev",
-        "Warning": "Chystáte sa vytvárať falošné návštev, ktoré budú zaznamenané v databáze.",
-        "NotReversible": "To bude %s %s možné ľahko odstrániť pre tieto návštevy v záznamoch.",
-        "AreYouSure": "Ste si istí, že chcete vytvoriť falošné návštevy?",
-        "ChoiceYes": "Áno, som si istý!",
-        "Submit": "Odoslať",
-        "SelectWebsite": "Vybrať web",
-        "NbRequestsPerSec": "Žiadosti za sekundu",
-        "DaysToCompute": "Dni pre výpočet"
     },
     "VisitorInterest": {
         "PluginDescription": "Správy o záujme návštevníkov: počet zobrazených stránok, čas strávený na týchto stránkach.",

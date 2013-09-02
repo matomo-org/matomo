@@ -566,25 +566,6 @@
         "NotUndo": "Du kan ikkje angra denne handlinga.",
         "DashboardEmptyNotification": "Styringspanelet ditt inneheld ingen småprogram. Start med å leggja til nokre småprogram, eller nullstill panelet til standardutvalet."
     },
-    "DBStats": {
-        "PluginDescription": "Dette innstikket rapporterer bruken til Piwik av MySQL-databasen.",
-        "DatabaseUsage": "Databasebruk",
-        "MainDescription": "Piwik lagrar alle dine nettstatistikkdata i MySQL-databasen. Nett no nyttar tabellane til Piwik %s.",
-        "LearnMore": "For å læra meir om korleis Piwik prosesserer data, og korleis gjera at Piwik fungerer bra for nettstader med middels og høg trafikk, sjå dokumentasjonen %s.",
-        "Table": "Tabell",
-        "RowCount": "Rad",
-        "DataSize": "Datastorleik",
-        "IndexSize": "Indeksstorleik",
-        "TotalSize": "Samla storleik",
-        "DBSize": "DB-storleik",
-        "ReportDataByYear": "Rapport-tabellar etter år",
-        "MetricDataByYear": "Verdi-tabellar etter år",
-        "EstimatedSize": "Omlag storleik",
-        "TrackerTables": "Sporings-tabellar",
-        "ReportTables": "Rapport-tabellar",
-        "MetricTables": "Verdi-tabellar",
-        "OtherTables": "Andre tabellar"
-    },
     "Feedback": {
         "PluginDescription": "Send dine attendemeldingar til Piwik. Del dine idear og framlegg med oss!",
         "DoYouHaveBugReportOrFeatureRequest": "Vil du rapportera ein feil eller førespurnad om ein funksjon?",
@@ -815,10 +796,6 @@
         "WidgetExternalWebsites": "Liste over eksterne nettsider",
         "WidgetSearchEngines": "Beste søkjemotorar",
         "WidgetOverview": "Oversikt"
-    },
-    "SecurityInfo": {
-        "Security": "Tryggleik",
-        "Result": "Resultat"
     },
     "SEO": {
         "Pages": "Sider"
@@ -1234,11 +1211,6 @@
         "WidgetOverview": "Frekvensoversikt",
         "WidgetGraphReturning": "Graf tilbakevendande vitjarar",
         "SubmenuFrequency": "Frekvens"
-    },
-    "VisitorGenerator": {
-        "AreYouSure": "Er du sikker på at du vil generera falske vitjingar?",
-        "ChoiceYes": "Ja, eg er sikker!",
-        "SelectWebsite": "Vel nettstad"
     },
     "VisitorInterest": {
         "VisitsPerDuration": "Vitjingar per vitjingstid",

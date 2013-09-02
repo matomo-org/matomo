@@ -479,17 +479,6 @@
         "LoadingWidget_js": "Notiek logdaļas ielāde, lūdzu uzgaidiet...",
         "WidgetNotFound_js": "Logdaļa nav atrasta"
     },
-    "DBStats": {
-        "PluginDescription": "Šis spraudnis sniedz MySQL datubāzes Piwik tabulu lietojuma atskaites.",
-        "DatabaseUsage": "Datubāzes lietojums",
-        "MainDescription": "Piwik glabā visus Jūsu tīkla analīzes datus MySQL datubāzē. Pašlaik Piwik tabulas lieto %s.",
-        "LearnMore": "Lai uzzinātu vairāk par to, kā Piwik apstrādā datus un kā Piwik tiek galā ar vidēja un augsta apmeklējuma vietnēm, apskatiet dokumentāciju %s.",
-        "Table": "Tabula",
-        "RowCount": "Rindu skaits",
-        "DataSize": "Datu izmērs",
-        "IndexSize": "Indeksa izmērs",
-        "TotalSize": "Kopējais izmērs"
-    },
     "Feedback": {
         "PluginDescription": "Sūtiet savas atsauksmes Piwik komandai. Dalieties ar savām idejām un ieteikumiem ar mums!",
         "DoYouHaveBugReportOrFeatureRequest": "Vai Jums ir kļūdas ziņojums vai papildus funkcionalitātes pieprasījums?",
@@ -731,11 +720,6 @@
         "WidgetExternalWebsites": "Ārējo vietņu saraksts",
         "WidgetSearchEngines": "Labākie meklēšanas dzinēji",
         "WidgetOverview": "Pārskats"
-    },
-    "SecurityInfo": {
-        "SecurityInformation": "PHP drošības informācija",
-        "Test": "Testēt",
-        "Result": "Rezultāts"
     },
     "SEO": {
         "SeoRankings": "SEO ranks",
@@ -1191,11 +1175,6 @@
         "ColumnUniqueReturningVisitors": "Unikālie atkārtotie apmeklētāji",
         "WidgetOverview": "Biežuma pārskats",
         "SubmenuFrequency": "Biežums"
-    },
-    "VisitorGenerator": {
-        "ChoiceYes": "Jā, es esmu drošs!",
-        "Submit": "Apstiprināt",
-        "SelectWebsite": "Izvēlēties vietni"
     },
     "VisitorInterest": {
         "VisitsPerDuration": "Apmeklējumi pēc apmeklējuma ilguma",

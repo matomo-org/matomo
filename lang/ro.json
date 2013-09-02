@@ -665,21 +665,6 @@
         "DashboardEmptyNotification": "Panoul tău de control nu conţine niciun widget. Începi prin a adăuga câteva widget-uri sau doar resetează panoul de control către selecţia implicită de widget-uri.",
         "TopLinkTooltip": "Vizualizează rapoarte web analitică pentru %s."
     },
-    "DBStats": {
-        "DatabaseUsage": "Utilizare baza date",
-        "MainDescription": "Piwik stocheaza toate datele statistice in baza de date Mysql . Curent, tabela Piwik utilizeaza %s.",
-        "Table": "Tabel",
-        "RowCount": "Numărul de înregistrări",
-        "DataSize": "Marime date",
-        "IndexSize": "Marime index",
-        "TotalSize": "Marime totala",
-        "DBSize": "Mărimea bazei de date",
-        "ReportDataByYear": "Tabele din raport pentru anul",
-        "EstimatedSize": "Mărimea anticipată",
-        "ReportTables": "Tabele din raport",
-        "MetricTables": "Tabele Metrici",
-        "OtherTables": "Alte tablete"
-    },
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Doreşti să raportezi o problemă sau să propui o înbunătăţire?",
         "HowToExclude": "Cum să exclud urmărirea vizitelor mele?",
@@ -869,11 +854,6 @@
         "WidgetSocials": "Listă de reţele sociale",
         "WidgetSearchEngines": "Cel mai bun motor cautare",
         "WidgetOverview": "Rezumat"
-    },
-    "SecurityInfo": {
-        "Security": "Securitate",
-        "SecurityInformation": "Informaţii Securitate PHP",
-        "Result": "Rezultat"
     },
     "SEO": {
         "SeoRankings": "Poziţionări SEO",
@@ -1306,13 +1286,6 @@
         "WidgetOverview": "Rezumat periodic",
         "WidgetGraphReturning": "Graficul vizitelor intoarse",
         "SubmenuFrequency": "Frecventa"
-    },
-    "VisitorGenerator": {
-        "VisitorGenerator": "Generatorul de vizite",
-        "AreYouSure": "Eşti sigur(ă) că doreşti să generezi vizite false?",
-        "ChoiceYes": "Da, sunt sigut(ă)!",
-        "SelectWebsite": "Alege site-ul",
-        "NbRequestsPerSec": "Cereri pe secundă"
     },
     "VisitorInterest": {
         "VisitsPerDuration": "Vizite per durata",

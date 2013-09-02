@@ -803,25 +803,6 @@
         "DashboardEmptyNotification": "Instrumentpanelen innehåller inga widgets. Börja med att lägga till widgets eller återställ instrumentpanelen till standardutséendet.",
         "TopLinkTooltip": "Visa webbanalysrapport för %s."
     },
-    "DBStats": {
-        "PluginDescription": "Denna plugin rapporterar Piwik's användning av tabeller i MySQL databasen.",
-        "DatabaseUsage": "Databasanvändning",
-        "MainDescription": "Piwik sparar all webbanalys data i MySQL databasen. För tillfället använder Piwik's tabeller %s.",
-        "LearnMore": "Om du vill veta mer om hur Piwik behandlar uppgifter och hur man gör för att Piwik ska fungera bra för medelhög och hög trafik webbplatser, kolla dokumentationen %s.",
-        "Table": "Tabell",
-        "RowCount": "Radantal",
-        "DataSize": "Datastorlek",
-        "IndexSize": "Indexstorlek",
-        "TotalSize": "Total storlek",
-        "DBSize": "Databasstorlek",
-        "ReportDataByYear": "Raporttabeller per år",
-        "MetricDataByYear": "Variabler per år",
-        "EstimatedSize": "Uppskattad storlek",
-        "TrackerTables": "Spårningstabeller",
-        "ReportTables": "Rapporttabeller",
-        "MetricTables": "Variabeltabeller",
-        "OtherTables": "Övriga tabeller"
-    },
     "DoNotTrack": {
         "PluginDescription": "Ignorera besök med X-Do-Not-Track eller DNT-huvud."
     },
@@ -1254,12 +1235,6 @@
         "ViewReferrersBy": "Visa hänvisningar efter %s",
         "ViewAllReferrers": "Visa alla hänvisningar",
         "WidgetTopKeywordsForPages": "Toppsökord för sid-URL"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Baserat på PhpSecInfo från PHP Security Consortium, tillhandahåller denna plugin säkerhetsinformation om din PHP miljö och ger förslag till förbättringar. Det är ett verktyg i en säkerhet på flera nivåer. Den ersätter inte säker utvecklingspraxis eller revisionering av koden \/tillämpning.",
-        "Security": "Säkerhet",
-        "SecurityInformation": "PHP säkerhetsinformation",
-        "Result": "Resultat"
     },
     "SEO": {
         "SeoRankings": "SEO Ranking",
@@ -1867,18 +1842,6 @@
         "WidgetOverview": "Frekvensöversikt",
         "WidgetGraphReturning": "Graf över återkommande besök",
         "SubmenuFrequency": "Frekvens"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Plugin för att skapa falska besök. Detta kan användas av Piwik användare eller utvecklare som på ett enkelt sätt kan generera falska uppgifter för att befolka Piwik rapporter.",
-        "VisitorGenerator": "Besöksgenerator",
-        "Warning": "Du håller på att generera falska besök som kommer att registreras i din Piwik databas.",
-        "NotReversible": "Det kommer %s inte%s vara möjligt att enkelt ta bort dessa besök från Piwik's logg.",
-        "AreYouSure": "Är du säker på att du vill generera falska besök?",
-        "ChoiceYes": "Ja, jag är säker!",
-        "Submit": "Skicka",
-        "SelectWebsite": "Välj webbplats",
-        "NbRequestsPerSec": "Förfrågningar per sekund",
-        "DaysToCompute": "Dagar att beräkna"
     },
     "VisitorInterest": {
         "PluginDescription": "Rapporter om Besökarnas intressen: antalet sidvisningar och tid på webbplatsen.",

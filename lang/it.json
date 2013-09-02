@@ -772,25 +772,6 @@
         "DashboardEmptyNotification": "Il pannello non contiene widget. Inizia con l'aggiunta di alcuni widget o semplicemente resetta il pannello alla selezione widget di default.",
         "TopLinkTooltip": "Visualizza report Web Analytics per %s."
     },
-    "DBStats": {
-        "PluginDescription": "Questo plugin riporta l'uso di MySQL da parte delle tabelle di Piwik.",
-        "DatabaseUsage": "Uso del Database",
-        "MainDescription": "Piwik sta salvando tutti i dati statistici nel Database MySQL. Attualmente, le tabelle di Piwik stanno usando %s.",
-        "LearnMore": "Per apprendere i dettagli su come Piwik processa i dati, e su come far funzionare bene Piwik per siti a medio e alto traffico, dai un'occhiata alla documentazione %s.",
-        "Table": "Tabella",
-        "RowCount": "Conteggio delle righe",
-        "DataSize": "Dimensione dei dati",
-        "IndexSize": "Dimensione degli indici",
-        "TotalSize": "Dimensione totale",
-        "DBSize": "Grandezza database",
-        "ReportDataByYear": "Report tabelle per anno",
-        "MetricDataByYear": "Tabelle metriche per anno",
-        "EstimatedSize": "Grandezza stimata",
-        "TrackerTables": "Tracker tabelle",
-        "ReportTables": "Report tabelle",
-        "MetricTables": "Tabelle metriche",
-        "OtherTables": "Altre tabelle"
-    },
     "DoNotTrack": {
         "PluginDescription": "Ignora le visite con l'header X-Do-Not-Track o DNT."
     },
@@ -1123,13 +1104,6 @@
         "WidgetExternalWebsites": "Lista di Siti web esterni",
         "WidgetSearchEngines": "Motori di ricerca migliori",
         "WidgetOverview": "Riepilogo"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Basato sul PhpSecInfo del PHP Security Consortium, questo plugin offre informazioni sulla sicurezza del tuo ambiente PHP e offre suggerimenti per migliorarla. Questo è un tool per un approccio alla sicurezza multi-strato. Questo non rimpiazza le pratiche di sviluppo sicuro e non controlla il codice e l'applicazione.",
-        "Security": "Sicurezza",
-        "SecurityInformation": "Informazioni di sicurezza PHP",
-        "Test": "Testa",
-        "Result": "Risultato"
     },
     "SEO": {
         "SeoRankings": "Ranking SEO",
@@ -1583,18 +1557,6 @@
         "WidgetOverview": "Riepilogo visite ricorrenti",
         "WidgetGraphReturning": "Grafico visite ricorrenti",
         "SubmenuFrequency": "Frequenze"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Questo è un plugin per creare visite false. Può essere impiegato dagli utilizzatori di Piwik per generare dati falsi per popolare i report di Piwik.",
-        "VisitorGenerator": "Generatore di visite",
-        "Warning": "Grazie al generatore di visite puoi creare delle visite false che verranno salvate nel tuo Piwik database.",
-        "NotReversible": "%s Non%s è possibile cancellare facilmente le visite false che hai creato dai log di Piwik.",
-        "AreYouSure": "Sei sicuro di voler creare delle visite false?",
-        "ChoiceYes": "Si, io sono sicuro!",
-        "Submit": "Invia",
-        "SelectWebsite": "Seleziona il Sito",
-        "NbRequestsPerSec": "Richieste per secondo",
-        "DaysToCompute": "Giorni per calcolare"
     },
     "VisitorInterest": {
         "PluginDescription": "Report riguardo l'interesse dei visitatori: numero di pagine viste e tempo speso sul sito.",

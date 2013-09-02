@@ -536,17 +536,6 @@
         "ChangeDashboardLayout": "Zmień wygląd tablicy analiz",
         "SelectDashboardLayout": "Proszę wybrać swój nowy wygląd tablicy analiz"
     },
-    "DBStats": {
-        "PluginDescription": "Ta wtyczka informuje o stopniu wykorzystania baz danych MySQL przez tabele Piwik.",
-        "DatabaseUsage": "Stopień wykorzystania bazy danych",
-        "MainDescription": "Piwik przechowuje wszystkie dane analityki statystycznej stron w bazie danych MySQL serwera. Obecnie jego tabele zajmują %s.",
-        "LearnMore": "Aby dowiedzieć się więcej o tym, jak Piwik przetwarza dane i jak konfigurować go do pracy z serwisami o średnim i wysokim ruchu na stronach, sprawdź dokumentację %s.",
-        "Table": "Tabela",
-        "RowCount": "Liczba wierszy",
-        "DataSize": "Rozmiar danych",
-        "IndexSize": "Rozmiar indeksu",
-        "TotalSize": "Całkowity rozmiar"
-    },
     "Feedback": {
         "PluginDescription": "Wyślij swoje opinie do zespołu Piwik. Podziel się swoimi pomysłami i sugestiami z nami!",
         "DoYouHaveBugReportOrFeatureRequest": "Czy odkryłeś błąd o którym chcesz poinformować, lub masz pomysł na nową funkcjonalność?",
@@ -834,12 +823,6 @@
         "WidgetExternalWebsites": "Lista zewnętrznych serwisów internetowych",
         "WidgetSearchEngines": "Najlepsze wyszukiwarki",
         "WidgetOverview": "Przegląd"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "W oparciu o PhpSecInfo z PHP Security Consortium, ta wtyczka dostarcza informacji o zabezpieczeniach środowiska PHP i przedstawia sposoby na ulepszenia. Jest to narzędzie w wielowarstwowym podejściu do bezpieczeństwa. Nie zastępuje jednak zdrowego rozsądku i praktycznego rozwoju i nie przeprowadza audytu kodu czy aplikacji.",
-        "Security": "Bezpieczeństwo",
-        "SecurityInformation": "Informacje o zabezpieczeniach PHP",
-        "Result": "Wynik"
     },
     "SEO": {
         "SeoRankings": "Pozycja SEO",
@@ -1306,18 +1289,6 @@
         "WidgetOverview": "Częstotliwość przeglądania",
         "WidgetGraphReturning": "Wykres powtórnych odwiedzin",
         "SubmenuFrequency": "Częstotliwość"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Wtyczka generatora symulowanych odwiedzin. Może być wykorzystywana do wygenerowania symulowanych danych jako prosta metoda sprawdzania Piwik w działaniu, pomocna w zapoznawaniu się z analityką statystyczną użytkowników Piwik.",
-        "VisitorGenerator": "Generator odwiedzających",
-        "Warning": "Właśnie zamierzasz wygenerować symulowane odwiedziny, które zostaną zanotowane w bazie danych Piwik, tak jak realne.",
-        "NotReversible": "Usunięcie informacji z logów o takich odwiedzinach %s nie%s będzie takie łatwe, proste czy nawet możliwe.",
-        "AreYouSure": "Czy masz pewność, że chcesz uruchomić generację fałszywych symulowanych odwiedzin?",
-        "ChoiceYes": "Tak, mam taką pewność!",
-        "Submit": "Potwierdź",
-        "SelectWebsite": "Wybierz stronę",
-        "NbRequestsPerSec": "Zapytań na sekundę",
-        "DaysToCompute": "Dni do obliczeń"
     },
     "VisitorInterest": {
         "PluginDescription": "Raporty o zainteresowaniach odwiedzających: ilość odwiedzonych stron, czas spędzony w serwisie.",

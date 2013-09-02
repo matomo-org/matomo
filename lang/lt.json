@@ -445,17 +445,6 @@
         "LoadingWidget_js": "Įkeliamas valdiklis, luktelėkite...",
         "WidgetNotFound_js": "Valdiklis nerastas"
     },
-    "DBStats": {
-        "PluginDescription": "Šis papildinys informuoja apie MySQL duombazės užimtumą.",
-        "DatabaseUsage": "Duombazės naudojimas",
-        "MainDescription": "Piwik saugo visus Jūsų duomenis MySQL duombazėje. Šiuo metu Piwik lentelės naudoja %s.",
-        "LearnMore": "Norint geriau susipažinti su Piwik duomenų apdorojimu bei kaip priversti Piwik veikti geriau vidutinės ir didelės apkrovos svetainėse, siūlome pastudijuoti dokumentaciją %s.",
-        "Table": "Lentelė",
-        "RowCount": "Eilučių kiekis",
-        "DataSize": "Informacijos kiekis",
-        "IndexSize": "Indekso dydis",
-        "TotalSize": "Bendras dydis"
-    },
     "Feedback": {
         "PluginDescription": "Siųskite savo atsiliepimus Piwik komandai. Dalinkitės savo idėjomis ir pasiūlymais su mumis!",
         "DoYouHaveBugReportOrFeatureRequest": "Norite pranešti apie aptiktą klaidą arba paprašyti naujų ypatybių?",
@@ -706,13 +695,6 @@
         "WidgetExternalWebsites": "Išorinių svetainių sąrašas",
         "WidgetSearchEngines": "Geriausios paieškos sistemos",
         "WidgetOverview": "Bendras vaizdas"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Sukurtas pagal PhpSecInfo iš PHP Saugumo Konsorciumo, šis papildinys pateikia saugumo informaciją apie Jūsų PHP aplinką bei pateikia pasiūlymus kaip ją pagerinti.",
-        "Security": "Saugumas",
-        "SecurityInformation": "PHP saugumo informacija",
-        "Test": "Testas",
-        "Result": "Rezultatas"
     },
     "SEO": {
         "SeoRankings": "SEO reitingai",
@@ -1168,9 +1150,6 @@
         "WidgetOverview": "Pasikartojimų peržiūra",
         "WidgetGraphReturning": "Sugrįžtančių grafikas",
         "SubmenuFrequency": "Pasikartojimai"
-    },
-    "VisitorGenerator": {
-        "VisitorGenerator": "Apsilankymų generatorius"
     },
     "VisitorInterest": {
         "PluginDescription": "Parodo lankytojų susidomėjimą: aplankytus puslapius, svetainėje praleistą laiką.",

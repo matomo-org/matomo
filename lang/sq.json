@@ -605,17 +605,6 @@
         "ChangeDashboardLayout": "Ndryshoni skemën e pultit",
         "SelectDashboardLayout": "Ju lutem, përzgjidhni skemën e re për pultin tuaj"
     },
-    "DBStats": {
-        "PluginDescription": "Kjo shtojcë raporton përdorimin e bazës së të dhënave MySQL nga tabelat e Piwik-ut.",
-        "DatabaseUsage": "Përdorim baze të dhënash",
-        "MainDescription": "Piwik-u po i depoziton krejt të dhënat tuaja për analizë web te baza e të dhënave MySQL. Tani për tani, tabelat e Piwik-ut po përdorin %s.",
-        "LearnMore": "Për të mësuar më tepër rreth se si i përpunon të dhënat Piwik-u dhe se si ta bëni Piwik-un të punojë mirë me site-e web me trafik mesatar ose të madh, kontrolloni dokumentimin %s.",
-        "Table": "Tabelë",
-        "RowCount": "Numërim rreshtash",
-        "DataSize": "Madhësi të dhënash",
-        "IndexSize": "Madhësi treguesi",
-        "TotalSize": "Madhësi gjithsej"
-    },
     "Feedback": {
         "PluginDescription": "Dërgojini Përshtypjet tuaja Ekipit të Piwik-ut. Ndani me ne idetë dhe sugjerimet tuaja!",
         "DoYouHaveBugReportOrFeatureRequest": "Keni ndonjë të metë që ta raportoni apo kërkesë për veçori të reja?",
@@ -940,13 +929,6 @@
         "WidgetExternalWebsites": "Listë e \"site\"-eve Web të jashtëm",
         "WidgetSearchEngines": "Motorët më të mirë të kërkimit",
         "WidgetOverview": "Përmbledhje"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Bazuar në PhpSecInfo nga PHP Security Consortium, kjo shtojcë ofron të dhëna sigurie rreth mjedisit tuaj PHP dhe ju jep këshilla për përmirësim. Është një mjet i bazuar në trajtim shumështresor të sigurisë. Nuk zëvendëson kërkesat e programimit të sigurt, as inspektimin e kodit\/zbatimit.",
-        "Security": "Siguri",
-        "SecurityInformation": "Të dhëna Sigurie",
-        "Test": "Provë",
-        "Result": "Përfundimi"
     },
     "SEO": {
         "SeoRankings": "Renditje SEO",
@@ -1430,18 +1412,6 @@
         "WidgetOverview": "Përmbledhje shpeshtie",
         "WidgetGraphReturning": "Grafik vizitash Rikthim",
         "SubmenuFrequency": "Shpeshti"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Shtojcë për krijim vizitash gjoja. Kjo mund të përdoret nga përdorues ose zhvillues të Piwik-ut si një rrugë e lehtë për të prodhuar të dhëna gjasme, për të mbushur raporte të Piwik-ut për prova.",
-        "VisitorGenerator": "Prodhues Vizitorësh",
-        "Warning": "Ju ndan një hap nga prodhimi i vizitave gjasme, që do të regjistrohen te baza juaj e të dhënave Piwik.",
-        "NotReversible": "%sNuk%s do të jetë e mundur të fshihen kollaj këto vizita nga regjistrat e piwik-ut.",
-        "AreYouSure": "Jeni i sigurt se doni të prodhohen vizita gjasme?",
-        "ChoiceYes": "Po, jam i sigurt!",
-        "Submit": "Parashtroje",
-        "SelectWebsite": "Përzgjidhni site web",
-        "NbRequestsPerSec": "Kërkesa për sekondë",
-        "DaysToCompute": "Ditë llogaritjeje"
     },
     "VisitorInterest": {
         "PluginDescription": "Raporton rreth Interesave të Vizitorit: numër faqesh të para, kohë e shpenzuar në site-in Web.",

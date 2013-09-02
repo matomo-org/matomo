@@ -508,17 +508,6 @@
         "LoadingWidget_js": "Modul betöltése folyamatban. Kérjük, várj…",
         "WidgetNotFound_js": "A modul nem található"
     },
-    "DBStats": {
-        "PluginDescription": "A kiegészítő statisztikákat jelenít meg a Piwik adatbázis-használatáról.",
-        "DatabaseUsage": "Adatbázis-használat",
-        "MainDescription": "A Piwik egy MySQL adatbázisban tárolja a webanalitikai adatokat. Jelenleg a Piwik táblák a következőket használják: %s.",
-        "LearnMore": "Ha többet szeretnél megtudni arról, hogyan dolgozza fel a Piwik az adatokat, és hogyan lehet mindezt hatékonyan megoldani közepes és nagyobb forgalommal rendelkező weboldalak esetén is, olvasd el a vonatkozó dokumentációt: %s",
-        "Table": "Tábla",
-        "RowCount": "Sorok száma",
-        "DataSize": "Adatméret",
-        "IndexSize": "Indexméret",
-        "TotalSize": "Teljes méret"
-    },
     "Feedback": {
         "PluginDescription": "Küldd el véleményedet a Piwik fejlesztőinek. Oszd meg ötleteid, javaslataid velük!",
         "DoYouHaveBugReportOrFeatureRequest": "Hibát szeretnél bejelenteni, vagy egy funkció kifejlesztését szeretnéd kérni?",
@@ -788,13 +777,6 @@
         "WidgetExternalWebsites": "Külső weboldalak listája",
         "WidgetSearchEngines": "Legjobb keresőoldalak",
         "WidgetOverview": "Áttekintés"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "A PHP Security Consortium által fejlesztett PhpSecInfo-ra épülő kiegészítő biztonsági információkat szolgáltat a szervered PHP környezetéről, és javaslatokat tesz annak biztonságosabbá tételére. Egy az eszköz a többrétegű biztonsági megközelítést használja. Nem helyettesítheti a biztonságra törekvő fejlesztési eljárásokat, sem a kódok és alkalmazások auditját.",
-        "Security": "Biztonság",
-        "SecurityInformation": "PHP biztonsági információ",
-        "Test": "Teszt",
-        "Result": "Eredmény"
     },
     "SEO": {
         "SeoRankings": "Keresőoptimalizálási adatok",
@@ -1253,18 +1235,6 @@
         "WidgetOverview": "Gyakoriság áttekintése",
         "WidgetGraphReturning": "Ismétlődő látogatások diagramja",
         "SubmenuFrequency": "Gyakoriság"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Műlátogatásokat generáló kiegészítő. Hasznos eszköz Piwik felhasználók és fejlesztők számára ahhoz, hogy egyszerűen feltöltsék fals adatokkal a különböző Piwik jelentéseket.",
-        "VisitorGenerator": "Látogatógenerátor",
-        "Warning": "Fals látogatások generálására készülsz, melyeket rögzíteni fogunk a Piwik adatbázisban.",
-        "NotReversible": "A műlátogatásokat %snem%s lehet egyszerűen kitörölni a Piwik naplófájlokból",
-        "AreYouSure": "Biztosan szeretnél fals adatokat generálni?",
-        "ChoiceYes": "Igen, biztos vagyok benne!",
-        "Submit": "Elküld",
-        "SelectWebsite": "Weboldal kiválasztása",
-        "NbRequestsPerSec": "Lekérések másodpercenként",
-        "DaysToCompute": "Napok száma"
     },
     "VisitorInterest": {
         "PluginDescription": "Jelentések a látogatók érdeklődési fokáról: megtekintett weblapok száma, a weboldalon töltött idő",

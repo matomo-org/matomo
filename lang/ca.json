@@ -752,25 +752,6 @@
         "DashboardEmptyNotification": "El vostre tauler no conté cap giny. Comenceu per afegir alguns ginys o restablieu el tauler a la selecció de ginys per defecte.",
         "TopLinkTooltip": "Mostra els informes d'analítica web per %s."
     },
-    "DBStats": {
-        "PluginDescription": "Aquesta extensió mostra l'us de la Base de dades MySQL per les taules del Piwik.",
-        "DatabaseUsage": "Ús de la base de dades",
-        "MainDescription": "El Piwik desa totes les anàlisis web la base de dades MySQL. Ara per ara, les taules del Piwik fan servir %s.",
-        "LearnMore": "Per obtenir més informació sobre com el Piwik procesa la informació i com fer que el Piwik funcioni correctament en llocs amb un tràfic mitja o elevat, consulteu la següent documentació: %s.",
-        "Table": "Taula",
-        "RowCount": "Nombre de files",
-        "DataSize": "Grandària de les dades",
-        "IndexSize": "Grandària del l'índex",
-        "TotalSize": "Grandària total",
-        "DBSize": "Mida de la BD",
-        "ReportDataByYear": "Taules d'informes per any",
-        "MetricDataByYear": "Taules de mètriques per any.",
-        "EstimatedSize": "Mida estimada",
-        "TrackerTables": "Taules de rastreig",
-        "ReportTables": "Taules d'informes",
-        "MetricTables": "Taules de mètriques",
-        "OtherTables": "Altres taules"
-    },
     "Feedback": {
         "PluginDescription": "Envia el teu Feedback a l'equip de Piwik. Comprateix les teves idees i sugestions amb nosaltres!",
         "DoYouHaveBugReportOrFeatureRequest": "Teniu algun error que reportar o una petició de noves funcionalitats?",
@@ -1198,13 +1179,6 @@
         "WidgetSearchEngines": "Millors motors de cerca",
         "WidgetOverview": "Resum",
         "SocialFooterMessage": "Aquest és un subconjunt del l'informe de llocs web de l'esquerra. Filtra la informació d'altres llocs web així podeu comparar els referents de xarxes socials directament."
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Basat amb PhpSecInfor del consorci de seguretat de PHP, aquesta extensió mostra informació de seguretat sobre el vostre entorn de PHP i ofereix sugestions per la millora. No elimina les practiques de desenvolupmanet segur ni audita el codi ni la aplicació.",
-        "Security": "Seguretat",
-        "SecurityInformation": "Informació de Seguretat de PHP",
-        "Test": "Prova",
-        "Result": "Resultat"
     },
     "SEO": {
         "SeoRankings": "Ranking SEO",
@@ -1794,18 +1768,6 @@
         "WidgetOverview": "Resum de la freqüència",
         "WidgetGraphReturning": "Gràfic de les visites que han tornat",
         "SubmenuFrequency": "Freqüència"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Extensió per crear visites falses. Pot ser utiltizat pels usuaris o desenvolupadors de Piwik per tal de generar informació falsa que emplenin els informes de Piwik.",
-        "VisitorGenerator": "Generador de visites",
-        "Warning": "Esteu a punt de genrar visites falses que es guardaran a la base de dades del Piwik",
-        "NotReversible": "%s No %s serà possible esborar aquestes visitis de forma fàcil dels logs de Piwik.",
-        "AreYouSure": "Esteu segur de generar visiteu falses?",
-        "ChoiceYes": "Sí, n'estic segur!",
-        "Submit": "Transmet",
-        "SelectWebsite": "Seleccioneu un lloc web",
-        "NbRequestsPerSec": "Sol·licituds per segon",
-        "DaysToCompute": "Dies per calcular"
     },
     "VisitorInterest": {
         "PluginDescription": "Informes sobre l'interes del Visitant: Nombre de pàgines vistes, temps de visita del lloc web.",

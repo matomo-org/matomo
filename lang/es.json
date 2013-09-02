@@ -745,25 +745,6 @@
         "DashboardEmptyNotification": "Tu Tablero no contiene ningún widget. Comienza agregando alguno o sólo reinicializa el tablero a la selección de widgets por defecto.",
         "TopLinkTooltip": "Ver los reportes de Análisis Web para %s."
     },
-    "DBStats": {
-        "PluginDescription": "Este plugin reporta el uso de la base de datos MySQL de las tablas de Piwik.",
-        "DatabaseUsage": "Uso de la base de datos",
-        "MainDescription": "Piwik está almacenando todos sus datos de análisis web en la base de datos MySQL. Actualmente, las tablas de Piwik están usando %s.",
-        "LearnMore": "Para aprender más sobre cómo Piwik procesa los datos y cómo hacer que Piwik funcione bien para sitios web de mediano y grande trafico, eche un vistazo a la documentación %s.",
-        "Table": "Tabla",
-        "RowCount": "Cantidad de filas",
-        "DataSize": "Tamaño de los datos",
-        "IndexSize": "Tamaño del índice",
-        "TotalSize": "Tamaño total",
-        "DBSize": "Tamaño BD",
-        "ReportDataByYear": "Reporte de Tablas Anual",
-        "MetricDataByYear": "Tablas de Medición Anuales",
-        "EstimatedSize": "Tamaño estimado",
-        "TrackerTables": "Tablas de Rastreadores",
-        "ReportTables": "Tablas de reportes",
-        "MetricTables": "Tablas de Medición",
-        "OtherTables": "Otras tablas"
-    },
     "Feedback": {
         "PluginDescription": "Enviar tus comentarios al equipo de Piwik. Comparte tus ideas y sugerencias con nosotros!",
         "DoYouHaveBugReportOrFeatureRequest": "Tienes un error que reportar o una nueva característica?",
@@ -1207,13 +1188,6 @@
         "WidgetSearchEngines": "Mejores motores de búsqueda",
         "WidgetOverview": "General",
         "SocialFooterMessage": "A la izquierda, este es un subconjunto de los informes de los sitios de internet. Filtra respecto de otros sitios de internet, así puede comparar sus referentes de las redes sociales directamente."
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Basado en PhpSecInfo del PHP Security Consortium, este plugin proporciona información de seguridad sobre su entorno de PHP y ofrece sugerencias para mejorar. Es una herramienta en un enfoque de seguridad de varias capas. No sustituye a las prácticas de desarrollo seguro, ni la auditoría del código\/aplicación.",
-        "Security": "Seguridad",
-        "SecurityInformation": "Información de seguridad PHP",
-        "Test": "Prueba",
-        "Result": "Resultado"
     },
     "SEO": {
         "AlexaRank": "Ranking Alexa",
@@ -1795,18 +1769,6 @@
         "WidgetOverview": "Vista general de frecuencia",
         "WidgetGraphReturning": "Gráfica de visitantes que han vuelto",
         "SubmenuFrequency": "Frecuencia"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Plugin para crear visitas falsas. Puede ser usado por los usuarios o desarrolladores de de Piwik como una manera fácil de generar datos falsos para rellenar los informes de Piwik.",
-        "VisitorGenerator": "Generador de Visitas",
-        "Warning": "Está a punto de generar visitas falsas que serán grabadas en su base de datos Piwik.",
-        "NotReversible": "Puede %s no%s ser posible borrar estas visitas fácilmente de los registros de piwik.",
-        "AreYouSure": "Está seguro que desea generar visitas falsas?",
-        "ChoiceYes": "Si, Estoy seguro!",
-        "Submit": "Enviar",
-        "SelectWebsite": "Seleccionar Sitio Web",
-        "NbRequestsPerSec": "Peticiones por segundo",
-        "DaysToCompute": "Días a computar"
     },
     "VisitorInterest": {
         "PluginDescription": "Reportes sobre el Interés de los Visitantes: número de paginas vistas, tiempo que estuvieron en el sitio web.",

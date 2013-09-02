@@ -582,18 +582,6 @@
         "SelectDashboardLayout": "Prosimo, izberite vašo novo postavitev nadzorne plošče",
         "NotUndo": "Te operacije ne bo mogoče razveljaviti."
     },
-    "DBStats": {
-        "PluginDescription": "Ta vtičnik poroča o Piwik-ovi uporabi MySQL podatkovne baze.",
-        "DatabaseUsage": "Uporaba podatkovne baze",
-        "MainDescription": "Piwik shranjuje vse vaše podatke v MySQL bazo podatkov. Trenutna poraba podatkovne baze je %s.",
-        "Table": "Tabela",
-        "RowCount": "Število vrst",
-        "DataSize": "Velikost podatkov",
-        "IndexSize": "Velikost indeksa",
-        "TotalSize": "Skupna velikost",
-        "DBSize": "Velikost podatkovne baze",
-        "EstimatedSize": "Ocenjena velikost"
-    },
     "Feedback": {
         "PluginDescription": "Podajte vašo povratno informacijo ekipi Piwik. Zaupajte nam vaše ideje in predloge!",
         "DoYouHaveBugReportOrFeatureRequest": "Imate napako ali pa željo, ki nam jo želite sporočiti?",
@@ -785,11 +773,6 @@
         "WidgetExternalWebsites": "Seznam zunanjih spletnih strani",
         "WidgetSearchEngines": "Najboljši spletni iskalniki",
         "WidgetOverview": "Pregled"
-    },
-    "SecurityInfo": {
-        "Security": "Varnost",
-        "SecurityInformation": "PHP varnostni podatki",
-        "Result": "Rezultat"
     },
     "SEO": {
         "SeoRankings": "SEO položaji",
@@ -1209,16 +1192,6 @@
         "WidgetOverview": "Frekvenčni pregled",
         "WidgetGraphReturning": "Ponovni obiski",
         "SubmenuFrequency": "Frekvenca"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Vtičnik za ustvarjanje navideznih obiskov. Tega lahko uporabljajo uporabniki ali pa razvijalci, ter tako generirajo lažne podatke in z njimi napolnijo Piwik-ova poročila.",
-        "VisitorGenerator": "Generator Obiskovalcev",
-        "Warning": "Ravnokar boste generirali navidezne obiske, ki bodo shranjeni v podatkovno bazo vašega sistema Piwik.",
-        "AreYouSure": "Ste prepričani, da želite generirate navidezne obiske?",
-        "ChoiceYes": "Da, prepričan sem!",
-        "Submit": "Uveljavi",
-        "SelectWebsite": "Izberi spletno stran",
-        "NbRequestsPerSec": "Zahtev na sekundo"
     },
     "VisitorInterest": {
         "VisitsPerNbOfPages": "Obiskov na število strani",

@@ -836,25 +836,6 @@
         "DashboardEmptyNotification": "Panel kendali Anda tidak mengandung gawit apapun. Mulai dengan menambah beberapa gawit atau dengan mengatur ulang panel ke pengaturan asali gawit.",
         "TopLinkTooltip": "Tampilkn laporan Analitus Ramatraya untuk %s."
     },
-    "DBStats": {
-        "PluginDescription": "Pengaya ini melaporkan pengunaan basisdata MySQL oleh tabel Piwik.",
-        "DatabaseUsage": "Penggunaan Basisdata",
-        "MainDescription": "Piwik menyimpan seluruh data analisis ramatraya Anda di basisdata MySQL. Sekarang, tabel Piwik menggunakan %s.",
-        "LearnMore": "Pelajari selengkapnya tentang bagaimana Piwik mengolah data dan bagaimana Piwik bekerja baik dalam kunjungan situs menengah dan tinggi, lihat dokumentasi %s.",
-        "Table": "Tabel",
-        "RowCount": "Jumlah Baris",
-        "DataSize": "Ukuran Data",
-        "IndexSize": "Ukuran Index",
-        "TotalSize": "Ukuran Total",
-        "DBSize": "Ukuran Basisdat",
-        "ReportDataByYear": "Tabel Laporan berdasarkan Tahun",
-        "MetricDataByYear": "Tabel Metrik berdasarkan Tahun",
-        "EstimatedSize": "Perkiraan ukuran",
-        "TrackerTables": "Tabel pelacak",
-        "ReportTables": "Tabel Laporan",
-        "MetricTables": "Tabel Metrik",
-        "OtherTables": "Tabel Lain"
-    },
     "DoNotTrack": {
         "PluginDescription": "Abaikan kunjungan dengan kepala Jangan-Lacak \"X-Do-Not-Track\" atau \"DNT\"."
     },
@@ -1323,13 +1304,6 @@
         "ViewReferrersBy": "Lihat Pengarah berdasar %s",
         "ViewAllReferrers": "Lihat seluruh pengarah",
         "WidgetTopKeywordsForPages": "Kata kunci atas untulk URL halaman"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Berdasarkan PhpSecInfo dari PHP Security Consortium, pengaya ini menyediakan informasi keamanan tentang lingkungan PHP Anda dan menyediakan saran untuk pengembangan. Peralatan ini berada dalam pendekatan banyak lapisan keamanan. Hal ini tidak mengganti praktek pengembangan aman atau pemeriksaan kode\/aplikasi.",
-        "Security": "Keamanan",
-        "SecurityInformation": "Informasi Keamanan PHP",
-        "Test": "Percobaan",
-        "Result": "Hasil"
     },
     "SEO": {
         "SeoRankings": "Peringkat SEO",
@@ -1955,18 +1929,6 @@
         "WidgetOverview": "Iktisar Frekuensi",
         "WidgetGraphReturning": "Grafik kunjungan kembali",
         "SubmenuFrequency": "Frekuensi"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Pengaya untuk membuat kunjungan palsu. Ini dapat digunakan oleh pengguna Piwik atau pengembang sebagai cara mudah untuk membuat data palsu untuk mengisi laporan Piwik.",
-        "VisitorGenerator": "Pembangkit Kunjungan",
-        "Warning": "Anda akan menghasilkan kunjungan palsu yang akan disimpan dalam basisdata Piwik Anda.",
-        "NotReversible": "Ini %s tidak%s mungkin mudah menghapus kunjungan tersebut dari catatan piwik.",
-        "AreYouSure": "Apakah Anda yakin membuat kunjungan palsu?",
-        "ChoiceYes": "Ya, saya yakin!",
-        "Submit": "Kirim",
-        "SelectWebsite": "Pilih Situs",
-        "NbRequestsPerSec": "Permintaan tiap detik",
-        "DaysToCompute": "Hari untuk dihitung"
     },
     "VisitorInterest": {
         "PluginDescription": "Laporan mengenai Tingkat Kunjungan: jumlah halaman yang dilihat, waktu yang dihabiskan di Situs.",

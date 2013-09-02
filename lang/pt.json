@@ -545,17 +545,6 @@
         "LoadingWidget_js": "Carregando widget, por favor aguarde...",
         "WidgetNotFound_js": "Widget não encontrado"
     },
-    "DBStats": {
-        "PluginDescription": "Este plugin relata o uso da base de dados MySQL pelas tabelas Piwik.",
-        "DatabaseUsage": "Uso da base de dados",
-        "MainDescription": "Piwik está a armazenar todos os seus dados de analíticas da web na base de dados MySQL. Actualmente, tabelas Piwik estão a utilizar %s.",
-        "LearnMore": "Para aprender mais sobre como o Piwik processa dados e como optimizar o Piwik para websites de tráfego médio ou elevado, veja a documentação %s.",
-        "Table": "Tabela",
-        "RowCount": "Número de linhas",
-        "DataSize": "Tamanho dos dados",
-        "IndexSize": "Tamanho do índice",
-        "TotalSize": "Tamanho total"
-    },
     "Feedback": {
         "PluginDescription": "Envie a sua opinião à equipa Piwik. Partilhe as suas ideias e sugestões connosco!",
         "DoYouHaveBugReportOrFeatureRequest": "Tem algum erro para reportar ou um pedido de funcionalidade?",
@@ -889,13 +878,6 @@
         "WidgetExternalWebsites": "Lista de Websites externos",
         "WidgetSearchEngines": "Melhores motores de busca",
         "WidgetOverview": "Visão Geral"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Baseado no PhpSecInfo do Consórcio de Segurança PHP, este plugin fornece informações de segurança sobre o seu ambiente PHP e oferece sugestões em como a melhorar. É uma ferramenta numa abordagem de segurança de várias camadas. Não substitui práticas de desenvolvimento seguro nem a auditoria do código\/aplicação.",
-        "Security": "Segurança",
-        "SecurityInformation": "Informação de Segurança PHP",
-        "Test": "Teste",
-        "Result": "Resultado"
     },
     "SEO": {
         "SeoRankings": "Classificações SEO",
@@ -1373,18 +1355,6 @@
         "WidgetOverview": "Visão geral da frequência",
         "WidgetGraphReturning": "Gráfico de visitantes de retorno",
         "SubmenuFrequency": "Frequência"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Plugin para criar visitas falsas. Isto pode ser usado por utilizadores ou desenvolvedores Piwik como uma forma fácil de gerar dados falsos para popular relatórios Piwik.",
-        "VisitorGenerator": "Gerador de Visitantes",
-        "Warning": "Está prestes a gerar visitas falsas que serão guardadas na sua base de dados Piwik.",
-        "NotReversible": "%s Não%s será possível eliminar com facilidade estas visitas dos seus registos Piwik.",
-        "AreYouSure": "Tem a certeza que deseja gerar visitas falsas?",
-        "ChoiceYes": "Sim, tenho a certeza!",
-        "Submit": "Submeter",
-        "SelectWebsite": "Seleccionar Website",
-        "NbRequestsPerSec": "Pedidos por segundo",
-        "DaysToCompute": "Dias para computar"
     },
     "VisitorInterest": {
         "PluginDescription": "Relata os Interesses dos Visitantes: número de páginas vistas, tempo gasto no Website.",

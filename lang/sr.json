@@ -837,25 +837,6 @@
         "DashboardEmptyNotification": "Vaša konzola nema nijedan vidžet. Počnite sa dodavanjem vidžeta ili jednostavno resetujte konzolu na podrazumevane vidžete.",
         "TopLinkTooltip": "Prikaži izveštaj za %s."
     },
-    "DBStats": {
-        "PluginDescription": "Ovaj dodatak prikazuje iskorišćenost MySQL baze od strane Piwik tabela.",
-        "DatabaseUsage": "Iskorišćenost baze",
-        "MainDescription": "Piwik smešta sve vaše analitičke podatke u MySQL bazu. Trenutno Piwik tabele zauzimaju %s.",
-        "LearnMore": "Ukoliko želite da naučite više o tome kako Piwik procesira podatke i kako da ga naterate da dobro radi sa srednjim i velikim sajtovima, proučite dokumentaciju %s.",
-        "Table": "Tabela",
-        "RowCount": "Broj redova",
-        "DataSize": "Veličina podatka",
-        "IndexSize": "Veličina indeksa",
-        "TotalSize": "Ukupna veličina",
-        "DBSize": "Veličina baze",
-        "ReportDataByYear": "Izveštaji po godinama",
-        "MetricDataByYear": "Metrika po godinama",
-        "EstimatedSize": "Procenjena veličina",
-        "TrackerTables": "Trekeri",
-        "ReportTables": "Izveštaji",
-        "MetricTables": "Metrika",
-        "OtherTables": "Ostalo"
-    },
     "DoNotTrack": {
         "PluginDescription": "Ignoriši posete sa zaglavljima X-Do-Not-Track i DNT."
     },
@@ -1324,12 +1305,6 @@
         "ViewReferrersBy": "Prikaži reference po %s",
         "ViewAllReferrers": "Prikaži sve reference",
         "WidgetTopKeywordsForPages": "Najbolje ključne reči za URL"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Zasnovan na PhpSecInfo PHP konzorcijuma za sigurnost, ovaj dodatak prikazuje sigurnosne informacije vašeg PHP okruženja i nudi predloge za poboljšanja.",
-        "Security": "Sigurnost",
-        "SecurityInformation": "Informacije o PHP sigurnosti",
-        "Result": "Rezultat"
     },
     "SEO": {
         "SeoRankings": "SEO rangiranje",
@@ -1954,18 +1929,6 @@
         "WidgetOverview": "Pregled učestalosti",
         "WidgetGraphReturning": "Grafikon ponovnih poseta",
         "SubmenuFrequency": "Učestalost"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Dodatak za generisanje lažnih poseta. Ovaj dodatak mogu koistiti Piwik korisnici ili ljudi koji rade na razvoju kako bi na lak način generisali lažne podatke i popunili izveštaje.",
-        "VisitorGenerator": "Generator posetilaca",
-        "Warning": "Upravo ćete generisati lažne posete koje će biti upisane u Piwik bazu.",
-        "NotReversible": "%s Neće biti lako%s obrisati ove podatke iz Piwik zapisa.",
-        "AreYouSure": "Da li ste sigurni da želite da generišete lažne posete?",
-        "ChoiceYes": "Da, siguran sam!",
-        "Submit": "Prosledi",
-        "SelectWebsite": "Izaberite sajt",
-        "NbRequestsPerSec": "Zahteva u sekundi",
-        "DaysToCompute": "Broj dana"
     },
     "VisitorInterest": {
         "PluginDescription": "Izveštaji o tome šta posetioce zanima: broj posećenih stranica, vreme provedeno na sajtu.",
