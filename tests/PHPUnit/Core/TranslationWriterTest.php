@@ -10,6 +10,11 @@ use Piwik\TranslationWriter;
  */
 class TranslationWriterTest extends PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        TranslationWriter::$disableJsonOptions = true;
+    }
+
     /**
      * Dataprovider for testClean
      */

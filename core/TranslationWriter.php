@@ -22,6 +22,7 @@ use Piwik\Common;
 class TranslationWriter
 {
     static private $baseTranslation = null;
+    static public $disableJsonOptions = false;
 
     /**
      * Clean a string that may contain HTML special chars, single/double quotes, HTML entities, leading/trailing whitespace
@@ -108,11 +109,13 @@ class TranslationWriter
         }
 
         $options = 0;
-        if (defined('JSON_UNESCAPED_UNICODE')) {
-            $options |= JSON_UNESCAPED_UNICODE;
-        }
-        if (defined('JSON_PRETTY_PRINT')) {
-            $options |= JSON_PRETTY_PRINT;
+        if (!self::$disableJsonOptions) {
+            if (defined('JSON_UNESCAPED_UNICODE')) {
+                $options |= JSON_UNESCAPED_UNICODE;
+            }
+            if (defined('JSON_PRETTY_PRINT')) {
+                $options |= JSON_PRETTY_PRINT;
+            }
         }
         return json_encode($cleanedTranslations, $options);
     }
