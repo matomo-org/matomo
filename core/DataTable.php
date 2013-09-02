@@ -629,7 +629,17 @@ class DataTable
     public function addSummaryRow(Row $row)
     {
         $this->summaryRow = $row;
-        $this->rowsIndexByLabel[$row->getColumn('label')] = self::ID_SUMMARY_ROW;
+
+        // add summary row to index
+        if (!$this->indexNotUpToDate
+            && $this->rebuildIndexContinuously
+        ) {
+            $label = $row->getColumn('label');
+            if ($label !== false) {
+                $this->rowsIndexByLabel[$label] = self::ID_SUMMARY_ROW;
+            }
+        }
+        
         return $row;
     }
 
