@@ -16,6 +16,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
+        TranslationWriter::$disableJsonOptions = false;
         include PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
     }
 

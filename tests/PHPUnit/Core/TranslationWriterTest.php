@@ -12,6 +12,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
+        parent::setUp();
         TranslationWriter::$disableJsonOptions = true;
     }
 
