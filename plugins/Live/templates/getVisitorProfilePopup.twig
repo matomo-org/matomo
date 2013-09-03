@@ -32,7 +32,7 @@
                 <div>
                     <div class="visitor-profile-location">
                         <h1>{{ 'UserCountry_Location'|translate }}</h1>
-                        <img src="plugins/Live/images/REMOVE_ME_chart.png" alt=""/>
+                        {{ lastVisitsChart|raw }}
                     </div>
                 </div>
                 <div class="visitor-profile-summary">
@@ -85,7 +85,7 @@
                     </ol>
                 </div>
                 <div class="visitor-profile-more-info">
-                    <a href="#">{{ 'Live_ViewMoreVisitInfo'|translate }}</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
+                    <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
                 </div>
             </div>
         </div>

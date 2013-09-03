@@ -1253,8 +1253,10 @@ class ViewDataTable
     private function overrideViewPropertiesWithQueryParams()
     {
         // TODO: should mark properties that are overridable so not all properties can be overidden this way
-        $queryParams = Url::getArrayFromCurrentQueryString();
+        $queryParams = $_GET + $_POST;
         foreach ($queryParams as $name => $value) {
+            $value = Common::getRequestVar($name, $default = null, $type = null, $queryParams);
+
             if (Properties::isCoreViewProperty($name)) {
                 $this->viewProperties[$name] = $value;
             } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {

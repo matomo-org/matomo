@@ -297,15 +297,17 @@ var piwikHelper = {
      * if the top of the element is not currently visible on screen
      * @param {string} elem Selector for the DOM node to scroll to, eg. '#myDiv'
      * @param {int} [time] Specifies the duration of the animation in ms
+     * @param {bool} [forceScroll] Whether to force scroll to an element.
      * @return {void}
      */
-    lazyScrollTo: function(elem, time)
+    lazyScrollTo: function(elem, time, forceScroll)
     {
         var elemTop = $(elem).offset().top;
         // only scroll the page if the graph is not visible
-        if(elemTop < $(window).scrollTop()
-        || elemTop > $(window).scrollTop()+$(window).height())
-        {
+        if (elemTop < $(window).scrollTop()
+            || elemTop > $(window).scrollTop()+$(window).height()
+            || forceScroll
+        ) {
             // scroll the page smoothly to the graph
             $.scrollTo(elem, time);
         }

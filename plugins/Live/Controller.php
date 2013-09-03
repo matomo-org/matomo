@@ -147,6 +147,9 @@ class Controller extends \Piwik\Controller
         $view->goals = Goals_API::getInstance()->getGoals($idSite);
         $view->visitorData = Request::processRequest('Live.getVisitorProfile');
         $view->userCountryMap = $this->getUserCountryMapForVisitorProfile();
+        // TODO: disabled until segmentation issue can be dealt w/ (if enabled, last 24 months of data will be archived w/
+        // segment every visitor ID)
+        $view->lastVisitsChart = ''; //$this->getLastVisitsForVisitorProfile();
         echo $view->render();
     }
 
@@ -159,15 +162,34 @@ class Controller extends \Piwik\Controller
 
     public function getVisitList()
     {
-        $view = new View('@Live/getVisitList.twig');
-        $view->idSite = Common::getRequestVar('idSite', null, 'int');
-        $view->startCounter = Common::getRequestVar('filter_offset', 1, 'int');
-        $view->visits = Request::processRequest('Live.getLastVisitsDetails', array(
+        $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(
             'segment' => self::getSegmentWithVisitorId(),
             'filter_limit' => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
             'disable_generic_filters' => 1
         ));
+
+        if (empty($nextVisits)) {
+            return;
+        }
+
+        $view = new View('@Live/getVisitList.twig');
+        $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->startCounter = Common::getRequestVar('filter_offset', 1, 'int');
+        $view->visits = $nextVisits;
         echo $view->render();
+    }
+
+    private function getLastVisitsForVisitorProfile()
+    {
+        $saveGET = $_GET;
+        $_GET = array('segment' => self::getSegmentWithVisitorId(), 'period' => 'month', 'day' => 'today') + $_GET;
+
+        $columns = array('nb_visits');
+        $result = FrontController::getInstance()->dispatch('VisitsSummary', 'getEvolutionGraph', array($fetch = true, $columns));
+
+        $_GET = $saveGET;
+
+        return $result;
     }
 
     private function getUserCountryMapForVisitorProfile()
@@ -178,16 +200,20 @@ class Controller extends \Piwik\Controller
 
     private static function getSegmentWithVisitorId()
     {
-        $segment = Request::getRawSegmentFromRequest();
-        if (!empty($segment)) {
-            $segment .= ';';
-        }
+        static $cached = null;
+        if ($cached === null) {
+            $segment = Request::getRawSegmentFromRequest();
+            if (!empty($segment)) {
+                $segment .= ';';
+            }
 
-        $idVisitor = Common::getRequestVar('idVisitor', false);
-        if ($idVisitor === false) {
-            $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
-        }
+            $idVisitor = Common::getRequestVar('idVisitor', false);
+            if ($idVisitor === false) {
+                $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
+            }
 
-        return $segment . 'visitorId==' . $idVisitor;
+            $cached = $segment . 'visitorId==' . $idVisitor;
+        }
+        return $cached;
     }
 }

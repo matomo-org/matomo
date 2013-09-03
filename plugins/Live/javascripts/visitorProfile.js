@@ -20,6 +20,7 @@
      */
     var VisitorProfileControl = function (element) {
         this.$element = $(element).focus();
+        this._setupControl();
         this._bindEventCallbacks();
     };
 
@@ -53,6 +54,11 @@
 
     VisitorProfileControl.prototype = {
 
+        _setupControl: function () {
+            // highlight the first visit
+            $('.visitor-profile-visits>li:first-child', this.$element).addClass('visitor-profile-current-visit');
+        },
+
         _bindEventCallbacks: function () {
             var self = this,
                 $element = this.$element;
@@ -76,7 +82,7 @@
             });
 
             $element.on('click', '.visitor-profile-visit-title', function () {
-                self._loadIndividualVisitDetails($(this).attr('data-idvisit'));
+                self._loadIndividualVisitDetails($(this));
             });
 
             $element.on('click', '.visitor-profile-prev-visitor', function (e) {
@@ -139,27 +145,29 @@
                 filter_offset: $('.visitor-profile-visits>li', $element).length
             }, 'GET');
             ajax.setCallback(function (response) {
-                loading.hide();
-
-                var jsp = $('.visitor-profile-visits-container', $element).data('jsp');
-                if (response == '') {
-                    jsp.scrollToElement($('.visitor-profile-visits>li:last-child', $element).children().last(), false, true);
+                if (response == "") { // no more visits left
+                    var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits_js')).addClass('visitor-profile-no-visits')
+                    $('.visitor-profile-more-info', $element).html(noMoreSpan);
                 } else {
                     response = $(response);
+                    loading.hide();
+
                     $('.visitor-profile-visits', $element).append(response);
-                    jsp.reinitialise();
-                    jsp.scrollToElement(response[0], true, true);
+
+                    piwikHelper.lazyScrollTo($(response)[0], 400, true);
                 }
             });
             ajax.setFormat('html');
             ajax.send();
         },
 
-        _loadIndividualVisitDetails: function (visitId) {
+        _loadIndividualVisitDetails: function ($visitElement) {
             var self = this,
-                $element = this.$element;
+                $element = this.$element,
+                visitId = $visitElement.attr('data-idvisit');
 
             $('.visitor-profile-avatar .loadingPiwik', $element).css('display', 'inline-block');
+            piwikHelper.lazyScrollTo($('.visitor-profile-avatar', $element)[0], 400);
 
             var ajax = new ajaxHelper();
             ajax.addParams({
@@ -169,6 +177,10 @@
             }, 'GET');
             ajax.setCallback(function (response) {
                 $('.visitor-profile-avatar .loadingPiwik', $element).hide();
+
+                $('.visitor-profile-current-visit', $element).removeClass('visitor-profile-current-visit');
+                $visitElement.closest('li').addClass('visitor-profile-current-visit');
+
                 $('.visitor-profile-latest-visit', $element).html(response);
             });
             ajax.setFormat('html');
