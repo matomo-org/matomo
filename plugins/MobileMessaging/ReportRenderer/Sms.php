@@ -74,20 +74,16 @@ class Sms extends ReportRenderer
         $reportData->filter(
             'ColumnCallbackReplace',
             array(
-                 array_merge(array_keys($multiSitesAPIMetrics), $evolutionMetrics),
-                 create_function(
-                     '$value',
-                     '
-                     return preg_replace_callback (
-                         "' . self::FLOAT_REGEXP . '",
-						create_function (
-							\'$matches\',
-							\'return round($matches[0]);\'
-						),
-						$value
-					);
-					'
-                 )
+                array_merge(array_keys($multiSitesAPIMetrics), $evolutionMetrics),
+                function($value) {
+                    return preg_replace_callback(
+                        self::FLOAT_REGEXP,
+                        function($matches) {
+                            return round($matches[0]);
+                        },
+                        $value
+                    );
+                }
             )
         );
 
@@ -98,14 +94,11 @@ class Sms extends ReportRenderer
         $reportData->filter(
             'ColumnCallbackReplace',
             array(
-                 $evolutionMetrics,
-                 create_function(
-                     '$value',
-                     '
-                     $matched = preg_match("' . self::FLOAT_REGEXP . '", $value, $matches);
-					return $matched ? sprintf("%+d",$matches[0]) : $value;
-					'
-                 )
+                $evolutionMetrics,
+                function($value) {
+                    $matched = preg_match("' . self::FLOAT_REGEXP . '", $value, $matches);
+                    return $matched ? sprintf("%+d",$matches[0]) : $value;
+                }
             )
         );
 
