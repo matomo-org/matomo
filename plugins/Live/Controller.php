@@ -147,6 +147,9 @@ class Controller extends \Piwik\Controller
         $view->goals = Goals_API::getInstance()->getGoals($idSite);
         $view->visitorData = Request::processRequest('Live.getVisitorProfile');
         $view->userCountryMap = $this->getUserCountryMapForVisitorProfile();
+        // TODO: disabled until segmentation issue can be dealt w/ (if enabled, last 24 months of data will be archived w/
+        // segment every visitor ID)
+        $view->lastVisitsChart = ''; //$this->getLastVisitsForVisitorProfile();
         echo $view->render();
     }
 
@@ -170,6 +173,19 @@ class Controller extends \Piwik\Controller
         echo $view->render();
     }
 
+    private function getLastVisitsForVisitorProfile()
+    {
+        $saveGET = $_GET;
+        $_GET = array('segment' => self::getSegmentWithVisitorId(), 'period' => 'month', 'day' => 'today') + $_GET;
+
+        $columns = array('nb_visits');
+        $result = FrontController::getInstance()->dispatch('VisitsSummary', 'getEvolutionGraph', array($fetch = true, $columns));
+
+        $_GET = $saveGET;
+
+        return $result;
+    }
+
     private function getUserCountryMapForVisitorProfile()
     {
         $params = array('standalone' => false, 'fetch' => true, 'segment' => self::getSegmentWithVisitorId());
@@ -178,16 +194,20 @@ class Controller extends \Piwik\Controller
 
     private static function getSegmentWithVisitorId()
     {
-        $segment = Request::getRawSegmentFromRequest();
-        if (!empty($segment)) {
-            $segment .= ';';
-        }
+        static $cached = null;
+        if ($cached === null) {
+            $segment = Request::getRawSegmentFromRequest();
+            if (!empty($segment)) {
+                $segment .= ';';
+            }
 
-        $idVisitor = Common::getRequestVar('idVisitor', false);
-        if ($idVisitor === false) {
-            $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
-        }
+            $idVisitor = Common::getRequestVar('idVisitor', false);
+            if ($idVisitor === false) {
+                $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
+            }
 
-        return $segment . 'visitorId==' . $idVisitor;
+            $cached = $segment . 'visitorId==' . $idVisitor;
+        }
+        return $cached;
     }
 }
