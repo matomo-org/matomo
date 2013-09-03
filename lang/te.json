@@ -137,6 +137,7 @@
         "HoursMinutes": "%1$s గంటలు %2$s నిమి",
         "Language": "భాష",
         "LastDaysShort": "గత %s రోజులు",
+        "LayoutDirection": "ltr",
         "Loading_js": "లోడవుతూంది...",
         "LoadingData": "భోగట్టా లోడవుతూంది...",
         "Locale": "te_IN.UTF-8",
