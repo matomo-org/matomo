@@ -20,7 +20,7 @@ use Piwik\DataTable\Filter;
 class SafeDecodeLabel extends Filter
 {
     private $columnToDecode;
-    static private $outputHtml = true;
+    private static $outputHtml = true;
 
     /**
      * @param DataTable $table
@@ -37,7 +37,7 @@ class SafeDecodeLabel extends Filter
      * @param string $value
      * @return mixed|string
      */
-    static public function safeDecodeLabel($value)
+    public static function safeDecodeLabel($value)
     {
         if (empty($value)) {
             return $value;
@@ -45,12 +45,8 @@ class SafeDecodeLabel extends Filter
         $raw = urldecode($value);
         $value = htmlspecialchars_decode($raw, ENT_QUOTES);
         if (self::$outputHtml) {
-            // Pre 5.3
-            if (!defined('ENT_IGNORE')) {
-                $style = ENT_QUOTES;
-            } else {
-                $style = ENT_QUOTES | ENT_IGNORE;
-            }
+            // ENT_IGNORE is not good!
+            $style = ENT_QUOTES | ENT_IGNORE;
             // See changes in 5.4: http://nikic.github.com/2012/01/28/htmlspecialchars-improvements-in-PHP-5-4.html
             // Note: at some point we should change ENT_IGNORE to ENT_SUBSTITUTE
             $value = htmlspecialchars($value, $style, 'UTF-8');
