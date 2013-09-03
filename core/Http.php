@@ -239,7 +239,6 @@ class Http
 
             // process header
             $status = null;
-            $expectRedirect = false;
 
             while (!feof($fsock)) {
                 $line = fgets($fsock, 4096);
