@@ -134,6 +134,11 @@ class Treemap extends Graph
             $generator->showEvolutionValues();
         }
 
+        $truncateAfter = Common::getRequestVar('truncateAfter', false, 'int');
+        if ($truncateAfter > 0) {
+            $generator->setTruncateAfter($truncateAfter);
+        }
+
         return Common::json_encode($generator->generate($dataTable));
     }
 
