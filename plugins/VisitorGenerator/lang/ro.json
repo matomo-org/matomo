@@ -1,0 +1,9 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Eşti sigur(ă) că doreşti să generezi vizite false?",
+        "ChoiceYes": "Da, sunt sigut(ă)!",
+        "NbRequestsPerSec": "Cereri pe secundă",
+        "SelectWebsite": "Alege site-ul",
+        "VisitorGenerator": "Generatorul de vizite"
+    }
+}

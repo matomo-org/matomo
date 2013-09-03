@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "정말로 가상 방문을 생성 하시겠습니까?",
+        "ChoiceYes": "네, 물론입니다!",
+        "DaysToCompute": "일별 계산",
+        "NbRequestsPerSec": "초 단위의 요청수",
+        "NotReversible": "Piwik 로그에서 이러한 방문을 %s 쉽게 제거할 수 없습니다 %s.",
+        "PluginDescription": "가짜 방문을 작성하는 플러그인입니다. Piwik 사용자와 개발자가 Piwik 보고서에 잘못된 데이터를 생성하는 간단한 방법으로 사용할 수 있습니다.",
+        "SelectWebsite": "웹사이트 선택",
+        "Submit": "제출",
+        "VisitorGenerator": "방문자 생성기",
+        "Warning": "Piwik 데이터베이스에 기록되는 가짜 방문을 생성하려고합니다."
+    }
+}

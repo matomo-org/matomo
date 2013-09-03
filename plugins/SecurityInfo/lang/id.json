@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Berdasarkan PhpSecInfo dari PHP Security Consortium, pengaya ini menyediakan informasi keamanan tentang lingkungan PHP Anda dan menyediakan saran untuk pengembangan. Peralatan ini berada dalam pendekatan banyak lapisan keamanan. Hal ini tidak mengganti praktek pengembangan aman atau pemeriksaan kode\/aplikasi.",
+        "Result": "Hasil",
+        "Security": "Keamanan",
+        "SecurityInformation": "Informasi Keamanan PHP",
+        "Test": "Percobaan"
+    }
+}

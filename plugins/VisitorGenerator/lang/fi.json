@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Haluatko varmasti luoda valheellisia käyntejä?",
+        "ChoiceYes": "Kyllä, olen varma!",
+        "DaysToCompute": "Päivien määrä",
+        "NbRequestsPerSec": "Pyyntöä \/ sekunti",
+        "NotReversible": "Näitä käyntejä %sei voi%s helposti poistaa Piwikin logeista.",
+        "PluginDescription": "Lisäosa valheellisten käyntien luomiseen. Tätä voi käyttää helppona tapana luoda Piwikiin valheellisia tietoja testaamista varten.",
+        "SelectWebsite": "Valitse verkkosivu",
+        "Submit": "Lähetä",
+        "VisitorGenerator": "Kävijöiden luonti",
+        "Warning": "Olet luomassa valheellisia"
+    }
+}

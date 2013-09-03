@@ -70,10 +70,6 @@
         "TitleWidgetInDashboard_js": "విడ్జెట్ ఇప్పటికే డాష్‌బోర్డులో ఉంది",
         "WidgetPreview_js": "విడ్జెట్ మునుజూపు"
     },
-    "DBStats": {
-        "OtherTables": "ఇతర పట్టికలు",
-        "Table": "పట్టిక"
-    },
     "Feedback": {
         "DetailsPlease": "(దయచేసి వివరాలను ఇవ్వండి)",
         "ThePiwikTeam": "పివిక్ జట్టు"
@@ -141,6 +137,7 @@
         "HoursMinutes": "%1$s గంటలు %2$s నిమి",
         "Language": "భాష",
         "LastDaysShort": "గత %s రోజులు",
+        "LayoutDirection": "ltr",
         "Loading_js": "లోడవుతూంది...",
         "LoadingData": "భోగట్టా లోడవుతూంది...",
         "Locale": "te_IN.UTF-8",
@@ -353,10 +350,6 @@
         "WidgetKeywords": "కీపదాల యొక్క జాబితా",
         "WidgetOverview": "అవలోకనం",
         "WidgetSearchEngines": "ఉత్తమ శోధన యంత్రాలు"
-    },
-    "SecurityInfo": {
-        "Result": "ఫలితం",
-        "Security": "భద్రత"
     },
     "SEO": {
         "AlexaRank": "అలెక్సా ర్యాంకు",
@@ -899,9 +892,6 @@
     "VisitFrequency": {
         "ColumnReturningVisits": "పునః సందర్శనలు",
         "SubmenuFrequency": "తరచుదనం"
-    },
-    "VisitorGenerator": {
-        "Submit": "దాఖలుచెయ్యి"
     },
     "VisitorInterest": {
         "BetweenXYMinutes": "%1$s-%2$s నిమి",

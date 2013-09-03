@@ -1,0 +1,11 @@
+{
+    "DBStats": {
+        "DatabaseUsage": "Využitie databázy",
+        "MainDescription": "Piwik ukladá všetky vaše web analýzy do Mysql databázy. Aktuálne Piwik tabuľky používajú %s.",
+        "Table": "Tabuľka",
+        "RowCount": "Počet riadkov",
+        "DataSize": "Veľkosť dát",
+        "IndexSize": "Veľkosť indexu",
+        "TotalSize": "Celková veľkosť"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Deze plugin is gebaseerd op PhpSecInfo van het PHP Security Consortium en geeft veiligheidsinformatie over uw PHP omgeving en suggesties voor verbetering. Het is een tool met een veiligheidsaanpak op verschillende niveau's. Het vervangt niet de richtlijnen voor veilige ontwikkeling en ook geen audit op de code of de applicatie.",
+        "Result": "Resultaat",
+        "Security": "Veiligheid",
+        "SecurityInformation": "Php veiligheidsinformatie",
+        "Test": "Test"
+    }
+}

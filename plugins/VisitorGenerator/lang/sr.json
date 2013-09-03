@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Da li ste sigurni da želite da generišete lažne posete?",
+        "ChoiceYes": "Da, siguran sam!",
+        "DaysToCompute": "Broj dana",
+        "NbRequestsPerSec": "Zahteva u sekundi",
+        "NotReversible": "%s Neće biti lako%s obrisati ove podatke iz Piwik zapisa.",
+        "PluginDescription": "Dodatak za generisanje lažnih poseta. Ovaj dodatak mogu koistiti Piwik korisnici ili ljudi koji rade na razvoju kako bi na lak način generisali lažne podatke i popunili izveštaje.",
+        "SelectWebsite": "Izaberite sajt",
+        "Submit": "Prosledi",
+        "VisitorGenerator": "Generator posetilaca",
+        "Warning": "Upravo ćete generisati lažne posete koje će biti upisane u Piwik bazu."
+    }
+}

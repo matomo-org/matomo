@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Jste si jistý, že chcete vygenerovat falešné návštěvy",
+        "ChoiceYes": "Ano, jsem si jistý",
+        "DaysToCompute": "Dní na výpočet",
+        "NbRequestsPerSec": "Požadavků za sekundu",
+        "NotReversible": "Tyto návštěvy %s nebude%s možné jednoduše vymazat z logů Piwiku",
+        "PluginDescription": "Zásuvný modul pro vytvoření falešných návštěv. Může být použit vývojaři, nebo uživateli Piwiku jako jednoduchá cesta k vygenerování testovacích návštěv k naplnění hlášení Piwiku.",
+        "SelectWebsite": "Zvolte sídlo",
+        "Submit": "Odeslat",
+        "VisitorGenerator": "Generátor návštěv",
+        "Warning": "Chystáte se vygenerovat falešné návštěvy, které budou zaznamenány do vaší databáze Piwiku"
+    }
+}

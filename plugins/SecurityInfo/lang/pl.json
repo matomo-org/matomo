@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "W oparciu o PhpSecInfo z PHP Security Consortium, ta wtyczka dostarcza informacji o zabezpieczeniach środowiska PHP i przedstawia sposoby na ulepszenia. Jest to narzędzie w wielowarstwowym podejściu do bezpieczeństwa. Nie zastępuje jednak zdrowego rozsądku i praktycznego rozwoju i nie przeprowadza audytu kodu czy aplikacji.",
+        "Result": "Wynik",
+        "Security": "Bezpieczeństwo",
+        "SecurityInformation": "Informacje o zabezpieczeniach PHP",
+        "Test": "Test"
+    }
+}

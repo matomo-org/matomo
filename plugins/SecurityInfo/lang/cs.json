@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Založeno na PhpSecInfo od PHP Security Consorcium. Tento zásuvný modul poskytuje informace o zabezpečení prostředí PHP a nabízí rady na vylepšení. Jedná se o nástroj pro vícevrstvé přiblížení se bezpečnosti. Nepoužívejte jej místo bezpečných praktit vývoje, nebo auditu kódu\/aplikace.",
+        "Result": "Výsledek",
+        "Security": "Zabezpečení",
+        "SecurityInformation": "Informace o zabezpečení PHP",
+        "Test": "Test"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "基于 PHP 安全协会的 PhpSecInfo，这个插件提供安全性资讯，并提供您的PHP环境改善建议。它是一个多层次的安全工具。它不会从源码 \/ 应用程序来取代。",
+        "Result": "结果",
+        "Security": "安全",
+        "SecurityInformation": "PHP 安全信息",
+        "Test": "测试"
+    }
+}

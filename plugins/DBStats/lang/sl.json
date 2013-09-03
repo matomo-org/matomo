@@ -1,0 +1,14 @@
+{
+    "DBStats": {
+        "PluginDescription": "Ta vtičnik poroča o Piwik-ovi uporabi MySQL podatkovne baze.",
+        "DatabaseUsage": "Uporaba podatkovne baze",
+        "MainDescription": "Piwik shranjuje vse vaše podatke v MySQL bazo podatkov. Trenutna poraba podatkovne baze je %s.",
+        "Table": "Tabela",
+        "RowCount": "Število vrst",
+        "DataSize": "Velikost podatkov",
+        "IndexSize": "Velikost indeksa",
+        "TotalSize": "Skupna velikost",
+        "DBSize": "Velikost podatkovne baze",
+        "EstimatedSize": "Ocenjena velikost"
+    }
+}

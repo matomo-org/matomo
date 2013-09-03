@@ -152,17 +152,6 @@
         "WidgetPreview_js": "組件預覽",
         "WidgetsAndDashboard": "組件與展示版"
     },
-    "DBStats": {
-        "DatabaseUsage": "資料庫使用狀況",
-        "DataSize": "資料大小",
-        "IndexSize": "索引大小",
-        "LearnMore": "瞭解更多關於 Piwik 如何處理數據以及使 Piwik 在中高流量的網站上運作得宜，請查閱說明文件 %s。",
-        "MainDescription": "Piwik 儲存所有你的網站分析資料於 MySQL 資料庫中。目前， Piwik 資料表已經使用了 %s。",
-        "PluginDescription": "這個外掛能回報 Piwik 的資料表使用情形。",
-        "RowCount": "資料列計數",
-        "Table": "資料表",
-        "TotalSize": "總容量"
-    },
     "Feedback": {
         "CategoryHire": "雇用一位 Piwik 顧問",
         "CategorySecurity": "回報一個安全性問題",
@@ -692,13 +681,6 @@
         "WidgetOverview": "總覽",
         "WidgetSearchEngines": "搜尋引擎",
         "WidgetSocials": "社交網站清單"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "基於 PhpSecInfo 從 PHP 安全協會，這個外掛提供安全性資訊，並提供你的PHP環境改善建議。它是一個多層次的安全工具。它不會從原始碼 \/ 應用程式來取代。",
-        "Result": "結果",
-        "Security": "安全性",
-        "SecurityInformation": "PHP 安全性資訊",
-        "Test": "測試"
     },
     "SEO": {
         "AlexaRank": "Alexa 排名",
@@ -1339,18 +1321,6 @@
         "SubmenuFrequency": "造訪頻率",
         "WidgetGraphReturning": "重返造訪圖表",
         "WidgetOverview": "造訪頻率總覽"
-    },
-    "VisitorGenerator": {
-        "AreYouSure": "你確定要產生假的訪客嗎？",
-        "ChoiceYes": "是，我確定！",
-        "DaysToCompute": "計算天數",
-        "NbRequestsPerSec": "每秒請求數",
-        "NotReversible": "它可能%s無法%s簡單地從 piwik 記錄中刪除。",
-        "PluginDescription": "這個外掛用於建立假的訪客。這可以讓 Piwik 使用者或開發人員輕鬆產生假的資料來填充 Piwik 報表。",
-        "SelectWebsite": "選擇網站",
-        "Submit": "送出",
-        "VisitorGenerator": "訪客產生器",
-        "Warning": "你將產生的假訪客將會記錄在你的 Piwik 資料庫裡。"
     },
     "VisitorInterest": {
         "BetweenXYMinutes": "%1$s-%2$s 分",

@@ -113,9 +113,6 @@ rm -f $PIWIKPATH/tmp/language_pack.tar.gz
 #
 # remove files from package data, that shouldn't be used (en.php)
 rm -f en.php
-rm -f pt_BR.php
-rm -f zh_CN.php
-rm -f zh_TW.php
 
 # convert downloaded php files to json
 cd $PIWIKPATH

@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Czy masz pewność, że chcesz uruchomić generację fałszywych symulowanych odwiedzin?",
+        "ChoiceYes": "Tak, mam taką pewność!",
+        "DaysToCompute": "Dni do obliczeń",
+        "NbRequestsPerSec": "Zapytań na sekundę",
+        "NotReversible": "Usunięcie informacji z logów o takich odwiedzinach %s nie%s będzie takie łatwe, proste czy nawet możliwe.",
+        "PluginDescription": "Wtyczka generatora symulowanych odwiedzin. Może być wykorzystywana do wygenerowania symulowanych danych jako prosta metoda sprawdzania Piwik w działaniu, pomocna w zapoznawaniu się z analityką statystyczną użytkowników Piwik.",
+        "SelectWebsite": "Wybierz stronę",
+        "Submit": "Potwierdź",
+        "VisitorGenerator": "Generator odwiedzających",
+        "Warning": "Właśnie zamierzasz wygenerować symulowane odwiedziny, które zostaną zanotowane w bazie danych Piwik, tak jak realne."
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "DBStats": {
+        "PluginDescription": "This plugin reports the MySQL database usage by Piwik tables.",
+        "DatabaseUsage": "Database usage",
+        "MainDescription": "Piwik stores all your web analytics data in a MySQL database. Currently, Piwik tables take up %s of space.",
+        "LearnMore": "To learn more about how Piwik processes data and how to make Piwik work well with medium and high traffic websites, see this documentation: %s.",
+        "Table": "Table",
+        "RowCount": "Row count",
+        "DataSize": "Data size",
+        "IndexSize": "Index size",
+        "TotalSize": "Total size",
+        "DBSize": "DB size",
+        "ReportDataByYear": "Report Tables By Year",
+        "MetricDataByYear": "Metric Tables By Year",
+        "EstimatedSize": "Estimated size",
+        "TrackerTables": "Tracker Tables",
+        "ReportTables": "Report Tables",
+        "MetricTables": "Metric Tables",
+        "OtherTables": "Other Tables"
+    }
+}

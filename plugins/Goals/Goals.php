@@ -16,7 +16,7 @@ use Piwik\Common;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Tracker\GoalManager;
-use Piwik\TranslationWriter;
+use Piwik\Translate;
 use Piwik\Site;
 use Piwik\WidgetsList;
 use Piwik\Db;
@@ -471,7 +471,7 @@ class Goals extends \Piwik\Plugin
             }
             Piwik_AddMenu($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), true, 2);
             foreach ($goals as $goal) {
-                Piwik_AddMenu($mainGoalMenu, str_replace('%', '%%', TranslationWriter::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+                Piwik_AddMenu($mainGoalMenu, str_replace('%', '%%', Translate::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
             }
         }
     }

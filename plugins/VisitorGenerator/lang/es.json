@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "Está seguro que desea generar visitas falsas?",
+        "ChoiceYes": "Si, Estoy seguro!",
+        "DaysToCompute": "Días a computar",
+        "NbRequestsPerSec": "Peticiones por segundo",
+        "NotReversible": "Puede %s no%s ser posible borrar estas visitas fácilmente de los registros de piwik.",
+        "PluginDescription": "Plugin para crear visitas falsas. Puede ser usado por los usuarios o desarrolladores de de Piwik como una manera fácil de generar datos falsos para rellenar los informes de Piwik.",
+        "SelectWebsite": "Seleccionar Sitio Web",
+        "Submit": "Enviar",
+        "VisitorGenerator": "Generador de Visitas",
+        "Warning": "Está a punto de generar visitas falsas que serán grabadas en su base de datos Piwik."
+    }
+}

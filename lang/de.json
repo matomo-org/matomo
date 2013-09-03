@@ -361,25 +361,6 @@
         "WidgetPreview_js": "Widget-Vorschau",
         "WidgetsAndDashboard": "Widgets & Dashboard"
     },
-    "DBStats": {
-        "DatabaseUsage": "Datenbanknutzung",
-        "DataSize": "Datenmenge",
-        "DBSize": "Datenbankgröße",
-        "EstimatedSize": "Erwartete Größe",
-        "IndexSize": "Indexgröße",
-        "LearnMore": "Um mehr darüber zu erfahren, wie Piwik Daten verarbeitet und wie Sie Piwik auf stark besuchten Webseiten einsetzen können, lesen Sie die Dokumentation unter %s.",
-        "MainDescription": "Piwik speichert sämtliche Webanalyse-Daten in der MySQL-Datenbank. Aktuell belegter Speicherplatz %s.",
-        "MetricDataByYear": "Metriktabellen pro Jahr",
-        "MetricTables": "Metriktabellen",
-        "OtherTables": "Andere Tabellen",
-        "PluginDescription": "Dieses Plugin berichtet über die Nutzung und Auslastung der Piwik-Tabellen in der MySQL Datenbank.",
-        "ReportDataByYear": "Berichttabellen pro Jahr",
-        "ReportTables": "Berichttabellen",
-        "RowCount": "Zeilenanzahl",
-        "Table": "Tabelle",
-        "TotalSize": "Gesamtgröße",
-        "TrackerTables": "Trackertabellen"
-    },
     "DoNotTrack": {
         "PluginDescription": "Besuche mit X-Do-Not-Track oder DNT Header ignorieren."
     },
@@ -1116,7 +1097,6 @@
         "Referrer_URL": "Herkunftsseite",
         "SimpleRealTimeWidget_Message": "%s und %s in den letzten %s.",
         "Time": "Zeit",
-        "ViewMoreVisitInfo": "Mehr Besucherinformationen ansehen",
         "VisitedPages": "Besuchte Seiten",
         "VisitorLog": "Besucher-Log",
         "VisitorLogDocumentation": "Diese Tabelle zeigt die letzten Besuche innerhalb der ausgewählten Periode. Sie können sehen, wann der Besucher die Seite zuletzt besucht hat, wenn Sie die Maus über das Datum eines Besuches bewegen. %s Wenn die gewählte Periode den heutigen Tag enthält, können Sie die Besuche in Echtzeit sehen! %s Die angezeigten Daten sind immer live, egal ob und in welchem Intervall Sie den Archivierungs-Cronjob verwenden.",
@@ -1202,7 +1182,7 @@
         "MobileReport_MobileMessagingSettingsLink": "der Mobile Messaging Einstellungsseite",
         "MobileReport_NoPhoneNumbers": "Bitte aktivieren Sie mindestens eine Telefonnummer durch besuchen",
         "MobileReport_PhoneNumbers": "Telefonnummern",
-        "MultiSites_Must_Be_Activated": "Um SMS-Berichte über ihre Webseiten-Statistiken generieren zu können, aktivieren Sie das MultiSites-Plugin in Piwik.",
+        "MultiSites_Must_Be_Activated": "Um SMS-Berichte über Ihre Webseiten-Statistiken generieren zu können, aktivieren Sie das MultiSites-Plugin in Piwik.",
         "PluginDescription": "Erstellen Sie eigene SMS-Berichte, laden Sie diese herunter und lassen Sie diese täglich, wöchentlich oder monatlich auf Ihr Handy senden.",
         "Settings_AddPhoneNumber": "Hinzufügen",
         "Settings_APIKey": "API Schlüssel",
@@ -1450,13 +1430,6 @@
         "MultiRowEvolutionTitle": "Entwicklung von mehreren Zeilen",
         "PickAnotherRow": "Wählen Sie eine andere Zeile zum vergleichen",
         "PickARow": "Wählen Sie eine Zeile zum vergleichen"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Basierend auf der PhpSecInfo des PHP Sicherheitskonsortiums zeigt dieses Plugin Sicherheitsinformationen zu Ihrer PHP-Umgebung an und unterbreitet Vorschläge zu dessen Verbesserung. Es ist ein Werkzeug mit mehrschichtigen Sicherheitsaspekten. Es ersetzt weder die Verwendung sicherer Programmiertechniken noch die Durchführung von Sicherheits-Audits.",
-        "Result": "Ergebnis",
-        "Security": "Sicherheit",
-        "SecurityInformation": "PHP-Sicherheitsinformationen",
-        "Test": "Test"
     },
     "SegmentEditor": {
         "AddANDorORCondition": "%s Bedingung hinzufügen",
@@ -2323,18 +2296,6 @@
         "SubmenuFrequency": "Häufigkeit",
         "WidgetGraphReturning": "Graph der wiederkehrenden Besuche",
         "WidgetOverview": "Häufigkeitsübersicht"
-    },
-    "VisitorGenerator": {
-        "AreYouSure": "Wollen Sie wirklich fingierte Besucherzahlen generieren?",
-        "ChoiceYes": "Ja, ich bin mir sicher!",
-        "DaysToCompute": "Zu berechnende Tage",
-        "NbRequestsPerSec": "Anfragen pro Sekunde",
-        "NotReversible": "Es ist %s nicht%s einfach möglich, diese Besuche aus den Piwik-Logs zu löschen.",
-        "PluginDescription": "Plugin, mit dem fingierte Besuche generiert werden können. Dies kann von Piwik-Benutzern oder -Entwicklern genutzt werden, um fingierte Daten zu erzeugen, um die Piwik-Berichte zu füllen.",
-        "SelectWebsite": "Wählen Sie die Webseite",
-        "Submit": "Abschicken",
-        "VisitorGenerator": "Besuchergenerator",
-        "Warning": "Sie sind gerade dabei, fingierte Besuche zu generieren, die in der Piwik-Datenbank gespeichert werden."
     },
     "VisitorInterest": {
         "BetweenXYMinutes": "%1$s-%2$s min",

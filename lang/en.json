@@ -847,25 +847,6 @@
         "DashboardEmptyNotification": "Your Dashboard does not contain any widgets. Start by adding some widgets or just reset the dashboard to the default widget selection.",
         "TopLinkTooltip": "View Web Analytics reports for %s."
     },
-    "DBStats": {
-        "PluginDescription": "This plugin reports the MySQL database usage by Piwik tables.",
-        "DatabaseUsage": "Database usage",
-        "MainDescription": "Piwik stores all your web analytics data in a MySQL database. Currently, Piwik tables take up %s of space.",
-        "LearnMore": "To learn more about how Piwik processes data and how to make Piwik work well with medium and high traffic websites, see this documentation: %s.",
-        "Table": "Table",
-        "RowCount": "Row count",
-        "DataSize": "Data size",
-        "IndexSize": "Index size",
-        "TotalSize": "Total size",
-        "DBSize": "DB size",
-        "ReportDataByYear": "Report Tables By Year",
-        "MetricDataByYear": "Metric Tables By Year",
-        "EstimatedSize": "Estimated size",
-        "TrackerTables": "Tracker Tables",
-        "ReportTables": "Report Tables",
-        "MetricTables": "Metric Tables",
-        "OtherTables": "Other Tables"
-    },
     "DoNotTrack": {
         "PluginDescription": "Ignore visits with X-Do-Not-Track or DNT header."
     },
@@ -1350,13 +1331,6 @@
         "ViewReferrersBy": "View Referrers by %s",
         "ViewAllReferrers": "View all Referrers",
         "WidgetTopKeywordsForPages": "Top Keywords for Page URL"
-    },
-    "SecurityInfo": {
-        "PluginDescription": "Based on PhpSecInfo from the PHP Security Consortium, this plugin provides security information about your PHP environment and offers suggestions for improvement. It is a tool in a multilayered security approach. It does not replace secure development practices nor audit the code\/application.",
-        "Security": "Security",
-        "SecurityInformation": "PHP Security Information",
-        "Test": "Test",
-        "Result": "Result"
     },
     "SEO": {
         "SeoRankings": "SEO Rankings",
@@ -1982,18 +1956,6 @@
         "WidgetOverview": "Frequency Overview",
         "WidgetGraphReturning": "Returning Visits Over Time",
         "SubmenuFrequency": "Frequency"
-    },
-    "VisitorGenerator": {
-        "PluginDescription": "Plugin to create fake visits. This can be used by Piwik users or developers as an easy way to generate fake data to populate Piwik reports.",
-        "VisitorGenerator": "Visitor Generator",
-        "Warning": "You are about to generate fake visits which will be recorded in your Piwik database.",
-        "NotReversible": "It will %s not%s be possible to easily delete these visits from the piwik logs.",
-        "AreYouSure": "Are you sure you want to generate fake visits?",
-        "ChoiceYes": "Yes, I am sure!",
-        "Submit": "Submit",
-        "SelectWebsite": "Select Website",
-        "NbRequestsPerSec": "Requests per second",
-        "DaysToCompute": "Days to compute"
     },
     "VisitorInterest": {
         "PluginDescription": "Reports about the Visitor Interest: number of pages viewed, time spent on the Website.",

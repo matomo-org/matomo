@@ -1,0 +1,14 @@
+{
+    "VisitorGenerator": {
+        "AreYouSure": "本当に偽のビジットを生成しますか？",
+        "ChoiceYes": "はい、お願いします！",
+        "DaysToCompute": "算出する日数",
+        "NbRequestsPerSec": "秒単位のリクエスト数",
+        "NotReversible": "Piwik のログからこれらのビジットを%s容易に削除することはできません%s。",
+        "PluginDescription": "偽のビジットを作成するプラグインです。 Piwik のユーザーや開発者が、Piwik リポートに偽のデータを生成する簡単な方法として使用することができます。",
+        "SelectWebsite": "ウェブサイトの選択",
+        "Submit": "実行",
+        "VisitorGenerator": "ビジタージェネレータ",
+        "Warning": "Piwik データベースに記録される偽のビジットを生成しようとしています。"
+    }
+}

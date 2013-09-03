@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Basat amb PhpSecInfor del consorci de seguretat de PHP, aquesta extensió mostra informació de seguretat sobre el vostre entorn de PHP i ofereix sugestions per la millora. No elimina les practiques de desenvolupmanet segur ni audita el codi ni la aplicació.",
+        "Result": "Resultat",
+        "Security": "Seguretat",
+        "SecurityInformation": "Informació de Seguretat de PHP",
+        "Test": "Prova"
+    }
+}

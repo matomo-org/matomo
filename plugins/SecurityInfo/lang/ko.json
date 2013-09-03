@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "PHP 보안 컨소시엄 PhpSecInfo에 따라 PHP 환경에 대한 보안 및 개선을위한 제안을 제공합니다. 이것은 다층 보안 접근의 도구이며 안전한 개발 사례를 대체도 코드\/응용프로그램 감사도 없습니다.",
+        "Result": "결과",
+        "Security": "보안",
+        "SecurityInformation": "PHP 보안 정보",
+        "Test": "테스트"
+    }
+}
