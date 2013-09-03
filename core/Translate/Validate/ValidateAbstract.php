@@ -17,19 +17,7 @@ namespace Piwik\Translate\Validate;
  */
 abstract class ValidateAbstract
 {
-    protected $_baseTranslations = array();
-
-    protected $_error = null;
-
-    /**
-     * Sets base translations
-     *
-     * @param array $baseTranslations
-     */
-    public function __construct($baseTranslations=array())
-    {
-        $this->_baseTranslations = $baseTranslations;
-    }
+    protected $_message = null;
 
     /**
      * Returns if the given translations are valid
@@ -42,11 +30,13 @@ abstract class ValidateAbstract
     abstract public function isValid($translations);
 
     /**
-     * Returns the error occured while validating
-     * @return mixed
+     * Returns an array of messages that explain why the most recent isValid()
+     * call returned false.
+     *
+     * @return array
      */
-    public function getError()
+    public function getMessage()
     {
-        return $this->_error;
+        return $this->_message;
     }
 }

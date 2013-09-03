@@ -9,6 +9,13 @@ use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\API;
 use Piwik\Translate\Writer;
 use Piwik\PluginsManager;
+use Piwik\Translate\Validate\NoScripts;
+use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Translate\Filter\ByBaseTranslations;
+use Piwik\Translate\Filter\ByParameterCount;
+use Piwik\Translate\Filter\EmptyTranslations;
+use Piwik\Translate\Filter\EncodedEntities;
+use Piwik\Translate\Filter\UnnecassaryWhitespaces;
 
 require_once 'LanguagesManager/API.php';
 
@@ -62,10 +69,33 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
     {
         $translationWriter = new Writer($language, $plugin);
 
-        if ($translationWriter->hasErrors()) {
+        $baseTranslations = $translationWriter->getTranslations('en');
+
+        $translationWriter->addValidator(new NoScripts());
+        if (empty($plugin)) {
+            $translationWriter->addValidator(new CoreTranslations($baseTranslations));
+        }
+
+        $translationWriter->addFilter(new ByBaseTranslations($baseTranslations));
+        $translationWriter->addFilter(new EmptyTranslations());
+        $translationWriter->addFilter(new ByParameterCount($baseTranslations));
+        $translationWriter->addFilter(new UnnecassaryWhitespaces($baseTranslations));
+        $translationWriter->addFilter(new EncodedEntities());
+
+        $translations = $translationWriter->getTranslations($language);
+
+        if (empty($translations)) {
+            return; // skip language / plugin combinations that aren't present
+        }
+
+        $translationWriter->setTranslations($translations);
+
+        $this->assertTrue($translationWriter->isValid(), $translationWriter->getValidationMessage());
+
+        if ($translationWriter->wasFiltered()) {
 
             $translationWriter->saveTemporary();
-            $this->fail(implode("\n", $translationWriter->getErrors()) . "\n" . 'Translation file errors detected in ' . $language . "...\n");
+            $this->fail(implode("\n", $translationWriter->getFilterMessages()) . "\n" . 'Translation file errors detected in ' . $language . "...\n");
         }
     }
 

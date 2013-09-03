@@ -14,13 +14,8 @@ namespace Piwik\Translate;
 use Exception;
 use Piwik\Common;
 use Piwik\PluginsManager;
-use Piwik\Translate\Filter\ByBaseTranslations;
-use Piwik\Translate\Filter\ByParameterCount;
-use Piwik\Translate\Filter\EncodedEntities;
-use Piwik\Translate\Filter\EmptyTranslations;
-use Piwik\Translate\Filter\UnnecassaryWhitespaces;
-use Piwik\Translate\Validate\CoreTranslations;
-use Piwik\Translate\Validate\NoScripts;
+use Piwik\Translate\Filter\FilterAbstract;
+use Piwik\Translate\Validate\ValidateAbstract;
 
 /**
  * Writes clean translations to file
@@ -45,13 +40,6 @@ class Writer
     protected $_pluginName = null;
 
     /**
-     * base translations (english) for the current instance
-     *
-     * @var array
-     */
-    protected $_baseTranslations = array();
-
-    /**
      * translations to write to file
      *
      * @var array
@@ -59,16 +47,37 @@ class Writer
     protected $_translations = array();
 
     /**
-     * Errors occured while cleaning the translations
+     * Validators to check translations with
+     *
+     * @var ValidateAbstract[]
+     */
+    protected $_validators = array();
+
+    /**
+     * Message why validation failed
+     *
+     * @var string|null
+     */
+    protected $_validationMessage = null;
+
+    /**
+     * Filters to to apply to translations
+     *
+     * @var FilterAbstract[]
+     */
+    protected $_filters = array();
+
+    /**
+     * Messages which filter changed the data
      *
      * @var array
      */
-    protected $_cleanErrors = array();
+    protected $_filterMessages = array();
 
-    const __UNCLEANED__  = 'uncleaned';
-    const __CLEANED__    = 'cleaned';
+    const __UNFILTERED__  = 'unfiltered';
+    const __FILTERED__    = 'filtered';
 
-    protected $_currentState = self::__UNCLEANED__;
+    protected $_currentState = self::__UNFILTERED__;
 
     /**
      * If $pluginName is given, Writer will be initialized for the given plugin if it exists
@@ -92,9 +101,6 @@ class Writer
 
             $this->_pluginName = $pluginName;
         }
-
-        $this->_baseTranslations = $this->_loadTranslation('en');
-        $this->setTranslations($this->_loadTranslation($this->getLanguage()));
     }
 
     /**
@@ -125,7 +131,7 @@ class Writer
      */
     public function hasTranslations()
     {
-        return !empty($this->_baseTranslations) && !empty($this->_translations);
+        return !empty($this->_translations);
     }
 
     /**
@@ -135,19 +141,19 @@ class Writer
      */
     public function setTranslations($translations)
     {
-        $this->_currentState = self::__UNCLEANED__;
+        $this->_currentState = self::__UNFILTERED__;
         $this->_translations = $translations;
-        $this->_cleanTranslations();
+        $this->_applyFilters();
     }
 
     /**
-     * Load translations from file
+     * Get translations from file
      *
      * @param  string  $lang  ISO 639-1 alpha-2 language code
      * @throws Exception
      * @return array   Array of translations ( plugin => ( key => translated string ) )
      */
-    protected function _loadTranslation($lang)
+    public function getTranslations($lang)
     {
         $path = $this->_getTranslationPath('lang', $lang);
         if (!is_readable($path)) {
@@ -224,10 +230,17 @@ class Writer
     /**
      * Save translations to file; translations should already be cleaned.
      *
+     * @throws \Exception
      * @return bool|int  False if failure, or number of bytes written
      */
     public function save()
     {
+        $this->_applyFilters();
+
+        if (!$this->hasTranslations() || !$this->isValid()) {
+            throw new Exception('unable to save empty or invalid translations');
+        }
+
         $path = $this->getTranslationPath();
 
         Common::mkdir(dirname($path));
@@ -238,10 +251,17 @@ class Writer
     /**
      * Save translations to  temporary file; translations should already be cleansed.
      *
+     * @throws \Exception
      * @return bool|int False if failure, or number of bytes written
      */
     public function saveTemporary()
     {
+        $this->_applyFilters();
+
+        if (!$this->hasTranslations() || !$this->isValid()) {
+            throw new Exception('unable to save empty or invalid translations');
+        }
+
         $path = $this->getTemporaryTranslationPath();
 
         Common::mkdir(dirname($path));
@@ -250,13 +270,54 @@ class Writer
     }
 
     /**
+     * Adds an validator to check before saving
+     *
+     * @param ValidateAbstract $validator
+     */
+    public function addValidator(ValidateAbstract $validator)
+    {
+        $this->_validators[] = $validator;
+    }
+
+    /**
+     * Returns if translations are valid to save or not
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        $this->_applyFilters();
+
+        $this->_validationMessage = null;
+
+        foreach ($this->_validators AS $validator) {
+            if (!$validator->isValid($this->_translations)) {
+                $this->_validationMessage = $validator->getMessage();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns last validation message
+     *
+     * @return null|string
+     */
+    public function getValidationMessage()
+    {
+        return $this->_validationMessage;
+    }
+
+    /**
      * Returns if the were translations removed while cleaning
      *
      * @return bool
      */
-    public function hasErrors()
+    public function wasFiltered()
     {
-        return !empty($this->_cleanErrors);
+        return !empty($this->_filterMessages);
     }
 
     /**
@@ -264,9 +325,17 @@ class Writer
      *
      * @return array
      */
-    public function getErrors()
+    public function getFilterMessages()
     {
-        return $this->_cleanErrors;
+        return $this->_filterMessages;
+    }
+
+    /**
+     * @param FilterAbstract $filter
+     */
+    public function addFilter(FilterAbstract $filter)
+    {
+        $this->_filters[] = $filter;
     }
 
     /**
@@ -274,77 +343,39 @@ class Writer
      *
      * @return bool   error state
      */
-    protected function _cleanTranslations()
+    protected function _applyFilters()
     {
         // skip if already cleaned
-        if ($this->_currentState == self::__CLEANED__) {
-            return $this->hasErrors();
+        if ($this->_currentState == self::__FILTERED__) {
+            return $this->wasFiltered();
         }
 
-        $this->_cleanErrors = array();
+        $this->_filterMessages = array();
 
         // skip if not translations available
         if (!$this->hasTranslations()) {
-            $this->_currentState = self::__CLEANED__;
+            $this->_currentState = self::__FILTERED__;
             return false;
         }
 
-        $basefilter = new ByBaseTranslations($this->_baseTranslations);
-        $cleanedTranslations = $basefilter->filter($this->_translations);
-        $filteredData = $basefilter->getFilteredData();
-        if (!empty($filteredData)) {
-            $this->_cleanErrors[] = "removed translations that are not present in base translations: " .var_export($filteredData, 1);
-        }
+        $cleanedTranslations = $this->_translations;
 
-        $emptyfilter = new EmptyTranslations($this->_baseTranslations);
-        $cleanedTranslations = $emptyfilter->filter($cleanedTranslations);
-        $filteredData = $emptyfilter->getFilteredData();
-        if (!empty($filteredData)) {
-            $this->_cleanErrors[] = "removed empty translations: " .var_export($filteredData, 1);
-        }
+        foreach ($this->_filters AS $filter) {
 
-        $parameterFilter = new ByParameterCount($this->_baseTranslations);
-        $cleanedTranslations = $parameterFilter->filter($cleanedTranslations);
-        $filteredData = $parameterFilter->getFilteredData();
-        if (!empty($filteredData)) {
-            $this->_cleanErrors[] = "removed translations that had diffrent parameter counts: " .var_export($filteredData, 1);
-        }
-
-        $whitespaceFilter = new UnnecassaryWhitespaces($this->_baseTranslations);
-        $cleanedTranslations = $whitespaceFilter->filter($cleanedTranslations);
-        $filteredData = $whitespaceFilter->getFilteredData();
-        if (!empty($filteredData)) {
-            $this->_cleanErrors[] = "filtered unnecassary whitespaces in some translations: " .var_export($filteredData, 1);
-        }
-
-        $entityFilter = new EncodedEntities($this->_baseTranslations);
-        $cleanedTranslations = $entityFilter->filter($cleanedTranslations);
-        $filteredData = $entityFilter->getFilteredData();
-        if (!empty($filteredData)) {
-            $this->_cleanErrors[] = "converting entities to characters in some translations: " .var_export($filteredData, 1);
-        }
-
-        $noscriptValidator = new NoScripts();
-        if (!$noscriptValidator->isValid($cleanedTranslations)) {
-            throw new Exception($noscriptValidator->getError());
-        }
-
-        // check requirements for core translations
-        if (empty($this->_pluginName)) {
-
-            $baseValidator = new CoreTranslations($this->_baseTranslations);
-            if(!$baseValidator->isValid($cleanedTranslations)) {
-                throw new Exception($baseValidator->getError());
+            $cleanedTranslations = $filter->filter($cleanedTranslations);
+            $filteredData = $filter->getFilteredData();
+            if (!empty($filteredData)) {
+                $this->_filterMessages[] = get_class($filter) . " changed: " .var_export($filteredData, 1);
             }
         }
 
-        $this->_currentState = self::__CLEANED__;
+        $this->_currentState = self::__FILTERED__;
 
         if ($cleanedTranslations != $this->_translations) {
-            $this->_cleanErrors[] = 'translations have been cleaned';
+            $this->_filterMessages[] = 'translations have been cleaned';
         }
 
         $this->_translations = $cleanedTranslations;
-        return $this->hasErrors();
+        return $this->wasFiltered();
     }
 }

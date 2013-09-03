@@ -136,6 +136,6 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
         $filter = new CoreTranslations();
         $result = $filter->isValid($translations);
         $this->assertFalse($result);
-        $this->assertEquals($msg, $filter->getError());
+        $this->assertEquals($msg, $filter->getMessage());
     }
 }

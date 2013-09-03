@@ -19,6 +19,18 @@ use Piwik\Translate\Filter\FilterAbstract;
  */
 class ByBaseTranslations extends FilterAbstract
 {
+    protected $_baseTranslations = array();
+
+    /**
+     * Sets base translations
+     *
+     * @param array $baseTranslations
+     */
+    public function __construct($baseTranslations=array())
+    {
+        $this->_baseTranslations = $baseTranslations;
+    }
+
     /**
      * Removes all translations that aren't present in the base translations set in constructor
      *

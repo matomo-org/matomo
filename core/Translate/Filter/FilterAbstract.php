@@ -19,18 +19,6 @@ abstract class FilterAbstract
 {
     protected $_filteredData = array();
 
-    protected $_baseTranslations = array();
-
-    /**
-     * Sets base translations
-     *
-     * @param array $baseTranslations
-     */
-    public function __construct($baseTranslations=array())
-    {
-        $this->_baseTranslations = $baseTranslations;
-    }
-
     /**
      * Filter the given translations
      *

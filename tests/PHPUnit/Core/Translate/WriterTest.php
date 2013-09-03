@@ -2,6 +2,10 @@
 use Piwik\Common;
 use Piwik\Translate\Writer;
 use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Translate\Validate\NoScripts;
+use Piwik\Translate\Filter\ByBaseTranslations;
+use Piwik\Translate\Filter\ByParameterCount;
+use Piwik\Translate\Filter\UnnecassaryWhitespaces;
 
 /**
  * Piwik - Open source web analytics
@@ -26,7 +30,8 @@ class WriterTest extends PHPUnit_Framework_TestCase
     public function testConstructorValid($language, $plugin)
     {
         $translationWriter = new Writer($language, $plugin);
-        $this->assertTrue($translationWriter->hasTranslations());
+        $this->assertEquals($language, $translationWriter->getLanguage());
+        $this->assertFalse($translationWriter->hasTranslations());
     }
 
     public function getValidConstructorData()
@@ -51,21 +56,52 @@ class WriterTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      * @group Translate
-     * @ expectedException Exception
-     * @dataProvider getExceptionalTranslations
      */
-    public function testSetTranslationsThrowsException($translations, $error)
+    public function testHasTranslations()
     {
         $writer = new Writer('de');
-        try {
-            $writer->setTranslations($translations);
-            $this->fail('Exception not thrown');
-        } catch (Exception $e) {
-            $this->assertEquals($error, $e->getMessage());
-        }
+        $writer->setTranslations(array('General' => array('test' => 'test')));
+        $this->assertTrue($writer->hasTranslations());
     }
 
-    public function getExceptionalTranslations()
+    /**
+     * @group Core
+     * @group Translate
+     */
+    public function testHasNoTranslations()
+    {
+        $writer = new Writer('de');
+        $this->assertFalse($writer->hasTranslations());
+    }
+
+    /**
+     * @group Core
+     * @group Translate
+     */
+    public function testSetTranslationsEmpty()
+    {
+        $writer = new Writer('de');
+        $writer->setTranslations(array());
+        $this->assertTrue($writer->isValid());
+        $this->assertFalse($writer->hasTranslations());
+    }
+
+    /**
+     * @group Core
+     * @group Translate
+     * @dataProvider getInvalidTranslations
+     */
+    public function testSetTranslationsInvalid($translations, $error)
+    {
+        $writer = new Writer('de');
+        $writer->setTranslations($translations);
+        $writer->addValidator(new NoScripts());
+        $writer->addValidator(new CoreTranslations());
+        $this->assertFalse($writer->isValid());
+        $this->assertEquals($error, $writer->getValidationMessage());
+    }
+
+    public function getInvalidTranslations()
     {
         $translations = json_decode(file_get_contents(PIWIK_INCLUDE_PATH.'/lang/de.json'), true);
         return array(
@@ -94,7 +130,28 @@ class WriterTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      * @group Translate
-     * @group Translate_Write
+     * @expectedException Exception
+     */
+    public function testSaveException()
+    {
+        $writer = new Writer('it');
+        $writer->save();
+    }
+
+    /**
+     * @group Core
+     * @group Translate
+     * @expectedException Exception
+     */
+    public function testSaveTemporaryException()
+    {
+        $writer = new Writer('it');
+        $writer->saveTemporary();
+    }
+
+    /**
+     * @group Core
+     * @group Translate
      */
     public function testSaveTranslation()
     {
@@ -111,12 +168,20 @@ class WriterTest extends PHPUnit_Framework_TestCase
         );
 
         $translationWriter = new Writer('fr');
+
+        $translationWriter->addFilter(new UnnecassaryWhitespaces($translations));
+        $translationWriter->addFilter(new ByBaseTranslations($translations));
+        $translationWriter->addFilter(new ByParameterCount($translations));
+
         $translationWriter->setTranslations($translationsToWrite);
 
         $rc = $translationWriter->saveTemporary();
+
+        @unlink(PIWIK_INCLUDE_PATH.'/tmp/fr.json');
+
         $this->assertGreaterThan(50000, $rc);
 
-        $this->assertCount(4, $translationWriter->getErrors());
+        $this->assertCount(4, $translationWriter->getFilterMessages());
     }
 
     /**

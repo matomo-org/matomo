@@ -19,6 +19,18 @@ use Piwik\Translate\Filter\FilterAbstract;
  */
 class UnnecassaryWhitespaces extends FilterAbstract
 {
+    protected $_baseTranslations = array();
+
+    /**
+     * Sets base translations
+     *
+     * @param array $baseTranslations
+     */
+    public function __construct($baseTranslations=array())
+    {
+        $this->_baseTranslations = $baseTranslations;
+    }
+
     /**
      * Removes all unnecassary whitespaces and newlines from the given translations
      *
@@ -32,14 +44,17 @@ class UnnecassaryWhitespaces extends FilterAbstract
         foreach ($translations AS $pluginName => $pluginTranslations) {
             foreach ($pluginTranslations AS $key => $translation) {
 
-                $baseTranslation  = $this->_baseTranslations[$pluginName][$key];
+                $baseTranslation = '';
+                if (isset($this->_baseTranslations[$pluginName][$key])) {
+                    $baseTranslation  = $this->_baseTranslations[$pluginName][$key];
+                }
 
                 // remove excessive line breaks (and leading/trailing whitespace) from translations
                 $stringNoLineBreak = trim($translation);
                 $stringNoLineBreak = str_replace("\r", "", $stringNoLineBreak); # remove useless carrige renturns
                 $stringNoLineBreak = preg_replace('/(\n[ ]+)/', "\n", $stringNoLineBreak); # remove useless white spaces after line breaks
                 $stringNoLineBreak = preg_replace('/([\n]{2,})/', "\n\n", $stringNoLineBreak); # remove excessive line breaks
-                if (!isset($baseTranslation) || !substr_count($baseTranslation, "\n")) {
+                if (empty($baseTranslation) || !substr_count($baseTranslation, "\n")) {
                     $stringNoLineBreak = preg_replace("/[\n]+/", " ", $stringNoLineBreak); # remove all line breaks if english string doesn't contain any
                 }
                 $stringNoLineBreak = preg_replace('/([ ]{2,})/', " ", $stringNoLineBreak); # remove excessive white spaces again as there might be any now, after removing line breaks

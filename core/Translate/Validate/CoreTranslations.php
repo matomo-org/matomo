@@ -32,6 +32,18 @@ class CoreTranslations extends ValidateAbstract
     const __ERRORSTATE_LOCALEINVALIDLANGUAGE__      = 'Locale is invalid - invalid language code';
     const __ERRORSTATE_LOCALEINVALIDCOUNTRY__       = 'Locale is invalid - invalid country code';
 
+    protected $_baseTranslations = array();
+
+    /**
+     * Sets base translations
+     *
+     * @param array $baseTranslations
+     */
+    public function __construct($baseTranslations=array())
+    {
+        $this->_baseTranslations = $baseTranslations;
+    }
+
     /**
      * Validates the given translations
      *  * There need to be more than 250 translations presen
@@ -46,30 +58,32 @@ class CoreTranslations extends ValidateAbstract
      */
     public function isValid($translations)
     {
+        $this->_message = null;
+
         if (250 > count($translations, COUNT_RECURSIVE)) {
-            $this->_error = self::__ERRORSTATE_MINIMUMTRANSLATIONS__;
+            $this->_message = self::__ERRORSTATE_MINIMUMTRANSLATIONS__;
             return false;
         }
 
         if (empty($translations['General']['Locale'])) {
-            $this->_error = self::__ERRORSTATE_LOCALEREQUIRED__;
+            $this->_message = self::__ERRORSTATE_LOCALEREQUIRED__;
             return false;
         }
 
         if (empty($translations['General']['TranslatorName'])) {
-            $this->_error = self::__ERRORSTATE_TRANSLATORINFOREQUIRED__;
+            $this->_message = self::__ERRORSTATE_TRANSLATORINFOREQUIRED__;
             return false;
         }
 
         if (empty($translations['General']['TranslatorEmail'])) {
-            $this->_error = self::__ERRORSTATE_TRANSLATOREMAILREQUIRED__;
+            $this->_message = self::__ERRORSTATE_TRANSLATOREMAILREQUIRED__;
             return false;
         }
 
         if (!empty($translations['General']['LayoutDirection']) &&
             !in_array($translations['General']['LayoutDirection'], array('ltr', 'rtl'))
         ) {
-            $this->_error = self::__ERRORSTATE_LAYOUTDIRECTIONINVALID__;
+            $this->_message = self::__ERRORSTATE_LAYOUTDIRECTIONINVALID__;
             return false;
         }
 
@@ -77,13 +91,13 @@ class CoreTranslations extends ValidateAbstract
         $allCountries = Common::getCountriesList();
 
         if (!preg_match('/^([a-z]{2})_([A-Z]{2})\.UTF-8$/', $translations['General']['Locale'], $matches)) {
-            $this->_error = self::__ERRORSTATE_LOCALEINVALID__;
+            $this->_message = self::__ERRORSTATE_LOCALEINVALID__;
             return false;
         } else if (!array_key_exists($matches[1], $allLanguages)) {
-            $this->_error = self::__ERRORSTATE_LOCALEINVALIDLANGUAGE__;
+            $this->_message = self::__ERRORSTATE_LOCALEINVALIDLANGUAGE__;
             return false;
         } else if (!array_key_exists(strtolower($matches[2]), $allCountries)) {
-            $this->_error = self::__ERRORSTATE_LOCALEINVALIDCOUNTRY__;
+            $this->_message = self::__ERRORSTATE_LOCALEINVALIDCOUNTRY__;
             return false;
         }
 
