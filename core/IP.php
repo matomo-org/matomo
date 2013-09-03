@@ -235,7 +235,7 @@ class IP
      */
     public static function isIPv6($ip)
     {
-        return strpos($ip, ':') !== false;
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
     }
 
     /**

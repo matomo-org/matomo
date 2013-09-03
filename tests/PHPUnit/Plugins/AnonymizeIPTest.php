@@ -33,6 +33,24 @@ class AnonymizeIPTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function getipv6Addresses()
+    {
+        return array(
+            array('2001:db8:0:8d3:0:8a2e:70:7344', array(
+                "\x20\x01\x0d\xb8\x00\x00\x08\xd3\x00\x00\x8a\x2e\x00\x70\x73\x44",
+                "\x20\x01\x0d\xb8\x00\x00\x08\xd3\x00\x00\x00\x00\x00\x00\x00\x00", // mask 64 bits
+                "\x20\x01\x0d\xb8\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", // mask 80 bits
+                "\x20\x01\x0d\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" // mask 104 bits
+            )),
+            array('2001:6f8:900:724::2', array(
+                "\x20\x01\x06\xf8\x09\x00\x07\x24\x00\x00\x00\x00\x00\x00\x00\x02",
+                "\x20\x01\x06\xf8\x09\x00\x07\x24\x00\x00\x00\x00\x00\x00\x00\x00",
+                "\x20\x01\x06\xf8\x09\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+                "\x20\x01\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+            ))
+        );
+    }
+
     /**
      * @dataProvider getipv4Addresses
      * @group Plugins
@@ -55,8 +73,19 @@ class AnonymizeIPTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($res, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff" . $expected[$maskLength], "Got " . bin2hex($res) . ", Expected " . bin2hex($expected[$maskLength]));
         }
         $this->assertEquals("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00", AnonymizeIP::applyIPMask(IP::P2N('::ffff:' . $ip), 5));
+    }
 
-        // edge case (bounds check)
-        $this->assertEquals("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", AnonymizeIP::applyIPMask(IP::P2N('2001::ffff:' . $ip), 17));
+    /**
+     * @dataProvider getipv6Addresses
+     * @group Plugins
+     * @group AnonymizeIP
+     */
+    public function testApplyIPMask6($ip, $expected)
+    {
+        // each IP is tested with 0 to 4 octets masked
+        for ($maskLength = 0; $maskLength < 4; $maskLength++) {
+            $res = AnonymizeIP::applyIPMask(IP::P2N($ip), $maskLength);
+            $this->assertEquals($expected[$maskLength], $res, "Got " . bin2hex($res) . ", Expected " . bin2hex($expected[$maskLength]) . ", Mask Level " . $maskLength);
+        }
     }
 }
