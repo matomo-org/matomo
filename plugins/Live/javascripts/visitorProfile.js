@@ -144,10 +144,18 @@
                 idVisitor: $element.attr('data-visitor-id'),
                 filter_offset: $('.visitor-profile-visits>li', $element).length
             }, 'GET');
-            ajax.setCallback(function (response) { // TODO: test no visits left (& show message (fadein/out))
-                loading.hide();
+            ajax.setCallback(function (response) {
+                if (response == "") { // no more visits left
+                    var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits_js')).addClass('visitor-profile-no-visits')
+                    $('.visitor-profile-more-info', $element).html(noMoreSpan);
+                } else {
+                    response = $(response);
+                    loading.hide();
 
-                $('.visitor-profile-visits', $element).append(response);
+                    $('.visitor-profile-visits', $element).append(response);
+
+                    piwikHelper.lazyScrollTo($(response)[0], 400, true);
+                }
             });
             ajax.setFormat('html');
             ajax.send();

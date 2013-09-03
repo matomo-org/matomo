@@ -162,14 +162,20 @@ class Controller extends \Piwik\Controller
 
     public function getVisitList()
     {
-        $view = new View('@Live/getVisitList.twig');
-        $view->idSite = Common::getRequestVar('idSite', null, 'int');
-        $view->startCounter = Common::getRequestVar('filter_offset', 1, 'int');
-        $view->visits = Request::processRequest('Live.getLastVisitsDetails', array(
+        $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(
             'segment' => self::getSegmentWithVisitorId(),
             'filter_limit' => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
             'disable_generic_filters' => 1
         ));
+
+        if (empty($nextVisits)) {
+            return;
+        }
+
+        $view = new View('@Live/getVisitList.twig');
+        $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->startCounter = Common::getRequestVar('filter_offset', 1, 'int');
+        $view->visits = $nextVisits;
         echo $view->render();
     }
 
