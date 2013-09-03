@@ -65,6 +65,14 @@ class TreemapDataGenerator
     private $showEvolutionValues = false;
 
     /**
+     * The row offset to apply an additional truncation to (the first truncation occurs in
+     * DataTableGenericFilter).
+     * 
+     * @var int
+     */
+    private $truncateAfter = false;
+
+    /**
      * Constructor.
      * 
      * @param string $metricToGraph @see self::$metricToGraph
@@ -105,6 +113,16 @@ class TreemapDataGenerator
     }
 
     /**
+     * Sets the row offset to apply additional truncation after.
+     * 
+     * @param int $truncateAfter
+     */
+    public function setTruncateAfter($truncateAfter)
+    {
+        $this->truncateAfter = $truncateAfter;
+    }
+
+    /**
      * Generates an array that can be encoded as JSON and used w/ the JavaScript Infovis Toolkit.
      * 
      * @param Piwik\DataTable $dataTable
@@ -112,6 +130,11 @@ class TreemapDataGenerator
      */
     public function generate($dataTable)
     {
+        // handle extra truncation
+        if ($this->truncateAfter) {
+            $dataTable->filter('Truncate', array($this->truncateAfter));
+        }
+
         // if showEvolutionValues is true, $dataTable must be a DataTable\Map w/ two child tables
         $pastData = false;
         if ($this->showEvolutionValues) {

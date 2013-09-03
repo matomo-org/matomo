@@ -430,7 +430,7 @@
                     apiMethod: this.param.module + '.' + this.param.action, // TODO: will this work for all subtables?
                     format: 'json',
                     column: this.param.columns,
-                    filter_truncate: this.props.max_graph_elements - 1,
+                    truncateAfter: this.props.max_graph_elements - 1,
                     filter_limit: -1,
                     expanded: 1,
                     depth: this.props.depth || 1,
