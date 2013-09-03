@@ -71,7 +71,7 @@ class AnonymizeIP extends \Piwik\Plugin
                 'ffff:ffff:ffff:0000::',
                 'ffff:ff00:0000:0000::'
             );
-            return $ip & current(unpack('a16', inet_pton($masks[$maskLength])));
+            return $ip & pack('a16', inet_pton($masks[$maskLength]));
         }
         return $ip;
     }
