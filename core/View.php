@@ -111,7 +111,9 @@ class View implements ViewInterface
             $count = Piwik::getWebsitesCountToDisplay();
 
             $sites = SitesManagerAPI::getInstance()->getSitesWithAtLeastViewAccess($count);
-            usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
+            usort($sites, function($site1, $site2) {
+                return strcasecmp($site1["name"], $site2["name"]);
+            });
             $this->sites = $sites;
             $this->url = Common::sanitizeInputValue(Url::getCurrentUrl());
             $this->token_auth = Piwik::getCurrentUserTokenAuth();

@@ -94,7 +94,7 @@ class DevicesDetection extends \Piwik\Plugin
                 'deviceType',
                 'log_visit.config_device_type',
                 implode(", ", UserAgentParserEnhanced::$deviceTypes), // comma separated examples
-                create_function('$type', 'return array_search( strtolower(trim(urldecode($type))), UserAgentParserEnhanced::$deviceTypes);')
+                function($type) { return array_search( strtolower(trim(urldecode($type))), UserAgentParserEnhanced::$deviceTypes); }
             ),
             // device brands report
             array(

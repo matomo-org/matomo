@@ -63,7 +63,7 @@ class Chart
                 'internalLabel' => $label
             );
 
-            array_walk($data, create_function('&$v', '$v = (float)$v;'));
+            array_walk($data, function(&$v) { $v = (float)$v; });
             $this->data[] = & $data;
         }
     }

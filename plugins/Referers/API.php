@@ -306,7 +306,7 @@ class API
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         // the htmlspecialchars_decode call is for BC for before 1.1
         // as the Referrer URL was previously encoded in the log tables, but is now recorded raw
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', create_function('$label', 'return htmlspecialchars_decode($label);')));
+        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', function($label) { return htmlspecialchars_decode($label); }));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getPathFromUrl'));
         return $dataTable;
     }

@@ -132,7 +132,7 @@ class API
             array('label', 'city_name', __NAMESPACE__ . '\getElementFromStringArray',
                   array($separator, 0, $strUnknown)));
         $dataTable->filter('MetadataCallbackAddMetadata',
-            array('city_name', 'city', create_function('$city', ' if ($city == "' . $strUnknown . '") { return "xx"; } else { return false; } ')));
+            array('city_name', 'city', function($city) use ($strUnknown) { if ($city == $strUnknown) { return "xx"; } else { return false; } }));
         $dataTable->filter('ColumnCallbackAddMetadata',
             array('label', 'region', __NAMESPACE__ . '\getElementFromStringArray', array($separator, 1, $unk)));
         $dataTable->filter('ColumnCallbackAddMetadata',

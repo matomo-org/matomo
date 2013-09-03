@@ -314,7 +314,7 @@ class API
                 'ColumnCallbackDeleteRow',
                 array(
                      self::NB_VISITS_METRIC,
-                     create_function('$value', 'return $value != 0;')
+                     function($value) { return $value != 0; }
                 )
             );
         }

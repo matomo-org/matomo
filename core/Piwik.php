@@ -686,7 +686,9 @@ class Piwik
         $outputHandler = ini_get('output_handler');
 
         // output handlers can be stacked
-        $obHandlers = array_filter(ob_list_handlers(), create_function('$var', 'return $var !== "default output handler";'));
+        $obHandlers = array_filter(ob_list_handlers(), function($var) {
+            return $var !== "default output handler";
+        });
 
         // user defined handler via wrapper
         $autoPrependFile = ini_get('auto_prepend_file');
@@ -2258,13 +2260,13 @@ class Piwik
 
         if (Zend_Registry::get('db')->hasBulkLoader()) {
             try {
-//				throw new Exception('');
-
                 $fileSpec = array(
                     'delim' => "\t",
                     'quote' => '"', // chr(34)
                     'escape' => '\\\\', // chr(92)
-                    'escapespecial_cb' => create_function('$str', 'return str_replace(array(chr(92), chr(34)), array(chr(92).chr(92), chr(92).chr(34)), $str);'),
+                    'escapespecial_cb' => function($str) {
+                        return str_replace(array(chr(92), chr(34)), array(chr(92).chr(92), chr(92).chr(34)), $str);
+                    },
                     'eol' => "\r\n",
                     'null' => 'NULL',
                 );
