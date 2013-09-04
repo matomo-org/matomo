@@ -96,7 +96,7 @@ class Sms extends ReportRenderer
             array(
                 $evolutionMetrics,
                 function($value) {
-                    $matched = preg_match("' . self::FLOAT_REGEXP . '", $value, $matches);
+                    $matched = preg_match(self::FLOAT_REGEXP, $value, $matches);
                     return $matched ? sprintf("%+d",$matches[0]) : $value;
                 }
             )
