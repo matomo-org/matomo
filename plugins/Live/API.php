@@ -31,7 +31,7 @@ use Piwik\Plugins\Live\Visitor;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
- * @see plugins/Referers/functions.php
+ * @see plugins/Live/Visitor.php
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 
@@ -248,12 +248,36 @@ class API
                 }
             }
 
-            $countries[] = $visit->getColumn('countryCode');
-            $continents[] = $visit->getColumn('continentCode');
+            $countryCode = $visit->getColumn('countryCode');
+            if (!isset($countries[$countryCode])) {
+                $countries[$countryCode] = 0;
+            }
+            ++$countries[$countryCode];
+
+            $continentCode = $visit->getColumn('continentCode');
+            if (!isset($continents[$continentCode])) {
+                $continents[$continentCode] = 0;
+            }
+            ++$continents[$continentCode];
         }
 
-        $result['countries'] = implode(',', array_unique($countries));
-        $result['continents'] = implode(',', array_unique($continents));
+        // sort countries/continents by visit
+        asort($countries);
+        asort($continents);
+
+        // transform country/continents into something that will look good in XML
+        $result['countries'] = $result['continents'] = array();
+        foreach ($countries as $countryCode => $nbVisits) {
+            $result['countries'][] = array('country' => $countryCode,
+                                           'nb_visits' => $nbVisits,
+                                           'flag' => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
+                                           'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode));
+        }
+        foreach ($continents as $continentCode => $nbVisits) {
+            $result['continents'][] = array('continent' => $continentCode,
+                                            'nb_visits' => $nbVisits,
+                                            'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode));
+        }
 
         $result['totalVisitDurationPretty'] = Piwik::getPrettyTimeFromSeconds($result['totalVisitDuration']);
 
@@ -270,9 +294,12 @@ class API
         $timezone = Site::getTimezoneFor($idSite);
         foreach ($result['lastVisits']->getRows() as $visit) {
             $dateTimeVisitFirstAction = Date::factory($visit->getColumn('firstActionTimestamp'), $timezone);
-            $dateTimePretty = $dateTimeVisitFirstAction->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT);
 
-            $visit->setColumn('serverDatePrettyFirstAction', $dateTimePretty);
+            $datePretty = $dateTimeVisitFirstAction->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT);
+            $visit->setColumn('serverDatePrettyFirstAction', $datePretty);
+
+            $dateTimePretty = $datePretty . ' ' . $visit->getColumn('serverTimePrettyFirstAction');
+            $visit->setColumn('serverDateTimePrettyFirstAction', $dateTimePretty);
         }
 
         // get visitor IDs that are adjacent to this one in log_visit

@@ -118,11 +118,13 @@
 
                     $map.slideDown('slow');
                     var newLabel = 'Live_HideMap_js';
+
+                    piwikHelper.lazyScrollTo($('.visitor-profile-location', $element)[0], 400, true);
                 } else {
                     $map.slideUp('slow');
                     var newLabel = 'Live_ShowMap_js';
                 }
-                $('a', this).text(_pk_translate(newLabel));
+                $(this).text(_pk_translate(newLabel));
 
                 return false;
             });

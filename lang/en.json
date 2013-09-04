@@ -1142,8 +1142,9 @@
         "NoMoreVisits_js": "There are no more visits for this visitor.",
         "PreviousVisitor": "Previous visitor",
         "NextVisitor": "Next visitor",
-        "ShowMap_js": "Show map",
-        "HideMap_js": "Hide map"
+        "ShowMap_js": "show map",
+        "HideMap_js": "hide map",
+        "VisitsFrom": "%1$s%2$s visits%3$s from"
     },
     "Login": {
         "PluginDescription": "Login Authentication plugin, reading the credentials from the config\/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).",

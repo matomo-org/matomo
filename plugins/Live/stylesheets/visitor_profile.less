@@ -219,7 +219,7 @@
 }
 
 .visitor-profile-map {
-    padding:unit(@visitor_profile_map_pad_top, px) 21px 4px 21px;
+    padding:0 21px 13px 21px;
 
     .dataTableFeatures,.no_data {
         display:none !important;
@@ -232,16 +232,8 @@
 }
 
 .visitor-profile-show-map {
-    height:auto;
-    width:100%;
-    display:block;
-    text-align:center;
-    padding-bottom:unit(@visitor_profile_map_pad_bottom, px);
-
-    > a {
-        font-size:14px;
-        font-weight:bold;
-    }
+    font-size:13px;
+    font-style:italic;
 }
 
 .visitor-profile-summary,.visitor-profile-important-visits {
@@ -266,7 +258,6 @@
 }
 
 .visitor-profile-important-visits {
-
     > div {
         float:left;
         width:265px;
@@ -284,6 +275,11 @@
 
 .visitor-profile-location {
     padding:10px 0 4px 19px;
+
+    p {
+        margin:13px 0;
+        font-size:14px;
+    }
 }
 
 .visitor-profile-pages-visited {

@@ -3,7 +3,6 @@
      data-visitor-id="{{ visitorData.lastVisits.getFirstRow().getColumn('visitorId') }}"
      data-next-visitor="{{ visitorData.nextVisitorId }}"
      data-prev-visitor="{{ visitorData.prevVisitorId }}"
-     data-continents="{{ visitorData.continents }}"
      tabindex="0">
     <a href class="visitor-profile-close"></a>
     <div class="visitor-profile-info">
@@ -28,12 +27,6 @@
                         {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#">{{ 'Live_NextVisitor'|translate }} &gt;&gt;</a>{% endif %}
                     </div>
                     <p style="clear:both"/>
-                </div>
-                <div>
-                    <div class="visitor-profile-location">
-                        <h1>{{ 'UserCountry_Location'|translate }}</h1>
-                        {{ lastVisitsChart|raw }}
-                    </div>
                 </div>
                 <div class="visitor-profile-summary">
                     <h1>{{ 'General_Summary'|translate }}</h1>
@@ -68,11 +61,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="visitor-profile-map" style="display:none">
-                    {{ userCountryMap|raw }}
-                </div>
-                <div class="visitor-profile-show-map">
-                    <a href="#">{{ 'Live_ShowMap_js'|translate }}</a>
+                <div>
+                    <div class="visitor-profile-location">
+                        <h1>{{ 'UserCountry_Location'|translate }}</h1>
+                        <p>
+                            {%- for entry in visitorData.countries -%}
+                            {{- 'Live_VisitsFrom'|translate('<strong>', entry.nb_visits, '</strong>')|raw }} <img src="{{ entry.flag }}"/>&nbsp;{{ entry.prettyName }}{% if not loop.last %}, {% endif %}
+                            {%- endfor %}
+                            <a class="visitor-profile-show-map" href="#">({{ 'Live_ShowMap_js'|translate }})</a>
+                        </p>
+                        <div class="visitor-profile-map" style="display:none">
+                            {{ userCountryMap|raw }}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="visitor-profile-visits-info">

@@ -7,18 +7,31 @@
 	<totalConversionsByGoal>
 		<row key="1">1</row>
 	</totalConversionsByGoal>
-	<countries>fr</countries>
-	<continents>eur</continents>
+	<continents>
+		<row>
+			<continent>eur</continent>
+			<nb_visits>2</nb_visits>
+			<prettyName>Europe</prettyName>
+		</row>
+	</continents>
+	<countries>
+		<row>
+			<country>fr</country>
+			<nb_visits>2</nb_visits>
+			<flag>plugins/UserCountry/images/flags/fr.png</flag>
+			<prettyName>France</prettyName>
+		</row>
+	</countries>
 	<totalVisitDurationPretty>6 min 1s</totalVisitDurationPretty>
 	<firstVisit>
-		<date>2013-08-29</date>
-		<prettyDate>29 Aug 2013</prettyDate>
+		
+		
 		<daysAgo>0</daysAgo>
 		<referralSummary>Direct Entry</referralSummary>
 	</firstVisit>
 	<lastVisit>
-		<date>2013-08-29</date>
-		<prettyDate>29 Aug 2013</prettyDate>
+		
+		
 		<daysAgo>0</daysAgo>
 		<referralSummary>Direct Entry</referralSummary>
 	</lastVisit>
@@ -27,7 +40,7 @@
 			<idSite>1</idSite>
 			<idVisit>3</idVisit>
 			<visitIp>156.5.3.2</visitIp>
-			<visitorId>61e8cc2d51fea26d</visitorId>
+			
 			<visitorType>new</visitorType>
 			<visitorTypeIcon />
 			<visitConverted>0</visitConverted>
@@ -43,7 +56,7 @@
 					<pageTitle />
 					<pageIdAction>6</pageIdAction>
 					<pageId>5</pageId>
-					<serverTimePretty>Thu 29 Aug 10:35:33</serverTimePretty>
+					
 					<icon>plugins/Zeitgeist/images/link.gif</icon>
 				</row>
 			</actionDetails>
@@ -60,13 +73,13 @@
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
-			<serverDate>2013-08-29</serverDate>
+			
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<visitServerHour>10</visitServerHour>
-			<firstActionTimestamp>1377772533</firstActionTimestamp>
-			<lastActionTimestamp>1377772533</lastActionTimestamp>
-			<lastActionDateTime>2013-08-29 10:35:33</lastActionDateTime>
+			
+			
+			
+			
 			<visitDuration>0</visitDuration>
 			<visitDurationPretty>0s</visitDurationPretty>
 			<visitCount>1</visitCount>
@@ -120,17 +133,18 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			<serverTimestamp>1377772533</serverTimestamp>
-			<serverTimePretty>10:35:33</serverTimePretty>
-			<serverDatePretty>Thu 29 Aug</serverDatePretty>
-			<serverDatePrettyFirstAction>29 Aug 2013</serverDatePrettyFirstAction>
-			<serverTimePrettyFirstAction>10:35:33</serverTimePrettyFirstAction>
+			
+			
+			
+			
+			
+			<serverDateTimePrettyFirstAction>4 Sep 2013 16:55:17</serverDateTimePrettyFirstAction>
 		</row>
 		<row>
 			<idSite>1</idSite>
 			<idVisit>2</idVisit>
 			<visitIp>156.5.3.2</visitIp>
-			<visitorId>61e8cc2d51fea26d</visitorId>
+			
 			<visitorType>new</visitorType>
 			<visitorTypeIcon />
 			<visitConverted>1</visitConverted>
@@ -146,7 +160,7 @@
 					<goalId>1</goalId>
 					<revenue>0</revenue>
 					<goalPageId />
-					<serverTimePretty>Thu 29 Aug 09:35:33</serverTimePretty>
+					
 					<url>http://example.org/homepage</url>
 					<icon>plugins/Zeitgeist/images/goal.png</icon>
 				</row>
@@ -156,7 +170,7 @@
 					<pageTitle>Homepage</pageTitle>
 					<pageIdAction>2</pageIdAction>
 					<pageId>4</pageId>
-					<serverTimePretty>Thu 29 Aug 09:41:33</serverTimePretty>
+					
 					<icon />
 				</row>
 			</actionDetails>
@@ -173,13 +187,13 @@
 			<goalConversions>1</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
-			<serverDate>2013-08-29</serverDate>
+			
 			<visitLocalTime>12:34:06</visitLocalTime>
 			<visitLocalHour>12</visitLocalHour>
-			<visitServerHour>9</visitServerHour>
-			<firstActionTimestamp>1377768933</firstActionTimestamp>
-			<lastActionTimestamp>1377769293</lastActionTimestamp>
-			<lastActionDateTime>2013-08-29 09:41:33</lastActionDateTime>
+			
+			
+			
+			
 			<visitDuration>361</visitDuration>
 			<visitDurationPretty>6 min 1s</visitDurationPretty>
 			<visitCount>1</visitCount>
@@ -233,13 +247,14 @@
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			<serverTimestamp>1377769293</serverTimestamp>
-			<serverTimePretty>09:41:33</serverTimePretty>
-			<serverDatePretty>Thu 29 Aug</serverDatePretty>
-			<serverDatePrettyFirstAction>29 Aug 2013</serverDatePrettyFirstAction>
-			<serverTimePrettyFirstAction>09:35:33</serverTimePrettyFirstAction>
+			
+			
+			
+			
+			
+			<serverDateTimePrettyFirstAction>4 Sep 2013 15:55:17</serverDateTimePrettyFirstAction>
 		</row>
 	</lastVisits>
-	<nextVisitorId>df7630bf363ed030</nextVisitorId>
-	<prevVisitorId>0</prevVisitorId>
+	
+	
 </result>
