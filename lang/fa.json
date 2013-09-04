@@ -1005,6 +1005,7 @@
         "PluginDescription": "!نظارت بر روی بازدید کنندگان خود را، زنده، در زمان واقعی!",
         "RealTimeVisitorCount": "زمان واقعی تعداد بازدید کنندگان",
         "Referrer_URL": "URL بازگشتی",
+        "ShowMap_js": "نمایش نقشه",
         "SimpleRealTimeWidget_Message": "%s و %s در اخرین %s",
         "Time": "زمان",
         "VisitedPages": "صفحات بازدید شده",
