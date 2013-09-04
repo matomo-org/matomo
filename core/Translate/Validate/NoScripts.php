@@ -31,14 +31,14 @@ class NoScripts extends ValidateAbstract
      */
     public function isValid($translations)
     {
-        $this->_message = null;
+        $this->message = null;
 
         // check if any translation contains restricted script tags
         $serializedStrings = serialize($translations);
         $invalids = array("<script", 'document.', 'javascript:', 'src=', 'background=', 'onload=');
         foreach ($invalids as $invalid) {
             if (stripos($serializedStrings, $invalid) !== false) {
-                $this->_message = 'script tags restricted for language files';
+                $this->message = 'script tags restricted for language files';
                 return false;
             }
         }

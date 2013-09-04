@@ -30,54 +30,54 @@ class Writer
      *
      * @var string
      */
-    protected $_language = '';
+    protected $language = '';
 
     /**
      * Name of a plugin (if set in contructor)
      *
      * @var string|null
      */
-    protected $_pluginName = null;
+    protected $pluginName = null;
 
     /**
      * translations to write to file
      *
      * @var array
      */
-    protected $_translations = array();
+    protected $translations = array();
 
     /**
      * Validators to check translations with
      *
      * @var ValidateAbstract[]
      */
-    protected $_validators = array();
+    protected $validators = array();
 
     /**
      * Message why validation failed
      *
      * @var string|null
      */
-    protected $_validationMessage = null;
+    protected $validationMessage = null;
 
     /**
      * Filters to to apply to translations
      *
      * @var FilterAbstract[]
      */
-    protected $_filters = array();
+    protected $filters = array();
 
     /**
      * Messages which filter changed the data
      *
      * @var array
      */
-    protected $_filterMessages = array();
+    protected $filterMessages = array();
 
-    const __UNFILTERED__  = 'unfiltered';
-    const __FILTERED__    = 'filtered';
+    const UNFILTERED  = 'unfiltered';
+    const FILTERED    = 'filtered';
 
-    protected $_currentState = self::__UNFILTERED__;
+    protected $currentState = self::UNFILTERED;
 
     /**
      * If $pluginName is given, Writer will be initialized for the given plugin if it exists
@@ -99,7 +99,7 @@ class Writer
                 throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($pluginName)));
             }
 
-            $this->_pluginName = $pluginName;
+            $this->pluginName = $pluginName;
         }
     }
 
@@ -114,7 +114,7 @@ class Writer
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
         }
 
-        $this->_language = strtolower($language);
+        $this->language = strtolower($language);
     }
 
     /**
@@ -122,7 +122,7 @@ class Writer
      */
     public function getLanguage()
     {
-        return $this->_language;
+        return $this->language;
     }
 
     /**
@@ -131,7 +131,7 @@ class Writer
      */
     public function hasTranslations()
     {
-        return !empty($this->_translations);
+        return !empty($this->translations);
     }
 
     /**
@@ -141,9 +141,9 @@ class Writer
      */
     public function setTranslations($translations)
     {
-        $this->_currentState = self::__UNFILTERED__;
-        $this->_translations = $translations;
-        $this->_applyFilters();
+        $this->currentState = self::UNFILTERED;
+        $this->translations = $translations;
+        $this->applyFilters();
     }
 
     /**
@@ -155,7 +155,7 @@ class Writer
      */
     public function getTranslations($lang)
     {
-        $path = $this->_getTranslationPath('lang', $lang);
+        $path = $this->getTranslationPathBaseDirectory('lang', $lang);
         if (!is_readable($path)) {
             return array();
         }
@@ -172,7 +172,7 @@ class Writer
      */
     public function getTemporaryTranslationPath()
     {
-        return $this->_getTranslationPath('tmp');
+        return $this->getTranslationPathBaseDirectory('tmp');
     }
 
     /**
@@ -182,7 +182,7 @@ class Writer
      */
     public function getTranslationPath()
     {
-        return $this->_getTranslationPath('lang');
+        return $this->getTranslationPathBaseDirectory('lang');
     }
 
     /**
@@ -193,16 +193,18 @@ class Writer
      * @throws \Exception
      * @return string path
      */
-    protected function _getTranslationPath($base, $lang=null)
+    protected function getTranslationPathBaseDirectory($base, $lang=null)
     {
-        if (empty($lang)) $lang = $this->getLanguage();
+        if (empty($lang)) {
+            $lang = $this->getLanguage();
+        }
 
-        if (!empty($this->_pluginName)) {
+        if (!empty($this->pluginName)) {
 
             if ($base == 'tmp') {
-                return sprintf('%s/tmp/plugins/%s/lang/%s.json', PIWIK_INCLUDE_PATH, $this->_pluginName, $lang);
+                return sprintf('%s/tmp/plugins/%s/lang/%s.json', PIWIK_INCLUDE_PATH, $this->pluginName, $lang);
             } else {
-                return sprintf('%s/plugins/%s/lang/%s.json', PIWIK_INCLUDE_PATH, $this->_pluginName, $lang);
+                return sprintf('%s/plugins/%s/lang/%s.json', PIWIK_INCLUDE_PATH, $this->pluginName, $lang);
             }
         }
 
@@ -221,10 +223,14 @@ class Writer
          * Use JSON_UNESCAPED_UNICODE and JSON_PRETTY_PRINT for PHP >= 5.4
          */
         $options = 0;
-        if (defined('JSON_UNESCAPED_UNICODE')) $options |= JSON_UNESCAPED_UNICODE;
-        if (defined('JSON_PRETTY_PRINT'))      $options |= JSON_PRETTY_PRINT;
+        if (defined('JSON_UNESCAPED_UNICODE')) {
+            $options |= JSON_UNESCAPED_UNICODE;
+        }
+        if (defined('JSON_PRETTY_PRINT')) {
+            $options |= JSON_PRETTY_PRINT;
+        }
 
-        return json_encode($this->_translations, $options);
+        return json_encode($this->translations, $options);
     }
 
     /**
@@ -235,7 +241,7 @@ class Writer
      */
     public function save()
     {
-        $this->_applyFilters();
+        $this->applyFilters();
 
         if (!$this->hasTranslations() || !$this->isValid()) {
             throw new Exception('unable to save empty or invalid translations');
@@ -256,7 +262,7 @@ class Writer
      */
     public function saveTemporary()
     {
-        $this->_applyFilters();
+        $this->applyFilters();
 
         if (!$this->hasTranslations() || !$this->isValid()) {
             throw new Exception('unable to save empty or invalid translations');
@@ -276,7 +282,7 @@ class Writer
      */
     public function addValidator(ValidateAbstract $validator)
     {
-        $this->_validators[] = $validator;
+        $this->validators[] = $validator;
     }
 
     /**
@@ -286,13 +292,13 @@ class Writer
      */
     public function isValid()
     {
-        $this->_applyFilters();
+        $this->applyFilters();
 
-        $this->_validationMessage = null;
+        $this->validationMessage = null;
 
-        foreach ($this->_validators AS $validator) {
-            if (!$validator->isValid($this->_translations)) {
-                $this->_validationMessage = $validator->getMessage();
+        foreach ($this->validators AS $validator) {
+            if (!$validator->isValid($this->translations)) {
+                $this->validationMessage = $validator->getMessage();
                 return false;
             }
         }
@@ -307,7 +313,7 @@ class Writer
      */
     public function getValidationMessage()
     {
-        return $this->_validationMessage;
+        return $this->validationMessage;
     }
 
     /**
@@ -317,7 +323,7 @@ class Writer
      */
     public function wasFiltered()
     {
-        return !empty($this->_filterMessages);
+        return !empty($this->filterMessages);
     }
 
     /**
@@ -327,7 +333,7 @@ class Writer
      */
     public function getFilterMessages()
     {
-        return $this->_filterMessages;
+        return $this->filterMessages;
     }
 
     /**
@@ -335,7 +341,7 @@ class Writer
      */
     public function addFilter(FilterAbstract $filter)
     {
-        $this->_filters[] = $filter;
+        $this->filters[] = $filter;
     }
 
     /**
@@ -343,39 +349,39 @@ class Writer
      *
      * @return bool   error state
      */
-    protected function _applyFilters()
+    protected function applyFilters()
     {
         // skip if already cleaned
-        if ($this->_currentState == self::__FILTERED__) {
+        if ($this->currentState == self::FILTERED) {
             return $this->wasFiltered();
         }
 
-        $this->_filterMessages = array();
+        $this->filterMessages = array();
 
         // skip if not translations available
         if (!$this->hasTranslations()) {
-            $this->_currentState = self::__FILTERED__;
+            $this->currentState = self::FILTERED;
             return false;
         }
 
-        $cleanedTranslations = $this->_translations;
+        $cleanedTranslations = $this->translations;
 
-        foreach ($this->_filters AS $filter) {
+        foreach ($this->filters AS $filter) {
 
             $cleanedTranslations = $filter->filter($cleanedTranslations);
             $filteredData = $filter->getFilteredData();
             if (!empty($filteredData)) {
-                $this->_filterMessages[] = get_class($filter) . " changed: " .var_export($filteredData, 1);
+                $this->filterMessages[] = get_class($filter) . " changed: " .var_export($filteredData, 1);
             }
         }
 
-        $this->_currentState = self::__FILTERED__;
+        $this->currentState = self::FILTERED;
 
-        if ($cleanedTranslations != $this->_translations) {
-            $this->_filterMessages[] = 'translations have been cleaned';
+        if ($cleanedTranslations != $this->translations) {
+            $this->filterMessages[] = 'translations have been cleaned';
         }
 
-        $this->_translations = $cleanedTranslations;
+        $this->translations = $cleanedTranslations;
         return $this->wasFiltered();
     }
 }

@@ -36,7 +36,7 @@ class EncodedEntities extends FilterAbstract
                 // remove encoded entities
                 $decoded = Translate::clean($translation);
                 if ($translation != $decoded) {
-                    $this->_filteredData[$pluginName][$key] = $translation;
+                    $this->filteredData[$pluginName][$key] = $translation;
                     $translations[$pluginName][$key] = $decoded;
                     continue;
                 }

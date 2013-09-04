@@ -105,24 +105,24 @@ class WriterTest extends PHPUnit_Framework_TestCase
     {
         $translations = json_decode(file_get_contents(PIWIK_INCLUDE_PATH.'/lang/de.json'), true);
         return array(
-            array(array('test' => array('test' => 'test')), CoreTranslations::__ERRORSTATE_MINIMUMTRANSLATIONS__),
-            array(array('General' => array('Locale' => '')) + $translations, CoreTranslations::__ERRORSTATE_LOCALEREQUIRED__),
-            array(array('General' => array('Locale' => 'de_DE.UTF-8')) + $translations, CoreTranslations::__ERRORSTATE_TRANSLATORINFOREQUIRED__),
+            array(array('test' => array('test' => 'test')), CoreTranslations::ERRORSTATE_MINIMUMTRANSLATIONS),
+            array(array('General' => array('Locale' => '')) + $translations, CoreTranslations::ERRORSTATE_LOCALEREQUIRED),
+            array(array('General' => array('Locale' => 'de_DE.UTF-8')) + $translations, CoreTranslations::ERRORSTATE_TRANSLATORINFOREQUIRED),
             array(array('General' => array('Locale' => 'de_DE.UTF-8',
-                                           'TranslatorName' => 'name')) + $translations, CoreTranslations::__ERRORSTATE_TRANSLATOREMAILREQUIRED__),
+                                           'TranslatorName' => 'name')) + $translations, CoreTranslations::ERRORSTATE_TRANSLATOREMAILREQUIRED),
             array(array('General' => array('Locale' => 'de_DE.UTF-8',
                                            'TranslatorName' => 'name',
                                            'TranslatorEmail' => 'name@domain.com',
-                                           'LayoutDirection' => 'fail')) + $translations, CoreTranslations::__ERRORSTATE_LAYOUTDIRECTIONINVALID__),
+                                           'LayoutDirection' => 'fail')) + $translations, CoreTranslations::ERRORSTATE_LAYOUTDIRECTIONINVALID),
             array(array('General' => array('Locale' => 'invalid',
                                            'TranslatorName' => 'name',
-                                           'TranslatorEmail' => 'name@domain.com')) + $translations, CoreTranslations::__ERRORSTATE_LOCALEINVALID__),
+                                           'TranslatorEmail' => 'name@domain.com')) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALID),
             array(array('General' => array('Locale' => 'xx_DE.UTF-8',
                                            'TranslatorName' => 'name',
-                                           'TranslatorEmail' => 'name@domain.com',)) + $translations, CoreTranslations::__ERRORSTATE_LOCALEINVALIDLANGUAGE__),
+                                           'TranslatorEmail' => 'name@domain.com',)) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE),
             array(array('General' => array('Locale' => 'de_XX.UTF-8',
                                            'TranslatorName' => 'name',
-                                           'TranslatorEmail' => 'name@domain.com',)) + $translations, CoreTranslations::__ERRORSTATE_LOCALEINVALIDCOUNTRY__),
+                                           'TranslatorEmail' => 'name@domain.com',)) + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY),
             array(array('General' => array('Locale' => '<script>')) + $translations, 'script tags restricted for language files'),
         );
     }

@@ -19,7 +19,7 @@ use Piwik\Translate\Filter\FilterAbstract;
  */
 class ByBaseTranslations extends FilterAbstract
 {
-    protected $_baseTranslations = array();
+    protected $baseTranslations = array();
 
     /**
      * Sets base translations
@@ -28,7 +28,7 @@ class ByBaseTranslations extends FilterAbstract
      */
     public function __construct($baseTranslations=array())
     {
-        $this->_baseTranslations = $baseTranslations;
+        $this->baseTranslations = $baseTranslations;
     }
 
     /**
@@ -44,13 +44,13 @@ class ByBaseTranslations extends FilterAbstract
 
         foreach ($translations AS $pluginName => $pluginTranslations) {
 
-            if (empty($this->_baseTranslations[$pluginName])) {
-                $this->_filteredData[$pluginName] = $pluginTranslations;
+            if (empty($this->baseTranslations[$pluginName])) {
+                $this->filteredData[$pluginName] = $pluginTranslations;
                 continue;
             }
 
             foreach ($pluginTranslations as $key => $translation) {
-                if (isset($this->_baseTranslations[$pluginName][$key])) {
+                if (isset($this->baseTranslations[$pluginName][$key])) {
                     $cleanedTranslations[$pluginName][$key] = $translation;
                 }
             }
@@ -60,7 +60,9 @@ class ByBaseTranslations extends FilterAbstract
             } else {
                 $diff = $translations[$pluginName];
             }
-            if (!empty($diff)) $this->_filteredData[$pluginName] = $diff;
+            if (!empty($diff)) {
+                $this->filteredData[$pluginName] = $diff;
+            }
         }
 
         return $cleanedTranslations;

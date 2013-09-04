@@ -52,7 +52,7 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'bla' => 'test text'
                     )
                 ),
-                CoreTranslations::__ERRORSTATE_MINIMUMTRANSLATIONS__
+                CoreTranslations::ERRORSTATE_MINIMUMTRANSLATIONS
             ),
             array(
                 array(
@@ -60,7 +60,7 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'bla' => 'test text'
                     ))
                 ),
-                CoreTranslations::__ERRORSTATE_LOCALEREQUIRED__
+                CoreTranslations::ERRORSTATE_LOCALEREQUIRED
             ),
             array(
                 array(
@@ -68,7 +68,7 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'Locale' => 'de_DE.UTF-8'
                     ))
                 ),
-                CoreTranslations::__ERRORSTATE_TRANSLATORINFOREQUIRED__
+                CoreTranslations::ERRORSTATE_TRANSLATORINFOREQUIRED
             ),
             array(
                 array(
@@ -77,7 +77,7 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'TranslatorName' => 'name',
                     ))
                 ),
-                CoreTranslations::__ERRORSTATE_TRANSLATOREMAILREQUIRED__
+                CoreTranslations::ERRORSTATE_TRANSLATOREMAILREQUIRED
             ),
             array(
                 array(
@@ -88,7 +88,7 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'LayoutDirection' => 'afd'
                     ))
                 ),
-                CoreTranslations::__ERRORSTATE_LAYOUTDIRECTIONINVALID__
+                CoreTranslations::ERRORSTATE_LAYOUTDIRECTIONINVALID
             ),
             array(
                 array(
@@ -99,7 +99,7 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'LayoutDirection' => 'ltr'
                     ))
                 ),
-                CoreTranslations::__ERRORSTATE_LOCALEINVALID__
+                CoreTranslations::ERRORSTATE_LOCALEINVALID
             ),
             array(
                 array(
@@ -110,7 +110,7 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'LayoutDirection' => 'ltr'
                     ))
                 ),
-                CoreTranslations::__ERRORSTATE_LOCALEINVALIDLANGUAGE__
+                CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE
             ),
             array(
                 array(
@@ -121,7 +121,7 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
                         'LayoutDirection' => 'ltr'
                     ))
                 ),
-                CoreTranslations::__ERRORSTATE_LOCALEINVALIDCOUNTRY__
+                CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY
             ),
         );
     }

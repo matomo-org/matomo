@@ -19,7 +19,7 @@ use Piwik\Translate\Filter\FilterAbstract;
  */
 class UnnecassaryWhitespaces extends FilterAbstract
 {
-    protected $_baseTranslations = array();
+    protected $baseTranslations = array();
 
     /**
      * Sets base translations
@@ -28,7 +28,7 @@ class UnnecassaryWhitespaces extends FilterAbstract
      */
     public function __construct($baseTranslations=array())
     {
-        $this->_baseTranslations = $baseTranslations;
+        $this->baseTranslations = $baseTranslations;
     }
 
     /**
@@ -45,8 +45,8 @@ class UnnecassaryWhitespaces extends FilterAbstract
             foreach ($pluginTranslations AS $key => $translation) {
 
                 $baseTranslation = '';
-                if (isset($this->_baseTranslations[$pluginName][$key])) {
-                    $baseTranslation  = $this->_baseTranslations[$pluginName][$key];
+                if (isset($this->baseTranslations[$pluginName][$key])) {
+                    $baseTranslation  = $this->baseTranslations[$pluginName][$key];
                 }
 
                 // remove excessive line breaks (and leading/trailing whitespace) from translations
@@ -59,7 +59,7 @@ class UnnecassaryWhitespaces extends FilterAbstract
                 }
                 $stringNoLineBreak = preg_replace('/([ ]{2,})/', " ", $stringNoLineBreak); # remove excessive white spaces again as there might be any now, after removing line breaks
                 if ($translation !== $stringNoLineBreak) {
-                    $this->_filteredData[$pluginName][$key] = $translation;
+                    $this->filteredData[$pluginName][$key] = $translation;
                     $translations[$pluginName][$key] = $stringNoLineBreak;
                     continue;
                 }

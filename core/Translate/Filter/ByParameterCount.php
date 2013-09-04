@@ -19,7 +19,7 @@ use Piwik\Translate\Filter\FilterAbstract;
  */
 class ByParameterCount extends FilterAbstract
 {
-    protected $_baseTranslations = array();
+    protected $baseTranslations = array();
 
     /**
      * Sets base translations
@@ -28,7 +28,7 @@ class ByParameterCount extends FilterAbstract
      */
     public function __construct($baseTranslations=array())
     {
-        $this->_baseTranslations = $baseTranslations;
+        $this->baseTranslations = $baseTranslations;
     }
 
     /**
@@ -47,8 +47,8 @@ class ByParameterCount extends FilterAbstract
 
             foreach ($pluginTranslations AS $key => $translation) {
 
-                if (isset($this->_baseTranslations[$pluginName][$key])) {
-                    $baseTranslation  = $this->_baseTranslations[$pluginName][$key];
+                if (isset($this->baseTranslations[$pluginName][$key])) {
+                    $baseTranslation  = $this->baseTranslations[$pluginName][$key];
                 } else {
                     $baseTranslation = '';
                 }
@@ -59,7 +59,7 @@ class ByParameterCount extends FilterAbstract
 
                 if ($baseCount != $translationCount)  {
 
-                    $this->_filteredData[$pluginName][$key] = $translation;
+                    $this->filteredData[$pluginName][$key] = $translation;
                     continue;
                 }
 

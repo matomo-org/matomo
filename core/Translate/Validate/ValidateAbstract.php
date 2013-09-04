@@ -17,7 +17,7 @@ namespace Piwik\Translate\Validate;
  */
 abstract class ValidateAbstract
 {
-    protected $_message = null;
+    protected $message = null;
 
     /**
      * Returns if the given translations are valid
@@ -37,6 +37,6 @@ abstract class ValidateAbstract
      */
     public function getMessage()
     {
-        return $this->_message;
+        return $this->message;
     }
 }

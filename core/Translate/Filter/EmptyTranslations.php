@@ -38,7 +38,9 @@ class EmptyTranslations extends FilterAbstract
             });
 
             $diff = array_diff($translationsBefore[$plugin], $pluginTranslations);
-            if (!empty($diff)) $this->_filteredData[$plugin] = $diff;
+            if (!empty($diff)) {
+                $this->filteredData[$plugin] = $diff;
+            }
         }
 
         // remove plugins without translations

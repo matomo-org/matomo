@@ -23,16 +23,16 @@ class CoreTranslations extends ValidateAbstract
     /**
      * Error States
      */
-    const __ERRORSTATE_MINIMUMTRANSLATIONS__        = 'At least 250 translations required';
-    const __ERRORSTATE_LOCALEREQUIRED__             = 'Locale required';
-    const __ERRORSTATE_TRANSLATORINFOREQUIRED__     = 'Translator info required';
-    const __ERRORSTATE_TRANSLATOREMAILREQUIRED__    = 'Translator email required';
-    const __ERRORSTATE_LAYOUTDIRECTIONINVALID__     = 'Layout direction must be rtl or ltr';
-    const __ERRORSTATE_LOCALEINVALID__              = 'Locale is invalid';
-    const __ERRORSTATE_LOCALEINVALIDLANGUAGE__      = 'Locale is invalid - invalid language code';
-    const __ERRORSTATE_LOCALEINVALIDCOUNTRY__       = 'Locale is invalid - invalid country code';
+    const ERRORSTATE_MINIMUMTRANSLATIONS        = 'At least 250 translations required';
+    const ERRORSTATE_LOCALEREQUIRED             = 'Locale required';
+    const ERRORSTATE_TRANSLATORINFOREQUIRED     = 'Translator info required';
+    const ERRORSTATE_TRANSLATOREMAILREQUIRED    = 'Translator email required';
+    const ERRORSTATE_LAYOUTDIRECTIONINVALID     = 'Layout direction must be rtl or ltr';
+    const ERRORSTATE_LOCALEINVALID              = 'Locale is invalid';
+    const ERRORSTATE_LOCALEINVALIDLANGUAGE      = 'Locale is invalid - invalid language code';
+    const ERRORSTATE_LOCALEINVALIDCOUNTRY       = 'Locale is invalid - invalid country code';
 
-    protected $_baseTranslations = array();
+    protected $baseTranslations = array();
 
     /**
      * Sets base translations
@@ -41,7 +41,7 @@ class CoreTranslations extends ValidateAbstract
      */
     public function __construct($baseTranslations=array())
     {
-        $this->_baseTranslations = $baseTranslations;
+        $this->baseTranslations = $baseTranslations;
     }
 
     /**
@@ -58,32 +58,32 @@ class CoreTranslations extends ValidateAbstract
      */
     public function isValid($translations)
     {
-        $this->_message = null;
+        $this->message = null;
 
         if (250 > count($translations, COUNT_RECURSIVE)) {
-            $this->_message = self::__ERRORSTATE_MINIMUMTRANSLATIONS__;
+            $this->message = self::ERRORSTATE_MINIMUMTRANSLATIONS;
             return false;
         }
 
         if (empty($translations['General']['Locale'])) {
-            $this->_message = self::__ERRORSTATE_LOCALEREQUIRED__;
+            $this->message = self::ERRORSTATE_LOCALEREQUIRED;
             return false;
         }
 
         if (empty($translations['General']['TranslatorName'])) {
-            $this->_message = self::__ERRORSTATE_TRANSLATORINFOREQUIRED__;
+            $this->message = self::ERRORSTATE_TRANSLATORINFOREQUIRED;
             return false;
         }
 
         if (empty($translations['General']['TranslatorEmail'])) {
-            $this->_message = self::__ERRORSTATE_TRANSLATOREMAILREQUIRED__;
+            $this->message = self::ERRORSTATE_TRANSLATOREMAILREQUIRED;
             return false;
         }
 
         if (!empty($translations['General']['LayoutDirection']) &&
             !in_array($translations['General']['LayoutDirection'], array('ltr', 'rtl'))
         ) {
-            $this->_message = self::__ERRORSTATE_LAYOUTDIRECTIONINVALID__;
+            $this->message = self::ERRORSTATE_LAYOUTDIRECTIONINVALID;
             return false;
         }
 
@@ -91,13 +91,13 @@ class CoreTranslations extends ValidateAbstract
         $allCountries = Common::getCountriesList();
 
         if (!preg_match('/^([a-z]{2})_([A-Z]{2})\.UTF-8$/', $translations['General']['Locale'], $matches)) {
-            $this->_message = self::__ERRORSTATE_LOCALEINVALID__;
+            $this->message = self::ERRORSTATE_LOCALEINVALID;
             return false;
         } else if (!array_key_exists($matches[1], $allLanguages)) {
-            $this->_message = self::__ERRORSTATE_LOCALEINVALIDLANGUAGE__;
+            $this->message = self::ERRORSTATE_LOCALEINVALIDLANGUAGE;
             return false;
         } else if (!array_key_exists(strtolower($matches[2]), $allCountries)) {
-            $this->_message = self::__ERRORSTATE_LOCALEINVALIDCOUNTRY__;
+            $this->message = self::ERRORSTATE_LOCALEINVALIDCOUNTRY;
             return false;
         }
 

@@ -17,7 +17,7 @@ namespace Piwik\Translate\Filter;
  */
 abstract class FilterAbstract
 {
-    protected $_filteredData = array();
+    protected $filteredData = array();
 
     /**
      * Filter the given translations
@@ -36,6 +36,6 @@ abstract class FilterAbstract
      */
     public function getFilteredData()
     {
-        return $this->_filteredData;
+        return $this->filteredData;
     }
 }
