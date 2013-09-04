@@ -179,7 +179,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         @unlink(PIWIK_INCLUDE_PATH.'/tmp/fr.json');
 
-        $this->assertGreaterThan(50000, $rc);
+        $this->assertGreaterThan(40000, $rc);
 
         $this->assertCount(4, $translationWriter->getFilterMessages());
     }
