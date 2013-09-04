@@ -156,6 +156,10 @@
     margin-right:0;
 }
 
+.visitor-profile-avatar h1 {
+    display:inline-block;
+}
+
 .visitor-profile-extra-cvars {
     border-top: 1px solid #d1cec8;
 }
@@ -482,16 +486,18 @@ div.visitor-profile-navigation {
 }
 
 .visitor-profile-prev-visitor {
-    float:left;
-    display:inline-block;
-    margin-bottom:6px;
+    display:none;
+    margin-left:-10px;
 }
 
 .visitor-profile-next-visitor {
-    float:right;
-    display:inline-block;
-    margin-right:26px;
-    margin-bottom:6px;
+    display:none;
+}
+
+.visitor-profile-avatar:hover {
+    .visitor-profile-next-visitor,.visitor-profile-prev-visitor {
+        display:inline-block;
+    }
 }
 
 .visitor-profile-no-visits {
