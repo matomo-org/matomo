@@ -70,14 +70,15 @@ class Sms extends ReportRenderer
             $evolutionMetrics[] = $metricSettings[API::METRIC_EVOLUTION_COL_NAME_KEY];
         }
 
+	$floatRegex = self::FLOAT_REGEXP;
         // no decimal for all metrics to shorten SMS content (keeps the monetary sign for revenue metrics)
         $reportData->filter(
             'ColumnCallbackReplace',
             array(
                 array_merge(array_keys($multiSitesAPIMetrics), $evolutionMetrics),
-                function($value) {
+                function($value) use ($floatRegex) {
                     return preg_replace_callback(
-                        self::FLOAT_REGEXP,
+                        $floatRegex,
                         function($matches) {
                             return round($matches[0]);
                         },
@@ -95,8 +96,8 @@ class Sms extends ReportRenderer
             'ColumnCallbackReplace',
             array(
                 $evolutionMetrics,
-                function($value) {
-                    $matched = preg_match(self::FLOAT_REGEXP, $value, $matches);
+                function($value) use ($floatRegex) {
+                    $matched = preg_match($floatRegex, $value, $matches);
                     return $matched ? sprintf("%+d",$matches[0]) : $value;
                 }
             )
