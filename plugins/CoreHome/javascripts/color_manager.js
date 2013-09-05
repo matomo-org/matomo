@@ -120,13 +120,13 @@
                 return [
                     parseInt(hexColor[0], 16),
                     parseInt(hexColor[1], 16),
-                    parseInt(hexColor[2], 16),
+                    parseInt(hexColor[2], 16)
                 ];
             } else {
                 return [
                     parseInt(hexColor.substring(0,2), 16),
                     parseInt(hexColor.substring(2,4), 16),
-                    parseInt(hexColor.substring(4,6), 16),
+                    parseInt(hexColor.substring(4,6), 16)
                 ];
             }
         },

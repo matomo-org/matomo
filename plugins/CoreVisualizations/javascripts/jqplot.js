@@ -922,7 +922,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         $(seriesPicker).bind('placeSeriesPicker', function () {
             this.domElem.css('margin-left', (plot._gridPadding.left + plot.plugins.canvasLegend.width - 1) + 'px');
             plot.baseCanvas._elem.before(this.domElem);
-        })
+        });
 
         // handle seriesPicked event
         $(seriesPicker).bind('seriesPicked', function (e, columns, rows) {

@@ -67,7 +67,7 @@
              * self.reqParams which is set in template
              */
             function _reportParams(firstRun) {
-                var params = $.extend(config.reqParams, {
+                return $.extend(config.reqParams, {
                     module: 'API',
                     method: 'Live.getLastVisitsDetails',
                     filter_limit: maxVisits,
@@ -78,7 +78,6 @@
                         'actions', 'searches', 'goalConversions'].join(','),
                     minTimestamp: firstRun ? -1 : lastTimestamp
                 });
-                return params;
             }
 
             /*

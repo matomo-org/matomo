@@ -67,7 +67,7 @@ class NoScriptsTest extends PHPUnit_Framework_TestCase
             array(
                 array(
                     'test' => array(
-                        'test' => 'bla <a onload="alert();">link</a>'
+                        'test' => 'bla <a onload="alert(\'test\');">link</a>'
                     )
                 ),
             ),

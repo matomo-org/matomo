@@ -149,7 +149,7 @@
             }, 'GET');
             ajax.setCallback(function (response) {
                 if (response == "") { // no more visits left
-                    var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits_js')).addClass('visitor-profile-no-visits')
+                    var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits_js')).addClass('visitor-profile-no-visits');
                     $('.visitor-profile-more-info', $element).html(noMoreSpan);
                 } else {
                     response = $(response);
@@ -220,7 +220,7 @@
 
         _inWidget: function () {
             return !! this.$element.closest('.widget').length;
-        },
+        }
     };
 
     exports.VisitorProfileControl = VisitorProfileControl;

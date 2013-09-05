@@ -150,9 +150,7 @@ var piwikHelper = {
         if (newparams) {
             queryString = this.getQueryStringWithParametersModified(queryString, newparams);
         }
-        var value = String(window.location.pathname) + queryString;
-
-        return value;
+        return String(window.location.pathname) + queryString;
     },
 
   /**
@@ -169,8 +167,7 @@ var piwikHelper = {
         var keyValue = vars[i].split("=");
         // Jquery will urlencode these, but we wish to keep the current raw value
         // use case: &segment=visitorId%3D%3Dabc...
-        var rawValue = decodeURIComponent(keyValue[1]);
-        params[keyValue[0]] = rawValue;
+        params[keyValue[0]] = decodeURIComponent(keyValue[1]);
       }
       return params;
     },
@@ -297,7 +294,7 @@ var piwikHelper = {
      * if the top of the element is not currently visible on screen
      * @param {string} elem Selector for the DOM node to scroll to, eg. '#myDiv'
      * @param {int} [time] Specifies the duration of the animation in ms
-     * @param {bool} [forceScroll] Whether to force scroll to an element.
+     * @param {boolean} [forceScroll] Whether to force scroll to an element.
      * @return {void}
      */
     lazyScrollTo: function(elem, time, forceScroll)

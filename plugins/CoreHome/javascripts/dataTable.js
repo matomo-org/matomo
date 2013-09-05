@@ -717,8 +717,7 @@ dataTable.prototype =
                 // we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
                 // this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
 
-                var viewDataTable = $(this).attr('format');
-                self.param.viewDataTable = viewDataTable;
+                self.param.viewDataTable = $(this).attr('format');
 
                 //self.resetAllFilters();
 
