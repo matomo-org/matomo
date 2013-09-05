@@ -62,7 +62,7 @@ class UsersManager extends \Piwik\Plugin
     /**
      * Delete user preferences associated with a particular site
      */
-    public function deleteSite(&$idSite)
+    public function deleteSite($idSite)
     {
         Option::getInstance()->deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
