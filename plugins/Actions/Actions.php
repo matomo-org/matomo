@@ -62,6 +62,7 @@ class Actions extends \Piwik\Plugin
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
             'AssetManager.getCssFiles'                 => 'getCssFiles',
+            'AssetManager.getJsFiles'                  => 'getJsFiles'
         );
         return $hooks;
     }
@@ -69,6 +70,11 @@ class Actions extends \Piwik\Plugin
     public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/Actions/stylesheets/dataTableActions.less";
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/Actions/javascripts/actionsDataTable.js";
     }
     
     public function getSegmentsMetadata(&$segments)
@@ -654,7 +660,7 @@ class Actions extends \Piwik\Plugin
 
     private function addBaseDisplayProperties(&$result)
     {
-        $result['datatable_js_type'] = 'actionDataTable';
+        $result['datatable_js_type'] = 'ActionsDataTable';
         $result['visualization_properties']['table']['subtable_template'] =
             '@CoreHome/_dataTableActions_subDataTable.twig';
         $result['search_recursive'] = true;

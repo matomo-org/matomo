@@ -17,6 +17,7 @@
      * 
      * @param {Element} element The HTML element returned by the Live.getVisitorLog controller
      *                          action. Should have the CSS class 'visitor-profile'.
+     * @constructor
      */
     var VisitorProfileControl = function (element) {
         this.$element = $(element).focus();

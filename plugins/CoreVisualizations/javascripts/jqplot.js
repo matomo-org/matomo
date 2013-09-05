@@ -13,6 +13,11 @@
     var dataTable = window.dataTable,
         dataTablePrototype = dataTable.prototype;
 
+    /**
+     * DataTable UI class for jqPlot graph datatable visualizations.
+     * 
+     * @constructor
+     */
     window.JqplotGraphDataTable = function () {
         dataTable.call(this);
     };
@@ -20,7 +25,7 @@
     $.extend(window.JqplotGraphDataTable.prototype, dataTablePrototype, {
 
         /**
-         * Constructor.
+         * Initializes this class.
          * 
          * @param {String} workingDivId The HTML ID of the data table DOM element.
          * @param {Element} [domElem] The DOM element of the data table.

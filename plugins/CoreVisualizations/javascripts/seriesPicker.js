@@ -36,6 +36,7 @@
      * });
      * 
      * @param {dataTable} The dataTable instance to add a series picker to.
+     * @constructor
      */
     var SeriesPicker = function (dataTable) {
         this.domElem = null;
