@@ -23,7 +23,6 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
 use Piwik\Db;
-use Piwik\Visualization\Cloud;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 

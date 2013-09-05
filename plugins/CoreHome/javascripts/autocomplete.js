@@ -33,10 +33,9 @@ $(function () {
         function getUrlForWebsiteId(idSite) {
             var idSiteParam = 'idSite=' + idSite;
             var newParameters = 'segment=&' + idSiteParam;
-            var hash = broadcast.isHashExists() ? broadcast.getHashFromUrl() : "",
-                linkUrl = piwikHelper.getCurrentQueryStringWithParametersModified(newParameters)
+            var hash = broadcast.isHashExists() ? broadcast.getHashFromUrl() : "";
+            return piwikHelper.getCurrentQueryStringWithParametersModified(newParameters)
                     + '#' + piwikHelper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
-            return linkUrl;
         }
 
         $('.sites_autocomplete').each(function () {
@@ -159,8 +158,8 @@ $(function () {
                     $(this).click(function (e) {
                         var idsite = $(this).attr('data-siteid'),
                             name = $(this).text(),
-                          	mainLinkElem = $(".custom_select_main_link > span", selector)
-                          	oldName = mainLinkElem.text();
+                            mainLinkElem = $(".custom_select_main_link > span", selector);
+                            oldName = mainLinkElem.text();
 
                         mainLinkElem
                             .attr('data-siteid', idsite)

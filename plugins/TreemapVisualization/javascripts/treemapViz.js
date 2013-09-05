@@ -15,7 +15,7 @@
      */
     window.TreemapDataTable = function () {
         dataTable.call(this);
-    }
+    };
 
     $.extend(window.TreemapDataTable.prototype, dataTablePrototype, {
 
@@ -58,18 +58,18 @@
                     },
                     onRightClick: function (node) {
                         self._onRightClickNode(node);
-                    },
+                    }
                 },
                 duration: 1000,
                 Tips: {
-                    enable: false, // TODO: show more in tooltips
+                    enable: false // TODO: show more in tooltips
                 },
                 onCreateLabel: function (nodeElement, node) {
                     self._initNode(nodeElement, node);
                 },
                 onPlaceLabel: function (nodeElement, node) {
                     self._toggleLabelBasedOnAvailableSpace(nodeElement, node);
-                },
+                }
             });
 
             this.data = this._prepareTreemapData(treemapContainer.attr('data-data'));
@@ -506,7 +506,7 @@
                     return result;
                 }
             }
-        },
+        }
     });
 
 }(jQuery, $jit, require));

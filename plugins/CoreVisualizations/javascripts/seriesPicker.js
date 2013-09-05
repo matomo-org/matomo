@@ -35,7 +35,7 @@
      *   $(this.domElem).doSomething(...);
      * });
      * 
-     * @param {dataTable} The dataTable instance to add a series picker to.
+     * @param {dataTable} dataTable  The dataTable instance to add a series picker to.
      * @constructor
      */
     var SeriesPicker = function (dataTable) {
@@ -349,7 +349,7 @@
                     .show();
             }
             popover.css('margin-top', (linkOffset.top - 5) + 'px').show();
-        },
+        }
     };
 
     var exports = require('piwik/DataTableVisualizations/Widgets');

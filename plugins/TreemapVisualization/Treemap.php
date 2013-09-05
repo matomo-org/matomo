@@ -52,7 +52,7 @@ class Treemap extends Graph
     /**
      * Constructor.
      * 
-     * @param Piwik\ViewDataTable $view
+     * @param \Piwik\ViewDataTable $view
      */
     public function __construct($view)
     {
@@ -75,7 +75,7 @@ class Treemap extends Graph
     /**
      * Renders the treemap.
      * 
-     * @param Piwik\DataTable $dataTable
+     * @param \Piwik\DataTable $dataTable
      * @param array $properties
      * 
      * @return string
@@ -108,7 +108,7 @@ class Treemap extends Graph
      * when calculating evolution, we need this hook to determine if there's data in the latest
      * table.
      * 
-     * @param Piwik\DataTable $dataTable
+     * @param \Piwik\DataTable $dataTable
      * @return true
      */
     public function isThereDataToDisplay($dataTable, $view)

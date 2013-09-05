@@ -37,7 +37,7 @@
                     showGrid: true,
                     showHighlight: true,
                     tickColor: this.tickColor
-                },
+                }
             };
 
             if (this.props.show_line_graph) {

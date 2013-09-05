@@ -86,10 +86,8 @@ class Controller extends \Piwik\Controller
             'General_Edit',
             'General_Search',
             'General_SearchNoResults',
-            '',
-            '',
-            '',
         );
+        $translations = array();
         foreach ($translationKeys as $key) {
             $translations[$key] = Piwik_Translate($key);
         }

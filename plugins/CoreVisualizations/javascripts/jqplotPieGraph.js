@@ -74,7 +74,7 @@
                 show: false,
                 hide: false
             }).trigger('mouseover');
-        },
+        }
     });
 
 })(jQuery, require);

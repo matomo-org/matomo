@@ -125,7 +125,7 @@ class TreemapDataGenerator
     /**
      * Generates an array that can be encoded as JSON and used w/ the JavaScript Infovis Toolkit.
      * 
-     * @param Piwik\DataTable $dataTable
+     * @param \Piwik\DataTable $dataTable
      * @return array
      */
     public function generate($dataTable)
