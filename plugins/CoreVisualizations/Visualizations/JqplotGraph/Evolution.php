@@ -48,9 +48,10 @@ class Evolution extends JqplotGraph
 
         // default x_axis_step_size property if not currently set
         if ($view->visualization_properties->x_axis_step_size === false) {
-            $view->after_data_loaded_functions[] = function ($dataTable, $view) {
+            $self = $this;
+            $view->after_data_loaded_functions[] = function ($dataTable, $view) use ($self) {
                 $view->visualization_properties->x_axis_step_size =
-                    $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
+                    $self->getDefaultXAxisStepSize($dataTable->getRowsCount());
             };
         }
 
