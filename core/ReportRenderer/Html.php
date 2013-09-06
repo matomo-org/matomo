@@ -92,8 +92,7 @@ class Html extends ReportRenderer
         $frontPageView = new View('@CoreHome/ReportRenderer/_htmlReportHeader');
         $this->assignCommonParameters($frontPageView);
 
-        // todo rename 'websiteName' to 'reportTitle' once branch twig is merged
-        $frontPageView->assign("websiteName", $reportTitle);
+        $frontPageView->assign("reportTitle", $reportTitle);
         $frontPageView->assign("prettyDate", $prettyDate);
         $frontPageView->assign("description", $description);
         $frontPageView->assign("reportMetadata", $reportMetadata);
