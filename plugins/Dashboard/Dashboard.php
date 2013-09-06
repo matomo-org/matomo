@@ -30,7 +30,7 @@ class Dashboard extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJsFiles'  => 'getJsFiles',
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'UsersManager.deleteUser'  => 'deleteDashboardLayout',
             'Menu.add'                 => 'addMenus',
             'TopMenu.add'              => 'addTopMenu',
@@ -237,10 +237,10 @@ class Dashboard extends \Piwik\Plugin
         $jsFiles[] = "plugins/Dashboard/javascripts/dashboard.js";
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/CoreHome/stylesheets/dataTable.less";
-        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
+        $stylesheets[] = "plugins/Dashboard/stylesheets/dashboard.less";
     }
 
     public function deleteDashboardLayout($userLogin)

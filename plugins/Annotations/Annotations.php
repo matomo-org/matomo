@@ -24,7 +24,7 @@ class Annotations extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJsFiles'  => 'getJsFiles'
         );
     }
@@ -32,9 +32,9 @@ class Annotations extends \Piwik\Plugin
     /**
      * Adds css files for this plugin to the list in the event notification.
      */
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/Annotations/stylesheets/annotations.less";
+        $stylesheets[] = "plugins/Annotations/stylesheets/annotations.less";
     }
 
     /**

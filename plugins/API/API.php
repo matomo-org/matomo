@@ -638,7 +638,7 @@ class Plugin extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'TopMenu.add'              => 'addTopMenu',
         );
     }
@@ -665,8 +665,8 @@ class Plugin extends \Piwik\Plugin
         }
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/API/stylesheets/listAllAPI.less";
+        $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
     }
 }

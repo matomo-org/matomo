@@ -34,7 +34,7 @@ class LanguagesManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles'    => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'    => 'getStylesheetFiles',
             'AssetManager.getJsFiles'     => 'getJsFiles',
             'TopMenu.add'                 => 'showLanguagesSelector',
             'Translate.getLanguageToLoad' => 'getLanguageToLoad',
@@ -43,9 +43,9 @@ class LanguagesManager extends \Piwik\Plugin
         );
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
+        $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
     }
 
     public function getJsFiles(&$jsFiles)

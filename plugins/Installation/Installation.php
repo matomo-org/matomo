@@ -31,7 +31,7 @@ class Installation extends \Piwik\Plugin
             'FrontController.NoConfigurationFile'  => 'dispatch',
             'FrontController.badConfigurationFile' => 'dispatch',
             'AdminMenu.add'                        => 'addMenu',
-            'AssetManager.getCssFiles'             => 'getCss',
+            'AssetManager.getStylesheetFiles'      => 'getStylesheetFiles',
         );
         return $hooks;
     }
@@ -86,8 +86,8 @@ class Installation extends \Piwik\Plugin
     /**
      * Adds CSS files to list of CSS files for asset manager.
      */
-    public function getCss(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/Installation/stylesheets/systemCheckPage.less";
+        $stylesheets[] = "plugins/Installation/stylesheets/systemCheckPage.less";
     }
 }

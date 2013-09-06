@@ -32,7 +32,7 @@ class MultiSites extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJsFiles'  => 'getJsFiles',
             'TopMenu.add'              => 'addTopMenu',
             'API.getReportMetadata'    => 'getReportMetadata',
@@ -86,8 +86,8 @@ class MultiSites extends \Piwik\Plugin
         $jsFiles[] = "plugins/MultiSites/javascripts/multiSites.js";
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/MultiSites/stylesheets/multiSites.less";
+        $stylesheets[] = "plugins/MultiSites/stylesheets/multiSites.less";
     }
 }

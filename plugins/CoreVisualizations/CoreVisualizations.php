@@ -28,7 +28,7 @@ class CoreVisualizations extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles'            => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
             'AssetManager.getJsFiles'             => 'getJsFiles',
             'DataTableVisualization.getAvailable' => 'getAvailableDataTableVisualizations',
         );
@@ -45,10 +45,10 @@ class CoreVisualizations extends \Piwik\Plugin
         $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Evolution';
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
-        $cssFiles[] = "plugins/CoreVisualizations/stylesheets/jqplot.css";
+        $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
+        $stylesheets[] = "plugins/CoreVisualizations/stylesheets/jqplot.css";
     }
 
     public function getJsFiles(&$jsFiles)

@@ -45,7 +45,7 @@ class SegmentEditor extends \Piwik\Plugin
             'Piwik.getKnownSegmentsToArchiveForSite'  => 'getKnownSegmentsToArchiveForSite',
             'Piwik.getKnownSegmentsToArchiveAllSites' => 'getKnownSegmentsToArchiveAllSites',
             'AssetManager.getJsFiles'                 => 'getJsFiles',
-            'AssetManager.getCssFiles'                => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'                => 'getStylesheetFiles',
             'template_nextToCalendar'                 => 'getSegmentEditorHtml',
         );
     }
@@ -105,8 +105,8 @@ class SegmentEditor extends \Piwik\Plugin
         $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
+        $stylesheets[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
     }
 }

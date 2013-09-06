@@ -46,7 +46,7 @@ class AssetManager
 {
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
     const MERGED_JS_FILE = "asset_manager_global_js.js";
-    const CSS_IMPORT_EVENT = "AssetManager.getCssFiles";
+    const CSS_IMPORT_EVENT = "AssetManager.getStylesheetFiles";
     const JS_IMPORT_EVENT = "AssetManager.getJsFiles";
     const MERGED_FILE_DIR = "tmp/assets/";
     const CSS_IMPORT_DIRECTIVE = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
@@ -110,7 +110,7 @@ class AssetManager
         $less = self::makeLess();
 
         // Loop through each css file
-        $files = self::getCssFiles();
+        $files = self::getStylesheetFiles();
         $mergedContent = "";
         foreach ($files as $file) {
 
@@ -234,9 +234,9 @@ class AssetManager
     {
         $cssIncludeString = '';
 
-        $cssFiles = self::getCssFiles();
+        $stylesheets = self::getStylesheetFiles();
 
-        foreach ($cssFiles as $cssFile) {
+        foreach ($stylesheets as $cssFile) {
 
             self::validateCssFile($cssFile);
             $cssIncludeString = $cssIncludeString . sprintf(self::CSS_IMPORT_DIRECTIVE, $cssFile);
@@ -250,12 +250,12 @@ class AssetManager
      *
      * @return Array
      */
-    private static function getCssFiles()
+    private static function getStylesheetFiles()
     {
-        $cssFiles = array();
-        Piwik_PostEvent(self::CSS_IMPORT_EVENT, array(&$cssFiles));
+        $stylesheets = array();
+        Piwik_PostEvent(self::CSS_IMPORT_EVENT, array(&$stylesheets));
 
-        $cssFiles = self::sortCssFiles($cssFiles);
+        $stylesheets = self::sortCssFiles($stylesheets);
 
         // We also look for the currently enabled theme and add CSS from the json
         $theme = PluginsManager::getInstance()->getThemeEnabled();
@@ -264,18 +264,18 @@ class AssetManager
             if(isset($info['stylesheet'])) {
                 $themeStylesheetFile = 'plugins/'. $theme->getPluginName() . '/' . $info['stylesheet'];
             }
-            $cssFiles[] = $themeStylesheetFile;
+            $stylesheets[] = $themeStylesheetFile;
         }
-        return $cssFiles;
+        return $stylesheets;
     }
 
     /**
      * Ensure CSS stylesheets are loaded in a particular order regardless of the order that plugins are loaded.
      *
-     * @param array $cssFiles Array of CSS stylesheet files
+     * @param array $stylesheets Array of CSS stylesheet files
      * @return array
      */
-    private static function sortCssFiles($cssFiles)
+    private static function sortCssFiles($stylesheets)
     {
         $priorityCssOrdered = array(
             'libs/',
@@ -287,7 +287,7 @@ class AssetManager
             'tests/',
         );
 
-        return self::prioritySort($priorityCssOrdered, $cssFiles);
+        return self::prioritySort($priorityCssOrdered, $stylesheets);
     }
 
     /**
