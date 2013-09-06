@@ -12,7 +12,6 @@ namespace Piwik\DataTable\Renderer;
 
 use Exception;
 use Piwik\DataTable;
-use Piwik\DataTable\Simple;
 use Piwik\DataTable\Renderer;
 
 /**
