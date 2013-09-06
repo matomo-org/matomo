@@ -30,14 +30,16 @@ class API
     /**
      * Gets report data and converts it into data that can be used with the JavaScript Infovis
      * Toolkit's treemap visualization.
-     * 
-     * @param string $apiMethod The API module & action to call. The result of this method is converted
-     *                          to data usable by the treemap visualization. E.g. 'Actions.getPageUrls'.
-     * @param string $column The column to generate metric data for. If more than one column is supplied,
-     *                       the first is used and the rest discarded.
-     * @param string $period
-     * @param string $date
-     * @param int|bool $show_evolution_values Whether to calculate evolution values for each row or not.
+     *
+     * @param string   $apiMethod               The API module & action to call. The result of this method is converted
+     *                                          to data usable by the treemap visualization. E.g. 'Actions.getPageUrls'.
+     * @param string   $column                  The column to generate metric data for. If more than one column is supplied,
+     *                                          the first is used and the rest discarded.
+     * @param string   $period
+     * @param string   $date
+     * @param bool     $truncateAfter
+     * @param int|bool $show_evolution_values   Whether to calculate evolution values for each row or not.
+     *
      * @return array
      */
     public function getTreemapData($apiMethod, $column, $period, $date, $truncateAfter = false, $show_evolution_values = false)

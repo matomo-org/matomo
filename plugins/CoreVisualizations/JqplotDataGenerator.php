@@ -17,7 +17,6 @@ use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\Visualization;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';
 
@@ -62,8 +61,10 @@ class JqplotDataGenerator
     /**
      * Constructor.
      *
-     * @param Visualization\ $visualization
-     * @param array $properties
+     * @param array  $properties
+     * @param string $graphType
+     *
+     * @internal param \Piwik\Visualization\ $visualization
      */
     public function __construct($properties, $graphType)
     {

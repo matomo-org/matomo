@@ -74,8 +74,9 @@ class TreemapDataGenerator
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $metricToGraph @see self::$metricToGraph
+     * @param string $metricTranslation
      */
     public function __construct($metricToGraph, $metricTranslation)
     {
