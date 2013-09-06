@@ -108,30 +108,6 @@ class Controller extends \Piwik\Controller
         echo $view->render();
     }
 
-    /**
-     * This method is called when the asset manager is configured in merged mode.
-     * It returns the content of the css merged file.
-     *
-     * @see core/AssetManager.php
-     */
-    public function getCss()
-    {
-        $cssMergedFile = AssetManager::getMergedCssFileLocation();
-        Piwik::serveStaticFile($cssMergedFile, "text/css");
-    }
-
-    /**
-     * This method is called when the asset manager is configured in merged mode.
-     * It returns the content of the js merged file.
-     *
-     * @see core/AssetManager.php
-     */
-    public function getJs()
-    {
-        $jsMergedFile = AssetManager::getMergedJsFileLocation();
-        Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
-    }
-
     //  --------------------------------------------------------
     //  ROW EVOLUTION
     //  The following methods render the popover that shows the

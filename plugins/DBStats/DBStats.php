@@ -31,7 +31,7 @@ class DBStats extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles'                 => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'                 => 'getStylesheetFiles',
             'AdminMenu.add'                            => 'addMenu',
             'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
@@ -75,9 +75,9 @@ class DBStats extends \Piwik\Plugin
         Piwik_SetOption(self::TIME_OF_LAST_TASK_RUN_OPTION, $now);
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/DBStats/stylesheets/dbStatsTable.less";
+        $stylesheets[] = "plugins/DBStats/stylesheets/dbStatsTable.less";
     }
 
     /** Returns the date when the cacheDataByArchiveNameReports was last run. */

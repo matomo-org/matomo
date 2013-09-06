@@ -46,7 +46,7 @@ class UserCountry extends \Piwik\Plugin
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'AssetManager.getCssFiles'                 => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'                 => 'getStylesheetFiles',
             'AssetManager.getJsFiles'                  => 'getJsFiles',
             'Tracker.getVisitorLocation'               => 'getVisitorLocation',
             'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
@@ -61,9 +61,9 @@ class UserCountry extends \Piwik\Plugin
         $tasks[] = GeoIPAutoUpdater::makeScheduledTask();
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/UserCountry/stylesheets/userCountry.less";
+        $stylesheets[] = "plugins/UserCountry/stylesheets/userCountry.less";
     }
 
     public function getJsFiles(&$jsFiles)

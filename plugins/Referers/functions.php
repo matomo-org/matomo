@@ -220,16 +220,16 @@ function getRefererTypeLabel($label)
 {
     $indexTranslation = '';
     switch ($label) {
-        case Common::REFERER_TYPE_DIRECT_ENTRY:
+        case Common::REFERRER_TYPE_DIRECT_ENTRY:
             $indexTranslation = 'Referers_DirectEntry';
             break;
-        case Common::REFERER_TYPE_SEARCH_ENGINE:
+        case Common::REFERRER_TYPE_SEARCH_ENGINE:
             $indexTranslation = 'Referers_SearchEngines';
             break;
-        case Common::REFERER_TYPE_WEBSITE:
+        case Common::REFERRER_TYPE_WEBSITE:
             $indexTranslation = 'Referers_Websites';
             break;
-        case Common::REFERER_TYPE_CAMPAIGN:
+        case Common::REFERRER_TYPE_CAMPAIGN:
             $indexTranslation = 'Referers_Campaigns';
             break;
         default:
@@ -249,10 +249,10 @@ function getRefererTypeLabel($label)
 function getRefererTypeFromShortName($name)
 {
     $map = array(
-        Common::REFERER_TYPE_SEARCH_ENGINE => 'search',
-        Common::REFERER_TYPE_WEBSITE       => 'website',
-        Common::REFERER_TYPE_DIRECT_ENTRY  => 'direct',
-        Common::REFERER_TYPE_CAMPAIGN      => 'campaign',
+        Common::REFERRER_TYPE_SEARCH_ENGINE => 'search',
+        Common::REFERRER_TYPE_WEBSITE       => 'website',
+        Common::REFERRER_TYPE_DIRECT_ENTRY  => 'direct',
+        Common::REFERRER_TYPE_CAMPAIGN      => 'campaign',
     );
     if (isset($map[$name])) {
         return $map[$name];

@@ -69,7 +69,7 @@ class MobileMessaging extends \Piwik\Plugin
         return array(
             'AdminMenu.add'                       => 'addMenu',
             'AssetManager.getJsFiles'             => 'getJsFiles',
-            'AssetManager.getCssFiles'            => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
             'PDFReports.getReportParameters'      => 'getReportParameters',
             'PDFReports.validateReportParameters' => 'validateReportParameters',
             'PDFReports.getReportMetadata'        => 'getReportMetadata',
@@ -100,9 +100,9 @@ class MobileMessaging extends \Piwik\Plugin
         $jsFiles[] = "plugins/MobileMessaging/javascripts/MobileMessagingSettings.js";
     }
 
-    public function getCssFiles($cssFiles)
+    public function getStylesheetFiles($stylesheets)
     {
-        $cssFiles[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
+        $stylesheets[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
     }
 
     public function validateReportParameters(&$parameters, $info)

@@ -24,7 +24,7 @@ class CoreHome extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJsFiles'  => 'getJsFiles',
             'WidgetsList.add'          => 'addWidgets',
         );
@@ -39,22 +39,22 @@ class CoreHome extends \Piwik\Plugin
         WidgetsList::add('Example Widgets', 'Installation_Welcome', 'CoreHome', 'getPromoVideo');
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
-        $cssFiles[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
-        $cssFiles[] = "libs/jquery/stylesheets/scroll.less";
-        $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/coreHome.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/menu.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/dataTable.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/jqplotColors.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/promo.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/color_manager.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
+        $stylesheets[] = "libs/jquery/themes/base/jquery-ui.css";
+        $stylesheets[] = "libs/jquery/stylesheets/jquery.jscrollpane.css";
+        $stylesheets[] = "libs/jquery/stylesheets/scroll.less";
+        $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/coreHome.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/menu.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/jqplotColors.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/promo.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/color_manager.css";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/sparklineColors.less";
     }
 
     public function getJsFiles(&$jsFiles)

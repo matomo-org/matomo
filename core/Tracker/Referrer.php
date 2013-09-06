@@ -78,7 +78,7 @@ class Referrer
         $this->refererUrl = $refererUrl;
         $this->refererUrlParse = @parse_url($this->refererUrl);
         $this->currentUrlParse = @parse_url($currentUrl);
-        $this->typeRefererAnalyzed = Common::REFERER_TYPE_DIRECT_ENTRY;
+        $this->typeRefererAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
         $this->nameRefererAnalyzed = '';
         $this->keywordRefererAnalyzed = '';
         $this->refererHost = '';
@@ -106,7 +106,7 @@ class Referrer
         if (!empty($this->refererHost)
             && !$refererDetected
         ) {
-            $this->typeRefererAnalyzed = Common::REFERER_TYPE_WEBSITE;
+            $this->typeRefererAnalyzed = Common::REFERRER_TYPE_WEBSITE;
             $this->nameRefererAnalyzed = mb_strtolower($this->refererHost, 'UTF-8');
         }
 
@@ -131,7 +131,7 @@ class Referrer
         if ($searchEngineInformation === false) {
             return false;
         }
-        $this->typeRefererAnalyzed = Common::REFERER_TYPE_SEARCH_ENGINE;
+        $this->typeRefererAnalyzed = Common::REFERRER_TYPE_SEARCH_ENGINE;
         $this->nameRefererAnalyzed = $searchEngineInformation['name'];
         $this->keywordRefererAnalyzed = $searchEngineInformation['keywords'];
         return true;
@@ -151,7 +151,7 @@ class Referrer
         }
 
         if (!empty($campaignName)) {
-            $this->typeRefererAnalyzed = Common::REFERER_TYPE_CAMPAIGN;
+            $this->typeRefererAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
             $this->nameRefererAnalyzed = $campaignName;
 
             foreach ($this->campaignKeywords as $campaignKeywordParameter) {
@@ -243,12 +243,12 @@ class Referrer
             if (isset($this->currentUrlParse['host'])) {
                 $currentHost = mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
                 if ($currentHost == mb_strtolower($this->refererHost, 'UTF-8')) {
-                    $this->typeRefererAnalyzed = Common::REFERER_TYPE_DIRECT_ENTRY;
+                    $this->typeRefererAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                     return true;
                 }
             }
             if (Visit::isHostKnownAliasHost($this->refererHost, $this->idsite)) {
-                $this->typeRefererAnalyzed = Common::REFERER_TYPE_DIRECT_ENTRY;
+                $this->typeRefererAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                 return true;
             }
         }

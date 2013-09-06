@@ -19,10 +19,8 @@ env:
 # Run PHP 5.4 for aa tests to generate
 # code coverage.
 
-# Temporarily disabling the full build while we release 1.12,
-# The bug experienced here is a "test edge case" bug quite tricky to find
-# and very much out of reach for my priorities at this stage. Will come back to fix this bug in June.
-#
+# Disabling the full build
+# The bug experienced here is a "test edge case" bug tricky to find
 #matrix:
 #  include:
 #    - php: 5.4

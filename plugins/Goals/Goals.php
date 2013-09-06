@@ -89,7 +89,7 @@ class Goals extends \Piwik\Plugin
     {
         $hooks = array(
             'AssetManager.getJsFiles'          => 'getJsFiles',
-            'AssetManager.getCssFiles'         => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Common.fetchWebsiteAttributes'    => 'fetchGoalsFromDb',
             'ArchiveProcessing_Day.compute'    => 'archiveDay',
             'ArchiveProcessing_Period.compute' => 'archivePeriod',
@@ -406,9 +406,9 @@ class Goals extends \Piwik\Plugin
         $jsFiles[] = "plugins/Goals/javascripts/goalsForm.js";
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/Goals/stylesheets/goals.css";
+        $stylesheets[] = "plugins/Goals/stylesheets/goals.css";
     }
 
     public function fetchGoalsFromDb(&$array, $idSite)

@@ -225,10 +225,9 @@ class Config
             foreach ($values as &$value) {
                 $value = $this->decodeValues($value);
             }
-        } else {
-            $values = html_entity_decode($values, ENT_COMPAT, 'UTF-8');
+            return $values;
         }
-        return $values;
+        return html_entity_decode($values, ENT_COMPAT, 'UTF-8');
     }
 
     /**

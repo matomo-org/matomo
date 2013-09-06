@@ -64,8 +64,8 @@ class SegmentTest extends PHPUnit_Framework_TestCase
             // OR, with 2 value rewrites
             array('referrerType==search,referrerType==direct', array(
                 'where' => ' (log_visit.referer_type = ? OR log_visit.referer_type = ? )',
-                'bind'  => array(Common::REFERER_TYPE_SEARCH_ENGINE,
-                                 Common::REFERER_TYPE_DIRECT_ENTRY))),
+                'bind'  => array(Common::REFERRER_TYPE_SEARCH_ENGINE,
+                                 Common::REFERRER_TYPE_DIRECT_ENTRY))),
 
             // IS NOT NULL
             array('browserCode==ff;referrerKeyword!=', array(

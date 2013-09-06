@@ -30,7 +30,7 @@ class CoreAdminHome extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles'        => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJsFiles'         => 'getJsFiles',
             'AdminMenu.add'                   => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
@@ -56,12 +56,12 @@ class CoreAdminHome extends \Piwik\Plugin
         $tasks[] = $optimizeArchiveTableTask;
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
-        $cssFiles[] = "plugins/CoreAdminHome/stylesheets/menu.less";
-        $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
-        $cssFiles[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
+        $stylesheets[] = "libs/jquery/themes/base/jquery-ui.css";
+        $stylesheets[] = "plugins/CoreAdminHome/stylesheets/menu.less";
+        $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
+        $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
     }
 
     public function getJsFiles(&$jsFiles)

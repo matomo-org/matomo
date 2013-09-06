@@ -55,7 +55,7 @@ class UserCountryMap extends \Piwik\Plugin
     {
         $hooks = array(
             'AssetManager.getJsFiles'  => 'getJsFiles',
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Menu.add'                 => 'addMenu',
         );
         return $hooks;
@@ -76,9 +76,9 @@ class UserCountryMap extends \Piwik\Plugin
         $jsFiles[] = "plugins/UserCountryMap/javascripts/realtime-map.js";
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/UserCountryMap/stylesheets/visitor-map.less";
-        $cssFiles[] = "plugins/UserCountryMap/stylesheets/realtime-map.less";
+        $stylesheets[] = "plugins/UserCountryMap/stylesheets/visitor-map.less";
+        $stylesheets[] = "plugins/UserCountryMap/stylesheets/realtime-map.less";
     }
 }

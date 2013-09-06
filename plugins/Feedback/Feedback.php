@@ -24,7 +24,7 @@ class Feedback extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJsFiles'  => 'getJsFiles',
             'TopMenu.add'              => 'addTopMenu',
         );
@@ -42,9 +42,9 @@ class Feedback extends \Piwik\Plugin
         );
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/Feedback/stylesheets/feedback.less";
+        $stylesheets[] = "plugins/Feedback/stylesheets/feedback.less";
     }
 
     public function getJsFiles(&$jsFiles)

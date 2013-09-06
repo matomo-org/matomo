@@ -22,14 +22,14 @@ class Transitions extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJsFiles'  => 'getJsFiles'
         );
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = 'plugins/Transitions/stylesheets/transitions.less';
+        $stylesheets[] = 'plugins/Transitions/stylesheets/transitions.less';
     }
 
     public function getJsFiles(&$jsFiles)

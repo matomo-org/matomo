@@ -88,13 +88,13 @@ class API
         if ($idSubtable !== false) {
             $result = false;
             switch ($idSubtable) {
-                case Common::REFERER_TYPE_SEARCH_ENGINE:
+                case Common::REFERRER_TYPE_SEARCH_ENGINE:
                     $result = $this->getKeywords($idSite, $period, $date, $segment);
                     break;
-                case Common::REFERER_TYPE_WEBSITE:
+                case Common::REFERRER_TYPE_WEBSITE:
                     $result = $this->getWebsites($idSite, $period, $date, $segment);
                     break;
-                case Common::REFERER_TYPE_CAMPAIGN:
+                case Common::REFERRER_TYPE_CAMPAIGN:
                     $result = $this->getCampaigns($idSite, $period, $date, $segment);
                     break;
                 default: // invalid idSubtable, return whole report
@@ -107,7 +107,7 @@ class API
         }
 
         // get visits by referrer type
-        $dataTable = $this->getDataTable(Archiver::REFERER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Archiver::REFERRER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
 
         if ($typeReferer !== false) // filter for a specific referrer type
         {
@@ -516,7 +516,7 @@ class API
     {
         foreach ($dataTable->getRows() as $row) {
             $typeReferrer = $row->getColumn('label');
-            if ($typeReferrer != Common::REFERER_TYPE_DIRECT_ENTRY) {
+            if ($typeReferrer != Common::REFERRER_TYPE_DIRECT_ENTRY) {
                 if (!$expanded) // if we don't want the expanded datatable, then don't do any extra queries
                 {
                     $row->c[Row::DATATABLE_ASSOCIATED] = $typeReferrer;

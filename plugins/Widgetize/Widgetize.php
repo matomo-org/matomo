@@ -25,7 +25,7 @@ class Widgetize extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJsFiles'  => 'getJsFiles',
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'TopMenu.add'              => 'addTopMenu',
         );
     }
@@ -48,12 +48,12 @@ class Widgetize extends \Piwik\Plugin
         $jsFiles[] = "plugins/Widgetize/javascripts/widgetize.js";
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/Widgetize/stylesheets/widgetize.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/coreHome.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/dataTable.less";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.less";
-        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.less";
+        $stylesheets[] = "plugins/Widgetize/stylesheets/widgetize.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/coreHome.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
+        $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
+        $stylesheets[] = "plugins/Dashboard/stylesheets/dashboard.less";
     }
 }

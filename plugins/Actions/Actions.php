@@ -61,15 +61,15 @@ class Actions extends \Piwik\Plugin
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
-            'AssetManager.getCssFiles'                 => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'                 => 'getStylesheetFiles',
             'AssetManager.getJsFiles'                  => 'getJsFiles'
         );
         return $hooks;
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/Actions/stylesheets/dataTableActions.less";
+        $stylesheets[] = "plugins/Actions/stylesheets/dataTableActions.less";
     }
 
     public function getJsFiles(&$jsFiles)

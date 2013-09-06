@@ -361,18 +361,18 @@ class API
         $rankingQuery->addLabelColumn('referrer_data');
         $selects = array(
             'CASE log_visit.referer_type
-				WHEN ' . Common::REFERER_TYPE_DIRECT_ENTRY . ' THEN \'\'
-				WHEN ' . Common::REFERER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_keyword
-				WHEN ' . Common::REFERER_TYPE_WEBSITE . ' THEN log_visit.referer_url
-				WHEN ' . Common::REFERER_TYPE_CAMPAIGN . ' THEN CONCAT(log_visit.referer_name, \' \', log_visit.referer_keyword)
+				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
+				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_keyword
+				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
+				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT(log_visit.referer_name, \' \', log_visit.referer_keyword)
 			END AS `referrer_data`');
 
         // get one limited group per referrer type
         $rankingQuery->partitionResultIntoMultipleGroups('referer_type', array(
-                                                                              Common::REFERER_TYPE_DIRECT_ENTRY,
-                                                                              Common::REFERER_TYPE_SEARCH_ENGINE,
-                                                                              Common::REFERER_TYPE_WEBSITE,
-                                                                              Common::REFERER_TYPE_CAMPAIGN
+                                                                              Common::REFERRER_TYPE_DIRECT_ENTRY,
+                                                                              Common::REFERRER_TYPE_SEARCH_ENGINE,
+                                                                              Common::REFERRER_TYPE_WEBSITE,
+                                                                              Common::REFERRER_TYPE_CAMPAIGN
                                                                          ));
 
         $type = $this->getColumnTypeSuffix($actionType);
@@ -386,12 +386,12 @@ class API
 
         foreach ($data as $referrerType => &$subData) {
             $referrerData[$referrerType] = array(Metrics::INDEX_NB_VISITS => 0);
-            if ($referrerType != Common::REFERER_TYPE_DIRECT_ENTRY) {
+            if ($referrerType != Common::REFERRER_TYPE_DIRECT_ENTRY) {
                 $referrerSubData[$referrerType] = array();
             }
 
             foreach ($subData as &$row) {
-                if ($referrerType == Common::REFERER_TYPE_SEARCH_ENGINE && empty($row['referrer_data'])) {
+                if ($referrerType == Common::REFERRER_TYPE_SEARCH_ENGINE && empty($row['referrer_data'])) {
                     $row['referrer_data'] = \Piwik\Plugins\Referers\API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
@@ -598,8 +598,8 @@ class API
         // causes an exception.
         if (count($report['referrers']) == 0) {
             $report['referrers'][] = array(
-                'label'     => $this->getReferrerLabel(Common::REFERER_TYPE_DIRECT_ENTRY),
-                'shortName' => \Piwik\Plugins\Referers\getRefererTypeLabel(Common::REFERER_TYPE_DIRECT_ENTRY),
+                'label'     => $this->getReferrerLabel(Common::REFERRER_TYPE_DIRECT_ENTRY),
+                'shortName' => \Piwik\Plugins\Referers\getRefererTypeLabel(Common::REFERRER_TYPE_DIRECT_ENTRY),
                 'visits'    => 0
             );
         }
@@ -608,13 +608,13 @@ class API
     private function getReferrerLabel($referrerId)
     {
         switch ($referrerId) {
-            case Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERRER_TYPE_DIRECT_ENTRY:
                 return Controller::getTranslation('directEntries');
-            case Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 return Controller::getTranslation('fromSearchEngines');
-            case Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERRER_TYPE_WEBSITE:
                 return Controller::getTranslation('fromWebsites');
-            case Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERRER_TYPE_CAMPAIGN:
                 return Controller::getTranslation('fromCampaigns');
             default:
                 return Piwik_Translate('General_Others');

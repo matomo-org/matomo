@@ -41,7 +41,7 @@ class TreemapVisualization extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles'            => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
             'AssetManager.getJsFiles'             => 'getJsFiles',
             'DataTableVisualization.getAvailable' => 'getAvailableDataTableVisualizations',
             'ViewDataTable.configureReportView'   => 'configureReportViewForActions'
@@ -53,10 +53,10 @@ class TreemapVisualization extends \Piwik\Plugin
         $visualizations[] = 'Piwik\\Plugins\\TreemapVisualization\\Treemap';
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = 'plugins/TreemapVisualization/stylesheets/treemap.less';
-        $cssFiles[] = 'plugins/TreemapVisualization/stylesheets/treemapColors.less';
+        $stylesheets[] = 'plugins/TreemapVisualization/stylesheets/treemap.less';
+        $stylesheets[] = 'plugins/TreemapVisualization/stylesheets/treemapColors.less';
     }
 
     public function getJsFiles(&$jsFiles)

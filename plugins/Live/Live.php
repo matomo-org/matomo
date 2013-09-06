@@ -26,17 +26,17 @@ class Live extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJsFiles'                  => 'getJsFiles',
-            'AssetManager.getCssFiles'                 => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'                 => 'getStylesheetFiles',
             'WidgetsList.add'                          => 'addWidget',
             'Menu.add'                                 => 'addMenu',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
     }
 
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/Live/stylesheets/live.less";
-        $cssFiles[] = "plugins/Live/stylesheets/visitor_profile.less";
+        $stylesheets[] = "plugins/Live/stylesheets/live.less";
+        $stylesheets[] = "plugins/Live/stylesheets/visitor_profile.less";
     }
 
     public function getJsFiles(&$jsFiles)

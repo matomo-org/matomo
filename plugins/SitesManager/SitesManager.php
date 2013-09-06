@@ -29,7 +29,7 @@ class SitesManager extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJsFiles'       => 'getJsFiles',
-            'AssetManager.getCssFiles'      => 'getCssFiles',
+            'AssetManager.getStylesheetFiles'      => 'getStylesheetFiles',
             'AdminMenu.add'                 => 'addMenu',
             'Common.fetchWebsiteAttributes' => 'recordWebsiteDataInCache',
         );
@@ -46,10 +46,10 @@ class SitesManager extends \Piwik\Plugin
     /**
      * Get CSS files
      */
-    public function getCssFiles(&$cssFiles)
+    public function getStylesheetFiles(&$stylesheets)
     {
-        $cssFiles[] = "plugins/SitesManager/stylesheets/SitesManager.less";
-        $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
+        $stylesheets[] = "plugins/SitesManager/stylesheets/SitesManager.less";
+        $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
     }
 
     /**
