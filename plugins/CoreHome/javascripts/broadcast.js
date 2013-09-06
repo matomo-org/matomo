@@ -432,7 +432,15 @@ var broadcast = {
      */
     customAjaxHandleError: function (deferred, status) {
         broadcast.lastUrlRequested = null;
-        piwikHelper.ajaxHandleError(deferred, status);
+
+        // do not display error message if request was aborted
+        if(status == 'abort') {
+            return;
+        }
+        $('#loadingError').show();
+        setTimeout( function(){
+            $('#loadingError').fadeOut('slow');
+        }, 2000);
     },
 
     /**

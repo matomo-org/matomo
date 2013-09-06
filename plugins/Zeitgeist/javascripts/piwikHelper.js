@@ -270,26 +270,6 @@ var piwikHelper = {
     },
 
     /**
-     * Method to handle ajax errors
-     * @param {XMLHttpRequest} deferred
-     * @param {string} status
-     * @return {void}
-     * @deprecated sine 1.9.3 - will be removed in 2.0
-     * @see use ajaxHelper for ajax requests
-     */
-    ajaxHandleError: function(deferred, status)
-    {
-        // do not display error message if request was aborted
-        if(status == 'abort') {
-            return;
-        }
-        $('#loadingError').show();
-        setTimeout( function(){
-            $('#loadingError').fadeOut('slow');
-            }, 2000);
-    },
-
-    /**
      * Scrolls the window to the jquery element 'elem'
      * if the top of the element is not currently visible on screen
      * @param {string} elem Selector for the DOM node to scroll to, eg. '#myDiv'
