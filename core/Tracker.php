@@ -191,7 +191,7 @@ class Tracker
             throw new Exception(" token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
         }
         if (!empty($this->requests)) {
-            $idSiteForAuthentication = 0;
+            $idSitesForAuthentication = array();
 
             foreach ($this->requests as &$request) {
                 // if a string is sent, we assume its a URL and try to parse it
@@ -202,16 +202,20 @@ class Tracker
                     if (!empty($url)) {
                         @parse_str($url['query'], $params);
                         $request = $params;
-                        if (isset($request['idsite']) && !$idSiteForAuthentication) {
-                            $idSiteForAuthentication = $request['idsite'];
-                        }
                     }
+                }
+
+                // We need to check access for each single request
+                if (isset($request['idsite']) && !in_array($request['idsite'], $idSitesForAuthentication)) {
+                    $idSitesForAuthentication[] = $request['idsite'];
                 }
             }
 
-            // a Bulk Tracking request that is not authenticated should fail
-            if (!Request::authenticateSuperUserOrAdmin($tokenAuth, $idSiteForAuthentication)) {
-                throw new Exception(" token_auth specified is not valid for site " . intval($idSiteForAuthentication));
+            foreach($idSitesForAuthentication as $idSiteForAuthentication) {
+                // a Bulk Tracking request that is not authenticated should fail
+                if (!Request::authenticateSuperUserOrAdmin($tokenAuth, $idSiteForAuthentication)) {
+                    throw new Exception(" token_auth specified is not valid for site " . intval($idSiteForAuthentication));
+                }
             }
         }
         return $tokenAuth;
