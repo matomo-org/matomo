@@ -143,6 +143,8 @@ class VisitExcluded
             && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
                 || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant
                 || strpos($this->userAgent, 'Google Page Speed Insights') !== false // #4049
+                || strpos($this->userAgent, 'Google (+https://developers.google.com') !== false // Google Snippet https://developers.google.com/+/web/snippet/
+                || strpos($this->userAgent, 'facebookexternalhit') !== false // http://www.facebook.com/externalhit_uatext.php
                 || strpos($this->userAgent, 'bingbot') !== false // Bingbot
                 || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
                 || strpos($this->userAgent, 'CloudFlare') !== false // CloudFlare-AlwaysOnline
