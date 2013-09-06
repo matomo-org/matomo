@@ -265,12 +265,4 @@ class View implements ViewInterface
         }
         echo $view->render();
     }
-
-    /**
-     * @deprecated
-     */
-    static public function factory($templateName = null)
-    {
-        throw new Exception("View::factory is deprecated. Use 'new View(\$templateFile)' instead.");
-    }
 }
