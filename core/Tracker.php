@@ -248,7 +248,6 @@ class Tracker
                 } catch (DbException $e) {
                     Common::printDebug("<b>" . $e->getMessage() . "</b>");
                     $this->exitWithException($e, $isAuthenticated);
-                } catch (VisitExcluded $e) {
                 } catch (Exception $e) {
                     $this->exitWithException($e, $isAuthenticated);
                 }
