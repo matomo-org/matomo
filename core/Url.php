@@ -358,9 +358,7 @@ class Url
     {
         $query = '';
         foreach ($parameters as $name => $value) {
-            if (is_null($value)
-                || $value === false
-            ) {
+            if (is_null($value) || $value === false) {
                 continue;
             }
             if (is_array($value)) {
