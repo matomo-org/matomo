@@ -98,7 +98,7 @@ class API
         $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();
 
         $segments[] = array(
-            'type'           => 'metric',
+            'type'           => 'dimension',
             'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_VisitorIP',
             'segment'        => 'visitIp',
