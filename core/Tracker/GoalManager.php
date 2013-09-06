@@ -297,13 +297,13 @@ class GoalManager
         // 0) In some (unknown!?) cases the campaign is not found in the attribution cookie, but the URL ref was found.
         //    In this case we look up if the current visit is credited to a campaign and will credit this campaign rather than the URL ref (since campaigns have higher priority)
         if (empty($refererCampaignName)
-            && $type == Common::REFERER_TYPE_CAMPAIGN
+            && $type == Common::REFERRER_TYPE_CAMPAIGN
             && !empty($name)
         ) {
             // Use default values per above
         } // 1) Campaigns from 1st party cookie
         elseif (!empty($refererCampaignName)) {
-            $type = Common::REFERER_TYPE_CAMPAIGN;
+            $type = Common::REFERRER_TYPE_CAMPAIGN;
             $name = $refererCampaignName;
             $keyword = $refererCampaignKeyword;
             $time = $refererTimestamp;
@@ -313,7 +313,7 @@ class GoalManager
             $referrer = $referrer->getRefererInformation($refererUrl, $currentUrl = '', $idSite);
 
             // if the parsed referer is interesting enough, ie. website or search engine
-            if (in_array($referrer['referer_type'], array(Common::REFERER_TYPE_SEARCH_ENGINE, Common::REFERER_TYPE_WEBSITE))) {
+            if (in_array($referrer['referer_type'], array(Common::REFERRER_TYPE_SEARCH_ENGINE, Common::REFERRER_TYPE_WEBSITE))) {
                 $type = $referrer['referer_type'];
                 $name = $referrer['referer_name'];
                 $keyword = $referrer['referer_keyword'];

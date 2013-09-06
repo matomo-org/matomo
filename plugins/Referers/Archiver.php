@@ -25,7 +25,7 @@ class Archiver extends PluginsArchiver
     const KEYWORDS_RECORD_NAME = 'Referers_searchEngineByKeyword';
     const CAMPAIGNS_RECORD_NAME = 'Referers_keywordByCampaign';
     const WEBSITES_RECORD_NAME = 'Referers_urlByWebsite';
-    const REFERER_TYPE_RECORD_NAME = 'Referers_type';
+    const REFERRER_TYPE_RECORD_NAME = 'Referers_type';
     const METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME = 'Referers_distinctSearchEngines';
     const METRIC_DISTINCT_KEYWORD_RECORD_NAME = 'Referers_distinctKeywords';
     const METRIC_DISTINCT_CAMPAIGN_RECORD_NAME = 'Referers_distinctCampaigns';
@@ -64,7 +64,7 @@ class Archiver extends PluginsArchiver
     protected function getRecordNames()
     {
         return array(
-            self::REFERER_TYPE_RECORD_NAME,
+            self::REFERRER_TYPE_RECORD_NAME,
             self::KEYWORDS_RECORD_NAME,
             self::SEARCH_ENGINES_RECORD_NAME,
             self::WEBSITES_RECORD_NAME,
@@ -83,14 +83,14 @@ class Archiver extends PluginsArchiver
     protected function makeRefererTypeNonEmpty(&$row)
     {
         if (empty($row['referer_type'])) {
-            $row['referer_type'] = Common::REFERER_TYPE_DIRECT_ENTRY;
+            $row['referer_type'] = Common::REFERRER_TYPE_DIRECT_ENTRY;
         }
     }
 
     protected function aggregateVisit($row)
     {
         switch ($row['referer_type']) {
-            case Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
                     $row['referer_keyword'] = API::LABEL_KEYWORD_NOT_DEFINED;
                 }
@@ -102,7 +102,7 @@ class Archiver extends PluginsArchiver
                 $keywordsDataArray->sumMetricsVisitsPivot($row['referer_keyword'], $row['referer_name'], $row);
                 break;
 
-            case Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERRER_TYPE_WEBSITE:
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_url'], $row);
 
@@ -112,14 +112,14 @@ class Archiver extends PluginsArchiver
                 }
                 break;
 
-            case Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERRER_TYPE_CAMPAIGN:
                 if (!empty($row['referer_keyword'])) {
                     $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_keyword'], $row);
                 }
                 $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
                 break;
 
-            case Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERRER_TYPE_DIRECT_ENTRY:
                 // direct entry are aggregated below in $this->metricsByType array
                 break;
 
@@ -127,7 +127,7 @@ class Archiver extends PluginsArchiver
                 throw new Exception("Non expected referer_type = " . $row['referer_type']);
                 break;
         }
-        $this->getDataArray(self::REFERER_TYPE_RECORD_NAME)->sumMetricsVisits($row['referer_type'], $row);
+        $this->getDataArray(self::REFERRER_TYPE_RECORD_NAME)->sumMetricsVisits($row['referer_type'], $row);
     }
 
     /**
@@ -149,7 +149,7 @@ class Archiver extends PluginsArchiver
 
             $skipAggregateByType = $this->aggregateConversion($row);
             if (!$skipAggregateByType) {
-                $this->getDataArray(self::REFERER_TYPE_RECORD_NAME)->sumMetricsGoals($row['referer_type'], $row);
+                $this->getDataArray(self::REFERRER_TYPE_RECORD_NAME)->sumMetricsGoals($row['referer_type'], $row);
             }
         }
 
@@ -163,7 +163,7 @@ class Archiver extends PluginsArchiver
     {
         $skipAggregateByType = false;
         switch ($row['referer_type']) {
-            case Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
                     $row['referer_keyword'] = API::LABEL_KEYWORD_NOT_DEFINED;
                 }
@@ -172,18 +172,18 @@ class Archiver extends PluginsArchiver
                 $this->getDataArray(self::KEYWORDS_RECORD_NAME)->sumMetricsGoals($row['referer_keyword'], $row);
                 break;
 
-            case Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERRER_TYPE_WEBSITE:
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
-            case Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERRER_TYPE_CAMPAIGN:
                 if (!empty($row['referer_keyword'])) {
                     $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoalsPivot($row['referer_name'], $row['referer_keyword'], $row);
                 }
                 $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
-            case Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERRER_TYPE_DIRECT_ENTRY:
                 // Direct entry, no sub dimension
                 break;
 

@@ -29,7 +29,7 @@ class Controller extends \Piwik\Controller
     {
         $view = new View('@Referers/index');
 
-        $view->graphEvolutionReferers = $this->getEvolutionGraph(true, Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
+        $view->graphEvolutionReferers = $this->getEvolutionGraph(true, Common::REFERRER_TYPE_DIRECT_ENTRY, array('nb_visits'));
         $view->nameGraphEvolutionReferers = 'Referers.getEvolutionGraph';
 
         // building the referers summary report
@@ -75,10 +75,10 @@ class Controller extends \Piwik\Controller
         }
 
         // sparkline for the historical data of the above values
-        $view->urlSparklineSearchEngines = $this->getReferrerUrlSparkline(Common::REFERER_TYPE_SEARCH_ENGINE);
-        $view->urlSparklineDirectEntry = $this->getReferrerUrlSparkline(Common::REFERER_TYPE_DIRECT_ENTRY);
-        $view->urlSparklineWebsites = $this->getReferrerUrlSparkline(Common::REFERER_TYPE_WEBSITE);
-        $view->urlSparklineCampaigns = $this->getReferrerUrlSparkline(Common::REFERER_TYPE_CAMPAIGN);
+        $view->urlSparklineSearchEngines = $this->getReferrerUrlSparkline(Common::REFERRER_TYPE_SEARCH_ENGINE);
+        $view->urlSparklineDirectEntry = $this->getReferrerUrlSparkline(Common::REFERRER_TYPE_DIRECT_ENTRY);
+        $view->urlSparklineWebsites = $this->getReferrerUrlSparkline(Common::REFERRER_TYPE_WEBSITE);
+        $view->urlSparklineCampaigns = $this->getReferrerUrlSparkline(Common::REFERRER_TYPE_CAMPAIGN);
 
         // sparklines for the evolution of the distinct keywords count/websites count/ etc
         $view->urlSparklineDistinctSearchEngines = $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
@@ -236,10 +236,10 @@ class Controller extends \Piwik\Controller
             "Referers.getRefererType", array('disable_queued_filters' => '1', 'date' => $date));
 
         $nameToColumnId = array(
-            'visitorsFromSearchEngines' => Common::REFERER_TYPE_SEARCH_ENGINE,
-            'visitorsFromDirectEntry'   => Common::REFERER_TYPE_DIRECT_ENTRY,
-            'visitorsFromWebsites'      => Common::REFERER_TYPE_WEBSITE,
-            'visitorsFromCampaigns'     => Common::REFERER_TYPE_CAMPAIGN,
+            'visitorsFromSearchEngines' => Common::REFERRER_TYPE_SEARCH_ENGINE,
+            'visitorsFromDirectEntry'   => Common::REFERRER_TYPE_DIRECT_ENTRY,
+            'visitorsFromWebsites'      => Common::REFERRER_TYPE_WEBSITE,
+            'visitorsFromCampaigns'     => Common::REFERRER_TYPE_CAMPAIGN,
         );
         $return = array();
         foreach ($nameToColumnId as $nameVar => $columnId) {
@@ -254,10 +254,10 @@ class Controller extends \Piwik\Controller
     }
 
     protected $referrerTypeToLabel = array(
-        Common::REFERER_TYPE_DIRECT_ENTRY  => 'Referers_DirectEntry',
-        Common::REFERER_TYPE_SEARCH_ENGINE => 'Referers_SearchEngines',
-        Common::REFERER_TYPE_WEBSITE       => 'Referers_Websites',
-        Common::REFERER_TYPE_CAMPAIGN      => 'Referers_Campaigns',
+        Common::REFERRER_TYPE_DIRECT_ENTRY  => 'Referers_DirectEntry',
+        Common::REFERRER_TYPE_SEARCH_ENGINE => 'Referers_SearchEngines',
+        Common::REFERRER_TYPE_WEBSITE       => 'Referers_Websites',
+        Common::REFERRER_TYPE_CAMPAIGN      => 'Referers_Campaigns',
     );
 
     public function getEvolutionGraph($fetch = false, $typeReferer = false, array $columns = array())

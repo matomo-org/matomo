@@ -31,10 +31,10 @@ class Common
     /**
      * Const used to map the referer type to an integer in the log_visit table
      */
-    const REFERER_TYPE_DIRECT_ENTRY = 1;
-    const REFERER_TYPE_SEARCH_ENGINE = 2;
-    const REFERER_TYPE_WEBSITE = 3;
-    const REFERER_TYPE_CAMPAIGN = 6;
+    const REFERRER_TYPE_DIRECT_ENTRY = 1;
+    const REFERRER_TYPE_SEARCH_ENGINE = 2;
+    const REFERRER_TYPE_WEBSITE = 3;
+    const REFERRER_TYPE_CAMPAIGN = 6;
 
     /**
      * Flag used with htmlspecialchar
