@@ -11,12 +11,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Access;
-use Piwik\Translate;
-use Piwik\TaskScheduler;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Db\Mysqli;
@@ -24,7 +18,6 @@ use Piwik\Tracker\Db\Pdo\Mysql;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;
-use Piwik\PluginsManager;
 use Zend_Registry;
 
 /**
@@ -224,13 +217,12 @@ class Tracker
      */
     public function main($args = null)
     {
-        $displayedGIF = false;
         $tokenAuth = $this->initRequests($args);
 
-        $isAuthenticated = false;
         if (!empty($this->requests)) {
             foreach ($this->requests as $params) {
                 $request = new Request($params, $tokenAuth);
+                $isAuthenticated = $request->isAuthenticated();
                 $this->init($request);
 
                 try {

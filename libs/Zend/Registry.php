@@ -144,7 +144,8 @@ class Zend_Registry extends ArrayObject
 
         if (!$instance->offsetExists($index)) {
             // require_once 'Zend/Exception.php';
-            throw new Zend_Exception("No entry is registered for key '$index'");
+//            debug_print_backtrace();
+            throw new Zend_Exception("No entry is registered for key '$index'" );
         }
 
         return $instance->offsetGet($index);
