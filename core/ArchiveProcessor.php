@@ -215,7 +215,7 @@ abstract class ArchiveProcessor
      */
     protected function loadExistingArchiveIdFromDb($requestedPlugin)
     {
-        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchivedProcessed();
+        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
         $site = $this->getSite();
         $period = $this->getPeriod();
         $segment = $this->getSegment();
@@ -314,7 +314,7 @@ abstract class ArchiveProcessor
      *
      * @public for tests
      */
-    public function getMinTimeArchivedProcessed()
+    public function getMinTimeArchiveProcessed()
     {
         $endDateTimestamp = self::determineIfArchivePermanent($this->getDateEnd());
         $isArchiveTemporary = ($endDateTimestamp === false);
@@ -331,7 +331,7 @@ abstract class ArchiveProcessor
     public function isArchiveTemporary()
     {
         if (is_null($this->temporaryArchive)) {
-            throw new Exception("getMinTimeArchivedProcessed() should be called prior to isArchiveTemporary()");
+            throw new Exception("getMinTimeArchiveProcessed() should be called prior to isArchiveTemporary()");
         }
         return $this->temporaryArchive;
     }
