@@ -731,7 +731,7 @@
         "country_zm": "זמביה",
         "country_zw": "זימבאבווה"
     },
-    "UserLanguage": {
+    "UserSettings": {
         "Language_aa": "אפארית",
         "Language_ab": "אבחזית",
         "Language_ae": "אבסטן",
@@ -915,9 +915,7 @@
         "Language_yo": "יורובה",
         "Language_za": "ז'ואנג",
         "Language_zh": "סינית",
-        "Language_zu": "זולו"
-    },
-    "UserSettings": {
+        "Language_zu": "זולו",
         "LanguageCode": "קוד שפה"
     },
     "VisitsSummary": {

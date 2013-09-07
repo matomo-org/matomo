@@ -265,7 +265,7 @@ function languageTranslate($label)
         return Piwik_Translate('General_Unknown');
     }
 
-    $key = 'UserLanguage_Language_' . $label;
+    $key = 'UserSettings_Language_' . $label;
 
     $translation = Piwik_Translate($key);
 

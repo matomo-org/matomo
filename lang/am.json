@@ -606,7 +606,16 @@
         "DistinctCountries": "%s የተለዩ ሀገራት",
         "SubmenuLocations": "አቀማመጦች"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "የማሰሺያ ቤተሰቦች",
+        "Browsers": "ማሰሻዎች",
+        "ColumnBrowser": "ማሰሺያ",
+        "ColumnBrowserFamily": "የማሰሻ ቤተሰብ",
+        "ColumnConfiguration": "ውቅረት",
+        "ColumnPlugin": "ተሰኪ",
+        "ColumnResolution": "ጥራት",
+        "ColumnTypeOfScreen": "የማያ ዓይነት",
+        "Configurations": "ውቅረቶች",
         "Language_aa": "አፋርኛ",
         "Language_ab": "አብሐዚኛ",
         "Language_af": "አፍሪካንስኛ",
@@ -760,18 +769,7 @@
         "Language_yo": "ዮሩባዊኛ",
         "Language_za": "ዡዋንግኛ",
         "Language_zh": "ቻይንኛ",
-        "Language_zu": "ዙሉኛ"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "የማሰሺያ ቤተሰቦች",
-        "Browsers": "ማሰሻዎች",
-        "ColumnBrowser": "ማሰሺያ",
-        "ColumnBrowserFamily": "የማሰሻ ቤተሰብ",
-        "ColumnConfiguration": "ውቅረት",
-        "ColumnPlugin": "ተሰኪ",
-        "ColumnResolution": "ጥራት",
-        "ColumnTypeOfScreen": "የማያ ዓይነት",
-        "Configurations": "ውቅረቶች",
+        "Language_zu": "ዙሉኛ",
         "LanguageCode": "የቋንቋ ኮድ",
         "Plugins": "ተሰኪዎች",
         "Resolutions": "ጥራቶች",

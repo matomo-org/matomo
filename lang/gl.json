@@ -579,7 +579,10 @@
         "DistinctCountries": "%s continentes distintos",
         "SubmenuLocations": "Lugares"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Familias de navegadores",
+        "Browsers": "Navegadores",
+        "Configurations": "Configuracións",
         "Language_ab": "abkhazo",
         "Language_af": "Afrikaans",
         "Language_ak": "Akán",
@@ -725,12 +728,7 @@
         "Language_yi": "Yiddish",
         "Language_yo": "ioruba",
         "Language_zh": "Chinés",
-        "Language_zu": "Zulú"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Familias de navegadores",
-        "Browsers": "Navegadores",
-        "Configurations": "Configuracións",
+        "Language_zu": "Zulú",
         "LanguageCode": "Código de idioma",
         "OperatingSystems": "Sistemas Operativos",
         "Plugins": "Plugins",
