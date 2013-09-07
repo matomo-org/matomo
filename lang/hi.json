@@ -1554,28 +1554,6 @@
         "XOfAllPageviews": "इस पृष्ठ के सभी दृश्यों का %s",
         "XOutOfYVisits": "%s (बाहर %s)"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "भाषा जोड़ें",
-        "CannotOpenForWriting": "लेखन के लिए %s को नहीं खोल सकते हैं",
-        "DefaultString": "डिफ़ॉल्ट स्ट्रिंग (अंग्रेजी)",
-        "Definition": "परिभाषा",
-        "Export": "भाषा निर्यात",
-        "FixPermissions": "फाइल सिस्टम अनुमति तय करें",
-        "Import": "आयात भाषा",
-        "InvalidCountry": "अवैध देश",
-        "InvalidLanguage": "अवैध भाषा",
-        "LanguageCode": "भाषा कोड",
-        "MenuLanguages": "भाषाएँ",
-        "MenuTranslations": "अनुवाद",
-        "OptionalCountry": "वैकल्पिक देश",
-        "Plugin": "प्लगइन",
-        "PluginDescription": "अपनी भाषा में Piwik अनुवाद में मदद करें.",
-        "ShowOnlyEmpty": "केवल लापता अनुवाद दिखाएं",
-        "StatusOfStringsTranslated": "स्थिति: %1$s का %2$s स्ट्रिंग्स अनुवाद किया.",
-        "TranslationAlreadyExists": "अनुवाद पहले से मौजूद है",
-        "Translations": "अनुवाद",
-        "TranslationString": "अनुवाद स्ट्रिंग (वर्तमान भाषा: %s)"
-    },
     "UserCountry": {
         "AssumingNonApache": "गैर अपाचे वेबसर्वर मानते हुए, apache_get_modules फ़ंक्शन नहीं मिल सकता है.",
         "CannotFindGeoIPDatabaseInArchive": "टार अभिलेख %2$s में %1$s फाइल नहीं मिल सकता है!",
@@ -2072,5 +2050,8 @@
         "Language_za": "ज़ुआंग",
         "Language_zh": "चीनी",
         "Language_zu": "ज़ुलू"
+    },
+    "UserSettings": {
+        "LanguageCode": "भाषा कोड"
     }
 }

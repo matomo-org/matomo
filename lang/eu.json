@@ -499,20 +499,6 @@
         "Urls": "URLak",
         "WebsitesManagement": "Webguneen kudeaketa"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Gehitu hizkuntza",
-        "DefaultString": "Lehenetsitako katea (Ingelesa)",
-        "Definition": "Definizioa",
-        "Export": "Esportatu hizkuntza",
-        "FixPermissions": "Mesedez konpondu fitxategi-sistemaren baimenak",
-        "Import": "Inportatu hizkuntza",
-        "LanguageCode": "Hizkuntza-kodea",
-        "MenuLanguages": "Hizkuntzak",
-        "MenuTranslations": "Itzulpenak",
-        "Plugin": "Plugina",
-        "Translations": "Itzulpenak",
-        "TranslationString": "Itzulitako katea (uneko hizkuntza: %s)"
-    },
     "UserCountry": {
         "Continent": "Kontinentea",
         "continent_afr": "Afrika",
@@ -950,6 +936,7 @@
         "ColumnResolution": "Bereizmena",
         "ColumnTypeOfScreen": "Pantaila mota",
         "Configurations": "Konfigurazioak",
+        "LanguageCode": "Hizkuntza-kodea",
         "OperatingSystems": "Sistema eragileak",
         "Plugins": "Pluginak",
         "Resolutions": "Bereizmenak",

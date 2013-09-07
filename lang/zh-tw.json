@@ -738,21 +738,6 @@
         "WebsitesManagement": "網站管理",
         "YourCurrentIpAddressIs": "你目前的 IP 位址是 %s"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "增加語系",
-        "DefaultString": "預設字串 (英語)",
-        "Definition": "定義",
-        "Export": "匯出語系",
-        "FixPermissions": "請修正檔案系統權限",
-        "Import": "匯入語系",
-        "LanguageCode": "語系代碼",
-        "MenuLanguages": "語系",
-        "MenuTranslations": "翻譯",
-        "Plugin": "外掛程式",
-        "PluginDescription": "協助將 Piwik 翻譯為你所用的語言。",
-        "Translations": "翻譯",
-        "TranslationString": "翻譯字串 (目前的語系: %s)"
-    },
     "UserCountry": {
         "Continent": "世界大陸洲",
         "continent_afr": "非洲",
@@ -1237,6 +1222,7 @@
         "ColumnResolution": "解析度",
         "ColumnTypeOfScreen": "螢幕類型",
         "Configurations": "客戶端配置",
+        "LanguageCode": "語系代碼",
         "OperatingSystems": "作業系統",
         "PluginDescription": "各個用戶設定報表：瀏覽器、瀏覽器家族、作業系統、外掛、解析度、全域設定。",
         "PluginDetectionDoesNotWorkInIE": "注意：外掛偵測無法在 Internet Explorer 上運作。這個報告僅提供非 IE 瀏覽器。",

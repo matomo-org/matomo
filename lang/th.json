@@ -1057,23 +1057,6 @@
         "Including": "รวมทั้ง",
         "NoDataForAction": "ยังไม่มีข้อมูลสำหรับ %s"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "เพิ่มภาษา",
-        "DefaultString": "ภาษาเริ่มต้น (อังกฤษ)",
-        "Definition": "คำจำกัดความ",
-        "Export": "ส่งออกไฟล์ภาษา",
-        "FixPermissions": "กรุณาแก้ไขสิทธิ์ของไฟล์ระบบ",
-        "Import": "นำเข้าไฟล์ภาษาจากเครื่องคอมพิวเตอร์",
-        "LanguageCode": "รหัสภาษา",
-        "MenuLanguages": "ไฟล์ภาษา",
-        "MenuTranslations": "แปลภาษา",
-        "OptionalCountry": "ประเทศเพิ่มเติม",
-        "Plugin": "ปลั้กอิน",
-        "PluginDescription": "ช่วยแปล Piwik เข้าไปในภาษาของคุณ",
-        "TranslationAlreadyExists": "คำแปลภาษามีอยู่แล้ว",
-        "Translations": "แปลภาษา",
-        "TranslationString": "ข้อความที่แปล (ภาษาปัจจุบัน: %s)"
-    },
     "UserCountry": {
         "City": "เมือง",
         "Continent": "ทวีป",
@@ -1568,6 +1551,7 @@
         "ColumnResolution": "ความละเอียด",
         "ColumnTypeOfScreen": "ชนิดของจอภาพ",
         "Configurations": "การกำหนดค่า",
+        "LanguageCode": "รหัสภาษา",
         "MobileVsDesktop": "มือถือ vs เดสก์ท็อป",
         "OperatingSystems": "ระบบปฏิบัติการ",
         "PluginDescription": "รายงานการตั้งค่าผู้ใช้ต่างๆ: เบราว์เซอร์, ตระกูลเบราว์เซอร์,ระบบปฏิบัติการ, ปลั๊กอิน, การแก้ไขและการตั้งค่าส่วนกลาง",

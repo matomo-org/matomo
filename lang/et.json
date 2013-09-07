@@ -270,20 +270,6 @@
         "Urls": "URL-id",
         "WebsitesManagement": "Veebilehe haldamine"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Lisa keel",
-        "DefaultString": "Vaikimisi keel (Inglise keel)",
-        "Definition": "Definitsioon",
-        "Export": "Ekspordi keel",
-        "FixPermissions": "Palun korrasta failisüsteemi õigused",
-        "Import": "Impordi keel",
-        "LanguageCode": "Keele kood",
-        "MenuLanguages": "Keeled",
-        "MenuTranslations": "Tõlked",
-        "Plugin": "Plugin",
-        "Translations": "Tõlked",
-        "TranslationString": "Tõlke tõmmis (Praegune keel: %s)"
-    },
     "UserCountry": {
         "Continent": "Kontinent",
         "continent_afr": "Aafrika",
@@ -748,6 +734,7 @@
         "BrowserFamilies": "Sirvijate tüübid",
         "Browsers": "Veebisirvijad",
         "Configurations": "Konfiguratsioonid",
+        "LanguageCode": "Keele kood",
         "OperatingSystems": "Operatsioonisüsteemid",
         "Plugins": "Pluginad",
         "Resolutions": "Resolutsioonid",

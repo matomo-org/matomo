@@ -1231,28 +1231,6 @@
     "Transitions": {
         "PageviewsInline": "%s pagine visualizzate"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Aggiungi una lingua",
-        "CannotOpenForWriting": "Non posso aprire %s per scrivere",
-        "DefaultString": "Testo di Default (Inglese)",
-        "Definition": "Definizioni",
-        "Export": "Esporta lingua",
-        "FixPermissions": "Per favore sistema i permessi del filesystem",
-        "Import": "Importa lingua",
-        "InvalidCountry": "Paese non valido",
-        "InvalidLanguage": "Lingua non valida",
-        "LanguageCode": "Codice della lingua",
-        "MenuLanguages": "Lingue",
-        "MenuTranslations": "Traduzioni",
-        "OptionalCountry": "Paese facoltativo",
-        "Plugin": "Plugin",
-        "PluginDescription": "Aiuta a tradurre Piwik nella tua lingua.",
-        "ShowOnlyEmpty": "Mostra solamente le traduzioni mancanti",
-        "StatusOfStringsTranslated": "Stato attuale: %1$s di %2$s frasi tradotte.",
-        "TranslationAlreadyExists": "Traduzione già esistente",
-        "Translations": "Traduzioni",
-        "TranslationString": "Testo tradotto (Lingua corrente: %s)"
-    },
     "UserCountry": {
         "City": "Città",
         "Continent": "Continente",
@@ -1747,6 +1725,7 @@
         "ColumnResolution": "Risoluzione",
         "ColumnTypeOfScreen": "Tipo di schermo",
         "Configurations": "Configurazioni",
+        "LanguageCode": "Codice della lingua",
         "OperatingSystems": "Sistemi Operativi",
         "PluginDescription": "Mostra vari settaggi per gli utenti: Browser, Famiglia del Browser, Sistema Operativo, Plugins, Risoluzione Schermo, Settaggi Globali.",
         "PluginDetectionDoesNotWorkInIE": "N.B.: Questo plugin non funziona su Internet Explorer. Questo report è basato solamente sugli utenti di altri browser.",

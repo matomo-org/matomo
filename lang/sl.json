@@ -877,24 +877,6 @@
         "ToFollowingSiteSearchesInline": "%s notranjih iskanj",
         "XOutOfYVisits": "%s (od %s)"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Dodaj jezik",
-        "CannotOpenForWriting": "Ne morem odpreti %s za zapisovanje",
-        "Definition": "Definicija",
-        "Export": "Izvozi jezik",
-        "FixPermissions": "Popravite dovoljenja pri datotečnem sistemu",
-        "Import": "Uvozi jezik",
-        "InvalidCountry": "Napačna država",
-        "InvalidLanguage": "Napačen jezik",
-        "LanguageCode": "Šifra jezika",
-        "MenuLanguages": "Jeziki",
-        "MenuTranslations": "Prevodi",
-        "Plugin": "Vtičnik",
-        "PluginDescription": "Pomagajte nam prevesti Piwik v vaš jezik.",
-        "ShowOnlyEmpty": "Prikaži samo manjkajoče prevode",
-        "TranslationAlreadyExists": "Prevod že obstaja",
-        "Translations": "Prevodi"
-    },
     "UserCountry": {
         "CannotLocalizeLocalIP": "IP naslov %s je lokalen in ne more biti geolociran.",
         "City": "Mesto",
@@ -1384,6 +1366,7 @@
         "ColumnResolution": "Resolucija",
         "ColumnTypeOfScreen": "Tip zaslona",
         "Configurations": "Nastavitve",
+        "LanguageCode": "Šifra jezika",
         "OperatingSystems": "Operacijski sistemi",
         "Plugins": "Vtičniki",
         "Resolutions": "Resolucije",

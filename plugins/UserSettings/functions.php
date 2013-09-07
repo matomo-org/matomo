@@ -271,7 +271,7 @@ function languageTranslate($label)
 
     // Show language code if unknown code
     if ($translation == $key) {
-        $translation = Piwik_Translate('TranslationsAdmin_LanguageCode') . ' ' . $label;
+        $translation = Piwik_Translate('UserSettings_LanguageCode') . ' ' . $label;
     }
 
     return $translation;

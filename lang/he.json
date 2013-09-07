@@ -472,22 +472,6 @@
         "Currency": "מטבע",
         "Timezone": "אזור זמן"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "הוספת שפה",
-        "DefaultString": "ביטוי ברירת מחדל (אנגלית)",
-        "Definition": "הגדרה",
-        "Export": "ייצוא שפה",
-        "FixPermissions": "נא לתקן הרשאות מערכת קבצים",
-        "Import": "ייבוא שפה",
-        "LanguageCode": "קוד שפה",
-        "MenuLanguages": "שפות",
-        "MenuTranslations": "תרגומים",
-        "Plugin": "תוסף",
-        "PluginDescription": "עזרו לתרגם את Piwik לשפה שלכם.",
-        "ShowOnlyEmpty": "הצגת ביטויים חסרים בלבד",
-        "Translations": "תרגומים",
-        "TranslationString": "ביטוי מתורגם (שפה נוכחית: %s)"
-    },
     "UserCountry": {
         "country_ac": "האי אסנשן",
         "country_ad": "אנדורה",
@@ -932,6 +916,9 @@
         "Language_za": "ז'ואנג",
         "Language_zh": "סינית",
         "Language_zu": "זולו"
+    },
+    "UserSettings": {
+        "LanguageCode": "קוד שפה"
     },
     "VisitsSummary": {
         "AverageVisitDuration": "%s זמן ביקור ממוצע",

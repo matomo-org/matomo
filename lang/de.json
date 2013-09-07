@@ -1105,6 +1105,7 @@
         "VisitorProfile": "Besucherprofil",
         "VisitorsInRealTime": "Besucher in Echtzeit",
         "VisitorsLastVisit": "Der letzte Besuch dieses Besuchers war vor %s Tagen.",
+        "VisitsFrom": "%1$s%2$s Besuche%3$s aus",
         "VisitSummary": "Verbrachte insgesamt %1$s%2$s auf der Webseite%3$s, und %4$sgezeigten %5$s Seiten in %6$s Besuchen.%7$s"
     },
     "Login": {
@@ -1578,28 +1579,6 @@
         "ToInternalPages": "zu internen Seiten",
         "XOfAllPageviews": "%s von allen Seitenansichten",
         "XOutOfYVisits": "%s (von insgesamt %s)"
-    },
-    "TranslationsAdmin": {
-        "AddLanguage": "Sprache hinzufügen",
-        "CannotOpenForWriting": "Kann %s nicht zum Schreiben öffnen.",
-        "DefaultString": "Vorgabetext (Englisch)",
-        "Definition": "Definition",
-        "Export": "Sprache exportieren",
-        "FixPermissions": "Bitte korrigieren Sie folgende Dateiberechtigungen",
-        "Import": "Sprache importieren",
-        "InvalidCountry": "Unbekanntes Land",
-        "InvalidLanguage": "Ungültige Sprache",
-        "LanguageCode": "Sprach-Code",
-        "MenuLanguages": "Sprachen",
-        "MenuTranslations": "Übersetzungen",
-        "OptionalCountry": "Land (optional)",
-        "Plugin": "Plugin",
-        "PluginDescription": "Plugin, um Piwik in Ihrer Sprache zu übersetzen.",
-        "ShowOnlyEmpty": "Nur fehlende Übersetzungen zeigen",
-        "StatusOfStringsTranslated": "Status: %1$s von %2$s Texte sind übersetzt.",
-        "TranslationAlreadyExists": "Übersetzung existiert bereits",
-        "Translations": "Übersetzungen",
-        "TranslationString": "Übersetzter Text (aktuelle Sprache: %s)"
     },
     "UserCountry": {
         "AssumingNonApache": "Die apache_get_modules Funktion wurde nicht gefunden. Es wird daher von einem Nicht-Apache Webserver ausgegangen.",
@@ -2194,6 +2173,7 @@
         "ColumnTypeOfScreen": "Bildschirmtyp",
         "Configurations": "Konfigurationen",
         "GamingConsole": "Spielkonsole",
+        "LanguageCode": "Sprach-Code",
         "MobileVsDesktop": "Mobilgerät vs. Desktop",
         "OperatingSystemFamily": "Betriebssystem-Familie",
         "OperatingSystems": "Betriebssysteme",

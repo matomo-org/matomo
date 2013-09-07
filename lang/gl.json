@@ -305,20 +305,6 @@
         "Timezone": "Fuso horario",
         "Urls": "URLs"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Engadir un idioma",
-        "DefaultString": "Cadea por defecto (Castelán)",
-        "Definition": "Definición",
-        "Export": "Exportar idioma",
-        "FixPermissions": "Por favor arranxe os permisos dos ficheiros",
-        "Import": "Importar idioma",
-        "LanguageCode": "Código de idioma",
-        "MenuLanguages": "Idiomas",
-        "MenuTranslations": "Traducións",
-        "Plugin": "Complemento",
-        "Translations": "Traducións",
-        "TranslationString": "Cadea traducida (Idioma actual: %s)"
-    },
     "UserCountry": {
         "Continent": "Continente",
         "continent_afr": "África",
@@ -745,6 +731,7 @@
         "BrowserFamilies": "Familias de navegadores",
         "Browsers": "Navegadores",
         "Configurations": "Configuracións",
+        "LanguageCode": "Código de idioma",
         "OperatingSystems": "Sistemas Operativos",
         "Plugins": "Plugins",
         "Resolutions": "Resolucións",

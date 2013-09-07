@@ -783,21 +783,6 @@
         "WebsitesManagement": "Svetainių valdymas",
         "YourCurrentIpAddressIs": "Jūsų dabartinis IP adresas yra %s"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Pridėti kalbą",
-        "DefaultString": "Numatytoji reikšmė (English)",
-        "Definition": "Apibrėžimas",
-        "Export": "Eksportuoti kalbą",
-        "FixPermissions": "Prašome susitvarkyti failų sistemos leidimus",
-        "Import": "Importuoti kalbą",
-        "LanguageCode": "Kalbos kodas",
-        "MenuLanguages": "Kalbos",
-        "MenuTranslations": "Vertimai",
-        "Plugin": "Papildinys",
-        "PluginDescription": "Padėkite versti Piwik į Jūsų kalbą.",
-        "Translations": "Vertimai",
-        "TranslationString": "Vertimas (dabartinė kalba: %s)"
-    },
     "UserCountry": {
         "Continent": "Kontinentas",
         "continent_afr": "Afrika",
@@ -1289,6 +1274,7 @@
         "ColumnResolution": "Ekrano raiška",
         "ColumnTypeOfScreen": "Ekrano tipas",
         "Configurations": "Konfigūracijos",
+        "LanguageCode": "Kalbos kodas",
         "OperatingSystems": "Operacinės sistemos",
         "PluginDescription": "Parodo įvairius lankytojo nustatymus: naršyklę, naršyklės šeimą, operacinę sistemą, papildinius, ekrano raišką, skiriamąją gebą, globalius nustatymus.",
         "PluginDetectionDoesNotWorkInIE": "Pastaba: papildinio aptikimas neveikia Internet Explorer naršyklėje. Ši ataskaita bus sugeneruota tik kitose naršyklėse.",
