@@ -181,7 +181,7 @@ class Tracker
         }
         $tokenAuth = Common::getRequestVar('token_auth', false, null, $jsonData);
         if (empty($tokenAuth)) {
-            throw new Exception(" token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
+            throw new Exception("token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
         }
         if (!empty($this->requests)) {
             $idSitesForAuthentication = array();
@@ -207,7 +207,7 @@ class Tracker
             foreach($idSitesForAuthentication as $idSiteForAuthentication) {
                 // a Bulk Tracking request that is not authenticated should fail
                 if (!Request::authenticateSuperUserOrAdmin($tokenAuth, $idSiteForAuthentication)) {
-                    throw new Exception(" token_auth specified is not valid for site " . intval($idSiteForAuthentication));
+                    throw new Exception("token_auth specified is not valid for site " . intval($idSiteForAuthentication));
                 }
             }
         }
@@ -221,7 +221,11 @@ class Tracker
      */
     public function main($args = null)
     {
-        $tokenAuth = $this->initRequests($args);
+        try {
+            $tokenAuth = $this->initRequests($args);
+        } catch (Exception $ex) {
+            $this->exitWithException($ex, true);
+        }
 
         if (!empty($this->requests)) {
             foreach ($this->requests as $params) {
@@ -389,9 +393,11 @@ class Tracker
             if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) || $authenticated) {
                 $result['error'] = $this->getMessageFromException($e);
             }
+            $this->sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
             exit;
         }
+
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
             Common::sendHeader('Content-Type: text/html; charset=utf-8');
             $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
@@ -607,9 +613,7 @@ class Tracker
     {
         // Adding &dp=1 will disable the provider plugin, if token_auth is used (used to speed up bulk imports)
         $disableProvider = $request->getParam('dp');
-        if (!empty($disableProvider)
-            && $request->isAuthenticated()
-        ) {
+        if (!empty($disableProvider) && $request->isAuthenticated()) {
             Tracker::setPluginsNotToLoad(array('Provider'));
         }
 
