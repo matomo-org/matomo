@@ -99,9 +99,9 @@
             });
 
             $element.on('keydown', function (e) {
-                if (event.which == 37) { // on <- key press, load previous visitor
+                if (e.which == 37) { // on <- key press, load previous visitor
                     self._loadPreviousVisitor();
-                } else if (event.which == 39) { // on -> key press, load next visitor
+                } else if (e.which == 39) { // on -> key press, load next visitor
                     self._loadNextVisitor();
                 }
             });
@@ -184,7 +184,10 @@
                 $('.visitor-profile-current-visit', $element).removeClass('visitor-profile-current-visit');
                 $visitElement.closest('li').addClass('visitor-profile-current-visit');
 
-                $('.visitor-profile-latest-visit', $element).html(response);
+                var $latestVisitSection = $('.visitor-profile-latest-visit', $element);
+                $latestVisitSection
+                    .html(response)
+                    .effect('highlight', {color: '#FFFFCB'}, 1000);
             });
             ajax.setFormat('html');
             ajax.send();
