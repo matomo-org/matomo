@@ -1183,7 +1183,7 @@ class Recorder(object):
         if not config.options.dry_run:
             piwik.call(
                 '/piwik.php', args={},
-                expected_content=PIWIK_EXPECTED_IMAGE,
+                expected_content=None,
                 headers={'Content-type': 'application/json'},
                 data=data,
                 on_failure=self._on_tracking_failure
@@ -1203,10 +1203,10 @@ class Recorder(object):
             return response
 
         # remove the successfully tracked hits from payload
-        succeeded = response['succeeded']
+        succeeded = response['statistics']['tracked']
         data['requests'] = data['requests'][succeeded:]
 
-        return response['error']
+        return response['message']
 
     @staticmethod
     def invalidate_reports():
