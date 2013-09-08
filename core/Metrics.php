@@ -292,7 +292,7 @@ class Metrics
 
     public static function getPercentVisitColumn()
     {
-        $percentVisitsLabel = str_replace(' ', html_entity_decode('&nbsp;'), Piwik_Translate('General_ColumnPercentageVisits'));
+        $percentVisitsLabel = str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits'));
         return $percentVisitsLabel;
     }
 }
