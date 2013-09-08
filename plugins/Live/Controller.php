@@ -174,7 +174,7 @@ class Controller extends \Piwik\Controller
 
         $view = new View('@Live/getVisitList.twig');
         $view->idSite = Common::getRequestVar('idSite', null, 'int');
-        $view->startCounter = Common::getRequestVar('filter_offset', 1, 'int');
+        $view->startCounter = Common::getRequestVar('filter_offset', 0, 'int') + 1;
         $view->visits = $nextVisits;
         echo $view->render();
     }
