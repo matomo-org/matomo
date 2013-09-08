@@ -144,7 +144,7 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
             }
         }
         if ($doBulk) {
-            self::checkResponse($t->doBulkTrack());
+            self::checkBulkTrackingResponse($t->doBulkTrack());
         }
     }
 

@@ -96,6 +96,6 @@ class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
             $t->setGenerationTime($daysIntoPast * 100 + 300);
             self::assertTrue($t->doTrackPageView('so-so page title'));
         }
-        self::checkResponse($t->doBulkTrack());
+        self::checkBulkTrackingResponse($t->doBulkTrack());
     }
 }
