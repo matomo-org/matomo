@@ -388,10 +388,12 @@ class Tracker
     {
         if ($this->usingBulkTracking) {
             // when doing bulk tracking we return JSON so the caller will know how many succeeded
-            $result = array('succeeded' => $this->countOfLoggedRequests);
+            $result = array('status' => 'error', 'statistics' => array(
+                'tracked' => $this->countOfLoggedRequests
+            ));
             // send error when in debug mode or when authenticated (which happens when doing log importing,
             if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) || $authenticated) {
-                $result['error'] = $this->getMessageFromException($e);
+                $result['message'] = $this->getMessageFromException($e);
             }
             $this->sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
@@ -445,6 +447,14 @@ class Tracker
      */
     protected function end()
     {
+        if($this->usingBulkTracking) {
+            $result = array('status' => 'success', 'statistics' => array(
+                'tracked' => $this->countOfLoggedRequests
+            ));
+            $this->sendHeader('Content-Type: application/json');
+            echo Common::json_encode($result);
+            exit;
+        }
         switch ($this->getState()) {
             case self::STATE_LOGGING_DISABLE:
                 $this->outputTransparentGif();
