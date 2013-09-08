@@ -204,7 +204,7 @@ class Controller extends \Piwik\Controller
         if ($cached === null) {
             $segment = Request::getRawSegmentFromRequest();
             if (!empty($segment)) {
-                $segment .= ';';
+                $segment = urldecode($segment) . ';';
             }
 
             $idVisitor = Common::getRequestVar('idVisitor', false);
