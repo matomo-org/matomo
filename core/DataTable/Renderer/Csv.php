@@ -204,7 +204,6 @@ class Csv extends Renderer
         }
 
         $csv = array();
-        $allColumns = array();
         foreach ($table->getRows() as $row) {
             $csvRow = $this->flattenColumnArray($row->getColumns());
 
@@ -225,6 +224,10 @@ class Csv extends Renderer
                 }
             }
 
+            foreach ($csvRow as $name => $value) {
+                $allColumns[$name] = true;
+            }
+
             if ($this->exportIdSubtable) {
                 $idsubdatatable = $row->getIdSubDataTable();
                 if ($idsubdatatable !== false
@@ -232,10 +235,6 @@ class Csv extends Renderer
                 ) {
                     $csvRow['idsubdatatable'] = $idsubdatatable;
                 }
-            }
-
-            foreach ($csvRow as $name => $value) {
-                $allColumns[$name] = true;
             }
 
             $csv[] = $csvRow;
