@@ -66,9 +66,6 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
 require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 
-// required to build code coverage for uncovered files
-require_once PIWIK_INCLUDE_PATH . '/plugins/SecurityInfo/PhpSecInfo/PhpSecInfo.php';
-
 // require test fixtures
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BaseFixture.php';
 foreach (glob(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/*.php') as $file) {
