@@ -816,13 +816,17 @@ dataTable.prototype =
             // prevent click jacking attacks by dynamically adding the token auth when the link is clicked
             .click(function () {
                 $(this).attr('href', function () {
-                    return $(this).attr('href') + '&token_auth=' + piwik.token_auth;
+                    var url = $(this).attr('href') + '&token_auth=' + piwik.token_auth;
+
+                    var limit = $('.limitSelection>div>span', domElem).text();
+                    url += '&filter_limit=' + (limit || $(this).attr('filter_limit'));
+
+                    return url;
                 })
             })
             .attr('href', function () {
                 var format = $(this).attr('format');
                 var method = $(this).attr('methodToCall');
-                var filter_limit = $(this).attr('filter_limit');
                 var segment = self.param.segment;
                 var label = self.param.label;
                 var idGoal = self.param.idGoal;
@@ -869,9 +873,6 @@ dataTable.prototype =
                     && idGoal != '-1') {
                     str += '&idGoal=' + idGoal;
                 }
-                if (filter_limit) {
-                    str += '&filter_limit=' + filter_limit;
-                }
                 if (label) {
                     label = label.split(',');
                     
@@ -891,7 +892,6 @@ dataTable.prototype =
     exportToFormatHide: function (domElem, noAnimation) {
         var self = this;
         if (self.exportToFormat) {
-            self.setActiveIcon(self.exportToFormat.lastActiveIcon, domElem);
             var animationSpeed = noAnimation ? 0 : 'fast';
             self.exportToFormat.target.hide(animationSpeed);
             self.exportToFormat.obj.show(animationSpeed);
