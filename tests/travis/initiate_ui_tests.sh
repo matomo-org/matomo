@@ -15,13 +15,14 @@ git submodule update
 
 cd tests/PHPUnit/UI
 
+git checkout master
+git pull --rebase origin master
+
 echo "$TRAVIS_COMMIT
 $TRAVIS_BRANCH" > piwik_commit.txt
 
 git config --global user.email "hello@piwik.org"
 git config --global user.name "Piwik Automation"
-
-git checkout master
 
 git add ./piwik_commit.txt
 git commit -m "Travis: Initiating build for commit '$TRAVIS_COMMIT'."
