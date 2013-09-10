@@ -115,19 +115,19 @@ class API
         );
 
         $dataTables = array($dataTable);
-        if ($dataTable instanceof DataTable\Map) {
-            $dataTables = $dataTable->getArray();
-        }
-        foreach ($dataTables AS $table) {
-            if ($table->getRowsCount() == 0) {
-                continue;
-            }
-            foreach ($requiredRows AS $requiredRow => $key) {
-                $row = $table->getRowFromLabel($requiredRow);
-                if (empty($row)) {
-                    $table->addRowsFromSimpleArray(array(
-                                                        array('label' => $requiredRow, $key => 0)
-                                                   ));
+
+        if (!($dataTable instanceof DataTable\Map)) {
+            foreach ($dataTables AS $table) {
+                if ($table->getRowsCount() == 0) {
+                    continue;
+                }
+                foreach ($requiredRows AS $requiredRow => $key) {
+                    $row = $table->getRowFromLabel($requiredRow);
+                    if (empty($row)) {
+                        $table->addRowsFromSimpleArray(array(
+                                                            array('label' => $requiredRow, $key => 0)
+                                                       ));
+                    }
                 }
             }
         }
