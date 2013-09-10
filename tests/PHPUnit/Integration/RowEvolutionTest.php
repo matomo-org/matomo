@@ -163,6 +163,21 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
                 'label'     => 'Firefox,Chrome,Opera'
             )
         ));
+
+        // test Row Evolution on Desktop VS Mobile, special "view" report
+        $return[] = array('API.getRowEvolution', array(
+            'testSuffix'             => '_mobileDesktop',
+            'periods'                => 'day',
+            'idSite'                 => $idSite2,
+            'date'                   => $today,
+            'otherRequestParameters' => array(
+                'date'      => '2010-03-01,2010-03-06',
+                'period'    => 'month',
+                'apiModule' => 'UserSettings',
+                'apiAction' => 'getMobileVsDesktop',
+                'label'     => 'Desktop,Mobile'
+            )
+        ));
         
         // test multi row evolution w/ filter_limit to limit all available labels
         $return[] = array('API.getRowEvolution', array(

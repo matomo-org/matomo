@@ -218,7 +218,7 @@ class Tracker
     public function main($args = null)
     {
         $tokenAuth = $this->initRequests($args);
-
+        $isAuthenticated = false;
         if (!empty($this->requests)) {
             foreach ($this->requests as $params) {
                 $request = new Request($params, $tokenAuth);
