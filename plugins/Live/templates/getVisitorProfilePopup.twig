@@ -16,10 +16,10 @@
                         <img src="plugins/Live/images/paperclip.png" alt=""/>
                     </div>
                     <div>
-                        <div>
-                            {% if visitorData.prevVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#" title="{{ 'Live_PreviousVisitor'|translate }}"><img src="plugins/Live/images/black_arr_l.png"/></a>{% endif %}
+                        <div class="visitor-profile-header">
+                            {% if visitorData.prevVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#" title="{{ 'Live_PreviousVisitor'|translate }}">&larr;</a>{% endif %}
                             <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/></h1>
-                            {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#" title="{{ 'Live_NextVisitor'|translate }}"><img src="plugins/Live/images/black_arr_r.png"/></a>{% endif %}
+                            {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#" title="{{ 'Live_NextVisitor'|translate }}">&rarr;</a>{% endif %}
                         </div>
                         <div class="visitor-profile-latest-visit">
                             {% include "@Live/getSingleVisitSummary.twig" with {'visitData': visitorData.lastVisits.getFirstRow().getColumns()} %}
