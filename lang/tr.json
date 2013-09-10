@@ -830,20 +830,6 @@
         "FromCampaigns": "Kampanyalarından Geçişler",
         "FromCampaignsInline": "%s kampanyalarından"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Dil ekle",
-        "DefaultString": "Varsayılan dizi (İngilizce)",
-        "Definition": "Tanım",
-        "Export": "Sistemden dili dışarı çıkar",
-        "FixPermissions": "Lütfen sistem dosyalarının izinlerini düzeltin",
-        "Import": "Sisteme dişardan dil ekle",
-        "LanguageCode": "Dil kodu",
-        "MenuLanguages": "Diller",
-        "MenuTranslations": "Çeviriler",
-        "Plugin": "Eklenti",
-        "PluginDescription": "Sizin dilinizde konuşmak için Piwik yardım edebilirsiniz.",
-        "Translations": "Çeviriler"
-    },
     "UserCountry": {
         "City": "Şehir",
         "Continent": "Kıta",
@@ -1134,7 +1120,18 @@
         "VisitorMap": "Ziyaretçi Haritası",
         "worldMap": "Dünya Haritası"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Tarayıcı aileleri",
+        "Browsers": "Tarayıcılar",
+        "ColumnBrowser": "Tarayıcı",
+        "ColumnBrowserFamily": "Tarayıcı ailesi",
+        "ColumnBrowserVersion": "Tarayıcı sürümü",
+        "ColumnConfiguration": "Konfigürasyon",
+        "ColumnOperatingSystem": "İşletim sistemi",
+        "ColumnPlugin": "Eklenti",
+        "ColumnResolution": "Çözünürlük",
+        "ColumnTypeOfScreen": "Ekran seçimi",
+        "Configurations": "Konfigürasyonları",
         "Language_aa": "Afar",
         "Language_ab": "Abazca",
         "Language_ae": "Avestçe",
@@ -1318,20 +1315,8 @@
         "Language_yo": "Yoruba",
         "Language_za": "Zhuang",
         "Language_zh": "Çince",
-        "Language_zu": "Zulu"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Tarayıcı aileleri",
-        "Browsers": "Tarayıcılar",
-        "ColumnBrowser": "Tarayıcı",
-        "ColumnBrowserFamily": "Tarayıcı ailesi",
-        "ColumnBrowserVersion": "Tarayıcı sürümü",
-        "ColumnConfiguration": "Konfigürasyon",
-        "ColumnOperatingSystem": "İşletim sistemi",
-        "ColumnPlugin": "Eklenti",
-        "ColumnResolution": "Çözünürlük",
-        "ColumnTypeOfScreen": "Ekran seçimi",
-        "Configurations": "Konfigürasyonları",
+        "Language_zu": "Zulu",
+        "LanguageCode": "Dil kodu",
         "OperatingSystems": "İşletim sistemleri",
         "PluginDescription": "Çeşitli kullanıcı rapor ayalari: Tarayıcı, Tarayıcı Ailesi, İşletim Sistemi, Eklentiler, Çözünürlük, Genel Ayarlar.",
         "PluginDetectionDoesNotWorkInIE": "Not: Hedeflenen eklenti Internet Explorer çalışmamaktadir. Bu not\/rapor sadece IE içindir.",

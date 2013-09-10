@@ -72,9 +72,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     {
         $pluginsShouldBeDisabled = array(
             'AnonymizeIP',
-            'DBStats',
-            'SecurityInfo',
-            'VisitorGenerator',
+            'DBStats'
         );
         foreach ($pluginsShouldBeDisabled as $pluginName) {
             if (in_array($pluginName, $this->globalConfig['Plugins']['Plugins'])) {

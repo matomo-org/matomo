@@ -85,7 +85,11 @@
                     </ol>
                 </div>
                 <div class="visitor-profile-more-info">
+                    {% if visitorData.lastVisits.getRowsCount() >= constant("Piwik\\Plugins\\Live\\API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW") %}
                     <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
+                    {% else %}
+                    <span class="visitor-profile-no-visits">{{ 'Live_NoMoreVisits_js'|translate }}</span>
+                    {% endif %}
                 </div>
             </div>
         </div>

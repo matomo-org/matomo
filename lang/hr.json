@@ -659,7 +659,14 @@
         "Location": "Lokacija",
         "SubmenuLocations": "Lokacije"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "Browsers": "Pretraživači",
+        "ColumnBrowserVersion": "Verzija pretraživača",
+        "ColumnConfiguration": "KOnfiguracija",
+        "ColumnOperatingSystem": "Operativni sustav",
+        "ColumnPlugin": "Dodaci",
+        "ColumnResolution": "Rezolucija",
+        "Configurations": "Konfiguracija",
         "Language_aa": "afarski",
         "Language_ab": "abhaski",
         "Language_ae": "avestan",
@@ -843,16 +850,7 @@
         "Language_yo": "joruba",
         "Language_za": "zhuang",
         "Language_zh": "kineski",
-        "Language_zu": "zulu"
-    },
-    "UserSettings": {
-        "Browsers": "Pretraživači",
-        "ColumnBrowserVersion": "Verzija pretraživača",
-        "ColumnConfiguration": "KOnfiguracija",
-        "ColumnOperatingSystem": "Operativni sustav",
-        "ColumnPlugin": "Dodaci",
-        "ColumnResolution": "Rezolucija",
-        "Configurations": "Konfiguracija",
+        "Language_zu": "zulu",
         "Plugins": "Dodaci",
         "VisitorSettings": "Postavke posjetitelja"
     },

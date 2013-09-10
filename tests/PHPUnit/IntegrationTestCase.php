@@ -710,7 +710,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl)
+    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareOutput = true)
     {
         $isTestLogImportReverseChronological = strpos($testName, 'ImportedInRandomOrderTest') === false;
         $isLiveMustDeleteDates = (strpos($requestUrl, 'Live.getLastVisits') !== false
@@ -742,6 +742,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $response = preg_replace('/\/ID \[ <.*> ]/', '', $response);
 
         file_put_contents($processedFilePath, $response);
+
+        if (!$compareOutput) {
+            return;
+        }
 
         $expected = $this->loadExpectedFile($expectedFilePath);
         if (empty($expected)) {
@@ -1014,7 +1018,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             isset($params['fileExtension']) ? $params['fileExtension'] : false);
 
         foreach ($requestUrls as $apiId => $requestUrl) {
-            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl);
+            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl,
+                isset($params['compareOutput']) ? $params['compareOutput'] : true);
         }
 
         // change the language back to en

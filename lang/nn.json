@@ -831,21 +831,6 @@
         "WebsitesManagement": "Nettstadsbehandling",
         "YourCurrentIpAddressIs": "Din gjeldande IP-adresse er %s"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Legg til eit nytt språk",
-        "DefaultString": "Standard tekst(Engelsk)",
-        "Definition": "Definisjon",
-        "Export": "Eksporter språk",
-        "FixPermissions": "Fiks feil i filsystemet",
-        "Import": "Importer språk",
-        "LanguageCode": "Språkkode",
-        "MenuLanguages": "Språk",
-        "MenuTranslations": "Omsetjingar",
-        "Plugin": "Innstikk",
-        "PluginDescription": "Hjelp med å omsetja Piwik til ditt språk.",
-        "Translations": "Omsetjingar",
-        "TranslationString": "Omsetjing (gjeldande språk: %s)"
-    },
     "UserCountry": {
         "Continent": "Kontinent",
         "continent_afr": "Afrika",
@@ -1135,7 +1120,17 @@
         "PluginDescription": "Rapporterer landet til vitjarane",
         "SubmenuLocations": "Plassar"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Nettlesarfamiliar",
+        "Browsers": "Nettlesarar",
+        "ColumnBrowser": "Nettlesar",
+        "ColumnBrowserFamily": "Nettlesarfamilar",
+        "ColumnConfiguration": "Konfigurasjon",
+        "ColumnOperatingSystem": "Operativsystem",
+        "ColumnPlugin": "Innstikk",
+        "ColumnResolution": "Oppløysing",
+        "ColumnTypeOfScreen": "Type skjerm",
+        "Configurations": "Konfigurasjonar",
         "Language_aa": "afar",
         "Language_ab": "abkhasisk",
         "Language_ae": "avestisk",
@@ -1319,19 +1314,8 @@
         "Language_yo": "joruba",
         "Language_za": "zhuang",
         "Language_zh": "kinesisk",
-        "Language_zu": "zulu"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Nettlesarfamiliar",
-        "Browsers": "Nettlesarar",
-        "ColumnBrowser": "Nettlesar",
-        "ColumnBrowserFamily": "Nettlesarfamilar",
-        "ColumnConfiguration": "Konfigurasjon",
-        "ColumnOperatingSystem": "Operativsystem",
-        "ColumnPlugin": "Innstikk",
-        "ColumnResolution": "Oppløysing",
-        "ColumnTypeOfScreen": "Type skjerm",
-        "Configurations": "Konfigurasjonar",
+        "Language_zu": "zulu",
+        "LanguageCode": "Språkkode",
         "OperatingSystems": "Operativsystem",
         "PluginDescription": "Rapporter diverse vitjarinnstillingar: Nettlesar, Nettlesarfamilie, operativsystem, oppløysing og globale innstillingar.",
         "PluginDetectionDoesNotWorkInIE": "Merk: Registrering av innstikk virkar ikkje i Internet Explorer. Denne rapporten er berre basert på andre nettlesarar enn IE.",

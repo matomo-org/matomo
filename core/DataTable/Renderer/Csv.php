@@ -202,36 +202,10 @@ class Csv extends Renderer
                 }
             }
         }
+
         $csv = array();
         foreach ($table->getRows() as $row) {
-            $csvRow = array();
-
-            $columns = $row->getColumns();
-            foreach ($columns as $name => $value) {
-                //goals => array( 'idgoal=1' =>array(..), 'idgoal=2' => array(..))
-                if (is_array($value)) {
-                    foreach ($value as $key => $subValues) {
-                        if (is_array($subValues)) {
-                            foreach ($subValues as $subKey => $subValue) {
-                                if ($this->translateColumnNames) {
-                                    $subName = $name != 'goals' ? $name . ' ' . $key
-                                        : Piwik_Translate('Goals_GoalX', $key);
-                                    $columnName = $this->translateColumnName($subKey)
-                                        . ' (' . $subName . ')';
-                                } else {
-                                    // goals_idgoal=1
-                                    $columnName = $name . "_" . $key . "_" . $subKey;
-                                }
-                                $allColumns[$columnName] = true;
-                                $csvRow[$columnName] = $subValue;
-                            }
-                        }
-                    }
-                } else {
-                    $allColumns[$name] = true;
-                    $csvRow[$name] = $value;
-                }
-            }
+            $csvRow = $this->flattenColumnArray($row->getColumns());
 
             if ($this->exportMetadata) {
                 $metadata = $row->getMetadata();
@@ -246,9 +220,12 @@ class Csv extends Renderer
                         $name = 'metadata_' . $name;
                     }
 
-                    $allColumns[$name] = true;
                     $csvRow[$name] = $value;
                 }
+            }
+
+            foreach ($csvRow as $name => $value) {
+                $allColumns[$name] = true;
             }
 
             if ($this->exportIdSubtable) {
@@ -377,5 +354,48 @@ class Csv extends Renderer
         @header('Content-Type: application/vnd.ms-excel');
         @header('Content-Disposition: attachment; filename="' . $fileName . '"');
         Piwik::overrideCacheControlHeaders();
+    }
+
+    /**
+     * Flattens an array of column values so they can be outputted as CSV (which does not support
+     * nested structures).
+     */
+    private function flattenColumnArray($columns, &$csvRow = array(), $csvColumnNameTemplate = '%s')
+    {
+        foreach ($columns as $name => $value) {
+            $csvName = sprintf($csvColumnNameTemplate, $this->getCsvColumnName($name));
+
+            if (is_array($value)) {
+                // if we're translating column names and this is an array of arrays, the column name
+                // format becomes a bit more complicated. also in this case, we assume $value is not
+                // nested beyond 2 levels (ie, array(0 => array(0 => 1, 1 => 2)), but not array(
+                // 0 => array(0 => array(), 1 => array())) )
+                if ($this->translateColumnNames
+                    && is_array(reset($value))
+                ) {
+                    foreach ($value as $level1Key => $level1Value) {
+                        $inner = $name == 'goals' ? Piwik_Translate('Goals_GoalX', $level1Key) : $name . ' ' . $level1Key;
+                        $columnNameTemplate = '%s (' . $inner . ')';
+
+                        $this->flattenColumnArray($level1Value, $csvRow, $columnNameTemplate);
+                    }
+                } else {
+                    $this->flattenColumnArray($value, $csvRow, $csvName . '_%s');
+                }
+            } else {
+                $csvRow[$csvName] = $value;
+            }
+        }
+
+        return $csvRow;
+    }
+
+    private function getCsvColumnName($name)
+    {
+        if ($this->translateColumnNames) {
+            return $this->translateColumnName($name);
+        } else {
+            return $name;
+        }
     }
 }

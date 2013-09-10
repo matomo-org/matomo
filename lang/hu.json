@@ -850,21 +850,6 @@
         "WebsitesManagement": "Weboldalak kezelése",
         "YourCurrentIpAddressIs": "Jelenlegi IP címed a következő: %s"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Adj hozzá nyelvet",
-        "DefaultString": "Alapértelmezett szöveg (Angol)",
-        "Definition": "Meghatározás",
-        "Export": "Nyelv exportálása",
-        "FixPermissions": "Kérjük, állítsd be a fájlrendszer-jogosultságokat",
-        "Import": "Nyelv importálása",
-        "LanguageCode": "Nyelvi kód",
-        "MenuLanguages": "Nyelvek",
-        "MenuTranslations": "Fordítások",
-        "Plugin": "Kiegészítő",
-        "PluginDescription": "Segíts lefordítani a Piwik-et saját nyelvedre.",
-        "Translations": "Fordítások",
-        "TranslationString": "Lefordított szöveg (jelenlegi nyelv: %s)"
-    },
     "UserCountry": {
         "Continent": "Kontinens",
         "continent_afr": "Afrika",
@@ -1158,7 +1143,17 @@
         "toggleFullscreen": "teljes képernyőre",
         "worldMap": "világtérkép"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Böngészőcsaládok",
+        "Browsers": "Böngészők",
+        "ColumnBrowser": "Böngésző",
+        "ColumnBrowserFamily": "Böngészőcsalád",
+        "ColumnConfiguration": "Konfiguráció",
+        "ColumnOperatingSystem": "Operációs rendszer",
+        "ColumnPlugin": "Bővítmény",
+        "ColumnResolution": "Felbontás",
+        "ColumnTypeOfScreen": "Képernyő típusa",
+        "Configurations": "Konfigurációk",
         "Language_aa": "afar",
         "Language_ab": "abház",
         "Language_ae": "avesztán",
@@ -1342,19 +1337,8 @@
         "Language_yo": "joruba",
         "Language_za": "zsuang",
         "Language_zh": "kínai",
-        "Language_zu": "zulu"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Böngészőcsaládok",
-        "Browsers": "Böngészők",
-        "ColumnBrowser": "Böngésző",
-        "ColumnBrowserFamily": "Böngészőcsalád",
-        "ColumnConfiguration": "Konfiguráció",
-        "ColumnOperatingSystem": "Operációs rendszer",
-        "ColumnPlugin": "Bővítmény",
-        "ColumnResolution": "Felbontás",
-        "ColumnTypeOfScreen": "Képernyő típusa",
-        "Configurations": "Konfigurációk",
+        "Language_zu": "zulu",
+        "LanguageCode": "Nyelvi kód",
         "OperatingSystems": "Operációs rendszerek",
         "PluginDescription": "Jelentéseket készít a látogatóknál észlelt beállításokról és rendszerkörnyezetről mint például: böngésző típusa, böngészőcsaládok, operációs rendszer, böngésző bővítmények, képernyőfelbontás, globális beállítások.",
         "PluginDetectionDoesNotWorkInIE": "A böngészők bővítményeinek detektálása nem működik az Internet Exlporernél, így ez a jelentés csak a nem Internet Explorert használó látogatók adatait jeleníti meg.",

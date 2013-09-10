@@ -466,22 +466,6 @@
         "TrackingTags": "Eltir merkimiða fyrir %s",
         "WebsitesManagement": "Stjórnun Vefja"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Bæta tungumáli við",
-        "DefaultString": "Sjálfgefinn strengur (Enska)",
-        "Definition": "Skilgreining",
-        "Export": "Flytja tungumál út",
-        "FixPermissions": "Vinsamlegast lagið heimildir skráakerfisins",
-        "Import": "Flytja tungumál inn",
-        "LanguageCode": "Kóði tungumáls",
-        "MenuLanguages": "Tungumál",
-        "MenuTranslations": "Þýðingar",
-        "Plugin": "Íbót",
-        "PluginDescription": "Aðstoðaðu við að þýða Piwik á þitt tungumál.",
-        "ShowOnlyEmpty": "Sýna aðeins það sem ekki hefur verið þýtt",
-        "Translations": "Þýðingar",
-        "TranslationString": "Þýðingarstrengur (núverandi tungumál: %s)"
-    },
     "UserCountry": {
         "Continent": "Heimsálfa",
         "continent_afr": "Afríka",
@@ -767,7 +751,17 @@
         "PluginDescription": "Greinir frá hvaða landi gestirnir koma",
         "SubmenuLocations": "Staðsetningar"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Vafrafjölskyldur",
+        "Browsers": "Vafrar",
+        "ColumnBrowser": "Vafri",
+        "ColumnBrowserFamily": "Vafrafjölskylda",
+        "ColumnConfiguration": "Uppsetning",
+        "ColumnOperatingSystem": "Stýrikerfi",
+        "ColumnPlugin": "Íbót",
+        "ColumnResolution": "Skjáupplausn",
+        "ColumnTypeOfScreen": "Skjátegund",
+        "Configurations": "Uppsetningar",
         "Language_aa": "afár",
         "Language_ab": "abkasíska",
         "Language_ae": "avestíska",
@@ -951,19 +945,8 @@
         "Language_yo": "jórúba",
         "Language_za": "súang",
         "Language_zh": "kínverska",
-        "Language_zu": "súlú"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Vafrafjölskyldur",
-        "Browsers": "Vafrar",
-        "ColumnBrowser": "Vafri",
-        "ColumnBrowserFamily": "Vafrafjölskylda",
-        "ColumnConfiguration": "Uppsetning",
-        "ColumnOperatingSystem": "Stýrikerfi",
-        "ColumnPlugin": "Íbót",
-        "ColumnResolution": "Skjáupplausn",
-        "ColumnTypeOfScreen": "Skjátegund",
-        "Configurations": "Uppsetningar",
+        "Language_zu": "súlú",
+        "LanguageCode": "Kóði tungumáls",
         "OperatingSystems": "Stýrikerfi",
         "PluginDescription": "Gefur skýrslu um ýmsar stillingar gesta:Vafra, Vafrafjölskyldu, Stýrikerfi, Íbætur, Skjáupplausn, altækar stillingar.",
         "PluginDetectionDoesNotWorkInIE": "Ath: uppgötvun á íbótum virkar ekki með Internet Explorer. Þessi skýrsla er aðeins unnin út frá öðrum vöfrum en IE.",

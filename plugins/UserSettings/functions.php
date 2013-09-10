@@ -265,13 +265,13 @@ function languageTranslate($label)
         return Piwik_Translate('General_Unknown');
     }
 
-    $key = 'UserLanguage_Language_' . $label;
+    $key = 'UserSettings_Language_' . $label;
 
     $translation = Piwik_Translate($key);
 
     // Show language code if unknown code
     if ($translation == $key) {
-        $translation = Piwik_Translate('TranslationsAdmin_LanguageCode') . ' ' . $label;
+        $translation = Piwik_Translate('UserSettings_LanguageCode') . ' ' . $label;
     }
 
     return $translation;

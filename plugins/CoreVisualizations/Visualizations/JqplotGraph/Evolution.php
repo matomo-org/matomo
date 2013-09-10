@@ -165,7 +165,7 @@ class Evolution extends JqplotGraph
         return "evolution_{$period}_last_n";
     }
 
-    private function getDefaultXAxisStepSize($countGraphElements)
+    public function getDefaultXAxisStepSize($countGraphElements)
     {
         // when the number of elements plotted can be small, make sure the X legend is useful
         if ($countGraphElements <= 7) {

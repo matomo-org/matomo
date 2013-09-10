@@ -123,7 +123,7 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
         $visitorB->setGenerationTime(452);
         self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
-        self::checkResponse($visitorB->doBulkTrack());
+        self::checkBulkTrackingResponse($visitorB->doBulkTrack());
 
         // -
         // First visitor on Idsite 2: one page view, with Website referer

@@ -736,22 +736,6 @@
         "WebsitesManagement": "Керування веб-сайтами",
         "YourCurrentIpAddressIs": "Ваша поточно IP адреса: %s"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Додати мову",
-        "DefaultString": "Типовий рядок (Англійською)",
-        "Definition": "Означення",
-        "Export": "Експортувати мову",
-        "FixPermissions": "Будь ласка, встановіть відповідні права доступу до файлів",
-        "Import": "Імпортувати мову",
-        "LanguageCode": "Код мови",
-        "MenuLanguages": "Мови",
-        "MenuTranslations": "Переклади",
-        "Plugin": "Плагін",
-        "PluginDescription": "Допоможіть перекласти Piwik вашою мовою.",
-        "ShowOnlyEmpty": "Відображати лише відсутні переклади",
-        "Translations": "Переклади",
-        "TranslationString": "Рядок перекладу<br\/>(поточна мова: %s)"
-    },
     "UserCountry": {
         "Continent": "Континент",
         "continent_afr": "Африка",
@@ -1044,7 +1028,17 @@
         "toggleFullscreen": "Увімкнути повноекраний режим",
         "worldMap": "карта світу"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Категорії веб-оглядачів",
+        "Browsers": "Веб-оглядачі",
+        "ColumnBrowser": "Веб-оглядач",
+        "ColumnBrowserFamily": "Родина веб-оглядача",
+        "ColumnConfiguration": "Конфігурація",
+        "ColumnOperatingSystem": "Операційна система",
+        "ColumnPlugin": "Плагін",
+        "ColumnResolution": "Роздільна здатність",
+        "ColumnTypeOfScreen": "Тип екрану",
+        "Configurations": "Конфігурації",
         "Language_aa": "афарська",
         "Language_ab": "абхазька",
         "Language_ae": "авестійська",
@@ -1228,19 +1222,8 @@
         "Language_yo": "йоруба",
         "Language_za": "чжуан",
         "Language_zh": "китайська",
-        "Language_zu": "зулуська"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Категорії веб-оглядачів",
-        "Browsers": "Веб-оглядачі",
-        "ColumnBrowser": "Веб-оглядач",
-        "ColumnBrowserFamily": "Родина веб-оглядача",
-        "ColumnConfiguration": "Конфігурація",
-        "ColumnOperatingSystem": "Операційна система",
-        "ColumnPlugin": "Плагін",
-        "ColumnResolution": "Роздільна здатність",
-        "ColumnTypeOfScreen": "Тип екрану",
-        "Configurations": "Конфігурації",
+        "Language_zu": "зулуська",
+        "LanguageCode": "Код мови",
         "OperatingSystems": "Операційні системи",
         "PluginDescription": "Повідомляє різні налаштуванян користовувача: веб-оглядач, родина веб-оглядача, операційна система, плагіни, роздільна здатність, глобальні налаштування.",
         "PluginDetectionDoesNotWorkInIE": "Примітка: Визначення плагінів не працює в Internet Explorer. Цей звіт базується лише на не-IE веб-оглядачах.",

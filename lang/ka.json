@@ -734,22 +734,6 @@
         "WebsitesManagement": "ვებ საიტების მენეჯმენტი",
         "YourCurrentIpAddressIs": "თქვენი ახლანდელი IP მისამართი არის %s"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "ენის დამატება",
-        "DefaultString": "ნაგულისხმევი სტრიქონი (ინგლისური)",
-        "Definition": "განსაზღვრება",
-        "Export": "ენის ექსპორტი",
-        "FixPermissions": "გთხოვთ მოაგვაროთ filesystem უფლებები",
-        "Import": "ენის იმპორტი",
-        "LanguageCode": "ენის კოდი",
-        "MenuLanguages": "ენები",
-        "MenuTranslations": "თარგმანები",
-        "Plugin": "პლაგინი",
-        "PluginDescription": "დაგვეხმარეთ ვთარგმნოთ Piwik თქვენს ენაზე.",
-        "ShowOnlyEmpty": "აჩვენე მხოლოდ ფრაზები, რომელიც არ არის ნათარგმნი",
-        "Translations": "თარგმანები",
-        "TranslationString": "თარგმანის სტრიქონი (მიმდინარე ენა: %s)"
-    },
     "UserCountry": {
         "Continent": "კონტინენტი",
         "continent_afr": "აფრიკა",
@@ -1042,7 +1026,17 @@
         "toggleFullscreen": "გადართვა სრულ ეკრანზე",
         "worldMap": "მსოფლიო რუკა"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "ბრაუზერის ოჯახები",
+        "Browsers": "ბრაუზერები",
+        "ColumnBrowser": "ბრაუზერი",
+        "ColumnBrowserFamily": "ბრაუზერის ოჯახი",
+        "ColumnConfiguration": "კონფიგურაცია",
+        "ColumnOperatingSystem": "ოპერაციული სისტემა",
+        "ColumnPlugin": "პლაგინი",
+        "ColumnResolution": "რეზოლუცია",
+        "ColumnTypeOfScreen": "ეკრანის ტიპი",
+        "Configurations": "გონფიგურაციები",
         "Language_aa": "აფარი",
         "Language_ab": "აფხაზური",
         "Language_ae": "ავესტა",
@@ -1199,19 +1193,8 @@
         "Language_yi": "იდიში",
         "Language_yo": "იორუბა",
         "Language_zh": "ჩინური",
-        "Language_zu": "ზულუ"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "ბრაუზერის ოჯახები",
-        "Browsers": "ბრაუზერები",
-        "ColumnBrowser": "ბრაუზერი",
-        "ColumnBrowserFamily": "ბრაუზერის ოჯახი",
-        "ColumnConfiguration": "კონფიგურაცია",
-        "ColumnOperatingSystem": "ოპერაციული სისტემა",
-        "ColumnPlugin": "პლაგინი",
-        "ColumnResolution": "რეზოლუცია",
-        "ColumnTypeOfScreen": "ეკრანის ტიპი",
-        "Configurations": "გონფიგურაციები",
+        "Language_zu": "ზულუ",
+        "LanguageCode": "ენის კოდი",
         "OperatingSystems": "ოპერაციული სიტემები",
         "PluginDescription": "იძლევა ანგარიშს მომხმარებლის სხვადასხვა პარამეტრებზე: ბრაუზერები, ბრაუზერის ოჯახი, ოპერაციული სისტემა, პლაგინები, რეზოლუცია, გლობალური პარამეტრები.",
         "PluginDetectionDoesNotWorkInIE": "შენიშვნა: პლაგინების ამოცნობა არ ხდება ინტერნეტ ექსპლორერში. ეს რეპორტი მუშაოაბს მხოლოდ არა–IE ბრაუზერებზე.",

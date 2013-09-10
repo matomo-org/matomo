@@ -177,9 +177,11 @@ class Controller extends \Piwik\Controller
     {
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
-        $segment = \Piwik\API\Request::getRawSegmentFromRequest();
-        if (!empty($segment)) {
-            $params['segment'] = $segment;
+        if (empty($params['segment'])) {
+            $segment = \Piwik\API\Request::getRawSegmentFromRequest();
+            if (!empty($segment)) {
+                $params['segment'] = urldecode($segment);
+            }
         }
 
         return Common::json_encode($params);

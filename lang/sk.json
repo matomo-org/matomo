@@ -683,20 +683,6 @@
         "Urls": "URL",
         "WebsitesManagement": "Správa webstránok"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Pridať jazyk",
-        "DefaultString": "Štandardný reťazec (Anglicky)",
-        "Definition": "Definícia",
-        "Export": "Exportovať jazyk",
-        "FixPermissions": "Prosím vyriešte problém s nastavením prístupu v súborovom systéme",
-        "Import": "Importovať jazyk",
-        "LanguageCode": "Kód jazyka",
-        "MenuLanguages": "Jazyky",
-        "MenuTranslations": "Preklady",
-        "Plugin": "Modul",
-        "Translations": "Preklady",
-        "TranslationString": "Preklad (aktuálny jazyk: %s)"
-    },
     "UserCountry": {
         "City": "Mesto",
         "Continent": "Kontinent",
@@ -984,7 +970,17 @@
         "toggleFullscreen": "Prepínač na celú obrazovku",
         "worldMap": "svetová mapa"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Rodina prehliadača",
+        "Browsers": "Prehliadače",
+        "ColumnBrowser": "Prehliadač",
+        "ColumnBrowserFamily": "Rodina prehliadača",
+        "ColumnConfiguration": "Konfigurácia",
+        "ColumnOperatingSystem": "Operačný systém",
+        "ColumnPlugin": "Zásuvný modul",
+        "ColumnResolution": "Rozlíšenie",
+        "ColumnTypeOfScreen": "Typ obrazovky",
+        "Configurations": "Konfigurácia",
         "Language_aa": "afarčina",
         "Language_ab": "abcházština",
         "Language_ae": "avestčina",
@@ -1168,19 +1164,8 @@
         "Language_yo": "jorubčina",
         "Language_za": "čuangčina",
         "Language_zh": "čínština",
-        "Language_zu": "zuluština"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Rodina prehliadača",
-        "Browsers": "Prehliadače",
-        "ColumnBrowser": "Prehliadač",
-        "ColumnBrowserFamily": "Rodina prehliadača",
-        "ColumnConfiguration": "Konfigurácia",
-        "ColumnOperatingSystem": "Operačný systém",
-        "ColumnPlugin": "Zásuvný modul",
-        "ColumnResolution": "Rozlíšenie",
-        "ColumnTypeOfScreen": "Typ obrazovky",
-        "Configurations": "Konfigurácia",
+        "Language_zu": "zuluština",
+        "LanguageCode": "Kód jazyka",
         "OperatingSystems": "Operačný systém",
         "PluginDescription": "Rôzne reporty užívateľského nastavenia: Prehliadač, Rodina prehliadača, Operačný systém, Pluginy, Rozlíšenie, Globálne nastavenia.",
         "PluginDetectionDoesNotWorkInIE": "Poznámka: Plugin detekcia nefunguje v Internet Exploreri. Táto správa je založená len na non-IE prehliadačov.",

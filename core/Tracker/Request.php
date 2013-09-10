@@ -105,12 +105,9 @@ class Request
         }
 
         // Now checking the list of admin token_auth cached in the Tracker config file
-        if (!empty($idSite)
-            && $idSite > 0
-        ) {
+        if (!empty($idSite) && $idSite > 0) {
             $website = Cache::getCacheWebsiteAttributes($idSite);
-            $adminTokenAuth = $website['admin_token_auth'];
-            if (in_array($tokenAuth, $adminTokenAuth)) {
+            if (array_key_exists('admin_token_auth', $website) && in_array($tokenAuth, $website['admin_token_auth'])) {
                 return true;
             }
         }

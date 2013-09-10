@@ -44,6 +44,14 @@ class Test_Piwik_Integration_CsvExport extends IntegrationTestCase
                                     'otherRequestParameters' => $deExtraParam,
                                     'language'               => 'de',
                                     'testSuffix'             => '_xp1_inner1_trans-de')),
+
+            // TODO: we cannot currently test the csv output of Live.getLastVisitsDetails. The API method includes
+            //       random output. Normally we remove this when it's in XML output, but it's harder to do that w/
+            //       CSV output. For now, we use compareOutput => false to just check that no errors result.
+            array('Live.getLastVisitsDetails', array('idSite'        => $idSite,
+                                                     'date'          => $dateTime,
+                                                     'format'        => 'csv',
+                                                     'compareOutput' => false))
         );
     }
 

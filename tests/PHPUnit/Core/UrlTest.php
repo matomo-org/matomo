@@ -262,4 +262,30 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_REFERER'] = 'http://www.piwik.org';
         $this->assertEquals('http://www.piwik.org', Url::getReferer());
     }
+
+    /**
+     * @group Core
+     * @group Url
+     * @dataProvider getQueryParameters
+     */
+    public function testGetQueryStringFromParameters($params, $queryString)
+    {
+        $this->assertEquals($queryString, Url::getQueryStringFromParameters($params));
+    }
+
+    public function getQueryParameters()
+    {
+        return array(
+            array(array(), ''),
+            array(array('v1', 'v2'), '0=v1&1=v2'),
+            array(array('key' => 'val'), 'key=val'),
+            array(array('key' => 'val', 'k2' => 'v2'), 'key=val&k2=v2'),
+            array(array('key' => 'val', 'k2' => false), 'key=val'),  // remove false values
+            array(array('key' => 'val', 'k2' => null), 'key=val'),   // remove null values
+            array(array('key' => 'val', 'k2' => array('v1', 'v2')), 'key=val&k2[]=v1&k2[]=v2'),
+            array(array('key' => 'val', 'k2' => array('k1' => 'v1', 'k2' => 'v2')), 'key=val&k2[]=v1&k2[]=v2'),
+        );
+    }
+
+
 }

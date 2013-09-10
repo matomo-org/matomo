@@ -10,7 +10,7 @@
                        {{ properties.metrics_documentation[column] }}
                    </div>
                {% endif %}
-               <div id="thDIV">{{ properties.translations[column]|default(column) }}</div>
+               <div id="thDIV">{{ properties.translations[column]|default(column)|raw }}</div>
            </th>
        {% endfor %}
    </tr>

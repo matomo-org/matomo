@@ -99,9 +99,9 @@
             });
 
             $element.on('keydown', function (e) {
-                if (event.which == 37) { // on <- key press, load previous visitor
+                if (e.which == 37) { // on <- key press, load previous visitor
                     self._loadPreviousVisitor();
-                } else if (event.which == 39) { // on -> key press, load next visitor
+                } else if (e.which == 39) { // on -> key press, load next visitor
                     self._loadNextVisitor();
                 }
             });
@@ -149,19 +149,26 @@
             }, 'GET');
             ajax.setCallback(function (response) {
                 if (response == "") { // no more visits left
-                    var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits_js')).addClass('visitor-profile-no-visits');
-                    $('.visitor-profile-more-info', $element).html(noMoreSpan);
+                    self._showNoMoreVisitsSpan();
                 } else {
                     response = $(response);
                     loading.hide();
 
                     $('.visitor-profile-visits', $element).append(response);
+                    if (response.filter('li').length < 10) {
+                        self._showNoMoreVisitsSpan();
+                    }
 
                     piwikHelper.lazyScrollTo($(response)[0], 400, true);
                 }
             });
             ajax.setFormat('html');
             ajax.send();
+        },
+
+        _showNoMoreVisitsSpan: function () {
+            var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits_js')).addClass('visitor-profile-no-visits');
+            $('.visitor-profile-more-info', this.$element).html(noMoreSpan);
         },
 
         _loadIndividualVisitDetails: function ($visitElement) {
@@ -184,7 +191,10 @@
                 $('.visitor-profile-current-visit', $element).removeClass('visitor-profile-current-visit');
                 $visitElement.closest('li').addClass('visitor-profile-current-visit');
 
-                $('.visitor-profile-latest-visit', $element).html(response);
+                var $latestVisitSection = $('.visitor-profile-latest-visit', $element);
+                $latestVisitSection
+                    .html(response)
+                    .effect('highlight', {color: '#FFFFCB'}, 1200);
             });
             ajax.setFormat('html');
             ajax.send();

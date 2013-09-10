@@ -170,6 +170,19 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
     }
 
+    /**
+     * Checks that the response from bulk tracking is a valid JSON
+     * string. Will fail the test if JSON status is not success.
+     *
+     * @param $response
+     */
+    public static function checkBulkTrackingResponse($response) {
+        self::assertJson($response);
+        $data = json_decode($response, true);
+        self::assertArrayHasKey('status', $data);
+        self::assertEquals('success', $data['status']);
+    }
+
     public static function makeLocation($city, $region, $country, $lat = null, $long = null, $isp = null)
     {
         return array(LocationProvider::CITY_NAME_KEY    => $city,

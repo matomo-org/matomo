@@ -305,20 +305,6 @@
         "Timezone": "Fuso horario",
         "Urls": "URLs"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Engadir un idioma",
-        "DefaultString": "Cadea por defecto (Castelán)",
-        "Definition": "Definición",
-        "Export": "Exportar idioma",
-        "FixPermissions": "Por favor arranxe os permisos dos ficheiros",
-        "Import": "Importar idioma",
-        "LanguageCode": "Código de idioma",
-        "MenuLanguages": "Idiomas",
-        "MenuTranslations": "Traducións",
-        "Plugin": "Complemento",
-        "Translations": "Traducións",
-        "TranslationString": "Cadea traducida (Idioma actual: %s)"
-    },
     "UserCountry": {
         "Continent": "Continente",
         "continent_afr": "África",
@@ -593,7 +579,10 @@
         "DistinctCountries": "%s continentes distintos",
         "SubmenuLocations": "Lugares"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Familias de navegadores",
+        "Browsers": "Navegadores",
+        "Configurations": "Configuracións",
         "Language_ab": "abkhazo",
         "Language_af": "Afrikaans",
         "Language_ak": "Akán",
@@ -739,12 +728,8 @@
         "Language_yi": "Yiddish",
         "Language_yo": "ioruba",
         "Language_zh": "Chinés",
-        "Language_zu": "Zulú"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Familias de navegadores",
-        "Browsers": "Navegadores",
-        "Configurations": "Configuracións",
+        "Language_zu": "Zulú",
+        "LanguageCode": "Código de idioma",
         "OperatingSystems": "Sistemas Operativos",
         "Plugins": "Plugins",
         "Resolutions": "Resolucións",

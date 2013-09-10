@@ -1554,28 +1554,6 @@
         "XOfAllPageviews": "इस पृष्ठ के सभी दृश्यों का %s",
         "XOutOfYVisits": "%s (बाहर %s)"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "भाषा जोड़ें",
-        "CannotOpenForWriting": "लेखन के लिए %s को नहीं खोल सकते हैं",
-        "DefaultString": "डिफ़ॉल्ट स्ट्रिंग (अंग्रेजी)",
-        "Definition": "परिभाषा",
-        "Export": "भाषा निर्यात",
-        "FixPermissions": "फाइल सिस्टम अनुमति तय करें",
-        "Import": "आयात भाषा",
-        "InvalidCountry": "अवैध देश",
-        "InvalidLanguage": "अवैध भाषा",
-        "LanguageCode": "भाषा कोड",
-        "MenuLanguages": "भाषाएँ",
-        "MenuTranslations": "अनुवाद",
-        "OptionalCountry": "वैकल्पिक देश",
-        "Plugin": "प्लगइन",
-        "PluginDescription": "अपनी भाषा में Piwik अनुवाद में मदद करें.",
-        "ShowOnlyEmpty": "केवल लापता अनुवाद दिखाएं",
-        "StatusOfStringsTranslated": "स्थिति: %1$s का %2$s स्ट्रिंग्स अनुवाद किया.",
-        "TranslationAlreadyExists": "अनुवाद पहले से मौजूद है",
-        "Translations": "अनुवाद",
-        "TranslationString": "अनुवाद स्ट्रिंग (वर्तमान भाषा: %s)"
-    },
     "UserCountry": {
         "AssumingNonApache": "गैर अपाचे वेबसर्वर मानते हुए, apache_get_modules फ़ंक्शन नहीं मिल सकता है.",
         "CannotFindGeoIPDatabaseInArchive": "टार अभिलेख %2$s में %1$s फाइल नहीं मिल सकता है!",
@@ -1887,7 +1865,7 @@
         "GeoIpLocationProviderDesc_ServerBased1": "यह स्थान प्रदाता अपने HTTP सर्वर में स्थापित किया गया है जो GeoIP मॉड्यूल का उपयोग करता है. यह प्रदाता तेज और सटीक है, लेकिन %1$s स्कैन केवल सामान्य ब्राउज़र ट्रैकिंग के साथ इस्तेमाल किया जा सकता है .%2$s",
         "GeoIpLocationProviderDesc_ServerBased2": "आप लॉग इन फ़ाइलों को आयात या कुछ और करना है कि आईपी पतों को स्थापित करने की आवश्यकता हो, तो %1$s PECL GeoIP कार्यान्वयन (अनुशंसित) %2$s या %3$s PHP GeoIP कार्यान्वयन %4$s का उपयोग करें."
     },
-    "UserLanguage": {
+    "UserSettings": {
         "Language_aa": "अफ़ार",
         "Language_ab": "अब्खाज़ियन्",
         "Language_ae": "अवेस्तन",
@@ -2071,6 +2049,7 @@
         "Language_yo": "योरूबा",
         "Language_za": "ज़ुआंग",
         "Language_zh": "चीनी",
-        "Language_zu": "ज़ुलू"
+        "Language_zu": "ज़ुलू",
+        "LanguageCode": "भाषा कोड"
     }
 }

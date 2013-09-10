@@ -116,7 +116,7 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
                              $pageViewType = 'site-search', $searchKeyword = 'anotherkwd',
                              $searchCategory = 'mysearchcat');
         
-        self::checkResponse($tracker->doBulkTrack());
+        self::checkBulkTrackingResponse($tracker->doBulkTrack());
     }
 
     private function trackPageView($visit, $timeOffset, $path, $dateTime = null, $pageViewType = 'normal',

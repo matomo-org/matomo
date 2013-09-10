@@ -202,5 +202,12 @@ if (!isset($GLOBALS['Piwik_socialUrl'])) {
         // Weibo
         'weibo.com'            => 'Weibo',
         't.cn'                 => 'Weibo',
+
+        // YouTube
+        'youtu.be'             => 'YouTube',
+        'youtube.com'          => 'YouTube',
+
+        // Vimeo
+        'vimeo.com'            => 'Vimeo',
     );
 }

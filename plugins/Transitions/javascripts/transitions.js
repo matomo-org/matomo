@@ -807,7 +807,7 @@ Piwik_Transitions_Canvas.prototype.isNarrowMode = function () {
 
 /**
  * Helper to create horizontal gradients
- * TODO
+ *
  * @param    {String} colorGroup
  * @param    {String} position    left|right
  * @param    {Boolean} isHighlighted

@@ -376,6 +376,7 @@ class HtmlTable extends DataTableVisualization
         // get all goals to display info for
         $allGoals = array();
 
+        // add the ecommerce goal if ecommerce is enabled for the site
         if (Site::isEcommerceEnabledFor($idSite)) {
             $ecommerceGoal = array(
                 'idgoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
@@ -385,8 +386,11 @@ class HtmlTable extends DataTableVisualization
             $allGoals[$ecommerceGoal['idgoal']] = $ecommerceGoal;
         }
 
+        // add the site's goals (and escape all goal names)
         $siteGoals = Goals_API::getInstance()->getGoals($idSite);
         foreach ($siteGoals as &$goal) {
+            $goal['name'] = Common::sanitizeInputValue($goal['name']);
+
             $goal['quoted_name'] = '"' . $goal['name'] . '"';
             $allGoals[$goal['idgoal']] = $goal;
         }

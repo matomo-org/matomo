@@ -44,11 +44,11 @@ class UsersManager extends \Piwik\Plugin
      * Will record in the tracker config file the list of Admin token_auth for this website. This
      * will be used when the Tracking API is used with setIp(), setForceDateTime(), setVisitorId(), etc.
      *
-     * @param $array
+     * @param $attributes
      * @param $idSite
      * @return void
      */
-    public function recordAdminUsersInCache(&$array, $idSite)
+    public function recordAdminUsersInCache(&$attributes, $idSite)
     {
         // add the 'hosts' entry in the website array
         $users = API::getInstance()->getUsersWithSiteAccess($idSite, 'admin');
@@ -57,6 +57,7 @@ class UsersManager extends \Piwik\Plugin
         foreach ($users as $user) {
             $tokens[] = $user['token_auth'];
         }
+        $attributes['admin_token_auth'] = $tokens;
     }
 
     /**

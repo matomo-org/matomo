@@ -319,6 +319,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      *
      * @group Core
      * @group DataTable
+     * @expectedException Exception
      */
     public function testSumRow_stringException()
     {
@@ -332,13 +333,8 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         );
         $row2 = new Row(array(Row::COLUMNS => $columns2));
 
-        // TODO: when phpunit 3.7 is released, can do check w/ "@expectedException Exception"
-        try {
-            $row2->sumRow($row1);
-            $this->fail("sumRow did not throw when adding two string columns.");
-        } catch (Exception $ex) {
-            // pass
-        }
+        $row2->sumRow($row1);
+        $this->fail("sumRow did not throw when adding two string columns.");
     }
 
     /**
@@ -347,19 +343,15 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      *
      * @group Core
      * @group DataTable
+     * @expectedException Exception
      */
     public function testSerializeWithInfiniteRecursion()
     {
-        try {
-            $table = new DataTable;
-            $table->addRowFromArray(array(Row::COLUMNS              => array('visits' => 245, 'visitors' => 245),
-                                          Row::DATATABLE_ASSOCIATED => $table,));
+        $table = new DataTable;
+        $table->addRowFromArray(array(Row::COLUMNS              => array('visits' => 245, 'visitors' => 245),
+                                      Row::DATATABLE_ASSOCIATED => $table,));
 
-            $table->getSerialized();
-        } catch (Exception $e) {
-            return;
-        }
-        $this->fail('Expected exception not raised');
+        $table->getSerialized();
     }
 
 

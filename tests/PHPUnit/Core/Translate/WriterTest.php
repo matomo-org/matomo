@@ -159,7 +159,7 @@ class WriterTest extends PHPUnit_Framework_TestCase
 
         $translationsToWrite = array();
         $translationsToWrite['General'] = $translations['General'];
-        $translationsToWrite['UserLanguage'] = $translations['UserLanguage'];
+        $translationsToWrite['UserSettings'] = $translations['UserSettings'];
         $translationsToWrite['UserCountry'] = $translations['UserCountry'];
 
         $translationsToWrite['General']['Yes'] = 'string with %1$s';

@@ -499,20 +499,6 @@
         "Urls": "URLak",
         "WebsitesManagement": "Webguneen kudeaketa"
     },
-    "TranslationsAdmin": {
-        "AddLanguage": "Gehitu hizkuntza",
-        "DefaultString": "Lehenetsitako katea (Ingelesa)",
-        "Definition": "Definizioa",
-        "Export": "Esportatu hizkuntza",
-        "FixPermissions": "Mesedez konpondu fitxategi-sistemaren baimenak",
-        "Import": "Inportatu hizkuntza",
-        "LanguageCode": "Hizkuntza-kodea",
-        "MenuLanguages": "Hizkuntzak",
-        "MenuTranslations": "Itzulpenak",
-        "Plugin": "Plugina",
-        "Translations": "Itzulpenak",
-        "TranslationString": "Itzulitako katea (uneko hizkuntza: %s)"
-    },
     "UserCountry": {
         "Continent": "Kontinentea",
         "continent_afr": "Afrika",
@@ -792,7 +778,17 @@
         "DistinctCountries": "%s herrialde desberdin",
         "SubmenuLocations": "Kokalekuak"
     },
-    "UserLanguage": {
+    "UserSettings": {
+        "BrowserFamilies": "Nabigatzaile-familiak",
+        "Browsers": "Nabigatzaileak",
+        "ColumnBrowser": "Nabigatzailea",
+        "ColumnBrowserFamily": "Nabigatzaile-familia",
+        "ColumnConfiguration": "Konfigurazioa",
+        "ColumnOperatingSystem": "Sistema eragilea",
+        "ColumnPlugin": "Plugina",
+        "ColumnResolution": "Bereizmena",
+        "ColumnTypeOfScreen": "Pantaila mota",
+        "Configurations": "Konfigurazioak",
         "Language_ab": "abkhazera",
         "Language_af": "afrikaans",
         "Language_ak": "Akanera",
@@ -937,19 +933,8 @@
         "Language_yi": "yiddishera",
         "Language_yo": "yorubera",
         "Language_zh": "txinera",
-        "Language_zu": "zuluera"
-    },
-    "UserSettings": {
-        "BrowserFamilies": "Nabigatzaile-familiak",
-        "Browsers": "Nabigatzaileak",
-        "ColumnBrowser": "Nabigatzailea",
-        "ColumnBrowserFamily": "Nabigatzaile-familia",
-        "ColumnConfiguration": "Konfigurazioa",
-        "ColumnOperatingSystem": "Sistema eragilea",
-        "ColumnPlugin": "Plugina",
-        "ColumnResolution": "Bereizmena",
-        "ColumnTypeOfScreen": "Pantaila mota",
-        "Configurations": "Konfigurazioak",
+        "Language_zu": "zuluera",
+        "LanguageCode": "Hizkuntza-kodea",
         "OperatingSystems": "Sistema eragileak",
         "Plugins": "Pluginak",
         "Resolutions": "Bereizmenak",
