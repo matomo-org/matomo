@@ -19,6 +19,17 @@ class Piwik_TestingEnvironment
         });
         Piwik_AddAction('Config.createConfigSingleton', function($config) {
             $config->setTestEnvironment();
+
+            $pluginsToLoad = array(
+                "CorePluginsAdmin", "CoreAdminHome", "CoreHome", "Proxy", "API", "Widgetize", "Transitions",
+                "LanguagesManager", "Actions", "Dashboard", "MultiSites", "Referers", "UserSettings", "Goals",
+                "SEO", "UserCountry", "VisitsSummary", "VisitFrequency", "VisitTime", "VisitorInterest",
+                "ExampleAPI", "ExamplePlugin", "ExampleRssWidget", "Provider", "Feedback", "Login", "UsersManager",
+                "SitesManager", "Installation", "CoreUpdater", "PDFReports", "UserCountryMap", "Live",
+                "CustomVariables", "PrivacyManager", "ImageGraph", "DoNotTrack", "Annotations", "MobileMessaging",
+                "Overlay", "SegmentEditor", "VisitorGenerator", "DevicesDetection", "DBStats",
+            );
+            $config->Plugins = array('Plugins' => $pluginsToLoad);
         });
         Piwik_AddAction('FrontController.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;

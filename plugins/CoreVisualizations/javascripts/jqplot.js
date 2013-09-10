@@ -101,7 +101,7 @@
                     tickOptions: {
                         showMark: false,
                         fontSize: '11px',
-                        fontFamily: 'Arial'
+                        fontFamily: window.piwik.jqplotLabelFont || 'Arial'
                     },
                     rendererOptions: {
                         drawBaseline: false
@@ -860,7 +860,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
         var ctx = legend.legendCanvas._ctx;
         ctx.save();
-        ctx.font = '11px Arial';
+        ctx.font = '11px ' + (window.piwik.jqplotLabelFont || 'Arial');
 
         // render series names
         var x = 0;
@@ -996,7 +996,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var ctx = legend.pieLegendCanvas._ctx;
         ctx.save();
 
-        ctx.font = '11px Arial';
+        ctx.font = '11px ' + (window.piwik.jqplotLabelFont || 'Arial');
 
         // render labels
         var height = legend.pieLegendCanvas._elem.height();

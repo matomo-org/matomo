@@ -27,7 +27,7 @@
                     waitForAll: true,
                     finished: function () {
                         // wait some more to make sure other javascript is executed & the last image is rendered
-                        setTimeout(triggerRender, 1000);
+                        setTimeout(triggerRender, 10000);
                     },
                 });
             }
@@ -37,5 +37,10 @@
     window.piwik = window.piwik || {};
     window.piwik.ajaxRequestFinished = triggerRenderIfNoAjax;
     window.piwik._triggerRenderInsane = triggerRenderInsane;
+
+    // in case there are no ajax requests, try triggering after a couple secs
+    setTimeout(function () {
+        triggerRenderIfNoAjax();
+    }, 5000);
 
 }(jQuery));

@@ -63,6 +63,3 @@ docs/
 composer.phar
 vendor/
 /.htaccess
-tests/PHPUnit/UI/processed-ui-screenshots
-tests/PHPUnit/UI/expected-ui-screenshots
-

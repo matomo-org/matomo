@@ -1,0 +1,3 @@
+[submodule "tests/PHPUnit/UI"]
+	path = tests/PHPUnit/UI
+	url = https://github.com/piwik/piwik-ui-tests.git

@@ -1255,10 +1255,10 @@ class ViewDataTable
         // TODO: should mark properties that are overridable so not all properties can be overidden this way
         $queryParams = $_GET + $_POST;
         foreach ($queryParams as $name => $value) {
-            if (empty($queryParams[$name])) {
+            if (empty($value)) {
                 continue;
             }
-            
+
             $value = Common::getRequestVar($name, $default = null, $type = null, $queryParams);
 
             if (Properties::isCoreViewProperty($name)) {

@@ -12,9 +12,9 @@ env:
     - TEST_SUITE=PluginTests
     - TEST_SUITE=CoreTests
     - TEST_SUITE=IntegrationTests
-    #- TEST_DIR=UI
   global:
-    secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
+    - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
+    - secure: "DySde80fX3dw0osGY5s5lGiGLjMleUkkONsuRDC4xjT1hAQP94FGHpPXVZV8\nAQY0s8MQmcK2eRLOQrmE9Bh1XXbGqh40s66XhSWq0hulFHxQH5OLaZXccFeu\n5WxGkHXnNDIc+CVhXW/IIbHZPO1K6hffS8fuvP1o6mYgxwFL6Xw="
 
 # Run PHP 5.4 for aa tests to generate
 # code coverage.
@@ -43,6 +43,7 @@ before_script:
 
 after_success:
   - cd $TRAVIS_BUILD_DIR
+  - ./tests/travis/initiate_ui_tests.sh
   - ./tests/travis/generate_docs.sh
 
 after_script:

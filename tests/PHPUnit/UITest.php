@@ -26,10 +26,8 @@ abstract class UITest extends IntegrationTestCase
     
     public static function setUpBeforeClass()
     {
-        if (!self::isXvfbAvailable()) {
-            self::markTestSkipped("xvfb is not available, skipping UI integration tests. (install with 'sudo apt-get install xvfb')");
-        } else if (self::CAPTURE_PROGRAM == 'slimerjs'
-                   && !self::isSlimerJsAvailable()
+        if (self::CAPTURE_PROGRAM == 'slimerjs'
+            && !self::isSlimerJsAvailable()
         ) {
             self::markTestSkipped("slimerjs is not available, skipping UI integration tests. "
                                 . "(install by downloading http://slimerjs.org/download.html)");
@@ -51,17 +49,25 @@ abstract class UITest extends IntegrationTestCase
         // make sure processed & expected dirs exist
         self::makeDirsAndLinks();
 
-        // run slimerjs/phantomjs w/ all urls so we only invoke it once
-        $urls = array();
-        foreach (static::getUrlsForTesting() as $testInfo) {
-            list($name, $urlQuery) = $testInfo;
+        // run slimerjs/phantomjs w/ all urls so we only invoke it once per 25 entries (travis needs
+        // there to be output)
+        $urlsToTest = static::getUrlsForTesting();
 
-            list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
-            $urls[] = array($processedScreenshotPath, self::getProxyUrl() . $urlQuery);
+        reset($urlsToTest);
+        for ($i = 0; $i < count($urlsToTest); $i += 25) {
+            $urls = array();
+            for ($j = $i; $j != $i + 25 && $j < count($urlsToTest); ++$j) {
+                list($name, $urlQuery) = current($urlsToTest);
+
+                list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
+                $urls[] = array($processedScreenshotPath, self::getProxyUrl() . $urlQuery);
+
+                next($urlsToTest);
+            }
+            
+            echo "Generating screenshots...\n";
+            self::runCaptureProgram($urls);
         }
-        
-        echo "Generating screenshots...\n";
-        self::runCaptureProgram($urls);
     }
     
     public static function tearDownAfterClass()
@@ -100,7 +106,6 @@ abstract class UITest extends IntegrationTestCase
     {
         file_put_contents(PIWIK_INCLUDE_PATH . '/tmp/urls.txt', json_encode($urlInfo));
         $cmd = self::CAPTURE_PROGRAM . " \"" . PIWIK_INCLUDE_PATH . "/tests/resources/screenshot-capture/capture.js\" 2>&1";
-        $cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24" ' . $cmd;
         
         exec($cmd, $output, $result);
         $output = implode("\n", $output);
@@ -140,11 +145,6 @@ abstract class UITest extends IntegrationTestCase
         return self::isProgramAvailable('phantomjs');
     }
     
-    private static function isXvfbAvailable()
-    {
-        return self::isProgramAvailable('xvfb-run');
-    }
-
     private static function isProgramAvailable($name)
     {
         exec($name . ' --help 2>&1', $output, $result);
@@ -176,7 +176,7 @@ abstract class UITest extends IntegrationTestCase
 
     private static function makeDirsAndLinks()
     {
-        $dirs = self::getProcessedAndExpectedDirs();
+        $dirs = array_merge(self::getProcessedAndExpectedDirs(), array(PIWIK_INCLUDE_PATH . '/tmp/sessions'));
         foreach ($dirs as $dir) {
             if (!is_dir($dir)) {
                 mkdir($dir);

@@ -14,7 +14,7 @@ then
 else
     if [ "$TEST_DIR" = "UI" ];
     then
-        url="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&artifact_name=processed-ui-screenshots&branch=$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
+        url="http://builds-artifacts.piwik.org/upload.php?auth_key=$ARTIFACTS_PASS&artifact_name=processed-ui-screenshots&branch=ui-tests.$TRAVIS_BRANCH&build_id=$TRAVIS_JOB_NUMBER"
 
         echo "Uploading artifacts for $TEST_DIR..."
 
