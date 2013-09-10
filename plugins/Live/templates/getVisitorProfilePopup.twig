@@ -11,7 +11,8 @@
                 <div class="visitor-profile-avatar">
                     <div>
                         <div class="visitor-profile-image-frame">
-                            <img src="plugins/Live/images/REMOVE_ME_avatar.jpg" alt=""/>
+                            <img src="{{ visitorData.visitorAvatar|default("plugins/Live/images/unknown_avatar.jpg") }}"
+                                 alt="{{ visitorData.visitorDescription|default('') }}"/>
                         </div>
                         <img src="plugins/Live/images/paperclip.png" alt=""/>
                     </div>

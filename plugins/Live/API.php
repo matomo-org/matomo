@@ -309,6 +309,8 @@ class API
         $result['nextVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $getNext = true);
         $result['prevVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $getNext = false);
 
+        Piwik_PostEvent(Live::GET_EXTRA_VISITOR_DETAILS_EVENT, array(&$result));
+
         return $result;
     }
 
