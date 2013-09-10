@@ -67,7 +67,7 @@
                             {%- for entry in visitorData.countries -%}
                             {{- 'Live_VisitsFrom'|translate('<strong>', entry.nb_visits, '</strong>')|raw }} <img src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>&nbsp;{{ entry.prettyName }}{% if not loop.last %}, {% endif %}
                             {%- endfor %}
-                            <a class="visitor-profile-show-map" href="#">({{ 'Live_ShowMap_js'|translate }})</a>
+                            <a class="visitor-profile-show-map" href="#">({{ 'Live_ShowMap_js'|translate|replace({' ': '&nbsp;'})|raw }})</a>
                         </p>
                         <div class="visitor-profile-map" style="display:none">
                             {{ userCountryMap|raw }}

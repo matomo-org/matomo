@@ -125,7 +125,9 @@
                     $map.slideUp('slow');
                     var newLabel = 'Live_ShowMap_js';
                 }
-                $(this).text(_pk_translate(newLabel));
+
+                newLabel = _pk_translate(newLabel).replace(' ', '\xA0');
+                $(this).text('(' + newLabel + ')');
 
                 return false;
             });
