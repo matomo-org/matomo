@@ -22,7 +22,7 @@
                             {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#" title="{{ 'Live_NextVisitor'|translate }}">&rarr;</a>{% endif %}
                         </div>
                         <div class="visitor-profile-latest-visit">
-                            {% include "@Live/getSingleVisitSummary.twig" with {'visitData': visitorData.lastVisits.getFirstRow().getColumns()} %}
+                            {% include "@Live/getSingleVisitSummary.twig" with {'visitData': visitorData.lastVisits.getFirstRow().getColumns(), 'showLocation': false} %}
                         </div>
                     </div>
                     <p style="clear:both; border:none!important;"></p>
@@ -65,7 +65,7 @@
                         <h1>{{ 'UserCountry_Location'|translate }}</h1>
                         <p>
                             {%- for entry in visitorData.countries -%}
-                            {{- 'Live_VisitsFrom'|translate('<strong>', entry.nb_visits, '</strong>')|raw }} <img src="{{ entry.flag }}"/>&nbsp;{{ entry.prettyName }}{% if not loop.last %}, {% endif %}
+                            {{- 'Live_VisitsFrom'|translate('<strong>', entry.nb_visits, '</strong>')|raw }} <img src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>&nbsp;{{ entry.prettyName }}{% if not loop.last %}, {% endif %}
                             {%- endfor %}
                             <a class="visitor-profile-show-map" href="#">({{ 'Live_ShowMap_js'|translate }})</a>
                         </p>

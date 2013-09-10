@@ -123,8 +123,8 @@
     position:relative;
     float:left;
     min-height:145px;
-    margin-right:15px;
-    padding:12px 0 4px;
+    margin:12px 15px 0 0;
+    padding-bottom:4px;
 }
 
 .visitor-profile-avatar > div:first-child {
@@ -180,6 +180,10 @@
     > .loadingPiwik {
         padding:0 0 0 4px;
     }
+}
+
+.visitor-profile-latest-visit {
+    position:relative;
 }
 
 .visitor-profile-latest-visit-column {
@@ -511,6 +515,18 @@ div.visitor-profile-navigation {
     color:#888;
     font-style:italic;
     font-size:13px;
+}
+
+.visitor-profile-latest-visit-loc {
+    display:inline-block;
+    position:absolute;
+    right:0;
+    top:-24px;
+
+    > span {
+        font-style:italic;
+        font-size:13px;
+    }
 }
 
 .widget .visitor-profile {

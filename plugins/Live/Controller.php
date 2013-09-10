@@ -157,6 +157,7 @@ class Controller extends \Piwik\Controller
     {
         $view = new View('@Live/getSingleVisitSummary.twig');
         $view->visitData = Request::processRequest('Live.getSingleVisitSummary');
+        $view->showLocation = true;
         echo $view->render();
     }
 

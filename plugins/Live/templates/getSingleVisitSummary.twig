@@ -4,6 +4,11 @@
     <li><span>{{ customVariable[name]|truncate(30) }}</span>{% if customVariable[value]|length > 0 %}<strong>{{ customVariable[value]|truncate(50) }}</strong>{% endif %}</li>
 {% endmacro %}
 {% import _self as macros %}
+{% if showLocation|default(false) %}
+<div class="visitor-profile-latest-visit-loc">
+    <img src="{{ visitData.countryFlag }}" title="{{ visitData.country }}"/>&nbsp;<span>{% if visitData.city is not empty %}{{ visitData.city }}{% else %}{{ visitData.country }}{% endif %}</span>
+</div>
+{% endif %}
 <div class="visitor-profile-latest-visit-column">
     <ul>
         <li><span>{{ 'General_IP'|translate }}</span><strong>{{ visitData.visitIp }}</strong></li>

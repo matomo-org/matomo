@@ -194,6 +194,7 @@
                 var $latestVisitSection = $('.visitor-profile-latest-visit', $element);
                 $latestVisitSection
                     .html(response)
+                    .parent()
                     .effect('highlight', {color: '#FFFFCB'}, 1200);
             });
             ajax.setFormat('html');
