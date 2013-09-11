@@ -68,6 +68,7 @@
             }
             $('*', this.element).off('.dashboardWidget'); // unbind all events
             $('.widgetContent', this.element).trigger('widget:destroy');
+            require('piwik/UI').UIControl.cleanupUnusedControls();
             return this;
         },
 

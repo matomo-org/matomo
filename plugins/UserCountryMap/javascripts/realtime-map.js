@@ -10,13 +10,65 @@
 
 (function () {
 
-    var RealtimeMap = window.UserCountryMap.RealtimeMap = function (config, theWidget) {
-        this.config = config;
-        this.theWidget = theWidget || false;
+    var UIControl = require('piwik/UI').UIControl;
+
+    var RealtimeMap = window.UserCountryMap.RealtimeMap = function (element) {
+        UIControl.call(this, element);
+        this._init();
         this.run();
     };
 
-    $.extend(RealtimeMap.prototype, {
+    RealtimeMap.initElements = function () {
+        $('.RealTimeMap').each(function () {
+            if (!$(this).attr('data-inited')) {
+                var control = new RealtimeMap(this);
+
+                $(this).data('uiControlObject', control);
+                $(this).attr('data-inited', 1);
+            }
+        });
+    };
+
+    $.extend(RealtimeMap.prototype, UIControl.prototype, {
+
+        _init: function () {
+            var $element = this.$element;
+
+            this.config = JSON.parse($element.attr('data-config'));
+
+            // If the map is loaded from the menu, do a few tweaks to clean up the display
+            if ($element.attr('data-standalone') == 1) {
+                this._initStandaloneMap();
+            }
+
+            // handle widgetry
+            if ($('#dashboardWidgetsArea').length) {
+                var $widgetContent = $element.closest('.widgetContent');
+
+                var self = this;
+                $widgetContent.on('widget:maximise', function () {
+                    self.resize();
+                }).on('widget:minimise', function () {
+                    self.resize();
+                });
+            }
+
+            // set unique ID for kartograph map div
+            this.uniqueId = 'RealTimeMap_map-' + this._controlIndex;
+            $('.RealTimeMap_map', $element).attr('id', this.uniqueId);
+        },
+
+        _initStandaloneMap: function () {
+            $('.top_controls').hide();
+            $('.nav').on('piwikSwitchPage', function (event, item) {
+                var clickedMenuIsNotMap = ($(item).text() != "{{ 'UserCountryMap_RealTimeMap'|translate|e('js') }}");
+                if (clickedMenuIsNotMap) {
+                    $('.top_controls').show();
+                }
+            });
+            $('.realTimeMap_overlay').css('top', '0px');
+            $('.realTimeMap_datetime').css('top', '20px');
+        },
 
         run: function () {
             var debug = 0;
@@ -24,8 +76,8 @@
             var self = this,
                 config = self.config,
                 _ = config._,
-                map = self.map = Kartograph.map('#RealTimeMap_map'),
-                main = $('#RealTimeMap_container'),
+                map = self.map = Kartograph.map('#' + this.uniqueId),
+                main = $('.RealTimeMap_container', this.$element),
                 worldTotalVisits = 0,
                 maxVisits = config.maxVisits || 100,
                 width = main.width(),
@@ -75,7 +127,7 @@
                         'visitLocalTime', 'city', 'country', 'referrerType', 'referrerName',
                         'referrerTypeName', 'browserIcon', 'operatingSystemIcon',
                         'countryFlag', 'idVisit', 'actionDetails', 'continentCode',
-                        'actions', 'searches', 'goalConversions'].join(','),
+                        'actions', 'searches', 'goalConversions', 'visitorId'].join(','),
                     minTimestamp: firstRun ? -1 : lastTimestamp
                 });
             }
@@ -247,6 +299,25 @@
 
             }
 
+            // default click behavior. if a visit is clicked, the visitor profile is launched,
+            // otherwise zoom in or out.
+            // TODO: visitor profile launching logic should probably be contained in
+            //       visitorProfile.js. not sure how to do that, though...
+            this.$element.on('mapClick', function (e, visit, mapPath) {
+                var VisitorProfileControl = require('piwik/UI').VisitorProfileControl;
+                if (visit
+                    && VisitorProfileControl
+                    && !self.$element.closest('.visitor-profile').length
+                ) {
+                    VisitorProfileControl.showPopover(visit.visitorId);
+                } else {
+                    var cont = UserCountryMap.cont2cont[mapPath.data.continentCode];
+                    if (cont && cont != currentMap) {
+                        updateMap(cont);
+                    }
+                }
+            });
+
             /*
              * this function requests new data from Live.getLastVisitsDetails
              * and updates the symbols on the map. Then, it sets a timeout
@@ -259,6 +330,11 @@
                  * this is called after new visit reports came in
                  */
                 function gotNewReport(report) {
+                    // if the map has been destroyed, do nothing
+                    if (!self.map) {
+                        return;
+                    }
+
                     // successful request, so set timeout for next API call
                     nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
@@ -290,12 +366,9 @@
                             tooltip: visitTooltip,
                             mouseenter: highlightVisit,
                             mouseleave: unhighlightVisit,
-                            click: function (r, s, evt) {
+                            click: function (visit, mapPath, evt) {
                                 evt.stopPropagation();
-                                var cont = UserCountryMap.cont2cont[s.data.continentCode];
-                                if (cont && cont != currentMap) {
-                                    updateMap(cont);
-                                }
+                                self.$element.trigger('mapClick', [visit, mapPath]);
                             }
                         });
 
@@ -387,7 +460,7 @@
              * the zoom behaviour is initialized.
              */
             function initMap() {
-                $('#widgetRealTimeMapliveMap .loadingPiwik, #RealTimeMap .loadingPiwik').hide();
+                $('#widgetRealTimeMapliveMap .loadingPiwik, .RealTimeMap .loadingPiwik').hide();
                 map.addLayer('countries', {
                     styles: {
                         fill: colorTheme[currentTheme].fill,
@@ -440,7 +513,7 @@
             updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z][A-Z]$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
 
             // clicking on map background zooms out
-            $('#RealTimeMap_map').off('click').click(function () {
+            $('.RealTimeMap_map', this.$element).off('click').click(function () {
                 if (currentMap != 'world') updateMap('world');
             });
 
@@ -456,7 +529,7 @@
                 }
 
                 function switchTheme() {
-                    $('#RealTimeMap').css({ background: colorTheme[currentTheme].bg });
+                    self.$element.css({ background: colorTheme[currentTheme].bg });
                     if (isFullscreenWidget) {
                         $('body').css({ background: colorTheme[currentTheme].bg });
                         $('.widget').css({ 'border-width': 1 });
@@ -489,7 +562,7 @@
             }
 
             // setup automatic tooltip updates
-            setInterval(function () {
+            this._tooltipUpdateInterval = setInterval(function () {
                 $('.qtip .rel-time').each(function (i, el) {
                     el = $(el);
                     var ds = new Date().getTime() / 1000 - el.data('actiontime');
@@ -523,9 +596,16 @@
             else $('.tableIcon span').show();
         },
 
-        destroy: function () {
+        _destroy: function () {
+            UIControl.prototype._destroy.call(this);
+
+            if (this._tooltipUpdateInterval) {
+                clearInterval(this._tooltipUpdateInterval);
+            }
+
             this.map.clear();
             $(this.map.container).html('');
+            delete this.map;
         }
 
     });

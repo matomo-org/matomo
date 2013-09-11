@@ -130,6 +130,9 @@ var broadcast = {
                     // make sure the "Widgets & Dashboard" is deleted on reload
                     $('#dashboardSettings').remove();
                     $('#dashboardWidgetsArea').dashboard('destroy');
+
+                    // remove unused controls
+                    require('piwik/UI').UIControl.cleanupUnusedControls();
                 }
             }
 

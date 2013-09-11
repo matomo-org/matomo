@@ -72,6 +72,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
         $jsFiles[] = "plugins/Zeitgeist/javascripts/ajaxHelper.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/require.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/uiControl.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/dataTable_rowactions.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";

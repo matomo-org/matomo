@@ -45,6 +45,7 @@ var Piwik_Popover = (function () {
                 $('.ui-widget-overlay').off('click.popover');
                 isOpen = false;
                 broadcast.propagateNewPopoverParameter(false);
+                require('piwik/UI').UIControl.cleanupUnusedControls();
                 if (typeof closeCallback == 'function') {
                     closeCallback();
                     closeCallback = false;

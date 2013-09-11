@@ -10,7 +10,8 @@
 (function ($, require) {
 
     var piwik = require('piwik'),
-        exports = require('piwik/UI');
+        exports = require('piwik/UI'),
+        UIControl = exports.UIControl;
 
     /**
      * Sets up and handles events for the visitor profile popup.
@@ -20,7 +21,7 @@
      * @constructor
      */
     var VisitorProfileControl = function (element) {
-        this.$element = $(element).focus();
+        UIControl.call(this, element);
         this._setupControl();
         this._bindEventCallbacks();
     };
@@ -53,9 +54,12 @@
         Piwik_Popover.createPopupAndLoadUrl(url, '', 'visitor-profile-popup');
     };
 
-    VisitorProfileControl.prototype = {
+    $.extend(VisitorProfileControl.prototype, UIControl.prototype, {
 
         _setupControl: function () {
+            // focus the popup so it will accept key events
+            this.$element.focus();
+
             // highlight the first visit
             $('.visitor-profile-visits>li:first-child', this.$element).addClass('visitor-profile-current-visit');
         },
@@ -232,7 +236,7 @@
         _inWidget: function () {
             return !! this.$element.closest('.widget').length;
         }
-    };
+    });
 
     exports.VisitorProfileControl = VisitorProfileControl;
 

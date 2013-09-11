@@ -131,40 +131,50 @@ class Controller extends \Piwik\Controller
 
         $view->metrics = $this->getMetrics($idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
         $view->defaultMetric = 'nb_visits';
-        $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
+        $liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
         $goals = API::getInstance()->getGoals($idSite);
         $site = new Site($idSite);
-        $view->hasGoals = !empty($goals) || $site->isEcommerceEnabled() ? 'true' : 'false';
+        $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
 
         // maximum number of visits to be displayed in the map
-        $view->maxVisits = Common::getRequestVar('format_limit', 100, 'int');
+        $maxVisits = Common::getRequestVar('format_limit', 100, 'int');
 
         // some translations
-        $view->localeJSON = json_encode(array(
-                                             'nb_actions'       => Piwik_Translate('VisitsSummary_NbActionsDescription'),
-                                             'local_time'       => Piwik_Translate('VisitTime_ColumnLocalTime'),
-                                             'from'             => Piwik_Translate('General_FromReferrer'),
-                                             'seconds'          => Piwik_Translate('UserCountryMap_Seconds'),
-                                             'seconds_ago'      => Piwik_Translate('UserCountryMap_SecondsAgo'),
-                                             'minutes'          => Piwik_Translate('UserCountryMap_Minutes'),
-                                             'minutes_ago'      => Piwik_Translate('UserCountryMap_MinutesAgo'),
-                                             'hours'            => Piwik_Translate('UserCountryMap_Hours'),
-                                             'hours_ago'        => Piwik_Translate('UserCountryMap_HoursAgo'),
-                                             'days_ago'         => Piwik_Translate('UserCountryMap_DaysAgo'),
-                                             'actions'          => Piwik_Translate('VisitsSummary_NbPageviewsDescription'),
-                                             'searches'         => Piwik_Translate('UserCountryMap_Searches'),
-                                             'goal_conversions' => Piwik_Translate('UserCountryMap_GoalConversions'),
-                                        ));
+        $locale = array(
+            'nb_actions'       => Piwik_Translate('VisitsSummary_NbActionsDescription'),
+            'local_time'       => Piwik_Translate('VisitTime_ColumnLocalTime'),
+            'from'             => Piwik_Translate('General_FromReferrer'),
+            'seconds'          => Piwik_Translate('UserCountryMap_Seconds'),
+            'seconds_ago'      => Piwik_Translate('UserCountryMap_SecondsAgo'),
+            'minutes'          => Piwik_Translate('UserCountryMap_Minutes'),
+            'minutes_ago'      => Piwik_Translate('UserCountryMap_MinutesAgo'),
+            'hours'            => Piwik_Translate('UserCountryMap_Hours'),
+            'hours_ago'        => Piwik_Translate('UserCountryMap_HoursAgo'),
+            'days_ago'         => Piwik_Translate('UserCountryMap_DaysAgo'),
+            'actions'          => Piwik_Translate('VisitsSummary_NbPageviewsDescription'),
+            'searches'         => Piwik_Translate('UserCountryMap_Searches'),
+            'goal_conversions' => Piwik_Translate('UserCountryMap_GoalConversions'),
+        );
 
         $segment = $segmentOverride ?: Request::getRawSegmentFromRequest() ?: '';
-        $view->reqParamsJSON = $this->getEnrichedRequest(array(
-                                                              'period'     => 'range',
-                                                              'idSite'     => $idSite,
-                                                              'date'       => self::REAL_TIME_WINDOW,
-                                                              'segment'    => $segment,
-                                                              'token_auth' => $token_auth,
-                                                         ));
+        $reqParams = $this->getEnrichedRequest(array(
+            'period'     => 'range',
+            'idSite'     => $idSite,
+            'date'       => self::REAL_TIME_WINDOW,
+            'segment'    => $segment,
+            'token_auth' => $token_auth,
+        ), $encode = false);
+
+        $view->config = array(
+            'metrics' => array(),
+            'svgBasePath' => $view->piwikUrl . 'plugins/UserCountryMap/svg/',
+            'liveRefreshAfterMs' => $liveRefreshAfterMs,
+            '_' => $locale,
+            'reqParams' => $reqParams,
+            'siteHasGoals' => $hasGoals,
+            'maxVisits' => $maxVisits
+        );
 
         if ($fetch) {
             return $view->render();
@@ -173,7 +183,7 @@ class Controller extends \Piwik\Controller
         }
     }
 
-    private function getEnrichedRequest($params)
+    private function getEnrichedRequest($params, $encode = true)
     {
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
@@ -184,7 +194,10 @@ class Controller extends \Piwik\Controller
             }
         }
 
-        return Common::json_encode($params);
+        if ($encode) {
+            $params = Common::json_encode($params);
+        }
+        return $params;
     }
 
     private function checkUserCountryPluginEnabled()
