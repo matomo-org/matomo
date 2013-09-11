@@ -43,7 +43,7 @@
                             {{ 'Goals_Ecommerce'|translate }}:
                             {%- if visitorData.totalEcommerceConversions is defined %} {{ 'Live_EcommerceSummaryConversions'|translate('<strong>', visitorData.totalEcommerceConversions, visitorData.totalEcommerceRevenue|money(idSite), '</strong>', visitorData.totalEcommerceItems)|raw }}
                             {%- endif -%}
-                            {%- if visitorData.totalAbandonedCarts|default(0) >= 0 %} {{ 'Live_AbandonedCartSummary'|translate('<strong>', visitorData.totalAbandonedCarts, '</strong>', visitorData.totalAbandonedCartsItems, '<strong>', visitorData.totalAbandonedCartsRevenue|money(idSite), '</strong>')|raw }}{%- endif -%}
+                            {%- if visitorData.totalAbandonedCarts|default(0) > 0 %} {{ 'Live_AbandonedCartSummary'|translate('<strong>', visitorData.totalAbandonedCarts, '</strong>', visitorData.totalAbandonedCartsItems, '<strong>', visitorData.totalAbandonedCartsRevenue|money(idSite), '</strong>')|raw }}{%- endif -%}
                         </p>
                         {% endif %}
                     </div>
