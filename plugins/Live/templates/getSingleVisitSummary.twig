@@ -5,8 +5,8 @@
 {% endmacro %}
 {% import _self as macros %}
 {% if showLocation|default(false) %}
-<div class="visitor-profile-latest-visit-loc">
-    <img src="{{ visitData.countryFlag }}" title="{{ visitData.country }}"/>&nbsp;<span>{% if visitData.city is not empty %}{{ visitData.city }}{% else %}{{ visitData.country }}{% endif %}</span>
+<div class="visitor-profile-latest-visit-loc" title="{{ visitData.location }}">
+    <img src="{{ visitData.countryFlag }}"/>&nbsp;<span>{% if visitData.city is not empty %}{{ visitData.city }}{% else %}{{ visitData.country }}{% endif %}</span>
 </div>
 {% endif %}
 <div class="visitor-profile-latest-visit-column">

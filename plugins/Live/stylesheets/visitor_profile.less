@@ -27,6 +27,7 @@
     border-radius:5px;
     background:url(../images/visitor_profile_background.jpg) repeat;
     box-shadow:5px 5px 5px rgba(0,0,0,0.22);
+    text-align:left;
 
     h1 {
         font-size:18px;
@@ -59,7 +60,7 @@
 
 .visitor-profile-summary,.visitor-profile-important-visits,.visitor-profile-avatar,.visitor-profile-visits-container {
     span, strong {
-        display:inline-block;
+        display:inline;
         font-size:14px;
         color:#5e5e5c;
         line-height:19px;
@@ -203,8 +204,8 @@
     display:inline-block;
 }
 
-.visitor-profile-latest-visit-column:first-child {
-    margin-right:9px;
+.visitor-profile-latest-visit-column:last-child {
+    margin-left:9px;
 }
 
 .visitor-profile-avatar ul {
@@ -502,8 +503,9 @@ div.visitor-profile-navigation {
     margin-right:2px;
 }
 
-.visitor-profile-next-visitor {
+a.visitor-profile-next-visitor,a.visitor-profile-prev-visitor {
     display:none;
+    color:#7e7363;
 }
 
 .visitor-profile-avatar:hover {
@@ -521,13 +523,8 @@ div.visitor-profile-navigation {
 .visitor-profile-latest-visit-loc {
     display:inline-block;
     position:absolute;
-    right:0;
+    right:4px;
     top:-24px;
-
-    > span {
-        font-style:italic;
-        font-size:13px;
-    }
 }
 
 .widget .visitor-profile {

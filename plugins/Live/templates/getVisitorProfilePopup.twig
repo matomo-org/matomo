@@ -71,7 +71,9 @@
                         <h1>{{ 'UserCountry_Location'|translate }}</h1>
                         <p>
                             {%- for entry in visitorData.countries -%}
-                            {{- 'Live_VisitsFrom'|translate('<strong>', entry.nb_visits, '</strong>')|raw }} <img src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>&nbsp;{{ entry.prettyName }}{% if not loop.last %}, {% endif %}
+                            {% set entryVisits %}<strong>{% if entry.nb_visits == 1 %}{{ 'General_OneVisit'|translate }}{% else %}{{ 'General_NVisits'|translate(entry.nb_visits) }}{% endif %}</strong>{% endset %}
+                            {% set entryCountry %}<img src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>&nbsp;{{ entry.prettyName }}{% endset %}
+                            {{- 'General_XFromY'|translate(entryVisits, entryCountry)|raw -}}{% if not loop.last %}, {% endif %}
                             {%- endfor %}
                             <a class="visitor-profile-show-map" href="#">({{ 'Live_ShowMap_js'|translate|replace({' ': '&nbsp;'})|raw }})</a>
                         </p>

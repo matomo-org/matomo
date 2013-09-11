@@ -342,6 +342,7 @@
         "DailySum": "daily sum",
         "AfterEntry": "after entering here",
         "Metadata": "Metadata",
+        "XFromY": "%1$s from %2$s",
         "OneVisit": "1 visit",
         "NVisits": "%s visits",
         "OneAction": "1 action",

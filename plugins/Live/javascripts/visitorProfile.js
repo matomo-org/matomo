@@ -106,21 +106,19 @@
                 }
             });
 
-            var mapShown = false;
             $element.on('click', '.visitor-profile-show-map', function (e) {
                 e.preventDefault();
 
                 var $map = $('.visitor-profile-map', $element);
                 if ($map.is(':hidden')) {
-                    if (!mapShown) {
+                    if ($map.height() < 1) {
                         $map.resize();
-                        mapShown = true;
                     }
 
                     $map.slideDown('slow');
                     var newLabel = 'Live_HideMap_js';
 
-                    piwikHelper.lazyScrollTo($('.visitor-profile-location', $element)[0], 400, true);
+                    piwikHelper.lazyScrollTo($('.visitor-profile-location', $element)[0], 400);
                 } else {
                     $map.slideUp('slow');
                     var newLabel = 'Live_ShowMap_js';

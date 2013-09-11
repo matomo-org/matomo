@@ -181,12 +181,9 @@ class API
             $idVisitor = $this->getMostRecentVisitorId($idSite, $segment);
         }
 
-        if ($segment !== false) {
-            $segment .= ';';
-        }
-        $segment .= 'visitorId==' . $idVisitor;
+        $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $idVisitor;
 
-        $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment,
+        $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $newSegment,
                                               $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
                                               $filter_offset = false, $visitorId = false, $minTimestamp = false);
         if ($visits->getRowsCount() == 0) {
@@ -311,8 +308,8 @@ class API
         // TODO: make sure order of visitor ids is not changed if a returning visitor visits while the user is
         //       looking at the popup.
         $latestVisitTime = reset($rows)->getColumn('lastActionDateTime');
-        $result['nextVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $getNext = true);
-        $result['prevVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $getNext = false);
+        $result['nextVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $segment, $getNext = true);
+        $result['prevVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $segment, $getNext = false);
 
         Piwik_PostEvent(Live::GET_EXTRA_VISITOR_DETAILS_EVENT, array(&$result));
 
@@ -348,30 +345,40 @@ class API
      * @param int $idSite The ID of the site whose visits should be looked at.
      * @param string $idVisitor The ID of the visitor to get an adjacent visitor for.
      * @param string $visitLastActionTime The last action time of the latest visit for $idVisitor.
+     * @param string $segment
      * @param bool $getNext Whether to retrieve the next visitor or the previous visitor. The next
      *                      visitor will be the visitor that appears chronologically later in the
      *                      log_visit table. The previous visitor will be the visitor that appears
      *                      earlier.
      * @return string The hex visitor ID.
      */
-    private function getAdjacentVisitorId($idSite, $idVisitor, $visitLastActionTime, $getNext)
+    private function getAdjacentVisitorId($idSite, $idVisitor, $visitLastActionTime, $segment, $getNext)
     {
         if ($getNext) {
-            $visitLastActionTimeCondition = "visit_last_action_time <= ?";
+            $visitLastActionTimeCondition = "sub.visit_last_action_time <= ?";
             $orderByDir = "DESC";
         } else {
-            $visitLastActionTimeCondition = "visit_last_action_time >= ?";
+            $visitLastActionTimeCondition = "sub.visit_last_action_time >= ?";
             $orderByDir = "ASC";
         }
 
-        $sql = "SELECT idvisitor, MAX(visit_last_action_time)
-                  FROM " . Common::prefixTable('log_visit') . "
-                 WHERE idsite = ? AND idvisitor <> UNHEX(?) AND $visitLastActionTimeCondition
-              GROUP BY idvisitor
-              ORDER BY MAX(visit_last_action_time) $orderByDir
-                 LIMIT 1";
+        $select = "log_visit.idvisitor, MAX(log_visit.visit_last_action_time) as visit_last_action_time";
+        $from = "log_visit";
+        $where = "log_visit.idsite = ? AND log_visit.idvisitor <> UNHEX(?)";
+        $whereBind = array($idSite, $idVisitor);
+        $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
+        $groupBy = "log_visit.idvisitor";
 
-        $idVisitor = Db::fetchOne($sql, array($idSite, $idVisitor, $visitLastActionTime));
+        $segment = new Segment($segment, $idSite);
+        $queryInfo = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy);
+
+        $sql = "SELECT sub.idvisitor, sub.visit_last_action_time
+                  FROM ({$queryInfo['sql']}) as sub
+                 WHERE $visitLastActionTimeCondition
+                 LIMIT 1";
+        $bind = array_merge($queryInfo['bind'], array($visitLastActionTime));
+
+        $idVisitor = Db::fetchOne($sql, $bind);
         if (!empty($idVisitor)) {
             $idVisitor = bin2hex($idVisitor);
         }
