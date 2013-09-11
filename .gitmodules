@@ -1,3 +1,9 @@
 [submodule "tests/PHPUnit/UI"]
 	path = tests/PHPUnit/UI
 	url = https://github.com/piwik/piwik-ui-tests.git
+[submodule "plugins/SecurityInfo"]
+	path = plugins/SecurityInfo
+	url = https://github.com/piwik/plugin-SecurityInfo.git
+[submodule "plugins/VisitorGenerator"]
+	path = plugins/VisitorGenerator
+	url = https://github.com/piwik/plugin-VisitorGenerator
