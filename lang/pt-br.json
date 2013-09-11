@@ -1242,7 +1242,7 @@
         "RedirectUrlErrorAdmin": "Você pode adicionar um domínio como uma URL adicional %sem definições%s.",
         "RedirectUrlErrorUser": "Solicite ao seu administrador para adicionar o domínio como uma URL adicional."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(opcional) Opções de exibição",
         "AggregateReportsFormat_GraphsOnly": "Exibir gráficos apenas (sem tabelas do relatório)",
         "AggregateReportsFormat_TablesAndGraphs": "Mostrar tabelas e Gráficos para todos os relatórios",

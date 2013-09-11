@@ -1225,7 +1225,7 @@
         "RedirectUrlErrorAdmin": "Anda dapat menambah ranah sebagai URL tambahan di %spengaturan%s.",
         "RedirectUrlErrorUser": "Silakan bertanya kepada pengelola Anda untuk menambah ranah sebagai URL tambahan."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(pilihan) Tampilkan pilihan",
         "AggregateReportsFormat_GraphsOnly": "Hanya tampilkan Grafik (tanpa tabel laporan)",
         "AggregateReportsFormat_TablesAndGraphs": "Tampilkan tabel dan Grafik Laporan untuk seluruh Laporan",

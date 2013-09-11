@@ -163,7 +163,7 @@ class Pdf extends ReportRenderer
         $this->TCPDF->AddPage(self::PORTRAIT);
         $this->TCPDF->AddFont($this->reportFont, '', '', false);
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
-        $this->TCPDF->Bookmark(Piwik_Translate('PDFReports_FrontPage'));
+        $this->TCPDF->Bookmark(Piwik_Translate('ScheduledReports_FrontPage'));
 
         // logo
         $this->TCPDF->Image(API::getInstance()->getLogoUrl(true), $this->logoImagePosition[0], $this->logoImagePosition[1], 180 / $factor = 2, 0, $type = '', $link = '', $align = '', $resize = false, $dpi = 300);
@@ -191,7 +191,7 @@ class Pdf extends ReportRenderer
             $this->TCPDF->Ln();
             $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize - 2);
             $this->TCPDF->SetTextColor($this->headerTextColor[0], $this->headerTextColor[1], $this->headerTextColor[2]);
-            $this->TCPDF->Write(1, $this->formatText(Piwik_Translate('PDFReports_CustomVisitorSegment') . ' ' . $segment['name']));
+            $this->TCPDF->Write(1, $this->formatText(Piwik_Translate('ScheduledReports_CustomVisitorSegment') . ' ' . $segment['name']));
         }
 
         $this->TCPDF->Ln(8);

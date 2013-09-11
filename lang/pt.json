@@ -814,7 +814,7 @@
         "Evolution": "Evolução",
         "PluginDescription": "Mostra um sumário\/estatísticas executivas de multíplos sites. Actualmente mantido como um plugin núcleo Piwik."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(opcional) Opções de Visualização",
         "AggregateReportsFormat_GraphsOnly": "Apenas Visualiza Gráfico (sem tabelas de relatório)",
         "AggregateReportsFormat_TablesAndGraphs": "Exibir tabelas de Relatório e Gráficos para todos os relatórios",

@@ -1180,7 +1180,7 @@
         "OpenFullScreen": "Перейти к полному экрану",
         "Overlay": "Глубина проникновения"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(необязательно) Настройки отображения",
         "AggregateReportsFormat_GraphsOnly": "Отображать только графики (без отчетных таблиц)",
         "AggregateReportsFormat_TablesAndGraphs": "Отображать таблицы и графики для всех отчетов",

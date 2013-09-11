@@ -1140,7 +1140,7 @@
         "RedirectUrlErrorAdmin": "Puede agregar el dominio como una dirección de internet %sen la configuración%s.",
         "RedirectUrlErrorUser": "Pregunte a su administrador para agregar el dominio como una dirección de internet adicional."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(opcional) Mostrar opciones",
         "AggregateReportsFormat_GraphsOnly": "Mostrar sólo gráficas (no reportes de tablas)",
         "AggregateReportsFormat_TablesAndGraphs": "Mostrar Reporte de tablas y Gráficas para todos los reportes",

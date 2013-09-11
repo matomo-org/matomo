@@ -1241,7 +1241,7 @@
         "RedirectUrlErrorAdmin": "Du kan tilføje domænet som en yderligere URL %si indstillingerne%s.",
         "RedirectUrlErrorUser": "Spørg administratoren om at tilføje domænet som en yderligere URL."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(valgfrit) Visningsindstillinger",
         "AggregateReportsFormat_GraphsOnly": "Vis kun diagrammer (ingen tabeller)",
         "AggregateReportsFormat_TablesAndGraphs": "Vis tabeller og diagrammer for alle rapporter",

@@ -1227,7 +1227,7 @@
         "RedirectUrlErrorAdmin": "您可以在 %s管理设置%s 中以附加网址添加域名。",
         "RedirectUrlErrorUser": "请管理员以附加网址来添加域名。"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(可选) 显示选项",
         "AggregateReportsFormat_GraphsOnly": "仅显示图形 (不显示报表)",
         "AggregateReportsFormat_TablesAndGraphs": "显示报表和所有图表",

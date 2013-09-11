@@ -1231,7 +1231,7 @@
         "RedirectUrlErrorAdmin": "Μπορείτε να προσθέσετε το όνομα χώρου ως μια πρόσθετη διεύθυνση URL %sστις ρυθμίσεις%s.",
         "RedirectUrlErrorUser": "Ζητήστε από το διαχειριστή σας για να προσθέσετε το όνομα χώρου ως μια επιπλέον διεύθυνση URL."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(προαιρετικό) Προβολή επιλογών",
         "AggregateReportsFormat_GraphsOnly": "Προβολή μόνο Διαγραμμάτων (κανένας πίνακας αναφοράς)",
         "AggregateReportsFormat_TablesAndGraphs": "Προβολή πινάκων Αναφοράς και Διαγραμμάτων για όλες τις αναφορές",

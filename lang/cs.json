@@ -911,7 +911,7 @@
         "MainMetrics": "Hlavní měření",
         "OneClick": "1 kliknutí"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "Možnosti zobrazení",
         "AlsoSendReportToTheseEmails": "Odesílat hlášení také na tyto e-maily (jeden e-mail na řádek):",
         "CreateReport": "Vytvořit hlášení",

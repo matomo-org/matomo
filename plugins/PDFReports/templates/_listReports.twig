@@ -3,9 +3,9 @@
         <thead>
         <tr>
             <th class="first">{{ 'General_Description'|translate }}</th>
-            <th>{{ 'PDFReports_EmailSchedule'|translate }}</th>
-            <th>{{ 'PDFReports_ReportFormat'|translate }}</th>
-            <th>{{ 'PDFReports_SendReportTo'|translate }}</th>
+            <th>{{ 'ScheduledReports_EmailSchedule'|translate }}</th>
+            <th>{{ 'ScheduledReports_ReportFormat'|translate }}</th>
+            <th>{{ 'ScheduledReports_SendReportTo'|translate }}</th>
             <th>{{ 'General_Download'|translate }}</th>
             <th>{{ 'General_Edit'|translate }}</th>
             <th>{{ 'General_Delete'|translate }}</th>
@@ -16,7 +16,7 @@
         <tr>
             <td colspan='7'>
                 <br/>
-                {{ 'PDFReports_MustBeLoggedIn'|translate }}
+                {{ 'ScheduledReports_MustBeLoggedIn'|translate }}
                 <br/>&rsaquo; <a href='index.php?module={{ loginModule }}'>{{ 'Login_LogIn'|translate }}</a>
                 <br/><br/>
             </td>
@@ -26,9 +26,9 @@
     <tr>
         <td colspan='7'>
             <br/>
-            {{ 'PDFReports_ThereIsNoReportToManage'|translate(siteName) }}.
+            {{ 'ScheduledReports_ThereIsNoReportToManage'|translate(siteName) }}.
             <br/><br/>
-            <a onclick='' id='linkAddReport'>&rsaquo; {{ 'PDFReports_CreateAndScheduleReport'|translate }}</a>
+            <a onclick='' id='linkAddReport'>&rsaquo; {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</a>
             <br/><br/>
         </td>
     </tr>
@@ -55,7 +55,7 @@
             <td>
                 {# report recipients #}
                 {% if report.recipients|length == 0 %}
-                    {{ 'PDFReports_NoRecipients'|translate }}
+                    {{ 'ScheduledReports_NoRecipients'|translate }}
                 {% else %}
                     {% for recipient in report.recipients %}
                         {{ recipient }}
@@ -64,7 +64,7 @@
                     {# send now link #}
                     <a href="#" idreport="{{ report.idreport }}" name="linkSendNow" class="link_but" style="margin-top:3px;">
                         <img border=0 src='{{ reportTypes[report.type] }}'/>
-                        {{ 'PDFReports_SendReportNow'|translate }}
+                        {{ 'ScheduledReports_SendReportNow'|translate }}
                     </a>
                 {% endif %}
             </td>
@@ -95,7 +95,7 @@
     </table>
     {% if userLogin != 'anonymous' %}
         <br/>
-        <a onclick='' id='linkAddReport'>&rsaquo; {{ 'PDFReports_CreateAndScheduleReport'|translate }}</a>
+        <a onclick='' id='linkAddReport'>&rsaquo; {{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</a>
         <br/>
         <br/>
     {% endif %}

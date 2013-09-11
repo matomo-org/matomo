@@ -1133,7 +1133,7 @@
         "PluginDescription": "داده های آماری را بر روی وب سایت واقعی تان مشاهده کنید.",
         "RedirectUrlErrorUser": "از مدیریت بخواهید که این دامنه را به عنوان دامنه اضافی بیافزاید."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(اختیاری) گزینه های نمایش)",
         "AggregateReportsFormat_GraphsOnly": "نمایش ها نمودار ها تنها (بدون جداول گزارش)",
         "AggregateReportsFormat_TablesAndGraphs": "نمایش جداول گزارش و نمودار برای همه گزارش ها",

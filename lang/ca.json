@@ -1109,7 +1109,7 @@
         "RedirectUrlErrorAdmin": "Podeu afegir una URL addicional per un domini a %s les preferències%s.",
         "RedirectUrlErrorUser": "Contacteu amb el vostre administrador per afegir el domini com una URL adicional."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(opcional) mostrar les opcions",
         "AggregateReportsFormat_GraphsOnly": "Mostra només els gràfics (sense taules)",
         "AggregateReportsFormat_TablesAndGraphs": "Mostrar les taules i els gràfics per a tots els informes.",

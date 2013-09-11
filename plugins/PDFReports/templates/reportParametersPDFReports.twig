@@ -65,20 +65,20 @@
 </script>
 
 <tr class='{{ reportType }}'>
-    <td style='width:240px;' class="first">{{ 'PDFReports_SendReportTo'|translate }}
+    <td style='width:240px;' class="first">{{ 'ScheduledReports_SendReportTo'|translate }}
     </td>
     <td>
         <input type="checkbox" id="report_email_me"/>
-        <label for="report_email_me">{{ 'PDFReports_SentToMe'|translate }} (<em>{{ currentUserEmail }}</em>) </label>
+        <label for="report_email_me">{{ 'ScheduledReports_SentToMe'|translate }} (<em>{{ currentUserEmail }}</em>) </label>
         <br/><br/>
-        {{ 'PDFReports_AlsoSendReportToTheseEmails'|translate }}<br/>
+        {{ 'ScheduledReports_AlsoSendReportToTheseEmails'|translate }}<br/>
         <textarea cols="30" rows="3" id="report_additional_emails" class="inp"></textarea>
     </td>
 </tr>
 <tr class='{{ reportType }}'>
     <td class="first">
-        {# PDFReports_AggregateReportsFormat should be named PDFReports_DisplayFormat #}
-        {{ 'PDFReports_AggregateReportsFormat'|translate }}
+        {# ScheduledReports_AggregateReportsFormat should be named ScheduledReports_DisplayFormat #}
+        {{ 'ScheduledReports_AggregateReportsFormat'|translate }}
     </td>
     <td>
         <select id="display_format">
@@ -90,7 +90,7 @@
         <div class='report_evolution_graph'>
             <br/>
             <input type="checkbox" id="report_evolution_graph"/>
-            <label for="report_evolution_graph"><em>{{ 'PDFReports_EvolutionGraph'|translate(5) }}</em></label>
+            <label for="report_evolution_graph"><em>{{ 'ScheduledReports_EvolutionGraph'|translate(5) }}</em></label>
         </div>
     </td>
 </tr>

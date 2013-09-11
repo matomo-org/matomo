@@ -463,7 +463,7 @@
         "PasswordsDoNotMatch": "הסיסמאות אינן תואמות.",
         "RememberMe": "זכור אותי"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "PDF": "PDF",
         "SendReportTo": "שלח דוח אל",
         "SentToMe": "שלח אלי"

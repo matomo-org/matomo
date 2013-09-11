@@ -626,7 +626,7 @@
         "Evolution": "發展趨勢",
         "PluginDescription": "顯示多個網站的摘要 \/ 統計。目前為 Piwik 的核心外掛。"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "也將報表寄到這些電子郵件地址（一行一個信箱）：",
         "EmailHello": "您好，",
         "EmailReports": "郵寄報表",

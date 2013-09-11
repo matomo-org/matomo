@@ -36,7 +36,7 @@ use Zend_Registry;
 class PDFReports extends \Piwik\Plugin
 {
     const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
-    const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'PDFReports_EmailReports';
+    const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
 
     const DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS = 1; // Display Tables Only (Graphs only for key metrics)
     const DISPLAY_FORMAT_GRAPHS_ONLY = 2; // Display Graphs Only for all reports
@@ -273,14 +273,14 @@ class PDFReports extends \Piwik\Plugin
             $additionalFiles = $notificationInfo[API::ADDITIONAL_FILES_KEY];
 
             $periods = self::getPeriodToFrequencyAsAdjective();
-            $message = Piwik_Translate('PDFReports_EmailHello');
+            $message = Piwik_Translate('ScheduledReports_EmailHello');
             $subject = Piwik_Translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
 
             $mail = new Mail();
             $mail->setSubject($subject);
             $fromEmailName = Config::getInstance()->branding['use_custom_logo']
                 ? Piwik_Translate('CoreHome_WebAnalyticsReports')
-                : Piwik_Translate('PDFReports_PiwikReports');
+                : Piwik_Translate('ScheduledReports_PiwikReports');
             $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
             $attachmentName = $subject;
             $mail->setFrom($fromEmailAddress, $fromEmailName);
@@ -290,7 +290,7 @@ class PDFReports extends \Piwik\Plugin
             $segment = API::getSegment($report['idsegment']);
             if ($segment != null) {
                 $displaySegmentInfo = true;
-                $segmentInfo = Piwik_Translate('PDFReports_SegmentAppliedToReports', $segment['name']);
+                $segmentInfo = Piwik_Translate('ScheduledReports_SegmentAppliedToReports', $segment['name']);
             }
 
             switch ($report['format']) {
@@ -298,7 +298,7 @@ class PDFReports extends \Piwik\Plugin
 
                     // Needed when using images as attachment with cid
                     $mail->setType(Zend_Mime::MULTIPART_RELATED);
-                    $message .= "<br/>" . Piwik_Translate('PDFReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
+                    $message .= "<br/>" . Piwik_Translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
 
                     if ($displaySegmentInfo) {
                         $message .= " " . $segmentInfo;
@@ -309,7 +309,7 @@ class PDFReports extends \Piwik\Plugin
 
                 default:
                 case 'pdf':
-                    $message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
+                    $message .= "\n" . Piwik_Translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
 
                     if ($displaySegmentInfo) {
                         $message .= " " . $segmentInfo;
@@ -464,7 +464,7 @@ class PDFReports extends \Piwik\Plugin
             }
             $reportList = rtrim($reportList, $reportNameJoinText);
 
-            $errorMessage = Piwik_Translate('PDFReports_Segment_Deletion_Error', $reportList);
+            $errorMessage = Piwik_Translate('ScheduledReports_Segment_Deletion_Error', $reportList);
             throw new Exception($errorMessage);
         }
     }
@@ -479,7 +479,7 @@ class PDFReports extends \Piwik\Plugin
             $isHTML = false,
             $tooltip = Piwik_Translate(
                 \Piwik\PluginsManager::getInstance()->isPluginActivated('MobileMessaging')
-                    ? 'MobileMessaging_TopLinkTooltip' : 'PDFReports_TopLinkTooltip'
+                    ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip'
             )
         );
     }
@@ -573,13 +573,13 @@ class PDFReports extends \Piwik\Plugin
     private static function getDisplayFormats()
     {
         $displayFormats = array(
-            // PDFReports_AggregateReportsFormat_TablesOnly should be named PDFReports_DisplayFormat_GraphsOnlyForKeyMetrics
-            self::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS => Piwik_Translate('PDFReports_AggregateReportsFormat_TablesOnly'),
-            // PDFReports_AggregateReportsFormat_GraphsOnly should be named PDFReports_DisplayFormat_GraphsOnly
-            self::DISPLAY_FORMAT_GRAPHS_ONLY                 => Piwik_Translate('PDFReports_AggregateReportsFormat_GraphsOnly'),
-            // PDFReports_AggregateReportsFormat_TablesAndGraphs should be named PDFReports_DisplayFormat_TablesAndGraphs
-            self::DISPLAY_FORMAT_TABLES_AND_GRAPHS           => Piwik_Translate('PDFReports_AggregateReportsFormat_TablesAndGraphs'),
-            self::DISPLAY_FORMAT_TABLES_ONLY                 => Piwik_Translate('PDFReports_DisplayFormat_TablesOnly'),
+            // ScheduledReports_AggregateReportsFormat_TablesOnly should be named ScheduledReports_DisplayFormat_GraphsOnlyForKeyMetrics
+            self::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS => Piwik_Translate('ScheduledReports_AggregateReportsFormat_TablesOnly'),
+            // ScheduledReports_AggregateReportsFormat_GraphsOnly should be named ScheduledReports_DisplayFormat_GraphsOnly
+            self::DISPLAY_FORMAT_GRAPHS_ONLY                 => Piwik_Translate('ScheduledReports_AggregateReportsFormat_GraphsOnly'),
+            // ScheduledReports_AggregateReportsFormat_TablesAndGraphs should be named ScheduledReports_DisplayFormat_TablesAndGraphs
+            self::DISPLAY_FORMAT_TABLES_AND_GRAPHS           => Piwik_Translate('ScheduledReports_AggregateReportsFormat_TablesAndGraphs'),
+            self::DISPLAY_FORMAT_TABLES_ONLY                 => Piwik_Translate('ScheduledReports_DisplayFormat_TablesOnly'),
         );
         return $displayFormats;
     }

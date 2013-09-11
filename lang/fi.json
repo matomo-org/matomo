@@ -1014,7 +1014,7 @@
         "Domain": "Verkkotunnus",
         "Link": "Linkki"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(optionaalinen) Näyttöasetukset",
         "AggregateReportsFormat_GraphsOnly": "Näytä vain kuvaajat (ei raporttien taulukoita)",
         "AggregateReportsFormat_TablesAndGraphs": "Näytä taulukot ja kuvaajat kaikille raporteille",

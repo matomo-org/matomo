@@ -881,7 +881,7 @@
         "Evolution": "Evolution",
         "PluginDescription": "Shfaq përmbledhje\/statistika ekzekutive multi-site-i. Hëpërhë trajtohet si shtojcë bazë e Piwik-ut."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(opsionale) Shfaqni mundësitë",
         "AggregateReportsFormat_GraphsOnly": "Shfaq vetëm Grafikë (pa tabela raporti)",
         "AggregateReportsFormat_TablesAndGraphs": "Shfaq tabela Raporti dhe Grafikë për krejt raportet",

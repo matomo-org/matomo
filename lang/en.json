@@ -2195,7 +2195,7 @@
         "PluginDescription": "The plugin makes it very easy to export any Piwik Widget in your Blog, Website or on Igoogle and Netvibes!",
         "TopLinkTooltip": "Export Piwik Reports as Widgets and embed the Dashboard in your app as an iframe."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "PluginDescription": "Create and download your custom reports, and have them emailed daily, weekly or monthly.",
         "ManageEmailReports": "Manage Email Reports",
         "EmailReports": "Email Reports",

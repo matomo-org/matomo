@@ -900,7 +900,7 @@
         "Link": "ลิงก์",
         "OneClick": "1 คลิก"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "นอกจากนี้ ส่งรายงานไปยังอีเมล์ของเหล่านี้ (หนึ่งอีเมล์ต่อบรรทัด):",
         "CreateReport": "สร้างรายงาน",
         "EmailHello": "สวัสดี",

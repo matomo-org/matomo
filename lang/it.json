@@ -1063,7 +1063,7 @@
         "Evolution": "Evoluzione",
         "PluginDescription": "Mostra un sommario delle statistiche per il multi-sito. Attualmente mantenuto come un plugin Piwik del core."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Manda il report a questi indirizzi email (un indirizzo email per linea):",
         "CancelAndReturnToReports": "Annulla e %storna alla lista dei report%s",
         "CreateAndScheduleReport": "Crea e programma un report",

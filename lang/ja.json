@@ -978,7 +978,7 @@
         "Evolution": "推移",
         "PluginDescription": "マルチサイト運営の概要や統計を表示します。 現在は、コア Piwik プラグインとしてメンテナンスされています。"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(任意)表示オプション",
         "AggregateReportsFormat_GraphsOnly": "グラフのみを表示(表は表示しない)",
         "AggregateReportsFormat_TablesAndGraphs": "全てのリポートでリポート表とグラフを表示",

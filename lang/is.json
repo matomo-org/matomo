@@ -396,7 +396,7 @@
         "PasswordsDoNotMatch": "Lykilorðin stemma ekki.",
         "RememberMe": "Mundu mig"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Senda skýrsluna einnig á þessi netföng (eitt í hverja línu):",
         "EmailHello": "Halló,",
         "EmailReports": "Senda skýrslur með tölvupósti",

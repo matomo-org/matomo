@@ -766,7 +766,7 @@
         "Evolution": "Postęp",
         "PluginDescription": "Wyświetla wielostronicowe podsumowania\/statystyki. Obecnie zastosowane jako wtyczka jądra Piwik."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "Wyświetl opcje (opcjonalnie)",
         "AggregateReportsFormat_GraphsOnly": "Wyświetlane wykresów (brak tabeli raportu)",
         "AggregateReportsFormat_TablesAndGraphs": "Wyświetlane tabeli i wykresów dla wszystkich raportów",

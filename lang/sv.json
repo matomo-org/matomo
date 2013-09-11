@@ -1166,7 +1166,7 @@
         "RedirectUrlErrorAdmin": "Du kan lägga till domänen som en extra URL %si inställningarna%s.",
         "RedirectUrlErrorUser": "Be administratören att lägga till domänen som en extra webbadress"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(frivilligt) Visningsalternativ",
         "AggregateReportsFormat_GraphsOnly": "Visa endast diagram (inga rapporttabeller)",
         "AggregateReportsFormat_TablesAndGraphs": "Visa rapporttabeller och diagram för alla rapporter",

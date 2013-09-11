@@ -1,13 +1,13 @@
 <div class="entityAddContainer" style="display:none;">
     <div class='entityCancel'>
-        {{ 'PDFReports_CancelAndReturnToReports'|translate("<a class='entityCancelLink'>","</a>")|raw }}
+        {{ 'ScheduledReports_CancelAndReturnToReports'|translate("<a class='entityCancelLink'>","</a>")|raw }}
     </div>
     <div class='clear'></div>
     <form id='addEditReport'>
         <table class="dataTable entityTable">
             <thead>
             <tr class="first">
-                <th colspan="2">{{ 'PDFReports_CreateAndScheduleReport'|translate }}</th>
+                <th colspan="2">{{ 'ScheduledReports_CreateAndScheduleReport'|translate }}</th>
             <tr>
             </thead>
             <tbody>
@@ -23,7 +23,7 @@
                     <textarea cols="30" rows="3" id="report_description" class="inp"></textarea>
 
                     <div class="entityInlineHelp">
-                        {{ 'PDFReports_DescriptionOnFirstPage'|translate }}
+                        {{ 'ScheduledReports_DescriptionOnFirstPage'|translate }}
                     </div>
                 </td>
             </tr>
@@ -41,13 +41,13 @@
                     <div class="entityInlineHelp">
                         {% set SegmentEditor_DefaultAllVisits %}{{ 'SegmentEditor_DefaultAllVisits'|translate }}{% endset %}
                         {% set SegmentEditor_AddNewSegment %}{{ 'SegmentEditor_AddNewSegment'|translate }}{% endset %}
-                        {{ 'PDFReports_Segment_Help'|translate('<a href="./" target="_blank">','</a>',SegmentEditor_DefaultAllVisits,SegmentEditor_AddNewSegment)|raw }}
+                        {{ 'ScheduledReports_Segment_Help'|translate('<a href="./" target="_blank">','</a>',SegmentEditor_DefaultAllVisits,SegmentEditor_AddNewSegment)|raw }}
                     </div>
                 </td>
             </tr>
             {% endif %}
             <tr>
-                <td class="first">{{ 'PDFReports_EmailSchedule'|translate }}</td>
+                <td class="first">{{ 'ScheduledReports_EmailSchedule'|translate }}</td>
                 <td>
                     <select id="report_period" class="inp">
                         {% for periodId, period in periods %}
@@ -58,20 +58,20 @@
                     </select>
 
                     <div class="entityInlineHelp">
-                        {{ 'PDFReports_WeeklyScheduleHelp'|translate }}
+                        {{ 'ScheduledReports_WeeklyScheduleHelp'|translate }}
                         <br/>
-                        {{ 'PDFReports_MonthlyScheduleHelp'|translate }}
+                        {{ 'ScheduledReports_MonthlyScheduleHelp'|translate }}
                         <br/>
-                        {{ 'PDFReports_ReportHour'|translate }}
+                        {{ 'ScheduledReports_ReportHour'|translate }}
                         <input type="text" style="height: 0.9em;padding-left: 8px;width: 17px;" id="report_hour" class="inp" size="1">
-                        {{ 'PDFReports_OClock'|translate }}
+                        {{ 'ScheduledReports_OClock'|translate }}
                     </div>
                 </td>
             </tr>
 
             <tr {% if reportTypes|length == 1 %}style="display:none;"{% endif %}>
                 <td class="first">
-                    {{ 'PDFReports_ReportType'|translate }}
+                    {{ 'ScheduledReports_ReportType'|translate }}
                 </td>
                 <td>
                     <select id="report_type">
@@ -84,7 +84,7 @@
 
             <tr>
                 <td class="first">
-                    {{ 'PDFReports_ReportFormat'|translate }}
+                    {{ 'ScheduledReports_ReportFormat'|translate }}
                 </td>
 
                 <td>
@@ -101,7 +101,7 @@
             {{ postEvent("template_reportParametersPDFReports") }}
 
             <tr>
-                <td class="first">{{ 'PDFReports_ReportsIncluded'|translate }}</td>
+                <td class="first">{{ 'ScheduledReports_ReportsIncluded'|translate }}</td>
                 <td>
                     {% for reportType, reportsByCategory in reportsByCategoryByReportType %}
                         <div name='reportsList' class='{{ reportType }}'>
@@ -132,7 +132,7 @@
                                             <label for="{{ reportType }}{{ report.uniqueId }}">
                                                 {{ report.name }}
                                                 {% if report.uniqueId=='MultiSites_getAll' %}
-                                                    <div class="entityInlineHelp">{{ 'PDFReports_ReportIncludeNWebsites'|translate('"'~countWebsites~' "')
+                                                    <div class="entityInlineHelp">{{ 'ScheduledReports_ReportIncludeNWebsites'|translate('"'~countWebsites~' "')
                                                         }}</div>
                                                 {% endif %}
                                             </label>

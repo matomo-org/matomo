@@ -646,7 +646,7 @@
     "MultiSites": {
         "Evolution": "Raida"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Taip pat siųsti šią ataskaitą šiems adresatams (kiekvienam adresui atskira eilutė)",
         "CreateAndScheduleReport": "Sukurti ir suplanuoti ataskaitą",
         "CreateReport": "Sukurti ataskaitą",

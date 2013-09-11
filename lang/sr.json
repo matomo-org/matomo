@@ -1226,7 +1226,7 @@
         "RedirectUrlErrorAdmin": "Možete dodati domen kao dodatni URL %su podešavanjima%s.",
         "RedirectUrlErrorUser": "Zamolite administratora da doda domen kao dodatni URL."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "Prikaži opcije (opciono)",
         "AggregateReportsFormat_GraphsOnly": "Prikaži samo grafikone (bez tabela)",
         "AggregateReportsFormat_TablesAndGraphs": "Prikaži i tabele i grafikone",

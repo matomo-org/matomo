@@ -1147,7 +1147,7 @@
         "RedirectUrlErrorAdmin": "당신은 %s설정%s에서 추가적인 URL로 도메인을 추가할 수 있습니다.",
         "RedirectUrlErrorUser": "도메인에 추가적인 URL을 추가하려면 관리자에게 문의하세요."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(선택 사항) 표시 옵션",
         "AggregateReportsFormat_GraphsOnly": "그래프만 표시 (표는 표시하지 않음)",
         "AggregateReportsFormat_TablesAndGraphs": "모든 보고서에서 테이블 및 그래프 보기",

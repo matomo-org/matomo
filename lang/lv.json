@@ -678,7 +678,7 @@
         "VerifyAccount": "Notiek konta pārbaude",
         "YouAreOffline": "Atvainojiet, bet Jūs paļaik atrodaties bezsaistē"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "CreateReport": "Izveidot atskaiti",
         "DefaultContainingAllReports": "Noklusējuma atskaite satur visu pieejamo statistiku.",
         "EmailHello": "Sveiki,",

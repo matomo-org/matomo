@@ -1221,7 +1221,7 @@
         "RedirectUrlErrorAdmin": "आप सेटिंग्स%s से एक अतिरिक्त URL%s के रूप में डोमेन जोड़ सकते हैं",
         "RedirectUrlErrorUser": "एक अतिरिक्त URL के रूप में डोमेन को जोड़ने के लिए अपने व्यवस्थापक से पूछें."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(वैकल्पिक) प्रदर्शन विकल्प",
         "AggregateReportsFormat_GraphsOnly": "रेखांकन सिर्फ (कोई रिपोर्ट तालिकाएँ नहीं ) प्रदर्शित करें",
         "AggregateReportsFormat_TablesAndGraphs": "सभी रिपोर्टों के लिए रिपोर्ट तालिकाएँ और रेखांकन प्रदर्शित",

@@ -748,7 +748,7 @@
         "LoginUseHttps": "https kullan",
         "Refresh": "Yenile"
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "CreateReport": "Rapor Oluştur",
         "EmailHello": "Merhaba,",
         "EmailReports": "Raporları epostala",

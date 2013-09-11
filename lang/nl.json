@@ -1235,7 +1235,7 @@
         "RedirectUrlErrorAdmin": "Je kunt het domein toevoegen als extra URL %sin de instellingen%s.",
         "RedirectUrlErrorUser": "Vraag je beheerder om het domein toe te voegen als additionele URL."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AggregateReportsFormat": "(optioneel) Weergaveopties",
         "AggregateReportsFormat_GraphsOnly": "Toon alleen Grafieken (geen tabellen)",
         "AggregateReportsFormat_TablesAndGraphs": "Toon zowel tabellen en grafieken voor alle rapporten",

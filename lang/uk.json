@@ -623,7 +623,7 @@
         "Evolution": "Зміна",
         "PluginDescription": "Показує багато-сайтову всеохоплюючу статистику. На даний час підтримується як плагін ядра Piwik."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Також надсилати звіти на наступні е-майли (кожен з нового рядка):",
         "EmailHello": "Привіт,",
         "EmailReports": "Звіти на е-майл",

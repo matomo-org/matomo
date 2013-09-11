@@ -851,7 +851,7 @@
         "Evolution": "التطور",
         "PluginDescription": "يعرض إحصائيات مواقع متعددة، يتم تطويره حالياً كإضافة رئيسية في Piwik."
     },
-    "PDFReports": {
+    "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "أرسل التقرير إلى هذه العناوين أيضاً (عنوان لكل سطر):",
         "AreYouSureDeleteReport": "هل ترغب حقاً في حذف هذا التقرير وجدولته الزمنية؟",
         "CancelAndReturnToReports": "إلغاء و%s رجوع إلى قائمة التقارير%s",
