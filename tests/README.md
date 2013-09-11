@@ -137,9 +137,13 @@ work altered the expected images. The standard procedure described in the INTEGR
 
 ## UI Tests
 
-In the UI subdirectory are tests for Piwik's UI. Piwik's UI tests work by taking a screenshot
-of a URL and comparing it with an expected screenshot. If the screenshots do not match, there
-is a bug somewhere.
+Piwik contains UI tests that work by taking a screenshot of a URL and comparing it with
+an expected screenshot. If the screenshots do not match, there is a bug somewhere. These
+tests are in another repository but are included in Piwik as a submodule. To get the tests,
+run the following commands:
+
+  $ git submodule init
+  $ git submodule update
 
 **Requirements:**
 
