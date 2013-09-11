@@ -38,8 +38,13 @@
                             {%- if not loop.first %}, {% endif -%}{{- totalConversions }} <span class="visitor-profile-goal-name">{{ goals[idGoal]['name'] -}}</span>
                             {%- endfor -%}
                         ){% endif %}.</p>
-                        {% if visitorData.totalEcommerceConversions is defined %}
-                        <p>{{ 'Live_EcommerceSummary'|translate('<strong>', visitorData.totalEcommerceConversions, visitorData.totalEcommerceRevenue|money(idSite), '</strong>', visitorData.totalEcommerceItems)|raw }}</p>
+                        {% if visitorData.totalEcommerceConversions is defined or visitorData.totalAbandonedCarts is defined %}
+                        <p>
+                            {{ 'Goals_Ecommerce'|translate }}:
+                            {%- if visitorData.totalEcommerceConversions is defined %} {{ 'Live_EcommerceSummaryConversions'|translate('<strong>', visitorData.totalEcommerceConversions, visitorData.totalEcommerceRevenue|money(idSite), '</strong>', visitorData.totalEcommerceItems)|raw }}
+                            {%- endif -%}
+                            {%- if visitorData.totalAbandonedCarts|default(0) >= 0 %} {{ 'Live_AbandonedCartSummary'|translate('<strong>', visitorData.totalAbandonedCarts, '</strong>', visitorData.totalAbandonedCartsItems, '<strong>', visitorData.totalAbandonedCartsRevenue|money(idSite), '</strong>')|raw }}{%- endif -%}
+                        </p>
                         {% endif %}
                     </div>
                 </div>

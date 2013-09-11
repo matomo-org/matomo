@@ -165,12 +165,17 @@ class API
     }
 
     /**
-     * TODO
-     * TODO: add abandoned cart info.
+     * Returns an array describing a visitor using her last visits (uses a maximum of 100).
+     * 
      * TODO: check for most recent vs. first visit
      * TODO: check for goals plugin, etc.
+     * 
+     * @param int $idSite Site ID
+     * @param string $idVisitor The ID of the visitor whose profile to retrieve.
+     * @param string|false $segment
+     * @return array
      */
-    public function getVisitorProfile($idSite, $idVisitor = false, $segment = false)
+    public function getVisitorProfile($idSite, $idVisitor, $segment = false)
     {
         if ($idVisitor === false) {
             $idVisitor = $this->getMostRecentVisitorId($idSite, $segment);
@@ -179,7 +184,7 @@ class API
         if ($segment !== false) {
             $segment .= ';';
         }
-        $segment .= 'visitorId==' . $idVisitor; // TODO what happens when visitorId is in the segment?
+        $segment .= 'visitorId==' . $idVisitor;
 
         $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment,
                                               $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
