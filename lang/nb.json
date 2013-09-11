@@ -781,27 +781,6 @@
         "ErrorNotLoadingLink": "Klikk her for å få flere tips for feilsøking",
         "OneClick": "1 klikk"
     },
-    "ScheduledReports": {
-        "AlsoSendReportToTheseEmails": "Send også rapporten til disse e-postadressene (en adresse per linje):",
-        "CreateReport": "Lag rapport",
-        "EmailHello": "Hei,",
-        "EmailReports": "E-postrapporter",
-        "EmailSchedule": "E-postplan",
-        "ManageEmailReports": "Administrer e-postrapporter",
-        "MonthlyScheduleHelp": "Månedsplan: Rapportene blir sendt første dag i hver måned.",
-        "Pagination": "Side %s av %s",
-        "PDF": "PDF",
-        "PiwikReports": "Piwik-rapporter",
-        "PleaseFindAttachedFile": "I den vedlagte filen finner du din %1$s rapport for %2$s.",
-        "ReportFormat": "Rapportformat",
-        "ReportType": "Send rapport via",
-        "SendReportNow": "Send rapport nå",
-        "SendReportTo": "Send rapport til",
-        "SentToMe": "Send til meg",
-        "TopOfReport": "Tilbake til toppen",
-        "UpdateReport": "Oppdater rapport",
-        "WeeklyScheduleHelp": "Ukeplan: Rapportene blir sendt første mandag i hver uke."
-    },
     "PrivacyManager": {
         "AnonymizeIpMaskLength": "%s byte(s) - f.eks %s",
         "CurrentDBSize": "Nåværende databasestørrelse",
@@ -860,6 +839,27 @@
     },
     "RowEvolution": {
         "MetricBetweenText": "mellom %s og %s"
+    },
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "Send også rapporten til disse e-postadressene (en adresse per linje):",
+        "CreateReport": "Lag rapport",
+        "EmailHello": "Hei,",
+        "EmailReports": "E-postrapporter",
+        "EmailSchedule": "E-postplan",
+        "ManageEmailReports": "Administrer e-postrapporter",
+        "MonthlyScheduleHelp": "Månedsplan: Rapportene blir sendt første dag i hver måned.",
+        "Pagination": "Side %s av %s",
+        "PDF": "PDF",
+        "PiwikReports": "Piwik-rapporter",
+        "PleaseFindAttachedFile": "I den vedlagte filen finner du din %1$s rapport for %2$s.",
+        "ReportFormat": "Rapportformat",
+        "ReportType": "Send rapport via",
+        "SendReportNow": "Send rapport nå",
+        "SendReportTo": "Send rapport til",
+        "SentToMe": "Send til meg",
+        "TopOfReport": "Tilbake til toppen",
+        "UpdateReport": "Oppdater rapport",
+        "WeeklyScheduleHelp": "Ukeplan: Rapportene blir sendt første mandag i hver uke."
     },
     "SegmentEditor": {
         "AddNewSegment": "Legg til nytt segment",

@@ -321,11 +321,6 @@
         "Link": "లంకె",
         "Location": "ప్రాంతం"
     },
-    "ScheduledReports": {
-        "PiwikReports": "పివిక్ నివేదికలు",
-        "SentToMe": "నాకు పంపించు",
-        "TopOfReport": "తిరిగి పైకి"
-    },
     "PrivacyManager": {
         "DeleteMaxRowsNoLimit": "పరిమితి లేదు",
         "MenuPrivacySettings": "గోప్యత",
@@ -350,6 +345,11 @@
         "WidgetKeywords": "కీపదాల యొక్క జాబితా",
         "WidgetOverview": "అవలోకనం",
         "WidgetSearchEngines": "ఉత్తమ శోధన యంత్రాలు"
+    },
+    "ScheduledReports": {
+        "PiwikReports": "పివిక్ నివేదికలు",
+        "SentToMe": "నాకు పంపించు",
+        "TopOfReport": "తిరిగి పైకి"
     },
     "SEO": {
         "AlexaRank": "అలెక్సా ర్యాంకు",

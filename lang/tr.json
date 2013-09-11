@@ -748,14 +748,6 @@
         "LoginUseHttps": "https kullan",
         "Refresh": "Yenile"
     },
-    "ScheduledReports": {
-        "CreateReport": "Rapor Oluştur",
-        "EmailHello": "Merhaba,",
-        "EmailReports": "Raporları epostala",
-        "TableOfContent": "Rapor listesi",
-        "TopOfReport": "Başa dön",
-        "UpdateReport": "Raporu Güncelle"
-    },
     "PrivacyManager": {
         "TeaserHeadline": "Gizlilik Ayarları"
     },
@@ -784,6 +776,14 @@
         "WidgetExternalWebsites": "Yönlendiren Siteler",
         "WidgetKeywords": "Anahtar Kelimeler",
         "WidgetOverview": "Genel Bakış"
+    },
+    "ScheduledReports": {
+        "CreateReport": "Rapor Oluştur",
+        "EmailHello": "Merhaba,",
+        "EmailReports": "Raporları epostala",
+        "TableOfContent": "Rapor listesi",
+        "TopOfReport": "Başa dön",
+        "UpdateReport": "Raporu Güncelle"
     },
     "SEO": {
         "AlexaRank": "Alexa Sırası",

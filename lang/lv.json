@@ -678,24 +678,6 @@
         "VerifyAccount": "Notiek konta pārbaude",
         "YouAreOffline": "Atvainojiet, bet Jūs paļaik atrodaties bezsaistē"
     },
-    "ScheduledReports": {
-        "CreateReport": "Izveidot atskaiti",
-        "DefaultContainingAllReports": "Noklusējuma atskaite satur visu pieejamo statistiku.",
-        "EmailHello": "Sveiki,",
-        "EmailReports": "E-pasta atskaites",
-        "FrontPage": "Pirmā lapa",
-        "Pagination": "%s. lapa no %s",
-        "PDF": "PDF",
-        "PiwikReports": "Piwik atskaites",
-        "ReportFormat": "Atskaites formāts",
-        "ReportsIncluded": "Iekļautā statistika",
-        "SendReportNow": "Sūtīt atskaiti tagad",
-        "SendReportTo": "Sūtīt atskaites uz",
-        "SentToMe": "Sūtīt man",
-        "TableOfContent": "Atskaišu saraksts",
-        "TopOfReport": "Atpakaļ uz sākumu",
-        "UpdateReport": "Atjaunināt atskaiti"
-    },
     "PrivacyManager": {
         "ClickHereSettings": "Klikšķiniet šeit lai piekļūtu %s iestatījumiem.",
         "DeleteLogInfo": "Tiks dzēsti žurnāli no sekojošām tabulām: %s",
@@ -743,6 +725,24 @@
         "WidgetKeywords": "Atslēgvārdu saraksts",
         "WidgetOverview": "Pārskats",
         "WidgetSearchEngines": "Labākie meklēšanas dzinēji"
+    },
+    "ScheduledReports": {
+        "CreateReport": "Izveidot atskaiti",
+        "DefaultContainingAllReports": "Noklusējuma atskaite satur visu pieejamo statistiku.",
+        "EmailHello": "Sveiki,",
+        "EmailReports": "E-pasta atskaites",
+        "FrontPage": "Pirmā lapa",
+        "Pagination": "%s. lapa no %s",
+        "PDF": "PDF",
+        "PiwikReports": "Piwik atskaites",
+        "ReportFormat": "Atskaites formāts",
+        "ReportsIncluded": "Iekļautā statistika",
+        "SendReportNow": "Sūtīt atskaiti tagad",
+        "SendReportTo": "Sūtīt atskaites uz",
+        "SentToMe": "Sūtīt man",
+        "TableOfContent": "Atskaišu saraksts",
+        "TopOfReport": "Atpakaļ uz sākumu",
+        "UpdateReport": "Atjaunināt atskaiti"
     },
     "SEO": {
         "AlexaRank": "Alexa ranks",

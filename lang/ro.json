@@ -836,25 +836,6 @@
         "MainMetrics": "Metrici principale",
         "OneClick": "1 click"
     },
-    "ScheduledReports": {
-        "AggregateReportsFormat": "(opţional) opţiuni de vizualizare",
-        "CreateReport": "Creare raport",
-        "CustomVisitorSegment": "Segment personalizat de vizitatori",
-        "EmailHello": "Să trăieşti,",
-        "EmailReports": "Expediază raport prin e-mail",
-        "OClock": "ore",
-        "Pagination": "Pagina %s din %s",
-        "PDF": "PDF",
-        "PiwikReports": "Rapoarte Piwik",
-        "ReportFormat": "Formatul raportului",
-        "ReportHour": "Expediază raportul la",
-        "ReportsIncluded": "Statistici incluse",
-        "ReportType": "Expediază raportul prin",
-        "SendReportNow": "Expediază raportul imediat",
-        "SendReportTo": "Exediază raportul către",
-        "SentToMe": "Expediază mie",
-        "UpdateReport": "Actualizează raportul"
-    },
     "PrivacyManager": {
         "ClickHereSettings": "Dă click aici pentru a accesa setările %s.",
         "DeleteDataInterval": "Şterge datele vechi fiecare",
@@ -911,6 +892,25 @@
     "RowEvolution": {
         "MetricBetweenText": "între %s şi %s",
         "MetricsFor": "Metrici pentru %s"
+    },
+    "ScheduledReports": {
+        "AggregateReportsFormat": "(opţional) opţiuni de vizualizare",
+        "CreateReport": "Creare raport",
+        "CustomVisitorSegment": "Segment personalizat de vizitatori",
+        "EmailHello": "Să trăieşti,",
+        "EmailReports": "Expediază raport prin e-mail",
+        "OClock": "ore",
+        "Pagination": "Pagina %s din %s",
+        "PDF": "PDF",
+        "PiwikReports": "Rapoarte Piwik",
+        "ReportFormat": "Formatul raportului",
+        "ReportHour": "Expediază raportul la",
+        "ReportsIncluded": "Statistici incluse",
+        "ReportType": "Expediază raportul prin",
+        "SendReportNow": "Expediază raportul imediat",
+        "SendReportTo": "Exediază raportul către",
+        "SentToMe": "Expediază mie",
+        "UpdateReport": "Actualizează raportul"
     },
     "SegmentEditor": {
         "AddANDorORCondition": "Adaugă condiţia %s",

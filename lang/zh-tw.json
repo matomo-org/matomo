@@ -626,19 +626,6 @@
         "Evolution": "發展趨勢",
         "PluginDescription": "顯示多個網站的摘要 \/ 統計。目前為 Piwik 的核心外掛。"
     },
-    "ScheduledReports": {
-        "AlsoSendReportToTheseEmails": "也將報表寄到這些電子郵件地址（一行一個信箱）：",
-        "EmailHello": "您好，",
-        "EmailReports": "郵寄報表",
-        "EmailSchedule": "郵寄排程",
-        "MonthlyScheduleHelp": "每月排程：報表將會在每月的第一天寄出！",
-        "PiwikReports": "Piwik 報表",
-        "PleaseFindAttachedFile": "請找到為了 %2$s 您的報表 %1$s 的附件檔！",
-        "SendReportNow": "立即寄送報表",
-        "SendReportTo": "寄送報表至",
-        "SentToMe": "寄給我自己",
-        "WeeklyScheduleHelp": "每週排程：報表將會在每週的星期一寄出！"
-    },
     "Provider": {
         "ColumnProvider": "供應商",
         "PluginDescription": "訪客的網際網路服務供應商報表。",
@@ -681,6 +668,19 @@
         "WidgetOverview": "總覽",
         "WidgetSearchEngines": "搜尋引擎",
         "WidgetSocials": "社交網站清單"
+    },
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "也將報表寄到這些電子郵件地址（一行一個信箱）：",
+        "EmailHello": "您好，",
+        "EmailReports": "郵寄報表",
+        "EmailSchedule": "郵寄排程",
+        "MonthlyScheduleHelp": "每月排程：報表將會在每月的第一天寄出！",
+        "PiwikReports": "Piwik 報表",
+        "PleaseFindAttachedFile": "請找到為了 %2$s 您的報表 %1$s 的附件檔！",
+        "SendReportNow": "立即寄送報表",
+        "SendReportTo": "寄送報表至",
+        "SentToMe": "寄給我自己",
+        "WeeklyScheduleHelp": "每週排程：報表將會在每週的星期一寄出！"
     },
     "SEO": {
         "AlexaRank": "Alexa 排名",

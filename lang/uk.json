@@ -623,20 +623,6 @@
         "Evolution": "Зміна",
         "PluginDescription": "Показує багато-сайтову всеохоплюючу статистику. На даний час підтримується як плагін ядра Piwik."
     },
-    "ScheduledReports": {
-        "AlsoSendReportToTheseEmails": "Також надсилати звіти на наступні е-майли (кожен з нового рядка):",
-        "EmailHello": "Привіт,",
-        "EmailReports": "Звіти на е-майл",
-        "EmailSchedule": "Розклад розсилки",
-        "MonthlyScheduleHelp": "Щомісячний розклад: звіт буде надсилатися в перший день кожного місяця",
-        "PDF": "PDF",
-        "PiwikReports": "Звіти Piwik",
-        "PleaseFindAttachedFile": "Прикріплений файл є звітом %1$s від %2$s.",
-        "SendReportNow": "Надіслати звіт зараз",
-        "SendReportTo": "Надіслати звіт на:",
-        "SentToMe": "Надіслати мені",
-        "WeeklyScheduleHelp": "Щотижневий розклад: звіт буде надсилатися в понелілок кожного тижня"
-    },
     "Provider": {
         "ColumnProvider": "Провайдер",
         "PluginDescription": "Звітує про провейдера відвідувачів",
@@ -679,6 +665,20 @@
         "WidgetKeywords": "Список ключових слів",
         "WidgetOverview": "Огляд",
         "WidgetSearchEngines": "Кращі пошукові системи"
+    },
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "Також надсилати звіти на наступні е-майли (кожен з нового рядка):",
+        "EmailHello": "Привіт,",
+        "EmailReports": "Звіти на е-майл",
+        "EmailSchedule": "Розклад розсилки",
+        "MonthlyScheduleHelp": "Щомісячний розклад: звіт буде надсилатися в перший день кожного місяця",
+        "PDF": "PDF",
+        "PiwikReports": "Звіти Piwik",
+        "PleaseFindAttachedFile": "Прикріплений файл є звітом %1$s від %2$s.",
+        "SendReportNow": "Надіслати звіт зараз",
+        "SendReportTo": "Надіслати звіт на:",
+        "SentToMe": "Надіслати мені",
+        "WeeklyScheduleHelp": "Щотижневий розклад: звіт буде надсилатися в понелілок кожного тижня"
     },
     "SEO": {
         "AlexaRank": "Alexa Rank",
