@@ -19,14 +19,7 @@
     };
 
     RealtimeMap.initElements = function () {
-        $('.RealTimeMap').each(function () {
-            if (!$(this).attr('data-inited')) {
-                var control = new RealtimeMap(this);
-
-                $(this).data('uiControlObject', control);
-                $(this).attr('data-inited', 1);
-            }
-        });
+        UIControl.initElements(this, '.RealTimeMap');
     };
 
     $.extend(RealtimeMap.prototype, UIControl.prototype, {

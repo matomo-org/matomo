@@ -56,6 +56,15 @@
         }
     };
 
+    UIControl.initElements = function (klass, selector) {
+        $(selector).each(function () {
+            if (!$(this).attr('data-inited')) {
+                var control = new klass(this);
+                $(this).attr('data-inited', 1);
+            }
+        });
+    };
+
     UIControl.prototype = {
 
         /**

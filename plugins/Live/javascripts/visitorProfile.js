@@ -31,14 +31,7 @@
      * if the element has not already been initialized.
      */
     VisitorProfileControl.initElements = function () {
-        $('.visitor-profile').each(function () {
-            if (!$(this).attr('data-inited')) {
-                var control = new VisitorProfileControl(this);
-
-                $(this).data('uiControlObject', control);
-                $(this).attr('data-inited', 1);
-            }
-        });
+        UIControl.initElements(this, '.visitor-profile');
     };
 
     /**

@@ -153,7 +153,8 @@ class API
      * @param bool $doNotFetchActions
      * @return DataTable
      */
-    public function getLastVisitsDetails($idSite, $period, $date, $segment = false, $filter_limit = false, $filter_offset = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false)
+    public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $filter_limit = false,
+                                         $filter_offset = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false)
     {
         if (empty($filter_limit)) {
             $filter_limit = 10;
