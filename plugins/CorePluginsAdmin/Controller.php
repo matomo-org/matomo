@@ -23,11 +23,21 @@ use Piwik\Url;
 class Controller extends \Piwik\Controller\Admin
 {
 
-    function search_plugin()
+    function browsePlugins()
     {
-        $view = $this->configureView('@CorePluginsAdmin/search_plugin');
+        $view = $this->configureView('@CorePluginsAdmin/browsePlugins');
 
         $plugins = json_decode(file_get_contents('http://plugins.piwik.org/api/1.0/plugins'));
+        $view->plugins = $plugins->plugins;
+
+        echo $view->render();
+    }
+
+    function browseThemes()
+    {
+        $view = $this->configureView('@CorePluginsAdmin/browseThemes');
+
+        $plugins = json_decode(file_get_contents('http://plugins.piwik.org/api/1.0/themes'));
         $view->plugins = $plugins->plugins;
 
         echo $view->render();

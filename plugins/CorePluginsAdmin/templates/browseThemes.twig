@@ -6,6 +6,8 @@
         .plugin ul { list-style: none;margin-left: 0; }
         .plugin .description { padding-bottom: 10px; }
         .plugin .install { float: right; }
+        .plugin h3 { display: inline; }
+        .plugin { width: 300px; float: left; }
         .pluginslist { margin-top: 20px;max-width:980px; }
     </style>
 
@@ -20,6 +22,8 @@
             <a href="#">popular</a>
             |
             <a href="#">newest</a>
+            |
+            <a href="#">alpha</a>
         </div>
     </div>
 
@@ -33,6 +37,7 @@
 
                 <h3>{{ plugin.name }}</h3>
                 <p class="description">{{ plugin.description }}</p>
+                <img src="" height="250" width="250"/>
                 <ul>
                     <li>Version {{ plugin.latestVersion }}</li>
                     <li>Updated {{ plugin.timestamp }}</li>
