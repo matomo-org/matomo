@@ -61,7 +61,7 @@ class Controller extends \Piwik\Controller
      */
     public function getTranslationJs()
     {
-        AssetManager::generateTranslationsJsFile();
+        AssetManager::removeTranslationsJsFile();
         
         $translationsJsFile = AssetManager::getTranslationsJsFileLocation();
         Piwik::serveStaticFile($translationsJsFile, self::JS_MIME_TYPE);

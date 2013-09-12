@@ -459,19 +459,21 @@ class AssetManager
         $isGenerated = self::isGenerated(self::TRANSLATIONS_JS_FILE);
 
         if (!$isGenerated) {
-            self::generateTranslationsJsFile();
+            $translationJs = str_replace("\n", "\r\n", Translate::getInstance()->getJavascriptTranslations());
+            self::writeAssetToFile($translationJs, self::TRANSLATIONS_JS_FILE);
         }
 
         return self::getAbsoluteMergedFileLocation(self::TRANSLATIONS_JS_FILE);
     }
 
     /**
-     * Generates the translations JS file.
+     * Remove translations Js file.
+     * 
+     * @return string
      */
-    public static function generateTranslationsJsFile()
+    public static function removeTranslationsJsFile()
     {
-        $translationJs = Translate::getInstance()->getJavascriptTranslations();
-        self::writeAssetToFile($translationJs, self::TRANSLATIONS_JS_FILE);
+        self::removeMergedAsset(self::TRANSLATIONS_JS_FILE);
     }
 
     /**
@@ -518,6 +520,7 @@ class AssetManager
     {
         self::removeMergedAsset(self::MERGED_CSS_FILE);
         self::removeMergedAsset(self::MERGED_JS_FILE);
+        self::removeMergedAsset(self::TRANSLATIONS_JS_FILE);
     }
 
     /**
