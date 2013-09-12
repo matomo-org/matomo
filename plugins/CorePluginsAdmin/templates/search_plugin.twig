@@ -1,0 +1,47 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+    <style type="text/css">
+        .plugin li { display: inline-block;padding-right: 10px;font-size: 90%; }
+        .plugin ul { list-style: none;margin-left: 0; }
+        .plugin .description { padding-bottom: 10px; }
+        .plugin .install { float: right; }
+        .pluginslist { margin-top: 20px;max-width:980px; }
+    </style>
+
+    <div style="max-width:980px;">
+
+        <h2>Extend Piwik by installing a new plugin</h2>
+
+        <div>
+            <input placeholder="Search" type="text" name="q"/>
+            <button type="submit">Search</button>
+            |
+            <a href="#">popular</a>
+            |
+            <a href="#">newest</a>
+        </div>
+    </div>
+
+    <div class="pluginslist" style="">
+
+        {% for plugin in plugins %}
+
+            <div class="plugin">
+
+                <a href="#" class="install">Install</a>
+
+                <h3>{{ plugin.name }}</h3>
+                <p class="description">{{ plugin.description }}</p>
+                <ul>
+                    <li>Version {{ plugin.latestVersion }}</li>
+                    <li>Updated {{ plugin.timestamp }}</li>
+                    <li>Downloads {{ plugin.numDownloads }}</li>
+                </ul>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+{% endblock %}

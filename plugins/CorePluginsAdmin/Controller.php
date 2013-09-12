@@ -22,6 +22,17 @@ use Piwik\Url;
  */
 class Controller extends \Piwik\Controller\Admin
 {
+
+    function search_plugin()
+    {
+        $view = $this->configureView('@CorePluginsAdmin/search_plugin');
+
+        $plugins = json_decode(file_get_contents('http://plugins.piwik.org/api/1.0/plugins'));
+        $view->plugins = $plugins->plugins;
+
+        echo $view->render();
+    }
+
     function extend()
     {
         $view = $this->configureView('@CorePluginsAdmin/extend');
