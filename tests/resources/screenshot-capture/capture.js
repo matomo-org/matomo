@@ -62,11 +62,12 @@ PageRenderer.prototype = {
     },
 
     _setupWebpageEvents: function () {
+        var self = this;
         this.webpage.onError = function (message) {
             console.log("Webpage error: " + message);
+            app.exit(1);
         };
 
-        var self = this;
         this.webpage.onConsoleMessage = function (message) {
             if (message == "__AJAX_DONE__") {
                 try {

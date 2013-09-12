@@ -23,6 +23,7 @@ use Piwik\Url;
 class Controller extends \Piwik\Controller
 {
     const TRANSPARENT_PNG_PIXEL = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
+    const JS_MIME_TYPE = "application/javascript; charset=UTF-8";
 
     /**
      * Output the merged CSS file.
@@ -45,7 +46,20 @@ class Controller extends \Piwik\Controller
     public function getJs()
     {
         $jsMergedFile = AssetManager::getMergedJsFileLocation();
-        Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
+        Piwik::serveStaticFile($jsMergedFile, self::JS_MIME_TYPE);
+    }
+
+    /**
+     * Output the translations JavaScript file.
+     * This method is called when the asset manager is disabled (otherwise it would be part
+     * of the merged JS file.)
+     * 
+     * @see core/AssetManager.php
+     */
+    public function getTranslationJs()
+    {
+        $translationsJsFile = AssetManager::getTranslationsJsFileLocation();
+        Piwik::serveStaticFile($translationsJsFile, self::JS_MIME_TYPE);
     }
 
     /**

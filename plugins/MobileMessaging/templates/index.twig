@@ -1,8 +1,6 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
-    {{ loadJavascriptTranslations(['MobileMessaging'])|raw }}
-
     {% if accountManagedByCurrentUser %}
         <h2>{{ 'MobileMessaging_Settings_SMSAPIAccount'|translate }}</h2>
         {% if credentialSupplied %}

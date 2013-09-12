@@ -141,9 +141,8 @@ class Translate
      * Generate javascript translations array
      *
      * @param array $moduleList
-     * @return string containing javascript code with translations array (including <script> tag)
      */
-    public function getJavascriptTranslations(array $moduleList)
+    public function getJavascriptTranslations()
     {
         if (!in_array('General', $moduleList)) {
             $moduleList[] = 'General';
@@ -161,10 +160,6 @@ class Translate
             $translations[$plugin][$key . '_js'] = $translations[$plugin][$key];
         }
         foreach ($translations as $module => $keys) {
-            // Skip modules
-            if(!in_array($module, $moduleList)) {
-                continue;
-            }
             foreach($keys as $key => $value) {
                 // Find keys ending with _js
                 if (preg_match($moduleRegex, $key)) {
@@ -178,7 +173,7 @@ class Translate
             'for(var i in translations) { piwik_translations[i] = translations[i];} ';
         $js .= 'function _pk_translate(translationStringId) { ' .
             'if( typeof(piwik_translations[translationStringId]) != \'undefined\' ){  return piwik_translations[translationStringId]; }' .
-            'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is suffixed with _js and that you called  %7BloadJavascriptTranslations plugins=\'\$YOUR_PLUGIN_NAME\'%7D before your javascript code.";}';
+            'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is suffixed with _js.";}';
         return $js;
     }
 

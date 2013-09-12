@@ -17,6 +17,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Version;
 use Piwik\PluginsManager;
+use Piwik\Translate;
 use lessc;
 
 /**
@@ -46,6 +47,7 @@ class AssetManager
 {
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
     const MERGED_JS_FILE = "asset_manager_global_js.js";
+    const TRANSLATIONS_JS_FILE = "asset_manager_translations_js.js";
     const CSS_IMPORT_EVENT = "AssetManager.getStylesheetFiles";
     const JS_IMPORT_EVENT = "AssetManager.getJsFiles";
     const MERGED_FILE_DIR = "tmp/assets/";
@@ -311,7 +313,9 @@ class AssetManager
      */
     private static function generateMergedJsFile()
     {
-        $mergedContent = "";
+        // initialize the merged content to the translations JavaScript file
+        $translationsFile = self::getTranslationsJsFileLocation();
+        $mergedContent = PHP_EOL . JSMin::minify(file_get_contents($translationsFile));
 
         // Loop through each js file
         $files = self::getJsFiles();
@@ -342,8 +346,12 @@ class AssetManager
      */
     private static function getIndividualJsIncludes()
     {
-        $jsFiles = self::getJsFiles();
         $jsIncludeString = '';
+
+        // add translations include
+        $jsIncludeString .= sprintf(self::JS_IMPORT_DIRECTIVE, "index.php?module=Proxy&action=getTranslationJs");
+
+        $jsFiles = self::getJsFiles();
         foreach ($jsFiles as $jsFile) {
             self::validateJsFile($jsFile);
             $jsIncludeString = $jsIncludeString . sprintf(self::JS_IMPORT_DIRECTIVE, $jsFile);
@@ -438,6 +446,24 @@ class AssetManager
         }
 
         return self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
+    }
+
+    /**
+     * Returns the translations JS file's absolute location.
+     * If the file does not exist, it is generated.
+     * 
+     * @return string
+     */
+    public static function getTranslationsJsFileLocation()
+    {
+        $isGenerated = self::isGenerated(self::TRANSLATIONS_JS_FILE);
+
+        if (!$isGenerated) {
+            $translationJs = Translate::getInstance()->getJavascriptTranslations();
+            self::writeAssetToFile($translationJs, self::TRANSLATIONS_JS_FILE);
+        }
+
+        return self::getAbsoluteMergedFileLocation(self::TRANSLATIONS_JS_FILE);
     }
 
     /**

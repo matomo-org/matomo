@@ -3,7 +3,6 @@
 {% block content %}
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
-    {{ loadJavascriptTranslations(['SitesManager']) }}
 
     {% set excludedIpHelpPlain %}
         {{ 'SitesManager_HelpExcludedIps'|translate("1.2.3.*","1.2.*.*") }}

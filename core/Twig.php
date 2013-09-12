@@ -71,7 +71,6 @@ class Twig
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
-        $this->addFunction_loadJavascriptTranslations();
         $this->addFunction_sparkline();
         $this->addFunction_postEvent();
         $this->addFunction_isPluginLoaded();
@@ -123,28 +122,6 @@ class Twig
             return sprintf(Twig::SPARKLINE_TEMPLATE, $src, $width, $height);
         }, array('is_safe' => array('html')));
         $this->twig->addFunction($sparklineFunction);
-    }
-
-    protected function addFunction_loadJavascriptTranslations()
-    {
-        $loadJsTranslationsFunction = new Twig_SimpleFunction('loadJavascriptTranslations', function (array $plugins, $disableScriptTag = false) {
-            static $pluginTranslationsAlreadyLoaded = array();
-            if (in_array($plugins, $pluginTranslationsAlreadyLoaded)) {
-                return;
-            }
-            $pluginTranslationsAlreadyLoaded[] = $plugins;
-            $jsTranslations = Translate::getInstance()->getJavascriptTranslations($plugins);
-            $jsCode = '';
-            if ($disableScriptTag) {
-                $jsCode .= $jsTranslations;
-            } else {
-                $jsCode .= '<script type="text/javascript">';
-                $jsCode .= $jsTranslations;
-                $jsCode .= '</script>';
-            }
-            return $jsCode;
-        }, array('is_safe' => array('html')));
-        $this->twig->addFunction($loadJsTranslationsFunction);
     }
 
     protected function addFunction_linkTo()
