@@ -842,7 +842,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             'serverTimePretty',
             'visitorId',
             'nextVisitorId',
-            'prevVisitorId',
+            'previousVisitorId',
             'visitServerHour',
             'date',
             'prettyDate',
