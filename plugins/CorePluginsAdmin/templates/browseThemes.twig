@@ -13,17 +13,19 @@
 
     <div style="max-width:980px;">
 
-        <h2>Extend Piwik by installing a new plugin</h2>
+        <h2>Enjoy another look & feel by installing a new theme</h2>
 
         <div>
-            <input placeholder="Search" type="text" name="q"/>
-            <button type="submit">Search</button>
+            <a href="{{ linkTo({'sort': 'popular', 'query': ''}) }}">popular</a>
             |
-            <a href="#">popular</a>
+            <a href="{{ linkTo({'sort': 'newest', 'query': ''}) }}">newest</a>
             |
-            <a href="#">newest</a>
+            <a href="{{ linkTo({'sort': 'alpha', 'query': ''}) }}">alpha</a>
             |
-            <a href="#">alpha</a>
+            <form action="{{ linkTo({'sort': ''}) }}" method="POST" style="display:inline">
+                <input value="{{ query }}" placeholder="Search" type="text" name="query"/>
+                <button type="submit">Search</button>
+            </form>
         </div>
     </div>
 

@@ -22,23 +22,39 @@ use Piwik\Url;
  */
 class Controller extends \Piwik\Controller\Admin
 {
+    private $validSortMethods = array('popular', 'newest', 'alpha');
+    private $defaultSortMethod = 'popular';
 
-    function browsePlugins()
+    public function browsePlugins()
     {
-        $view = $this->configureView('@CorePluginsAdmin/browsePlugins');
+        $query = Common::getRequestVar('query', '', 'string', $_POST);
+        $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
+        if (!in_array($sort, $this->validSortMethods)) {
+            $sort = $this->defaultSortMethod;
+        }
 
-        $plugins = json_decode(file_get_contents('http://plugins.piwik.org/api/1.0/plugins'));
-        $view->plugins = $plugins->plugins;
+        $marketplace   = new MarketplaceApiClient();
+
+        $view          = $this->configureView('@CorePluginsAdmin/browsePlugins');
+        $view->plugins = $marketplace->searchForPlugins('', $query, $sort);
+        $view->query   = $query;
 
         echo $view->render();
     }
 
-    function browseThemes()
+    public function browseThemes()
     {
-        $view = $this->configureView('@CorePluginsAdmin/browseThemes');
+        $query = Common::getRequestVar('query', '', 'string', $_POST);
+        $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
+        if (!in_array($sort, $this->validSortMethods)) {
+            $sort = $this->defaultSortMethod;
+        }
 
-        $plugins = json_decode(file_get_contents('http://plugins.piwik.org/api/1.0/themes'));
-        $view->plugins = $plugins->plugins;
+        $marketplace   = new MarketplaceApiClient();
+
+        $view          = $this->configureView('@CorePluginsAdmin/browseThemes');
+        $view->plugins = $marketplace->searchForThemes('', $query, $sort);
+        $view->query   = $query;
 
         echo $view->render();
     }
