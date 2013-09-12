@@ -27,7 +27,7 @@ class Piwik_TestingEnvironment
                 "ExampleAPI", "ExamplePlugin", "ExampleRssWidget", "Provider", "Feedback", "Login", "UsersManager",
                 "SitesManager", "Installation", "CoreUpdater", "PDFReports", "UserCountryMap", "Live",
                 "CustomVariables", "PrivacyManager", "ImageGraph", "DoNotTrack", "Annotations", "MobileMessaging",
-                "Overlay", "SegmentEditor", "DevicesDetection",
+                "Overlay", "SegmentEditor", "DevicesDetection", "DBStats",
             );
             $config->Plugins = array('Plugins' => $pluginsToLoad);
 

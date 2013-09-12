@@ -15,9 +15,6 @@
 
     <p>{{ 'API_PluginDescription'|translate }}</p>
 
-    {% if isSuperUser %}
-        <p>{{ 'API_GenerateVisits'|translate('VisitorGenerator','VisitorGenerator') }}</p>
-    {% endif %}
 
     <p>
         <strong>{{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}</strong>
