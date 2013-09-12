@@ -1132,6 +1132,7 @@
         "NbVisitor": "1 visitor",
         "RealTimeVisitorCount": "Real Time Visitor Count",
         "SimpleRealTimeWidget_Message": "%s and %s in the last %s",
+        "ViewVisitorProfile": "View visitor profile",
         "VisitorProfile": "Visitor profile",
         "FirstVisit": "First visit",
         "LastVisit": "Last visit",

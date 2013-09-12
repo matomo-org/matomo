@@ -172,11 +172,11 @@ class API
      * TODO: check for goals plugin, etc.
      * 
      * @param int $idSite Site ID
-     * @param string $visitorId The ID of the visitor whose profile to retrieve.
+     * @param string|false $visitorId The ID of the visitor whose profile to retrieve.
      * @param string|false $segment
      * @return array
      */
-    public function getVisitorProfile($idSite, $visitorId, $segment = false)
+    public function getVisitorProfile($idSite, $visitorId = false, $segment = false)
     {
         if ($visitorId === false) {
             $visitorId = $this->getMostRecentVisitorId($idSite, $segment);
@@ -186,7 +186,8 @@ class API
 
         $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $newSegment,
                                               $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
-                                              $filter_offset = false, $visitorId = false, $minTimestamp = false);
+                                              $filter_offset = false, $overrideVisitorId = false,
+                                              $minTimestamp = false);
         if ($visits->getRowsCount() == 0) {
             return array();
         }

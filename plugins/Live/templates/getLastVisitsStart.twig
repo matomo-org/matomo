@@ -24,8 +24,8 @@
                 </span>
                 {% endif %}
                 {% if visitor.visitorTypeIcon %}
-                    <a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getVisitorLog&period=month&segment=visitorId=={{ visitor.visitorId }}')">
-                        &nbsp;- <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }} - {{ 'General_ReturningVisitorAllVisits'|translate }}"/>
+                    <a class="visits-live-returning-visitor rightLink" data-visitor-id="{{ visitor.visitorId }}">
+                        &nbsp;- <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }} - {{ 'Live_ViewVisitorProfile'|translate }}"/>
                     </a>
                 {% endif %}
                 {% if visitor.visitIp %}- <span title="{% if visitor.visitorId is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.visitorId }}{% endif %}">
@@ -131,3 +131,10 @@
         </li>
     {% endfor %}
 </ul>
+<script type="text/javascript">
+$('.visits-live-returning-visitor').click(function (e) {
+    e.preventDefault();
+    require('piwik/UI').VisitorProfileControl.showPopover($(this).attr('data-visitor-id'));
+    return false;
+});
+</script>
