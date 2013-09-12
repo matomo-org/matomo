@@ -132,9 +132,9 @@
     {% endfor %}
 </ul>
 <script type="text/javascript">
-$('.visits-live-returning-visitor').click(function (e) {
+$('#visitsLive').on('click', '.visits-live-returning-visitor', function (e) {
     e.preventDefault();
-    require('piwik/UI').VisitorProfileControl.showPopover($(this).attr('data-visitor-id'));
+    broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
     return false;
 });
 </script>
