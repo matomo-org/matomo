@@ -179,6 +179,8 @@ class API
      * @param string $pluginName name of plugin
      * @param string $languageCode ISO language code
      * @return array|false Array of arrays, each containing 'label' (translation index)  and 'value' (translated string); false if language unavailable
+     *
+     * @ignore
      */
     public function getPluginTranslationsForLanguage($pluginName, $languageCode)
     {

@@ -613,7 +613,6 @@ class DataTable
             if ($label !== false) {
                 $this->rowsIndexByLabel[$label] = count($this->rows) - 1;
             }
-            $this->indexNotUpToDate = false;
         }
         return $row;
     }

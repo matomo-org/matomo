@@ -667,7 +667,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             $t->doTrackEcommerceOrder($orderId = '937nsjusu ' . $dateTime, $grandTotal = 1111.11, $subTotal = 1000,
                 $tax = 111, $shipping = 0.11, $discount = 666);
         }
-        Test_Piwik_BaseFixture::checkBulkTrackingResponse($t->doBulkTrack(), true);
+        Test_Piwik_BaseFixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 
     protected static function _addReportData()

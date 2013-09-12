@@ -327,6 +327,8 @@ class API
      */
     public function getMostRecentVisitorId($idSite, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $visitDetails = $this->loadLastVisitorDetailsFromDatabase(
             $idSite, $period = false, $date = false, $segment, $filter_limit = 1, $filter_offset = false,
             $visitorId = false, $minTimestamp = false
@@ -648,7 +650,6 @@ class API
             && empty($filter_offset)
             && empty($period)
             && empty($date)
-            && empty($searchThroughAllData)
         ) {
             $period = 'day';
             $date = 'yesterdaySameTime';

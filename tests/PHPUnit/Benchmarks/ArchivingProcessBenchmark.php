@@ -26,6 +26,6 @@ class ArchivingProcessBenchmark extends BenchmarkTestCase
     public function testArchivingProcess()
     {
         API::getInstance()->get(
-            self::$fixturvisitIpe->idSite, self::$fixture->period, self::$fixture->date);
+            self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
     }
 }

@@ -1203,8 +1203,8 @@ class Recorder(object):
             return response
 
         # remove the successfully tracked hits from payload
-        succeeded = response['statistics']['tracked']
-        data['requests'] = data['requests'][succeeded:]
+        succeeded = response['tracked']
+        data['requests'] = data['requests'][tracked:]
 
         return response['message']
 
