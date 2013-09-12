@@ -2,10 +2,10 @@
 <result>
 	<totalVisits>2</totalVisits>
 	<totalVisitDuration>361</totalVisitDuration>
-	<totalActionCount>2</totalActionCount>
+	<totalActions>2</totalActions>
 	<totalGoalConversions>1</totalGoalConversions>
 	<totalConversionsByGoal>
-		<row key="1">1</row>
+		<row idgoal="1">1</row>
 	</totalConversionsByGoal>
 	<continents>
 		<row>
@@ -138,7 +138,7 @@
 			
 			
 			
-			<serverDateTimePrettyFirstAction>4 Sep 2013 16:55:17</serverDateTimePrettyFirstAction>
+			
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -252,9 +252,9 @@
 			
 			
 			
-			<serverDateTimePrettyFirstAction>4 Sep 2013 15:55:17</serverDateTimePrettyFirstAction>
+			
 		</row>
 	</lastVisits>
 	
-	
+	<previousVisitorId>61e8cc2d51fea26d</previousVisitorId>
 </result>

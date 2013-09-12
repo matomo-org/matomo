@@ -196,7 +196,7 @@ class API
         $result = array();
         $result['totalVisits'] = 0;
         $result['totalVisitDuration'] = 0;
-        $result['totalActionCount'] = 0;
+        $result['totalActions'] = 0;
         $result['totalGoalConversions'] = 0;
         $result['totalConversionsByGoal'] = array();
 
@@ -217,24 +217,25 @@ class API
             ++$result['totalVisits'];
 
             $result['totalVisitDuration'] += $visit->getColumn('visitDuration');
-            $result['totalActionCount'] += $visit->getColumn('actions');
+            $result['totalActions'] += $visit->getColumn('actions');
             $result['totalGoalConversions'] += $visit->getColumn('goalConversions');
 
             // individual goal conversions are stored in action details
             foreach ($visit->getColumn('actionDetails') as $action) {
                 if ($action['type'] == 'goal') { // handle goal conversion
                     $idGoal = $action['goalId'];
+                    $idGoalKey = 'idgoal=' . $idGoal;
 
-                    if (!isset($result['totalConversionsByGoal'][$idGoal])) {
-                        $result['totalConversionsByGoal'][$idGoal] = 0;
+                    if (!isset($result['totalConversionsByGoal'][$idGoalKey])) {
+                        $result['totalConversionsByGoal'][$idGoalKey] = 0;
                     }
-                    ++$result['totalConversionsByGoal'][$idGoal];
+                    ++$result['totalConversionsByGoal'][$idGoalKey];
 
                     if (!empty($action['revenue'])) {
-                        if (!isset($result['totalRevenueByGoal'][$idGoal])) {
-                            $result['totalRevenueByGoal'][$idGoal] = 0;
+                        if (!isset($result['totalRevenueByGoal'][$idGoalKey])) {
+                            $result['totalRevenueByGoal'][$idGoalKey] = 0;
                         }
-                        $result['totalRevenueByGoal'][$idGoal] += $action['revenue'];
+                        $result['totalRevenueByGoal'][$idGoalKey] += $action['revenue'];
                     }
                 } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER // handle ecommerce order
                            && $isEcommerceEnabled
@@ -310,7 +311,7 @@ class API
         //       looking at the popup.
         $latestVisitTime = reset($rows)->getColumn('lastActionDateTime');
         $result['nextVisitorId'] = $this->getAdjacentVisitorId($idSite, $visitorId, $latestVisitTime, $segment, $getNext = true);
-        $result['prevVisitorId'] = $this->getAdjacentVisitorId($idSite, $visitorId, $latestVisitTime, $segment, $getNext = false);
+        $result['previousVisitorId'] = $this->getAdjacentVisitorId($idSite, $visitorId, $latestVisitTime, $segment, $getNext = false);
 
         Piwik_PostEvent(Live::GET_EXTRA_VISITOR_DETAILS_EVENT, array(&$result));
 

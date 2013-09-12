@@ -183,6 +183,12 @@ class Xml extends Renderer
                     $prefix = "<row key=\"$key\">";
                     $suffix = "</row>";
                     $emptyNode = "<row key=\"$key\"/>";
+                } else if (strpos($key, '=') !== false) {
+                    list($keyAttributeName, $key) = explode('=', $key, 2);
+
+                    $prefix = "<row $keyAttributeName=\"$key\">";
+                    $suffix = "</row>";
+                    $emptyNode = "<row $keyAttributeName=\"$key\">";
                 } else {
                     $prefix = "<$key>";
                     $suffix = "</$key>";
@@ -367,6 +373,7 @@ class Xml extends Renderer
                 }
                 continue;
             }
+
 
             // Handing case idgoal=7, creating a new array for that one
             $rowAttribute = '';

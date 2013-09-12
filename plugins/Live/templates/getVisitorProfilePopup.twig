@@ -2,7 +2,7 @@
 <div class="visitor-profile"
      data-visitor-id="{{ visitorData.lastVisits.getFirstRow().getColumn('visitorId') }}"
      data-next-visitor="{{ visitorData.nextVisitorId }}"
-     data-prev-visitor="{{ visitorData.prevVisitorId }}"
+     data-prev-visitor="{{ visitorData.previousVisitorId }}"
      tabindex="0">
     <a href class="visitor-profile-close"></a>
     <div class="visitor-profile-info">
@@ -18,7 +18,7 @@
                     </div>
                     <div>
                         <div class="visitor-profile-header">
-                            {% if visitorData.prevVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#" title="{{ 'Live_PreviousVisitor'|translate }}">&larr;</a>{% endif %}
+                            {% if visitorData.previousVisitorId is not empty %}<a class="visitor-profile-prev-visitor" href="#" title="{{ 'Live_PreviousVisitor'|translate }}">&larr;</a>{% endif %}
                             <h1>{{ 'Live_VisitorProfile'|translate }} <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/></h1>
                             {% if visitorData.nextVisitorId is not empty %}<a class="visitor-profile-next-visitor" href="#" title="{{ 'Live_NextVisitor'|translate }}">&rarr;</a>{% endif %}
                         </div>
@@ -31,10 +31,11 @@
                 <div class="visitor-profile-summary">
                     <h1>{{ 'General_Summary'|translate }}</h1>
                     <div>
-                        <p>{{ 'Live_VisitSummary'|translate('<strong>', visitorData.totalVisitDurationPretty, '</strong>', '<strong>', visitorData.totalActionCount, visitorData.totalVisits, '</strong>')|raw }}</p>
+                        <p>{{ 'Live_VisitSummary'|translate('<strong>', visitorData.totalVisitDurationPretty, '</strong>', '<strong>', visitorData.totalActions, visitorData.totalVisits, '</strong>')|raw }}</p>
                         <p><strong>{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}</strong>
                         {%- if visitorData.totalGoalConversions %} (
                             {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
+                            {%- set idGoal = idGoal[7:] -%}
                             {%- if not loop.first %}, {% endif -%}{{- totalConversions }} <span class="visitor-profile-goal-name">{{ goals[idGoal]['name'] -}}</span>
                             {%- endfor -%}
                         ){% endif %}.</p>
