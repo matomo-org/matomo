@@ -158,13 +158,19 @@ class Controller extends \Piwik\Controller
         );
 
         $segment = $segmentOverride ?: Request::getRawSegmentFromRequest() ?: '';
-        $reqParams = $this->getEnrichedRequest(array(
+        $params = array(
             'period'     => 'range',
             'idSite'     => $idSite,
-            'date'       => self::REAL_TIME_WINDOW,
             'segment'    => $segment,
             'token_auth' => $token_auth,
-        ), $encode = false);
+        );
+
+        $realtimeWindow = Common::getRequestVar('realtimeWindow', self::REAL_TIME_WINDOW, 'string');
+        if ($realtimeWindow != 'false') { // handle special value
+            $params['date'] = $realtimeWindow;
+        }
+
+        $reqParams = $this->getEnrichedRequest($params, $encode = false);
 
         $view->config = array(
             'metrics' => array(),
@@ -173,7 +179,9 @@ class Controller extends \Piwik\Controller
             '_' => $locale,
             'reqParams' => $reqParams,
             'siteHasGoals' => $hasGoals,
-            'maxVisits' => $maxVisits
+            'maxVisits' => $maxVisits,
+            'changeVisitAlpha' => Common::getRequestVar('changeVisitAlpha', true, 'int'),
+            'removeOldVisits' => Common::getRequestVar('removeOldVisits', true, 'int')
         );
 
         if ($fetch) {

@@ -169,14 +169,15 @@ class API
      * Returns an array describing a visitor using her last visits (uses a maximum of 100).
      * 
      * TODO: check for most recent vs. first visit
-     * TODO: check for goals plugin, etc.
      * 
      * @param int $idSite Site ID
      * @param string|false $visitorId The ID of the visitor whose profile to retrieve.
      * @param string|false $segment
+     * @param bool $checkForLatLong If true, hasLatLong will appear in the output and be true if
+     *                              one of the first 100 visits has a latitude/longitude.
      * @return array
      */
-    public function getVisitorProfile($idSite, $visitorId = false, $segment = false)
+    public function getVisitorProfile($idSite, $visitorId = false, $segment = false, $checkForLatLong = false)
     {
         if ($visitorId === false) {
             $visitorId = $this->getMostRecentVisitorId($idSite, $segment);
@@ -290,6 +291,17 @@ class API
         $rows = $visits->getRows();
         $result['firstVisit'] = $this->getVisitorProfileVisitSummary(end($rows));
         $result['lastVisit'] = $this->getVisitorProfileVisitSummary(reset($rows));
+
+        // check if requested visits have lat/long
+        if ($checkForLatLong) {
+            $result['hasLatLong'] = false;
+            foreach ($rows as $visit) {
+                if ($visit->getColumn('latitude') !== false) { // realtime map only checks for latitude
+                    $result['hasLatLong'] = true;
+                    break;
+                }
+            }
+        }
 
         // use N most recent visits for last_visits
         $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);

@@ -49,6 +49,11 @@
             // set unique ID for kartograph map div
             this.uniqueId = 'RealTimeMap_map-' + this._controlIndex;
             $('.RealTimeMap_map', $element).attr('id', this.uniqueId);
+
+            // create the map
+            this.map = Kartograph.map('#' + this.uniqueId);
+
+            $element.focus();
         },
 
         _initStandaloneMap: function () {
@@ -69,10 +74,12 @@
             var self = this,
                 config = self.config,
                 _ = config._,
-                map = self.map = Kartograph.map('#' + this.uniqueId),
+                map = self.map,
                 main = $('.RealTimeMap_container', this.$element),
                 worldTotalVisits = 0,
                 maxVisits = config.maxVisits || 100,
+                changeVisitAlpha = typeof config.changeVisitAlpha === 'undefined' ? true : config.changeVisitAlpha,
+                removeOldVisits = typeof config.removeOldVisits === 'undefined' ? true : config.removeOldVisits,
                 width = main.width(),
                 lastTimestamp = -1,
                 lastVisits = [],
@@ -85,6 +92,7 @@
                 symbolFadeInTimer = [],
                 colorMode = 'default',
                 currentMap = 'world',
+                yesterday = false,
 
                 currentTheme = 'white',
                 colorTheme = {
@@ -244,14 +252,18 @@
              * attributes of the map symbols
              */
             function visitSymbolAttrs(r) {
-                return {
+                var result = {
                     fill: visitColor(r).hex(),
-                    'fill-opacity': Math.pow(age(r), 2) * 0.8 + 0.2,
-                    'stroke-opacity': Math.pow(age(r), 1.7) * 0.8 + 0.2,
                     stroke: '#fff',
                     'stroke-width': 1 * age(r),
-                    r: visitRadius(r)
+                    r: visitRadius(r),
+                    cursor: 'pointer'
                 };
+                if (changeVisitAlpha) {
+                    result['fill-opacity'] = Math.pow(age(r), 2) * 0.8 + 0.2;
+                    result['stroke-opacity'] = Math.pow(age(r), 1.7) * 0.8 + 0.2;
+                }
+                return result;
             }
 
             /*
@@ -385,17 +397,22 @@
                         $('.realTimeMap_overlay .showing_visits_of').show();
                         $('.realTimeMap_overlay .no_data').hide();
 
+                        if (yesterday === false) {
+                            yesterday = report[0].lastActionTimestamp - 24 * 60 * 60;
+                        }
+
                         lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
-                        oldest = lastVisits[lastVisits.length - 1].lastActionTimestamp;
+                        oldest = Math.max(lastVisits[lastVisits.length - 1].lastActionTimestamp, yesterday);
 
                         // let's try a different strategy
                         // remove symbols that are too old
-                        //console.info('before', $('circle').length, visitSymbols.symbols.length);
                         var _removed = 0;
-                        visitSymbols.remove(function (r) {
-                            if (r.lastActionTimestamp < oldest) _removed++;
-                            return r.lastActionTimestamp < oldest;
-                        });
+                        if (removeOldVisits) {
+                            visitSymbols.remove(function (r) {
+                                if (r.lastActionTimestamp < oldest) _removed++;
+                                return r.lastActionTimestamp < oldest;
+                            });
+                        }
 
                         // update symbols that remain
                         visitSymbols.update({
@@ -409,19 +426,15 @@
                             newSymbols.push(visitSymbols.add(r));
                         });
 
-                        //console.info('added', newSymbols.length, visitSymbols.symbols.length, $('circle').length);
                         visitSymbols.layout().render();
-
-                        //console.info('rendered', visitSymbols.symbols.length, $('circle').length);
 
                         $.each(newSymbols, function (i, s) {
                             if (i > 10) return false;
-                            //if (s.data.lastActionTimestamp > lastTimestamp) {
+
                             s.path.hide(); // hide new symbol at first
                             var t = setTimeout(function () { animateSymbol(s); },
                                 1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
                             symbolFadeInTimer.push(t);
-                            //}
                         });
 
                         lastTimestamp = report[0].lastActionTimestamp;
@@ -511,7 +524,7 @@
             });
 
             // secret gimmick shortcuts
-            $(window).keydown(function (evt) {
+            this.$element.on('keydown', function (evt) {
                 // shift+alt+C changes color mode
                 if (evt.shiftKey && evt.altKey && evt.keyCode == 67) {
                     colorMode = ({
@@ -545,14 +558,10 @@
                     currentTheme = 'white';
                     switchTheme();
                 }
+            });
 
-            }); // */
             // make sure the map adapts to the widget size
-            $(window).resize(onResizeLazy);
-
-            function getTimeInSiteTimezone() {
-
-            }
+            $(window).on('resize.' + this.uniqueId, onResizeLazy);
 
             // setup automatic tooltip updates
             this._tooltipUpdateInterval = setInterval(function () {
@@ -595,6 +604,8 @@
             if (this._tooltipUpdateInterval) {
                 clearInterval(this._tooltipUpdateInterval);
             }
+
+            $(window).off('resize.' + this.uniqueId);
 
             this.map.clear();
             $(this.map.container).html('');

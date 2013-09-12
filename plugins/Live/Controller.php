@@ -146,13 +146,12 @@ class Controller extends \Piwik\Controller
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $idSite;
         $view->goals = Goals_API::getInstance()->getGoals($idSite);
-        $view->visitorData = Request::processRequest('Live.getVisitorProfile');
-        if (Common::getRequestVar('showMap', 1) == 1) {
+        $view->visitorData = Request::processRequest('Live.getVisitorProfile', array('checkForLatLong' => true));
+        if (Common::getRequestVar('showMap', 1) == 1
+            && $view->visitorData['hasLatLong']
+        ) {
             $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();
         }
-        // TODO: disabled until segmentation issue can be dealt w/ (if enabled, last 24 months of data will be archived w/
-        // segment every visitor ID)
-        $view->lastVisitsChart = ''; //$this->getLastVisitsForVisitorProfile();
         echo $view->render();
     }
 
@@ -183,25 +182,15 @@ class Controller extends \Piwik\Controller
         echo $view->render();
     }
 
-    private function getLastVisitsForVisitorProfile()
-    {
-        $saveGET = $_GET;
-        $_GET = array('segment' => self::getSegmentWithVisitorId(), 'period' => 'month', 'day' => 'today') + $_GET;
-
-        $columns = array('nb_visits');
-        $result = FrontController::getInstance()->dispatch('VisitsSummary', 'getEvolutionGraph', array($fetch = true, $columns));
-
-        $_GET = $saveGET;
-
-        return $result;
-    }
-
     private function getUserCountryMapUrlForVisitorProfile()
     {
         $params = array(
             'module' => 'UserCountryMap',
             'action' => 'realtimeMap',
-            'segment' => self::getSegmentWithVisitorId()
+            'segment' => self::getSegmentWithVisitorId(),
+            'changeVisitAlpha' => 0,
+            'removeOldVisits' => 0,
+            'realtimeWindow' => 'false',
         );
         return Url::getCurrentQueryStringWithParametersModified($params);
     }
