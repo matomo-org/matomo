@@ -54,10 +54,15 @@ class Controller extends \Piwik\Controller
      * This method is called when the asset manager is disabled (otherwise it would be part
      * of the merged JS file.)
      * 
+     * Note: This method always regenerates the file since not doing so would make development
+     * painful.
+     * 
      * @see core/AssetManager.php
      */
     public function getTranslationJs()
     {
+        AssetManager::generateTranslationsJsFile();
+        
         $translationsJsFile = AssetManager::getTranslationsJsFileLocation();
         Piwik::serveStaticFile($translationsJsFile, self::JS_MIME_TYPE);
     }

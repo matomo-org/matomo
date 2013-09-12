@@ -459,11 +459,19 @@ class AssetManager
         $isGenerated = self::isGenerated(self::TRANSLATIONS_JS_FILE);
 
         if (!$isGenerated) {
-            $translationJs = Translate::getInstance()->getJavascriptTranslations();
-            self::writeAssetToFile($translationJs, self::TRANSLATIONS_JS_FILE);
+            self::generateTranslationsJsFile();
         }
 
         return self::getAbsoluteMergedFileLocation(self::TRANSLATIONS_JS_FILE);
+    }
+
+    /**
+     * Generates the translations JS file.
+     */
+    public static function generateTranslationsJsFile()
+    {
+        $translationJs = Translate::getInstance()->getJavascriptTranslations();
+        self::writeAssetToFile($translationJs, self::TRANSLATIONS_JS_FILE);
     }
 
     /**
