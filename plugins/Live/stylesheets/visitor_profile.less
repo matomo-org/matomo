@@ -97,21 +97,23 @@
         border-bottom:1px solid #d1cec8;
 
         > div { // columns
-            width:unit(@visitor_profile_width / 2, px);
             vertical-align:top;
             height:auto;
             display:inline-block;
-            border-left:1px solid #d1cec8;
         }
 
         > div:first-child { // first column
+            width:unit(@visitor_profile_width / 2, px);
             border-left:none;
-            margin:0 -4px 0 0;
+            margin:0 -3px 0 0;
+            border-right:1px solid #d1cec8;
         }
 
         > div:last-child { // last column
+            width:unit(@visitor_profile_width / 2 - 1, px);
             border-bottom:none;
-            margin:0 0 0 -4px;
+            margin:0 0 0 -3px;
+            border-left:1px solid #d1cec8;
         }
     }
 }

@@ -42,7 +42,8 @@
 
         for (var i = 0; i != controls.length; ++i) {
             var control = controls[i];
-            if (control.$element
+            if (control
+                && control.$element
                 && !$.contains(document.documentElement, control.$element[0])
             ) {
                 controls[i] = null;
