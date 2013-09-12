@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\Live;
 
+use Piwik\Url;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
@@ -146,7 +147,9 @@ class Controller extends \Piwik\Controller
         $view->idSite = $idSite;
         $view->goals = Goals_API::getInstance()->getGoals($idSite);
         $view->visitorData = Request::processRequest('Live.getVisitorProfile');
-        $view->userCountryMap = $this->getUserCountryMapForVisitorProfile();
+        if (Common::getRequestVar('showMap', 1) == 1) {
+            $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();
+        }
         // TODO: disabled until segmentation issue can be dealt w/ (if enabled, last 24 months of data will be archived w/
         // segment every visitor ID)
         $view->lastVisitsChart = ''; //$this->getLastVisitsForVisitorProfile();
@@ -193,10 +196,14 @@ class Controller extends \Piwik\Controller
         return $result;
     }
 
-    private function getUserCountryMapForVisitorProfile()
+    private function getUserCountryMapUrlForVisitorProfile()
     {
-        $params = array('standalone' => false, 'fetch' => true, 'segment' => self::getSegmentWithVisitorId());
-        return FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap', $params); // TODO: check if plugin is enabled?
+        $params = array(
+            'module' => 'UserCountryMap',
+            'action' => 'realtimeMap',
+            'segment' => self::getSegmentWithVisitorId()
+        );
+        return Url::getCurrentQueryStringWithParametersModified($params);
     }
 
     private static function getSegmentWithVisitorId()

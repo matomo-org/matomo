@@ -172,17 +172,17 @@ class API
      * TODO: check for goals plugin, etc.
      * 
      * @param int $idSite Site ID
-     * @param string $idVisitor The ID of the visitor whose profile to retrieve.
+     * @param string $visitorId The ID of the visitor whose profile to retrieve.
      * @param string|false $segment
      * @return array
      */
-    public function getVisitorProfile($idSite, $idVisitor, $segment = false)
+    public function getVisitorProfile($idSite, $visitorId, $segment = false)
     {
-        if ($idVisitor === false) {
-            $idVisitor = $this->getMostRecentVisitorId($idSite, $segment);
+        if ($visitorId === false) {
+            $visitorId = $this->getMostRecentVisitorId($idSite, $segment);
         }
 
-        $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $idVisitor;
+        $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $visitorId;
 
         $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $newSegment,
                                               $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
@@ -309,8 +309,8 @@ class API
         // TODO: make sure order of visitor ids is not changed if a returning visitor visits while the user is
         //       looking at the popup.
         $latestVisitTime = reset($rows)->getColumn('lastActionDateTime');
-        $result['nextVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $segment, $getNext = true);
-        $result['prevVisitorId'] = $this->getAdjacentVisitorId($idSite, $idVisitor, $latestVisitTime, $segment, $getNext = false);
+        $result['nextVisitorId'] = $this->getAdjacentVisitorId($idSite, $visitorId, $latestVisitTime, $segment, $getNext = true);
+        $result['prevVisitorId'] = $this->getAdjacentVisitorId($idSite, $visitorId, $latestVisitTime, $segment, $getNext = false);
 
         Piwik_PostEvent(Live::GET_EXTRA_VISITOR_DETAILS_EVENT, array(&$result));
 
@@ -344,8 +344,8 @@ class API
      * in the log_visit table.
      * 
      * @param int $idSite The ID of the site whose visits should be looked at.
-     * @param string $idVisitor The ID of the visitor to get an adjacent visitor for.
-     * @param string $visitLastActionTime The last action time of the latest visit for $idVisitor.
+     * @param string $visitorId The ID of the visitor to get an adjacent visitor for.
+     * @param string $visitLastActionTime The last action time of the latest visit for $visitorId.
      * @param string $segment
      * @param bool $getNext Whether to retrieve the next visitor or the previous visitor. The next
      *                      visitor will be the visitor that appears chronologically later in the
@@ -353,7 +353,7 @@ class API
      *                      earlier.
      * @return string The hex visitor ID.
      */
-    private function getAdjacentVisitorId($idSite, $idVisitor, $visitLastActionTime, $segment, $getNext)
+    private function getAdjacentVisitorId($idSite, $visitorId, $visitLastActionTime, $segment, $getNext)
     {
         if ($getNext) {
             $visitLastActionTimeCondition = "sub.visit_last_action_time <= ?";
@@ -366,7 +366,7 @@ class API
         $select = "log_visit.idvisitor, MAX(log_visit.visit_last_action_time) as visit_last_action_time";
         $from = "log_visit";
         $where = "log_visit.idsite = ? AND log_visit.idvisitor <> UNHEX(?)";
-        $whereBind = array($idSite, $idVisitor);
+        $whereBind = array($idSite, $visitorId);
         $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
         $groupBy = "log_visit.idvisitor";
 
@@ -379,11 +379,11 @@ class API
                  LIMIT 1";
         $bind = array_merge($queryInfo['bind'], array($visitLastActionTime));
 
-        $idVisitor = Db::fetchOne($sql, $bind);
-        if (!empty($idVisitor)) {
-            $idVisitor = bin2hex($idVisitor);
+        $visitorId = Db::fetchOne($sql, $bind);
+        if (!empty($visitorId)) {
+            $visitorId = bin2hex($visitorId);
         }
-        return $idVisitor;
+        return $visitorId;
     }
 
     /**

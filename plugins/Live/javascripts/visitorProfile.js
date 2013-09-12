@@ -43,7 +43,14 @@
      * @param {String} visitorId The string visitor ID.
      */
     VisitorProfileControl.showPopover = function (visitorId) {
-        var url = 'module=Live&action=getVisitorProfilePopup&idVisitor=' + encodeURIComponent(visitorId);
+        var url = 'module=Live&action=getVisitorProfilePopup&visitorId=' + encodeURIComponent(visitorId);
+
+        // if there is already a map shown on the screen, do not show the map in the popup. kartograph seems
+        // to only support showing one map at a time.
+        if ($('.RealTimeMap').length > 0) {
+            url += '&showMap=0';
+        }
+        
         Piwik_Popover.createPopupAndLoadUrl(url, '', 'visitor-profile-popup');
     };
 
@@ -105,27 +112,49 @@
 
             $element.on('click', '.visitor-profile-show-map', function (e) {
                 e.preventDefault();
-
-                var $map = $('.visitor-profile-map', $element);
-                if ($map.is(':hidden')) {
-                    if ($map.height() < 1) {
-                        $map.resize();
-                    }
-
-                    $map.slideDown('slow');
-                    var newLabel = 'Live_HideMap_js';
-
-                    piwikHelper.lazyScrollTo($('.visitor-profile-location', $element)[0], 400);
-                } else {
-                    $map.slideUp('slow');
-                    var newLabel = 'Live_ShowMap_js';
-                }
-
-                newLabel = _pk_translate(newLabel).replace(' ', '\xA0');
-                $(this).text('(' + newLabel + ')');
-
+                self.toggleMap();
                 return false;
             });
+        },
+
+        toggleMap: function () {
+            var $element = this.$element,
+                $map = $('.visitor-profile-map', $element);
+            if (!$map.children().length) { // if the map hasn't been loaded, load it
+                this._loadMap($map);
+                return;
+            }
+
+            if ($map.is(':hidden')) { // show the map if it is hidden
+                if ($map.height() < 1) {
+                    $map.resize();
+                }
+
+                $map.slideDown('slow');
+                var newLabel = 'Live_HideMap_js';
+
+                piwikHelper.lazyScrollTo($('.visitor-profile-location', $element)[0], 400);
+            } else { // hide the map if it is shown
+                $map.slideUp('slow');
+                var newLabel = 'Live_ShowMap_js';
+            }
+
+            newLabel = _pk_translate(newLabel).replace(' ', '\xA0');
+            $('.visitor-profile-show-map', $element).text('(' + newLabel + ')');
+        },
+
+        _loadMap: function ($map) {
+            var self = this;
+
+            var ajax = new ajaxHelper();
+            ajax.setUrl($map.attr('data-href'));
+            ajax.setCallback(function (response) {
+               $map.html(response);
+               self.toggleMap();
+            });
+            ajax.setFormat('html');
+            ajax.setLoadingElement($('.visitor-profile-location > p > .loadingPiwik', self.$element));
+            ajax.send();
         },
 
         _loadMoreVisits: function () {

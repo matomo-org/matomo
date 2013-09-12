@@ -75,10 +75,9 @@
                             {% set entryCountry %}<img src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>&nbsp;{{ entry.prettyName }}{% endset %}
                             {{- 'General_XFromY'|translate(entryVisits, entryCountry)|raw -}}{% if not loop.last %}, {% endif %}
                             {%- endfor %}
-                            <a class="visitor-profile-show-map" href="#">({{ 'Live_ShowMap_js'|translate|replace({' ': '&nbsp;'})|raw }})</a>
+                            <a class="visitor-profile-show-map" href="#" {% if userCountryMapUrl|default('') is empty %}style="display:none"{% endif %}>({{ 'Live_ShowMap_js'|translate|replace({' ': '&nbsp;'})|raw }})</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
                         </p>
-                        <div class="visitor-profile-map" style="display:none">
-                            {{ userCountryMap|raw }}
+                        <div class="visitor-profile-map" style="display:none" data-href="{{ userCountryMapUrl|default('') }}">
                         </div>
                     </div>
                 </div>
