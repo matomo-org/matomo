@@ -30,6 +30,8 @@ class Piwik_TestingEnvironment
                 "Overlay", "SegmentEditor", "DevicesDetection",
             );
             $config->Plugins = array('Plugins' => $pluginsToLoad);
+
+            $config->General['session_save_handler'] = 'dbtables'; // to avoid weird session error in travis
         });
         Piwik_AddAction('FrontController.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
