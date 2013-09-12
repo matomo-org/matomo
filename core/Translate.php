@@ -18,6 +18,25 @@ use Piwik\Common;
  */
 class Translate
 {
+    /**
+     * This event is called before generating the JavaScript code that allows other JavaScript
+     * to access Piwik i18n strings. Plugins should handle this event to specify which translations
+     * should be available to JavaScript code.
+     * 
+     * Event handlers should add whole translation keys, ie, keys that include the plugin name.
+     * For example:
+     * 
+     * <code>
+     * public function getClientSideTranslationKeys(&$result)
+     * {
+     *     $result[] = "MyPlugin_MyTranslation";
+     * }
+     * </code>
+     * 
+     * Callback Signature: function (array &$result)
+     */
+    const GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT = 'Translate.getClientSideTranslationKeys';
+
     static private $instance = null;
     static private $languageToLoad = null;
     private $loadedLanguage = false;
@@ -144,37 +163,47 @@ class Translate
      */
     public function getJavascriptTranslations()
     {
-        if (!in_array('General', $moduleList)) {
-            $moduleList[] = 'General';
-        }
-
-        $js = 'var translations = {';
-
-        $moduleRegex = '#^.*_js$#i';
-
-        // Hack: common translations used in JS but not only, force them to be defined in JS
         $translations = $GLOBALS['Piwik_translations'];
-        $toSetInJs = array('General_Save', 'General_OrCancel');
-        foreach ($toSetInJs as $toSetId) {
-            list($plugin, $key) = explode("_", $toSetId, 2);
-            $translations[$plugin][$key . '_js'] = $translations[$plugin][$key];
+
+        $clientSideTranslations = array();
+        foreach ($this->getClientSideTranslationKeys() as $key) {
+            list($plugin, $stringName) = explode("_", $key, 2);
+            $clientSideTranslations[$key] = $translations[$plugin][$stringName];
         }
-        foreach ($translations as $module => $keys) {
-            foreach($keys as $key => $value) {
-                // Find keys ending with _js
-                if (preg_match($moduleRegex, $key)) {
-                    $js .= sprintf('"%s_%s": "%s",', $module, $key, str_replace('"', '\"', $value));
-                }
-            }
-        }
-        $js = substr($js, 0, -1);
-        $js .= '};';
+
+        $js = 'var translations = ' . Common::json_encode($clientSideTranslations) . ';';
         $js .= "\n" . 'if(typeof(piwik_translations) == \'undefined\') { var piwik_translations = new Object; }' .
             'for(var i in translations) { piwik_translations[i] = translations[i];} ';
         $js .= 'function _pk_translate(translationStringId) { ' .
             'if( typeof(piwik_translations[translationStringId]) != \'undefined\' ){  return piwik_translations[translationStringId]; }' .
             'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is suffixed with _js.";}';
         return $js;
+    }
+
+    /**
+     * Returns the list of client side translations by key. These translations will be outputted
+     * to the translation JavaScript.
+     */
+    private function getClientSideTranslationKeys()
+    {
+        $moduleRegex = '#^.*_js$#i';
+
+        // Hack: common translations used in JS but not only, force them to be defined in JS
+        $result = array('General_Save', 'General_OrCancel');
+
+        Piwik_PostEvent(self::GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT, array(&$result));
+
+        $translations = $GLOBALS['Piwik_translations'];
+        foreach ($translations as $module => $keys) {
+            foreach($keys as $key => $value) {
+                // Find keys ending with _js
+                if (preg_match($moduleRegex, $key)) {
+                    $result[] = $module . '_' . $key;
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -190,4 +219,3 @@ class Translate
         setlocale(LC_CTYPE, '');
     }
 }
-
