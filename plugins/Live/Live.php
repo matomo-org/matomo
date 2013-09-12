@@ -42,10 +42,11 @@ class Live extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJsFiles'                  => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'                 => 'getStylesheetFiles',
+            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
             'WidgetsList.add'                          => 'addWidget',
             'Menu.add'                                 => 'addMenu',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );
     }
 
@@ -77,6 +78,11 @@ class Live extends \Piwik\Plugin
     public function getReportDisplayProperties(&$properties)
     {
         $properties['Live.getLastVisitsDetails'] = $this->getDisplayPropertiesForGetLastVisitsDetails();
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = "Live_VisitorProfile";
     }
 
     private function getDisplayPropertiesForGetLastVisitsDetails()

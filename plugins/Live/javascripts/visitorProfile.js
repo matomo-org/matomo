@@ -51,7 +51,7 @@
             url += '&showMap=0';
         }
         
-        Piwik_Popover.createPopupAndLoadUrl(url, '', 'visitor-profile-popup');
+        Piwik_Popover.createPopupAndLoadUrl(url, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup');
     };
 
     $.extend(VisitorProfileControl.prototype, UIControl.prototype, {
