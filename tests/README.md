@@ -142,20 +142,20 @@ an expected screenshot. If the screenshots do not match, there is a bug somewher
 tests are in another repository but are included in Piwik as a submodule. To get the tests,
 run the following commands:
 
-  $ git submodule init
-  $ git submodule update
+    $ git submodule init
+    $ git submodule update
 
 **Requirements:**
 
 In order to run UI tests, you need to have CutyCapt installed on your machine. If you're
 using Ubuntu, you can install it with the following command:
 
-  $ sudo apt-get install cutycapt
+    $ sudo apt-get install cutycapt
   
 If you're on a server without the X window system, you can still run UI tests, but you
 will need xvfb to do so. On Ubuntu, you can install xvfb with:
 
-  $ sudo apt-get install xvfb
+    $ sudo apt-get install xvfb
 
 **Running Tests**
 
@@ -163,13 +163,13 @@ Unfortunately, since different machines result in different screenshots, there i
 set of screenshots. You must generate these yourself using an older commit. To do this, first
 find a commit where you know the UI works. Then run:
 
-  $ cd PHPUnit
-  $ ./populate-expected-screenshots.sh $commit_hash
+    $ cd PHPUnit
+    $ ./populate-expected-screenshots.sh $commit_hash
 
 Once you have expected screenshots, you can test the UI by running:
 
-  $ cd PHPUnit
-  $ phpunit UI
+    $ cd PHPUnit
+    $ phpunit UI
 
 ## Continuous Integration
 
