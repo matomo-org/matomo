@@ -95,5 +95,13 @@ class CoreHome extends \Piwik\Plugin
     {
         $translationKeys[] = 'General_InvalidDateRange';
         $translationKeys[] = 'General_Loading';
+        $translationKeys[] = 'General_Show';
+        $translationKeys[] = 'General_Hide';
+        $translationKeys[] = 'General_YearShort';
+        $translationKeys[] = 'CoreHome_YouAreUsingTheLatestVersion';
+        $translationKeys[] = 'CoreHome_IncludeRowsWithLowPopulation';
+        $translationKeys[] = 'CoreHome_ExcludeRowsWithLowPopulation';
+        $translationKeys[] = 'CoreHome_DataTableIncludeAggregateRows';
+        $translationKeys[] = 'CoreHome_DataTableExcludeAggregateRows';
     }
 }

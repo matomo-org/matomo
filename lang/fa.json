@@ -198,7 +198,7 @@
         "UnFlattenDataTable_js": "این گزارش مسطح است %s آن را سلسله مراتبی کن",
         "ViewAllPiwikVideoTutorials": "تمام ویدئوهای آموزشی پیویک را ببینید",
         "WebAnalyticsReports": "گزارش اطلاعات آماری وب",
-        "YouAreUsingTheLatestVersion_js": "شما در حال استفاده از آخرین ویرایش پیویک هستید!"
+        "YouAreUsingTheLatestVersion": "شما در حال استفاده از آخرین ویرایش پیویک هستید!"
     },
     "CorePluginsAdmin": {
         "Action": "عمل",
@@ -513,7 +513,7 @@
         "GraphHelp": "اطلاعات بیشتر در مورد نمایش نمودارها در Piwik.",
         "HelloUser": "درود, %s!",
         "Help": "راهنما",
-        "Hide_js": "پنهان شود",
+        "Hide": "پنهان شود",
         "Id": "شناسه",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "فرض آرشیو سریع برای راه اندازی خود را، شما می توانید به crontab برای اجرای اغلب موارد راه اندازی است.",
         "InfoFor": "اطلاعات برای%s",
@@ -715,7 +715,7 @@
         "ShortMonth_8_js": "اوگوست",
         "ShortMonth_9": "سپتامبر",
         "ShortMonth_9_js": "سپتامبر",
-        "Show_js": "مشاهده شود",
+        "Show": "مشاهده شود",
         "SingleWebsitesDashboard": "داشبورد یک وبسایت",
         "SmallTrafficYouCanLeaveDefault": "برای وبسایت های با ترافیک پایین ، شما می توانید از پیش فرض %s ثانیه صرف نظر کنید و به تمام گزارش ها در همان لحظه(Real Time) دسترسی داشته باشید.",
         "SmtpEncryption": "رمزگذاری SMTP",
@@ -772,7 +772,7 @@
         "YearlyReport": "سالانه",
         "YearlyReports": "گزارش سالانه",
         "YearsDays": "%1$s سال ها %2$s روز ها",
-        "YearShort_js": "سال",
+        "YearShort": "سال",
         "Yes": "بلی",
         "Yesterday": "دیروز",
         "YouAreCurrentlyUsing": "شما هم اکنون از پیوک %s استفاده می کنید.",

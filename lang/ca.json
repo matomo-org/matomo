@@ -141,13 +141,13 @@
         "CategoryNoData": "No hi ha dades en aquesta categoria. Proveu d'<em>incloure tota la població<\/em>.",
         "CheckForUpdates": "Cerca actualitzacions",
         "DataForThisReportHasBeenPurged": "La informació d'aquest informés és anterior a %s mesos d'antiguitat i s'ha purgat.",
-        "DataTableExcludeAggregateRows_js": "Es mostren les files aggrupades %s Amaga-ho",
-        "DataTableIncludeAggregateRows_js": "No es mostren les files agrupades %s Mostra-les",
+        "DataTableExcludeAggregateRows": "Es mostren les files aggrupades %s Amaga-ho",
+        "DataTableIncludeAggregateRows": "No es mostren les files agrupades %s Mostra-les",
         "DateFormat": "%longDay%, %day% de %longMonth% de %longYear%",
         "Default_js": "per defecte",
-        "ExcludeRowsWithLowPopulation_js": "Es mostren totes les files %s No mostris la població inferior",
+        "ExcludeRowsWithLowPopulation": "Es mostren totes les files %s No mostris la població inferior",
         "FlattenDataTable_js": "L'informe es jeràrquic %s Feu-lo pla.",
-        "IncludeRowsWithLowPopulation_js": "No es mostren les files amb polbació inferior %s Mostra totes les files",
+        "IncludeRowsWithLowPopulation": "No es mostren les files amb polbació inferior %s Mostra totes les files",
         "InjectedHostEmailBody": "Hola, He provat d'accedir al Piwik avui i m'he trobat amb l'avís de nom de la màquina desconegut.",
         "InjectedHostEmailSubject": "S'ha accedit al piwik amb un nom de màquina desconegut: %s",
         "InjectedHostNonSuperUserWarning": "%1$sClick here to access Piwik safely%2$s i eliminar aaquest avíst. Potse també voldreu contractar amb l'administrador del vostre Piwik i notificar-li aquesta incidència (%3$sclick here to email%4$s).",
@@ -179,7 +179,7 @@
         "ThereIsNoDataForThisReport": "No hi ha informació per aquest informe.",
         "UnFlattenDataTable_js": "Aquest informe es pla %s Feu-lo jeràrquic",
         "WebAnalyticsReports": "Informe d'analítica web",
-        "YouAreUsingTheLatestVersion_js": "Esteu fent servir l'última versió de Piwik!"
+        "YouAreUsingTheLatestVersion": "Esteu fent servir l'última versió de Piwik!"
     },
     "CorePluginsAdmin": {
         "Action": "Acció",

@@ -111,7 +111,7 @@
         "ThereIsNoDataForThisReport": "ไม่มีข้อมูลสำหรับรายงานนี้",
         "ViewAllPiwikVideoTutorials": "ดูคลิปวีดีโอสอน Piwik ทั้งหมด",
         "WebAnalyticsReports": "รายงานการวิเคราะห์เว็บไซต์",
-        "YouAreUsingTheLatestVersion_js": "คุณกำลังใช้งานรุ่นล่าสุดของ Piwik!"
+        "YouAreUsingTheLatestVersion": "คุณกำลังใช้งานรุ่นล่าสุดของ Piwik!"
     },
     "CorePluginsAdmin": {
         "Action": "ดำเนินการ",
@@ -402,7 +402,7 @@
         "GraphHelp": "ข้อมูลเพิ่มเติมเกี่ยวกับการแสดงกราฟใน Piwik",
         "HelloUser": "ยินดีต้อนรับ %s!",
         "Help": "วิธีใช้",
-        "Hide_js": "ซ่อน",
+        "Hide": "ซ่อน",
         "HoursMinutes": "%1$s ชั่วโมง %2$s นาที",
         "Id": "ID",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "สมมติว่าคุณเก็บอย่างรวดเร็ว สำหรับการติดตั้งนี้ คุณสามารถตั้ง crontab ในการทำงานที่บ่อยครั้ง",
@@ -575,7 +575,7 @@
         "ShortMonth_8_js": "ส.ค.",
         "ShortMonth_9": "ก.ย.",
         "ShortMonth_9_js": "ก.ย.",
-        "Show_js": "แสดง",
+        "Show": "แสดง",
         "SmallTrafficYouCanLeaveDefault": "สำหรับเว็บไซต์จราจรขนาดเล็ก คุณสามารถเริ่มต้นจาก %s วินาทีและการเข้าถึงรายงานในเวลาจริง",
         "SmtpEncryption": "เข้ารหัส SMTP",
         "SmtpPassword": "รหัสผ่าน SMTP",
@@ -623,7 +623,7 @@
         "Widgets": "วิดเจ็ต",
         "YearlyReports": "รายงาน รายปี",
         "YearsDays": "%1$s ปี %2$s วัน",
-        "YearShort_js": "ปี",
+        "YearShort": "ปี",
         "Yes": "ใช่",
         "Yesterday": "เมื่อวาน",
         "YouAreCurrentlyUsing": "คุณกำลังใช้ Piwik %s",

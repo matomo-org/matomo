@@ -988,12 +988,12 @@ dataTable.prototype =
                     self.param.enable_filter_excludelowpop = 0;
                 }
                 if (Number(self.param.enable_filter_excludelowpop) != 0) {
-                    var string = getText('CoreHome_IncludeRowsWithLowPopulation_js', true);
+                    var string = getText('CoreHome_IncludeRowsWithLowPopulation', true);
                     self.param.enable_filter_excludelowpop = 1;
                     iconHighlighted = true;
                 }
                 else {
-                    var string = getText('CoreHome_ExcludeRowsWithLowPopulation_js');
+                    var string = getText('CoreHome_ExcludeRowsWithLowPopulation');
                     self.param.enable_filter_excludelowpop = 0;
                 }
                 $(this).html(string);
@@ -1009,8 +1009,8 @@ dataTable.prototype =
 
         $('.dataTableIncludeAggregateRows', domElem)
             .each(function () {
-                setText(this, 'include_aggregate_rows', 'CoreHome_DataTableExcludeAggregateRows_js',
-                    'CoreHome_DataTableIncludeAggregateRows_js');
+                setText(this, 'include_aggregate_rows', 'CoreHome_DataTableExcludeAggregateRows',
+                    'CoreHome_DataTableIncludeAggregateRows');
             })
             .click(generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {

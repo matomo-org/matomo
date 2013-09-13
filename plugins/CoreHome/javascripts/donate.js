@@ -24,7 +24,7 @@
         // set's the correct amount text & smiley face image based on the position of the slider
         var setSmileyFaceAndAmount = function (slider, pos) {
             // set text yearly amount
-            $('.slider-donate-amount', slider).text('$' + donateAmounts[pos] + '/' + _pk_translate('General_YearShort_js'));
+            $('.slider-donate-amount', slider).text('$' + donateAmounts[pos] + '/' + _pk_translate('General_YearShort'));
 
             // set the right smiley face
             $('.slider-smiley-face').attr('src', 'plugins/Zeitgeist/images/smileyprog_' + pos + '.png');

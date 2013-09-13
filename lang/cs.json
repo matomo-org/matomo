@@ -125,7 +125,7 @@
         "ThereIsNoDataForThisReport": "Pro toto hlášení nejsou k dispozici žádná data",
         "ViewAllPiwikVideoTutorials": "Zobrazit všechny návody Piwik",
         "WebAnalyticsReports": "Hlášení",
-        "YouAreUsingTheLatestVersion_js": "Používáte poslední verzi Piwik"
+        "YouAreUsingTheLatestVersion": "Používáte poslední verzi Piwik"
     },
     "CorePluginsAdmin": {
         "Action": "Akce",
@@ -406,7 +406,7 @@
         "GraphHelp": "Více informací o zobrazování grafů v Piwiku",
         "HelloUser": "Ahoj, %s!",
         "Help": "Pomoc",
-        "Hide_js": "skrýt",
+        "Hide": "skrýt",
         "HoursMinutes": "%1$s hodin %2$s min.",
         "Id": "ID",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "V případě, že je zálohování dost rychlé, můžete jej spouštět v cronu častěji",
@@ -585,7 +585,7 @@
         "ShortMonth_8_js": "srp",
         "ShortMonth_9": "Zář",
         "ShortMonth_9_js": "zář",
-        "Show_js": "zobrazit",
+        "Show": "zobrazit",
         "SmallTrafficYouCanLeaveDefault": "Pro sídla s malým provozem můžete ponechat výchozích %s sekund a uvidíte všechna hlášení v reálném čase",
         "SmtpEncryption": "SMTP šifrování",
         "SmtpPassword": "Heslo SMTP",
@@ -635,7 +635,7 @@
         "Widgets": "Widgety",
         "YearlyReports": "Roční hlášení",
         "YearsDays": "%1$s roků %2$s dní",
-        "YearShort_js": "yr",
+        "YearShort": "yr",
         "Yes": "Ano",
         "Yesterday": "Včera",
         "YouAreCurrentlyUsing": "Používáte Piwik verze %s.",

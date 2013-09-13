@@ -36,7 +36,7 @@
                         headerMessage.replaceWith(response);
                     }
                     else {
-                        headerMessage.html(_pk_translate('CoreHome_YouAreUsingTheLatestVersion_js')).show();
+                        headerMessage.html(_pk_translate('CoreHome_YouAreUsingTheLatestVersion')).show();
                         setTimeout(function () {
                             headerMessage.fadeOut('slow', function () {
                                 headerMessage.replaceWith(response);
@@ -65,8 +65,8 @@
         var handleSectionToggle = function (self, showType, doHide) {
             var sectionId = $(self).attr('data-section-id'),
                 section = $('#' + sectionId),
-                showText = _pk_translate('General_Show_js'),
-                hideText = _pk_translate('General_Hide_js');
+                showText = _pk_translate('General_Show'),
+                hideText = _pk_translate('General_Hide');
 
             if (typeof(doHide) == 'undefined') {
                 doHide = section.is(':visible');

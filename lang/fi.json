@@ -99,13 +99,13 @@
         "CategoryNoData": "Tässä kategoriassa ei ole tietoja. Kokeile linkkiä \"Kaikki esiintymät\".",
         "CheckForUpdates": "Tarkista päivitykset",
         "DataForThisReportHasBeenPurged": "Tämän raportin data on yli %s kuukautta vanhaa ja on poistettu.",
-        "DataTableExcludeAggregateRows_js": "Yhdistetyt rivit ovat näkyvillä %s Piilota",
-        "DataTableIncludeAggregateRows_js": "Yhdistetyt rivit on piilotettu %s Näytä",
+        "DataTableExcludeAggregateRows": "Yhdistetyt rivit ovat näkyvillä %s Piilota",
+        "DataTableIncludeAggregateRows": "Yhdistetyt rivit on piilotettu %s Näytä",
         "DateFormat": "%longDay% %longYear%-%month%-%day%",
         "Default_js": "oletus",
-        "ExcludeRowsWithLowPopulation_js": "Kaikki rivit näytetään %s Piilota vajaat rivit",
+        "ExcludeRowsWithLowPopulation": "Kaikki rivit näytetään %s Piilota vajaat rivit",
         "FlattenDataTable_js": "Tämä raportti on hierarkinen %s Muuta tasaiseksi",
-        "IncludeRowsWithLowPopulation_js": "Vajaat rivit on piilotettu %s Näytä kaikki rivit",
+        "IncludeRowsWithLowPopulation": "Vajaat rivit on piilotettu %s Näytä kaikki rivit",
         "InjectedHostEmailSubject": "Piwikiin otettiin yhteyttä tuntemattomalla osoitteella: %s",
         "JavascriptDisabled": "JavaScriptin täytyy olla käytössä normaalinäkymässä.<br \/>JavaScript ei ole päällä tai ei ole tuettu selaimessasi.<br \/>Ota JavaScript käyttöön selaimesi asetuksista ja %1$syritä uudelleen%2$s.<br\/>",
         "LongMonthFormat": "%longYear%, %longMonth%",
@@ -131,7 +131,7 @@
         "ThereIsNoDataForThisReport": "Tähän raporttiin ei ole tietoja.",
         "UnFlattenDataTable_js": "Tämä raportti on tasainen %s Muuta hierarkiseksi",
         "WebAnalyticsReports": "Raportit",
-        "YouAreUsingTheLatestVersion_js": "Käytössäsi on uusin versio Piwikistä!"
+        "YouAreUsingTheLatestVersion": "Käytössäsi on uusin versio Piwikistä!"
     },
     "CorePluginsAdmin": {
         "Action": "Toiminto",

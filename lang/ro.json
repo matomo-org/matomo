@@ -145,7 +145,7 @@
         "SupportPiwik": "Susţine Piwik!",
         "ThereIsNoDataForThisReport": "Nu există date pentru acest raport.",
         "WebAnalyticsReports": "Rapoarte de analitică web",
-        "YouAreUsingTheLatestVersion_js": "Foloseşti ultima versiune Piwik!"
+        "YouAreUsingTheLatestVersion": "Foloseşti ultima versiune Piwik!"
     },
     "CorePluginsAdmin": {
         "Action": "Acţiune",
@@ -432,7 +432,7 @@
         "GraphHelp": "Mai multe informatii despre afisarea graficelor in Piwik",
         "HelloUser": "Să trăieşti, %s!",
         "Help": "Ajutor",
-        "Hide_js": "ascunde",
+        "Hide": "ascunde",
         "HoursMinutes": "%1$s ore %2$s min",
         "Id": "Id",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Presupunand ca arhivarea este rapida pentru configurarea dvs., puteti rula crobtab mai frecvent",
@@ -621,7 +621,7 @@
         "ShortMonth_8_js": "Aug",
         "ShortMonth_9": "Sep",
         "ShortMonth_9_js": "Sep",
-        "Show_js": "arată",
+        "Show": "arată",
         "SmallTrafficYouCanLeaveDefault": "Pentru site-uri cu trafic mic, puteti lasa intervalul %%s secunde si accesa rapoartele in timp real.",
         "SmtpEncryption": "Encriptie SMTP",
         "SmtpPassword": "Parola SMTP",
@@ -674,7 +674,7 @@
         "YearlyReport": "anual",
         "YearlyReports": "Rapoarte anuale",
         "YearsDays": "%1$s ani %2$s zile",
-        "YearShort_js": "an",
+        "YearShort": "an",
         "Yes": "Da",
         "Yesterday": "Ieri",
         "YouAreCurrentlyUsing": "Foloseşti Piwik %s.",

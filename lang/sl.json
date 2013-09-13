@@ -596,7 +596,7 @@
         "YearlyReport": "letno",
         "YearlyReports": "Letna poročila",
         "YearsDays": "%1$s let %2$s dni",
-        "YearShort_js": "let",
+        "YearShort": "let",
         "Yes": "Da",
         "Yesterday": "Včeraj",
         "YouAreCurrentlyUsing": "Trenutno uporabljate Piwik %s.",
