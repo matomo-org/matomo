@@ -33,7 +33,7 @@
 
             <div class="plugin">
 
-                <a href="#" class="install">Install</a>
+                <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name}) }}" class="install">Install</a>
 
                 <h3>{{ plugin.name }}</h3>
                 <p class="description">{{ plugin.description }}</p>

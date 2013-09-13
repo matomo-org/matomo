@@ -13,6 +13,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Plugin;
 use Piwik\View;
 use Piwik\Url;
 
@@ -24,6 +25,20 @@ class Controller extends \Piwik\Controller\Admin
 {
     private $validSortMethods = array('popular', 'newest', 'alpha');
     private $defaultSortMethod = 'popular';
+
+    public function installPlugin()
+    {
+        $pluginName = Common::getRequestVar('pluginName', '', 'string');
+
+        if (empty($pluginName)) {
+            return;
+        }
+
+        $pluginInstaller = new PluginInstaller($pluginName);
+        $pluginInstaller->installOrUpdatePluginFromMarketplace();
+
+        // \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
+    }
 
     public function browsePlugins()
     {

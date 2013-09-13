@@ -15,7 +15,7 @@ use Piwik\Http;
  *
  * @package CorePluginsAdmin
  */
-class MarketplaceApiClient extends \Piwik\Controller\Admin
+class MarketplaceApiClient
 {
 
     private function fetch($method, $params)
@@ -29,6 +29,30 @@ class MarketplaceApiClient extends \Piwik\Controller\Admin
         $result = json_decode($result);
 
         return $result;
+    }
+
+    private function getInfo($name)
+    {
+        $method = sprintf('plugins/%s/info', $name);
+        return $this->fetch($method, array());
+    }
+
+    public function download($pluginOrThemeName, $target)
+    {
+        $plugin = $this->getInfo($pluginOrThemeName);
+
+        if (empty($plugin)) {
+            // TODO throw exception notExistingPlugin
+            return;
+        }
+
+        $latestVersion = array_pop($plugin->versions);
+
+        $downloadUrl = $latestVersion->download;
+
+        $success = Http::fetchRemoteFile($downloadUrl, $target);
+
+        return $success;
     }
 
     public function searchForPlugins($keywords, $query, $sort)
