@@ -37,6 +37,7 @@ class PluginInstaller
         $this->makeSureFoldersAreWritable();
         $this->downloadPluginFromMarketplace($tmpPluginZip);
         $this->extractPluginFiles($tmpPluginZip, $tmpPluginFolder);
+        $this->makeSurePluginJsonExists($tmpPluginFolder);
         $this->copyPluginToDestination($tmpPluginFolder);
 
         $this->removeFileIfExists($tmpPluginZip);
@@ -77,6 +78,13 @@ class PluginInstaller
 
         if (0 == count($pluginFiles)) {
             throw new \Exception(Piwik_TranslateException('Plugin Zip File Is Empty'));
+        }
+    }
+
+    private function makeSurePluginJsonExists($tmpPluginFolder)
+    {
+        if (!file_exists($tmpPluginFolder . 'plugin.json')) {
+            throw new \Exception('It is not a valid Plugin, missing plugin.json');
         }
     }
 
