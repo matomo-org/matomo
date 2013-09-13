@@ -2158,7 +2158,6 @@
         "PluginDetectionDoesNotWorkInIE": "Pažnja: detekcija dodataka ne radi kod Internet Explorera. Ovaj izveštaj se odnosi samo na brauzere koji nisu Internet Exlorer",
         "Plugins": "Dodaci",
         "Resolutions": "Rezolucije",
-        "SubmenuSettings": "Podešavanja",
         "VisitorSettings": "Parametri posetilaca",
         "WideScreen": "Širok ekran",
         "WidgetBrowserFamilies": "Brauzeri po porodicama",

@@ -2086,7 +2086,6 @@
         "PluginDetectionDoesNotWorkInIE": "Учтите: Определение плагинов не работает в Internet Explorer. Этот отчет содержит информацию о не-IE браузерах.",
         "Plugins": "Плагины",
         "Resolutions": "По разрешению мониторов",
-        "SubmenuSettings": "Настройки пользователей",
         "VisitorSettings": "Настройки посетителей",
         "WideScreen": "По ширине экрана",
         "WidgetBrowserFamilies": "Браузеры по семейству",

@@ -1343,7 +1343,6 @@
         "PluginDetectionDoesNotWorkInIE": "A böngészők bővítményeinek detektálása nem működik az Internet Exlporernél, így ez a jelentés csak a nem Internet Explorert használó látogatók adatait jeleníti meg.",
         "Plugins": "Bővítmények",
         "Resolutions": "Képernyőfelbontások",
-        "SubmenuSettings": "Beállítások",
         "VisitorSettings": "Látogatók adatai",
         "WideScreen": "Képernyő oldalarányai",
         "WidgetBrowserFamilies": "Böngészők család szerint",

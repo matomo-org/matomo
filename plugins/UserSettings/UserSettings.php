@@ -425,7 +425,7 @@ class UserSettings extends \Piwik\Plugin
      */
     function addMenu()
     {
-        Piwik_AddMenu('General_Visitors', 'UserSettings_SubmenuSettings', array('module' => 'UserSettings', 'action' => 'index'));
+        Piwik_AddMenu('General_Visitors', 'General_Settings', array('module' => 'UserSettings', 'action' => 'index'));
     }
 
     /**

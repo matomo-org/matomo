@@ -2045,7 +2045,6 @@
         "PluginDetectionDoesNotWorkInIE": "참고: Internet Explorer에서는 플러그인 검색이 작동하지 않습니다. 이 보고서는 IE 브라우저가 아닌것에 기반합니다.",
         "Plugins": "플러그인",
         "Resolutions": "해상도",
-        "SubmenuSettings": "기술환경",
         "VisitorSettings": "방문자 설정",
         "WideScreen": "와이드 스크린",
         "WidgetBrowserFamilies": "브라우저 타입",

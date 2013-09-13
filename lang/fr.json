@@ -2172,7 +2172,6 @@
         "PluginDetectionDoesNotWorkInIE": "Note : La détection des plugins ne fonctionne pas avec Internet Explorer. Ce rapport est basé sur les navigateurs non-IE.",
         "Plugins": "Plugins",
         "Resolutions": "Résolutions",
-        "SubmenuSettings": "Paramètres",
         "VisitorSettings": "Paramètres visiteur",
         "WideScreen": "Largeur d'écran",
         "WidgetBrowserFamilies": "Navigateurs par famille",

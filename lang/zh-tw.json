@@ -1225,7 +1225,6 @@
         "PluginDetectionDoesNotWorkInIE": "注意：外掛偵測無法在 Internet Explorer 上運作。這個報告僅提供非 IE 瀏覽器。",
         "Plugins": "瀏覽器外掛",
         "Resolutions": "解析度",
-        "SubmenuSettings": "環境設定值",
         "VisitorSettings": "造訪者設定值",
         "WideScreen": "寬螢幕",
         "WidgetBrowserFamilies": "瀏覽器家族",

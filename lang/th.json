@@ -1555,7 +1555,6 @@
         "PluginDetectionDoesNotWorkInIE": "หมายเหตุ: ตรวจสอบปลั๊กอินไม่ทำงานใน Internet Explorer รายงานนี้จะอิงตามเฉพาะเบราว์เซอร์ที่ไม่ใช่ IE",
         "Plugins": "ปลั้กอิน",
         "Resolutions": "ความละเอียด",
-        "SubmenuSettings": "การตั้งค่า",
         "VisitorSettings": "การตั้งค่าของผู้เข้าชม",
         "WideScreen": "ความกว้างหน้าจอ",
         "WidgetBrowserFamilies": "เบราว์เซอร์ตามประเภท",

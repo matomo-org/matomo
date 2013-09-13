@@ -1199,7 +1199,6 @@
         "PluginDetectionDoesNotWorkInIE": "შენიშვნა: პლაგინების ამოცნობა არ ხდება ინტერნეტ ექსპლორერში. ეს რეპორტი მუშაოაბს მხოლოდ არა–IE ბრაუზერებზე.",
         "Plugins": "პლაგინები",
         "Resolutions": "რეზოლუციები",
-        "SubmenuSettings": "პარამეტრები",
         "VisitorSettings": "ვიზიტორის პარამეტრები",
         "WideScreen": "ფართო ეკრანი",
         "WidgetBrowserFamilies": "ბრაუზერების ოჯახის მიხედვით",

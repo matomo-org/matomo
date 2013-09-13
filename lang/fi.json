@@ -1785,7 +1785,6 @@
         "PluginDetectionDoesNotWorkInIE": "Huom: lisäosien tunnistus ei toimi Internet Explorerissa. Tämä raportti perustuu vain ei-IE-selaimiin.",
         "Plugins": "Lisäosat",
         "Resolutions": "Resoluutio",
-        "SubmenuSettings": "Asetukset",
         "VisitorSettings": "Kävijöiden asetukset",
         "WideScreen": "Laajakulma",
         "WidgetBrowserFamilies": "Selaimet perheittäin",

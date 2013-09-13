@@ -134,7 +134,7 @@ class API
             'MobileMessaging_VerificationText',
             array(
                  $verificationCode,
-                 Piwik_Translate('UserSettings_SubmenuSettings'),
+                 Piwik_Translate('General_Settings'),
                  Piwik_Translate('MobileMessaging_SettingsMenu')
             )
         );

@@ -2174,7 +2174,6 @@
         "PluginDetectionDoesNotWorkInIE": "Note: Udvidelsesmodul detektering virker ikke i Internet Explorer. Rapport viser kun ikke-IE browsere.",
         "Plugins": "Udvidelsesmoduler",
         "Resolutions": "Opløsninger",
-        "SubmenuSettings": "Indstillinger",
         "VisitorSettings": "Besøgendes indstillinger",
         "WideScreen": "Bredformat",
         "WidgetBrowserFamilies": "Browsertype",

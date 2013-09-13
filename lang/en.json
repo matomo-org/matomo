@@ -1853,7 +1853,6 @@
         "WidgetBrowserFamiliesDocumentation": "This chart shows your visitors' browsers broken down into browser families. %s The most important information for web developers is what kind of rendering engine their visitors are using. The labels contain the names of the engines followed by the most common browser using that engine in brackets.",
         "WidgetOperatingSystems": "Operating System",
         "WidgetGlobalVisitors": "Visitor Configuration",
-        "SubmenuSettings": "Settings",
         "GamingConsole": "Gaming Console",
         "MobileVsDesktop": "Mobile vs Desktop",
         "BrowserLanguage": "Browser language",

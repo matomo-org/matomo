@@ -1971,7 +1971,6 @@
         "PluginDetectionDoesNotWorkInIE": "Nota: La detecció d'extensions no funciona amb Internet Explorer. L'informe es basa nomes amb navegadors diferents de l'Internet Explorer",
         "Plugins": "Connectors",
         "Resolutions": "Resolucions",
-        "SubmenuSettings": "Configuracions",
         "VisitorSettings": "Configuració del visitant",
         "WideScreen": "Pantalla panoràmica",
         "WidgetBrowserFamilies": "Navegadors per motor",

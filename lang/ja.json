@@ -1684,7 +1684,6 @@
         "PluginDetectionDoesNotWorkInIE": "注意： Internet Explorer ではプラグインの検出が動作しません。 このリポートは、非 IE ブラウザのみに基づきます。",
         "Plugins": "プラグイン",
         "Resolutions": "解像度",
-        "SubmenuSettings": "システム構成",
         "VisitorSettings": "ビジターの環境",
         "WideScreen": "ワイド画面",
         "WidgetBrowserFamilies": "ファミリー単位のブラウザ",

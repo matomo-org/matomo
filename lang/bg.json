@@ -1820,7 +1820,6 @@
         "PluginDetectionDoesNotWorkInIE": "Забележка: Засичането на плъгини не работи при Internet Explorer. Този доклад е базиран само на браузъри, различни от IE.",
         "Plugins": "Плъгини",
         "Resolutions": "Разделителна способност",
-        "SubmenuSettings": "Настройки",
         "VisitorSettings": "Настройки на посетителя",
         "WideScreen": "Екран",
         "WidgetBrowserFamilies": "Браузъри",

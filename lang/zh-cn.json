@@ -2142,7 +2142,6 @@
         "PluginDetectionDoesNotWorkInIE": "注意: 插件检查无法在 Internet Explorer 上运行。这个报表仅提供非 IE 浏览器。",
         "Plugins": "浏览器插件",
         "Resolutions": "分辨率",
-        "SubmenuSettings": "环境配置",
         "VisitorSettings": "访客设置",
         "WideScreen": "宽屏幕",
         "WidgetBrowserFamilies": "浏览器分类",

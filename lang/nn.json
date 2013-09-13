@@ -1320,7 +1320,6 @@
         "PluginDetectionDoesNotWorkInIE": "Merk: Registrering av innstikk virkar ikkje i Internet Explorer. Denne rapporten er berre basert på andre nettlesarar enn IE.",
         "Plugins": "Innstikk",
         "Resolutions": "Oppløysingar",
-        "SubmenuSettings": "Innstillingar",
         "VisitorSettings": "Vitjarinnstillingar",
         "WideScreen": "Breiskjerm",
         "WidgetBrowserFamilies": "Nettlesarar etter familie",
