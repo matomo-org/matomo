@@ -24,9 +24,10 @@ class Feedback extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'  => 'getJsFiles',
-            'TopMenu.add'              => 'addTopMenu',
+            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
+            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'TopMenu.add'                              => 'addTopMenu',
+            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );
     }
 
@@ -50,5 +51,10 @@ class Feedback extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Feedback/javascripts/feedback.js";
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'General_Loading';
     }
 }

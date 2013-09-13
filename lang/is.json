@@ -153,7 +153,7 @@
         "ExceptionFilesizeMismatch": "Skráarstærðar mismunur: %1$s (bjóst við lengd: %2$s, fann: %3$s)",
         "ExceptionMissingFile": "Töpuð skrá: %s",
         "ExceptionNonceMismatch": "Gat ekki valið öryggis tóka á þessu formi.",
-        "ExportAsImage_js": "Flytja út sem mynd",
+        "ExportAsImage": "Flytja út sem mynd",
         "ExportThisReport": "Flytja þetta gagnasett út á öðrum sniðum",
         "ForExampleShort": "t.d.",
         "GeneralSettings": "Almennar stillingar",
@@ -167,7 +167,7 @@
         "InvalidResponse": "Mótteknu gögnin eru ógild.",
         "Language": "Tungumál",
         "LayoutDirection": "ltr",
-        "Loading_js": "Sæki...",
+        "Loading": "Sæki...",
         "LoadingData": "Sækir gögn...",
         "Locale": "is_IS.UTF-8",
         "Logout": "Útskrá",
@@ -218,14 +218,13 @@
         "NewUpdatePiwikX": "Ný uppfærsla: Piwik %s",
         "Next": "Næsta",
         "No": "Nei",
-        "NoDataForGraph_js": "Engin gögn fyrir þetta graf.",
+        "NoDataForGraph": "Engin gögn fyrir þetta graf.",
         "NoDataForTagCloud": "Engin gögn fyrir þetta klisjuský.",
         "NotValid": "%s er ekki gilt",
         "NSeconds": "%s sekúndur",
         "Ok": "Ok",
         "OnlyEnterIfRequired": "Einungis slá inn notendanafn ef SMTP þjónninn krefst þess.",
         "OnlyEnterIfRequiredPassword": "Einungis slá inn lykilorð ef SMTP þjónninn krefst þess.",
-        "OpenInNewWindow_js": "Opna í nýjum glugga",
         "OpenSourceWebAnalytics": "Opin hugbúnaðar vefgreining",
         "OptionalSmtpPort": "Valmögulegt. Sjálgefið er gátt 25 fyrir ódulkóðuð samskipti og einnig fyrir TLS SMTP, en gátt 465 fyrir dulkóða SSL SMTP samskipti.",
         "OrCancel": "eða %s hætta við %s",
@@ -244,7 +243,7 @@
         "RequestTimedOut": "Gagnafyrirspurnin til %s rann út á tíma. Vinsamlegast reynið aftur.",
         "Required": "%s er krafist",
         "Save": "Vista",
-        "SaveImageOnYourComputer_js": "Til að vista myndina á tölvunni þinni, þarf að hægrismella á myndina og velja \"Vista mynd sem...\"",
+        "SaveImageOnYourComputer": "Til að vista myndina á tölvunni þinni, þarf að hægrismella á myndina og velja \"Vista mynd sem...\"",
         "Search": "Leita",
         "Seconds": "%ss",
         "SeeTheOfficialDocumentationForMoreInformation": "Sjá frekari upplýsingar í gögnunum%sofficial documentation%s",
@@ -1042,5 +1041,8 @@
         "SubmenuTimes": "Tímar",
         "WidgetLocalTime": "Heimsóknir skv. staðartíma",
         "WidgetServerTime": "Heimsóknir skv. tímabelti þjóns"
+    },
+    "Widgetize": {
+        "OpenInNewWindow": "Opna í nýjum glugga"
     }
 }

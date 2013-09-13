@@ -500,7 +500,7 @@
                     if (!isValidDate(oDateFrom)
                         || !isValidDate(oDateTo)
                         || oDateFrom > oDateTo) {
-                        $('#alert').find('h2').text(_pk_translate('General_InvalidDateRange_js'));
+                        $('#alert').find('h2').text(_pk_translate('General_InvalidDateRange'));
                         piwikHelper.modalConfirm('#alert', {});
                         return false;
                     }

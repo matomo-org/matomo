@@ -12,7 +12,7 @@ $(function () {
 
         feedback.click(function () {
             if (fbDiv.html() == '') {
-                fbDiv.html('<div id="feedback-loading"><img alt="" src="plugins/Zeitgeist/images/loading-blue.gif"> ' + _pk_translate('General_Loading_js') + '</div>');
+                fbDiv.html('<div id="feedback-loading"><img alt="" src="plugins/Zeitgeist/images/loading-blue.gif"> ' + _pk_translate('General_Loading') + '</div>');
             }
             if ($('#feedback-loading', fbDiv).length) {
                 $.get(feedback.attr('href'), function (data) {

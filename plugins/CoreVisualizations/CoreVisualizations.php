@@ -28,9 +28,10 @@ class CoreVisualizations extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'             => 'getJsFiles',
-            'DataTableVisualization.getAvailable' => 'getAvailableDataTableVisualizations',
+            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
+            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'DataTableVisualization.getAvailable'      => 'getAvailableDataTableVisualizations',
+            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );
     }
 
@@ -58,5 +59,15 @@ class CoreVisualizations extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplotBarGraph.js";
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplotPieGraph.js";
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplotEvolutionGraph.js";
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'General_MetricsToPlot';
+        $translationKeys[] = 'General_MetricToPlot';
+        $translationKeys[] = 'General_RecordsToPlot';
+        $translationKeys[] = 'General_SaveImageOnYourComputer';
+        $translationKeys[] = 'General_ExportAsImage';
+        $translationKeys[] = 'General_NoDataForGraph';
     }
 }

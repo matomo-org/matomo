@@ -43,12 +43,12 @@
             }
 
             this._lang = {
-                noData: _pk_translate('General_NoDataForGraph_js'),
-                exportTitle: _pk_translate('General_ExportAsImage_js'),
-                exportText: _pk_translate('General_SaveImageOnYourComputer_js'),
-                metricsToPlot: _pk_translate('General_MetricsToPlot_js'),
-                metricToPlot: _pk_translate('General_MetricToPlot_js'),
-                recordsToPlot: _pk_translate('General_RecordsToPlot_js')
+                noData: _pk_translate('General_NoDataForGraph'),
+                exportTitle: _pk_translate('General_ExportAsImage'),
+                exportText: _pk_translate('General_SaveImageOnYourComputer'),
+                metricsToPlot: _pk_translate('General_MetricsToPlot'),
+                metricToPlot: _pk_translate('General_MetricToPlot'),
+                recordsToPlot: _pk_translate('General_RecordsToPlot')
             };
 
             // set a unique ID for the graph element (required by jqPlot)

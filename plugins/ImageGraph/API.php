@@ -318,7 +318,7 @@ class API
 
                 //@review this test will need to be updated after evaluating the @review comment in API/API.php
                 if (!$processedReport) {
-                    throw new Exception(Piwik_Translate('General_NoDataForGraph_js'));
+                    throw new Exception(Piwik_Translate('General_NoDataForGraph'));
                 }
 
                 // restoring generic filter parameters
@@ -456,7 +456,7 @@ class API
             }
 
             if (!$hasData || !$hasNonZeroValue) {
-                throw new Exception(Piwik_Translate('General_NoDataForGraph_js'));
+                throw new Exception(Piwik_Translate('General_NoDataForGraph'));
             }
 
             //Setup the graph

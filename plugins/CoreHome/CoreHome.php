@@ -24,9 +24,10 @@ class CoreHome extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'  => 'getJsFiles',
-            'WidgetsList.add'          => 'addWidgets',
+            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
+            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'WidgetsList.add'                          => 'addWidgets',
+            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );
     }
 
@@ -88,5 +89,11 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/promo.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'General_InvalidDateRange';
+        $translationKeys[] = 'General_Loading';
     }
 }

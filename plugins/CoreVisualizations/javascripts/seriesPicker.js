@@ -58,9 +58,9 @@
         // language strings
         this.lang =
         {
-            metricsToPlot: _pk_translate('General_MetricsToPlot_js'),
-            metricToPlot: _pk_translate('General_MetricToPlot_js'),
-            recordsToPlot: _pk_translate('General_RecordsToPlot_js')
+            metricsToPlot: _pk_translate('General_MetricsToPlot'),
+            metricToPlot: _pk_translate('General_MetricToPlot'),
+            recordsToPlot: _pk_translate('General_RecordsToPlot')
         };
 
         this._pickerState = null;

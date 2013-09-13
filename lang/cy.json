@@ -5,6 +5,9 @@
         "PeriodWeek": "Wythnos",
         "PeriodYear": "Blwyddyn"
     },
+    "Dashboard": {
+        "Dashboard": "Dangosfwrdd"
+    },
     "General": {
         "AbandonedCarts": "Troliau Siopa a Adawyd",
         "AboutPiwikX": "Am dan Piwik %s",
@@ -72,10 +75,10 @@
         "DashboardForASpecificWebsite": "Dangosfwrdd ar gyfer gwefan penodol",
         "Date": "Dyddiad",
         "DateRange": "Amrediad dyddiad:",
-        "DateRangeFrom_js": "Oddiwrth",
+        "DateRangeFrom": "Oddiwrth",
         "DateRangeFromTo": "O %s i %s",
         "DateRangeInPeriodList": "Amrediad dyddiad",
-        "DateRangeTo_js": "I",
+        "DateRangeTo": "I",
         "DaysHours": "%1$s diwrnodau %2$s oriau",
         "DaysSinceFirstVisit": "Nifer o ddiwrnodau ers yr ymweliad cyntaf",
         "DaysSinceLastEcommerceOrder": "Nifer o ddiwrnodau ers yr archeb eFasnach diwethaf",
@@ -121,7 +124,7 @@
         "ExceptionUndeletableFile": "Wedi methu dileu %s",
         "ExceptionUnreadableFileDisabledMethod": "Nid oedd modd darllen y ffeil cyfluniad {%s}. Efallai bod eich cynhaliwr gwefan wedi ei anablu %s.",
         "Export": "Allforio",
-        "ExportAsImage_js": "Allforio fel llun",
+        "ExportAsImage": "Allforio fel llun",
         "ExportThisReport": "Allforio'r set ddata hon mewn fformatau eraill",
         "FileIntegrityWarningExplanation": "Mae rhai gwallau wedi eu darganfod wrth redeg gwiriad cywirdeb ar y ffeil. O ganlyniad mae'n debygol fod methiant rhannol neu llawn wedi digwydd wrth llwytho i fyny rhai o ffeiliau Piwik. Dylech ail lwytho holl ffeiliau Piwik eto yn y modd BINARY ac adnewyddu'r dudalen hon hyd nes ei fod yn dangos dim gwall.",
         "First": "Cyntaf",
@@ -135,12 +138,12 @@
         "HoursMinutes": "%1$s oriau %2$s isafswm",
         "Id": "Id",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "Gan dybio fod y system archifo ar gyfer eich gosodiad yn gyflym, gallwch sefydlu'r crontab i redeg yn fwy aml.",
-        "InvalidDateRange_js": "Amrediad Dyddiad Annilys, Ceisiwch Eto os Gwelwch yn Dda",
+        "InvalidDateRange": "Amrediad Dyddiad Annilys, Ceisiwch Eto os Gwelwch yn Dda",
         "InvalidResponse": "Mae'r data a dderbyniwyd yn annilys.",
         "Language": "Iaith",
         "LastDays": "Dyddiau %s diwethaf (yn cynnwys heddiw)",
         "LayoutDirection": "ltr",
-        "Loading_js": "Yn llwytho...",
+        "Loading": "Yn llwytho...",
         "LoadingData": "Wrthi'n llwytho data...",
         "Locale": "cy_GB.UTF-8",
         "Logout": "Allgofnodi",
@@ -174,7 +177,7 @@
         "NewVisitor": "Ymwelydd Newydd",
         "Next": "Nesaf",
         "No": "Na",
-        "NoDataForGraph_js": "Nid oes data ar gyfer y graff yma.",
+        "NoDataForGraph": "Nid oes data ar gyfer y graff yma.",
         "NoDataForTagCloud": "Dim data ar gyfer y tag cwmwl.",
         "NotDefined": "%s heb ei ddiffinio",
         "NotValid": "%s ddim yn ddilys",
@@ -184,7 +187,6 @@
         "OnlyEnterIfRequired": "Dim ond rhoi enw defnyddiwr os yw eich gweinyddwr SMTP yn gofyn amdano.",
         "OnlyEnterIfRequiredPassword": "Dim ond rhoi cyfrinair os yw eich gweinyddwr SMTP yn gofyn amdano.",
         "OnlyUsedIfUserPwdIsSet": "Yn cael ei ddefnyddio ond pan fydd enw defnyddiwr \/ cyfrinair wedi ei osod, gofynnwch i'ch darparwr os ydych yn ansicr pa ddull i'w ddefnyddio.",
-        "OpenInNewWindow_js": "Agor mewn ffenestr newydd",
         "OpenSourceWebAnalytics": "Dadansoddwr Gwefannol Ffynhonnell Agored",
         "OptionalSmtpPort": "Dewisol. Yn rhagosod i 25 os heb eu amgryptio a TLS SMTP, a 465 ar gyfer SSL SMTP.",
         "OrCancel": "neu %s Canslo %s",
@@ -213,7 +215,7 @@
         "Required": "%s angenrheidiol",
         "ReturningVisitor": "Ymwelydd yn ail ymweld",
         "Save": "Cadw",
-        "SaveImageOnYourComputer_js": "I gadw copi o'r llun ar eich cyfrifiadur, cliciwch a'r y botwm dde a dewiswch \"Save Image As...\"",
+        "SaveImageOnYourComputer": "I gadw copi o'r llun ar eich cyfrifiadur, cliciwch a'r y botwm dde a dewiswch \"Save Image As...\"",
         "Search": "Chwilio",
         "Seconds": "%ss",
         "SelectYesIfYouWantToSendEmailsViaServer": "Dewiswch \"Oes\" os ydych eisiau, neu ydych yn gorfod anfon e-bost trwy weinyddwr a enwir yn lle y defnyddio gweithred post lleol",
@@ -729,5 +731,8 @@
         "Language_yo": "Iorwba",
         "Language_zh": "Tseineeg",
         "Language_zu": "Zwlw"
+    },
+    "Widgetize": {
+        "OpenInNewWindow": "Agor mewn ffenestr newydd"
     }
 }

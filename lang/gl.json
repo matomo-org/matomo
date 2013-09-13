@@ -23,6 +23,7 @@
         "Plugins": "Plugins"
     },
     "Dashboard": {
+        "Dashboard": "Tableiro",
         "DeleteWidgetConfirm": "¿Está seguro de que desexa borrar este widget desde el tablón?",
         "LoadingWidget_js": "Cargando widget, agarde por favor...",
         "SelectWidget": "Seleccione un widget para engadilo no tablón",
@@ -89,7 +90,7 @@
         "EnglishLanguageName": "Galician",
         "Error": "Erro",
         "ErrorRequest": "Oops… Problema durante a petición, por favor probe de novo.",
-        "ExportAsImage_js": "Exportar como Imaxe",
+        "ExportAsImage": "Exportar como Imaxe",
         "ExportThisReport": "Exportar datos noutros formatos",
         "ForExampleShort": "ex.",
         "GeneralSettings": "Configuración Xeral",
@@ -99,7 +100,7 @@
         "HoursMinutes": "%1$s horas %2$s min",
         "Id": "ID",
         "LayoutDirection": "ltr",
-        "Loading_js": "Cargando",
+        "Loading": "Cargando",
         "LoadingData": "Cargando Datos...",
         "Locale": "gl_ES.UTF-8",
         "Logout": "Desconectarse",
@@ -144,13 +145,12 @@
         "NewVisitor": "Nova Visita",
         "Next": "Seguinte",
         "No": "Non",
-        "NoDataForGraph_js": "Sin datos para este Gráfico",
+        "NoDataForGraph": "Sin datos para este Gráfico",
         "NoDataForTagCloud": "Sin datos para esta Nube",
         "NotValid": "%s non é valido",
         "NSeconds": "%s segs",
         "NumberOfVisits": "Número de Visitas",
         "Ok": "Ok",
-        "OpenInNewWindow_js": "Abrir en nova Xanela",
         "OpenSourceWebAnalytics": "Analise Web de Open Source",
         "OrCancel": "ou %s Cancelar %s",
         "OriginalLanguageName": "Galego",
@@ -163,7 +163,7 @@
         "Required": "%s necesario",
         "ReturningVisitor": "Re-Visita",
         "Save": "Gardar",
-        "SaveImageOnYourComputer_js": "Para grabar a imaxe no computador faga click-dereito na imaxe e seleccione \"Grabar Imaxe como..\"",
+        "SaveImageOnYourComputer": "Para grabar a imaxe no computador faga click-dereito na imaxe e seleccione \"Grabar Imaxe como..\"",
         "Search": "Procurar",
         "Seconds": "%segs",
         "Settings": "Configuración",
@@ -797,5 +797,8 @@
         "SubmenuTimes": "Tempos",
         "WidgetLocalTime": "Visitas por hora local",
         "WidgetServerTime": "Visitas por hora do servidor"
+    },
+    "Widgetize": {
+        "OpenInNewWindow": "Abrir en nova Xanela"
     }
 }

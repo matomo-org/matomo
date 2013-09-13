@@ -1144,7 +1144,7 @@ dataTable.prototype =
                         '<tr>' +
                             '<td colspan="' + numberOfColumns + '" class="cellSubDataTable">' +
                             '<div id="' + divIdToReplaceWithSubTable + '">' +
-                            '<span class="loadingPiwik" style="display:inline"><img src="plugins/Zeitgeist/images/loading-blue.gif" />' + _pk_translate('General_Loading_js') + '</span>' +
+                            '<span class="loadingPiwik" style="display:inline"><img src="plugins/Zeitgeist/images/loading-blue.gif" />' + _pk_translate('General_Loading') + '</span>' +
                             '</div>' +
                             '</td>' +
                             '</tr>'

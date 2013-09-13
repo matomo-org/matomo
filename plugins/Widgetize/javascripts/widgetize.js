@@ -64,7 +64,7 @@ function widgetize() {
                 '</span>' +
                 '</div>' +
                 '<div> <label for="embedThisWidgetDirectLink">&rsaquo; Direct Link</label>' +
-                '<span id="embedThisWidgetDirectLink"> ' + self.getInputFormWithHtml('directLinkEmbed', urlIframe) + ' - <a href="' + urlIframe + '" target="_blank">' + _pk_translate('General_OpenInNewWindow_js') + '</a></span>'
+                '<span id="embedThisWidgetDirectLink"> ' + self.getInputFormWithHtml('directLinkEmbed', urlIframe) + ' - <a href="' + urlIframe + '" target="_blank">' + _pk_translate('Widgetize_OpenInNewWindow') + '</a></span>'
                 + '</div>'
         );
 
