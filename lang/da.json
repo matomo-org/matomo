@@ -1101,7 +1101,8 @@
         "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
         "VisitorProfile": "Besøgendes profil",
         "VisitorsInRealTime": "Besøgende her og nu",
-        "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden."
+        "VisitorsLastVisit": "Besøgendes seneste besøg var for %s dage siden.",
+        "VisitSummary": "Brugte i alt %1$s%2$s på hjemmesiden %3$s og %4$så %5$s sider på %6$s besøg. %7$s"
     },
     "Login": {
         "ChangePassword": "Skift adgangskode",
