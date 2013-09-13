@@ -29,11 +29,12 @@ class Dashboard extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'  => 'getJsFiles',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'UsersManager.deleteUser'  => 'deleteDashboardLayout',
-            'Menu.add'                 => 'addMenus',
-            'TopMenu.add'              => 'addTopMenu',
+            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'UsersManager.deleteUser'                => 'deleteDashboardLayout',
+            'Menu.add'                               => 'addMenus',
+            'TopMenu.add'                            => 'addTopMenu',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -272,5 +273,14 @@ class Dashboard extends \Piwik\Plugin
     public function uninstall()
     {
         Db::dropTables(Common::prefixTable('user_dashboard'));
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'Dashboard_AddPreviewedWidget';
+        $translationKeys[] = 'Dashboard_WidgetPreview';
+        $translationKeys[] = 'Dashboard_Maximise';
+        $translationKeys[] = 'Dashboard_Minimise';
+        $translationKeys[] = 'General_Close';
     }
 }

@@ -59,7 +59,7 @@
     "CoreHome": {
         "CategoryNoData": "無資料在此類別！ 嘗試使用 \"包含所有個體\"！",
         "JavascriptDisabled": "使用 Piwik 的標準檢視時必須啟用 JavaScript。<br \/>然而，看來你的瀏覽器已停用或不支援 JavaScript。<br \/>若要使用標準檢視，請變更你的瀏覽器選項並啟用 JavaScript, 然後%1$s重試一次%2$s。<br \/>",
-        "PageOf_js": "%1$s 之於 %2$s",
+        "PageOf": "%1$s 之於 %2$s",
         "PeriodDay": "日統計",
         "PeriodDays": "天",
         "PeriodMonth": "月統計",
@@ -139,8 +139,7 @@
         "YourDatabaseIsOutOfDate": "你的 Piwik 資料庫已經過期了，所以在繼續前必須先升級。"
     },
     "Dashboard": {
-        "AddPreviewedWidget_js": "將組件加入展示板",
-        "Close_js": "關閉",
+        "AddPreviewedWidget": "將組件加入展示板",
         "Dashboard": "展示板",
         "DeleteWidgetConfirm": "您確定要從展示板中刪除此組件嗎？",
         "LoadingWidget_js": "載入組件中，請稍候...",
@@ -149,7 +148,7 @@
         "TitleClickToAdd_js": "點擊以增加至展示板",
         "TitleWidgetInDashboard_js": "組件已存在於展示板",
         "WidgetNotFound_js": "找不到組件",
-        "WidgetPreview_js": "組件預覽",
+        "WidgetPreview": "組件預覽",
         "WidgetsAndDashboard": "組件與展示版"
     },
     "Feedback": {

@@ -10,7 +10,7 @@
     },
     "CoreHome": {
         "CategoryNoData": "Informatsioon puudub selles kategoorias. Proovi \"Include all population\".",
-        "PageOf_js": "%1$s - %2$s",
+        "PageOf": "%1$s - %2$s",
         "PeriodDay": "Päev",
         "PeriodMonth": "Kuu",
         "PeriodWeek": "Nädal",

@@ -17,7 +17,7 @@
     },
     "CoreHome": {
         "CategoryNoData": "በዚህ ፈርጅ ምንም ውሂብ የለም. \"ሁሉንም ምድብ\" ለማጠቃለል ይሞክሩ።",
-        "PageOf_js": "%1$s የ %2$s",
+        "PageOf": "%1$s የ %2$s",
         "PeriodDay": "ቀን",
         "PeriodDays": "ቀናት",
         "PeriodMonth": "ወር",
@@ -72,8 +72,7 @@
         "YourDatabaseIsOutOfDate": "የፒዊክ የውሂብ ጎታዎ ቀኑ ሰላለፈበት ከመቀጠልዎ በፊት ማላቅ ያስፈልገዋል"
     },
     "Dashboard": {
-        "AddPreviewedWidget_js": "ቅድመ እይታ የተሰጠውን widget ወደ ዳሽቦርዱ ጨምር",
-        "Close_js": "ዝጋ",
+        "AddPreviewedWidget": "ቅድመ እይታ የተሰጠውን widget ወደ ዳሽቦርዱ ጨምር",
         "Dashboard": "ዳሽቦርድ",
         "DeleteWidgetConfirm": "እርግጠኛ ነህ ይህ widget ከዳሽቦርድ ይሰረዝ?",
         "LoadingWidget_js": "widget በመጫን ላይ, እባክዎ ይጠበቁ...",
@@ -81,7 +80,7 @@
         "TitleClickToAdd_js": "ወደ ዳሽቦርዱ ለመጨመር ጠቅ አድርግ",
         "TitleWidgetInDashboard_js": "Widget ወደዳሽቦርዱ አስቀድሞ ገብቷል",
         "WidgetNotFound_js": "Widget አልተገኘም",
-        "WidgetPreview_js": "የWidget ቅድመእይታ"
+        "WidgetPreview": "የWidget ቅድመእይታ"
     },
     "General": {
         "API": "ኤፒአይI",

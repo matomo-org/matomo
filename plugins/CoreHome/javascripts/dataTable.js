@@ -469,7 +469,7 @@ dataTable.prototype =
 
                 // only show this string if there is some rows in the datatable
                 if (totalRows != 0) {
-                    var str = sprintf(_pk_translate('CoreHome_PageOf_js'), offset + '-' + offsetEndDisp, totalRows);
+                    var str = sprintf(_pk_translate('CoreHome_PageOf'), offset + '-' + offsetEndDisp, totalRows);
                     $(this).text(str);
                 }
             }
@@ -963,7 +963,7 @@ dataTable.prototype =
             text = _pk_translate(text);
             if (text.indexOf('%s') > 0) {
                 text = text.replace('%s', '<br /><span class="action">&raquo; ');
-                if (addDefault) text += ' (' + _pk_translate('CoreHome_Default_js') + ')';
+                if (addDefault) text += ' (' + _pk_translate('CoreHome_Default') + ')';
                 text += '</span>';
             }
             return text;
@@ -1003,7 +1003,7 @@ dataTable.prototype =
         // handle flatten
         $('.dataTableFlatten', domElem)
             .each(function () {
-                setText(this, 'flat', 'CoreHome_UnFlattenDataTable_js', 'CoreHome_FlattenDataTable_js');
+                setText(this, 'flat', 'CoreHome_UnFlattenDataTable', 'CoreHome_FlattenDataTable');
             })
             .click(generateClickCallback('flat'));
 

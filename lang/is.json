@@ -42,7 +42,7 @@
         "YouMayOptOutBis": "Til að framkvæma það val, vinsamlegast smelltu hér fyrir neðan til að fá útvals smáköku."
     },
     "CoreHome": {
-        "PageOf_js": "%1$s of %2$s",
+        "PageOf": "%1$s of %2$s",
         "PeriodDay": "Dagur",
         "PeriodDays": "daga",
         "PeriodMonth": "Mánuður",
@@ -73,18 +73,17 @@
         "Version": "Útgáfa"
     },
     "Dashboard": {
-        "AddPreviewedWidget_js": "Bæta forskoðuðum aukahlut á skjáborðið",
-        "Close_js": "Loka",
+        "AddPreviewedWidget": "Bæta forskoðuðum aukahlut á skjáborðið",
         "Dashboard": "Skjáborð",
         "DeleteWidgetConfirm": "Ertu viss um að þú viljir eyða þessum aukahlut af skjáborðinu.",
         "LoadingWidget_js": "Hleð inn aukahlut, vinsamlegast bíðið...",
-        "Maximise_js": "Hámarka",
+        "Maximise": "Hámarka",
         "PluginDescription": "Vefgreiningarskjáborðið þitt. Þú getur sérsniðið skjáborðið þitt: bætt við nýjum aukahlutum, breytt uppröðun aukahluta. Sérhver notandi hefur aðgang að sínu eigin sérsniðna skjáborði.",
         "SelectWidget": "Veldu aukahlutinn til að bæta við skjáborðið",
         "TitleClickToAdd_js": "Smella til að bæta á skjáborð",
         "TitleWidgetInDashboard_js": "Aukahlutur er núþegar á skjáborði",
         "WidgetNotFound_js": "Aukahlutur fannst ekki",
-        "WidgetPreview_js": "Forskoðun á aukahlut"
+        "WidgetPreview": "Forskoðun á aukahlut"
     },
     "General": {
         "AboutPiwikX": "Um Piwik %s",
