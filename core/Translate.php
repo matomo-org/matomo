@@ -163,7 +163,11 @@ class Translate
      */
     public function getJavascriptTranslations()
     {
-        $translations = $GLOBALS['Piwik_translations'];
+        $translations = &$GLOBALS['Piwik_translations'];
+
+        // Hack: common translations used in JS but not only, force them to be defined in JS
+        $translations['General']['Save_js'] = $translations['General']['Save'];
+        $translations['General']['OrCancel_js'] = $translations['General']['OrCancel'];
 
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $key) {
@@ -188,8 +192,7 @@ class Translate
     {
         $moduleRegex = '#^.*_js$#i';
 
-        // Hack: common translations used in JS but not only, force them to be defined in JS
-        $result = array('General_Save', 'General_OrCancel');
+        $result = array();
 
         Piwik_PostEvent(self::GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT, array(&$result));
 
