@@ -151,6 +151,14 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Visit ID</name>
+		<segment>visitId</segment>
+		<acceptedValues>Any integer.</acceptedValues>
+		<permission>1</permission>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Visit converted a specific Goal Id</name>
 		<segment>visitConvertedGoalId</segment>
 		<acceptedValues>1, 2, 3, etc.</acceptedValues>

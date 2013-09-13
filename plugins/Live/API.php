@@ -168,8 +168,6 @@ class API
     /**
      * Returns an array describing a visitor using her last visits (uses a maximum of 100).
      * 
-     * TODO: check for most recent vs. first visit
-     * 
      * @param int $idSite Site ID
      * @param string|false $visitorId The ID of the visitor whose profile to retrieve.
      * @param string|false $segment
@@ -303,6 +301,9 @@ class API
             }
         }
 
+        // save count of visits we queries
+        $result['visitsAggregated'] = count($rows);
+
         // use N most recent visits for last_visits
         $visits->deleteRowsOffset(self::VISITOR_PROFILE_MAX_VISITS_TO_SHOW);
         $result['lastVisits'] = $visits;
@@ -400,22 +401,6 @@ class API
             $visitorId = bin2hex($visitorId);
         }
         return $visitorId;
-    }
-
-    /**
-     * Returns visit data for a single visit.
-     * 
-     * @param string $idVisit
-     * @return array
-     */
-    public function getSingleVisitSummary($idVisit)
-    {
-        $sql = 'SELECT * from '.Common::prefixTable('log_visit').' WHERE idvisit = ?';
-        $bind = array($idVisit);
-
-        $visitorData = Db::fetchAll($sql, $bind);
-        $table = $this->getCleanedVisitorsFromDetails($visitorData, $visitorData[0]['idsite'], $flat = false, $doNotFetchActions = true);
-        return $table->getFirstRow()->getColumns();
     }
 
     /**

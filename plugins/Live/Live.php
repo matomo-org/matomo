@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\Live;
 
+use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\WidgetsList;
 
@@ -46,7 +47,7 @@ class Live extends \Piwik\Plugin
             'WidgetsList.add'                          => 'addWidget',
             'Menu.add'                                 => 'addMenu',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
-            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
         );
     }
 
@@ -62,7 +63,7 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
     }
 
-    function addMenu()
+    public function addMenu()
     {
         Piwik_AddMenu('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'indexVisitorLog'), true, $order = 5);
     }
@@ -75,14 +76,14 @@ class Live extends \Piwik\Plugin
         WidgetsList::add('Live!', 'Live_VisitorProfile', 'Live', 'getVisitorProfilePopup');
     }
 
-    public function getReportDisplayProperties(&$properties)
-    {
-        $properties['Live.getLastVisitsDetails'] = $this->getDisplayPropertiesForGetLastVisitsDetails();
-    }
-
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "Live_VisitorProfile";
+    }
+
+    public function getReportDisplayProperties(&$properties)
+    {
+        $properties['Live.getLastVisitsDetails'] = $this->getDisplayPropertiesForGetLastVisitsDetails();
     }
 
     private function getDisplayPropertiesForGetLastVisitsDetails()

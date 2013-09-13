@@ -35,6 +35,7 @@
 		<daysAgo>0</daysAgo>
 		<referralSummary>Direct Entry</referralSummary>
 	</lastVisit>
+	<visitsAggregated>2</visitsAggregated>
 	<lastVisits>
 		<row>
 			<idSite>1</idSite>
@@ -256,5 +257,5 @@
 		</row>
 	</lastVisits>
 	
-	<previousVisitorId>61e8cc2d51fea26d</previousVisitorId>
+	
 </result>

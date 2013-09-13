@@ -181,7 +181,9 @@ class Controller extends \Piwik\Controller
             'siteHasGoals' => $hasGoals,
             'maxVisits' => $maxVisits,
             'changeVisitAlpha' => Common::getRequestVar('changeVisitAlpha', true, 'int'),
-            'removeOldVisits' => Common::getRequestVar('removeOldVisits', true, 'int')
+            'removeOldVisits' => Common::getRequestVar('removeOldVisits', true, 'int'),
+            'showFooterMessage' => Common::getRequestVar('showFooterMessage', true, 'int'),
+            'showDateTime' => Common::getRequestVar('showDateTime', true, 'int')
         );
 
         if ($fetch) {

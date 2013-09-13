@@ -1,28 +1,6 @@
-// width & height constants for the visitor profile
-@visitor_profile_width = 1149;
-@visitor_profile_map_height = 280;
-@visitor_profile_map_pad_top = 21;
-@visitor_profile_map_pad_bottom = 20;
-
-@visitor_profile_aggregate_section_height = 116;
-@visitor_profile_aggregate_section_pad_top = 5;
-
-@visitor_profile_visits_title_height = 42;
-@visitor_profile_visits_title_pad_top = 8;
-@visitor_profile_visits_title_pad_bottom = 10;
-
-// intermediate values
-@visitor_profile_2nd_row_2nd_col_total_height =
-    @visitor_profile_map_height + @visitor_profile_map_pad_top + @visitor_profile_map_pad_bottom +
-    2 * (@visitor_profile_aggregate_section_height + @visitor_profile_aggregate_section_pad_top);
-@visitor_profile_visits_title_total_height = @visitor_profile_visits_title_height + @visitor_profile_visits_title_pad_top +
-    @visitor_profile_visits_title_pad_bottom;
-
-@visitor_profile_visits_list_height =  @visitor_profile_2nd_row_2nd_col_total_height - @visitor_profile_visits_title_total_height;
-
 .visitor-profile {
     position:relative;
-    width:unit(@visitor_profile_width, px);
+    width:1150px;
     border:1px solid #a19e96;
     border-radius:5px;
     background:url(../images/visitor_profile_background.jpg) repeat;
@@ -56,6 +34,10 @@
         font-weight:bold;
         color:black;
     }
+
+    span.truncated-text-line {
+        display:inline-block;
+    }
 }
 
 .visitor-profile-summary,.visitor-profile-important-visits,.visitor-profile-avatar,.visitor-profile-visits-container {
@@ -66,6 +48,19 @@
         line-height:19px;
         padding-left:4px;
     }
+}
+
+.visitor-profile-widget-link {
+    color:#5e5e5c;
+}
+
+.visitor-profile-widget-link:hover {
+    text-decoration:underline;
+}
+
+.visitor-profile-export {
+    float:right;
+    margin-top:3px;
 }
 
 .visitor-profile-close {
@@ -103,14 +98,14 @@
         }
 
         > div:first-child { // first column
-            width:unit(@visitor_profile_width / 2, px);
+            width:574.5px;
             border-left:none;
             margin:0 -3px 0 0;
             border-right:1px solid #d1cec8;
         }
 
         > div:last-child { // last column
-            width:unit(@visitor_profile_width / 2 - 1, px);
+            width:573.5px;
             border-bottom:none;
             margin:0 0 0 -3px;
             border-left:1px solid #d1cec8;
@@ -249,7 +244,7 @@
 
 .visitor-profile-summary,.visitor-profile-important-visits {
     overflow:hidden;
-    padding:unit(@visitor_profile_aggregate_section_pad_top, px) 0 0 22px;
+    padding:5px 0 0 22px;
 }
 
 .visitor-profile-summary {
@@ -303,12 +298,12 @@
 }
 
 .visitor-profile-pages-visited {
-    height:unit(@visitor_profile_visits_title_height, px);
+    height:42px;
     overflow-y:auto;
     position:relative;
     margin-right:10px;
     border-bottom:none!important;
-    padding: unit(@visitor_profile_visits_title_pad_top, px) 18px unit(@visitor_profile_visits_title_pad_bottom, px) 13px;
+    padding: 8px 18px 10px 13px;
 
     h1 {
         margin-left:6px;
@@ -469,29 +464,6 @@ span.visitor-profile-goal-name {
     position: relative;
 }
 
-.visitor-profile-visits-info > .loadingPiwik {
-    position: absolute;
-    top: 0;
-    left: 2px;
-    width: 545px;
-    height: unit(@visitor_profile_2nd_row_2nd_col_total_height - 16, px);
-    background-color: rgba(0,0,0,0.3);
-    z-index: 2;
-
-    > div {
-        display:table-cell;
-        vertical-align:middle;
-        text-align:center;
-
-        > div {
-            display:inline-block;
-            color:white;
-            background-color: rgba(0,0,0,0.7);
-            padding: 4px 8px;
-        }
-    }
-}
-
 div.visitor-profile-navigation {
     height:auto;
     min-height:inherit;
@@ -536,6 +508,7 @@ a.visitor-profile-next-visitor,a.visitor-profile-prev-visitor {
     top:-24px;
 }
 
+// overrides for the widgetized visitor profile
 .widget .visitor-profile {
     min-width: 100% !important;
     

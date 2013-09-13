@@ -50,7 +50,7 @@
                 </div>
                 <div class="visitor-profile-important-visits">
                     <div>
-                        <h1>{{ 'Live_FirstVisit'|translate }}</h1>
+                        <h1>{% if visitorData.visitsAggregated == 100 %}{{ 'General_Visit'|translate }}# 100{% else %}{{ 'Live_FirstVisit'|translate }}{% endif %}</h1>
                         <div>
                             <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</span></p>
                             <p><span>{{ 'General_FromReferrer'|translate }}:</span>

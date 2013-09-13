@@ -24,9 +24,12 @@
                 </span>
                 {% endif %}
                 {% if visitor.visitorTypeIcon %}
-                    <a class="visits-live-returning-visitor rightLink" data-visitor-id="{{ visitor.visitorId }}">
-                        &nbsp;- <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }} - {{ 'Live_ViewVisitorProfile'|translate }}"/>
-                    </a>
+                    &nbsp;- <img src="{{ visitor.visitorTypeIcon }}" title="{{ 'General_ReturningVisitor'|translate }} - {{ 'Live_ViewVisitorProfile'|translate }}"/>
+                {% endif %}
+                {% if visitor.visitorId is defined %}
+                <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.visitorId }}">
+                    <img src="plugins/Live/images/visitorProfileLaunch.png"/>
+                </a>
                 {% endif %}
                 {% if visitor.visitIp %}- <span title="{% if visitor.visitorId is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.visitorId }}{% endif %}">
                     IP: {{ visitor.visitIp }}</span>
@@ -132,7 +135,7 @@
     {% endfor %}
 </ul>
 <script type="text/javascript">
-$('#visitsLive').on('click', '.visits-live-returning-visitor', function (e) {
+$('#visitsLive').on('click', '.visits-live-launch-visitor-profile', function (e) {
     e.preventDefault();
     broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
     return false;

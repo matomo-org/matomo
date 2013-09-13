@@ -115,6 +115,24 @@
                 self.toggleMap();
                 return false;
             });
+
+            // append token_auth dynamically to export link
+            $element.on('mousedown', '.visitor-profile-export', function (e) {
+                var url = $(this).attr('href');
+                if (url.indexOf('&token_auth=') == -1) {
+                    $(this).attr('href', url + '&token_auth=' + piwik.token_auth);
+                }
+            });
+
+            // on hover, show export link (chrome won't let me do this via css :( )
+            $element.on('mouseenter mouseleave', '.visitor-profile-id', function (e) {
+                var $exportLink = $(this).find('.visitor-profile-export');
+                if ($exportLink.is(':hidden')) {
+                    $exportLink.css('display', 'inline-block');
+                } else {
+                    $exportLink.hide();
+                }
+            });
         },
 
         toggleMap: function () {
@@ -209,7 +227,8 @@
             ajax.addParams({
                 module: 'Live',
                 action: 'getSingleVisitSummary',
-                idVisit: visitId
+                visitId: visitId,
+                idSite: piwik.idSite
             }, 'GET');
             ajax.setCallback(function (response) {
                 $('.visitor-profile-avatar .loadingPiwik', $element).hide();

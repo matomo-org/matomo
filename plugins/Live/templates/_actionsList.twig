@@ -76,22 +76,22 @@
             {% elseif action.goalName is not defined%}
                 {# Page view / Download / Outlink #}
                 {% if action.pageTitle is defined and action.pageTitle is not empty %}
-                    <span>{{ action.pageTitle|truncate(80) }}</span>
+                    <span class="truncated-text-line">{{ action.pageTitle }}</span>
                 {% endif %}
                 {% if action.siteSearchKeyword is defined %}
                     {% if action.type == 'search' %}
                         <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}'>
                     {% endif %}
-                    {{ action.siteSearchKeyword|truncate(80) }}
+                    <span class="truncated-text-line">{{ action.siteSearchKeyword }}</span>
                 {% endif %}
                 {% if action.url is not empty %}
                     {% if action.type == 'action' and action.pageTitle is not empty %}<p>{% endif %}
                     {% if action.type == 'download' or action.type == 'outlink' %}
                         <img src='{{ action.icon }}'>
                     {% endif %}
-                    <a href="{{ action.url }}" target="_blank" class="action-list-url" 
+                    <a href="{{ action.url }}" target="_blank" class="action-list-url truncated-text-line" 
                        {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="{% if action.type=='action' and action.pageTitle is not empty %}margin-left: 25px;{% endif %}text-decoration:underline;"{% endif %}>
-                        {{ action.url|truncate(80) }}
+                        {{ action.url }}
                     </a>
                     {% if action.type == 'action' and action.pageTitle is not empty %}</p>{% endif %}
                 {% elseif action.type != 'search' %}

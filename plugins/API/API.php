@@ -118,6 +118,15 @@ class API
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
+            'type'           => 'dimension',
+            'category'       => Piwik_Translate('General_Visit'),
+            'name'           => Piwik_Translate('General_Visit') . " ID",
+            'segment'        => 'visitId',
+            'acceptedValues' => 'Any integer.',
+            'sqlSegment'     => 'log_visit.idvisit',
+            'permission'     => $isAuthenticatedWithViewAccess,
+        );
+        $segments[] = array(
             'type'       => 'metric',
             'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_NbActions',

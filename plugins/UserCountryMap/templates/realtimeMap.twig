@@ -6,14 +6,18 @@
     <div class="RealTimeMap_container">
         <div class="RealTimeMap_map" style="overflow:hidden;"></div>
         <div class="realTimeMap_overlay">
+            {% if config.showFooterMessage|default(true) %}
             <span class="showing_visits_of" style="display:none;">{{ 'UserCountryMap_ShowingVisits'|translate }}
                 <span class="realTimeMap_timeSpan" style="font-weight:bold;"></span>
             </span>
+            {% endif %}
             <span class="no_data" style="display:none;">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</span>
             <span class="loading_data">{{ 'General_LoadingData'|translate }}...</span>
             <img src="{{ piwikUrl }}plugins/UserCountryMap/images/realtimemap-loading.gif" style="vertical-align:baseline;position:relative;left:-2px;">
         </div>
+        {% if config.showDateTime|default(true) %}
         <div class="realTimeMap_overlay realTimeMap_datetime"></div>
+        {% endif %}
     </div>
     <div class="RealTimeMap_meta">
         <span class="loadingPiwik">

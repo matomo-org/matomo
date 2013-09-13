@@ -19,6 +19,7 @@ use Piwik\Plugins\Live\API;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\FrontController;
+use Piwik\PluginsManager;
 use Piwik\Plugins\Goals\API as Goals_API;
 
 /**
@@ -147,19 +148,32 @@ class Controller extends \Piwik\Controller
         $view->idSite = $idSite;
         $view->goals = Goals_API::getInstance()->getGoals($idSite);
         $view->visitorData = Request::processRequest('Live.getVisitorProfile', array('checkForLatLong' => true));
+        $view->exportLink = $this->getVisitorProfileExportLink();
+
         if (Common::getRequestVar('showMap', 1) == 1
             && $view->visitorData['hasLatLong']
+            && PluginsManager::getInstance()->isPluginLoaded('UserCountryMap')
         ) {
             $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();
         }
+
+        $this->setWidgetizedVisitorProfileUrl($view);
+
         echo $view->render();
     }
 
     public function getSingleVisitSummary()
     {
         $view = new View('@Live/getSingleVisitSummary.twig');
-        $view->visitData = Request::processRequest('Live.getSingleVisitSummary');
+        $visits = Request::processRequest('Live.getLastVisitsDetails', array(
+            'segment' => 'visitId==' . Common::getRequestVar('visitId'),
+            'period' => false,
+            'date' => false
+        ));
+        $view->visitData = $visits->getFirstRow()->getColumns();
         $view->showLocation = true;
+        $this->setWidgetizedVisitorProfileUrl($view);
+        $view->exportLink = $this->getVisitorProfileExportLink();
         echo $view->render();
     }
 
@@ -182,6 +196,29 @@ class Controller extends \Piwik\Controller
         echo $view->render();
     }
 
+    private function getVisitorProfileExportLink()
+    {
+        return Url::getCurrentQueryStringWithParametersModified(array(
+            'module'       => 'API',
+            'action'       => 'index',
+            'method'       => 'Live.getVisitorProfile',
+            'format'       => 'XML',
+            'expanded'     => 1
+        ));
+    }
+
+    private function setWidgetizedVisitorProfileUrl($view)
+    {
+        if (PluginsManager::getInstance()->isPluginLoaded('Widgetize')) {
+            $view->widgetizedLink = Url::getCurrentQueryStringWithParametersModified(array(
+                'module' => 'Widgetize',
+                'action' => 'iframe',
+                'moduleToWidgetize' => 'Live',
+                'actionToWidgetize' => 'getVisitorProfilePopup'
+            ));
+        }
+    }
+
     private function getUserCountryMapUrlForVisitorProfile()
     {
         $params = array(
@@ -191,6 +228,8 @@ class Controller extends \Piwik\Controller
             'changeVisitAlpha' => 0,
             'removeOldVisits' => 0,
             'realtimeWindow' => 'false',
+            'showFooterMessage' => 0,
+            'showDateTime' => 0
         );
         return Url::getCurrentQueryStringWithParametersModified($params);
     }

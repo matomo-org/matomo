@@ -15,25 +15,25 @@
 {% if dataTable.getRowsCount() == 0 %}
     <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
 {% else %}
-    <table class="dataTable" cellspacing="0" width="100%" style="width:100%;">
+    <table class="dataTable" cellspacing="0" width="100%" style="width:100%;table-layout:fixed;">
     <thead>
     <tr>
         <th style="display:none;"></th>
-        <th id="label" class="sortable label" style="cursor: auto;width:12%;" width="12%">
+        <th id="label" class="sortable label" style="cursor: auto;width:190px;" width="190px">
             <div id="thDIV">{{ 'General_Date'|translate }}
                 <div>
         </th>
         {% if displayVisitorsInOwnColumn %}
-            <th id="label" class="sortable label" style="cursor: auto;width:13%;" width="13%">
+            <th id="label" class="sortable label" style="cursor: auto;width:225px;" width="225px">
                 <div id="thDIV">{{ 'General_Visitors'|translate }}
                     <div>
             </th>
         {% endif %}
-        <th id="label" class="sortable label" style="cursor: auto;width:15%;" width="15%">
+        <th id="label" class="sortable label" style="cursor: auto;width:230px;" width="230px">
             <div id="thDIV">{{ 'Live_Referrer_URL'|translate }}
                 <div>
         </th>
-        <th id="label" class="sortable label" style="cursor: auto;width:62%;" width="62%">
+        <th id="label" class="sortable label" style="cursor: auto;">
             <div id="thDIV">{{ 'General_ColumnNbActions'|translate }}
                 <div>
         </th>
@@ -55,13 +55,14 @@
             <img src="{{ visitor.getColumn('operatingSystemIcon') }}"
                  title="{{ visitor.getColumn('operatingSystem') }}, {{ visitor.getColumn('resolution') }} ({{ visitor.getColumn('screenType') }})"/>
             {% if visitor.getColumn('visitorTypeIcon') %}
-                {% if visitor.getColumn('visitorId') is not empty %}
-                    <a class="rightLink" href="javascript:Piwik_Live_LoadVisitorPopover('{{ visitor.getColumn("visitorId") }}')">
-                {% endif %}
                 &nbsp;-
                 <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
-                     title="{{ 'General_ReturningVisitor'|translate }}{% if visitor.getColumn('visitorId') is not empty %} - {{ 'Live_ViewVisitorProfile'|translate }}{% endif %}"/>
-                {% if visitor.getColumn('visitorId') is not empty %}</a>{% endif %}
+                     title="{{ 'General_ReturningVisitor'|translate }}{% if visitor.getColumn('visitorId') is not empty %}{% endif %}"/>
+                {% if visitor.getColumn('visitorId') is not empty %}
+                <a class="rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }}" href="javascript:Piwik_Live_LoadVisitorPopover('{{ visitor.getColumn("visitorId") }}')">
+                    <img src="plugins/Live/images/visitorProfileLaunch.png"/>
+                </a>
+                {% endif %}
             {% endif %}
 
             {% if not displayVisitorsInOwnColumn %}<br/><br/>{% endif %}
@@ -94,7 +95,7 @@
             <tr class="label{{ cycle(['odd','even'], cycleIndex) }}">
             {% set cycleIndex=cycleIndex+1 %}
                 <td style="display:none;"></td>
-                <td class="label" style="width:12%;" width="12%">
+                <td class="label">
                     <strong title="{% if visitor.getColumn('visitorType')=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.getColumn('daysSinceLastVisit')) }}{% endif %}">
                         {{ visitor.getColumn('serverDatePrettyFirstAction') }}
                         {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitor.getColumn('serverTimePrettyFirstAction') }}</strong>
@@ -132,12 +133,12 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                 </td>
 
                 {% if displayVisitorsInOwnColumn %}
-                    <td class="label" style="width:13%;" width="13%">
+                    <td class="label">
                         {{ visitorColumnContent }}
                     </td>
                 {% endif %}
 
-                <td class="column" style="width:20%;" width="20%">
+                <td class="column">
                     <div class="referer">
                         {% if visitor.getColumn('referrerType') == 'website' %}
                             {{ 'Referers_ColumnWebsite'|translate }}:
@@ -175,7 +176,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                         {% if visitor.getColumn('referrerType') == 'direct' %}{{ 'Referers_DirectEntry'|translate }}{% endif %}
                     </div>
                 </td>
-                <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}" style="width:55%;" width="55%">
+                <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
                     <strong>
                         {{ visitor.getColumn('actionDetails')|length }}
                         {% if visitor.getColumn('actionDetails')|length <= 1 %}
