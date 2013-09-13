@@ -9,8 +9,8 @@
  * @package Piwik
  */
 namespace Piwik\Log;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Profiler;
 
 /**
  * Format a standard message event to be displayed on the screen.
@@ -42,7 +42,7 @@ class MessageScreenFormatter extends ScreenFormatter
         $memory = '';
         // Hacky: let's hide the memory usage in CLI to hide from the archive.php output
         if (!Common::isPhpCliMode()) {
-            $memory = '[' . Piwik::getMemoryUsage() . '] ';
+            $memory = '[' . Profiler::getMemoryUsage() . '] ';
         }
         $message = '[' . $event['timestamp'] . '] [' . $event['requestKey'] . '] ' . $memory . $message;
         return parent::format($message);

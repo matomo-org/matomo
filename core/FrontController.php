@@ -10,15 +10,12 @@
  */
 
 namespace Piwik;
-use Piwik\NoAccessException;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
-use Piwik\Session;
-use Piwik\Timer;
-use Piwik\Url;
 use Piwik\Log;
-use Piwik\PluginsManager;
+use Piwik\Session;
+use Piwik\Profiler;
 use Zend_Registry;
 
 /**
@@ -170,9 +167,9 @@ class FrontController
     public function __destruct()
     {
         try {
-            Piwik::printSqlProfilingReportZend();
-            Piwik::printQueryCount();
-            Piwik::printTimer();
+            Profiler::displayDbProfileReport();
+            Profiler::printQueryCount();
+            Piwik::log(Zend_Registry::get('timer'));
         } catch (Exception $e) {
         }
     }

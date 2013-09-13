@@ -11,23 +11,16 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Access;
-use Piwik\NoAccessException;
-use Piwik\AssetManager;
-use Piwik\Common;
-use Piwik\Config;
-use Piwik\Plugin;
-use Piwik\Site;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
-use Piwik\Session;
-use Piwik\Tracker;
-use Piwik\Tracker\Cache;
-use Piwik\Tracker\GoalManager;
-use Piwik\Url;
-use Piwik\Plugins\UsersManager\API;
-use Piwik\View;
 use Piwik\Log\ScreenFormatter;
+use Piwik\Plugin;
+use Piwik\Plugins\UsersManager\API;
+use Piwik\Session;
+use Piwik\Tracker\Cache;
+use Piwik\Tracker;
+use Piwik\Tracker\GoalManager;
+use Piwik\View;
 use Zend_Registry;
 
 /**
@@ -1049,191 +1042,6 @@ class Piwik
     }
 
     /*
-     * Profiling
-     */
-
-    /**
-     * Get total number of queries
-     *
-     * @return int  number of queries
-     */
-    static public function getQueryCount()
-    {
-        $profiler = \Zend_Registry::get('db')->getProfiler();
-        return $profiler->getTotalNumQueries();
-    }
-
-    /**
-     * Get total elapsed time (in seconds)
-     *
-     * @return int  elapsed time
-     */
-    static public function getDbElapsedSecs()
-    {
-        $profiler = \Zend_Registry::get('db')->getProfiler();
-        return $profiler->getTotalElapsedSecs();
-    }
-
-    /**
-     * Print number of queries and elapsed time
-     */
-    static public function printQueryCount()
-    {
-        $totalTime = self::getDbElapsedSecs();
-        $queryCount = self::getQueryCount();
-        Piwik::log(sprintf("Total queries = %d (total sql time = %.2fs)", $queryCount, $totalTime));
-    }
-
-
-    static function maxSumMsFirst($a, $b)
-    {
-        return $a['sum_time_ms'] < $b['sum_time_ms'];
-    }
-
-    /**
-     * Print profiling report for the tracker
-     *
-     * @param Db $db  Tracker database object (or null)
-     */
-    static public function printSqlProfilingReportTracker($db = null)
-    {
-        if (is_null($db)) {
-            $db = Tracker::getDatabase();
-        }
-        $tableName = Common::prefixTable('log_profiling');
-
-        $all = $db->fetchAll('SELECT * FROM ' . $tableName);
-        if ($all === false) {
-            return;
-        }
-        uasort($all, 'self::maxSumMsFirst');
-
-        $infoIndexedByQuery = array();
-        foreach ($all as $infoQuery) {
-            $query = $infoQuery['query'];
-            $count = $infoQuery['count'];
-            $sum_time_ms = $infoQuery['sum_time_ms'];
-            $infoIndexedByQuery[$query] = array('count' => $count, 'sumTimeMs' => $sum_time_ms);
-        }
-        Piwik::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
-    }
-
-    static private function sortTimeDesc($a, $b)
-    {
-        return $a['sumTimeMs'] < $b['sumTimeMs'];
-    }
-
-    /**
-     * Outputs SQL Profiling reports
-     * It is automatically called when enabling the SQL profiling in the config file enable_sql_profiler
-     *
-     * @throws Exception
-     */
-    static function printSqlProfilingReportZend()
-    {
-        $profiler = \Zend_Registry::get('db')->getProfiler();
-
-        if (!$profiler->getEnabled()) {
-            throw new Exception("To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file");
-        }
-
-        $infoIndexedByQuery = array();
-        foreach ($profiler->getQueryProfiles() as $query) {
-            if (isset($infoIndexedByQuery[$query->getQuery()])) {
-                $existing = $infoIndexedByQuery[$query->getQuery()];
-            } else {
-                $existing = array('count' => 0, 'sumTimeMs' => 0);
-            }
-            $new = array('count' => $existing['count'] + 1,
-                'sumTimeMs' => $existing['count'] + $query->getElapsedSecs() * 1000);
-            $infoIndexedByQuery[$query->getQuery()] = $new;
-        }
-
-        uasort($infoIndexedByQuery, 'self::sortTimeDesc');
-
-        $str = '<hr /><strong>SQL Profiler</strong><hr /><strong>Summary</strong><br/>';
-        $totalTime = $profiler->getTotalElapsedSecs();
-        $queryCount = $profiler->getTotalNumQueries();
-        $longestTime = 0;
-        $longestQuery = null;
-        foreach ($profiler->getQueryProfiles() as $query) {
-            if ($query->getElapsedSecs() > $longestTime) {
-                $longestTime = $query->getElapsedSecs();
-                $longestQuery = $query->getQuery();
-            }
-        }
-        $str .= 'Executed ' . $queryCount . ' queries in ' . round($totalTime, 3) . ' seconds';
-        $str .= '(Average query length: ' . round($totalTime / $queryCount, 3) . ' seconds)';
-        $str .= '<br />Queries per second: ' . round($queryCount / $totalTime, 1);
-        $str .= '<br />Longest query length: ' . round($longestTime, 3) . " seconds (<code>$longestQuery</code>)";
-        Piwik::log($str);
-        Piwik::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
-    }
-
-    /**
-     * Log a breakdown by query
-     *
-     * @param array $infoIndexedByQuery
-     */
-    static private function getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery)
-    {
-        $output = '<hr /><strong>Breakdown by query</strong><br/>';
-        foreach ($infoIndexedByQuery as $query => $queryInfo) {
-            $timeMs = round($queryInfo['sumTimeMs'], 1);
-            $count = $queryInfo['count'];
-            $avgTimeString = '';
-            if ($count > 1) {
-                $avgTimeMs = $timeMs / $count;
-                $avgTimeString = " (average = <b>" . round($avgTimeMs, 1) . "ms</b>)";
-            }
-            $query = preg_replace('/([\t\n\r ]+)/', ' ', $query);
-            $output .= "Executed <b>$count</b> time" . ($count == 1 ? '' : 's') . " in <b>" . $timeMs . "ms</b> $avgTimeString <pre>\t$query</pre>";
-        }
-        Piwik::log($output);
-    }
-
-    /**
-     * Print timer
-     */
-    static public function printTimer()
-    {
-        Piwik::log(Zend_Registry::get('timer'));
-    }
-
-    /**
-     * Print memory leak
-     *
-     * @param string $prefix
-     * @param string $suffix
-     */
-    static public function printMemoryLeak($prefix = '', $suffix = '<br />')
-    {
-        echo $prefix;
-        echo \Zend_Registry::get('timer')->getMemoryLeak();
-        echo $suffix;
-    }
-
-    /**
-     * Print memory usage
-     *
-     * @return string
-     */
-    static public function getMemoryUsage()
-    {
-        $memory = false;
-        if (function_exists('xdebug_memory_usage')) {
-            $memory = xdebug_memory_usage();
-        } elseif (function_exists('memory_get_usage')) {
-            $memory = memory_get_usage();
-        }
-        if ($memory === false) {
-            return "Memory usage function not found.";
-        }
-        $usage = number_format(round($memory / 1024 / 1024, 2), 2);
-        return "$usage Mb";
-    }
-
-    /*
      * Amounts, Percentages, Currency, Time, Math Operations, and Pretty Printing
      */
 
@@ -1926,7 +1734,7 @@ class Piwik
     static public function disconnectDatabase()
     {
         \Zend_Registry::get('db')->closeConnection();
-    }
+}
 
     /**
      * Checks the database server version against the required minimum

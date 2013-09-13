@@ -485,7 +485,7 @@ class Tracker
         if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
             if (isset(self::$db)) {
                 self::$db->recordProfiling();
-                Piwik::printSqlProfilingReportTracker(self::$db);
+                Profiler::displayDbTrackerProfile(self::$db);
             }
         }
 

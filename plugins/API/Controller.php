@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\API\Proxy;
 use Piwik\Config;
 use Piwik\Common;
-use Piwik\Plugins\API\API;
 use Piwik\View;
 
 /**

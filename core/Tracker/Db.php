@@ -36,7 +36,7 @@ abstract class Db
      * Enables the SQL profiling.
      * For each query, saves in the DB the time spent on this query.
      * Very useful to see the slow query under heavy load.
-     * You can then use Piwik::printSqlProfilingReportTracker();
+     * You can then use Piwik::displayDbTrackerProfile();
      * to display the SQLProfiling report and see which queries take time, etc.
      */
     public static function enableProfiling()
