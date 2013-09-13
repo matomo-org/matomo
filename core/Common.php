@@ -42,6 +42,17 @@ class Common
      */
     const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
+    /**
+     *
+     * @param string
+     * @return string Line breaks and line carriage removed
+     */
+    public static function sanitizeLineBreaks($value)
+    {
+        $value = str_replace(array("\n", "\r", "\0"), '', $value);
+        return $value;
+    }
+
     /*
      * Database
      */
@@ -508,7 +519,7 @@ class Common
         $value = html_entity_decode($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
         // filter
-        $value = str_replace(array("\n", "\r", "\0"), '', $value);
+        $value = self::sanitizeLineBreaks($value);
 
         // escape
         $tmp = @htmlspecialchars($value, self::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');

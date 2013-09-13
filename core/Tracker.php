@@ -163,7 +163,7 @@ class Tracker
         if (!empty($rawData)) {
             $this->usingBulkTracking = strpos($rawData, '"requests"') || strpos($rawData, "'requests'");
             if ($this->usingBulkTracking) {
-                return $this->initBulkTrackingRequests($rawData);
+                return $this->authenticateBulkTrackingRequests($rawData);
             }
         }
 
@@ -171,10 +171,13 @@ class Tracker
         $this->requests = $args ? $args : (!empty($_GET) || !empty($_POST) ? array($_GET + $_POST) : array());
     }
 
-    private function initBulkTrackingRequests($rawData)
+    private function authenticateBulkTrackingRequests($rawData)
     {
+        $rawData = trim($rawData);
+        $rawData = Common::sanitizeLineBreaks($rawData);
+
         // POST data can be array of string URLs or array of arrays w/ visit info
-        $jsonData = Common::json_decode($rawData, $assoc = true);
+        $jsonData = json_decode($rawData, $assoc = true);
 
         if (isset($jsonData['requests'])) {
             $this->requests = $jsonData['requests'];
@@ -199,7 +202,8 @@ class Tracker
                 }
 
                 // We need to check access for each single request
-                if (isset($request['idsite']) && !in_array($request['idsite'], $idSitesForAuthentication)) {
+                if (isset($request['idsite'])
+                    && !in_array($request['idsite'], $idSitesForAuthentication)) {
                     $idSitesForAuthentication[] = $request['idsite'];
                 }
             }
@@ -207,7 +211,7 @@ class Tracker
             foreach($idSitesForAuthentication as $idSiteForAuthentication) {
                 // a Bulk Tracking request that is not authenticated should fail
                 if (!Request::authenticateSuperUserOrAdmin($tokenAuth, $idSiteForAuthentication)) {
-                    throw new Exception("token_auth specified is not valid for site " . intval($idSiteForAuthentication));
+                    throw new Exception("token_auth specified does not have Admin permission for site " . intval($idSiteForAuthentication));
                 }
             }
         }
@@ -393,7 +397,8 @@ class Tracker
                             'tracked' => $this->countOfLoggedRequests
             );
             // send error when in debug mode or when authenticated (which happens when doing log importing,
-            if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) || $authenticated) {
+            if (( isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
+                || $authenticated) {
                 $result['message'] = $this->getMessageFromException($e);
             }
             $this->sendHeader('Content-Type: application/json');
