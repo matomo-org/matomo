@@ -447,7 +447,6 @@
         "DailyReport": "dagligen",
         "DailyReports": "Dagliga rapporter",
         "DailySum": "daglig summa",
-        "Dashboard": "Instrumentpanel",
         "DashboardForASpecificWebsite": "Instrumentpanel för en specifik webbplats",
         "DataForThisGraphHasBeenPurged": "Data för denna graf är mer än %s månader gammal och har rensats bort.",
         "DataForThisTagCloudHasBeenPurged": "Data för detta taggmoln är mer än %s månader och har rensats bort.",

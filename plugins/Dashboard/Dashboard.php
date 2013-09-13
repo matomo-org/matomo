@@ -225,7 +225,7 @@ class Dashboard extends \Piwik\Plugin
         }
 
         $urlParams = array('module' => 'CoreHome', 'action' => 'index');
-        Piwik_AddTopMenu('General_Dashboard', $urlParams, true, 1, $isHTML = false, $tooltip);
+        Piwik_AddTopMenu('Dashboard_Dashboard', $urlParams, true, 1, $isHTML = false, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)

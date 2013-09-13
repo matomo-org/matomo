@@ -463,7 +463,6 @@
         "DailyReport": "ежедневно",
         "DailyReports": "Ежедневные отчеты",
         "DailySum": "сумма за день",
-        "Dashboard": "Панель аналитики",
         "DashboardForASpecificWebsite": "Сводная статистика для отдельного сайта",
         "DataForThisGraphHasBeenPurged": "Данные для этого графика, которые старше чем %s месяцев и были очищены.",
         "DataForThisTagCloudHasBeenPurged": "Данные для этого облака тегов, которые старше чем %s месяцев и были очищены.",

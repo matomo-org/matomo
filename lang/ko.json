@@ -426,7 +426,6 @@
         "Daily": "일간",
         "DailyReports": "일간 보고서",
         "DailySum": "일별",
-        "Dashboard": "대시보드",
         "DashboardForASpecificWebsite": "특정 웹사이트의 대시보드",
         "DataForThisGraphHasBeenPurged": "이 그래프에 대한 데이터는 %s 개월 이상이며, 완벽하게 제거했습니다.",
         "DataForThisTagCloudHasBeenPurged": "이 태그 클라우드의 데이터는 %s개월 지났으므로 제거되었습니다.",

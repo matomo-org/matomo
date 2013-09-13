@@ -479,7 +479,6 @@
         "DailyReport": "daglig",
         "DailyReports": "Daglige rapporter",
         "DailySum": "daglige sum",
-        "Dashboard": "Kontrolpanel",
         "DashboardForASpecificWebsite": "Kontrolpanel for en specifik hjemmeside",
         "DataForThisGraphHasBeenPurged": "Dataene for denne graf er mere end %s måneder gamle og er blevet slettet.",
         "DataForThisTagCloudHasBeenPurged": "Dataene for denne emnesky er mere end %s måneder gamle og er blevet slettet.",

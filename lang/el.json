@@ -478,7 +478,6 @@
         "DailyReport": "ημερήσια",
         "DailyReports": "Ημερήσιες αναφορές",
         "DailySum": "ημερήσιο άθροισμα",
-        "Dashboard": "Κεντρικός Πίνακας",
         "DashboardForASpecificWebsite": "Κεντρικός πίνακας για συγκεκριμένη ιστοσελίδα",
         "DataForThisGraphHasBeenPurged": "Τα δεδομένα αυτού του γραφήματος είναι πάνω από %s μηνών και εκκαθαρίστηκαν.",
         "DataForThisTagCloudHasBeenPurged": "Τα δεδομένα αυτού του σύννεφου ετικετών είναι πάνω από %s μηνών και εκκαθαρίστηκαν.",
