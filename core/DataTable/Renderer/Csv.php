@@ -10,14 +10,14 @@
  */
 namespace Piwik\DataTable\Renderer;
 
-use Piwik\DataTable\Simple;
+use Piwik\Common;
 use Piwik\DataTable\Renderer;
+use Piwik\DataTable\Simple;
+use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\DataTable;
+use Piwik\ProxyHttp;
 
 /**
  * CSV export
@@ -353,7 +353,7 @@ class Csv extends Renderer
         // silent fail otherwise unit tests fail
         @header('Content-Type: application/vnd.ms-excel');
         @header('Content-Disposition: attachment; filename="' . $fileName . '"');
-        Piwik::overrideCacheControlHeaders();
+        ProxyHttp::overrideCacheControlHeaders();
     }
 
     /**

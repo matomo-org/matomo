@@ -11,9 +11,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\Session\SaveHandler\DbTable;
 use Zend_Registry;
 use Zend_Session;
@@ -63,7 +60,7 @@ class Session extends Zend_Session
         @ini_set('session.use_only_cookies', '1');
 
         // advise browser that session cookie should only be sent over secure connection
-        if (Piwik::isHttps()) {
+        if (ProxyHttp::isHttps()) {
             @ini_set('session.cookie_secure', '1');
         }
 

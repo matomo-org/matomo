@@ -134,7 +134,7 @@ class View implements ViewInterface
             $this->totalNumberOfQueries = 0;
         }
 
-        Piwik::overrideCacheControlHeaders('no-store');
+        ProxyHttp::overrideCacheControlHeaders('no-store');
 
         @header('Content-Type: ' . $this->contentType);
         // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)

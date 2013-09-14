@@ -12,14 +12,13 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Cookie;
 use Piwik\Option;
-use Piwik\Plugins\Login\Auth;
-use Piwik\Plugins\Login\Controller;
-use Piwik\Session;
-use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\ProxyHttp;
+use Piwik\Session;
 
 /**
  *
@@ -124,7 +123,7 @@ class Login extends \Piwik\Plugin
 
         $cookie->set('login', $login);
         $cookie->set('token_auth', $auth->getHashTokenAuth($login, $authResult->getTokenAuth()));
-        $cookie->setSecure(Piwik::isHttps());
+        $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->setHttpOnly(true);
         $cookie->save();
 

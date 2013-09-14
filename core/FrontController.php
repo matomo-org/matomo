@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Log;
 use Piwik\Session;
-use Piwik\Profiler;
 use Zend_Registry;
 
 /**
@@ -344,7 +343,7 @@ class FrontController
     {
         if (!Common::isPhpCliMode()
             && Config::getInstance()->General['force_ssl'] == 1
-            && !Piwik::isHttps()
+            && !ProxyHttp::isHttps()
             // Specifically disable for the opt out iframe
             && !(Common::getRequestVar('module', '') == 'CoreAdminHome'
                 && Common::getRequestVar('action', '') == 'optOut')

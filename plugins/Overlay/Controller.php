@@ -11,14 +11,15 @@
 namespace Piwik\Plugins\Overlay;
 
 use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Config;
-use Piwik\Common;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Plugins\SitesManager\API;
+use Piwik\ProxyHttp;
 use Piwik\Tracker\Action;
 use Piwik\View;
-use Piwik\Plugins\SitesManager\API;
 
 class Controller extends \Piwik\Controller
 {
@@ -41,7 +42,7 @@ class Controller extends \Piwik\Controller
         $view->date = Common::getRequestVar('date', 'today');
         $view->period = Common::getRequestVar('period', 'day');
 
-        $view->ssl = Piwik::isHttps();
+        $view->ssl = ProxyHttp::isHttps();
 
         echo $view->render();
     }
@@ -137,7 +138,7 @@ class Controller extends \Piwik\Controller
 			<html><head><title></title></head><body>
 			<script type="text/javascript">
 				function handleProtocol(url) {
-					if (' . (Piwik::isHttps() ? 'true' : 'false') . ') {
+					if (' . (ProxyHttp::isHttps() ? 'true' : 'false') . ') {
 						return url.replace(/http:\/\//i, "https://");
 					} else {
 						return url.replace(/https:\/\//i, "http://");

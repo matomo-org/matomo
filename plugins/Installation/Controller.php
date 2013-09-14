@@ -11,26 +11,23 @@
 namespace Piwik\Plugins\Installation;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db\Adapter;
-use Piwik\Piwik;
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\Access;
-use Piwik\Http;
-use Piwik\Session\SessionNamespace;
-use Piwik\Updater;
-use Piwik\Version;
-use Piwik\Url;
-use Piwik\ProxyHeaders;
 use Piwik\Db;
-use Piwik\Plugins\Installation\FormDatabaseSetup;
-use Piwik\Plugins\Installation\FormFirstWebsiteSetup;
-use Piwik\Plugins\Installation\FormGeneralSetup;
+use Piwik\Http;
+use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\ProxyHeaders;
+use Piwik\Session\SessionNamespace;
+use Piwik\Updater;
+use Piwik\Url;
+use Piwik\Version;
 use Zend_Db_Adapter_Exception;
 
 /**
@@ -850,7 +847,7 @@ class Controller extends \Piwik\Controller\Admin
         $infos['tracker_status'] = Common::getRequestVar('trackerStatus', 0, 'int');
 
         $infos['protocol'] = ProxyHeaders::getProtocolInformation();
-        if (!Piwik::isHttps() && $infos['protocol'] !== null) {
+        if (!\Piwik\ProxyHttp::isHttps() && $infos['protocol'] !== null) {
             $infos['general_infos']['assume_secure_protocol'] = '1';
         }
         if (count($headers = ProxyHeaders::getProxyClientHeaders()) > 0) {

@@ -11,12 +11,10 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\DataTable\Simple;
-use Piwik\DataTable\Row;
-use Piwik\Piwik;
-use Piwik\DataTable;
-use Piwik\Loader;
 use Piwik\API\Request;
+use Piwik\DataTable\Row;
+use Piwik\DataTable\Simple;
+use Piwik\DataTable;
 use Piwik\Plugins\ImageGraph\API;
 
 /**
@@ -175,7 +173,7 @@ abstract class ReportRenderer
     {
         $filename = ReportRenderer::appendExtension($filename, $extension);
 
-        Piwik::overrideCacheControlHeaders();
+        ProxyHttp::overrideCacheControlHeaders();
         header('Content-Description: File Transfer');
         header('Content-Type: ' . $contentType);
         header('Content-Disposition: attachment; filename="' . str_replace('"', '\'', basename($filename)) . '";');

@@ -500,7 +500,7 @@ class AssetManager
             }
 
             // Tries to remove compressed version of the merged file.
-            // See Piwik::serveFile() for more info on static file compression
+            // See Piwik::serverStaticFile() for more info on static file compression
             $compressedFileLocation = PIWIK_USER_PATH . Piwik::COMPRESSED_FILE_LOCATION . $filename;
 
             @unlink($compressedFileLocation . ".deflate");

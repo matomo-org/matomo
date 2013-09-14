@@ -178,42 +178,6 @@ class Piwik
         return $url;
     }
 
-    /**
-     * Returns true if this appears to be a secure HTTPS connection
-     *
-     * @return bool
-     */
-    static public function isHttps()
-    {
-        return Url::getCurrentScheme() === 'https';
-    }
-
-    /**
-     * Workaround IE bug when downloading certain document types over SSL and
-     * cache control headers are present, e.g.,
-     *
-     *    Cache-Control: no-cache
-     *    Cache-Control: no-store,max-age=0,must-revalidate
-     *    Pragma: no-cache
-     *
-     * @see http://support.microsoft.com/kb/316431/
-     * @see RFC2616
-     *
-     * @param string $override  One of "public", "private", "no-cache", or "no-store". (optional)
-     */
-    static public function overrideCacheControlHeaders($override = null)
-    {
-        if ($override || self::isHttps()) {
-            @header('Pragma: ');
-            @header('Expires: ');
-            if (in_array($override, array('public', 'private', 'no-cache', 'no-store'))) {
-                @header("Cache-Control: $override, must-revalidate");
-            } else {
-                @header('Cache-Control: must-revalidate');
-            }
-        }
-    }
-
     /*
      * File and directory operations
      */

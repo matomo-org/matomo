@@ -10,11 +10,10 @@
  */
 namespace Piwik\DataTable\Renderer;
 
-use Piwik\DataTable\Renderer;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable\Renderer;
 use Piwik\DataTable;
-use Piwik\DataTable\Renderer\Php;
+use Piwik\ProxyHttp;
 
 /**
  * JSON export.
@@ -114,7 +113,7 @@ class Json extends Renderer
     protected function renderHeader()
     {
         self::sendHeaderJSON();
-        Piwik::overrideCacheControlHeaders();
+        ProxyHttp::overrideCacheControlHeaders();
     }
 
     public static function sendHeaderJSON()

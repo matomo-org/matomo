@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\ProxyHttp;
 
 /**
  * Generates the data in the Open Flash Chart format, from the given data.
@@ -106,7 +106,7 @@ class Chart
 
     public function render()
     {
-        Piwik::overrideCacheControlHeaders();
+        ProxyHttp::overrideCacheControlHeaders();
 
         // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
         $data = array(

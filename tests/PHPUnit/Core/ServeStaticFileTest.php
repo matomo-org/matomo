@@ -1,20 +1,20 @@
 <?php
 /**
- * This php file is used to unit test Piwik::serveFile()
+ * This php file is used to unit test Piwik::serverStaticFile()
  * Unit tests for this method should normally be located in /tests/core/Piwik.test.php
- * To make a comprehensive test suit for Piwik::serveFile() (ie. being able to test combinations of request
+ * To make a comprehensive test suit for Piwik::serverStaticFile() (ie. being able to test combinations of request
  * headers, being able to test response headers and so on) we need to simulate static file requests in a controlled
  * environment
- * The php code which simulates requests using Piwik::serveFile() is provided in the same file (ie. this one)
- * as the unit testing code for Piwik::serveFile()
+ * The php code which simulates requests using Piwik::serverStaticFile() is provided in the same file (ie. this one)
+ * as the unit testing code for Piwik::serverStaticFile()
  * This decision has a structural impact on the usual unit test file structure
- * serveFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
+ * serverStaticFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
  */
 
 // This is Piwik logo, the static file used in this test suit
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\ProxyStaticFile;
+use Piwik\ProxyHttp;
 
 define("TEST_FILE_LOCATION", realpath(dirname(__FILE__) . "/../../resources/lipsum.txt"));
 define("TEST_FILE_CONTENT_TYPE", "text/plain");
@@ -26,7 +26,7 @@ define("ZLIB_OUTPUT_REQUEST_VAR", "zlibOutput");
 
 /**
  * These constants define the mode in which this php file is used :
- * - for unit testing Piwik::serveFile() or
+ * - for unit testing Piwik::serverStaticFile() or
  * - as a static file server
  */
 define("STATIC_SERVER_MODE", "staticServerMode");
@@ -53,11 +53,11 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      */
     public function test_phpOutputCompression()
     {
-        $this->assertFalse(ProxyStaticFile::isPhpOutputCompressed());
+        $this->assertFalse(ProxyHttp::isPhpOutputCompressed());
     }
 
     /**
-     * Checks that "HTTP/1.0 404 Not Found" is returned when Piwik::serveFile is called with a null file
+     * Checks that "HTTP/1.0 404 Not Found" is returned when Piwik::serverStaticFile is called with a null file
      *
      * @group ServeStaticFile
      */
@@ -74,7 +74,8 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks that "HTTP/1.0 404 Not Found" is returned when Piwik::serveFile is called with a non existing file
+     * Checks that "HTTP/1.0 404 Not Found" is returned when Piwik::serverStaticFile is called with a non existing file
+     *
      *
      * @group ServeStaticFile
      */
@@ -91,7 +92,7 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks that "HTTP/1.0 505 Internal server error" is returned when Piwik::serveFile is called with a
+     * Checks that "HTTP/1.0 505 Internal server error" is returned when Piwik::serverStaticFile is called with a
      * non-readable file
      *
      * @group ServeStaticFile

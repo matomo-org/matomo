@@ -11,22 +11,20 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Nonce;
-use Piwik\View;
-use Piwik\Url;
+use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\ProxyHttp;
 use Piwik\QuickForm2;
 use Piwik\Session;
-use Piwik\Plugins\Login\Login;
-use Piwik\Plugins\Login\FormLogin;
-use Piwik\Plugins\Login\FormResetPassword;
-use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\Plugins\UsersManager\API;
+use Piwik\Url;
+use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
@@ -499,7 +497,7 @@ class Controller extends \Piwik\Controller
     {
         $forceSslLogin = Config::getInstance()->General['force_ssl_login'];
         if ($forceSslLogin
-            && !Piwik::isHttps()
+            && !ProxyHttp::isHttps()
         ) {
             $url = 'https://'
                 . Url::getCurrentHost()
