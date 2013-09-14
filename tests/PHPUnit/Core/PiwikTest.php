@@ -5,8 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Piwik;
 use Piwik\Access;
+use Piwik\Filesystem;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
 
@@ -259,6 +260,6 @@ class PiwikTest extends DatabaseTestCase
      */
     public function testCheckIfFileSystemIsNFSOnNonNFS()
     {
-        $this->assertFalse(Piwik::checkIfFileSystemIsNFS());
+        $this->assertFalse(Filesystem::checkIfFileSystemIsNFS());
     }
 }

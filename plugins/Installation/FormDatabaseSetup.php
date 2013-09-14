@@ -10,14 +10,14 @@
  */
 namespace Piwik\Plugins\Installation;
 
-use Piwik\Db\Adapter;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\QuickForm2;
 use Exception;
-use HTML_QuickForm2_Rule;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
+use HTML_QuickForm2_Rule;
+use Piwik\Db\Adapter;
+use Piwik\Filesystem;
+use Piwik\Piwik;
+use Piwik\QuickForm2;
 use Zend_Db_Adapter_Exception;
 
 /**
@@ -309,7 +309,7 @@ class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
     {
         $prefix = $this->owner->getValue();
         return empty($prefix)
-            || Common::isValidFilename($prefix);
+            || Filesystem::isValidFilename($prefix);
     }
 }
 

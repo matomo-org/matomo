@@ -11,12 +11,13 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
+use Piwik\Common;
+use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Translate;
 use Piwik\Plugins\API\API as MetaAPI;
 use Piwik\Plugins\ImageGraph\StaticGraph;
+use Piwik\Translate;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
@@ -510,7 +511,7 @@ class API
                 $fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . ' ' . str_replace(',', '-', $date) . ' ' . $idSite . '.png';
                 $fileName = str_replace(array(' ', '/'), '_', $fileName);
 
-                if (!Common::isValidFilename($fileName)) {
+                if (!Filesystem::isValidFilename($fileName)) {
                     throw new Exception('Error: Image graph filename ' . $fileName . ' is not valid.');
                 }
 

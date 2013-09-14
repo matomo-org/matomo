@@ -540,7 +540,7 @@ class AssetManager
         $mergedFileDirectory = PIWIK_USER_PATH . '/' . self::MERGED_FILE_DIR;
 
         if (!is_dir($mergedFileDirectory)) {
-            Common::mkdir($mergedFileDirectory);
+            Filesystem::mkdir($mergedFileDirectory);
         }
 
         if (!is_writable($mergedFileDirectory)) {

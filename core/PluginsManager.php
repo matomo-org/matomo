@@ -11,12 +11,8 @@
 
 namespace Piwik;
 
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\EventDispatcher;
-use Piwik\Translate;
 use Piwik\Plugin\MetadataLoader;
+use Piwik\Translate;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -210,7 +206,7 @@ class PluginsManager
 
     public static function deletePluginFromFilesystem($plugin)
     {
-        Piwik::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin, $deleteRootToo = true);
+        Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin, $deleteRootToo = true);
     }
 
     /**
@@ -321,7 +317,7 @@ class PluginsManager
     {
         $existingPlugins = $this->readPluginsDirectory();
         $isPluginInFilesystem = array_search($pluginName, $existingPlugins) !== false;
-        return Common::isValidFilename($pluginName)
+        return Filesystem::isValidFilename($pluginName)
                 && $isPluginInFilesystem;
     }
 
@@ -497,7 +493,7 @@ class PluginsManager
         $pluginFileName = sprintf("%s/%s.php", $pluginName, $pluginName);
         $pluginClassName = $pluginName;
 
-        if (!Common::isValidFilename($pluginName)) {
+        if (!Filesystem::isValidFilename($pluginName)) {
             throw new \Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
         }
 

@@ -10,19 +10,19 @@
  */
 namespace Piwik\Plugins\API;
 
-use Piwik\API\Request;
 use Piwik\API\Proxy;
+use Piwik\API\Request;
+use Piwik\Config;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
+use Piwik\Date;
+use Piwik\Filesystem;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Config;
-use Piwik\Date;
-use Piwik\DataTable;
 use Piwik\Tracker\GoalManager;
-use Piwik\Version;
 use Piwik\Translate;
+use Piwik\Version;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
@@ -284,14 +284,14 @@ class API
     {
         $logo = 'plugins/Zeitgeist/images/logo.png';
         if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Common::getPathToPiwikRoot() . '/misc/user/logo.png')
+            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.png')
         ) {
             $logo = 'misc/user/logo.png';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
         }
-        return Common::getPathToPiwikRoot() . '/' . $logo;
+        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
     }
 
     /**
@@ -304,14 +304,14 @@ class API
     {
         $logo = 'plugins/Zeitgeist/images/logo-header.png';
         if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Common::getPathToPiwikRoot() . '/misc/user/logo-header.png')
+            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo-header.png')
         ) {
             $logo = 'misc/user/logo-header.png';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
         }
-        return Common::getPathToPiwikRoot() . '/' . $logo;
+        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
     }
 
     /**
@@ -325,14 +325,14 @@ class API
     {
         $logo = 'plugins/Zeitgeist/images/logo.svg';
         if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
+            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             $logo = 'misc/user/logo.svg';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
         }
-        return Common::getPathToPiwikRoot() . '/' . $logo;
+        return Filesystem::getPathToPiwikRoot() . '/' . $logo;
     }
 
     /**
@@ -346,7 +346,7 @@ class API
             /* We always have our application logo */
             return true;
         } else if (Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
+            && file_exists(Filesystem::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             return true;
         }

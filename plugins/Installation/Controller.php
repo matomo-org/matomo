@@ -18,6 +18,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db\Adapter;
 use Piwik\Db;
+use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -61,6 +62,16 @@ class Controller extends \Piwik\Controller\Admin
         }
 
         Piwik_PostEvent('InstallationController.construct', array($this));
+    }
+
+    protected static function initServerFilesForSecurity()
+    {
+        if (Common::isIIS()) {
+            ServerFilesGenerator::createWebConfigFiles();
+        } else {
+            ServerFilesGenerator::createHtAccessFiles();
+        }
+        ServerFilesGenerator::createWebRootFiles();
     }
 
     /**
@@ -720,12 +731,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $infos['can_auto_update'] = Piwik::canAutoUpdate();
 
-        if (Common::isIIS()) {
-            Piwik::createWebConfigFiles();
-        } else {
-            Piwik::createHtAccessFiles();
-        }
-        Piwik::createWebRootFiles();
+        self::initServerFilesForSecurity();
 
         $infos['phpVersion_minimum'] = $piwik_minimumPHPVersion;
         $infos['phpVersion'] = PHP_VERSION;
@@ -858,7 +864,7 @@ class Controller extends \Piwik\Controller\Admin
         }
 
         // check if filesystem is NFS, if it is file based sessions won't work properly
-        $infos['is_nfs'] = Piwik::checkIfFileSystemIsNFS();
+        $infos['is_nfs'] = Filesystem::checkIfFileSystemIsNFS();
 
         // determine whether there are any errors/warnings from the checks done above
         $infos['has_errors'] = false;

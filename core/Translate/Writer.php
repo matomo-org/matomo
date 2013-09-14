@@ -12,7 +12,7 @@
 namespace Piwik\Translate;
 
 use Exception;
-use Piwik\Common;
+use Piwik\Filesystem;
 use Piwik\PluginsManager;
 use Piwik\Translate\Filter\FilterAbstract;
 use Piwik\Translate\Validate\ValidateAbstract;
@@ -249,7 +249,7 @@ class Writer
 
         $path = $this->getTranslationPath();
 
-        Common::mkdir(dirname($path));
+        Filesystem::mkdir(dirname($path));
 
         return file_put_contents($path, $this->__toString());
     }
@@ -270,7 +270,7 @@ class Writer
 
         $path = $this->getTemporaryTranslationPath();
 
-        Common::mkdir(dirname($path));
+        Filesystem::mkdir(dirname($path));
 
         return file_put_contents($path, $this->__toString());
     }

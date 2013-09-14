@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Cache;
@@ -34,7 +35,7 @@ class Piwik_Updates_0_6_2 extends Updates
         );
         foreach ($obsoleteDirectories as $dir) {
             if (file_exists($dir)) {
-                Piwik::unlinkRecursive($dir, true);
+                Filesystem::unlinkRecursive($dir, true);
             }
         }
 

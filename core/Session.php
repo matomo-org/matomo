@@ -84,7 +84,7 @@ class Session extends Zend_Session
             // for "files", use our own folder to prevent local session file hijacking
             $sessionPath = self::getSessionsDirectory();
             // We always call mkdir since it also chmods the directory which might help when permissions were reverted for some reasons
-            Common::mkdir($sessionPath);
+            Filesystem::mkdir($sessionPath);
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
@@ -131,7 +131,7 @@ class Session extends Zend_Session
 
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik_Translate('General_ExceptionUnableToStartSession'),
-                Piwik::getErrorMessageMissingPermissions(Common::getPathToPiwikRoot() . '/tmp/sessions/'),
+                Piwik::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/'),
                 $enableDbSessions,
                 $e->getMessage()
             );

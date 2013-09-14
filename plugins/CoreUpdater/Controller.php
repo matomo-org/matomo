@@ -13,19 +13,19 @@ namespace Piwik\Plugins\CoreUpdater;
 use Exception;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\Filesystem;
 use Piwik\Http;
-use Piwik\Updater;
-use Piwik\View;
-use Piwik\Version;
-use Piwik\UpdateCheck;
-use Piwik\Unzip;
-use Piwik\View\OneClickDone;
-use Piwik\Plugins\CoreUpdater\CoreUpdater;
+use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Unzip;
+use Piwik\UpdateCheck;
+use Piwik\Updater;
 use Piwik\Updater_UpdateErrorException;
+use Piwik\Version;
+use Piwik\View;
+use Piwik\View\OneClickDone;
 
 /**
  *
@@ -138,7 +138,7 @@ class Controller extends \Piwik\Controller
         $this->pathRootExtractedPiwik = $pathExtracted . 'piwik';
 
         if (file_exists($this->pathRootExtractedPiwik)) {
-            Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
+            Filesystem::unlinkRecursive($this->pathRootExtractedPiwik, true);
         }
 
         $archive = Unzip::factory('PclZip', $this->pathPiwikZip);
@@ -173,7 +173,7 @@ class Controller extends \Piwik\Controller
     {
         $configFileBefore = PIWIK_USER_PATH . '/config/global.ini.php';
         $configFileAfter = PIWIK_USER_PATH . self::CONFIG_FILE_BACKUP;
-        Piwik::copy($configFileBefore, $configFileAfter);
+        Filesystem::copy($configFileBefore, $configFileAfter);
     }
 
     private function oneClick_Copy()
@@ -189,7 +189,7 @@ class Controller extends \Piwik\Controller
          * Copy all files to PIWIK_INCLUDE_PATH.
          * These files are accessed through the dispatcher.
          */
-        Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
+        Filesystem::copyRecursive($this->pathRootExtractedPiwik, PIWIK_INCLUDE_PATH);
 
         /*
          * These files are visible in the web root and are generally
@@ -206,23 +206,23 @@ class Controller extends \Piwik\Controller
             );
 
             foreach ($specialCases as $file) {
-                Piwik::copy($this->pathRootExtractedPiwik . $file, PIWIK_DOCUMENT_ROOT . $file);
+                Filesystem::copy($this->pathRootExtractedPiwik . $file, PIWIK_DOCUMENT_ROOT . $file);
             }
 
             /*
              * Copy the non-PHP files (e.g., images, css, javascript)
              */
-            Piwik::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
+            Filesystem::copyRecursive($this->pathRootExtractedPiwik, PIWIK_DOCUMENT_ROOT, true);
         }
 
         /*
          * Config files may be user (account) specific
          */
         if (PIWIK_INCLUDE_PATH !== PIWIK_USER_PATH) {
-            Piwik::copyRecursive($this->pathRootExtractedPiwik . '/config', PIWIK_USER_PATH . '/config');
+            Filesystem::copyRecursive($this->pathRootExtractedPiwik . '/config', PIWIK_USER_PATH . '/config');
         }
 
-        Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
+        Filesystem::unlinkRecursive($this->pathRootExtractedPiwik, true);
 
         if (function_exists('apc_clear_cache')) {
             apc_clear_cache(); // clear the system (aka 'opcode') cache
@@ -289,7 +289,7 @@ class Controller extends \Piwik\Controller
     private function doWelcomeUpdates($view, $componentsWithUpdateFile)
     {
         $view->new_piwik_version = Version::VERSION;
-        $view->commandUpgradePiwik = "<br /><code>php " . Common::getPathToPiwikRoot() . "/index.php  -- \"module=CoreUpdater\" </code>";
+        $view->commandUpgradePiwik = "<br /><code>php " . Filesystem::getPathToPiwikRoot() . "/index.php  -- \"module=CoreUpdater\" </code>";
         $pluginNamesToUpdate = array();
         $coreToUpdate = false;
 

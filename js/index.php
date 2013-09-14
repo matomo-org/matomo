@@ -26,6 +26,7 @@ define('PIWIK_USER_PATH', '..');
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
+require_once PIWIK_INCLUDE_PATH . '/core/ProxyHttp.php';
 
 $file = '../piwik.js';
 

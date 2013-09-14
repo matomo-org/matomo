@@ -1,6 +1,6 @@
 <?php
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Filesystem;
 use Piwik\Tracker\Db;
 
 /**
@@ -57,7 +57,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testTemplatesDontContainDebug()
     {
         $patternFailIfFound = 'dump(';
-        $files = Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
         foreach ($files as $file) {
             $content = file_get_contents($file);
             $this->assertFalse(strpos($content, $patternFailIfFound), 'found in ' . $file);
@@ -124,7 +124,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             // SVN native does not make this work on windows
             return;
         }
-        foreach (Piwik::globr(PIWIK_DOCUMENT_ROOT, '*') as $file) {
+        foreach (Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*') as $file) {
             // skip files in these folders
             if (strpos($file, '/.git/') !== false ||
                 strpos($file, '/documentation/') !== false ||

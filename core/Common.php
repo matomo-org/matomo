@@ -11,11 +11,9 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\IP;
+use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
-use Piwik\PluginsManager;
-use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 
 /**
  * Static class providing functions used by both the CORE of Piwik and the visitor Tracking engine.
@@ -266,97 +264,6 @@ class Common
     {
         return preg_match('~^(ftp|news|http|https)?://(.*)$~D', $url, $matches) !== 0
         && strlen($matches[2]) > 0;
-    }
-
-    /*
-     * File operations
-     */
-
-    /**
-     * ending WITHOUT slash
-     *
-     * @return string
-     */
-    public static function getPathToPiwikRoot()
-    {
-        return realpath(dirname(__FILE__) . "/..");
-    }
-
-    /**
-     * Create directory if permitted
-     *
-     * @param string $path
-     * @param bool $denyAccess
-     */
-    public static function mkdir($path, $denyAccess = true)
-    {
-        if (!is_dir($path)) {
-            // the mode in mkdir is modified by the current umask
-            @mkdir($path, $mode = 0755, $recursive = true);
-        }
-
-        // try to overcome restrictive umask (mis-)configuration
-        if (!is_writable($path)) {
-            @chmod($path, 0755);
-            if (!is_writable($path)) {
-                @chmod($path, 0775);
-
-                // enough! we're not going to make the directory world-writeable
-            }
-        }
-
-        if ($denyAccess) {
-            self::createHtAccess($path, $overwrite = false);
-        }
-    }
-
-    /**
-     * Create .htaccess file in specified directory
-     *
-     * Apache-specific; for IIS @see web.config
-     *
-     * @param string $path     without trailing slash
-     * @param bool $overwrite whether to overwrite an existing file or not
-     * @param string $content
-     */
-    public static function createHtAccess($path, $overwrite = true, $content = "<Files \"*\">\n<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n</Files>\n")
-    {
-        if (self::isApache()) {
-            $file = $path . '/.htaccess';
-            if ($overwrite || !file_exists($file)) {
-                @file_put_contents($file, $content);
-            }
-        }
-    }
-
-    /**
-     * Get canonicalized absolute path
-     * See http://php.net/realpath
-     *
-     * @param string $path
-     * @return string  canonicalized absolute path
-     */
-    public static function realpath($path)
-    {
-        if (file_exists($path)) {
-            return realpath($path);
-        }
-        return $path;
-    }
-
-    /**
-     * Returns true if the string is a valid filename
-     * File names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), and dot(.) will be accepted.
-     * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).
-     * File names containing anything other than above mentioned will also be rejected (file names with spaces won't be accepted).
-     *
-     * @param string $filename
-     * @return bool
-     *
-     */
-    public static function isValidFilename($filename)
-    {
-        return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z_0-9.-]*))$/D', $filename));
     }
 
     /*

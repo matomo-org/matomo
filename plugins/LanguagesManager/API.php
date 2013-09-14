@@ -11,9 +11,10 @@
  */
 namespace Piwik\Plugins\LanguagesManager;
 
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Filesystem;
+use Piwik\Piwik;
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.
@@ -54,7 +55,7 @@ class API
     public function isLanguageAvailable($languageCode)
     {
         return $languageCode !== false
-            && Common::isValidFilename($languageCode)
+            && Filesystem::isValidFilename($languageCode)
             && in_array($languageCode, $this->getAvailableLanguages());
     }
 

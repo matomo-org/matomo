@@ -9,7 +9,7 @@
  * @package CorePluginsAdmin
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
-use Piwik\Http;
+use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Unzip;
 
@@ -93,7 +93,7 @@ class PluginInstaller
         $pluginTargetPath = PIWIK_USER_PATH . self::PATH_TO_EXTRACT . $this->pluginName;
 
         $this->removeFolderIfExists($pluginTargetPath);
-        Piwik::copyRecursive($tmpPluginFolder, $pluginTargetPath);
+        Filesystem::copyRecursive($tmpPluginFolder, $pluginTargetPath);
     }
 
     /**
@@ -102,7 +102,7 @@ class PluginInstaller
     private function removeFolderIfExists($pathExtracted)
     {
         if (file_exists($pathExtracted)) {
-            Piwik::unlinkRecursive($pathExtracted, true);
+            Filesystem::unlinkRecursive($pathExtracted, true);
         }
     }
 

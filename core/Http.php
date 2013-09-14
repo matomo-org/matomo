@@ -11,11 +11,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\IP;
-use Piwik\Version;
 
 /**
  * Server-side http client to retrieve content from remote servers, and optionally save to a local file.
@@ -80,7 +75,7 @@ class Http
         $file = null;
         if ($destinationPath) {
             // Ensure destination directory exists
-            Common::mkdir(dirname($destinationPath));
+            Filesystem::mkdir(dirname($destinationPath));
             if (($file = @fopen($destinationPath, 'wb')) === false || !is_resource($file)) {
                 throw new Exception('Error while creating the file: ' . $destinationPath);
             }

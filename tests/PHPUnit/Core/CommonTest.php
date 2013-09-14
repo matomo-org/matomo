@@ -1,5 +1,6 @@
 <?php
 use Piwik\Common;
+use Piwik\Filesystem;
 
 /**
  * Piwik - Open source web analytics
@@ -383,7 +384,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             "test", "test.txt", "test.......", "en-ZHsimplified",
         );
         foreach ($valid as $toTest) {
-            $this->assertTrue(Common::isValidFilename($toTest), $toTest . " not valid!");
+            $this->assertTrue(Filesystem::isValidFilename($toTest), $toTest . " not valid!");
         }
     }
 
@@ -398,7 +399,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             "../test", "/etc/htpasswd", '$var', ';test', '[bizarre]', '', ".htaccess", "very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename",
         );
         foreach ($notvalid as $toTest) {
-            $this->assertFalse(Common::isValidFilename($toTest), $toTest . " valid but shouldn't!");
+            $this->assertFalse(Filesystem::isValidFilename($toTest), $toTest . " valid but shouldn't!");
         }
     }
 

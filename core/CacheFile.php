@@ -11,8 +11,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Piwik;
-use Piwik\Common;
 
 /**
  * Code originally inspired from OpenX
@@ -94,7 +92,7 @@ class CacheFile
 
     protected function cleanupId($id)
     {
-        if (!Common::isValidFilename($id)) {
+        if (!Filesystem::isValidFilename($id)) {
             throw new Exception("Invalid cache ID request $id");
         }
         return $id;
@@ -113,7 +111,7 @@ class CacheFile
             return false;
         }
         if (!is_dir($this->cachePath)) {
-            Common::mkdir($this->cachePath);
+            Filesystem::mkdir($this->cachePath);
         }
         if (!is_writable($this->cachePath)) {
             return false;
@@ -176,6 +174,6 @@ class CacheFile
      */
     public function deleteAll()
     {
-        Piwik::unlinkRecursive($this->cachePath, $deleteRootToo = false);
+        Filesystem::unlinkRecursive($this->cachePath, $deleteRootToo = false);
     }
 }

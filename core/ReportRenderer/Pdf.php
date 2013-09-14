@@ -11,9 +11,10 @@
 namespace Piwik\ReportRenderer;
 
 use Piwik\Common;
-use Piwik\TCPDF;
-use Piwik\ReportRenderer;
+use Piwik\Filesystem;
 use Piwik\Plugins\API\API;
+use Piwik\ReportRenderer;
+use Piwik\TCPDF;
 
 /**
  * @see libs/tcpdf
@@ -378,7 +379,7 @@ class Pdf extends ReportRenderer
                         if ($logoHeight < 16) {
                             $topMargin = 2;
                         }
-                        $path = Common::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
+                        $path = Filesystem::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
                         if (file_exists($path)) {
                             $this->TCPDF->Image($path, $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
                         }

@@ -9,12 +9,10 @@
  * @package Piwik
  */
 namespace Piwik;
-use Piwik\Config;
-use Piwik\Common;
 
-use Piwik\Log\Exception;
-use Piwik\Log\Error;
 use Piwik\Log\APICall;
+use Piwik\Log\Error;
+use Piwik\Log\Exception;
 use Piwik\Log\Message;
 
 /**
@@ -64,7 +62,7 @@ abstract class Log extends \Zend_Log
 
     function addWriteToFile()
     {
-        Common::mkdir(dirname($this->logToFileFilename));
+        Filesystem::mkdir(dirname($this->logToFileFilename));
         $writerFile = new \Zend_Log_Writer_Stream($this->logToFileFilename);
         $writerFile->setFormatter($this->fileFormatter);
         $this->addWriter($writerFile);

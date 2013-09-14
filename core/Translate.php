@@ -10,8 +10,6 @@
  */
 namespace Piwik;
 use Exception;
-use Piwik\Config;
-use Piwik\Common;
 
 /**
  * @package Piwik
@@ -104,7 +102,7 @@ class Translate
     private function loadCoreTranslationFile($language)
     {
         $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.json';
-        if (!Common::isValidFilename($language) || !is_readable($path)) {
+        if (!Filesystem::isValidFilename($language) || !is_readable($path)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
         }
         $data = file_get_contents($path);

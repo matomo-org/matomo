@@ -183,68 +183,6 @@ class Piwik
      */
 
     /**
-     * Copy recursively from $source to $target.
-     *
-     * @param string $source      eg. './tmp/latest'
-     * @param string $target      eg. '.'
-     * @param bool $excludePhp
-     */
-    static public function copyRecursive($source, $target, $excludePhp = false)
-    {
-        if (is_dir($source)) {
-            Common::mkdir($target, false);
-            $d = dir($source);
-            while (false !== ($entry = $d->read())) {
-                if ($entry == '.' || $entry == '..') {
-                    continue;
-                }
-
-                $sourcePath = $source . '/' . $entry;
-                if (is_dir($sourcePath)) {
-                    self::copyRecursive($sourcePath, $target . '/' . $entry, $excludePhp);
-                    continue;
-                }
-                $destPath = $target . '/' . $entry;
-                self::copy($sourcePath, $destPath, $excludePhp);
-            }
-            $d->close();
-        } else {
-            self::copy($source, $target, $excludePhp);
-        }
-    }
-
-    /**
-     * Copy individual file from $source to $target.
-     *
-     * @param string $source      eg. './tmp/latest/index.php'
-     * @param string $dest        eg. './index.php'
-     * @param bool $excludePhp
-     * @throws Exception
-     * @return bool
-     */
-    static public function copy($source, $dest, $excludePhp = false)
-    {
-        static $phpExtensions = array('php', 'tpl', 'twig');
-
-        if ($excludePhp) {
-            $path_parts = pathinfo($source);
-            if (in_array($path_parts['extension'], $phpExtensions)) {
-                return true;
-            }
-        }
-
-        if (!@copy($source, $dest)) {
-            @chmod($dest, 0755);
-            if (!@copy($source, $dest)) {
-                $message = "Error while creating/copying file to <code>$dest</code>. <br />"
-                    . self::getErrorMessageMissingPermissions(Common::getPathToPiwikRoot());
-                throw new Exception($message);
-            }
-        }
-        return true;
-    }
-
-    /**
      * Returns friendly error message explaining how to fix permissions
      *
      * @param string $path  to the directory missing permissions
@@ -266,60 +204,6 @@ class Piwik
         $message .= self::getMakeWritableCommand($path);
 
         return $message;
-    }
-
-    /**
-     * Recursively delete a directory
-     *
-     * @param string $dir            Directory name
-     * @param boolean $deleteRootToo  Delete specified top-level directory as well
-     */
-    static public function unlinkRecursive($dir, $deleteRootToo)
-    {
-        if (!$dh = @opendir($dir)) {
-            return;
-        }
-        while (false !== ($obj = readdir($dh))) {
-            if ($obj == '.' || $obj == '..') {
-                continue;
-            }
-
-            if (!@unlink($dir . '/' . $obj)) {
-                self::unlinkRecursive($dir . '/' . $obj, true);
-            }
-        }
-        closedir($dh);
-        if ($deleteRootToo) {
-            @rmdir($dir);
-        }
-        return;
-    }
-
-    /**
-     * Recursively find pathnames that match a pattern
-     * @see glob()
-     *
-     * @param string $sDir      directory
-     * @param string $sPattern  pattern
-     * @param int $nFlags    glob() flags
-     * @return array
-     */
-    public static function globr($sDir, $sPattern, $nFlags = null)
-    {
-        if (($aFiles = \_glob("$sDir/$sPattern", $nFlags)) == false) {
-            $aFiles = array();
-        }
-        if (($aDirs = \_glob("$sDir/*", GLOB_ONLYDIR)) != false) {
-            foreach ($aDirs as $sSubDir) {
-                if (is_link($sSubDir)) {
-                    continue;
-                }
-
-                $aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
-                $aFiles = array_merge($aFiles, $aSubFiles);
-            }
-        }
-        return $aFiles;
     }
 
     /**
@@ -351,7 +235,7 @@ class Piwik
 
         $directoryList = '';
         foreach ($resultCheck as $dir => $bool) {
-            $realpath = Common::realpath($dir);
+            $realpath = Filesystem::realpath($dir);
             if (!empty($realpath) && $bool === false) {
                 $directoryList .= self::getMakeWritableCommand($realpath);
             }
@@ -359,7 +243,7 @@ class Piwik
 
         // Also give the chown since the chmod is only 755
         if (!Common::isWindows()) {
-            $realpath = Common::realpath(PIWIK_INCLUDE_PATH . '/');
+            $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
             $directoryList = "<code>chown -R www-data:www-data " . $realpath . "</code><br/>" . $directoryList;
         }
 
@@ -391,10 +275,10 @@ class Piwik
             // Create an empty directory
             $isFile = strpos($directoryToCheck, '.') !== false;
             if (!$isFile && !file_exists($directoryToCheck)) {
-                Common::mkdir($directoryToCheck);
+                Filesystem::mkdir($directoryToCheck);
             }
 
-            $directory = Common::realpath($directoryToCheck);
+            $directory = Filesystem::realpath($directoryToCheck);
             $resultCheck[$directory] = false;
             if ($directory !== false // realpath() returns FALSE on failure
                 && is_writable($directoryToCheck)
@@ -430,129 +314,12 @@ class Piwik
      */
     static public function getAutoUpdateMakeWritableMessage()
     {
-        $realpath = Common::realpath(PIWIK_INCLUDE_PATH . '/');
+        $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
         $message = '';
         $message .= "<code>chown -R www-data:www-data " . $realpath . "</code><br />";
         $message .= "<code>chmod -R 0755 " . $realpath . "</code><br />";
         $message .= 'After you execute these commands (or change permissions via your FTP software), refresh the page and you should be able to use the "Automatic Update" feature.';
         return $message;
-    }
-
-    /**
-     * Generate default robots.txt, favicon.ico, etc to suppress
-     * 404 (Not Found) errors in the web server logs, if Piwik
-     * is installed in the web root (or top level of subdomain).
-     *
-     * @see misc/crossdomain.xml
-     */
-    static public function createWebRootFiles()
-    {
-        $filesToCreate = array(
-            '/robots.txt',
-            '/favicon.ico',
-        );
-        foreach ($filesToCreate as $file) {
-            @file_put_contents(PIWIK_DOCUMENT_ROOT . $file, '');
-        }
-    }
-
-    /**
-     * Generate Apache .htaccess files to restrict access
-     */
-    static public function createHtAccessFiles()
-    {
-        // deny access to these folders
-        $directoriesToProtect = array(
-            '/config',
-            '/core',
-            '/lang',
-            '/tmp',
-        );
-        foreach ($directoriesToProtect as $directoryToProtect) {
-            Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true);
-        }
-
-        // Allow/Deny lives in different modules depending on the Apache version
-        $allow = "<IfModule mod_access.c>\nAllow from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nAllow from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nAllow from all\n</IfModule>\n";
-        $deny = "<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n";
-
-        // more selective allow/deny filters
-        $allowAny = "<Files \"*\">\n" . $allow . "Satisfy any\n</Files>\n";
-        $allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|svg|js|css|swf)$\">\n" . $allow . "Satisfy any\n</Files>\n";
-        $denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in|twig)$\">\n" . $deny . "</Files>\n";
-
-        $directoriesToProtect = array(
-            '/js' => $allowAny,
-            '/libs' => $denyDirectPhp . $allowStaticAssets,
-            '/vendor' => $denyDirectPhp . $allowStaticAssets,
-            '/plugins' => $denyDirectPhp . $allowStaticAssets,
-            '/misc/user' => $denyDirectPhp . $allowStaticAssets,
-        );
-        foreach ($directoriesToProtect as $directoryToProtect => $content) {
-            Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
-        }
-    }
-
-    /**
-     * Generate IIS web.config files to restrict access
-     *
-     * Note: for IIS 7 and above
-     */
-    static public function createWebConfigFiles()
-    {
-        @file_put_contents(PIWIK_INCLUDE_PATH . '/web.config',
-            '<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-  <system.webServer>
-    <security>
-      <requestFiltering>
-        <hiddenSegments>
-          <add segment="config" />
-          <add segment="core" />
-          <add segment="lang" />
-          <add segment="tmp" />
-        </hiddenSegments>
-        <fileExtensions>
-          <add fileExtension=".tpl" allowed="false" />
-          <add fileExtension=".twig" allowed="false" />
-          <add fileExtension=".php4" allowed="false" />
-          <add fileExtension=".php5" allowed="false" />
-          <add fileExtension=".inc" allowed="false" />
-          <add fileExtension=".in" allowed="false" />
-        </fileExtensions>
-      </requestFiltering>
-    </security>
-    <directoryBrowse enabled="false" />
-    <defaultDocument>
-      <files>
-        <remove value="index.php" />
-        <add value="index.php" />
-      </files>
-    </defaultDocument>
-  </system.webServer>
-</configuration>');
-
-        // deny direct access to .php files
-        $directoriesToProtect = array(
-            '/libs',
-            '/vendor',
-            '/plugins',
-        );
-        foreach ($directoriesToProtect as $directoryToProtect) {
-            @file_put_contents(PIWIK_INCLUDE_PATH . $directoryToProtect . '/web.config',
-                '<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-  <system.webServer>
-    <security>
-      <requestFiltering>
-        <denyUrlSequences>
-          <add sequence=".php" />
-        </denyUrlSequences>
-      </requestFiltering>
-    </security>
-  </system.webServer>
-</configuration>');
-        }
     }
 
     /**
@@ -2009,54 +1776,6 @@ class Piwik
         }
 
         return false;
-    }
-
-    /**
-     * Checks if the filesystem Piwik stores sessions in is NFS or not. This
-     * check is done in order to avoid using file based sessions on NFS system,
-     * since on such a filesystem file locking can make file based sessions
-     * incredibly slow.
-     *
-     * Note: In order to figure this out, we try to run the 'df' program. If
-     * the 'exec' or 'shell_exec' functions are not available, we can't do
-     * the check.
-     *
-     * @return bool True if on an NFS filesystem, false if otherwise or if we
-     *              can't use shell_exec or exec.
-     */
-    public static function checkIfFileSystemIsNFS()
-    {
-        $sessionsPath = Session::getSessionsDirectory();
-
-        // this command will display details for the filesystem that holds the $sessionsPath
-        // path, but only if its type is NFS. if not NFS, df will return one or less lines
-        // and the return code 1. if NFS, it will return 0 and at least 2 lines of text.
-        $command = "df -T -t nfs \"$sessionsPath\" 2>&1";
-
-        if (function_exists('exec')) // use exec
-        {
-            $output = $returnCode = null;
-            @exec($command, $output, $returnCode);
-
-            // check if filesystem is NFS
-            if ($returnCode == 0
-                && count($output) > 1
-            ) {
-                return true;
-            }
-        } else if (function_exists('shell_exec')) // use shell_exec
-        {
-            $output = @shell_exec($command);
-            if ($output) {
-                $output = explode("\n", $output);
-                if (count($output) > 1) // check if filesystem is NFS
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false; // not NFS, or we can't run a program to find out
     }
 
     /**
