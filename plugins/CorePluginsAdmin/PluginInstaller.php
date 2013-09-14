@@ -83,7 +83,7 @@ class PluginInstaller
 
     private function makeSurePluginJsonExists($tmpPluginFolder)
     {
-        if (!file_exists($tmpPluginFolder . 'plugin.json')) {
+        if (!file_exists($tmpPluginFolder . '/plugin.json')) {
             throw new \Exception('It is not a valid Plugin, missing plugin.json');
         }
     }
