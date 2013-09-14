@@ -53,7 +53,7 @@ class Profiler
         $profiler = \Zend_Registry::get('db')->getProfiler();
 
         if (!$profiler->getEnabled()) {
-            throw new Exception("To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file");
+            throw new \Exception("To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file");
         }
 
         $infoIndexedByQuery = array();
