@@ -357,7 +357,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
     protected static function executeLogImporter($logFile, $options)
     {
-        $python = SettingsServer::isWindows() ? "C:\Python27\python.exe" : 'python';
+        $python = \Piwik\SettingsServer::isWindows() ? "C:\Python27\python.exe" : 'python';
 
         // create the command
         $cmd = $python
