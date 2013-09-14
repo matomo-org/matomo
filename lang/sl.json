@@ -56,7 +56,7 @@
         "HideAnnotationsFor_js": "Skrij opombe za %s...",
         "IconDesc_js": "Preglej opombe za ta časovni razpon.",
         "IconDescHideNotes_js": "Skrij opombe za ta časovni razpon.",
-        "ViewAndAddAnnotations_js": "Preglej in dodaj opombe za %s..."
+        "ViewAndAddAnnotations": "Preglej in dodaj opombe za %s..."
     },
     "AnonymizeIP": {
         "PluginDescription": "Anonimiziraj zadnji bajt IP naslova obiskovalca, da se s tem izpolnijo zahteve lokalnih zakonov\/smernic o zasebnosti."
@@ -167,7 +167,7 @@
         "ChangeDashboardLayout": "Spremeni postavitev nadzorne plošče",
         "Dashboard": "Nadzorna Plošča",
         "DeleteWidgetConfirm": "Ste prepričani da želite izbrisati ta gradnik s kontrolne plošče?",
-        "LoadingWidget_js": "Nalagam gradnik...",
+        "LoadingWidget": "Nalagam gradnik...",
         "Maximise": "Povečaj",
         "Minimise": "Pomanjšaj",
         "NotUndo": "Te operacije ne bo mogoče razveljaviti.",
@@ -177,9 +177,7 @@
         "ResetDashboardConfirm": "Ste prepričani da želite ponastaviti postavitev kontrolne plošče na privzeti izbor gradnikov?",
         "SelectDashboardLayout": "Prosimo, izberite vašo novo postavitev nadzorne plošče",
         "SelectWidget": "Izberite gradnik, ki ga želite dodati na kontrolno ploščo.",
-        "TitleClickToAdd_js": "Kliknite, če želite dodati na nadzorno ploščo",
-        "TitleWidgetInDashboard_js": "Gradnik je že na v kontrolni plošči",
-        "WidgetNotFound_js": "Gradnik ni bil najden",
+        "WidgetNotFound": "Gradnik ni bil najden",
         "WidgetPreview": "Predogled gradnika",
         "WidgetsAndDashboard": "Gradniki & Kontrolna Plošča"
     },
@@ -605,7 +603,7 @@
     },
     "Goals": {
         "AbandonedCart": "Opuščen voziček",
-        "AddGoal_js": "Dodaj Cilj",
+        "AddGoal": "Dodaj Cilj",
         "AddNewGoal": "Dodaj nov Cilj",
         "ColumnConversions": "Konverzije",
         "ColumnConversionsDocumentation": "Število konverzij za %s.",
@@ -616,7 +614,7 @@
         "ConversionsOverview": "Pregled sprememb",
         "CreateNewGOal": "Ustvarite nov Cilj",
         "DaysToConv": "Dni za spreobrnitev",
-        "DeleteGoalConfirm_js": "Ste prepričani de želite izbrisati Cilj%s?",
+        "DeleteGoalConfirm": "Ste prepričani de želite izbrisati Cilj%s?",
         "Download": "Prenesite datoteko",
         "Ecommerce": "Ecommerce",
         "EcommerceLog": "Ecommerce zgodovina",
@@ -641,7 +639,7 @@
         "ProductName": "Ime izdelka",
         "Products": "Izdelki",
         "ProductSKU": "SKU izdelka",
-        "UpdateGoal_js": "Posodobi Cilj",
+        "UpdateGoal": "Posodobi Cilj",
         "URL": "URL",
         "VisitsUntilConv": "Obiskov za spreobrnitev",
         "WhenVisitors": "ko obiskovalci"
@@ -829,7 +827,7 @@
         "Currency": "Valuta",
         "DefaultCurrencyForNewWebsites": "Privzeta Valuta za nove spletne strani",
         "DefaultTimezoneForNewWebsites": "Privzet časovni pas za nove spletne strani",
-        "DeleteConfirm_js": "Ste prepričani da želite izbrisati spletno stran %s?",
+        "DeleteConfirm": "Ste prepričani da želite izbrisati spletno stran %s?",
         "EnableEcommerce": "Ecommerce omogočen",
         "ExceptionDeleteSite": "Te spletne strani ni mogoče izbrisati, saj je trenutno edina registrirana spletna stran. Šele ko boste dodali novo spletno stran, boste lahko izbrisali to spletno stran.",
         "ExceptionEmptyName": "Ime spletne strani ne sme biti prazno.",
@@ -844,7 +842,7 @@
         "MenuSites": "Spletne strani",
         "NotFound": "Ni bilo najdenih spletnih strani za",
         "NoWebsites": "Nimate spletnih strani za urejanje",
-        "OnlyOneSiteAtTime_js": "Sočasno lahko urejate zgolj eno spletno stran. Prosimo, shranite ali pa prekličite vaše trenutne spremembe za spletno stran %s.",
+        "OnlyOneSiteAtTime": "Sočasno lahko urejate zgolj eno spletno stran. Prosimo, shranite ali pa prekličite vaše trenutne spremembe za spletno stran %s.",
         "SelectACity": "Izberite mesto",
         "SelectDefaultCurrency": "Izberete lahko privzeto valuto. Ta bo uporabljena na vseh novo-dodanih spletnih straneh.",
         "ShowTrackingTag": "Oglej si sledilno kodo",
@@ -1380,7 +1378,7 @@
         "AllWebsites": "Vse spletne strani",
         "ApplyToAllWebsites": "Uveljavi za vse spletne strani",
         "ChangePassword": "Spremeni geslo",
-        "DeleteConfirm_js": "Ste prepričani, da želite izbrisati uporabnika %s?",
+        "DeleteConfirm": "Ste prepričani, da želite izbrisati uporabnika %s?",
         "Email": "Email",
         "ExceptionAdminAnonymous": "\"Anonimnemu\" uporabniku ne morate dodeliti administrativnih dovoljenj.",
         "ExceptionDeleteDoesNotExist": "Uporabnik '%s' ne obstaja, ter ga tako ni moč izbrisati.",

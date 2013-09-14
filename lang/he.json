@@ -135,13 +135,11 @@
         "AddPreviewedWidget": "הוספת היישומון המוצג לפאנל הסקירה",
         "Dashboard": "פאנל סקירה",
         "DeleteWidgetConfirm": "למחוק את היישומון מפאנל הסקירה? 100%?",
-        "LoadingWidget_js": "טוען יישומון, נא להמתין...",
+        "LoadingWidget": "טוען יישומון, נא להמתין...",
         "Maximise": "הגדלה",
         "PluginDescription": "סקירה כללית של ניתוח פעילות אתרך. ניתן להתאים אישית את פאנל הסקירה: הוספת יישומונים, שינוי סדר הופעתם. כל משתמש יכול לגש ללוח סקירה כללית משל עצמו.",
         "SelectWidget": "בחירת היישומון להוספה לפאנל הסקירה",
-        "TitleClickToAdd_js": "הוספה לפאנל הסקירה",
-        "TitleWidgetInDashboard_js": "היישומון כבר נמצא בפאנל הסקירה",
-        "WidgetNotFound_js": "יישומון לא נמצא",
+        "WidgetNotFound": "יישומון לא נמצא",
         "WidgetPreview": "הצגת יישומון"
     },
     "General": {

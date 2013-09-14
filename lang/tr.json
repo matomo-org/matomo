@@ -67,7 +67,7 @@
         "WidgetSearchNoResultKeywords": "Sonuç dönmeyen Arama Kelimeleri"
     },
     "Annotations": {
-        "AddAnnotationsFor_js": "%s için not ekle",
+        "AddAnnotationsFor": "%s için not ekle",
         "AnnotationOnDate": "%1$s için not: %2$s",
         "Annotations": "Notlar",
         "ClickToDelete": "Bu notu silmek için tıklayınız.",
@@ -81,7 +81,7 @@
         "IconDescHideNotes_js": "Bu tarih aralığı için notları gizle",
         "LoginToAnnotate": "Not eklemek için giriş yapmalısınız.",
         "NoAnnotations": "Bu tarih aralığı için not yok.",
-        "ViewAndAddAnnotations_js": "%s için notları göster ve yeni not ekle...",
+        "ViewAndAddAnnotations": "%s için notları göster ve yeni not ekle...",
         "YouCannotModifyThisNote": "Bunu değiştiremezsiniz. Bunun için bu siteye yönetici erişiminiz olması gerekli."
     },
     "AnonymizeIP": {
@@ -245,10 +245,10 @@
         "CopyDashboardToUser": "Paneli kullanıcı için kopyala",
         "CreateNewDashboard": "Yeni panel ekle",
         "Dashboard": "Pano",
-        "DashboardCopied_js": "Panel başarılı şekilde seçilen kullanıcı için kopyalandı",
+        "DashboardCopied": "Panel başarılı şekilde seçilen kullanıcı için kopyalandı",
         "DashboardName": "Panel adı:",
         "DeleteWidgetConfirm": "Bu Bileşenı panodan silmek istediğinize emin misiniz?",
-        "LoadingWidget_js": "Bileşen yükleniyor, lütfen bekleyin...",
+        "LoadingWidget": "Bileşen yükleniyor, lütfen bekleyin...",
         "ManageDashboard": "Paneli düzenle",
         "Maximise": "Maksimize",
         "Minimise": "Küçült",
@@ -261,9 +261,7 @@
         "ResetDashboard": "Paneli sıfırla",
         "SelectDashboardLayout": "Lütfen yeni panel düzenini seçiniz.",
         "SelectWidget": "Panoya eklemek için bileşen seçiniz.",
-        "TitleClickToAdd_js": "Panoya gitmek için tıklayın",
-        "TitleWidgetInDashboard_js": "Bileşen zaten panoda.",
-        "WidgetNotFound_js": "Bileşen bulunamadı",
+        "WidgetNotFound": "Bileşen bulunamadı",
         "WidgetPreview": "Bileşen görünümü",
         "WidgetsAndDashboard": "Rapor kutuları ve Panel"
     },
@@ -624,7 +622,7 @@
         "YourChangesHaveBeenSaved": "Değişiklikleriniz kaydedildi."
     },
     "Goals": {
-        "AddGoal_js": "Hedef Ekle",
+        "AddGoal": "Hedef Ekle",
         "AddNewGoal": "Yeni Hedef Ekle",
         "AddNewGoalOrEditExistingGoal": "%sYeni Hedef ekle%s veya Mevcut Hedefleri %sDüzenle%s",
         "ColumnRevenue": "Gelir",
@@ -634,7 +632,7 @@
         "ConversionsOverview": "Dönüşümlere Genel Bakış",
         "ConversionsOverviewBy": "Ziyaret türüne göre dönüşümlere genel bakış",
         "CreateNewGOal": "Yeni Hedef yarat",
-        "DeleteGoalConfirm_js": "'%s' Hedefini silme konusunda emin misiniz?",
+        "DeleteGoalConfirm": "'%s' Hedefini silme konusunda emin misiniz?",
         "Download": "Dosya İndir",
         "Ecommerce": "Eticaret",
         "GoalConversion": "Hedef dönüşümü",
@@ -651,7 +649,7 @@
         "ProductName": "Ürün İsmi",
         "Products": "Ürünler",
         "ProductSKU": "Ürün SKU",
-        "UpdateGoal_js": "Hedef Güncelle",
+        "UpdateGoal": "Hedef Güncelle",
         "ViewAndEditGoals": "Göster ve Hedef'lerı Düzenle",
         "WhereThe": "Buraya"
     },
@@ -798,7 +796,7 @@
         "CurrencySymbolWillBeUsedForGoals": "Para birim simgesi Goals yanında gösterilir.",
         "DefaultCurrencyForNewWebsites": "Yeni websiteler için varsayılan para birimi",
         "DefaultTimezoneForNewWebsites": "Yeni websiteler için saat dilimi",
-        "DeleteConfirm_js": "'%s' Websitesini silmekten emin misiniz?",
+        "DeleteConfirm": "'%s' Websitesini silmekten emin misiniz?",
         "ExceptionEmptyName": "Web sitesi adı boş olamaz.",
         "ExceptionInvalidTimezone": "\"%s\" saat dilimi geçersiz. Lütfen saat dilimi giriniz.",
         "ExceptionInvalidUrl": "'%s' site URL'si geçersizdir.",
@@ -1336,7 +1334,7 @@
         "ChangeAllConfirm": "Tüm websitelerin '%s' izinlerini değiştirmektesiniz, emin misiniz?",
         "ChangePassword": "Şifre değiştir",
         "ClickHereToDeleteTheCookie": "Çerezleri silmek ve sizin ziyaretlerinizi takip etmek için burayi tıklayınız",
-        "DeleteConfirm_js": "%s kullanıcısını silmekten emin misiniz?",
+        "DeleteConfirm": "%s kullanıcısını silmekten emin misiniz?",
         "Email": "Eposta",
         "ExceptionAdminAnonymous": "'Misafir' kullanıcıya 'yönetici' ünvani verilemez.",
         "ExceptionDeleteDoesNotExist": "'%s' kullanıcısı bazı nedenlerle silinemez.",

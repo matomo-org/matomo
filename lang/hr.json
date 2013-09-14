@@ -53,7 +53,7 @@
         "WidgetPageTitlesFollowingSearch": "Naslovi stranica kod pretraživanja"
     },
     "Annotations": {
-        "AddAnnotationsFor_js": "Dodaj bilješke za %s...",
+        "AddAnnotationsFor": "Dodaj bilješke za %s...",
         "AnnotationOnDate": "Interaktivne bilješke na %1$s: %2$s",
         "Annotations": "Interaktivne bilješke"
     },

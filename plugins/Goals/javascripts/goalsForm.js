@@ -146,7 +146,7 @@ function bindListGoalEdit() {
     $('a[name=linkEditGoal]').click(function () {
         var goalId = $(this).attr('id');
         var goal = piwik.goals[goalId];
-        initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal_js'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
+        initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
         showAddNewGoal();
         return false;
     });
@@ -155,7 +155,7 @@ function bindListGoalEdit() {
         var goalId = $(this).attr('id');
         var goal = piwik.goals[goalId];
 
-        $('#confirm').find('h2').text(sprintf(_pk_translate('Goals_DeleteGoalConfirm_js'), '"' + goal.name + '"'));
+        $('#confirm').find('h2').text(sprintf(_pk_translate('Goals_DeleteGoalConfirm'), '"' + goal.name + '"'));
         piwikHelper.modalConfirm('#confirm', {yes: function () {
             ajaxDeleteGoal(goalId);
         }});
@@ -168,6 +168,6 @@ function bindListGoalEdit() {
 }
 
 function initAndShowAddGoalForm() {
-    initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal_js'), '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
+    initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
     return showAddNewGoal();
 }

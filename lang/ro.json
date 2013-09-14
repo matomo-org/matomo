@@ -60,7 +60,7 @@
         "WidgetSearchNoResultKeywords": "CUvinte-cheie de căutare fără rezultat"
     },
     "Annotations": {
-        "AddAnnotationsFor_js": "Adaugă notiţe pentru %s...",
+        "AddAnnotationsFor": "Adaugă notiţe pentru %s...",
         "AnnotationOnDate": "Comentariu in %1$s: %2$s",
         "Annotations": "Note",
         "ClickToDelete": "Click pentru a sterge acesta nota",
@@ -74,7 +74,7 @@
         "IconDescHideNotes_js": "Ascunde notiţele pentru acest interval",
         "LoginToAnnotate": "Conecteaza-te pentru a crea o nota.",
         "NoAnnotations": "Nu există notiţe pentru acest interval",
-        "ViewAndAddAnnotations_js": "Vezi şi adaugă notiţe pentru %s..."
+        "ViewAndAddAnnotations": "Vezi şi adaugă notiţe pentru %s..."
     },
     "AnonymizeIP": {
         "PluginDescription": "Ascunde ultimele cifre ale IP-ului vizitatorilor pentru a fi în conformitate cu legile privind protecţia datelor personale."
@@ -225,14 +225,14 @@
         "CopyDashboardToUser": "Crează o copie a panoului de control pentru utilizator",
         "CreateNewDashboard": "Creează un panou de control nou",
         "Dashboard": "Panou de control",
-        "DashboardCopied_js": "Panoul de control copiat cu succes pentru utilizatorul selectat.",
+        "DashboardCopied": "Panoul de control copiat cu succes pentru utilizatorul selectat.",
         "DashboardEmptyNotification": "Panoul tău de control nu conţine niciun widget. Începi prin a adăuga câteva widget-uri sau doar resetează panoul de control către selecţia implicită de widget-uri.",
         "DashboardName": "Numele panoului de control:",
         "DashboardOf": "Panoul de control %s",
         "DefaultDashboard": "Panou de control implicit - Foloseşte widget-urile selectate şi coloanele implicite",
         "DeleteWidgetConfirm": "Esti sigur că doreşti să ştergi widget-ul din panoul de control?",
         "EmptyDashboard": "Panou de control gol - Alege widget-urile preferate",
-        "LoadingWidget_js": "Se incarca dispozitivul, asteapta...",
+        "LoadingWidget": "Se incarca dispozitivul, asteapta...",
         "ManageDashboard": "Administreză panou de control",
         "Maximise": "Maximizează",
         "Minimise": "Minimizează",
@@ -248,10 +248,8 @@
         "SetAsDefaultWidgets": "Stabileşte ca implicită selecţia de widget-uri",
         "SetAsDefaultWidgetsConfirm": "Eşti sigur(ă) că vrei să stabileşti selecţia curentă de widget-uri şi aspectul panoului de control ca fiind şablonul implicit al panoului de control?",
         "SetAsDefaultWidgetsConfirmHelp": "Această selecţie de widget-uri şi aspectul coloanelor panoului de control va fi folosită când un utilizator creează un panou de control nou sau când este folosită caracteristica \"%s\".",
-        "TitleClickToAdd_js": "Adaugă la panoul de control",
-        "TitleWidgetInDashboard_js": "Widget-ul deja este în panoul de control",
         "TopLinkTooltip": "Vizualizează rapoarte web analitică pentru %s.",
-        "WidgetNotFound_js": "Dispozitivul nu exista",
+        "WidgetNotFound": "Dispozitivul nu exista",
         "WidgetPreview": "Previzualizează widget-ul",
         "WidgetsAndDashboard": "Widget-uri & Panoul de control"
     },
@@ -682,7 +680,7 @@
         "YourChangesHaveBeenSaved": "Schimbarile au fost salvate"
     },
     "Goals": {
-        "AddGoal_js": "Adaugă o ţintă",
+        "AddGoal": "Adaugă o ţintă",
         "AddNewGoal": "Agaugă o ţintă nouă",
         "AddNewGoalOrEditExistingGoal": "%sAdaugă o ţintă nouă sau%s sau %sModifică%s ţinte existente",
         "ColumnAveragePriceDocumentation": "Venit mediu pentru acest %s.",
@@ -692,7 +690,7 @@
         "Contains": "conţine %s",
         "ConversionRate": "%s rata conversie",
         "CreateNewGOal": "Crează o ţintă nouă",
-        "DeleteGoalConfirm_js": "Eşti sigur că doreşti să ştergi ţinta %s?",
+        "DeleteGoalConfirm": "Eşti sigur că doreşti să ştergi ţinta %s?",
         "Download": "Descarcă un fişier",
         "Ecommerce": "Ecomerţ",
         "EcommerceLog": "Log Ecomerţ",
@@ -712,7 +710,7 @@
         "ProductCategory": "Categorie de produse",
         "ProductName": "Denumirea produsului",
         "Products": "Produse",
-        "UpdateGoal_js": "Actualizează ţinta",
+        "UpdateGoal": "Actualizează ţinta",
         "URL": "URL",
         "ViewAndEditGoals": "Vizualizarea şi editarea ţintelor",
         "WhenVisitors": "când vizitatorii",
@@ -939,7 +937,7 @@
         "AddSite": "Adauga un site",
         "ChooseCityInSameTimezoneAsYou": "Selectează un oraş din fusul tău orar.",
         "Currency": "Unitate monetară",
-        "DeleteConfirm_js": "Eşti sigur că doreşti să ştergi site-ul %s?",
+        "DeleteConfirm": "Eşti sigur că doreşti să ştergi site-ul %s?",
         "ExceptionEmptyName": "The site name can't be empty.",
         "ExceptionNoUrl": "You must specify at least one URL for the site.",
         "ExcludedIps": "IP-uri excluse",
@@ -1498,7 +1496,7 @@
         "ChangeAllConfirm": "Esti sigur ca vrei sa scimbi '%s' permisiunile tuturor siteurilor?",
         "ChangePassword": "Schimbă parola",
         "ChangePasswordConfirm": "Schimbarea parolei va modifica token_auth al utilizatorului. Într-adevăr doreşti să continui?",
-        "DeleteConfirm_js": "Eşti sigur că vrei să ştergi utilizatorul %s?",
+        "DeleteConfirm": "Eşti sigur că vrei să ştergi utilizatorul %s?",
         "Email": "Email",
         "ExceptionAdminAnonymous": "Nu poti autoriza 'admin' accesul la 'anonymous' user.",
         "ExceptionDeleteDoesNotExist": "Userul '%s' nu exista pentru ca a fost sters.",

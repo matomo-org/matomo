@@ -3,10 +3,10 @@
         {% set date=dateCountPair[0] %}
         {% set counts=dateCountPair[1] %}
         <span data-date="{{ date }}" data-count="{{ counts.count }}" data-starred="{{ counts.starred }}"
-              {% if counts.count == 0 %}title="{{ 'Annotations_AddAnnotationsFor_js'|translate(date) }}"
+              {% if counts.count == 0 %}title="{{ 'Annotations_AddAnnotationsFor'|translate(date) }}"
               {% elseif counts.count == 1 %}title="{{ 'Annotations_AnnotationOnDate'|translate(date,
               counts.note)|raw }}{{ 'Annotations_ClickToEditOrAdd'|translate }}"
-              {% else %}}title="{{ 'Annotations_ViewAndAddAnnotations_js'|translate(date) }}"{% endif %}>
+              {% else %}}title="{{ 'Annotations_ViewAndAddAnnotations'|translate(date) }}"{% endif %}>
             <img src="plugins/Zeitgeist/images/{% if counts.starred > 0 %}yellow_marker.png{% else %}grey_marker.png{% endif %}" width="16" height="16"/>
         </span>
     {% endfor %}

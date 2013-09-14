@@ -31,11 +31,12 @@ class UsersManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AdminMenu.add'                 => 'addMenu',
-            'AssetManager.getJsFiles'       => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'      => 'getStylesheetFiles',
-            'SitesManager.deleteSite'       => 'deleteSite',
-            'Common.fetchWebsiteAttributes' => 'recordAdminUsersInCache',
+            'AdminMenu.add'                          => 'addMenu',
+            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'SitesManager.deleteSite'                => 'deleteSite',
+            'Common.fetchWebsiteAttributes'          => 'recordAdminUsersInCache',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
 
@@ -132,5 +133,10 @@ class UsersManager extends \Piwik\Plugin
         // if change here, should also edit the installation process
         // to change how the root pwd is saved in the config file
         return md5($password);
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = "UsersManager_DeleteConfirm";
     }
 }

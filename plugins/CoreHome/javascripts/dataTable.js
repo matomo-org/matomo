@@ -584,7 +584,7 @@ dataTable.prototype =
                                     $('.annotationView img', domElem)
                                         .attr('title', _pk_translate('Annotations_IconDesc_js'));
 
-                                    var viewAndAdd = _pk_translate('Annotations_ViewAndAddAnnotations_js'),
+                                    var viewAndAdd = _pk_translate('Annotations_ViewAndAddAnnotations'),
                                         hideNotes = _pk_translate('Annotations_HideAnnotationsFor_js');
 
                                     // change the tooltip of the previously clicked evolution icon (if any)

@@ -76,13 +76,11 @@
         "AddPreviewedWidget": "Bæta forskoðuðum aukahlut á skjáborðið",
         "Dashboard": "Skjáborð",
         "DeleteWidgetConfirm": "Ertu viss um að þú viljir eyða þessum aukahlut af skjáborðinu.",
-        "LoadingWidget_js": "Hleð inn aukahlut, vinsamlegast bíðið...",
+        "LoadingWidget": "Hleð inn aukahlut, vinsamlegast bíðið...",
         "Maximise": "Hámarka",
         "PluginDescription": "Vefgreiningarskjáborðið þitt. Þú getur sérsniðið skjáborðið þitt: bætt við nýjum aukahlutum, breytt uppröðun aukahluta. Sérhver notandi hefur aðgang að sínu eigin sérsniðna skjáborði.",
         "SelectWidget": "Veldu aukahlutinn til að bæta við skjáborðið",
-        "TitleClickToAdd_js": "Smella til að bæta á skjáborð",
-        "TitleWidgetInDashboard_js": "Aukahlutur er núþegar á skjáborði",
-        "WidgetNotFound_js": "Aukahlutur fannst ekki",
+        "WidgetNotFound": "Aukahlutur fannst ekki",
         "WidgetPreview": "Forskoðun á aukahlut"
     },
     "General": {
@@ -316,7 +314,7 @@
         "YourChangesHaveBeenSaved": "Breytingarnarn þínar hafa verið vistaðar."
     },
     "Goals": {
-        "AddGoal_js": "Bæta Markmiði við",
+        "AddGoal": "Bæta Markmiði við",
         "AddNewGoal": "Bæta nýju markmiði við",
         "AddNewGoalOrEditExistingGoal": "%sAdd a new Goal%s eða %sEdit%s núverandi Markmiðum",
         "CaseSensitive": "Skiptir máli hvort það eru hástafir eða lágstafir",
@@ -327,7 +325,7 @@
         "ConversionRate": "%s umbreytingatíðni",
         "Conversions": "%s umbreytingar",
         "CreateNewGOal": "Búa til nýtt Markmið",
-        "DeleteGoalConfirm_js": "Ertu viss um að þú viljir eyða markmiðinu %s?",
+        "DeleteGoalConfirm": "Ertu viss um að þú viljir eyða markmiðinu %s?",
         "Download": "Sækja skrá",
         "ExternalWebsiteUrl": "utanaðkumandi vefslóð URL",
         "Filename": "skrárnafn",
@@ -348,7 +346,7 @@
         "OverallConversionRate": "%s heildar umbreytingatíðni (heimsóknir sem hafa náð markmiði)",
         "OverallRevenue": "%s heildarhagnaður",
         "Pattern": "Mynstur",
-        "UpdateGoal_js": "Uppfæra Markmið",
+        "UpdateGoal": "Uppfæra Markmið",
         "URL": "URL",
         "ViewAndEditGoals": "Skoða og breyta Markmiðum",
         "VisitUrl": "Skoða gefinn URL (vefsíðu eða hóp síðna)",

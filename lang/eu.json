@@ -92,11 +92,9 @@
         "AddPreviewedWidget": "Gehitu arbelean aurrebistako widget-a",
         "Dashboard": "Arbela",
         "DeleteWidgetConfirm": "Ziur zaude widget hau arbeletik ezabatu nahi duzula?",
-        "LoadingWidget_js": "Widget-a kargatzen, itxaron mesedez...",
+        "LoadingWidget": "Widget-a kargatzen, itxaron mesedez...",
         "SelectWidget": "Hautatu arbelean gehitzeko widget-a",
-        "TitleClickToAdd_js": "Egin klik arbelean gehitzeko",
-        "TitleWidgetInDashboard_js": "Widget-a arbelan dago",
-        "WidgetNotFound_js": "Ez da widget-a aurkitu",
+        "WidgetNotFound": "Ez da widget-a aurkitu",
         "WidgetPreview": "Widget-aren aurrebista"
     },
     "General": {
@@ -322,7 +320,7 @@
         "YourChangesHaveBeenSaved": "Zure aldaketak gorde egin dira."
     },
     "Goals": {
-        "AddGoal_js": "Gehitu helburua",
+        "AddGoal": "Gehitu helburua",
         "AddNewGoal": "Gehitu helburu berria",
         "AddNewGoalOrEditExistingGoal": "%sGehitu helburu berria%s edo %sEditatu%s dauden helburuak",
         "ClickOutlink": "Egin klik kanpoko webgune baterako loturan",
@@ -330,7 +328,7 @@
         "ColumnRevenue": "Etekina",
         "ConversionsOverview": "Bihurketen ikuspegi orokorra",
         "CreateNewGOal": "Sortu helburu berria",
-        "DeleteGoalConfirm_js": "Ziur zaude %s helburua ezabatu nahi duzula?",
+        "DeleteGoalConfirm": "Ziur zaude %s helburua ezabatu nahi duzula?",
         "Download": "Deskargatu fitxategia",
         "ExternalWebsiteUrl": "kanpoko webgunearen URLa",
         "Filename": "fitxategi-izena",
@@ -341,7 +339,7 @@
         "GoalX": "%s helburua",
         "Optional": "(aukerazkoa)",
         "Pattern": "Eredua",
-        "UpdateGoal_js": "Eguneratu helburua",
+        "UpdateGoal": "Eguneratu helburua",
         "URL": "URLa",
         "ViewAndEditGoals": "Ikusi eta editatu helburuak"
     },
@@ -482,7 +480,7 @@
         "AddSite": "Gehitu webgune berria",
         "AliasUrlHelp": "Gomendagarria da, baina ez beharrezkoa, bisitariek webgune hau atzitzeko erabiltzen dituzten URL ezberdinak zehaztea. Webgune baterako alias URLak ez dira agertuko Erreferenteak > Webguneak txostenean. Konturatu ez dela beharrezkoa URLak 'www'-rekin edo gabe zehaztea, Piwik-ek automatikoki biak hartzen baititu kontuan.",
         "Currency": "Moneta",
-        "DeleteConfirm_js": "Ziur zaude %s webgunea ezabatu nahi duzula?",
+        "DeleteConfirm": "Ziur zaude %s webgunea ezabatu nahi duzula?",
         "ExceptionDeleteSite": "Ezin da webgune hau ezabatu erregistratutako bakarra delako. Gehitu webgune berri bat lehenik eta ezabatu hau ondoren.",
         "ExceptionEmptyName": "Webgunearen izenak ezin du hutsa izan.",
         "ExceptionInvalidUrl": "'%s' URLa ez da baliozko URL bat.",
@@ -953,7 +951,7 @@
         "AllWebsites": "Webgune guztiak",
         "ApplyToAllWebsites": "Aplikatu webgune guztiei",
         "ChangeAllConfirm": "Ziur zaude '%s'(r)en baimenak aldatu nahi dituzula webgune guztietan?",
-        "DeleteConfirm_js": "Ziur zaude %s erabiltzailea ezabatu nahi duzula?",
+        "DeleteConfirm": "Ziur zaude %s erabiltzailea ezabatu nahi duzula?",
         "Email": "E-posta",
         "ExceptionAccessValues": "access parametroak ondorengo balioetako bat izan behar du: [ %s ]",
         "ExceptionAdminAnonymous": "Ezin diozu 'admin' atzipena eman 'anonymous' erabiltzaileari.",

@@ -114,7 +114,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
         '</div>' +
         '<div class="widgetContent">' +
         '<div class="widgetLoading">' +
-        _pk_translate('Dashboard_LoadingWidget_js') +
+        _pk_translate('Dashboard_LoadingWidget') +
         '</div>' +
         '</div>' +
         '</div>';

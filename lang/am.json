@@ -75,11 +75,9 @@
         "AddPreviewedWidget": "ቅድመ እይታ የተሰጠውን widget ወደ ዳሽቦርዱ ጨምር",
         "Dashboard": "ዳሽቦርድ",
         "DeleteWidgetConfirm": "እርግጠኛ ነህ ይህ widget ከዳሽቦርድ ይሰረዝ?",
-        "LoadingWidget_js": "widget በመጫን ላይ, እባክዎ ይጠበቁ...",
+        "LoadingWidget": "widget በመጫን ላይ, እባክዎ ይጠበቁ...",
         "SelectWidget": "ወደ ዳሽቦርድ የሚጨመረውን widget ምረጥ",
-        "TitleClickToAdd_js": "ወደ ዳሽቦርዱ ለመጨመር ጠቅ አድርግ",
-        "TitleWidgetInDashboard_js": "Widget ወደዳሽቦርዱ አስቀድሞ ገብቷል",
-        "WidgetNotFound_js": "Widget አልተገኘም",
+        "WidgetNotFound": "Widget አልተገኘም",
         "WidgetPreview": "የWidget ቅድመእይታ"
     },
     "General": {
@@ -311,7 +309,7 @@
     "SitesManager": {
         "AddSite": "አዲስ ድር ጣቢያ ጨምር",
         "Currency": "ገንዘብ",
-        "DeleteConfirm_js": "እርግጠኛ ነህ ድር ጣቢያውን ለመሰረዝ %s?",
+        "DeleteConfirm": "እርግጠኛ ነህ ድር ጣቢያውን ለመሰረዝ %s?",
         "ExceptionDeleteSite": "የተመዘገበ ብቸኛው ድር ጣቢያ ስለሆነ ለመዘረዝ አይቻልም። በመጀመሪያ አዲስ ድር ጣቢያ ጨምርና ቀጠሎ ይህንን ሰርዝ።",
         "ExceptionEmptyName": "የድር ጣቢያው ስም ባዶ መሆን አይችልም።",
         "ExceptionNoUrl": "ለዚህ ድር ጣቢያ ቢያንስ አንድ ዩ አር ኤል ማምር አለብህ።",
@@ -788,7 +786,7 @@
         "AllWebsites": "ሁሉንም ድር ጣቢያዎች",
         "ApplyToAllWebsites": "በሁሉም ድር ጣቢያዎች ላይ ተግብር",
         "ChangeAllConfirm": "እርግጠኛ ነህ '%s' የሁሉንም ድር ጣቢያዎች ፈቃድ መቀየር ትፈልጋለህ?",
-        "DeleteConfirm_js": "እርግጠኛ ነህ ተጠቃሚዎቹን መሰረዝ ትፈልጋለህ %s?",
+        "DeleteConfirm": "እርግጠኛ ነህ ተጠቃሚዎቹን መሰረዝ ትፈልጋለህ %s?",
         "Email": "ኢ-ሜይል",
         "ExceptionAccessValues": "የግቤት መድረሻ ከሚከተሉት አንዱ እሴት ሊኖረው ይገባል: [ %s ]",
         "ExceptionAdminAnonymous": "የአስተዳዳሪን ፈቃድ ላልታወቀ ሰው መስጠት አይቻልም",

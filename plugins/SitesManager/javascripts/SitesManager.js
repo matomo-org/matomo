@@ -205,7 +205,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 var nameToDelete = $(this).parent().parent().find('input#siteName').val() || $(this).parent().parent().find('td#siteName').html();
                 var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
 
-                $('#confirm').find('h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'), '"' + nameToDelete + '" (idSite = ' + idsiteToDelete + ')'));
+                $('#confirm').find('h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm'), '"' + nameToDelete + '" (idSite = ' + idsiteToDelete + ')'));
                 piwikHelper.modalConfirm('#confirm', {yes: function () {
                     sendDeleteSiteAJAX(idsiteToDelete);
                 }});
@@ -219,7 +219,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 var idRow = $(this).attr('id');
                 if (alreadyEdited[idRow] == 1) return;
                 if (siteBeingEdited) {
-                    $('#alert').find('h2').text(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"' + $("<div/>").html(siteBeingEditedName).text() + '"'));
+                    $('#alert').find('h2').text(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime'), '"' + $("<div/>").html(siteBeingEditedName).text() + '"'));
                     piwikHelper.modalConfirm('#alert', {});
                     return;
                 }

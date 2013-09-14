@@ -28,10 +28,11 @@ class SitesManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'       => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'      => 'getStylesheetFiles',
-            'AdminMenu.add'                 => 'addMenu',
-            'Common.fetchWebsiteAttributes' => 'recordWebsiteDataInCache',
+            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'AdminMenu.add'                          => 'addMenu',
+            'Common.fetchWebsiteAttributes'          => 'recordWebsiteDataInCache',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }
 
@@ -205,5 +206,11 @@ class SitesManager extends \Piwik\Plugin
             }
         }
         return $hosts;
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = "SitesManager_OnlyOneSiteAtTime";
+        $translationKeys[] = "SitesManager_DeleteConfirm";
     }
 }

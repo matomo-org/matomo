@@ -51,6 +51,7 @@ class UserCountry extends \Piwik\Plugin
             'Tracker.getVisitorLocation'               => 'getVisitorLocation',
             'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
         );
         return $hooks;
     }
@@ -403,5 +404,11 @@ class UserCountry extends \Piwik\Plugin
         return $provider instanceof GeoIp
             && $provider->isAvailable() === true
             && $provider->isWorking() === true;
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = "UserCountry_FatalErrorDuringDownload";
+        $translationKeys[] = "UserCountry_SetupAutomaticUpdatesOfGeoIP";
     }
 }

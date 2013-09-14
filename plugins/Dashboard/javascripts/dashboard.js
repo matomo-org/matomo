@@ -190,7 +190,7 @@ function copyDashboardToUser() {
             }, 'post');
             ajaxRequest.setCallback(
                 function (id) {
-                    $('#alert').find('h2').text(_pk_translate('Dashboard_DashboardCopied_js'));
+                    $('#alert').find('h2').text(_pk_translate('Dashboard_DashboardCopied'));
                     piwikHelper.modalConfirm('#alert', {});
                 }
             );

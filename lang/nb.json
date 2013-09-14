@@ -45,7 +45,7 @@
         "WidgetSearchNoResultKeywords": "Nøkkelord uten resultater"
     },
     "Annotations": {
-        "AddAnnotationsFor_js": "Legg til merknader for %s...",
+        "AddAnnotationsFor": "Legg til merknader for %s...",
         "AnnotationOnDate": "Merknad på %1$s: %2$s",
         "Annotations": "Merknader",
         "ClickToDelete": "Klikk for å slette denne merknaden.",
@@ -55,7 +55,7 @@
         "EnterAnnotationText": "Skriv inn merknad...",
         "HideAnnotationsFor_js": "Skjul merknader for %s...",
         "LoginToAnnotate": "Logg inn for å opprette en merknad.",
-        "ViewAndAddAnnotations_js": "Vis og legg til merknader for %s..."
+        "ViewAndAddAnnotations": "Vis og legg til merknader for %s..."
     },
     "API": {
         "LoadedAPIs": "Lastet %s API",
@@ -195,7 +195,7 @@
         "Dashboard": "Oversikt",
         "DashboardOf": "Oversikt for %s",
         "DeleteWidgetConfirm": "Er du sikker på at du vil fjerne dette elementet fra din oversikt?",
-        "LoadingWidget_js": "Laster element, vennligst vent ...",
+        "LoadingWidget": "Laster element, vennligst vent ...",
         "ManageDashboard": "Administrer oversikt",
         "Maximise": "Maksimer",
         "Minimise": "Minimer",
@@ -204,9 +204,7 @@
         "RenameDashboard": "Gi nytt navn på oversiktspanelet",
         "ResetDashboard": "Nullstill oversikt",
         "SelectWidget": "Velg hvilket element som du vil legge til oversiktspanelet.",
-        "TitleClickToAdd_js": "Klikk her for å legge til oversiktspanelet",
-        "TitleWidgetInDashboard_js": "Elementet er allerede i din oversikt",
-        "WidgetNotFound_js": "Finner ikke element",
+        "WidgetNotFound": "Finner ikke element",
         "WidgetPreview": "Forhåndsvisning av element",
         "WidgetsAndDashboard": "Widgets- og oversiktspanel"
     },
@@ -574,7 +572,7 @@
         "YourChangesHaveBeenSaved": "Din endringer er lagret."
     },
     "Goals": {
-        "AddGoal_js": "Legg til mål",
+        "AddGoal": "Legg til mål",
         "AddNewGoal": "Legg til et nytt mål",
         "ColumnConversions": "Konvertering",
         "ColumnRevenue": "Inntekter",
@@ -597,7 +595,7 @@
         "ProductName": "Produktnavn",
         "Products": "Produkter",
         "ProductSKU": "Produkt SKU",
-        "UpdateGoal_js": "Oppdater mål",
+        "UpdateGoal": "Oppdater mål",
         "URL": "URL",
         "WhenVisitors": "når besøkende"
     },
@@ -879,7 +877,7 @@
         "CurrencySymbolWillBeUsedForGoals": "Valuta-symbolet vises ved siden av omsetningsmål.",
         "DefaultCurrencyForNewWebsites": "Standard valuta for nye nettsteder",
         "DefaultTimezoneForNewWebsites": "Standard tidssone for nye nettsteder",
-        "DeleteConfirm_js": "Er du sikker på at du ønsker å slette nettstedet %s?",
+        "DeleteConfirm": "Er du sikker på at du ønsker å slette nettstedet %s?",
         "ExceptionDeleteSite": "Det er ikke mulig å slette dette nettstedet, da det er det eneste registrerte nettstedet. Legg til et nytt nettsted, og deretter slett dette.",
         "ExceptionEmptyName": "Nettstedets navn kan ikke være tomt.",
         "ExceptionInvalidCurrency": "Valutaen \"%s\" er ikke gyldig. Vennligst skriv inn et gyldig valutasymbol (f.eks %s)",
@@ -1465,7 +1463,7 @@
         "ChangePassword": "Endre passord",
         "ClickHereToDeleteTheCookie": "Klikk her for å slette informasjonskapselen og la Piwik spore dine besøk.",
         "ClickHereToSetTheCookieOnDomain": "Klikk her for å sette en informasjonskapsel som vil ekskludere dine besøk på nettsteder som spores av Piwik på %s",
-        "DeleteConfirm_js": "Er du sikker på at du vil slette brukeren %s?",
+        "DeleteConfirm": "Er du sikker på at du vil slette brukeren %s?",
         "Email": "E-post",
         "ExceptionAccessValues": "Tilgangsparameteret må minst ha en av de følgende verdier: [ %s ]",
         "ExceptionAdminAnonymous": "Du kan ikke gi administrator-tilgang til 'anonymous'-brukeren.",

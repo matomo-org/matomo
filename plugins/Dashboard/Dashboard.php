@@ -281,6 +281,9 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'Dashboard_WidgetPreview';
         $translationKeys[] = 'Dashboard_Maximise';
         $translationKeys[] = 'Dashboard_Minimise';
+        $translationKeys[] = 'Dashboard_LoadingWidget';
+        $translationKeys[] = 'Dashboard_WidgetNotFound';
+        $translationKeys[] = 'Dashboard_DashboardCopied';
         $translationKeys[] = 'General_Close';
     }
 }

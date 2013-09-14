@@ -51,11 +51,9 @@
     "Dashboard": {
         "Dashboard": "Töölaud",
         "DeleteWidgetConfirm": "Oled sa kindel selle mooduli kustutamises oma töölaualt?",
-        "LoadingWidget_js": "Laen moodulit, palun oota...",
+        "LoadingWidget": "Laen moodulit, palun oota...",
         "SelectWidget": "Vali töölauale lisatav moodul",
-        "TitleClickToAdd_js": "Kliki lisamaks töölauale",
-        "TitleWidgetInDashboard_js": "Moodul on juba töölaual",
-        "WidgetNotFound_js": "Moodulit ei leitud"
+        "WidgetNotFound": "Moodulit ei leitud"
     },
     "General": {
         "API": "API",
@@ -257,7 +255,7 @@
     "SitesManager": {
         "AddSite": "Lisa uus sait",
         "Currency": "vääring",
-        "DeleteConfirm_js": "Oled sa kindel %s kustutamises?",
+        "DeleteConfirm": "Oled sa kindel %s kustutamises?",
         "ExceptionDeleteSite": "Seda veebilehte ei ole võimalik kustutada, sest see on ainuke registreeritud leht selles andmebaasis. Lisa ennem uus leht ja siis kustuta see leht.",
         "ExceptionEmptyName": "Saidi nimi ei saa olla tühi.",
         "ExceptionInvalidUrl": "Aadress '%s' ei ole kehtiv veebiaadress.",
@@ -751,7 +749,7 @@
         "AllWebsites": "Kõik veebilehed",
         "ApplyToAllWebsites": "Laienda kõigile veebilehtedele",
         "ChangeAllConfirm": "Kas sa oled kindel soovis anda '%s' õigused kõigile veebilehtedele?",
-        "DeleteConfirm_js": "Kas oled kindel, et soovid %s kustutada?",
+        "DeleteConfirm": "Kas oled kindel, et soovid %s kustutada?",
         "Email": "Email",
         "ExceptionAdminAnonymous": "Sa ei saa anda 'admin' õiguseid 'anonymous' kasutajale.",
         "ExceptionDeleteDoesNotExist": "Kasutajat nimega '%s' ei eksisteeri seepärast ei saa teda ka kustutada.",

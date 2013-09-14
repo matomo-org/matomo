@@ -96,7 +96,7 @@ $(document).ready(function () {
             }
         });
         ajaxRequest.setErrorCallback(function () {
-            callback({error: _pk_translate('UserCountry_FatalErrorDuringDownload_js')});
+            callback({error: _pk_translate('UserCountry_FatalErrorDuringDownload')});
         });
         ajaxRequest.send(false);
     };
@@ -132,7 +132,7 @@ $(document).ready(function () {
     $('body')
         .on('click', '#start-automatic-update-geoip', function () {
             $('#geoipdb-screen1').hide("slide", {direction: "left"}, 800, function () {
-                $('#geoip-db-mangement').text(_pk_translate('UserCountry_SetupAutomaticUpdatesOfGeoIP_js'));
+                $('#geoip-db-mangement').text(_pk_translate('UserCountry_SetupAutomaticUpdatesOfGeoIP'));
                 $('#geoipdb-update-info').fadeIn(1000);
             });
         })

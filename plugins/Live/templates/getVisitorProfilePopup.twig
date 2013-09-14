@@ -75,7 +75,7 @@
                             {% set entryCountry %}<img src="{{ entry.flag }}" title="{{ entry.prettyName }}"/>&nbsp;{{ entry.prettyName }}{% endset %}
                             {{- 'General_XFromY'|translate(entryVisits, entryCountry)|raw -}}{% if not loop.last %}, {% endif %}
                             {%- endfor %}
-                            <a class="visitor-profile-show-map" href="#" {% if userCountryMapUrl|default('') is empty %}style="display:none"{% endif %}>({{ 'Live_ShowMap_js'|translate|replace({' ': '&nbsp;'})|raw }})</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
+                            <a class="visitor-profile-show-map" href="#" {% if userCountryMapUrl|default('') is empty %}style="display:none"{% endif %}>({{ 'Live_ShowMap'|translate|replace({' ': '&nbsp;'})|raw }})</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
                         </p>
                         <div class="visitor-profile-map" style="display:none" data-href="{{ userCountryMapUrl|default('') }}">
                         </div>
@@ -95,7 +95,7 @@
                     {% if visitorData.lastVisits.getRowsCount() >= constant("Piwik\\Plugins\\Live\\API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW") %}
                     <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a> <img class="loadingPiwik" style="display:none;" src="plugins/Zeitgeist/images/loading-blue.gif"/>
                     {% else %}
-                    <span class="visitor-profile-no-visits">{{ 'Live_NoMoreVisits_js'|translate }}</span>
+                    <span class="visitor-profile-no-visits">{{ 'Live_NoMoreVisits'|translate }}</span>
                     {% endif %}
                 </div>
             </div>

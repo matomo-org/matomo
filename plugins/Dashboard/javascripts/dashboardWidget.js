@@ -191,7 +191,7 @@
 
             var widgetName = widgetsHelper.getWidgetNameFromUniqueId(uniqueId);
             if (!widgetName) {
-                widgetName = _pk_translate('Dashboard_WidgetNotFound_js');
+                widgetName = _pk_translate('Dashboard_WidgetNotFound');
             }
 
             var emptyWidgetContent = widgetsHelper.getEmptyWidgetHtml(uniqueId, widgetName);

@@ -79,6 +79,9 @@ class Live extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "Live_VisitorProfile";
+        $translationKeys[] = "Live_NoMoreVisits";
+        $translationKeys[] = "Live_ShowMap";
+        $translationKeys[] = "Live_HideMap";
     }
 
     public function getReportDisplayProperties(&$properties)

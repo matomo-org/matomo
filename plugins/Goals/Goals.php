@@ -100,6 +100,7 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite'          => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'  => 'getActualReportsWithGoalMetrics',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );
         return $hooks;
     }
@@ -628,5 +629,13 @@ class Goals extends \Piwik\Plugin
             $abandonedCart ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART : Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
 
         return $result;
+    }
+
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'Goals_AddGoal';
+        $translationKeys[] = 'Goals_UpdateGoal';
+        $translationKeys[] = 'Goals_DeleteGoalConfirm';
     }
 }

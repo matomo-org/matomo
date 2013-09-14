@@ -149,12 +149,12 @@
                 }
 
                 $map.slideDown('slow');
-                var newLabel = 'Live_HideMap_js';
+                var newLabel = 'Live_HideMap';
 
                 piwikHelper.lazyScrollTo($('.visitor-profile-location', $element)[0], 400);
             } else { // hide the map if it is shown
                 $map.slideUp('slow');
-                var newLabel = 'Live_ShowMap_js';
+                var newLabel = 'Live_ShowMap';
             }
 
             newLabel = _pk_translate(newLabel).replace(' ', '\xA0');
@@ -211,7 +211,7 @@
         },
 
         _showNoMoreVisitsSpan: function () {
-            var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits_js')).addClass('visitor-profile-no-visits');
+            var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits')).addClass('visitor-profile-no-visits');
             $('.visitor-profile-more-info', this.$element).html(noMoreSpan);
         },
 
