@@ -180,6 +180,7 @@ class HtmlTable extends DataTableVisualization
                     'disable_subtable_when_show_goals' => false,
                     'keep_summary_row' => false,
                     'highlight_summary_row' => false,
+                    'show_expanded' => false
                 ),
             ),
         );
