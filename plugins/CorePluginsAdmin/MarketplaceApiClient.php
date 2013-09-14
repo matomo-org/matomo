@@ -19,12 +19,17 @@ class MarketplaceApiClient
 {
     private $domain = 'http://plugins.piwik.org';
 
-    private function fetch($method, $params)
+    /**
+     * @var array   array(pluginName => stdClass pluginInfo)
+     */
+    private static $pluginCache = array();
+
+    private function fetch($action, $params)
     {
         $endpoint = $this->domain . '/api/1.0/';
         $query    = http_build_query($params);
 
-        $url = sprintf('%s%s?%s', $endpoint, $method, $query);
+        $url = sprintf('%s%s?%s', $endpoint, $action, $query);
 
         $result = Http::sendHttpRequest($url, 5);
         $result = json_decode($result);
@@ -32,15 +37,21 @@ class MarketplaceApiClient
         return $result;
     }
 
-    private function getInfo($name)
+    public function getPluginInfo($name)
     {
-        $method = sprintf('plugins/%s/info', $name);
-        return $this->fetch($method, array());
+        if (array_key_exists($name, static::$pluginCache)) {
+            return static::$pluginCache[$name];
+        }
+
+        $action = sprintf('plugins/%s/info', $name);
+        static::$pluginCache[$name] = $this->fetch($action, array());
+
+        return static::$pluginCache[$name];
     }
 
     public function download($pluginOrThemeName, $target)
     {
-        $plugin = $this->getInfo($pluginOrThemeName);
+        $plugin = $this->getPluginInfo($pluginOrThemeName);
 
         if (empty($plugin)) {
             // TODO throw exception notExistingPlugin

@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\PluginsManager;
 
 /**
  *
@@ -27,6 +28,19 @@ class Controller extends \Piwik\Controller\Admin
 {
     private $validSortMethods = array('popular', 'newest', 'alpha');
     private $defaultSortMethod = 'popular';
+
+    public function activatePlugin()
+    {
+        $pluginName = Common::getRequestVar('pluginName', '', 'string');
+
+        if (empty($pluginName)) {
+            return;
+        }
+
+        PluginsManager::getInstance()->activatePlugin($pluginName);
+
+        $this->extend();
+    }
 
     public function installPlugin()
     {
@@ -38,7 +52,12 @@ class Controller extends \Piwik\Controller\Admin
 
         $pluginInstaller = new PluginInstaller($pluginName);
         $pluginInstaller->installOrUpdatePluginFromMarketplace();
+        $marketplace = new MarketplaceApiClient();
 
+        $view         = $this->configureView('@CorePluginsAdmin/installPlugin');
+        $view->plugin = $marketplace->getPluginInfo($pluginName);
+
+        echo $view->render();
         // \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
     }
 
