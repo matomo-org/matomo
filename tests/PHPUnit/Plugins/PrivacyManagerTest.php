@@ -7,21 +7,21 @@
  */
 use Piwik\Archive;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\PrivacyManager\LogDataPurger;
-use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\PrivacyManager\ReportsPurger;
 use Piwik\Plugins\VisitorInterest\API as VisitorInterestAPI;
 use Piwik\Site;
-use Piwik\Db;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 
@@ -80,7 +80,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         LogDataPurger::$selectSegmentSize = 2;
         ReportsPurger::$selectSegmentSize = 2;
-        Piwik::$lockPrivilegeGranted = null;
+
+        Db::$lockPrivilegeGranted = null;
 
         self::restoreDbTables(self::$dbData);
 

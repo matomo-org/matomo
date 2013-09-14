@@ -6,19 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Date;
+use Piwik\Db\BatchInsert;
+use Piwik\Db;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Access;
-use Piwik\Date;
-use Piwik\ArchiveProcessor;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik\Db;
 
 class ArchiveProcessingTest extends DatabaseTestCase
 {
@@ -305,7 +306,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $table = Common::prefixTable('site_url');
         $data = $this->_getDataInsert();
         try {
-            $didWeUseBulk = Piwik::tableInsertBatch($table,
+            $didWeUseBulk = BatchInsert::tableInsertBatch($table,
                 array('idsite', 'url'),
                 $data,
                 $throwException = true);
@@ -319,7 +320,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
             $this->_checkTableIsExpected($table, $data);
 
             // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc)
-            Piwik::tableInsertBatch($table, array('idsite', 'url'), $data);
+            BatchInsert::tableInsertBatch($table, array('idsite', 'url'), $data);
             $this->_checkTableIsExpected($table, $data);
         }
     }
@@ -356,15 +357,15 @@ class ArchiveProcessingTest extends DatabaseTestCase
     {
         $table = Common::prefixTable('site_url');
         $data = $this->_getDataInsert();
-        Piwik::tableInsertBatchIterate($table, array('idsite', 'url'), $data);
+        BatchInsert::tableInsertBatchIterate($table, array('idsite', 'url'), $data);
         $this->_checkTableIsExpected($table, $data);
 
         // If we insert AGAIN, expect to throw an error because the primary key already exists
         try {
-            Piwik::tableInsertBatchIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = false);
+            BatchInsert::tableInsertBatchIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = false);
         } catch (Exception $e) {
             // However if we insert with keyword REPLACE, then the new data should be saved
-            Piwik::tableInsertBatchIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = true);
+            BatchInsert::tableInsertBatchIterate($table, array('idsite', 'url'), $data, $ignoreWhenDuplicate = true);
             $this->_checkTableIsExpected($table, $data);
             return;
         }
@@ -384,7 +385,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 
         $data = $this->_getBlobDataInsert();
         try {
-            $didWeUseBulk = Piwik::tableInsertBatch($table,
+            $didWeUseBulk = BatchInsert::tableInsertBatch($table,
                 array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'),
                 $data,
                 $throwException = true);
@@ -398,7 +399,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
             $this->_checkTableIsExpectedBlob($table, $data);
         }
         // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc)
-        $didWeUseBulk = Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
+        $didWeUseBulk = BatchInsert::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
         if ($didWeUseBulk === true) {
             $this->_checkTableIsExpectedBlob($table, $data);
         }
@@ -416,15 +417,15 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $table = ArchiveTableCreator::getBlobTable(Date::factory($dateLabel));
 
         $data = $this->_getBlobDataInsert();
-        Piwik::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
+        BatchInsert::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
         $this->_checkTableIsExpectedBlob($table, $data);
 
         // If we insert AGAIN, expect to throw an error because the primary key already exist
         try {
-            Piwik::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = false);
+            BatchInsert::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = false);
         } catch (Exception $e) {
             // However if we insert with keyword REPLACE, then the new data should be saved
-            Piwik::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = true);
+            BatchInsert::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data, $ignoreWhenDuplicate = true);
             $this->_checkTableIsExpectedBlob($table, $data);
             return;
         }

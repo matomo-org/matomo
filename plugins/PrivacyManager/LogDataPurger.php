@@ -10,10 +10,10 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Piwik;
 
 /**
  * Purges the log_visit, log_conversion and related tables of old visit data.
@@ -81,7 +81,7 @@ class LogDataPurger
         }
 
         // delete unused actions from the log_action table (but only if we can lock tables)
-        if (Piwik::isLockPrivilegeGranted()) {
+        if (Db::isLockPrivilegeGranted()) {
             $this->purgeUnusedLogActions();
         } else {
             $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
@@ -297,7 +297,7 @@ class LogDataPurger
             'log_link_visit_action',
             'log_visit',
             'log_conversion_item');
-        if (Piwik::isLockPrivilegeGranted()) {
+        if (Db::isLockPrivilegeGranted()) {
             $result[] = Common::prefixTable('log_action');
         }
         return $result;

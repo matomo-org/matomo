@@ -978,7 +978,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $result['load_data_infile_available'] = false;
         try {
-            $result['load_data_infile_available'] = Piwik::tableInsertBatch(
+            $result['load_data_infile_available'] = Db\BatchInsert::tableInsertBatch(
                 $optionTable,
                 array('option_name', 'option_value'),
                 array(

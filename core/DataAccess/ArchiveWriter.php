@@ -12,13 +12,13 @@ namespace Piwik\DataAccess;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Db\BatchInsert;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\ArchiveProcessor;
 use Piwik\Segment;
 
 /**
@@ -197,7 +197,7 @@ class ArchiveWriter
         if (empty($values)) return true;
 
         $tableName = $this->getTableNameToInsert($valueSeen);
-        Piwik::tableInsertBatch($tableName, $this->getInsertFields(), $values);
+        BatchInsert::tableInsertBatch($tableName, $this->getInsertFields(), $values);
         return true;
     }
 

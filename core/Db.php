@@ -9,7 +9,7 @@
  * @package PluginsFunctions
  */
 namespace Piwik;
-use Piwik\Config;
+use Exception;
 use Piwik\Tracker;
 
 /**
@@ -403,4 +403,35 @@ class Db
         $db = \Zend_Registry::get('db');
         return $db->fetchOne($sql, array($lockName)) == '1';
     }
+
+    /**
+     * Cached result of isLockprivilegeGranted function.
+     *
+     * Public so tests can simulate the situation where the lock tables privilege isn't granted.
+     *
+     * @var bool
+     */
+    public static $lockPrivilegeGranted = null;
+
+    /**
+     * Checks whether the database user is allowed to lock tables.
+     *
+     * @return bool
+     */
+    public static function isLockPrivilegeGranted()
+    {
+        if (is_null(self::$lockPrivilegeGranted)) {
+            try {
+                Db::lockTables(Common::prefixTable('log_visit'));
+                Db::unlockAllTables();
+
+                self::$lockPrivilegeGranted = true;
+            } catch (Exception $ex) {
+                self::$lockPrivilegeGranted = false;
+            }
+        }
+
+        return self::$lockPrivilegeGranted;
+    }
+
 }

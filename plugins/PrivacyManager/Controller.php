@@ -10,17 +10,15 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\View;
 use Piwik\TaskScheduler;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Plugins\PrivacyManager\LogDataPurger;
-use Piwik\Plugins\PrivacyManager\ReportsPurger;
+use Piwik\View;
 
 /**
  *
@@ -127,7 +125,7 @@ class Controller extends \Piwik\Controller\Admin
             $view->deleteData = $this->getDeleteDataInfo();
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
             $view->dntSupport = self::isDntSupported();
-            $view->canDeleteLogActions = Piwik::isLockPrivilegeGranted();
+            $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = Config::getInstance()->database['username'];
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
