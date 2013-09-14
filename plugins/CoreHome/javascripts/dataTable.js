@@ -582,10 +582,10 @@ dataTable.prototype =
                                 function (manager) {
                                     manager.attr('data-is-range', 0);
                                     $('.annotationView img', domElem)
-                                        .attr('title', _pk_translate('Annotations_IconDesc_js'));
+                                        .attr('title', _pk_translate('Annotations_IconDesc'));
 
                                     var viewAndAdd = _pk_translate('Annotations_ViewAndAddAnnotations'),
-                                        hideNotes = _pk_translate('Annotations_HideAnnotationsFor_js');
+                                        hideNotes = _pk_translate('Annotations_HideAnnotationsFor');
 
                                     // change the tooltip of the previously clicked evolution icon (if any)
                                     if (oldDate) {
@@ -663,11 +663,11 @@ dataTable.prototype =
                 && annotationManager.attr('data-is-range') == 1) {
                 if (annotationManager.is(':hidden')) {
                     annotationManager.slideDown('slow'); // showing
-                    $('img', this).attr('title', _pk_translate('Annotations_IconDescHideNotes_js'));
+                    $('img', this).attr('title', _pk_translate('Annotations_IconDescHideNotes'));
                 }
                 else {
                     annotationManager.slideUp('slow'); // hiding
-                    $('img', this).attr('title', _pk_translate('Annotations_IconDesc_js'));
+                    $('img', this).attr('title', _pk_translate('Annotations_IconDesc'));
                 }
             }
             else {
@@ -685,7 +685,7 @@ dataTable.prototype =
                 );
 
                 // change the tooltip of the view annotation icon
-                $('img', this).attr('title', _pk_translate('Annotations_IconDescHideNotes_js'));
+                $('img', this).attr('title', _pk_translate('Annotations_IconDescHideNotes'));
             }
         });
     },

@@ -82,8 +82,8 @@ var Piwik_Popover = (function () {
         showLoading: function (popoverName, popoverSubject, height, dialogClass) {
             var loading = $(document.createElement('div')).addClass('Piwik_Popover_Loading');
 
-            var loadingMessage = popoverSubject ? translations.General_LoadingPopoverFor_js :
-                translations.General_LoadingPopover_js;
+            var loadingMessage = popoverSubject ? translations.General_LoadingPopoverFor :
+                translations.General_LoadingPopover;
 
             loadingMessage = loadingMessage.replace(/%s/, popoverName);
 

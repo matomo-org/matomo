@@ -108,7 +108,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
         '<img src="plugins/Zeitgeist/images/minimise.png" title="' + _pk_translate('Dashboard_Minimise') + '" />' +
         '</div>' +
         '<div class="button" id="refresh">' +
-        '<img src="plugins/Zeitgeist/images/refresh.png" title="' + _pk_translate('Dashboard_Refresh_js') + '" />' +
+        '<img src="plugins/Zeitgeist/images/refresh.png" title="' + _pk_translate('General_Refresh') + '" />' +
         '</div>' +
         '<div class="widgetName">' + widgetName + '</div>' +
         '</div>' +
