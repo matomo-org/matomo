@@ -554,70 +554,6 @@ class Piwik
     }
 
     /*
-     * Global database object
-     */
-
-    /**
-     * Create database object and connect to database
-     * @param array|null $dbInfos
-     */
-    static public function createDatabaseObject($dbInfos = null)
-    {
-        $config = Config::getInstance();
-
-        if (is_null($dbInfos)) {
-            $dbInfos = $config->database;
-        }
-
-        Piwik_PostEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
-
-        $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
-
-        $db = null;
-        Piwik_PostEvent('Reporting.createDatabase', array(&$db));
-        if (is_null($db)) {
-            $adapter = $dbInfos['adapter'];
-            $db = @Adapter::factory($adapter, $dbInfos);
-        }
-        \Zend_Registry::set('db', $db);
-    }
-
-    /**
-     * Disconnect from database
-     */
-    static public function disconnectDatabase()
-    {
-        \Zend_Registry::get('db')->closeConnection();
-    }
-
-    /**
-     * Checks the database server version against the required minimum
-     * version.
-     *
-     * @see config/global.ini.php
-     * @since 0.4.4
-     * @throws Exception if server version is less than the required version
-     */
-    static public function checkDatabaseVersion()
-    {
-        \Zend_Registry::get('db')->checkServerVersion();
-    }
-
-    /**
-     * Check database connection character set is utf8.
-     *
-     * @return bool  True if it is (or doesn't matter); false otherwise
-     */
-    static public function isDatabaseConnectionUTF8()
-    {
-        return \Zend_Registry::get('db')->isConnectionUTF8();
-    }
-
-    /*
-     * Global log object
-     */
-
-    /*
      * User input validation
      */
 
@@ -661,63 +597,6 @@ class Piwik
     /*
      * Database and table definition methods
      */
-
-    /**
-     * Is the schema available?
-     *
-     * @return bool  True if schema is available; false otherwise
-     */
-    static public function isAvailable()
-    {
-        return Schema::getInstance()->isAvailable();
-    }
-
-    /**
-     * Get the SQL to create a specific Piwik table
-     *
-     * @param string $tableName
-     * @return string  SQL
-     */
-    static public function getTableCreateSql($tableName)
-    {
-        return Schema::getInstance()->getTableCreateSql($tableName);
-    }
-
-    /**
-     * Get the SQL to create Piwik tables
-     *
-     * @return array  array of strings containing SQL
-     */
-    static public function getTablesCreateSql()
-    {
-        return Schema::getInstance()->getTablesCreateSql();
-    }
-
-    /**
-     * Create database
-     *
-     * @param string|null $dbName
-     */
-    static public function createDatabase($dbName = null)
-    {
-        Schema::getInstance()->createDatabase($dbName);
-    }
-
-    /**
-     * Drop database
-     */
-    static public function dropDatabase()
-    {
-        Schema::getInstance()->dropDatabase();
-    }
-
-    /**
-     * Create all tables
-     */
-    static public function createTables()
-    {
-        Schema::getInstance()->createTables();
-    }
 
     /**
      * Creates an entry in the User table for the "anonymous" user.

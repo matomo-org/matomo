@@ -6,6 +6,8 @@
 
 use Piwik\Http;
 
+define('PIWIK_TEST_MODE', true);
+
 if (!defined("PIWIK_PATH_TEST_TO_ROOT")) {
     define('PIWIK_PATH_TEST_TO_ROOT', realpath(dirname(__FILE__) . '/../..'));
 }

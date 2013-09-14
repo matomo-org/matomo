@@ -18,6 +18,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db\Adapter;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
@@ -185,7 +186,7 @@ class Controller extends \Piwik\Controller\Admin
                 $dbInfos = $form->createDatabaseObject();
                 $this->session->databaseCreated = true;
 
-                Piwik::checkDatabaseVersion();
+                DbHelper::checkDatabaseVersion();
                 $this->session->databaseVersionOk = true;
 
                 $this->session->db_infos = $dbInfos;
@@ -242,7 +243,7 @@ class Controller extends \Piwik\Controller\Admin
             $error = true;
         }
 
-        if (!Piwik::isDatabaseConnectionUTF8()) {
+    if (!DbHelper::isDatabaseConnectionUTF8()) {
             $dbInfos = $this->session->db_infos;
             $dbInfos['charset'] = 'utf8';
             $this->session->db_infos = $dbInfos;
@@ -311,7 +312,7 @@ class Controller extends \Piwik\Controller\Admin
                 $this->session->skipThisStep = $tmp;
             }
         } else {
-            Piwik::createTables();
+            DbHelper::createTables();
             Piwik::createAnonymousUser();
 
             $updater = new Updater();
@@ -543,7 +544,7 @@ class Controller extends \Piwik\Controller\Admin
     {
         $dbInfos = $this->session->db_infos;
         Config::getInstance()->database = $dbInfos;
-        Piwik::createDatabaseObject($dbInfos);
+        DbHelper::createDatabaseObject($dbInfos);
     }
 
     /**

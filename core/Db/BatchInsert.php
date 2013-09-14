@@ -15,6 +15,7 @@ use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Zend_Registry;
@@ -75,7 +76,7 @@ class BatchInsert
                 );
 
                 // hack for charset mismatch
-                if (!Piwik::isDatabaseConnectionUTF8() && !isset(Config::getInstance()->database['charset'])) {
+                if (!DbHelper::isDatabaseConnectionUTF8() && !isset(Config::getInstance()->database['charset'])) {
                     $fileSpec['charset'] = 'latin1';
                 }
 

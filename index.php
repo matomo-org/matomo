@@ -50,3 +50,4 @@ if (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH) {
     $controller->init();
     $controller->dispatch();
 }
+\Piwik\DbHelper::dropDatabase();

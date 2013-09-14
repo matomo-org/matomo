@@ -15,8 +15,8 @@ use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
 use Piwik\Db\Adapter;
+use Piwik\DbHelper;
 use Piwik\Filesystem;
-use Piwik\Piwik;
 use Piwik\QuickForm2;
 use Zend_Db_Adapter_Exception;
 
@@ -120,7 +120,7 @@ class FormDatabaseSetup extends QuickForm2
         }
 
         try {
-            @Piwik::createDatabaseObject($dbInfos);
+            @DbHelper::createDatabaseObject($dbInfos);
         } catch (Zend_Db_Adapter_Exception $e) {
             $db = Adapter::factory($adapter, $dbInfos, $connect = false);
 
@@ -128,11 +128,11 @@ class FormDatabaseSetup extends QuickForm2
             if ($db->isErrNo($e, '1049')) {
                 $dbInfosConnectOnly = $dbInfos;
                 $dbInfosConnectOnly['dbname'] = null;
-                @Piwik::createDatabaseObject($dbInfosConnectOnly);
-                @Piwik::createDatabase($dbInfos['dbname']);
+                @DbHelper::createDatabaseObject($dbInfosConnectOnly);
+                @DbHelper::createDatabase($dbInfos['dbname']);
 
                 // select the newly created database
-                @Piwik::createDatabaseObject($dbInfos);
+                @DbHelper::createDatabaseObject($dbInfos);
             } else {
                 throw $e;
             }

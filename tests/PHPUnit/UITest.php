@@ -5,10 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Date;
-use Piwik\Piwik;
 use Piwik\Access;
 use Piwik\AssetManager;
+use Piwik\Date;
+use Piwik\DbHelper;
 use Piwik\Plugins\VisitsSummary\API;
 
 abstract class UITest extends IntegrationTestCase
@@ -79,7 +79,7 @@ abstract class UITest extends IntegrationTestCase
         self::removeRecursiveLinks();
 
         if (!Zend_Registry::get('db')) {
-            Piwik::createDatabaseObject();
+            DbHelper::createDatabaseObject();
         }
         
         parent::tearDownAfterClass();
@@ -90,7 +90,7 @@ abstract class UITest extends IntegrationTestCase
         parent::setUp();
         
         if (!Zend_Registry::get('db')) {
-            Piwik::createDatabaseObject();
+            DbHelper::createDatabaseObject();
         }
     }
     

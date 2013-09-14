@@ -260,7 +260,7 @@ class FrontController
             }
 
             try {
-                Piwik::createDatabaseObject();
+                DbHelper::createDatabaseObject();
             } catch (Exception $e) {
                 if (self::shouldRethrowException()) {
                     throw $e;

@@ -8,7 +8,7 @@
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
-use Piwik\Piwik;
+use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugins\PDFReports\API;
 use Piwik\Site;
@@ -38,14 +38,14 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
             $dbName = $dbConfig['dbname'];
             $dbConfig['dbname'] = null;
 
-            Piwik::createDatabaseObject($dbConfig);
+            DbHelper::createDatabaseObject($dbConfig);
 
-            Piwik::dropDatabase();
-            Piwik::createDatabase($dbName);
-            Piwik::disconnectDatabase();
+            DbHelper::dropDatabase();
+            DbHelper::createDatabase($dbName);
+            DbHelper::disconnectDatabase();
 
-            Piwik::createDatabaseObject();
-            Piwik::createTables();
+            DbHelper::createDatabaseObject();
+            DbHelper::createTables();
             \Piwik\Log::make();
 
 //            \Piwik\PluginsManager::getInstance()->loadPlugins(array());
@@ -69,7 +69,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
     {
         parent::tearDown();
         IntegrationTestCase::unloadAllPlugins();
-        Piwik::dropDatabase();
+        DbHelper::dropDatabase();
         Manager::getInstance()->deleteAll();
         Option::getInstance()->clearCache();
         API::$cache = array();

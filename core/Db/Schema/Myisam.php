@@ -11,14 +11,13 @@
 namespace Piwik\Db\Schema;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Db\SchemaInterface;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db\SchemaInterface;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Zend_Registry;
-
 
 /**
  * MySQL schema
@@ -414,7 +413,7 @@ class Myisam implements SchemaInterface
      */
     public function getTableCreateSql($tableName)
     {
-        $tables = Piwik::getTablesCreateSql();
+        $tables = DbHelper::getTablesCreateSql();
 
         if (!isset($tables[$tableName])) {
             throw new Exception("The table '$tableName' SQL creation code couldn't be found.");

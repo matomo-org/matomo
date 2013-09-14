@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API;
@@ -68,7 +69,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $oldDbName = $dbConfig['dbname'];
         $dbConfig['dbname'] = null;
 
-        Piwik::createDatabaseObject($dbConfig);
+        DbHelper::createDatabaseObject($dbConfig);
 
         $dbConfig['dbname'] = $oldDbName;
     }
@@ -157,16 +158,16 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
             self::connectWithoutDatabase();
             if ($createEmptyDatabase) {
-                Piwik::dropDatabase();
+                DbHelper::dropDatabase();
             }
-            Piwik::createDatabase($dbName);
-            Piwik::disconnectDatabase();
+            DbHelper::createDatabase($dbName);
+            DbHelper::disconnectDatabase();
 
             // reconnect once we're sure the database exists
             Config::getInstance()->database['dbname'] = $dbName;
-            Piwik::createDatabaseObject();
+            DbHelper::createDatabaseObject();
 
-            Piwik::createTables();
+            DbHelper::createTables();
             \Piwik\Log::make();
 
             \Piwik\PluginsManager::getInstance()->loadPlugins(array());
@@ -230,7 +231,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
         \Piwik\PluginsManager::getInstance()->unloadPlugins();*/
         if ($dropDatabase) {
-            Piwik::dropDatabase();
+            DbHelper::dropDatabase();
         }
         Manager::getInstance()->deleteAll();
         Option::getInstance()->clearCache();
@@ -1103,7 +1104,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             if (strpos($table, 'archive_') !== false && !in_array($table, $existingTables)) {
                 $tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
 
-                $createSql = Piwik::getTableCreateSql($tableType);
+                $createSql = DbHelper::getTableCreateSql($tableType);
                 $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);
                 Db::query($createSql);
             }

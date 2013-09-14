@@ -370,7 +370,7 @@ class Tracker
             try {
                 $db = \Zend_Registry::get('db');
             } catch (Exception $e) {
-                Piwik::createDatabaseObject();
+                DbHelper::createDatabaseObject();
             }
 
             $pluginsManager = PluginsManager::getInstance();
