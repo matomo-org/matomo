@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
+use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Url;
@@ -32,11 +33,18 @@ class Controller extends \Piwik\Controller\Admin
     public function activatePlugin()
     {
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $nonce      = Common::getRequestVar('nonce', '', 'string');
 
         if (empty($pluginName)) {
             return;
         }
 
+        if (!Nonce::verifyNonce('CorePluginsAdmin.activatePlugin', $nonce)) {
+            // todo display error
+            return;
+        }
+
+        Nonce::discardNonce('CorePluginsAdmin.activatePlugin');
         PluginsManager::getInstance()->activatePlugin($pluginName);
 
         $this->extend();
@@ -45,20 +53,27 @@ class Controller extends \Piwik\Controller\Admin
     public function installPlugin()
     {
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $nonce      = Common::getRequestVar('nonce', '', 'string');
 
         if (empty($pluginName)) {
             return;
         }
 
+        if (Nonce::verifyNonce('CorePluginsAdmin.installPlugin', $nonce)) {
+            // todo display error
+            return;
+        }
+
+        Nonce::discardNonce('CorePluginsAdmin.installPlugin');
         $pluginInstaller = new PluginInstaller($pluginName);
         $pluginInstaller->installOrUpdatePluginFromMarketplace();
         $marketplace = new MarketplaceApiClient();
 
         $view         = $this->configureView('@CorePluginsAdmin/installPlugin');
         $view->plugin = $marketplace->getPluginInfo($pluginName);
+        $view->nonce  = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
 
         echo $view->render();
-        // \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
     }
 
     public function browsePlugins()
@@ -74,6 +89,7 @@ class Controller extends \Piwik\Controller\Admin
         $view          = $this->configureView('@CorePluginsAdmin/browsePlugins');
         $view->plugins = $marketplace->searchForPlugins('', $query, $sort);
         $view->query   = $query;
+        $view->nonce   = Nonce::getNonce('CorePluginsAdmin.installPlugin');
 
         echo $view->render();
     }
@@ -91,6 +107,7 @@ class Controller extends \Piwik\Controller\Admin
         $view          = $this->configureView('@CorePluginsAdmin/browseThemes');
         $view->plugins = $marketplace->searchForThemes('', $query, $sort);
         $view->query   = $query;
+        $view->nonce   = Nonce::getNonce('CorePluginsAdmin.installPlugin');
 
         echo $view->render();
     }

@@ -15,7 +15,7 @@
 
             <p>You have successfully installed the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
 
-            <p><strong><a href="{{ linkTo({'action': 'activatePlugin', 'pluginName': plugin.name}) }}">Activate Plugin</a></strong>
+            <p><strong><a href="{{ linkTo({'action': 'activatePlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Plugin</a></strong>
                 |
                 <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
         </div>
