@@ -171,7 +171,7 @@ $(document).ready(function () {
             $(this)
                 .toggle()
                 .parent()
-                .prepend($('<input type="submit" class="submit updateuser"  value="' + _pk_translate('General_Save_js') + '" />')
+                .prepend($('<input type="submit" class="submit updateuser"  value="' + _pk_translate('General_Save') + '" />')
                     .click(function () {
                         var onValidate = function () {
                             sendUpdateUserAJAX($('tr#' + idRow));
@@ -215,8 +215,8 @@ $(document).ready(function () {
 				<td><input id="useradd_email" value="email@domain.com" size="15" /></td>\
 				<td><input id="useradd_alias" value="alias" size="15" /></td>\
 				<td>-</td>\
-				<td><input type="submit" class="submit adduser"  value="' + _pk_translate('General_Save_js') + '" /></td>\
-	  			<td><span class="cancel">' + sprintf(_pk_translate('General_OrCancel_js'), "", "") + '</span></td>\
+				<td><input type="submit" class="submit adduser"  value="' + _pk_translate('General_Save') + '" /></td>\
+	  			<td><span class="cancel">' + sprintf(_pk_translate('General_OrCancel'), "", "") + '</span></td>\
 	 		</tr>'))
             .appendTo('#users')
         ;

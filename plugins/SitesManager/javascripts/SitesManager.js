@@ -166,7 +166,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 
             var numberOfRows = $('table#editSites')[0].rows.length;
             var newRowId = 'rowNew' + numberOfRows;
-            var submitButtonHtml = '<input type="submit" class="addsite submit" value="' + _pk_translate('General_Save_js') + '" />';
+            var submitButtonHtml = '<input type="submit" class="addsite submit" value="' + _pk_translate('General_Save') + '" />';
             $($.parseHTML(' <tr id="' + newRowId + '">\
 				<td>&nbsp;</td>\
 				<td><input id="name" value="Name" size="15" /><br/><br/><br/>' + submitButtonHtml + '</td>\
@@ -179,7 +179,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 				<td>' + getCurrencySelector(defaultCurrency) + '<br />' + currencyHelp + '</td>\
 				<td>' + getEcommerceSelector(0) + '<br />' + ecommerceHelp + '</td>\
 				<td>' + submitButtonHtml + '</td>\
-	  			<td><span class="cancel link_but">' + sprintf(_pk_translate('General_OrCancel_js'), "", "") + '</span></td>\
+	  			<td><span class="cancel link_but">' + sprintf(_pk_translate('General_OrCancel'), "", "") + '</span></td>\
 	 		</tr>'))
                 .appendTo('#editSites')
             ;
@@ -237,9 +237,9 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                             siteBeingEditedName = contentBefore;
                             var contentAfter = '<input id="' + idName + '" value="' + contentBefore + '" size="15" />';
 
-                            var inputSave = $('<br/><input style="margin-top:50px" type="submit" class="submit" value="' + _pk_translate('General_Save_js') + '" />')
+                            var inputSave = $('<br/><input style="margin-top:50px" type="submit" class="submit" value="' + _pk_translate('General_Save') + '" />')
                                 .click(function () { submitUpdateSite($(this).parent()); });
-                            var spanCancel = $('<div><br/>' + sprintf(_pk_translate('General_OrCancel_js'), "", "") + '</div>')
+                            var spanCancel = $('<div><br/>' + sprintf(_pk_translate('General_OrCancel'), "", "") + '</div>')
                                 .click(function () { piwikHelper.refreshAfter(0); });
                             $(n)
                                 .html(contentAfter)
@@ -293,7 +293,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 $(this)
                     .toggle()
                     .parent()
-                    .prepend($('<input type="submit" class="updateSite submit" value="' + _pk_translate('General_Save_js') + '" />')
+                    .prepend($('<input type="submit" class="updateSite submit" value="' + _pk_translate('General_Save') + '" />')
                         .click(function () { sendUpdateSiteAJAX($('tr#' + idRow)); })
                     );
             });

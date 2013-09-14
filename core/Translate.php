@@ -163,10 +163,6 @@ class Translate
     {
         $translations = &$GLOBALS['Piwik_translations'];
 
-        // Hack: common translations used in JS but not only, force them to be defined in JS
-        $translations['General']['Save_js'] = $translations['General']['Save'];
-        $translations['General']['OrCancel_js'] = $translations['General']['OrCancel'];
-
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $key) {
             list($plugin, $stringName) = explode("_", $key, 2);
@@ -178,7 +174,7 @@ class Translate
             'for(var i in translations) { piwik_translations[i] = translations[i];} ';
         $js .= 'function _pk_translate(translationStringId) { ' .
             'if( typeof(piwik_translations[translationStringId]) != \'undefined\' ){  return piwik_translations[translationStringId]; }' .
-            'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is suffixed with _js.";}';
+            'return "The string "+translationStringId+" was not loaded in javascript. Make sure it is added in the Translate.getClientSideTranslationKeys hook.";}';
         return $js;
     }
 
@@ -194,15 +190,7 @@ class Translate
 
         Piwik_PostEvent(self::GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT, array(&$result));
 
-        $translations = $GLOBALS['Piwik_translations'];
-        foreach ($translations as $module => $keys) {
-            foreach($keys as $key => $value) {
-                // Find keys ending with _js
-                if (preg_match($moduleRegex, $key)) {
-                    $result[] = $module . '_' . $key;
-                }
-            }
-        }
+        $result = array_unique($result);
 
         return $result;
     }

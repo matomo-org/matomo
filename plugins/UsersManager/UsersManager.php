@@ -137,6 +137,8 @@ class UsersManager extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = "General_OrCancel";
+        $translationKeys[] = "General_Save";
         $translationKeys[] = "UsersManager_DeleteConfirm";
     }
 }

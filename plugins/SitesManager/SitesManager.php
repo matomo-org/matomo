@@ -210,6 +210,8 @@ class SitesManager extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = "General_Save";
+        $translationKeys[] = "General_OrCancel";
         $translationKeys[] = "SitesManager_OnlyOneSiteAtTime";
         $translationKeys[] = "SitesManager_DeleteConfirm";
     }
