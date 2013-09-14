@@ -80,6 +80,7 @@
                 maxVisits = config.maxVisits || 100,
                 changeVisitAlpha = typeof config.changeVisitAlpha === 'undefined' ? true : config.changeVisitAlpha,
                 removeOldVisits = typeof config.removeOldVisits === 'undefined' ? true : config.removeOldVisits,
+                doNotRefreshVisits = typeof config.doNotRefreshVisits === 'undefined' ? false : config.doNotRefreshVisits,
                 width = main.width(),
                 lastTimestamp = -1,
                 lastVisits = [],
@@ -331,6 +332,12 @@
              * If firstRun is true, the SymbolGroup is initialized
              */
             function refreshVisits(firstRun) {
+                if (lastTimestamp != -1
+                    && doNotRefreshVisits
+                ) {
+                    return;
+                }
+
                 /*
                  * this is called after new visit reports came in
                  */

@@ -228,7 +228,8 @@ class Controller extends \Piwik\Controller
             'removeOldVisits' => 0,
             'realtimeWindow' => 'false',
             'showFooterMessage' => 0,
-            'showDateTime' => 0
+            'showDateTime' => 0,
+            'doNotRefreshVisits' => 1
         );
         return Url::getCurrentQueryStringWithParametersModified($params);
     }

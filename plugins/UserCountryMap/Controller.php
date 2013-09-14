@@ -183,7 +183,8 @@ class Controller extends \Piwik\Controller
             'changeVisitAlpha' => Common::getRequestVar('changeVisitAlpha', true, 'int'),
             'removeOldVisits' => Common::getRequestVar('removeOldVisits', true, 'int'),
             'showFooterMessage' => Common::getRequestVar('showFooterMessage', true, 'int'),
-            'showDateTime' => Common::getRequestVar('showDateTime', true, 'int')
+            'showDateTime' => Common::getRequestVar('showDateTime', true, 'int'),
+            'doNotRefreshVisits' => Common::getRequestVar('doNotRefreshVisits', false, 'int')
         );
 
         if ($fetch) {
