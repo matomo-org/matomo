@@ -24,9 +24,10 @@ class Widgetize extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'  => 'getJsFiles',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'TopMenu.add'              => 'addTopMenu',
+            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'TopMenu.add'                            => 'addTopMenu',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -55,5 +56,11 @@ class Widgetize extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/cloud.less";
         $stylesheets[] = "plugins/Dashboard/stylesheets/dashboard.less";
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'Widgetize_OpenInNewWindow';
+        $translations[] = 'Dashboard_LoadingWidget';
     }
 }
