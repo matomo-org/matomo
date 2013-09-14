@@ -7,7 +7,7 @@
  *
  * @package Piwik
  */
-use Piwik\Piwik;
+
 use Piwik\Timer;
 use Piwik\Tracker;
 use Piwik\Common;
@@ -55,6 +55,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Referrer.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/VisitExcluded.php';
 require_once PIWIK_INCLUDE_PATH . '/core/CacheFile.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Filesystem.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 
 session_cache_limiter('nocache');
