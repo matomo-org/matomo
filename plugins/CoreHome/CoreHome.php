@@ -108,5 +108,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_FlattenDataTable';
         $translationKeys[] = 'CoreHome_UnFlattenDataTable';
         $translationKeys[] = 'Annotations_ViewAndAddAnnotations';
+        $translationKeys[] = 'General_RowEvolutionRowActionTooltipTitle';
+        $translationKeys[] = 'General_RowEvolutionRowActionTooltip';
     }
 }

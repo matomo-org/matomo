@@ -65,8 +65,8 @@ DataTable_RowActions_Registry.register({
     order: 50,
 
     dataTableIconTooltip: [
-        _pk_translate('General_RowEvolutionRowActionTooltipTitle_js'),
-        _pk_translate('General_RowEvolutionRowActionTooltip_js')
+        _pk_translate('General_RowEvolutionRowActionTooltipTitle'),
+        _pk_translate('General_RowEvolutionRowActionTooltip')
     ],
 
     createInstance: function (dataTable, param) {

@@ -570,7 +570,7 @@
         "OriginalLanguageName": "Български",
         "Others": "Други",
         "Outlink": "Външен линк",
-        "OverlayRowActionTooltip_js": "Вижте анализите директно от сайта си (отваря нов подпрозорец)",
+        "OverlayRowActionTooltip": "Вижте анализите директно от сайта си (отваря нов подпрозорец)",
         "ParameterMustIntegerBetween": "Параметърът %s трябва да има цифрова стойност от %s до %s.",
         "Period": "Период",
         "Piechart": "Диаграма",

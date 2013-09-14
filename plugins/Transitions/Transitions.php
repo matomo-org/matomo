@@ -22,8 +22,9 @@ class Transitions extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'  => 'getJsFiles'
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -35,5 +36,11 @@ class Transitions extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = 'plugins/Transitions/javascripts/transitions.js';
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'General_TransitionsRowActionTooltipTitle';
+        $translationKeys[] = 'General_TransitionsRowActionTooltip';
     }
 }

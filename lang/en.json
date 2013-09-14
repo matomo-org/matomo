@@ -439,12 +439,12 @@
         "MonthDecember_js": "December",
         "LoadingPopover_js": "Loading %s...",
         "LoadingPopoverFor_js": "Loading %s for",
-        "RowEvolutionRowActionTooltipTitle_js": "Open Row Evolution",
-        "RowEvolutionRowActionTooltip_js": "See how the metrics for this row changed over time",
-        "TransitionsRowActionTooltipTitle_js": "Open Transitions",
-        "TransitionsRowActionTooltip_js": "See what visitors did before and after viewing this page",
-        "OverlayRowActionTooltipTitle_js": "Open Page Overlay",
-        "OverlayRowActionTooltip_js": "See analytics data directly on your website (opens new tab)"
+        "RowEvolutionRowActionTooltipTitle": "Open Row Evolution",
+        "RowEvolutionRowActionTooltip": "See how the metrics for this row changed over time",
+        "TransitionsRowActionTooltipTitle": "Open Transitions",
+        "TransitionsRowActionTooltip": "See what visitors did before and after viewing this page",
+        "OverlayRowActionTooltipTitle": "Open Page Overlay",
+        "OverlayRowActionTooltip": "See analytics data directly on your website (opens new tab)"
     },
     "Actions": {
         "PluginDescription": "Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic! You can also track your internal website's Search Engine.",

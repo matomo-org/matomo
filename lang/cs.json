@@ -604,7 +604,7 @@
         "Total": "Celkem",
         "TotalRevenue": "Celková hodnota",
         "TotalVisitsPageviewsRevenue": "(Celkem: %s návštěv, %s zobrazení stránek, %s tržby)",
-        "TransitionsRowActionTooltipTitle_js": "Otevřít překlady",
+        "TransitionsRowActionTooltipTitle": "Otevřít překlady",
         "TranslatorEmail": "info@joomladev.eu, salab@email.cz, michal@cihar.com",
         "TranslatorName": "Filip Bartmann, Jakub Baláš, Michal Čihař",
         "UniquePurchases": "Jedineční nakupující",

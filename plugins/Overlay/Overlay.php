@@ -28,7 +28,8 @@ class Overlay extends \Piwik\Plugin
     function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -40,5 +41,11 @@ class Overlay extends \Piwik\Plugin
     {
         $jsFiles[] = 'plugins/Overlay/javascripts/rowaction.js';
         $jsFiles[] = 'plugins/Overlay/javascripts/Overlay_Helper.js';
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'General_OverlayRowActionTooltipTitle';
+        $translationKeys[] = 'General_OverlayRowActionTooltip';
     }
 }
