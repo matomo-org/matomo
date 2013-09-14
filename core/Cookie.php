@@ -10,8 +10,6 @@
  */
 namespace Piwik;
 
-use Piwik\Common;
-
 /**
  * Simple class to handle the cookies:
  * - read a cookie values
@@ -206,7 +204,7 @@ class Cookie
     {
         $signature = substr($content, -40);
         if (substr($content, -43, 3) == self::VALUE_SEPARATOR . '_=' &&
-            $signature == sha1(substr($content, 0, -40) . Common::getSalt())
+            $signature == sha1(substr($content, 0, -40) . SettingsPiwik::getSalt())
         ) {
             // strip trailing: VALUE_SEPARATOR '_=' signature"
             return substr($content, 0, -43);
@@ -272,7 +270,7 @@ class Cookie
             $cookieStr .= '_=';
 
             // sign cookie
-            $signature = sha1($cookieStr . Common::getSalt());
+            $signature = sha1($cookieStr . SettingsPiwik::getSalt());
             return $cookieStr . $signature;
         }
 

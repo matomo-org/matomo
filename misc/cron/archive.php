@@ -153,7 +153,7 @@ class Archiving
         // Try and not request older data we know is already archived
         if ($this->timeLastCompleted !== false) {
             $dateLast = time() - $this->timeLastCompleted;
-            $this->log("- Archiving was last executed without error " . Piwik::getPrettyTimeFromSeconds($dateLast, true, $isHtml = false) . " ago");
+            $this->log("- Archiving was last executed without error " . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($dateLast, true, $isHtml = false) . " ago");
         }
 
         $this->initWebsitesToProcess();
@@ -251,7 +251,7 @@ class Archiving
                 && $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive
             ) {
                 $this->log("Skipped website id $idsite, already processed today's report in recent run, "
-                    . Piwik::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
+                    . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
                     . " ago, " . $timerWebsite->__toString());
                 $skippedDayArchivesWebsites++;
                 $skipped++;
@@ -405,7 +405,7 @@ class Archiving
     private function getSegmentsForSite($idsite)
     {
         $segmentsAllSites = $this->segments;
-        $segmentsThisSite = Piwik::getKnownSegmentsToArchiveForSite($idsite);
+        $segmentsThisSite = \Piwik\SettingsPiwik::getKnownSegmentsToArchiveForSite($idsite);
         if (!empty($segmentsThisSite)) {
             $this->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idsite): " . implode(", ", $segmentsThisSite));
         }
@@ -731,12 +731,12 @@ class Archiving
             if (empty($timestampActiveTraffic)) {
                 $timestampActiveTraffic = time() - $this->firstRunActiveWebsitesWithTraffic;
                 $this->log("--force-all-periods was detected: we will process websites with visits in the last "
-                        . Piwik::getPrettyTimeFromSeconds($this->firstRunActiveWebsitesWithTraffic, true, false)
+                        . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($this->firstRunActiveWebsitesWithTraffic, true, false)
                 );
             }
             $this->websites = SitesManagerAPI::getInstance()->getSitesIdWithVisits($timestampActiveTraffic);
             $websiteIds = !empty($this->websites) ? ", IDs: " . implode(", ", $this->websites) : "";
-            $prettySeconds = Piwik::getPrettyTimeFromSeconds(empty($this->timeLastCompleted)
+            $prettySeconds = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds(empty($this->timeLastCompleted)
                     ? $this->firstRunActiveWebsitesWithTraffic
                     : (time() - $this->timeLastCompleted),
                 true, false);

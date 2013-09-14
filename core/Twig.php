@@ -11,13 +11,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\API\Request;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\AssetManager;
 use Piwik\Translate;
-use Piwik\Url;
-use Piwik\PluginsManager;
 use Piwik\Visualization\Sparkline;
 use Twig_Environment;
 use Twig_Extension_Debug;
@@ -170,7 +164,7 @@ class Twig
             }
             $idSite = func_get_args();
             $idSite = $idSite[1];
-            return Piwik::getPrettyMoney($amount, $idSite);
+            return MetricsFormatter::getPrettyMoney($amount, $idSite);
         });
         $this->twig->addFilter($moneyFilter);
     }
@@ -178,7 +172,7 @@ class Twig
     protected function addFilter_sumTime()
     {
         $sumtimeFilter = new Twig_SimpleFilter('sumtime', function ($numberOfSeconds) {
-            return Piwik::getPrettyTimeFromSeconds($numberOfSeconds);
+            return MetricsFormatter::getPrettyTimeFromSeconds($numberOfSeconds);
         });
         $this->twig->addFilter($sumtimeFilter);
     }

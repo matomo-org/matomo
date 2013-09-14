@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\SettingsPiwik;
 use Piwik\TaskScheduler;
 use Piwik\Site;
 use Piwik\Db;
@@ -54,7 +55,7 @@ class API
     public function getKnownSegmentsToArchive()
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik::getKnownSegmentsToArchive();
+        return SettingsPiwik::getKnownSegmentsToArchive();
     }
 
     /*

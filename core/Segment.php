@@ -10,10 +10,7 @@
  */
 namespace Piwik;
 use Exception;
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\Plugins\API\API;
-use Piwik\SegmentExpression;
 
 /**
  *
@@ -34,7 +31,7 @@ class Segment
     public function __construct($string, $idSites)
     {
         $string = trim($string);
-        if (!Piwik::isSegmentationEnabled()
+        if (!SettingsPiwik::isSegmentationEnabled()
             && !empty($string)
         ) {
             throw new Exception("The Super User has disabled the Segmentation feature.");

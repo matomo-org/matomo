@@ -10,15 +10,16 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
-use Piwik\Piwik;
-use Piwik\DataTable;
-use Piwik\View;
-use Piwik\Config;
 use Piwik\Common;
-use Piwik\Site;
-use Piwik\DataTableVisualization;
+use Piwik\Config;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
+use Piwik\DataTableVisualization;
+use Piwik\MetricsFormatter;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as Goals_API;
+use Piwik\Site;
+use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/AllColumns.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/Goals.php';
@@ -188,7 +189,7 @@ class HtmlTable extends DataTableVisualization
             $view->columns_to_display = $columnsToDisplay;
         };
 
-        $prettifyTime = array('\Piwik\Piwik', 'getPrettyTimeFromSeconds');
+        $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
         $view->filters[] = array('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
 
         $view->show_exclude_low_population = true;
@@ -244,7 +245,7 @@ class HtmlTable extends DataTableVisualization
         }
 
         $formatPercent = function ($value) use($idSite) {
-            return Piwik::getPrettyMoney(sprintf("%.1f", $value), $idSite);
+            return MetricsFormatter::getPrettyMoney(sprintf("%.1f", $value), $idSite);
         };
 
         foreach ($view->columns_to_display as $columnName) {

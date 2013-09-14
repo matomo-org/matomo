@@ -12,14 +12,14 @@ namespace Piwik\Plugins\Actions;
 
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Db;
+use Piwik\MetricsFormatter;
+use Piwik\SegmentExpression;
+use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\ViewDataTable;
 use Piwik\WidgetsList;
-use Piwik\SegmentExpression;
-use Piwik\Db;
-use Piwik\Site;
 
 /**
  * Actions plugin
@@ -735,12 +735,12 @@ class Actions extends \Piwik\Plugin
         );
 
         // prettify avg_time_on_page column
-        $getPrettyTimeFromSeconds = '\Piwik\Piwik::getPrettyTimeFromSeconds';
+        $getPrettyTimeFromSeconds = '\Piwik\MetricsFormatter::getPrettyTimeFromSeconds';
         $result['filters'][] = array('ColumnCallbackReplace', array('avg_time_on_page', $getPrettyTimeFromSeconds));
 
         // prettify avg_time_generation column
         $avgTimeCallback = function ($time) {
-            return $time ? Piwik::getPrettyTimeFromSeconds($time, true, true, false) : "-";
+            return $time ? MetricsFormatter::getPrettyTimeFromSeconds($time, true, true, false) : "-";
         };
         $result['filters'][] = array('ColumnCallbackReplace', array('avg_time_generation', $avgTimeCallback));
 
@@ -753,8 +753,8 @@ class Actions extends \Piwik\Plugin
             return Piwik_Translate("Actions_AvgGenerationTimeTooltip", array(
                                                                             $hits,
                                                                             "<br />",
-                                                                            Piwik::getPrettyTimeFromSeconds($min),
-                                                                            Piwik::getPrettyTimeFromSeconds($max)
+                                                                            MetricsFormatter::getPrettyTimeFromSeconds($min),
+                                                                            MetricsFormatter::getPrettyTimeFromSeconds($max)
                                                                        ));
         };
         $result['filters'][] = array('ColumnCallbackAddMetadata',

@@ -7,6 +7,7 @@
  */
 use Piwik\Access;
 use Piwik\Filesystem;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
@@ -120,8 +121,8 @@ class PiwikTest extends DatabaseTestCase
 
         $sentenceExpected = str_replace(' ', '&nbsp;', $expected[0]);
         $numericExpected = $expected[1];
-        $this->assertEquals($sentenceExpected, Piwik::getPrettyTimeFromSeconds($seconds, $sentence = true));
-        $this->assertEquals($numericExpected, Piwik::getPrettyTimeFromSeconds($seconds, $sentence = false));
+        $this->assertEquals($sentenceExpected, MetricsFormatter::getPrettyTimeFromSeconds($seconds, $sentence = true));
+        $this->assertEquals($numericExpected, MetricsFormatter::getPrettyTimeFromSeconds($seconds, $sentence = false));
 
         Translate::getInstance()->unloadEnglishTranslation();
     }
@@ -223,7 +224,7 @@ class PiwikTest extends DatabaseTestCase
 
         $this->assertEquals(
             $expected,
-            Piwik::getPrettyValue($idsite, $columnName, $value, false, false)
+            MetricsFormatter::getPrettyValue($idsite, $columnName, $value, false, false)
         );
 
         Translate::getInstance()->unloadEnglishTranslation();

@@ -18,9 +18,7 @@ use Piwik\Log\ScreenFormatter;
 use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Session;
-use Piwik\Tracker\Cache;
 use Piwik\Tracker;
-use Piwik\Tracker\GoalManager;
 use Piwik\View;
 use Zend_Registry;
 
@@ -62,42 +60,6 @@ class Piwik
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
 
     /**
-     * Should we process and display Unique Visitors?
-     * -> Always process for day/week/month periods
-     * For Year and Range, only process if it was enabled in the config file,
-     *
-     * @param string $periodLabel  Period label (e.g., 'day')
-     * @return bool
-     */
-    static public function isUniqueVisitorsEnabled($periodLabel)
-    {
-        $generalSettings = Config::getInstance()->General;
-
-        $settingName = "enable_processing_unique_visitors_$periodLabel";
-        $result = !empty($generalSettings[$settingName]) && $generalSettings[$settingName] == 1;
-
-        // check enable_processing_unique_visitors_year_and_range for backwards compatibility
-        if (($periodLabel == 'year' || $periodLabel == 'range')
-            && isset($generalSettings['enable_processing_unique_visitors_year_and_range'])
-        ) {
-            $result |= $generalSettings['enable_processing_unique_visitors_year_and_range'] == 1;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Returns true if Segmentation is allowed for this user
-     *
-     * @return bool
-     */
-    public static function isSegmentationEnabled()
-    {
-        return !Piwik::isUserIsAnonymous()
-        || Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
-    }
-
-    /**
      * Uninstallation helper
      */
     static public function uninstall()
@@ -122,69 +84,6 @@ class Piwik
     }
 
     /**
-     * Called on Core install, update, plugin enable/disable
-     * Will clear all cache that could be affected by the change in configuration being made
-     */
-    static public function deleteAllCacheOnUpdate()
-    {
-        AssetManager::removeMergedAssets();
-        View::clearCompiledTemplates();
-        Cache::deleteTrackerCache();
-    }
-
-    /**
-     * Cache for result of getPiwikUrl.
-     * Can be overwritten for testing purposes only.
-     *
-     * @var string
-     */
-    static public $piwikUrlCache = null;
-
-    /**
-     * Returns the cached the Piwik URL, eg. http://demo.piwik.org/ or http://example.org/piwik/
-     * If not found, then tries to cache it and returns the value.
-     *
-     * If the Piwik URL changes (eg. Piwik moved to new server), the value will automatically be refreshed in the cache.
-     *
-     * @return string
-     */
-    static public function getPiwikUrl()
-    {
-        // Only set in tests
-        if (self::$piwikUrlCache !== null) {
-            return self::$piwikUrlCache;
-        }
-
-        $key = 'piwikUrl';
-        $url = Piwik_GetOption($key);
-        if (SettingsServer::isPhpCliMode()
-            // in case archive.php is triggered with domain localhost
-            || SettingsServer::isArchivePhpTriggered()
-            || defined('PIWIK_MODE_ARCHIVE')
-        ) {
-            return $url;
-        }
-
-        $currentUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
-
-        if (empty($url)
-            // if URL changes, always update the cache
-            || $currentUrl != $url
-        ) {
-            if (strlen($currentUrl) >= strlen('http://a/')) {
-                Piwik_SetOption($key, $currentUrl, $autoLoad = true);
-            }
-            $url = $currentUrl;
-        }
-        return $url;
-    }
-
-
-    /*
-     * PHP environment settings
-     */
-
-    /**
      * Logging and error handling
      *
      * @var bool|null
@@ -199,7 +98,7 @@ class Piwik
     static public function log($message = '')
     {
         if (is_null(self::$shouldLog)) {
-            self::$shouldLog = self::shouldLoggerLog();
+            self::$shouldLog = SettingsPiwik::shouldLoggerLog();
             // It is possible that the logger is not setup:
             // - Tracker request, and debug disabled,
             // - and some scheduled tasks call code that tries and log something
@@ -212,24 +111,6 @@ class Piwik
         if (self::$shouldLog) {
             \Zend_Registry::get('logger_message')->logEvent($message);
         }
-    }
-
-    /**
-     * Returns if logging should work
-     * @return bool
-     */
-    static public function shouldLoggerLog()
-    {
-        try {
-            $shouldLog = (SettingsServer::isPhpCliMode()
-                    || Config::getInstance()->log['log_only_when_cli'] == 0)
-                &&
-                (Config::getInstance()->log['log_only_when_debug_parameter'] == 0
-                    || isset($_REQUEST['debug']));
-        } catch (Exception $e) {
-            $shouldLog = false;
-        }
-        return $shouldLog;
     }
 
     /**
@@ -264,21 +145,6 @@ class Piwik
      */
 
     /**
-     * Returns a list of currency symbols
-     *
-     * @return array  array( currencyCode => symbol, ... )
-     */
-    static public function getCurrencyList()
-    {
-        static $currenciesList = null;
-        if (is_null($currenciesList)) {
-            require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Currencies.php';
-            $currenciesList = $GLOBALS['Piwik_CurrencyList'];
-        }
-        return $currenciesList;
-    }
-
-    /**
      * Computes the division of i1 by i2. If either i1 or i2 are not number, or if i2 has a value of zero
      * we return 0 to avoid the division by zero.
      *
@@ -308,192 +174,6 @@ class Piwik
             return 0;
         }
         return round(100 * $dividend / $divisor, $precision);
-    }
-
-    /**
-     * Get currency symbol for a site
-     *
-     * @param int $idSite
-     * @return string
-     */
-    static public function getCurrency($idSite)
-    {
-        $symbols = self::getCurrencyList();
-        $site = new Site($idSite);
-        $currency = $site->getCurrency();
-        if (isset($symbols[$currency])) {
-            return $symbols[$currency][0];
-        }
-
-        return '';
-    }
-
-    /**
-     * For the given value, based on the column name, will apply: pretty time, pretty money
-     * @param int $idSite
-     * @param string $columnName
-     * @param mixed $value
-     * @param bool $htmlAllowed
-     * @return string
-     */
-    static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed)
-    {
-        // Display time in human readable
-        if (strpos($columnName, 'time') !== false) {
-            // Little hack: Display 15s rather than 00:00:15, only for "(avg|min|max)_generation_time"
-            $timeAsSentence = (substr($columnName, -16) == '_time_generation');
-            return Piwik::getPrettyTimeFromSeconds($value, $timeAsSentence);
-        }
-        // Add revenue symbol to revenues
-        if (strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false) {
-            return Piwik::getPrettyMoney($value, $idSite, $htmlAllowed);
-        }
-        // Add % symbol to rates
-        if (strpos($columnName, '_rate') !== false) {
-            if (strpos($value, "%") === false) {
-                return $value . "%";
-            }
-        }
-        return $value;
-    }
-
-    /**
-     * Pretty format monetary value for a site
-     *
-     * @param int|string $value
-     * @param int $idSite
-     * @param bool $htmlAllowed
-     * @return string
-     */
-    static public function getPrettyMoney($value, $idSite, $htmlAllowed = true)
-    {
-        $currencyBefore = self::getCurrency($idSite);
-
-        $space = ' ';
-        if ($htmlAllowed) {
-            $space = '&nbsp;';
-        }
-
-        $currencyAfter = '';
-        // manually put the currency symbol after the amount for euro
-        // (maybe more currencies prefer this notation?)
-        if (in_array($currencyBefore, array('€', 'kr'))) {
-            $currencyAfter = $space . $currencyBefore;
-            $currencyBefore = '';
-        }
-
-        // if the input is a number (it could be a string or INPUT form),
-        // and if this number is not an int, we round to precision 2
-        if (is_numeric($value)) {
-            if ($value == round($value)) {
-                // 0.0 => 0
-                $value = round($value);
-            } else {
-                $precision = GoalManager::REVENUE_PRECISION;
-                $value = sprintf("%01." . $precision . "f", $value);
-            }
-        }
-        $prettyMoney = $currencyBefore . $space . $value . $currencyAfter;
-        return $prettyMoney;
-    }
-
-    /**
-     * Pretty format a memory size value
-     *
-     * @param number $size       size in bytes
-     * @param string $unit       The specific unit to use, if any. If null, the unit is determined by $size.
-     * @param int $precision  The precision to use when rounding.
-     * @return string
-     */
-    static public function getPrettySizeFromBytes($size, $unit = null, $precision = 1)
-    {
-        if ($size == 0) {
-            return '0 M';
-        }
-
-        $units = array('B', 'K', 'M', 'G', 'T');
-        foreach ($units as $currentUnit) {
-            if ($size >= 1024 && $unit != $currentUnit) {
-                $size = $size / 1024;
-            } else {
-                break;
-            }
-        }
-        return round($size, $precision) . " " . $currentUnit;
-    }
-
-    /**
-     * Pretty format a time
-     *
-     * @param int $numberOfSeconds
-     * @param bool $displayTimeAsSentence  If set to true, will output "5min 17s", if false "00:05:17"
-     * @param bool $isHtml
-     * @param bool $round to the full seconds
-     * @return string
-     */
-    static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $isHtml = true, $round = false)
-    {
-        $numberOfSeconds = $round ? (int)$numberOfSeconds : (float)$numberOfSeconds;
-
-        // Display 01:45:17 time format
-        if ($displayTimeAsSentence === false) {
-            $hours = floor($numberOfSeconds / 3600);
-            $minutes = floor(($reminder = ($numberOfSeconds - $hours * 3600)) / 60);
-            $seconds = floor($reminder - $minutes * 60);
-            $time = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) . ':' . sprintf("%02s", $seconds);
-            $centiSeconds = ($numberOfSeconds * 100) % 100;
-            if ($centiSeconds) {
-                $time .= '.' . sprintf("%02s", $centiSeconds);
-            }
-            return $time;
-        }
-        $secondsInYear = 86400 * 365.25;
-        $years = floor($numberOfSeconds / $secondsInYear);
-        $minusYears = $numberOfSeconds - $years * $secondsInYear;
-        $days = floor($minusYears / 86400);
-
-        $minusDays = $numberOfSeconds - $days * 86400;
-        $hours = floor($minusDays / 3600);
-
-        $minusDaysAndHours = $minusDays - $hours * 3600;
-        $minutes = floor($minusDaysAndHours / 60);
-
-        $seconds = $minusDaysAndHours - $minutes * 60;
-        $precision = ($seconds > 0 && $seconds < 0.01 ? 3 : 2);
-        $seconds = round($seconds, $precision);
-
-        if ($years > 0) {
-            $return = sprintf(Piwik_Translate('General_YearsDays'), $years, $days);
-        } elseif ($days > 0) {
-            $return = sprintf(Piwik_Translate('General_DaysHours'), $days, $hours);
-        } elseif ($hours > 0) {
-            $return = sprintf(Piwik_Translate('General_HoursMinutes'), $hours, $minutes);
-        } elseif ($minutes > 0) {
-            $return = sprintf(Piwik_Translate('General_MinutesSeconds'), $minutes, $seconds);
-        } else {
-            $return = sprintf(Piwik_Translate('General_Seconds'), $seconds);
-        }
-        if ($isHtml) {
-            return str_replace(' ', '&nbsp;', $return);
-        }
-        return $return;
-    }
-
-    /**
-     * Gets a prettified string representation of a number. The result will have
-     * thousands separators and a decimal point specific to the current locale.
-     *
-     * @param number $value
-     * @return string
-     */
-    static public function getPrettyNumber($value)
-    {
-        $locale = localeconv();
-
-        $decimalPoint = $locale['decimal_point'];
-        $thousandsSeparator = $locale['thousands_sep'];
-
-        return number_format($value, 0, $decimalPoint, $thousandsSeparator);
     }
 
     /**
@@ -536,44 +216,6 @@ class Piwik
         $id = abs(intval(md5(Url::getCurrentHost())));
         $title = $titles[$id % count($titles)];
         return $title;
-    }
-
-    /**
-     * Number of websites to show in the Website selector
-     *
-     * @return int
-     */
-    static public function getWebsitesCountToDisplay()
-    {
-        $count = max(Config::getInstance()->General['site_selector_max_sites'],
-            Config::getInstance()->General['autocomplete_min_sites']);
-        return (int)$count;
-    }
-
-    /**
-     * Segments to pre-process
-     *
-     * @return string
-     */
-    static public function getKnownSegmentsToArchive()
-    {
-        if (self::$cachedKnownSegmentsToArchive === null) {
-            $segments = Config::getInstance()->Segments;
-            $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
-
-            Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', array(&$cachedResult));
-
-            self::$cachedKnownSegmentsToArchive = array_unique($cachedResult);
-        }
-
-        return self::$cachedKnownSegmentsToArchive;
-    }
-
-    static public function getKnownSegmentsToArchiveForSite($idSite)
-    {
-        $segments = array();
-        Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
-        return $segments;
     }
 
     /*
@@ -1006,7 +648,7 @@ class Piwik
      */
     static public function checkValidLoginString($userLogin)
     {
-        if (!self::isChecksEnabled()
+        if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
             && !empty($userLogin)
         ) {
             return;
@@ -1020,16 +662,6 @@ class Piwik
         ) {
             throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
         }
-    }
-
-    /**
-     * Should Piwik check that the login & password have minimum length and valid characters?
-     *
-     * @return bool  True if checks enabled; false otherwise
-     */
-    static public function isChecksEnabled()
-    {
-        return Config::getInstance()->General['disable_checks_usernames_attributes'] == 0;
     }
 
     /*

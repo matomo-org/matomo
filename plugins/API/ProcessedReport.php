@@ -12,17 +12,18 @@ namespace Piwik\Plugins\API;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\DataTable\Simple;
+use Piwik\Common;
 use Piwik\DataTable\Row;
+use Piwik\DataTable\Simple;
+use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\MetricsFormatter;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\DataTable;
-use Piwik\Url;
-use Piwik\Timer;
 use Piwik\Site;
+use Piwik\Timer;
+use Piwik\Url;
 
 class ProcessedReport
 {
@@ -518,7 +519,7 @@ class ProcessedReport
                 // filter metrics according to metadata definition
                 if (isset($metadataColumns[$columnName])) {
                     // generate 'human readable' metric values
-                    $prettyValue = Piwik::getPrettyValue($idSite, $columnName, $columnValue, $htmlAllowed = false);
+                    $prettyValue = MetricsFormatter::getPrettyValue($idSite, $columnName, $columnValue, $htmlAllowed = false);
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
                 elseif ($returnRawMetrics) {

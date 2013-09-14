@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Segment;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -59,7 +60,7 @@ class Rules
             return true;
         }
 
-        $segmentsToProcess = Piwik::getKnownSegmentsToArchive();
+        $segmentsToProcess = SettingsPiwik::getKnownSegmentsToArchive();
         if (!empty($segmentsToProcess)) {
             // If the requested segment is one of the segments to pre-process
             // we ensure that any call to the API will trigger archiving of all reports for this segment

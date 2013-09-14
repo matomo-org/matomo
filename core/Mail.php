@@ -10,9 +10,6 @@
  */
 namespace Piwik;
 
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Url;
 use Zend_Mail;
 
 /**
@@ -48,7 +45,7 @@ class Mail extends Zend_Mail
         $piwikHost = Url::getCurrentHost($hostname);
 
         // If known Piwik URL, use it instead of "localhost"
-        $piwikUrl = Piwik::getPiwikUrl();
+        $piwikUrl = SettingsPiwik::getPiwikUrl();
         $url = parse_url($piwikUrl);
         if (isset($url['host'])
             && $url['host'] != 'localhost'

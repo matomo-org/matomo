@@ -10,10 +10,11 @@
  */
 namespace Piwik\Plugins\ImageGraph;
 
-use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\View;
+use Piwik\Piwik;
 use Piwik\Plugins\API\API;
+use Piwik\SettingsPiwik;
+use Piwik\View;
 
 class Controller extends \Piwik\Controller
 {
@@ -33,7 +34,7 @@ class Controller extends \Piwik\Controller
                     // Title
                     $report['category'] . ' › ' . $report['name'],
                     //URL
-                    Piwik::getPiwikUrl() . $report['imageGraphUrl']
+                    SettingsPiwik::getPiwikUrl() . $report['imageGraphUrl']
                 );
             }
         }

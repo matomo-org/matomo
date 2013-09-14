@@ -20,6 +20,7 @@ use Piwik\Db\BatchInsert;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Segment;
+use Piwik\SettingsPiwik;
 
 /**
  * This class is used to create a new Archive.
@@ -134,7 +135,7 @@ class ArchiveWriter
             . $period->getId() . '/'
             . $period->getDateStart()->toString('Y-m-d') . ','
             . $period->getDateEnd()->toString('Y-m-d');
-        return $lockName . '/' . md5($lockName . Common::getSalt());
+        return $lockName . '/' . md5($lockName . SettingsPiwik::getSalt());
     }
 
     public function finalizeArchive()

@@ -10,21 +10,13 @@
  */
 namespace Piwik;
 
-use Piwik\Config;
-use Piwik\Metrics;
-use Piwik\Period;
 use Piwik\API\Request;
-use Piwik\Period\Range;
-use Piwik\Piwik;
-use Piwik\NoAccessException;
-use Piwik\Common;
-use Piwik\Date;
 use Piwik\DataTable;
-use Piwik\Url;
-use Piwik\Site;
+use Piwik\Period;
+use Piwik\Period\Range;
+use Piwik\Plugins\API\API;
 use Piwik\ViewDataTable\Properties;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
-use Piwik\Plugins\API\API;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -645,7 +637,7 @@ class ViewDataTable
         $today = mktime(0, 0, 0);
         if ($date->getTimestamp() > $today) {
             $elapsedSeconds = time() - $date->getTimestamp();
-            $timeAgo = Piwik::getPrettyTimeFromSeconds($elapsedSeconds);
+            $timeAgo = MetricsFormatter::getPrettyTimeFromSeconds($elapsedSeconds);
 
             return Piwik_Translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
         }

@@ -10,14 +10,13 @@
  */
 namespace Piwik\Plugins\Live;
 
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\IP;
-use Piwik\Tracker;
-use Piwik\Tracker\Visit;
 use Piwik\Plugins\API\API as MetaAPI;
 use Piwik\Plugins\Referers\API as ReferersAPI;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Tracker;
+use Piwik\Tracker\Visit;
 
 /**
  * @see plugins/Referers/functions.php
@@ -207,7 +206,7 @@ class Visitor
 
     function getVisitLengthPretty()
     {
-        return Piwik::getPrettyTimeFromSeconds($this->details['visit_total_time']);
+        return \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($this->details['visit_total_time']);
     }
 
     function getVisitorReturning()

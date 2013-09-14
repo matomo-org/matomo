@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -185,7 +186,7 @@ class Controller extends \Piwik\Controller\Admin
         }
 
         $result = array(
-            'currentSize' => Piwik::getPrettySizeFromBytes($totalBytes)
+            'currentSize' => MetricsFormatter::getPrettySizeFromBytes($totalBytes)
         );
 
         // if the db size estimate feature is enabled, get the estimate
@@ -212,8 +213,8 @@ class Controller extends \Piwik\Controller\Admin
                 }
             }
 
-            $result['sizeAfterPurge'] = Piwik::getPrettySizeFromBytes($totalAfterPurge);
-            $result['spaceSaved'] = Piwik::getPrettySizeFromBytes($totalBytes - $totalAfterPurge);
+            $result['sizeAfterPurge'] = MetricsFormatter::getPrettySizeFromBytes($totalAfterPurge);
+            $result['spaceSaved'] = MetricsFormatter::getPrettySizeFromBytes($totalBytes - $totalAfterPurge);
         }
 
         return $result;
@@ -277,7 +278,7 @@ class Controller extends \Piwik\Controller\Admin
             }
         }
 
-        $deleteDataInfos["nextRunPretty"] = Piwik::getPrettyTimeFromSeconds($deleteDataInfos["nextScheduleTime"] - time());
+        $deleteDataInfos["nextRunPretty"] = MetricsFormatter::getPrettyTimeFromSeconds($deleteDataInfos["nextScheduleTime"] - time());
 
         return $deleteDataInfos;
     }

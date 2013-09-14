@@ -332,7 +332,7 @@ class DBStats extends \Piwik\Plugin
             }
         }
 
-        $getPrettySize = array('\Piwik\Piwik', 'getPrettySizeFromBytes');
+        $getPrettySize = array('\Piwik\MetricsFormatter', 'getPrettySizeFromBytes');
         $params = !isset($fixedMemoryUnit) ? array() : array($fixedMemoryUnit);
         $properties['filters'][] = array(
             'ColumnCallbackReplace', array($sizeColumns, $getPrettySize, $params), $runPrettySizeFilterBeforeGeneric);
@@ -346,7 +346,7 @@ class DBStats extends \Piwik\Plugin
             $properties['filters'][] = array('ColumnCallbackReplace', array($sizeColumns, $replaceSpaces));
         }
 
-        $getPrettyNumber = array('\Piwik\Piwik', 'getPrettyNumber');
+        $getPrettyNumber = array('\Piwik\MetricsFormatter', 'getPrettyNumber');
         $properties['filters'][] = array('ColumnCallbackReplace', array('row_count', $getPrettyNumber));
 
         return $viewDataTable;

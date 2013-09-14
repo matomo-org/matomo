@@ -11,12 +11,13 @@
 namespace Piwik\Plugins\CoreUpdater;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Filesystem;
 use Piwik\FrontController;
+use Piwik\Piwik;
+use Piwik\UpdateCheck;
 use Piwik\Updater;
 use Piwik\Version;
-use Piwik\UpdateCheck;
 
 /**
  *
@@ -61,7 +62,7 @@ class CoreUpdater extends \Piwik\Plugin
         $updater->addComponentToCheck('core', Version::VERSION);
         $updates = $updater->getComponentsWithNewVersion();
         if (!empty($updates)) {
-            Piwik::deleteAllCacheOnUpdate();
+            Filesystem::deleteAllCacheOnUpdate();
         }
         if (self::getComponentUpdates($updater) !== null
             && $module != 'CoreUpdater'

@@ -243,7 +243,7 @@ class PluginsManager
         }
 
         Config::getInstance()->forceSave();
-        Piwik::deleteAllCacheOnUpdate();
+        Filesystem::deleteAllCacheOnUpdate();
 
         return $plugins;
     }
@@ -310,7 +310,7 @@ class PluginsManager
         $this->updatePluginsConfig($plugins);
         Config::getInstance()->forceSave();
 
-        Piwik::deleteAllCacheOnUpdate();
+        Filesystem::deleteAllCacheOnUpdate();
     }
 
     protected function isPluginInFilesystem($pluginName)

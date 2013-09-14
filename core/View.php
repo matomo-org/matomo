@@ -99,7 +99,7 @@ class View implements ViewInterface
             $userLogin = Piwik::getCurrentUserLogin();
             $this->userLogin = $userLogin;
 
-            $count = Piwik::getWebsitesCountToDisplay();
+            $count = SettingsPiwik::getWebsitesCountToDisplay();
 
             $sites = SitesManagerAPI::getInstance()->getSitesWithAtLeastViewAccess($count);
             usort($sites, function($site1, $site2) {

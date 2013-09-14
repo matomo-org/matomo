@@ -86,7 +86,7 @@ class AssetManager
     public static function generateAssetsCacheBuster()
     {
         $pluginList = md5(implode(",", PluginsManager::getInstance()->getLoadedPluginsName()));
-        $cacheBuster = md5(Common::getSalt() . $pluginList . PHP_VERSION . Version::VERSION);
+        $cacheBuster = md5(SettingsPiwik::getSalt() . $pluginList . PHP_VERSION . Version::VERSION);
         return $cacheBuster;
     }
 

@@ -23,6 +23,7 @@ use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\ProxyHttp;
 use Piwik\QuickForm2;
 use Piwik\Session;
+use Piwik\SettingsPiwik;
 use Piwik\Url;
 use Piwik\View;
 
@@ -48,7 +49,7 @@ class Controller extends \Piwik\Controller
         $passwordLen = strlen($password) / 2;
         $hash = Common::hash(
             $userInfo . substr($password, 0, $passwordLen)
-                . Common::getSalt() . substr($password, $passwordLen)
+                . SettingsPiwik::getSalt() . substr($password, $passwordLen)
         );
         return $hash;
     }

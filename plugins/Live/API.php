@@ -11,24 +11,23 @@
 namespace Piwik\Plugins\Live;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
+use Piwik\Date;
+use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\DataTable;
-use Piwik\Tracker;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik\Db;
 use Piwik\Tracker\Action;
+use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
-use Piwik\Plugins\Live\Visitor;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * @see plugins/Live/Visitor.php
@@ -283,7 +282,7 @@ class API
                                             'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode));
         }
 
-        $result['totalVisitDurationPretty'] = Piwik::getPrettyTimeFromSeconds($result['totalVisitDuration']);
+        $result['totalVisitDurationPretty'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($result['totalVisitDuration']);
 
         // use requested visits for first/last visit info
         $rows = $visits->getRows();
@@ -813,13 +812,13 @@ class API
             // Set the time spent for this action (which is the timeSpentRef of the next action)
             if (isset($actionDetails[$actionIdx + 1])) {
                 $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
-                $actionDetail['timeSpentPretty'] = Piwik::getPrettyTimeFromSeconds($actionDetail['timeSpent']);
+                $actionDetail['timeSpentPretty'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($actionDetail['timeSpent']);
             }
             unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
 
             // Handle generation time
             if ($actionDetail['custom_float'] > 0) {
-                $actionDetail['generationTime'] = Piwik::getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
+                $actionDetail['generationTime'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
             }
             unset($actionDetail['custom_float']);
 

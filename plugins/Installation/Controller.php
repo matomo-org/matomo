@@ -103,7 +103,7 @@ class Controller extends \Piwik\Controller\Admin
     function welcome($message = false)
     {
         // Delete merged js/css files to force regenerations based on updated activated plugin list
-        Piwik::deleteAllCacheOnUpdate();
+        Filesystem::deleteAllCacheOnUpdate();
 
         $view = new View(
             '@Installation/welcome',

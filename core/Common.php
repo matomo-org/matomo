@@ -587,20 +587,6 @@ class Common
     }
 
     /**
-     * Get salt from [superuser] section
-     *
-     * @return string
-     */
-    public static function getSalt()
-    {
-        static $salt = null;
-        if (is_null($salt)) {
-            $salt = @Config::getInstance()->superuser['salt'];
-        }
-        return $salt;
-    }
-
-    /**
      * Configureable hash() algorithm (defaults to md5)
      *
      * @param string $str String to be hashed

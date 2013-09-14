@@ -11,9 +11,9 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Option;
-use Piwik\Plugins\UsersManager\API;
+use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 
 /**
  * Manage Piwik users
@@ -110,7 +110,7 @@ class UsersManager extends \Piwik\Plugin
      */
     public static function isValidPasswordString($input)
     {
-        if (!Piwik::isChecksEnabled()
+        if (!SettingsPiwik::isUserCredentialsSanityCheckEnabled()
             && !empty($input)
         ) {
             return true;

@@ -276,8 +276,8 @@ class FrontController
             PluginsManager::getInstance()->installLoadedPlugins();
 
             // ensure the current Piwik URL is known for later use
-            if (method_exists('Piwik\Piwik', 'getPiwikUrl')) {
-                $host = Piwik::getPiwikUrl();
+            if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {
+                $host = SettingsPiwik::getPiwikUrl();
             }
 
             Piwik_PostEvent('FrontController.initAuthenticationObject');

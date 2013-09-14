@@ -20,6 +20,7 @@ use Piwik\Date;
 use Piwik\Filesystem;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
 use Piwik\Version;
@@ -289,7 +290,7 @@ class API
             $logo = 'misc/user/logo.png';
         }
         if (!$pathOnly) {
-            return Piwik::getPiwikUrl() . $logo;
+            return SettingsPiwik::getPiwikUrl() . $logo;
         }
         return Filesystem::getPathToPiwikRoot() . '/' . $logo;
     }
@@ -309,7 +310,7 @@ class API
             $logo = 'misc/user/logo-header.png';
         }
         if (!$pathOnly) {
-            return Piwik::getPiwikUrl() . $logo;
+            return SettingsPiwik::getPiwikUrl() . $logo;
         }
         return Filesystem::getPathToPiwikRoot() . '/' . $logo;
     }
@@ -330,7 +331,7 @@ class API
             $logo = 'misc/user/logo.svg';
         }
         if (!$pathOnly) {
-            return Piwik::getPiwikUrl() . $logo;
+            return SettingsPiwik::getPiwikUrl() . $logo;
         }
         return Filesystem::getPathToPiwikRoot() . '/' . $logo;
     }

@@ -11,7 +11,9 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 
 /**
  * VisitsSummary API lets you access the core web analytics metrics (visits, unique visitors,
@@ -108,7 +110,7 @@ class API
             'sum_visit_length',
             'max_actions'
         );
-        if (Piwik::isUniqueVisitorsEnabled($period)) {
+        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             $columns = array_merge(array('nb_uniq_visitors'), $columns);
         }
         $columns = array_values($columns);
@@ -163,9 +165,9 @@ class API
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
         if (is_object($table)) {
             $table->filter('ColumnCallbackReplace',
-                array('sum_visit_length', '\Piwik\Piwik::getPrettyTimeFromSeconds'));
+                array('sum_visit_length', '\Piwik\MetricsFormatter::getPrettyTimeFromSeconds'));
         } else {
-            $table = Piwik::getPrettyTimeFromSeconds($table);
+            $table = MetricsFormatter::getPrettyTimeFromSeconds($table);
         }
         return $table;
     }

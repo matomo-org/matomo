@@ -10,10 +10,10 @@
  */
 namespace Piwik\Plugins\DBStats;
 
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
-use Piwik\Plugins\DBStats\API;
-use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  * @package DBStats
@@ -40,9 +40,9 @@ class Controller extends \Piwik\Controller\Admin
         $view->adminDataSummary = $this->getAdminDataSummary(true);
 
         list($siteCount, $userCount, $totalSpaceUsed) = API::getInstance()->getGeneralInformation();
-        $view->siteCount = Piwik::getPrettyNumber($siteCount);
-        $view->userCount = Piwik::getPrettyNumber($userCount);
-        $view->totalSpaceUsed = Piwik::getPrettySizeFromBytes($totalSpaceUsed);
+        $view->siteCount = MetricsFormatter::getPrettyNumber($siteCount);
+        $view->userCount = MetricsFormatter::getPrettyNumber($userCount);
+        $view->totalSpaceUsed = MetricsFormatter::getPrettySizeFromBytes($totalSpaceUsed);
 
         echo $view->render();
     }

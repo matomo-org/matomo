@@ -13,13 +13,12 @@ namespace Piwik\ArchiveProcessor;
 
 use Exception;
 use Piwik\Archive;
-use Piwik\Metrics;
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\Map;
 use Piwik\DataTable\Manager;
+use Piwik\Metrics;
+use Piwik\SettingsPiwik;
 
 /**
  * This class provides generic methods to archive data for a period (week / month / year).
@@ -266,7 +265,7 @@ class Period extends ArchiveProcessor
     protected function enrichWithUniqueVisitorsMetric(&$results)
     {
         if (array_key_exists('nb_uniq_visitors', $results)) {
-            if (Piwik::isUniqueVisitorsEnabled($this->getPeriod()->getLabel())) {
+            if (SettingsPiwik::isUniqueVisitorsEnabled($this->getPeriod()->getLabel())) {
                 $results['nb_uniq_visitors'] = (float)$this->computeNbUniqVisitors();
             } else {
                 unset($results['nb_uniq_visitors']);

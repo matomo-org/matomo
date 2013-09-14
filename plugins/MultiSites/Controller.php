@@ -10,15 +10,16 @@
  */
 namespace Piwik\Plugins\MultiSites;
 
-use Piwik\Period;
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\MetricsFormatter;
+use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Plugins\MultiSites\API as MultiSitesAPI;
-use Piwik\View;
-use Piwik\Site;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Site;
+use Piwik\View;
 
 /**
  *
@@ -208,7 +209,7 @@ class Controller extends \Piwik\Controller
         foreach ($sites as $idsite => &$site) {
             $revenue = "-";
             if (!empty($site['revenue'])) {
-                $revenue = Piwik::getPrettyMoney($site['revenue'], $site['idsite'], $htmlAllowed = false);
+                $revenue = MetricsFormatter::getPrettyMoney($site['revenue'], $site['idsite'], $htmlAllowed = false);
             }
             $site['revenue'] = '"' . $revenue . '"';
         }

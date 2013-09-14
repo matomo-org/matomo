@@ -10,9 +10,7 @@
  */
 namespace Piwik;
 
-use Piwik\Common;
 use Piwik\Session\SessionNamespace;
-use Piwik\Url;
 
 /**
  * Nonce class.
@@ -46,7 +44,7 @@ class Nonce
         // to handle browser pre-fetch or double fetch caused by some browser add-ons/extensions
         if (empty($nonce)) {
             // generate a new nonce
-            $nonce = md5(Common::getSalt() . time() . Common::generateUniqId());
+            $nonce = md5(SettingsPiwik::getSalt() . time() . Common::generateUniqId());
             $ns->nonce = $nonce;
             $ns->setExpirationSeconds($ttl, 'nonce');
         }

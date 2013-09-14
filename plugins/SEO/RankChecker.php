@@ -11,9 +11,9 @@
 namespace Piwik\Plugins\SEO;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Http;
-use Piwik\Plugins\SEO\MajesticClient;
+use Piwik\MetricsFormatter;
+use Piwik\Piwik;
 
 /**
  * The functions below are derived/adapted from GetRank.org's
@@ -174,7 +174,7 @@ class RankChecker
         }
 
         if ($maxAge) {
-            return Piwik::getPrettyTimeFromSeconds(time() - $maxAge);
+            return MetricsFormatter::getPrettyTimeFromSeconds(time() - $maxAge);
         }
         return false;
     }

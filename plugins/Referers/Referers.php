@@ -11,9 +11,8 @@
 namespace Piwik\Plugins\Referers;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\Referers\Archiver;
+use Piwik\SettingsPiwik;
 use Piwik\WidgetsList;
 
 /**
@@ -220,7 +219,7 @@ class Referers extends \Piwik\Plugin
         WidgetsList::add('Referers_Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
         WidgetsList::add('Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
         WidgetsList::add('Referers_Referers', 'Referers_WidgetGetAll', 'Referers', 'getAll');
-        if (Piwik::isSegmentationEnabled()) {
+        if (SettingsPiwik::isSegmentationEnabled()) {
             WidgetsList::add('SEO', 'Referers_WidgetTopKeywordsForPages', 'Referers', 'getKeywordsForPage');
         }
     }

@@ -10,17 +10,16 @@
  */
 namespace Piwik\Plugins\Live;
 
-use Piwik\Url;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Piwik;
 use Piwik\Config;
-use Piwik\Plugins\Live\API;
-use Piwik\ViewDataTable;
-use Piwik\View;
-use Piwik\FrontController;
-use Piwik\PluginsManager;
+use Piwik\MetricsFormatter;
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as Goals_API;
+use Piwik\PluginsManager;
+use Piwik\Url;
+use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  * @package Live
@@ -53,9 +52,9 @@ class Controller extends \Piwik\Controller
 
         $view = new View('@Live/getSimpleLastVisitCount');
         $view->lastMinutes = $lastMinutes;
-        $view->visitors = Piwik::getPrettyNumber($lastNData[0]['visitors']);
-        $view->visits = Piwik::getPrettyNumber($lastNData[0]['visits']);
-        $view->actions = Piwik::getPrettyNumber($lastNData[0]['actions']);
+        $view->visitors = MetricsFormatter::getPrettyNumber($lastNData[0]['visitors']);
+        $view->visits = MetricsFormatter::getPrettyNumber($lastNData[0]['visits']);
+        $view->actions = MetricsFormatter::getPrettyNumber($lastNData[0]['actions']);
         $view->refreshAfterXSecs = Config::getInstance()->General['live_widget_refresh_after_seconds'];
         $view->translations = array(
             'one_visitor' => Piwik_Translate('Live_NbVisitor'),

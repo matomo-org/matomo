@@ -16,7 +16,9 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\IP;
+use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\TaskScheduler;
@@ -1079,7 +1081,7 @@ class API
      */
     public function getCurrencyList()
     {
-        $currencies = Piwik::getCurrencyList();
+        $currencies = MetricsFormatter::getCurrencyList();
         return array_map(function($a) { return $a[1]." (".$a[0].")"; }, $currencies);
     }
 
@@ -1090,7 +1092,7 @@ class API
      */
     public function getCurrencySymbols()
     {
-        $currencies = Piwik::getCurrencyList();
+        $currencies = MetricsFormatter::getCurrencyList();
         return array_map(function($a) { return $a[0]; }, $currencies);
     }
 
@@ -1353,7 +1355,7 @@ class API
 										OR 	s.main_url like ?
 										 $where )
 									AND idsite in ($ids_str)
-								LIMIT " . Piwik::getWebsitesCountToDisplay(),
+								LIMIT " . SettingsPiwik::getWebsitesCountToDisplay(),
             $bind);
         return $sites;
     }

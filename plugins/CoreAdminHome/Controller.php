@@ -13,17 +13,17 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Nonce;
-use Piwik\Tracker\IgnoreCookie;
-use Piwik\View;
-use Piwik\Url;
-use Piwik\Site;
-use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as LanguagesManagerAPI;
+use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Site;
+use Piwik\Tracker\IgnoreCookie;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  *
@@ -153,7 +153,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
 
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
-        $view->defaultSiteRevenue = Piwik::getCurrency($view->idSite);
+        $view->defaultSiteRevenue = \Piwik\MetricsFormatter::getCurrencySymbol($view->idSite);
 
         $allUrls = API::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {

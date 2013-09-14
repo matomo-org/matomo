@@ -10,8 +10,6 @@
  */
 namespace Piwik;
 
-use Piwik\Piwik;
-
 /**
  *
  * @package Piwik
@@ -61,7 +59,7 @@ class Timer
      */
     public function getMemoryLeak()
     {
-        return "Memory delta: " . Piwik::getPrettySizeFromBytes($this->getMemoryUsage() - $this->memoryStart);
+        return "Memory delta: " . MetricsFormatter::getPrettySizeFromBytes($this->getMemoryUsage() - $this->memoryStart);
     }
 
     /**

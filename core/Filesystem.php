@@ -11,9 +11,21 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Tracker\Cache;
 
 class Filesystem
 {
+    /**
+     * Called on Core install, update, plugin enable/disable
+     * Will clear all cache that could be affected by the change in configuration being made
+     */
+    public static function deleteAllCacheOnUpdate()
+    {
+        AssetManager::removeMergedAssets();
+        View::clearCompiledTemplates();
+        Cache::deleteTrackerCache();
+    }
+
     /**
      * ending WITHOUT slash
      *

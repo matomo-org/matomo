@@ -9,7 +9,6 @@
  * @package Piwik
  */
 namespace Piwik;
-use Piwik\Piwik;
 
 /**
  * This class holds the various mappings we use to internally store and manipulate metrics.
@@ -194,7 +193,7 @@ class Metrics
     {
         $nameToUnit = array(
             '_rate'   => '%',
-            'revenue' => Piwik::getCurrency($idSite),
+            'revenue' => MetricsFormatter::getCurrencySymbol($idSite),
             '_time_'  => 's'
         );
 

@@ -577,7 +577,7 @@ class Goals extends \Piwik\Plugin
 
         $moneyColumns = array('revenue', 'avg_price');
         $prettifyMoneyColumns = array(
-            'ColumnCallbackReplace', array($moneyColumns, '\Piwik\Piwik::getPrettyMoney', array($idSite)));
+            'ColumnCallbackReplace', array($moneyColumns, '\Piwik\MetricsFormatter::getPrettyMoney', array($idSite)));
 
         $result = array(
             'show_ecommerce'              => true,

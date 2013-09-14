@@ -11,23 +11,14 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Config;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
-use Piwik\Period;
-use Piwik\Period\Month;
-use Piwik\Period\Range;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Access;
-use Piwik\NoAccessException;
-use Piwik\Date;
-use Piwik\Site;
-use Piwik\Plugins\API\API;
 use Piwik\API\Request;
-use Piwik\FrontController;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
+use Piwik\Period\Month;
+use Piwik\Period;
+use Piwik\Period\Range;
+use Piwik\Plugins\API\API;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Url;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\View;
 use Piwik\ViewDataTable;
@@ -549,7 +540,7 @@ abstract class Controller
         }
 
         $currentPeriod = Common::getRequestVar('period');
-        $view->displayUniqueVisitors = Piwik::isUniqueVisitorsEnabled($currentPeriod);
+        $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
         $availablePeriods = array('day', 'week', 'month', 'year', 'range');
         if (!in_array($currentPeriod, $availablePeriods)) {
             throw new Exception("Period must be one of: " . implode(",", $availablePeriods));
