@@ -24,6 +24,7 @@ use Piwik\Site;
 use Piwik\TaskScheduler;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
+use Piwik\UrlHelper;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -1234,7 +1235,7 @@ class API
      */
     private function isValidUrl($url)
     {
-        return Common::isLookLikeUrl($url);
+        return UrlHelper::isLookLikeUrl($url);
     }
 
     /**

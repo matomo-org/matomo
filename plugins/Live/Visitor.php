@@ -17,6 +17,7 @@ use Piwik\Plugins\Referers\API as ReferersAPI;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit;
+use Piwik\UrlHelper;
 
 /**
  * @see plugins/Referers/functions.php
@@ -376,7 +377,7 @@ class Visitor
                 }
             }
         }
-        if (Common::isLookLikeUrl($this->details['referer_url'])) {
+        if (\Piwik\UrlHelper::isLookLikeUrl($this->details['referer_url'])) {
             return $this->details['referer_url'];
         }
         return null;
@@ -391,7 +392,7 @@ class Visitor
             if (empty($url['query'])) {
                 return null;
             }
-            $position = Common::getParameterFromQueryString($url['query'], 'cd');
+            $position = UrlHelper::getParameterFromQueryString($url['query'], 'cd');
             if (!empty($position)) {
                 return $position;
             }

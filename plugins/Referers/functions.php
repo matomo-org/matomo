@@ -11,7 +11,7 @@
 namespace Piwik\Plugins\Referers;
 
 use Piwik\Common;
-use Piwik\Plugins\Referers\API;
+use Piwik\UrlHelper;
 
 /**
  * Returns path component from a URL
@@ -21,7 +21,7 @@ use Piwik\Plugins\Referers\API;
  */
 function getPathFromUrl($url)
 {
-    $path = Common::getPathAndQueryFromUrl($url);
+    $path = UrlHelper::getPathAndQueryFromUrl($url);
     if (empty($path)) {
         return 'index';
     }

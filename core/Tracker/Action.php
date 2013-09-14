@@ -14,8 +14,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Tracker;
-use Piwik\Tracker\Cache;
-use Piwik\Tracker\Request;
+use Piwik\UrlHelper;
 
 /**
  * Handles an action (page view, download or outlink) by the visitor.
@@ -113,7 +112,7 @@ class Action implements ActionInterface
         // Clean up host & hash tags, for URLs
         $parsedUrl = @parse_url($fullUrl);
         $parsedUrl = self::cleanupHostAndHashTag($parsedUrl);
-        $url = Common::getParseUrlReverse($parsedUrl);
+        $url = UrlHelper::getParseUrlReverse($parsedUrl);
         if (!empty($url)) {
             return $url;
         }
@@ -323,17 +322,17 @@ class Action implements ActionInterface
 
         if (empty($parsedUrl['query'])) {
             if (empty($parsedUrl['fragment'])) {
-                return Common::getParseUrlReverse($parsedUrl);
+                return UrlHelper::getParseUrlReverse($parsedUrl);
             }
             // Exclude from the hash tag as well
-            $queryParameters = Common::getArrayFromQueryString($parsedUrl['fragment']);
-            $parsedUrl['fragment'] = self::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude);
-            $url = Common::getParseUrlReverse($parsedUrl);
+            $queryParameters = UrlHelper::getArrayFromQueryString($parsedUrl['fragment']);
+            $parsedUrl['fragment'] = UrlHelper::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude);
+            $url = UrlHelper::getParseUrlReverse($parsedUrl);
             return $url;
         }
-        $queryParameters = Common::getArrayFromQueryString($parsedUrl['query']);
-        $parsedUrl['query'] = self::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude);
-        $url = Common::getParseUrlReverse($parsedUrl);
+        $queryParameters = UrlHelper::getArrayFromQueryString($parsedUrl['query']);
+        $parsedUrl['query'] = UrlHelper::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude);
+        $url = UrlHelper::getParseUrlReverse($parsedUrl);
         return $url;
     }
 
@@ -367,43 +366,6 @@ class Action implements ActionInterface
 
         $parametersToExclude = array_map('strtolower', $parametersToExclude);
         return $parametersToExclude;
-    }
-
-    /**
-     * Returns a Query string,
-     * Given an array of input parameters, and an array of parameter names to exclude
-     *
-     * @static
-     * @param $queryParameters
-     * @param $parametersToExclude
-     * @return string
-     */
-    public static function getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude)
-    {
-        $validQuery = '';
-        $separator = '&';
-        foreach ($queryParameters as $name => $value) {
-            // decode encoded square brackets
-            $name = str_replace(array('%5B', '%5D'), array('[', ']'), $name);
-
-            if (!in_array(strtolower($name), $parametersToExclude)) {
-                if (is_array($value)) {
-                    foreach ($value as $param) {
-                        if ($param === false) {
-                            $validQuery .= $name . '[]' . $separator;
-                        } else {
-                            $validQuery .= $name . '[]=' . $param . $separator;
-                        }
-                    }
-                } else if ($value === false) {
-                    $validQuery .= $name . $separator;
-                } else {
-                    $validQuery .= $name . '=' . $value . $separator;
-                }
-            }
-        }
-        $validQuery = substr($validQuery, 0, -strlen($separator));
-        return $validQuery;
     }
 
     protected function init()
@@ -773,7 +735,7 @@ class Action implements ActionInterface
         }
         $url = self::cleanupString($url);
 
-        if (!Common::isLookLikeUrl($url)) {
+        if (!UrlHelper::isLookLikeUrl($url)) {
             Common::printDebug("WARNING: URL looks invalid and is discarded");
             $url = '';
         }
@@ -890,7 +852,7 @@ class Action implements ActionInterface
             ? $website['sitesearch_keyword_parameters']
             : array();
         $queryString = (!empty($parsedUrl['query']) ? $parsedUrl['query'] : '') . (!empty($parsedUrl['fragment']) ? $separator . $parsedUrl['fragment'] : '');
-        $parametersRaw = Common::getArrayFromQueryString($queryString);
+        $parametersRaw = UrlHelper::getArrayFromQueryString($queryString);
 
         // strtolower the parameter names for smooth site search detection
         $parameters = array();
@@ -935,10 +897,10 @@ class Action implements ActionInterface
             // @see excludeQueryParametersFromUrl()
             // Excluded the detected parameters from the URL
             $parametersToExclude = array($categoryParameterRaw, $keywordParameterRaw);
-            $parsedUrl['query'] = self::getQueryStringWithExcludedParameters(Common::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
-            $parsedUrl['fragment'] = self::getQueryStringWithExcludedParameters(Common::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
+            $parsedUrl['query'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
+            $parsedUrl['fragment'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
         }
-        $url = Common::getParseUrlReverse($parsedUrl);
+        $url = UrlHelper::getParseUrlReverse($parsedUrl);
         if (is_array($actionName)) {
             $actionName = reset($actionName);
         }

@@ -801,7 +801,7 @@ class Archiving
         else {
             $piwikUrl = $this->isParameterSet("url", true);
             if (!$piwikUrl
-                || !Common::isLookLikeUrl($piwikUrl)
+                || !\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)
             ) {
                 $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ ", $backtrace = false);
             }

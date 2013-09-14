@@ -114,8 +114,8 @@ class SettingsPiwik
     public static function getPiwikUrl()
     {
         // Only set in tests
-        if (Piwik::$piwikUrlCache !== null) {
-            return Piwik::$piwikUrlCache;
+        if (self::$piwikUrlCache !== null) {
+            return self::$piwikUrlCache;
         }
 
         $key = 'piwikUrl';

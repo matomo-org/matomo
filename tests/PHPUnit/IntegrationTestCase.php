@@ -5,24 +5,24 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
 use Piwik\API\DocumentationGenerator;
-use Piwik\API\Request;
 use Piwik\API\Proxy;
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
-use Piwik\Db\Adapter\Mysqli;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Access;
+use Piwik\Db;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Translate;
-use Piwik\Db;
+use Piwik\UrlHelper;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -719,7 +719,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                                 && $isTestLogImportReverseChronological;
 
         $request = new Request($requestUrl);
-        $dateTime = Common::getRequestVar('date', '', 'string', Common::getArrayFromQueryString($requestUrl));
+        $dateTime = Common::getRequestVar('date', '', 'string', UrlHelper::getArrayFromQueryString($requestUrl));
 
         list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths($testName, $apiId);
 

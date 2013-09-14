@@ -11,10 +11,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\IP;
 
 /**
  * Class to retrieve absolute URL or URI components of the current URL,
@@ -322,7 +318,7 @@ class Url
     static function getArrayFromCurrentQueryString()
     {
         $queryString = self::getCurrentQueryString();
-        $urlValues = Common::getArrayFromQueryString($queryString);
+        $urlValues = UrlHelper::getArrayFromQueryString($queryString);
         return $urlValues;
     }
 
@@ -393,7 +389,7 @@ class Url
      */
     static public function redirectToUrl($url)
     {
-        if (Common::isLookLikeUrl($url)
+        if (UrlHelper::isLookLikeUrl($url)
             || strpos($url, 'index.php') === 0
         ) {
             @header("Location: $url");

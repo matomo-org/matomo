@@ -18,6 +18,7 @@ use Piwik\PluginDeactivatedException;
 use Piwik\PluginsManager;
 use Piwik\SettingsServer;
 use Piwik\Url;
+use Piwik\UrlHelper;
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -78,7 +79,7 @@ class Request
             $request = trim($request);
             $request = str_replace(array("\n", "\t"), '', $request);
 
-            $requestParsed = Common::getArrayFromQueryString($request);
+            $requestParsed = UrlHelper::getArrayFromQueryString($request);
             $requestArray = $requestParsed + $defaultRequest;
         }
 
@@ -229,7 +230,7 @@ class Request
         if (empty($_SERVER['QUERY_STRING'])) {
             return array();
         }
-        $GET = Common::getArrayFromQueryString($_SERVER['QUERY_STRING']);
+        $GET = UrlHelper::getArrayFromQueryString($_SERVER['QUERY_STRING']);
         return $GET;
     }
 

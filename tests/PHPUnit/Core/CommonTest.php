@@ -1,6 +1,7 @@
 <?php
 use Piwik\Common;
 use Piwik\Filesystem;
+use Piwik\UrlHelper;
 
 /**
  * Piwik - Open source web analytics
@@ -45,7 +46,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testIsUrl($url, $isValid)
     {
-        $this->assertEquals($isValid, Common::isLookLikeUrl($url));
+        $this->assertEquals($isValid, UrlHelper::isLookLikeUrl($url));
     }
 
     /**
@@ -341,7 +342,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetParameterFromQueryString($queryString, $parameter, $expected)
     {
-        $this->assertSame($expected, Common::getParameterFromQueryString($queryString, $parameter));
+        $this->assertSame($expected, UrlHelper::getParameterFromQueryString($queryString, $parameter));
     }
 
     /**
@@ -351,7 +352,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPathAndQueryFromUrl()
     {
-        $this->assertEquals('test/index.php?module=CoreHome', Common::getPathAndQueryFromUrl('http://piwik.org/test/index.php?module=CoreHome'));
+        $this->assertEquals('test/index.php?module=CoreHome', UrlHelper::getPathAndQueryFromUrl('http://piwik.org/test/index.php?module=CoreHome'));
     }
 
     /**
@@ -370,7 +371,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             'f' => array('a'),
             'g' => array('b', 'c'),
         );
-        $this->assertEquals(serialize($expected), serialize(Common::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')));
+        $this->assertEquals(serialize($expected), serialize(UrlHelper::getArrayFromQueryString('a&b=&c=1&d[]&e[]=&f[]=a&g[]=b&g[]=c')));
     }
 
     /**
@@ -608,7 +609,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testExtractSearchEngineInformationFromUrl($url, $engine, $keywords)
     {
         $this->includeDataFilesForSearchEngineTest();
-        $returnedValue = Common::extractSearchEngineInformationFromUrl($url);
+        $returnedValue = UrlHelper::extractSearchEngineInformationFromUrl($url);
 
         $exptectedValue = false;
 
@@ -646,7 +647,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLossyUrl($input, $expected)
     {
-        $this->assertEquals($expected, Common::getLossyUrl($input));
+        $this->assertEquals($expected, UrlHelper::getLossyUrl($input));
     }
     
     private function includeDataFilesForSearchEngineTest()

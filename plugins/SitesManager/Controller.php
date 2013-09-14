@@ -20,6 +20,7 @@ use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
@@ -161,7 +162,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->idSite = Common::getRequestVar('idSite');
         $url = Common::getRequestVar('piwikUrl', '', 'string');
         if (empty($url)
-            || !Common::isLookLikeUrl($url)
+            || !UrlHelper::isLookLikeUrl($url)
         ) {
             $url = $view->piwikUrl;
         }

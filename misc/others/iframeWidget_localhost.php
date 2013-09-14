@@ -1,8 +1,8 @@
 <?php
-use Piwik\Common;
 use Piwik\FrontController;
-use Piwik\WidgetsList;
 use Piwik\Url;
+use Piwik\UrlHelper;
+use Piwik\WidgetsList;
 
 exit;
 $date = date('Y-m-d');
@@ -39,7 +39,7 @@ foreach ($widgets as $category => $widgetsInCategory) {
     echo '<h2>' . $category . '</h2>';
     foreach ($widgetsInCategory as $widget) {
         echo '<h3>' . $widget['name'] . '</h3>';
-        $widgetUrl = Common::getArrayFromQueryString($url);
+        $widgetUrl = UrlHelper::getArrayFromQueryString($url);
         $widgetUrl['moduleToWidgetize'] = $widget['parameters']['module'];
         $widgetUrl['actionToWidgetize'] = $widget['parameters']['action'];
         $parameters = $widget['parameters'];

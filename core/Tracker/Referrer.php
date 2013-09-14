@@ -11,7 +11,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
-use Piwik\Tracker\Action;
+use Piwik\UrlHelper;
 
 /**
  * @package Piwik
@@ -68,7 +68,7 @@ class Referrer
         // default values for the referer_* fields
         $refererUrl = Common::unsanitizeInputValue($refererUrl);
         if (!empty($refererUrl)
-            && !Common::isLookLikeUrl($refererUrl)
+            && !UrlHelper::isLookLikeUrl($refererUrl)
         ) {
             $refererUrl = '';
         }
@@ -126,7 +126,7 @@ class Referrer
      */
     protected function detectRefererSearchEngine()
     {
-        $searchEngineInformation = Common::extractSearchEngineInformationFromUrl($this->refererUrl);
+        $searchEngineInformation = UrlHelper::extractSearchEngineInformationFromUrl($this->refererUrl);
         Piwik_PostEvent('Tracker.detectRefererSearchEngine', array(&$searchEngineInformation, $this->refererUrl));
         if ($searchEngineInformation === false) {
             return false;
@@ -144,7 +144,7 @@ class Referrer
     protected function detectCampaignFromString($string)
     {
         foreach ($this->campaignNames as $campaignNameParameter) {
-            $campaignName = trim(urldecode(Common::getParameterFromQueryString($string, $campaignNameParameter)));
+            $campaignName = trim(urldecode(UrlHelper::getParameterFromQueryString($string, $campaignNameParameter)));
             if (!empty($campaignName)) {
                 break;
             }
@@ -155,7 +155,7 @@ class Referrer
             $this->nameRefererAnalyzed = $campaignName;
 
             foreach ($this->campaignKeywords as $campaignKeywordParameter) {
-                $campaignKeyword = Common::getParameterFromQueryString($string, $campaignKeywordParameter);
+                $campaignKeyword = UrlHelper::getParameterFromQueryString($string, $campaignKeywordParameter);
                 if (!empty($campaignKeyword)) {
                     $this->keywordRefererAnalyzed = trim(urldecode($campaignKeyword));
                     break;
@@ -165,7 +165,7 @@ class Referrer
             // if the campaign keyword is empty, try to get a keyword from the referrer URL
             if (empty($this->keywordRefererAnalyzed)) {
                 // Set the Campaign keyword to the keyword found in the Referrer URL if any
-                $referrerUrlInfo = Common::extractSearchEngineInformationFromUrl($this->refererUrl);
+                $referrerUrlInfo = UrlHelper::extractSearchEngineInformationFromUrl($this->refererUrl);
                 if (!empty($referrerUrlInfo['keywords'])) {
                     $this->keywordRefererAnalyzed = $referrerUrlInfo['keywords'];
                 }
@@ -178,7 +178,7 @@ class Referrer
                 ) {
                     // This parameter sometimes is found & contains the page with the adsense ad bringing visitor to our site
                     $adsenseReferrerParameter = 'url';
-                    $value = trim(urldecode(Common::getParameterFromQueryString($this->refererUrlParse['query'], $adsenseReferrerParameter)));
+                    $value = trim(urldecode(UrlHelper::getParameterFromQueryString($this->refererUrlParse['query'], $adsenseReferrerParameter)));
                     if (!empty($value)) {
                         $parsedAdsenseReferrerUrl = parse_url($value);
                         if (!empty($parsedAdsenseReferrerUrl['host'])) {

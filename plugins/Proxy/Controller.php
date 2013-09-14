@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
 use Piwik\Url;
+use Piwik\UrlHelper;
 
 /**
  * Controller for proxy services
@@ -92,7 +93,7 @@ class Controller extends \Piwik\Controller
         if (!self::isPiwikUrl($url)) {
             Piwik::checkUserHasSomeViewAccess();
         }
-        if (!Common::isLookLikeUrl($url)) {
+        if (!UrlHelper::isLookLikeUrl($url)) {
             die('Please check the &url= parameter: it should to be a valid URL');
         }
         @header('Content-Type: text/html; charset=utf-8');
