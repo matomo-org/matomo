@@ -534,7 +534,9 @@ class ViewDataTable
 
         // default sort order to visits/visitors data
         if (empty($this->viewProperties['filter_sort_column'])) {
-            if ($haveNbUniqVisitors) {
+            if ($haveNbUniqVisitors
+                && in_array('nb_uniq_visitors', $this->viewProperties['columns_to_display'])
+            ) {
                 $this->viewProperties['filter_sort_column'] = 'nb_uniq_visitors';
             } else {
                 $this->viewProperties['filter_sort_column'] = 'nb_visits';
