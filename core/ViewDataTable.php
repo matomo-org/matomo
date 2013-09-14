@@ -408,7 +408,8 @@ class ViewDataTable
     }
 
     /**
-     * TODO
+     * Sets visualization properties using data in a visualization's default property values
+     * array.
      */
     private function setVisualizationPropertiesFromMetadata($properties)
     {

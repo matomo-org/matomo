@@ -219,14 +219,14 @@ abstract class DataTableVisualization
      * Returns the visualization class by it's viewDataTable ID.
      * 
      * @param string $id The visualization ID.
-     * @return string The visualization class name.
-     * @throws \Exception if $id is not a valid visualization ID.
+     * @return string The visualization class name. If $id is not a valid ID, the HtmlTable visualization
+     *                is returned.
      */
     public static function getClassFromId($id)
     {
         $visualizationClasses = self::getAvailableVisualizations();
         if (!isset($visualizationClasses[$id])) {
-            throw new \Exception("Invalid DataTable visualization ID: '$id'.");
+            return $visualizationClasses['table'];
         }
         return $visualizationClasses[$id];
     }
