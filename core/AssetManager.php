@@ -12,13 +12,8 @@ namespace Piwik;
 
 use Exception;
 use JSMin;
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Version;
-use Piwik\PluginsManager;
-use Piwik\Translate;
 use lessc;
+use Piwik\Translate;
 
 /**
  * @see libs/jsmin/jsmin.php
@@ -492,7 +487,7 @@ class AssetManager
      * Also tries to remove compressed version of the merged file.
      *
      * @param string $filename filename of the merged asset
-     * @see Piwik::serveStaticFile()
+     * @see ProxyStaticFile::serveStaticFile(serveFile
      * @throws Exception if the file couldn't be deleted
      */
     private static function removeMergedAsset($filename)
@@ -505,7 +500,7 @@ class AssetManager
             }
 
             // Tries to remove compressed version of the merged file.
-            // See Piwik::serveStaticFile() for more info on static file compression
+            // See Piwik::serveFile() for more info on static file compression
             $compressedFileLocation = PIWIK_USER_PATH . Piwik::COMPRESSED_FILE_LOCATION . $filename;
 
             @unlink($compressedFileLocation . ".deflate");

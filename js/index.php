@@ -5,7 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Piwik;
+use Piwik\ProxyStaticFile;
 
 /**
  * Tracker proxy
@@ -31,6 +31,6 @@ $file = '../piwik.js';
 
 // There is no cache buster parameter so we don't set Expires: header 
 $expireFarFuture = false;
-Piwik::serveStaticFile($file, "application/javascript; charset=UTF-8", $expireFarFuture);
+ProxyStaticFile::serveFile($file, "application/javascript; charset=UTF-8", $expireFarFuture);
 
 exit;

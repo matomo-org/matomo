@@ -10,9 +10,10 @@
  */
 namespace Piwik\Plugins\Proxy;
 
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\AssetManager;
+use Piwik\Common;
+use Piwik\Piwik;
+use Piwik\ProxyStaticFile;
 use Piwik\Url;
 
 /**
@@ -34,7 +35,7 @@ class Controller extends \Piwik\Controller
     public function getCss()
     {
         $cssMergedFile = AssetManager::getMergedCssFileLocation();
-        Piwik::serveStaticFile($cssMergedFile, "text/css");
+        ProxyStaticFile::serveFile($cssMergedFile, "text/css");
     }
 
     /**
@@ -46,7 +47,7 @@ class Controller extends \Piwik\Controller
     public function getJs()
     {
         $jsMergedFile = AssetManager::getMergedJsFileLocation();
-        Piwik::serveStaticFile($jsMergedFile, self::JS_MIME_TYPE);
+        ProxyStaticFile::serveFile($jsMergedFile, self::JS_MIME_TYPE);
     }
 
     /**
@@ -64,7 +65,7 @@ class Controller extends \Piwik\Controller
         AssetManager::removeTranslationsJsFile();
         
         $translationsJsFile = AssetManager::getTranslationsJsFileLocation();
-        Piwik::serveStaticFile($translationsJsFile, self::JS_MIME_TYPE);
+        ProxyStaticFile::serveFile($translationsJsFile, self::JS_MIME_TYPE);
     }
 
     /**

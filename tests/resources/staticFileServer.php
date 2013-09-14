@@ -1,16 +1,16 @@
 <?php
 /**
- * This php file is used to unit test Piwik::serveStaticFile()
- * To make a comprehensive test suit for Piwik::serveStaticFile() (ie. being able to test combinations of request
+ * This php file is used to unit test Piwik::serveFile()
+ * To make a comprehensive test suit for Piwik::serveFile() (ie. being able to test combinations of request
  * headers, being able to test response headers and so on) we need to simulate static file requests in a controlled
  * environment
- * The php code which simulates requests using Piwik::serveStaticFile() is provided in the same file (ie. this one)
- * as the unit testing code for Piwik::serveStaticFile()
+ * The php code which simulates requests using Piwik::serveFile() is provided in the same file (ie. this one)
+ * as the unit testing code for Piwik::serveFile()
  * This decision has a structural impact on the usual unit test file structure
- * serveStaticFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
+ * serveFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
  */
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\ProxyStaticFile;
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__).'/../../');
 if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php'))
@@ -58,7 +58,7 @@ define("TEST_FILE_SRV_MODE", "testFile");
 
 /**
  * If the static file server has been requested, the response sent back to the browser will be the content produced by
- * the execution of Piwik:serveStaticFile(). In this case, unit tests won't be executed
+ * the execution of Piwik:serveFile(). In this case, unit tests won't be executed
  */
 // Getting the server mode
 $staticFileServerMode = Common::getRequestVar(SRV_MODE_REQUEST_VAR, "");
@@ -72,21 +72,21 @@ if ($staticFileServerMode === "") {
 }
 
 switch ($staticFileServerMode) {
-    // The static file server calls Piwik::serveStaticFile with a null file
+    // The static file server calls Piwik::serveFile with a null file
     case NULL_FILE_SRV_MODE:
 
-        Piwik::serveStaticFile(null, TEST_FILE_CONTENT_TYPE);
+        ProxyStaticFile::serveFile(null, TEST_FILE_CONTENT_TYPE);
         break;
 
-    // The static file server calls Piwik::serveStaticFile with a non-existing file
+    // The static file server calls Piwik::serveFile with a non-existing file
     case GHOST_FILE_SRV_MODE:
 
-        Piwik::serveStaticFile(TEST_FILE_LOCATION . ".ghost", TEST_FILE_CONTENT_TYPE);
+        ProxyStaticFile::serveFile(TEST_FILE_LOCATION . ".ghost", TEST_FILE_CONTENT_TYPE);
         break;
 
-    // The static file server calls Piwik::serveStaticFile with the test file
+    // The static file server calls Piwik::serveFile with the test file
     case TEST_FILE_SRV_MODE:
 
-        Piwik::serveStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE);
+        ProxyStaticFile::serveFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE);
         break;
 }
