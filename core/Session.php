@@ -131,7 +131,7 @@ class Session extends Zend_Session
 
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik_Translate('General_ExceptionUnableToStartSession'),
-                Piwik::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/'),
+                Filechecks::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/'),
                 $enableDbSessions,
                 $e->getMessage()
             );

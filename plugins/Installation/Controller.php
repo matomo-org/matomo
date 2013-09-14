@@ -18,6 +18,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db\Adapter;
 use Piwik\Db;
+use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Piwik;
@@ -727,9 +728,9 @@ class Controller extends \Piwik\Controller\Admin
                                                                     '/tmp/sessions/',
                                                                ));
 
-        $infos['directories'] = Piwik::checkDirectoriesWritable($directoriesToCheck);
+        $infos['directories'] = Filechecks::checkDirectoriesWritable($directoriesToCheck);
 
-        $infos['can_auto_update'] = Piwik::canAutoUpdate();
+        $infos['can_auto_update'] = Filechecks::canAutoUpdate();
 
         self::initServerFilesForSecurity();
 
@@ -837,7 +838,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $infos['isWindows'] = Common::isWindows();
 
-        $integrityInfo = Piwik::getFileIntegrityInformation();
+        $integrityInfo = Filechecks::getFileIntegrityInformation();
         $infos['integrity'] = $integrityInfo[0];
 
         $infos['integrityErrorMessages'] = array();

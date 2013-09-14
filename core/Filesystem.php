@@ -226,7 +226,7 @@ class Filesystem
             @chmod($dest, 0755);
             if (!@copy($source, $dest)) {
                 $message = "Error while creating/copying file to <code>$dest</code>. <br />"
-                    . Piwik::getErrorMessageMissingPermissions(self::getPathToPiwikRoot());
+                    . Filechecks::getErrorMessageMissingPermissions(self::getPathToPiwikRoot());
                 throw new Exception($message);
             }
         }

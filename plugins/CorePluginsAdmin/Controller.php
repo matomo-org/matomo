@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -197,7 +198,7 @@ class Controller extends \Piwik\Controller\Admin
         $uninstalled = \Piwik\PluginsManager::getInstance()->uninstallPlugin($pluginName);
         if (!$uninstalled) {
             $path = Filesystem::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
-            $messagePermissions = Piwik::getErrorMessageMissingPermissions($path);
+            $messagePermissions = Filechecks::getErrorMessageMissingPermissions($path);
 
             $messageIntro = Piwik_Translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
                 $pluginName);

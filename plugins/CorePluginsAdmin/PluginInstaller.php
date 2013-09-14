@@ -9,8 +9,8 @@
  * @package CorePluginsAdmin
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
+use Piwik\Filechecks;
 use Piwik\Filesystem;
-use Piwik\Piwik;
 use Piwik\Unzip;
 
 /**
@@ -46,7 +46,7 @@ class PluginInstaller
 
     private function makeSureFoldersAreWritable()
     {
-        Piwik::dieIfDirectoriesNotWritable(array(self::PATH_TO_DOWNLOAD, self::PATH_TO_EXTRACT));
+        Filechecks::dieIfDirectoriesNotWritable(array(self::PATH_TO_DOWNLOAD, self::PATH_TO_EXTRACT));
     }
 
     private function downloadPluginFromMarketplace($pluginZipTargetFile)

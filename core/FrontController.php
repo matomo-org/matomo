@@ -233,7 +233,7 @@ class FrontController
                 '/tmp/tcpdf/'
             );
 
-            Piwik::dieIfDirectoriesNotWritable($directoriesToCheck);
+            Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
             Common::assignCliParametersToRequest();
 
             Translate::getInstance()->loadEnglishTranslation();

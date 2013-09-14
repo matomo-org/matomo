@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Piwik;
@@ -59,8 +60,8 @@ class Controller extends \Piwik\Controller
         $view->piwik_version = Version::VERSION;
         $view->piwik_new_version = $newVersion;
         $view->piwik_latest_version_url = self::getLatestZipUrl($newVersion);
-        $view->can_auto_update = Piwik::canAutoUpdate();
-        $view->makeWritableCommands = Piwik::getAutoUpdateMakeWritableMessage();
+        $view->can_auto_update = Filechecks::canAutoUpdate();
+        $view->makeWritableCommands = Filechecks::getAutoUpdateMakeWritableMessage();
         echo $view->render();
     }
 
@@ -125,7 +126,7 @@ class Controller extends \Piwik\Controller
     private function oneClick_Download()
     {
         $this->pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . 'latest.zip';
-        Piwik::dieIfDirectoriesNotWritable(array(self::PATH_TO_EXTRACT_LATEST_VERSION));
+        Filechecks::dieIfDirectoriesNotWritable(array(self::PATH_TO_EXTRACT_LATEST_VERSION));
 
         // we catch exceptions in the caller (i.e., oneClickUpdate)
         $url = self::getLatestZipUrl($this->newVersion) . '?cb=' . $this->newVersion;
@@ -316,7 +317,7 @@ class Controller extends \Piwik\Controller
         }
 
         // check file integrity
-        $integrityInfo = Piwik::getFileIntegrityInformation();
+        $integrityInfo = Filechecks::getFileIntegrityInformation();
         if (isset($integrityInfo[1])) {
             if ($integrityInfo[0] == false) {
                 $this->warningMessages[] = '<b>' . Piwik_Translate('General_FileIntegrityWarningExplanation') . '</b>';
