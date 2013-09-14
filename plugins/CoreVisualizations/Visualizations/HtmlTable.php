@@ -86,6 +86,20 @@ class HtmlTable extends DataTableVisualization
      */
     const DISABLE_SUBTABLE_IN_GOALS_VIEW = 'disable_subtable_when_show_goals';
 
+    /**
+     * Controls whether the summary row is displayed on every page of the datatable view or not.
+     * If false, the summary row will be treated as the last row of the dataset and will only visible
+     * when viewing the last rows.
+     */
+    const KEEP_SUMMARY_ROW = 'keep_summary_row';
+
+    /**
+     * If true, the summary row will be colored differently than all other DataTable rows.
+     * 
+     * @see also self::KEEP_SUMMARY_ROW
+     */
+    const HIGHLIGHT_SUMMARY_ROW = 'highlight_summary_row';
+
     static public $clientSideParameters = array(
         'search_recursive',
         'filter_limit',
@@ -102,6 +116,17 @@ class HtmlTable extends DataTableVisualization
         'enable_sort',
         'keep_summary_row',
         'subtable_controller_action',
+    );
+
+    public static $overridableProperties = array(
+        'show_expanded',
+        'disable_row_actions',
+        'disable_row_evolution',
+        'show_extra_columns',
+        'show_goals_columns',
+        'disable_subtable_when_show_goals',
+        'keep_summary_row',
+        'highlight_summary_row',
     );
 
     /**
@@ -153,6 +178,8 @@ class HtmlTable extends DataTableVisualization
                     'show_extra_columns' => false,
                     'show_goals_columns' => false,
                     'disable_subtable_when_show_goals' => false,
+                    'keep_summary_row' => false,
+                    'highlight_summary_row' => false,
                 ),
             ),
         );

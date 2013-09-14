@@ -49,6 +49,8 @@ class JqplotGraph extends Graph
         'external_series_toggle_show_all'
     );
 
+    public static $overridableProperties = array('x_axis_step_size');
+
     /**
      * Constructor.
      * 

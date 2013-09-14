@@ -114,12 +114,6 @@ class Properties
     const COLUMNS_TO_DISPLAY = 'columns_to_display';
 
     /**
-     * Whether to display the logo assocatied with a DataTable row (stored as 'logo' row metadata)
-     * isntead of the label in Tag Clouds.
-     */
-    const DISPLAY_LOGO_INSTEAD_OF_LABEL = 'display_logo_instead_of_label';
-
-    /**
      * Controls whether the footer icons that change the ViewDataTable type of a view are shown
      * or not.
      */
@@ -245,13 +239,6 @@ class Properties
     const SHOW_ECOMMERCE_FOOTER_ICONS = 'show_ecommerce';
 
     /**
-     * Controls whether the summary row is displayed on every page of the datatable view or not.
-     * If false, the summary row will be treated as the last row of the dataset and will only visible
-     * when viewing the last rows.
-     */
-    const KEEP_SUMMARY_ROW = 'keep_summary_row';
-
-    /**
      * Stores the column name to filter when filtering out rows with low values.
      * 
      * @see also self::EXCLUDE_LOW_POPULATION_VALUE
@@ -278,13 +265,6 @@ class Properties
      * Default: Set to values retrieved from report metadata (via API.getReportMetadata API method).
      */
     const METRIC_DOCUMENTATION = 'metrics_documentation';
-
-    /**
-     * If true, the summary row will be colored differently than all other DataTable rows.
-     * 
-     * @see also self::KEEP_SUMMARY_ROW
-     */
-    const HIGHLIGHT_SUMMARY_ROW = 'highlight_summary_row';
 
     /**
      * Row metadata name that contains the tooltip for the specific row.
@@ -398,6 +378,67 @@ class Properties
      * Controls whether non-Core DataTable visualizations are shown or not.
      */
     const SHOW_NON_CORE_VISUALIZATIONS = 'show_non_core_visualizations';
+
+    /**
+     * The list of ViewDataTable properties that are 'Client Side Parameters'.
+     * 
+     * @see Piwik\DataTableVisualization::getClientSideParameters
+     */
+    public static $clientSideParameters = array(
+        'filter_excludelowpop',
+        'filter_excludelowpop_value',
+        'filter_pattern',
+        'filter_column',
+    );
+
+    /**
+     * The list of ViewDataTable properties that are 'Client Side Properties'.
+     * 
+     * @see Piwik\DataTableVisualization::getClientSideProperties
+     */
+    public static $clientSideProperties = array();
+
+    /**
+     * The list of ViewDataTable properties that can be overriden by query parameters.
+     * 
+     * @see Piwik\DataTableVisualization::getOverridableProperties
+     */
+    public static $overridableProperties = array(
+        'show_goals',
+        'filter_sort_column',
+        'filter_sort_order',
+        'filter_limit',
+        'filter_offset',
+        'filter_pattern',
+        'filter_column',
+        'disable_generic_filters',
+        'disable_queued_filters',
+        'show_exclude_low_population',
+        'show_table',
+        'show_table_all_columns',
+        'show_footer',
+        'show_footer_icons',
+        'show_all_views_icons',
+        'show_active_view_icon',
+        'show_related_reports',
+        'show_limit_control',
+        'show_search',
+        'enable_sort',
+        'show_bar_chart',
+        'show_pie_chart',
+        'show_tag_cloud',
+        'show_export_as_rss_feed',
+        'show_ecommerce',
+        'filter_excludelowpop',
+        'filter_excludelowpop_value',
+        'search_recursive',
+        'show_export_as_image_icon',
+        'show_pagination_control',
+        'show_offset_information',
+        'hide_annotations_view',
+        'export_limit',
+        'show_non_core_visualizations'
+    );
 
     /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
@@ -521,17 +562,17 @@ class Properties
             'show_pagination_control' => true,
             'show_limit_control' => false,
             'show_footer' => true,
+            'show_footer_icons' => true,
             'show_related_reports' => true,
             'show_non_core_visualizations' => true,
             'export_limit' => Config::getInstance()->General['API_datatable_default_limit'],
-            'highlight_summary_row' => false,
             'related_reports' => array(),
             'title' => '',
             'tooltip_metadata_name' => false,
             'enable_sort' => true,
             'disable_generic_filters' => false,
             'disable_queued_filters' => false,
-            'keep_summary_row' => false,
+            'search_recursive' => false,
             'filter_excludelowpop' => false,
             'filter_excludelowpop_value' => false,
             'filter_pattern' => false,

@@ -33,6 +33,8 @@ class Evolution extends JqplotGraph
 
     public static $clientSideProperties = array('show_line_graph');
     
+    public static $overridableProperties = array('show_line_graph');
+
     public function __construct($view)
     {
         parent::__construct($view);

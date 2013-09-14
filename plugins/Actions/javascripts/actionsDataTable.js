@@ -34,7 +34,7 @@
     }
 
     /**
-     * TODO
+     * UI control that handles extra functionality for Actions datatables.
      * 
      * @constructor
      */

@@ -100,6 +100,11 @@ abstract class Graph extends DataTableVisualization
         'columns'
     );
 
+    public static $overridableProperties = array(
+        'show_all_ticks',
+        'show_series_picker'
+    );
+
     /**
      * Constructor.
      * 

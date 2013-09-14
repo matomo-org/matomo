@@ -108,7 +108,11 @@ class Controller extends \Piwik\Controller
     {
         $view = ViewDataTable::factory(
             'cloud', 'ExampleUI.getPlanetRatiosWithLogos', $controllerAction = 'ExampleUI.echoAdvancedTagClouds');
-        $view->display_logo_instead_of_label = true;
+        $view->visualization_properties->setForVisualization(
+            'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\Cloud',
+            'display_logo_instead_of_label',
+            true
+        );
         $view->columns_to_display = array('label', 'value');
         $view->translations['value'] = "times the diameter of Earth";
         echo $view->render();

@@ -55,26 +55,14 @@ abstract class DataTableVisualization
      * in every AJAX request.
      * 
      * Derived DataTableVisualizations can specify client side parameters by declaring
-     * a static $clientSideParameters field.
+     * a static $clientSideParameters field that contains a list of view property
+     * names.
      * 
      * @return array
      */
     public static function getClientSideParameters()
     {
-        if (isset(static::$clientSideParameters)) {
-            $result = array();
-
-            $lineage = static::getVisualizationClassLineage(get_called_class());
-            foreach ($lineage as $klass) {
-                if (isset($klass::$clientSideParameters)) {
-                    $result = array_merge($result, $klass::$clientSideParameters);
-                }
-            }
-            
-            return array_unique($result);
-        } else {
-            return array();
-        }
+        return self::getPropertyNameListWithMetaProperty('clientSideParameters');
     }
 
     /**
@@ -83,26 +71,28 @@ abstract class DataTableVisualization
      * these will not be passed with AJAX requests as query parameters.
      * 
      * Derived DataTableVisualizations can specify client side properties by declaring
-     * a static $clientSideProperties field.
+     * a static $clientSideProperties field that contains a list of view property
+     * names.
      * 
      * @return array
      */
     public static function getClientSideProperties()
     {
-        if (isset(static::$clientSideProperties)) {
-            $result = array();
+        return self::getPropertyNameListWithMetaProperty('clientSideProperties');
+    }
 
-            $lineage = static::getVisualizationClassLineage(get_called_class());
-            foreach ($lineage as $klass) {
-                if (isset($klass::$clientSideProperties)) {
-                    $result = array_merge($result, $klass::$clientSideProperties);
-                }
-            }
-            
-            return array_unique($result);
-        } else {
-            return array();
-        }
+    /**
+     * Returns an array of view property names that can be overriden by query parameters.
+     * If a query parameter is sent with the same name as a view property, the view
+     * property will be set to the value of the query parameter.
+     * 
+     * Derived DataTableVisualizations can specify overridable properties by declaring
+     * a static $overridableProperties field that contains a list of view property
+     * names.
+     */
+    public static function getOverridableProperties()
+    {
+        return self::getPropertyNameListWithMetaProperty('overridableProperties');
     }
 
     /**
@@ -239,5 +229,27 @@ abstract class DataTableVisualization
             throw new \Exception("Invalid DataTable visualization ID: '$id'.");
         }
         return $visualizationClasses[$id];
+    }
+
+    /**
+     * Helper function that merges the static field values of every class in this
+     * classes inheritance hierarchy. Uses late-static binding.
+     */
+    private static function getPropertyNameListWithMetaProperty($staticFieldName)
+    {
+        if (isset(static::$$staticFieldName)) {
+            $result = array();
+
+            $lineage = static::getVisualizationClassLineage(get_called_class());
+            foreach ($lineage as $klass) {
+                if (isset($klass::$$staticFieldName)) {
+                    $result = array_merge($result, $klass::$$staticFieldName);
+                }
+            }
+
+            return array_unique($result);
+        } else {
+            return array();
+        }
     }
 }

@@ -28,8 +28,16 @@ class Cloud extends DataTableVisualization
 {
     const ID = 'cloud';
     
+    /**
+     * Whether to display the logo assocatied with a DataTable row (stored as 'logo' row metadata)
+     * instead of the label in Tag Clouds.
+     */
+    const DISPLAY_LOGO_INSTEAD_OF_LABEL = 'display_logo_instead_of_label';
+
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
+
+    public static $overridableProperties = array('display_logo_instead_of_label');
 
     protected $wordsArray = array();
     public $truncatingLimit = 50;
@@ -39,7 +47,11 @@ class Cloud extends DataTableVisualization
         return array(
             'show_offset_information' => false,
             'show_exclude_low_population' => false,
-            'display_logo_instead_of_label' => false,
+            'visualization_properties' => array(
+                'cloud' => array(
+                    'display_logo_instead_of_label' => false,
+                )
+            )
         );
     }
 
@@ -75,7 +87,7 @@ class Cloud extends DataTableVisualization
         $labelMetadata = array();
         foreach ($dataTable->getRows() as $row) {
             $logo = false;
-            if ($properties['display_logo_instead_of_label']) {
+            if ($properties['visualization_properties']->display_logo_instead_of_label) {
                 $logo = $row->getMetadata('logo');
             }
 

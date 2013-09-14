@@ -145,7 +145,6 @@ class ViewDataTable
 
         $this->setDefaultProperties();
         $this->setViewProperties($viewProperties);
-        $this->overrideViewPropertiesWithQueryParams();
 
         $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
         $this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
@@ -153,6 +152,8 @@ class ViewDataTable
 
         $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
         $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
+
+        $this->overrideViewPropertiesWithQueryParams();
 
         // the exclude low population threshold value is sometimes obtained by requesting data.
         // to avoid issuing unecessary requests when display properties are determined by metadata,
@@ -282,14 +283,7 @@ class ViewDataTable
      */
     public function getClientSideProperties()
     {
-        $result = array();
-
-        if ($this->visualizationClass) {
-            $klass = $this->visualizationClass;
-            $result = array_merge($result, $klass::getClientSideProperties());
-        }
-
-        return $result;
+        return $this->getPropertyNameListWithMetaProperty(Properties::$clientSideProperties, __FUNCTION__);
     }
 
     /**
@@ -300,19 +294,17 @@ class ViewDataTable
      */
     public function getClientSideParameters()
     {
-        $result = array(
-            'filter_excludelowpop',
-            'filter_excludelowpop_value',
-            'filter_pattern',
-            'filter_column',
-        );
+        return $this->getPropertyNameListWithMetaProperty(Properties::$clientSideParameters, __FUNCTION__);
+    }
 
-        if ($this->visualizationClass) {
-            $klass = $this->visualizationClass;
-            $result = array_merge($result, $klass::getClientSideParameters());
-        }
-
-        return $result;
+    /**
+     * Returns the list of view properties that can be overriden by query parameters.
+     * 
+     * @return array
+     */
+    public function getOverridableProperties()
+    {
+        return $this->getPropertyNameListWithMetaProperty(Properties::$overridableProperties, __FUNCTION__);
     }
 
     public function getCurrentControllerAction()
@@ -1244,20 +1236,36 @@ class ViewDataTable
 
     private function overrideViewPropertiesWithQueryParams()
     {
-        // TODO: should mark properties that are overridable so not all properties can be overidden this way
-        $queryParams = $_GET + $_POST;
-        foreach ($queryParams as $name => $value) {
-            if (empty($value)) {
-                continue;
-            }
-
-            $value = Common::getRequestVar($name, $default = null, $type = null, $queryParams);
-
+        $properties = $this->getOverridableProperties();
+        foreach ($properties as $name) {
             if (Properties::isCoreViewProperty($name)) {
-                $this->viewProperties[$name] = $value;
+                $default = $this->viewProperties[$name];
+
+                $this->viewProperties[$name] = $this->getPropertyFromQueryParam($name, $default);
             } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {
-                $this->viewProperties['visualization_properties']->$name = $value;
+                $default = $this->viewProperties['visualization_properties']->$name;
+
+                $this->viewProperties['visualization_properties']->$name =
+                    $this->getPropertyFromQueryParam($name, $default);
             }
         }
+    }
+
+    private function getPropertyFromQueryParam($name, $defaultValue)
+    {
+        $type = is_numeric($defaultValue) ? 'int' : null;
+        return Common::getRequestVar($name, $defaultValue, $type);
+    }
+
+    /**
+     * Helper function for getCliendSiteProperties/getClientSideParameters/etc.
+     */
+    private function getPropertyNameListWithMetaProperty($propertyNames, $getPropertiesFunctionName)
+    {
+        if ($this->visualizationClass) {
+            $klass = $this->visualizationClass;
+            $propertyNames = array_merge($propertyNames, $klass::$getPropertiesFunctionName());
+        }
+        return $propertyNames;
     }
 }
