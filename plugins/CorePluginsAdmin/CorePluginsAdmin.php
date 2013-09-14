@@ -23,7 +23,10 @@ class CorePluginsAdmin extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        return array('AdminMenu.add' => 'addMenu');
+        return array(
+            'AdminMenu.add' => 'addMenu',
+            'AssetManager.getJsFiles' => 'getJsFiles',
+        );
     }
 
     function addMenu()
@@ -42,4 +45,11 @@ class CorePluginsAdmin extends \Piwik\Plugin
             Piwik::isUserIsSuperUser(),
             $order = 5);
     }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginDetail.js";
+    }
+
 }

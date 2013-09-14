@@ -8,7 +8,7 @@
         .plugin .install { float: right; }
         .plugin h3 { display: inline; }
         .plugin { width: 300px; float: left; }
-        .pluginslist { margin-top: 20px;max-width:980px; }
+        .themeslist { margin-top: 20px;max-width:980px; }
     </style>
 
     <div style="max-width:980px;">
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="pluginslist" style="">
+    <div class="themeslist" style="">
 
         {% for plugin in plugins %}
 
@@ -37,7 +37,7 @@
 
                 <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
 
-                <h3>{{ plugin.name }}</h3>
+                <h3 class="header">{{ plugin.name }}</h3>
                 <p class="description">{{ plugin.description }}</p>
                 <img src="" height="250" width="250"/>
                 <ul>
