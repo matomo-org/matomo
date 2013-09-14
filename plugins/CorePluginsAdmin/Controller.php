@@ -76,6 +76,38 @@ class Controller extends \Piwik\Controller\Admin
         echo $view->render();
     }
 
+    public function pluginDetails()
+    {
+        $pluginName = Common::getRequestVar('pluginName', '', 'string');
+
+        if (empty($pluginName)) {
+            return;
+        }
+
+        $marketplace = new MarketplaceApiClient();
+
+        $view         = $this->configureView('@CorePluginsAdmin/pluginDetails');
+        $view->plugin = $marketplace->getPluginInfo($pluginName);
+
+        echo $view->render();
+    }
+
+    public function themeDetails()
+    {
+        $pluginName = Common::getRequestVar('pluginName', '', 'string');
+
+        if (empty($pluginName)) {
+            return;
+        }
+
+        $marketplace = new MarketplaceApiClient();
+
+        $view         = $this->configureView('@CorePluginsAdmin/themeDetails');
+        $view->plugin = $marketplace->getPluginInfo($pluginName);
+
+        echo $view->render();
+    }
+
     public function browsePlugins()
     {
         $query = Common::getRequestVar('query', '', 'string', $_POST);
