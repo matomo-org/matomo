@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Log;
 use Piwik\Session;
+use Piwik\Profiler;
 use Zend_Registry;
 
 /**
@@ -166,9 +167,11 @@ class FrontController
     public function __destruct()
     {
         try {
-            Profiler::displayDbProfileReport();
-            Profiler::printQueryCount();
-            Piwik::log(Zend_Registry::get('timer'));
+            if (class_exists('Piwik\\Profiler')) {
+                Profiler::displayDbProfileReport();
+                Profiler::printQueryCount();
+                Piwik::log(Zend_Registry::get('timer'));
+            }
         } catch (Exception $e) {
         }
     }
