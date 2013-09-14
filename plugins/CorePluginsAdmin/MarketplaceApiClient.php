@@ -17,10 +17,11 @@ use Piwik\Http;
  */
 class MarketplaceApiClient
 {
+    private $domain = 'http://plugins.piwik.org';
 
     private function fetch($method, $params)
     {
-        $endpoint = 'http://plugins.piwik.org/api/1.0/';
+        $endpoint = $this->domain . '/api/1.0/';
         $query    = http_build_query($params);
 
         $url = sprintf('%s%s?%s', $endpoint, $method, $query);
@@ -50,7 +51,7 @@ class MarketplaceApiClient
 
         $downloadUrl = $latestVersion->download;
 
-        $success = Http::fetchRemoteFile($downloadUrl, $target);
+        $success = Http::fetchRemoteFile($this->domain . $downloadUrl, $target);
 
         return $success;
     }
