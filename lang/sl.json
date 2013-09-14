@@ -93,9 +93,9 @@
     "CoreHome": {
         "CategoryNoData": "V tej kategoriji ni podatkov. Poizkusite \"Vključiti celotno populacijo\".",
         "CheckForUpdates": "Preveri za posodobitve",
-        "Default_js": "privzeto",
+        "Default": "privzeto",
         "NoPrivilegesAskPiwikAdmin": "Vpisani ste kot '%s', vendar v Piwik-u nimate nastavljenih nobenih pooblastil. %s Poprosite vašega Piwik administratorja (klik za email)%s naj vam da pooblastila za ogled določene(ih) strani.",
-        "PageOf_js": "%1$s od %2$s",
+        "PageOf": "%1$s od %2$s",
         "PeriodDay": "Dan",
         "PeriodDays": "dni",
         "PeriodMonth": "Mesec",
@@ -163,14 +163,13 @@
     },
     "Dashboard": {
         "AddAWidget": "Dodaj gradnik",
-        "AddPreviewedWidget_js": "Kliknite, če želite dodati gradnik na kontrolno ploščo",
+        "AddPreviewedWidget": "Kliknite, če želite dodati gradnik na kontrolno ploščo",
         "ChangeDashboardLayout": "Spremeni postavitev nadzorne plošče",
-        "Close_js": "Zapri",
         "Dashboard": "Nadzorna Plošča",
         "DeleteWidgetConfirm": "Ste prepričani da želite izbrisati ta gradnik s kontrolne plošče?",
         "LoadingWidget_js": "Nalagam gradnik...",
-        "Maximise_js": "Povečaj",
-        "Minimise_js": "Pomanjšaj",
+        "Maximise": "Povečaj",
+        "Minimise": "Pomanjšaj",
         "NotUndo": "Te operacije ne bo mogoče razveljaviti.",
         "PluginDescription": "Nadzorna plošča vaše spletne analitike. Nadzorno ploščo lahko prilagajate: dodajate nove gradnike, spreminjate njihov vrstni red. Vsak uporabnik lahko dostopa do svoje lastne kontrolne plošče.",
         "Refresh_js": "Osveži",
@@ -181,7 +180,7 @@
         "TitleClickToAdd_js": "Kliknite, če želite dodati na nadzorno ploščo",
         "TitleWidgetInDashboard_js": "Gradnik je že na v kontrolni plošči",
         "WidgetNotFound_js": "Gradnik ni bil najden",
-        "WidgetPreview_js": "Predogled gradnika",
+        "WidgetPreview": "Predogled gradnika",
         "WidgetsAndDashboard": "Gradniki & Kontrolna Plošča"
     },
     "Feedback": {

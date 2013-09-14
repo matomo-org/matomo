@@ -70,7 +70,7 @@
     "CoreHome": {
         "CategoryNoData": "Sem dados nesta categoria. Tente o \"Incluir toda a população\".",
         "JavascriptDisabled": "JavaScript tem que estar activado para poder usar Piwik no esquema padrão.<br \/>No entanto, parece que JavaScript está desactivado ou não é suportado pelo seu navegador.<br \/>Para usar o esquema padrão, active JavaScript nas opções do seu navegador, depois %1$stente de novo%2$s.<br \/>",
-        "PageOf_js": "%1$s de %2$s",
+        "PageOf": "%1$s de %2$s",
         "PeriodDay": "Dia",
         "PeriodDays": "dias",
         "PeriodMonth": "Mês",
@@ -161,19 +161,18 @@
         "ScopeVisit": "Âmbito da visita"
     },
     "Dashboard": {
-        "AddPreviewedWidget_js": "Adicionar o widget pré-visualizado ao painel de controlo",
-        "Close_js": "Fechar",
+        "AddPreviewedWidget": "Adicionar o widget pré-visualizado ao painel de controlo",
         "Dashboard": "Painel de Controlo",
         "DeleteWidgetConfirm": "Tem a certeza que deseja excluir este widget do seu painel de controlo?",
         "LoadingWidget_js": "Carregando widget, por favor aguarde...",
-        "Maximise_js": "Maximizar",
-        "Minimise_js": "Minimizar",
+        "Maximise": "Maximizar",
+        "Minimise": "Minimizar",
         "PluginDescription": "O seu Painel de Controlo de Analíticas Web. Pode personalizar o seu Painel de Controlo: adicionar novos widgets, alterar a ordem dos seus widgets. Cada utilizador tem acesso ao seu próprio Painel de Controlo personalizado.",
         "SelectWidget": "Seleccione o widget para adicionar ao painel de controlo",
         "TitleClickToAdd_js": "Clique para adicionar ao painel de controlo",
         "TitleWidgetInDashboard_js": "Widget já existe no painel de controlo",
         "WidgetNotFound_js": "Widget não encontrado",
-        "WidgetPreview_js": "Pré-visualização do widget"
+        "WidgetPreview": "Pré-visualização do widget"
     },
     "Feedback": {
         "CategoryHire": "Contratar um consultante Piwik",

@@ -30,9 +30,9 @@
     },
     "CoreHome": {
         "DateFormat": "%longDay% %day% %longMonth% %longYear%",
-        "Default_js": "అప్రమేయం",
+        "Default": "అప్రమేయం",
         "LongMonthFormat": "%longYear%, %longMonth%",
-        "PageOf_js": "%2$sలో %1$sవది",
+        "PageOf": "%2$sలో %1$sవది",
         "PeriodDay": "రోజు",
         "PeriodDays": "రోజులు",
         "PeriodMonth": "నెల",
@@ -64,11 +64,10 @@
         "WarningMessages": "హెచ్చరిక సందేశాలు:"
     },
     "Dashboard": {
-        "Close_js": "మూసివేయి",
         "Dashboard": "డాష్‌బోర్డు",
         "LoadingWidget_js": "విడ్జెట్ లోడవుతూండి, దయచేసి వేచివుండండి...",
         "TitleWidgetInDashboard_js": "విడ్జెట్ ఇప్పటికే డాష్‌బోర్డులో ఉంది",
-        "WidgetPreview_js": "విడ్జెట్ మునుజూపు"
+        "WidgetPreview": "విడ్జెట్ మునుజూపు"
     },
     "Feedback": {
         "DetailsPlease": "(దయచేసి వివరాలను ఇవ్వండి)",

@@ -99,13 +99,13 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
     return '<div id="' + uniqueId + '" class="widget">' +
         '<div class="widgetTop">' +
         '<div class="button" id="close">' +
-        '<img src="plugins/Zeitgeist/images/close.png" title="' + _pk_translate('Dashboard_Close_js') + '" />' +
+        '<img src="plugins/Zeitgeist/images/close.png" title="' + _pk_translate('General_Close') + '" />' +
         '</div>' +
         '<div class="button" id="maximise">' +
-        '<img src="plugins/Zeitgeist/images/maximise.png" title="' + _pk_translate('Dashboard_Maximise_js') + '" />' +
+        '<img src="plugins/Zeitgeist/images/maximise.png" title="' + _pk_translate('Dashboard_Maximise') + '" />' +
         '</div>' +
         '<div class="button" id="minimise">' +
-        '<img src="plugins/Zeitgeist/images/minimise.png" title="' + _pk_translate('Dashboard_Minimise_js') + '" />' +
+        '<img src="plugins/Zeitgeist/images/minimise.png" title="' + _pk_translate('Dashboard_Minimise') + '" />' +
         '</div>' +
         '<div class="button" id="refresh">' +
         '<img src="plugins/Zeitgeist/images/refresh.png" title="' + _pk_translate('Dashboard_Refresh_js') + '" />' +
@@ -309,8 +309,8 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
 
                 var emptyWidgetHtml = widgetsHelper.getEmptyWidgetHtml(
                     widgetUniqueId,
-                    '<div title="' + _pk_translate("Dashboard_AddPreviewedWidget_js") + '">' +
-                        _pk_translate('Dashboard_WidgetPreview_js') +
+                    '<div title="' + _pk_translate("Dashboard_AddPreviewedWidget") + '">' +
+                        _pk_translate('Dashboard_WidgetPreview') +
                         '</div>'
                 );
                 previewElement.html(emptyWidgetHtml);

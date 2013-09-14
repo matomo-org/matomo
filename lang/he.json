@@ -44,7 +44,7 @@
     "CoreHome": {
         "CategoryNoData": "אין מידע בקטגוריה זו. נא לנסות \"לכלול את כלל האוכלוסייה\"",
         "JavascriptDisabled": "בכדי לצפות בPiwik חובה להפעיל JavaScript.<br\/>בכל מקרה, נראה כי הJavaScript מנוטרל או לא נתמך על יד הדפדפן שלך.<br\/>בכדי לצפות בצורה סטנדרטית, יש להפעיל את הJavaScript על ידי שינוי הגדרות הדפדפן, ולאחר מכן %1$sלנסות שוב%2$s.<br\/>",
-        "PageOf_js": "%1$s מתוך %2$s",
+        "PageOf": "%1$s מתוך %2$s",
         "PeriodDay": "יום",
         "PeriodDays": "ימים",
         "PeriodMonth": "חודש",
@@ -132,18 +132,17 @@
         "PluginDescription": "משתנים מותאמים הם זוגות של שמות וערכים שניתן להגדיר לביקור בעזרת פונקצית setVisitCustomVariables() שבתוך ה-Javascript API. לאחר מכן, Piwik תדווח כמו ביקורים, עמודים, המרות היו לכל אחד מהמשתנים ואת ערכם."
     },
     "Dashboard": {
-        "AddPreviewedWidget_js": "הוספת היישומון המוצג לפאנל הסקירה",
-        "Close_js": "סגירה",
+        "AddPreviewedWidget": "הוספת היישומון המוצג לפאנל הסקירה",
         "Dashboard": "פאנל סקירה",
         "DeleteWidgetConfirm": "למחוק את היישומון מפאנל הסקירה? 100%?",
         "LoadingWidget_js": "טוען יישומון, נא להמתין...",
-        "Maximise_js": "הגדלה",
+        "Maximise": "הגדלה",
         "PluginDescription": "סקירה כללית של ניתוח פעילות אתרך. ניתן להתאים אישית את פאנל הסקירה: הוספת יישומונים, שינוי סדר הופעתם. כל משתמש יכול לגש ללוח סקירה כללית משל עצמו.",
         "SelectWidget": "בחירת היישומון להוספה לפאנל הסקירה",
         "TitleClickToAdd_js": "הוספה לפאנל הסקירה",
         "TitleWidgetInDashboard_js": "היישומון כבר נמצא בפאנל הסקירה",
         "WidgetNotFound_js": "יישומון לא נמצא",
-        "WidgetPreview_js": "הצגת יישומון"
+        "WidgetPreview": "הצגת יישומון"
     },
     "General": {
         "AboutPiwikX": "אודות Piwik %s",

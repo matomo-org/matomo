@@ -74,7 +74,7 @@
         "CategoryNoData": "Nincs adat ebben a kategóriában. Próbáld meg a \"Tartalmazza a teljes populációt\" opciót.",
         "JavascriptDisabled": "A normál nézet megtekintéséhez JavaScript szükséges.<br \/>Úgy tűnik azonban, hogy a JavaScript vagy nem engedélyezett, vagy pedig nem támogatott a böngésződben.<br \/>A normál nézet eléréséhez engedélyezd a JavaScriptet böngésződben, majd %1$stöltsd be az oldalt újra!%2$s.<br \/>",
         "NoPrivilegesAskPiwikAdmin": "'%s' felhasználóként léptél be, de úgy tűnik, hogy nem rendelkezel semmilyen jogosultsággal. %s Kérd meg a Piwik adminisztrátorod (kattints ide egy email írásához)%s, hogy adjon számodra 'megtekintési' jogosultságot a webhelyhez.",
-        "PageOf_js": "%1$s — %2$s",
+        "PageOf": "%1$s — %2$s",
         "PeriodDay": "Nap",
         "PeriodDays": "napok",
         "PeriodMonth": "Hónap",
@@ -156,19 +156,18 @@
         "YourDatabaseIsOutOfDate": "A Piwik adatbázisod elavult. Frissítened kell, mielőtt folytathatnád!"
     },
     "Dashboard": {
-        "AddPreviewedWidget_js": "Add hozzá a megtekintett modult a vezérlőpultodhoz",
-        "Close_js": "Bezár",
+        "AddPreviewedWidget": "Add hozzá a megtekintett modult a vezérlőpultodhoz",
         "Dashboard": "Vezérlőpult",
         "DeleteWidgetConfirm": "Biztosan törölni akarod ezt a modult a vezérlőpultról?",
         "LoadingWidget_js": "Modul betöltése folyamatban. Kérjük, várj…",
-        "Maximise_js": "Maximalizál",
-        "Minimise_js": "Minimalizál",
+        "Maximise": "Maximalizál",
+        "Minimise": "Minimalizál",
         "PluginDescription": "Webanalitikai vezérlőpultod. Állítsd be ízlésednek megfelelően a saját vezérlőpultod: adj hozzá újabb modulokat vagy változtasd meg azok sorrendjét. Minden felhasználónak saját egyéni vezérlőpultja van.",
         "SelectWidget": "Válaszd ki melyik modult szeretnéd hozzáadni a vezérlőpulthoz!",
         "TitleClickToAdd_js": "Kattints a vezérlőpulthoz való hozzáadáshoz",
         "TitleWidgetInDashboard_js": "A modul már megtalálható a vezérlőpulton",
         "WidgetNotFound_js": "A modul nem található",
-        "WidgetPreview_js": "Modul előnézete"
+        "WidgetPreview": "Modul előnézete"
     },
     "Feedback": {
         "CategoryHire": "Egy Piwik szakértőt megbízni",

@@ -49,7 +49,7 @@
         "CategoryNoData": "Nav datu šajā kategorijā. Mēģiniet izvēlēties \"Iekļaut visu apmeklējumu\".",
         "JavascriptDisabled": "Lai lietotu Piwik tā standartskatā, ir jāieslēdz JavaScript.<br \/>Tomēr izskatās, ka JavaScript atbalsts ir izslēgts vai arī to neatbalsts Jūsu pārlūks.<br \/>Lai lietotu standartskatu, ieslēdziet JavaScript atbalstu pārlūka iestatījumos, tad %1$smēģiniet atkārtoti%2$s.<br \/>",
         "NoPrivilegesAskPiwikAdmin": "Jūs esat ienākuši kā '%s', bet izskatās, ka Jums nav iestatītas vajadzīgās Piwik atļaujas. %s Pieprasiet savam Piwik administratoram (klikšķiniet, lai nosūtītu e-pastu)%s Jums pieslēgt vietnes apskates atļauju.",
-        "PageOf_js": "%1$s no %2$s",
+        "PageOf": "%1$s no %2$s",
         "PeriodDay": "Diena",
         "PeriodDays": "dienas",
         "PeriodMonth": "Mēnesis",
@@ -114,19 +114,18 @@
         "YourDatabaseIsOutOfDate": "Jūsu Piwik datubāze ir novecojusi un tā ir jaatjaunina pirms varēsiet turpināt"
     },
     "Dashboard": {
-        "AddPreviewedWidget_js": "Pievienot apskatīto logdaļu panelim",
-        "Close_js": "Aizvērt",
+        "AddPreviewedWidget": "Pievienot apskatīto logdaļu panelim",
         "Dashboard": "Panelis",
         "DeleteWidgetConfirm": "Vai tiešām vēlaties dzēst šo logdaļu no paneļa?",
         "LoadingWidget_js": "Notiek logdaļas ielāde, lūdzu uzgaidiet...",
-        "Maximise_js": "Izvērst",
-        "Minimise_js": "Samazināt",
+        "Maximise": "Izvērst",
+        "Minimise": "Samazināt",
         "PluginDescription": "Jūsu tīkla analīzes panelis. Jūs varat pielāgot savu paneli pievienojot logdaļas vai mainot to izkārtojumu. Katram lietotājam var būt savs, pielāgots panelis.",
         "SelectWidget": "Izvēlieties to logdaļu, kuru vēlaties pievienot panelim",
         "TitleClickToAdd_js": "Klikšķiniet, lai pievienotu panelim",
         "TitleWidgetInDashboard_js": "Logdaļa jau atrodas panelī",
         "WidgetNotFound_js": "Logdaļa nav atrasta",
-        "WidgetPreview_js": "Logdaļas priekšstatījums"
+        "WidgetPreview": "Logdaļas priekšstatījums"
     },
     "Feedback": {
         "CategoryHire": "Nolīgt Piwik konsultantu",

@@ -45,8 +45,8 @@
     },
     "CoreHome": {
         "CategoryNoData": "Pre túto kategóriu nie sú dáta. Skúste použiť „Vrátane celej populácie“.",
-        "Default_js": "Prednastavené",
-        "PageOf_js": "%1$s z %2$s",
+        "Default": "Prednastavené",
+        "PageOf": "%1$s z %2$s",
         "PeriodDay": "Deň",
         "PeriodDays": "dni",
         "PeriodMonth": "Mesiac",
@@ -109,8 +109,7 @@
         "YourDatabaseIsOutOfDate": "Vaša Piwik databáza je zastaralá a musí byť zaktualizovaná, aby ste mohli pokračovať ďalej."
     },
     "Dashboard": {
-        "AddPreviewedWidget_js": "Pridať prezeranú miniaplikáciu do panelu",
-        "Close_js": "Zatvoriť",
+        "AddPreviewedWidget": "Pridať prezeranú miniaplikáciu do panelu",
         "Dashboard": "Nástenka",
         "DeleteWidgetConfirm": "Ste si istý, že chcete odstrániť miniaplikáciu z panela?",
         "LoadingWidget_js": "Načítavanie miniaplikácie, prosím čakajte…",
@@ -119,7 +118,7 @@
         "TitleClickToAdd_js": "Kliknutím pridáte na panel",
         "TitleWidgetInDashboard_js": "Miniaplikácia je už na panely",
         "WidgetNotFound_js": "Miniaplikácia nebola nájdená",
-        "WidgetPreview_js": "Náhľad na miniaplikáciu"
+        "WidgetPreview": "Náhľad na miniaplikáciu"
     },
     "General": {
         "AbandonedCarts": "Opustené košíky",
