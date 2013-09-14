@@ -49,12 +49,6 @@ class Piwik
         'range' => 5,
     );
 
-    /**
-     * @see getKnownSegmentsToArchive
-     *
-     * @var array
-     */
-    public static $cachedKnownSegmentsToArchive = null;
 
     const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';

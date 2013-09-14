@@ -39,6 +39,13 @@ class SettingsPiwik
     }
 
     /**
+     * @see getKnownSegmentsToArchive
+     *
+     * @var array
+     */
+    public static $cachedKnownSegmentsToArchive = null;
+
+    /**
      * Segments to pre-process
      *
      * @return string
