@@ -5,8 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Piwik;
 use Piwik\Date;
+use Piwik\SettingsServer;
 
 class DateTest extends PHPUnit_Framework_TestCase
 {
@@ -74,7 +74,7 @@ class DateTest extends PHPUnit_Framework_TestCase
         $dateExpected = Date::factory('now', 'Africa/Brazzaville')->subHour(24);
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
 
-        if (Piwik::isTimezoneSupportEnabled()) {
+        if (SettingsServer::isTimezoneSupportEnabled()) {
             // convert to/from local time
             $now = time();
             $date = Date::factory($now, 'America/New_York');
@@ -109,7 +109,7 @@ class DateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($dayStart, $date->getDateStartUTC());
         $this->assertEquals($dayEnd, $date->getDateEndUTC());
 
-        if (Piwik::isTimezoneSupportEnabled()) {
+        if (SettingsServer::isTimezoneSupportEnabled()) {
             $date = $date->setTimezone('Europe/Paris');
             $utcDayStart = '2009-12-31 23:00:00';
             $utcDayEnd = '2010-01-01 22:59:59';
@@ -129,7 +129,7 @@ class DateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($utcDayStart, $date->getDateStartUTC());
         $this->assertEquals($utcDayEnd, $date->getDateEndUTC());
 
-        if (Piwik::isTimezoneSupportEnabled()) {
+        if (SettingsServer::isTimezoneSupportEnabled()) {
             $date = $date->setTimezone('America/Vancouver');
             $utcDayStart = '2010-01-01 08:00:00';
             $utcDayEnd = '2010-01-02 07:59:59';
@@ -152,7 +152,7 @@ class DateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($timestamp, $date->getTimestamp());
 
 
-        if (Piwik::isTimezoneSupportEnabled()) {
+        if (SettingsServer::isTimezoneSupportEnabled()) {
             $date = Date::factory('2010-01-01')->setTimezone('Europe/Paris');
             $dateExpected = clone $date;
             $date = $date->addHour(2);
@@ -167,7 +167,7 @@ class DateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDateStartUTCEndDuringDstTimezone()
     {
-        if (Piwik::isTimezoneSupportEnabled()) {
+        if (SettingsServer::isTimezoneSupportEnabled()) {
             $date = Date::factory('2010-03-28');
 
             $date = $date->setTimezone('Europe/Paris');

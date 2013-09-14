@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\SettingsServer;
 use Zend_Registry;
 
 class BatchInsert
@@ -78,7 +79,7 @@ class BatchInsert
                     $fileSpec['charset'] = 'latin1';
                 }
 
-                Piwik::createCSVFile($filePath, $fileSpec, $values);
+                self::createCSVFile($filePath, $fileSpec, $values);
 
                 if (!is_readable($filePath)) {
                     throw new Exception("File $filePath could not be read.");
@@ -118,7 +119,7 @@ class BatchInsert
     public static function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
     {
         // On Windows, MySQL expects forward slashes as directory separators
-        if (Common::isWindows()) {
+        if (SettingsServer::isWindows()) {
             $filePath = str_replace('\\', '/', $filePath);
         }
 
@@ -193,5 +194,52 @@ class BatchInsert
             throw new Exception(implode(",", $exceptions));
         }
         return false;
+    }
+
+
+    /**
+     * Create CSV (or other delimited) files
+     *
+     * @param string $filePath  filename to create
+     * @param array $fileSpec  File specifications (delimiter, line terminator, etc)
+     * @param array $rows      Array of array corresponding to rows of values
+     * @throws Exception  if unable to create or write to file
+     */
+    static protected function createCSVFile($filePath, $fileSpec, $rows)
+    {
+        // Set up CSV delimiters, quotes, etc
+        $delim = $fileSpec['delim'];
+        $quote = $fileSpec['quote'];
+        $eol = $fileSpec['eol'];
+        $null = $fileSpec['null'];
+        $escapespecial_cb = $fileSpec['escapespecial_cb'];
+
+        $fp = @fopen($filePath, 'wb');
+        if (!$fp) {
+            throw new Exception('Error creating the tmp file ' . $filePath . ', please check that the webserver has write permission to write this file.');
+        }
+
+        foreach ($rows as $row) {
+            $output = '';
+            foreach ($row as $value) {
+                if (!isset($value) || is_null($value) || $value === false) {
+                    $output .= $null . $delim;
+                } else {
+                    $output .= $quote . $escapespecial_cb($value) . $quote . $delim;
+                }
+            }
+
+            // Replace delim with eol
+            $output = substr_replace($output, $eol, -1);
+
+            $ret = fwrite($fp, $output);
+            if (!$ret) {
+                fclose($fp);
+                throw new Exception('Error writing to the tmp file ' . $filePath);
+            }
+        }
+        fclose($fp);
+
+        @chmod($filePath, 0777);
     }
 }

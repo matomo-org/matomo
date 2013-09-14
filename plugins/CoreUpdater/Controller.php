@@ -20,6 +20,7 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\SettingsServer;
 use Piwik\Unzip;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
@@ -70,7 +71,7 @@ class Controller extends \Piwik\Controller
         Piwik::checkUserIsSuperUser();
         $this->newVersion = $this->checkNewVersionIsAvailableOrDie();
 
-        Piwik::setMaxExecutionTime(0);
+        SettingsServer::setMaxExecutionTime(0);
 
         $url = self::getLatestZipUrl($this->newVersion);
         $steps = array(
@@ -251,16 +252,16 @@ class Controller extends \Piwik\Controller
             Piwik::redirectToModule('CoreHome');
         }
 
-        Piwik::setMaxExecutionTime(0);
+        SettingsServer::setMaxExecutionTime(0);
 
-        $cli = Common::isPhpCliMode() ? '_cli' : '';
+        $cli = SettingsServer::isPhpCliMode() ? '_cli' : '';
         $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome' . $cli;
         $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
         $viewWelcome = new View($welcomeTemplate);
         $viewDone = new View($doneTemplate);
 
         $sqlQueries = $updater->getSqlQueriesToExecute();
-        if (Common::isPhpCliMode()) {
+        if (SettingsServer::isPhpCliMode()) {
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
             echo $viewWelcome->render();
 

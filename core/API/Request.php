@@ -11,16 +11,13 @@
 namespace Piwik\API;
 
 use Exception;
-use Piwik\API\DataTableGenericFilter;
-use Piwik\API\Proxy;
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\Access;
+use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Url;
-use Piwik\API\ResponseBuilder;
-use Piwik\PluginsManager;
 use Piwik\PluginDeactivatedException;
+use Piwik\PluginsManager;
+use Piwik\SettingsServer;
+use Piwik\Url;
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -183,7 +180,7 @@ class Request
         if ($token_auth) {
             Piwik_PostEvent('API.Request.authenticate', array($token_auth));
             Access::getInstance()->reloadAccess();
-            Piwik::raiseMemoryLimitIfNecessary();
+            SettingsServer::raiseMemoryLimitIfNecessary();
         }
     }
 

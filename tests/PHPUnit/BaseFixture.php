@@ -5,9 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Config;
-use Piwik\Common;
 use Piwik\Access;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\PDFReports\API as PDFReportsAPI;
@@ -15,9 +15,9 @@ use Piwik\Plugins\PDFReports\PDFReports;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
-use Piwik\Url;
 use Piwik\ReportRenderer;
 use Piwik\Site;
+use Piwik\Url;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -357,7 +357,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
     protected static function executeLogImporter($logFile, $options)
     {
-        $python = Common::isWindows() ? "C:\Python27\python.exe" : 'python';
+        $python = SettingsServer::isWindows() ? "C:\Python27\python.exe" : 'python';
 
         // create the command
         $cmd = $python

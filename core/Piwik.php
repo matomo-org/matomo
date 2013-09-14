@@ -157,9 +157,9 @@ class Piwik
 
         $key = 'piwikUrl';
         $url = Piwik_GetOption($key);
-        if (Common::isPhpCliMode()
+        if (SettingsServer::isPhpCliMode()
             // in case archive.php is triggered with domain localhost
-            || Common::isArchivePhpTriggered()
+            || SettingsServer::isArchivePhpTriggered()
             || defined('PIWIK_MODE_ARCHIVE')
         ) {
             return $url;
@@ -179,149 +179,10 @@ class Piwik
         return $url;
     }
 
-    /**
-     * Create CSV (or other delimited) files
-     *
-     * @param string $filePath  filename to create
-     * @param array $fileSpec  File specifications (delimiter, line terminator, etc)
-     * @param array $rows      Array of array corresponding to rows of values
-     * @throws Exception  if unable to create or write to file
-     */
-    static public function createCSVFile($filePath, $fileSpec, $rows)
-    {
-        // Set up CSV delimiters, quotes, etc
-        $delim = $fileSpec['delim'];
-        $quote = $fileSpec['quote'];
-        $eol = $fileSpec['eol'];
-        $null = $fileSpec['null'];
-        $escapespecial_cb = $fileSpec['escapespecial_cb'];
-
-        $fp = @fopen($filePath, 'wb');
-        if (!$fp) {
-            throw new Exception('Error creating the tmp file ' . $filePath . ', please check that the webserver has write permission to write this file.');
-        }
-
-        foreach ($rows as $row) {
-            $output = '';
-            foreach ($row as $value) {
-                if (!isset($value) || is_null($value) || $value === false) {
-                    $output .= $null . $delim;
-                } else {
-                    $output .= $quote . $escapespecial_cb($value) . $quote . $delim;
-                }
-            }
-
-            // Replace delim with eol
-            $output = substr_replace($output, $eol, -1);
-
-            $ret = fwrite($fp, $output);
-            if (!$ret) {
-                fclose($fp);
-                throw new Exception('Error writing to the tmp file ' . $filePath);
-            }
-        }
-        fclose($fp);
-
-        @chmod($filePath, 0777);
-    }
 
     /*
      * PHP environment settings
      */
-
-    /**
-     * Set maximum script execution time.
-     *
-     * @param int $executionTime  max execution time in seconds (0 = no limit)
-     */
-    static public function setMaxExecutionTime($executionTime)
-    {
-        // in the event one or the other is disabled...
-        @ini_set('max_execution_time', $executionTime);
-        @set_time_limit($executionTime);
-    }
-
-    /**
-     * Get php memory_limit (in Megabytes)
-     *
-     * Prior to PHP 5.2.1, or on Windows, --enable-memory-limit is not a
-     * compile-time default, so ini_get('memory_limit') may return false.
-     *
-     * @see http://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
-     * @return int|bool  memory limit in megabytes, or false if there is no limit
-     */
-    static public function getMemoryLimitValue()
-    {
-        if (($memory = ini_get('memory_limit')) > 0) {
-            // handle shorthand byte options (case-insensitive)
-            $shorthandByteOption = substr($memory, -1);
-            switch ($shorthandByteOption) {
-                case 'G':
-                case 'g':
-                    return substr($memory, 0, -1) * 1024;
-                case 'M':
-                case 'm':
-                    return substr($memory, 0, -1);
-                case 'K':
-                case 'k':
-                    return substr($memory, 0, -1) / 1024;
-            }
-            return $memory / 1048576;
-        }
-
-        // no memory limit
-        return false;
-    }
-
-    /**
-     * Set PHP memory limit
-     *
-     * Note: system settings may prevent scripts from overriding the master value
-     *
-     * @param int $minimumMemoryLimit
-     * @return bool  true if set; false otherwise
-     */
-    static public function setMemoryLimit($minimumMemoryLimit)
-    {
-        // in Megabytes
-        $currentValue = self::getMemoryLimitValue();
-        if ($currentValue === false
-            || ($currentValue < $minimumMemoryLimit && @ini_set('memory_limit', $minimumMemoryLimit . 'M'))
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Raise PHP memory limit if below the minimum required
-     *
-     * @return bool  true if set; false otherwise
-     */
-    static public function raiseMemoryLimitIfNecessary()
-    {
-        $memoryLimit = self::getMemoryLimitValue();
-        if ($memoryLimit === false) {
-            return false;
-        }
-        $minimumMemoryLimit = Config::getInstance()->General['minimum_memory_limit'];
-
-        if (Common::isArchivePhpTriggered()
-            && Piwik::isUserIsSuperUser()
-        ) {
-            // archive.php: no time limit, high memory limit
-            self::setMaxExecutionTime(0);
-            $minimumMemoryLimitWhenArchiving = Config::getInstance()->General['minimum_memory_limit_when_archiving'];
-            if ($memoryLimit < $minimumMemoryLimitWhenArchiving) {
-                return self::setMemoryLimit($minimumMemoryLimitWhenArchiving);
-            }
-            return false;
-        }
-        if ($memoryLimit < $minimumMemoryLimit) {
-            return self::setMemoryLimit($minimumMemoryLimit);
-        }
-        return false;
-    }
 
     /**
      * Logging and error handling
@@ -360,7 +221,7 @@ class Piwik
     static public function shouldLoggerLog()
     {
         try {
-            $shouldLog = (Common::isPhpCliMode()
+            $shouldLog = (SettingsServer::isPhpCliMode()
                     || Config::getInstance()->log['log_only_when_cli'] == 0)
                 &&
                 (Config::getInstance()->log['log_only_when_debug_parameter'] == 0
@@ -1169,42 +1030,6 @@ class Piwik
     static public function isChecksEnabled()
     {
         return Config::getInstance()->General['disable_checks_usernames_attributes'] == 0;
-    }
-
-    /**
-     * Is GD php extension (sparklines, graphs) available?
-     *
-     * @return bool
-     */
-    static public function isGdExtensionEnabled()
-    {
-        static $gd = null;
-        if (is_null($gd)) {
-            $extensions = @get_loaded_extensions();
-            $gd = in_array('gd', $extensions) && function_exists('imageftbbox');
-        }
-        return $gd;
-    }
-
-    /*
-     * Date / Timezone
-     */
-
-    /**
-     * Determine if this php version/build supports timezone manipulation
-     * (e.g., php >= 5.2, or compiled with EXPERIMENTAL_DATE_SUPPORT=1 for
-     * php < 5.2).
-     *
-     * @return bool  True if timezones supported; false otherwise
-     */
-    static public function isTimezoneSupportEnabled()
-    {
-        return
-            function_exists('date_create') &&
-            function_exists('date_default_timezone_set') &&
-            function_exists('timezone_identifiers_list') &&
-            function_exists('timezone_open') &&
-            function_exists('timezone_offset_get');
     }
 
     /*

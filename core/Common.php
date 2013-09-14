@@ -476,7 +476,7 @@ class Common
      * @param string
      * @return string  modified or not
      */
-    public static function undoMagicQuotes($value)
+    private static function undoMagicQuotes($value)
     {
         return version_compare(PHP_VERSION, '5.4', '<')
         && get_magic_quotes_gpc()
@@ -873,7 +873,7 @@ class Common
 
         if (is_null($browserLang)) {
             $browserLang = self::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            if (empty($browserLang) && self::isPhpCliMode()) {
+            if (empty($browserLang) && SettingsServer::isPhpCliMode()) {
                 $browserLang = @getenv('LANG');
             }
         }
@@ -1294,100 +1294,6 @@ class Common
             'name' => $searchEngineName,
             'keywords' => $key,
         );
-    }
-
-    /*
-     * System environment
-     */
-
-    /**
-     * Returns true if PHP was invoked from command-line interface (shell)
-     *
-     * @since added in 0.4.4
-     * @return bool true if PHP invoked as a CGI or from CLI
-     */
-    public static function isPhpCliMode()
-    {
-        $remoteAddr = @$_SERVER['REMOTE_ADDR'];
-        return PHP_SAPI == 'cli' ||
-        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
-    }
-
-    /**
-     * Is the current script execution triggered by misc/cron/archive.php ?
-     *
-     * Helpful for error handling: directly throw error without HTML (eg. when DB is down)
-     * @return bool
-     */
-    public static function isArchivePhpTriggered()
-    {
-        return !empty($_GET['trigger'])
-        && $_GET['trigger'] == 'archivephp';
-    }
-
-    /**
-     * Assign CLI parameters as if they were REQUEST or GET parameters.
-     * You can trigger Piwik from the command line by
-     * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"
-     */
-    public static function assignCliParametersToRequest()
-    {
-        if (isset($_SERVER['argc'])
-            && $_SERVER['argc'] > 0
-        ) {
-            for ($i = 1; $i < $_SERVER['argc']; $i++) {
-                parse_str($_SERVER['argv'][$i], $tmp);
-                $_GET = array_merge($_GET, $tmp);
-            }
-        }
-    }
-
-    /**
-     * Returns true if running on a Windows operating system
-     *
-     * @since 0.6.5
-     * @return bool true if PHP detects it is running on Windows; else false
-     */
-    public static function isWindows()
-    {
-        return DIRECTORY_SEPARATOR === '\\';
-    }
-
-    /**
-     * Returns true if running on MacOS
-     *
-     * @return bool true if PHP detects it is running on MacOS; else false
-     */
-    public static function isMacOS()
-    {
-        return PHP_OS === 'Darwin';
-    }
-
-    /**
-     * Returns true if running on an Apache web server
-     *
-     * @return bool
-     */
-    public static function isApache()
-    {
-        $apache = isset($_SERVER['SERVER_SOFTWARE']) &&
-            !strncmp($_SERVER['SERVER_SOFTWARE'], 'Apache', 6);
-
-        return $apache;
-    }
-
-    /**
-     * Returns true if running on Microsoft IIS 7 (or above)
-     *
-     * @return bool
-     */
-    public static function isIIS()
-    {
-        $iis = isset($_SERVER['SERVER_SOFTWARE']) &&
-            preg_match('/^Microsoft-IIS\/(.+)/', $_SERVER['SERVER_SOFTWARE'], $matches) &&
-            version_compare($matches[1], '7') >= 0;
-
-        return $iis;
     }
 
     /**

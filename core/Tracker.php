@@ -286,7 +286,7 @@ class Tracker
     {
         // don't run scheduled tasks in CLI mode from Tracker, this is the case
         // where we bulk load logs & don't want to lose time with tasks
-        return !Common::isPhpCliMode()
+        return !SettingsServer::isPhpCliMode()
             && $this->getState() != self::STATE_LOGGING_DISABLE;
     }
 

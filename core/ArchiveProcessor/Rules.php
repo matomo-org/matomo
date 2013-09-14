@@ -12,11 +12,11 @@ namespace Piwik\ArchiveProcessor;
 
 use Exception;
 use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Segment;
-use Piwik\Site;
 use Piwik\Date;
+use Piwik\Piwik;
+use Piwik\Segment;
+use Piwik\SettingsServer;
+use Piwik\Site;
 use Piwik\Tracker\Cache;
 
 /**
@@ -213,9 +213,9 @@ class Rules
     {
         return !self::$archivingDisabledByTests &&
             (Rules::isBrowserTriggerEnabled()
-                || Common::isPhpCliMode()
+                || SettingsServer::isPhpCliMode()
                 || (Piwik::isUserIsSuperUser()
-                    && Common::isArchivePhpTriggered()));
+                    && SettingsServer::isArchivePhpTriggered()));
     }
 
     public static function isBrowserTriggerEnabled()

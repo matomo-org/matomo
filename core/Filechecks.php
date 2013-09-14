@@ -83,7 +83,7 @@ class Filechecks
         }
 
         // Also give the chown since the chmod is only 755
-        if (!Common::isWindows()) {
+        if (!SettingsServer::isWindows()) {
             $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
             $directoryList = "<code>chown -R www-data:www-data " . $realpath . "</code><br/>" . $directoryList;
         }
@@ -182,7 +182,7 @@ class Filechecks
     {
         $message = "Please check that the web server has enough permission to write to these files/directories:<br />";
 
-        if (Common::isWindows()) {
+        if (SettingsServer::isWindows()) {
             $message .= "On Windows, check that the folder is not read only and is writable.
 						You can try to execute:<br />";
         } else {
@@ -204,7 +204,7 @@ class Filechecks
      */
     private static function getMakeWritableCommand($realpath)
     {
-        if (Common::isWindows()) {
+        if (SettingsServer::isWindows()) {
             return "<code>cacls $realpath /t /g " . get_current_user() . ":f</code><br />";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";

@@ -1,7 +1,8 @@
 <?php
-use Piwik\Config;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\IP;
+use Piwik\SettingsServer;
 
 /**
  * Piwik - Open source web analytics
@@ -692,7 +693,7 @@ class IPTest extends PHPUnit_Framework_TestCase
         $hosts = array('localhost', 'localhost.localdomain', strtolower(@php_uname('n')), '127.0.0.1');
         $this->assertTrue(in_array(strtolower(IP::getHostByAddr('127.0.0.1')), $hosts), '127.0.0.1 -> localhost');
 
-        if (!Common::isWindows() || PHP_VERSION >= '5.3') {
+        if (!SettingsServer::isWindows() || PHP_VERSION >= '5.3') {
             $hosts = array('ip6-localhost', 'localhost', 'localhost.localdomain', strtolower(@php_uname('n')), '::1');
             $this->assertTrue(in_array(strtolower(IP::getHostByAddr('::1')), $hosts), '::1 -> ip6-localhost');
         }

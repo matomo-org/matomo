@@ -11,16 +11,17 @@
 namespace Piwik\Plugins\SitesManager;
 
 use Exception;
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\Access;
+use Piwik\Common;
 use Piwik\Date;
-use Piwik\IP;
 use Piwik\Db;
+use Piwik\IP;
+use Piwik\Piwik;
+use Piwik\SettingsServer;
+use Piwik\Site;
+use Piwik\TaskScheduler;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
-use Piwik\TaskScheduler;
-use Piwik\Site;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -1101,7 +1102,7 @@ class API
      */
     public function getTimezonesList()
     {
-        if (!Piwik::isTimezoneSupportEnabled()) {
+        if (!SettingsServer::isTimezoneSupportEnabled()) {
             return array('UTC' => $this->getTimezonesListUTCOffsets());
         }
 

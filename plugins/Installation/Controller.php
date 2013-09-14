@@ -27,6 +27,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\ProxyHeaders;
 use Piwik\Session\SessionNamespace;
+use Piwik\SettingsServer;
 use Piwik\Updater;
 use Piwik\Url;
 use Piwik\Version;
@@ -67,7 +68,7 @@ class Controller extends \Piwik\Controller\Admin
 
     protected static function initServerFilesForSecurity()
     {
-        if (Common::isIIS()) {
+        if (SettingsServer::isIIS()) {
             ServerFilesGenerator::createWebConfigFiles();
         } else {
             ServerFilesGenerator::createHtAccessFiles();
@@ -808,7 +809,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $infos['openurl'] = Http::getTransportMethod();
 
-        $infos['gd_ok'] = Piwik::isGdExtensionEnabled();
+        $infos['gd_ok'] = SettingsServer::isGdExtensionEnabled();
 
         $infos['hasMbstring'] = false;
         $infos['multibyte_ok'] = true;
@@ -830,13 +831,13 @@ class Controller extends \Piwik\Controller\Admin
         $infos['memory_ok'] = true;
         $infos['memoryCurrent'] = '';
 
-        $raised = Piwik::raiseMemoryLimitIfNecessary();
-        if (($memoryValue = Piwik::getMemoryLimitValue()) > 0) {
+        $raised = SettingsServer::raiseMemoryLimitIfNecessary();
+        if (($memoryValue = SettingsServer::getMemoryLimitValue()) > 0) {
             $infos['memoryCurrent'] = $memoryValue . 'M';
             $infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
         }
 
-        $infos['isWindows'] = Common::isWindows();
+        $infos['isWindows'] = SettingsServer::isWindows();
 
         $integrityInfo = Filechecks::getFileIntegrityInformation();
         $infos['integrity'] = $integrityInfo[0];
@@ -849,7 +850,7 @@ class Controller extends \Piwik\Controller\Admin
             $infos['integrityErrorMessages'] = array_merge($infos['integrityErrorMessages'], array_slice($integrityInfo, 1));
         }
 
-        $infos['timezone'] = Piwik::isTimezoneSupportEnabled();
+        $infos['timezone'] = SettingsServer::isTimezoneSupportEnabled();
 
         $infos['tracker_status'] = Common::getRequestVar('trackerStatus', 0, 'int');
 

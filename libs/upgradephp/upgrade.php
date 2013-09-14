@@ -35,7 +35,7 @@
  * Any contribution is appreciated. <milky*users#sf#net>
  *
  */
-use Piwik\Common;
+use Piwik\SettingsServer;
 
 /**
  *                                   ------------------------------ 5.2 ---
@@ -620,7 +620,7 @@ function _readfile($filename, $useIncludePath = false, $context = null)
 	}
 
 	// when in doubt (or when readfile() function is disabled)
-	$handle = @fopen($filename, Common::isWindows() ? "rb" : "r");
+	$handle = @fopen($filename, SettingsServer::isWindows() ? "rb" : "r");
 	if ($handle) {
 		while(!feof($handle)) {
 			echo fread($handle, 8192);

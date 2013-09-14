@@ -12,15 +12,15 @@ namespace Piwik\Plugins\SitesManager;
 
 use Exception;
 use Piwik\API\ResponseBuilder;
-use Piwik\DataTable\Renderer\Json;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Date;
 use Piwik\IP;
-use Piwik\Plugins\SitesManager\API;
-use Piwik\View;
-use Piwik\Url;
+use Piwik\Piwik;
+use Piwik\SettingsServer;
 use Piwik\Site;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  *
@@ -54,7 +54,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->adminSitesCount = count($sites);
 
         $timezones = API::getInstance()->getTimezonesList();
-        $view->timezoneSupported = Piwik::isTimezoneSupportEnabled();
+        $view->timezoneSupported = SettingsServer::isTimezoneSupportEnabled();
         $view->timezones = Common::json_encode($timezones);
         $view->defaultTimezone = API::getInstance()->getDefaultTimezone();
 

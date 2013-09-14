@@ -664,7 +664,7 @@ class Http
     public static function fetchRemoteFile($url, $destinationPath = null, $tries = 0, $timeout = 10)
     {
         @ignore_user_abort(true);
-        Piwik::setMaxExecutionTime(0);
+        SettingsServer::setMaxExecutionTime(0);
         return self::sendHttpRequest($url, $timeout, 'Update', $destinationPath, $tries);
     }
 

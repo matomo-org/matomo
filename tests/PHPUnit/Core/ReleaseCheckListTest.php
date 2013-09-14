@@ -1,6 +1,6 @@
 <?php
-use Piwik\Common;
 use Piwik\Filesystem;
+use Piwik\SettingsServer;
 use Piwik\Tracker\Db;
 
 /**
@@ -120,7 +120,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      */
     public function testEndOfLines()
     {
-        if (Common::isWindows()) {
+        if (SettingsServer::isWindows()) {
             // SVN native does not make this work on windows
             return;
         }

@@ -1,8 +1,9 @@
 <?php
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\FrontController;
+use Piwik\Piwik;
+use Piwik\SettingsServer;
 
 define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 define('PIWIK_ENABLE_DISPATCH', false);
@@ -15,7 +16,7 @@ require_once PIWIK_INCLUDE_PATH . "/libs/PiwikTracker/PiwikTracker.php";
 FrontController::getInstance()->init();
 
 // SECURITY: DO NOT DELETE THIS LINE!
-if (!Common::isPhpCliMode()) {
+if (!SettingsServer::isPhpCliMode()) {
     die("ERROR: Must be executed in CLI");
 }
 

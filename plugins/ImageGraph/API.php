@@ -17,6 +17,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as MetaAPI;
 use Piwik\Plugins\ImageGraph\StaticGraph;
+use Piwik\SettingsServer;
 use Piwik\Translate;
 
 /**
@@ -146,7 +147,7 @@ class API
         Piwik::checkUserHasViewAccess($idSite);
 
         // Health check - should we also test for GD2 only?
-        if (!Piwik::isGdExtensionEnabled()) {
+        if (!SettingsServer::isGdExtensionEnabled()) {
             throw new Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini,
             and restart your web server.');
         }

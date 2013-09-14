@@ -11,21 +11,21 @@
 namespace Piwik\Plugins\PDFReports;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Mail;
+use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\API as MobileMessagingAPI;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\View;
-use Piwik\ScheduledTime;
-use Piwik\ScheduledTask;
-use Piwik\ReportRenderer;
-use Piwik\Site;
-use Piwik\Db;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\ReportRenderer;
+use Piwik\ScheduledTask;
+use Piwik\ScheduledTime;
+use Piwik\Site;
+use Piwik\View;
 use Zend_Mime;
 use Zend_Registry;
 
@@ -220,7 +220,7 @@ class PDFReports extends \Piwik\Plugin
                         $displayFormat == self::DISPLAY_FORMAT_GRAPHS_ONLY || $displayFormat == self::DISPLAY_FORMAT_TABLES_AND_GRAPHS
                         :
                         $displayFormat != self::DISPLAY_FORMAT_TABLES_ONLY)
-                        && Piwik::isGdExtensionEnabled()
+                        && SettingsServer::isGdExtensionEnabled()
                         && \Piwik\PluginsManager::getInstance()->isPluginActivated('ImageGraph')
                         && !empty($metadata['imageGraphUrl']);
 

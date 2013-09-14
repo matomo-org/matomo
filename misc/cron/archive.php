@@ -1,16 +1,16 @@
 <?php
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Version;
-use Piwik\Url;
 use Piwik\Timer;
+use Piwik\Url;
+use Piwik\Version;
 
 $USAGE = "
 Usage: 
@@ -632,7 +632,7 @@ class Archiving
      */
     private function initCheckCli()
     {
-        if (!Common::isPhpCliMode()) {
+        if (!\Piwik\SettingsServer::isPhpCliMode()) {
             $token_auth = Common::getRequestVar('token_auth', '', 'string');
             if ($token_auth != $this->token_auth
                 || strlen($token_auth) != 32
@@ -792,7 +792,7 @@ class Archiving
     private function initPiwikHost()
     {
         // If archive.php run as a web cron, we use the current hostname
-        if (!Common::isPhpCliMode()) {
+        if (!\Piwik\SettingsServer::isPhpCliMode()) {
             // example.org/piwik/misc/cron/
             $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
             // example.org/piwik/
@@ -828,7 +828,7 @@ class Archiving
      */
     private function isParameterSet($parameter, $valuePossible = false)
     {
-        if (!Common::isPhpCliMode()) {
+        if (!\Piwik\SettingsServer::isPhpCliMode()) {
             return false;
         }
         $parameters = array(

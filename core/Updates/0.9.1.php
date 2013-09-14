@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\SettingsServer;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -20,7 +20,7 @@ class Piwik_Updates_0_9_1 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
-        if (!Piwik::isTimezoneSupportEnabled()) {
+        if (!SettingsServer::isTimezoneSupportEnabled()) {
             return array();
         }
         // @see http://bugs.php.net/46111
@@ -50,7 +50,7 @@ class Piwik_Updates_0_9_1 extends Updates
 
     static function update()
     {
-        if (Piwik::isTimezoneSupportEnabled()) {
+        if (SettingsServer::isTimezoneSupportEnabled()) {
             Updater::updateDatabase(__FILE__, self::getSql());
         }
     }

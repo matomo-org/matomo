@@ -19,6 +19,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Segment;
+use Piwik\SettingsServer;
 use Piwik\Site;
 
 class ArchiveProcessingTest extends DatabaseTestCase
@@ -193,7 +194,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale' 
-        if (!Common::isPhpCliMode()) {
+        if (!SettingsServer::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($archiveProcessor->getMinTimeArchiveProcessed(), $dateMinArchived);
@@ -210,7 +211,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
      */
     public function testInitTodayEurope()
     {
-        if (!Piwik::isTimezoneSupportEnabled()) {
+        if (!SettingsServer::isTimezoneSupportEnabled()) {
             $this->markTestSkipped('timezones needs to be supported');
         }
 
@@ -236,7 +237,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale'
-        if (!Common::isPhpCliMode()) {
+        if (!SettingsServer::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchiveProcessed());
@@ -257,7 +258,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
      */
     public function testInitTodayToronto()
     {
-        if (!Piwik::isTimezoneSupportEnabled()) {
+        if (!SettingsServer::isTimezoneSupportEnabled()) {
             $this->markTestSkipped('timezones needs to be supported');
         }
 
@@ -282,7 +283,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale'
-        if (!Common::isPhpCliMode()) {
+        if (!SettingsServer::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchiveProcessed());

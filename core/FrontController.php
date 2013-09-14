@@ -181,8 +181,8 @@ class FrontController
         // which load the HTML page of the installer with the error.
         // This is at least required for misc/cron/archive.php and useful to all other scripts
         return (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH)
-            || Common::isPhpCliMode()
-            || Common::isArchivePhpTriggered();
+            || SettingsServer::isPhpCliMode()
+            || SettingsServer::isArchivePhpTriggered();
     }
 
     /**
@@ -234,7 +234,7 @@ class FrontController
             );
 
             Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
-            Common::assignCliParametersToRequest();
+            self::assignCliParametersToRequest();
 
             Translate::getInstance()->loadEnglishTranslation();
 
@@ -296,7 +296,7 @@ class FrontController
             if (($token_auth = Common::getRequestVar('token_auth', false, 'string')) !== false) {
                 Request::reloadAuthUsingTokenAuth();
             }
-            Piwik::raiseMemoryLimitIfNecessary();
+            SettingsServer::raiseMemoryLimitIfNecessary();
 
             Translate::getInstance()->reloadLanguage();
             $pluginsManager->postLoadPlugins();
@@ -316,7 +316,7 @@ class FrontController
     protected function handleMaintenanceMode()
     {
         if (Config::getInstance()->General['maintenance_mode'] == 1
-            && !Common::isPhpCliMode()
+            && !SettingsServer::isPhpCliMode()
         ) {
             $format = Common::getRequestVar('format', '');
 
@@ -341,7 +341,7 @@ class FrontController
 
     protected function handleSSLRedirection()
     {
-        if (!Common::isPhpCliMode()
+        if (!SettingsServer::isPhpCliMode()
             && Config::getInstance()->General['force_ssl'] == 1
             && !ProxyHttp::isHttps()
             // Specifically disable for the opt out iframe
@@ -351,6 +351,23 @@ class FrontController
             $url = Url::getCurrentUrl();
             $url = str_replace("http://", "https://", $url);
             Url::redirectToUrl($url);
+        }
+    }
+
+    /**
+     * Assign CLI parameters as if they were REQUEST or GET parameters.
+     * You can trigger Piwik from the command line by
+     * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"
+     */
+    public static function assignCliParametersToRequest()
+    {
+        if (isset($_SERVER['argc'])
+            && $_SERVER['argc'] > 0
+        ) {
+            for ($i = 1; $i < $_SERVER['argc']; $i++) {
+                parse_str($_SERVER['argv'][$i], $tmp);
+                $_GET = array_merge($_GET, $tmp);
+            }
         }
     }
 }
