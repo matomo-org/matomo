@@ -81,14 +81,16 @@
             <div class="tableConfiguration">
                 <a class="tableConfigurationIcon" href="#"></a>
                 <ul>
-                    {% if javascriptVariablesToSet.flat is defined and javascriptVariablesToSet.flat == 1 %}
+                    {% if properties.show_flatten_table %}
+                        {% if javascriptVariablesToSet.flat is defined and javascriptVariablesToSet.flat == 1 %}
                         <li>
                             <div class="configItem dataTableIncludeAggregateRows"></div>
                         </li>
+                        {% endif %}
+                        <li>
+                            <div class="configItem dataTableFlatten"></div>
+                        </li>
                     {% endif %}
-                    <li>
-                        <div class="configItem dataTableFlatten"></div>
-                    </li>
                     {% if properties.show_exclude_low_population %}
                         <li>
                             <div class="configItem dataTableExcludeLowPopulation"></div>

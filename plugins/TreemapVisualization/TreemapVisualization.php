@@ -11,6 +11,8 @@
 
 namespace Piwik\Plugins\TreemapVisualization;
 
+use Piwik\Common;
+
 /**
  * @see plugins/TreemapVisualization/Treemap.php
  */
@@ -50,7 +52,10 @@ class TreemapVisualization extends \Piwik\Plugin
 
     public function getAvailableDataTableVisualizations(&$visualizations)
     {
-        $visualizations[] = 'Piwik\\Plugins\\TreemapVisualization\\Treemap';
+        // treemap doesn't work w/ flat=1
+        if (!Common::getRequestVar('flat', 0)) {
+            $visualizations[] = 'Piwik\\Plugins\\TreemapVisualization\\Treemap';
+        }
     }
 
     public function getStylesheetFiles(&$stylesheets)

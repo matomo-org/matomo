@@ -85,6 +85,12 @@ class Properties
     const SHOW_EXCLUDE_LOW_POPULATION = 'show_exclude_low_population';
 
     /**
+     * Whether to show the 'Flatten' option (visible in the popup that displays after clicking the
+     * 'cog' icon).
+     */
+    const SHOW_FLATTEN_TABLE = 'show_flatten_table';
+
+    /**
      * Controls whether the footer icon that allows user to switch to the 'normal' DataTable view
      * is shown.
      */
@@ -414,6 +420,7 @@ class Properties
         'disable_generic_filters',
         'disable_queued_filters',
         'show_exclude_low_population',
+        'show_flatten_table',
         'show_table',
         'show_table_all_columns',
         'show_footer',
@@ -558,6 +565,7 @@ class Properties
             'show_export_as_image_icon' => false,
             'show_export_as_rss_feed' => true,
             'show_exclude_low_population' => true,
+            'show_flatten_table' => true,
             'show_offset_information' => true,
             'show_pagination_control' => true,
             'show_limit_control' => false,

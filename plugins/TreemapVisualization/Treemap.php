@@ -63,6 +63,7 @@ class Treemap extends Graph
         $view->request_parameters_to_modify['depth'] = $view->visualization_properties->depth;
         $view->show_pagination_control = false;
         $view->show_offset_information = false;
+        $view->show_flatten_table = false;
 
         $self = $this;
         $view->filters[] = function ($dataTable, $view) use ($self) {
@@ -128,9 +129,7 @@ class Treemap extends Graph
 
         $generator = new TreemapDataGenerator($metric, $translation);
         $generator->setInitialRowOffset($properties['filter_offset'] ?: 0);
-        if ($properties['visualization_properties']->show_evolution_values
-            && Common::getRequestVar('period') != 'range'
-        ) {
+        if ($dataTable instanceof Map) {
             $generator->showEvolutionValues();
         }
 
