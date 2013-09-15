@@ -555,9 +555,7 @@ class ViewDataTable
         }
 
         list($priorityFilters, $otherFilters) = $this->getFiltersToRun();
-$fd = fopen('/home/runic/hello.txt', 'a');
-fwrite($fd, print_r($this->dataTable, true));
-fclose($fd);
+
         // First, filters that delete rows
         foreach ($priorityFilters as $filter) {
             $this->dataTable->filter($filter[0], $filter[1]);
