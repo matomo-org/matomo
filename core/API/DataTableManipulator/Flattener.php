@@ -70,7 +70,7 @@ class Flattener extends DataTableManipulator
             $dataTable->applyQueuedFilters();
         }
 
-        $newDataTable = $dataTable->getEmptyClone($keepFilters = true);
+        $newDataTable = $dataTable->getEmptyClone($keepFilters = false);
         foreach ($dataTable->getRows() as $row) {
             $this->flattenRow($row, $newDataTable);
         }
@@ -130,6 +130,5 @@ class Flattener extends DataTableManipulator
     protected function manipulateSubtableRequest(&$request)
     {
         unset($request['flat']);
-        $request['disable_queued_filters'] = 1;
     }
 }
