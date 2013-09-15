@@ -171,6 +171,7 @@
         "AuthenticationMethodSmtp": "Метод аутентифікації на SMTP сервері",
         "BackToHomepage": "Назад до головної сторінки Piwik",
         "BackToPiwik": "Повернутися до Piwik",
+        "ChangePassword": "Змінити пароль",
         "ChooseDate": "Виберіть дату",
         "ChooseLanguage": "Виберіть мову",
         "ChoosePeriod": "Виберіть період",
@@ -555,7 +556,6 @@
         "VisitorsInRealTime": "Відвідувачі в реальному часі"
     },
     "Login": {
-        "ChangePassword": "Змінити пароль",
         "ContactAdmin": "Можлива причина: функція mail() відключена в налаштуваннях вашого хостингу.<br\/>Зверніться, будь ласка, до вашого Piwik-адміністратора.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "Супер користоувач не може бути аутентифікований використовуючи '%s' механізм.",
         "ExceptionPasswordMD5HashExpected": "Очікується що параметр паролю буде MD5() хеш від введеного паролю.",
@@ -599,7 +599,6 @@
         "PluginDescription": "Звіти та дані реферерів: пошукові машини, ключові слова, веб-сайти, відслідковування кампаній, прямі заходи.",
         "Referers": "Реферер",
         "SearchEngines": "Пошукові системи",
-        "SubmenuCampaigns": "Кампанії",
         "SubmenuOverview": "Огляд",
         "SubmenuSearchEngines": "Пошукові системи і ключові слова",
         "SubmenuWebsites": "Веб-сайти",
@@ -610,11 +609,9 @@
         "TypeWebsites": "%s з веб-сайтів",
         "UsingNDistinctUrls": "(використовуючи %s унікальні URL)",
         "Websites": "Веб-сайти",
-        "WidgetCampaigns": "Список кампаній",
         "WidgetExternalWebsites": "Список зовнішніх веб-сайтів",
         "WidgetKeywords": "Список ключових слів",
-        "WidgetOverview": "Огляд",
-        "WidgetSearchEngines": "Кращі пошукові системи"
+        "WidgetOverview": "Огляд"
     },
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Також надсилати звіти на наступні е-майли (кожен з нового рядка):",
@@ -666,7 +663,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL параметри наведені нижче будуть виключені з URL для всіх сайтів.",
         "ListOfQueryParametersToExclude": "Введіть перелік URL параметрів (кожен з нового рядка) для виключення зі звітів URL сторінок.",
         "MainDescription": "Звіти з веб-аналітики потребують веб-сайтів! Додайте, поновіть, видаліть веб-сайти, та отримайте JavaScript-код щоб додати на свої сторіки.",
-        "MenuSites": "Сайти",
         "NotFound": "не знайдено жодного веб-сайту",
         "NoWebsites": "Немає жодного сайту щоб адмініструвати",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik автоматично виключатиме типові параметри сесій (%s).",
@@ -1191,7 +1187,6 @@
         "AllWebsites": "Всі веб-сайти",
         "ApplyToAllWebsites": "Застосувати до всіх веб-сайтів",
         "ChangeAllConfirm": "Змінити права \"%s\" для всіх вебсайтів?",
-        "ChangePassword": "Змінити пароль",
         "ClickHereToDeleteTheCookie": "Клацніть щоб видалити cookie та дозволити Piwik відслідковувати ваші візити",
         "ClickHereToSetTheCookieOnDomain": "Клацніть щоб встановити cookie який слугуватиме вказівкою для ігнорування ваших візитів при відслідковуванні на веб-сайті %s",
         "DeleteConfirm": "Видалити користувача %s?",
@@ -1221,7 +1216,6 @@
         "PrivView": "Перегляд",
         "ReportDateToLoadByDefault": "Повідомляти дату завантаження за замовчуванням",
         "ReportToLoadByDefault": "Повідомляти про завантаження за замовчуванням",
-        "Sites": "Веб-сайти",
         "TheLoginScreen": "Вікно входу.",
         "TheSuperUserAliasCannotBeChanged": "Назву Супер Користувача не може було змінено.",
         "TypeYourPasswordAgain": "Введіть новий пароль знову.",

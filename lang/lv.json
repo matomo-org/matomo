@@ -159,6 +159,7 @@
         "AverageQuantity": "Vidējais apjoms",
         "BackToHomepage": "Atpakaļ uz Piwik sākumlapu",
         "BackToPiwik": "Atpakaļ uz Piwik",
+        "ChangePassword": "Mainīt paroli",
         "ChooseDate": "Izvēlies datumu",
         "ChooseLanguage": "Izvēlieties valodu",
         "ChoosePeriod": "Izvēlieties periodu",
@@ -591,7 +592,6 @@
         "VisitorsLastVisit": "Šī apmeklētāja pēdējais apmklējums bija %s dienas atpakaļ."
     },
     "Login": {
-        "ChangePassword": "Mainīt paroli",
         "ContactAdmin": "Iespējams, ka Jūsu resursdatoram ir atslēgta mail() metode. <br \/>Sazinieties ar savu Piwik administrātoru.",
         "ExceptionPasswordMD5HashExpected": "Paroles parametram ir jābūt paroles MD5 summai.",
         "InvalidNonceOrHeadersOrReferer": "Formas drošība nenostrādāja. Lūdzu pārlādējiet formu un pārbaudiet vai sīkfailu atbalsts ir ieslēgts. Ja lietojat starpniekserveri, Jums %s jāiestata Piwik lai pieņemtu starpniekservera galveni %s, kas pārsūta resursdatora galveni. Papildus pārbaudiet vai Jūsu iepriekšējās vietnes galvene ir nosūtīta pareizi.",
@@ -657,7 +657,6 @@
         "RefererName": "Referera nosaukums",
         "Referers": "Refereri",
         "SearchEngines": "Meklēšanas dzinēji",
-        "SubmenuCampaigns": "Kampaņas",
         "SubmenuOverview": "Pārskats",
         "SubmenuSearchEngines": "Meklēšanas dzinēji un atslēgvārdi",
         "SubmenuWebsites": "Vietnes",
@@ -667,11 +666,9 @@
         "TypeSearchEngines": "%s no meklēšanas dzinējiem",
         "TypeWebsites": "%s no vietnēm",
         "Websites": "Vietnes",
-        "WidgetCampaigns": "Kampaņu saraksts",
         "WidgetExternalWebsites": "Ārējo vietņu saraksts",
         "WidgetKeywords": "Atslēgvārdu saraksts",
-        "WidgetOverview": "Pārskats",
-        "WidgetSearchEngines": "Labākie meklēšanas dzinēji"
+        "WidgetOverview": "Pārskats"
     },
     "ScheduledReports": {
         "CreateReport": "Izveidot atskaiti",
@@ -722,7 +719,6 @@
         "ListOfIpsToBeExcludedOnAllWebsites": "Zemāk esošās IP adreses netiks iekļautas visu vietņu izsekošanā.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Zemāk norādītie pieprasījuma URL parametri tiks izlasti no visu vietņu URL.",
         "MainDescription": "Jūsu tīkla analīzes atskaitēm ir vajadzīgas vietnes! Pievienojiet, atjauniniet, dzēsiet vietnes un apskatiet ievietošanai lapās paredzēto kodu.",
-        "MenuSites": "Vietnes",
         "NotAnEcommerceSite": "Šī nav e-komercijas vietne",
         "NotFound": "Nav atrastas vietnes priekš",
         "NoWebsites": "Jums nav nevienas vietnes ko administrēt.",
@@ -1252,7 +1248,6 @@
         "AllWebsites": "Visas vietnes",
         "ApplyToAllWebsites": "Apstipriniet visām vietnēm",
         "ChangeAllConfirm": "Vai tiešām vēlaties mainīt '%s' pieejas atļaujas visām vietnēm?",
-        "ChangePassword": "Mainīt paroli",
         "ChangePasswordConfirm": "Mainot lietotāja paroli, tiks izmainīts arī lietotāja token_auth. Vai tiešām vēlaties turpināt?",
         "ClickHereToDeleteTheCookie": "Klikšķiniet šeit, lai dzēstu sīkdatni un atļautu Piwik izsekot Jūsu pašu apmeklējumus",
         "ClickHereToSetTheCookieOnDomain": "Klikšķiniet šeit, lai iestatītu sīkdatni, kas aizliegs izsekot Jūsu pašu apmeklējumus %s",
@@ -1284,7 +1279,6 @@
         "PrivView": "Skatīt",
         "ReportDateToLoadByDefault": "Atskaites datums, kuru ielādēt pēc noklusējuma",
         "ReportToLoadByDefault": "Atskaite, kuru ielādēt pēc noklusējuma",
-        "Sites": "Vietnes",
         "TheLoginScreen": "Pieteikšanās skats",
         "ThereAreCurrentlyNRegisteredUsers": "Pašlaik ir %s reģistrēti lietotāji.",
         "TheSuperUserAliasCannotBeChanged": "Superlietotāja aizstājējvārdu nav iespējams izmainīt.",

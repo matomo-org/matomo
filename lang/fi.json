@@ -287,6 +287,7 @@
         "BrokenDownReportDocumentation": "Se on pilkottu eri raportteihin, jotka näytetään viivagraafeina sivun alareunassa. Voit suurentaa kuvaajan klikkaamalla raporttia jonka haluat nähdä.",
         "Cancel": "Peruuta",
         "CannotUnzipFile": "Ei voi purkaa tiedostoa %1$s: %2$s",
+        "ChangePassword": "Vaihda salasana",
         "ChangeTagCloudView": "Voit katsoa raporttia myös muissa muodoissa. Käytä nappuloita raportin alareunassa.",
         "ChooseDate": "Valitse päiväys",
         "ChooseLanguage": "Valitse kieli",
@@ -866,7 +867,6 @@
         "VisitorsLastVisit": "Tämän kävijän edellinen käynti oli %s päivää sitten."
     },
     "Login": {
-        "ChangePassword": "Vaihda salasana",
         "ConfirmationLinkSent": "Varmistusviesti on lähetetty sähköpostiisi. Sähköpostista löydät aktivointilinkin.",
         "ContactAdmin": "Mahdollisia syitä: palvelin ei välttämättä salli sähköpostien lähetystä (mail()-funktiota).<br\/>Ota yhteyttä Piwikin ylläpitäjään.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "Ylläpitäjä ei voi autentikoitua menetelmällä '%s'.",
@@ -934,14 +934,13 @@
         "YouAreOffline": "Sinulla ei ole verkkoyhteyttä juuri nyt"
     },
     "MobileMessaging": {
-        "MobileReport_PhoneNumbers": "Puhelinnumerot",
+        "PhoneNumbers": "Puhelinnumerot",
         "Settings_APIKey": "API-avain",
         "Settings_CountryCode": "Maakoodi",
         "Settings_DeleteAccountConfirm": "Haluatko varmasti poistaa tämän SMS-tilin?",
         "Settings_InvalidActivationCode": "Koodi on väärin. Yritä uudelleen.",
         "Settings_ManagePhoneNumbers": "Hallitse puhelinnumeroita",
         "Settings_PhoneNumber": "Puhelinnumero",
-        "Settings_PhoneNumbers": "Puhelinnumerot",
         "Settings_PhoneNumbers_Add": "Lisää uusi puhelinnumero",
         "Settings_RemovePhoneNumber": "Poista",
         "Settings_SMSProvider": "SMS-toimittaja",
@@ -1052,7 +1051,6 @@
         "SearchEngines": "Hakukoneet",
         "SearchEnginesDocumentation": "Kävijä tuli sivullesi hakukoneesta. %s Katso %s raportista lisätietoja.",
         "SearchEnginesReportDocumentation": "Tämä raportti näyttää, mitkä hakukoneet viittasivat kävijöitä sivuillesi. %s Näet hakusanat klikkaamalla hakukoneen nimeä.",
-        "SubmenuCampaigns": "Kampanjat",
         "SubmenuOverview": "Yleiskatsaus",
         "SubmenuSearchEngines": "Search engines & keywords",
         "SubmenuWebsites": "Verkkosivut",
@@ -1066,11 +1064,9 @@
         "Websites": "Verkkosivut",
         "WebsitesDocumentation": "Kävijä tuli sivullesi seuraamalla linkkiä toiselta sivulta. %s Katso %s raportista lisätietoja.",
         "WebsitesReportDocumentation": "Tässä taulussa on lista sivuista, joiden kautta käyttäjiä tuli sinun sivullesi. %s Näet lähdesivun URL:n klikkaamalla taulun riviä.",
-        "WidgetCampaigns": "Lista kampanjoista",
         "WidgetExternalWebsites": "Lista ulkoisista verkkosivuista",
         "WidgetKeywords": "Lista hakusanoista",
-        "WidgetOverview": "Yleiskatsaus",
-        "WidgetSearchEngines": "Parhaat hakukoneet"
+        "WidgetOverview": "Yleiskatsaus"
     },
     "RowEvolution": {
         "AvailableMetrics": "Saatavilla olevat metriikat",
@@ -1165,7 +1161,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parametrit joita ei seurata millään verkkosivulla.",
         "ListOfQueryParametersToExclude": "Kirjoita lista URL-parametreista, joita ei seurata sivujen osoitteet -raporteissa (yksi per rivi).",
         "MainDescription": "Verkkosivujen analysointi tarvitsee verkkosivuja! Lisää, päivitä ja poista verkkosivuja ja katso sivuille lisättävä Javascript-koodi.",
-        "MenuSites": "Sivut",
         "NotAnEcommerceSite": "Ei verkkokauppasivu",
         "NotFound": "Sivuja ei löydy",
         "NoWebsites": "Sinulla ei ole yhtään verkkosivua hallinnoitavana.",
@@ -1749,7 +1744,6 @@
         "AllWebsites": "Kaikki sivut",
         "ApplyToAllWebsites": "Päivitä kaikille sivuille",
         "ChangeAllConfirm": "Haluatko varmasti vaihtaa käyttäjän \"%s\" oikeudet kaikille sivuille?",
-        "ChangePassword": "Vaihda salasana",
         "ChangePasswordConfirm": "Salasanan vaihtaminen vaihtaa myös käyttäjän token_auth:n. Haluatko varmasti jatkaa?",
         "ClickHereToDeleteTheCookie": "Paina tästä poistaaksesi cookie",
         "ClickHereToSetTheCookieOnDomain": "Paina tästä luodaksesi cookie sivulle %s",
@@ -1782,7 +1776,6 @@
         "PrivView": "Katsomisoikeus",
         "ReportDateToLoadByDefault": "Raportin oletuspäiväys",
         "ReportToLoadByDefault": "Oletuksena ladattava raportti",
-        "Sites": "Sivut",
         "TheLoginScreen": "Kirjautumisikkuna",
         "ThereAreCurrentlyNRegisteredUsers": "Piwikissä on nyt %s rekisteröitynyttä käyttäjää.",
         "TheSuperUserAliasCannotBeChanged": "Pääkäyttäjän aliasta ei voi vaihtaa.",

@@ -352,6 +352,7 @@
         "BackToPiwik": "Piwik へ戻る",
         "BrokenDownReportDocumentation": "これはページの下部に小さく表示されている様々なリポートに分かれています。見たいリポートをクリックしてグラフを拡大表示できます。",
         "Cancel": "キャンセル",
+        "ChangePassword": "パスワードの変更",
         "ChangeTagCloudView": "タグクラウドとしてではなく、別の方法でリポートを見られますので、ご注意ください。これを行うにはリポートの下部にあるコントロールを使用します。",
         "ChooseDate": "日付を選択",
         "ChooseLanguage": "言語を選択",
@@ -897,7 +898,6 @@
         "VisitorsLastVisit": "このビジターの最新のビジットは %s 日前です。"
     },
     "Login": {
-        "ChangePassword": "パスワードの変更",
         "ContactAdmin": "考えられる理由： ホストで mail() 関数が無効にされている可能性があります。<br \/>Piwik 管理者にご連絡ください。",
         "ExceptionInvalidSuperUserAuthenticationMethod": "スーパーユーザーは、'%s'メカニズムを使用した認証はできません。",
         "ExceptionPasswordMD5HashExpected": "パスワードパラメータは、パスワードの MD5 ハッシュ値であることを想定されています。",
@@ -1015,7 +1015,6 @@
         "SearchEngines": "検索エンジン",
         "SearchEnginesDocumentation": "検索エンジンを参照してウェブサイトに来たビジター。詳細のリポートは %s こちら %s",
         "SearchEnginesReportDocumentation": "このリポートは、どの検索エンジンがこのウェブサイトにユーザーを呼びこんだかを示しています。 %s テーブル内の行をクリックすると、ユーザーが特定の検索エンジンを使って何を検索していたかを確認できます。",
-        "SubmenuCampaigns": "キャンペーン",
         "SubmenuOverview": "概観",
         "SubmenuSearchEngines": "検索エンジンとキーワード",
         "SubmenuWebsites": "ウェブサイト",
@@ -1029,11 +1028,9 @@
         "Websites": "ウェブサイト",
         "WebsitesDocumentation": "別のウェブサイト上のリンクをクリックしてやってきたビジター。詳細のリポートは %s こちら %s",
         "WebsitesReportDocumentation": "このテーブルでは、どのウェブサイトがビジターの参照元になっているかを示します。%s テーブル内の行をクリックすると、クリックされたURLのリンクを見ることが出来ます。",
-        "WidgetCampaigns": "キャンペーン一覧",
         "WidgetExternalWebsites": "外部ウェブサイト一覧",
         "WidgetKeywords": "キーワード一覧",
-        "WidgetOverview": "概観",
-        "WidgetSearchEngines": "ベスト検索エンジン"
+        "WidgetOverview": "概観"
     },
     "ScheduledReports": {
         "AggregateReportsFormat": "(任意)表示オプション",
@@ -1109,7 +1106,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "次のクエリー URL パラメータは、全ウェブサイトの URL から除外されます。",
         "ListOfQueryParametersToExclude": "ページ URL のリポートから除外する URL クエリーパラメータのリストを、1行に1つずつ入力します。",
         "MainDescription": "ウェブ解析リポートにはウェブサイトが必要です！ ウェブサイトの追加、更新、削除と、ページに挿入する Javascript を表示します。",
-        "MenuSites": "ウェブサイト",
         "NotAnEcommerceSite": "eコマースサイトではない",
         "NotFound": "ウェブサイトが見つかりませんでした：",
         "NoWebsites": "管理できるウェブサイトがありません。",
@@ -1648,7 +1644,6 @@
         "AllWebsites": "全ウェブサイト",
         "ApplyToAllWebsites": "全ウェブサイトに適用",
         "ChangeAllConfirm": "本当に全ウェブサイトでの '%s' のパーミッションを変更しますか？",
-        "ChangePassword": "パスワードの変更",
         "ChangePasswordConfirm": "パスワードを変更すると、トークンも変更されます。本当に続けますか？",
         "ClickHereToDeleteTheCookie": "Cookie を削除し、Piwik があなた自身のビジットもトラッキングするようにするには、ここをクリックします。",
         "ClickHereToSetTheCookieOnDomain": "%s の Piwik にトラッキングされるウェブサイトでの、あなた自身のビジットを除外するための Cookie をセットするには、ここをクリックします。",
@@ -1680,7 +1675,6 @@
         "PrivView": "表示",
         "ReportDateToLoadByDefault": "デフォルトで読み込むリポートの日付",
         "ReportToLoadByDefault": "デフォルトで読み込むリポート",
-        "Sites": "ウェブサイト",
         "TheLoginScreen": "ログイン画面",
         "ThereAreCurrentlyNRegisteredUsers": "現在 %s 名のユーザーが登録されています。",
         "TheSuperUserAliasCannotBeChanged": "スーパーユーザーのエイリアスを変更することはできません。",

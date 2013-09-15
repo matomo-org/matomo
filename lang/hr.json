@@ -84,6 +84,7 @@
         "BackToHomepage": "Povratak na Piwik stranicu",
         "BackToPiwik": "Natrag na Piwik",
         "BrokenDownReportDocumentation": "Razlomljeno je u više izvještaja koji su prikazano sa linijama na dnu stranice. Grafove je moguće uvećati klikom na izvještaj koji želite vidjeti.",
+        "ChangePassword": "Promjeni lozinku.",
         "ChangeTagCloudView": "Napominjemo da izvještaje možete vidjeti i na druge načine osim u obliku oblaka za oznakama. Za promjenu prikaza koristite kontrole na dnu izvještaja.",
         "ChooseDate": "Odaberi datum",
         "ChooseLanguage": "Odaberite jezik",
@@ -838,7 +839,6 @@
         "VisitorSettings": "Postavke posjetitelja"
     },
     "UsersManager": {
-        "ChangePassword": "Promjeni lozinku.",
         "ExceptionEmailExists": "Korisnik sa istim emailom '%s' već postoji.",
         "ExceptionInvalidEmail": "Nije dobar format emaila.",
         "ExceptionLoginExists": "Korisnik '%s' već postoji.",

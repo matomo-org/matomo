@@ -247,7 +247,6 @@
         "Evolution": "Evolución no periodo",
         "Keywords": "Palabras clave",
         "SearchEngines": "Motores de busca",
-        "SubmenuCampaigns": "Campañas",
         "SubmenuSearchEngines": "Motores de busca e palabras clave",
         "SubmenuWebsites": "Páxinas web",
         "Type": "Tipo de Referer",
@@ -256,11 +255,9 @@
         "TypeSearchEngines": "%s desde motores de busca",
         "TypeWebsites": "%s desde outras webs",
         "Websites": "Páxinas web",
-        "WidgetCampaigns": "Lista de campañas",
         "WidgetExternalWebsites": "Lista de webs externas",
         "WidgetKeywords": "Lista de palabras clave",
-        "WidgetOverview": "Xeral",
-        "WidgetSearchEngines": "Mellores motores de busca"
+        "WidgetOverview": "Xeral"
     },
     "SitesManager": {
         "AddSite": "Engadir un sitio",
@@ -270,7 +267,6 @@
         "ExceptionEmptyName": "O nome do sitio non pode estar baleiro.",
         "ExceptionInvalidUrl": "A URL '%s' non é unha URL válida.",
         "ExceptionNoUrl": "Debe especificar polo menos unha URL do seu sitio.",
-        "MenuSites": "Sitios",
         "NoWebsites": "Vostede non ten ningunha web que administrar",
         "Sites": "Sitios",
         "Timezone": "Fuso horario",
@@ -732,7 +728,6 @@
         "PrivAdmin": "Admin",
         "PrivNone": "Acceso denegado",
         "PrivView": "Ver",
-        "Sites": "Sitios",
         "User": "Usuario"
     },
     "VisitFrequency": {

@@ -280,6 +280,7 @@
         "BackToHomepage": "Mbrapsht te faqja hyrëse e Piwik-it",
         "BackToPiwik": "Mbrapsht te Piwik-u",
         "BrokenDownReportDocumentation": "Është zbërthyer në raporte të ndryshme, që tregohen me grafikë vijëzorë në fund të faqes. Grafikët mund t'i zmadhoni duke klikuar te raporti që dëshironi të shihni.",
+        "ChangePassword": "Ndryshoni fjalëkalimin",
         "ChangeTagCloudView": "Ju lutem, mbani parasysh që raportin mund ta shihni në mënyra të tjera nga re etiketash. Për ta bërë këtë, përdorni kontrollet në fund të raportit.",
         "ChooseDate": "Zgjidhni datë",
         "ChooseLanguage": "Zgjidhni gjuhën",
@@ -810,7 +811,6 @@
         "VisitorsLastVisit": "Vizita e fundit e këtij vizitori ndodhi %s ditë më parë."
     },
     "Login": {
-        "ChangePassword": "Ndryshoni fjalëkalimin",
         "ContactAdmin": "Arsye e mundshme: streha juaj mund të ketë çaktivizuar funksionin mail(). <br \/>Ju lutem, lidhuni me përgjegjësin e Piwik-ut tuaj.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "Super Përdoruesi nuk mund të kalojë mirëfilltësimin duke përdorur mekanizmin '%s'.",
         "ExceptionPasswordMD5HashExpected": "Parametri i fjalëkalimit pritet të jetë një hash MD5 fjalëkalimi.",
@@ -885,7 +885,6 @@
         "SearchEngines": "Motorë Kërkimesh",
         "SearchEnginesDocumentation": "Një vizitori i është treguar site-i juaj nga një motor kërkimesh. Për më tepër hollësira, %s shihni %s raportin.",
         "SearchEnginesReportDocumentation": "Ky raport shfaq cilët motorë kërkimi sollën përdorues te site-i juaj web. %s Duke klikuar mbi një rresht të tabelës, mund të shihni se për çfarë po kërkonin përdoruesit që përdorën një motor të caktuar kërkimesh.",
-        "SubmenuCampaigns": "Fushata",
         "SubmenuOverview": "Përmbledhje",
         "SubmenuSearchEngines": "Motorë kërkimi & fjalëkyça",
         "SubmenuWebsites": "\"Site\"-e Web",
@@ -899,11 +898,9 @@
         "Websites": "\"Site\"-e Web",
         "WebsitesDocumentation": "Vizitori ndoqi një lidhje në një site tjetër web e cila të shpinte te site-i juaj. Për më tepër hollësira, %s shihni %s raportin.",
         "WebsitesReportDocumentation": "Në këtë tabelë, mund të shihni cilët site-e web sollën vizitorë te site-i juaj. %s Duke klikuar mbi një rresht të tabelës, mund të shihni se te cilat URL gjendeshin lidhjet për te site-i juaj web.",
-        "WidgetCampaigns": "Listë e Fushatave",
         "WidgetExternalWebsites": "Listë e \"site\"-eve Web të jashtëm",
         "WidgetKeywords": "Listë e Fjalëkyçave",
-        "WidgetOverview": "Përmbledhje",
-        "WidgetSearchEngines": "Motorët më të mirë të kërkimit"
+        "WidgetOverview": "Përmbledhje"
     },
     "ScheduledReports": {
         "AggregateReportsFormat": "(opsionale) Shfaqni mundësitë",
@@ -979,7 +976,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parametrat për URL-ra Kërkesash më poshtë do të përjashtohen nga URL-të për krejt site-et web.",
         "ListOfQueryParametersToExclude": "Jepni listën e Parametrave për URL-ra Kërkesash, një për rresht, që duhen përjashtuar nga raportet për URL-ra Faqesh.",
         "MainDescription": "Raportet tuaja të Analizuesit Web lypin \"site\"-e web! Shtoni, përditësoni, hiqni \"site\"-e web, dhe shfaqni JavaScript-in për futje në faqet tuaja.",
-        "MenuSites": "\"Site\"-e web",
         "NotAnEcommerceSite": "Site jo E-tregti",
         "NotFound": "Nuk u gjetën site-e web për",
         "NoWebsites": "Nuk keni ndonjë \"site\" web për ta administruar.",
@@ -1432,7 +1428,6 @@
         "AllWebsites": "Tërë \"site\"-et web",
         "ApplyToAllWebsites": "Zbatoje për tërë \"site\"-et web",
         "ChangeAllConfirm": "Jeni i sigurt se doni të ndryshoni lejet e '%s' në tërë \"site\"-et web?",
-        "ChangePassword": "Ndryshoni fjalëkalimin",
         "ChangePasswordConfirm": "Ndryshimi i fjalëkalimit do të sjellë gjithashtu ndryshimin e “token_auth” të përdoruesit. Doni vërtet të vazhdohet?",
         "ClickHereToDeleteTheCookie": "Klikoni këtu që të fshihet \"cookie\" dhe që ta bëni Piwik-un të gjurmojë vizitat tuaja",
         "ClickHereToSetTheCookieOnDomain": "Klikoni këtu që të vendoset një \"cookie\" që do të përjashtojë vizitat tuaja në site-e web të gjurmuara nga Piwik-u %s",
@@ -1464,7 +1459,6 @@
         "PrivView": "Parje",
         "ReportDateToLoadByDefault": "Datë raporti që duhet ngarkuar si parazgjedhje",
         "ReportToLoadByDefault": "Raport që duhet ngarkuar si parazgjedhje",
-        "Sites": "\"Site\"-e web",
         "TheLoginScreen": "Skena e hyrjes",
         "ThereAreCurrentlyNRegisteredUsers": "Deri tani ka %s përdorues të regjistruar.",
         "TheSuperUserAliasCannotBeChanged": "Aliasi i Super Përdoruesit nuk mund të ndryshohet.",

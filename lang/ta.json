@@ -328,12 +328,11 @@
         "VerifyAccount": "கணக்கு சரிபார்க்கப்படுகிறது"
     },
     "MobileMessaging": {
-        "MobileReport_PhoneNumbers": "தொலைபேசி எண்கள்",
+        "PhoneNumbers": "தொலைபேசி எண்கள்",
         "Settings_APIKey": "ஏபிஐ சாவி",
         "Settings_CountryCode": "தேசக் குறியீட்டெண்",
         "Settings_ManagePhoneNumbers": "தொலைபேசி எண்களை மேலாண்மைசெய்",
         "Settings_PhoneNumber": "தொலைபேசி எண்",
-        "Settings_PhoneNumbers": "தொலைபேசி எண்கள்",
         "Settings_PhoneNumbers_Add": "ஒரு புதிய தொலைபேசி எண்ணை சேர்க்க",
         "Settings_RemovePhoneNumber": "நீக்கு",
         "Settings_SuperAdmin": "உயர் பயனர் அமைப்புகள்",

@@ -202,6 +202,7 @@
         "AverageQuantity": "Średnia ilość",
         "BackToHomepage": "Powrót na stronę domową autorów kodu Piwik",
         "BackToPiwik": "Powrót do Piwik",
+        "ChangePassword": "Zmień hasło",
         "ChooseDate": "Zakres dat",
         "ChooseLanguage": "Wybierz język",
         "ChoosePeriod": "Wybierz okres",
@@ -686,7 +687,6 @@
         "VisitorsInRealTime": "Odwiedzający w czasie rzeczywistym"
     },
     "Login": {
-        "ChangePassword": "Zmień hasło",
         "ContactAdmin": "Prawdopodobny powód: twój host mógł wyłączyć działanie funkcji mail(). <br \/>Skontaktuj się w tej sprawie ze swoim administratorem statystyk Piwik.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "Osoba o uprawnieniach Super Użytkownika nie może być uwierzytelniona stosując mechanizm '%s'.",
         "ExceptionPasswordMD5HashExpected": "Oczekiwanym parametrem hasła jest hash z MD5 uzyskany z hasła.",
@@ -758,7 +758,6 @@
         "RefererName": "Nazwa odsyłacza",
         "Referers": "Odsyłacze",
         "SearchEngines": "Wyszukiwarki",
-        "SubmenuCampaigns": "Kampanie",
         "SubmenuOverview": "Przegląd",
         "SubmenuSearchEngines": "Wyszukiwarki & słowa kluczowe",
         "SubmenuWebsites": "Serwisy internetowe",
@@ -769,11 +768,9 @@
         "TypeWebsites": "%s ze stron",
         "UsingNDistinctUrls": "(używając %s wyróżnionych adresów url)",
         "Websites": "Strony",
-        "WidgetCampaigns": "Lista kampanii",
         "WidgetExternalWebsites": "Lista zewnętrznych serwisów internetowych",
         "WidgetKeywords": "Lista słów kluczowych",
-        "WidgetOverview": "Przegląd",
-        "WidgetSearchEngines": "Najlepsze wyszukiwarki"
+        "WidgetOverview": "Przegląd"
     },
     "ScheduledReports": {
         "AggregateReportsFormat": "Wyświetl opcje (opcjonalnie)",
@@ -842,7 +839,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Parametry dotyczące listy zapytań z adresami URL przedstawione poniżej zostaną wykluczone ze statystyk na wszystkich stronach.",
         "ListOfQueryParametersToExclude": "Wprowadź listę z parametrami zapytań URL, po jednym w linii, by móc wykluczyć je z raportów o adresach URL stron.",
         "MainDescription": "Twoje raporty z analityką statystyczną stron wymagają posiadania serwisu internetowego! Dodaj, zaktualizuj, zmień serwis internetowy, i wyświetl kod JavaScript do umieszczenia na stronach.",
-        "MenuSites": "Strony",
         "NotFound": "Nie znaleziono stron dla",
         "NoWebsites": "Nie posiadasz żadnej strony którą możesz zarządzać.",
         "OnlyOneSiteAtTime": "W danym momencie możesz edytować tylko jedną ze stron. Zapisz lub zrezygnuj z wprowadzonych teraz modyfikacji dla strony %s.",
@@ -1370,7 +1366,6 @@
         "AllWebsites": "Wszystkie strony",
         "ApplyToAllWebsites": "Zastosuj dla wszystkich stron",
         "ChangeAllConfirm": "Czy masz pewność, że chcesz zmienić '%s' prawa dostępu do wszystkich stron?",
-        "ChangePassword": "Zmiana hasła",
         "ClickHereToDeleteTheCookie": "kliknij tutaj by skasować ciasteczko cookie i umożliwić dla Piwik śledzenie twoich wizyt na stronie",
         "ClickHereToSetTheCookieOnDomain": "Kliknij tutaj by ustawić ciasteczko cookie, które będzie wykluczało zliczanie twoich wizyt na stronie, gdy Piwik będzie je śledził na %s",
         "DeleteConfirm": "Czy masz pewność, że chcesz skasować konto użytkownika %s?",
@@ -1401,7 +1396,6 @@
         "PrivView": "Widok",
         "ReportDateToLoadByDefault": "Data raportu jako domyślna do wczytania, dotyczy",
         "ReportToLoadByDefault": "Raport jako domyślny do wczytania",
-        "Sites": "Strony",
         "TheLoginScreen": "Ekran logowania",
         "ThereAreCurrentlyNRegisteredUsers": "Obecnie znajduje się %s zarejestrowanych użytkowników.",
         "TheSuperUserAliasCannotBeChanged": "Alias Super Użytkownika nie może być zmieniony.",

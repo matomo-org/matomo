@@ -272,6 +272,7 @@
         "BackToHomepage": "Zpět na hlavní stránku Piwiku",
         "BackToPiwik": "Zpět do Piwiku",
         "Cancel": "Zrušit",
+        "ChangePassword": "Změnit heslo",
         "ChooseDate": "Vyber datum",
         "ChooseLanguage": "Zvolte jazyk",
         "ChoosePeriod": "Zvolte období",
@@ -799,7 +800,6 @@
         "VisitorsInRealTime": "Návstěv v reálném čase"
     },
     "Login": {
-        "ChangePassword": "Změnit heslo",
         "ContactAdmin": "Možná příčina: Váš hosting zakázal funkci mail().. <br \/>Prosím kontaktujte vašeho administrátora Piwiku.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "'Super uživatel' nemůže být přihlášení pomocí mechanismu '%s'",
         "ExceptionPasswordMD5HashExpected": "Parametr hesla je očekáván jako MD5 hash hesla",
@@ -839,10 +839,9 @@
         "YouAreOffline": "Omlouváme se, momentálně jste offline"
     },
     "MobileMessaging": {
-        "MobileReport_PhoneNumbers": "Telefonní čísla",
+        "PhoneNumbers": "Telefonní čísla",
         "Settings_CountryCode": "Kód země",
         "Settings_PhoneNumber": "Telefonní číslo",
-        "Settings_PhoneNumbers": "Telefonní čísla",
         "Settings_PhoneNumbers_Add": "Přidat nové telefonní číslo",
         "Settings_RemovePhoneNumber": "Odstranit",
         "Settings_SMSAPIAccount": "Správa SMS API účtu",
@@ -894,7 +893,6 @@
         "PluginDescription": "Zobrazí data refererů: vyhledávací stroje, klíčová slova, webová sídla, správu kampaní, přímé vstupy",
         "Referers": "Odkazující stránky",
         "SearchEngines": "Vyhledávacích strojů",
-        "SubmenuCampaigns": "Kampaně",
         "SubmenuOverview": "Přehled",
         "SubmenuSearchEngines": "Vyhledávače & klíčová slova",
         "SubmenuWebsites": "Web sídla",
@@ -905,11 +903,9 @@
         "TypeWebsites": "%s z web sídel",
         "UsingNDistinctUrls": "(používá %s jedinečných url)",
         "Websites": "Web sídla",
-        "WidgetCampaigns": "Seznam kampaní",
         "WidgetExternalWebsites": "Seznam externích web sídel",
         "WidgetKeywords": "Seznam klíčových slov",
-        "WidgetOverview": "Přehled",
-        "WidgetSearchEngines": "Nejlepší vyhledávače"
+        "WidgetOverview": "Přehled"
     },
     "RowEvolution": {
         "AvailableMetrics": "Dostupná měření",
@@ -983,7 +979,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL parametry uvedené níže budou vynechány z URL pro všecna www sídla",
         "ListOfQueryParametersToExclude": "Zadejte seznam URL parametrů, jeden na řádek, které budou vynechány z hlášení Piwiku",
         "MainDescription": "Vaše analýzy webu potřebují Web sídla! Přidejte, aktualizujte, nebo vymažte je a zobrazte si JavaScriptový kód pro vložení do vaších stránek.",
-        "MenuSites": "Sídla",
         "NotAnEcommerceSite": "Žádná stránka obchodu",
         "NotFound": "Zádné www sídla nenalezený pro",
         "NoWebsites": "Nemáte žádné Web sídlo k administraci.",
@@ -1547,7 +1542,6 @@
         "AnonymousUserHasViewAccess": "Poznámka: %1$s uživatel má právo k přístupu k %2$s",
         "ApplyToAllWebsites": "Použít na všechny Web sídla",
         "ChangeAllConfirm": "Jste si jistí, že chcte změnit '%s' oprávnění pro všechny web sídla?",
-        "ChangePassword": "Změnit heslo",
         "ClickHereToDeleteTheCookie": "Klinětě zde pro vymazání cookie a zaznamenávání vaších návštěv",
         "ClickHereToSetTheCookieOnDomain": "Klikněte zde pro nastavení cookie, která vynechá vaše návštěvy na sídlech monitorováných Piwikem na %s",
         "DeleteConfirm": "Jste si jistí, že chcete vymazat uživatele %s?",
@@ -1577,7 +1571,6 @@
         "PrivView": "Zobrazení",
         "ReportDateToLoadByDefault": "Datum hlášení, které se má načíst jako výchozí",
         "ReportToLoadByDefault": "Hlášení, které se má načíst jako výchozí",
-        "Sites": "Web sídla",
         "TheLoginScreen": "Přihlašovací obrazovka",
         "TheSuperUserAliasCannotBeChanged": "Alias super uživatele nemůže být změněn",
         "TypeYourPasswordAgain": "Zapiště vaše nové heslo znova",

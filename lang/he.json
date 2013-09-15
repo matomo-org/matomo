@@ -202,6 +202,7 @@
         "AuthenticationMethodSmtp": "שיטת אימות עבור SMTP",
         "BackToHomepage": "בחזרה לעמוד הראשי של Piwik",
         "BackToPiwik": "חזרה ל Piwik",
+        "ChangePassword": "שינוי סיסמה",
         "ChooseDate": "בחירת תאריך",
         "ChooseLanguage": "בחירת שפה",
         "ChoosePeriod": "בחירת תקופה",
@@ -486,7 +487,6 @@
         "Welcome": "ברוכים הבאים!"
     },
     "Login": {
-        "ChangePassword": "שינוי סיסמה",
         "InvalidUsernameEmail": "שם משתמש ו\/או אימייל לא תקניים",
         "LogIn": "התחברות",
         "LoginOrEmail": "שם משתמש או אימייל",
@@ -504,6 +504,7 @@
         "Settings_RemovePhoneNumber": "מחיקה"
     },
     "Referers": {
+        "Campaigns": "קמפיינים",
         "ColumnSocial": "רשת חברתית",
         "ColumnWebsite": "אתר",
         "ColumnWebsitePage": "עמוד אתר",
@@ -514,7 +515,6 @@
         "ReferrersOverview": "סקירת הפניות",
         "SearchEngines": "מנועי חיפוש",
         "Socials": "רשתות חברתיות",
-        "SubmenuCampaigns": "קמפיינים",
         "SubmenuOverview": "סקירה",
         "SubmenuWebsites": "אתרי אינטרנט ורשתות חברתיות",
         "Websites": "אתרי אינטרנט",
@@ -533,7 +533,6 @@
     },
     "SitesManager": {
         "Currency": "מטבע",
-        "MenuSites": "אתרים",
         "Sites": "אתרים",
         "Timezone": "אזור זמן"
     },
@@ -996,7 +995,6 @@
         "ManageAccess": "ניהול הרשאות",
         "MenuUsers": "משתמשים",
         "PrivNone": "אין הרשאות",
-        "Sites": "אתרים",
         "User": "משתמש",
         "UsersManagement": "ניהול משתמשים"
     },

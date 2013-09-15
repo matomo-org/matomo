@@ -253,6 +253,7 @@
         "BackToPiwik": "กลับไปยัง Piwik",
         "BrokenDownReportDocumentation": "แบ่งออกเป็นรายงานต่างๆ ซึ่งจะแสดงในเส้นแบบประกายไฟที่ด้านล่างของหน้า ท่านสามารถทำการขยายกราฟได้โดยคลิกที่รายงานที่คุณต้องการดู",
         "Cancel": "ยกเลิก",
+        "ChangePassword": "เปลี่ยนรหัสผ่าน",
         "ChangeTagCloudView": "โปรดทราบว่าคุณสามารถดูรายงานในรูปแบบอื่น ๆ กว่าเป็นแท็ก Cloud ใช้การควบคุมที่ด้านล่างของรายงานที่จะทำเช่นนั้น",
         "ChooseDate": "เลือกวันที่",
         "ChooseLanguage": "เลือกภาษา",
@@ -777,7 +778,6 @@
         "VisitorsInRealTime": "ผู้เข้าชมในเวลาจริง"
     },
     "Login": {
-        "ChangePassword": "เปลี่ยนรหัสผ่าน",
         "ContactAdmin": "เหตุผลที่อาจเป็นไปได้: โฮสต์ของคุณอาจปิดการใช้งานฟังก์ชัน mail()<br \/>กรุณาติดต่อผู้ดูแล Piwik ของคุณ",
         "ExceptionInvalidSuperUserAuthenticationMethod": "แบบผู้ใช้ไม่สามารถรับรอง '%s' ได้",
         "ExceptionPasswordMD5HashExpected": "พารามิเตอร์รหัสผ่านจะคาดว่าจะ เป็น MD5 hash ของรหัสผ่าน",
@@ -825,10 +825,9 @@
         "YouAreOffline": "ขออภัย, ขณะนี้คุณได้ออกจากระบบแล้ว"
     },
     "MobileMessaging": {
-        "MobileReport_PhoneNumbers": "หมายเลขโทรศัพท์",
+        "PhoneNumbers": "หมายเลขโทรศัพท์",
         "Settings_CountryCode": "รหัสประเทศ",
         "Settings_PhoneNumber": "เบอร์โทรศัพท์",
-        "Settings_PhoneNumbers": "หมายเลขโทรศัพท์",
         "Settings_PhoneNumbers_Add": "เพิ่มหมายเลขโทรศัพท์ใหม่",
         "Settings_RemovePhoneNumber": "ลบออก",
         "Settings_SMSAPIAccount": "จัดการบัญชี SMS API",
@@ -891,7 +890,6 @@
         "PluginDescription": "รายงานข้อมูลแหล่งที่มา: Search Engines, Keywords เว็บไซต์ แคมเปญติดตาม รายการเข้าชมโดยตรง",
         "Referers": "แหล่งที่มา",
         "SearchEngines": "เครื่องมือค้นหา",
-        "SubmenuCampaigns": "แคมเปญ",
         "SubmenuOverview": "ข้อมูลเบื้องต้น",
         "SubmenuSearchEngines": "เครื่องมือค้นหาและคีย์เวิร์ด",
         "SubmenuWebsites": "เว็บไซต์",
@@ -902,11 +900,9 @@
         "TypeWebsites": "%s จากแหล่งที่มาเว็บไซต์",
         "UsingNDistinctUrls": "(โดยใช้ %s ไม่ซ้ำ urls)",
         "Websites": "เว็บไซต์",
-        "WidgetCampaigns": "รายการแคมเปญ",
         "WidgetExternalWebsites": "รายการเว็บไซต์ภายนอก",
         "WidgetKeywords": "รายการคีย์เวิร์ด",
         "WidgetOverview": "ภาพรวม",
-        "WidgetSearchEngines": "เครื่องมือค้นหาที่ดีที่สุด",
         "WidgetSocials": "รายชื่อเว็บไซต์เครือข่ายสังคมออนไลน์"
     },
     "RowEvolution": {
@@ -974,7 +970,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "คิวรีของพารามิเตอร์แบบ URLs ด้านล่างจะถูกแยกออกจาก URLs บนเว็บไซต์ทั้งหมด",
         "ListOfQueryParametersToExclude": "ป้อนรายการของ URL คิวรีพารามิเตอร์อย่างใดอย่างหนึ่งสำหรับแต่ละบรรทัด การแยกออกจากรายงานหน้า URLs",
         "MainDescription": "รายงานการวิเคราะห์เว็บไซต์ของคุณ ที่ต้องการ! เพิ่ม, ปรับข้อมูล, ลบเว็บไซต์และแสดงการใช้ Javascript เพื่อแทรกในหน้าเว็บของท่าน",
-        "MenuSites": "เว็บไซต์",
         "NotFound": "ไม่มีเว็บไซต์ที่ค้นพบสำหรับ",
         "NoWebsites": "คุณไม่มีเว็บไซต์ที่จะจัดการ",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik จะไม่รวมพารามิเตอร์โดยอัตโนมัติในเซสชันทั่วไป (%s)",
@@ -1514,7 +1509,6 @@
         "AllWebsites": "เว็บไซต์ทั้งหมด",
         "ApplyToAllWebsites": "กระทำกับเว็บไซต์ทั้งหมด",
         "ChangeAllConfirm": "คุณแน่ใจหรือไม่ว่าคุณต้องการเปลี่ยนแปลงสิทธิ์ '%s' บนเว็บไซต์ทั้งหมด",
-        "ChangePassword": "เปลี่ยนรหัสผ่าน",
         "ClickHereToDeleteTheCookie": "คลิกที่นี่เพื่อลบคุกกี้ และมี Piwik ติดตามเข้าชมของคุณ",
         "ClickHereToSetTheCookieOnDomain": "คลิกที่นี่เพื่อตั้งค่าคุกกี้ ที่จะไม่รวมการเข้าชมของคุณบนเว็บไซต์ที่ถูกติดตาม โดย Piwik บน %s",
         "DeleteConfirm": "คุณแน่ใจหรือไม่ที่จะลบผู้ใช้ %s ?",
@@ -1544,7 +1538,6 @@
         "PrivView": "เข้าชม",
         "ReportDateToLoadByDefault": "รายงานวันที่โหลด โดยค่าเริ่มต้น",
         "ReportToLoadByDefault": "รายงานเพื่อโหลดตามค่าเริ่มต้น",
-        "Sites": "ไซต์",
         "TheLoginScreen": "หน้าจอการเข้าสู่ระบบ",
         "TheSuperUserAliasCannotBeChanged": "นามแฝงของ Super User ไม่สามารถเปลี่ยนแปลงได้",
         "TypeYourPasswordAgain": "พิมพ์รหัสผ่านของคุณใหม่อีกครั้ง",

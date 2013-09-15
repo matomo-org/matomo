@@ -86,6 +86,7 @@
         "ArchivingTriggerDescription": "Mælt er með fyrir stærri Piwik uppsetningar að þú þurfir að %ssetja upp cronfærslu%s til að vinna skýrslurnar sjálfkrafa",
         "BackToHomepage": "Til baka á Piwik heimasíðu",
         "BackToPiwik": "Aftur í Piwik",
+        "ChangePassword": "Breyta lykilorði",
         "ChooseDate": "Veldu dagsetningu",
         "ChooseLanguage": "Veldu tungumál",
         "ChoosePeriod": "Veldu tímabil",
@@ -337,7 +338,6 @@
         "VisitorsInRealTime": "Gestir í rauntíma"
     },
     "Login": {
-        "ChangePassword": "Breyta lykilorði",
         "ContactAdmin": "Möguleg ástæða: þjónninn þinn gæti hafa slökkt á mail() fallinu. <br\/>Vinsamlegast hafðu samband við umsjónarmann Piwik þjónsins.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "Ekki er hægt að auðkenna yfirnotandan með '%s' aðferðinni.",
         "ExceptionPasswordMD5HashExpected": "Búist er við að lykilorðs færibreytan sé MD5 dulmál af lykilorðinu.",
@@ -375,7 +375,6 @@
         "PluginDescription": "Gefur skýrslu um sendendur: Leitarvélar, Leitarorð, Vefi, rekja herferð, bein innfærsla.",
         "Referers": "Sendendur",
         "SearchEngines": "Leitarvélar",
-        "SubmenuCampaigns": "Herferðir",
         "SubmenuOverview": "Yfirlit",
         "SubmenuSearchEngines": "Leitarvélar & Leitarorð",
         "SubmenuWebsites": "Vefir",
@@ -386,11 +385,9 @@
         "TypeWebsites": "%s frá vefjum",
         "UsingNDistinctUrls": "(notuð eru %s mismunandi url)",
         "Websites": "Vefir",
-        "WidgetCampaigns": "Listi yfir Herferðir",
         "WidgetExternalWebsites": "Listi yfir ytri vefi",
         "WidgetKeywords": "Listi yfir Leitarorð",
-        "WidgetOverview": "Yfirlit",
-        "WidgetSearchEngines": "Bestu leitarvélar"
+        "WidgetOverview": "Yfirlit"
     },
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Senda skýrsluna einnig á þessi netföng (eitt í hverja línu):",
@@ -410,7 +407,6 @@
         "Currency": "Gjaldmiðill",
         "ExcludedIps": "Útilokuð vistföng (IP)",
         "GlobalListExcludedIps": "Algildur listi af útilokuðum vistföngum (IP)",
-        "MenuSites": "Vefir",
         "PluginDescription": "Stjórnun vefja í Piwik: Bættu við nýjum vef, Breyttu núverandi vef, Sýndu JavaScript kóðann sem á að vera á síðunum þínum. Allar aðgerðir eru einnig aðgengilegar gegnum API.",
         "ShowTrackingTag": "Sýna merkimiða til að elta",
         "Sites": "Vefir",
@@ -917,7 +913,6 @@
         "Alias": "Alias",
         "AllWebsites": "Allir vefir",
         "ApplyToAllWebsites": "Virkja fyrir alla vefi",
-        "ChangePassword": "Breyta lykilorði",
         "Email": "Netfang",
         "ExcludeVisitsViaCookie": "Útiloka þínar heimsóknir með því að nota smáköku",
         "ForAnonymousUsersReportDateToLoadByDefault": "Sjálfgefið að sýna skýrslu fyrir notendur sem ekki eru auðkenndir",
@@ -926,7 +921,6 @@
         "PrivNone": "Engin aðgangur",
         "PrivView": "Sýn",
         "ReportToLoadByDefault": "Skýrsla sem sjálfgefið er að sækja",
-        "Sites": "Vefir",
         "TheLoginScreen": "Skjár fyrir auðkenningu",
         "User": "Notandi",
         "UsersManagement": "Notendastjórnun",

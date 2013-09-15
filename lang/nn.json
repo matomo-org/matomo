@@ -233,6 +233,7 @@
         "BackToHomepage": "Attende til hovudsida i Piwik",
         "BackToPiwik": "Attende til Piwik",
         "Cancel": "Avbryt",
+        "ChangePassword": "Bytt passord",
         "ChangeTagCloudView": "Du kan sjå rapporten på andre vis enn ein emnesky. Bruk kontrollane på botn av rapporten for å gjera dette.",
         "ChooseDate": "Vel dato",
         "ChooseLanguage": "Vel språk",
@@ -702,7 +703,6 @@
         "VisitorsLastVisit": "Den førre vitjinga til vitjaren var %s dagar sidan."
     },
     "Login": {
-        "ChangePassword": "Bytt passord",
         "ContactAdmin": "Mulig grunn: tenaren din hev slått av mail() funksjonen. <br \/>Kontakt din Piwik administrator.",
         "InvalidUsernameEmail": "Ugyldig brukarnamn og\/eller epost-adresse",
         "LogIn": "Logg på",
@@ -737,7 +737,6 @@
         "Keywords": "Nøkkelord",
         "Referers": "Referansar",
         "SearchEngines": "Søkjemotorar",
-        "SubmenuCampaigns": "Kampanjar",
         "SubmenuSearchEngines": "Søkjemotorar og nøkkelord",
         "SubmenuWebsites": "Nettstader",
         "Type": "Referansetype",
@@ -746,11 +745,9 @@
         "TypeSearchEngines": "%s frå søkjemotorer",
         "TypeWebsites": "%s frå nettstader",
         "Websites": "Nettstader",
-        "WidgetCampaigns": "Liste over kampanjar",
         "WidgetExternalWebsites": "Liste over eksterne nettsider",
         "WidgetKeywords": "Liste over nøkkelord",
-        "WidgetOverview": "Oversikt",
-        "WidgetSearchEngines": "Beste søkjemotorar"
+        "WidgetOverview": "Oversikt"
     },
     "SitesManager": {
         "AddSite": "Legg til ein ny nettstad",
@@ -766,7 +763,6 @@
         "GlobalListExcludedIps": "Global liste over ekskluderte IPar",
         "JsTrackingTagHelp": "Here is the JavaScript Tracking tag to include on all your pages Her er JavaScript sporingskoden som du på leggja ved alle sidene dine",
         "MainDescription": "Your Web Analytics reports need Websites! Add, update, delete Websites, and show the JavaScript to insert in your pages. Din nettanalyserapport treng nettstader! Legg til, oppdater og fjern nettstader, samt vis javaScript koden som trengs på sidene dine.",
-        "MenuSites": "Nettstader",
         "NoWebsites": "Du har inga nettstader å administrera.",
         "SelectACity": "Vel ein by",
         "ShowTrackingTag": "vis sporingskode",
@@ -1279,7 +1275,6 @@
         "AllWebsites": "Alle nettstader",
         "ApplyToAllWebsites": "Gjer gjeldande for alle nettstader",
         "ChangeAllConfirm": "Er du sikker på at du vil endra '%s' tilgangar på alle nettstadene?",
-        "ChangePassword": "Bytt passord",
         "ClickHereToDeleteTheCookie": "Klikk her for å sletta informasjonskapselen slik at Piwik loggar dine vitjingar",
         "DeleteConfirm": "Er du sikker på at du vil fjerna brukar %s?",
         "Email": "Epost",
@@ -1304,7 +1299,6 @@
         "PrivAdmin": "Administrator",
         "PrivNone": "Inga tilgang",
         "PrivView": "Les",
-        "Sites": "Nettstader",
         "TheLoginScreen": "Innloggingsskjermen",
         "TheSuperUserAliasCannotBeChanged": "Namnet på superbrukaren kan ikkje endrast.",
         "TypeYourPasswordAgain": "Skriv ditt nye passord på nytt.",

@@ -242,6 +242,7 @@
         "BackToPiwik": "Tilbake til Piwik",
         "Cancel": "Avbryt",
         "CannotUnzipFile": "Kan ikke pakke opp filen %1$s: %2$s",
+        "ChangePassword": "Endre passord",
         "ChooseDate": "Velg dato",
         "ChooseLanguage": "Velg språk",
         "ChoosePeriod": "Velg periode",
@@ -673,7 +674,6 @@
         "VisitorLog": "Logg over besøkende"
     },
     "Login": {
-        "ChangePassword": "Endre passord",
         "ContactAdmin": "Mulig grunn: Din tjener har kanskje deaktivert mail()-funksjonen. <br \/>Kontakt din Piwik administrator.",
         "InvalidUsernameEmail": "Feil brukernavn og\/eller epost-adresse.",
         "LogIn": "Logg inn",
@@ -705,14 +705,13 @@
         "VerifyLoginData": "Sørg for at ditt brukernavn- og passordkombinasjon er riktig."
     },
     "MobileMessaging": {
-        "MobileReport_PhoneNumbers": "Telefonnumre",
+        "PhoneNumbers": "Telefonnumre",
         "Settings_APIKey": "API-nøkkel",
         "Settings_CountryCode": "Landskode",
         "Settings_InvalidActivationCode": "Koden du har angitt var ikke gyldig, vennligst prøv igjen.",
         "Settings_ManagePhoneNumbers": "Administrer telefonnummer",
         "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
         "Settings_PhoneNumber": "Telefonnummer",
-        "Settings_PhoneNumbers": "Telefonnumre",
         "Settings_PhoneNumbers_Add": "Legg til et nytt telefonnummer",
         "Settings_RemovePhoneNumber": "Fjern",
         "Settings_SMSProvider": "SMS-leverandør",
@@ -768,7 +767,6 @@
         "Referers": "Henvisere",
         "SearchEngines": "Søkemotorer",
         "Socials": "Sosiale nettverk",
-        "SubmenuCampaigns": "Kampanjer",
         "SubmenuOverview": "Oversikt",
         "SubmenuSearchEngines": "Søkemotorer og nøkkelord",
         "SubmenuWebsites": "Nettsteder",
@@ -779,11 +777,9 @@
         "TypeWebsites": "%s fra nettsteder",
         "UsingNDistinctUrls": "(bruker %s forskjellige URL-er)",
         "Websites": "Nettsteder",
-        "WidgetCampaigns": "Liste over kampanjer",
         "WidgetExternalWebsites": "Liste over eksterne nettsteder",
         "WidgetKeywords": "Liste over nøkkelord",
-        "WidgetOverview": "Oversikt",
-        "WidgetSearchEngines": "Søkemotorer"
+        "WidgetOverview": "Oversikt"
     },
     "RowEvolution": {
         "MetricBetweenText": "mellom %s og %s"
@@ -845,7 +841,6 @@
         "ListOfIpsToBeExcludedOnAllWebsites": "IP-adressene nedenfor blir ekskludert fra sporing på alle nettsteder.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL-spørreparametrene nedenfor blir ekskludert fra alle side URL-rapporter.",
         "MainDescription": "Dine analyser trenger nettsteder! Legg til, oppdater, slett websider, og vis koden som du skal legge inn på dine websider.",
-        "MenuSites": "Nettsteder",
         "NoWebsites": "Du har ingen nettsteder å administrere",
         "SelectACity": "Velg en by",
         "SelectDefaultCurrency": "Du kan velge standard valuta for nye nettsteder.",
@@ -1407,7 +1402,6 @@
         "AllWebsites": "Alle nettsteder",
         "ApplyToAllWebsites": "Legg til alle nettsteder",
         "ChangeAllConfirm": "Er du sikker på at du vil endre '%s' rettigheter på alle nettstedene?",
-        "ChangePassword": "Endre passord",
         "ClickHereToDeleteTheCookie": "Klikk her for å slette informasjonskapselen og la Piwik spore dine besøk.",
         "ClickHereToSetTheCookieOnDomain": "Klikk her for å sette en informasjonskapsel som vil ekskludere dine besøk på nettsteder som spores av Piwik på %s",
         "DeleteConfirm": "Er du sikker på at du vil slette brukeren %s?",
@@ -1436,7 +1430,6 @@
         "PrivView": "Vis",
         "ReportDateToLoadByDefault": "Rapportdato som skal lastes som standard",
         "ReportToLoadByDefault": "Rapport som skal lastes som standard",
-        "Sites": "Nettsteder",
         "TheLoginScreen": "Innloggingsside",
         "ThereAreCurrentlyNRegisteredUsers": "Det er for tiden %s registrerte brukere.",
         "TheSuperUserAliasCannotBeChanged": "Superbruker-aliaset kan ikke endres.",

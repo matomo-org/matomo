@@ -39,7 +39,7 @@
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.errorDiv('ajaxErrorMobileMessagingSettings') }}
 
-    <h2>{{ 'MobileMessaging_Settings_PhoneNumbers'|translate }}</h2>
+    <h2>{{ 'MobileMessaging_PhoneNumbers'|translate }}</h2>
     {% if not credentialSupplied %}
         {% if accountManagedByCurrentUser %}
             {{ 'MobileMessaging_Settings_CredentialNotProvided'|translate }}

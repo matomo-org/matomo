@@ -336,6 +336,7 @@
         "BackToPiwik": "العودة إلى Piwik",
         "Broken": "تالف",
         "Cancel": "إلغاء",
+        "ChangePassword": "تغيير كلمة المرور",
         "ChooseDate": "اختر التاريخ",
         "ChooseLanguage": "اختر اللغة",
         "ChoosePeriod": "اختر الفترة",
@@ -780,7 +781,6 @@
         "VisitorsInRealTime": "الزوار في الوقت الحقيقي"
     },
     "Login": {
-        "ChangePassword": "تغيير كلمة المرور",
         "ContactAdmin": "الأسباب المحتملة: قد يكون مستضيف الموقع قد عطل خاصية mail().<br\/> الرجاء الاتصال بمدير Piwik.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "لا يمكن المصادقة على دخول المدير العام باستخدام آلية '%s'.",
         "ExceptionPasswordMD5HashExpected": "باراميتر كلمة المرور كان يتوقع أن يكون MD5 hash لكلمة المرور.",
@@ -826,7 +826,6 @@
         "RefererName": "اسم المرسل",
         "Referers": "مرسلو الزوار",
         "SearchEngines": "محركات البحث",
-        "SubmenuCampaigns": "الحملات الدعائية",
         "SubmenuOverview": "نظرة عامة",
         "SubmenuSearchEngines": "محركات البحث والكلمات الدلالية",
         "SubmenuWebsites": "مواقع ويب",
@@ -836,11 +835,9 @@
         "TypeWebsites": "%s من مواقع ويب",
         "UsingNDistinctUrls": "(باستخدام %s روابط بارزة)",
         "Websites": "المواقع",
-        "WidgetCampaigns": "قائمة الحملات",
         "WidgetExternalWebsites": "قائمة المواقع الخارجية",
         "WidgetKeywords": "قائمة الكلمات الدلالية",
-        "WidgetOverview": "نظرة عامة",
-        "WidgetSearchEngines": "أفضل محركات البحث"
+        "WidgetOverview": "نظرة عامة"
     },
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "أرسل التقرير إلى هذه العناوين أيضاً (عنوان لكل سطر):",
@@ -909,7 +906,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "سيتم استثناء باراميترات روابط الاستعلام التالية من كافة روابط جميع المواقع.",
         "ListOfQueryParametersToExclude": "أدخل قائمة باراميترات روابط الاستعلام، واحداً لكل سطر، ليتم استثنءه من تقارير روابط الصفحات.",
         "MainDescription": "تحليلات ويب الخاصة بك تحتاج لمواقع! أضف، حدِّث أو احذف مواقع واعرض أكواد جافا لتدخلها في صفحاتك.",
-        "MenuSites": "المواقع",
         "NotFound": "لم يتم العثور على مواقع تخص",
         "NoWebsites": "أنت لا تملك أي مواقع لتديرها.",
         "OnlyOneSiteAtTime": "لا يمكنك تحرير أكثر من موقع في الوقت ذاته. يرجى حفظ أو إلغاء التغييرات الحالية على الموقع %s.",
@@ -1437,7 +1433,6 @@
         "AllWebsites": "كافة المواقع",
         "ApplyToAllWebsites": "تطبيق على كافة المواقع",
         "ChangeAllConfirm": "هل ترغب حقاً في تعديل صلاحيات '%s' في كافة المواقع؟",
-        "ChangePassword": "تغيير كلمة المرور",
         "ClickHereToDeleteTheCookie": "انقر هنا لحذف الكوكيز وليتتبع Piwik زياراتك",
         "DeleteConfirm": "هل ترغب حقاً في حذف المستخدم %s؟",
         "Email": "البريد الإلكتروني",
@@ -1467,7 +1462,6 @@
         "PrivView": "مشاهدة",
         "ReportDateToLoadByDefault": "تاريخ التقرير ليتم تحميله",
         "ReportToLoadByDefault": "التقرير الافتراضي",
-        "Sites": "المواقع",
         "TheLoginScreen": "شاشة تسجيل الدخول",
         "ThereAreCurrentlyNRegisteredUsers": "يوجد حالياً %s مستخدم مسجل.",
         "TheSuperUserAliasCannotBeChanged": "لا يمكن تغيير لقب المدير العام.",

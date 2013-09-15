@@ -288,15 +288,12 @@
         "DirectEntry": "నేరు సందర్శన",
         "Keywords": "కీపదాలు",
         "SearchEngines": "శోధనయంత్రాలు",
-        "SubmenuCampaigns": "ప్రచారాలు",
         "SubmenuOverview": "అవలోకనం",
         "SubmenuWebsites": "జాలగూళ్ళు & సాంఘికం",
         "Websites": "జాలగూళ్ళు",
-        "WidgetCampaigns": "ప్రచారాల యొక్క జాబితా",
         "WidgetExternalWebsites": "బయటి జాలగూళ్ళ యొక్క జాబితా",
         "WidgetKeywords": "కీపదాల యొక్క జాబితా",
-        "WidgetOverview": "అవలోకనం",
-        "WidgetSearchEngines": "ఉత్తమ శోధన యంత్రాలు"
+        "WidgetOverview": "అవలోకనం"
     },
     "ScheduledReports": {
         "PiwikReports": "పివిక్ నివేదికలు",
@@ -310,7 +307,6 @@
     "SitesManager": {
         "Currency": "మారక ద్రవ్యం",
         "GlobalWebsitesSettings": "సార్వత్రిక వెబ్‌సైటు అమరికలు",
-        "MenuSites": "జాలగూళ్ళు",
         "Sites": "జాలగూళ్ళు",
         "Timezone": "కాల మండలం"
     },
@@ -813,7 +809,6 @@
         "MenuAnonymousUserSettings": "ఆజ్ఞాత వాడుకరుల అమరికలు",
         "MenuUsers": "వాడుకరులు",
         "MenuUserSettings": "వాడుకరి అమరికలు",
-        "Sites": "జాలగూళ్ళు",
         "User": "వాడుకరి",
         "UsersManagement": "వాడుకరుల నిర్వహణ",
         "YourUsernameCannotBeChanged": "మీ వాడుకరి పేరుని మార్చలేరు."

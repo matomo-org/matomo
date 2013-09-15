@@ -274,11 +274,9 @@
         "TypeSearchEngines": "%s ከመፈለጊያ ሞተሮች",
         "TypeWebsites": "%s ከድር ጣቢያዎች",
         "Websites": "ድር ጣቢያዎች",
-        "WidgetCampaigns": "የCampaigns ዝርዝር",
         "WidgetExternalWebsites": "የውጫዊ ድር ጣቢያዎች ዝርዝር",
         "WidgetKeywords": "የቁልፍ ቃላት ዝርዝር",
-        "WidgetOverview": "አጠቃላይ እይታ",
-        "WidgetSearchEngines": "ምርጥ የመፈለጊያ ሞተር"
+        "WidgetOverview": "አጠቃላይ እይታ"
     },
     "SitesManager": {
         "AddSite": "አዲስ ድር ጣቢያ ጨምር",
@@ -289,7 +287,6 @@
         "ExceptionNoUrl": "ለዚህ ድር ጣቢያ ቢያንስ አንድ ዩ አር ኤል ማምር አለብህ።",
         "JsTrackingTagHelp": "በሁሉም ገፆች ለማካተት እንዲያስችልህ የጃቫ ስክሪፕት ዱካ መከተያ መለያ እዚህ አለ",
         "MainDescription": "የድር ማመዛዘኛ ሪፖርት ድር ጣቢያ ያስፈልጋቸዋል! ጨምር፣ አልቅ፣ ድር ጣቢያ ሰርዝ እና በገፅህ ላይ ለማስገባት የፈለግከውን የጃቫ ስክሪፕት አሳይ",
-        "MenuSites": "ድር ጣቢያዎች",
         "NoWebsites": "ለታስተዳድረው የምትችለው ምንም አይነት ድር ጣቢያ የለም",
         "ShowTrackingTag": "የዱካ መከተያ መለያ አሳይ",
         "Sites": "ድር ጣቢያ",
@@ -774,7 +771,6 @@
         "PrivAdmin": "አስተዳዳሪ",
         "PrivNone": "መድረሻ የለም",
         "PrivView": "ትእይታ",
-        "Sites": "ድር ጣቢያዎች",
         "User": "ተጠቃሚ",
         "UsersManagement": "የተጠቃሚዎች ምነጃ",
         "UsersManagementMainDescription": "አዳዲስ ተጤቃሚዎችን ይፍጠሩ ወይም ያሉትን ያልቁ።ፈቃዳቸውን ከላይ ማዘጋጀት ይቻላል."

@@ -164,6 +164,7 @@
         "AverageQuantity": "Vidutinis kiekis",
         "BackToHomepage": "Atgal į pradinį puslapį",
         "BackToPiwik": "Atgal į Piwik",
+        "ChangePassword": "Pakeisti slaptažodį",
         "ChooseDate": "Pasirinkti datą",
         "ChooseLanguage": "Pasirinkti kalbą",
         "ChoosePeriod": "Pasirinkti periodą",
@@ -581,7 +582,6 @@
         "VisitorsInRealTime": "Lankytojai realiuoju laiku"
     },
     "Login": {
-        "ChangePassword": "Pakeisti slaptažodį",
         "ContactAdmin": "Galima priežastis: Jūsų pagr. kompiuteryje (serveryje) gali būti išjungta mail() funkcija.<br \/>Prašome susisiekti su savo Piwik administratoriumi.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "Super naudojas negali būti patikrintas naudojantis '%s' mechanizmu.",
         "InvalidOrExpiredToken": "Netinkamas arba pasibaigęs talonas",
@@ -633,7 +633,6 @@
         "RefererName": "Šaltinio pavadinimas",
         "Referers": "Šaltiniai",
         "SearchEngines": "Paieškos sistemos",
-        "SubmenuCampaigns": "Kampanijos",
         "SubmenuOverview": "Apžvalga",
         "SubmenuSearchEngines": "Paieškos sistemos ir raktiniai žodžiai",
         "SubmenuWebsites": "Svetainės",
@@ -644,11 +643,9 @@
         "TypeWebsites": "%s iš svetainių",
         "UsingNDistinctUrls": "(naudojant %s skirtingus URL)",
         "Websites": "Svetainės",
-        "WidgetCampaigns": "Kampanijų sąrašas",
         "WidgetExternalWebsites": "Išorinių svetainių sąrašas",
         "WidgetKeywords": "Raktinių žodžių sąrašas",
-        "WidgetOverview": "Bendras vaizdas",
-        "WidgetSearchEngines": "Geriausios paieškos sistemos"
+        "WidgetOverview": "Bendras vaizdas"
     },
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Taip pat siųsti šią ataskaitą šiems adresatams (kiekvienam adresui atskira eilutė)",
@@ -713,7 +710,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Užklausų URL parametrai nurodyti žemiau nebus įtraukiami į URL visose svetainėse.",
         "ListOfQueryParametersToExclude": "Įveskite URL užklausų parametrų sąrašą, vienas eilutėje.",
         "MainDescription": "Pridėkite, atnaujinkite, šalinkite svetaines ir gaukite JavaScript kodą.",
-        "MenuSites": "Svetainės",
         "NotAnEcommerceSite": "Nekomercinė svetainė",
         "NotFound": "Nerasta svetainių",
         "NoWebsites": "Neturite jokių svetainių administravimui.",
@@ -1241,7 +1237,6 @@
         "AllWebsites": "Visos svetainės",
         "ApplyToAllWebsites": "Taikyti visoms svetainėms",
         "ChangeAllConfirm": "Ar tikrai norite pakeisti '%s' leidimus visoms svetainėms?",
-        "ChangePassword": "Pakeisti slaptažodį",
         "ClickHereToDeleteTheCookie": "Spauskite čia, kad ištrintumėte slapuką ir Piwik stebėtų Jūsų apsilankymus",
         "ClickHereToSetTheCookieOnDomain": "Spauskite čia, kad sukurtumėte slapuką, kuris neleis Piwik sekti Jūsų apsilankymų %s",
         "DeleteConfirm": "Ar tikrai norite pašalinti naudotoją %s?",
@@ -1267,7 +1262,6 @@
         "PrivAdmin": "Administruoti",
         "PrivNone": "Neleidžiama",
         "PrivView": "Matyti",
-        "Sites": "Svetainės",
         "TheLoginScreen": "Prisijungimo langas",
         "TheSuperUserAliasCannotBeChanged": "Alternatyvus super naudotojo vardas negali būti pakeistas.",
         "TypeYourPasswordAgain": "Pakartokite savo naują slaptažodį.",

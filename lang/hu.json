@@ -203,6 +203,7 @@
         "BackToPiwik": "Vissza a Piwik-hez",
         "BrokenDownReportDocumentation": "Több jelentésre van lebontva, melyek szikravonalakként jelennek meg a lap alján. A grafikonok kinagyíthatóak egyébként a megfelelő jelentésre kattintva.",
         "Cancel": "Mégse",
+        "ChangePassword": "Jelszó megváltoztatása",
         "ChangeTagCloudView": "Figyelmedbe ajánljuk, hogy a jelentés a címkefelhőn kívül más formátumokban is megtekinthető a jelentés alján található gombok segítségével.",
         "ChooseDate": "Válassz dátumot",
         "ChooseLanguage": "Válassz nyelvet",
@@ -668,7 +669,6 @@
         "VisitorsInRealTime": "Látogatók valós időben"
     },
     "Login": {
-        "ChangePassword": "Jelszó megváltoztatása",
         "ContactAdmin": "Lehetséges ok: talán a szolgáltatód tiltja a mail() funkciót. <br \/> Kérjük, lépj kapcsolatba a Piwik adminisztrátoroddal.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "Adminisztrátor (Super User) autentikációja nem lehetséges a '%s' módszerrel.",
         "ExceptionPasswordMD5HashExpected": "A jelszóparaméternek egyeznie kellene a jelszó MD5 hash értékével.",
@@ -712,7 +712,6 @@
         "PluginDescription": "Jelentések a látogatások forrásáról és a hivatkozó weboldalakról (a böngészők által továbbított Referrer adatok segítségével): keresőoldalakról, kulcsszavakról, weboldalakról, kampányokról, direkt látogatásokról.",
         "Referers": "Források",
         "SearchEngines": "Keresőoldalak",
-        "SubmenuCampaigns": "Kampányok",
         "SubmenuOverview": "Áttekintés",
         "SubmenuSearchEngines": "Keresőoldalak és kulcsszavak",
         "SubmenuWebsites": "Weboldalak",
@@ -723,11 +722,9 @@
         "TypeWebsites": "%s a weboldalakról",
         "UsingNDistinctUrls": "(%s különböző URL által)",
         "Websites": "Weboldalak",
-        "WidgetCampaigns": "Kampányok listája",
         "WidgetExternalWebsites": "Külső weboldalak listája",
         "WidgetKeywords": "Kulcsszavak listája",
-        "WidgetOverview": "Áttekintés",
-        "WidgetSearchEngines": "Legjobb keresőoldalak"
+        "WidgetOverview": "Áttekintés"
     },
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Továbbítsd a jelentéseket még az alábbi e-mail címekre is (soronként csak egy e-mail cím szerepeljen)",
@@ -779,7 +776,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Az alábbi URL paraméterek egyik weboldalon sem kerülnek regisztrálásra.",
         "ListOfQueryParametersToExclude": "Adj meg soronként egy-egy olyan URL paramétert, melyek nem kerülnek regisztrálásra a Weblap URL jelentésekben.",
         "MainDescription": "A webanalitikai jelentésekhez szükség van weboldalakra! Hozz létre, frissíts vagy törölj weboldalakat, vagy tekintsd meg a weblapokba beillesztendő JavaScript követőkódokat.",
-        "MenuSites": "Weboldalak",
         "NotFound": "Ilyen weboldal nincs",
         "NoWebsites": "Nem került még létrehozásra egyetlen weboldal sem.",
         "PiwikWillAutomaticallyExcludeCommonSessionParameters": "A Piwik automatikusan kiszűri az általánosan használt session paramétereket (%s).",
@@ -1305,7 +1301,6 @@
         "AllWebsites": "Összes weboldal",
         "ApplyToAllWebsites": "Alkalmazás minden weboldalra",
         "ChangeAllConfirm": "Biztosan meg akarod változtatni a(z) '%s' jogosultságot az összes weboldalon?",
-        "ChangePassword": "Jelszó megváltoztatása",
         "ClickHereToDeleteTheCookie": "Kattints ide a szűrés érdekében lementett süti törléséhez, hogy a továbbiakban a Piwik regisztrálja látogatásaid.",
         "ClickHereToSetTheCookieOnDomain": "Kattints ide egy, a %s weboldalon történő látogatásaid kiszűréséhez szükséges süti böngésződben történő elmentéséhez.",
         "DeleteConfirm": "Biztosan törölni akarod a következő felhasználót: %s?",
@@ -1335,7 +1330,6 @@
         "PrivView": "Megtekintés",
         "ReportDateToLoadByDefault": "Alapértelmezett időintervallum a betöltődő jelentésekhez",
         "ReportToLoadByDefault": "Alapértelmezettként betöltődő jelentés",
-        "Sites": "Weboldalak",
         "TheLoginScreen": "Belépési képernyő",
         "TheSuperUserAliasCannotBeChanged": "A superuser felhasználói neve nem változtatható meg.",
         "TypeYourPasswordAgain": "Add meg az új jelszót még egyszer.",

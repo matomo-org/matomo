@@ -38,7 +38,7 @@ class SitesManager extends \Piwik\Plugin
 
     function addMenu()
     {
-        Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'SitesManager_MenuSites',
+        Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'SitesManager_Sites',
             array('module' => 'SitesManager', 'action' => 'index'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 1);

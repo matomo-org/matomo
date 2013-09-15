@@ -60,7 +60,7 @@ class Referers extends \Piwik\Plugin
                                                       . '<b>' . Piwik_Translate('Referers_Websites') . ':</b> ' . Piwik_Translate('Referers_WebsitesDocumentation',
                                                       array('<br />', '&quot;' . Piwik_Translate('Referers_SubmenuWebsites') . '&quot;')) . '<br />'
                                                       . '<b>' . Piwik_Translate('Referers_Campaigns') . ':</b> ' . Piwik_Translate('Referers_CampaignsDocumentation',
-                                                      array('<br />', '&quot;' . Piwik_Translate('Referers_SubmenuCampaigns') . '&quot;')),
+                                                      array('<br />', '&quot;' . Piwik_Translate('Referers_Campaigns') . '&quot;')),
                                                   'order'             => 1,
                                               ),
                                               array(
@@ -215,8 +215,8 @@ class Referers extends \Piwik\Plugin
         WidgetsList::add('Referers_Referers', 'Referers_WidgetKeywords', 'Referers', 'getKeywords');
         WidgetsList::add('Referers_Referers', 'Referers_WidgetExternalWebsites', 'Referers', 'getWebsites');
         WidgetsList::add('Referers_Referers', 'Referers_WidgetSocials', 'Referers', 'getSocials');
-        WidgetsList::add('Referers_Referers', 'Referers_WidgetSearchEngines', 'Referers', 'getSearchEngines');
-        WidgetsList::add('Referers_Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
+        WidgetsList::add('Referers_Referers', 'Referers_SearchEngines', 'Referers', 'getSearchEngines');
+        WidgetsList::add('Referers_Referers', 'Referers_Campaigns', 'Referers', 'getCampaigns');
         WidgetsList::add('Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
         WidgetsList::add('Referers_Referers', 'Referers_WidgetGetAll', 'Referers', 'getAll');
         if (SettingsPiwik::isSegmentationEnabled()) {
@@ -233,7 +233,7 @@ class Referers extends \Piwik\Plugin
         Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuOverview', array('module' => 'Referers', 'action' => 'index'), true, 1);
         Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'), true, 2);
         Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'indexWebsites'), true, 3);
-        Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuCampaigns', array('module' => 'Referers', 'action' => 'indexCampaigns'), true, 4);
+        Piwik_AddMenu('Referers_Referers', 'Referers_Campaigns', array('module' => 'Referers', 'action' => 'indexCampaigns'), true, 4);
     }
 
     /**

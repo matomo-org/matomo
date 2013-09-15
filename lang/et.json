@@ -198,7 +198,6 @@
         "Keywords": "Võtmesõnad",
         "Referers": "Viitajad",
         "SearchEngines": "Otsingumootorid",
-        "SubmenuCampaigns": "Kampaaniad",
         "SubmenuSearchEngines": "Otsimootorid & võtmesõnad",
         "SubmenuWebsites": "Veebilehed",
         "Type": "Viitaja tüüp",
@@ -207,11 +206,9 @@
         "TypeSearchEngines": "%s otsomootoritest",
         "TypeWebsites": "%s veebilehtedelt",
         "Websites": "Veebilehed",
-        "WidgetCampaigns": "Kampaaniate nimistu",
         "WidgetExternalWebsites": "Väliste viitajate nimekiri",
         "WidgetKeywords": "Võtmesõnade nimistu",
-        "WidgetOverview": "Ülevaade",
-        "WidgetSearchEngines": "Parimad otsimootorid"
+        "WidgetOverview": "Ülevaade"
     },
     "SitesManager": {
         "AddSite": "Lisa uus sait",
@@ -222,7 +219,6 @@
         "ExceptionInvalidUrl": "Aadress '%s' ei ole kehtiv veebiaadress.",
         "ExceptionNoUrl": "Pead määratlema vähemasti ühe saidil oleva URL-i.",
         "MainDescription": "Sinu veebianalüütika vajab veebilehti, mida hallata! Lisa, uuenda, kustuta veebilehti, ja näita Javascript koodi mida lisada veebilehtedele.",
-        "MenuSites": "Saidid",
         "NoWebsites": "Sul pole saite mida administreerida.",
         "Sites": "Sites",
         "Timezone": "Ajavöönd",
@@ -724,7 +720,6 @@
         "PrivAdmin": "Admin",
         "PrivNone": "Ligipääs puudub",
         "PrivView": "Vaata",
-        "Sites": "Saidid",
         "User": "Kasutaja",
         "UsersManagement": "Kasutajate haldamine",
         "UsersManagementMainDescription": "Loo uusi kasutajakontosid või uuenda olemasolevaid. Saad seada nende õigused ülalpool."

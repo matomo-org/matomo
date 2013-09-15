@@ -209,6 +209,7 @@
         "BackToHomepage": "Voltar à página inicial do Piwik",
         "BackToPiwik": "Voltar a Piwik",
         "BrokenDownReportDocumentation": "Está dividido em vários relatórios, que são mostrados com gráficos Sparkline no fim da página. Pode aumentar o gráfico carregando no relatório que deseja visualizar.",
+        "ChangePassword": "Alterar palavra-passe",
         "ChangeTagCloudView": "Por favor note que pode visualizar relatórios de outras formas além das tag clouds. Use os menus no fundo do relatório para o fazer.",
         "ChooseDate": "Escolha data",
         "ChooseLanguage": "Escolha o idioma",
@@ -734,7 +735,6 @@
         "VisitorsLastVisit": "A última visita do utilizador ocorreu à %s dias atrás."
     },
     "Login": {
-        "ChangePassword": "Alterar palavra-passe",
         "ContactAdmin": "Razão possível: o seu administrador desactivou a função mail(). <br \/>Por favor contacte o seu administrador Piwik.",
         "ExceptionInvalidSuperUserAuthenticationMethod": "O Super Utilizador não se pode autenticar com o mecanismo '%s'.",
         "ExceptionPasswordMD5HashExpected": "Espera-se que o parâmetro da palavra-passe seja uma hash MD5 da palavra-passe.",
@@ -816,7 +816,6 @@
         "SearchEngines": "Motores de Busca",
         "SearchEnginesDocumentation": "O visitante foi referenciado para o seu website a partir de um motor de busca. %s Veja o relatório %s para mais detalhes.",
         "SearchEnginesReportDocumentation": "Este relatório mostra quais os motores de pesquisa que referenciaram utilizadores para o seu website. %s Ao clicar numa linha da tabela pode ver o que os utilizadores pesquisaram num motor de pesquisa específico.",
-        "SubmenuCampaigns": "Campanhas",
         "SubmenuOverview": "Visão global",
         "SubmenuSearchEngines": "Motores de Buscas & Palvras Chaves",
         "SubmenuWebsites": "Websites",
@@ -830,11 +829,9 @@
         "Websites": "Websites",
         "WebsitesDocumentation": "O visitante seguiu um link noutro website que apontava para o seu. %s Veja o relatório %s para mais detalhes.",
         "WebsitesReportDocumentation": "Nesta tabela, pode ver quais os website que levaram referentes para o seu site. %s Ao clicar numa linha da tabela pode ver quais os URLs onde os links para o seu site estavam.",
-        "WidgetCampaigns": "Lista de Campanhas",
         "WidgetExternalWebsites": "Lista de Websites externos",
         "WidgetKeywords": "Lista de Palavras Chave",
-        "WidgetOverview": "Visão Geral",
-        "WidgetSearchEngines": "Melhores motores de busca"
+        "WidgetOverview": "Visão Geral"
     },
     "ScheduledReports": {
         "AggregateReportsFormat": "(opcional) Opções de Visualização",
@@ -910,7 +907,6 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Os parâmetros de consulta de endereços abaixo serão excluídos dos endereços de todos os websites.",
         "ListOfQueryParametersToExclude": "Introduza a lista de parâmetros de consulta de endereços, um por linha, para excluir dos relatórios dos endereços das páginas.",
         "MainDescription": "Os seus relatórios de Analíticas Web necessitam de Websites! Adicione, actualize, elimine Websites, e mostre o JavaScript para inserir nas suas páginas.",
-        "MenuSites": "Websites",
         "NotAnEcommerceSite": "Não é um site de Comércio Electrónico",
         "NotFound": "Nenhum website encontrado para",
         "NoWebsites": "Não tem nenhum website para administrar.",
@@ -1445,7 +1441,6 @@
         "AllWebsites": "Todos os websites",
         "ApplyToAllWebsites": "Aplicar a todos os websites",
         "ChangeAllConfirm": "Tem a certeza que deseja alterar '%s' permissões em todos os websites?",
-        "ChangePassword": "Alterar palavra-passe",
         "ChangePasswordConfirm": "Alterar a senha também mudará o token_auth do utilizador. Você deseja continuar?",
         "ClickHereToDeleteTheCookie": "Clique aqui para eliminar o cookie e permitir a Piwik monitorizar as suas visitas.",
         "ClickHereToSetTheCookieOnDomain": "Clique aqui para definir um cookie que excluirá todas as suas visitas de serem monitorizadas por Piwik em %s",
@@ -1477,7 +1472,6 @@
         "PrivView": "Ver",
         "ReportDateToLoadByDefault": "Data de relatório pré-definida para carregar",
         "ReportToLoadByDefault": "Relatório pré-definido para carregar",
-        "Sites": "Websites",
         "TheLoginScreen": "O ecrã de entrada",
         "ThereAreCurrentlyNRegisteredUsers": "Neste momento, existem %s utilizadores registrados.",
         "TheSuperUserAliasCannotBeChanged": "O nome do Super Utilizador não pode ser alterada.",

@@ -97,6 +97,7 @@
         "AuthenticationMethodSmtp": "SMTPrako autentifikazio metodoa",
         "BackToHomepage": "Atzera Piwik hasiera-orrira",
         "BackToPiwik": "Itzuli Piwik-era",
+        "ChangePassword": "Aldatu pasahitza",
         "ChooseLanguage": "Aukeratu hizkuntza",
         "ChoosePeriod": "Aukeratu aldia",
         "ChooseWebsite": "Aukeratu webgunea",
@@ -386,7 +387,6 @@
         "VisitorLog": "Bisitariaren loga"
     },
     "Login": {
-        "ChangePassword": "Aldatu pasahitza",
         "ContactAdmin": "Arrazoi posiblea: zure ostalariak mail() funtzioa ezgaituta izan dezake.<br \/>Jar zaitez harremanetan zure Piwik kudeatzailearekin.",
         "InvalidOrExpiredToken": "Tokena baliogabea da edo iraungi egin da",
         "InvalidUsernameEmail": "Erabiltzaile-izen edo helbide elektroniko baliogabea",
@@ -420,7 +420,6 @@
         "Keywords": "Gako-hitzak",
         "Referers": "Erreferenteak",
         "SearchEngines": "Bilaketa-motorrak",
-        "SubmenuCampaigns": "Kanpainak",
         "SubmenuSearchEngines": "Bilaketa-motorrak eta gako-hitzak",
         "SubmenuWebsites": "Webguneak",
         "Type": "Erreferente mota",
@@ -429,11 +428,9 @@
         "TypeSearchEngines": "%s bilaketa-motorretatik",
         "TypeWebsites": "%s webguneetatik",
         "Websites": "Webguneak",
-        "WidgetCampaigns": "Kanpainen zerrenda",
         "WidgetExternalWebsites": "Kanpoko webguneen zerrenda",
         "WidgetKeywords": "Gako-hitzen zerrenda",
-        "WidgetOverview": "Orokorra",
-        "WidgetSearchEngines": "Gehien erabilitako bilaketa-motorrak"
+        "WidgetOverview": "Orokorra"
     },
     "SitesManager": {
         "AddSite": "Gehitu webgune berria",
@@ -446,7 +443,6 @@
         "ExceptionNoUrl": "Webgunearentzat URL bat zehaztu behar duzu gutxienez.",
         "JsTrackingTagHelp": "Hemen da zure orri guztietan txertatu beharreko JavaScript jarraipen-etiketa",
         "MainDescription": "Zure web analitiken txostenek webguneak behar dituzte! Gehitu, eguneratu, ezabatu webguneak eta erakutsi zure orrietan txertatu beharreko JavaScript kodea.",
-        "MenuSites": "Webguneak",
         "NoWebsites": "Ez daukazu kudeatzeko webgunerik.",
         "ShowTrackingTag": "erakutsi jarraipen-etiketa",
         "Sites": "Webguneak",
@@ -925,7 +921,6 @@
         "PrivAdmin": "Kudeatu",
         "PrivNone": "Atzipenik ez",
         "PrivView": "Ikusi",
-        "Sites": "Webguneak",
         "User": "Erabiltzailea",
         "UsersManagement": "Erabiltzaileen kudeaketa",
         "UsersManagementMainDescription": "Sortu erabiltzaile berriak edo eguneratu daudenak. Ondoren hauen baimenak goian ezar ditzakezu."
