@@ -130,5 +130,6 @@ class Flattener extends DataTableManipulator
     protected function manipulateSubtableRequest(&$request)
     {
         unset($request['flat']);
+        $request['disable_queued_filters'] = 1;
     }
 }

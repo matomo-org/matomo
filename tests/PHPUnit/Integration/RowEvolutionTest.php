@@ -233,4 +233,3 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
 
 Test_Piwik_Integration_RowEvolution::$fixture
     = new Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers();
-

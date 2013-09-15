@@ -231,15 +231,15 @@ class API
     public function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromName'));
-        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', __NAMESPACE__ . '\getSearchEngineLogoFromUrl'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromName'));
+        $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', __NAMESPACE__ . '\getSearchEngineLogoFromUrl'));
 
         // get the keyword and create the URL to the search result page
         $keywords = $this->getKeywords($idSite, $period, $date, $segment);
         $subTable = $keywords->getRowFromIdSubDataTable($idSubtable);
         if ($subTable) {
             $keyword = $subTable->getColumn('label');
-            $dataTable->queueFilter('MetadataCallbackReplace', array('url', __NAMESPACE__ . '\getSearchEngineUrlFromUrlAndKeyword', array($keyword)));
+            $dataTable->filter('MetadataCallbackReplace', array('url', __NAMESPACE__ . '\getSearchEngineUrlFromUrlAndKeyword', array($keyword)));
         }
         return $dataTable;
     }
@@ -247,8 +247,8 @@ class API
     public function getSearchEngines($idSite, $period, $date, $segment = false, $expanded = false)
     {
         $dataTable = $this->getDataTable(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromName'));
-        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', __NAMESPACE__ . '\getSearchEngineLogoFromUrl'));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromName'));
+        $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', __NAMESPACE__ . '\getSearchEngineLogoFromUrl'));
         return $dataTable;
     }
 
@@ -277,7 +277,7 @@ class API
 
         if (!empty($subTableRow)) {
             $searchEngineUrl = $subTableRow->getMetadata('url');
-            $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromKeywordAndUrl', array($searchEngineUrl)));
+            $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getSearchEngineUrlFromKeywordAndUrl', array($searchEngineUrl)));
         }
         $dataTable = $this->handleKeywordNotDefined($dataTable);
         return $dataTable;
