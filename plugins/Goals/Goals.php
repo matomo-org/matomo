@@ -135,7 +135,7 @@ class Goals extends \Piwik\Plugin
             'nb_conversions'      => Piwik_Translate('Goals_ColumnConversions'),
             'nb_visits_converted' => Piwik_Translate('General_ColumnVisitsWithConversions'),
             'conversion_rate'     => Piwik_Translate('General_ColumnConversionRate'),
-            'revenue'             => Piwik_Translate('Goals_ColumnRevenue')
+            'revenue'             => Piwik_Translate('General_ColumnRevenue')
         );
 
         $conversionReportMetrics = array(
@@ -277,7 +277,7 @@ class Goals extends \Piwik\Plugin
                 // Abandoned cart general metrics
                 $abandonedCartMetrics = $goalMetrics;
                 $abandonedCartMetrics['nb_conversions'] = Piwik_Translate('General_AbandonedCarts');
-                $abandonedCartMetrics['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('Goals_ColumnRevenue'));
+                $abandonedCartMetrics['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_ColumnRevenue'));
                 $abandonedCartMetrics['items'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('Goals_Products'));
                 unset($abandonedCartMetrics['nb_visits_converted']);
 

@@ -233,7 +233,7 @@ class HtmlTable extends DataTableVisualization
         $view->translations += array(
             'nb_conversions'            => Piwik_Translate('Goals_ColumnConversions'),
             'conversion_rate'           => Piwik_Translate('General_ColumnConversionRate'),
-            'revenue'                   => Piwik_Translate('Goals_ColumnRevenue'),
+            'revenue'                   => Piwik_Translate('General_ColumnRevenue'),
             'revenue_per_visit'         => Piwik_Translate('General_ColumnValuePerVisit'),
         );
         $view->metrics_documentation['nb_visits'] = Piwik_Translate('Goals_ColumnVisits');
@@ -383,7 +383,7 @@ class HtmlTable extends DataTableVisualization
                 'goal_' . $idGoal . '_nb_conversions' => Piwik_Translate('Goals_Conversions', $goalName),
                 'goal_' . $idGoal . '_conversion_rate' => Piwik_Translate('Goals_ConversionRate', $goalName),
                 'goal_' . $idGoal . '_revenue' =>
-                Piwik_Translate('%s ' . Piwik_Translate('Goals_ColumnRevenue'), $goalName),
+                Piwik_Translate('%s ' . Piwik_Translate('General_ColumnRevenue'), $goalName),
                 'goal_' . $idGoal . '_revenue_per_visit' =>
                 Piwik_Translate('%s ' . Piwik_Translate('General_ColumnValuePerVisit'), $goalName),
             );

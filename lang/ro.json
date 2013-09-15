@@ -17,7 +17,6 @@
         "ColumnSearches": "Căutări",
         "ColumnSearchesDocumentation": "Numărul de vizite care au căutat după acest cuvânt cheie folosind motorul de căutare de pe site-ul dvs web.",
         "ColumnSearchExits": "% Căutări abandonate",
-        "ColumnSearchKeyword": "Cuvânt-cheie",
         "ColumnSearchResultsCount": "Numărul rezultate căutare",
         "ColumnSiteSearchKeywords": "Cuvinte-cheie unice",
         "ColumnUniqueClicks": "Click-uri unice.",
@@ -142,7 +141,6 @@
         "YouAreUsingTheLatestVersion": "Foloseşti ultima versiune Piwik!"
     },
     "CorePluginsAdmin": {
-        "Action": "Acţiune",
         "Activate": "Activare",
         "Activated": "Activat",
         "Active": "Activ",
@@ -153,11 +151,9 @@
         "MainDescription": "Pluginurile extind functionaliatatea lui Piwik. Orice plugin instalat , poate fi activat sau dezactivat aici.",
         "MenuExtend": "Extinde",
         "MenuPlatform": "Platformă",
-        "Plugin": "Pluginuri",
         "PluginCannotBeFound": "Plugin-ul nu poate fi găsit!",
         "PluginDescription": "Interfaţa de administrare plugin-uri.",
         "PluginHomepage": "Pagina Pluginurilor",
-        "Plugins": "Pluginuri",
         "PluginsManagement": "Managementul pluginurilor",
         "Status": "Stare",
         "Theme": "Temă",
@@ -166,7 +162,6 @@
         "Version": "Versiune"
     },
     "CoreUpdater": {
-        "ContinueToPiwik": "Continuă către Piwik",
         "CreatingBackupOfConfigurationFile": "Crează o copie a fişierului configuraţie în %s",
         "CriticalErrorDuringTheUpgradeProcess": "Eroare critica a procesului de actualizare :",
         "DatabaseUpgradeRequired": "Actualizare necesara a bazei de date",
@@ -266,6 +261,7 @@
     "General": {
         "AbandonedCarts": "Cosuri abandonate",
         "AboutPiwikX": "Despre Piwik %s",
+        "Action": "Acţiune",
         "Actions": "Acţiuni",
         "Add": "Adaugă",
         "AfterEntry": "dupa introducerea aici",
@@ -311,6 +307,7 @@
         "ColumnExitRateDocumentation": "Procentajul de vizite care au parasit site-ul dupa ce au vizualizat aceasta pagina",
         "ColumnExits": "Iesiri",
         "ColumnExitsDocumentation": "Numarul de vizite care s-au terminat pe aceasta pagina",
+        "ColumnKeyword": "Cuvânt-cheie",
         "ColumnLabel": "Eticheta",
         "ColumnMaxActions": "Maxim de actiuni intr-o vizita",
         "ColumnNbActions": "Actiuni",
@@ -323,6 +320,7 @@
         "ColumnPageviews": "Pagini vizualizate",
         "ColumnPageviewsDocumentation": "De cate ori a fost vizitata pagina",
         "ColumnPercentageVisits": "% Vizite",
+        "ColumnRevenue": "Venit",
         "ColumnSumVisitLength": "Timp total petrecut de vizitatori (in secunde)",
         "ColumnUniqueEntrances": "Intrari unice",
         "ColumnUniqueExits": "Iesiri unice",
@@ -333,6 +331,7 @@
         "ColumnVisitsWithConversions": "Vizite cu conversii",
         "ConfigFileIsNotWritable": "Fişierul de configurare %s Piwik nu se poate scrie, e posibil ca o parte din modificările tale să nu se fi salvat. %s Schimbă permisiile fişierului de configurare pentru a-l putea modifica.",
         "Continue": "Continuă",
+        "ContinueToPiwik": "Continuă către Piwik",
         "CurrentMonth": "Luna curenta",
         "CurrentWeek": "Saptamana curenta",
         "CurrentYear": "Anul curent",
@@ -526,6 +525,8 @@
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s este disponibil. %2$s Actualizeaza-l acum!%3$s (see %4$s changes%5$s).",
         "PleaseSpecifyValue": "Va rugam specificati o valoare pentru '%s'.",
         "PleaseUpdatePiwik": "Va rugam actualizati Piwik",
+        "Plugin": "Pluginuri",
+        "Plugins": "Pluginuri",
         "PoweredBy": "Oferit de",
         "Previous": "Anteriorul",
         "PreviousDays": "Ultimele %s zile (excluzand azi)",
@@ -645,7 +646,6 @@
         "AddNewGoalOrEditExistingGoal": "%sAdaugă o ţintă nouă sau%s sau %sModifică%s ţinte existente",
         "ColumnAveragePriceDocumentation": "Venit mediu pentru acest %s.",
         "ColumnConversions": "Conversii",
-        "ColumnRevenue": "Venit",
         "ColumnRevenueDocumentation": "Venit total obţinut prin %s.",
         "Contains": "conţine %s",
         "ConversionRate": "%s rata conversie",
@@ -678,7 +678,6 @@
         "YouCanEnableEcommerceReports": "Poţi activa %s pentru acest site pe pagina %s."
     },
     "Installation": {
-        "ContinueToPiwik": "Continuă către Piwik",
         "DatabaseCreation": "Creare bază de date",
         "DatabaseServerVersion": "Versiune server Bază de date",
         "DatabaseSetup": "Setare Bază de date",
@@ -712,8 +711,6 @@
         "Welcome": "Bine ai venit!"
     },
     "Live": {
-        "Action": "Acţiune",
-        "GoalRevenue": "Venit",
         "GoalType": "Tip",
         "LastHours": "Ultimele %s ore",
         "LastMinutes": "Ultimele %s minute",
@@ -808,7 +805,6 @@
     "Referers": {
         "Campaigns": "Campanii",
         "ColumnCampaign": "Campanie",
-        "ColumnKeyword": "Cuvânt-cheie",
         "ColumnSearchEngine": "Motor de căutare",
         "ColumnSocial": "Reţea socială",
         "ColumnWebsite": "Site web",
@@ -1234,7 +1230,6 @@
         "ColumnBrowserVersion": "Versiunea browser-ului",
         "ColumnConfiguration": "Configuraţia",
         "ColumnOperatingSystem": "Sistem de operare",
-        "ColumnPlugin": "Plugin",
         "ColumnResolution": "Rezoluţie ecran",
         "ColumnTypeOfScreen": "Tip ecran",
         "Configurations": "Configurare",
@@ -1427,7 +1422,6 @@
         "MobileVsDesktop": "Mobil vs Desktop",
         "OperatingSystemFamily": "Sistem de operare după familie",
         "OperatingSystems": "Sisteme operare",
-        "Plugins": "Pluginuri",
         "Resolutions": "Rezolutii",
         "VisitorSettings": "Setări vizitatori",
         "WideScreen": "Ecran extins",

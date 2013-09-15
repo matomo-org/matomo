@@ -12,7 +12,6 @@
         "ColumnPageURL": "כתובת הדף",
         "ColumnSearchCategory": "חיפוש קטגוריה",
         "ColumnSearches": "חיפושים",
-        "ColumnSearchKeyword": "מילת מפתח",
         "ColumnSearchResultsCount": "מספר תוצאות חיפוש",
         "ColumnSiteSearchKeywords": "מילות מפתח ייחודיות",
         "ColumnUniqueClicks": "קליקים ייחודיים",
@@ -95,7 +94,6 @@
         "WebAnalyticsReports": "דוחות פעילות"
     },
     "CorePluginsAdmin": {
-        "Action": "פעולה",
         "Activate": "הפעל",
         "Activated": "הופעל",
         "Active": "פעיל",
@@ -106,10 +104,8 @@
         "MainDescription": "תוספים מרחיבים את היכולות של Piwik. ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
         "MenuExtend": "הרחבה",
         "MenuPlatform": "פלטפורמה",
-        "Plugin": "תוסף",
         "PluginDescription": "ממשק ניהול תוספים.",
         "PluginHomepage": "אתר התוסף",
-        "Plugins": "תוספים",
         "PluginsManagement": "ניהול תוספים",
         "Status": "מצב",
         "Theme": "ערכת עיצוב",
@@ -119,7 +115,6 @@
     },
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "צפייה והעתקת השאילתות שירוצו",
-        "ContinueToPiwik": "חזרה לPiwik",
         "CreatingBackupOfConfigurationFile": "יוצר גיבוי של קובץ ההגדרות ב%s",
         "CriticalErrorDuringTheUpgradeProcess": "שגיאה קריטית במהלך תהליך השדרוג:",
         "DatabaseUpgradeRequired": "שדרוג בסיס נתונים נדרש",
@@ -195,6 +190,7 @@
     },
     "General": {
         "AboutPiwikX": "אודות Piwik %s",
+        "Action": "פעולה",
         "Actions": "פעולות",
         "Add": "הוספה",
         "AllowPiwikArchivingToTriggerBrowser": "ארכיון Piwik ירוץ כאשר צופים דרך הדפדפן בדוחות",
@@ -220,6 +216,7 @@
         "ColumnEntrances": "כניסות",
         "ColumnExitRate": "שיעור יציאה",
         "ColumnExits": "יציאות",
+        "ColumnKeyword": "מילת מפתח",
         "ColumnLabel": "כותרת",
         "ColumnMaxActions": "מקסימום פעולות בביקור בודד",
         "ColumnNbActions": "פעולות",
@@ -233,6 +230,7 @@
         "ColumnVisitDuration": "משך ביקור (בשניות)",
         "ColumnVisitsWithConversions": "ביקורים עם המרות",
         "Continue": "להמשיך",
+        "ContinueToPiwik": "חזרה לPiwik",
         "CurrentMonth": "חודש נוכחי",
         "CurrentWeek": "שבוע נוכחי",
         "CurrentYear": "שנה נוכחית",
@@ -370,6 +368,8 @@
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s עכשיו זמינה. %2$s נא לשדרג עכשיו! %3$s (ראו %4$s שינויים %5$s)",
         "PleaseSpecifyValue": "יד להגדיר ערך עבור '%s'.",
         "PleaseUpdatePiwik": "יש לעדכן את ה-Piwik שלך",
+        "Plugin": "תוסף",
+        "Plugins": "תוספים",
         "Previous": "הקודם",
         "PreviousDays": "%s ימים קודמים (לא כולל היום)",
         "Refresh": "ריענון",
@@ -504,11 +504,33 @@
     "MobileMessaging": {
         "Settings_RemovePhoneNumber": "מחיקה"
     },
+    "Referers": {
+        "ColumnSocial": "רשת חברתית",
+        "ColumnWebsite": "אתר",
+        "ColumnWebsitePage": "עמוד אתר",
+        "Keywords": "מילות מפתח",
+        "RefererName": "שם הפניה",
+        "Referers": "הפניות",
+        "Referrer": "מפנה",
+        "ReferrersOverview": "סקירת הפניות",
+        "SearchEngines": "מנועי חיפוש",
+        "Socials": "רשתות חברתיות",
+        "SubmenuCampaigns": "קמפיינים",
+        "SubmenuOverview": "סקירה",
+        "SubmenuWebsites": "אתרי אינטרנט ורשתות חברתיות",
+        "Websites": "אתרי אינטרנט",
+        "WidgetKeywords": "מילות מפתח"
+    },
     "ScheduledReports": {
+        "CreateReport": "יצירת דוח",
         "EmailHello": "שלום,",
         "PDF": "PDF",
         "SendReportTo": "שלח דוח אל",
         "SentToMe": "שלח אלי"
+    },
+    "SegmentEditor": {
+        "DefaultAllVisits": "כל הביקורים",
+        "VisibleToAllUsers": "כל המשתמשים"
     },
     "SitesManager": {
         "Currency": "מטבע",
@@ -784,7 +806,6 @@
         "worldMap": "מפה עולמית"
     },
     "UserSettings": {
-        "ColumnPlugin": "תוסף",
         "Language_aa": "אפארית",
         "Language_ab": "אבחזית",
         "Language_ae": "אבסטן",
@@ -969,8 +990,7 @@
         "Language_za": "ז'ואנג",
         "Language_zh": "סינית",
         "Language_zu": "זולו",
-        "LanguageCode": "קוד שפה",
-        "Plugins": "תוספים"
+        "LanguageCode": "קוד שפה"
     },
     "UsersManager": {
         "Email": "אימייל",

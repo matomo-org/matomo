@@ -24,22 +24,18 @@
         "ShowJSCode": "ለማስገባት የጃቫ ስክሪፕትን ኮድ አሳይ"
     },
     "CorePluginsAdmin": {
-        "Action": "ርምጃ",
         "Activate": "አግብር",
         "Activated": "የተገበረ",
         "Active": "ገባሪ",
         "Deactivate": "አቦዝን",
         "Inactive": "ያልተመረጠ",
         "MainDescription": "ተሰኪዎች የፒዊክን አገልግሎት ያራዝማሉ ያሰፋሉ። ተሰኪዎች አንዴ ከተጫኑ እዚሁ ጋር መገበርም ማቦዘንም ይቻላል።",
-        "Plugin": "ተሰኪ",
         "PluginHomepage": "የተሰኪ መነሻ ገፅ",
-        "Plugins": "ተሰኪዎች",
         "PluginsManagement": "ተሰኪዎች መመነጅ",
         "Status": "ሁኔታ",
         "Version": "ስሪት"
     },
     "CoreUpdater": {
-        "ContinueToPiwik": "ወደ ፒዊክ ቀጥል",
         "CreatingBackupOfConfigurationFile": "የውቅረት ፋይሉን መጠባበቂያ በመፍጠር ላይ %s",
         "CriticalErrorDuringTheUpgradeProcess": "በማላቅ ሂደት ላይ ያጋጠመ ከባድ እንከን:",
         "DatabaseUpgradeRequired": "የውሂብ ጎታ ማላቅ ያስፈልጋል",
@@ -76,6 +72,7 @@
         "WidgetPreview": "የWidget ቅድመእይታ"
     },
     "General": {
+        "Action": "ርምጃ",
         "Actions": "ርምጃዎች",
         "API": "ኤፒአይI",
         "BackToHomepage": "ወደ ፒዊክ መነሻ ገፅ ተመለስ",
@@ -84,16 +81,19 @@
         "ColumnActionsPerVisit": "ርምጃ ከጉብኝት",
         "ColumnAvgTimeOnSite": "በየድር ጣቢያ የተፈጀ አማካይ ሰዓት",
         "ColumnBounceRate": "ተመላሽ",
+        "ColumnKeyword": "ቁልፍ ቃላት",
         "ColumnLabel": "መሰየሚያ",
         "ColumnMaxActions": "በአንድ ጉብኝት የተወሰዱ ከፍተኛ ርምጃዎች",
         "ColumnNbActions": "ርምጃዎች",
         "ColumnNbUniqVisitors": "ብቸኛ ጎብኚዎች",
         "ColumnNbVisits": "ጉብኝቶች",
         "ColumnPageviews": "ገፅ ትይታዎች",
+        "ColumnRevenue": "ገቢ",
         "ColumnSumVisitLength": "በጎብኚዎች የተፈጀ ከፍተኛ ሰዓት (በሰከንዶች)",
         "ColumnUniquePageviews": "ብቸኛ ገፅ ትይታዎች",
         "ColumnValuePerVisit": "እሴት በጉብኝት",
         "ColumnVisitsWithConversions": "ጉብኝት ከልወጣዎች ጋር",
+        "ContinueToPiwik": "ወደ ፒዊክ ቀጥል",
         "DayFr": "አርብ",
         "DayMo": "ሰኞ",
         "DaySa": "ቅዳ",
@@ -147,6 +147,8 @@
         "Outlinks": "ወጪአገናኞች",
         "Piechart": "አምባሻ ገበታ",
         "PiwikXIsAvailablePleaseUpdateNow": "ፒዊክን %1$s ማግኘት ይቻላል። %2$s እባክዎን ያልቁት!%3$s (ለውጦቹን%4$s ይመልከቱ%5$s).",
+        "Plugin": "ተሰኪ",
+        "Plugins": "ተሰኪዎች",
         "Previous": "ቀደም ያለ",
         "RefreshPage": "ገፁን አድስ",
         "Required": "%s አስፈላጊ",
@@ -188,15 +190,13 @@
         "Yesterday": "ትናንት"
     },
     "Goals": {
-        "ColumnConversions": "ልወጣዎች",
-        "ColumnRevenue": "ገቢ"
+        "ColumnConversions": "ልወጣዎች"
     },
     "Installation": {
         "CommunityNewsletter": "ከማህበረሰብ አልቅ ጋር ኢ-ሜይል አድርግልኝ(አዲስ ተሰኪዎች, አዲስ ባህርይዎች, ወዘተ.)",
         "ConfirmDeleteExistingTables": "እርግጠኛ ነህ ይህንን ሰንጠረዥ ከውሂብ ጎታህ ውስጥ : %s መሰረዝ ትፈልጋለህ? ማስጠንቀቂያ: ከዚህ ሰንጠረዥ ውስጥ የጠፉ ውሂቦች ተመልሰው ሊገኙ አይችሉም!",
         "Congratulations": "እንኳን ደስያለዎ",
         "CongratulationsHelp": "<p>እንኳን ደስያለዎ! የፒዊክ መጫንዎ ተሳክቷል።<\/p><p>የጃቫ ስክሪፕትዎ ቾድ በሁሉ ገፆች ላይ መግባቱን ያረጋግጡና የመጀመሪያ ጎበኚዎችዎን ይጠብቁ!<\/p>",
-        "ContinueToPiwik": "ወደ ፒዊክ ይቀጥሉ",
         "DatabaseCreatedSuccess": "የውሂብ ጎታ %s በሚገባ ተፈጥሯል!",
         "Email": "ኢ-ሜይል",
         "ErrorInvalidState": "ስህተት: የመጫኑን ሂደት የዘለልክ ይመስላል ወይም ኩኪዎቹ ቦዝነዋል ውይም የፒዊክ ውቅረት ፋይል አስቀድሞ ተፈጥሯል። %1$sኩኪዎቹ መንቃታቸውን አረጋግጥ%2$s እና ተመልሰህ %3$s ወደ መጫኛው የመጀመሪያ ገፅ ሂድ። %4$s.",
@@ -251,7 +251,6 @@
         "WidgetProviders": "አቅራቢዎች"
     },
     "Referers": {
-        "ColumnKeyword": "ቁልፍ ቃላት",
         "ColumnRefererType": "የአመላካች ዓይነት",
         "ColumnSearchEngine": "የመፈለጊያ ሞተሮች",
         "ColumnWebsite": "ድር ጣቢያዎች",
@@ -584,7 +583,6 @@
         "ColumnBrowser": "ማሰሺያ",
         "ColumnBrowserFamily": "የማሰሻ ቤተሰብ",
         "ColumnConfiguration": "ውቅረት",
-        "ColumnPlugin": "ተሰኪ",
         "ColumnResolution": "ጥራት",
         "ColumnTypeOfScreen": "የማያ ዓይነት",
         "Configurations": "ውቅረቶች",
@@ -743,7 +741,6 @@
         "Language_zh": "ቻይንኛ",
         "Language_zu": "ዙሉኛ",
         "LanguageCode": "የቋንቋ ኮድ",
-        "Plugins": "ተሰኪዎች",
         "Resolutions": "ጥራቶች",
         "VisitorSettings": "የጎበኚዎች ቅንብሮች",
         "WideScreen": "ሰፊ ማያ",

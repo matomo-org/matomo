@@ -67,7 +67,7 @@
                     </th>
                     {% if displayRevenueColumn %}
                         <th id="revenue" class="multisites-column" style="width: 110px;" onClick="params = setOrderBy(this,allSites, params, 'revenue');">
-                            <span>{{ 'Goals_ColumnRevenue'|translate }}</span>
+                            <span>{{ 'General_ColumnRevenue'|translate }}</span>
                             <span class="arrow {% if evolutionBy=='revenue' %}multisites_{{ order }}{% endif %}"></span>
                         </th>
                     {% endif %}
@@ -80,7 +80,7 @@
                             <option value="visits" {% if evolutionBy == 'visits' %} selected {% endif %}>{{ 'General_ColumnNbVisits'|translate }}</option>
                             <option value="pageviews" {% if evolutionBy == 'pageviews' %} selected {% endif %}}>{{ 'General_ColumnPageviews'|translate }}</option>
                             {% if displayRevenueColumn %}
-                                <option value="revenue" {% if evolutionBy == 'revenue' %} selected {% endif %}>{{ 'Goals_ColumnRevenue'|translate }}</option>
+                                <option value="revenue" {% if evolutionBy == 'revenue' %} selected {% endif %}>{{ 'General_ColumnRevenue'|translate }}</option>
                             {% endif %}
                         </select>
                     </th>

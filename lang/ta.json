@@ -16,7 +16,6 @@
         "ColumnSearches": "தேடல்கள்",
         "ColumnSearchesDocumentation": "உங்களுடைய இணையத்தளத்தில் உள்ள தேடு பொறியில் , இந்த சொல்லை தேடியவர்களின் எண்ணிக்கை.",
         "ColumnSearchExits": "% தேடல்கள் உள்ளன",
-        "ColumnSearchKeyword": "திறவுச்சொல்",
         "ColumnSearchResultsCount": "தேடல் முடிவுகளின் எண்ணிக்கை",
         "ColumnSiteSearchKeywords": "தனித்துவமான திறவுச்சொற்கள்",
         "ColumnUniqueClicks": "தனித்துவமான சொடுக்குகள்",
@@ -99,18 +98,15 @@
         "Inactive": "செயலற்ற",
         "LicenseHomepage": "உரிம முகப்பு",
         "MainDescription": "சொருகிகள் பிவிக்-ன் செயல்பாடுகளை விரிவுபடுத்தவும், மேம்படுத்தவும் பயன்படுகின்றன. ஒரு சொருகியை நிறுவியவுடன், இங்கு அதனை செயல்படுத்த அல்லது செயலிழக்க வைக்க முடியும்.",
-        "Plugin": "சொருகி",
         "PluginCannotBeFound": "இந்த சொருகியை கண்டுபிடிக்க இயலவில்லை!",
         "PluginDescription": "சொருகிகள் ஆளுமை இடைமுகம்.",
         "PluginHomepage": "சொருகி முகப்பு",
-        "Plugins": "சொருகிகள்",
         "PluginsManagement": "சொருகிகள் மேலாண்மை",
         "Status": "நிலைப்பாடு",
         "Version": "பதிப்பு"
     },
     "CoreUpdater": {
         "ClickHereToViewSqlQueries": "செய்து முடிக்கதக்க எஸ்கியூஎல் வினாப்பட்டியலை காண மற்றும் நகல் எடுக்க, இங்கே சொடுக்கவும்",
-        "ContinueToPiwik": "பிவிக்-க்கு தொடர்க",
         "CreatingBackupOfConfigurationFile": "கட்டமைப்புக் கோப்பு இங்கே, %s -இல் காப்பெடுக்கப்படுகிறது",
         "CriticalErrorDuringTheUpgradeProcess": "புதுப்பிக்கும் போது, விமர்சன பிழை எழுகிறது:",
         "DatabaseUpgradeRequired": "தரவுத்தள மேம்பாடு தேவைப்படுகிறது",
@@ -140,8 +136,12 @@
         "UpdateAutomatically": "தானாகவே புதுப்பித்துகொள்"
     },
     "General": {
+        "Action": "செயல்",
         "Actions": "செயல்கள்",
         "Add": "சேர்க்க",
+        "ColumnKeyword": "திறவுச்சொல்",
+        "ColumnRevenue": "வருமானம்",
+        "ContinueToPiwik": "பிவிக்-க்கு தொடர்க",
         "DayFr": "வெ",
         "DayMo": "தி",
         "DaySa": "ச",
@@ -177,6 +177,8 @@
         "MainMetrics": "முக்கிய அளவீடுகள்",
         "OriginalLanguageName": "தமிழ்",
         "Outlinks": "வெளி இணைப்புகள்",
+        "Plugin": "சொருகி",
+        "Plugins": "சொருகிகள்",
         "RelatedReports": "சார்ந்த அறிக்கைகள்",
         "Report": "அறிக்கை",
         "ReportGeneratedFrom": "இந்த அறிக்கையானது %s தரவில் இருந்து உருவாக்கப்பட்டது.",
@@ -255,7 +257,6 @@
         "WhereThe": "எங்கே"
     },
     "Installation": {
-        "ContinueToPiwik": "பிவிக்-இக்கு தொடர்க",
         "DatabaseAbilities": "தரவுத்தள திறன்கள்",
         "DatabaseCheck": "தரவுத்தள சோதனை",
         "DatabaseClientVersion": "தரவுத்தள வாடிக்கையாளர் பதிப்பு",
@@ -288,8 +289,6 @@
         "SystemCheckTracker": "கண்காணிப்பு நிலை"
     },
     "Live": {
-        "Action": "செயல்",
-        "GoalRevenue": "வருமானம்",
         "GoalTime": "1ம் மாற்ற நேரம்",
         "GoalType": "வகை",
         "LastHours": "கடைசி %s மணிநேரம்",

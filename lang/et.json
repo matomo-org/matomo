@@ -12,22 +12,18 @@
         "ShowJSCode": "Näita sisestatavat javaacript koodi"
     },
     "CorePluginsAdmin": {
-        "Action": "Tegevus",
         "Activate": "Aktiveeri",
         "Activated": "Aktiveeritud",
         "Active": "Aktiivne",
         "Deactivate": "Lülita välja",
         "Inactive": "Mitteaktiivne",
         "MainDescription": "Plugins võimendavad ja suurendavad Piwik-i funktsionaalsust. Kui plugin on installeeritud ja aktiveeritud saad seda sisse ja välja lülitada siin.",
-        "Plugin": "Plugin",
         "PluginHomepage": "Plugina koduleht",
-        "Plugins": "Pluginad",
         "PluginsManagement": "Pluginate haldus",
         "Status": "Olek",
         "Version": "Versioon"
     },
     "CoreUpdater": {
-        "ContinueToPiwik": "Jätka Piwikiga",
         "CriticalErrorDuringTheUpgradeProcess": "Kriitiline viga uuendamise protsessi ajal:",
         "ErrorDuringPluginsUpdates": "Viga plugina uuendamisel:",
         "HelpMessageContent": "Vaata %1$s Piwik KKK %2$s milles selgitadakse tavapäraste probleemide põhjuseid ja lahendusi. %3$s Kui sa ei leia lahendust, siis küsi oma süsteemi administraatoritelt abi- nad võivad aidata juhul, kui need vead on seotud serveri või MySQL seadetega.",
@@ -50,6 +46,7 @@
         "WidgetNotFound": "Moodulit ei leitud"
     },
     "General": {
+        "Action": "Tegevus",
         "Actions": "Tegevused",
         "API": "API",
         "BackToHomepage": "Tagasi esilehele",
@@ -58,6 +55,7 @@
         "ColumnNbActions": "Tegevused",
         "ColumnNbUniqVisitors": "Unikaalsed külastajad",
         "ColumnNbVisits": "Külastused",
+        "ContinueToPiwik": "Jätka Piwikiga",
         "DayFr": "R",
         "DayMo": "E",
         "DaySa": "L",
@@ -107,6 +105,8 @@
         "Others": "Teised",
         "Outlinks": "Väljuvad lingid",
         "Piechart": "Sektordiagramm",
+        "Plugin": "Plugin",
+        "Plugins": "Pluginad",
         "Previous": "Eelmine",
         "RefreshPage": "Värskenda lehte",
         "Required": "%s on nõutav",
@@ -693,7 +693,6 @@
         "Language_zu": "suulu",
         "LanguageCode": "Keele kood",
         "OperatingSystems": "Operatsioonisüsteemid",
-        "Plugins": "Pluginad",
         "Resolutions": "Resolutsioonid",
         "WideScreen": "Laiekraan",
         "WidgetBrowserFamilies": "Sirvija tüübid",

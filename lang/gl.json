@@ -14,8 +14,7 @@
     "CorePluginsAdmin": {
         "Activate": "Activar",
         "Activated": "Activado",
-        "Deactivate": "Desactivar",
-        "Plugins": "Plugins"
+        "Deactivate": "Desactivar"
     },
     "Dashboard": {
         "Dashboard": "Tableiro",
@@ -141,6 +140,7 @@
         "Outlinks": "Ligazóns externos",
         "Period": "Periodo",
         "Piechart": "Gráfico circular",
+        "Plugins": "Plugins",
         "Previous": "Anterior",
         "RefreshPage": "Actualizar páxina",
         "Report": "Informe",
@@ -702,7 +702,6 @@
         "Language_zu": "Zulú",
         "LanguageCode": "Código de idioma",
         "OperatingSystems": "Sistemas Operativos",
-        "Plugins": "Plugins",
         "Resolutions": "Resolucións",
         "WideScreen": "Pantalla panorámica",
         "WidgetBrowserFamilies": "Buscadores por familia",

@@ -32,7 +32,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
     function addMenu()
     {
         Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', null, "", Piwik::isUserIsSuperUser(), $order = 15);
-        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Plugins',
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'General_Plugins',
             array('module' => 'CorePluginsAdmin', 'action' => 'plugins'),
             Piwik::isUserIsSuperUser(),
             $order = 1);

@@ -21,7 +21,7 @@
             </li>
         {% else %}
             <li>
-                {{ 'Live_GoalRevenue'|translate }}: {{ revenue|money(idSite)|raw -}}
+                {{ 'General_ColumnRevenue'|translate }}: {{ revenue|money(idSite)|raw -}}
                 {% if revenue_subtotal is not empty %},
                     {{ 'General_Subtotal'|translate }}: {{ revenue_subtotal|money(idSite)|raw -}}
                 {% endif %}

@@ -81,7 +81,7 @@
         <form action="index.php" id="upgradeCorePluginsForm">
             <input type="hidden" name="updateCorePlugins" value="1"/>
             {% if queries|length == 1 %}
-                <input type="submit" class="submit" value="{{ 'CoreUpdater_ContinueToPiwik'|translate }}"/>
+                <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
             {% else %}
                 <input type="submit" class="submit" value="{{ 'CoreUpdater_UpgradePiwik'|translate }}"/>
             {% endif %}
@@ -92,7 +92,7 @@
         {% endif %}
         <br/>
         <form action="index.php">
-            <input type="submit" class="submit" value="{{ 'CoreUpdater_ContinueToPiwik'|translate }}"/>
+            <input type="submit" class="submit" value="{{ 'General_ContinueToPiwik'|translate }}"/>
         </form>
     {% endif %}
 {% endif %}

@@ -23,7 +23,7 @@
 
             {# goal metrics #}
             {%- if rowMetrics.nb_conversions != 0 -%}
-                , {{ 'Goals_ColumnRevenue'|translate }}: {{ rowMetrics.revenue }}
+                , {{ 'General_ColumnRevenue'|translate }}: {{ rowMetrics.revenue }}
                 {%- if rowMetrics.revenue_evolution != 0 %} ({{ rowMetrics.revenue_evolution }}%){%- endif -%}
 
                 , {{ rowMetrics.nb_conversions }} {{ 'Goals_GoalConversions'|translate }}

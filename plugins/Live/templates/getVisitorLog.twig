@@ -83,7 +83,7 @@
             {% if displayVisitorsInOwnColumn %}
                 {% if visitor.getColumn('pluginsIcons')|length > 0 %}
                     <hr/>
-                    {{ 'UserSettings_Plugins'|translate }}:
+                    {{ 'General_Plugins'|translate }}:
                     {% for pluginIcon in visitor.getColumn('pluginsIcons') %}
                         <img src="{{ pluginIcon.pluginIcon }}" title="{{ pluginIcon.pluginName|capitalize(true) }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
                     {% endfor %}
@@ -180,7 +180,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                     <strong>
                         {{ visitor.getColumn('actionDetails')|length }}
                         {% if visitor.getColumn('actionDetails')|length <= 1 %}
-                            {{ 'Live_Action'|translate }}
+                            {{ 'General_Action'|translate }}
                         {% else %}
                             {{ 'General_Actions'|translate }}
                         {% endif %}

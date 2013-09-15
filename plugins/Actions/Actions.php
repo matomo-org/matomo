@@ -437,7 +437,7 @@ class Actions extends \Piwik\Plugin
                 'name'                 => Piwik_Translate('Actions_WidgetSearchKeywords'),
                 'module'               => 'Actions',
                 'action'               => 'getSiteSearchKeywords',
-                'dimension'            => Piwik_Translate('Actions_ColumnSearchKeyword'),
+                'dimension'            => Piwik_Translate('General_ColumnKeyword'),
                 'metrics'              => array(
                     'nb_visits'           => Piwik_Translate('Actions_ColumnSearches'),
                     'nb_pages_per_search' => Piwik_Translate('Actions_ColumnPagesPerSearch'),
@@ -853,7 +853,7 @@ class Actions extends \Piwik\Plugin
     public function getDisplayPropertiesForSiteSearchKeywords()
     {
         $result = array(
-            'translations'       => array('label' => Piwik_Translate('Actions_ColumnSearchKeyword')),
+            'translations'       => array('label' => Piwik_Translate('General_ColumnKeyword')),
             'columns_to_display' => array('label', 'nb_visits', 'nb_pages_per_search', 'exit_rate'),
         );
 

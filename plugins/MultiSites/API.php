@@ -446,7 +446,7 @@ class API
         if (Common::isGoalPluginEnabled()) {
             // goal revenue metric
             $metrics[self::GOAL_REVENUE_METRIC] = array(
-                self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnRevenue',
+                self::METRIC_TRANSLATION_KEY        => 'General_ColumnRevenue',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_REVENUE_METRIC . '_evolution',
                 self::METRIC_RECORD_NAME_KEY        => Archiver::getRecordName(self::GOAL_REVENUE_METRIC),
                 self::METRIC_IS_ECOMMERCE_KEY       => false,

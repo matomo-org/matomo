@@ -222,7 +222,7 @@ class Metrics
             'sum_visit_length_returning'    => 'VisitFrequency_ColumnSumVisitLengthReturning',
             'nb_visits_converted'           => 'General_ColumnVisitsWithConversions',
             'nb_conversions'                => 'Goals_ColumnConversions',
-            'revenue'                       => 'Goals_ColumnRevenue',
+            'revenue'                       => 'General_ColumnRevenue',
             'nb_hits'                       => 'General_ColumnPageviews',
             'entry_nb_visits'               => 'General_ColumnEntrances',
             'entry_nb_uniq_visitors'        => 'General_ColumnUniqueEntrances',

@@ -88,7 +88,7 @@ class UserSettings extends \Piwik\Plugin
               'UserSettings_WidgetPlugins',
               'UserSettings',
               'getPlugin',
-              'UserSettings_ColumnPlugin',
+              'General_Plugin',
               null,
               null,
               null,
@@ -279,7 +279,7 @@ class UserSettings extends \Piwik\Plugin
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
             'translations'             => array(
-                'label'                => Piwik_Translate('UserSettings_ColumnPlugin'),
+                'label'                => Piwik_Translate('General_Plugin'),
                 'nb_visits_percentage' =>
                     str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits'))
             ),

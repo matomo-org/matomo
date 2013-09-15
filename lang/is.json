@@ -50,7 +50,6 @@
         "ThereIsNoDataForThisReport": "Það eru eingin gögn til fyrir þessa skýrslu"
     },
     "CorePluginsAdmin": {
-        "Action": "Aðgerð",
         "Activate": "Kveikja",
         "Activated": "Kveikt",
         "Active": "Kveikt",
@@ -59,10 +58,8 @@
         "Inactive": "Slökkt",
         "LicenseHomepage": "Heimasíða hugbúnaðarleyfis",
         "MainDescription": "Íbætur auka og víkka virknina í Piwik. Hérna geturðu kveikteða slökkt á íbót þegar búið er að setja hana inn í kerfið.",
-        "Plugin": "Íbót",
         "PluginDescription": "Viðmót fyrir Íbótastjórnun",
         "PluginHomepage": "Heimasíða íbótar",
-        "Plugins": "Íbætur",
         "PluginsManagement": "Íbótastjórnun",
         "Status": "Staða",
         "Version": "Útgáfa"
@@ -80,6 +77,7 @@
     },
     "General": {
         "AboutPiwikX": "Um Piwik %s",
+        "Action": "Aðgerð",
         "Actions": "Aðgerðir",
         "AllowPiwikArchivingToTriggerBrowser": "Leyfa Piwik geymslu kveikjun þegar skýrslur eru skoðaðar í vafranum",
         "AllWebsitesDashboard": "Skjáborð fyrir alla vefi",
@@ -102,6 +100,7 @@
         "ColumnEntrances": "Innkomur",
         "ColumnExitRate": "Útgöngutíðni",
         "ColumnExits": "Útgöngur",
+        "ColumnKeyword": "Leitarorð",
         "ColumnLabel": "Merki",
         "ColumnMaxActions": "Hámark aðgerða í einni heimsókn",
         "ColumnNbActions": "Aðgerðir",
@@ -109,6 +108,7 @@
         "ColumnNbVisits": "Heimsóknir",
         "ColumnPageviews": "Síðuflettingar",
         "ColumnPercentageVisits": "% Heimsóknir",
+        "ColumnRevenue": "Hagnaður",
         "ColumnSumVisitLength": "Heildartími gesta eytt á vefsíðu (í sekúndum)",
         "ColumnUniquePageviews": "Einstakar síðuflettingar",
         "ColumnValuePerVisit": "Virði per heimsókn",
@@ -213,6 +213,8 @@
         "PiwikXIsAvailablePleaseUpdateNow": "Piwik %1$s er tiltækt. %2$sVinsamlegast uppfærðu núna!%3$s (sjá %4$schanges%5$s).",
         "PleaseSpecifyValue": "Vinsamlegast settu gildi í %s.",
         "PleaseUpdatePiwik": "Vinsamlegast uppfærðu Piwik",
+        "Plugin": "Íbót",
+        "Plugins": "Íbætur",
         "Previous": "Fyrra",
         "RefreshPage": "Endurnýja síðuna",
         "Report": "Skýrsla",
@@ -282,7 +284,6 @@
         "CaseSensitive": "Skiptir máli hvort það eru hástafir eða lágstafir",
         "ClickOutlink": "Smella á slóð fyrir utan vefinn",
         "ColumnConversions": "Umbreytingar",
-        "ColumnRevenue": "Hagnaður",
         "Contains": "inniheldur %s",
         "ConversionRate": "%s umbreytingatíðni",
         "Conversions": "%s umbreytingar",
@@ -323,8 +324,6 @@
         "PluginDescription": "Þessi íbót sýnir lista yfir öll tiltæk tungumál fyrir Piwik viðmótið. Tungumálið sem valið er, verður vistað í stillingum fyrir hvern notanda."
     },
     "Live": {
-        "Action": "Aðgerð",
-        "GoalRevenue": "Hagnaður",
         "GoalType": "Tegund",
         "LastHours": "Síðustu %s klukkustundir",
         "LastMinutes": "Síðustu %s mínútur",
@@ -359,7 +358,6 @@
     "Referers": {
         "Campaigns": "Herferðir",
         "ColumnCampaign": "Herferð",
-        "ColumnKeyword": "Leitarorð",
         "ColumnRefererType": "Tegund Sendanda",
         "ColumnSearchEngine": "Leitarvél",
         "ColumnWebsite": "Vefur",
@@ -712,7 +710,6 @@
         "ColumnBrowserFamily": "Vafrafjölskylda",
         "ColumnConfiguration": "Uppsetning",
         "ColumnOperatingSystem": "Stýrikerfi",
-        "ColumnPlugin": "Íbót",
         "ColumnResolution": "Skjáupplausn",
         "ColumnTypeOfScreen": "Skjátegund",
         "Configurations": "Uppsetningar",
@@ -904,7 +901,6 @@
         "OperatingSystems": "Stýrikerfi",
         "PluginDescription": "Gefur skýrslu um ýmsar stillingar gesta:Vafra, Vafrafjölskyldu, Stýrikerfi, Íbætur, Skjáupplausn, altækar stillingar.",
         "PluginDetectionDoesNotWorkInIE": "Ath: uppgötvun á íbótum virkar ekki með Internet Explorer. Þessi skýrsla er aðeins unnin út frá öðrum vöfrum en IE.",
-        "Plugins": "Íbætur",
         "Resolutions": "Skjáupplausnir",
         "VisitorSettings": "Stillingar gesta",
         "WideScreen": "Breiðskjár",
