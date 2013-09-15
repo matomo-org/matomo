@@ -1,9 +1,4 @@
 {
-    "Actions": {
-        "SubmenuDownloads": "Allalaadimised",
-        "SubmenuOutlinks": "Väljuvad lingid",
-        "SubmenuPages": "Vaadatud lehed"
-    },
     "API": {
         "LoadedAPIs": "Edukalt laetud %s API-id"
     },
@@ -72,6 +67,7 @@
         "DayWe": "K",
         "Delete": "Kustuta",
         "Done": "Tehtud",
+        "Downloads": "Allalaadimised",
         "Edit": "Muuda",
         "EnglishLanguageName": "Estonian",
         "Error": "Viga",
@@ -105,9 +101,11 @@
         "No": "Ei",
         "NoDataForGraph": "Graafik - infot pole veel",
         "NoDataForTagCloud": "Sildipilv - Infot ei ole veel.",
+        "NVisits": "%s külastust",
         "Ok": "Ok",
         "OriginalLanguageName": "Eesti keel",
         "Others": "Teised",
+        "Outlinks": "Väljuvad lingid",
         "Piechart": "Sektordiagramm",
         "Previous": "Eelmine",
         "RefreshPage": "Värskenda lehte",
@@ -753,7 +751,6 @@
         "GenerateTime": "Lehe genereerimiseks kulus %s sekundit",
         "MaxNbActions": "%s maksmimum tegevuste arv ühel külastusel",
         "NbUniqueVisitors": "%s unikaalset külastajat",
-        "NbVisits": "%s külastust",
         "SubmenuOverview": "Ülevaade",
         "WidgetLastVisitors": "Viimaste unikaalsete külastajate graafik",
         "WidgetLastVisits": "Viimaste külastuste graafik",

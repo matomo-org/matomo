@@ -2,7 +2,6 @@
     "Actions": {
         "ColumnClickedURL": "כתובת שנלחצה",
         "ColumnClicks": "קליקים",
-        "ColumnDownloads": "הורדות",
         "ColumnDownloadURL": "הורדת כתובת",
         "ColumnEntryPageTitle": "כותרת עמוד כניסה",
         "ColumnEntryPageURL": "כתובת עמוד כניסה",
@@ -23,9 +22,6 @@
         "PageUrls": "כתובות עמוד",
         "PluginDescription": "מדווח על מספר צפיות, קישורים יוצאים והורדות. מעקב אחרי קישורים יוצאים והורדות הינו אוטומטי.",
         "SiteSearchKeyword": "מילת מפתח (חיפוש באתר)",
-        "SubmenuDownloads": "הורדות",
-        "SubmenuOutlinks": "קישורים יוצאים",
-        "SubmenuPages": "דפים",
         "SubmenuPagesEntry": "דפי כניסה",
         "SubmenuPagesExit": "דפי יציאה",
         "SubmenuPageTitles": "כותרות הדפים",
@@ -200,6 +196,7 @@
     "General": {
         "AboutPiwikX": "אודות Piwik %s",
         "Actions": "פעולות",
+        "Add": "הוספה",
         "AllowPiwikArchivingToTriggerBrowser": "ארכיון Piwik ירוץ כאשר צופים דרך הדפדפן בדוחות",
         "AllWebsitesDashboard": "פאנל סקירה לכל האתרים",
         "API": "API",
@@ -268,6 +265,7 @@
         "Done": "סיום",
         "Download": "להוריד",
         "DownloadFullVersion": "%1$sהורדת%2$s הגרסה המלאה! כנסו ל%3$s",
+        "Downloads": "הורדות",
         "Edit": "לערוך",
         "EncryptedSmtpTransport": "יש להזין את שכבת ההצפנה הדרושה ע\"י שרת ה-SMTP שלך.",
         "EnglishLanguageName": "Hebrew",
@@ -355,6 +353,7 @@
         "NotValid": "%s לא תקף",
         "NSeconds": "%s שניות",
         "NumberOfVisits": "מספר ביוקרים",
+        "NVisits": "%s ביקורים",
         "Ok": "או.קי.",
         "OnlyEnterIfRequired": "יש להזין שם משתמש רק אם שרת ה-SMTP מבקש זאת.",
         "OnlyEnterIfRequiredPassword": "יש להזין סיסמה רק אם שרת ה-SMTP מבקש זאת.",
@@ -364,6 +363,7 @@
         "OrCancel": "או %s ביטול %s",
         "OriginalLanguageName": "עברית",
         "Others": "אחרים",
+        "Outlinks": "קישורים יוצאים",
         "Period": "תקופה",
         "Piechart": "גרף עוגה",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%s עכשיו זמינה. אנא הודיעו לבעלי האתר.",
@@ -502,7 +502,6 @@
         "AddAccount": "הוספת חשבון"
     },
     "MobileMessaging": {
-        "Settings_AddPhoneNumber": "הוספה",
         "Settings_RemovePhoneNumber": "מחיקה"
     },
     "ScheduledReports": {
@@ -994,7 +993,6 @@
         "NbActionsDescription": "%s פעולות (צפייה בעמודים, הורדות וקישורים יוצאים)",
         "NbActionsPerVisit": "%s פעולות בביקור",
         "NbUniqueVisitors": "%s מבקרים יחודיים",
-        "NbVisits": "%s ביקורים",
         "NbVisitsBounced": "%s ביקורים קפצו (עזבו את האתר אחרי עמוד אחד)",
         "PluginDescription": "מדווח על ניתוח המספרים הכללי: ביקורים, מבקרים יחודיים, מספר פעולות, שיעור קפיצה וכו'",
         "SubmenuOverview": "מבט כללי",

@@ -2,14 +2,10 @@
     "Actions": {
         "ColumnClickedURL": "ጠቅ አድርግ ዩ አር ኤል",
         "ColumnClicks": "ጠቃድርጎች",
-        "ColumnDownloads": "የወረዱ",
         "ColumnDownloadURL": "የማውረጃ ዩ አር ኤል",
         "ColumnPageName": "የገፅ ስም",
         "ColumnUniqueClicks": "ብቸኛ ጠቅአድርጎች",
-        "ColumnUniqueDownloads": "ብቸኛ የወረዱ",
-        "SubmenuDownloads": "የወረዱ",
-        "SubmenuOutlinks": "ወጪአገናኞች",
-        "SubmenuPages": "ገፆች"
+        "ColumnUniqueDownloads": "ብቸኛ የወረዱ"
     },
     "API": {
         "LoadedAPIs": "ማስጋባት ተሳክቷል %s ኤፒአይዎች"
@@ -107,6 +103,7 @@
         "DayWe": "ረቡ",
         "Delete": "ሰርዝ",
         "Done": "አልቋል",
+        "Downloads": "የወረዱ",
         "Edit": "አርትእ",
         "EnglishLanguageName": "Amharic",
         "Error": "ስህተት",
@@ -142,10 +139,12 @@
         "No": "የለም",
         "NoDataForGraph": "ለዚህ ግራፍ ምንም ውሂብ የለም",
         "NoDataForTagCloud": "ለዚህ መለያ ክላውድ ምንም ውሂብ የለም.",
+        "NVisits": "%s ጉበኝቶች",
         "Ok": "ይሁን",
         "OpenSourceWebAnalytics": "ክፍት የሆነ የድር ጣቢያ ማመዛዘኛ",
         "OriginalLanguageName": "አማርኛ",
         "Others": "ለሎች",
+        "Outlinks": "ወጪአገናኞች",
         "Piechart": "አምባሻ ገበታ",
         "PiwikXIsAvailablePleaseUpdateNow": "ፒዊክን %1$s ማግኘት ይቻላል። %2$s እባክዎን ያልቁት!%3$s (ለውጦቹን%4$s ይመልከቱ%5$s).",
         "Previous": "ቀደም ያለ",
@@ -813,7 +812,6 @@
         "GenerateTime": "%s ሰከንዶች ገፁን ለማመንጨት",
         "MaxNbActions": "%s በአንድ ጉብኝት የተወሰዱ ከፍተኛ ርምጃዎች",
         "NbUniqueVisitors": "%s የተለዩ ጎብኚዎች",
-        "NbVisits": "%s ጉበኝቶች",
         "NbVisitsBounced": "%s የተመለሱ ጉብኝቶች (ከአንድ ገፅ በኋላ ገፁን የተዉ)",
         "SubmenuOverview": "አጠቃላይ እይታ ከግራፍ ጋር",
         "WidgetLastVisitors": "የመጨረሻው የተለዩ ጎብኚዎች ግራፍ",

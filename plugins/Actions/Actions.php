@@ -218,9 +218,9 @@ class Actions extends \Piwik\Plugin
             'metrics'              => array(
                 'nb_pageviews'        => Piwik_Translate('General_ColumnPageviews'),
                 'nb_uniq_pageviews'   => Piwik_Translate('General_ColumnUniquePageviews'),
-                'nb_downloads'        => Piwik_Translate('Actions_ColumnDownloads'),
+                'nb_downloads'        => Piwik_Translate('General_Downloads'),
                 'nb_uniq_downloads'   => Piwik_Translate('Actions_ColumnUniqueDownloads'),
-                'nb_outlinks'         => Piwik_Translate('Actions_ColumnOutlinks'),
+                'nb_outlinks'         => Piwik_Translate('General_Outlinks'),
                 'nb_uniq_outlinks'    => Piwik_Translate('Actions_ColumnUniqueOutlinks'),
                 'nb_searches'         => Piwik_Translate('Actions_ColumnSearches'),
                 'nb_keywords'         => Piwik_Translate('Actions_ColumnSiteSearchKeywords'),
@@ -395,7 +395,7 @@ class Actions extends \Piwik\Plugin
         // outlinks report
         $reports[] = array(
             'category'              => Piwik_Translate('General_Actions'),
-            'name'                  => Piwik_Translate('Actions_SubmenuOutlinks'),
+            'name'                  => Piwik_Translate('General_Outlinks'),
             'module'                => 'Actions',
             'action'                => 'getOutlinks',
             'dimension'             => Piwik_Translate('Actions_ColumnClickedURL'),
@@ -415,13 +415,13 @@ class Actions extends \Piwik\Plugin
         // downloads report
         $reports[] = array(
             'category'              => Piwik_Translate('General_Actions'),
-            'name'                  => Piwik_Translate('Actions_SubmenuDownloads'),
+            'name'                  => Piwik_Translate('General_Downloads'),
             'module'                => 'Actions',
             'action'                => 'getDownloads',
             'dimension'             => Piwik_Translate('Actions_ColumnDownloadURL'),
             'metrics'               => array(
                 'nb_visits' => Piwik_Translate('Actions_ColumnUniqueDownloads'),
-                'nb_hits'   => Piwik_Translate('Actions_ColumnDownloads')
+                'nb_hits'   => Piwik_Translate('General_Downloads')
             ),
             'metricsDocumentation'  => $documentation,
             'documentation'         => Piwik_Translate('Actions_DownloadsReportDocumentation', '<br />'),
@@ -541,10 +541,10 @@ class Actions extends \Piwik\Plugin
 
     function addWidgets()
     {
-        WidgetsList::add('General_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
+        WidgetsList::add('General_Actions', 'General_Pages', 'Actions', 'getPageUrls');
         WidgetsList::add('General_Actions', 'Actions_WidgetPageTitles', 'Actions', 'getPageTitles');
-        WidgetsList::add('General_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
-        WidgetsList::add('General_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
+        WidgetsList::add('General_Actions', 'General_Outlinks', 'Actions', 'getOutlinks');
+        WidgetsList::add('General_Actions', 'General_Downloads', 'Actions', 'getDownloads');
         WidgetsList::add('General_Actions', 'Actions_WidgetPagesEntry', 'Actions', 'getEntryPageUrls');
         WidgetsList::add('General_Actions', 'Actions_WidgetPagesExit', 'Actions', 'getExitPageUrls');
         WidgetsList::add('General_Actions', 'Actions_WidgetEntryPageTitles', 'Actions', 'getEntryPageTitles');
@@ -565,12 +565,12 @@ class Actions extends \Piwik\Plugin
     function addMenus()
     {
         Piwik_AddMenu('General_Actions', '', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 15);
-        Piwik_AddMenu('General_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 1);
+        Piwik_AddMenu('General_Actions', 'General_Pages', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 1);
         Piwik_AddMenu('General_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'indexEntryPageUrls'), true, 2);
         Piwik_AddMenu('General_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'indexExitPageUrls'), true, 3);
         Piwik_AddMenu('General_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'indexPageTitles'), true, 4);
-        Piwik_AddMenu('General_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 6);
-        Piwik_AddMenu('General_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 7);
+        Piwik_AddMenu('General_Actions', 'General_Outlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 6);
+        Piwik_AddMenu('General_Actions', 'General_Downloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 7);
 
         if ($this->isSiteSearchEnabled()) {
             Piwik_AddMenu('General_Actions', 'Actions_SubmenuSitesearch', array('module' => 'Actions', 'action' => 'indexSiteSearch'), true, 5);
@@ -1005,7 +1005,7 @@ class Actions extends \Piwik\Plugin
             'translations'                => array(
                 'label'     => Piwik_Translate('Actions_ColumnDownloadURL'),
                 'nb_visits' => Piwik_Translate('Actions_ColumnUniqueDownloads'),
-                'nb_hits'   => Piwik_Translate('Actions_ColumnDownloads'),
+                'nb_hits'   => Piwik_Translate('General_Downloads'),
             ),
             'columns_to_display'          => array('label', 'nb_visits', 'nb_hits'),
             'show_exclude_low_population' => false

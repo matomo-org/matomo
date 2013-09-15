@@ -68,7 +68,7 @@ class Controller extends \Piwik\Controller
 
         // some translations
         $view->localeJSON = Common::json_encode(array(
-                                                     'nb_visits'            => Piwik_Translate('VisitsSummary_NbVisits'),
+                                                     'nb_visits'            => Piwik_Translate('General_NVisits'),
                                                      'one_visit'            => Piwik_Translate('General_OneVisit'),
                                                      'no_visit'             => Piwik_Translate('UserCountryMap_NoVisit'),
                                                      'nb_actions'           => Piwik_Translate('VisitsSummary_NbActionsDescription'),

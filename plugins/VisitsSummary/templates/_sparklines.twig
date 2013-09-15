@@ -1,7 +1,7 @@
 <div id='leftcolumn'>
     <div class="sparkline">
         {{ sparkline(urlSparklineNbVisits)|raw }}
-        {{ 'VisitsSummary_NbVisits'|translate("<strong>"~nbVisits~"</strong>")|raw }}{% if displayUniqueVisitors %},
+        {{ 'General_NVisits'|translate("<strong>"~nbVisits~"</strong>")|raw }}{% if displayUniqueVisitors %},
             {{ 'VisitsSummary_NbUniqueVisitors'|translate("<strong>"~nbUniqVisitors~"</strong>")|raw }}{% endif %}
     </div>
     <div class="sparkline">

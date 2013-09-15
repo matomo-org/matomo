@@ -9,7 +9,7 @@
     </div>
 
     {% if data|length > 0 %}
-        <h2 class="Overlay_MainMetrics">{{ 'Overlay_MainMetrics'|translate }}</h2>
+        <h2 class="Overlay_MainMetrics">{{ 'General_MainMetrics'|translate }}</h2>
         {% for metric in data %}
             <div class="Overlay_Metric">
                 <span class="Overlay_MetricValue">{{ metric.value|raw }}</span> {{ metric.name }}

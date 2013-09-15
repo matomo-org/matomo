@@ -2,16 +2,11 @@
     "Actions": {
         "ColumnClickedURL": "నొక్కిన URL",
         "ColumnClicks": "నొక్కులు",
-        "ColumnDownloads": "దింపుకోళ్ళు",
         "ColumnDownloadURL": "దింపుకోలు URL",
         "ColumnEntryPageTitle": "చర్యలు",
-        "ColumnOutlinks": "బయటిలంకెలు",
         "ColumnPageName": "పుట పేరు",
         "ColumnPageURL": "పుట చిరునామా",
         "ColumnSearchKeyword": "కీపదం",
-        "SubmenuDownloads": "దింపుకోళ్ళు",
-        "SubmenuOutlinks": "బయటిలంకెలు",
-        "SubmenuPages": "పుటలు",
         "SubmenuPagesEntry": "ప్రవేశ పుటలు",
         "SubmenuPagesExit": "నిష్క్రమణ పుటలు",
         "SubmenuPageTitles": "పుటల శీర్షికలు"
@@ -120,6 +115,7 @@
         "Details": "వివరాలు",
         "Done": "పూర్తయ్యింది",
         "Download": "దింపుకోలు",
+        "Downloads": "దింపుకోళ్ళు",
         "Edit": "మార్చు",
         "EnglishLanguageName": "Telugu",
         "Error": "పొరపాటు",
@@ -170,12 +166,15 @@
         "NotValid": "%s సరైనది కాదు",
         "NSeconds": "%s క్షణాలు",
         "NumberOfVisits": "సందర్శనల సంఖ్య",
+        "NVisits": "%s సందర్శనలు",
         "Ok": "సరే",
         "OneDay": "1 రోజు",
         "OneVisit": "1 సందర్శన",
         "OrCancel": "లేదా %s రద్దుచేయి %s",
         "OriginalLanguageName": "తెలుగు",
         "Others": "ఇతరాలు",
+        "Outlinks": "బయటిలంకెలు",
+        "Pages": "పుటలు",
         "Period": "కాలవ్యవధి",
         "PleaseUpdatePiwik": "దయచేసి మీ పివిక్‌ని నవీకరించుకోండి",
         "Previous": "గత",
@@ -310,7 +309,6 @@
     },
     "SEO": {
         "AlexaRank": "అలెక్సా ర్యాంకు",
-        "Pages": "పుటలు",
         "Rank": "ర్యాంకు"
     },
     "SitesManager": {
@@ -850,7 +848,6 @@
         "NbActionsDescription": "%s చర్యలు",
         "NbDownloadsDescription": "%s దింపుకోళ్ళు",
         "NbOutlinksDescription": "%s బయటిలంకెలు",
-        "NbVisits": "%s సందర్శనలు",
         "SubmenuOverview": "అవలోకనం",
         "VisitsSummary": "సందర్శనల సంగ్రహం"
     },

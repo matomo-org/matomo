@@ -38,7 +38,7 @@
                                 {% if rank.logo_link is defined %}{{ seoLink|raw }}{% endif %}
                                     {% if rank.rank %}{{ rank.rank|raw }}{% else %}-{% endif %}
                                     {% if rank.id=='pagerank' %} /10
-                                    {% elseif rank.id=='google-index' or rank.id=='bing-index' %} {{ 'SEO_Pages'|translate }}
+                                    {% elseif rank.id=='google-index' or rank.id=='bing-index' %} {{ 'General_Pages'|translate }}
                                     {% endif %}
                                 {% if rank.logo_link is defined %}</a>{% endif %}
                                 </div>

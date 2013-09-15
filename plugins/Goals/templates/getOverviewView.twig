@@ -19,7 +19,7 @@
             <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
                 {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
                 {% if goal.goalAllowMultipleConversionsPerVisit %}
-                    ({{ 'VisitsSummary_NbVisits'|translate("<strong>"~nb_visits_converted~"</strong>") | raw }})
+                    ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>") | raw }})
                 {% endif %}
             </div>
         </div>

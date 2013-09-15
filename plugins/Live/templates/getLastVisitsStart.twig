@@ -63,7 +63,7 @@
                 {% endif %}
             </div>
             <div id="{{ visitor.idVisit }}_actions" class="settings">
-                <span class="pagesTitle" title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}">{{ 'Actions_SubmenuPages'|translate }}:</span>&nbsp;
+                <span class="pagesTitle" title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}">{{ 'General_Pages'|translate }}:</span>&nbsp;
                 {% set col = 0 %}
                 {% for action in visitor.actionDetails %}
                     {% if loop.index <= maxPagesDisplayedByVisitor %}

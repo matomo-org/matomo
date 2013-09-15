@@ -3,13 +3,11 @@
         "ColumnClickedURL": "Klikka URL",
         "ColumnClicks": "Klikk",
         "ColumnClicksDocumentation": "Talet på klikk på denne peikaren.",
-        "ColumnDownloads": "Nedlastingar",
         "ColumnDownloadURL": "Nedlasta URL",
         "ColumnEntryPageTitle": "Tittel til inngangsside",
         "ColumnEntryPageURL": "URL til inngangsside",
         "ColumnExitPageTitle": "Tittel til utgangsside",
         "ColumnExitPageURL": "URL til utgangsside",
-        "ColumnOutlinks": "Utpeikarar",
         "ColumnPageName": "Sidenamn",
         "ColumnPageURL": "Side-URL",
         "ColumnUniqueClicks": "Unike klikk",
@@ -29,9 +27,6 @@
         "PageTitlesReportDocumentation": "Denne rapporten inneheld informasjon om titlane til sidene som er vitja. %s Sidetittelen er HTML-entiteten %s som dei fleste nettlesarane viser som tittel på vindauget sitt.",
         "PageUrls": "Side-URLar",
         "PluginDescription": "Rapportar om sidevisningar, utpeikarar og nedlastingar. Sporing av utpeikarar og nedlastingar skjer automatisk!",
-        "SubmenuDownloads": "Nedlastingar",
-        "SubmenuOutlinks": "Utpeikarar",
-        "SubmenuPages": "Sider",
         "SubmenuPagesEntry": "Inngangssider",
         "SubmenuPagesExit": "Utgangssider",
         "SubmenuPageTitles": "Sidetitlar"
@@ -323,6 +318,7 @@
         "Done": "Ferdig",
         "Download": "Last ned",
         "DownloadFullVersion": "%1$sLast ned%2$s fullversjonen! Sjekk ut %3$s",
+        "Downloads": "Nedlastingar",
         "EcommerceOrders": "Ordrar i netthandel",
         "EcommerceVisitStatusDesc": "Netthandelstatus på slutten av vitjinga",
         "EcommerceVisitStatusEg": "Til dømes, for å velja alle vitjingar som har lagt inn ein ordre i netthandelen, vil API-spurnaden innehalda %s",
@@ -442,6 +438,8 @@
         "OriginalLanguageName": "Norsk (nynorsk)",
         "Others": "Andre",
         "Outlink": "Utpeikar",
+        "Outlinks": "Utpeikarar",
+        "Pages": "Sider",
         "ParameterMustIntegerBetween": "Parameteren %s må vera eit heiltal mellom %s og %s.",
         "Period": "Periode",
         "Piechart": "Kakestykke",
@@ -757,9 +755,6 @@
         "WidgetKeywords": "Liste over nøkkelord",
         "WidgetOverview": "Oversikt",
         "WidgetSearchEngines": "Beste søkjemotorar"
-    },
-    "SEO": {
-        "Pages": "Sider"
     },
     "SitesManager": {
         "AddSite": "Legg til ein ny nettstad",
@@ -1360,7 +1355,6 @@
         "GenerateTime": "%s sekundar å generera denne siden",
         "MaxNbActions": "%s maks mengd handlingar på ein vitjing",
         "NbUniqueVisitors": "%s unike vitjarar",
-        "NbVisits": "%s vitjingar",
         "NbVisitsBounced": "%s vitjarar hev hoppa (forsvunne etter ein sidevising)",
         "SubmenuOverview": "Oversikt",
         "WidgetLastVisitors": "Graf over dei siste unike vitjarane",

@@ -27,7 +27,7 @@ class Controller extends \Piwik\Controller
     public function indexPageUrls($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('Actions_SubmenuPages'),
+            Piwik_Translate('General_Pages'),
             $this->getPageUrls(true), $fetch);
     }
 
@@ -71,14 +71,14 @@ class Controller extends \Piwik\Controller
     public function indexDownloads($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('Actions_SubmenuDownloads'),
+            Piwik_Translate('General_Downloads'),
             $this->getDownloads(true), $fetch);
     }
 
     public function indexOutlinks($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('Actions_SubmenuOutlinks'),
+            Piwik_Translate('General_Outlinks'),
             $this->getOutlinks(true), $fetch);
     }
 

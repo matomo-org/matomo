@@ -1,9 +1,4 @@
 {
-    "Actions": {
-        "SubmenuDownloads": "Descargas",
-        "SubmenuOutlinks": "Ligazóns externos",
-        "SubmenuPages": "Páxinas"
-    },
     "API": {
         "LoadedAPIs": "%s APIs foro cargadas con éxito"
     },
@@ -84,6 +79,7 @@
         "DisplayTableWithMoreMetrics": "Amosar táboa con máis medidas",
         "Done": "Feito",
         "Download": "Descarga",
+        "Downloads": "Descargas",
         "Edit": "Editar",
         "EnglishLanguageName": "Galician",
         "Error": "Erro",
@@ -136,11 +132,13 @@
         "NotValid": "%s non é valido",
         "NSeconds": "%s segs",
         "NumberOfVisits": "Número de Visitas",
+        "NVisits": "%s visitas",
         "Ok": "Ok",
         "OpenSourceWebAnalytics": "Analise Web de Open Source",
         "OrCancel": "ou %s Cancelar %s",
         "OriginalLanguageName": "Galego",
         "Others": "Outros",
+        "Outlinks": "Ligazóns externos",
         "Period": "Periodo",
         "Piechart": "Gráfico circular",
         "Previous": "Anterior",
@@ -758,7 +756,6 @@
         "GenerateTime": "%s segundos para xerar a páxina",
         "MaxNbActions": "%s accións máximas nunha visita",
         "NbUniqueVisitors": "%s visitas únicas",
-        "NbVisits": "%s visitas",
         "SubmenuOverview": "Visión xeral",
         "WidgetLastVisitors": "Gráfico dos últimos visitantes únicos",
         "WidgetLastVisits": "Gráfico das últimas visitas",
