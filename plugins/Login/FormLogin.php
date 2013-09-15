@@ -30,7 +30,7 @@ class FormLogin extends QuickForm2
             ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Username')));
 
         $this->addElement('password', 'form_password')
-            ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_Password')));
+            ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Password')));
 
         $this->addElement('hidden', 'form_nonce');
 

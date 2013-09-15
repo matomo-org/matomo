@@ -15,6 +15,7 @@
         "API": "API",
         "Widgets": "Widgets",
         "Settings": "Settings",
+        "Password": "Password",
         "GiveUsYourFeedback": "Give us Feedback!",
         "Unknown": "Unknown",
         "Never": "Never",
@@ -418,7 +419,8 @@
         "TransitionsRowActionTooltip": "See what visitors did before and after viewing this page",
         "OverlayRowActionTooltipTitle": "Open Page Overlay",
         "OverlayRowActionTooltip": "See analytics data directly on your website (opens new tab)",
-        "XComparedToY": "%1$s compared to %2$s"
+        "XComparedToY": "%1$s compared to %2$s",
+        "JsTrackingTag": "JavaScript Tracking Code"
     },
     "Actions": {
         "PluginDescription": "Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic! You can also track your internal website's Search Engine.",
@@ -944,7 +946,6 @@
         "DatabaseSetup": "Database Setup",
         "DatabaseSetupServer": "Database Server",
         "DatabaseSetupLogin": "Login",
-        "DatabaseSetupPassword": "Password",
         "DatabaseSetupDatabaseName": "Database Name",
         "DatabaseSetupTablePrefix": "Table Prefix",
         "DatabaseSetupAdapter": "Adapter",
@@ -955,7 +956,6 @@
         "DatabaseCreation": "Database creation",
         "PleaseFixTheFollowingErrors": "Please fix the following errors",
         "LargePiwikInstances": "Help for users with high traffic websites",
-        "JsTag": "JavaScript Tracking Code",
         "JsTagArchivingHelp1": "For medium and high traffic websites there are certain optimizations that should be made to help Piwik run faster (such as %1$ssetting up auto-archiving%2$s).",
         "Congratulations": "Congratulations",
         "CongratulationsHelp": "<p>Congratulations! Your Piwik installation is complete.<\/p><p>Make sure your JavaScript code is entered on your pages, and wait for your first visitors!<\/p>",
@@ -1104,7 +1104,6 @@
     "Login": {
         "PluginDescription": "Login Authentication plugin, reading the credentials from the config\/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).",
         "LoginPasswordNotCorrect": "Wrong Username and password combination.",
-        "Password": "Password",
         "PasswordRepeat": "Password (repeat)",
         "ChangePassword": "Change password",
         "LoginOrEmail": "Username or E-mail",
@@ -1305,7 +1304,6 @@
         "MainDescription": "Your Web Analytics reports need Websites! Add, update, delete Websites, and show the JavaScript to insert in your pages.",
         "YouCurrentlyHaveAccessToNWebsites": "You currently have access to %s websites.",
         "OnlyOneSiteAtTime": "You can only edit one website at a time. Please Save or Cancel your current modifications to the website %s.",
-        "JsTrackingTag": "JavaScript Tracking Code",
         "JsTrackingTagHelp": "Here is the JavaScript Tracking code to include on all your pages",
         "ShowTrackingTag": "View Tracking code",
         "NoWebsites": "You don't have any website to administrate.",
@@ -2005,7 +2003,6 @@
         "ChangePasswordConfirm": "Changing the password will also change the user's token_auth. Do you really want to continue?",
         "AnonymousUserHasViewAccess": "Note: the %1$s user has %2$s access to this website.",
         "AnonymousUserHasViewAccess2": "Your analytics reports and your visitors information are publicly viewable.",
-        "Password": "Password",
         "Email": "Email",
         "Alias": "Alias",
         "TheSuperUserAliasCannotBeChanged": "The Super User alias cannot be changed.",

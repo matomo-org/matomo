@@ -72,6 +72,7 @@
         "ErrorRequest": "Oops… nõude esitamisel tekkis viga, palun proovi uuesi.",
         "Export": "Expordi",
         "GiveUsYourFeedback": "Tagasiside!",
+        "JsTrackingTag": "Javascript tag",
         "LayoutDirection": "ltr",
         "LoadingData": "Laen infot...",
         "Locale": "et_ET.UTF-8",
@@ -104,6 +105,7 @@
         "OriginalLanguageName": "Eesti keel",
         "Others": "Teised",
         "Outlinks": "Väljuvad lingid",
+        "Password": "Salasõna",
         "Piechart": "Sektordiagramm",
         "Plugin": "Plugin",
         "Plugins": "Pluginad",
@@ -153,7 +155,6 @@
         "DatabaseCreatedSuccess": "%s andmebaas loodud!",
         "Installation": "Installatsioon",
         "InstallationStatus": "Installatiooni olek",
-        "JsTag": "Javascript tag",
         "NoConfigFound": "Piwiki konfguratsioonifaili ei leitud, kuid sa üritasid minna Piwiki lehele.<br \/><b>  » Võid <a href='index.php'>installeerida Piwiko<\/a><\/b><br \/><small>Kui Piwik on varem installeeritud ja sul on andmebaasis tabeleid, siis ei ole põhjust muretsemiseks saad taaskasutada ja säilitada olemasolevad andmed!<\/small>",
         "PercentDone": "%s %% Tehtud",
         "SetupWebsite": "Seadista veebileht",
@@ -184,8 +185,7 @@
         "LogIn": "Sisene",
         "LoginOrEmail": "Kasutajanimi või E-mail",
         "LoginPasswordNotCorrect": "Kasutajanimi & salasõna olid valed",
-        "LostYourPassword": "Kaotasid oma salasõna?",
-        "Password": "Salasõna"
+        "LostYourPassword": "Kaotasid oma salasõna?"
     },
     "Provider": {
         "SubmenuLocationsProvider": "Asukoht & pakkuja",
@@ -721,7 +721,6 @@
         "MainDescription": "Otsusta millistel kasutajatel on ligipääs analüütikale. Saad seada õigused kõigile veebilehtedele korraga.",
         "ManageAccess": "Halda ligipääsu",
         "MenuUsers": "Kasutajad",
-        "Password": "Salasõna",
         "PrivAdmin": "Admin",
         "PrivNone": "Ligipääs puudub",
         "PrivView": "Vaata",

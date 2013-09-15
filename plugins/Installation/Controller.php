@@ -49,7 +49,7 @@ class Controller extends \Piwik\Controller\Admin
         'tablesCreation'    => 'Installation_Tables',
         'generalSetup'      => 'Installation_SuperUser',
         'firstWebsiteSetup' => 'Installation_SetupWebsite',
-        'trackingCode'      => 'Installation_JsTag',
+        'trackingCode'      => 'General_JsTrackingTag',
         'finished'          => 'Installation_Congratulations',
     );
 

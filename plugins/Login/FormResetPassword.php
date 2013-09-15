@@ -29,7 +29,7 @@ class FormResetPassword extends QuickForm2
             ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Username')));
 
         $password = $this->addElement('password', 'form_password');
-        $password->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_Password')));
+        $password->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Password')));
 
         $passwordBis = $this->addElement('password', 'form_password_bis');
         $passwordBis->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_PasswordRepeat')));

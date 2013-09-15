@@ -92,6 +92,7 @@
         "HelloUser": "Ola, %s!",
         "HoursMinutes": "%1$s horas %2$s min",
         "Id": "ID",
+        "JsTrackingTag": "Etiqueta Javascript",
         "LayoutDirection": "ltr",
         "Loading": "Cargando",
         "LoadingData": "Cargando Datos...",
@@ -138,6 +139,7 @@
         "OriginalLanguageName": "Galego",
         "Others": "Outros",
         "Outlinks": "Ligazóns externos",
+        "Password": "Contrasinal",
         "Period": "Periodo",
         "Piechart": "Gráfico circular",
         "Plugins": "Plugins",
@@ -202,7 +204,6 @@
         "CongratulationsHelp": "<p>Noraboa! A instalación de Piwik foi completada.<\/p><p>Asegúrese de inserir o código Javascript en todas as páxinas, e agora, agarde aos primeiros visitantes!<\/p>",
         "Installation": "Instalación",
         "InstallationStatus": "Estado da instalación",
-        "JsTag": "Etiqueta Javascript",
         "NoConfigFound": "O ficheiro de configuración de Piwik non se atopou e vostede está tentando acceder a unha páxina de Piwik.<br><b>  » Pode <a href='index.php'>instalar Piwik agora<\/a><\/b><br><small>Se instalou Piwik con anterioridade e ten táboas na súa base de datos, non se preocupe, pode reutilizar ditas táboas e manter os datos que se atopan nelas!<\/small>",
         "PercentDone": "%s %%Hecho",
         "SetupWebsite": "Configurar unha páxina web",
@@ -234,8 +235,7 @@
         "LogIn": "Conectar",
         "LoginOrEmail": "Login ou E-mail",
         "LoginPasswordNotCorrect": "Usuario e contrasinal incorrectos",
-        "LostYourPassword": "Esqueceu o contrasinal?",
-        "Password": "Contrasinal"
+        "LostYourPassword": "Esqueceu o contrasinal?"
     },
     "Provider": {
         "SubmenuLocationsProvider": "Localizacións e provedor",
@@ -729,7 +729,6 @@
         "ExceptionUserDoesNotExist": "O usuario '%s' non existe.",
         "ManageAccess": "Administrar o acceso",
         "MenuUsers": "Usuario",
-        "Password": "Contrasinal",
         "PrivAdmin": "Admin",
         "PrivNone": "Acceso denegado",
         "PrivView": "Ver",

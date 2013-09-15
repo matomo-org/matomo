@@ -57,7 +57,7 @@ class FormDatabaseSetup extends QuickForm2
                 Piwik_Translate('Installation_InsufficientPrivilegesHelp'));
 
         $this->addElement('password', 'password')
-            ->setLabel(Piwik_Translate('Installation_DatabaseSetupPassword'));
+            ->setLabel(Piwik_Translate('General_Password'));
 
         $item = $this->addElement('text', 'dbname')
             ->setLabel(Piwik_Translate('Installation_DatabaseSetupDatabaseName'));

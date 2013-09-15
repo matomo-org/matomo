@@ -174,6 +174,7 @@
         "Others": "ఇతరాలు",
         "Outlinks": "బయటిలంకెలు",
         "Pages": "పుటలు",
+        "Password": "సంకేతపదం",
         "Period": "కాలవ్యవధి",
         "PleaseUpdatePiwik": "దయచేసి మీ పివిక్‌ని నవీకరించుకోండి",
         "Plugin": "ప్లగిన్",
@@ -237,7 +238,6 @@
     "Installation": {
         "Congratulations": "అభినందనలు",
         "DatabaseSetupLogin": "వాడుకరి పేరు",
-        "DatabaseSetupPassword": "సంకేతపదం",
         "Email": "ఈమెయిలు",
         "Installation": "స్థాపన",
         "InstallationStatus": "స్థాపన స్థితి",
@@ -261,7 +261,6 @@
     },
     "Login": {
         "LostYourPassword": "మీ సంకేతపదం మర్చిపోయారా?",
-        "Password": "సంకేతపదం",
         "PasswordRepeat": "సంకేతపదం (మళ్ళీ)",
         "RememberMe": "నన్ను గుర్తుంచుకో"
     },
@@ -814,7 +813,6 @@
         "MenuAnonymousUserSettings": "ఆజ్ఞాత వాడుకరుల అమరికలు",
         "MenuUsers": "వాడుకరులు",
         "MenuUserSettings": "వాడుకరి అమరికలు",
-        "Password": "సంకేతపదం",
         "Sites": "జాలగూళ్ళు",
         "User": "వాడుకరి",
         "UsersManagement": "వాడుకరుల నిర్వహణ",
