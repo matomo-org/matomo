@@ -164,18 +164,18 @@
                 _pk_translate('General_ShortMonth_11'),
                 _pk_translate('General_ShortMonth_12')],
             monthNames: [
-                _pk_translate('General_MonthJanuary'),
-                _pk_translate('General_MonthFebruary'),
-                _pk_translate('General_MonthMarch'),
-                _pk_translate('General_MonthApril'),
-                _pk_translate('General_MonthMay'),
-                _pk_translate('General_MonthJune'),
-                _pk_translate('General_MonthJuly'),
-                _pk_translate('General_MonthAugust'),
-                _pk_translate('General_MonthSeptember'),
-                _pk_translate('General_MonthOctober'),
-                _pk_translate('General_MonthNovember'),
-                _pk_translate('General_MonthDecember')]
+                _pk_translate('General_LongMonth_1'),
+                _pk_translate('General_LongMonth_2'),
+                _pk_translate('General_LongMonth_3'),
+                _pk_translate('General_LongMonth_4'),
+                _pk_translate('General_LongMonth_5'),
+                _pk_translate('General_LongMonth_6'),
+                _pk_translate('General_LongMonth_7'),
+                _pk_translate('General_LongMonth_8'),
+                _pk_translate('General_LongMonth_9'),
+                _pk_translate('General_LongMonth_10'),
+                _pk_translate('General_LongMonth_11'),
+                _pk_translate('General_LongMonth_12')]
         };
     };
 

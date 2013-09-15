@@ -5,7 +5,7 @@
     {% for visitor in visitors %}
         <li id="{{ visitor.idVisit }}" class="visit">
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
-            <div title="{{ visitor.actionDetails|length }} {{ 'Live_Actions'|translate }}" class="datetime">
+            <div title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}" class="datetime">
                 <span style="display:none;" class="serverTimestamp">{{ visitor.serverTimestamp|raw }}</span>
                 {{ visitor.serverDatePretty }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}<em>({{ visitor.visitDurationPretty|raw }})</em>{% endif %}
                 &nbsp;<img src="{{ visitor.countryFlag }}" title="{{ visitor.location }}, {{ 'Provider_ColumnProvider'|translate }} {{ visitor.providerName }}"/>
@@ -63,7 +63,7 @@
                 {% endif %}
             </div>
             <div id="{{ visitor.idVisit }}_actions" class="settings">
-                <span class="pagesTitle" title="{{ visitor.actionDetails|length }} {{ 'Live_Actions'|translate }}">{{ 'Actions_SubmenuPages'|translate }}:</span>&nbsp;
+                <span class="pagesTitle" title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}">{{ 'Actions_SubmenuPages'|translate }}:</span>&nbsp;
                 {% set col = 0 %}
                 {% for action in visitor.actionDetails %}
                     {% if loop.index <= maxPagesDisplayedByVisitor %}

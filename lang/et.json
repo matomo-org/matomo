@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "Actions": "Tegevused",
         "SubmenuDownloads": "Allalaadimised",
         "SubmenuOutlinks": "Väljuvad lingid",
         "SubmenuPages": "Vaadatud lehed"
@@ -56,10 +55,12 @@
         "WidgetNotFound": "Moodulit ei leitud"
     },
     "General": {
+        "Actions": "Tegevused",
         "API": "API",
         "BackToHomepage": "Tagasi esilehele",
         "Close": "Sulge",
         "ColumnLabel": "Tiitel",
+        "ColumnNbActions": "Tegevused",
         "ColumnNbUniqVisitors": "Unikaalsed külastajad",
         "ColumnNbVisits": "Külastused",
         "DayFr": "R",
@@ -100,18 +101,6 @@
         "LongMonth_7": "juuli",
         "LongMonth_8": "august",
         "LongMonth_9": "september",
-        "MonthApril": "Aprill",
-        "MonthAugust": "August",
-        "MonthDecember": "Detsember",
-        "MonthFebruary": "Veebruar",
-        "MonthJanuary": "Jaanuar",
-        "MonthJuly": "Juuli",
-        "MonthJune": "Juuni",
-        "MonthMarch": "Märts",
-        "MonthMay": "Mai",
-        "MonthNovember": "November",
-        "MonthOctober": "Oktoober",
-        "MonthSeptember": "September",
         "Next": "Järgmine",
         "No": "Ei",
         "NoDataForGraph": "Graafik - infot pole veel",
@@ -152,6 +141,7 @@
         "TranslatorName": "Kaido Toomingas",
         "Unknown": "Tundmatu",
         "VBarGraph": "Vertikaaltulbad",
+        "View": "Vaata",
         "Visitors": "Külastajad",
         "Warning": "Hoiatus",
         "Website": "Veebileht",
@@ -196,7 +186,6 @@
         "LogIn": "Sisene",
         "LoginOrEmail": "Kasutajanimi või E-mail",
         "LoginPasswordNotCorrect": "Kasutajanimi & salasõna olid valed",
-        "Logout": "Välju",
         "LostYourPassword": "Kaotasid oma salasõna?",
         "Password": "Salasõna"
     },

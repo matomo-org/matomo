@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "Actions": "Eylemler",
         "AvgGenerationTimeTooltip": "Ortalama %s hit, %s arasında %s \/ %s 'e dayalı",
         "ColumnClickedURL": "Tıklanan Sayfa Adresleri",
         "ColumnClicks": "Tıklamalar",
@@ -294,6 +293,7 @@
     },
     "General": {
         "AboutPiwikX": "Piwik %s Hakkında",
+        "Actions": "Eylemler",
         "Add": "Ekle",
         "AfterEntry": "buraya girdikten sonra",
         "AllWebsitesDashboard": "Tüm Websitelerin Panosu",
@@ -450,19 +450,7 @@
         "MainMetrics": "Ana ölçümler",
         "Metadata": "Meta verisi",
         "MinutesSeconds": "%1$s dak %2$ss",
-        "MonthApril": "Nisan",
-        "MonthAugust": "Ağustos",
-        "MonthDecember": "Aralık",
-        "MonthFebruary": "Şubat",
-        "MonthJanuary": "Ocak",
-        "MonthJuly": "Temmuz",
-        "MonthJune": "Haziran",
         "Monthly": "Aylık",
-        "MonthMarch": "Mart",
-        "MonthMay": "Mayıs",
-        "MonthNovember": "Kasım",
-        "MonthOctober": "Ekim",
-        "MonthSeptember": "Eylül",
         "MultiSitesSummary": "Tüm Siteler",
         "Name": "İsim",
         "NbActions": "Eylem Sayısı",
@@ -683,8 +671,6 @@
     },
     "Live": {
         "Action": "Eylem",
-        "Actions": "Eylemler",
-        "GoalDetails": "Ayrıntılar",
         "GoalRevenue": "Gelir",
         "GoalType": "Tür",
         "LastMinutes": "Son %s dakika",
@@ -702,7 +688,6 @@
         "LogIn": "Oturum aç",
         "LoginOrEmail": "Giriş veya E-posta",
         "LoginPasswordNotCorrect": "Kullanıcı adı & Şifre yanlış",
-        "Logout": "Oturumu kapat",
         "LostYourPassword": "Şifrenizi mi unuttunuz?",
         "Password": "Şifre",
         "PasswordRepeat": "Şifre (Tekrar)",
@@ -714,8 +699,7 @@
         "AddAccount": "Hesap ekle",
         "AddPiwikDemo": "Piwik Demo Ekle",
         "DefaultReportDate": "Rapor tarihi",
-        "LoginUseHttps": "https kullan",
-        "Refresh": "Yenile"
+        "LoginUseHttps": "https kullan"
     },
     "PrivacyManager": {
         "TeaserHeadline": "Gizlilik Ayarları"

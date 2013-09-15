@@ -84,7 +84,7 @@ class Actions extends \Piwik\Plugin
         // entry and exit pages of visit
         $segments[] = array(
             'type'       => 'dimension',
-            'category'   => 'Actions_Actions',
+            'category'   => 'General_Actions',
             'name'       => 'Actions_ColumnEntryPageURL',
             'segment'    => 'entryPageUrl',
             'sqlSegment' => 'log_visit.visit_entry_idaction_url',
@@ -92,7 +92,7 @@ class Actions extends \Piwik\Plugin
         );
         $segments[] = array(
             'type'       => 'dimension',
-            'category'   => 'Actions_Actions',
+            'category'   => 'General_Actions',
             'name'       => 'Actions_ColumnEntryPageTitle',
             'segment'    => 'entryPageTitle',
             'sqlSegment' => 'log_visit.visit_entry_idaction_name',
@@ -100,7 +100,7 @@ class Actions extends \Piwik\Plugin
         );
         $segments[] = array(
             'type'       => 'dimension',
-            'category'   => 'Actions_Actions',
+            'category'   => 'General_Actions',
             'name'       => 'Actions_ColumnExitPageURL',
             'segment'    => 'exitPageUrl',
             'sqlSegment' => 'log_visit.visit_exit_idaction_url',
@@ -108,7 +108,7 @@ class Actions extends \Piwik\Plugin
         );
         $segments[] = array(
             'type'       => 'dimension',
-            'category'   => 'Actions_Actions',
+            'category'   => 'General_Actions',
             'name'       => 'Actions_ColumnExitPageTitle',
             'segment'    => 'exitPageTitle',
             'sqlSegment' => 'log_visit.visit_exit_idaction_name',
@@ -118,7 +118,7 @@ class Actions extends \Piwik\Plugin
         // single pages
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Actions_Actions',
+            'category'       => 'General_Actions',
             'name'           => 'Actions_ColumnPageURL',
             'segment'        => 'pageUrl',
             'sqlSegment'     => 'log_link_visit_action.idaction_url',
@@ -127,7 +127,7 @@ class Actions extends \Piwik\Plugin
         );
         $segments[] = array(
             'type'       => 'dimension',
-            'category'   => 'Actions_Actions',
+            'category'   => 'General_Actions',
             'name'       => 'Actions_ColumnPageName',
             'segment'    => 'pageTitle',
             'sqlSegment' => 'log_link_visit_action.idaction_name',
@@ -135,7 +135,7 @@ class Actions extends \Piwik\Plugin
         );
         $segments[] = array(
             'type'       => 'dimension',
-            'category'   => 'Actions_Actions',
+            'category'   => 'General_Actions',
             'name'       => 'Actions_SiteSearchKeyword',
             'segment'    => 'siteSearchKeyword',
             'sqlSegment' => 'log_link_visit_action.idaction_name',
@@ -211,8 +211,8 @@ class Actions extends \Piwik\Plugin
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(
-            'category'             => Piwik_Translate('Actions_Actions'),
-            'name'                 => Piwik_Translate('Actions_Actions') . ' - ' . Piwik_Translate('General_MainMetrics'),
+            'category'             => Piwik_Translate('General_Actions'),
+            'name'                 => Piwik_Translate('General_Actions') . ' - ' . Piwik_Translate('General_MainMetrics'),
             'module'               => 'Actions',
             'action'               => 'get',
             'metrics'              => array(
@@ -261,7 +261,7 @@ class Actions extends \Piwik\Plugin
 
         // pages report
         $reports[] = array(
-            'category'              => Piwik_Translate('Actions_Actions'),
+            'category'              => Piwik_Translate('General_Actions'),
             'name'                  => Piwik_Translate('Actions_PageUrls'),
             'module'                => 'Actions',
             'action'                => 'getPageUrls',
@@ -277,7 +277,7 @@ class Actions extends \Piwik\Plugin
 
         // entry pages report
         $reports[] = array(
-            'category'              => Piwik_Translate('Actions_Actions'),
+            'category'              => Piwik_Translate('General_Actions'),
             'name'                  => Piwik_Translate('Actions_SubmenuPagesEntry'),
             'module'                => 'Actions',
             'action'                => 'getEntryPageUrls',
@@ -301,7 +301,7 @@ class Actions extends \Piwik\Plugin
 
         // exit pages report
         $reports[] = array(
-            'category'              => Piwik_Translate('Actions_Actions'),
+            'category'              => Piwik_Translate('General_Actions'),
             'name'                  => Piwik_Translate('Actions_SubmenuPagesExit'),
             'module'                => 'Actions',
             'action'                => 'getExitPageUrls',
@@ -325,7 +325,7 @@ class Actions extends \Piwik\Plugin
 
         // page titles report
         $reports[] = array(
-            'category'              => Piwik_Translate('Actions_Actions'),
+            'category'              => Piwik_Translate('General_Actions'),
             'name'                  => Piwik_Translate('Actions_SubmenuPageTitles'),
             'module'                => 'Actions',
             'action'                => 'getPageTitles',
@@ -341,7 +341,7 @@ class Actions extends \Piwik\Plugin
 
         // entry page titles report
         $reports[] = array(
-            'category'              => Piwik_Translate('Actions_Actions'),
+            'category'              => Piwik_Translate('General_Actions'),
             'name'                  => Piwik_Translate('Actions_EntryPageTitles'),
             'module'                => 'Actions',
             'action'                => 'getEntryPageTitles',
@@ -365,7 +365,7 @@ class Actions extends \Piwik\Plugin
 
         // exit page titles report
         $reports[] = array(
-            'category'              => Piwik_Translate('Actions_Actions'),
+            'category'              => Piwik_Translate('General_Actions'),
             'name'                  => Piwik_Translate('Actions_ExitPageTitles'),
             'module'                => 'Actions',
             'action'                => 'getExitPageTitles',
@@ -394,7 +394,7 @@ class Actions extends \Piwik\Plugin
 
         // outlinks report
         $reports[] = array(
-            'category'              => Piwik_Translate('Actions_Actions'),
+            'category'              => Piwik_Translate('General_Actions'),
             'name'                  => Piwik_Translate('Actions_SubmenuOutlinks'),
             'module'                => 'Actions',
             'action'                => 'getOutlinks',
@@ -414,7 +414,7 @@ class Actions extends \Piwik\Plugin
 
         // downloads report
         $reports[] = array(
-            'category'              => Piwik_Translate('Actions_Actions'),
+            'category'              => Piwik_Translate('General_Actions'),
             'name'                  => Piwik_Translate('Actions_SubmenuDownloads'),
             'module'                => 'Actions',
             'action'                => 'getDownloads',
@@ -541,14 +541,14 @@ class Actions extends \Piwik\Plugin
 
     function addWidgets()
     {
-        WidgetsList::add('Actions_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
-        WidgetsList::add('Actions_Actions', 'Actions_WidgetPageTitles', 'Actions', 'getPageTitles');
-        WidgetsList::add('Actions_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
-        WidgetsList::add('Actions_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
-        WidgetsList::add('Actions_Actions', 'Actions_WidgetPagesEntry', 'Actions', 'getEntryPageUrls');
-        WidgetsList::add('Actions_Actions', 'Actions_WidgetPagesExit', 'Actions', 'getExitPageUrls');
-        WidgetsList::add('Actions_Actions', 'Actions_WidgetEntryPageTitles', 'Actions', 'getEntryPageTitles');
-        WidgetsList::add('Actions_Actions', 'Actions_WidgetExitPageTitles', 'Actions', 'getExitPageTitles');
+        WidgetsList::add('General_Actions', 'Actions_SubmenuPages', 'Actions', 'getPageUrls');
+        WidgetsList::add('General_Actions', 'Actions_WidgetPageTitles', 'Actions', 'getPageTitles');
+        WidgetsList::add('General_Actions', 'Actions_SubmenuOutlinks', 'Actions', 'getOutlinks');
+        WidgetsList::add('General_Actions', 'Actions_SubmenuDownloads', 'Actions', 'getDownloads');
+        WidgetsList::add('General_Actions', 'Actions_WidgetPagesEntry', 'Actions', 'getEntryPageUrls');
+        WidgetsList::add('General_Actions', 'Actions_WidgetPagesExit', 'Actions', 'getExitPageUrls');
+        WidgetsList::add('General_Actions', 'Actions_WidgetEntryPageTitles', 'Actions', 'getEntryPageTitles');
+        WidgetsList::add('General_Actions', 'Actions_WidgetExitPageTitles', 'Actions', 'getExitPageTitles');
 
         if ($this->isSiteSearchEnabled()) {
             WidgetsList::add('Actions_SubmenuSitesearch', 'Actions_WidgetSearchKeywords', 'Actions', 'getSiteSearchKeywords');
@@ -564,16 +564,16 @@ class Actions extends \Piwik\Plugin
 
     function addMenus()
     {
-        Piwik_AddMenu('Actions_Actions', '', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 15);
-        Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 1);
-        Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'indexEntryPageUrls'), true, 2);
-        Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'indexExitPageUrls'), true, 3);
-        Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'indexPageTitles'), true, 4);
-        Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 6);
-        Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 7);
+        Piwik_AddMenu('General_Actions', '', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 15);
+        Piwik_AddMenu('General_Actions', 'Actions_SubmenuPages', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 1);
+        Piwik_AddMenu('General_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'indexEntryPageUrls'), true, 2);
+        Piwik_AddMenu('General_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'indexExitPageUrls'), true, 3);
+        Piwik_AddMenu('General_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'indexPageTitles'), true, 4);
+        Piwik_AddMenu('General_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 6);
+        Piwik_AddMenu('General_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 7);
 
         if ($this->isSiteSearchEnabled()) {
-            Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuSitesearch', array('module' => 'Actions', 'action' => 'indexSiteSearch'), true, 5);
+            Piwik_AddMenu('General_Actions', 'Actions_SubmenuSitesearch', array('module' => 'Actions', 'action' => 'indexSiteSearch'), true, 5);
         }
     }
 

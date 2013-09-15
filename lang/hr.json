@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "Actions": "Radnje",
         "ColumnClickedURL": "Kliknuti URL",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj koliko je puta link bio kliknut",
@@ -76,6 +75,7 @@
     "General": {
         "AbandonedCarts": "Napuštene košarice",
         "AboutPiwikX": "O Piwiku %s",
+        "Actions": "Radnje",
         "AllowPiwikArchivingToTriggerBrowser": "Dozvoli pokretanje Piwik arhiviranja kada se izvještaji pregledavaju iz preglednika",
         "AllWebsitesDashboard": "Upravljačka ploča za sve stranice",
         "API": "API",

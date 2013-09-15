@@ -43,7 +43,7 @@ class WidgetsListTest extends DatabaseTestCase
             'Live!'                        => 4,
             'General_Visitors'             => 12,
             'UserSettings_VisitorSettings' => 11,
-            'Actions_Actions'              => 8,
+            'General_Actions'              => 8,
             'Actions_SubmenuSitesearch'    => 5,
             'Referers_Referers'            => 7,
             'Goals_Goals'                  => 1,

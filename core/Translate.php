@@ -156,8 +156,6 @@ class Translate
 
     /**
      * Generate javascript translations array
-     *
-     * @param array $moduleList
      */
     public function getJavascriptTranslations()
     {

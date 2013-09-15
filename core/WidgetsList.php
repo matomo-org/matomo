@@ -75,7 +75,7 @@ class WidgetsList
             'General_Visitors',
             'UserSettings_VisitorSettings',
             'DevicesDetection_DevicesDetection',
-            'Actions_Actions',
+            'General_Actions',
             'Actions_SubmenuSitesearch',
             'Referers_Referers',
             'Goals_Goals',

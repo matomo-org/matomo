@@ -182,7 +182,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                         {% if visitor.getColumn('actionDetails')|length <= 1 %}
                             {{ 'Live_Action'|translate }}
                         {% else %}
-                            {{ 'Live_Actions'|translate }}
+                            {{ 'General_Actions'|translate }}
                         {% endif %}
                         {% if visitor.getColumn('visitDuration') > 0 %}- {{ visitor.getColumn('visitDurationPretty')|raw }}{% endif %}
                     </strong>

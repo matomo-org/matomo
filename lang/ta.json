@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "Actions": "செயல்கள்",
         "ColumnClickedURL": "சொடுக்கபட்ட URL",
         "ColumnClicks": "சொடுக்குகள்",
         "ColumnClicksDocumentation": "இந்த இணைப்பு சொடுக்குகளின் எண்ணிக்கை",
@@ -146,6 +145,7 @@
         "UpdateAutomatically": "தானாகவே புதுப்பித்துகொள்"
     },
     "General": {
+        "Actions": "செயல்கள்",
         "DayFr": "வெ",
         "DayMo": "தி",
         "DaySa": "ச",
@@ -153,9 +153,11 @@
         "DayTh": "வி",
         "DayTu": "செ",
         "DayWe": "பு",
+        "Details": "விவரங்கள்",
         "EnglishLanguageName": "Tamil",
         "LayoutDirection": "ltr",
         "Locale": "ta_IN.UTF-8",
+        "Logout": "வெளியேற",
         "LongDay_1": "ஞாயிறு",
         "LongDay_2": "திங்கள்",
         "LongDay_3": "செவ்வாய்",
@@ -288,8 +290,6 @@
     },
     "Live": {
         "Action": "செயல்",
-        "Actions": "செயல்கள்",
-        "GoalDetails": "விவரங்கள்",
         "GoalRevenue": "வருமானம்",
         "GoalTime": "1ம் மாற்ற நேரம்",
         "GoalType": "வகை",
@@ -306,7 +306,6 @@
         "LogIn": "உள்நுழைய",
         "LoginOrEmail": "பயனாளர்பெயர் அல்லது ஈமெயில் முகவரி",
         "LoginPasswordNotCorrect": "பயனாளர்பெயர் மற்றும் கடவுச்சொல் பொருந்தவில்லை.",
-        "Logout": "வெளியேற",
         "LostYourPassword": "கடவுச்சொல் மறந்து போனதா?",
         "PasswordRepeat": "கடவுச்சொல் (மீண்டும்)",
         "RememberMe": "என்னை ஞாபகத்தில் கொள்",
@@ -321,7 +320,6 @@
         "RatingDontRemindMe": "என்னை ஞாபகப்படுத்த வேண்டாம்",
         "RatingNotNow": "இப்போது வேண்டாம்",
         "RatingNow": "சரி, நான் இப்போதே மதிப்பீடுகிறேன்",
-        "Refresh": "இளைப்பாற்று",
         "ReleaseToRefresh": "இளைப்பாற்ற விடு...",
         "Reloading": "மீளேற்றப்படுகிறது...",
         "SaveSuccessError": "பிவிக் உரலி(URL) அல்லது பயனாளர்பெயர் மற்றும் கடவுச்சொல் சேர்க்கை தவறானது.",

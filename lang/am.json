@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "Actions": "ርምጃዎች",
         "ColumnClickedURL": "ጠቅ አድርግ ዩ አር ኤል",
         "ColumnClicks": "ጠቃድርጎች",
         "ColumnDownloads": "የወረዱ",
@@ -81,6 +80,7 @@
         "WidgetPreview": "የWidget ቅድመእይታ"
     },
     "General": {
+        "Actions": "ርምጃዎች",
         "API": "ኤፒአይI",
         "BackToHomepage": "ወደ ፒዊክ መነሻ ገፅ ተመለስ",
         "BackToPiwik": "ወደፒዊክ ተመለስ",
@@ -138,18 +138,6 @@
         "LongMonth_7": "ሐምሌ",
         "LongMonth_8": "ነሐሴ",
         "LongMonth_9": "መስከረም",
-        "MonthApril": "ሚያዚያ",
-        "MonthAugust": "ነሐሴ",
-        "MonthDecember": "ታህሳስ",
-        "MonthFebruary": "የካቲት",
-        "MonthJanuary": "ጥር",
-        "MonthJuly": "ሐምሌ",
-        "MonthJune": "ሰኔ",
-        "MonthMarch": "መጋቢት",
-        "MonthMay": "ግንቦት",
-        "MonthNovember": "ህዳር",
-        "MonthOctober": "ጥቅምት",
-        "MonthSeptember": "መስከረም",
         "Next": "ቀጥል",
         "No": "የለም",
         "NoDataForGraph": "ለዚህ ግራፍ ምንም ውሂብ የለም",
@@ -192,6 +180,7 @@
         "TranslatorName": "<a href=\"http:\/\/www.addismap.com\/bandira\/\">Alazar Tekle<\/a>",
         "Unknown": "ያልታወቀ",
         "VBarGraph": "አቀባዊ አሞሌ ግራፍ",
+        "View": "ትእይታ",
         "Visitors": "ጎብኝዎች",
         "Warning": "ማስጠንቀቂያ",
         "Website": "ድር ጣቢያ",
@@ -253,7 +242,6 @@
         "LogIn": "ግባ",
         "LoginOrEmail": "ግባ ወይም ኢ-ሜይል",
         "LoginPasswordNotCorrect": "የተጠቃሚ ስም እና የይለፍ ቃል ትክክል አይደለም",
-        "Logout": "ውጣ",
         "LostYourPassword": "የይለፍ ቃል ጠፋብህ?",
         "Password": "የይለፍ ቃል",
         "PasswordRepeat": "የይለፍ ቃል (ድገም)"

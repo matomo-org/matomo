@@ -193,7 +193,7 @@ class ProcessedReport
                 Piwik_Translate('General_MultiSitesSummary'),
                 Piwik_Translate('VisitsSummary_VisitsSummary'),
                 Piwik_Translate('Goals_Ecommerce'),
-                Piwik_Translate('Actions_Actions'),
+                Piwik_Translate('General_Actions'),
                 Piwik_Translate('Actions_SubmenuSitesearch'),
                 Piwik_Translate('Referers_Referers'),
                 Piwik_Translate('Goals_Goals'),

@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "Actions": "చర్యలు",
         "ColumnClickedURL": "నొక్కిన URL",
         "ColumnClicks": "నొక్కులు",
         "ColumnDownloads": "దింపుకోళ్ళు",
@@ -74,6 +73,7 @@
     },
     "General": {
         "AboutPiwikX": "పివిక్ %s గురించి",
+        "Actions": "చర్యలు",
         "Add": "చేర్చు",
         "AllWebsitesDashboard": "అన్ని వెబ్‌సైట్లడాష్‌బోర్డు",
         "AverageOrderValue": "సగటు ఆర్డరు విలువ",
@@ -159,18 +159,6 @@
         "LongMonth_8": "ఆగస్ట్",
         "LongMonth_9": "సెప్టెంబర్",
         "MinutesSeconds": "%1$s నిమి %2$sక్ష",
-        "MonthApril": "ఏప్రిల్",
-        "MonthAugust": "ఆగస్ట్",
-        "MonthDecember": "డిసెంబర్",
-        "MonthFebruary": "ఫిబ్రవరి",
-        "MonthJanuary": "జనవరి",
-        "MonthJuly": "జూలై",
-        "MonthJune": "జూన్",
-        "MonthMarch": "మార్చి",
-        "MonthMay": "మే",
-        "MonthNovember": "నవంబర్",
-        "MonthOctober": "అక్టోబర్",
-        "MonthSeptember": "సెప్టెంబర్",
         "MultiSitesSummary": "అన్ని వెబ్‌సైట్లూ",
         "Name": "పేరు",
         "NDays": "%s రోజులు",
@@ -267,8 +255,6 @@
     },
     "Live": {
         "Action": "చర్య",
-        "Actions": "చర్యలు",
-        "GoalDetails": "వివరాలు",
         "GoalRevenue": "ఆదాయం",
         "GoalType": "రకం",
         "LastHours": "గత %s గంటలు",

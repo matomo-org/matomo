@@ -1,6 +1,5 @@
 {
     "Actions": {
-        "Actions": "Akcije",
         "ColumnClickedURL": "Kliknut URL",
         "ColumnClicks": "Klikovi",
         "ColumnClicksDocumentation": "Broj klikova na ovaj link",
@@ -54,6 +53,7 @@
     "General": {
         "AbandonedCarts": "Otkazane korpe",
         "AboutPiwikX": "O Piwik-u%s",
+        "Actions": "Akcije",
         "AfterEntry": "poslije ulaza ovdje",
         "AllowPiwikArchivingToTriggerBrowser": "Dozvoli Piwik-u da arhivira pokretač kad su reporti pregledani u browseru.",
         "AllWebsitesDashboard": "Kontrolne ploče svih web stranica",
