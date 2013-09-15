@@ -99,7 +99,7 @@ class Treemap extends Graph
         $result['visualization_properties']['graph']['max_graph_elements'] = 10;
         $result['visualization_properties']['graph']['allow_multi_select_series_picker'] = false;
         $result['visualization_properties']['infoviz-treemap']['show_evolution_values'] = true;
-        $result['visualization_properties']['infoviz-treemap']['depth'] = 1;
+        $result['visualization_properties']['infoviz-treemap']['depth'] = 0;
         return $result;
     }
 

@@ -76,17 +76,21 @@ class TreemapVisualization extends \Piwik\Plugin
             $view->show_pie_chart = false;
             $view->show_tag_cloud = false;
 
-            // for some actions reports, use all available space
-            if (in_array($method, self::$fullWidthActionsReports)
-                && $view->getViewDataTableId() == Treemap::ID
-            ) {
-                $view->datatable_css_class = 'infoviz-treemap-full-width';
-                $view->visualization_properties->max_graph_elements = 50;
-            }
-        } else {
             if ($view->getViewDataTableId() == Treemap::ID) {
-                $view->visualization_properties->max_graph_elements = max(10, $view->visualization_properties->max_graph_elements);
+                $view->visualization_properties->depth = 1;
+
+                // for some actions reports, use all available space
+                if (in_array($method, self::$fullWidthActionsReports)) {
+                    $view->datatable_css_class = 'infoviz-treemap-full-width';
+                    $view->visualization_properties->max_graph_elements = 50;
+                } else {
+                    $view->visualization_properties->max_graph_elements = max(10, $view->visualization_properties->max_graph_elements);
+                }
             }
+        } else if ($module === 'ExampleUI'
+                   && $view->getViewDataTableId() == Treemap::ID
+        ) {
+            $view->visualization_properties->show_evolution_values = false;
         }
     }
 }

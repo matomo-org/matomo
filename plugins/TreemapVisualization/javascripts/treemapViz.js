@@ -39,13 +39,15 @@
                 return;
             }
 
+            this._bindEventCallbacks(domElem);
+
             var self = this;
             this.treemap = new $jit.TM.Squarified({
                 injectInto: treemapContainerId,
                 titleHeight: 24,
                 animate: true, // TODO: disable on ipad/w/o native canvas support
                 offset: 1,
-                levelsToShow: (self.props.depth || 1) + 1,
+                levelsToShow: (self.props.depth || 0) + 1,
                 constrained: true,
                 Events: {
                     enable: true,
@@ -102,6 +104,18 @@
         changeMetric: function (metric) {
             this.param.columns = metric;
             this.reloadAjaxDataTable();
+        },
+
+        /**
+         * Handle events to make this control functional.
+         */
+        _bindEventCallbacks: function (domElem) {
+            var self = this;
+            domElem.on('click', '.infoviz-treemap-zoom-out', function (e) {
+                e.preventDefault();
+                self._leaveNode();
+                return false;
+            });
         },
 
         /**
@@ -309,7 +323,7 @@
             this.foreachNode(function (node) {
                 node.data.$color = colors[colorIdx];
                 colorIdx = (colorIdx + 1) % colors.length;
-            });
+            }, root);
         },
 
         /**
@@ -362,7 +376,7 @@
          * This function will advance to the parent of the current node, if it has one.
          */
         _onRightClickNode: function (node) {
-            this.treemap.out();
+            this._leaveNode();
         },
 
         /**
@@ -376,10 +390,10 @@
             if (!node.data.loaded) {
                 var self = this;
                 this._loadOthersNodeChildren(node, function (newNode) {
-                    self.treemap.enter(newNode);
+                    self._enterNode(newNode);
                 });
             } else {
-                this.treemap.enter(node);
+                this._enterNode(node);
             }
         },
 
@@ -394,11 +408,34 @@
             if (!node.data.loaded) {
                 var self = this;
                 this._loadSubtableNodeChildren(node, function (newNode) {
-                    self.treemap.enter(newNode);
+                    self._enterNode(newNode);
                 });
             } else {
-                this.treemap.enter(node);
+                this._enterNode(node);
             }
+        },
+
+        /**
+         * Enters a node and toggles the zoom out link.
+         */
+        _enterNode: function (node) {
+            this.treemap.enter(node);
+            this._toggleZoomOut(true);
+        },
+
+        /**
+         * Leaves a node and toggles the zoom out link if at the root node.
+         */
+        _leaveNode: function () {
+            this.treemap.out();
+            this._toggleZoomOut();
+        },
+
+        /**
+         * Show/hide the zoom out button based on the currently selected node.
+         */
+        _toggleZoomOut: function (toggle) {
+            $('.infoviz-treemap-zoom-out', this.$element).css('visibility', toggle || !this.treemap.clickedNode ? 'visible' : 'hidden');
         },
 
         /**

@@ -143,6 +143,12 @@ class TreemapDataGenerator
             $dataTable->filter('Truncate', array($this->truncateAfter));
         }
 
+        // sanity check: if the dataTable is not a Map, we don't have the data to calculate evolution
+        // values, so make sure we don't try
+        if (!($dataTable instanceof Map)) {
+            $this->showEvolutionValues = false;
+        }
+
         // if showEvolutionValues is true, $dataTable must be a DataTable\Map w/ two child tables
         $pastData = false;
         if ($this->showEvolutionValues) {
