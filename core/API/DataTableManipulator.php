@@ -144,9 +144,6 @@ abstract class DataTableManipulator
         $dataTable = Proxy::getInstance()->call($class, $method, $request);
         $response = new ResponseBuilder($format = 'original', $request);
         $dataTable = $response->getResponse($dataTable);
-        if (method_exists($dataTable, 'applyQueuedFilters')) {
-            $dataTable->applyQueuedFilters();
-        }
 
         return $dataTable;
     }

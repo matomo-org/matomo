@@ -70,7 +70,7 @@ class Flattener extends DataTableManipulator
             $dataTable->applyQueuedFilters();
         }
 
-        $newDataTable = $dataTable->getEmptyClone($keepFilters = false);
+        $newDataTable = $dataTable->getEmptyClone($keepFilters = true);
         foreach ($dataTable->getRows() as $row) {
             $this->flattenRow($row, $newDataTable);
         }

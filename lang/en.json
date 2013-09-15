@@ -419,7 +419,8 @@
         "TransitionsRowActionTooltipTitle": "Open Transitions",
         "TransitionsRowActionTooltip": "See what visitors did before and after viewing this page",
         "OverlayRowActionTooltipTitle": "Open Page Overlay",
-        "OverlayRowActionTooltip": "See analytics data directly on your website (opens new tab)"
+        "OverlayRowActionTooltip": "See analytics data directly on your website (opens new tab)",
+        "XComparedToY": "%1$s compared to %2$s"
     },
     "Actions": {
         "PluginDescription": "Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic! You can also track your internal website's Search Engine.",

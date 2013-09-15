@@ -128,7 +128,7 @@
                     .append(this.domElem)
                     ;
 
-                dataTableDomElem.prepend(seriesPickerContainer);
+                dataTableDomElem.find('.dataTableWrapper').prepend(seriesPickerContainer);
             });
 
             $(this._seriesPicker).bind('seriesPicked', function (e, columns) {

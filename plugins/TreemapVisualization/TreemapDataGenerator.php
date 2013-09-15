@@ -73,6 +73,13 @@ class TreemapDataGenerator
     private $truncateAfter = false;
 
     /**
+     * Holds the date of the past period. Implementation detail.
+     * 
+     * @var string
+     */
+    private $pastDataDate = null;
+
+    /**
      * Constructor.
      *
      * @param string $metricToGraph @see self::$metricToGraph
@@ -140,6 +147,7 @@ class TreemapDataGenerator
         $pastData = false;
         if ($this->showEvolutionValues) {
             list($pastData, $dataTable) = array_values($dataTable->getArray());
+            $this->pastDataDate = $pastData->getMetadata('period')->getLocalizedShortString();
         }
 
         $root = $this->makeNode('treemap-root', $this->rootName);
@@ -194,10 +202,15 @@ class TreemapDataGenerator
         }
 
         // add node tooltip
-        $data['metadata']['tooltip'] = ' ' . $columnValue . ' ' . $this->metricTranslation;
+        $data['metadata']['tooltip'] = $columnValue . ' ' . $this->metricTranslation;
         if (isset($data['evolution'])) {
-            $greaterOrLess = $data['evolution'] > 0 ? '>' : '<';
-            $data['metadata']['tooltip'] .= ' ' . $greaterOrLess . ' ' . abs($data['evolution']) . '%';
+            $greaterOrLess = $data['evolution'] >= 0 ? '+' : '-';
+            $evolutionChange = $greaterOrLess . ' ' . abs($data['evolution']) . '%';
+
+            $data['metadata']['tooltip'] = Piwik_Translate('General_XComparedToY', array(
+                $data['metadata']['tooltip'] . ' ' . $evolutionChange,
+                $this->pastDataDate
+            ));
         }
 
         return $this->makeNode($this->getNodeId($tableId, $rowId), $label, $data);

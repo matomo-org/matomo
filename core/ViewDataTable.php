@@ -153,8 +153,6 @@ class ViewDataTable
         $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
         $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
 
-        $this->overrideViewPropertiesWithQueryParams();
-
         // the exclude low population threshold value is sometimes obtained by requesting data.
         // to avoid issuing unecessary requests when display properties are determined by metadata,
         // we allow it to be a closure.
@@ -164,6 +162,8 @@ class ViewDataTable
             $function = $this->viewProperties['filter_excludelowpop_value'];
             $this->viewProperties['filter_excludelowpop_value'] = $function();
         }
+
+        $this->overrideViewPropertiesWithQueryParams();
 
         $this->loadDocumentation();
     }
@@ -555,7 +555,9 @@ class ViewDataTable
         }
 
         list($priorityFilters, $otherFilters) = $this->getFiltersToRun();
-
+$fd = fopen('/home/runic/hello.txt', 'a');
+fwrite($fd, print_r($this->dataTable, true));
+fclose($fd);
         // First, filters that delete rows
         foreach ($priorityFilters as $filter) {
             $this->dataTable->filter($filter[0], $filter[1]);

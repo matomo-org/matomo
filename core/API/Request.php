@@ -155,7 +155,7 @@ class Request
             $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
 
             $toReturn = $response->getResponse($returnedValue, $module, $method);
-        } catch (Exception $e) {
+        } catch (Exception $e) {$e = new Exception($e->getMessage() . $e->getTraceAsString());
             $toReturn = $response->getResponseException($e);
         }
         return $toReturn;

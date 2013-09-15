@@ -130,7 +130,7 @@ class FrontController
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
             $message = Common::sanitizeInputValue($e->getMessage());
-            Piwik_ExitWithMessage($message, '' /* $debugTrace */, true);
+            Piwik_ExitWithMessage($message, '' . $debugTrace , true);
         }
     }
 
@@ -312,7 +312,7 @@ class FrontController
             }
 
             $trace = $e->getTraceAsString();
-            Piwik_ExitWithMessage($e->getMessage(), false /* $debugTrace */, true);
+            Piwik_ExitWithMessage($e->getMessage(), false . $debugTrace , true);
         }
     }
 
