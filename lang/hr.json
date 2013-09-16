@@ -262,6 +262,7 @@
         "OriginalLanguageName": "Hrvatski",
         "Others": "Ostali",
         "Outlinks": "Odlazni linkovi",
+        "Overview": "Pregled",
         "Period": "Razdoblje",
         "Piechart": "Pita",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "Dostupan je %s. Molimo vas da obavijestite administratora stranice.",
@@ -373,10 +374,6 @@
     },
     "Provider": {
         "SubmenuLocationsProvider": "Lokacija i pružatelj usluga"
-    },
-    "Referers": {
-        "SubmenuOverview": "Pregled",
-        "WidgetOverview": "Pregled"
     },
     "SitesManager": {
         "Currency": "Valuta",
@@ -846,9 +843,6 @@
         "MenuUserSettings": "Korisničke postavke",
         "TypeYourPasswordAgain": "Ponovi novu lozinku.",
         "YourUsernameCannotBeChanged": "Korisničko ime se ne može promijeniti"
-    },
-    "VisitsSummary": {
-        "SubmenuOverview": "Pregled"
     },
     "Widgetize": {
         "OpenInNewWindow": "Otvori u novom prozoru"

@@ -67,6 +67,7 @@ class Treemap extends Graph
         $view->datatable_js_type = 'TreemapDataTable';
         $view->request_parameters_to_modify['expanded'] = 1;
         $view->request_parameters_to_modify['depth'] = $view->visualization_properties->depth;
+        $view->request_parameters_to_modify['disable_queued_filters'] = true;
         $view->show_pagination_control = false;
         $view->show_offset_information = false;
         $view->show_flatten_table = false;

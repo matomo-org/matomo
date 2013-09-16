@@ -346,6 +346,7 @@
         "Others": "Citi",
         "Outlink": "Ārēja saite",
         "Outlinks": "Ārējās saites",
+        "Overview": "Pārskats",
         "Pages": "lapas",
         "ParameterMustIntegerBetween": "Parametra %s vērtībai ir jābūt skaitlim no %s līdz %s.",
         "Password": "Parole",
@@ -647,7 +648,6 @@
     "Referers": {
         "Campaigns": "Kampaņas",
         "ColumnCampaign": "Kampaņa",
-        "ColumnRefererType": "Referera tips",
         "ColumnSearchEngine": "Meklēšanas dzinējs",
         "ColumnWebsite": "Vietne",
         "ColumnWebsitePage": "Vietnes lapa",
@@ -657,7 +657,6 @@
         "RefererName": "Referera nosaukums",
         "Referers": "Refereri",
         "SearchEngines": "Meklēšanas dzinēji",
-        "SubmenuOverview": "Pārskats",
         "SubmenuSearchEngines": "Meklēšanas dzinēji un atslēgvārdi",
         "SubmenuWebsites": "Vietnes",
         "Type": "Referera tips",
@@ -667,8 +666,7 @@
         "TypeWebsites": "%s no vietnēm",
         "Websites": "Vietnes",
         "WidgetExternalWebsites": "Ārējo vietņu saraksts",
-        "WidgetKeywords": "Atslēgvārdu saraksts",
-        "WidgetOverview": "Pārskats"
+        "WidgetKeywords": "Atslēgvārdu saraksts"
     },
     "ScheduledReports": {
         "CreateReport": "Izveidot atskaiti",
@@ -1325,7 +1323,6 @@
         "NbUniqueOutlinksDescription": "%s unikālas ārējas saites",
         "NbUniquePageviewsDescription": "%s unikāli lapu skatījumi",
         "NbUniqueVisitors": "%s unikāli apmeklētāji",
-        "SubmenuOverview": "Pārskats",
         "WidgetLastVisits": "Pēdējo apmeklējumu grafiks",
         "WidgetVisits": "Apmeklējumu pārskats"
     },

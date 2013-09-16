@@ -25,18 +25,18 @@ class Controller extends \Piwik\Controller
      * translation keys.
      */
     private static $metricTranslations = array(
-        'pageviewsInline'                => 'Transitions_PageviewsInline',
+        'pageviewsInline'                => 'VisitsSummary_NbPageviewsDescription',
         'loopsInline'                    => 'Transitions_LoopsInline',
         'fromPreviousPages'              => 'Transitions_FromPreviousPages',
         'fromPreviousPagesInline'        => 'Transitions_FromPreviousPagesInline',
         'fromPreviousSiteSearches'       => 'Transitions_FromPreviousSiteSearches',
         'fromPreviousSiteSearchesInline' => 'Transitions_FromPreviousSiteSearchesInline',
         'fromSearchEngines'              => 'Transitions_FromSearchEngines',
-        'fromSearchEnginesInline'        => 'Transitions_FromSearchEnginesInline',
+        'fromSearchEnginesInline'        => 'Referers_TypeSearchEngines',
         'fromWebsites'                   => 'Transitions_FromWebsites',
-        'fromWebsitesInline'             => 'Transitions_FromWebsitesInline',
+        'fromWebsitesInline'             => 'Referers_TypeWebsites',
         'fromCampaigns'                  => 'Transitions_FromCampaigns',
-        'fromCampaignsInline'            => 'Transitions_FromCampaignsInline',
+        'fromCampaignsInline'            => 'Referers_TypeCampaigns',
         'directEntries'                  => 'Transitions_DirectEntries',
         'directEntriesInline'            => 'Referers_TypeDirectEntries',
         'toFollowingPages'               => 'Transitions_ToFollowingPages',

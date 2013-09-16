@@ -83,6 +83,7 @@
         "EnglishLanguageName": "Galician",
         "Error": "Erro",
         "ErrorRequest": "Oops… Problema durante a petición, por favor probe de novo.",
+        "EvolutionOverPeriod": "Evolución no período",
         "ExportAsImage": "Exportar como Imaxe",
         "ExportThisReport": "Exportar datos noutros formatos",
         "ForExampleShort": "ex.",
@@ -139,6 +140,7 @@
         "OriginalLanguageName": "Galego",
         "Others": "Outros",
         "Outlinks": "Ligazóns externos",
+        "Overview": "Xeral",
         "Password": "Contrasinal",
         "Period": "Periodo",
         "Piechart": "Gráfico circular",
@@ -244,7 +246,6 @@
     "Referers": {
         "Campaigns": "Campañas",
         "DirectEntry": "Entrada directa",
-        "Evolution": "Evolución no periodo",
         "Keywords": "Palabras clave",
         "SearchEngines": "Motores de busca",
         "SubmenuSearchEngines": "Motores de busca e palabras clave",
@@ -256,8 +257,7 @@
         "TypeWebsites": "%s desde outras webs",
         "Websites": "Páxinas web",
         "WidgetExternalWebsites": "Lista de webs externas",
-        "WidgetKeywords": "Lista de palabras clave",
-        "WidgetOverview": "Xeral"
+        "WidgetKeywords": "Lista de palabras clave"
     },
     "SitesManager": {
         "AddSite": "Engadir un sitio",
@@ -731,7 +731,6 @@
         "User": "Usuario"
     },
     "VisitFrequency": {
-        "Evolution": "Evolución no período",
         "ReturnActions": "%s accións realizadas polos visitantes que voltaron",
         "ReturnVisits": "%s visitantes que voltaron",
         "SubmenuFrequency": "Frecuencia",
@@ -749,7 +748,6 @@
         "GenerateTime": "%s segundos para xerar a páxina",
         "MaxNbActions": "%s accións máximas nunha visita",
         "NbUniqueVisitors": "%s visitas únicas",
-        "SubmenuOverview": "Visión xeral",
         "WidgetLastVisitors": "Gráfico dos últimos visitantes únicos",
         "WidgetLastVisits": "Gráfico das últimas visitas",
         "WidgetOverviewGraph": "Visión xeral con gráfico",

@@ -108,6 +108,7 @@
         "EnglishLanguageName": "Amharic",
         "Error": "ስህተት",
         "ErrorRequest": "Oops… problem during the request, please try again.",
+        "EvolutionOverPeriod": "Evolution በፔሬዱ ላይ",
         "Export": "ላክ",
         "GiveUsYourFeedback": "እባክዎ መልሰህ መግብ ስጡን!",
         "HelloUser": "ሃሎ, %s!",
@@ -146,6 +147,7 @@
         "OriginalLanguageName": "አማርኛ",
         "Others": "ለሎች",
         "Outlinks": "ወጪአገናኞች",
+        "Overview": "አጠቃላይ እይታ",
         "Password": "የይለፍ ቃል",
         "Piechart": "አምባሻ ገበታ",
         "PiwikXIsAvailablePleaseUpdateNow": "ፒዊክን %1$s ማግኘት ይቻላል። %2$s እባክዎን ያልቁት!%3$s (ለውጦቹን%4$s ይመልከቱ%5$s).",
@@ -251,7 +253,6 @@
         "WidgetProviders": "አቅራቢዎች"
     },
     "Referers": {
-        "ColumnRefererType": "የአመላካች ዓይነት",
         "ColumnSearchEngine": "የመፈለጊያ ሞተሮች",
         "ColumnWebsite": "ድር ጣቢያዎች",
         "ColumnWebsitePage": "የድር ጣቢያዎች ገፅ",
@@ -262,7 +263,6 @@
         "DistinctKeywords": "የተለዩ ቁልፍ ቃላት",
         "DistinctSearchEngines": "የተለዩ የመፈለጊያ ሞተሮች",
         "DistinctWebsites": "የተለዩ ድር ጣቢያዎች",
-        "Evolution": "Evolution በክፍለ ጊዜው",
         "Keywords": "ቁልፍ ቃላት",
         "Referers": "አመላካቾች",
         "SearchEngines": "የመፈለጊያ ሞተሮች",
@@ -275,8 +275,7 @@
         "TypeWebsites": "%s ከድር ጣቢያዎች",
         "Websites": "ድር ጣቢያዎች",
         "WidgetExternalWebsites": "የውጫዊ ድር ጣቢያዎች ዝርዝር",
-        "WidgetKeywords": "የቁልፍ ቃላት ዝርዝር",
-        "WidgetOverview": "አጠቃላይ እይታ"
+        "WidgetKeywords": "የቁልፍ ቃላት ዝርዝር"
     },
     "SitesManager": {
         "AddSite": "አዲስ ድር ጣቢያ ጨምር",
@@ -779,7 +778,6 @@
         "ColumnActionsByReturningVisits": "በመልስ ጉብኝቶች የተወሰዱ ርምጃዎች",
         "ColumnBounceRateForReturningVisits": "የመልስ ጉብኝቶች ተመላሽ ፍጥነት",
         "ColumnReturningVisits": "መልስ ጉበኝቶች",
-        "Evolution": "Evolution በፔሬዱ ላይ",
         "ReturnActions": "%s በመልስ ጉብኝቶች የተወሰዱ ርምጃዎች",
         "ReturnBounceRate": "%s መልስ ጉብኝቶች ተመላሽ ሆነዋል (ከአንድ ድር ጣቢያ በኋላ ገፁን ትተዋል)",
         "ReturnVisits": "%s መልስ ጉብኝቶች",
@@ -804,7 +802,6 @@
         "MaxNbActions": "%s በአንድ ጉብኝት የተወሰዱ ከፍተኛ ርምጃዎች",
         "NbUniqueVisitors": "%s የተለዩ ጎብኚዎች",
         "NbVisitsBounced": "%s የተመለሱ ጉብኝቶች (ከአንድ ገፅ በኋላ ገፁን የተዉ)",
-        "SubmenuOverview": "አጠቃላይ እይታ ከግራፍ ጋር",
         "WidgetLastVisitors": "የመጨረሻው የተለዩ ጎብኚዎች ግራፍ",
         "WidgetLastVisits": "የመጨረሻው ጉብኝቶች ግራፍ",
         "WidgetOverviewGraph": "አጠቃላይ እይታ ከግራፍ ጋር",

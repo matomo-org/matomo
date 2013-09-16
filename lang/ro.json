@@ -383,6 +383,7 @@
         "EnglishLanguageName": "Romanian",
         "Error": "Eroare",
         "ErrorRequest": "Oops… problem during the request, please try again.",
+        "EvolutionOverPeriod": "Evolutii peste perioada",
         "ExceptionCheckUserIsSuperUserOrTheUser": "Utilizatorul trebuie să fie ori Super User ori utilizatorul '%s' însuşi.",
         "ExceptionConfigurationFileNotFound": "Fisierul de configurare {%s} nu a fost gasit.",
         "ExceptionDatabaseVersion": "Versiunea dvs. %1$s este %2$s dar Piwik necesita minim %3$s.",
@@ -518,6 +519,7 @@
         "Others": "Altele",
         "Outlink": "Link extern",
         "Outlinks": "Outlink-uri",
+        "Overview": "Rezumat",
         "Pages": "Pagini",
         "ParameterMustIntegerBetween": "Parametrul %s trebuie sa fie o valoare intreaga intre %s si %s.",
         "Password": "Parola",
@@ -811,7 +813,6 @@
         "DistinctKeywords": "cuvinte cheie distincte",
         "DistinctSearchEngines": "motoare căutare distincte",
         "DistinctWebsites": "situri web distincte",
-        "Evolution": "Evolutii in afara perioadei",
         "Keywords": "Cuvinte-cheie",
         "Referers": "Referinte",
         "SearchEngines": "Motoare căutare",
@@ -826,7 +827,6 @@
         "Websites": "Siteuri",
         "WidgetExternalWebsites": "Lista siteurilor externe",
         "WidgetKeywords": "Lista cuvintelor",
-        "WidgetOverview": "Rezumat",
         "WidgetSocials": "Listă de reţele sociale"
     },
     "RowEvolution": {
@@ -1466,7 +1466,6 @@
         "YourUsernameCannotBeChanged": "Numele tău de utilizator nu poate fi schimbat."
     },
     "VisitFrequency": {
-        "Evolution": "Evolutii peste perioada",
         "ReturnActions": "%s actiuni ale vizitatorilor intorsi",
         "ReturnVisits": "%s vizitatori intorsi",
         "SubmenuFrequency": "Frecventa",
@@ -1505,7 +1504,6 @@
         "NbSearchesDescription": "total %s căutări pe site-ul tău",
         "NbUniqueDownloadsDescription": "%s descărcări unice",
         "NbUniqueVisitors": "%s vizitatori unici",
-        "SubmenuOverview": "Rezumat",
         "VisitsSummary": "Rezumatul vizitelor",
         "VisitsSummaryDocumentation": "Acesta este un rezumat a evoluţiei vizitelor.",
         "WidgetLastVisitors": "Grafic ultimi vizitatori unici",

@@ -144,6 +144,10 @@ class TreemapDataGenerator
             $dataTable->filter('Truncate', array($this->truncateAfter));
         }
 
+        // now that truncation is done we can apply queued filters. doing it before will result in
+        // sumRow errors.
+        $dataTable->applyQueuedFilters();
+
         // sanity check: if the dataTable is not a Map, we don't have the data to calculate evolution
         // values, so make sure we don't try
         if (!($dataTable instanceof Map)) {
@@ -211,8 +215,8 @@ class TreemapDataGenerator
         // add node tooltip
         $data['metadata']['tooltip'] = $columnValue . ' ' . $this->metricTranslation;
         if (isset($data['evolution'])) {
-            $greaterOrLess = $data['evolution'] >= 0 ? '+' : '-';
-            $evolutionChange = $greaterOrLess . ' ' . abs($data['evolution']) . '%';
+            $plusOrMinus = $data['evolution'] >= 0 ? '+' : '-';
+            $evolutionChange = $plusOrMinus . abs($data['evolution']) . '%';
 
             $data['metadata']['tooltip'] = Piwik_Translate('General_XComparedToY', array(
                 $data['metadata']['tooltip'] . ' ' . $evolutionChange,

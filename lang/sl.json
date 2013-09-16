@@ -442,6 +442,7 @@
         "Others": "Ostali",
         "Outlink": "Izhodna povezaba",
         "Outlinks": "Izhodne povezave",
+        "Overview": "Pregled",
         "Pages": "Strani",
         "ParameterMustIntegerBetween": "Parameter %s mora biti celo število med %s in %s.",
         "Password": "Geslo",
@@ -709,7 +710,6 @@
     "Referers": {
         "Campaigns": "Kampanje",
         "ColumnCampaign": "Kampanja",
-        "ColumnRefererType": "Tip napotitelja",
         "ColumnSearchEngine": "Spletni Iskalnik",
         "ColumnWebsite": "Spletna stran",
         "ColumnWebsitePage": "Spletna stran",
@@ -722,15 +722,13 @@
         "DistinctWebsites": "različne spletne strani",
         "Keywords": "Ključne Besede",
         "SearchEngines": "Spletni iskalniki",
-        "SubmenuOverview": "Pregled",
         "SubmenuSearchEngines": "Brskalniki & ključne besede",
         "SubmenuWebsites": "Spletne strani",
         "Type": "Tip napotitelja",
         "TypeReportDocumentation": "Ta tabela vsebuje informacije o porazdelitvi tipov napotiteljev",
         "Websites": "Spletne strani",
         "WidgetExternalWebsites": "Seznam zunanjih spletnih strani",
-        "WidgetKeywords": "Seznam ključnih besed",
-        "WidgetOverview": "Pregled"
+        "WidgetKeywords": "Seznam ključnih besed"
     },
     "ScheduledReports": {
         "AggregateReportsFormat": "(opcijsko) Opcije prikaza",
@@ -808,7 +806,6 @@
         "FromSearchEngines": "S spletnih iskalnikov",
         "NoDataForAction": "Ni podatkov za %s",
         "OutgoingTraffic": "Izhodni promet",
-        "PageviewsInline": "%s ogledov strani",
         "PluginDescription": "Poročila o predhodnih in naslednjih akcijah za vsak URL",
         "ShareOfAllPageviews": "Ta stran je imela %s ogledov strani (%s od vseh ogledov strani)",
         "ToFollowingPages": "Na notranje strani",
@@ -1387,7 +1384,6 @@
         "NbUniqueVisitors": "%s unikatnih obiskovalcev",
         "NbVisitsBounced": "%s ogledov je bilo odbojev (so zapustili stran po ogledu ene strani)",
         "PluginDescription": "Prikaže splošne statistike glede obiska na spletni strani: obiske, unikatne obiske, število akcij, odbojno stopnjo, itd.",
-        "SubmenuOverview": "Pregled",
         "VisitsSummary": "Povzetek obiskov",
         "VisitsSummaryDocumentation": "To je pregled obiskov v zadnjem času.",
         "WidgetLastVisitors": "Graf zadnjih unikatnih obiskov",

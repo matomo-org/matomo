@@ -352,6 +352,7 @@
         "EnglishLanguageName": "Thai",
         "Error": "ผิดพลาด",
         "ErrorRequest": "อุ๊ปส์… เกิดปัญหาระหว่างดึงข้อมูล กรุณาลองใหม่อีกครั้ง",
+        "EvolutionOverPeriod": "วิวัฒนาการตามเวลา",
         "ExceptionCheckUserIsSuperUserOrTheUser": "ผู้ใช้งานจะต้องมีทั้งผู้ใช้งานขั้นสูงหรือ '%s' ผู้ใช้เองด้วยเท่านั้น",
         "ExceptionConfigurationFileNotFound": "ไม่พบไฟล์การตั้งค่า {%s}",
         "ExceptionDatabaseVersion": "คุณ %1$s มีเวอร์ชั่นคือ %2$s แต่ Piwik ต้องมีอย่างน้อย %3$s.",
@@ -474,6 +475,7 @@
         "Others": "อื่นๆ",
         "Outlink": "Outlink",
         "Outlinks": "ลิงค์ออก",
+        "Overview": "ภาพรวม",
         "Pages": "หน้า",
         "ParameterMustIntegerBetween": "พารามิเตอร์ %s จะต้องเป็นค่าจำนวนเต็มระหว่าง %s และ %s",
         "Password": "รหัสผ่าน",
@@ -874,7 +876,6 @@
     "Referers": {
         "Campaigns": "แคมเปญ",
         "ColumnCampaign": "แคมเปญ",
-        "ColumnRefererType": "ชนิดของแหล่งที่มา",
         "ColumnSearchEngine": "เครื่องมือค้นหา",
         "ColumnWebsite": "เว็บไซต์",
         "ColumnWebsitePage": "หน้าเว็บไซต์",
@@ -885,12 +886,10 @@
         "DistinctKeywords": "คีย์เวิร์ดที่แตกต่างกัน",
         "DistinctSearchEngines": "เครื่องมือค้นหาที่แตกต่างกัน",
         "DistinctWebsites": "เว็บไซต์ที่แตกต่างกัน",
-        "Evolution": "ความเปลี่ยนแปลงระยะเวลาที่ผ่าน",
         "Keywords": "คีย์เวิร์ด",
         "PluginDescription": "รายงานข้อมูลแหล่งที่มา: Search Engines, Keywords เว็บไซต์ แคมเปญติดตาม รายการเข้าชมโดยตรง",
         "Referers": "แหล่งที่มา",
         "SearchEngines": "เครื่องมือค้นหา",
-        "SubmenuOverview": "ข้อมูลเบื้องต้น",
         "SubmenuSearchEngines": "เครื่องมือค้นหาและคีย์เวิร์ด",
         "SubmenuWebsites": "เว็บไซต์",
         "Type": "ชนิดของแหล่งที่มา",
@@ -902,7 +901,6 @@
         "Websites": "เว็บไซต์",
         "WidgetExternalWebsites": "รายการเว็บไซต์ภายนอก",
         "WidgetKeywords": "รายการคีย์เวิร์ด",
-        "WidgetOverview": "ภาพรวม",
         "WidgetSocials": "รายชื่อเว็บไซต์เครือข่ายสังคมออนไลน์"
     },
     "RowEvolution": {
@@ -990,7 +988,6 @@
     },
     "Transitions": {
         "FromCampaigns": "จากแคมเปญ",
-        "FromCampaignsInline": "%s จากแคมเปญ",
         "FromWebsites": "จากเว็บไซต์",
         "Including": "รวมทั้ง",
         "NoDataForAction": "ยังไม่มีข้อมูลสำหรับ %s"
@@ -1555,7 +1552,6 @@
         "ColumnAvgActionsPerReturningVisit": "เฉลี่ยการดำเนินการต่อกลับมาเข้าชม",
         "ColumnBounceRateForReturningVisits": "อัตราการเด้งของผู้เข้าชมที่กลับมา",
         "ColumnReturningVisits": "ผู้เข้าชมที่กลับมา",
-        "Evolution": "วิวัฒนาการตามเวลา",
         "PluginDescription": "รายงานสถิติต่าง ๆ เกี่ยวกับผู้เข้าชมกลับมาเทียบกับผู้เข้าชมครั้งแรก",
         "ReturnActions": "%s ดำเนินการโดยการกลับมาเข้าชม",
         "ReturnAverageVisitDuration": "%s ค่าเฉลี่ยของเข้าเข้าชมระยะเวลาสำหรับการส่งกลับผู้เข้าชม",
@@ -1598,7 +1594,6 @@
         "NbUniqueVisitors": "%s ผู้เข้าชมที่ไม่ซ้ำ",
         "NbVisitsBounced": "%s ของผู้เข้าชมที่เด้ง (คือการออกจากเว็บไซต์หลังจากเปิดเพียงหน้าเดียว)",
         "PluginDescription": "รายงานตัวเลขการวิเคราะห์ทั่วไป: เข้าชม ผู้เข้าชมที่ไม่ซ้ำกัน หมายเลขของการดำเนินการ อัตราการตอบกลับ ฯลฯ",
-        "SubmenuOverview": "ภาพรวมผู้เข้าชม",
         "VisitsSummary": "สรุปการเข้าชม",
         "VisitsSummaryDocumentation": "ภาพรวมของผู้เข้าชม",
         "WidgetLastVisitors": "ผู้เข้าชมที่ไม่ซ้ำกราฟล่าสุด",
