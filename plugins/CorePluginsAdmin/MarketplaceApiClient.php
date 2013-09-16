@@ -17,7 +17,7 @@ use Piwik\Http;
  */
 class MarketplaceApiClient
 {
-    private $domain = 'http://plugins.piwik';
+    private $domain = 'http://plugins.piwik.org/';
 
     /**
      * @var array   array(pluginName => stdClass pluginInfo)
@@ -33,6 +33,11 @@ class MarketplaceApiClient
 
         $result = Http::sendHttpRequest($url, 5);
         $result = json_decode($result);
+
+        if (!empty($result->error)) {
+            // TODO create own exception
+            throw new \Exception($result->error);
+        }
 
         return $result;
     }
@@ -65,6 +70,66 @@ class MarketplaceApiClient
         $success = Http::fetchRemoteFile($this->domain . $downloadUrl, $target);
 
         return $success;
+    }
+
+    /**
+     * @param \Piwik\Plugin[] $plugins
+     */
+    public function checkUpdates($plugins)
+    {
+        $params = array();
+
+        foreach ($plugins as $plugin) {
+            $pluginName = $plugin->getPluginName();
+
+            $params[] = array('name' => $pluginName, 'version' => $plugin->getVersion());
+        }
+
+        $params = array('plugins' => $params);
+
+        $hasUpdates = $this->fetch('plugins/checkUpdates', array('plugins' => json_encode($params)));
+
+        if (empty($hasUpdates)) {
+            return array();
+        }
+
+        return $hasUpdates;
+    }
+
+    /**
+     * @param \Piwik\Plugin[] $plugins
+     */
+    public function getInfoOfPluginsHavingUpdate($plugins)
+    {
+        $hasUpdates = $this->checkUpdates($plugins);
+
+        $pluginDetails = array();
+        foreach ($hasUpdates as $pluginHavingUpdate) {
+            $plugin = $this->getPluginInfo($pluginHavingUpdate->name);
+            if (!$plugin->isTheme) {
+                $pluginDetails[] = $plugin;
+            }
+        }
+
+        return $pluginDetails;
+    }
+
+    /**
+     * @param \Piwik\Plugin[] $plugins
+     */
+    public function getInfoOfThemesHavingUpdate($plugins)
+    {
+        $hasUpdates = $this->checkUpdates($plugins);
+
+        $pluginDetails = array();
+        foreach ($hasUpdates as $pluginHavingUpdate) {
+            $plugin = $this->getPluginInfo($pluginHavingUpdate->name);
+            if ($plugin->isTheme) {
+                $pluginDetails[] = $plugin;
+            }
+        }
+
+        return $pluginDetails;
     }
 
     public function searchForPlugins($keywords, $query, $sort)

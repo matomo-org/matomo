@@ -1,0 +1,21 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+
+    <div style="max-width:980px;">
+
+        <h2>Updating plugin {{ plugin.name}}</h2>
+
+        <div>
+            <p>Downloading plugin from Marketplace</p>
+
+            <p>Unzipping plugin</p>
+
+            <p>Replacing existing plugin</p>
+
+            <p>You have successfully updated the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -5,6 +5,12 @@
 {% block content %}
 <div style="max-width:980px;">
 
+    {% if pluginsHavingUpdate|length %}
+        <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
+
+        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, pluginsInfo, updateNonce, 1) }}
+    {% endif %}
+
     <h2>{{ 'CorePluginsAdmin_ThemesManagement'|translate }}</h2>
 
     <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}</p>

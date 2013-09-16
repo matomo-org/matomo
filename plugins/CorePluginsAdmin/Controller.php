@@ -50,6 +50,32 @@ class Controller extends \Piwik\Controller\Admin
         $this->extend();
     }
 
+    public function updatePlugin()
+    {
+        $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $nonce      = Common::getRequestVar('nonce', '', 'string');
+
+        if (empty($pluginName)) {
+            return;
+        }
+
+        if (!Nonce::verifyNonce('CorePluginsAdmin.updatePlugin', $nonce)) {
+            // todo display error
+            return;
+        }
+
+        Nonce::discardNonce('CorePluginsAdmin.updatePlugin');
+
+        $pluginInstaller = new PluginInstaller($pluginName);
+        $pluginInstaller->installOrUpdatePluginFromMarketplace();
+        $marketplace = new MarketplaceApiClient();
+
+        $view         = $this->configureView('@CorePluginsAdmin/updatePlugin');
+        $view->plugin = $marketplace->getPluginInfo($pluginName);
+
+        echo $view->render();
+    }
+
     public function installPlugin()
     {
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
@@ -59,7 +85,7 @@ class Controller extends \Piwik\Controller\Admin
             return;
         }
 
-        if (Nonce::verifyNonce('CorePluginsAdmin.installPlugin', $nonce)) {
+        if (!Nonce::verifyNonce('CorePluginsAdmin.installPlugin', $nonce)) {
             // todo display error
             return;
         }
@@ -142,14 +168,26 @@ class Controller extends \Piwik\Controller\Admin
     function plugins()
     {
         $view = $this->configureView('@CorePluginsAdmin/plugins');
-        $view->pluginsInfo = $this->getPluginsInfo();
+
+        $pluginsInfo = $this->getPluginsInfo();
+
+        $view->updateNonce = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
+        $view->pluginsInfo = $pluginsInfo;
+        $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($pluginsInfo, $themesOnly = false);
+
         echo $view->render();
     }
 
     function themes()
     {
         $view = $this->configureView('@CorePluginsAdmin/themes');
-        $view->pluginsInfo = $this->getPluginsInfo($themesOnly = true);
+
+        $pluginsInfo = $this->getPluginsInfo();
+
+        $view->updateNonce = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
+        $view->pluginsInfo = $pluginsInfo;
+        $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($pluginsInfo, $themesOnly = true);
+
         echo $view->render();
     }
 
@@ -166,26 +204,30 @@ class Controller extends \Piwik\Controller\Admin
     {
         $plugins = array();
 
+        $pluginsManager = \Piwik\PluginsManager::getInstance();
         $listPlugins = array_merge(
-            \Piwik\PluginsManager::getInstance()->readPluginsDirectory(),
+            $pluginsManager->readPluginsDirectory(),
             Config::getInstance()->Plugins['Plugins']
         );
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
             \Piwik\PluginsManager::getInstance()->loadPlugin($pluginName);
             $plugins[$pluginName] = array(
-                'activated'       => \Piwik\PluginsManager::getInstance()->isPluginActivated($pluginName),
-                'alwaysActivated' => \Piwik\PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
-                'uninstallable'   => \Piwik\PluginsManager::getInstance()->isPluginUninstallable($pluginName),
+                'activated'       => $pluginsManager->isPluginActivated($pluginName),
+                'alwaysActivated' => $pluginsManager->isPluginAlwaysActivated($pluginName),
+                'uninstallable'   => $pluginsManager->isPluginUninstallable($pluginName),
             );
         }
-        \Piwik\PluginsManager::getInstance()->loadPluginTranslations();
+        $pluginsManager->loadPluginTranslations();
 
-        $loadedPlugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
+        $loadedPlugins = $pluginsManager->getLoadedPlugins();
+
         foreach ($loadedPlugins as $oPlugin) {
             $pluginName = $oPlugin->getPluginName();
+
             $plugins[$pluginName]['info'] = $oPlugin->getInformation();
         }
+
 
         foreach ($plugins as $pluginName => &$plugin) {
             if (!isset($plugin['info'])) {
@@ -263,5 +305,34 @@ class Controller extends \Piwik\Controller\Admin
             Piwik_ExitWithMessage($exitMessage, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = true);
         }
         $this->redirectAfterModification($redirectAfter);
+    }
+
+    /**
+     * @param $pluginsInfo
+     * @param bool $themesOnly
+     * @return array
+     */
+    private function getPluginsHavingUpdate($pluginsInfo, $themesOnly)
+    {
+        $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
+
+        $marketplace   = new MarketplaceApiClient();
+
+        if ($themesOnly) {
+            $pluginsHavingUpdate = $marketplace->getInfoOfThemesHavingUpdate($loadedPlugins);
+        } else {
+            $pluginsHavingUpdate = $marketplace->getInfoOfPluginsHavingUpdate($loadedPlugins);
+        }
+
+        foreach ($pluginsHavingUpdate as $updatePlugin) {
+            foreach ($pluginsInfo as $pluginName => $plugin) {
+                // TODO check if pluginName == $plugin
+                $updatePlugin->currentVersion = $plugin['info']['version'];
+                $updatePlugin->isActivated = $plugin['activated'];
+                break;
+            }
+
+        }
+        return $pluginsHavingUpdate;
     }
 }
