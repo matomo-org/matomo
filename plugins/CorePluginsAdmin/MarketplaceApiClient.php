@@ -17,7 +17,7 @@ use Piwik\Http;
  */
 class MarketplaceApiClient
 {
-    private $domain = 'http://plugins.piwik.org';
+    private $domain = 'http://plugins.piwik';
 
     /**
      * @var array   array(pluginName => stdClass pluginInfo)

@@ -94,18 +94,7 @@ class Controller extends \Piwik\Controller\Admin
 
     public function themeDetails()
     {
-        $pluginName = Common::getRequestVar('pluginName', '', 'string');
-
-        if (empty($pluginName)) {
-            return;
-        }
-
-        $marketplace = new MarketplaceApiClient();
-
-        $view         = $this->configureView('@CorePluginsAdmin/themeDetails');
-        $view->plugin = $marketplace->getPluginInfo($pluginName);
-
-        echo $view->render();
+        $this->pluginDetails();
     }
 
     public function browsePlugins()
