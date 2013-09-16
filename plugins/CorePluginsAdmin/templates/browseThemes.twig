@@ -9,11 +9,27 @@
         .plugin h3 { display: inline; }
         .plugin { width: 300px; float: left; }
         .themeslist { margin-top: 20px;max-width:980px; }
+        .infoBox {
+            font-size: 14px;
+            margin: 0px 0px 10px 10px;
+            padding: 15px;
+            color: #301901;
+            display: inline-block;
+            background-color: #ffffe0;
+            border: 1px solid #e6db55;
+            border-radius: 3px;
+            width: 250px;
+            float: right;
+        }
     </style>
 
-    <div style="max-width:980px;">
+    <div style="width:800px;max-width:980px;">
 
         <h2>Enjoy another look & feel by installing a new theme</h2>
+
+        <div class="infoBox">
+            Piwik is not the owner of these Themes and did not review them.
+        </div>
 
         <div>
             <a href="{{ linkTo({'sort': 'popular', 'query': ''}) }}">popular</a>
