@@ -7,10 +7,11 @@
 
  (function ($, require) {
 
-    var dataTable = window.dataTable,
-        dataTablePrototype = dataTable.prototype;
+    var exports = require('piwik/UI'),
+        DataTable = exports.DataTable,
+        dataTablePrototype = DataTable.prototype;
 
-    // helper function for actionDataTable
+    // helper function for ActionDataTable
     function getLevelFromClass(style) {
         if (!style || typeof style == "undefined") return 0;
 
@@ -23,12 +24,12 @@
         return currentLevel;
     }
 
-    // helper function for actionDataTable
+    // helper function for ActionDataTable
     function setImageMinus(domElem) {
         $('img.plusMinus', domElem).attr('src', 'plugins/Zeitgeist/images/minus.png');
     }
 
-    // helper function for actionDataTable
+    // helper function for ActionDataTable
     function setImagePlus(domElem) {
         $('img.plusMinus', domElem).attr('src', 'plugins/Zeitgeist/images/plus.png');
     }
@@ -38,28 +39,22 @@
      * 
      * @constructor
      */
-    window.ActionsDataTable = function () {
-        dataTable.call(this);
+    exports.ActionsDataTable = function (element) {
+        DataTable.call(this, element);
 
         this.parentAttributeParent = '';
         this.parentId = '';
         this.disabledRowDom = {}; // to handle double click on '+' row
     };
 
-    $.extend(window.ActionsDataTable.prototype, dataTablePrototype, {
+    $.extend(exports.ActionsDataTable.prototype, dataTablePrototype, {
 
         //initialisation of the actionDataTable
-        init: function (workingDivId, domElem) {
-            if (typeof domElem == "undefined"
-                || domElem.length == 0) // needed for actions subtables where truncating was not working otherwise
-            {
-                domElem = $('#' + workingDivId);
-            }
-            this.workingDivId = workingDivId;
+        init: function () {
+            var domElem = this.$element;
+            this.workingDivId = this.$element.attr('id');
             this.bindEventsAndApplyStyle(domElem);
             this.initialized = true;
-
-            domElem.data('piwikDataTable', this);
         },
 
         //see dataTable::bindEventsAndApplyStyle

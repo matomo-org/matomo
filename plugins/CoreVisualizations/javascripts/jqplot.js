@@ -10,34 +10,28 @@
 
 (function ($, require) {
 
-    var dataTable = window.dataTable,
-        dataTablePrototype = dataTable.prototype;
+    var exports = require('piwik/UI'),
+        DataTable = exports.DataTable,
+        dataTablePrototype = DataTable.prototype;
 
     /**
      * DataTable UI class for jqPlot graph datatable visualizations.
      * 
      * @constructor
      */
-    window.JqplotGraphDataTable = function () {
-        dataTable.call(this);
+    exports.JqplotGraphDataTable = function (element) {
+        DataTable.call(this, element);
     };
 
-    $.extend(window.JqplotGraphDataTable.prototype, dataTablePrototype, {
+    $.extend(exports.JqplotGraphDataTable.prototype, dataTablePrototype, {
 
         /**
          * Initializes this class.
-         * 
-         * @param {String} workingDivId The HTML ID of the data table DOM element.
-         * @param {Element} [domElem] The DOM element of the data table.
          */
-        init: function (workingDivId, domElem) {
-            if (typeof domElem == "undefined") {
-                domElem = $('#' + workingDivId);
-            }
+        init: function () {
+            dataTablePrototype.init.call(this);
 
-            dataTablePrototype.init.call(this, workingDivId, domElem);
-
-            var graphElement = $('.piwik-graph', domElem);
+            var graphElement = $('.piwik-graph', this.$element);
             if (!graphElement.length) {
                 return;
             }
@@ -52,7 +46,7 @@
             };
 
             // set a unique ID for the graph element (required by jqPlot)
-            this.targetDivId = workingDivId + 'Chart';
+            this.targetDivId = this.workingDivId + 'Chart';
             graphElement.attr('id', this.targetDivId);
 
             try {
@@ -214,7 +208,7 @@
                 rows = rows.split(',');
             }
 
-            var dataTable = $('#' + this.workingDivId).data('dataTableInstance');
+            var dataTable = $('#' + this.workingDivId).data('uiControlObject');
             dataTable.param.columns = columns.join(',');
             dataTable.param.rows = rows.join(',');
             delete dataTable.param.filter_limit;
@@ -463,7 +457,7 @@
                 seriesColorNames = ['series1', 'series2', 'series3', 'series4', 'series5',
                                     'series6', 'series7', 'series8', 'series9', 'series10'];
 
-            var viewDataTable = $('#' + this.workingDivId).data('dataTableInstance').param['viewDataTable'];
+            var viewDataTable = $('#' + this.workingDivId).data('uiControlObject').param['viewDataTable'];
 
             var graphType;
             if (viewDataTable == 'graphEvolution') {
@@ -914,7 +908,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
 
         // create the series picker
-        var dataTable = $('#' + target).closest('.dataTable').data('dataTableInstance');
+        var dataTable = $('#' + target).closest('.dataTable').data('uiControlObject');
         var seriesPicker = new SeriesPicker(dataTable);
 
         // handle placeSeriesPicker event
@@ -1074,4 +1068,4 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
     $.jqplot.preInitHooks.push($.jqplot.PieLegend.init);
     $.jqplot.postDrawHooks.push($.jqplot.PieLegend.postDraw);
 
-})(jQuery);
+})(jQuery, require);

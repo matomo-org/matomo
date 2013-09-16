@@ -7,29 +7,24 @@
 
 (function ($, $jit, require) {
 
-    var dataTable = window.dataTable,
-        dataTablePrototype = dataTable.prototype;
+    var exports = require('piwik/UI'),
+        DataTable = exports.DataTable,
+        dataTablePrototype = DataTable.prototype;
 
     /**
      * Class that handles UI behavior for the treemap visualization.
      */
-    window.TreemapDataTable = function () {
-        dataTable.call(this);
+    exports.TreemapDataTable = function (element) {
+        DataTable.call(this, element);
     };
 
-    $.extend(window.TreemapDataTable.prototype, dataTablePrototype, {
+    $.extend(exports.TreemapDataTable.prototype, dataTablePrototype, {
 
         /**
          * Constructor.
-         * 
-         * @param {String} workingDivId The HTML ID of the data table DOM element.
-         * @param {Element} [domElem] The DOM element of the data table.
          */
-        init: function (workingDivId, domElem) {
-            if (typeof domElem == "undefined") {
-                domElem = $('#' + workingDivId);
-            }
-
+        init: function () {
+            var domElem = this.$element;
             dataTablePrototype.init.call(this, workingDivId, domElem);
 
             var treemapContainerId = this.workingDivId + '-infoviz-treemap';

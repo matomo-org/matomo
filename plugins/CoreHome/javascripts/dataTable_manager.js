@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-(function ($) {
+(function ($, require) {
 
     /**
      * The DataTableManager class manages the initialization of JS dataTable
@@ -52,7 +52,7 @@
                 if (!$(this).attr('id')) {
                     var params = JSON.parse($(this).attr('data-params') || '{}');
                     var props = JSON.parse($(this).attr('data-props') || '{}');
-                    var tableType = $(this).attr('data-table-type') || 'dataTable';
+                    var tableType = $(this).attr('data-table-type') || 'DataTable';
 
                     // convert values in params that are arrays to comma separated string lists
                     for (var key in params) {
@@ -61,7 +61,8 @@
                         }
                     }
                     
-                    self.initSingleDataTable(this, window[tableType], params, props);
+                    var klass = require('piwik/UI')[tableType];
+                    self.initSingleDataTable(this, klass, params, props);
                 }
             });
         },
@@ -79,12 +80,10 @@
 
             $(domElem).attr('id', newId);
 
-            var table = new klass();
-            $(domElem).data('dataTableInstance', table);
-
+            var table = new klass($(domElem));
             table.param = params;
             table.props = props;
-            table.init(newId);
+            table.init();
         },
 
         /**
@@ -115,10 +114,10 @@
          */
         getDataTableInstanceByReport: function (report) {
             var dataTableElement = this.getDataTableByReport(report);
-            return dataTableElement ? $(dataTableElement).data('dataTableInstance') : undefined;
+            return dataTableElement ? $(dataTableElement).data('uiControlObject') : undefined;
         }
     };
 
     piwik.DataTableManager = new DataTableManager();
 
-}(jQuery));
+}(jQuery, require));

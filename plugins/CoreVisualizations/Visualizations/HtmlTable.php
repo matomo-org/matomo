@@ -168,7 +168,7 @@ class HtmlTable extends DataTableVisualization
     {
         $defaults = array(
             'enable_sort' => true,
-            'datatable_js_type' => 'dataTable',
+            'datatable_js_type' => 'DataTable',
             'filter_limit' => Config::getInstance()->General['datatable_default_limit'],
             'visualization_properties' => array(
                 'table' => array(
