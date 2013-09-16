@@ -54,6 +54,9 @@ class API
             $params['date'] = $previousDate . ',' . $date;
         }
 
+        $params['filter_limit'] = false;
+        $params['disable_queued_filters'] = true;
+
         $dataTable = Request::processRequest("$apiMethod", $params);
 
         $columns = explode(',', $column);
