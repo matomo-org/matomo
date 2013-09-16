@@ -173,6 +173,7 @@
         "OriginalLanguageName": "తెలుగు",
         "Others": "ఇతరాలు",
         "Outlinks": "బయటిలంకెలు",
+        "Overview": "అవలోకనం",
         "Pages": "పుటలు",
         "Password": "సంకేతపదం",
         "Period": "కాలవ్యవధి",
@@ -288,12 +289,10 @@
         "DirectEntry": "నేరు సందర్శన",
         "Keywords": "కీపదాలు",
         "SearchEngines": "శోధనయంత్రాలు",
-        "SubmenuOverview": "అవలోకనం",
         "SubmenuWebsites": "జాలగూళ్ళు & సాంఘికం",
         "Websites": "జాలగూళ్ళు",
         "WidgetExternalWebsites": "బయటి జాలగూళ్ళ యొక్క జాబితా",
-        "WidgetKeywords": "కీపదాల యొక్క జాబితా",
-        "WidgetOverview": "అవలోకనం"
+        "WidgetKeywords": "కీపదాల యొక్క జాబితా"
     },
     "ScheduledReports": {
         "PiwikReports": "పివిక్ నివేదికలు",
@@ -836,7 +835,6 @@
         "NbActionsDescription": "%s చర్యలు",
         "NbDownloadsDescription": "%s దింపుకోళ్ళు",
         "NbOutlinksDescription": "%s బయటిలంకెలు",
-        "SubmenuOverview": "అవలోకనం",
         "VisitsSummary": "సందర్శనల సంగ్రహం"
     },
     "VisitTime": {

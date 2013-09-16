@@ -51,7 +51,7 @@ class Referers extends \Piwik\Plugin
                                                   'name'              => Piwik_Translate('Referers_Type'),
                                                   'module'            => 'Referers',
                                                   'action'            => 'getRefererType',
-                                                  'dimension'         => Piwik_Translate('Referers_ColumnRefererType'),
+                                                  'dimension'         => Piwik_Translate('Referers_Type'),
                                                   'constantRowsCount' => true,
                                                   'documentation'     => Piwik_Translate('Referers_TypeReportDocumentation') . '<br />'
                                                       . '<b>' . Piwik_Translate('Referers_DirectEntry') . ':</b> ' . Piwik_Translate('Referers_DirectEntryDocumentation') . '<br />'
@@ -175,7 +175,7 @@ class Referers extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Referers_Referers',
-            'name'           => 'Referers_ColumnRefererType',
+            'name'           => 'Referers_Type',
             'segment'        => 'referrerType',
             'acceptedValues' => 'direct, search, website, campaign',
             'sqlSegment'     => 'log_visit.referer_type',
@@ -217,7 +217,7 @@ class Referers extends \Piwik\Plugin
         WidgetsList::add('Referers_Referers', 'Referers_WidgetSocials', 'Referers', 'getSocials');
         WidgetsList::add('Referers_Referers', 'Referers_SearchEngines', 'Referers', 'getSearchEngines');
         WidgetsList::add('Referers_Referers', 'Referers_Campaigns', 'Referers', 'getCampaigns');
-        WidgetsList::add('Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
+        WidgetsList::add('Referers_Referers', 'General_Overview', 'Referers', 'getRefererType');
         WidgetsList::add('Referers_Referers', 'Referers_WidgetGetAll', 'Referers', 'getAll');
         if (SettingsPiwik::isSegmentationEnabled()) {
             WidgetsList::add('SEO', 'Referers_WidgetTopKeywordsForPages', 'Referers', 'getKeywordsForPage');
@@ -230,7 +230,7 @@ class Referers extends \Piwik\Plugin
     function addMenus()
     {
         Piwik_AddMenu('Referers_Referers', '', array('module' => 'Referers', 'action' => 'index'), true, 20);
-        Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuOverview', array('module' => 'Referers', 'action' => 'index'), true, 1);
+        Piwik_AddMenu('Referers_Referers', 'General_Overview', array('module' => 'Referers', 'action' => 'index'), true, 1);
         Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuSearchEngines', array('module' => 'Referers', 'action' => 'getSearchEnginesAndKeywords'), true, 2);
         Piwik_AddMenu('Referers_Referers', 'Referers_SubmenuWebsites', array('module' => 'Referers', 'action' => 'indexWebsites'), true, 3);
         Piwik_AddMenu('Referers_Referers', 'Referers_Campaigns', array('module' => 'Referers', 'action' => 'indexCampaigns'), true, 4);
@@ -312,7 +312,7 @@ class Referers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetRefererType()
     {
         $idSubtable = Common::getRequestVar('idSubtable', false);
-        $labelColumnTitle = Piwik_Translate('Referers_ColumnRefererType');
+        $labelColumnTitle = Piwik_Translate('Referers_Type');
         switch ($idSubtable) {
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 $labelColumnTitle = Piwik_Translate('Referers_ColumnSearchEngine');

@@ -363,6 +363,7 @@
         "OriginalLanguageName": "עברית",
         "Others": "אחרים",
         "Outlinks": "קישורים יוצאים",
+        "Overview": "מבט כללי",
         "Password": "סיסמה",
         "Period": "תקופה",
         "Piechart": "גרף עוגה",
@@ -515,7 +516,6 @@
         "ReferrersOverview": "סקירת הפניות",
         "SearchEngines": "מנועי חיפוש",
         "Socials": "רשתות חברתיות",
-        "SubmenuOverview": "סקירה",
         "SubmenuWebsites": "אתרי אינטרנט ורשתות חברתיות",
         "Websites": "אתרי אינטרנט",
         "WidgetKeywords": "מילות מפתח"
@@ -1011,7 +1011,6 @@
         "NbUniqueVisitors": "%s מבקרים יחודיים",
         "NbVisitsBounced": "%s ביקורים קפצו (עזבו את האתר אחרי עמוד אחד)",
         "PluginDescription": "מדווח על ניתוח המספרים הכללי: ביקורים, מבקרים יחודיים, מספר פעולות, שיעור קפיצה וכו'",
-        "SubmenuOverview": "מבט כללי",
         "VisitsSummary": "תקציר ביקורים",
         "WidgetLastVisitors": "גרף מבקרים יחודיים אחרונים",
         "WidgetLastVisits": "גרף ביקורים אחרונים",

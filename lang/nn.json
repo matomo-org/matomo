@@ -327,6 +327,7 @@
         "EnglishLanguageName": "Norwegian Nynorsk",
         "Error": "Feil",
         "ErrorRequest": "Uffdå… det var eit problem med spurnaden, prøv att.",
+        "EvolutionOverPeriod": "Utvikling gjennom perioden",
         "ExceptionCheckUserIsSuperUserOrTheUser": "Brukaren må anten vera superbrukaren eller brukaren '%s' sjølv.",
         "ExceptionConfigurationFileNotFound": "Fann ikkje konfigurasjonsfila {%s}.",
         "ExceptionDatabaseVersion": "Din %1$s versjon er %2$s, men Piwik krev minst %3$s.",
@@ -441,6 +442,7 @@
         "Others": "Andre",
         "Outlink": "Utpeikar",
         "Outlinks": "Utpeikarar",
+        "Overview": "Oversikt",
         "Pages": "Sider",
         "ParameterMustIntegerBetween": "Parameteren %s må vera eit heiltal mellom %s og %s.",
         "Password": "Passord",
@@ -722,7 +724,6 @@
     "Referers": {
         "Campaigns": "Kampanjar",
         "ColumnCampaign": "Kampanje",
-        "ColumnRefererType": "Referansetype",
         "ColumnSearchEngine": "Søkjemotor",
         "ColumnWebsite": "Nettstad",
         "ColumnWebsitePage": "Nettstadside",
@@ -733,7 +734,6 @@
         "DistinctKeywords": "distinkte nøkkelord",
         "DistinctSearchEngines": "distinkte søkjemotorer",
         "DistinctWebsites": "distinkte nettstader",
-        "Evolution": "Utvikling over perioden",
         "Keywords": "Nøkkelord",
         "Referers": "Referansar",
         "SearchEngines": "Søkjemotorar",
@@ -746,8 +746,7 @@
         "TypeWebsites": "%s frå nettstader",
         "Websites": "Nettstader",
         "WidgetExternalWebsites": "Liste over eksterne nettsider",
-        "WidgetKeywords": "Liste over nøkkelord",
-        "WidgetOverview": "Oversikt"
+        "WidgetKeywords": "Liste over nøkkelord"
     },
     "SitesManager": {
         "AddSite": "Legg til ein ny nettstad",
@@ -1315,7 +1314,6 @@
         "ColumnAvgActionsPerReturningVisit": "Gjen. handlingar per tilbakevendande vitjing",
         "ColumnBounceRateForReturningVisits": "Hopprate for Tilbakevendande Vitjarar",
         "ColumnReturningVisits": "Tilbakevendande Vitjarar",
-        "Evolution": "Utvikling gjennom perioden",
         "ReturnActions": "%s handlingar frå dei tilbakevendande vitjarane",
         "ReturnAvgActions": "%s handlingar per tilbakevendande vitjing",
         "ReturnBounceRate": "%s tilbakevendande vitjarar hev hoppa (forsvunne frå nettstaden etter ei sidevising)",
@@ -1342,7 +1340,6 @@
         "MaxNbActions": "%s maks mengd handlingar på ein vitjing",
         "NbUniqueVisitors": "%s unike vitjarar",
         "NbVisitsBounced": "%s vitjarar hev hoppa (forsvunne etter ein sidevising)",
-        "SubmenuOverview": "Oversikt",
         "WidgetLastVisitors": "Graf over dei siste unike vitjarane",
         "WidgetLastVisits": "Siste vitjingar",
         "WidgetOverviewGraph": "Oversikt med graf",

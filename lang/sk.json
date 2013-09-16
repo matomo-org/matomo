@@ -220,6 +220,7 @@
         "EnglishLanguageName": "Slovak",
         "Error": "Chyba",
         "ErrorRequest": "Oops… problém počas požiadavky, prosím skúste znova.",
+        "EvolutionOverPeriod": "Vývoj za obdobie",
         "ExceptionConfigurationFileNotFound": "Konfiguračný súbor{%s} nebol nájdený.",
         "ExceptionDatabaseVersion": "Vaša verzia %1$s je %2$s,ale Piwik potrebuje aspoň verziu %3$s.",
         "ExceptionFileIntegrity": "Kontrola integrity sa nepodarila: %s",
@@ -329,6 +330,7 @@
         "Others": "Ostatné",
         "Outlink": "Odchádzajúci preklik",
         "Outlinks": "Konkajšie odkazy",
+        "Overview": "Prehľad",
         "Pages": "Stránky",
         "ParameterMustIntegerBetween": "Parameter %s musí byť číselná hodnota medzi %s a %s.",
         "Password": "Heslo",
@@ -558,7 +560,6 @@
     "Referers": {
         "Campaigns": "Kampane",
         "ColumnCampaign": "Kampaň",
-        "ColumnRefererType": "Typ odkazu",
         "ColumnSearchEngine": "Vyhľadávač",
         "ColumnWebsite": "Portál",
         "ColumnWebsitePage": "Stránka portálu",
@@ -569,7 +570,6 @@
         "DistinctKeywords": "rôzne kľúčové strany",
         "DistinctSearchEngines": "rôzne vyhľadávače",
         "DistinctWebsites": "rôzne portály",
-        "Evolution": "Vývoj za obdobie",
         "Keywords": "Kľúčové slová",
         "PluginDescription": "Report o odkazoch: Vyhľadávače, Kľúčové slová, webové stránky, monitorovanie kampaní, priamy vstup.",
         "Referers": "Odkazy",
@@ -584,8 +584,7 @@
         "UsingNDistinctUrls": "(pomocou %s rôznych adries URL)",
         "Websites": "Webstránky",
         "WidgetExternalWebsites": "Zoznam externých stránok",
-        "WidgetKeywords": "Zoznam kľúčových slov",
-        "WidgetOverview": "Prehľad"
+        "WidgetKeywords": "Zoznam kľúčových slov"
     },
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "Tiež poslať správu na tieto e-maily (jeden e-mail na riadok):",
@@ -1159,7 +1158,6 @@
         "ColumnAvgActionsPerReturningVisit": "Priemerný čas pre vracajúcich sa návštevníkov (v sekundách)",
         "ColumnBounceRateForReturningVisits": "Miera odskočení vracajúcich sa návštev",
         "ColumnReturningVisits": "Vracajúce sa návštevy",
-        "Evolution": "Vývoj za obdobie",
         "PluginDescription": "Rôzne štatistiky vracajúci sa návštevník versus návštevník ktorý navštívil stránku prvýkrát.",
         "ReturnActions": "počet akcií vracajúcich sa: %s",
         "ReturnAverageVisitDuration": "%s priemerná dĺžka návštevy u vracajúcich sa návštevníkov",
@@ -1195,7 +1193,6 @@
         "NbUniqueVisitors": "Počet unikátnych návštevníkov: %s",
         "NbVisitsBounced": "%s návštev odskočilo (odišli po zobrazení jednej stránky)",
         "PluginDescription": "Všeobecný analytický report: návštevy, jedinečné návštevy, počet akcií, Bounce Rate, atď",
-        "SubmenuOverview": "Prehľad",
         "VisitsSummary": "Všetky návštevy",
         "WidgetLastVisitors": "Graf posledných jedinečných návštevníkov",
         "WidgetLastVisits": "Graf posledných návštev",

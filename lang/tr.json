@@ -482,6 +482,7 @@
         "Others": "Diğerleri",
         "Outlink": "Dış link",
         "Outlinks": "Dış Bağlantılar",
+        "Overview": "Genel Bakış",
         "Pages": "Sayfalar",
         "ParameterMustIntegerBetween": "%s değeri %s ve %s arasında sayısal bir değer olmalıdır.",
         "Password": "Şifre",
@@ -713,13 +714,11 @@
         "DirectEntryDocumentation": "Ziyaretçiniz web adresini yazarak siteye doğrudan giriş yapmış.",
         "DistinctCampaigns": "farklı kampanyalar",
         "Keywords": "Anahtar Kelimeler",
-        "SubmenuOverview": "Genel Bakış",
         "SubmenuSearchEngines": "Arama Motorları ve Anahtar Kelimeler",
         "SubmenuWebsites": "Websiteleri ve Sosyal Platform",
         "TypeCampaigns": "%s kampanyalarından",
         "WidgetExternalWebsites": "Yönlendiren Siteler",
-        "WidgetKeywords": "Anahtar Kelimeler",
-        "WidgetOverview": "Genel Bakış"
+        "WidgetKeywords": "Anahtar Kelimeler"
     },
     "ScheduledReports": {
         "CreateReport": "Rapor Oluştur",
@@ -768,8 +767,7 @@
         "YourCurrentIpAddressIs": "Şuan ki IP numaranız %s"
     },
     "Transitions": {
-        "FromCampaigns": "Kampanyalarından Geçişler",
-        "FromCampaignsInline": "%s kampanyalarından"
+        "FromCampaigns": "Kampanyalarından Geçişler"
     },
     "UserCountry": {
         "City": "Şehir",
@@ -1318,7 +1316,6 @@
         "NbUniqueVisitors": "%s tekil ziyaretçiler",
         "NbVisitsBounced": "%s ziyaret sıçrama yaşadı (ziyaretçi 1 sayfaya baktıktan sonra siteyi terketti )",
         "PluginDescription": "Genel analiz sonuçlarını rapor eder: ziyaretler,tekil ziyaretçiler,etkinlik sayıları,sıçrama oranı vb.",
-        "SubmenuOverview": "Genel Bakış",
         "VisitsSummary": "Özeri gör",
         "VisitsSummaryDocumentation": "Ziyaretler için genel bakış niteliğindedir.",
         "WidgetLastVisitors": "Son tekil ziyaretçi grafiği",

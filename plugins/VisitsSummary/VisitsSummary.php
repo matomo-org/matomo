@@ -68,7 +68,7 @@ class VisitsSummary extends \Piwik\Plugin
     function addMenu()
     {
         Piwik_AddMenu('General_Visitors', '', array('module' => 'VisitsSummary', 'action' => 'index'), true, 10);
-        Piwik_AddMenu('General_Visitors', 'VisitsSummary_SubmenuOverview', array('module' => 'VisitsSummary', 'action' => 'index'), true, 1);
+        Piwik_AddMenu('General_Visitors', 'General_Overview', array('module' => 'VisitsSummary', 'action' => 'index'), true, 1);
     }
 }
 

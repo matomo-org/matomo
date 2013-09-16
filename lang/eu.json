@@ -154,6 +154,7 @@
         "EnglishLanguageName": "Basque",
         "Error": "Errorea",
         "ErrorRequest": "Kontxo… arazoa egon da eskaeran, saiatu berriro mesedez.",
+        "EvolutionOverPeriod": "Bilakaera periodoan zehar",
         "ExceptionConfigurationFileNotFound": "{%s} konfigurazio-fitxategia ez da aurkitu.",
         "ExceptionDatabaseVersion": "Zure %1$s bertsioa %2$s da baina Piwik-ek gutxienez %3$s behar du.",
         "ExceptionFileIntegrity": "Osotasun egiaztapenak huts egin du: %s",
@@ -220,6 +221,7 @@
         "OriginalLanguageName": "Euskara",
         "Others": "Besteak",
         "Outlinks": "Kanpo-loturak",
+        "Overview": "Orokorra",
         "Password": "Pasahitza",
         "Period": "Tartea",
         "Piechart": "Tarta-diagrama",
@@ -405,7 +407,6 @@
     "Referers": {
         "Campaigns": "Kanpainak",
         "ColumnCampaign": "Kanpaina",
-        "ColumnRefererType": "Erreferente mota",
         "ColumnSearchEngine": "Bilaketa-motorra",
         "ColumnWebsite": "Webgunea",
         "ColumnWebsitePage": "Webguneko orria",
@@ -416,7 +417,6 @@
         "DistinctKeywords": "gako-hitz desberdin",
         "DistinctSearchEngines": "bilaketa-motor desberdin",
         "DistinctWebsites": "webgune desberdin",
-        "Evolution": "Bilakaera periodoan zehar",
         "Keywords": "Gako-hitzak",
         "Referers": "Erreferenteak",
         "SearchEngines": "Bilaketa-motorrak",
@@ -429,8 +429,7 @@
         "TypeWebsites": "%s webguneetatik",
         "Websites": "Webguneak",
         "WidgetExternalWebsites": "Kanpoko webguneen zerrenda",
-        "WidgetKeywords": "Gako-hitzen zerrenda",
-        "WidgetOverview": "Orokorra"
+        "WidgetKeywords": "Gako-hitzen zerrenda"
     },
     "SitesManager": {
         "AddSite": "Gehitu webgune berria",
@@ -929,7 +928,6 @@
         "ColumnActionsByReturningVisits": "Itzulerako bisiten ekintzak",
         "ColumnBounceRateForReturningVisits": "Itzulerako bisiten errebotatze-tasa",
         "ColumnReturningVisits": "Itzulerako bisitak",
-        "Evolution": "Bilakaera periodoan zehar",
         "ReturnActions": "%s ekintza itzulerako bisitek",
         "ReturnBounceRate": "%s itzulerako bisita errebotatu dira (webgunea utzi dute orri bat ikusi ondoren)",
         "ReturnVisits": "%s itzulerako bisita",
@@ -954,7 +952,6 @@
         "MaxNbActions": "%s ekintza gehienez bisita batean",
         "NbUniqueVisitors": "%s bisitari desberdin",
         "NbVisitsBounced": "%s bisita errebotatu dira (webgunea utzi dute orri bat ikusi ondoren)",
-        "SubmenuOverview": "Orokorra",
         "VisitsSummary": "Bisiten laburpena",
         "WidgetLastVisitors": "Azken bisitari desberdinen grafikoa",
         "WidgetLastVisits": "Azken bisiten grafikoa",
