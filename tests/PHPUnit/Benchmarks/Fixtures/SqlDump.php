@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\DbHelper;
 
 /**
  * Reusable fixture. Loads a ~1GB SQL dump into the DB.
@@ -29,7 +29,7 @@ class Piwik_Test_Fixture_SqlDump
         $bufferSize = 1024 * 1024;
 
         // drop all tables
-        Piwik::dropTables();
+        DbHelper::dropTables();
 
         // download data dump
         $dump = fopen(self::$dumpUrl, 'rb');

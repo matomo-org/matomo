@@ -7,7 +7,7 @@
  */
 use Piwik\Access;
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Site;
 
 class SitesManagerTest extends DatabaseTestCase
@@ -960,16 +960,16 @@ class SitesManagerTest extends DatabaseTestCase
 
         $saveAccess = Access::getInstance();
 
-        UsersManagerAPI::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
-        UsersManagerAPI::getInstance()->setUserAccess("user1", "view", array(1));
+        APIUsersManager::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
+        APIUsersManager::getInstance()->setUserAccess("user1", "view", array(1));
 
-        UsersManagerAPI::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
-        UsersManagerAPI::getInstance()->setUserAccess("user2", "view", array(1));
-        UsersManagerAPI::getInstance()->setUserAccess("user2", "admin", array(3));
+        APIUsersManager::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
+        APIUsersManager::getInstance()->setUserAccess("user2", "view", array(1));
+        APIUsersManager::getInstance()->setUserAccess("user2", "admin", array(3));
 
-        UsersManagerAPI::getInstance()->addUser("user3", "geqgegagae", "tegst3@tesgt.com", "alias");
-        UsersManagerAPI::getInstance()->setUserAccess("user3", "view", array(1, 2));
-        UsersManagerAPI::getInstance()->setUserAccess("user3", "admin", array(3));
+        APIUsersManager::getInstance()->addUser("user3", "geqgegagae", "tegst3@tesgt.com", "alias");
+        APIUsersManager::getInstance()->setUserAccess("user3", "view", array(1, 2));
+        APIUsersManager::getInstance()->setUserAccess("user3", "admin", array(3));
 
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = false;

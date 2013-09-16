@@ -9,7 +9,7 @@ use Piwik\Piwik;
 use Piwik\Access;
 use Piwik\Date;
 use Piwik\Plugins\SegmentEditor\API;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 class SegmentEditorTest extends DatabaseTestCase
 {
@@ -30,7 +30,7 @@ class SegmentEditorTest extends DatabaseTestCase
         FakeAccess::$superUserLogin = 'superusertest';
         Access::setSingletonInstance($pseudoMockAccess);
 
-        SitesManagerAPI::getInstance()->addSite('test', 'http://example.org');
+        APISitesManager::getInstance()->addSite('test', 'http://example.org');
     }
 
     public function testAddInvalidSegment_ShouldThrow()

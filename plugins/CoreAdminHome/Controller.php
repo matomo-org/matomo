@@ -17,7 +17,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Nonce;
 use Piwik\Piwik;
-use Piwik\Plugins\LanguagesManager\API as LanguagesManagerAPI;
+use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Site;
@@ -192,7 +192,7 @@ class Controller extends \Piwik\Controller\Admin
         $view = new View('@CoreAdminHome/optOut');
         $view->trackVisits = $trackVisits;
         $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
-        $view->language = LanguagesManagerAPI::getInstance()->isLanguageAvailable($language)
+        $view->language = APILanguagesManager::getInstance()->isLanguageAvailable($language)
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
         echo $view->render();

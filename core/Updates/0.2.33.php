@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DbHelper;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -29,7 +29,7 @@ class Piwik_Updates_0_2_33 extends Updates
         );
 
         // alter table to set the utf8 collation
-        $tablesToAlter = Piwik::getTablesInstalled(true);
+        $tablesToAlter = DbHelper::getTablesInstalled(true);
         foreach ($tablesToAlter as $table) {
             $sqlarray['ALTER TABLE `' . $table . '`
 				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci '] = false;

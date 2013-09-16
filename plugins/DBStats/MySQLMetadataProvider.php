@@ -11,11 +11,11 @@
 namespace Piwik\Plugins\DBStats;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Db;
+use Piwik\DbHelper;
 
 /**
  * Utility class that provides general information about databases, including the size of
@@ -106,7 +106,7 @@ class MySQLMetadataProvider
     public function getAllTablesStatus($matchingRegex = null)
     {
         if (is_null($this->tableStatuses)) {
-            $tablesPiwik = Piwik::getTablesInstalled();
+            $tablesPiwik = DbHelper::getTablesInstalled();
 
             $this->tableStatuses = array();
             foreach (Db::fetchAll("SHOW TABLE STATUS") as $t) {

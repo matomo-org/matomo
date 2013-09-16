@@ -16,8 +16,8 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PDFReports\API;
 use Piwik\View;
 use Piwik\Plugins\PDFReports\PDFReports;
-use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
  *
@@ -32,7 +32,7 @@ class Controller extends \Piwik\Controller
         $view = new View('@PDFReports/index');
         $this->setGeneralVariablesView($view);
 
-        $view->countWebsites = count(SitesManagerAPI::getInstance()->getSitesIdWithAtLeastViewAccess());
+        $view->countWebsites = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
 
         // get report types
         $reportTypes = API::getReportTypes();
@@ -84,7 +84,7 @@ class Controller extends \Piwik\Controller
         if (API::isSegmentEditorActivated()) {
 
             $savedSegmentsById = array();
-            foreach (SegmentEditorAPI::getInstance()->getAll($this->idSite) as $savedSegment) {
+            foreach (APISegmentEditor::getInstance()->getAll($this->idSite) as $savedSegment) {
                 $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
             }
             $view->savedSegmentsById = $savedSegmentsById;

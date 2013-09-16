@@ -7,11 +7,11 @@
  */
 
 use Piwik\Access;
-use Piwik\Plugins\MobileMessaging\API as MobileMessagingAPI;
+use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
-use Piwik\Plugins\PDFReports\API as PDFReportsAPI;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\PDFReports\API as APIPDFReports;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 class MobileMessagingTest extends DatabaseTestCase
 {
@@ -27,7 +27,7 @@ class MobileMessagingTest extends DatabaseTestCase
         //finally we set the user as a super user by default
         Access::setSingletonInstance($pseudoMockAccess);
 
-        $this->idSiteAccess = SitesManagerAPI::getInstance()->addSite("test", "http://test");
+        $this->idSiteAccess = APISitesManager::getInstance()->addSite("test", "http://test");
 
         \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging', 'MultiSites'));
         \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
@@ -46,7 +46,7 @@ class MobileMessagingTest extends DatabaseTestCase
         \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging'));
         $this->assertFalse(\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites'));
 
-        $PdfReportsAPIInstance = PDFReportsAPI::getInstance();
+        $PdfReportsAPIInstance = APIPDFReports::getInstance();
         $reportId = $PdfReportsAPIInstance->addReport(
             $this->idSiteAccess,
             'description',
@@ -204,7 +204,7 @@ class MobileMessagingTest extends DatabaseTestCase
      */
     public function testSanitizePhoneNumber()
     {
-        $this->assertEquals('676932647', MobileMessagingAPI::sanitizePhoneNumber('  6  76 93 26 47'));
+        $this->assertEquals('676932647', APIMobileMessaging::sanitizePhoneNumber('  6  76 93 26 47'));
     }
 
     /**
@@ -213,7 +213,7 @@ class MobileMessagingTest extends DatabaseTestCase
      */
     public function testPhoneNumberIsSanitized()
     {
-        $mobileMessagingAPI = new MobileMessagingAPI();
+        $mobileMessagingAPI = new APIMobileMessaging();
         $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', '');
         $mobileMessagingAPI->addPhoneNumber('  6  76 93 26 47');
         $this->assertEquals('676932647', key($mobileMessagingAPI->getPhoneNumbers()));
@@ -238,29 +238,29 @@ class MobileMessagingTest extends DatabaseTestCase
     public function testSendReport($expectedReportContent, $expectedPhoneNumber, $expectedFrom, $reportContent, $phoneNumber, $reportSubject)
     {
         $notificationInfo = array(
-             PDFReportsAPI::REPORT_CONTENT_KEY   => $reportContent,
-             PDFReportsAPI::REPORT_SUBJECT_KEY     => $reportSubject,
-             PDFReportsAPI::REPORT_TYPE_INFO_KEY => MobileMessaging::MOBILE_TYPE,
-             PDFReportsAPI::REPORT_KEY           => array(
+             APIPDFReports::REPORT_CONTENT_KEY   => $reportContent,
+             APIPDFReports::REPORT_SUBJECT_KEY     => $reportSubject,
+             APIPDFReports::REPORT_TYPE_INFO_KEY => MobileMessaging::MOBILE_TYPE,
+             APIPDFReports::REPORT_KEY           => array(
                  'parameters' => array(MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
              ),
         );
 
-        $stubbedMobileMessagingAPI = $this->getMock('\\Piwik\\Plugins\\MobileMessaging\\API');
-        $stubbedMobileMessagingAPI->expects($this->once())->method('sendSMS')->with(
+        $stubbedAPIMobileMessaging = $this->getMock('\\Piwik\\Plugins\\MobileMessaging\\API');
+        $stubbedAPIMobileMessaging->expects($this->once())->method('sendSMS')->with(
             $this->equalTo($expectedReportContent, 0),
             $this->equalTo($expectedPhoneNumber, 1),
             $this->equalTo($expectedFrom, 2)
         );
 
-        $stubbedMobileMessagingAPIClass = new ReflectionProperty('\\Piwik\\Plugins\\MobileMessaging\\API', 'instance');
-        $stubbedMobileMessagingAPIClass->setAccessible(true);
-        $stubbedMobileMessagingAPIClass->setValue($stubbedMobileMessagingAPI);
+        $stubbedAPIMobileMessagingClass = new ReflectionProperty('\\Piwik\\Plugins\\MobileMessaging\\API', 'instance');
+        $stubbedAPIMobileMessagingClass->setAccessible(true);
+        $stubbedAPIMobileMessagingClass->setValue($stubbedAPIMobileMessaging);
 
         $mobileMessaging = new MobileMessaging();
         $mobileMessaging->sendReport($notificationInfo);
 
         // restore API
-        $stubbedMobileMessagingAPIClass->setValue(null);
+        $stubbedAPIMobileMessagingClass->setValue(null);
     }
 }

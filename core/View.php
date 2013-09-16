@@ -11,8 +11,8 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
 use Zend_Registry;
@@ -101,7 +101,7 @@ class View implements ViewInterface
 
             $count = SettingsPiwik::getWebsitesCountToDisplay();
 
-            $sites = SitesManagerAPI::getInstance()->getSitesWithAtLeastViewAccess($count);
+            $sites = APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($count);
             usort($sites, function($site1, $site2) {
                 return strcasecmp($site1["name"], $site2["name"]);
             });
@@ -121,7 +121,7 @@ class View implements ViewInterface
 
             $this->loginModule = Piwik::getLoginPluginName();
 
-            $user = UsersManagerAPI::getInstance()->getUser($userLogin);
+            $user = APIUsersManager::getInstance()->getUser($userLogin);
             $this->userAlias = $user['alias'];
         } catch (Exception $e) {
             // can fail, for example at installation (no plugin loaded yet)

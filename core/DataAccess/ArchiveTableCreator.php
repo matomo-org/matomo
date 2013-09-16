@@ -15,7 +15,6 @@ use Exception;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DbHelper;
-use Piwik\Piwik;
 use Zend_Registry;
 
 class ArchiveTableCreator
@@ -77,7 +76,7 @@ class ArchiveTableCreator
 
     static public function refreshTableList($forceReload = false)
     {
-        self::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload);
+        self::$tablesAlreadyInstalled = DbHelper::getTablesInstalled($forceReload);
     }
 
     /**

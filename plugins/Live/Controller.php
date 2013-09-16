@@ -15,7 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\API as Goals_API;
+use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\PluginsManager;
 use Piwik\Url;
 use Piwik\View;
@@ -145,7 +145,7 @@ class Controller extends \Piwik\Controller
 
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $idSite;
-        $view->goals = Goals_API::getInstance()->getGoals($idSite);
+        $view->goals = APIGoals::getInstance()->getGoals($idSite);
         $view->visitorData = Request::processRequest('Live.getVisitorProfile', array('checkForLatLong' => true));
         $view->exportLink = $this->getVisitorProfileExportLink();
 

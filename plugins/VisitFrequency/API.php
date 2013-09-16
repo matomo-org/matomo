@@ -13,7 +13,7 @@ namespace Piwik\Plugins\VisitFrequency;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\SegmentExpression;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
@@ -83,7 +83,7 @@ class API
     protected function prefixColumns($table, $period)
     {
         $rename = array();
-        foreach (VisitsSummaryAPI::getInstance()->getColumns($period) as $oldColumn) {
+        foreach (APIVisitsSummary::getInstance()->getColumns($period) as $oldColumn) {
             $rename[$oldColumn] = $oldColumn . self::COLUMN_SUFFIX;
         }
         $table->filter('ReplaceColumnNames', array($rename));

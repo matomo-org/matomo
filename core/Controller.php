@@ -18,8 +18,8 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View;
 use Piwik\ViewDataTable;
 use Zend_Registry;
@@ -629,7 +629,7 @@ abstract class Controller
         $defaultWebsiteId = false;
 
         // User preference: default website ID to load
-        $defaultReport = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), UsersManagerAPI::PREFERENCE_DEFAULT_REPORT);
+        $defaultReport = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT);
         if (is_numeric($defaultReport)) {
             $defaultWebsiteId = $defaultReport;
         }
@@ -640,7 +640,7 @@ abstract class Controller
             return $defaultWebsiteId;
         }
 
-        $sitesId = SitesManagerAPI::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $sitesId = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
         if (!empty($sitesId)) {
             return $sitesId[0];
         }
@@ -655,7 +655,7 @@ abstract class Controller
     protected function getDefaultDate()
     {
         // NOTE: a change in this function might mean a change in plugins/UsersManager/javascripts/usersSettings.js as well
-        $userSettingsDate = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE);
+        $userSettingsDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
         if ($userSettingsDate == 'yesterday') {
             return $userSettingsDate;
         }
@@ -675,7 +675,7 @@ abstract class Controller
      */
     protected function getDefaultPeriod()
     {
-        $userSettingsDate = UsersManagerAPI::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE);
+        $userSettingsDate = APIUsersManager::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
         if ($userSettingsDate === false) {
             return Config::getInstance()->General['default_period'];
         }

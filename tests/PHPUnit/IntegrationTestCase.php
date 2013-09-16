@@ -1080,7 +1080,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     protected static function getDbTablesWithData()
     {
         $result = array();
-        foreach (Piwik::getTablesInstalled() as $tableName) {
+        foreach (DbHelper::getTablesInstalled() as $tableName) {
             $result[$tableName] = Db::fetchAll("SELECT * FROM $tableName");
         }
         return $result;
@@ -1095,10 +1095,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     protected static function restoreDbTables($tables)
     {
         // truncate existing tables
-        Piwik::truncateAllTables();
+        DbHelper::truncateAllTables();
 
         // insert data
-        $existingTables = Piwik::getTablesInstalled();
+        $existingTables = DbHelper::getTablesInstalled();
         foreach ($tables as $table => $rows) {
             // create table if it's an archive table
             if (strpos($table, 'archive_') !== false && !in_array($table, $existingTables)) {

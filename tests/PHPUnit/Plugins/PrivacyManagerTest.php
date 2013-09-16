@@ -14,13 +14,12 @@ use Piwik\DataTable\Manager;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\Plugins\Goals\API as GoalsAPI;
+use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\PrivacyManager\LogDataPurger;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\ReportsPurger;
-use Piwik\Plugins\VisitorInterest\API as VisitorInterestAPI;
+use Piwik\Plugins\VisitorInterest\API as APIVisitorInterest;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
@@ -270,7 +269,7 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataDeleteLogsNoData()
     {
-        Piwik::truncateAllTables();
+        \Piwik\DbHelper::truncateAllTables();
         foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
             Db::exec("DROP TABLE $table");
         }
@@ -642,7 +641,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $start = Date::factory(self::$dateTime);
         self::$idSite = Test_Piwik_BaseFixture::createWebsite('2012-01-01', $ecommerce = 1);
-        $idGoal = GoalsAPI::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
+        $idGoal = APIGoals::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
 
         $t = Test_Piwik_BaseFixture::getTracker(self::$idSite, $start, $defaultInit = true);
         $t->enableBulkTracking();
@@ -677,8 +676,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $archive = Archive::build(self::$idSite, 'year', $date);
 
-        VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
-//        VisitorInterestAPI::getInstance()->get(self::$idSite, 'month', $date, $segment = false, self::$idSite);
+        APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
+//        APIVisitorInterest::getInstance()->get(self::$idSite, 'month', $date, $segment = false, self::$idSite);
 
         // months are added via the 'year' period, but weeks must be done manually
         for ($daysAgo = self::$daysAgoStart; $daysAgo > 0; $daysAgo -= 7) // every week
@@ -688,7 +687,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             $archive = Archive::build(self::$idSite, 'week', $dateTime);
             $archive->getNumeric('nb_visits');
 
-            VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(
+            APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(
                 self::$idSite, 'week', $dateTime);
         }
 
@@ -696,7 +695,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $archive = Archive::build(self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
         $archive->getNumeric('nb_visits', 'nb_hits');
 
-        VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(
+        APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(
             self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
 
         // add range within January
@@ -707,7 +706,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $rangeArchive = Archive::build(self::$idSite, 'range', $range);
         $rangeArchive->getNumeric('nb_visits', 'nb_hits');
 
-        VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
+        APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
 
         // add range between January & February
         $rangeStart = $rangeEnd;
@@ -717,7 +716,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $rangeArchive = Archive::build(self::$idSite, 'range', $range);
         $rangeArchive->getNumeric('nb_visits', 'nb_hits');
 
-        VisitorInterestAPI::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
+        APIVisitorInterest::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
 
         // when archiving is initiated, the archive metrics & reports for EVERY loaded plugin
         // are archived. don't want this test to depend on every possible metric, so get rid of

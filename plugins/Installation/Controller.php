@@ -24,8 +24,8 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
 use Piwik\Session\SessionNamespace;
 use Piwik\SettingsServer;
@@ -274,7 +274,7 @@ class Controller extends \Piwik\Controller\Admin
         $this->createDbFromSessionInformation();
 
         if (Common::getRequestVar('deleteTables', 0, 'int') == 1) {
-            Piwik::dropTables();
+            DbHelper::dropTables();
             $view->existingTablesDeleted = true;
 
             // when the user decides to drop the tables then we dont skip the next steps anymore
@@ -285,7 +285,7 @@ class Controller extends \Piwik\Controller\Admin
             $this->session->skipThisStep = $tmp;
         }
 
-        $tablesInstalled = Piwik::getTablesInstalled();
+        $tablesInstalled = DbHelper::getTablesInstalled();
         $view->tablesInstalled = '';
         if (count($tablesInstalled) > 0) {
             // we have existing tables
@@ -300,8 +300,8 @@ class Controller extends \Piwik\Controller\Admin
             Access::getInstance();
             Piwik::setUserIsSuperUser();
             if ($baseTablesInstalled >= $minimumCountPiwikTables &&
-                count(SitesManagerAPI::getInstance()->getAllSitesId()) > 0 &&
-                count(UsersManagerAPI::getInstance()->getUsers()) > 0
+                count(APISitesManager::getInstance()->getAllSitesId()) > 0 &&
+                count(APIUsersManager::getInstance()->getUsers()) > 0
             ) {
                 $view->showReuseExistingTables = true;
                 // when the user reuses the same tables we skip the website creation step
@@ -313,7 +313,7 @@ class Controller extends \Piwik\Controller\Admin
             }
         } else {
             DbHelper::createTables();
-            Piwik::createAnonymousUser();
+            DbHelper::createAnonymousUser();
 
             $updater = new Updater();
             $updater->recordComponentSuccessfullyUpdated('core', Version::VERSION);
@@ -715,7 +715,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $directoriesToCheck = array();
 
-        if (!Piwik::isInstalled()) {
+        if (!DbHelperS::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
             $directoriesToCheck[] = '/config/';
         }

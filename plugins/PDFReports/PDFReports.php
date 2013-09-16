@@ -17,10 +17,10 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Plugins\MobileMessaging\API as MobileMessagingAPI;
+use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ReportRenderer;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime;
@@ -95,7 +95,7 @@ class PDFReports extends \Piwik\Plugin
             'template_reportParametersPDFReports'         => 'template_reportParametersPDFReports',
             'UsersManager.deleteUser'                     => 'deleteUserReport',
             'SitesManager.deleteSite'                     => 'deleteSiteReport',
-            SegmentEditorAPI::DELETE_SEGMENT_EVENT => 'segmentDeletion',
+            APISegmentEditor::DELETE_SEGMENT_EVENT => 'segmentDeletion',
         );
     }
 
@@ -355,7 +355,7 @@ class PDFReports extends \Piwik\Plugin
                     $emails[] = Piwik::getSuperUserEmail();
                 } else {
                     try {
-                        $user = UsersManagerAPI::getInstance()->getUser($report['login']);
+                        $user = APIUsersManager::getInstance()->getUser($report['login']);
                     } catch (Exception $e) {
                         return;
                     }
@@ -501,7 +501,7 @@ class PDFReports extends \Piwik\Plugin
         //  not configured, display 'Email reports'
         //  configured, display 'Email & SMS reports'
         if ($reportCount == 0)
-            return MobileMessagingAPI::getInstance()->areSMSAPICredentialProvided() ?
+            return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
                 self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
 
         $anyMobileReport = false;

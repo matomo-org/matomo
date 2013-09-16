@@ -97,7 +97,8 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         
         foreach ($periodTypes as $period) {
             foreach ($idSites as $idSite) {
-                $lastRunArchiveOption = Piwik::getArchiveCronLastRunOptionName($period, $idSite);
+                // lastRunKey() function inlined
+                $lastRunArchiveOption = "lastRunArchive" . $period . "_" . $idSite;
                 
                 Piwik_SetOption($lastRunArchiveOption, $time);
             }

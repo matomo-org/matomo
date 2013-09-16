@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Access;
-use Piwik\Plugins\Goals\API as GoalsAPI;
-use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
+use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
@@ -48,7 +48,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
     {
         // for conversion testing
         self::createWebsite($this->dateTime);
-        GoalsAPI::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
+        APIGoals::getInstance()->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
         self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
             $siteUrl = 'http://example-site-two.com');
     }
@@ -105,7 +105,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
                 $enabledAllUsers = $info['enabledAllUsers'];
             }
             
-            SegmentEditorAPI::getInstance()->add(
+            APISegmentEditor::getInstance()->add(
                 $segmentName, $info['definition'], $idSite, $autoArchive, $enabledAllUsers);
         }
     }

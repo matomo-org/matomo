@@ -10,11 +10,11 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\Plugins\PDFReports\API as PDFReportsAPI;
+use Piwik\Plugins\PDFReports\API as APIPDFReports;
 use Piwik\Plugins\PDFReports\PDFReports;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Url;
@@ -63,7 +63,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
                                          $siteSearch = 1, $searchKeywordParameters = null,
                                          $searchCategoryParameters = null)
     {
-        $idSite = SitesManagerAPI::getInstance()->addSite(
+        $idSite = APISitesManager::getInstance()->addSite(
             $siteName,
             $siteUrl === false ? "http://piwik.net/" : $siteUrl,
             $ecommerce,
@@ -201,7 +201,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function getTokenAuth()
     {
-        return UsersManagerAPI::getInstance()->getTokenAuth(
+        return APIUsersManager::getInstance()->getTokenAuth(
             Config::getInstance()->superuser['login'],
             Config::getInstance()->superuser['password']
         );
@@ -227,7 +227,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         Access::setSingletonInstance($pseudoMockAccess);
 
         // retrieve available reports
-        $availableReportMetadata = PDFReportsAPI::getReportMetadata($idSite, PDFReports::EMAIL_TYPE);
+        $availableReportMetadata = APIPDFReports::getReportMetadata($idSite, PDFReports::EMAIL_TYPE);
 
         $availableReportIds = array();
         foreach ($availableReportMetadata as $reportMetadata) {
@@ -236,7 +236,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
         //@review should we also test evolution graphs?
         // set-up mail report
-        PDFReportsAPI::getInstance()->addReport(
+        APIPDFReports::getInstance()->addReport(
             $idSite,
             'Mail Test report',
             'day', // overridden in getApiForTestingScheduledReports()
@@ -248,7 +248,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
 
         // set-up sms report for one website
-        PDFReportsAPI::getInstance()->addReport(
+        APIPDFReports::getInstance()->addReport(
             $idSite,
             'SMS Test report, one website',
             'day', // overridden in getApiForTestingScheduledReports()
@@ -260,7 +260,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
 
         // set-up sms report for all websites
-        PDFReportsAPI::getInstance()->addReport(
+        APIPDFReports::getInstance()->addReport(
             $idSite,
             'SMS Test report, all websites',
             'day', // overridden in getApiForTestingScheduledReports()
@@ -273,7 +273,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
         if (self::canImagesBeIncludedInScheduledReports()) {
             // set-up mail report with images
-            PDFReportsAPI::getInstance()->addReport(
+            APIPDFReports::getInstance()->addReport(
                 $idSite,
                 'Mail Test report',
                 'day', // overridden in getApiForTestingScheduledReports()
@@ -285,7 +285,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
             );
 
             // set-up mail report with one row evolution based png graph
-            PDFReportsAPI::getInstance()->addReport(
+            APIPDFReports::getInstance()->addReport(
                 $idSite,
                 'Mail Test report',
                 'day',

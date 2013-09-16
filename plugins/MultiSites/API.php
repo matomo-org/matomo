@@ -21,7 +21,7 @@ use Piwik\DataTable;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\TaskScheduler;
 use Piwik\Site;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
@@ -190,11 +190,11 @@ class API
                 && !TaskScheduler::isTaskBeingExecuted()
             ) {
                 Site::setSites(
-                    SitesManagerAPI::getInstance()->getAllSites()
+                    APISitesManager::getInstance()->getAllSites()
                 );
             } else {
                 Site::setSitesFromArray(
-                    SitesManagerAPI::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin)
+                    APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin)
                 );
             }
         }

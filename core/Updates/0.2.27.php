@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DbHelper;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -64,7 +64,7 @@ class Piwik_Updates_0_2_27 extends Updates
 			)'                                                                             => false,
         );
 
-        $tables = Piwik::getTablesInstalled();
+        $tables = DbHelper::getTablesInstalled();
         foreach ($tables as $tableName) {
             if (preg_match('/archive_/', $tableName) == 1) {
                 $sqlarray['CREATE INDEX index_all ON ' . $tableName . ' (`idsite`,`date1`,`date2`,`name`,`ts_archived`)'] = false;

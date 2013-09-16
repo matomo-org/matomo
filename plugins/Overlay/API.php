@@ -17,8 +17,8 @@ use Piwik\Access;
 use Piwik\DataTable;
 use Piwik\Tracker\Action;
 use Piwik\Plugins\SitesManager\SitesManager;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Plugins\Transitions\API as TransitionsAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\Transitions\API as APITransitions;
 
 
 class API
@@ -63,7 +63,7 @@ class API
     {
         $this->authenticate($idSite);
 
-        $sitesManager = SitesManagerAPI::getInstance();
+        $sitesManager = APISitesManager::getInstance();
         $site = $sitesManager->getSiteFromId($idSite);
 
         try {
@@ -93,7 +93,7 @@ class API
 
         try {
             $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];
-            $transitionsReport = TransitionsAPI::getInstance()->getTransitionsForAction(
+            $transitionsReport = APITransitions::getInstance()->getTransitionsForAction(
                 $url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping,
                 $part = 'followingActions', $returnNormalizedUrls = true);
         } catch (Exception $e) {

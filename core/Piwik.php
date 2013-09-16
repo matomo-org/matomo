@@ -54,30 +54,6 @@ class Piwik
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
 
     /**
-     * Uninstallation helper
-     */
-    static public function uninstall()
-    {
-        Schema::getInstance()->dropTables();
-    }
-
-    /**
-     * Returns true if Piwik is installed
-     *
-     * @since 0.6.3
-     *
-     * @return bool  True if installed; false otherwise
-     */
-    static public function isInstalled()
-    {
-        try {
-            return Schema::getInstance()->hasTables();
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    /**
      * Logging and error handling
      *
      * @var bool|null
@@ -594,58 +570,6 @@ class Piwik
         }
     }
 
-    /*
-     * Database and table definition methods
-     */
-
-    /**
-     * Creates an entry in the User table for the "anonymous" user.
-     */
-    static public function createAnonymousUser()
-    {
-        Schema::getInstance()->createAnonymousUser();
-    }
-
-    /**
-     * Truncate all tables
-     */
-    static public function truncateAllTables()
-    {
-        Schema::getInstance()->truncateAllTables();
-    }
-
-    /**
-     * Drop specific tables
-     *
-     * @param array $doNotDelete  Names of tables to not delete
-     */
-    static public function dropTables($doNotDelete = array())
-    {
-        Schema::getInstance()->dropTables($doNotDelete);
-    }
-
-    /**
-     * Names of all the prefixed tables in piwik
-     * Doesn't use the DB
-     *
-     * @return array  Table names
-     */
-    static public function getTablesNames()
-    {
-        return Schema::getInstance()->getTablesNames();
-    }
-
-    /**
-     * Get list of tables installed
-     *
-     * @param bool $forceReload  Invalidate cache
-     * @return array  Tables installed
-     */
-    static public function getTablesInstalled($forceReload = true)
-    {
-        return Schema::getInstance()->getTablesInstalled($forceReload);
-    }
-
     /**
      * Utility function that checks if an object type is in a set of types.
      *
@@ -702,18 +626,6 @@ class Piwik
         return false;
     }
 
-    /**
-     * Returns the option name of the option that stores the time the archive.php
-     * script was last run.
-     *
-     * @param string $period
-     * @param string $idSite
-     * @return string
-     */
-    public static function getArchiveCronLastRunOptionName($period, $idSite)
-    {
-        return "lastRunArchive" . $period . "_" . $idSite;
-    }
 
     /**
      * Returns the class name of an object without its namespace.

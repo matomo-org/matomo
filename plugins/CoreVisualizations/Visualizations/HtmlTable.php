@@ -17,7 +17,7 @@ use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\DataTableVisualization;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
-use Piwik\Plugins\Goals\API as Goals_API;
+use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
 
@@ -416,7 +416,7 @@ class HtmlTable extends DataTableVisualization
         }
 
         // add the site's goals (and escape all goal names)
-        $siteGoals = Goals_API::getInstance()->getGoals($idSite);
+        $siteGoals = APIGoals::getInstance()->getGoals($idSite);
         foreach ($siteGoals as &$goal) {
             $goal['name'] = Common::sanitizeInputValue($goal['name']);
 

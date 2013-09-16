@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DbHelper;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -25,7 +25,7 @@ class Piwik_Updates_0_5_5 extends Updates
             'CREATE INDEX index_idsite_date_config ON ' . Common::prefixTable('log_visit') . ' (idsite, visit_server_date, config_md5config(8))' => '1061',
         );
 
-        $tables = Piwik::getTablesInstalled();
+        $tables = DbHelper::getTablesInstalled();
         foreach ($tables as $tableName) {
             if (preg_match('/archive_/', $tableName) == 1) {
                 $sqlarray['DROP INDEX index_all ON ' . $tableName] = '1091';

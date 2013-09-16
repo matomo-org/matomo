@@ -16,8 +16,8 @@ use Piwik\Date;
 use Piwik\MetricsFormatter;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\MultiSites\API as MultiSitesAPI;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\MultiSites\API as APIMultiSites;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Piwik\View;
 
@@ -59,19 +59,19 @@ class Controller extends \Piwik\Controller
 
         $date = Common::getRequestVar('date', 'today');
         $period = Common::getRequestVar('period', 'day');
-        $siteIds = SitesManagerAPI::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $siteIds = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
         list($minDate, $maxDate) = $this->getMinMaxDateAcrossWebsites($siteIds);
 
         // overwrites the default Date set in the parent controller
         // Instead of the default current website's local date,
         // we set "today" or "yesterday" based on the default Piwik timezone
-        $piwikDefaultTimezone = SitesManagerAPI::getInstance()->getDefaultTimezone();
+        $piwikDefaultTimezone = APISitesManager::getInstance()->getDefaultTimezone();
         if ($period != 'range') {
             $date = $this->getDateParameterInTimezone($date, $piwikDefaultTimezone);
             $this->setDate($date);
             $date = $date->toString();
         }
-        $dataTable = MultiSitesAPI::getInstance()->getAll($period, $date, $segment = false);
+        $dataTable = APIMultiSites::getInstance()->getAll($period, $date, $segment = false);
 
         // put data into a form the template will understand better
         $digestableData = array();

@@ -124,7 +124,7 @@ class Session extends Zend_Session
             Piwik::log('Unable to start session: ' . $e->getMessage());
 
             $enableDbSessions = '';
-            if (Piwik::isInstalled()) {
+            if (DbHelper::isInstalled()) {
                 $enableDbSessions = "<br/>If you still experience issues after trying these changes,
 			            			we recommend that you <a href='http://piwik.org/faq/how-to-install/#faq_133' target='_blank'>enable database session storage</a>.";
             }

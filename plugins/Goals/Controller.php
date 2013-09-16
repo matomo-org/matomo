@@ -21,7 +21,7 @@ use Piwik\View\ReportsByDimension;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\Plugins\Goals\Goals;
-use Piwik\Plugins\Referers\API as ReferersAPI;
+use Piwik\Plugins\Referers\API as APIReferers;
 
 /**
  *
@@ -313,7 +313,7 @@ class Controller extends \Piwik\Controller
 
         $keywordNotDefinedString = '';
         if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')) {
-            $keywordNotDefinedString = ReferersAPI::getKeywordNotDefinedString();
+            $keywordNotDefinedString = APIReferers::getKeywordNotDefinedString();
             $topDimensionsToLoad += array(
                 'keyword' => 'Referers.getKeywords',
                 'website' => 'Referers.getWebsites',

@@ -21,7 +21,7 @@ use Piwik\Plugins\Actions\Actions;
 use Piwik\Tracker\Action;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
-use Piwik\Plugins\CustomVariables\API as CustomVariablesAPI;
+use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 
 /**
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),
@@ -343,7 +343,7 @@ class API
     public function getSiteSearchCategories($idSite, $period, $date, $segment = false)
     {
         Actions::checkCustomVariablesPluginEnabled();
-        $customVariables = CustomVariablesAPI::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
+        $customVariables = APICustomVariables::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
 
         $customVarNameToLookFor = Action::CVAR_KEY_SEARCH_CATEGORY;
 
@@ -362,7 +362,7 @@ class API
                     if ($row) {
                         $dateRewrite = $customVariableTableForDate->metadata['period']->getDateStart()->toString();
                         $idSubtable = $row->getIdSubDataTable();
-                        $categories = CustomVariablesAPI::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
+                        $categories = APICustomVariables::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
                         $dataTable->addTable($categories, $key);
                     }
                 }
@@ -371,7 +371,7 @@ class API
             $row = $customVariables->getRowFromLabel($customVarNameToLookFor);
             if ($row) {
                 $idSubtable = $row->getIdSubDataTable();
-                $dataTable = CustomVariablesAPI::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment);
+                $dataTable = APICustomVariables::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment);
             }
         }
         $this->filterActionsDataTable($dataTable);

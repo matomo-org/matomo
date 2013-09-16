@@ -22,7 +22,7 @@ use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tracker\Action;
@@ -476,7 +476,7 @@ class API
 
         $site = new Site($idSite);
         $timezone = $site->getTimezone();
-        $currencies = SitesManagerAPI::getInstance()->getCurrencySymbols();
+        $currencies = APISitesManager::getInstance()->getCurrencySymbols();
         foreach ($visitorDetails as $visitorDetail) {
             $this->cleanVisitorDetails($visitorDetail, $idSite);
             $visitor = new Visitor($visitorDetail);

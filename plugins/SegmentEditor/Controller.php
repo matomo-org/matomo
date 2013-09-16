@@ -14,7 +14,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\View;
-use Piwik\Plugins\API\API as MetaAPI;
+use Piwik\Plugins\API\API as APIMetadata;
 
 /**
  * @package SegmentEditor
@@ -27,7 +27,7 @@ class Controller extends \Piwik\Controller
         $view = new View('@SegmentEditor/getSelector');
         $idSite = Common::getRequestVar('idSite');
         $this->setGeneralVariablesView($view);
-        $segments = MetaAPI::getInstance()->getSegmentsMetadata($idSite);
+        $segments = APIMetadata::getInstance()->getSegmentsMetadata($idSite);
 
         $segmentsByCategory = $customVariablesSegments = array();
         foreach ($segments as $segment) {

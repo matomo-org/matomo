@@ -6,8 +6,8 @@ use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Piwik;
-use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Timer;
 use Piwik\Url;
 use Piwik\Version;
@@ -73,7 +73,7 @@ require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
 try {
-    $archiving = new Archiving;
+    $archiving = new CronArchive;
     $archiving->init();
     $archiving->run();
     $archiving->end();
@@ -81,7 +81,8 @@ try {
     $archiving->logFatalError($e->getMessage());
 }
 
-class Archiving
+
+class CronArchive
 {
     const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
     const TRUNCATE_ERROR_MESSAGE_SUMMARY = 400;
@@ -178,9 +179,18 @@ class Archiving
         return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
     }
 
-    private function lastRunKey($idsite, $period)
+
+    /**
+     * Returns the option name of the option that stores the time the archive.php
+     * script was last run.
+     *
+     * @param string $period
+     * @param string $idSite
+     * @return string
+     */
+    static public function lastRunKey($idsite, $period)
     {
-        return Piwik::getArchiveCronLastRunOptionName($period, $idsite);
+        return "lastRunArchive" . $period . "_" . $idsite;
     }
 
     /**
@@ -327,13 +337,13 @@ class Archiving
                     // Remove this website from the list of websites to be invalidated
                     // since it's now just been re-processing the reports, job is done!
                     if ($websiteIsOldDataInvalidate) {
-                        $websiteIdsInvalidated = CoreAdminHomeAPI::getWebsiteIdsToInvalidate();
+                        $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
                         if (count($websiteIdsInvalidated)) {
                             $found = array_search($idsite, $websiteIdsInvalidated);
                             if ($found !== false) {
                                 unset($websiteIdsInvalidated[$found]);
 //								$this->log("Websites left to invalidate: " . implode(", ", $websiteIdsInvalidated));
-                                Piwik_SetOption(CoreAdminHomeAPI::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
+                                Piwik_SetOption(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
                             }
                         }
                     }
@@ -395,7 +405,7 @@ class Archiving
     private function initSegmentsToArchive()
     {
         // Fetching segments to process
-        $this->segments = CoreAdminHomeAPI::getInstance()->getKnownSegmentsToArchive();
+        $this->segments = APICoreAdminHome::getInstance()->getKnownSegmentsToArchive();
         if (empty($this->segments)) $this->segments = array();
         if (!empty($this->segments)) {
             $this->log("- Will pre-process " . count($this->segments) . " Segments for each website and each period: " . implode(", ", $this->segments));
@@ -720,7 +730,7 @@ class Archiving
     // Fetching websites to process
     private function initWebsitesToProcess()
     {
-        $this->allWebsites = SitesManagerAPI::getInstance()->getAllSitesId();
+        $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
 
         if ($this->shouldArchiveAllWebsites) {
             $this->websites = $this->allWebsites;
@@ -734,7 +744,7 @@ class Archiving
                         . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($this->firstRunActiveWebsitesWithTraffic, true, false)
                 );
             }
-            $this->websites = SitesManagerAPI::getInstance()->getSitesIdWithVisits($timestampActiveTraffic);
+            $this->websites = APISitesManager::getInstance()->getSitesIdWithVisits($timestampActiveTraffic);
             $websiteIds = !empty($this->websites) ? ", IDs: " . implode(", ", $this->websites) : "";
             $prettySeconds = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds(empty($this->timeLastCompleted)
                     ? $this->firstRunActiveWebsitesWithTraffic
@@ -747,7 +757,7 @@ class Archiving
 
             // 2) All websites that had reports in the past invalidated recently
             //	eg. when using Python log import script
-            $this->idSitesInvalidatedOldReports = CoreAdminHomeAPI::getWebsiteIdsToInvalidate();
+            $this->idSitesInvalidatedOldReports = APICoreAdminHome::getWebsiteIdsToInvalidate();
             $this->idSitesInvalidatedOldReports = array_intersect($this->idSitesInvalidatedOldReports, $this->allWebsites);
 
             if (count($this->idSitesInvalidatedOldReports) > 0) {
@@ -758,7 +768,7 @@ class Archiving
 
             // 3) Also process all other websites which days have finished since the last run.
             //    This ensures we process the previous day/week/month/year that just finished, even if there was no new visit
-            $uniqueTimezones = SitesManagerAPI::getInstance()->getUniqueSiteTimezones();
+            $uniqueTimezones = APISitesManager::getInstance()->getUniqueSiteTimezones();
             $timezoneToProcess = array();
             foreach ($uniqueTimezones as &$timezone) {
                 $processedDateInTz = Date::factory((int)$timestampActiveTraffic, $timezone);
@@ -769,7 +779,7 @@ class Archiving
                 }
             }
 
-            $websiteDayHasFinishedSinceLastRun = SitesManagerAPI::getInstance()->getSitesIdFromTimezones($timezoneToProcess);
+            $websiteDayHasFinishedSinceLastRun = APISitesManager::getInstance()->getSitesIdFromTimezones($timezoneToProcess);
             $websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $this->websites);
             $this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
             if (count($websiteDayHasFinishedSinceLastRun) > 0) {

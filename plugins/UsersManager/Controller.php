@@ -20,8 +20,8 @@ use Piwik\Tracker\IgnoreCookie;
 use Piwik\View;
 use Piwik\Url;
 use Piwik\Site;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 
 /**
  *
@@ -43,7 +43,7 @@ class Controller extends Admin
 
         $view = new View('@UsersManager/index');
 
-        $IdSitesAdmin = SitesManagerAPI::getInstance()->getSitesIdWithAdminAccess();
+        $IdSitesAdmin = APISitesManager::getInstance()->getSitesIdWithAdminAccess();
         $idSiteSelected = 1;
 
         if (count($IdSitesAdmin) > 0) {
@@ -55,13 +55,13 @@ class Controller extends Admin
             $usersAccessByWebsite = array();
             $defaultReportSiteName = Piwik_Translate('UsersManager_ApplyToAllWebsites');
         } else {
-            $usersAccessByWebsite = UsersManagerAPI::getInstance()->getUsersAccessFromSite($idSiteSelected);
+            $usersAccessByWebsite = APIUsersManager::getInstance()->getUsersAccessFromSite($idSiteSelected);
             $defaultReportSiteName = Site::getNameFor($idSiteSelected);
         }
 
         // we dont want to display the user currently logged so that the user can't change his settings from admin to view...
         $currentlyLogged = Piwik::getCurrentUserLogin();
-        $usersLogin = UsersManagerAPI::getInstance()->getUsersLogin();
+        $usersLogin = APIUsersManager::getInstance()->getUsersLogin();
         foreach ($usersLogin as $login) {
             if (!isset($usersAccessByWebsite[$login])) {
                 $usersAccessByWebsite[$login] = 'noaccess';
@@ -82,7 +82,7 @@ class Controller extends Admin
         $users = array();
         $usersAliasByLogin = array();
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $users = UsersManagerAPI::getInstance()->getUsers();
+            $users = APIUsersManager::getInstance()->getUsers();
             foreach ($users as $user) {
                 $usersAliasByLogin[$user['login']] = $user['alias'];
             }
@@ -94,7 +94,7 @@ class Controller extends Admin
         $view->usersAliasByLogin = $usersAliasByLogin;
         $view->usersCount = count($users) - 1;
         $view->usersAccessByWebsite = $usersAccessByWebsite;
-        $websites = SitesManagerAPI::getInstance()->getSitesWithAdminAccess();
+        $websites = APISitesManager::getInstance()->getSitesWithAdminAccess();
         uasort($websites, array('Piwik\Plugins\UsersManager\Controller', 'orderByName'));
         $view->websites = $websites;
         $this->setBasicVariablesView($view);
@@ -122,7 +122,7 @@ class Controller extends Admin
      */
     protected function getDefaultDateForUser($user)
     {
-        return UsersManagerAPI::getInstance()->getUserPreference($user, UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE);
+        return APIUsersManager::getInstance()->getUserPreference($user, APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE);
     }
 
     /**
@@ -140,12 +140,12 @@ class Controller extends Admin
             $view->userEmail = Piwik::getSuperUserEmail();
             $this->displayWarningIfConfigFileNotWritable($view);
         } else {
-            $user = UsersManagerAPI::getInstance()->getUser($userLogin);
+            $user = APIUsersManager::getInstance()->getUser($userLogin);
             $view->userAlias = $user['alias'];
             $view->userEmail = $user['email'];
         }
 
-        $defaultReport = UsersManagerAPI::getInstance()->getUserPreference($userLogin, UsersManagerAPI::PREFERENCE_DEFAULT_REPORT);
+        $defaultReport = APIUsersManager::getInstance()->getUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT);
         if ($defaultReport === false) {
             $defaultReport = $this->getDefaultWebsiteId();
         }
@@ -199,11 +199,11 @@ class Controller extends Admin
         $userLogin = 'anonymous';
 
         // Which websites are available to the anonymous users?
-        $anonymousSitesAccess = UsersManagerAPI::getInstance()->getSitesAccessFromUser($userLogin);
+        $anonymousSitesAccess = APIUsersManager::getInstance()->getSitesAccessFromUser($userLogin);
         $anonymousSites = array();
         foreach ($anonymousSitesAccess as $info) {
             $idSite = $info['site'];
-            $site = SitesManagerAPI::getInstance()->getSiteFromId($idSite);
+            $site = APISitesManager::getInstance()->getSiteFromId($idSite);
             // Work around manual website deletion
             if (!empty($site)) {
                 $anonymousSites[$idSite] = $site;
@@ -212,7 +212,7 @@ class Controller extends Admin
         $view->anonymousSites = $anonymousSites;
 
         // Which report is displayed by default to the anonymous user?
-        $anonymousDefaultReport = UsersManagerAPI::getInstance()->getUserPreference($userLogin, UsersManagerAPI::PREFERENCE_DEFAULT_REPORT);
+        $anonymousDefaultReport = APIUsersManager::getInstance()->getUserPreference($userLogin, APIUsersManager::PREFERENCE_DEFAULT_REPORT);
         if ($anonymousDefaultReport === false) {
             if (empty($anonymousSites)) {
                 $anonymousDefaultReport = Piwik::getLoginPluginName();
@@ -242,11 +242,11 @@ class Controller extends Admin
             $anonymousDefaultReport = Common::getRequestVar('anonymousDefaultReport');
             $anonymousDefaultDate = Common::getRequestVar('anonymousDefaultDate');
             $userLogin = 'anonymous';
-            UsersManagerAPI::getInstance()->setUserPreference($userLogin,
-                UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            APIUsersManager::getInstance()->setUserPreference($userLogin,
+                APIUsersManager::PREFERENCE_DEFAULT_REPORT,
                 $anonymousDefaultReport);
-            UsersManagerAPI::getInstance()->setUserPreference($userLogin,
-                UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE,
+            APIUsersManager::getInstance()->setUserPreference($userLogin,
+                APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
                 $anonymousDefaultDate);
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
@@ -309,7 +309,7 @@ class Controller extends Admin
                     Config::getInstance()->forceSave();
                 }
             } else {
-                UsersManagerAPI::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
+                APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
                 if ($newPassword !== false) {
                     $newPassword = Common::unsanitizeInputValue($newPassword);
                 }
@@ -325,11 +325,11 @@ class Controller extends Admin
                 Piwik_PostEvent('Login.initSession', array($info));
             }
 
-            UsersManagerAPI::getInstance()->setUserPreference($userLogin,
-                UsersManagerAPI::PREFERENCE_DEFAULT_REPORT,
+            APIUsersManager::getInstance()->setUserPreference($userLogin,
+                APIUsersManager::PREFERENCE_DEFAULT_REPORT,
                 $defaultReport);
-            UsersManagerAPI::getInstance()->setUserPreference($userLogin,
-                UsersManagerAPI::PREFERENCE_DEFAULT_REPORT_DATE,
+            APIUsersManager::getInstance()->setUserPreference($userLogin,
+                APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
                 $defaultDate);
             $toReturn = $response->getResponse();
         } catch (Exception $e) {

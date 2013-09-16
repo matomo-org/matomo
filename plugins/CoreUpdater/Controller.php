@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
@@ -296,7 +297,7 @@ class Controller extends \Piwik\Controller
         $coreToUpdate = false;
 
         // handle case of existing database with no tables
-        if (!Piwik::isInstalled()) {
+        if (!DbHelper::isInstalled()) {
             $this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Config::getInstance()->database['dbname']);
             $this->coreError = true;
             $currentVersion = 'N/A';

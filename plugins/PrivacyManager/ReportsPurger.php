@@ -11,9 +11,10 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\DbHelper;
+use Piwik\Piwik;
 
 /**
  * Purges archived reports and metrics that are considered old.
@@ -213,7 +214,7 @@ class ReportsPurger
         // find all archive tables that are older than N months
         $oldNumericTables = array();
         $oldBlobTables = array();
-        foreach (Piwik::getTablesInstalled() as $table) {
+        foreach (DbHelper::getTablesInstalled() as $table) {
             $type = ArchiveTableCreator::getTypeFromTableName($table);
             if ($type === false) {
                 continue;

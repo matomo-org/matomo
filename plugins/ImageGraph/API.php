@@ -15,7 +15,7 @@ use Piwik\Common;
 use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API as MetaAPI;
+use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\SettingsServer;
 use Piwik\Translate;
@@ -171,7 +171,7 @@ class API
                 $apiParameters = array('idGoal' => $idGoal);
             }
             // Fetch the metadata for given api-action
-            $metadata = MetaAPI::getInstance()->getMetadata(
+            $metadata = APIMetadata::getInstance()->getMetadata(
                 $idSite, $apiModule, $apiAction, $apiParameters, $languageLoaded, $period, $date,
                 $hideMetricsDoc = false, $showSubtableReports = true);
             if (!$metadata) {
@@ -303,7 +303,7 @@ class API
                     }
                 }
 
-                $processedReport = MetaAPI::getInstance()->getRowEvolution(
+                $processedReport = APIMetadata::getInstance()->getRowEvolution(
                     $idSite,
                     $period,
                     $date,
@@ -360,7 +360,7 @@ class API
                     $ordinateLabels[$plottedMetric] = $processedReport['label'] . ' (' . $metrics[$plottedMetric]['name'] . ')';
                 }
             } else {
-                $processedReport = MetaAPI::getInstance()->getProcessedReport(
+                $processedReport = APIMetadata::getInstance()->getProcessedReport(
                     $idSite,
                     $period,
                     $date,

@@ -5,10 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Access;
 use Piwik\AuthResult;
+use Piwik\Config;
+use Piwik\DbHelper;
 use Piwik\Plugins\Login\Auth;
 use Piwik\Plugins\UsersManager\API;
 
@@ -137,7 +137,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateFailureAnonymousWithLogin()
     {
-        Piwik::createAnonymousUser();
+        DbHelper::createAnonymousUser();
 
         // missing token_auth
         $auth = new Auth();
@@ -153,7 +153,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateFailureAnonymousEmptyLoginWithTokenAuth()
     {
-        Piwik::createAnonymousUser();
+        DbHelper::createAnonymousUser();
 
         // empty login
         $auth = new Auth();
@@ -169,7 +169,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateFailureAnonymousLoginTokenAuthMissmatch()
     {
-        Piwik::createAnonymousUser();
+        DbHelper::createAnonymousUser();
 
         // not equal
         $auth = new Auth();
@@ -185,7 +185,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateSuccessAnonymousWithTokenAuth()
     {
-        Piwik::createAnonymousUser();
+        DbHelper::createAnonymousUser();
 
         // API authentication
         $auth = new Auth();
@@ -201,7 +201,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateSuccessAnonymous()
     {
-        Piwik::createAnonymousUser();
+        DbHelper::createAnonymousUser();
 
         // valid login & token auth
         $auth = new Auth();

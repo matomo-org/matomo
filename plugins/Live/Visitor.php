@@ -12,8 +12,8 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\Common;
 use Piwik\IP;
-use Piwik\Plugins\API\API as MetaAPI;
-use Piwik\Plugins\Referers\API as ReferersAPI;
+use Piwik\Plugins\API\API as APIMetadata;
+use Piwik\Plugins\Referers\API as APIReferers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit;
@@ -362,7 +362,7 @@ class Visitor
     {
         if ($this->getRefererType() == 'search') {
             if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')
-                && $this->details['referer_keyword'] == ReferersAPI::LABEL_KEYWORD_NOT_DEFINED
+                && $this->details['referer_keyword'] == APIReferers::LABEL_KEYWORD_NOT_DEFINED
             ) {
                 return 'http://piwik.org/faq/general/#faq_144';
             } // Case URL is google.XX/url.... then we rewrite to the search result page url
@@ -573,7 +573,7 @@ class Visitor
 
     function getVisitEcommerceStatus()
     {
-        return MetaAPI::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
+        return APIMetadata::getVisitEcommerceStatusFromId($this->details['visit_goal_buyer']);
     }
 
     function getVisitorGoalConvertedIcon()

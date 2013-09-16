@@ -1,7 +1,7 @@
 <?php
 use Piwik\Config;
 use Piwik\Access;
-use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 
 /**
@@ -400,9 +400,9 @@ class UsersManagerTest extends DatabaseTestCase
     public function testDeleteUser()
     {
         //create the 3 websites
-        $idsite = SitesManagerAPI::getInstance()->addSite("site1", array("http://piwik.net", "http://piwik.com/test/"));
-        $idsite = SitesManagerAPI::getInstance()->addSite("site2", array("http://piwik.com/test/"));
-        $idsite = SitesManagerAPI::getInstance()->addSite("site3", array("http://piwik.org"));
+        $idsite = APISitesManager::getInstance()->addSite("site1", array("http://piwik.net", "http://piwik.com/test/"));
+        $idsite = APISitesManager::getInstance()->addSite("site2", array("http://piwik.com/test/"));
+        $idsite = APISitesManager::getInstance()->addSite("site3", array("http://piwik.org"));
 
         //add user and set some rights
         API::getInstance()->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
@@ -615,11 +615,11 @@ class UsersManagerTest extends DatabaseTestCase
     {
         FakeAccess::$superUser = true;
 
-        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = SitesManagerAPI::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = SitesManagerAPI::getInstance()->addSite("test3", array("http://piwik.net", "http://piwik.com/test/"));
-        $id4 = SitesManagerAPI::getInstance()->addSite("test4", array("http://piwik.net", "http://piwik.com/test/"));
-        $id5 = SitesManagerAPI::getInstance()->addSite("test5", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = APISitesManager::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        $id3 = APISitesManager::getInstance()->addSite("test3", array("http://piwik.net", "http://piwik.com/test/"));
+        $id4 = APISitesManager::getInstance()->addSite("test4", array("http://piwik.net", "http://piwik.com/test/"));
+        $id5 = APISitesManager::getInstance()->addSite("test5", array("http://piwik.net", "http://piwik.com/test/"));
 
         API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
         API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "all");
@@ -658,7 +658,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function testSetUserAccessIdsitesOneSite()
     {
         API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
 
         API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array(1));
 
@@ -677,9 +677,9 @@ class UsersManagerTest extends DatabaseTestCase
     {
 
         API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id3 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
 
         API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array($id1, $id3));
 
@@ -698,9 +698,9 @@ class UsersManagerTest extends DatabaseTestCase
     public function testSetUserAccessWithIdSitesIsStringCommaSeparated()
     {
         API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id3 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
 
         API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", "1,3");
 
@@ -718,8 +718,8 @@ class UsersManagerTest extends DatabaseTestCase
     public function testSetUserAccessMultipleCallDistinctAccessSameUser()
     {
         API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        $id1 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = SitesManagerAPI::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = APISitesManager::getInstance()->addSite("test", array("http://piwik.net", "http://piwik.com/test/"));
 
         API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array($id1));
         API::getInstance()->setUserAccess("gegg4564eqgeqag", "admin", array($id2));
@@ -739,9 +739,9 @@ class UsersManagerTest extends DatabaseTestCase
     {
         API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
         API::getInstance()->addUser("user2", "geqgegagae", "tegst2@tesgt.com", "alias");
-        $id1 = SitesManagerAPI::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = SitesManagerAPI::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
-        $id3 = SitesManagerAPI::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = APISitesManager::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = APISitesManager::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        $id3 = APISitesManager::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
 
         API::getInstance()->setUserAccess("user1", "view", array($id1, $id2));
         API::getInstance()->setUserAccess("user2", "admin", array($id1));
@@ -800,8 +800,8 @@ class UsersManagerTest extends DatabaseTestCase
     {
         API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
 
-        $id1 = SitesManagerAPI::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
-        $id2 = SitesManagerAPI::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
+        $id1 = APISitesManager::getInstance()->addSite("test1", array("http://piwik.net", "http://piwik.com/test/"));
+        $id2 = APISitesManager::getInstance()->addSite("test2", array("http://piwik.net", "http://piwik.com/test/"));
 
         API::getInstance()->setUserAccess("user1", "view", array($id1, $id2));
         API::getInstance()->setUserAccess("user1", "admin", array($id1));

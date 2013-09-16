@@ -20,7 +20,7 @@ use Piwik\ReportRenderer\Html;
 use Piwik\Site;
 use Piwik\Translate;
 use Piwik\Db;
-use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Zend_Mime;
 
 /**
@@ -792,7 +792,7 @@ class API
     {
         if (self::isSegmentEditorActivated() && !empty($idSegment)) {
 
-            $segment = SegmentEditorAPI::getInstance()->get($idSegment);
+            $segment = APISegmentEditor::getInstance()->get($idSegment);
 
             if ($segment) {
                 return $segment;

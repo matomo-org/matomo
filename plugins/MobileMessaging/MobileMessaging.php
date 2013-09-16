@@ -11,12 +11,12 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Piwik;
-use Piwik\Plugins\MobileMessaging\API as MobileMessagingAPI;
+use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\View;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
-use Piwik\Plugins\PDFReports\API as PDFReportsAPI;
+use Piwik\Plugins\PDFReports\API as APIPDFReports;
 
 /**
  *
@@ -109,7 +109,7 @@ class MobileMessaging extends \Piwik\Plugin
     {
         if (self::manageEvent($info)) {
             // phone number validation
-            $availablePhoneNumbers = MobileMessagingAPI::getInstance()->getActivatedPhoneNumbers();
+            $availablePhoneNumbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
 
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
             foreach ($phoneNumbers as $key => $phoneNumber) {
@@ -127,7 +127,7 @@ class MobileMessaging extends \Piwik\Plugin
     public function getReportMetadata(&$availableReportMetadata, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $idSite = $notificationInfo[PDFReportsAPI::ID_SITE_INFO_KEY];
+            $idSite = $notificationInfo[APIPDFReports::ID_SITE_INFO_KEY];
 
             foreach (self::$availableReports as $availableReport) {
                 $reportMetadata = API::getInstance()->getMetadata(
@@ -186,7 +186,7 @@ class MobileMessaging extends \Piwik\Plugin
     public function getReportRecipients(&$recipients, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[PDFReportsAPI::REPORT_KEY];
+            $report = $notificationInfo[APIPDFReports::REPORT_KEY];
             $recipients = $report['parameters'][self::PHONE_NUMBERS_PARAMETER];
         }
     }
@@ -194,9 +194,9 @@ class MobileMessaging extends \Piwik\Plugin
     public function sendReport($notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[PDFReportsAPI::REPORT_KEY];
-            $contents = $notificationInfo[PDFReportsAPI::REPORT_CONTENT_KEY];
-            $reportSubject = $notificationInfo[PDFReportsAPI::REPORT_SUBJECT_KEY];
+            $report = $notificationInfo[APIPDFReports::REPORT_KEY];
+            $contents = $notificationInfo[APIPDFReports::REPORT_CONTENT_KEY];
+            $reportSubject = $notificationInfo[APIPDFReports::REPORT_SUBJECT_KEY];
 
             $parameters = $report['parameters'];
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
@@ -206,7 +206,7 @@ class MobileMessaging extends \Piwik\Plugin
                 $reportSubject = Piwik_Translate('General_Reports');
             }
 
-            $mobileMessagingAPI = MobileMessagingAPI::getInstance();
+            $mobileMessagingAPI = APIMobileMessaging::getInstance();
             foreach ($phoneNumbers as $phoneNumber) {
                 $mobileMessagingAPI->sendSMS(
                     $contents,
@@ -225,13 +225,13 @@ class MobileMessaging extends \Piwik\Plugin
 
         $view = new View('@MobileMessaging/reportParametersPDFReports');
         $view->reportType = self::MOBILE_TYPE;
-        $view->phoneNumbers = MobileMessagingAPI::getInstance()->getActivatedPhoneNumbers();
+        $view->phoneNumbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
         $out .= $view->render();
     }
 
     private static function manageEvent($notificationInfo)
     {
-        return in_array($notificationInfo[PDFReportsAPI::REPORT_TYPE_INFO_KEY], array_keys(self::$managedReportTypes));
+        return in_array($notificationInfo[APIPDFReports::REPORT_TYPE_INFO_KEY], array_keys(self::$managedReportTypes));
     }
 
     function install()
@@ -245,7 +245,7 @@ class MobileMessaging extends \Piwik\Plugin
     function deactivate()
     {
         // delete all mobile reports
-        $pdfReportsAPIInstance = PDFReportsAPI::getInstance();
+        $pdfReportsAPIInstance = APIPDFReports::getInstance();
         $reports = $pdfReportsAPIInstance->getReports();
 
         foreach ($reports as $report) {
