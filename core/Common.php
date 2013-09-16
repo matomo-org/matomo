@@ -40,17 +40,6 @@ class Common
      */
     const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
-    /**
-     *
-     * @param string
-     * @return string Line breaks and line carriage removed
-     */
-    public static function sanitizeLineBreaks($value)
-    {
-        $value = str_replace(array("\n", "\r", "\0"), '', $value);
-        return $value;
-    }
-
     /*
      * Database
      */
@@ -341,6 +330,17 @@ class Common
         && get_magic_quotes_gpc()
             ? stripslashes($value)
             : $value;
+    }
+
+    /**
+     *
+     * @param string
+     * @return string Line breaks and line carriage removed
+     */
+    public static function sanitizeLineBreaks($value)
+    {
+        $value = str_replace(array("\n", "\r", "\0"), '', $value);
+        return $value;
     }
 
     /**
