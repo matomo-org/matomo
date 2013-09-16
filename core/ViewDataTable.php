@@ -574,11 +574,11 @@ class ViewDataTable
             $genericFilter->filter($this->dataTable);
         }
 
+        // Finally, apply datatable filters that were queued (should be 'presentation' filters that
+        // do not affect the number of rows)
         if (!$this->areQueuedFiltersDisabled()) {
-            $this->dataTable->applyQueuedFilters();
+            $this->applyQueuedFilters();
 
-            // Finally, apply datatable filters that were queued (should be 'presentation' filters that
-            // do not affect the number of rows)
             foreach ($otherFilters as $filter) {
                 $this->dataTable->filter($filter[0], $filter[1]);
             }

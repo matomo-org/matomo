@@ -42,7 +42,7 @@
                 titleHeight: 24,
                 animate: true, // TODO: disable on ipad/w/o native canvas support
                 offset: 1,
-                levelsToShow: (self.props.depth || 0) + 1,
+                levelsToShow: 1,
                 constrained: true,
                 Events: {
                     enable: true,
@@ -437,7 +437,6 @@
                     truncateAfter: this.props.max_graph_elements - 1,
                     filter_limit: -1,
                     expanded: 1,
-                    depth: this.props.depth || 1,
                     show_evolution_values: this.props.show_evolution_values || 0
                 });
 

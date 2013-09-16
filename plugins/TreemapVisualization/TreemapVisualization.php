@@ -82,8 +82,6 @@ class TreemapVisualization extends \Piwik\Plugin
             $view->show_tag_cloud = false;
 
             if ($view->getViewDataTableId() == Treemap::ID) {
-                $view->visualization_properties->depth = 1;
-
                 // for some actions reports, use all available space
                 if (in_array($method, self::$fullWidthActionsReports)) {
                     $view->datatable_css_class = 'infoviz-treemap-full-width';

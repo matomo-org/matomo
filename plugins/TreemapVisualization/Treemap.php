@@ -42,16 +42,7 @@ class Treemap extends Graph
      */
     const SHOW_EVOLUTION_VALUES = 'show_evolution_values';
 
-    /**
-     * The amount of subtree levels to display initially. This property is forwarded to API
-     * requests along w/ 'expanded=1'. API methods can use the 'depth' parameter to make sure
-     * the least amount of data is queried and the least amount of memory is allocated.
-     * 
-     * Default Value: 1
-     */
-    const DEPTH = 'depth';
-
-    public static $clientSideProperties = array('filter_offset', 'max_graph_elements', 'depth', 'show_evolution_values');
+    public static $clientSideProperties = array('filter_offset', 'max_graph_elements', 'show_evolution_values');
 
     /**
      * Constructor.
@@ -66,8 +57,6 @@ class Treemap extends Graph
         parent::__construct($view);
 
         $view->datatable_js_type = 'TreemapDataTable';
-        $view->request_parameters_to_modify['expanded'] = 1;
-        $view->request_parameters_to_modify['depth'] = $view->visualization_properties->depth;
         $view->show_pagination_control = false;
         $view->show_offset_information = false;
         $view->show_flatten_table = false;
@@ -92,7 +81,7 @@ class Treemap extends Graph
             if ($dataTable->getMetadata('period')->getRangeString() != $currentPeriod->getRangeString()) {
                 return;
             }
-echo "<pre>".print_r($dataTable, true)."</pre>";
+
             $truncateAfter = $self->getDynamicMaxElementCount($dataTable, $metric);
             if ($truncateAfter > 0) {
                 $dataTable->filter('Truncate', array($truncateAfter));
@@ -127,7 +116,6 @@ echo "<pre>".print_r($dataTable, true)."</pre>";
         $result = parent::getDefaultPropertyValues();
         $result['visualization_properties']['graph']['allow_multi_select_series_picker'] = false;
         $result['visualization_properties']['infoviz-treemap']['show_evolution_values'] = true;
-        $result['visualization_properties']['infoviz-treemap']['depth'] = 0;
         return $result;
     }
 
