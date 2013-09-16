@@ -478,6 +478,10 @@
         }
     });
 
+    DataTable.registerFooterIconHandler('graphPie', DataTable.switchToGraph);
+    DataTable.registerFooterIconHandler('graphVerticalBar', DataTable.switchToGraph);
+    DataTable.registerFooterIconHandler('graphEvolution', DataTable.switchToGraph);
+
 })(jQuery, require);
 
 // ----------------------------------------------------------------

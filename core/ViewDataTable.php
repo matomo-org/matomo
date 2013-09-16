@@ -1097,8 +1097,7 @@ class ViewDataTable
 
         if ($this->show_table) {
             $normalViewIcons['buttons'][] = array(
-                'format' => 'table',
-                'var' => 'table',
+                'id' => 'table',
                 'title' => Piwik_Translate('General_DisplaySimpleTable'),
                 'icon' => 'plugins/Zeitgeist/images/table.png',
             );
@@ -1106,8 +1105,7 @@ class ViewDataTable
 
         if ($this->show_table_all_columns) {
             $normalViewIcons['buttons'][] = array(
-                'format' => 'tableAllColumns',
-                'var' => 'tableAllColumns',
+                'id' => 'tableAllColumns',
                 'title' => Piwik_Translate('General_DisplayTableWithMoreMetrics'),
                 'icon' => 'plugins/Zeitgeist/images/table_more.png'
             );
@@ -1121,8 +1119,7 @@ class ViewDataTable
             }
             
             $normalViewIcons['buttons'][] = array(
-                'format' => 'tableGoals',
-                'var' => 'tableGoals',
+                'id' => 'tableGoals',
                 'title' => Piwik_Translate('General_DisplayTableWithGoalMetrics'),
                 'icon' => $icon
             );
@@ -1130,16 +1127,14 @@ class ViewDataTable
 
         if ($this->show_ecommerce) {
             $normalViewIcons['buttons'][] = array(
-                'format' => 'ecommerceOrder',
-                'var' => 'ecommerceOrder',
+                'id' => 'ecommerceOrder',
                 'title' => Piwik_Translate('General_EcommerceOrders'),
                 'icon' => 'plugins/Zeitgeist/images/ecommerceOrder.gif',
                 'text' => Piwik_Translate('General_EcommerceOrders')
             );
 
             $normalViewIcons['buttons'][] = array(
-                'format' => 'ecommerceAbandonedCart',
-                'var' => 'ecommerceAbandonedCart',
+                'id' => 'ecommerceAbandonedCart',
                 'title' => Piwik_Translate('General_AbandonedCarts'),
                 'icon' => 'plugins/Zeitgeist/images/ecommerceAbandonedCart.gif',
                 'text' => Piwik_Translate('General_AbandonedCarts')
@@ -1159,8 +1154,7 @@ class ViewDataTable
         if ($this->show_all_views_icons) {
             if ($this->show_bar_chart) {
                 $graphViewIcons['buttons'][] = array(
-                    'format' => 'graphVerticalBar',
-                    'var' => 'graphVerticalBar', // TODO: is var actually used anywhere?
+                    'id' => 'graphVerticalBar',
                     'title' => Piwik_Translate('General_VBarGraph'),
                     'icon' => 'plugins/Zeitgeist/images/chart_bar.png'
                 );
@@ -1168,8 +1162,7 @@ class ViewDataTable
 
             if ($this->show_pie_chart) {
                 $graphViewIcons['buttons'][] = array(
-                    'format' => 'graphPie',
-                    'var' => 'graphPie',
+                    'id' => 'graphPie',
                     'title' => Piwik_Translate('General_Piechart'),
                     'icon' => 'plugins/Zeitgeist/images/chart_pie.png'
                 );
@@ -1177,8 +1170,7 @@ class ViewDataTable
 
             if ($this->show_tag_cloud) {
                 $graphViewIcons['buttons'][] = array(
-                    'format' => 'cloud',
-                    'var' => 'cloud',
+                    'id' => 'cloud',
                     'title' => Piwik_Translate('General_TagCloud'),
                     'icon' => 'plugins/Zeitgeist/images/tagcloud.png'
                 );
@@ -1190,8 +1182,7 @@ class ViewDataTable
 
                 foreach ($nonCoreVisualizationInfo as $format => $info) {
                     $graphViewIcons['buttons'][] = array(
-                        'format' => $format,
-                        'var' => $format,
+                        'id' => $format,
                         'title' => Piwik_Translate($info['title']),
                         'icon' => $info['table_icon']
                     );

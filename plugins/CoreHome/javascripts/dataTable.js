@@ -36,6 +36,21 @@ function DataTable(element) {
     this.param = {};
 }
 
+DataTable._footerIconHandlers = {}
+
+DataTable.registerFooterIconHandler = function (id, handler) {
+    var handlers = DataTable._footerIconHandlers;
+
+    if (handlers[id]) {
+        setTimeout(function () { // fail gracefully
+            throw new Exception("DataTable footer icon handler '" + id + "' is already being used.")
+        }, 1);
+        return;
+    }
+
+    handlers[id] = handler;
+};
+
 $.extend(DataTable.prototype, UIControl.prototype, {
 
     //initialisation function
@@ -709,42 +724,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         );
 
         //footer arrow position element name
-        self.jsViewDataTable = $('.dataTableFooterWrap', domElem).attr('var');
+        self.jsViewDataTable = self.param.viewDataTable;
 
-        $('.tableAllColumnsSwitch a', domElem)
-            .show()
-            .click(
-            function () {
-                // we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
-                // this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
+        $('.tableAllColumnsSwitch a', domElem).show();
 
-                self.param.viewDataTable = $(this).attr('format');
-
-                //self.resetAllFilters();
-
-                // when switching to display simple table, do not exclude low pop by default
-                delete self.param.enable_filter_excludelowpop;
-                delete self.param.filter_sort_column;
-                delete self.param.filter_sort_order;
-                delete columns;
-                self.reloadAjaxDataTable();
-                self.notifyWidgetParametersChange($(this), {viewDataTable: self.param.viewDataTable});
+        $('.dataTableFooterIcons .tableIcon', domElem).click(function () {
+            var id = $(this).attr('data-footer-icon-id');
+            if (!id) {
+                return;
             }
-        );
-
-        //handle Graph View icons
-        $('.tableGraphViews a', domElem)
-            .click(function () {
-                var viewDataTable = $(this).attr('format');
-
-                var filters = self.resetAllFilters();
-                self.param.flat = filters.flat;
-                self.param.columns = filters.columns;
-
-                self.param.viewDataTable = viewDataTable;
-                self.reloadAjaxDataTable();
-                self.notifyWidgetParametersChange($(this), {viewDataTable: self.param.viewDataTable});
-            });
+            
+            DataTable._footerIconHandlers[id](self, id);
+            self.notifyWidgetParametersChange(domElem, {viewDataTable: id});
+        })
 
         //Graph icon Collapsed functionality
         self.currentGraphViewIcon = 0;
@@ -755,7 +747,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         //define collapsed icons
         $('.tableGraphCollapsed a', domElem)
             .each(function (i) {
-                if (self.jsViewDataTable == $(this).attr('var')) {
+                if (self.jsViewDataTable == $(this).attr('data-footer-icon-id')) {
                     self.currentGraphViewIcon = i;
                     self.graphViewEnabled = true;
                 }
@@ -1051,7 +1043,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     // Tell parent widget that the parameters of this table was updated,
     notifyWidgetParametersChange: function (domWidget, parameters) {
-        var widget = $(domWidget).parents('[widgetId]');
+        var widget = $(domWidget).closest('[widgetId]');
         // trigger setParameters event on base element
         widget.trigger('setParameters', parameters);
     },
@@ -1527,6 +1519,39 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         return h2;
     }
 });
+
+// handle switch to All Columns/Goals/HtmlTable DataTable visualization
+var switchToHtmlTable = function (dataTable, viewDataTable) {
+    // we only reset the limit filter, in case switch to table view from cloud view where limit is custom set to 30
+    // this value is stored in config file General->datatable_default_limit but this is more an edge case so ok to set it to 10
+
+    dataTable.param.viewDataTable = viewDataTable;
+
+    // when switching to display simple table, do not exclude low pop by default
+    delete dataTable.param.enable_filter_excludelowpop;
+    delete dataTable.param.filter_sort_column;
+    delete dataTable.param.filter_sort_order;
+    delete columns;
+    dataTable.reloadAjaxDataTable();
+};
+
+DataTable.registerFooterIconHandler('table', switchToHtmlTable);
+DataTable.registerFooterIconHandler('tableAllColumns', switchToHtmlTable);
+DataTable.registerFooterIconHandler('tableGoals', switchToHtmlTable);
+DataTable.registerFooterIconHandler('ecommerceOrder', switchToHtmlTable);
+DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToHtmlTable);
+
+// generic function to handle switch to graph visualizations
+DataTable.switchToGraph = function (dataTable, viewDataTable) {
+    var filters = dataTable.resetAllFilters();
+    dataTable.param.flat = filters.flat;
+    dataTable.param.columns = filters.columns;
+
+    dataTable.param.viewDataTable = viewDataTable;
+    dataTable.reloadAjaxDataTable();
+};
+
+DataTable.registerFooterIconHandler('cloud', DataTable.switchToGraph);
 
 exports.DataTable = DataTable;
 

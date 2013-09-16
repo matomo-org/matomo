@@ -25,16 +25,16 @@
     <span class="loadingPiwik" style="display:none;"><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
     {% if properties.show_footer_icons %}
         <div class="dataTableFooterIcons">
-            <div class="dataTableFooterWrap" var="{{ javascriptVariablesToSet.viewDataTable }}">
+            <div class="dataTableFooterWrap">
                 {% for footerIconGroup in footerIcons %}
                 <div class="tableIconsGroup">
                     <span class="{{ footerIconGroup.class }}">
                     {% for footerIcon in footerIconGroup.buttons %}
                         <span>
-                            {% if properties.show_active_view_icon and javascriptVariablesToSet.viewDataTable == footerIcon.format %}
+                            {% if properties.show_active_view_icon and javascriptVariablesToSet.viewDataTable == footerIcon.id %}
                             <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                             {% endif %}
-                            <a class="tableIcon {% if javascriptVariablesToSet.viewDataTable == footerIcon.format %}activeIcon{% endif %}" format="{{ footerIcon.format }}" var="{{ footerIcon.var }}">
+                            <a class="tableIcon {% if javascriptVariablesToSet.viewDataTable == footerIcon.id %}activeIcon{% endif %}" data-footer-icon-id="{{ footerIcon.id }}">
                                 <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
                                 {% if footerIcon.text is defined %}<span>{{ footerIcon.text }}</span>{% endif %}
                             </a>

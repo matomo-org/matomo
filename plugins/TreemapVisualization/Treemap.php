@@ -59,7 +59,7 @@ class Treemap extends Graph
         parent::__construct($view);
 
         $view->datatable_js_type = 'TreemapDataTable';
-        $view->request_parameters_to_modify['expanded'] = Common::getRequestVar('flat', false, 'int') ? 0 : 1;
+        $view->request_parameters_to_modify['expanded'] = 1;
         $view->request_parameters_to_modify['depth'] = $view->visualization_properties->depth;
         $view->show_pagination_control = false;
         $view->show_offset_information = false;

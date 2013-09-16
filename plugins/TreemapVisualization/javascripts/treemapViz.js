@@ -24,9 +24,9 @@
          * Constructor.
          */
         init: function () {
-            var domElem = this.$element;
-            dataTablePrototype.init.call(this, workingDivId, domElem);
+            dataTablePrototype.init.call(this);
 
+            var domElem = this.$element;
             var treemapContainerId = this.workingDivId + '-infoviz-treemap';
             var treemapContainer = $('.infoviz-treemap', domElem).attr('id', treemapContainerId);
 
@@ -137,7 +137,7 @@
                     .append(this.domElem)
                     ;
 
-                dataTableDomElem.find('.dataTableWrapper').prepend(seriesPickerContainer);
+                dataTableDomElem.find('.infoviz-treemap').prepend(seriesPickerContainer);
             });
 
             $(this._seriesPicker).bind('seriesPicked', function (e, columns) {
@@ -540,5 +540,7 @@
             }
         }
     });
+
+    DataTable.registerFooterIconHandler('infoviz-treemap', DataTable.switchToGraph);
 
 }(jQuery, $jit, require));
