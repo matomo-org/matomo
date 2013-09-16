@@ -183,7 +183,7 @@ class Treemap extends Graph
         }
     }
 
-    private function getDynamicMaxElementCount($dataTable, $metricName)
+    public function getDynamicMaxElementCount($dataTable, $metricName)
     {
         $availableWidth = Common::getRequestVar('availableWidth', false);
         $availableHeight = Common::getRequestVar('availableHeight', false);
