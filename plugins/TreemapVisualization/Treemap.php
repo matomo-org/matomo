@@ -29,6 +29,9 @@ class Treemap extends Graph
     const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
     const FOOTER_ICON_TITLE = 'Treemap';
 
+    const DEFAULT_MAX_ELEMENTS = 10;
+    const MIN_NODE_AREA = 400; // 20px * 20px
+
     /**
      * Controls whether the treemap nodes should be colored based on the evolution percent of
      * individual metrics, or not. If false, the jqPlot pie graph's series colors are used to
@@ -56,6 +59,9 @@ class Treemap extends Graph
      */
     public function __construct($view)
     {
+        // we determine the elements count dynamically based on available width/height
+        $view->visualization_properties->max_graph_elements = false;
+
         parent::__construct($view);
 
         $view->datatable_js_type = 'TreemapDataTable';
@@ -97,7 +103,6 @@ class Treemap extends Graph
     public static function getDefaultPropertyValues()
     {
         $result = parent::getDefaultPropertyValues();
-        $result['visualization_properties']['graph']['max_graph_elements'] = 10;
         $result['visualization_properties']['graph']['allow_multi_select_series_picker'] = false;
         $result['visualization_properties']['infoviz-treemap']['show_evolution_values'] = true;
         $result['visualization_properties']['infoviz-treemap']['depth'] = 0;
@@ -114,12 +119,7 @@ class Treemap extends Graph
      */
     public function isThereDataToDisplay($dataTable, $view)
     {
-        if ($dataTable instanceof Map) { // will be true if calculating evolution values
-            $childTables = $dataTable->getArray();
-            $dataTable = end($childTables);
-        }
-
-        return $dataTable->getRowsCount() != 0;
+        return $this->getCurrentData($dataTable)->getRowsCount() != 0;
     }
 
     private function getGraphData($dataTable, $properties)
@@ -133,7 +133,7 @@ class Treemap extends Graph
             $generator->showEvolutionValues();
         }
 
-        $truncateAfter = Common::getRequestVar('truncateAfter', false, 'int');
+        $truncateAfter = $this->getDynamicMaxElementCount($this->getCurrentData($dataTable), $metric);
         if ($truncateAfter > 0) {
             $generator->setTruncateAfter($truncateAfter);
         }
@@ -163,6 +163,48 @@ class Treemap extends Graph
             list($previousDate, $ignore) = Range::getLastDate($date, $period);
 
             $view->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
+        }
+    }
+
+    private function getDynamicMaxElementCount($dataTable, $metricName)
+    {
+        $availableWidth = Common::getRequestVar('availableWidth', false);
+        $availableHeight = Common::getRequestVar('availableHeight', false);
+
+        if (!is_numeric($availableWidth)
+            || !is_numeric($availableHeight)
+        ) {
+            return self::DEFAULT_MAX_ELEMENTS - 1;
+        } else {
+            $totalArea = $availableWidth * $availableHeight;
+
+            $metricValues = $dataTable->getColumn($metricName);
+            $metricSum = array_sum($metricValues);
+
+            // find the row index in $dataTable for which all rows after it will have treemap
+            // nodes that are too small. this is the row from which we truncate.
+            // Note: $dataTable is sorted at this point, so $metricValues is too
+            $result = 0;
+            foreach ($metricValues as $value) {
+                $nodeArea = ($totalArea * $value) / $metricSum;
+
+                if ($nodeArea < self::MIN_NODE_AREA) {
+                    break;
+                } else {
+                    ++$result;
+                }
+            }
+            return $result;
+        }
+    }
+
+    private function getCurrentData($dataTable)
+    {
+        if ($dataTable instanceof Map) { // will be true if calculating evolution values
+            $childTables = $dataTable->getArray();
+            return end($childTables);
+        } else {
+            return $dataTable;
         }
     }
 }

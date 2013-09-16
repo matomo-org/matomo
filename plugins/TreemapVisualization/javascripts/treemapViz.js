@@ -541,6 +541,30 @@
         }
     });
 
-    DataTable.registerFooterIconHandler('infoviz-treemap', DataTable.switchToGraph);
+    DataTable.registerFooterIconHandler('infoviz-treemap', function (dataTable, viewDataTableId) {
+        var filters = dataTable.resetAllFilters();
+
+        // make sure only one column is used
+        var columns = filters.columns || 'nb_visits';
+        if (columns.indexOf(',') != -1) {
+            columns = columns.split(',')[0];
+        }
+        dataTable.param.columns = columns;
+
+        // determine what the width of a treemap will be, by inserting a dummy infoviz-treemap element
+        // into the DOM
+        var $wrapper = dataTable.$element.find('.dataTableWrapper'),
+            $dummyTreemap = $('<div/>').addClass('infoviz-treemap').css({'visibility': 'hidden', 'position': 'absolute'});
+        
+        $wrapper.prepend($dummyTreemap);
+        var width = $dummyTreemap.width(), height = $dummyTreemap.height();
+
+        // send available width & height so we can pick the best number of elements to display
+        dataTable.param.availableWidth = width;
+        dataTable.param.availableHeight = height;
+
+        dataTable.param.viewDataTable = viewDataTableId;
+        dataTable.reloadAjaxDataTable();
+    });
 
 }(jQuery, $jit, require));
