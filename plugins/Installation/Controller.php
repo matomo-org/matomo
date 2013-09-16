@@ -715,7 +715,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $directoriesToCheck = array();
 
-        if (!DbHelperS::isInstalled()) {
+        if (!DbHelper::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
             $directoriesToCheck[] = '/config/';
         }
