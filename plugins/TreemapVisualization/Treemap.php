@@ -92,7 +92,7 @@ class Treemap extends Graph
             if ($dataTable->getMetadata('period')->getRangeString() != $currentPeriod->getRangeString()) {
                 return;
             }
-
+echo "<pre>".print_r($dataTable, true)."</pre>";
             $truncateAfter = $self->getDynamicMaxElementCount($dataTable, $metric);
             if ($truncateAfter > 0) {
                 $dataTable->filter('Truncate', array($truncateAfter));
