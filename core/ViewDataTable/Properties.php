@@ -552,6 +552,7 @@ class Properties
     {
         $result = array(
             'datatable_template' => '@CoreHome/_dataTable',
+            'datatable_js_type' => 'DataTable',
             'show_goals' => false,
             'show_ecommerce' => false,
             'show_search' => true,

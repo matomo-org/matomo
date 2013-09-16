@@ -10,13 +10,14 @@
 
 (function ($, require) {
 
-    var JqplotGraphDataTable = window.JqplotGraphDataTable;
+    var exports = require('piwik/UI'),
+        JqplotGraphDataTable = exports.JqplotGraphDataTable;
 
-    window.JqplotPieGraphDataTable = function () {
-        dataTable.call(this);
+    exports.JqplotPieGraphDataTable = function (element) {
+        JqplotGraphDataTable.call(this, element);
     };
 
-    $.extend(window.JqplotPieGraphDataTable.prototype, JqplotGraphDataTable.prototype, {
+    $.extend(exports.JqplotPieGraphDataTable.prototype, JqplotGraphDataTable.prototype, {
 
         _setJqplotParameters: function (params) {
             JqplotGraphDataTable.prototype._setJqplotParameters.call(this, params);

@@ -9,13 +9,10 @@
 //								DataTable
 //-----------------------------------------------------------------------------
 
-/**
- * DataTable
- * @constructor
- */
-function dataTable() {
-    this.param = {};
-}
+(function ($, require) {
+
+var exports = require('piwik/UI'),
+    UIControl = exports.UIControl;
 
 /**
  * This class contains the client side logic for viewing and interacting with
@@ -23,29 +20,33 @@ function dataTable() {
  * 
  * The id attribute for DataTables is set dynamically by the DataTableManager
  * class, and this class instance is stored using the jQuery $.data function
- * with the 'piwikDataTable' key.
+ * with the 'uiControlObject' key.
  * 
  * To find a datatable element by report (ie, 'UserSettings.getBrowser'),
  * use piwik.DataTableManager.getDataTableByReport.
  * 
  * To get the dataTable JS instance (an instance of this class) for a
- * datatable HTML element, use $(element).data('piwikDataTable').
+ * datatable HTML element, use $(element).data('uiControlObject').
+ * 
+ * @constructor
  */
-dataTable.prototype =
-{
-    //initialisation function
-    init: function (workingDivId, domElem) {
-        if (typeof domElem == "undefined") {
-            domElem = $('#' + workingDivId);
-        }
+function DataTable(element) {
+    UIControl.call(this, element);
 
-        this.workingDivId = workingDivId;
+    this.param = {};
+}
+
+$.extend(DataTable.prototype, UIControl.prototype, {
+
+    //initialisation function
+    init: function () {
+        var domElem = this.$element;
+
+        this.workingDivId = domElem.attr('id');
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
         this.initialized = true;
-
-        domElem.data('piwikDataTable', this);
     },
 
     //function triggered when user click on column sort
@@ -1525,4 +1526,8 @@ dataTable.prototype =
         }
         return h2;
     }
-};
+});
+
+exports.DataTable = DataTable;
+
+})(jQuery, require);
