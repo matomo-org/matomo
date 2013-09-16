@@ -332,9 +332,7 @@
                 return;
             }
 
-            if (this._isOthersNode(node)) {
-                this._enterOthersNode(node);
-            } else if (this._nodeHasSubtable(node)) {
+            if (this._nodeHasSubtable(node)) {
                 this._enterSubtable(node);
             } else {
                 this._openNodeUrl(node);
@@ -372,24 +370,6 @@
          */
         _onRightClickNode: function (node) {
             this._leaveNode();
-        },
-
-        /**
-         * Enters a treemap node that is a node for an aggregate row.
-         */
-        _enterOthersNode: function (node) {
-            if (node.data.loading) {
-                return;
-            }
-
-            if (!node.data.loaded) {
-                var self = this;
-                this._loadOthersNodeChildren(node, function (newNode) {
-                    self._enterNode(newNode);
-                });
-            } else {
-                this._enterNode(node);
-            }
         },
 
         /**
@@ -431,14 +411,6 @@
          */
         _toggleZoomOut: function (toggle) {
             $('.infoviz-treemap-zoom-out', this.$element).css('visibility', toggle || !this.treemap.clickedNode ? 'visible' : 'hidden');
-        },
-
-        /**
-         * Loads data for an aggregate row's node without reloading the datatable view.
-         */
-        _loadOthersNodeChildren: function (node, callback) {
-            var ajax = this._getNodeChildrenAjax({filter_offset: node.data.aggregate_offset}, node, callback);
-            ajax.send();
         },
 
         /**
@@ -507,10 +479,10 @@
         /**
          * Returns true if the given node can be entered, false if otherwise.
          * 
-         * A node can be entered if it is the node for an aggregate row or has a subtable.
+         * A node can be entered if it has a subtable.
          */
         _canEnterNode: function (node) {
-            return this._isOthersNode(node) || this._nodeHasSubtable(node);
+            return this._nodeHasSubtable(node);
         },
 
         /**
