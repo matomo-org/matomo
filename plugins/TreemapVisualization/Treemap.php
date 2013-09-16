@@ -13,6 +13,7 @@ namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
 use Piwik\View;
+use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\DataTable\Map;
 use Piwik\Visualization\Graph;
@@ -67,17 +68,37 @@ class Treemap extends Graph
         $view->datatable_js_type = 'TreemapDataTable';
         $view->request_parameters_to_modify['expanded'] = 1;
         $view->request_parameters_to_modify['depth'] = $view->visualization_properties->depth;
-        $view->request_parameters_to_modify['disable_queued_filters'] = true;
         $view->show_pagination_control = false;
         $view->show_offset_information = false;
         $view->show_flatten_table = false;
 
-        $self = $this;
-        $view->filters[] = function ($dataTable, $view) use ($self) {
-            $view->custom_parameters['columns'] = $self->getMetricToGraph($view->columns_to_display);
+        $metric = $this->getMetricToGraph($view->columns_to_display);
+        $view->filters[] = function ($dataTable, $view) use ($metric) {
+            $view->custom_parameters['columns'] = $metric;
         };
 
         $this->handleShowEvolutionValues($view);
+        $this->handleDynamicTruncation($view, $metric);
+    }
+
+    private function handleDynamicTruncation($view, $metric)
+    {
+        $currentPeriod = Period::makePeriodFromQueryParams(
+            $timezone = null, $period = Common::getRequestVar('period'), $date = Common::getRequestVar('date'));
+
+        $self = $this;
+        $doTruncate = function ($dataTable) use ($self, $metric, $currentPeriod) {
+            // only truncate current data
+            if ($dataTable->getMetadata('period')->getRangeString() != $currentPeriod->getRangeString()) {
+                return;
+            }
+
+            $truncateAfter = $self->getDynamicMaxElementCount($dataTable, $metric);
+            if ($truncateAfter > 0) {
+                $dataTable->filter('Truncate', array($truncateAfter));
+            }
+        };
+        $view->filters[] = array($doTruncate, array(), $priority = true);
     }
 
     /**
@@ -132,11 +153,6 @@ class Treemap extends Graph
         $generator->setInitialRowOffset($properties['filter_offset'] ?: 0);
         if ($dataTable instanceof Map) {
             $generator->showEvolutionValues();
-        }
-
-        $truncateAfter = $this->getDynamicMaxElementCount($this->getCurrentData($dataTable), $metric);
-        if ($truncateAfter > 0) {
-            $generator->setTruncateAfter($truncateAfter);
         }
 
         return Common::json_encode($generator->generate($dataTable));

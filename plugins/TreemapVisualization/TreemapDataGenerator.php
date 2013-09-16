@@ -139,15 +139,6 @@ class TreemapDataGenerator
      */
     public function generate($dataTable)
     {
-        // handle extra truncation
-        if ($this->truncateAfter) {
-            $dataTable->filter('Truncate', array($this->truncateAfter));
-        }
-
-        // now that truncation is done we can apply queued filters. doing it before will result in
-        // sumRow errors.
-        $dataTable->applyQueuedFilters();
-
         // sanity check: if the dataTable is not a Map, we don't have the data to calculate evolution
         // values, so make sure we don't try
         if (!($dataTable instanceof Map)) {
@@ -159,6 +150,11 @@ class TreemapDataGenerator
         if ($this->showEvolutionValues) {
             list($pastData, $dataTable) = array_values($dataTable->getArray());
             $this->pastDataDate = $pastData->getMetadata('period')->getLocalizedShortString();
+        }
+
+        // handle extra truncation (only for current data)
+        if ($this->truncateAfter) {
+            $dataTable->filter('Truncate', array($this->truncateAfter));
         }
 
         $root = $this->makeNode('treemap-root', $this->rootName);
