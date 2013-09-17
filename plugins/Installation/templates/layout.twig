@@ -33,16 +33,17 @@
         </div>
 
         <div id="detailInstall">
+            {% set nextButton %}
+            <p class="nextStep">
+                <a class="submit" href="{{ linkTo({'action':nextModuleName, 'token_auth':null, 'method':null }) }}">{{ 'General_Next'|translate }} &raquo;</a>
+            </p>
+            {%  endset %}
             {% if showNextStepAtTop is defined and showNextStepAtTop %}
-                <p class="nextStep">
-                    <a class="submit" href="{{ linkTo({'action':nextModuleName}) }}">{{ 'General_Next'|translate }} &raquo;</a>
-                </p>
+                {{ nextButton }}
             {% endif %}
             {% block content %}{% endblock %}
             {% if showNextStep %}
-                <p class="nextStep">
-                    <a class="submit" href="{{ linkTo({'action':nextModuleName}) }}">{{ 'General_Next'|translate }} &raquo;</a>
-                </p>
+                {{ nextButton }}
             {% endif %}
         </div>
 
