@@ -171,6 +171,8 @@ class TreemapDataGenerator
 
             if ($rowId == DataTable::ID_SUMMARY_ROW) {
                 $childNode['data']['aggregate_offset'] = $offset + $dataTable->getRowsCount() - 1;
+            } else if ($row->getIdSubDataTable() !== null) {
+                $childNode['data']['idSubtable'] = $row->getIdSubDataTable();
             }
 
             $node['children'][] = $childNode;

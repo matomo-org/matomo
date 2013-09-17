@@ -183,6 +183,8 @@ class Treemap extends Graph
         } else {
             $totalArea = $availableWidth * $availableHeight;
 
+            $dataTable->filter('ReplaceColumnNames');
+
             $metricValues = $dataTable->getColumn($metricName);
             $metricSum = array_sum($metricValues);
 
