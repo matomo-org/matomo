@@ -145,7 +145,6 @@
         "MenuDiagnostic": "診断",
         "MenuGeneralSettings": "全般の設定",
         "MenuManage": "管理",
-        "MissingPluginsWarning": "pluginsディレクトリに存在しないため、以下のプラグインがロードできませんでした：%1$s。 %2$sプラグインの管理%3$sページで、このプラグインを無効にできます。",
         "OldPHPVersionWarning_Part1": "Piwikは素早く改良されており、最先端のウェブ解析プラットフォームを提供するため、PHPの必要最小バージョンをPHP 5.3に上げることにしました。%1$s 最新のPHP（理想的にはPHP 5.4）への更新については、サーバー管理者やWebホスティングプロバイダーにお尋ねください。%2$s",
         "OldPHPVersionWarning_Part2": "PHP 5.3以降にアップグレードするとこのメッセージが消え、あなたのPiwikサーバは少ないメモリで、はるかに高速にレポートを処理します。%1$sPHPをアップデートして、Piwikを最大限に活用しましょう！%2$s",
         "OptOutComplete": "オプトアウトが完了しました。 このウェブサイトへのあなたの訪問は、ウェブ解析ツールで記録されません。",
