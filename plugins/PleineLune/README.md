@@ -4,7 +4,7 @@ Create a Theme for Piwik
 Quick start
 ------------
 
-1. Create a file describing your plugin at the following path: "plugins/YourPluginName/plugin.piwik.json"
+1. Create a file describing your plugin at the following path: "plugins/YourPluginName/plugin.json"
 
 ```json
 {
@@ -18,10 +18,10 @@ Quick start
 3. Activate your theme on the Piwik instance: Settings > Platform > Themes
 
 
-About the plugin.piwik.json file
+About the plugin.json file
 ------------
 
-You can complete your plugin.piwik.json file with the following entries:  
+You can complete your plugin.json file with the following entries:
 
 * "description"
 * "homepage"
