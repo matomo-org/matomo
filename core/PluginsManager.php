@@ -34,7 +34,7 @@ class PluginsManager
     /**
      * Default theme used in Piwik.
      */
-    const DEFAULT_THEME="Zeitgeist";
+    const DEFAULT_THEME = "Zeitgeist";
 
     protected $doLoadAlwaysActivatedPlugins = true;
     protected $pluginToAlwaysActivate = array(
@@ -52,6 +52,13 @@ class PluginsManager
 
         // default Piwik theme, always enabled
         self::DEFAULT_THEME,
+    );
+
+    protected $corePluginsDisabledByDefault = array(
+        'AnonymizeIP',
+        'DBStats',
+        'DevicesDetection',
+        'TreemapVisualization', // should be moved to marketplace
     );
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
@@ -114,7 +121,7 @@ class PluginsManager
      * @param string $name  Name of plugin
      * @return bool
      */
-    public function isPluginAlwaysActivated($name)
+    private function isPluginAlwaysActivated($name)
     {
         return in_array($name, $this->pluginToAlwaysActivate);
     }
@@ -125,13 +132,9 @@ class PluginsManager
      * @param $name
      * @return bool
      */
-    public function isPluginUninstallable($name)
+    private function isPluginUninstallable($name)
     {
-        // Reading the plugins from the global.ini.php config file
-        $pluginsBundledWithPiwik = Config::getInstance()->getFromDefaultConfig('Plugins');
-        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
-
-        return !in_array($name, $pluginsBundledWithPiwik);
+        return !$this->isPluginBundledWithCore($name);
     }
 
     /**
@@ -339,6 +342,70 @@ class PluginsManager
         }
         return false;
     }
+
+    /**
+     * Loads in memory the Plugins specified in the config.ini.php file
+     *
+     * @return array
+     */
+    public function returnLoadedPluginsInfo()
+    {
+        $plugins = array();
+
+        $listPlugins = array_merge(
+            $this->readPluginsDirectory(),
+            Config::getInstance()->Plugins['Plugins']
+        );
+        $listPlugins = array_unique($listPlugins);
+        foreach ($listPlugins as $pluginName) {
+            // If the plugin is not core and looks bogus, do not load
+            if($this->isPluginThirdPartyAndBogus($pluginName))
+            {
+//                echo $pluginName;
+                continue;
+            }
+
+            $this->loadPlugin($pluginName);
+
+            $plugins[$pluginName] = array(
+                'activated'       => $this->isPluginActivated($pluginName),
+                'alwaysActivated' => $this->isPluginAlwaysActivated($pluginName),
+                'uninstallable'   => $this->isPluginUninstallable($pluginName),
+            );
+        }
+        $this->loadPluginTranslations();
+
+        $loadedPlugins = $this->getLoadedPlugins();
+        foreach ($loadedPlugins as $oPlugin) {
+            $pluginName = $oPlugin->getPluginName();
+            $plugins[$pluginName]['info'] = $oPlugin->getInformation();
+        }
+        return $plugins;
+    }
+
+
+    protected static function isManifestFileFound($path)
+    {
+        return file_exists($path . "/" . MetadataLoader::PLUGIN_JSON_FILENAME);
+    }
+
+    protected function isPluginBundledWithCore($name)
+    {
+        // Reading the plugins from the global.ini.php config file
+        $pluginsBundledWithPiwik = Config::getInstance()->getFromDefaultConfig('Plugins');
+        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
+
+        return in_array($name, $pluginsBundledWithPiwik)
+                || in_array($name, $this->corePluginsDisabledByDefault);
+    }
+
+    protected function isPluginThirdPartyAndBogus($pluginName)
+    {
+        $path = $this->getPluginsDirectory() . $pluginName;
+        return !$this->isPluginBundledWithCore($pluginName)
+        && !$this->isManifestFileFound($path);
+    }
+
 
     /**
      * Load the specified plugins
@@ -721,7 +788,7 @@ class PluginsManager
     {
         $name = basename($path);
         return file_exists($path . "/" . $name . ".php")
-             || file_exists($path . "/" . MetadataLoader::PLUGIN_JSON_FILENAME);
+             || self::isManifestFileFound($path);
     }
 }
 

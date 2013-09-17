@@ -19,7 +19,7 @@ use Piwik\Unzip;
  */
 class PluginInstaller
 {
-    const PATH_TO_DOWNLOAD = '/tmp/plugins/';
+    const PATH_TO_DOWNLOAD = '/tmp/latest/plugins/';
     const PATH_TO_EXTRACT  = '/plugins/';
 
     private $pluginName;

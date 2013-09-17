@@ -202,38 +202,13 @@ class Controller extends \Piwik\Controller\Admin
 
     protected function getPluginsInfo($themesOnly = false)
     {
-        $plugins = array();
-
-        $pluginsManager = \Piwik\PluginsManager::getInstance();
-        $listPlugins = array_merge(
-            $pluginsManager->readPluginsDirectory(),
-            Config::getInstance()->Plugins['Plugins']
-        );
-        $listPlugins = array_unique($listPlugins);
-        foreach ($listPlugins as $pluginName) {
-            \Piwik\PluginsManager::getInstance()->loadPlugin($pluginName);
-            $plugins[$pluginName] = array(
-                'activated'       => $pluginsManager->isPluginActivated($pluginName),
-                'alwaysActivated' => $pluginsManager->isPluginAlwaysActivated($pluginName),
-                'uninstallable'   => $pluginsManager->isPluginUninstallable($pluginName),
-            );
-        }
-        $pluginsManager->loadPluginTranslations();
-
-        $loadedPlugins = $pluginsManager->getLoadedPlugins();
-
-        foreach ($loadedPlugins as $oPlugin) {
-            $pluginName = $oPlugin->getPluginName();
-
-            $plugins[$pluginName]['info'] = $oPlugin->getInformation();
-        }
-
+        $plugins = PluginsManager::getInstance()->returnLoadedPluginsInfo();
 
         foreach ($plugins as $pluginName => &$plugin) {
             if (!isset($plugin['info'])) {
                 $plugin['info'] = array(
                     'description' => '<strong><em>' . Piwik_Translate('CorePluginsAdmin_PluginCannotBeFound')
-                        . '</strong></em>',
+                    . '</strong></em>',
                     'version'     => Piwik_Translate('General_Unknown'),
                     'theme'       => false,
                 );
@@ -243,7 +218,7 @@ class Controller extends \Piwik\Controller\Admin
         $pluginsFiltered = $this->keepPluginsOrThemes($themesOnly, $plugins);
         return $pluginsFiltered;
     }
-
+    
     protected function keepPluginsOrThemes($themesOnly, $plugins)
     {
         $pluginsFiltered = array();
