@@ -239,6 +239,7 @@ class Request
             'idgoal'       => array(-1, 'int'),
 
             // other
+            'bots'         => array(0, 'int'),
             'dp'           => array(0, 'int'),
             'rec'          => array(false, 'int'),
             'new_visit'    => array(0, 'int'),

@@ -8,9 +8,7 @@
  * @category Piwik
  * @package PluginsFunctions
  */
-
 namespace Piwik;
-
 
 use Exception;
 use Piwik\Db\Adapter;

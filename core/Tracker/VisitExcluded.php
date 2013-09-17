@@ -138,7 +138,7 @@ class VisitExcluded
      */
     protected function isNonHumanBot()
     {
-        $allowBots = Common::getRequestVar('bots', false) != false;
+        $allowBots = $this->request->getParam('bots');
         return !$allowBots
             && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
                 || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant
