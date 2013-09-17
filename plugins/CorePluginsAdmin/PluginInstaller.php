@@ -83,7 +83,7 @@ class PluginInstaller
 
     private function makeSurePluginJsonExists($tmpPluginFolder)
     {
-        if (!file_exists($tmpPluginFolder . '/plugin.json')) {
+        if (!file_exists($tmpPluginFolder . '/' . $this->pluginName . '/plugin.json')) {
             throw new \Exception('It is not a valid Plugin, missing plugin.json');
         }
     }
@@ -93,7 +93,8 @@ class PluginInstaller
         $pluginTargetPath = PIWIK_USER_PATH . self::PATH_TO_EXTRACT . $this->pluginName;
 
         $this->removeFolderIfExists($pluginTargetPath);
-        Filesystem::copyRecursive($tmpPluginFolder, $pluginTargetPath);
+
+        Filesystem::copyRecursive($tmpPluginFolder, PIWIK_USER_PATH . self::PATH_TO_EXTRACT);
     }
 
     /**
