@@ -182,7 +182,7 @@ class Controller extends \Piwik\Controller\Admin
     {
         $view = $this->configureView('@CorePluginsAdmin/themes');
 
-        $pluginsInfo = $this->getPluginsInfo();
+        $pluginsInfo = $this->getPluginsInfo($themesOnly = true);
 
         $view->updateNonce = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
         $view->pluginsInfo = $pluginsInfo;
