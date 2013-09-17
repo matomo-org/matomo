@@ -536,6 +536,12 @@
 
         dataTable.param.viewDataTable = viewDataTableId;
         dataTable.reloadAjaxDataTable();
+        dataTable.notifyWidgetParametersChange(dataTable.$element, {
+            viewDataTable: viewDataTableId,
+            availableWidth: width,
+            availableHeight: height,
+            columns: columns
+        });
     });
 
 }(jQuery, $jit, require));

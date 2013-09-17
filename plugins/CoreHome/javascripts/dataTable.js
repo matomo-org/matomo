@@ -735,7 +735,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
             
             DataTable._footerIconHandlers[id](self, id);
-            self.notifyWidgetParametersChange(domElem, {viewDataTable: id});
         })
 
         //Graph icon Collapsed functionality
@@ -1533,6 +1532,7 @@ var switchToHtmlTable = function (dataTable, viewDataTable) {
     delete dataTable.param.filter_sort_order;
     delete columns;
     dataTable.reloadAjaxDataTable();
+    dataTable.notifyWidgetParametersChange(dataTable.$element, {viewDataTable: viewDataTable});
 };
 
 DataTable.registerFooterIconHandler('table', switchToHtmlTable);
@@ -1549,6 +1549,7 @@ DataTable.switchToGraph = function (dataTable, viewDataTable) {
 
     dataTable.param.viewDataTable = viewDataTable;
     dataTable.reloadAjaxDataTable();
+    dataTable.notifyWidgetParametersChange(dataTable.$element, {viewDataTable: viewDataTable});
 };
 
 DataTable.registerFooterIconHandler('cloud', DataTable.switchToGraph);
