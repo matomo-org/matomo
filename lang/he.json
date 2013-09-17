@@ -377,6 +377,7 @@
         "PreviousDays": "%s ימים קודמים (לא כולל היום)",
         "Refresh": "ריענון",
         "RefreshPage": "לרענן את העמוד",
+        "Remove": "מחיקה",
         "Report": "לדווח",
         "Reports": "דוחות",
         "ReportsWillBeProcessedAtMostEveryHour": "דוחות יעובדו כמו כן לכל היותר בכל שעה.",
@@ -498,11 +499,9 @@
         "RememberMe": "זכור אותי"
     },
     "Mobile": {
+        "Account": "חשבון",
         "Accounts": "חשבונות",
         "AddAccount": "הוספת חשבון"
-    },
-    "MobileMessaging": {
-        "Settings_RemovePhoneNumber": "מחיקה"
     },
     "Referers": {
         "Campaigns": "קמפיינים",

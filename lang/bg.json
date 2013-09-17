@@ -578,6 +578,7 @@
         "RefreshPage": "Обнови страницата",
         "RelatedReport": "Сроден доклад",
         "RelatedReports": "Сродни доклади",
+        "Remove": "Премахни",
         "Report": "Доклад",
         "ReportGeneratedFrom": "Този доклад е генериран с данни от %s.",
         "Reports": "Доклади",
@@ -960,7 +961,6 @@
         "Settings_ManagePhoneNumbers": "Управление на телефонните номера",
         "Settings_PhoneNumber": "Телефонен номер",
         "Settings_PhoneNumbers_Add": "Добави нов телефонен номер",
-        "Settings_RemovePhoneNumber": "Премахни",
         "Settings_SMSProvider": "SMS провайдър",
         "Settings_ValidatePhoneNumber": "Валидиране",
         "TopMenu": "Email & SMS Доклади"
