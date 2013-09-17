@@ -321,14 +321,14 @@
          * Positions the popover element.
          */
         _positionPopover: function () {
-            var popover = this._pickerPopover,
+            var $body = $('body'),
+                popover = this._pickerPopover,
                 pickerLink = this.domElem,
-                seriesPicker = pickerLink.parent(),
-                plotWidth = seriesPicker.width(),
-                offsetRight = seriesPicker.offset().left + plotWidth
+                pickerLinkLeft = pickerLink.offset().left,
+                bodyRight = $body.offset().left + $body.width()
                 ;
 
-            $('body').prepend(popover);
+            $body.prepend(popover);
             
             var neededSpace = popover.outerWidth() + 10;
 
@@ -339,10 +339,11 @@
 
             // try to display popover to the right
             var margin = parseInt(pickerLink.css('margin-left')) - 4;
-            
-            if (margin + neededSpace < plotWidth
+
+            var popoverRight = pickerLinkLeft + margin + neededSpace;
+            if (popoverRight < bodyRight
                 // make sure it's not too far to the left
-                || offsetRight - margin - neededSpace < 0
+                || popoverRight < 0
             ) {
                 popover.css('margin-left', (linkOffset.left - 4) + 'px').show();
             } else {

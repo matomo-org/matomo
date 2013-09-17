@@ -171,8 +171,6 @@ class TreemapDataGenerator
 
             if ($rowId == DataTable::ID_SUMMARY_ROW) {
                 $childNode['data']['aggregate_offset'] = $offset + $dataTable->getRowsCount() - 1;
-            } else if ($row->getIdSubDataTable() !== null) {
-                $this->addSubtableToNode($childNode, $row, $pastRow);
             }
 
             $node['children'][] = $childNode;
@@ -221,22 +219,6 @@ class TreemapDataGenerator
         }
 
         return $this->makeNode($this->getNodeId($tableId, $rowId), $label, $data);
-    }
-
-    private function addSubtableToNode(&$childNode, $subTableRow, $pastRow)
-    {
-        $childNode['data']['idSubtable'] = $subTableRow->getIdSubDataTable();
-        $childNode['data']['loaded'] = 1;
-
-        $subTable = $subTableRow->getSubtable();
-        $subTable->filter('AddSummaryRow', array(4, Piwik_Translate('General_Others'), $columnToSort = $this->metricToGraph)); //TODO: make constants customizable
-
-        $pastSubtable = false;
-        if ($pastRow) {
-            $pastSubtable = $pastRow->getSubtable();
-        }
-
-        $this->addDataTableToNode($childNode, $subTable, $pastSubtable, $subTableRow->getIdSubDataTable());
     }
 
     private function getNodeId($tableId, $rowId)
