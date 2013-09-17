@@ -214,7 +214,7 @@
     <div id='logoSettings'>
         {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
         {% set customLogoHelp %}
-            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=index' target='_blank'>","</a>")|raw }}
+            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' target='_blank'>","</a>")|raw }}
         {% endset %}
         {{ piwik.inlineHelp(customLogoHelp) }}
         <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">

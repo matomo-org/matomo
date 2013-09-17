@@ -18,6 +18,7 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Url;
+use Piwik\Version;
 use Piwik\View;
 use Piwik\PluginsManager;
 
@@ -173,6 +174,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $view->updateNonce = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
         $view->pluginsInfo = $pluginsInfo;
+
         $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($pluginsInfo, $themesOnly = false);
 
         echo $view->render();
@@ -206,9 +208,13 @@ class Controller extends \Piwik\Controller\Admin
 
         foreach ($plugins as $pluginName => &$plugin) {
             if (!isset($plugin['info'])) {
+                    $description = '<strong><em>'
+                                . Piwik_Translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
+                                . '</strong> <br/> '
+                                . Piwik_Translate('CorePluginsAdmin_PluginAskDevToUpdate')
+                                . '</em>';
                 $plugin['info'] = array(
-                    'description' => '<strong><em>' . Piwik_Translate('CorePluginsAdmin_PluginCannotBeFound')
-                    . '</strong></em>',
+                    'description' => $description,
                     'version'     => Piwik_Translate('General_Unknown'),
                     'theme'       => false,
                 );

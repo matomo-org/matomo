@@ -361,17 +361,22 @@ class PluginsManager
             // If the plugin is not core and looks bogus, do not load
             if($this->isPluginThirdPartyAndBogus($pluginName))
             {
-//                echo $pluginName;
-                continue;
+                $info = array(
+                    'invalid'         => true,
+                    'activated'       => false,
+                    'alwaysActivated' => false,
+                    'uninstallable'   => true,
+                );
+            } else {
+                $this->loadPlugin($pluginName);
+                $info = array(
+                    'activated'       => $this->isPluginActivated($pluginName),
+                    'alwaysActivated' => $this->isPluginAlwaysActivated($pluginName),
+                    'uninstallable'   => $this->isPluginUninstallable($pluginName),
+                );
             }
 
-            $this->loadPlugin($pluginName);
-
-            $plugins[$pluginName] = array(
-                'activated'       => $this->isPluginActivated($pluginName),
-                'alwaysActivated' => $this->isPluginAlwaysActivated($pluginName),
-                'uninstallable'   => $this->isPluginUninstallable($pluginName),
-            );
+            $plugins[$pluginName] = $info;
         }
         $this->loadPluginTranslations();
 
@@ -402,8 +407,9 @@ class PluginsManager
     protected function isPluginThirdPartyAndBogus($pluginName)
     {
         $path = $this->getPluginsDirectory() . $pluginName;
-        return !$this->isPluginBundledWithCore($pluginName)
-        && !$this->isManifestFileFound($path);
+        $isBogus = !$this->isPluginBundledWithCore($pluginName)
+            && !$this->isManifestFileFound($path);
+        return $isBogus;
     }
 
 
@@ -519,7 +525,8 @@ class PluginsManager
         }
 
         foreach ($this->pluginsToLoad as $pluginName) {
-            if (!$this->isPluginLoaded($pluginName)) {
+            if (!$this->isPluginLoaded($pluginName)
+                && !$this->isPluginThirdPartyAndBogus($pluginName)) {
                 $newPlugin = $this->loadPlugin($pluginName);
                 if ($newPlugin === null) {
                     continue;
@@ -527,6 +534,18 @@ class PluginsManager
             }
         }
     }
+
+    public function getIgnoredBogusPlugins()
+    {
+        $ignored = array();
+        foreach($this->pluginsToLoad as $pluginName) {
+            if($this->isPluginThirdPartyAndBogus($pluginName)) {
+                $ignored[] = $pluginName;
+            }
+        }
+        return $ignored;
+    }
+
 
     /**
      * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry
@@ -565,6 +584,7 @@ class PluginsManager
         }
 
         $path = self::getPluginsDirectory() . $pluginFileName;
+
 
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin

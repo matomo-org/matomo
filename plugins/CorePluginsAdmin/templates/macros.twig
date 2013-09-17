@@ -90,10 +90,12 @@
                     </td>
 
                     <td class="togl action-links">
-                        {% if plugin.activated %}
-                            <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&token_auth={{ token_auth }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
-                        {% else %}
-                            <a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={{ name }}&token_auth={{ token_auth }}'>{{ 'CorePluginsAdmin_Activate'|translate }}</a>
+                        {% if plugin.invalid is not defined %}
+                            {% if plugin.activated %}
+                                <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&token_auth={{ token_auth }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
+                            {% else %}
+                                <a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={{ name }}&token_auth={{ token_auth }}'>{{ 'CorePluginsAdmin_Activate'|translate }}</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>

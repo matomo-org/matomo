@@ -13,6 +13,7 @@ namespace Piwik\Controller;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Controller;
+use Piwik\Version;
 use Piwik\View;
 use Piwik\Url;
 use Piwik\PluginsManager;
@@ -66,19 +67,28 @@ abstract class Admin extends Controller
         $missingPlugins = PluginsManager::getInstance()->getMissingPlugins();
         if (!empty($missingPlugins)) {
             $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
-                                                                                 'module' => 'CorePluginsAdmin', 'action' => 'index'
-                                                                            ));
-            $view->missingPluginsWarning = Piwik_Translate('CoreAdminHome_MissingPluginsWarning', array(
-                                                                                                       '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>',
-                                                                                                       '<a href="' . $pluginsLink . '"/>',
-                                                                                                       '</a>'
-                                                                                                  ));
+                                             'module' => 'CorePluginsAdmin', 'action' => 'plugins'
+                                        ));
+            $view->invalidPluginsWarning = Piwik_Translate('CoreAdminHome_InvalidPluginsWarning', array(
+                                               self::getPiwikVersion(),
+                                               '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
+                                        . '<br/>'
+                                        . Piwik_Translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
+                                               '<a href="' . $pluginsLink . '"/>',
+                                               '</a>'
+                                          ));
         }
 
         self::checkPhpVersion($view);
 
         $view->menu = Piwik_GetAdminMenu();
     }
+
+    static protected function getPiwikVersion()
+    {
+        return "Piwik " . Version::VERSION;
+    }
+
 
     /**
      * Check if the current PHP version is >= 5.3. If not, a warning is displayed

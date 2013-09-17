@@ -165,6 +165,7 @@ class Updater
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
                 if (class_exists($className, false)) {
+                    // update()
                     call_user_func(array($className, 'update'));
                 }
 

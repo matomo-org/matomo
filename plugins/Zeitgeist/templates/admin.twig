@@ -61,9 +61,9 @@
                     {% include "@CoreHome/_warningInvalidHost.twig" %}
 
                     {# missing plugins warning #}
-                    {% if isSuperUser and missingPluginsWarning is defined %}
+                    {% if isSuperUser and invalidPluginsWarning is defined %}
                     <div class="ajaxSuccess">
-                        <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ missingPluginsWarning }}
+                        <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidPluginsWarning|raw }}
                     </div>
                     {% endif %}
 
@@ -71,7 +71,7 @@
                     {% if isSuperUser and usingOldGeoIPPlugin is not empty %}
                     <div class="ajaxSuccess">
                         <strong>{{ 'General_Warning'|translate }}
-                            :&nbsp;</strong>{{ 'UserCountry_OldGeoIPWarning'|translate('<a href="index.php?module=CorePluginsAdmin&action=index&idSite=1&period=day&date=yesterday">','</a>','<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">','</a>','<a href="http://piwik.org/faq/how-to/#faq_167">','</a>','<a href="http://piwik.org/faq/how-to/#faq_59">','</a>')|raw }}
+                            :&nbsp;</strong>{{ 'UserCountry_OldGeoIPWarning'|translate('<a href="index.php?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday">','</a>','<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">','</a>','<a href="http://piwik.org/faq/how-to/#faq_167">','</a>','<a href="http://piwik.org/faq/how-to/#faq_59">','</a>')|raw }}
                     </div>
                     {% endif %}
 
