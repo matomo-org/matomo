@@ -32,6 +32,8 @@ class Properties
      * This property is only valid for reports whose properties are determined by the
      * ViewDataTable.getReportDisplayProperties event. When manually creating ViewDataTables,
      * setting this property will have no effect.
+     * 
+     * Default value: 'table'
      */
     const DEFAULT_VIEW_TYPE = 'default_view_type';
 
@@ -41,6 +43,14 @@ class Properties
      * TODO: shouldn't have this property. should only use visualization classes.
      */
     const DATATABLE_TEMPLATE = 'datatable_template';
+
+    /**
+     * Controls whether the buttons and UI controls around the visualization or shown or
+     * if just the visualization alone is shown.
+     * 
+     * Default: false
+     */
+    const SHOW_VISUALIZATION_ONLY = 'show_visualization_only';
 
     /**
      * Controls whether the goals footer icon is shown.
@@ -552,6 +562,7 @@ class Properties
     {
         $result = array(
             'datatable_template' => '@CoreHome/_dataTable',
+            'show_visualization_only' => false,
             'datatable_js_type' => 'DataTable',
             'show_goals' => false,
             'show_ecommerce' => false,

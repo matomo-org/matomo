@@ -1,3 +1,7 @@
+{% if properties.show_visualization_only %}
+    {{ visualization.render(dataTable, properties)|raw }}
+{%- else -%}
+
 {% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
 {% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
 <div class="dataTable {{ visualizationCssClass }} {{ properties.datatable_css_class|default('') }} {% if isSubtable %}subDataTable{% endif %}"
@@ -32,3 +36,5 @@
         {% endif %}
     </div>
 </div>
+
+{%- endif %}

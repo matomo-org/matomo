@@ -32,12 +32,12 @@ class HtmlTable extends DataTableVisualization
     const ID = 'table';
 
     /**
-     * Custom template used if displaying a subtable.
-     *
-     * TODO: Should be replaced w/ allowing custom visualization for
-     *       subtables. Should not directly touch template.
+     * If this property is set to true, subtables will be shown as embedded in the original table.
+     * If false, subtables will be shown as whole tables between rows.
+     * 
+     * Default value: false
      */
-    const SUBTABLE_TEMPLATE = 'subtable_template';
+    const SHOW_EMBEDDED_SUBTABLE = 'show_embedded_subtable';
 
     /**
      * Controls whether the entire DataTable should be rendered (including subtables) or just one
@@ -135,9 +135,9 @@ class HtmlTable extends DataTableVisualization
     public function __construct($view)
     {
         if (Common::getRequestVar('idSubtable', false)
-            && $view->visualization_properties->subtable_template
+            && $view->visualization_properties->show_embedded_subtable
         ) {
-            $view->datatable_template = $view->visualization_properties->subtable_template;
+            $view->show_visualization_only = true;
         }
 
         if ($view->visualization_properties->show_extra_columns) {
@@ -161,6 +161,7 @@ class HtmlTable extends DataTableVisualization
         $view = new View("@CoreVisualizations/_dataTableViz_htmlTable.twig");
         $view->properties = $properties;
         $view->dataTable = $dataTable;
+        $view->idSubtable = Common::getRequestVar('idSubtable', false);
         return $view->render();
     }
 
@@ -174,13 +175,13 @@ class HtmlTable extends DataTableVisualization
                 'table' => array(
                     'disable_row_evolution' => false,
                     'disable_row_actions' => false,
-                    'subtable_template' => "@CoreHome/_dataTable.twig",
                     'show_extra_columns' => false,
                     'show_goals_columns' => false,
                     'disable_subtable_when_show_goals' => false,
                     'keep_summary_row' => false,
                     'highlight_summary_row' => false,
-                    'show_expanded' => false
+                    'show_expanded' => false,
+                    'show_embedded_subtable' => false
                 ),
             ),
         );

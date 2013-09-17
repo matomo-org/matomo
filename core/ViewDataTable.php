@@ -1070,6 +1070,7 @@ class ViewDataTable
             $view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
             $view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
         }
+        $view->idSubtable = $this->idSubtable;
         $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
         $view->clientSidePropertiesToSet = $this->getClientSidePropertiesToSet();
         $view->properties = $this->viewProperties; // TODO: should be $this. need to move non-view properties from the class

@@ -661,8 +661,7 @@ class Actions extends \Piwik\Plugin
     private function addBaseDisplayProperties(&$result)
     {
         $result['datatable_js_type'] = 'ActionsDataTable';
-        $result['visualization_properties']['table']['subtable_template'] =
-            '@CoreHome/_dataTableActions_subDataTable.twig';
+        $result['visualization_properties']['table']['show_embedded_subtable'] = true;
         $result['search_recursive'] = true;
         $result['show_all_views_icons'] = false;
         $result['show_table_all_columns'] = false;
