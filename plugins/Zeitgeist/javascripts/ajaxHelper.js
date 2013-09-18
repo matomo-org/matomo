@@ -275,7 +275,7 @@ function ajaxHelper() {
      */
     this.setLoadingElement = function (element) {
         if (!element) {
-            element = '#ajaxLoading';
+            element = '#ajaxLoadingDiv';
         }
         this.loadingElement = element;
     };

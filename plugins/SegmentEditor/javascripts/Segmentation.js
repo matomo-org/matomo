@@ -959,9 +959,9 @@ Segmentation = (function($) {
 
         function toggleLoadingMessage(segmentIsSet) {
             if (segmentIsSet) {
-                $('#ajaxLoading').find('.loadingSegment').show();
+                $('#ajaxLoadingDiv').find('.loadingSegment').show();
             } else {
-                $('#ajaxLoading').find('.loadingSegment').hide();
+                $('#ajaxLoadingDiv').find('.loadingSegment').hide();
             }
         }
 

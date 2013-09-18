@@ -206,7 +206,8 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
 
                 $('#confirm').find('h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm'), '"' + nameToDelete + '" (idSite = ' + idsiteToDelete + ')'));
-                piwikHelper.modalConfirm('#confirm', {yes: function () {
+                piwikHelper.modalConfirm('#confirm', { yes: function () {
+
                     sendDeleteSiteAJAX(idsiteToDelete);
                 }});
             }

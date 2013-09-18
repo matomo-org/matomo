@@ -8,7 +8,7 @@
 {% if isSuperUser %}
     <h2>{{ 'General_GeneralSettings'|translate }}</h2>
     {{ ajax.errorDiv('ajaxError') }}
-    {{ ajax.loadingDiv('ajaxLoading') }}
+    {{ ajax.loadingDiv() }}
     <table class="adminTable" style='width:900px;'>
         <tr>
             <td style="width:400px;">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</td>
