@@ -6,6 +6,7 @@
         .plugin ul { list-style: none;margin-left: 0; }
         .plugin .description { padding-bottom: 10px; }
         .plugin .install { float: right; }
+        .plugin .more { font-weight: bold; text-decoration: none; color: #1D3256 }
         .plugin h3 { display: inline; }
         .plugin { width: 300px; float: left; }
         .themeslist { margin-top: 20px;max-width:980px;clear:right; }
@@ -54,12 +55,12 @@
 
                     <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
 
-                    <h3 class="header">{{ plugin.name }}</h3>
+                    <h3 class="header"><a href="javascript:return;" class="more">{{ plugin.name }}</a></h3>
                     <p class="description">{{ plugin.description }}</p>
-                    <img src="" height="250" width="250"/>
+                    <img src="{{ plugin.screenshots|first }}?w=250&h=250" height="250" width="250"/>
                     <ul>
                         <li>Version {{ plugin.latestVersion }}</li>
-                        <li>Updated {{ plugin.timestamp }}</li>
+                        <li>Updated {{ plugin.createdDateTime }}</li>
                         <li>Downloads {{ plugin.numDownloads }}</li>
                     </ul>
 
