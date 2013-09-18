@@ -170,12 +170,10 @@ class Controller extends \Piwik\Controller\Admin
     {
         $view = $this->configureView('@CorePluginsAdmin/plugins');
 
-        $pluginsInfo = $this->getPluginsInfo();
-
         $view->updateNonce = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
-        $view->pluginsInfo = $pluginsInfo;
+        $view->pluginsInfo = $this->getPluginsInfo();;
 
-        $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($pluginsInfo, $themesOnly = false);
+        $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($themesOnly = false);
 
         echo $view->render();
     }
@@ -293,7 +291,7 @@ class Controller extends \Piwik\Controller\Admin
      * @param bool $themesOnly
      * @return array
      */
-    private function getPluginsHavingUpdate($pluginsInfo, $themesOnly)
+    private function getPluginsHavingUpdate($themesOnly)
     {
         $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
 
@@ -306,11 +304,14 @@ class Controller extends \Piwik\Controller\Admin
         }
 
         foreach ($pluginsHavingUpdate as $updatePlugin) {
-            foreach ($pluginsInfo as $pluginName => $plugin) {
-                // TODO check if pluginName == $plugin
-                $updatePlugin->currentVersion = $plugin['info']['version'];
-                $updatePlugin->isActivated = $plugin['activated'];
-                break;
+            foreach ($loadedPlugins as $loadedPlugin) {
+
+                if ($loadedPlugin->getPluginName() == $updatePlugin->name) {
+                    $updatePlugin->currentVersion = $loadedPlugin->getVersion();
+                    $updatePlugin->isActivated = PluginsManager::getInstance()->isPluginActivated($updatePlugin->name);
+                    break;
+
+                }
             }
 
         }
