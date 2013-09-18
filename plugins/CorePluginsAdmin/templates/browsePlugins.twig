@@ -2,11 +2,15 @@
 
 {% block content %}
     <style type="text/css">
+        .plugin { padding: 15px;border-top: 5px solid white; }
+        .plugin.odd { background-color: #F6F5F3; }
+        .plugin.even { background-color: #EFEEEC; }
         .plugin li { display: inline-block;padding-right: 10px;font-size: 90%; }
         .plugin ul { list-style: none;margin-left: 0; }
+        .plugin .header { margin-top: 0px; margin-bottom: 15px; }
         .plugin .description { padding-bottom: 10px; }
         .plugin .install { float: right; }
-        .plugin .more { font-weight: bold; text-decoration: none; color: #1D3256; }
+        .plugin .more { font-weight: bold; text-decoration: none; color: #255792; }
         .pluginslist { margin-top: 20px;max-width:980px;clear: right; }
         .infoBox {
             font-size: 14px;
@@ -19,6 +23,13 @@
             border-radius: 3px;
             width: 250px;
             float: right;
+        }
+        .plugin .metadataSeparator {
+            background-color: lightgray;
+            color: #333;
+            border: 0px;
+            height: 1px;
+            width: 100%;
         }
     </style>
 
@@ -49,7 +60,7 @@
         {% if plugins|length %}
             {% for plugin in plugins %}
 
-                <div class="plugin">
+                <div class="plugin {{ cycle(['odd', 'even'], loop.index) }}">
                     {% if plugin.isInstalled %}
                         <span class="install">Installed</span>
                     {% else %}
@@ -60,10 +71,11 @@
                     <p class="description">{{ plugin.description }}
                         <br /><a href="javascript:return;" class="more">&gt;&gt; more</a>
                     </p>
+                    <hr class="metadataSeparator">
                     <ul>
-                        <li>Version {{ plugin.latestVersion }}</li>
-                        <li>Updated {{ plugin.createdDateTime }}</li>
-                        <li>Downloads {{ plugin.numDownloads }}</li>
+                        <li>Version <strong>{{ plugin.latestVersion }}</strong></li>
+                        <li>Updated <strong>{{ plugin.createdDateTime }}</strong></li>
+                        <li>Downloads <strong>{{ plugin.numDownloads }}</strong></li>
                     </ul>
 
                 </div>
