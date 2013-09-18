@@ -335,21 +335,26 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 
         if (searchGlobalHasValues) {
             var checkedStr = checked ? ' checked ' : '';
-            html += '<label><span id="sitesearchUseDefault"' + (!enabled ? ' style="display:none" ' : '') + '><input type="checkbox" '
+            html += '<span id="sitesearchUseDefault"' + (!enabled ? ' style="display:none" ' : '') + '><input type="checkbox" '
                 + checkedStr + ' id="sitesearchUseDefaultCheck" onclick="return onClickSiteSearchUseDefault();"> '
                 + sitesearchUseDefault + ' </span>';
                 + '</label>';
 
             html += '<div ' + ((checked && enabled) ? '' : 'style="display-none"') + ' class="searchDisplayParams form-description">'
                 + searchKeywordLabel + ' (' + strDefault + ') ' + ': '
-                + globalKeywordParameters
-                + (globalCategoryParameters.length ? ', ' + searchCategoryLabel + ': ' + globalCategoryParameters : '')
+                + piwikHelper.htmlEntities( globalKeywordParameters )
+                + (globalCategoryParameters.length ? ', ' + searchCategoryLabel + ': ' + piwikHelper.htmlEntities(globalCategoryParameters) : '')
                 + '</div>';
         }
         html += '<div id="sitesearchIntro">' + sitesearchIntro + '</div>';
 
         html += '<div id="searchSiteParameters">';
-        html += '<br/><label><div style="margin-bottom:3px">' + searchKeywordLabel + '</div><input type="text" size="22" id="searchKeywordParameters" value="' + searchKeywordParameters + '" style="margin-bottom: -10px;font-size:9pt;font-family:monospace"></input>' + searchKeywordHelp + '</label>';
+        html += '<br/><label><div style="margin-bottom:3px">'
+                + piwikHelper.htmlEntities(searchKeywordLabel)
+                + '</div><input type="text" size="22" id="searchKeywordParameters" value="'
+                + piwikHelper.htmlEntities(searchKeywordParameters)
+                + '" style="margin-bottom: -10px;font-size:9pt;font-family:monospace"></input>'
+                + searchKeywordHelp + '</label>';
 
         // if custom var plugin is disabled, category tracking not supported
         if (globalCategoryParameters != 'globalSearchCategoryParametersIsDisabled') {
