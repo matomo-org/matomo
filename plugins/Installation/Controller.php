@@ -404,8 +404,8 @@ class Controller extends \Piwik\Controller\Admin
 
         $this->initObjectsToCallAPI();
         if ($form->validate()) {
-            $name = urlencode($form->getSubmitValue('siteName'));
-            $url = urlencode($form->getSubmitValue('url'));
+            $name = Common::unsanitizeInputValue($form->getSubmitValue('siteName'));
+            $url = Common::unsanitizeInputValue($form->getSubmitValue('url'));
             $ecommerce = (int)$form->getSubmitValue('ecommerce');
 
             $request = new Request("
@@ -450,7 +450,6 @@ class Controller extends \Piwik\Controller\Admin
             $this->session->firstWebsiteSetupSuccessMessage = true;
         }
         $siteName = $this->session->site_name;
-        $siteName = Common::sanitizeInputValue(urldecode($siteName));
         $idSite = $this->session->site_idSite;
 
         // Load the Tracking code and help text from the SitesManager

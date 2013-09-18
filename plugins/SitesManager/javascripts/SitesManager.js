@@ -236,7 +236,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                         var idName = $(n).attr('id');
                         if (idName == 'siteName') {
                             siteBeingEditedName = contentBefore;
-                            var contentAfter = '<input id="' + idName + '" value="' + contentBefore + '" size="15" />';
+                            var contentAfter = '<input id="' + idName + '" value="' + piwikHelper.htmlEntities( piwikHelper.htmlDecode(contentBefore))+ '" size="15" />';
 
                             var inputSave = $('<br/><input style="margin-top:50px" type="submit" class="submit" value="' + _pk_translate('General_Save') + '" />')
                                 .click(function () { submitUpdateSite($(this).parent()); });
