@@ -117,7 +117,7 @@ class Filechecks
         }
 
         require_once $manifest;
-A
+
         $files = \Piwik\Manifest::$files;
 
         $hasMd5file = function_exists('md5_file');
