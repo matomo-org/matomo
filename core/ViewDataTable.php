@@ -128,7 +128,14 @@ class ViewDataTable
                                 $viewProperties = array(),
                                 $visualizationId = null)
     {
-        $visualizationClass = $visualizationId ? DataTableVisualization::getClassFromId($visualizationId) : null;
+        if (class_exists($visualizationId)
+            && is_subclass_of($visualizationId, "Piwik\\DataTableVisualization")
+        ) {
+            $visualizationClass = $visualizationId;
+        } else {
+            $visualizationClass = $visualizationId ? DataTableVisualization::getClassFromId($visualizationId) : null;
+        }
+
         $this->visualizationClass = $visualizationClass;
 
         list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
@@ -764,17 +771,6 @@ class ViewDataTable
             $javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
         }
 
-        // we escape the values that will be displayed in the javascript footer of each datatable
-        // to make sure there is no malicious code injected (the value are already htmlspecialchar'ed as they
-        // are loaded with Common::getRequestVar()
-        foreach ($javascriptVariablesToSet as &$value) {
-            if (is_array($value)) {
-                $value = array_map('addslashes', $value);
-            } else {
-                $value = addslashes($value);
-            }
-        }
-
         $deleteFromJavascriptVariables = array(
             'filter_excludelowpop',
             'filter_excludelowpop_value',
@@ -1044,8 +1040,7 @@ class ViewDataTable
             $loadingError = array('message' => $e->getMessage());
         }
 
-        $template = $this->viewProperties['datatable_template'];
-        $view = new View($template);
+        $view = new View("@CoreHome/_dataTable");
 
         if (!empty($loadingError)) {
             $view->error = $loadingError;
@@ -1074,7 +1069,8 @@ class ViewDataTable
         $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
         $view->clientSidePropertiesToSet = $this->getClientSidePropertiesToSet();
         $view->properties = $this->viewProperties; // TODO: should be $this. need to move non-view properties from the class
-        $view->footerIcons = $this->getFooterIconsToShow();
+        $view->footerIcons = $this->viewProperties['footer_icons'] ?: $this->getFooterIconsToShow();
+        $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
         $this->view = $view;
     }

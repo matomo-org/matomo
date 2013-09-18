@@ -132,6 +132,7 @@ abstract class Graph extends DataTableVisualization
     public static function getDefaultPropertyValues()
     {
         return array(
+            'show_limit_control' => false,
             'visualization_properties' => array(
                 'graph' => array(
                     'add_total_row' => 0,

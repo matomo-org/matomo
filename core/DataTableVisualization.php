@@ -37,7 +37,7 @@ abstract class DataTableVisualization
      * @param array $properties The view properties.
      * @return string The visualization HTML.
      */
-    public abstract function render($dataTable, $properties);
+    //public abstract function render($dataTable, $properties); temporarily commented out
 
     /**
      * Default implementation of getDefaultPropertyValues static function.
@@ -106,7 +106,7 @@ abstract class DataTableVisualization
         if (defined('static::ID')) {
             return static::ID;
         } else {
-            return Piwik::getUnnamespacedClassName($this);
+            return get_called_class();
         }
     }
 

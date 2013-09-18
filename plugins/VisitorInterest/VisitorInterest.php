@@ -172,6 +172,7 @@ class VisitorInterest extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_offset_information' => false,
             'show_pagination_control' => false,
+            'show_limit_control' => false,
             'show_search' => false,
             'show_table_all_columns' => false,
             'visualization_properties' => array(
@@ -193,6 +194,7 @@ class VisitorInterest extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_offset_information' => false,
             'show_pagination_control' => false,
+            'show_limit_control' => false,
             'show_search' => false,
             'show_table_all_columns' => false,
             'visualization_properties' => array(
@@ -214,6 +216,7 @@ class VisitorInterest extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_offset_information'     => false,
             'show_pagination_control'     => false,
+            'show_limit_control'          => false,
             'filter_limit'                => 15,
             'show_search'                 => false,
             'enable_sort'                 => false,
@@ -231,6 +234,7 @@ class VisitorInterest extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_offset_information'     => false,
             'show_pagination_control'     => false,
+            'show_limit_control'          => false,
             'show_all_views_icons'        => false,
             'filter_limit'                => 15,
             'show_search'                 => false,

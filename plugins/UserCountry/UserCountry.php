@@ -318,6 +318,7 @@ class UserCountry extends \Piwik\Plugin
             'show_search'                 => false,
             'show_offset_information'     => false,
             'show_pagination_control'     => false,
+            'show_limit_control'          => false,
             'translations'                => array('label' => Piwik_Translate('UserCountry_Continent')),
             'documentation'               => Piwik_Translate('UserCountry_getContinentDocumentation')
         );

@@ -129,6 +129,7 @@ class VisitTime extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_offset_information'     => false,
             'show_pagination_control'     => false,
+            'show_limit_control'          => false,
             'default_view_type'           => 'graphVerticalBar'
         );
 

@@ -7,8 +7,11 @@
         .plugin .description { padding-bottom: 10px; }
         .plugin .install { float: right; }
         .plugin .more { font-weight: bold; text-decoration: none; color: #1D3256 }
+        .plugin .metadata { margin-top: 10px; }
         .plugin h3 { display: inline; }
-        .plugin { width: 300px; float: left; }
+        .plugin { width: 300px; float: left; border: 1px solid #dadada; padding: 15px; background-color: #F6F5F3;
+            margin-right: 5px; margin-bottom: 5px;
+        }
         .themeslist { margin-top: 20px;max-width:980px;clear:right; }
         .infoBox {
             font-size: 14px;
@@ -61,10 +64,10 @@
                     <h3 class="header"><a href="javascript:return;" class="more">{{ plugin.name }}</a></h3>
                     <p class="description">{{ plugin.description }}</p>
                     <img src="{{ plugin.screenshots|first }}?w=250&h=250" height="250" width="250"/>
-                    <ul>
-                        <li>Version {{ plugin.latestVersion }}</li>
-                        <li>Updated {{ plugin.createdDateTime }}</li>
-                        <li>Downloads {{ plugin.numDownloads }}</li>
+                    <ul class="metadata">
+                        <li>Version <strong>{{ plugin.latestVersion }}</strong></li>
+                        <li>Updated <strong>{{ plugin.createdDateTime }}</strong></li>
+                        <li>Downloads <strong>{{ plugin.numDownloads }}</strong></li>
                     </ul>
 
                 </div>

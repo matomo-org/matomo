@@ -251,6 +251,7 @@ class UserSettings extends \Piwik\Plugin
             'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnBrowserFamily')),
             'show_offset_information' => false,
             'show_pagination_control' => false,
+            'show_limit_control'      => false,
             'default_view_type'       => 'graphPie',
         ));
     }
@@ -261,6 +262,7 @@ class UserSettings extends \Piwik\Plugin
             'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')),
             'show_offset_information' => false,
             'show_pagination_control' => false,
+            'show_limit_control'      => false,
             'title'                   => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
             'related_reports'          => $this->getWideScreenDeviceTypeRelatedReports()
         ));
@@ -285,6 +287,7 @@ class UserSettings extends \Piwik\Plugin
             ),
             'show_offset_information'  => false,
             'show_pagination_control'  => false,
+            'show_limit_control'       => false,
             'show_all_views_icons'     => false,
             'show_table_all_columns'   => false,
             'columns_to_display'       => array('label', 'nb_visits_percentage', 'nb_visits'),

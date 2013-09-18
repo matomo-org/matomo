@@ -289,12 +289,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // setup limit control
         $('.limitSelection', domElem).append('<div><span>' + self.param[limitParamName] + '</span></div><ul></ul>');
 
-        if (self.param.viewDataTable == 'table'
-            || self.param.viewDataTable == 'tableAllColumns'
-            || self.param.viewDataTable == 'tableGoals'
-            || self.param.viewDataTable == 'ecommerceOrder'
-            || self.param.viewDataTable == 'ecommerceAbandonedCart'
-            || self.param.viewDataTable == 'graphEvolution') {
+        if (self.props.show_limit_control) {
             $('.limitSelection ul', domElem).hide();
             for (var i = 0; i < numbers.length; i++) {
                 $('.limitSelection ul', domElem).append('<li value="' + numbers[i] + '"><span>' + numbers[i] + '</span></li>');
@@ -734,7 +729,12 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
             
-            DataTable._footerIconHandlers[id](self, id);
+            var handler = DataTable._footerIconHandlers[id];
+            if (!handler) {
+                handler = DataTable._footerIconHandlers['table'];
+            }
+
+            handler(self, id);
         })
 
         //Graph icon Collapsed functionality
