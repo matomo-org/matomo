@@ -46,10 +46,16 @@ class Controller extends \Piwik\Controller\Admin
         }
 
         Nonce::discardNonce('CorePluginsAdmin.activatePlugin');
+
+        $plugin = PluginsManager::getInstance()->loadPlugin($pluginName);
+
+        if (empty($plugin)) {
+            throw new \Exception('Failed to activate, the plugin is not installed');
+        }
+
         PluginsManager::getInstance()->activatePlugin($pluginName);
 
-        // TODO perform redirect otherwise page reload won't work afterwards
-        $this->extend();
+        $this->redirectToIndex('CorePluginsAdmin', 'extend');
     }
 
     public function updatePlugin()
