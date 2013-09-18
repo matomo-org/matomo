@@ -31,6 +31,8 @@ class Cloud extends DataTableVisualization
     /**
      * Whether to display the logo assocatied with a DataTable row (stored as 'logo' row metadata)
      * instead of the label in Tag Clouds.
+     * 
+     * Default value: false
      */
     const DISPLAY_LOGO_INSTEAD_OF_LABEL = 'display_logo_instead_of_label';
 

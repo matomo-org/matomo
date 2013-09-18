@@ -22,8 +22,6 @@ use Piwik\Common;
  * Contains the list of all core DataTable display properties for use with ViewDataTable.
  *
  * @see ViewDataTable - for more info.
- *
- * TODO: list default value for each property
  */
 class Properties
 {
@@ -63,7 +61,9 @@ class Properties
      * can provide your own footer icon behavior by adding an appropriate handler via
      * DataTable.registerFooterIconHandler in your JavaScript.
      * 
-     * Default value: // TODO
+     * Default value: The default value will show the 'Normal Table' icon, the 'All Columns'
+     * icon, the 'Goals Columns' icon and all jqPlot graph columns, unless other properties
+     * tell the view to exclude them.
      */
     const FOOTER_ICONS = 'footer_icons';
 
@@ -71,34 +71,49 @@ class Properties
      * Controls whether the buttons and UI controls around the visualization or shown or
      * if just the visualization alone is shown.
      * 
-     * Default: false
+     * Default value: false
      */
     const SHOW_VISUALIZATION_ONLY = 'show_visualization_only';
 
     /**
      * Controls whether the goals footer icon is shown.
+     * 
+     * Default value: false
      */
     const SHOW_GOALS = 'show_goals';
 
     /**
      * Array property mapping DataTable column names with their internationalized names.
+     * 
+     * The value you specify for this property is merged with the default value so you
+     * don't have to specify translations that already exist in the default value.
+     * 
+     * Default value: Array containing translations of common metrics.
      */
     const COLUMN_NAME_TRANSLATIONS = 'translations';
 
     /**
      * Controls which column to sort the DataTable by before truncating and displaying.
+     * 
+     * Default value: If the report contains nb_uniq_visitors and nb_uniq_visitors is a
+     *                displayed column, then the default value is 'nb_uniq_visitors'.
+     *                Otherwise, it is 'nb_visits'.
      */
     const SORTED_COLUMN = 'filter_sort_column';
 
     /**
      * Controls the sort order. Either 'asc' or 'desc'.
-     *
+     * 
+     * Default value: 'desc'
+     * 
      * @see self::SORTED_COLUMN
      */
     const SORT_ORDER = 'filter_sort_order';
 
     /**
      * The number of items to truncate the data set to before rendering the DataTable view.
+     * 
+     * Default value: false
      * 
      * @see self::OFFSET
      */
@@ -107,6 +122,8 @@ class Properties
     /**
      * The number of items from the start of the data set that should be ignored.
      * 
+     * Default value: 0
+     * 
      * @see self::LIMIT
      */
     const OFFSET = 'filter_offset';
@@ -114,33 +131,45 @@ class Properties
     /**
      * Controls whether the 'Exclude Low Population' option (visible in the popup that displays after
      * clicking the 'cog' icon) is shown.
+     * 
+     * Default value: true
      */
     const SHOW_EXCLUDE_LOW_POPULATION = 'show_exclude_low_population';
 
     /**
      * Whether to show the 'Flatten' option (visible in the popup that displays after clicking the
      * 'cog' icon).
+     * 
+     * Default value: true
      */
     const SHOW_FLATTEN_TABLE = 'show_flatten_table';
 
     /**
      * Controls whether the footer icon that allows user to switch to the 'normal' DataTable view
      * is shown.
+     * 
+     * Default value: true
      */
     const SHOW_NORMAL_TABLE_VIEW = 'show_table';
 
     /**
      * Controls whether the 'All Columns' footer icon is shown.
+     * 
+     * Default value: true
      */
     const SHOW_ALL_TABLE_VIEW = 'show_table_all_columns';
 
     /**
      * Controls whether the entire view footer is shown.
+     * 
+     * Default value: true
      */
     const SHOW_FOOTER = 'show_footer';
 
     /**
      * Controls whether the row that contains all footer icons & the limit selector is shown.
+     * 
+     * Default value: true
      */
     const SHOW_FOOTER_ICONS = 'show_footer_icons';
 
@@ -149,17 +178,24 @@ class Properties
      * should not appear in ViewDataTable visualizations.
      *
      * Example: array('label', 'nb_visits', 'nb_uniq_visitors')
+     * 
+     * Default value: array('label', 'nb_visits') or array('label', 'nb_uniq_visitors') if
+     *                the report contains a nb_uniq_visitors column.
      */
     const COLUMNS_TO_DISPLAY = 'columns_to_display';
 
     /**
      * Controls whether the footer icons that change the ViewDataTable type of a view are shown
      * or not.
+     * 
+     * Default value: true
      */
     const SHOW_ALL_VIEW_ICONS = 'show_all_views_icons';
 
     /**
      * Controls whether to display a tiny upside-down caret over the currently active view icon.
+     * 
+     * Default value: true
      */
     const SHOW_ACTIVE_VIEW_ICON = 'show_active_view_icon';
 
@@ -169,6 +205,8 @@ class Properties
      * navigated back to.
      * 
      * @see also self::TITLE. Both must be set if associating related reports.
+     * 
+     * Default value: array()
      */
     const RELATED_REPORTS = 'related_reports';
 
@@ -177,16 +215,22 @@ class Properties
      * reports.
      * 
      * @see also self::RELATED_REPORTS. This must be set if related reports are added.
+     * 
+     * Default value: ''
      */
     const TITLE = 'title';
 
     /**
      * Controls whether a report's related reports are listed with the view or not.
+     * 
+     * Default value: true
      */
     const SHOW_RELATED_REPORTS = 'show_related_reports';
 
     /**
      * Contains the documentation for a report.
+     * 
+     * Default value: false
      */
     const REPORT_DOCUMENTATION = 'documentation';
 
@@ -195,6 +239,8 @@ class Properties
      * by ViewDataTable.
      * 
      * E.g. array('idSite' => ..., 'period' => 'month')
+     * 
+     * Default value: array()
      */
     const REQUEST_PARAMETERS_TO_MODIFY = 'request_parameters_to_modify';
 
@@ -202,6 +248,8 @@ class Properties
      * A regex pattern to use to filter the DataTable before it is shown.
      * 
      * @see also self::FILTER_PATTERN_COLUMN
+     * 
+     * Default value: false
      */
     const FILTER_PATTERN = 'filter_pattern';
 
@@ -209,6 +257,8 @@ class Properties
      * The column to apply a filter pattern to.
      * 
      * @see also self::FILTER_PATTERN
+     * 
+     * Default value: false
      */
     const FILTER_PATTERN_COLUMN = 'filter_column';
 
@@ -217,6 +267,8 @@ class Properties
      * of a data table div. This data can be used by JavaScript DataTable classes.
      * 
      * e.g. array('typeReferer' => ...)
+     * 
+     * Default value: array()
      */
     const CUSTOM_PARAMETERS = 'custom_parameters';
 
@@ -224,6 +276,8 @@ class Properties
      * Whether to run generic filters on the DataTable before rendering or not.
      * 
      * @see Piwik_API_DataTableGenericFilter
+     * 
+     * Default value: false
      */
     const DISABLE_GENERIC_FILTERS = 'disable_generic_filters';
 
@@ -231,6 +285,8 @@ class Properties
      * Whether to run ViewDataTable's list of queued filters or not.
      * 
      * NOTE: Priority queued filters are always run.
+     * 
+     * Default value: false
      */
     const DISABLE_QUEUED_FILTERS = 'disable_queued_filters';
 
@@ -239,41 +295,57 @@ class Properties
      * is always shown or not.
      * 
      * Normally shown only if pagination is enabled.
+     * 
+     * Default value: true
      */
     const ALWAYS_SHOW_LIMIT_DROPDOWN = 'show_limit_control';
 
     /**
      * Controls whether the search box under the datatable is shown.
+     * 
+     * Default value: true
      */
     const SHOW_SEARCH_BOX = 'show_search';
 
     /**
      * Controls whether the user can sort DataTables by clicking on table column headings.
+     * 
+     * Default value: true
      */
     const ENABLE_SORT = 'enable_sort';
 
     /**
      * Controls whether the footer icon that allows users to view data as a bar chart is shown.
+     * 
+     * Default value: true
      */
     const SHOW_BAR_CHART_ICON = 'show_bar_chart';
 
     /**
      * Controls whether the footer icon that allows users to view data as a pie chart is shown.
+     * 
+     * Default value: true
      */
     const SHOW_PIE_CHART_ICON = 'show_pie_chart';
 
     /**
      * Controls whether the footer icon that allows users to view data as a tag cloud is shown.
+     * 
+     * Default value: true
      */
     const SHOW_TAG_CLOUD = 'show_tag_cloud';
 
     /**
      * Controls whether the user is allowed to export data as an RSS feed or not.
+     * 
+     * Default value: true
      */
     const SHOW_EXPORT_AS_RSS_FEED = 'show_export_as_rss_feed';
 
     /**
      * Controls whether the 'Ecoommerce Orders'/'Abandoned Cart' footer icons are shown or not.
+     * 
+     * Default value: false
      */
     const SHOW_ECOMMERCE_FOOTER_ICONS = 'show_ecommerce';
 
@@ -281,6 +353,8 @@ class Properties
      * Stores the column name to filter when filtering out rows with low values.
      * 
      * @see also self::EXCLUDE_LOW_POPULATION_VALUE
+     * 
+     * Default value: false
      */
     const EXCLUDE_LOW_POPULATION_COLUMN = 'filter_excludelowpop';
 
@@ -288,11 +362,15 @@ class Properties
      * Stores the value considered 'low' when filtering out rows w/ low values.
      * 
      * @see also self::EXCLUDE_LOW_POPULATION_COLUMN
+     * 
+     * Default value: false
      */
     const EXCLUDE_LOW_POPULATION_VALUE = 'filter_excludelowpop_value';
 
     /**
      * Stores an HTML message (if any) to display under the datatable view.
+     * 
+     * Default value: false
      */
     const FOOTER_MESSAGE = 'show_footer_message';
 
@@ -307,6 +385,8 @@ class Properties
 
     /**
      * Row metadata name that contains the tooltip for the specific row.
+     * 
+     * Default value: false
      */
     const TOOLTIP_METADATA_NAME = 'tooltip_metadata_name';
 
@@ -316,6 +396,8 @@ class Properties
      * of a single report when going back to the original report.
      * 
      * @see also self::RELATED_REPORTS
+     * 
+     * Default value: The URL used to request the report without generic filters.
      */
     const THIS_REPORT_URL = 'self_url';
 
@@ -329,12 +411,16 @@ class Properties
     /**
      * CSS class to use in the output HTML div. This is added in addition to the visualization CSS
      * class.
+     * 
+     * Default value: false
      */
     const DATATABLE_CSS_CLASS = 'datatable_css_class';
 
     /**
      * The JavaScript class to instantiate after the result HTML is obtained. This class handles all
      * interactive behavior for the DataTable view.
+     * 
+     * Default value: 'DataTable'
      */
     const DATATABLE_JS_TYPE = 'datatable_js_type';
 
@@ -342,16 +428,22 @@ class Properties
      * If true, searching through the DataTable will search through all subtables.
      * 
      * @see also self::FILTER_PATTERN
+     * 
+     * Default value: false
      */
     const DO_RECURSIVE_SEARCH = 'search_recursive';
 
     /**
      * The unit of the displayed column. Valid if only one non-label column is displayed.
+     * 
+     * Default value: false
      */
     const DISPLAYED_COLUMN_UNIT = 'y_axis_unit';
 
     /**
      * Controls whether to show the 'Export as Image' footer icon.
+     * 
+     * Default value: false
      */
     const SHOW_EXPORT_AS_IMAGE_ICON = 'show_export_as_image_icon';
 
@@ -366,6 +458,8 @@ class Properties
      * add/delete rows.
      * 
      * If a closure is used, the view is appended as a parameter.
+     * 
+     * Default value: array()
      */
     const FILTERS = 'filters';
 
@@ -378,11 +472,15 @@ class Properties
      * a ViewDataTable after data has been loaded. If you need to use properties that are
      * only set after data is loaded (like 'columns_to_display'), you'll have to use this
      * property.
+     * 
+     * Default value: array()
      */
     const AFTER_DATA_LOADED_FUNCTIONS = 'after_data_loaded_functions';
 
     /**
      * Contains the controller action to call when requesting subtables of the current report.
+     * 
+     * Default value: The controller action used to request the report.
      */
     const SUBTABLE_CONTROLLER_ACTION = 'subtable_controller_action';
 
@@ -393,6 +491,8 @@ class Properties
      * TODO: pagination/offset is only valid for HtmlTables... should only display for those visualizations.
      * 
      * @see self::SHOW_OFFSET_INFORMATION
+     * 
+     * Default value: true
      */
     const SHOW_PAGINATION_CONTROL = 'show_pagination_control';
 
@@ -400,21 +500,29 @@ class Properties
      * Controls whether offset information (ie, '5-10 of 20') is shown under the datatable. 
      * 
      * @see self::SHOW_PAGINATION_CONTROL
+     * 
+     * Default value: true
      */
     const SHOW_OFFSET_INFORMATION = 'show_offset_information';
 
     /**
      * Controls whether annotations are shown or not.
+     * 
+     * Default value: true
      */
     const HIDE_ANNOTATIONS_VIEW = 'hide_annotations_view';
 
     /**
      * The filter_limit query parameter value to use in export links.
+     * 
+     * Default value: The value of the 'API_datatable_default_limit' config option.
      */
     const EXPORT_LIMIT = 'export_limit';
 
     /**
      * Controls whether non-Core DataTable visualizations are shown or not.
+     * 
+     * Default value: true
      */
     const SHOW_NON_CORE_VISUALIZATIONS = 'show_non_core_visualizations';
 
@@ -608,6 +716,7 @@ class Properties
             'show_limit_control' => true,
             'show_footer' => true,
             'show_footer_icons' => true,
+            'show_footer_message' => false,
             'show_related_reports' => true,
             'show_non_core_visualizations' => true,
             'export_limit' => Config::getInstance()->General['API_datatable_default_limit'],
@@ -638,6 +747,7 @@ class Properties
             'after_data_loaded_functions' => array(),
             'hide_annotations_view' => true,
             'columns_to_display' => array(),
+            'y_axis_unit' => false
         );
 
         $columns = Common::getRequestVar('columns', false);

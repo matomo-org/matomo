@@ -28,6 +28,8 @@ class Evolution extends JqplotGraph
 
     /**
      * Whether to show a line graph or a bar graph.
+     * 
+     * Default value: true
      */
     const SHOW_LINE_GRAPH = 'show_line_graph';
 
