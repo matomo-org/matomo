@@ -6,16 +6,22 @@
 
         <h2>Updating plugin {{ plugin.name}}</h2>
 
-        <div>
-            <p>Downloading plugin from Marketplace</p>
+        {% if errorMessage %}
+            <div class="ajaxError" style="">{{ errorMessage }}</div>
+        {% else %}
 
-            <p>Unzipping plugin</p>
+            <div>
+                <p>Downloading plugin from Marketplace</p>
 
-            <p>Replacing existing plugin</p>
+                <p>Unzipping plugin</p>
 
-            <p>You have successfully updated the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+                <p>Replacing existing plugin</p>
 
-        </div>
+                <p>You have successfully updated the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+
+            </div>
+
+        {% endif %}
     </div>
 
 {% endblock %}

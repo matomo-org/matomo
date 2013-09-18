@@ -38,12 +38,11 @@ class Controller extends \Piwik\Controller\Admin
         $nonce      = Common::getRequestVar('nonce', '', 'string');
 
         if (empty($pluginName)) {
-            return;
+            throw new \Exception('Plugin parameter is missing');
         }
 
         if (!Nonce::verifyNonce('CorePluginsAdmin.activatePlugin', $nonce)) {
-            // todo display error
-            return;
+            throw new \Exception(Piwik_Translate('ExceptionNonceMismatch'));
         }
 
         Nonce::discardNonce('CorePluginsAdmin.activatePlugin');
@@ -55,25 +54,37 @@ class Controller extends \Piwik\Controller\Admin
 
     public function updatePlugin()
     {
+        $view = $this->configureView('@CorePluginsAdmin/updatePlugin');
+        $view->errorMessage = '';
+
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
         $nonce      = Common::getRequestVar('nonce', '', 'string');
 
         if (empty($pluginName)) {
-            return;
+            throw new \Exception('Plugin parameter is missing');
         }
 
+        $view->plugin = array('name' => $pluginName);
+
         if (!Nonce::verifyNonce('CorePluginsAdmin.updatePlugin', $nonce)) {
-            // todo display error
+            $view->errorMessage = Piwik_Translate('ExceptionNonceMismatch');
+            echo $view->render();
             return;
         }
 
         Nonce::discardNonce('CorePluginsAdmin.updatePlugin');
 
-        $pluginInstaller = new PluginInstaller($pluginName);
-        $pluginInstaller->installOrUpdatePluginFromMarketplace();
-        $marketplace = new MarketplaceApiClient();
+        try {
+            $pluginInstaller = new PluginInstaller($pluginName);
+            $pluginInstaller->installOrUpdatePluginFromMarketplace();
 
-        $view         = $this->configureView('@CorePluginsAdmin/updatePlugin');
+        } catch (PluginInstallerException $e) {
+            $view->errorMessage = $e->getMessage();
+            echo $view->render();
+            return;
+        }
+
+        $marketplace  = new MarketplaceApiClient();
         $view->plugin = $marketplace->getPluginInfo($pluginName);
 
         echo $view->render();
@@ -81,7 +92,8 @@ class Controller extends \Piwik\Controller\Admin
 
     public function installPlugin()
     {
-        $view         = $this->configureView('@CorePluginsAdmin/installPlugin');
+        $view = $this->configureView('@CorePluginsAdmin/installPlugin');
+        $view->errorMessage = '';
 
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
         $nonce      = Common::getRequestVar('nonce', '', 'string');
@@ -173,7 +185,7 @@ class Controller extends \Piwik\Controller\Admin
             $sort = $this->defaultSortMethod;
         }
 
-        $marketplace   = new MarketplaceApiClient();
+        $marketplace = new MarketplaceApiClient();
 
         $view    = $this->configureView('@CorePluginsAdmin/browseThemes');
         $plugins = $marketplace->searchForThemes('', $query, $sort);
@@ -183,7 +195,7 @@ class Controller extends \Piwik\Controller\Admin
             $plugin->isInstalled     = !empty($loadedPlugins[$plugin->name]);
             $plugin->createdDateTime = Date::factory($plugin->createdDateTime)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
         }
-        
+
         $view->plugins = $plugins;
 
         $view->query   = $query;
