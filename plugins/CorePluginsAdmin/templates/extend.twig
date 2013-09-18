@@ -3,6 +3,11 @@
 {% import '@CorePluginsAdmin/macros.twig' as plugins %}
 
 {% block content %}
+    <style type="text/css">
+        .extend .header { font-size: 1.6em; }
+        .extend .callToAction { font-size: 1.1em;line-height: 2em; }
+    </style>
+
     <div style="max-width:980px;">
 
         <h2>Extend Piwik with Plugins and Themes</h2>
@@ -16,28 +21,28 @@
         </em>
     </div>
 
-    <div>
+    <div class="extend">
 
         <div style="width:50%;float:left;">
-            <h3>Get new functionality</h3>
-            by <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">installing a new plugin</a>
+            <h3 class="header">Get new functionality</h3>
+            <span class="callToAction">by <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">installing a new plugin</a></span>
 
             <p>
                 <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><img src="" width="250" height="250"/></a>
             </p>
 
-            <p>or <a href="#">write your own plugin</a></p>
+            <span class="callToAction">or <a href="#">write your own plugin</a></span>
         </div>
 
         <div style="width:50%;float:left;">
-            <h3>Enjoy another look & feel</h3>
-            by <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">installing a new theme</a>
+            <h3 class="header">Enjoy another look & feel</h3>
+            <span class="callToAction">by <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">installing a new theme</a></span>
 
             <p>
                 <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><img src="" width="250" height="250"/></a>
             </p>
 
-            <p>or <a href="#">design your own theme</a></p>
+            <span class="callToAction">or <a href="#">design your own theme</a></span>
         </div>
     </div>
 {% endblock %}
