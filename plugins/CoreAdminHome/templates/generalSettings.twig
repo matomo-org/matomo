@@ -7,7 +7,7 @@
 
 {% if isSuperUser %}
     <h2>{{ 'General_GeneralSettings'|translate }}</h2>
-    {{ ajax.errorDiv('ajaxError') }}
+    {{ ajax.errorDiv() }}
     {{ ajax.loadingDiv() }}
     <table class="adminTable" style='width:900px;'>
         <tr>

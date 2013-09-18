@@ -102,7 +102,7 @@ class PDFReports extends \Piwik\Plugin
     /**
      * Delete reports for the website
      */
-    public function deleteSiteReport(&$idSite)
+    public function deleteSiteReport($idSite)
     {
         $idReports = API::getInstance()->getReports($idSite);
 
