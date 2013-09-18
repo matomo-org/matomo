@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Nonce;
@@ -134,8 +135,15 @@ class Controller extends \Piwik\Controller\Admin
 
         $marketplace   = new MarketplaceApiClient();
 
-        $view          = $this->configureView('@CorePluginsAdmin/browsePlugins');
-        $view->plugins = $marketplace->searchForPlugins('', $query, $sort);
+        $view    = $this->configureView('@CorePluginsAdmin/browsePlugins');
+        $plugins = $marketplace->searchForPlugins('', $query, $sort);
+
+        foreach ($plugins as $plugin) {
+            $plugin->createdDateTime = Date::factory($plugin->createdDateTime)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
+        }
+
+        $view->plugins = $plugins;
+
         $view->query   = $query;
         $view->nonce   = Nonce::getNonce('CorePluginsAdmin.installPlugin');
 
@@ -152,8 +160,15 @@ class Controller extends \Piwik\Controller\Admin
 
         $marketplace   = new MarketplaceApiClient();
 
-        $view          = $this->configureView('@CorePluginsAdmin/browseThemes');
-        $view->plugins = $marketplace->searchForThemes('', $query, $sort);
+        $view    = $this->configureView('@CorePluginsAdmin/browseThemes');
+        $plugins = $marketplace->searchForThemes('', $query, $sort);
+
+        foreach ($plugins as $plugin) {
+            $plugin->createdDateTime = Date::factory($plugin->createdDateTime)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
+        }
+
+        $view->plugins = $plugins;
+
         $view->query   = $query;
         $view->nonce   = Nonce::getNonce('CorePluginsAdmin.installPlugin');
 
@@ -171,7 +186,7 @@ class Controller extends \Piwik\Controller\Admin
         $view = $this->configureView('@CorePluginsAdmin/plugins');
 
         $view->updateNonce = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
-        $view->pluginsInfo = $this->getPluginsInfo();;
+        $view->pluginsInfo = $this->getPluginsInfo();
 
         $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($themesOnly = false);
 
@@ -287,7 +302,6 @@ class Controller extends \Piwik\Controller\Admin
     }
 
     /**
-     * @param $pluginsInfo
      * @param bool $themesOnly
      * @return array
      */
