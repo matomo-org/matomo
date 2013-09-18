@@ -8,7 +8,7 @@
         .plugin .install { float: right; }
         .plugin h3 { display: inline; }
         .plugin { width: 300px; float: left; }
-        .themeslist { margin-top: 20px;max-width:980px; }
+        .themeslist { margin-top: 20px;max-width:980px;clear:right; }
         .infoBox {
             font-size: 14px;
             margin: 0px 0px 10px 10px;
@@ -23,7 +23,7 @@
         }
     </style>
 
-    <div style="width:800px;max-width:980px;">
+    <div style="max-width:980px;">
 
         <h2>Enjoy another look & feel by installing a new theme</h2>
 
@@ -47,24 +47,28 @@
 
     <div class="themeslist" style="">
 
-        {% for plugin in plugins %}
+        {% if plugins|length %}
+            {% for plugin in plugins %}
 
-            <div class="plugin">
+                <div class="plugin">
 
-                <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
+                    <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
 
-                <h3 class="header">{{ plugin.name }}</h3>
-                <p class="description">{{ plugin.description }}</p>
-                <img src="" height="250" width="250"/>
-                <ul>
-                    <li>Version {{ plugin.latestVersion }}</li>
-                    <li>Updated {{ plugin.timestamp }}</li>
-                    <li>Downloads {{ plugin.numDownloads }}</li>
-                </ul>
+                    <h3 class="header">{{ plugin.name }}</h3>
+                    <p class="description">{{ plugin.description }}</p>
+                    <img src="" height="250" width="250"/>
+                    <ul>
+                        <li>Version {{ plugin.latestVersion }}</li>
+                        <li>Updated {{ plugin.timestamp }}</li>
+                        <li>Downloads {{ plugin.numDownloads }}</li>
+                    </ul>
 
-            </div>
+                </div>
 
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            No themes found
+        {% endif %}
 
     </div>
 {% endblock %}

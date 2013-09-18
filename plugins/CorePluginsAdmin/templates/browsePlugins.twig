@@ -6,7 +6,7 @@
         .plugin ul { list-style: none;margin-left: 0; }
         .plugin .description { padding-bottom: 10px; }
         .plugin .install { float: right; }
-        .pluginslist { margin-top: 20px;max-width:980px; }
+        .pluginslist { margin-top: 20px;max-width:980px;clear: right; }
         .infoBox {
             font-size: 14px;
             margin: 0px 0px 10px 10px;
@@ -21,7 +21,7 @@
         }
     </style>
 
-    <div style="width: 800px;max-width:980px;">
+    <div style="max-width:980px;">
 
         <h2>Extend Piwik by installing a new plugin</h2>
 
@@ -45,23 +45,27 @@
 
     <div class="pluginslist" style="">
 
-        {% for plugin in plugins %}
+        {% if plugins|length %}
+            {% for plugin in plugins %}
 
-            <div class="plugin">
+                <div class="plugin">
 
-                <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
+                    <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
 
-                <h3 class="header">{{ plugin.name }}</h3>
-                <p class="description">{{ plugin.description }}</p>
-                <ul>
-                    <li>Version {{ plugin.latestVersion }}</li>
-                    <li>Updated {{ plugin.timestamp }}</li>
-                    <li>Downloads {{ plugin.numDownloads }}</li>
-                </ul>
+                    <h3 class="header">{{ plugin.name }}</h3>
+                    <p class="description">{{ plugin.description }}</p>
+                    <ul>
+                        <li>Version {{ plugin.latestVersion }}</li>
+                        <li>Updated {{ plugin.timestamp }}</li>
+                        <li>Downloads {{ plugin.numDownloads }}</li>
+                    </ul>
 
-            </div>
+                </div>
 
-        {% endfor %}
+            {% endfor %}
 
+        {% else %}
+            No plugins found
+        {% endif %}
     </div>
 {% endblock %}
