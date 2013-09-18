@@ -8,7 +8,7 @@
     {% if pluginsHavingUpdate|length %}
         <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
 
-        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, pluginsInfo, updateNonce, 0) }}
+        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, 0) }}
     {% endif %}
 
     <h2>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>
