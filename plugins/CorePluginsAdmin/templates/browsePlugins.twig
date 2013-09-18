@@ -50,8 +50,11 @@
             {% for plugin in plugins %}
 
                 <div class="plugin">
-
-                    <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
+                    {% if plugin.isInstalled %}
+                        <span class="install">Installed</span>
+                    {% else %}
+                        <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
+                    {% endif %}
 
                     <h3 class="header"><a href="javascript:return;" class="more">{{ plugin.name }}</a></h3>
                     <p class="description">{{ plugin.description }}
