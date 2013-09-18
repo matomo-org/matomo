@@ -322,7 +322,7 @@ class Controller extends \Piwik\Controller
         $integrityInfo = Filechecks::getFileIntegrityInformation();
         if (isset($integrityInfo[1])) {
             if ($integrityInfo[0] == false) {
-                $this->warningMessages[] = '<b>' . Piwik_Translate('General_FileIntegrityWarningExplanation') . '</b>';
+                $this->warningMessages[] = Piwik_Translate('General_FileIntegrityWarningExplanation');
             }
             $this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
         }

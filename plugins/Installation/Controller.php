@@ -846,7 +846,7 @@ class Controller extends \Piwik\Controller\Admin
         $infos['integrityErrorMessages'] = array();
         if (isset($integrityInfo[1])) {
             if ($infos['integrity'] == false) {
-                $infos['integrityErrorMessages'][] = '<b>' . Piwik_Translate('General_FileIntegrityWarningExplanation') . '</b>';
+                $infos['integrityErrorMessages'][] = Piwik_Translate('General_FileIntegrityWarningExplanation');
             }
             $infos['integrityErrorMessages'] = array_merge($infos['integrityErrorMessages'], array_slice($integrityInfo, 1));
         }
