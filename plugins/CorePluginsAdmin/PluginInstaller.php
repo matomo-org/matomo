@@ -53,11 +53,21 @@ class PluginInstaller
     {
         $this->removeFileIfExists($pluginZipTargetFile);
 
-        $marketplace = new MarketplaceApiClient();
-        $success = $marketplace->download($this->pluginName, $pluginZipTargetFile);
+        try {
+            $marketplace   = new MarketplaceApiClient();
+            $pluginDetails = $marketplace->getPluginInfo($this->pluginName);
+        } catch (\Exception $e) {
+            throw new PluginInstallerException($e->getMessage());
+        }
 
-        if (!$success) {
-            throw new \Exception('Failed to download plugin');
+        if (empty($pluginDetails)) {
+            throw new PluginInstallerException('A plugin with this name does not exist');
+        }
+
+        try {
+            $marketplace->download($this->pluginName, $pluginZipTargetFile);
+        } catch (\Exception $e) {
+            throw new PluginInstallerException('Failed to download plugin: ' . $e->getMessage());
         }
     }
 
@@ -73,18 +83,18 @@ class PluginInstaller
         $this->removeFolderIfExists($pathExtracted);
 
         if (0 == ($pluginFiles = $archive->extract($pathExtracted))) {
-            throw new \Exception(Piwik_TranslateException('Plugin_ExceptionArchiveIncompatible', $archive->errorInfo()));
+            throw new PluginInstallerException(Piwik_TranslateException('Plugin_ExceptionArchiveIncompatible', $archive->errorInfo()));
         }
 
         if (0 == count($pluginFiles)) {
-            throw new \Exception(Piwik_TranslateException('Plugin Zip File Is Empty'));
+            throw new PluginInstallerException(Piwik_TranslateException('Plugin Zip File Is Empty'));
         }
     }
 
     private function makeSurePluginJsonExists($tmpPluginFolder)
     {
-        if (!file_exists($tmpPluginFolder . '/' . $this->pluginName . '/plugin.json')) {
-            throw new \Exception('It is not a valid Plugin, missing plugin.json');
+        if (!file_exists($tmpPluginFolder . DIRECTORY_SEPARATOR . $this->pluginName . DIRECTORY_SEPARATOR . 'plugin.json')) {
+            throw new PluginInstallerException('Plugin is not valid, missing plugin.json');
         }
     }
 

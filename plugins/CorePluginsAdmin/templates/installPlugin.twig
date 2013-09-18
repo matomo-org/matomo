@@ -6,19 +6,25 @@
 
         <h2>Installing plugin {{ plugin.name}}</h2>
 
-        <div>
-            <p>Downloading plugin from Marketplace</p>
+        {% if errorMessage %}
+            <div class="ajaxError" style="">{{ errorMessage }}</div>
+        {% else %}
 
-            <p>Unzipping plugin</p>
+            <div>
+                <p>Downloading plugin from Marketplace</p>
 
-            <p>Installing plugin</p>
+                <p>Unzipping plugin</p>
 
-            <p>You have successfully installed the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+                <p>Installing plugin</p>
 
-            <p><strong><a href="{{ linkTo({'action': 'activatePlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Plugin</a></strong>
-                |
-                <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
-        </div>
+                <p>You have successfully installed the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+
+                <p><strong><a href="{{ linkTo({'action': 'activatePlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Plugin</a></strong>
+                    |
+                    <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
+            </div>
+
+        {% endif %}
     </div>
 
 {% endblock %}

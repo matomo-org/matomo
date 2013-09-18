@@ -49,6 +49,7 @@ class Controller extends \Piwik\Controller\Admin
         Nonce::discardNonce('CorePluginsAdmin.activatePlugin');
         PluginsManager::getInstance()->activatePlugin($pluginName);
 
+        // TODO perform redirect otherwise page reload won't work afterwards
         $this->extend();
     }
 
@@ -80,24 +81,36 @@ class Controller extends \Piwik\Controller\Admin
 
     public function installPlugin()
     {
+        $view         = $this->configureView('@CorePluginsAdmin/installPlugin');
+
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
         $nonce      = Common::getRequestVar('nonce', '', 'string');
 
         if (empty($pluginName)) {
-            return;
+            throw new \Exception('Plugin parameter is missing');
         }
 
+        $view->plugin = array('name' => $pluginName);
+
         if (!Nonce::verifyNonce('CorePluginsAdmin.installPlugin', $nonce)) {
-            // todo display error
+            $view->errorMessage = Piwik_Translate('ExceptionNonceMismatch');
+            echo $view->render();
             return;
         }
 
         Nonce::discardNonce('CorePluginsAdmin.installPlugin');
-        $pluginInstaller = new PluginInstaller($pluginName);
-        $pluginInstaller->installOrUpdatePluginFromMarketplace();
-        $marketplace = new MarketplaceApiClient();
 
-        $view         = $this->configureView('@CorePluginsAdmin/installPlugin');
+        try {
+            $pluginInstaller = new PluginInstaller($pluginName);
+            $pluginInstaller->installOrUpdatePluginFromMarketplace();
+
+        } catch (PluginInstallerException $e) {
+            $view->errorMessage = $e->getMessage();
+            echo $view->render();
+            return;
+        }
+
+        $marketplace  = new MarketplaceApiClient();
         $view->plugin = $marketplace->getPluginInfo($pluginName);
         $view->nonce  = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
 
@@ -170,7 +183,7 @@ class Controller extends \Piwik\Controller\Admin
             $plugin->isInstalled     = !empty($loadedPlugins[$plugin->name]);
             $plugin->createdDateTime = Date::factory($plugin->createdDateTime)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
         }
-
+        
         $view->plugins = $plugins;
 
         $view->query   = $query;
