@@ -26,16 +26,22 @@ abstract class Graph extends DataTableVisualization
 
     /**
      * Whether the series picker should allow picking more than one series or not.
+     * 
+     * Default value: true
      */
     const ALLOW_MULTI_SELECT_SERIES_PICKER = 'allow_multi_select_series_picker';
 
     /**
-     * The maximum number of rows to renderh. All other rows will be aggregated in an 'Others' row.
+     * The maximum number of rows to render. All other rows will be aggregated in an 'Others' row.
+     * 
+     * Default value: false (no limit)
      */
     const MAX_GRAPH_ELEMENTS = 'max_graph_elements';
 
     /**
      * Array property that contains the names of columns that can be selected in the Series Picker.
+     * 
+     * Default value: false
      */
     const SELECTABLE_COLUMNS = 'selectable_columns';
 
@@ -43,6 +49,8 @@ abstract class Graph extends DataTableVisualization
      * Contains the column (if any) of the values used in the Row Picker.
      * 
      * @see self::ROWS_TO_DISPLAY
+     * 
+     * Default value: false
      */
     const ROW_PICKER_VALUE_COLUMN = 'row_picker_match_rows_by';
 
@@ -51,6 +59,8 @@ abstract class Graph extends DataTableVisualization
      * The values are of a specific column determined by the row_picker_match_rows_by column.
      * 
      * @see self::ROW_PICKER_VALUE_COLUMN
+     * 
+     * Default value: false
      */
     const ROWS_TO_DISPLAY = 'rows_to_display';
 
@@ -64,17 +74,23 @@ abstract class Graph extends DataTableVisualization
 
     /**
      * Controls whether all ticks & labels are shown on a graph's x-axis or just some.
+     * 
+     * Default value: false
      */
     const SHOW_ALL_TICKS = 'show_all_ticks';
 
     /**
      * If true, a row with totals of each DataTable column is added.
+     * 
+     * Default value: false
      */
     const ADD_TOTAL_ROW = 'add_total_row';
 
     /**
      * Controls whether the Series Picker is shown or not. The Series Picker allows users to
      * choose between displaying data of different columns.
+     * 
+     * Default value: true
      */
     const SHOW_SERIES_PICKER = 'show_series_picker';
 
@@ -85,6 +101,8 @@ abstract class Graph extends DataTableVisualization
      * NOTE: Sometimes this percentage is meaningless (when the total of the column values is
      * not the total number of elements in the set). In this case the tooltip should not be
      * displayed.
+     * 
+     * Default value: true
      */
     const DISPLAY_PERCENTAGE_IN_TOOLTIP = 'display_percentage_in_tooltip';
 
@@ -132,9 +150,10 @@ abstract class Graph extends DataTableVisualization
     public static function getDefaultPropertyValues()
     {
         return array(
+            'show_limit_control' => false,
             'visualization_properties' => array(
                 'graph' => array(
-                    'add_total_row' => 0,
+                    'add_total_row' => false,
                     'show_all_ticks' => false,
                     'allow_multi_select_series_picker' => true,
                     'max_graph_elements' => false,

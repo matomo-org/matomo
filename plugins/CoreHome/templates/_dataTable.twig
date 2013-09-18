@@ -26,7 +26,7 @@
                 {% endif %}
                 </div>
             {% else %}
-                {{ visualization.render(dataTable, properties)|raw }}
+                {{ visualization.render(dataTable, properties, javascriptVariablesToSet)|raw }}
             {% endif %}
 
             {% if properties.show_footer %}

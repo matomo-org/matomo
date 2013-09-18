@@ -29,6 +29,8 @@ class JqplotGraph extends Graph
      * must be a subclass of JQPlotExternalSeriesToggle.
      * 
      * @see self::EXTERNAL_SERIES_TOGGLE_SHOW_ALL
+     * 
+     * Default value: false
      */
     const EXTERNAL_SERIES_TOGGLE = 'external_series_toggle';
 
@@ -36,11 +38,15 @@ class JqplotGraph extends Graph
      * Whether the graph should show all loaded series upon initial display.
      * 
      * @see self::EXTERNAL_SERIES_TOGGLE
+     * 
+     * Default value: false
      */
     const EXTERNAL_SERIES_TOGGLE_SHOW_ALL = 'external_series_toggle_show_all';
 
     /**
-     * The number of x-axis ticks between x-axis labels.
+     * The number of x-axis ticks for each x-axis label.
+     * 
+     * Default: 2
      */
     const X_AXIS_STEP_SIZE = 'x_axis_step_size';
 

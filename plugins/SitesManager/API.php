@@ -198,7 +198,7 @@ class API
     public function getAllSites()
     {
         Piwik::checkUserIsSuperUser();
-        $sites = \Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable("site"));
+        $sites = \Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable("site") . " ORDER BY idsite ASC");
         $return = array();
         foreach ($sites as $site) {
             $return[$site['idsite']] = $site;

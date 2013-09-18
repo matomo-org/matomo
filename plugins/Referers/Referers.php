@@ -332,6 +332,7 @@ class Referers extends \Piwik\Plugin
             'show_search' => false,
             'show_offset_information' => false,
             'show_pagination_control' => false,
+            'show_limit_control' => false,
             'show_exclude_low_population' => false,
             'show_goals' => true,
             'filter_limit' => 10,

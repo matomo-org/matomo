@@ -61,6 +61,7 @@ class Live extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/Live/javascripts/live.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
+        $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
     }
 
     public function addMenu()
@@ -82,6 +83,7 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = "Live_NoMoreVisits";
         $translationKeys[] = "Live_ShowMap";
         $translationKeys[] = "Live_HideMap";
+        $translationKeys[] = "Live_PageRefreshed";
     }
 
     public function getReportDisplayProperties(&$properties)
@@ -92,7 +94,7 @@ class Live extends \Piwik\Plugin
     private function getDisplayPropertiesForGetLastVisitsDetails()
     {
         return array(
-            'datatable_template'          => "@Live/getVisitorLog.twig",
+            'default_view_type'           => 'Piwik\\Plugins\\Live\\VisitorLog',
             'disable_generic_filters'     => true,
             'enable_sort'                 => false,
             'filter_sort_column'          => 'idVisit',
@@ -101,18 +103,30 @@ class Live extends \Piwik\Plugin
             'filter_limit'                => 20,
             'show_offset_information'     => false,
             'show_exclude_low_population' => false,
-            'show_all_views_icons' => false,
-            'show_table_all_columns' => false,
-            'show_export_as_rss_feed' => false,
-            'documentation' => Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')),
-            'custom_parameters' => array(
+            'show_all_views_icons'        => false,
+            'show_table_all_columns'      => false,
+            'show_export_as_rss_feed'     => false,
+            'documentation'               => Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')),
+            'custom_parameters'           => array(
                 // set a very high row count so that the next link in the footer of the data table is always shown
                 'totalRows'         => 10000000,
 
                 'filterEcommerce'   => Common::getRequestVar('filterEcommerce', 0, 'int'),
                 'pageUrlNotDefined' => Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'))
             ),
-            'visualization_properties' => array(
+            'footer_icons'                => array(
+                array(
+                    'class' => 'tableAllColumnsSwitch',
+                    'buttons' => array(
+                        array(
+                            'id' => 'Piwik\\Plugins\\Live\\VisitorLog',
+                            'title' => Piwik_Translate('Live_LinkVisitorLog'),
+                            'icon' => 'plugins/Zeitgeist/images/table.png'
+                        )
+                    )
+                )
+            ),
+            'visualization_properties'    => array(
                 'table' => array(
                     'disable_row_actions' => true,
                 )
