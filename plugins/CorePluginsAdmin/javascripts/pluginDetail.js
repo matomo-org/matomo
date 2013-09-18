@@ -7,13 +7,13 @@
 
 $(document).ready(function () {
 
-    $('.pluginslist').on('click', '.header', function (event) {
+    $('.pluginslist').on('click', '.more', function (event) {
         var pluginName = $( this ).text();
         var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + pluginName;
         Piwik_Popover.createPopupAndLoadUrl(url, 'plugin details');
     });
 
-    $('.themeslist').on('click', '.header', function (event) {
+    $('.themeslist').on('click', '.more', function (event) {
         var themeName = $( this ).text();
         var url = 'module=CorePluginsAdmin&action=themeDetails&pluginName=' + themeName;
         Piwik_Popover.createPopupAndLoadUrl(url, 'plugin details');
