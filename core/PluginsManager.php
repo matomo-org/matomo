@@ -400,8 +400,9 @@ class PluginsManager
         $pluginsBundledWithPiwik = Config::getInstance()->getFromDefaultConfig('Plugins');
         $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
 
-        return in_array($name, $pluginsBundledWithPiwik)
-                || in_array($name, $this->corePluginsDisabledByDefault);
+        return (!empty($pluginsBundledWithPiwik)
+                && in_array($name, $pluginsBundledWithPiwik))
+            || in_array($name, $this->corePluginsDisabledByDefault);
     }
 
     protected function isPluginThirdPartyAndBogus($pluginName)
