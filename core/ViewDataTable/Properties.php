@@ -38,11 +38,34 @@ class Properties
     const DEFAULT_VIEW_TYPE = 'default_view_type';
 
     /**
-     * This property determines which Twig template to use when rendering a ViewDataTable.
-     *
-     * TODO: shouldn't have this property. should only use visualization classes.
+     * Controls what footer icons are displayed on the bottom left of the DataTable view.
+     * The value of this property must be an array of footer icon groups. Footer icon groups
+     * have set of properties, including an array of arrays describing footer icons. See
+     * this example to get a clear idea of what is required:
+     * 
+     * array(
+     *     array( // footer icon group 1
+     *         'class' => 'footerIconGroup1CssClass',
+     *         'buttons' => array(
+     *             'id' => 'myid',
+     *             'title' => 'My Tooltip',
+     *             'icon' => 'path/to/my/icon.png'
+     *         )
+     *     ),
+     *     array( // footer icon group 2
+     *         'class' => 'footerIconGroup2CssClass',
+     *         'buttons' => array(...)
+     *     )
+     * )
+     * 
+     * By default, when a user clicks on a footer icon, Piwik will assume the 'id' is
+     * a viewDataTable ID and try to reload the DataTable w/ the new viewDataTable. You
+     * can provide your own footer icon behavior by adding an appropriate handler via
+     * DataTable.registerFooterIconHandler in your JavaScript.
+     * 
+     * Default value: // TODO
      */
-    const DATATABLE_TEMPLATE = 'datatable_template';
+    const FOOTER_ICONS = 'footer_icons';
 
     /**
      * Controls whether the buttons and UI controls around the visualization or shown or
@@ -412,7 +435,9 @@ class Properties
      * 
      * @see Piwik\DataTableVisualization::getClientSideProperties
      */
-    public static $clientSideProperties = array();
+    public static $clientSideProperties = array(
+        'show_limit_control'
+    );
 
     /**
      * The list of ViewDataTable properties that can be overriden by query parameters.
@@ -561,7 +586,7 @@ class Properties
     public static function getDefaultPropertyValues()
     {
         $result = array(
-            'datatable_template' => '@CoreHome/_dataTable',
+            'footer_icons' => false,
             'show_visualization_only' => false,
             'datatable_js_type' => 'DataTable',
             'show_goals' => false,
@@ -580,7 +605,7 @@ class Properties
             'show_flatten_table' => true,
             'show_offset_information' => true,
             'show_pagination_control' => true,
-            'show_limit_control' => false,
+            'show_limit_control' => true,
             'show_footer' => true,
             'show_footer_icons' => true,
             'show_related_reports' => true,
