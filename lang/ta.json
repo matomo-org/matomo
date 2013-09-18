@@ -73,8 +73,7 @@
         "PluginDescription": "பிவிக் நிர்வாகப்பகுதி",
         "TrackAGoal": "ஒரு குறிக்கோளைக் கண்காணி",
         "UseCustomLogo": "சொந்த முத்திரையை பயன்படுத்த",
-        "WithOptionalRevenue": "விருப்ப வருமானத்துடன்",
-        "YouAreCurrentlyUsingPHP": "நீங்கள் பயன்படுத்துவது பிஎச்பி %1$s."
+        "WithOptionalRevenue": "விருப்ப வருமானத்துடன்"
     },
     "CoreHome": {
         "CheckForUpdates": "புதிய பதிப்புகளை சரிபார்க்கவும்",

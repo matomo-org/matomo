@@ -103,8 +103,7 @@
         "TrackingCode": "Codul de urmărire",
         "TrustedHostConfirm": "Eşti sigur că doreşti să schimbi numele hostului de încredere Piwik_",
         "UseCustomLogo": "Foloseşte un logou personalizat",
-        "WithOptionalRevenue": "cu venit opţional",
-        "YouAreCurrentlyUsingPHP": "Actualmente foloseşti PHP %1$s."
+        "WithOptionalRevenue": "cu venit opţional"
     },
     "CoreHome": {
         "CategoryNoData": "Nici o data in aceasta categorie. Incearca \"Include toata populatia\".",
@@ -275,7 +274,6 @@
         "AverageOrderValue": "Valoare medie a comenzii",
         "AveragePrice": "Pret mediu",
         "AverageQuantity": "Cantitate medie",
-        "BackToHomepage": "Intoarcere la pagina Piwik",
         "BackToPiwik": "Inapoi la Piwik",
         "BrokenDownReportDocumentation": "Este segmentat in diferite rapoarte, afisate in josul paginii. Puteti mari graficele facand click pe rapoartele pe care doriti sa le vedeti.",
         "Cancel": "Anulează",
@@ -389,7 +387,6 @@
         "ExceptionDatabaseVersion": "Versiunea dvs. %1$s este %2$s dar Piwik necesita minim %3$s.",
         "ExceptionFileIntegrity": "A esuat verificare integritatii: %s",
         "ExceptionFilesizeMismatch": "Nepotrivire la marime fisierului: %1$s (marime asteptata: %2$s, gasita: %3$s)",
-        "ExceptionGoalNotFound": "Ţinta cu id = %s nu a putut fi găsită.",
         "ExceptionIncompatibleClientServerVersions": "Versiunea clientului dvs. %1$s este %2$s, care este incompatibila cu versiunea de pe server, %3$s.",
         "ExceptionInvalidAggregateReportsFormat": "Formatul rapoartelor agregate '%s' este invalid. Incercati-l pe oricare dintre acestea: %s.",
         "ExceptionInvalidArchiveTimeToLive": "Timpul de arhivare trebuie sa fie un numar de secunde mai mare de 0",

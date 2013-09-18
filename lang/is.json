@@ -84,7 +84,6 @@
         "API": "API",
         "ArchivingInlineHelp": "Á meðal til hárrar umferðar vefna er mælst til þess að óvirkja Piwik geymslu sem kveikt er á frá vafra. Þess í stað mælum við með að þú setjir upp cronfærslu sem vinnur skýrslurnar á hverri klukkustund",
         "ArchivingTriggerDescription": "Mælt er með fyrir stærri Piwik uppsetningar að þú þurfir að %ssetja upp cronfærslu%s til að vinna skýrslurnar sjálfkrafa",
-        "BackToHomepage": "Til baka á Piwik heimasíðu",
         "BackToPiwik": "Aftur í Piwik",
         "ChangePassword": "Breyta lykilorði",
         "ChooseDate": "Veldu dagsetningu",
