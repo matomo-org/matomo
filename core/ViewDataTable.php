@@ -65,6 +65,35 @@ class ViewDataTable
     const CONFIGURE_VIEW_EVENT = 'ViewDataTable.configureReportView';
 
     /**
+     * This event is called when determining the default set of footer icons to disblay
+     * below a report.
+     * 
+     * Plugins can use this event to modify the default set of footer icons. You can
+     * add new icons or remove existing ones.
+     * 
+     * Callback Signature: function (array &$result, ViewDataTable $view) {}
+     * 
+     * $result must have the following format:
+     * 
+     * array(
+     *     array( // footer icon group 1
+     *         'class' => 'footerIconGroup1CssClass',
+     *         'buttons' => array(
+     *             'id' => 'myid',
+     *             'title' => 'My Tooltip',
+     *             'icon' => 'path/to/my/icon.png'
+     *         )
+     *     ),
+     *     array( // footer icon group 2
+     *         'class' => 'footerIconGroup2CssClass',
+     *         'buttons' => array(...)
+     *     ),
+     *     ...
+     * )
+     */
+    const CONFIGURE_FOOTER_ICONS_EVENT = 'ViewDataTable.configureFooterIcons';
+
+    /**
      * The class name of the visualization to use.
      * 
      * @var string|null
@@ -1019,6 +1048,10 @@ class ViewDataTable
         if (!PluginsManager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = false;
         }
+
+        if (empty($this->viewProperties['footer_icons'])) {
+            $this->viewProperties['footer_icons'] = $this->getDefaultFooterIconsToShow();
+        }
     }
 
     protected function buildView()
@@ -1068,8 +1101,8 @@ class ViewDataTable
         $view->idSubtable = $this->idSubtable;
         $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
         $view->clientSidePropertiesToSet = $this->getClientSidePropertiesToSet();
-        $view->properties = $this->viewProperties; // TODO: should be $this. need to move non-view properties from the class
-        $view->footerIcons = $this->viewProperties['footer_icons'] ?: $this->getFooterIconsToShow();
+        $view->properties = $this->viewProperties;
+        $view->footerIcons = $this->viewProperties['footer_icons'];
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
         $this->view = $view;
@@ -1082,7 +1115,7 @@ class ViewDataTable
         }
     }
 
-    private function getFooterIconsToShow()
+    private function getDefaultFooterIconsToShow()
     {
         $result = array();
 
@@ -1191,6 +1224,8 @@ class ViewDataTable
             $result[] = $graphViewIcons;
         }
 
+        Piwik_PostEvent(self::CONFIGURE_FOOTER_ICONS_EVENT, array(&$result, $this));
+        
         return $result;
     }
 
