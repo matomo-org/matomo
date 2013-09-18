@@ -158,11 +158,19 @@ class Sparkline implements ViewInterface
     private function setSparklineColors($sparkline)
     {
         $colors = Common::getRequestVar('colors', false, 'json');
-        if (!empty($colors)) {
-            foreach (self::$colorNames as $name) {
-                if (!empty($colors[$name])) {
-                    $sparkline->SetColorHtml($name, $colors[$name]);
-                }
+        if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
+            $colors = array(
+                'backgroundColor' => '#ffffff',
+                'lineColor' => '#162C4A',
+                'minPointColor' => '#ff7f7f',
+                'lastPointColor' => '#55AAFF',
+                'maxPointColor' => '#75BF7C'
+            );
+        }
+
+        foreach (self::$colorNames as $name) {
+            if (!empty($colors[$name])) {
+                $sparkline->SetColorHtml($name, $colors[$name]);
             }
         }
     }
