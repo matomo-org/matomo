@@ -50,7 +50,11 @@ class Cloud extends DataTableVisualization
 
         $self = $this;
         $view->after_data_loaded_functions[] = function ($dataTable, $view) use ($self) {
-            $columnToDisplay = $view->columns_to_display[1];
+            if ($dataTable->getRowsCount() == 0) {
+                return;
+            }
+            
+            $columnToDisplay = isset($view->columns_to_display[1]) ? $view->columns_to_display[1] : 'nb_visits';
 
             $labelMetadata = array();
             foreach ($dataTable->getRows() as $row) {
