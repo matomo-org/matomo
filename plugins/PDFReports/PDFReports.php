@@ -220,7 +220,7 @@ class PDFReports extends \Piwik\Plugin
                         $displayFormat == self::DISPLAY_FORMAT_GRAPHS_ONLY || $displayFormat == self::DISPLAY_FORMAT_TABLES_AND_GRAPHS
                         :
                         $displayFormat != self::DISPLAY_FORMAT_TABLES_ONLY)
-                        && SettingsServer::isGdExtensionEnabled()
+                        && \Piwik\SettingsServer::isGdExtensionEnabled()
                         && \Piwik\PluginsManager::getInstance()->isPluginActivated('ImageGraph')
                         && !empty($metadata['imageGraphUrl']);
 

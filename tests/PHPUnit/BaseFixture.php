@@ -177,7 +177,6 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      * @param $response
      */
     public static function checkBulkTrackingResponse($response) {
-        self::assertJson($response);
         $data = json_decode($response, true);
         self::assertArrayHasKey('status', $data);
         self::assertEquals('success', $data['status']);

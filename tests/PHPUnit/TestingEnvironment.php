@@ -35,6 +35,7 @@ class Piwik_TestingEnvironment
         });
         Piwik_AddAction('FrontController.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
+            \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
         });
         Piwik_AddAction('AssetManager.getStylesheetFiles', function(&$stylesheets) {
             $stylesheets[] = 'tests/resources/screenshot-override/override.css';
@@ -44,6 +45,5 @@ class Piwik_TestingEnvironment
             $jsFiles[] = 'tests/resources/screenshot-override/override.js';
         });
 
-        \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
     }
 }
