@@ -17,6 +17,7 @@ abstract class UITest extends IntegrationTestCase
     const CAPTURE_PROGRAM = 'phantomjs';
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
+    private static $imageMagickAvailable = false;
 
     public static function createAccessInstance()
     {
@@ -67,6 +68,20 @@ abstract class UITest extends IntegrationTestCase
             
             echo "Generating screenshots...\n";
             self::runCaptureProgram($urls);
+        }
+
+        // check if image magick available
+        self::$imageMagickAvailable = self::checkImageMagickAvailable();
+
+        // remove existing diffs
+        self::removeExistingDiffs();
+    }
+
+    public static function removeExistingDiffs()
+    {
+        $files = glob(dirname(__FILE__) . '/UI/screenshot-diffs/*.png');
+        foreach ($files as $file) {
+            unlink($file);
         }
     }
     
@@ -131,8 +146,25 @@ abstract class UITest extends IntegrationTestCase
         $expected = file_get_contents($expectedPath);
         if ($expected != $processed) {
             echo "\nFail: '$processedPath' for '$urlQuery'\n";
+
+            $this->saveImageDiff($expectedPath, $processedPath, self::getScreenshotDiffPath($name));
         }
         $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
+    }
+
+    private function saveImageDiff($expectedPath, $processedPath, $diffPath)
+    {
+        $cmd = "compare \"$expectedPath\" \"$processedPath\" \"$diffPath\" 2>&1";
+        exec($cmd, $output, $result);
+
+        if ($result !== 0) {
+            echo "Could not save image diff: " . implode("\n", $output) . "\n";
+        }
+    }
+
+    private static function checkImageMagickAvailable()
+    {
+        return self::isProgramAvailable('compare');
     }
     
     private static function isSlimerJsAvailable()
@@ -199,5 +231,12 @@ abstract class UITest extends IntegrationTestCase
                 unlink($wholePath);
             }
         }
+    }
+
+    private static function getScreenshotDiffPath($name)
+    {
+        $outputPrefix = static::getOutputPrefix();
+        $uiDir = dirname(__FILE__) . "/UI/screenshot-diffs";
+        return $uiDir . "/" . $outputPrefix . '_' . $name . '.' . self::IMAGE_TYPE;
     }
 }
