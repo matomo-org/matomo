@@ -40,6 +40,7 @@ class Common
      */
     const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
+
     /*
      * Database
      */
@@ -113,6 +114,20 @@ class Common
     {
         return PluginsManager::getInstance()->isPluginActivated('Goals');
     }
+
+    /**
+     * Returns true if PHP was invoked from command-line interface (shell)
+     *
+     * @since added in 0.4.4
+     * @return bool true if PHP invoked as a CGI or from CLI
+     */
+    public static function isPhpCliMode()
+    {
+        $remoteAddr = @$_SERVER['REMOTE_ADDR'];
+        return PHP_SAPI == 'cli' ||
+        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
+    }
+
 
     /*
      * String operations
@@ -718,7 +733,7 @@ class Common
 
         if (is_null($browserLang)) {
             $browserLang = self::sanitizeInputValues(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            if (empty($browserLang) && SettingsServer::isPhpCliMode()) {
+            if (empty($browserLang) && self::isPhpCliMode()) {
                 $browserLang = @getenv('LANG');
             }
         }
@@ -954,5 +969,6 @@ class Common
             }
         }
     }
+
 }
 

@@ -45,7 +45,7 @@ class Session extends Zend_Session
      */
     public static function start($options = false)
     {
-        if (SettingsServer::isPhpCliMode()
+        if (Common::isPhpCliMode()
             || self::$sessionStarted
             || (defined('PIWIK_ENABLE_SESSION_START') && !PIWIK_ENABLE_SESSION_START)
         ) {

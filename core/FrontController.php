@@ -15,7 +15,6 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Log;
 use Piwik\Session;
-use Piwik\Profiler;
 use Zend_Registry;
 
 /**
@@ -184,7 +183,7 @@ class FrontController
         // which load the HTML page of the installer with the error.
         // This is at least required for misc/cron/archive.php and useful to all other scripts
         return (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH)
-            || SettingsServer::isPhpCliMode()
+            || Common::isPhpCliMode()
             || SettingsServer::isArchivePhpTriggered();
     }
 
@@ -319,7 +318,7 @@ class FrontController
     protected function handleMaintenanceMode()
     {
         if (Config::getInstance()->General['maintenance_mode'] == 1
-            && !SettingsServer::isPhpCliMode()
+            && !Common::isPhpCliMode()
         ) {
             $format = Common::getRequestVar('format', '');
 
@@ -344,7 +343,7 @@ class FrontController
 
     protected function handleSSLRedirection()
     {
-        if (!SettingsServer::isPhpCliMode()
+        if (!Common::isPhpCliMode()
             && Config::getInstance()->General['force_ssl'] == 1
             && !ProxyHttp::isHttps()
             // Specifically disable for the opt out iframe

@@ -86,6 +86,16 @@ class Tracker
      */
     private $countOfLoggedRequests = 0;
 
+    protected function outputAccessControlHeaders()
+    {
+        $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+        if ($requestMethod !== 'GET') {
+            $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
+            Common::sendHeader('Access-Control-Allow-Origin: ' . $origin);
+            Common::sendHeader('Access-Control-Allow-Credentials: true');
+        }
+    }
+
     public function clear()
     {
         self::$forcedIpString = null;
@@ -231,6 +241,8 @@ class Tracker
             $this->exitWithException($ex, true);
         }
 
+        $this->initOutputBuffer();
+
         if (!empty($this->requests)) {
             foreach ($this->requests as $params) {
                 $request = new Request($params, $tokenAuth);
@@ -280,13 +292,31 @@ class Tracker
             $this->handleEmptyRequest(new Request($_GET + $_POST));
         }
         $this->end();
+
+        $this->flushOutputBuffer();
     }
+
+    protected function initOutputBuffer()
+    {
+        ob_start();
+    }
+
+    protected function flushOutputBuffer()
+    {
+        ob_end_flush();
+    }
+
+    protected function getOutputBuffer()
+    {
+        return ob_get_contents();
+    }
+
 
     protected function shouldRunScheduledTasks()
     {
         // don't run scheduled tasks in CLI mode from Tracker, this is the case
         // where we bulk load logs & don't want to lose time with tasks
-        return !SettingsServer::isPhpCliMode()
+        return !Common::isPhpCliMode()
             && $this->getState() != self::STATE_LOGGING_DISABLE;
     }
 
@@ -401,7 +431,7 @@ class Tracker
                 || $authenticated) {
                 $result['message'] = $this->getMessageFromException($e);
             }
-            $this->sendHeader('Content-Type: application/json');
+            Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
             exit;
         }
@@ -458,7 +488,7 @@ class Tracker
                     'status' => 'success',
                     'tracked' => $this->countOfLoggedRequests
             );
-            $this->sendHeader('Content-Type: application/json');
+            Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
             exit;
         }
@@ -589,29 +619,21 @@ class Tracker
 
     protected function outputTransparentGif()
     {
-        if (!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG']) {
-            // If there was an error during tracker, do not display GIF
-            if(headers_sent()) {
-                return;
-            }
-            $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-            $this->sendHeader('Content-Type: image/gif');
-
-            $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-
-            if ($requestMethod !== 'GET') {
-                $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
-                $this->sendHeader('Access-Control-Allow-Origin: ' . $origin);
-                $this->sendHeader('Access-Control-Allow-Credentials: true');
-            }
-
-            print(base64_decode($trans_gif_64));
+        if (isset($GLOBALS['PIWIK_TRACKER_DEBUG'])
+            && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
+            return;
         }
-    }
+        // If there was an error during tracker, do not display GIF
+        // (we can't use headers_sent() for some reasons)
+        if(strlen( $this->getOutputBuffer() ) > 0) {
+//            return;
+        }
+        $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+        Common::sendHeader('Content-Type: image/gif');
 
-    protected function sendHeader($header)
-    {
-        Common::sendHeader($header);
+        $this->outputAccessControlHeaders();
+
+        print(base64_decode($transGifBase64));
     }
 
     protected function isVisitValid()

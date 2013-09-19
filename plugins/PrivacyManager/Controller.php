@@ -18,7 +18,6 @@ use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\SettingsServer;
 use Piwik\TaskScheduler;
 use Piwik\View;
 
@@ -147,7 +146,7 @@ class Controller extends \Piwik\Controller\Admin
 
         // if the request isn't a POST, redirect to index
         if ($_SERVER["REQUEST_METHOD"] != "POST"
-            && !SettingsServer::isPhpCliMode()
+            && !Common::isPhpCliMode()
         ) {
             $this->redirectToIndex('PrivacyManager', 'privacySettings');
             return;

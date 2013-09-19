@@ -91,7 +91,7 @@ class SettingsPiwik
     public static function shouldLoggerLog()
     {
         try {
-            $shouldLog = (SettingsServer::isPhpCliMode()
+            $shouldLog = (Common::isPhpCliMode()
                     || Config::getInstance()->log['log_only_when_cli'] == 0)
                 &&
                 (Config::getInstance()->log['log_only_when_debug_parameter'] == 0
@@ -127,7 +127,7 @@ class SettingsPiwik
 
         $key = 'piwikUrl';
         $url = Piwik_GetOption($key);
-        if (SettingsServer::isPhpCliMode()
+        if (Common::isPhpCliMode()
             // in case archive.php is triggered with domain localhost
             || SettingsServer::isArchivePhpTriggered()
             || defined('PIWIK_MODE_ARCHIVE')

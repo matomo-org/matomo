@@ -9,7 +9,7 @@
  * @package Piwik
  */
 namespace Piwik\Log;
-use Piwik\SettingsServer;
+use Piwik\Common;
 
 /**
  *
@@ -49,7 +49,7 @@ class ScreenFormatter implements \Zend_Log_Formatter_Interface
      */
     static public function getFormattedString($string)
     {
-        if (!SettingsServer::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             @header('Content-Type: text/html; charset=utf-8');
         }
         return $string;

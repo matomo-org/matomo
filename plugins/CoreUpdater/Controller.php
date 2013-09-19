@@ -255,14 +255,14 @@ class Controller extends \Piwik\Controller
 
         SettingsServer::setMaxExecutionTime(0);
 
-        $cli = SettingsServer::isPhpCliMode() ? '_cli' : '';
+        $cli = Common::isPhpCliMode() ? '_cli' : '';
         $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome' . $cli;
         $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
         $viewWelcome = new View($welcomeTemplate);
         $viewDone = new View($doneTemplate);
 
         $sqlQueries = $updater->getSqlQueriesToExecute();
-        if (SettingsServer::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
             echo $viewWelcome->render();
 

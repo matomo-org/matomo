@@ -8,7 +8,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
-use Piwik\SettingsServer;
 
 ini_set("memory_limit", "512M");
 error_reporting(E_ALL | E_NOTICE);
@@ -42,7 +41,7 @@ $query = "SELECT count(*) FROM " . Common::prefixTable('log_visit');
 $count = Db::fetchOne($query);
 
 // when script run via browser, check for Super User & output html page to do conversion via AJAX
-if (!SettingsServer::isPhpCliMode()) {
+if (!Common::isPhpCliMode()) {
     try {
         Piwik::checkUserIsSuperUser();
     } catch (Exception $e) {
@@ -113,7 +112,7 @@ if (!SettingsServer::isPhpCliMode()) {
 function geoipUpdateError($message)
 {
     Piwik::log($message);
-    if (!SettingsServer::isPhpCliMode()) {
+    if (!Common::isPhpCliMode()) {
         @header('HTTP/1.1 500 Internal Server Error', $replace = true, $responseCode = 500);
     }
     exit;
@@ -137,7 +136,7 @@ if (!$provider->isAvailable()) {
         if ($displayNotes) {
             Piwik::log("[note] The GeoIP PECL extension is broken: $workingOrError");
         }
-        if (SettingsServer::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             Piwik::log("[note] Make sure your command line PHP is configured to use the PECL extension.");
         }
         $provider = null;

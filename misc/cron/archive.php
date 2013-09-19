@@ -642,7 +642,7 @@ class CronArchive
      */
     private function initCheckCli()
     {
-        if (!\Piwik\SettingsServer::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $token_auth = Common::getRequestVar('token_auth', '', 'string');
             if ($token_auth != $this->token_auth
                 || strlen($token_auth) != 32
@@ -802,7 +802,7 @@ class CronArchive
     private function initPiwikHost()
     {
         // If archive.php run as a web cron, we use the current hostname
-        if (!\Piwik\SettingsServer::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             // example.org/piwik/misc/cron/
             $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
             // example.org/piwik/
@@ -838,7 +838,7 @@ class CronArchive
      */
     private function isParameterSet($parameter, $valuePossible = false)
     {
-        if (!\Piwik\SettingsServer::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             return false;
         }
         $parameters = array(

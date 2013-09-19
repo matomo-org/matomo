@@ -194,7 +194,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale' 
-        if (!SettingsServer::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($archiveProcessor->getMinTimeArchiveProcessed(), $dateMinArchived);
@@ -237,7 +237,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale'
-        if (!SettingsServer::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchiveProcessed());
@@ -283,7 +283,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale'
-        if (!SettingsServer::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchiveProcessed());

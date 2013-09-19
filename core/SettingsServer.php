@@ -30,19 +30,6 @@ class SettingsServer
     }
 
     /**
-     * Returns true if PHP was invoked from command-line interface (shell)
-     *
-     * @since added in 0.4.4
-     * @return bool true if PHP invoked as a CGI or from CLI
-     */
-    public static function isPhpCliMode()
-    {
-        $remoteAddr = @$_SERVER['REMOTE_ADDR'];
-        return PHP_SAPI == 'cli' ||
-        (!strncmp(PHP_SAPI, 'cgi', 3) && empty($remoteAddr));
-    }
-
-    /**
      * Returns true if running on Microsoft IIS 7 (or above)
      *
      * @return bool

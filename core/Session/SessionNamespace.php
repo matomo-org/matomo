@@ -10,7 +10,7 @@
  */
 namespace Piwik\Session;
 
-use Piwik\SettingsServer;
+use Piwik\Common;
 use Zend_Session_Namespace;
 
 /**
@@ -27,7 +27,7 @@ class SessionNamespace extends Zend_Session_Namespace
      */
     public function __construct($namespace = 'Default', $singleInstance = false)
     {
-        if (SettingsServer::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             self::$_readable = true;
             return;
         }

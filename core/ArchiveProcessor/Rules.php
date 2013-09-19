@@ -11,6 +11,7 @@
 namespace Piwik\ArchiveProcessor;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
@@ -214,7 +215,7 @@ class Rules
     {
         return !self::$archivingDisabledByTests &&
             (Rules::isBrowserTriggerEnabled()
-                || SettingsServer::isPhpCliMode()
+                || Common::isPhpCliMode()
                 || (Piwik::isUserIsSuperUser()
                     && SettingsServer::isArchivePhpTriggered()));
     }
