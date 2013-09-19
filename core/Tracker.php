@@ -623,10 +623,10 @@ class Tracker
             && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
             return;
         }
-        // If there was an error during tracker, do not display GIF
-        // (we can't use headers_sent() for some reasons)
+
         if(strlen( $this->getOutputBuffer() ) > 0) {
-//            return;
+            // If there was an error during tracker, return so errors can be flushed
+            return;
         }
         $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         Common::sendHeader('Content-Type: image/gif');
