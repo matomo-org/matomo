@@ -41,9 +41,12 @@
                                class="install">Install</a>
                         {% endif %}
 
-                        <h3 class="header"><a href="javascript:return;" class="more">{{ plugin.name }}</a></h3>
+                        <h3 class="header">
+                            <a href="javascript:return;" data-pluginName="{{ plugin.name }}" class="more">{{ plugin.name }}</a>
+                        </h3>
                         <p class="description">{{ plugin.description }}
-                            <br /><a href="javascript:return;" class="more">&gt;&gt; more</a>
+                            <br />
+                            <a href="javascript:return;" data-pluginName="{{ plugin.name }}" class="more">&gt;&gt; more</a>
                         </p>
                         {% if plugin.canBeUpdated %}
                             <p class="updateAvailableNotice">You can update this plugin to version {{ plugin.latestVersion }}</p>

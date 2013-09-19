@@ -45,7 +45,12 @@ $(document).ready(function () {
     syncMaxHeight('.themeslist .plugin');
 
     $('.pluginslist').on('click', '.more', function (event) {
-        var pluginName = $( this ).text();
+        var pluginName = $( this ).attr('data-pluginName');
+
+        if (!pluginName) {
+            return;
+        }
+
         var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + pluginName;
         Piwik_Popover.createPopupAndLoadUrl(url, 'plugin details');
     });
@@ -53,7 +58,7 @@ $(document).ready(function () {
     $('.themeslist').on('click', '.more', function (event) {
         var themeName = $( this ).text();
         var url = 'module=CorePluginsAdmin&action=themeDetails&pluginName=' + themeName;
-        Piwik_Popover.createPopupAndLoadUrl(url, 'plugin details');
+        Piwik_Popover.createPopupAndLoadUrl(url, 'theme details');
     });
 
 });
