@@ -590,6 +590,10 @@ class Tracker
     protected function outputTransparentGif()
     {
         if (!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG']) {
+            // If there was an error during tracker, do not display GIF
+            if(headers_sent()) {
+                return;
+            }
             $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
             $this->sendHeader('Content-Type: image/gif');
 
