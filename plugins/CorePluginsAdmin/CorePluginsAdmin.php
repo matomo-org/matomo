@@ -26,7 +26,13 @@ class CorePluginsAdmin extends \Piwik\Plugin
         return array(
             'AdminMenu.add' => 'addMenu',
             'AssetManager.getJsFiles' => 'getJsFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
+    }
+
+    public function getStylesheetFiles($stylesheets)
+    {
+        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace.less";
     }
 
     function addMenu()

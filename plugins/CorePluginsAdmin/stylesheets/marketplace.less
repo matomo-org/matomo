@@ -1,0 +1,114 @@
+.pluginslist {
+  margin-top: 20px;
+  max-width: 980px;
+  clear: right;
+
+  .plugin {
+    width: 280px;
+    float: left;
+    border: 1px solid #dadada;
+    padding: 15px;
+    background-color: #F6F5F3;
+    margin-right: 14px;
+    margin-bottom: 15px;
+    position: relative;
+
+    &:hover {
+      background-color: #EFEEEC;
+    }
+
+    li {
+      display: inline-block;
+      padding-right: 50px;
+      font-size: 90%;
+
+      &.even {
+        padding-right: 0px;
+      }
+    }
+    ul {
+      list-style: none;
+      margin-left: 0;
+      line-height: 140%;
+    }
+    .header {
+      margin-top: 0px;
+      margin-bottom: 15px;
+    }
+    .description {
+      padding-bottom: 10px;
+    }
+    .install {
+      float: right;
+    }
+    .more {
+      font-weight: bold;
+      text-decoration: none;
+      color: #255792;
+    }
+    .content {
+      margin-bottom: 46px;
+    }
+    .footer {
+      height: 58px;
+      position: absolute;
+      bottom: 6px;
+      left: 0px;
+      right: 0px;
+    }
+    .metadataSeparator {
+      background-color: lightgray;
+      color: #333;
+      border: 0px;
+      height: 1px;
+      width: 100%;
+    }
+    .metadata {
+      margin-top: 10px;
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+  }
+
+  &.themes .plugin {
+    .header {
+      display: inline;
+    }
+    .content {
+      margin-bottom: 57px;
+    }
+    .preview {
+      width: 250px;
+      height: 250px;
+    }
+    .footer {
+      height: 55px;
+      position: absolute;
+      bottom: 7px;
+      left: 0px;
+      right: 0px;
+    }
+  }
+}
+
+.pluginslistActionBar {
+  min-width: 650px;
+  max-width: 980px;
+
+  form {
+    display: inline;
+  }
+
+  .infoBox {
+    font-size: 14px;
+    margin: 0px 0px 10px 10px;
+    padding: 15px;
+    color: #301901;
+    display: inline-block;
+    background-color: #ffffe0;
+    border: 1px solid #e6db55;
+    border-radius: 3px;
+    width: 250px;
+    float: right;
+  }
+}
