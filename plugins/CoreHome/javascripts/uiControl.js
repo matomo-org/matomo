@@ -77,7 +77,7 @@
             delete this.$element;
 
             this._baseDestroyCalled = true;
-        },
+        }
     };
 
     exports.UIControl = UIControl;

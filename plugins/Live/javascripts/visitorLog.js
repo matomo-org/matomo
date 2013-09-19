@@ -71,7 +71,7 @@
                 broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
                 return false;
             });
-        },
+        }
     });
 
 })(jQuery, require);
