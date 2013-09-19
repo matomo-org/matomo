@@ -44,6 +44,8 @@ class Plugin
      *
      * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
      *                                to last part of the class name.
+     *
+     * @throws \Exception
      */
     public function __construct($pluginName = false)
     {
