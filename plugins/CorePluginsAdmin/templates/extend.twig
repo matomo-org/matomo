@@ -3,46 +3,43 @@
 {% import '@CorePluginsAdmin/macros.twig' as plugins %}
 
 {% block content %}
-    <style type="text/css">
-        .extend .header { font-size: 1.6em; }
-        .extend .callToAction { font-size: 1.1em;line-height: 2em; }
-    </style>
+    <div class="extendPlatform">
 
-    <div style="max-width:980px;">
+        <div class="introduction">
 
-        <h2>Extend Piwik with Plugins and Themes</h2>
+            <h2>Extend Piwik with Plugins and Themes</h2>
 
-        <p>This page will let you download and install new Plugins from the Plugins Marketplace.
-            The <a href='?module=Proxy&action=redirect&url=http://plugins.piwik.org/' target='_blank'>Marketplace</a> is where
-                developers publish their plugins and themes to make them available to all Piwik users.</p>
+            <p>This page will let you download and install new Plugins from the Plugins Marketplace.
+                The <a href='?module=Proxy&action=redirect&url=http://plugins.piwik.org/' target='_blank'>Marketplace</a> is where
+                    developers publish their plugins and themes to make them available to all Piwik users.</p>
 
-        <em>Note: all plugins are available for free at present; in the future we will enable Paid Plugins in the Marketplace
-            (<a href='mailto:hello@piwik.org?subject=Marketplace - Sell Plugin'>contact us</a> for early access).
-        </em>
-    </div>
-
-    <div class="extend">
-
-        <div style="width:50%;float:left;">
-            <h3 class="header">Get new functionality</h3>
-            <span class="callToAction">by <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">installing a new plugin</a></span>
-
-            <p>
-                <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><img src="" width="250" height="250"/></a>
-            </p>
-
-            <span class="callToAction">or <a href="#">write your own plugin</a></span>
+            <em>Note: all plugins are available for free at present; in the future we will enable Paid Plugins in the Marketplace
+                (<a href='mailto:hello@piwik.org?subject=Marketplace - Sell Plugin'>contact us</a> for early access).
+            </em>
         </div>
 
-        <div style="width:50%;float:left;">
-            <h3 class="header">Enjoy another look & feel</h3>
-            <span class="callToAction">by <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">installing a new theme</a></span>
+        <div>
+            <div class="byPlugins">
+                <h3 class="header">Get new functionality</h3>
+                <span class="callToAction">by <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">installing a new plugin</a></span>
 
-            <p>
-                <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><img src="" width="250" height="250"/></a>
-            </p>
+                <p>
+                    <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><img class="teaserImage" src=""/></a>
+                </p>
 
-            <span class="callToAction">or <a href="#">design your own theme</a></span>
+                <span class="callToAction">or <a href="#">write your own plugin</a></span>
+            </div>
+
+            <div class="byThemes">
+                <h3 class="header">Enjoy another look & feel</h3>
+                <span class="callToAction">by <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">installing a new theme</a></span>
+
+                <p>
+                    <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><img class="teaserImage" src=""/></a>
+                </p>
+
+                <span class="callToAction">or <a href="#">design your own theme</a></span>
+            </div>
         </div>
     </div>
 {% endblock %}
