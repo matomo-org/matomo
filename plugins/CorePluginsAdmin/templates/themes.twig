@@ -15,7 +15,7 @@
 
     <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}</p>
 
-    {{ plugins.tablePlugins(pluginsInfo, token_auth, true) }}
+    {{ plugins.tablePlugins(pluginsInfo, token_auth, activateNonce, true) }}
 
 </div>
 {% endblock %}

@@ -11,15 +11,31 @@
         {% else %}
 
             <div>
-                <p>Downloading plugin from Marketplace</p>
 
-                <p>Unzipping plugin</p>
+                {% if plugin.theme %}
+                    <p>Downloading plugin from Marketplace</p>
 
-                <p>Installing plugin</p>
+                    <p>Unzipping plugin</p>
 
-                <p>You have successfully installed the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+                    <p>Installing plugin</p>
 
-                <p><strong><a href="{{ linkTo({'action': 'activatePlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Plugin</a></strong>
+                    <p>You have successfully installed the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+
+                    <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Plugin</a></strong>
+
+                {% else %}
+                    <p>Downloading theme from Marketplace</p>
+
+                    <p>Unzipping theme</p>
+
+                    <p>Installing theme</p>
+
+                    <p>You have successfully installed the Theme {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+
+                    <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Theme</a></strong>
+
+                {% endif %}
+
                     |
                     <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
             </div>

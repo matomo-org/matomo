@@ -2,17 +2,20 @@
 
 {% block content %}
     <style type="text/css">
-        .plugin { padding: 15px;border-top: 5px solid white; }
-        .plugin.first { border-top: 0px; }
-        .plugin.odd { background-color: #F6F5F3; }
-        .plugin.even { background-color: #EFEEEC; }
+        .plugin {
+            width: 280px; float: left; border: 1px solid #dadada; padding: 15px; background-color: #F6F5F3;
+            margin-right: 14px; margin-bottom: 15px;
+        }
+        .plugin:hover {
+            background-color: #EFEEEC;
+        }
         .plugin li { display: inline-block;padding-right: 10px;font-size: 90%; }
         .plugin ul { list-style: none;margin-left: 0; }
         .plugin .header { margin-top: 0px; margin-bottom: 15px; }
         .plugin .description { padding-bottom: 10px; }
         .plugin .install { float: right; }
         .plugin .more { font-weight: bold; text-decoration: none; color: #255792; }
-        .pluginslist { margin-top: 20px;max-width:980px;clear: right;border: 1px solid #dadada; padding: 2px; }
+        .pluginslist { margin-top: 20px;max-width:980px;clear: right; }
         .infoBox {
             font-size: 14px;
             margin: 0px 0px 10px 10px;
@@ -61,7 +64,7 @@
         {% if plugins|length %}
             {% for plugin in plugins %}
 
-                <div class="plugin {{ cycle(['odd', 'even'], loop.index) }} {% if loop.first %}first{% endif %}">
+                <div class="plugin">
                     {% if plugin.isInstalled %}
                         <span class="install">Installed</span>
                     {% else %}

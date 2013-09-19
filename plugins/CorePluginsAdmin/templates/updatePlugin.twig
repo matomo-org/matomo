@@ -19,7 +19,13 @@
 
                 <p>You have successfully updated the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
 
+                <p><a href="{{ linkTo({'action': 'plugins'}) }}">Plugins</a>
+                    |
+                    <a href="{{ linkTo({'action': 'themes'}) }}">Themes</a>
+                    |
+                    <a href="{{ linkTo({'action': 'extend'}) }}">Extend Piwik</a></p>
             </div>
+
 
         {% endif %}
     </div>

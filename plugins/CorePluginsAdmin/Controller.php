@@ -32,32 +32,6 @@ class Controller extends \Piwik\Controller\Admin
     private $validSortMethods = array('popular', 'newest', 'alpha');
     private $defaultSortMethod = 'popular';
 
-    public function activatePlugin()
-    {
-        $pluginName = Common::getRequestVar('pluginName', '', 'string');
-        $nonce      = Common::getRequestVar('nonce', '', 'string');
-
-        if (empty($pluginName)) {
-            throw new \Exception('Plugin parameter is missing');
-        }
-
-        if (!Nonce::verifyNonce('CorePluginsAdmin.activatePlugin', $nonce)) {
-            throw new \Exception(Piwik_Translate('ExceptionNonceMismatch'));
-        }
-
-        Nonce::discardNonce('CorePluginsAdmin.activatePlugin');
-
-        $plugin = PluginsManager::getInstance()->loadPlugin($pluginName);
-
-        if (empty($plugin)) {
-            throw new \Exception('Failed to activate, the plugin is not installed');
-        }
-
-        PluginsManager::getInstance()->activatePlugin($pluginName);
-
-        $this->redirectToIndex('CorePluginsAdmin', 'extend');
-    }
-
     public function updatePlugin()
     {
         $view = $this->configureView('@CorePluginsAdmin/updatePlugin');
@@ -199,7 +173,7 @@ class Controller extends \Piwik\Controller\Admin
         $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $plugin) {
             $plugin->isInstalled     = !empty($loadedPlugins[$plugin->name]);
-            $plugin->createdDateTime = Date::factory($plugin->createdDateTime)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
+            $plugin->createdDateTime = null; // Date::factory($plugin->createdDateTime)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
         }
 
         $view->plugins = $plugins;
@@ -220,8 +194,9 @@ class Controller extends \Piwik\Controller\Admin
     {
         $view = $this->configureView('@CorePluginsAdmin/plugins');
 
-        $view->updateNonce = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
-        $view->pluginsInfo = $this->getPluginsInfo();
+        $view->updateNonce   = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
+        $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
+        $view->pluginsInfo   = $this->getPluginsInfo();
 
         $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($themesOnly = false);
 
@@ -234,8 +209,9 @@ class Controller extends \Piwik\Controller\Admin
 
         $pluginsInfo = $this->getPluginsInfo($themesOnly = true);
 
-        $view->updateNonce = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
-        $view->pluginsInfo = $pluginsInfo;
+        $view->updateNonce   = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
+        $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
+        $view->pluginsInfo   = $pluginsInfo;
         $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($pluginsInfo, $themesOnly = true);
 
         echo $view->render();
@@ -315,9 +291,31 @@ class Controller extends \Piwik\Controller\Admin
 
     public function activate($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification();
+        Piwik::checkUserIsSuperUser();
+
+        $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $nonce      = Common::getRequestVar('nonce', '', 'string');
+
+        if (empty($pluginName)) {
+            throw new \Exception('Plugin parameter is missing');
+        }
+
+        if (!Nonce::verifyNonce('CorePluginsAdmin.activatePlugin', $nonce)) {
+            throw new \Exception(Piwik_Translate('ExceptionNonceMismatch'));
+        }
+
+        Nonce::discardNonce('CorePluginsAdmin.activatePlugin');
+
         \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
-        $this->redirectAfterModification($redirectAfter);
+
+        if ($redirectAfter) {
+            $plugin = PluginsManager::getInstance()->loadPlugin($pluginName);
+            if ($plugin->isTheme()) {
+                $this->redirectToIndex('CorePluginsAdmin', 'themes', null, null, null, array('activated' => 1));
+            } else {
+                $this->redirectToIndex('CorePluginsAdmin', 'plugins', null, null, null, array('activated' => 1));
+            }
+        }
     }
 
     public function uninstall($redirectAfter = true)
