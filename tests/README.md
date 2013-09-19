@@ -157,6 +157,12 @@ will need xvfb to do so. On Ubuntu, you can install xvfb with:
 
     $ sudo apt-get install xvfb
 
+To render the app & generate exact same screenshots as Travis, installing fonts may be useful. On Ubuntu:
+    $ sudo apt-get install msttcorefonts
+Removing this font helped:
+    $ sudo apt-get remove ttf-bitstream-vera
+
+
 **Running Tests**
 
 Unfortunately, since different machines result in different screenshots, there is no expected
