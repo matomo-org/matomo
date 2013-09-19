@@ -1,7 +1,7 @@
 {%- set subtablesAreDisabled = properties.visualization_properties.show_goals_columns|default(false)
                            and properties.visualization_properties.disable_subtable_when_show_goals|default(false) -%}
 {%- set showingEmbeddedSubtable = properties.visualization_properties.show_embedded_subtable is not empty
-                              and idSubtable is not empty -%}
+                              and idSubtable|default(false) -%}
 {% if error is defined %}
     {{ error.message }}
 {% else %}

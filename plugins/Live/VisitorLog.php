@@ -30,22 +30,8 @@ class VisitorLog extends DataTableVisualization
      */
     public function __construct($view)
     {
-        $view->datatable_js_type = 'VisitorLog';
-    }
+        parent::__construct("@Live/_dataTableViz_visitorLog.twig");
 
-    /**
-     * Renders this visualization.
-     *
-     * @param DataTable $dataTable
-     * @param array $properties View Properties.
-     * @return string
-     */
-    public function render($dataTable, $properties, $javascriptVariablesToSet)
-    {
-        $view = new View("@Live/_dataTableViz_visitorLog.twig");
-        $view->properties = $properties;
-        $view->dataTable = $dataTable;
-        $view->javascriptVariablesToSet = $javascriptVariablesToSet;
-        return $view->render();
+        $view->datatable_js_type = 'VisitorLog';
     }
 }

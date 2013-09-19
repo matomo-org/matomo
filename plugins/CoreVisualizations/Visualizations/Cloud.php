@@ -44,6 +44,40 @@ class Cloud extends DataTableVisualization
     protected $wordsArray = array();
     public $truncatingLimit = 50;
 
+    public function __construct($view)
+    {
+        parent::__construct("@CoreVisualizations/_dataTableViz_tagCloud.twig");
+
+        $self = $this;
+        $view->after_data_loaded_functions[] = function ($dataTable, $view) use ($self) {
+            $columnToDisplay = $view->columns_to_display[1];
+
+            $labelMetadata = array();
+            foreach ($dataTable->getRows() as $row) {
+                $logo = false;
+                if ($view->visualization_properties->display_logo_instead_of_label) {
+                    $logo = $row->getMetadata('logo');
+                }
+
+                $label = $row->getColumn('label');
+
+                $labelMetadata[$label] = array(
+                    'logo' => $logo,
+                    'url'  => $row->getMetadata('url'),
+                );
+
+                $self->addWord($label, $row->getColumn($columnToDisplay));
+            }
+            $cloudValues = $self->getCloudValues();
+            foreach ($cloudValues as &$value) {
+                $value['logoWidth'] = round(max(16, $value['percent']));
+            }
+
+            $self->labelMetadata = $labelMetadata;
+            $self->cloudValues = $cloudValues;
+        };
+    }
+
     public static function getDefaultPropertyValues()
     {
         return array(
@@ -71,46 +105,6 @@ class Cloud extends DataTableVisualization
         } else {
             $this->wordsArray[$word] = $value;
         }
-    }
-
-    /**
-     * Renders this visualization.
-     *
-     * @param DataTable $dataTable
-     * @param array $properties
-     * @return string
-     */
-    public function render($dataTable, $properties)
-    {
-        $view = new View("@CoreVisualizations/_dataTableViz_tagCloud.twig");
-        $view->properties = $properties;
-
-        $columnToDisplay = $properties['columns_to_display'][1];
-
-        $labelMetadata = array();
-        foreach ($dataTable->getRows() as $row) {
-            $logo = false;
-            if ($properties['visualization_properties']->display_logo_instead_of_label) {
-                $logo = $row->getMetadata('logo');
-            }
-
-            $label = $row->getColumn('label');
-
-            $labelMetadata[$label] = array(
-                'logo' => $logo,
-                'url'  => $row->getMetadata('url'),
-            );
-
-            $this->addWord($label, $row->getColumn($columnToDisplay));
-        }
-        $cloudValues = $this->getCloudValues();
-        foreach ($cloudValues as &$value) {
-            $value['logoWidth'] = round(max(16, $value['percent']));
-        }
-        $view->labelMetadata = $labelMetadata;
-        $view->cloudValues = $cloudValues;
-
-        return $view->render();
     }
 
     private function getCloudValues()

@@ -20,7 +20,7 @@ use Piwik\DataTable;
  * 
  * TODO: must be more in depth
  */
-abstract class DataTableVisualization
+abstract class DataTableVisualization extends View
 {
     /**
      * This event is used to gather all available DataTable visualizations. Callbacks
@@ -29,15 +29,6 @@ abstract class DataTableVisualization
      * Callback Signature: function (&$visualizations) {}
      */
     const GET_AVAILABLE_EVENT = 'DataTableVisualization.getAvailable';
-
-    /**
-     * Rendering function. Must return the view HTML.
-     * 
-     * @param DataTable|DataTable\Map $dataTable The data.
-     * @param array $properties The view properties.
-     * @return string The visualization HTML.
-     */
-    //public abstract function render($dataTable, $properties); temporarily commented out
 
     /**
      * Default implementation of getDefaultPropertyValues static function.
@@ -120,11 +111,11 @@ abstract class DataTableVisualization
      */
     public static function getVisualizationClassLineage($klass)
     {
-        $klasses = array_merge(array($klass), class_parents($klass, $autoload = false));
+        $klasses = array_merge(array($klass), array_values(class_parents($klass, $autoload = false)));
 
         $idx = array_search('Piwik\\DataTableVisualization', $klasses);
         if ($idx !== false) {
-            unset($klasses[$idx]);
+            $klasses = array_slice($klasses, 0, $idx);
         }
 
         return array_reverse($klasses);

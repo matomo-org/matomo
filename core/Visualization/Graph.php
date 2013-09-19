@@ -127,9 +127,12 @@ abstract class Graph extends DataTableVisualization
      * Constructor.
      * 
      * @param \Piwik\ViewDataTable $view
+     * @param string $template
      */
-    public function __construct($view)
+    public function __construct($view, $template)
     {
+        parent::__construct($template);
+        
         if ($view->show_goals) {
             $view->translations['nb_conversions'] = Piwik_Translate('Goals_ColumnConversions');
             $view->translations['revenue'] = Piwik_Translate('General_TotalRevenue');

@@ -57,6 +57,26 @@ class View implements ViewInterface
     }
 
     /**
+     * Returns the template filename.
+     * 
+     * @return string
+     */
+    public function getTemplateFile()
+    {
+        return $this->template;
+    }
+
+    /**
+     * Returns the variables to bind to the template when rendering.
+     * 
+     * @return array
+     */
+    public function getTemplateVars()
+    {
+        return $this->templateVars;
+    }
+
+    /**
      * Directly assigns a variable to the view script.
      * VAR names may not be prefixed with '_'.
      *
