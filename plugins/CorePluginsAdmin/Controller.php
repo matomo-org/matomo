@@ -143,9 +143,8 @@ class Controller extends \Piwik\Controller\Admin
         $view    = $this->configureView('@CorePluginsAdmin/browsePlugins');
         $plugins = $marketplace->searchForPlugins('', $query, $sort);
 
-        $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $plugin) {
-            $plugin->isInstalled = !empty($loadedPlugins[$plugin->name]);
+            $plugin->isInstalled = PluginsManager::getInstance()->isPluginLoaded($plugin->name);
             $plugin->lastUpdated = Date::factory($plugin->lastUpdated)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
         }
 
@@ -170,9 +169,8 @@ class Controller extends \Piwik\Controller\Admin
         $view    = $this->configureView('@CorePluginsAdmin/browseThemes');
         $plugins = $marketplace->searchForThemes('', $query, $sort);
 
-        $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $plugin) {
-            $plugin->isInstalled = !empty($loadedPlugins[$plugin->name]);
+            $plugin->isInstalled = PluginsManager::getInstance()->isPluginLoaded($plugin->name);
             $plugin->lastUpdated = Date::factory($plugin->lastUpdated)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
         }
 
@@ -362,10 +360,14 @@ class Controller extends \Piwik\Controller\Admin
 
         $marketplace   = new MarketplaceApiClient();
 
-        if ($themesOnly) {
-            $pluginsHavingUpdate = $marketplace->getInfoOfThemesHavingUpdate($loadedPlugins);
-        } else {
-            $pluginsHavingUpdate = $marketplace->getInfoOfPluginsHavingUpdate($loadedPlugins);
+        try {
+            if ($themesOnly) {
+                $pluginsHavingUpdate = $marketplace->getInfoOfThemesHavingUpdate($loadedPlugins);
+            } else {
+                $pluginsHavingUpdate = $marketplace->getInfoOfPluginsHavingUpdate($loadedPlugins);
+            }
+        } catch (\Exception $e) {
+            $pluginsHavingUpdate = array();
         }
 
         foreach ($pluginsHavingUpdate as $updatePlugin) {
