@@ -32,10 +32,12 @@
                 <div class="plugin">
 
                     <div class="content">
-                        {% if plugin.isInstalled %}
+                        {% if plugin.canBeUpdated %}
+                            <a class="update" href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}">Update</a>
+                        {% elseif plugin.isInstalled %}
                             <span class="install">Installed</span>
                         {% else %}
-                            <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}"
+                            <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
                                class="install">Install</a>
                         {% endif %}
 

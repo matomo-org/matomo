@@ -145,8 +145,9 @@ class Controller extends \Piwik\Controller\Admin
         $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly = false);
 
         $view->query   = $query;
-        $view->nonce   = Nonce::getNonce('CorePluginsAdmin.installPlugin');
         $view->sort    = $sort;
+        $view->installNonce = Nonce::getNonce('CorePluginsAdmin.installPlugin');
+        $view->updateNonce  = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
 
         echo $view->render();
     }
@@ -166,8 +167,9 @@ class Controller extends \Piwik\Controller\Admin
         $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly = true);
 
         $view->query   = $query;
-        $view->nonce   = Nonce::getNonce('CorePluginsAdmin.installPlugin');
         $view->sort    = $sort;
+        $view->installNonce = Nonce::getNonce('CorePluginsAdmin.installPlugin');
+        $view->updateNonce  = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
 
         echo $view->render();
     }

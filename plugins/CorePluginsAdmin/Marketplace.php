@@ -24,6 +24,8 @@ class Marketplace
      * @var MarketplaceApiClient
      */
     private $client;
+    private static $pluginUpdates = null;
+    private static $themeUpdates  = null;
 
     public function __construct()
     {
@@ -33,19 +35,37 @@ class Marketplace
     public function searchPlugins($query, $sort, $themesOnly)
     {
         if ($themesOnly) {
-            $plugins    = $this->client->searchForThemes('', $query, $sort);
+            $plugins = $this->client->searchForThemes('', $query, $sort);
         } else {
-            $plugins    = $this->client->searchForPlugins('', $query, $sort);
+            $plugins = $this->client->searchForPlugins('', $query, $sort);
         }
 
         $dateFormat = Piwik_Translate('CoreHome_ShortDateFormatWithYear');
 
         foreach ($plugins as $plugin) {
-            $plugin->isInstalled = PluginsManager::getInstance()->isPluginLoaded($plugin->name);
-            $plugin->lastUpdated = Date::factory($plugin->lastUpdated)->getLocalized($dateFormat);
+            $plugin->canBeUpdated = $this->hasPluginUpdate($plugin);
+            $plugin->isInstalled  = PluginsManager::getInstance()->isPluginLoaded($plugin->name);
+            $plugin->lastUpdated  = Date::factory($plugin->lastUpdated)->getLocalized($dateFormat);
         }
 
         return $plugins;
+    }
+
+    private function hasPluginUpdate($plugin)
+    {
+        if (empty($plugin)) {
+            return false;
+        }
+
+        $pluginsHavingUpdate = $this->getPluginsHavingUpdate($plugin->isTheme);
+
+        foreach ($pluginsHavingUpdate as $pluginHavingUpdate) {
+            if ($plugin->name == $pluginHavingUpdate->name) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -54,14 +74,41 @@ class Marketplace
      */
     public function getPluginsHavingUpdate($themesOnly)
     {
-        $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
+        if ($themesOnly && !is_null(static::$themeUpdates)) {
+            return static::$themeUpdates;
+        } else if (!$themesOnly && !is_null(static::$pluginUpdates)) {
+            return static::$pluginUpdates;
+        }
+
+        $pluginsHavingUpdate = $this->fetchPluginsHavingUpdate($themesOnly);
+
+        if ($themesOnly) {
+            static::$themeUpdates  = $pluginsHavingUpdate;
+        } else {
+            static::$pluginUpdates = $pluginsHavingUpdate;
+        }
+
+        return $pluginsHavingUpdate;
+    }
+
+    /**
+     * @param $themesOnly
+     * @return array
+     */
+    public function fetchPluginsHavingUpdate($themesOnly)
+    {
+        $pluginManager = PluginsManager::getInstance();
+        $loadedPlugins = $pluginManager->getLoadedPlugins();
 
         try {
             if ($themesOnly) {
                 $pluginsHavingUpdate = $this->client->getInfoOfThemesHavingUpdate($loadedPlugins);
+                return $pluginsHavingUpdate;
             } else {
                 $pluginsHavingUpdate = $this->client->getInfoOfPluginsHavingUpdate($loadedPlugins);
+                return $pluginsHavingUpdate;
             }
+
         } catch (\Exception $e) {
             $pluginsHavingUpdate = array();
         }
@@ -71,7 +118,7 @@ class Marketplace
 
                 if ($loadedPlugin->getPluginName() == $updatePlugin->name) {
                     $updatePlugin->currentVersion = $loadedPlugin->getVersion();
-                    $updatePlugin->isActivated = PluginsManager::getInstance()->isPluginActivated($updatePlugin->name);
+                    $updatePlugin->isActivated = $pluginManager->isPluginActivated($updatePlugin->name);
                     break;
 
                 }
