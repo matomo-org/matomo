@@ -33,15 +33,15 @@ class CorePluginsAdmin extends \Piwik\Plugin
     {
         Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', null, "", Piwik::isUserIsSuperUser(), $order = 15);
         Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'General_Plugins',
-            array('module' => 'CorePluginsAdmin', 'action' => 'plugins'),
+            array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
             Piwik::isUserIsSuperUser(),
             $order = 1);
         Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Themes',
-            array('module' => 'CorePluginsAdmin', 'action' => 'themes'),
+            array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
             Piwik::isUserIsSuperUser(),
             $order = 3);
         Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuExtend',
-            array('module' => 'CorePluginsAdmin', 'action' => 'extend'),
+            array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
             Piwik::isUserIsSuperUser(),
             $order = 5);
     }
