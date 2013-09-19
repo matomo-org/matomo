@@ -77,7 +77,7 @@ class Installation extends \Piwik\Plugin
      */
     public function addMenu()
     {
-        Piwik_AddAdminSubMenu('CoreAdminHome_MenuDiagnostic', 'Installation_SystemCheck',
+        Piwik_AddAdminMenu('Installation_SystemCheck',
             array('module' => 'Installation', 'action' => 'systemCheckPage'),
             $addIf = Piwik::isUserIsSuperUser(),
             $order = 15);
