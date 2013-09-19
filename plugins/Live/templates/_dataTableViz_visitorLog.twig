@@ -43,7 +43,7 @@
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
                  title="{{ 'General_ReturningVisitor'|translate }}{% if visitor.getColumn('visitorId') is not empty %}{% endif %}"/>
             {% if visitor.getColumn('visitorId') is not empty %}
-            <a class="rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}" class="visitor-log-visitor-profile-link">
+            <a class="rightLink visitor-log-visitor-profile-link" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
                 <img src="plugins/Live/images/visitorProfileLaunch.png"/>
             </a>
             {% endif %}
@@ -178,7 +178,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
         </tr>
     {% endset %}
 
-    {% if not javascriptVariablesToSet.filterEcommerce or visitorHasSomeEcommerceActivity is not empty %}
+    {% if not clientSideParameters.filterEcommerce or visitorHasSomeEcommerceActivity is not empty %}
         {{ visitorRow }}
     {% endif %}
 {% endfor %}

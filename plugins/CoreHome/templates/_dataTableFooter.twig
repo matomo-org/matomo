@@ -9,7 +9,7 @@
 
         {% if properties.show_pagination_control %}
             <span>
-                <span class="dataTablePrevious">&lsaquo; {% if javascriptVariablesToSet.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %} </span>
+                <span class="dataTablePrevious">&lsaquo; {% if clientSideParameters.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %} </span>
                 <span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
             </span>
         {% endif %}
@@ -31,10 +31,10 @@
                     <span class="{{ footerIconGroup.class }}">
                     {% for footerIcon in footerIconGroup.buttons %}
                         <span>
-                            {% if properties.show_active_view_icon and javascriptVariablesToSet.viewDataTable == footerIcon.id %}
+                            {% if properties.show_active_view_icon and clientSideParameters.viewDataTable == footerIcon.id %}
                             <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                             {% endif %}
-                            <a class="tableIcon {% if javascriptVariablesToSet.viewDataTable == footerIcon.id %}activeIcon{% endif %}" data-footer-icon-id="{{ footerIcon.id }}">
+                            <a class="tableIcon {% if clientSideParameters.viewDataTable == footerIcon.id %}activeIcon{% endif %}" data-footer-icon-id="{{ footerIcon.id }}">
                                 <img width="16" height="16" title="{{ footerIcon.title }}" src="{{ footerIcon.icon }}"/>
                                 {% if footerIcon.text is defined %}<span>{{ footerIcon.text }}</span>{% endif %}
                             </a>
@@ -82,7 +82,7 @@
                 <a class="tableConfigurationIcon" href="#"></a>
                 <ul>
                     {% if properties.show_flatten_table %}
-                        {% if javascriptVariablesToSet.flat is defined and javascriptVariablesToSet.flat == 1 %}
+                        {% if clientSideParameters.flat is defined and clientSideParameters.flat == 1 %}
                         <li>
                             <div class="configItem dataTableIncludeAggregateRows"></div>
                         </li>

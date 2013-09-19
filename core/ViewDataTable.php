@@ -745,7 +745,7 @@ class ViewDataTable
      *
      * @return array eg. array('show_offset_information' => 0, 'show_...
      */
-    protected function getJavascriptVariablesToSet()
+    protected function getClientSideParametersToSet()
     {
         // build javascript variables to set
         $javascriptVariablesToSet = array();
@@ -1099,8 +1099,8 @@ class ViewDataTable
             $view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
         }
         $view->idSubtable = $this->idSubtable;
-        $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-        $view->clientSidePropertiesToSet = $this->getClientSidePropertiesToSet();
+        $view->clientSideParameters = $this->getClientSideParametersToSet();
+        $view->clientSideProperties = $this->getClientSidePropertiesToSet();
         $view->properties = $this->viewProperties;
         $view->footerIcons = $this->viewProperties['footer_icons'];
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');

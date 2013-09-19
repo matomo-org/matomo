@@ -10,7 +10,7 @@
             {% endfor %}
         {% endif %}
     {% endset %}
-    {% if not javascriptVariablesToSet.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
+    {% if not clientSideParameters.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
         <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
             title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
 
@@ -34,7 +34,7 @@
                     <strong>{{'Goals_AbandonedCart'|translate}}</strong>
 
                     {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
-                    {% if javascriptVariablesToSet.filterEcommerce == 2 %}
+                    {% if clientSideParameters.filterEcommerce == 2 %}
                         {% set visitorHasSomeEcommerceActivity %}1{% endset %}
                     {% endif %}
                 {% endif %}
@@ -42,17 +42,17 @@
                 <span {% if not isWidget %}style='margin-left:20px;'{% endif %}>
                     {% if action.type == 'ecommerceOrder' %}
                     <abbr title="
-                        {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}
-                        {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
-                        {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
-                        {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
-                        {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
+                        {{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(clientSideParameters.idSite)|raw }}
+                        {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(clientSideParameters.idSite)|raw }}{% endif %}
+                        {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(clientSideParameters.idSite)|raw }}{% endif %}
+                        {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(clientSideParameters.idSite)|raw }}{% endif %}
+                        {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(clientSideParameters.idSite)|raw }}{% endif %}
                         ">{{ 'General_ColumnRevenue'|translate }}:
                     {% else %}
                         {% set revenueLeft %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
                         {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
                     {% endif %}
-                        <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}</strong>
+                        <strong>{{ action.revenue|money(clientSideParameters.idSite)|raw }}</strong>
                     {% if action.type == 'ecommerceOrder' %}
                     </abbr>
                     {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
@@ -66,7 +66,7 @@
                                     {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
                                     ,
                                     {{ 'General_Quantity'|translate }}: {{ product.quantity }},
-                                    {{ 'General_Price'|translate }}: {{ product.price|money(javascriptVariablesToSet.idSite)|raw }}
+                                    {{ 'General_Price'|translate }}: {{ product.price|money(clientSideParameters.idSite)|raw }}
                                 </li>
                             {% endfor %}
                         </ul>
@@ -96,7 +96,7 @@
                     {% if action.type == 'action' and action.pageTitle is not empty %}</p>{% endif %}
                 {% elseif action.type != 'search' %}
                     <p>
-                    <span style="margin-left: 25px;">{{ javascriptVariablesToSet.pageUrlNotDefined }}</span>
+                    <span style="margin-left: 25px;">{{ clientSideParameters.pageUrlNotDefined }}</span>
                     </p>
                 {% endif %}
             {% else %}
@@ -104,7 +104,7 @@
                 <img src="{{ action.icon }}" />
                 <strong>{{ action.goalName }}</strong>
                 {% if action.revenue > 0 %}, {{ 'General_ColumnRevenue'|translate }}:
-                    <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}</strong>
+                    <strong>{{ action.revenue|money(clientSideParameters.idSite)|raw }}</strong>
                 {% endif %}
             {% endif %}
         </li>
