@@ -145,8 +145,8 @@ class Controller extends \Piwik\Controller\Admin
 
         $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $plugin) {
-            $plugin->isInstalled     = !empty($loadedPlugins[$plugin->name]);
-            $plugin->createdDateTime = Date::factory($plugin->createdDateTime)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
+            $plugin->isInstalled = !empty($loadedPlugins[$plugin->name]);
+            $plugin->lastUpdated = Date::factory($plugin->lastUpdated)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
         }
 
         $view->plugins = $plugins;
@@ -172,8 +172,8 @@ class Controller extends \Piwik\Controller\Admin
 
         $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $plugin) {
-            $plugin->isInstalled     = !empty($loadedPlugins[$plugin->name]);
-            $plugin->createdDateTime = null; // Date::factory($plugin->createdDateTime)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
+            $plugin->isInstalled = !empty($loadedPlugins[$plugin->name]);
+            $plugin->lastUpdated = Date::factory($plugin->lastUpdated)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
         }
 
         $view->plugins = $plugins;
