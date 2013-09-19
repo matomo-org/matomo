@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\PluginsManager;
 
@@ -19,6 +20,33 @@ use Piwik\PluginsManager;
  */
 class Marketplace
 {
+    /**
+     * @var MarketplaceApiClient
+     */
+    private $client;
+
+    public function __construct()
+    {
+        $this->client = new MarketplaceApiClient();
+    }
+
+    public function searchPlugins($query, $sort, $themesOnly)
+    {
+        if ($themesOnly) {
+            $plugins    = $this->client->searchForThemes('', $query, $sort);
+        } else {
+            $plugins    = $this->client->searchForPlugins('', $query, $sort);
+        }
+
+        $dateFormat = Piwik_Translate('CoreHome_ShortDateFormatWithYear');
+
+        foreach ($plugins as $plugin) {
+            $plugin->isInstalled = PluginsManager::getInstance()->isPluginLoaded($plugin->name);
+            $plugin->lastUpdated = Date::factory($plugin->lastUpdated)->getLocalized($dateFormat);
+        }
+
+        return $plugins;
+    }
 
     /**
      * @param bool $themesOnly
@@ -28,13 +56,11 @@ class Marketplace
     {
         $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
 
-        $marketplace   = new MarketplaceApiClient();
-
         try {
             if ($themesOnly) {
-                $pluginsHavingUpdate = $marketplace->getInfoOfThemesHavingUpdate($loadedPlugins);
+                $pluginsHavingUpdate = $this->client->getInfoOfThemesHavingUpdate($loadedPlugins);
             } else {
-                $pluginsHavingUpdate = $marketplace->getInfoOfPluginsHavingUpdate($loadedPlugins);
+                $pluginsHavingUpdate = $this->client->getInfoOfPluginsHavingUpdate($loadedPlugins);
             }
         } catch (\Exception $e) {
             $pluginsHavingUpdate = array();

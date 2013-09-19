@@ -29,7 +29,7 @@ use Piwik\PluginsManager;
  */
 class Controller extends \Piwik\Controller\Admin
 {
-    private $validSortMethods = array('popular', 'newest', 'alpha');
+    private $validSortMethods  = array('popular', 'newest', 'alpha');
     private $defaultSortMethod = 'popular';
 
     public function updatePlugin()
@@ -134,24 +134,19 @@ class Controller extends \Piwik\Controller\Admin
     {
         $query = Common::getRequestVar('query', '', 'string', $_POST);
         $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
+
         if (!in_array($sort, $this->validSortMethods)) {
             $sort = $this->defaultSortMethod;
         }
 
-        $marketplace   = new MarketplaceApiClient();
+        $view = $this->configureView('@CorePluginsAdmin/browsePlugins');
 
-        $view    = $this->configureView('@CorePluginsAdmin/browsePlugins');
-        $plugins = $marketplace->searchForPlugins('', $query, $sort);
-
-        foreach ($plugins as $plugin) {
-            $plugin->isInstalled = PluginsManager::getInstance()->isPluginLoaded($plugin->name);
-            $plugin->lastUpdated = Date::factory($plugin->lastUpdated)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
-        }
-
-        $view->plugins = $plugins;
+        $marketplace   = new Marketplace();
+        $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly = false);
 
         $view->query   = $query;
         $view->nonce   = Nonce::getNonce('CorePluginsAdmin.installPlugin');
+        $view->sort    = $sort;
 
         echo $view->render();
     }
@@ -160,24 +155,19 @@ class Controller extends \Piwik\Controller\Admin
     {
         $query = Common::getRequestVar('query', '', 'string', $_POST);
         $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
+
         if (!in_array($sort, $this->validSortMethods)) {
             $sort = $this->defaultSortMethod;
         }
 
-        $marketplace = new MarketplaceApiClient();
+        $view = $this->configureView('@CorePluginsAdmin/browseThemes');
 
-        $view    = $this->configureView('@CorePluginsAdmin/browseThemes');
-        $plugins = $marketplace->searchForThemes('', $query, $sort);
-
-        foreach ($plugins as $plugin) {
-            $plugin->isInstalled = PluginsManager::getInstance()->isPluginLoaded($plugin->name);
-            $plugin->lastUpdated = Date::factory($plugin->lastUpdated)->getLocalized(Piwik_Translate('CoreHome_ShortDateFormatWithYear'));
-        }
-
-        $view->plugins = $plugins;
+        $marketplace   = new Marketplace();
+        $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly = true);
 
         $view->query   = $query;
         $view->nonce   = Nonce::getNonce('CorePluginsAdmin.installPlugin');
+        $view->sort    = $sort;
 
         echo $view->render();
     }
