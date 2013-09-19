@@ -9,7 +9,9 @@
  * @package CorePluginsAdmin
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
+use Piwik\CacheFile;
 use Piwik\Http;
+use Piwik\Tracker\Cache;
 
 /**
  *
@@ -20,18 +22,27 @@ class MarketplaceApiClient
     private $domain = 'http://plugins.piwik.org/';
 
     /**
-     * @var array   array(pluginName => stdClass pluginInfo)
+     * @var CacheFile
      */
-    private static $pluginCache = array();
+    private $cache = null;
+
+    public function __construct()
+    {
+        $this->cache = new CacheFile('marketplace', 7200);
+    }
 
     private function fetch($action, $params)
     {
-        $endpoint = $this->domain . '/api/1.0/';
-        $query    = http_build_query($params);
+        $query  = http_build_query($params);
+        $result = $this->getCachedResult($action, $query);
 
-        $url = sprintf('%s%s?%s', $endpoint, $action, $query);
+        if (false === $result) {
+            $endpoint = $this->domain . '/api/1.0/';
+            $url      = sprintf('%s%s?%s', $endpoint, $action, $query);
+            $result   = Http::sendHttpRequest($url, 5);
+            $this->cacheResult($action, $query, $result);
+        }
 
-        $result = Http::sendHttpRequest($url, 5);
         $result = json_decode($result);
 
         if (!empty($result->error)) {
@@ -42,16 +53,30 @@ class MarketplaceApiClient
         return $result;
     }
 
+    private function getCachedResult($action, $query)
+    {
+        $cacheKey = $this->getCacheKey($action, $query);
+
+        return $this->cache->get($cacheKey);
+    }
+
+    private function cacheResult($action, $query, $result)
+    {
+        $cacheKey = $this->getCacheKey($action, $query);
+
+        $this->cache->set($cacheKey, $result);
+    }
+
+    private function getCacheKey($action, $query)
+    {
+        return sprintf('api.1.0.%s.%s', str_replace('/', '.', $action), md5($query));
+    }
+
     public function getPluginInfo($name)
     {
-        if (array_key_exists($name, static::$pluginCache)) {
-            return static::$pluginCache[$name];
-        }
-
         $action = sprintf('plugins/%s/info', $name);
-        static::$pluginCache[$name] = $this->fetch($action, array());
 
-        return static::$pluginCache[$name];
+        return $this->fetch($action, array());
     }
 
     public function download($pluginOrThemeName, $target)

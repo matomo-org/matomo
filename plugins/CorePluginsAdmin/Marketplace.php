@@ -24,8 +24,6 @@ class Marketplace
      * @var MarketplaceApiClient
      */
     private $client;
-    private static $pluginUpdates = null;
-    private static $themeUpdates  = null;
 
     public function __construct()
     {
@@ -73,29 +71,6 @@ class Marketplace
      * @return array
      */
     public function getPluginsHavingUpdate($themesOnly)
-    {
-        if ($themesOnly && !is_null(static::$themeUpdates)) {
-            return static::$themeUpdates;
-        } else if (!$themesOnly && !is_null(static::$pluginUpdates)) {
-            return static::$pluginUpdates;
-        }
-
-        $pluginsHavingUpdate = $this->fetchPluginsHavingUpdate($themesOnly);
-
-        if ($themesOnly) {
-            static::$themeUpdates  = $pluginsHavingUpdate;
-        } else {
-            static::$pluginUpdates = $pluginsHavingUpdate;
-        }
-
-        return $pluginsHavingUpdate;
-    }
-
-    /**
-     * @param $themesOnly
-     * @return array
-     */
-    public function fetchPluginsHavingUpdate($themesOnly)
     {
         $pluginManager = PluginsManager::getInstance();
         $loadedPlugins = $pluginManager->getLoadedPlugins();
