@@ -1,9 +1,6 @@
 <?php
 define('PIWIK_MODE_ARCHIVE', true);
 
-
-require_once realpath(dirname(__FILE__)) . '/../../../core/Loader.php';
-
 // make sure the test environment is loaded
 require_once realpath(dirname(__FILE__)) . '/../../../core/EventDispatcher.php';
 require_once realpath(dirname(__FILE__)) . "/../../../core/functions.php";
