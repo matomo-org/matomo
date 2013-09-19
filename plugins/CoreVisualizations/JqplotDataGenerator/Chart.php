@@ -117,6 +117,6 @@ class Chart
             'data'         => &$this->data
         );
 
-        return Common::json_encode($data);
+        return $data;
     }
 }

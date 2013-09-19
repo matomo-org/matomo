@@ -26,21 +26,15 @@ class Pie extends JqplotGraph
         parent::__construct($view);
         $view->visualization_properties->show_all_ticks = true;
         $view->datatable_js_type = 'JqplotPieGraphDataTable';
-    }
 
-    public function render($dataTable, $properties)
-    {
         // make sure only one non-label column is displayed
-        $metricColumn = false;
-        foreach ($properties['columns_to_display'] as $column) {
-            if ($column != 'label') {
-                $metricColumn = $column;
-                break;
+        $view->after_data_loaded_functions[] = function ($dataTable) use ($view) {
+            $metricColumn = reset($view->columns_to_display);
+            if ($metricColumn == 'label') {
+                $metricColumn = next($view->columns_to_display);
             }
-        }
-        $properties['columns_to_display'] = array($metricColumn ?: 'nb_visits');
-
-        return parent::render($dataTable, $properties);
+            $view->columns_to_display = array($metricColumn ?: 'nb_visits');
+        };
     }
 
     public static function getDefaultPropertyValues()

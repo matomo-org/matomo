@@ -5,17 +5,21 @@
 {% block content %}
 <div style="max-width:980px;">
 
+    {% if activatedPluginName %}
+        <div id="feedback-success">You have successfully activated plugin {{ activatedPluginName }}</div>
+    {% endif %}
+
     {% if pluginsHavingUpdate|length %}
         <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
 
-        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, 0) }}
+        {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
     {% endif %}
 
     <h2>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>
 
     <p>{{ 'CorePluginsAdmin_MainDescription'|translate }}</p>
 
-    {{ plugins.tablePlugins(pluginsInfo, token_auth) }}
+    {{ plugins.tablePlugins(pluginsInfo, token_auth, activateNonce, false) }}
 
 </div>
 {% endblock %}

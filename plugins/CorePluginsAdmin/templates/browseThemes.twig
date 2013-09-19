@@ -3,7 +3,7 @@
 {% block content %}
     <style type="text/css">
         .plugin li { display: inline-block;padding-right: 10px;font-size: 90%; }
-        .plugin ul { list-style: none;margin-left: 0; }
+        .plugin ul { list-style: none;margin-left: 0; line-height: 140%; }
         .plugin .description { padding-bottom: 10px; }
         .plugin .install { float: right; }
         .plugin .more { font-weight: bold; text-decoration: none; color: #1D3256 }
@@ -11,6 +11,9 @@
         .plugin h3 { display: inline; }
         .plugin { width: 280px; float: left; border: 1px solid #dadada; padding: 15px; background-color: #F6F5F3;
             margin-right: 14px; margin-bottom: 15px;
+        }
+        .plugin:hover {
+            background-color: #EFEEEC;
         }
         .themeslist { margin-top: 20px;max-width:980px;clear:right; }
         .infoBox {
@@ -66,7 +69,7 @@
                     <img src="{{ plugin.screenshots|first }}?w=250&h=250" height="250" width="250"/>
                     <ul class="metadata">
                         <li>Version <strong>{{ plugin.latestVersion }}</strong></li>
-                        <li>Updated <strong>{{ plugin.createdDateTime }}</strong></li>
+                        <li>Updated <strong>{{ plugin.lastUpdated }}</strong></li>
                         <li>Downloads <strong>{{ plugin.numDownloads }}</strong></li>
                     </ul>
 

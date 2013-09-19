@@ -152,6 +152,8 @@ class HtmlTable extends DataTableVisualization
      */
     public function __construct($view)
     {
+        parent::__construct("@CoreVisualizations/_dataTableViz_htmlTable.twig");
+
         if (Common::getRequestVar('idSubtable', false)
             && $view->visualization_properties->show_embedded_subtable
         ) {
@@ -165,22 +167,6 @@ class HtmlTable extends DataTableVisualization
         if ($view->visualization_properties->show_goals_columns) {
             $this->setShowGoalsColumnsProperties($view);
         }
-    }
-
-    /**
-     * Renders this visualization.
-     *
-     * @param DataTable $dataTable
-     * @param array $properties View Properties.
-     * @return string
-     */
-    public function render($dataTable, $properties) // TODO: $properties should be a viewdatatable, I think.
-    {
-        $view = new View("@CoreVisualizations/_dataTableViz_htmlTable.twig");
-        $view->properties = $properties;
-        $view->dataTable = $dataTable;
-        $view->idSubtable = Common::getRequestVar('idSubtable', false);
-        return $view->render();
     }
 
     public static function getDefaultPropertyValues()

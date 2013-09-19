@@ -54,7 +54,7 @@ class Treemap extends Graph
         // we determine the elements count dynamically based on available width/height
         $view->visualization_properties->max_graph_elements = false;
 
-        parent::__construct($view);
+        parent::__construct($view, '@TreemapVisualization/_dataTableViz_treemap.twig');
 
         $view->datatable_js_type = 'TreemapDataTable';
         $view->show_pagination_control = false;
@@ -91,22 +91,6 @@ class Treemap extends Graph
     }
 
     /**
-     * Renders the treemap.
-     * 
-     * @param \Piwik\DataTable $dataTable
-     * @param array $properties
-     * 
-     * @return string
-     */
-    public function render($dataTable, $properties)
-    {
-        $view = new View('@TreemapVisualization/_dataTableViz_treemap.twig');
-        $view->graphData = $this->getGraphData($dataTable, $properties);
-        $view->properties = $properties;
-        return $view->render();
-    }
-
-    /**
      * Returns the default view property values for this visualization.
      * 
      * @return array
@@ -132,7 +116,7 @@ class Treemap extends Graph
         return $this->getCurrentData($dataTable)->getRowsCount() != 0;
     }
 
-    private function getGraphData($dataTable, $properties)
+    public function getGraphData($dataTable, $properties)
     {
         $metric = $this->getMetricToGraph($properties['columns_to_display']);
         $translation = empty($properties['translations'][$metric]) ? $metric : $properties['translations'][$metric];
@@ -143,7 +127,7 @@ class Treemap extends Graph
             $generator->showEvolutionValues();
         }
 
-        return Common::json_encode($generator->generate($dataTable));
+        return $generator->generate($dataTable);
     }
 
     public function getMetricToGraph($columnsToDisplay)

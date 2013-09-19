@@ -64,7 +64,7 @@ class JqplotGraph extends Graph
      */
     public function __construct($view)
     {
-        parent::__construct($view);
+        parent::__construct($view, $template = "@CoreVisualizations/_dataTableViz_jqplotGraph.twig");
         
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
         if ($view->filter_sort_column != 'label') {
@@ -104,43 +104,11 @@ class JqplotGraph extends Graph
             )
         ));
     }
-    
-    /**
-     * Renders this visualization.
-     *
-     * @param DataTable $dataTable
-     * @param array $properties View Properties.
-     * @return string
-     */
-    public function render($dataTable, $properties)
-    {
-        $view = new View("@CoreVisualizations/_dataTableViz_jqplotGraph.twig");
-        $view->properties = $properties;
-        $view->dataTable = $dataTable;
-        $view->data = $this->getGraphData($dataTable, $properties);
-        return $view->render();
-    }
 
-    /**
-     * Generats JQPlot graph data for a DataTable.
-     */
-    private function getGraphData($dataTable, $properties)
+    public function getGraphData($dataTable, $properties)
     {
-        $properties = array_merge($properties, $properties['request_parameters_to_modify']);
         $dataGenerator = $this->makeDataGenerator($properties);
-
-        $jsonData = $dataGenerator->generate($dataTable);
-        return str_replace(array("\r", "\n"), '', $jsonData);
-    }
-
-    /**
-     * Returns a JqplotDataGenerator for the given graph_type in $properties
-     * @param array $properties
-     * @return JqplotDataGenerator
-     */
-    protected function makeDataGenerator($properties)
-    {
-        return JqplotDataGenerator::factory($properties['graph_type'], $properties);
+        return $dataGenerator->generate($dataTable);
     }
 }
 

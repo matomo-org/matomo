@@ -13,6 +13,7 @@ namespace Piwik;
 
 use Piwik\Plugin\MetadataLoader;
 use Piwik\Translate;
+use Piwik\Option;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -201,6 +202,16 @@ class PluginsManager
             throw new \Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
         }
         self::deletePluginFromFilesystem($pluginName);
+
+        $this->removePluginFromPluginsConfig($pluginName);
+        $this->removePluginFromPluginsInstalledConfig($pluginName);
+        $this->removePluginFromTrackerConfig($pluginName);
+
+        Option::getInstance()->delete('version_' . $pluginName);
+
+        Config::getInstance()->forceSave();
+        Filesystem::deleteAllCacheOnUpdate();
+
         if($this->isPluginInFilesystem($pluginName)) {
             return false;
         }
@@ -221,29 +232,17 @@ class PluginsManager
      */
     public function deactivatePlugin($pluginName, $plugins = false)
     {
-        if(empty($plugins)) {
+        if (empty($plugins)) {
             $plugins = $this->pluginsToLoad;
         }
-        $key = array_search($pluginName, $plugins);
 
         $plugin = $this->loadPlugin($pluginName);
         if ($plugin !== null) {
             $plugin->deactivate();
         }
 
-        if ($key !== false) {
-            unset($plugins[$key]);
-        }
-        $this->updatePluginsConfig($plugins);
-
-        $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
-        if (!is_null($pluginsTracker)) {
-            $key = array_search($pluginName, $pluginsTracker);
-            if ($key !== false) {
-                unset($pluginsTracker[$key]);
-                $this->updatePluginsTrackerConfig($pluginsTracker);
-            }
-        }
+        $this->removePluginFromPluginsConfig($pluginName, $plugins);
+        $this->removePluginFromTrackerConfig($pluginName);
 
         Config::getInstance()->forceSave();
         Filesystem::deleteAllCacheOnUpdate();
@@ -810,6 +809,55 @@ class PluginsManager
         $name = basename($path);
         return file_exists($path . "/" . $name . ".php")
              || self::isManifestFileFound($path);
+    }
+
+    /**
+     * @param $pluginName
+     */
+    private function removePluginFromPluginsInstalledConfig($pluginName)
+    {
+        $pluginsInstalled = Config::getInstance()->PluginsInstalled['PluginsInstalled'];
+        $key = array_search($pluginName, $pluginsInstalled);
+        if ($key !== false) {
+            unset($pluginsInstalled[$key]);
+        }
+
+        $this->updatePluginsInstalledConfig($pluginsInstalled);
+    }
+
+    /**
+     * @param $pluginName
+     * @param $plugins
+     * @return mixed
+     */
+    private function removePluginFromPluginsConfig($pluginName, $plugins = false)
+    {
+        if (empty($plugins)) {
+            $plugins = $this->pluginsToLoad;
+        }
+
+        $key = array_search($pluginName, $plugins);
+
+        if ($key !== false) {
+            unset($plugins[$key]);
+        }
+
+        $this->updatePluginsConfig($plugins);
+    }
+
+    /**
+     * @param $pluginName
+     */
+    private function removePluginFromTrackerConfig($pluginName)
+    {
+        $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+        if (!is_null($pluginsTracker)) {
+            $key = array_search($pluginName, $pluginsTracker);
+            if ($key !== false) {
+                unset($pluginsTracker[$key]);
+                $this->updatePluginsTrackerConfig($pluginsTracker);
+            }
+        }
     }
 }
 
