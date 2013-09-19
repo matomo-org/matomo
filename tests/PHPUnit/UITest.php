@@ -210,7 +210,9 @@ abstract class UITest extends IntegrationTestCase
 
     private static function makeDirsAndLinks()
     {
-        $dirs = array_merge(self::getProcessedAndExpectedDirs(), array(PIWIK_INCLUDE_PATH . '/tmp/sessions'));
+        $dirs = array_merge(self::getProcessedAndExpectedDirs(), array(
+            PIWIK_INCLUDE_PATH . '/tmp/sessions', self::getScreenshotDiffDir()
+        ));
         foreach ($dirs as $dir) {
             if (!is_dir($dir)) {
                 mkdir($dir);
@@ -249,7 +251,7 @@ abstract class UITest extends IntegrationTestCase
 
     private static function outputDiffViewerHtmlFile()
     {
-        $diffDir = dirname(__FILE__) . "/UI/screenshot-diffs";
+        $diffDir = self::getScreenshotDiffDir();
 
         $diffFiles = array();
         foreach (scandir($diffDir) as $file) {
