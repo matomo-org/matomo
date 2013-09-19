@@ -192,7 +192,15 @@ class Controller extends \Piwik\Controller\Admin
 
     function plugins()
     {
+        $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
+        $pluginName = Common::getRequestVar('pluginName', '', 'string');
+
         $view = $this->configureView('@CorePluginsAdmin/plugins');
+
+        $view->activatedPluginName = '';
+        if ($activated && $pluginName) {
+            $view->activatedPluginName = $pluginName;
+        }
 
         $view->updateNonce   = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
         $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
@@ -205,7 +213,15 @@ class Controller extends \Piwik\Controller\Admin
 
     function themes()
     {
+        $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
+        $pluginName = Common::getRequestVar('pluginName', '', 'string');
+
         $view = $this->configureView('@CorePluginsAdmin/themes');
+
+        $view->activatedPluginName = '';
+        if ($activated && $pluginName) {
+            $view->activatedPluginName = $pluginName;
+        }
 
         $pluginsInfo = $this->getPluginsInfo($themesOnly = true);
 
@@ -309,11 +325,13 @@ class Controller extends \Piwik\Controller\Admin
         \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
 
         if ($redirectAfter) {
+            $params = array('activated' => 1, 'pluginName' => $pluginName);
             $plugin = PluginsManager::getInstance()->loadPlugin($pluginName);
+
             if ($plugin->isTheme()) {
-                $this->redirectToIndex('CorePluginsAdmin', 'themes', null, null, null, array('activated' => 1));
+                $this->redirectToIndex('CorePluginsAdmin', 'themes', null, null, null, $params);
             } else {
-                $this->redirectToIndex('CorePluginsAdmin', 'plugins', null, null, null, array('activated' => 1));
+                $this->redirectToIndex('CorePluginsAdmin', 'plugins', null, null, null, $params);
             }
         }
     }
