@@ -2,7 +2,7 @@
 
 {% block content %}
     <style type="text/css">
-        .plugin li { display: inline-block;padding-right: 10px;font-size: 90%; }
+        .plugin li { display: inline-block;padding-right: 50px;font-size: 90%; }
         .plugin ul { list-style: none;margin-left: 0; line-height: 140%; }
         .plugin .description { padding-bottom: 10px; }
         .plugin .install { float: right; }
@@ -10,7 +10,7 @@
         .plugin .metadata { margin-top: 10px; }
         .plugin h3 { display: inline; }
         .plugin { width: 280px; float: left; border: 1px solid #dadada; padding: 15px; background-color: #F6F5F3;
-            margin-right: 14px; margin-bottom: 15px;
+            margin-right: 14px; margin-bottom: 15px; position: relative;
         }
         .plugin:hover {
             background-color: #EFEEEC;
@@ -28,9 +28,16 @@
             width: 250px;
             float: right;
         }
+        .plugin .metadataSeparator {
+            background-color: lightgray;
+            color: #333;
+            border: 0px;
+            height: 1px;
+            width: 100%;
+        }
     </style>
 
-    <div style="max-width:980px;">
+    <div style="min-width: 650px;max-width:980px;">
 
         <h2>Enjoy another look & feel by installing a new theme</h2>
 
@@ -58,20 +65,26 @@
             {% for plugin in plugins %}
 
                 <div class="plugin">
-                    {% if plugin.isInstalled %}
-                        <span class="install">Installed</span>
-                    {% else %}
-                        <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
-                    {% endif %}
+                    <div style="margin-bottom: 57px;">
+                        {% if plugin.isInstalled %}
+                            <span class="install">Installed</span>
+                        {% else %}
+                            <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
+                        {% endif %}
 
-                    <h3 class="header"><a href="javascript:return;" class="more">{{ plugin.name }}</a></h3>
-                    <p class="description">{{ plugin.description }}</p>
-                    <img src="{{ plugin.screenshots|first }}?w=250&h=250" height="250" width="250"/>
-                    <ul class="metadata">
-                        <li>Version <strong>{{ plugin.latestVersion }}</strong></li>
-                        <li>Updated <strong>{{ plugin.lastUpdated }}</strong></li>
-                        <li>Downloads <strong>{{ plugin.numDownloads }}</strong></li>
-                    </ul>
+                        <h3 class="header"><a href="javascript:return;" class="more">{{ plugin.name }}</a></h3>
+                        <p class="description">{{ plugin.description }}</p>
+                        <a href="javascript:return;" class="more"><img src="{{ plugin.screenshots|first }}?w=250&h=250" height="250" width="250"/></a>
+                    </div>
+
+                    <div style="height:55px;position: absolute;bottom: 7px;left: 0px;right: 0px;">
+                        <hr class="metadataSeparator">
+                        <ul style="margin-left: 15px;margin-right: 15px;" class="metadata">
+                            <li>Version: <strong>{{ plugin.latestVersion }}</strong></li>
+                            <li style="padding-right: 0px;">Updated: <strong>{{ plugin.lastUpdated }}</strong></li>
+                            <li>Downloads: <strong>{{ plugin.numDownloads }}</strong></li>
+                        </ul>
+                    </div>
 
                 </div>
 

@@ -9,7 +9,7 @@
         .plugin:hover {
             background-color: #EFEEEC;
         }
-        .plugin li { display: inline-block;padding-right: 10px;font-size: 90%; }
+        .plugin li { display: inline-block;padding-right: 50px;font-size: 90%; }
         .plugin ul { list-style: none;margin-left: 0; line-height: 140%; }
         .plugin .header { margin-top: 0px; margin-bottom: 15px; }
         .plugin .description { padding-bottom: 10px; }
@@ -37,7 +37,7 @@
         }
     </style>
 
-    <div style="max-width:980px;">
+    <div style="min-width: 650px;max-width:980px;">
 
         <h2>Extend Piwik by installing a new plugin</h2>
 
@@ -64,23 +64,29 @@
         {% if plugins|length %}
             {% for plugin in plugins %}
 
-                <div class="plugin">
-                    {% if plugin.isInstalled %}
-                        <span class="install">Installed</span>
-                    {% else %}
-                        <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
-                    {% endif %}
+                <div class="plugin" style="position:relative;">
 
-                    <h3 class="header"><a href="javascript:return;" class="more">{{ plugin.name }}</a></h3>
-                    <p class="description">{{ plugin.description }}
-                        <br /><a href="javascript:return;" class="more">&gt;&gt; more</a>
-                    </p>
-                    <hr class="metadataSeparator">
-                    <ul>
-                        <li>Version <strong>{{ plugin.latestVersion }}</strong></li>
-                        <li>Updated <strong>{{ plugin.lastUpdated }}</strong></li>
-                        <li>Downloads <strong>{{ plugin.numDownloads }}</strong></li>
-                    </ul>
+                    <div style="margin-bottom: 47px;">
+                        {% if plugin.isInstalled %}
+                            <span class="install">Installed</span>
+                        {% else %}
+                            <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': nonce}) }}" class="install">Install</a>
+                        {% endif %}
+
+                        <h3 class="header"><a href="javascript:return;" class="more">{{ plugin.name }}</a></h3>
+                        <p class="description">{{ plugin.description }}
+                            <br /><a href="javascript:return;" class="more">&gt;&gt; more</a>
+                        </p>
+                    </div>
+
+                    <div style="height:58px;position: absolute;bottom: 7px;left: 0px;right: 0px;">
+                        <hr class="metadataSeparator">
+                        <ul style="margin-left: 15px;margin-right: 15px;margin-top: 10px;">
+                            <li>Version: <strong>{{ plugin.latestVersion }}</strong></li>
+                            <li style="padding-right: 0px;">Updated: <strong>{{ plugin.lastUpdated }}</strong></li>
+                            <li>Downloads: <strong>{{ plugin.numDownloads }}</strong></li>
+                        </ul>
+                    </div>
 
                 </div>
 
