@@ -204,7 +204,8 @@ class Controller extends \Piwik\Controller\Admin
         $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
         $view->pluginsInfo   = $this->getPluginsInfo();
 
-        $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($themesOnly = false);
+        $marketplace = new Marketplace();
+        $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
 
         echo $view->render();
     }
@@ -350,38 +351,4 @@ class Controller extends \Piwik\Controller\Admin
         $this->redirectAfterModification($redirectAfter);
     }
 
-    /**
-     * @param bool $themesOnly
-     * @return array
-     */
-    private function getPluginsHavingUpdate($themesOnly)
-    {
-        $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
-
-        $marketplace   = new MarketplaceApiClient();
-
-        try {
-            if ($themesOnly) {
-                $pluginsHavingUpdate = $marketplace->getInfoOfThemesHavingUpdate($loadedPlugins);
-            } else {
-                $pluginsHavingUpdate = $marketplace->getInfoOfPluginsHavingUpdate($loadedPlugins);
-            }
-        } catch (\Exception $e) {
-            $pluginsHavingUpdate = array();
-        }
-
-        foreach ($pluginsHavingUpdate as $updatePlugin) {
-            foreach ($loadedPlugins as $loadedPlugin) {
-
-                if ($loadedPlugin->getPluginName() == $updatePlugin->name) {
-                    $updatePlugin->currentVersion = $loadedPlugin->getVersion();
-                    $updatePlugin->isActivated = PluginsManager::getInstance()->isPluginActivated($updatePlugin->name);
-                    break;
-
-                }
-            }
-
-        }
-        return $pluginsHavingUpdate;
-    }
 }

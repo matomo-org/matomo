@@ -37,12 +37,26 @@ class CorePluginsAdmin extends \Piwik\Plugin
 
     function addMenu()
     {
+        $marketplace = new Marketplace();
+        $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
+        $themesHavingUpdate  = $marketplace->getPluginsHavingUpdate($themesOnly = true);
+
+        $pluginsUpdateMessage = '';
+        if (!empty($pluginsHavingUpdate)) {
+            $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate));
+        }
+
+        $themesUpdateMessage = '';
+        if (!empty($themesHavingUpdate)) {
+            $themesUpdateMessage = sprintf(' (%d)', count($themesHavingUpdate));
+        }
+
         Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', null, "", Piwik::isUserIsSuperUser(), $order = 15);
-        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'General_Plugins',
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', Piwik_Translate('General_Plugins') . $pluginsUpdateMessage,
             array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
             Piwik::isUserIsSuperUser(),
             $order = 1);
-        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Themes',
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', Piwik_Translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
             array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
             Piwik::isUserIsSuperUser(),
             $order = 3);
