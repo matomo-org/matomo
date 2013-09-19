@@ -32,7 +32,7 @@ else
             tar -cjf screenshot-diffs.tar.bz2 screenshot-diffs
             curl -X POST --data-binary @screenshot-diffs.tar.bz2 "$url_base&artifact_name=screenshot-diffs"
 
-            echo "View UI failures (if any) here: http://builds-artifacts.piwik.org/ui-tests.master/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.php"
+            echo "View UI failures (if any) here: http://builds-artifacts.piwik.org/ui-tests.master/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
         fi
     else
         echo "No artifacts for $TEST_SUITE tests."

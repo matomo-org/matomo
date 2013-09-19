@@ -96,6 +96,8 @@ abstract class UITest extends IntegrationTestCase
         if (!Zend_Registry::get('db')) {
             DbHelper::createDatabaseObject();
         }
+
+        self::outputDiffViewerHtmlFile();
         
         parent::tearDownAfterClass();
     }
@@ -236,7 +238,59 @@ abstract class UITest extends IntegrationTestCase
     private static function getScreenshotDiffPath($name)
     {
         $outputPrefix = static::getOutputPrefix();
-        $uiDir = dirname(__FILE__) . "/UI/screenshot-diffs";
-        return $uiDir . "/" . $outputPrefix . '_' . $name . '.' . self::IMAGE_TYPE;
+        $diffDir = self::getScreenshotDiffDir();
+        return $diffDir . "/" . $outputPrefix . '_' . $name . '.' . self::IMAGE_TYPE;
+    }
+
+    private static function getScreenshotDiffDir()
+    {
+        return dirname(__FILE__) . "/UI/screenshot-diffs";
+    }
+
+    private static function outputDiffViewerHtmlFile()
+    {
+        $diffDir = dirname(__FILE__) . "/UI/screenshot-diffs";
+
+        $diffFiles = array();
+        foreach (scandir($diffDir) as $file) {
+            if ($file == '.' || $file == '..') continue;
+
+            $parts = explode('.', $file, 2);
+            $name = reset($parts);
+
+            $diffFiles[] = array(
+                'name' => $name,
+                'expectedUrl' => 'https://raw.github.com/piwik/piwik-ui-tests/master/expected-ui-screenshots/' . $file,
+                'processedUrl' => '../processed-ui-screenshots/' . $file,
+                'diffUrl' => $file
+            );
+        }
+
+        $diffViewerHtml = '<html>
+<head></head>
+<body>
+<h1>Screenshot Test Failures</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Expected</th>
+        <th>Processed</th>
+        <th>Difference</th>
+    </tr>';
+        foreach ($diffFiles as $fileInfo) {
+            $diffViewerHtml .= '
+    <tr>
+        <td>' . $fileInfo['name'] . '</td>
+        <td><a href="' . $fileInfo['expectedUrl'] . '">Expected</a></td>
+        <td><a href="' . $fileInfo['processedUrl'] . '">Processed</a></td>
+        <td><a href="' . $fileInfo['diffUrl'] . '">Difference</a></td>
+    </tr>';
+        }
+        $diffViewerHtml .= '
+</table>
+</body>
+</html>';
+        
+        file_put_contents($diffDir . '/diffviewer.html', $diffViewerHtml);
     }
 }
