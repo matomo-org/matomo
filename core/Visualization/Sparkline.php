@@ -33,6 +33,8 @@ class Sparkline implements ViewInterface
     const DEFAULT_WIDTH = 100;
     const DEFAULT_HEIGHT = 25;
 
+    public static $enableSparklineImages = true;
+
     private static $colorNames = array('backgroundColor', 'lineColor', 'minPointColor', 'lastPointColor', 'maxPointColor');
 
     /**
@@ -147,7 +149,9 @@ class Sparkline implements ViewInterface
 
     public function render()
     {
-        $this->sparkline->Output();
+        if (self::$enableSparklineImages) {
+            $this->sparkline->Output();
+        }
     }
 
     /**

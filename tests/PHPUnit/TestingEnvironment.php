@@ -43,5 +43,7 @@ class Piwik_TestingEnvironment
             $jsFiles[] = 'tests/resources/screenshot-override/jquery.waitforimages.js';
             $jsFiles[] = 'tests/resources/screenshot-override/override.js';
         });
+
+        \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
     }
 }
