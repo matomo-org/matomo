@@ -58,6 +58,13 @@ class MetadataLoader
         );
     }
 
+    public function hasPluginJson()
+    {
+        $hasJson = $this->loadPluginInfoJson();
+
+        return !empty($hasJson);
+    }
+
     private function getDefaultPluginInformation()
     {
         $descriptionKey = $this->pluginName . '_PluginDescription';

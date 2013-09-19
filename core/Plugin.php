@@ -55,6 +55,26 @@ class Plugin
 
         $metadataLoader = new MetadataLoader($pluginName);
         $this->pluginInformation = $metadataLoader->load();
+
+        if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
+            throw new \Exception('Plugin ' . $pluginName .  ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class.');
+        }
+    }
+
+    private function hasDefinedPluginInformationInPluginClass()
+    {
+        $myClassName     = get_class();
+        $pluginClassName = get_class($this);
+
+        if ($pluginClassName == $myClassName) {
+            // plugin has not defined its own class
+            return false;
+        }
+
+        $foo = new \ReflectionMethod(get_class($this), 'getInformation');
+        $declaringClass = $foo->getDeclaringClass()->getName();
+
+        return $declaringClass != $myClassName;
     }
 
     /**
