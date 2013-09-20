@@ -10,18 +10,7 @@
             Piwik is not the owner of these Themes and did not review them.
         </div>
 
-        <div class="sort">
-            <a href="{{ linkTo({'sort': 'popular', 'query': ''}) }}" {% if 'popular' == sort %}class="active"{% endif %}>popular</a>
-            |
-            <a href="{{ linkTo({'sort': 'newest', 'query': ''}) }}" {% if 'newest' == sort %}class="active"{% endif %}>newest</a>
-            |
-            <a href="{{ linkTo({'sort': 'alpha', 'query': ''}) }}" {% if 'alpha' == sort %}class="active"{% endif %}>alpha</a>
-            |
-            <form action="{{ linkTo({'sort': ''}) }}" method="POST">
-                <input value="{{ query }}" placeholder="Search" type="text" name="query"/>
-                <button type="submit">Search</button>
-            </form>
-        </div>
+        {% include "@CorePluginsAdmin/browsePluginsActions.twig" %}
     </div>
 
     <div class="pluginslist themes">
@@ -31,36 +20,12 @@
 
                 <div class="plugin">
                     <div class="content">
-                        {% if plugin.canBeUpdated %}
-                            <a class="update" href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}">Update</a>
-                        {% elseif plugin.isInstalled %}
-                            <span class="install">Installed</span>
-                        {% else %}
-                            <a href="{{ linkTo({'action': 'installPlugin', 'pluginName': plugin.name, 'nonce': installNonce}) }}"
-                               class="install">Install</a>
-                        {% endif %}
-
-                        <h3 class="header">
-                            <a href="javascript:return;" data-pluginName="{{ plugin.name }}" class="more">{{ plugin.name }}</a>
-                        </h3>
-                        <p class="description">{{ plugin.description }}</p>
-
-                        <a href="javascript:return;" data-pluginName="{{ plugin.name }}" class="more"><img
-                                    class="preview" src="{{ plugin.screenshots|first }}?w=250&h=250"/></a>
-                        {% if plugin.canBeUpdated %}
-                            <p class="updateAvailableNotice">You can update this theme to version {{ plugin.latestVersion }}</p>
-                        {% endif %}
+                        {% include "@CorePluginsAdmin/themeOverview.twig" %}
                     </div>
 
                     <div class="footer">
-                        <hr class="metadataSeparator">
-                        <ul class="metadata">
-                            <li>Version: <strong>{{ plugin.latestVersion }}</strong></li>
-                            <li class="even">Updated: <strong>{{ plugin.lastUpdated }}</strong></li>
-                            <li>Downloads: <strong>{{ plugin.numDownloads }}</strong></li>
-                        </ul>
+                        {% include "@CorePluginsAdmin/pluginMetadata.twig" %}
                     </div>
-
                 </div>
 
             {% endfor %}
