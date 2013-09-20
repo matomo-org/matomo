@@ -1564,7 +1564,7 @@ var switchToHtmlTable = function (dataTable, viewDataTable) {
     delete dataTable.param.enable_filter_excludelowpop;
     delete dataTable.param.filter_sort_column;
     delete dataTable.param.filter_sort_order;
-    delete columns;
+    delete dataTable.param.columns;
     dataTable.reloadAjaxDataTable();
     dataTable.notifyWidgetParametersChange(dataTable.$element, {viewDataTable: viewDataTable});
 };
