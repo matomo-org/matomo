@@ -11,6 +11,8 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Piwik;
+use Piwik\ScheduledTask;
+use Piwik\ScheduledTime\Daily;
 
 /**
  *
@@ -27,6 +29,21 @@ class CorePluginsAdmin extends \Piwik\Plugin
             'AdminMenu.add' => 'addMenu',
             'AssetManager.getJsFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+        );
+    }
+
+    /**
+     * Gets all scheduled tasks executed by this plugin.
+     */
+    public function getScheduledTasks(&$tasks)
+    {
+        $tasks[] = new ScheduledTask(
+            'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
+            'clearAllCacheEntries',
+            null,
+            new Daily(),
+            ScheduledTask::LOWEST_PRIORITY
         );
     }
 

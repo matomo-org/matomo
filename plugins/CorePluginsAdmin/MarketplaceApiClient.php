@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\CacheFile;
 use Piwik\Http;
-use Piwik\Tracker\Cache;
 
 /**
  *
@@ -19,7 +18,7 @@ use Piwik\Tracker\Cache;
  */
 class MarketplaceApiClient
 {
-    private $domain = 'http://plugins.piwik.org/';
+    private $domain = 'http://plugins.piwik.org';
 
     /**
      * @var CacheFile
@@ -28,7 +27,13 @@ class MarketplaceApiClient
 
     public function __construct()
     {
-        $this->cache = new CacheFile('marketplace', 7200);
+        $this->cache = new CacheFile('marketplace', 1200);
+    }
+
+    public static function clearAllCacheEntries()
+    {
+        $cache = new CacheFile('marketplace');
+        $cache->deleteAll();
     }
 
     private function fetch($action, $params)

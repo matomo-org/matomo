@@ -219,7 +219,9 @@ class Controller extends \Piwik\Controller\Admin
         $view->updateNonce   = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
         $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
         $view->pluginsInfo   = $pluginsInfo;
-        $view->pluginsHavingUpdate = $this->getPluginsHavingUpdate($pluginsInfo, $themesOnly = true);
+        $marketplace = new Marketplace();
+
+        $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($pluginsInfo, $themesOnly = true);
 
         echo $view->render();
     }
