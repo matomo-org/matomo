@@ -6,8 +6,14 @@ then
 else
   if [ -n "$TEST_DIR" ]
   then
-      phpunit --colors $TEST_DIR
+    if [ "$TEST_DIR" = "UI" ]
+    then
+        echo "View UI failures (if any) here http://builds-artifacts.piwik.org/ui-tests.master/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
+        echo ""
+    fi
+
+    phpunit --colors $TEST_DIR
   else
-	  phpunit --configuration phpunit.xml --coverage-text --colors
+	phpunit --configuration phpunit.xml --coverage-text --colors
   fi
 fi
