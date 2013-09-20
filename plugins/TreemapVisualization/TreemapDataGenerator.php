@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\TreemapVisualization;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
@@ -157,8 +158,10 @@ class TreemapDataGenerator
             $dataTable->filter('Truncate', array($this->truncateAfter));
         }
 
+        $tableId = Common::getRequestVar('idSubtable', '');
+
         $root = $this->makeNode('treemap-root', $this->rootName);
-        $this->addDataTableToNode($root, $dataTable, $pastData, $tableId = '', $this->firstRowOffset);
+        $this->addDataTableToNode($root, $dataTable, $pastData, $tableId, $this->firstRowOffset);
         return $root;
     }
 

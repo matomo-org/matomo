@@ -434,9 +434,6 @@
                     apiMethod: this.param.module + '.' + this.param.action, // TODO: will this work for all subtables?
                     format: 'json',
                     column: this.param.columns,
-                    truncateAfter: this.props.max_graph_elements - 1,
-                    filter_limit: -1,
-                    expanded: 1,
                     show_evolution_values: this.props.show_evolution_values || 0
                 });
 
