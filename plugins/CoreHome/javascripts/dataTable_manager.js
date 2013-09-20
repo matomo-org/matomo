@@ -61,7 +61,7 @@
                         }
                     }
                     
-                    var klass = require('piwik/UI')[tableType];
+                    var klass = require('piwik/UI')[tableType] || require(tableType);
                     self.initSingleDataTable(this, klass, params, props);
                 }
             });
