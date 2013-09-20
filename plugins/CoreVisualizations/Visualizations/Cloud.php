@@ -111,7 +111,7 @@ class Cloud extends DataTableVisualization
         }
     }
 
-    private function getCloudValues()
+    public function getCloudValues()
     {
         $this->shuffleCloud();
         $return = array();
