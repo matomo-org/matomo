@@ -40,22 +40,14 @@
      * @constructor
      */
     exports.ActionsDataTable = function (element) {
-        DataTable.call(this, element);
-
         this.parentAttributeParent = '';
         this.parentId = '';
         this.disabledRowDom = {}; // to handle double click on '+' row
+
+        DataTable.call(this, element);
     };
 
     $.extend(exports.ActionsDataTable.prototype, dataTablePrototype, {
-
-        //initialisation of the actionDataTable
-        init: function () {
-            var domElem = this.$element;
-            this.workingDivId = this.$element.attr('id');
-            this.bindEventsAndApplyStyle(domElem);
-            this.initialized = true;
-        },
 
         //see dataTable::bindEventsAndApplyStyle
         bindEventsAndApplyStyle: function (domElem, rows) {

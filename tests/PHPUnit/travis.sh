@@ -8,6 +8,7 @@ else
   then
     if [ "$TEST_DIR" = "UI" ]
     then
+        echo ""
         echo "View UI failures (if any) here http://builds-artifacts.piwik.org/ui-tests.master/$TRAVIS_JOB_NUMBER/screenshot-diffs/diffviewer.html"
         echo ""
     fi

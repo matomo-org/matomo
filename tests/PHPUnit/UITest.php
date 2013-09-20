@@ -255,7 +255,7 @@ abstract class UITest extends IntegrationTestCase
 
         $diffFiles = array();
         foreach (scandir($diffDir) as $file) {
-            if ($file == '.' || $file == '..') continue;
+            if (strpos($file, ".png") != strlen($file) - 4) continue;
 
             $parts = explode('.', $file, 2);
             $name = reset($parts);
