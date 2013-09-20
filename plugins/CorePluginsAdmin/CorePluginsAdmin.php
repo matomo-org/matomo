@@ -54,21 +54,23 @@ class CorePluginsAdmin extends \Piwik\Plugin
 
     function addMenu()
     {
-        $marketplace = new Marketplace();
-        $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
-        $themesHavingUpdate  = $marketplace->getPluginsHavingUpdate($themesOnly = true);
-
         $pluginsUpdateMessage = '';
-        if (!empty($pluginsHavingUpdate)) {
-            $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate));
+        $themesUpdateMessage  = '';
+
+        if (Piwik::isUserIsSuperUser()) {
+            $marketplace = new Marketplace();
+            $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
+            $themesHavingUpdate  = $marketplace->getPluginsHavingUpdate($themesOnly = true);
+
+            if (!empty($pluginsHavingUpdate)) {
+                $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate));
+            }
+            if (!empty($themesHavingUpdate)) {
+                $themesUpdateMessage = sprintf(' (%d)', count($themesHavingUpdate));
+            }
         }
 
-        $themesUpdateMessage = '';
-        if (!empty($themesHavingUpdate)) {
-            $themesUpdateMessage = sprintf(' (%d)', count($themesHavingUpdate));
-        }
-
-        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', null, "", Piwik::isUserIsSuperUser(), $order = 15);
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', null, "", !Piwik::isUserIsAnonymous(), $order = 15);
         Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', Piwik_Translate('General_Plugins') . $pluginsUpdateMessage,
             array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
             Piwik::isUserIsSuperUser(),
@@ -79,7 +81,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
             $order = 3);
         Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuExtend',
             array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
-            Piwik::isUserIsSuperUser(),
+            !Piwik::isUserIsAnonymous(),
             $order = 5);
     }
 

@@ -1,4 +1,5 @@
-{% if plugin.canBeUpdated %}
+{% if not isSuperUser %}
+{% elseif plugin.canBeUpdated %}
     <a href="{{ linkTo({'action':'updatePlugin', 'pluginName': plugin.name, 'nonce': updateNonce}) }}"
        class="update"
        >{{ 'CoreUpdater_UpdateTitle'|translate }}</a>

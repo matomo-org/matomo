@@ -34,10 +34,13 @@ class Controller extends \Piwik\Controller\Admin
 
     public function updatePlugin()
     {
+        Piwik::checkUserIsSuperUser();
+
         $view = $this->configureView('@CorePluginsAdmin/updatePlugin');
         $view->errorMessage = '';
 
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $pluginName = strip_tags($pluginName);
         $nonce      = Common::getRequestVar('nonce', '', 'string');
 
         if (empty($pluginName)) {
@@ -72,10 +75,13 @@ class Controller extends \Piwik\Controller\Admin
 
     public function installPlugin()
     {
+        Piwik::checkUserIsSuperUser();
+
         $view = $this->configureView('@CorePluginsAdmin/installPlugin');
         $view->errorMessage = '';
 
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $pluginName = strip_tags($pluginName);
         $nonce      = Common::getRequestVar('nonce', '', 'string');
 
         if (empty($pluginName)) {
@@ -117,22 +123,18 @@ class Controller extends \Piwik\Controller\Admin
             return;
         }
 
-        $marketplace = new MarketplaceApiClient();
+        $view = $this->configureView('@CorePluginsAdmin/pluginDetails');
 
-        $view         = $this->configureView('@CorePluginsAdmin/pluginDetails');
+        $marketplace  = new MarketplaceApiClient();
         $view->plugin = $marketplace->getPluginInfo($pluginName);
 
         echo $view->render();
     }
 
-    public function themeDetails()
-    {
-        $this->pluginDetails();
-    }
-
     public function browsePlugins()
     {
         $query = Common::getRequestVar('query', '', 'string', $_POST);
+        $query = strip_tags($query);
         $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
 
         if (!in_array($sort, $this->validSortMethods)) {
@@ -148,6 +150,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->sort    = $sort;
         $view->installNonce = Nonce::getNonce('CorePluginsAdmin.installPlugin');
         $view->updateNonce  = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
+        $view->isSuperUser  = Piwik::isUserIsSuperUser();
 
         echo $view->render();
     }
@@ -155,6 +158,7 @@ class Controller extends \Piwik\Controller\Admin
     public function browseThemes()
     {
         $query = Common::getRequestVar('query', '', 'string', $_POST);
+        $query = strip_tags($query);
         $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
 
         if (!in_array($sort, $this->validSortMethods)) {
@@ -170,6 +174,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->sort    = $sort;
         $view->installNonce = Nonce::getNonce('CorePluginsAdmin.installPlugin');
         $view->updateNonce  = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
+        $view->isSuperUser  = Piwik::isUserIsSuperUser();
 
         echo $view->render();
     }
@@ -182,6 +187,8 @@ class Controller extends \Piwik\Controller\Admin
 
     function plugins()
     {
+        Piwik::checkUserIsSuperUser();
+
         $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
 
@@ -204,8 +211,11 @@ class Controller extends \Piwik\Controller\Admin
 
     function themes()
     {
+        Piwik::checkUserIsSuperUser();
+
         $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $pluginName = strip_tags($pluginName);
 
         $view = $this->configureView('@CorePluginsAdmin/themes');
 
@@ -219,8 +229,8 @@ class Controller extends \Piwik\Controller\Admin
         $view->updateNonce   = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
         $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
         $view->pluginsInfo   = $pluginsInfo;
-        $marketplace = new Marketplace();
 
+        $marketplace = new Marketplace();
         $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($pluginsInfo, $themesOnly = true);
 
         echo $view->render();
@@ -228,7 +238,7 @@ class Controller extends \Piwik\Controller\Admin
 
     protected function configureView($template)
     {
-        Piwik::checkUserIsSuperUser();
+        Piwik::checkUserIsNotAnonymous();
         $view = new View($template);
         $this->setBasicVariablesView($view);
         $this->displayWarningIfConfigFileNotWritable($view);
@@ -303,6 +313,7 @@ class Controller extends \Piwik\Controller\Admin
         Piwik::checkUserIsSuperUser();
 
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $pluginName = strip_tags($pluginName);
         $nonce      = Common::getRequestVar('nonce', '', 'string');
 
         if (empty($pluginName)) {

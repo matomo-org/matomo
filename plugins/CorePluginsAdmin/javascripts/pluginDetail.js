@@ -57,7 +57,7 @@ $(document).ready(function () {
 
     $('.themeslist').on('click', '.more', function (event) {
         var themeName = $( this ).text();
-        var url = 'module=CorePluginsAdmin&action=themeDetails&pluginName=' + themeName;
+        var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + themeName;
         Piwik_Popover.createPopupAndLoadUrl(url, 'theme details');
     });
 
