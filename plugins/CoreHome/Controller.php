@@ -12,11 +12,13 @@ namespace Piwik\Plugins\CoreHome;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\CacheFile;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\AssetManager;
 use Piwik\FrontController;
+use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\View;
 use Piwik\Url;
 use Piwik\UpdateCheck;
@@ -167,6 +169,8 @@ class Controller extends \Piwik\Controller
 
         // perform check (but only once every 10s)
         UpdateCheck::check($force = false, UpdateCheck::UI_CLICK_CHECK_INTERVAL);
+
+        MarketplaceApiClient::clearAllCacheEntries();
 
         $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);
