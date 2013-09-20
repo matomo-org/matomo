@@ -84,7 +84,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/autocomplete.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/sparkline.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/dataTable_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/promo.js";

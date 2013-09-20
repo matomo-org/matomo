@@ -18,11 +18,22 @@
      * @param {Element} element The root element of the control.
      */
     var UIControl = function (element) {
-        this._controlIndex = UIControl._controls.length;
+        this._controlId = UIControl._controls.length;
         UIControl._controls.push(this);
 
         var $element = this.$element = $(element);
         $element.data('uiControlObject', this);
+
+        // convert values in params that are arrays to comma separated string lists
+        var params = JSON.parse($element.attr('data-params') || '{}');
+        for (var key in params) {
+            if (params[key] instanceof Array) {
+                params[key] = params[key].join(',');
+            }
+        }
+        this.param = params;
+        
+        this.props = JSON.parse($element.attr('data-props') || '{}');
     };
 
     /**

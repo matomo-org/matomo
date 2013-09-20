@@ -18,12 +18,12 @@ var exports = require('piwik/UI'),
  * This class contains the client side logic for viewing and interacting with
  * Piwik datatables.
  * 
- * The id attribute for DataTables is set dynamically by the DataTableManager
- * class, and this class instance is stored using the jQuery $.data function
+ * The id attribute for DataTables is set dynamically by the initNewDataTables
+ * method, and this class instance is stored using the jQuery $.data function
  * with the 'uiControlObject' key.
  * 
  * To find a datatable element by report (ie, 'UserSettings.getBrowser'),
- * use piwik.DataTableManager.getDataTableByReport.
+ * use piwik.DataTable.getDataTableByReport.
  * 
  * To get the dataTable JS instance (an instance of this class) for a
  * datatable HTML element, use $(element).data('uiControlObject').
@@ -33,10 +33,20 @@ var exports = require('piwik/UI'),
 function DataTable(element) {
     UIControl.call(this, element);
 
-    this.param = {};
+    this.init();
 }
 
 DataTable._footerIconHandlers = {}
+
+DataTable.initNewDataTables = function () {
+    $('div.dataTable').each(function () {
+        if (!$(this).attr('id')) {
+            var tableType = $(this).attr('data-table-type') || 'DataTable',
+                klass = require('piwik/UI')[tableType] || require(tableType),
+                table = new klass(this);
+        }
+    });
+};
 
 DataTable.registerFooterIconHandler = function (id, handler) {
     var handlers = DataTable._footerIconHandlers;
@@ -51,13 +61,33 @@ DataTable.registerFooterIconHandler = function (id, handler) {
     handlers[id] = handler;
 };
 
+/**
+ * Returns the first datatable div displaying a specific report.
+ *
+ * @param {string} report  The report, eg, UserSettings.getWideScreen
+ * @return {Element} The datatable div displaying the report, or undefined if
+ *                   it cannot be found.
+ */
+DataTable.getDataTableByReport = function (report) {
+    var result = undefined;
+    $('.dataTable').each(function () {
+        if ($(this).attr('data-report') == report) {
+            result = this;
+            return false;
+        }
+    });
+    return result;
+};
+
 $.extend(DataTable.prototype, UIControl.prototype, {
 
     //initialisation function
     init: function () {
         var domElem = this.$element;
 
-        this.workingDivId = domElem.attr('id');
+        this.workingDivId = this._createDivId();
+        domElem.attr('id', this.workingDivId);
+
         this.loadedSubDataTable = {};
         this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
         this.bindEventsAndApplyStyle(domElem);
@@ -1516,6 +1546,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             h2 = $('h2', domElem);
         }
         return h2;
+    },
+
+    _createDivId: function () {
+        return 'dataTable_' + this._controlId;
     }
 });
 

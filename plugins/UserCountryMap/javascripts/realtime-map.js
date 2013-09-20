@@ -47,7 +47,7 @@
             }
 
             // set unique ID for kartograph map div
-            this.uniqueId = 'RealTimeMap_map-' + this._controlIndex;
+            this.uniqueId = 'RealTimeMap_map-' + this._controlId;
             $('.RealTimeMap_map', $element).attr('id', this.uniqueId);
 
             // create the map

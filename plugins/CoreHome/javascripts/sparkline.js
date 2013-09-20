@@ -55,7 +55,7 @@ window.initializeSparklines = function () {
                 // on click, reload the graph with the new url
                 $(this).click(function () {
                     var reportId = graph.attr('data-graph-id'),
-                        dataTable = $(piwik.DataTableManager.getDataTableByReport(reportId));
+                        dataTable = $(require('piwik/UI').DataTable.getDataTableByReport(reportId));
 
                     // when the metrics picker is used, the id of the data table might be updated (which is correct behavior).
                     // for example, in goal reports it might change from GoalsgetEvolutionGraph to GoalsgetEvolutionGraph1.
