@@ -209,13 +209,13 @@ class TreemapDataGenerator
         }
 
         // add node tooltip
-        $data['metadata']['tooltip'] = $columnValue . ' ' . $this->metricTranslation;
+        $data['metadata']['tooltip'] = "\n" . $columnValue . ' ' . $this->metricTranslation;
         if (isset($data['evolution'])) {
             $plusOrMinus = $data['evolution'] >= 0 ? '+' : '-';
             $evolutionChange = $plusOrMinus . abs($data['evolution']) . '%';
 
             $data['metadata']['tooltip'] = Piwik_Translate('General_XComparedToY', array(
-                $data['metadata']['tooltip'] . ' ' . $evolutionChange,
+                $data['metadata']['tooltip'] . "\n" . $evolutionChange,
                 $this->pastDataDate
             ));
         }
