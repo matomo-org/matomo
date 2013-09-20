@@ -4,7 +4,7 @@
 
     <div style="max-width:980px;">
 
-        <h2>Installing plugin {{ plugin.name}}</h2>
+        <h2>Installing {{ plugin.name}}</h2>
 
         {% if errorMessage %}
             <div class="ajaxError" style="">{{ errorMessage }}</div>
@@ -13,6 +13,19 @@
             <div>
 
                 {% if plugin.isTheme %}
+
+                    <p>Downloading theme from Marketplace</p>
+
+                    <p>Unzipping theme</p>
+
+                    <p>Installing theme</p>
+
+                    <p>You have successfully installed the theme {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+
+                    <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Theme</a></strong>
+
+                {% else %}
+
                     <p>Downloading plugin from Marketplace</p>
 
                     <p>Unzipping plugin</p>
@@ -23,22 +36,11 @@
 
                     <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Plugin</a></strong>
 
-                {% else %}
-                    <p>Downloading theme from Marketplace</p>
-
-                    <p>Unzipping theme</p>
-
-                    <p>Installing theme</p>
-
-                    <p>You have successfully installed the Theme {{ plugin.name }} {{ plugin.latestVersion }}.</p>
-
-                    <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Theme</a></strong>
-
                 {% endif %}
-
-                    |
-                    <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
             </div>
+
+            |
+            <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
 
         {% endif %}
     </div>
