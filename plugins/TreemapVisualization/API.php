@@ -37,12 +37,14 @@ class API
      *                                          the first is used and the rest discarded.
      * @param string   $period
      * @param string   $date
-     * @param bool     $truncateAfter
+     * @param bool     $availableWidth          Available screen width in pixels.
+     * @param bool     $availableHeight         Available screen height in pixels.
      * @param int|bool $show_evolution_values   Whether to calculate evolution values for each row or not.
      *
      * @return array
      */
-    public function getTreemapData($apiMethod, $column, $period, $date, $truncateAfter = false, $show_evolution_values = false)
+    public function getTreemapData($apiMethod, $column, $period, $date, $availableWidth = false, $availableHeight = false,
+                                   $show_evolution_values = false)
     {
         if ($period == 'range') {
             $show_evolution_values = false;
@@ -67,15 +69,10 @@ class API
 
         $generator = new TreemapDataGenerator($column, $translation);
         $generator->setInitialRowOffset(Common::getRequestVar('filter_offset', 0, 'int'));
+        $generator->setAvailableDimensions($availableWidth, $availableHeight);
         if ($show_evolution_values) {
             $generator->showEvolutionValues();
         }
-
-        $truncateAfter = (int)$truncateAfter;
-        if ($truncateAfter > 0) {
-            $generator->setTruncateAfter($truncateAfter);
-        }
-        
         return $generator->generate($dataTable);
     }
 }

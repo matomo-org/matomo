@@ -21,6 +21,9 @@ use Piwik\DataTable\Filter\CalculateEvolutionFilter;
  */
 class TreemapDataGenerator
 {
+    const DEFAULT_MAX_ELEMENTS = 10;
+    const MIN_NODE_AREA = 400; // 20px * 20px
+
     /**
      * The list of row metadata that should appear in treemap JSON data, if in the row.
      * 
@@ -67,19 +70,25 @@ class TreemapDataGenerator
     private $showEvolutionValues = false;
 
     /**
-     * The row offset to apply an additional truncation to (the first truncation occurs in
-     * DataTableGenericFilter).
-     * 
-     * @var int
-     */
-    private $truncateAfter = false;
-
-    /**
      * Holds the date of the past period. Implementation detail.
      * 
      * @var string
      */
     private $pastDataDate = null;
+
+    /**
+     * Holds the available screen width in pixels for the treemap.
+     * 
+     * @var int
+     */
+    private $availableWidth = false;
+
+    /**
+     * Holds the available screen height in pixels for the treemap.
+     * 
+     * @var int
+     */
+    private $availableHeight = false;
 
     /**
      * Constructor.
@@ -123,13 +132,15 @@ class TreemapDataGenerator
     }
 
     /**
-     * Sets the row offset to apply additional truncation after.
+     * Sets the available screen width & height for this treemap.
      * 
-     * @param int $truncateAfter
+     * @param int $availableWidth
+     * @param int $availableHeight
      */
-    public function setTruncateAfter($truncateAfter)
+    public function setAvailableDimensions($availableWidth, $availableHeight)
     {
-        $this->truncateAfter = $truncateAfter;
+        $this->availableWidth = $availableWidth;
+        $this->availableHeight = $availableHeight;
     }
 
     /**
@@ -154,8 +165,9 @@ class TreemapDataGenerator
         }
 
         // handle extra truncation (only for current data)
-        if ($this->truncateAfter) {
-            $dataTable->filter('Truncate', array($this->truncateAfter));
+        $truncateAfter = $this->getDynamicMaxElementCount($dataTable);
+        if ($truncateAfter > 0) {
+            $dataTable->filter('Truncate', array($truncateAfter));
         }
 
         $tableId = Common::getRequestVar('idSubtable', '');
@@ -165,12 +177,46 @@ class TreemapDataGenerator
         return $root;
     }
 
+    private function getDynamicMaxElementCount($dataTable)
+    {
+        if (!is_numeric($this->availableWidth)
+            || !is_numeric($this->availableHeight)
+        ) {
+            return self::DEFAULT_MAX_ELEMENTS - 1;
+        } else {
+            $totalArea = $this->availableWidth * $this->availableHeight;
+
+            $dataTable->filter('ReplaceColumnNames');
+
+            $metricValues = $dataTable->getColumn($this->metricToGraph);
+            $metricSum = array_sum($metricValues);
+
+            // find the row index in $dataTable for which all rows after it will have treemap
+            // nodes that are too small. this is the row from which we truncate.
+            // Note: $dataTable is sorted at this point, so $metricValues is too
+            $result = 0;
+            foreach ($metricValues as $value) {
+                $nodeArea = ($totalArea * $value) / $metricSum;
+
+                if ($nodeArea < self::MIN_NODE_AREA) {
+                    break;
+                } else {
+                    ++$result;
+                }
+            }
+            return $result;
+        }
+    }
+
     private function addDataTableToNode(&$node, $dataTable, $pastData = false, $tableId = '', $offset = 0)
     {
         foreach ($dataTable->getRows() as $rowId => $row) {
             $pastRow = $pastData ? $pastData->getRowFromLabel($row->getColumn('label')) : false;
 
             $childNode = $this->makeNodeFromRow($tableId, $rowId, $row, $pastRow);
+            if (empty($childNode)) {
+                continue;
+            }
 
             if ($rowId == DataTable::ID_SUMMARY_ROW) {
                 $childNode['data']['aggregate_offset'] = $offset + $dataTable->getRowsCount() - 1;
@@ -186,6 +232,10 @@ class TreemapDataGenerator
     {
         $label = $row->getColumn('label');
         $columnValue = $row->getColumn($this->metricToGraph) ?: 0;
+
+        if ($columnValue == 0) { // avoid issues in JIT w/ 0 $area values
+            return false;
+        }
 
         $data = array();
         $data['$area'] = $columnValue;

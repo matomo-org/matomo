@@ -417,7 +417,10 @@
          * Loads data for a node's subtable without reloading the datatable view.
          */
         _loadSubtableNodeChildren: function (node, callback) {
-            var ajax = this._getNodeChildrenAjax({idSubtable: node.data.idSubtable}, node, callback);
+            var ajax = this._getNodeChildrenAjax({
+                idSubtable: node.data.idSubtable,
+
+            }, node, callback);
             ajax.send();
         },
 
@@ -426,15 +429,15 @@
          */
         _getNodeChildrenAjax: function (overrideParams, node, callback) {
             var self = this,
-                dataNode = this._findNodeWithId(node.id),
-                params = $.extend({}, this.param, overrideParams, {
+                dataNode = self._findNodeWithId(node.id),
+                params = $.extend({}, self.param, overrideParams, {
                     module: 'API',
                     method: 'TreemapVisualization.getTreemapData',
                     action: 'index',
-                    apiMethod: this.param.module + '.' + this.param.action, // TODO: will this work for all subtables?
+                    apiMethod: self.param.module + '.' + self.props.subtable_controller_action,
                     format: 'json',
-                    column: this.param.columns,
-                    show_evolution_values: this.props.show_evolution_values || 0
+                    column: self.param.columns,
+                    show_evolution_values: self.props.show_evolution_values || 0,
                 });
 
             // make sure parallel load data requests aren't made

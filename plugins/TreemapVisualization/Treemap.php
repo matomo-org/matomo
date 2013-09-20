@@ -30,9 +30,6 @@ class Treemap extends Graph
     const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
     const FOOTER_ICON_TITLE = 'Treemap';
 
-    const DEFAULT_MAX_ELEMENTS = 10;
-    const MIN_NODE_AREA = 400; // 20px * 20px
-
     /**
      * Controls whether the treemap nodes should be colored based on the evolution percent of
      * individual metrics, or not. If false, the jqPlot pie graph's series colors are used to
@@ -42,7 +39,12 @@ class Treemap extends Graph
      */
     const SHOW_EVOLUTION_VALUES = 'show_evolution_values';
 
-    public static $clientSideProperties = array('filter_offset', 'max_graph_elements', 'show_evolution_values');
+    public static $clientSideProperties = array(
+        'filter_offset',
+        'max_graph_elements',
+        'show_evolution_values',
+        'subtable_controller_action'
+    );
 
     /**
      * Constructor.
@@ -66,28 +68,21 @@ class Treemap extends Graph
             $view->custom_parameters['columns'] = $metric;
         };
 
+        $this->createTreemapDataGenerator($view);
         $this->handleShowEvolutionValues($view);
-        $this->handleDynamicTruncation($view, $metric);
     }
 
-    private function handleDynamicTruncation($view, $metric)
+    private function createTreemapDataGenerator($view)
     {
-        $currentPeriod = Period::makePeriodFromQueryParams(
-            $timezone = null, $period = Common::getRequestVar('period'), $date = Common::getRequestVar('date'));
+        $metric = $this->getMetricToGraph($view->columns_to_display);
+        $translation = empty($view->translations[$metric]) ? $metric : $view->translations[$metric];
 
-        $self = $this;
-        $doTruncate = function ($dataTable) use ($self, $metric, $currentPeriod) {
-            // only truncate current data
-            if ($dataTable->getMetadata('period')->getRangeString() != $currentPeriod->getRangeString()) {
-                return;
-            }
+        $this->generator = new TreemapDataGenerator($metric, $translation);
+        $this->generator->setInitialRowOffset($view->filter_offset ?: 0);
 
-            $truncateAfter = $self->getDynamicMaxElementCount($dataTable, $metric);
-            if ($truncateAfter > 0) {
-                $dataTable->filter('Truncate', array($truncateAfter));
-            }
-        };
-        $view->filters[] = array($doTruncate, array(), $priority = true);
+        $availableWidth = Common::getRequestVar('availableWidth', false);
+        $availableHeight = Common::getRequestVar('availableHeight', false);
+        $this->generator->setAvailableDimensions($availableWidth, $availableHeight);
     }
 
     /**
@@ -116,20 +111,6 @@ class Treemap extends Graph
         return $this->getCurrentData($dataTable)->getRowsCount() != 0;
     }
 
-    public function getGraphData($dataTable, $properties)
-    {
-        $metric = $this->getMetricToGraph($properties['columns_to_display']);
-        $translation = empty($properties['translations'][$metric]) ? $metric : $properties['translations'][$metric];
-
-        $generator = new TreemapDataGenerator($metric, $translation);
-        $generator->setInitialRowOffset($properties['filter_offset'] ?: 0);
-        if ($dataTable instanceof Map) {
-            $generator->showEvolutionValues();
-        }
-
-        return $generator->generate($dataTable);
-    }
-
     public function getMetricToGraph($columnsToDisplay)
     {
         $firstColumn = reset($columnsToDisplay);
@@ -152,40 +133,8 @@ class Treemap extends Graph
             list($previousDate, $ignore) = Range::getLastDate($date, $period);
 
             $view->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
-        }
-    }
 
-    public function getDynamicMaxElementCount($dataTable, $metricName)
-    {
-        $availableWidth = Common::getRequestVar('availableWidth', false);
-        $availableHeight = Common::getRequestVar('availableHeight', false);
-
-        if (!is_numeric($availableWidth)
-            || !is_numeric($availableHeight)
-        ) {
-            return self::DEFAULT_MAX_ELEMENTS - 1;
-        } else {
-            $totalArea = $availableWidth * $availableHeight;
-
-            $dataTable->filter('ReplaceColumnNames');
-
-            $metricValues = $dataTable->getColumn($metricName);
-            $metricSum = array_sum($metricValues);
-
-            // find the row index in $dataTable for which all rows after it will have treemap
-            // nodes that are too small. this is the row from which we truncate.
-            // Note: $dataTable is sorted at this point, so $metricValues is too
-            $result = 0;
-            foreach ($metricValues as $value) {
-                $nodeArea = ($totalArea * $value) / $metricSum;
-
-                if ($nodeArea < self::MIN_NODE_AREA) {
-                    break;
-                } else {
-                    ++$result;
-                }
-            }
-            return $result;
+            $this->generator->showEvolutionValues();
         }
     }
 
