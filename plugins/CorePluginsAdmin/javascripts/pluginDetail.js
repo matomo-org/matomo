@@ -51,14 +51,24 @@ $(document).ready(function () {
             return;
         }
 
-        var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + pluginName;
-        Piwik_Popover.createPopupAndLoadUrl(url, 'plugin details');
+        broadcast.propagateNewPopoverParameter('browsePluginDetail', pluginName);
     });
 
     $('.themeslist').on('click', '.more', function (event) {
-        var themeName = $( this ).text();
-        var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + themeName;
-        Piwik_Popover.createPopupAndLoadUrl(url, 'theme details');
+        var themeName = $( this ).attr('data-pluginName');
+
+        if (!themeName) {
+            return;
+        }
+
+        broadcast.propagateNewPopoverParameter('browsePluginDetail', themeName);
     });
+
+    var showPopover = function (pluginName) {
+        var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + pluginName;
+        Piwik_Popover.createPopupAndLoadUrl(url, 'theme details');
+    };
+
+    broadcast.addPopoverHandler('browsePluginDetail', showPopover);
 
 });
