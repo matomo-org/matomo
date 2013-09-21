@@ -87,15 +87,21 @@ class Controller extends \Piwik\Controller\Admin
     public function pluginDetails()
     {
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
+        $pluginName = strip_tags($pluginName);
 
         if (empty($pluginName)) {
             return;
         }
 
         $view = $this->configureView('@CorePluginsAdmin/pluginDetails');
+        $view->errorMessage = '';
 
-        $marketplace  = new MarketplaceApiClient();
-        $view->plugin = $marketplace->getPluginInfo($pluginName);
+        try {
+            $marketplace  = new MarketplaceApiClient();
+            $view->plugin = $marketplace->getPluginInfo($pluginName);
+        } catch (\Exception $e) {
+            $view->errorMessage = $e->getMessage();
+        }
 
         echo $view->render();
     }

@@ -3,8 +3,11 @@
 
     <div style="max-width:980px;">
 
-        {{ plugin.detailPageHtml|raw }}
-
+        {% if errorMessage %}
+            {{ errorMessage }}
+        {% elseif plugin %}
+            {{ plugin.detailPageHtml|raw }}
+        {% endif %}
     </div>
 
 {% endblock %}

@@ -65,8 +65,8 @@ $(document).ready(function () {
     });
 
     var showPopover = function (pluginName) {
-        var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + pluginName;
-        Piwik_Popover.createPopupAndLoadUrl(url, 'theme details');
+        var url = 'module=CorePluginsAdmin&action=pluginDetails&pluginName=' + encodeURIComponent(pluginName);
+        Piwik_Popover.createPopupAndLoadUrl(url, 'details');
     };
 
     broadcast.addPopoverHandler('browsePluginDetail', showPopover);
