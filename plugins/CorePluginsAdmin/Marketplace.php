@@ -78,10 +78,8 @@ class Marketplace
         try {
             if ($themesOnly) {
                 $pluginsHavingUpdate = $this->client->getInfoOfThemesHavingUpdate($loadedPlugins);
-                return $pluginsHavingUpdate;
             } else {
                 $pluginsHavingUpdate = $this->client->getInfoOfPluginsHavingUpdate($loadedPlugins);
-                return $pluginsHavingUpdate;
             }
 
         } catch (\Exception $e) {
