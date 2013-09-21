@@ -42,11 +42,6 @@
             &nbsp;-
             <img src="{{ visitor.getColumn('visitorTypeIcon') }}"
                  title="{{ 'General_ReturningVisitor'|translate }}{% if visitor.getColumn('visitorId') is not empty %}{% endif %}"/>
-            {% if visitor.getColumn('visitorId') is not empty %}
-            <a class="rightLink visitor-log-visitor-profile-link" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
-                <img src="plugins/Live/images/visitorProfileLaunch.png"/>
-            </a>
-            {% endif %}
         {% endif %}
 
         {% if not displayVisitorsInOwnColumn %}<br/><br/>{% endif %}
@@ -160,7 +155,12 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                     {% if visitor.getColumn('referrerType') == 'direct' %}{{ 'Referers_DirectEntry'|translate }}{% endif %}
                 </div>
             </td>
-            <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
+            <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %} visitor-log-page-list">
+                {% if visitor.getColumn('visitorId') is not empty %}
+                <a class="visitor-log-visitor-profile-link" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
+                    <img src="plugins/Live/images/visitorProfileLaunch.png"/> <span>{{ 'Live_ViewVisitorProfile'|translate }}</span>
+                </a>
+                {% endif %}
                 <strong>
                     {{ visitor.getColumn('actionDetails')|length }}
                     {% if visitor.getColumn('actionDetails')|length <= 1 %}
