@@ -115,7 +115,6 @@ class DataCollection
             $defaultRow = array_fill_keys($dataNames, 0);
         }
 
-        //FIXMEA
         $this->sitesId = $sitesId;
 
         foreach ($periods as $period) {
