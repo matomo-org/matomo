@@ -14,7 +14,7 @@ use Piwik\Date;
  */
 class Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars extends Test_Piwik_BaseFixture
 {
-    public $dateTime = '2010-03-06 11:22:33';
+    public $dateTime = '2010-03-05 11:22:33';
     public $idSite = 1;
 
     public function setUp()
@@ -57,6 +57,10 @@ class Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars extends Test
         $t->setCustomVariable(1, 'CustomVarVisit', 'CustomVarValue1', 'visit');
         $t->setUrl('http://example.org/sub/dir/dir1/page1.html');
         $t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue1', 'page');
+        self::checkResponse($t->doTrackPageView('title'));
+
+        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(24)->getDatetime());
+        $t->setUrl('http://example.org/page1.html');
         self::checkResponse($t->doTrackPageView('title'));
     }
 }

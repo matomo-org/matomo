@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result date="2010-03-06">
+	<result date="2010-03-05">
 		<row>
 			<label>CustomVarPage</label>
 			<nb_actions>18</nb_actions>
@@ -55,7 +55,27 @@
 			<is_aggregate>0</is_aggregate>
 		</row>
 	</result>
-	<result date="2010-03-07">
+	<result date="2010-03-06">
+		<row>
+			<label>CustomVarVisit</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>2</nb_actions>
+			<max_actions>2</max_actions>
+			<sum_visit_length>1</sum_visit_length>
+			<bounce_count>0</bounce_count>
+			<nb_visits_converted>0</nb_visits_converted>
+			<is_aggregate>1</is_aggregate>
+		</row>
+		<row>
+			<label>CustomVarVisit - CustomVarValue1</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>2</nb_actions>
+			<max_actions>2</max_actions>
+			<sum_visit_length>1</sum_visit_length>
+			<bounce_count>0</bounce_count>
+			<nb_visits_converted>0</nb_visits_converted>
+			<is_aggregate>0</is_aggregate>
+		</row>
 		<row>
 			<label>CustomVarPage</label>
 			<nb_actions>1</nb_actions>
@@ -67,26 +87,7 @@
 			<nb_actions>1</nb_actions>
 			<is_aggregate>0</is_aggregate>
 		</row>
-		<row>
-			<label>CustomVarVisit</label>
-			<nb_visits>1</nb_visits>
-			<nb_actions>1</nb_actions>
-			<max_actions>1</max_actions>
-			<sum_visit_length>0</sum_visit_length>
-			<bounce_count>1</bounce_count>
-			<nb_visits_converted>0</nb_visits_converted>
-			<is_aggregate>1</is_aggregate>
-		</row>
-		<row>
-			<label>CustomVarVisit - CustomVarValue1</label>
-			<nb_visits>1</nb_visits>
-			<nb_actions>1</nb_actions>
-			<max_actions>1</max_actions>
-			<sum_visit_length>0</sum_visit_length>
-			<bounce_count>1</bounce_count>
-			<nb_visits_converted>0</nb_visits_converted>
-			<is_aggregate>0</is_aggregate>
-		</row>
 	</result>
+	<result date="2010-03-07" />
 	<result date="2010-03-08" />
 </results>

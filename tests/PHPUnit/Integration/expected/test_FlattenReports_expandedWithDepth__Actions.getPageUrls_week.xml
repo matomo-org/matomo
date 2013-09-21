@@ -115,6 +115,23 @@
 		</subtable>
 	</row>
 	<row>
+		<label>/page1.html</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>0</nb_hits_with_time_generation>
+		<min_time_generation />
+		<max_time_generation />
+		<exit_nb_visits>1</exit_nb_visits>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0</avg_time_generation>
+		<url>http://example.org/page1.html</url>
+	</row>
+	<row>
 		<label>sub</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
@@ -123,13 +140,12 @@
 		<min_time_generation />
 		<max_time_generation>0</max_time_generation>
 		<entry_nb_visits>1</entry_nb_visits>
-		<entry_nb_actions>1</entry_nb_actions>
-		<entry_sum_visit_length>0</entry_sum_visit_length>
-		<entry_bounce_count>1</entry_bounce_count>
-		<exit_nb_visits>1</exit_nb_visits>
+		<entry_nb_actions>2</entry_nb_actions>
+		<entry_sum_visit_length>1</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
 		<avg_time_on_page>0</avg_time_on_page>
-		<bounce_rate>100%</bounce_rate>
-		<exit_rate>100%</exit_rate>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
 		<avg_time_generation>0</avg_time_generation>
 		<subtable>
 			<row>
@@ -141,13 +157,12 @@
 				<min_time_generation />
 				<max_time_generation>0</max_time_generation>
 				<entry_nb_visits>1</entry_nb_visits>
-				<entry_nb_actions>1</entry_nb_actions>
-				<entry_sum_visit_length>0</entry_sum_visit_length>
-				<entry_bounce_count>1</entry_bounce_count>
-				<exit_nb_visits>1</exit_nb_visits>
+				<entry_nb_actions>2</entry_nb_actions>
+				<entry_sum_visit_length>1</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
 				<avg_time_on_page>0</avg_time_on_page>
-				<bounce_rate>100%</bounce_rate>
-				<exit_rate>100%</exit_rate>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0</avg_time_generation>
 			</row>
 		</subtable>
