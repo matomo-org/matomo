@@ -111,6 +111,11 @@
                 self._leaveNode();
                 return false;
             });
+
+            this.onWidgetResize(function () {
+                var $treemap = self.$element.find('.infoviz-treemap');
+                self.treemap.canvas.resize($treemap.width(), $treemap.height());
+            });
         },
 
         /**

@@ -24,9 +24,8 @@
         var $element = this.$element = $(element);
         $element.data('uiControlObject', this);
 
-        // convert values in params that are arrays to comma separated string lists
         var params = JSON.parse($element.attr('data-params') || '{}');
-        for (var key in params) {
+        for (var key in params) { // convert values in params that are arrays to comma separated string lists
             if (params[key] instanceof Array) {
                 params[key] = params[key].join(',');
             }
@@ -46,7 +45,7 @@
      * to the DOM.
      * 
      * TODO: instead of having other pieces of the UI manually calling cleanupUnusedControls,
-     *       MutationObservers should be called
+     *       MutationObservers should be used
      */
     UIControl.cleanupUnusedControls = function () {
         var controls = UIControl._controls;
@@ -88,6 +87,20 @@
             delete this.$element;
 
             this._baseDestroyCalled = true;
+        },
+
+        /**
+         * Handle the widget resize event, if we're currently in a widget.
+         * 
+         * TODO: should use proper resize detection (see 
+         * http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/ )
+         * with timeouts (since resizing widgets can be expensive)
+         */
+        onWidgetResize: function (handler) {
+            var $widget = this.$element.closest('.widgetContent');
+            $widget.on('widget:maximise', handler)
+                   .on('widget:minimise', handler)
+                   .on('widget:resize', handler);
         }
     };
 

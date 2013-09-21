@@ -311,9 +311,9 @@
             saveLayout();
         }
 
-        // reload all widgets containing a graph to make them display correct
-        $('.widget:has(".piwik-graph")').each(function (id, elem) {
-            reloadWidget($(elem).attr('id'));
+        // trigger resize event on all widgets
+        $('.widgetContent').each(function () {
+            $(this).trigger('widget:resize');
         });
     }
 

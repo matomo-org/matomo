@@ -148,7 +148,7 @@
 
             // export as image
             target.on('piwikExportAsImage', function () {
-                self.exportAsImage(target, lang);
+                self.exportAsImage(target, self._lang);
             });
 
             // manage resources
@@ -160,6 +160,10 @@
                         $.jqplot.visiblePlots[i] = null;
                     }
                 }
+            });
+
+            this.$element.closest('.widgetContent').on('widget:resize', function () {
+                self._resizeGraph();
             });
         },
 
