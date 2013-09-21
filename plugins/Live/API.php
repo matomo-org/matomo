@@ -196,6 +196,8 @@ class API
         $result['totalVisits'] = 0;
         $result['totalVisitDuration'] = 0;
         $result['totalActions'] = 0;
+        $result['totalSearches'] = 0;
+        $result['totalPageViews'] = 0;
         $result['totalGoalConversions'] = 0;
         $result['totalConversionsByGoal'] = array();
 
@@ -210,6 +212,9 @@ class API
 
         $countries = array();
         $continents = array();
+        $siteSearchKeywords = array();
+
+        $pageGenerationTimeTotal = 0;
 
         // aggregate all requested visits info for total_* info
         foreach ($visits->getRows() as $visit) {
@@ -249,6 +254,21 @@ class API
                     $result['totalAbandonedCartsRevenue'] += $action['revenue'];
                     $result['totalAbandonedCartsItems'] += $action['items'];
                 }
+
+                if (isset($result['siteSearchKeyword'])) {
+                    $keyword = $result['siteSearchKeyword'];
+
+                    if (!isset($siteSearchKeywords[$keyword])) {
+                        $siteSearchKeyword[$keyword] = 0;
+                        ++$result['totalSearches'];
+                    }
+                    ++$siteSearchKeywords[$keyword];
+                }
+
+                if (isset($result['generationTime'])) {
+                    $pageGenerationTimeTotal += $result['generationTime'];
+                    ++$result['totalPageViews'];
+                }
             }
 
             $countryCode = $visit->getColumn('countryCode');
@@ -264,12 +284,13 @@ class API
             ++$continents[$continentCode];
         }
 
-        // sort countries/continents by visit
+        // sort countries/continents/search keywords by visit/action
         asort($countries);
         asort($continents);
+        asort($siteSearchKeywords);
 
-        // transform country/continents into something that will look good in XML
-        $result['countries'] = $result['continents'] = array();
+        // transform country/continents/search keywords into something that will look good in XML
+        $result['countries'] = $result['continents'] = $result['searches'] = array();
         foreach ($countries as $countryCode => $nbVisits) {
             $result['countries'][] = array('country' => $countryCode,
                                            'nb_visits' => $nbVisits,
@@ -280,6 +301,14 @@ class API
             $result['continents'][] = array('continent' => $continentCode,
                                             'nb_visits' => $nbVisits,
                                             'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode));
+        }
+        foreach ($siteSearchKeywords as $keyword => $searchCount) {
+            $result['searches'][] = array('keyword' => $keyword,
+                                          'searches' => $searchCount);
+        }
+
+        if ($result['totalPageViews']) {
+            $result['averagePageGenerationTime'] = $pageGenerationTimeTotal / $result['totalPageViews'];
         }
 
         $result['totalVisitDurationPretty'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($result['totalVisitDuration']);

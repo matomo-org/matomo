@@ -3,10 +3,14 @@
 	<totalVisits>2</totalVisits>
 	<totalVisitDuration>361</totalVisitDuration>
 	<totalActions>2</totalActions>
+	<totalSearches>0</totalSearches>
+	<totalPageViews>0</totalPageViews>
 	<totalGoalConversions>1</totalGoalConversions>
 	<totalConversionsByGoal>
 		<row idgoal="1">1</row>
 	</totalConversionsByGoal>
+	<searches>
+	</searches>
 	<continents>
 		<row>
 			<continent>eur</continent>

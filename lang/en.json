@@ -489,7 +489,8 @@
         "SiteSearchCategories2": "For example, Ecommerce websites typically have a \"Category\" selector so that visitors can restrict their searches to all products in a specific Category.",
         "SiteSearchKeywordsNoResultDocumentation": "This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?",
         "SiteSearchFollowingPagesDoc": "When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.",
-        "AvgGenerationTimeTooltip": "Average based on %s hit(s) %s between %s and %s"
+        "AvgGenerationTimeTooltip": "Average based on %s hit(s) %s between %s and %s",
+        "OneSearch": "1 search"
     },
     "AnonymizeIP": {
         "PluginDescription": "Anonymize the last byte(s) of visitors IP addresses to comply with your local privacy laws\/guidelines."
@@ -1106,7 +1107,9 @@
         "ShowMap": "show map",
         "HideMap": "hide map",
         "VisitsFrom": "%1$s%2$s visits%3$s from",
-        "ClickToViewMoreAboutVisit": "Click to view more information about this visit"
+        "ClickToViewMoreAboutVisit": "Click to view more information about this visit",
+        "AveragePageGenerationTime": "Each page took on average %1$s to load for this visitor.",
+        "CalculatedOverNPageViews": "Calculated using this visitor's last %1$s page views."
     },
     "Login": {
         "PluginDescription": "Login Authentication plugin, reading the credentials from the config\/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).",

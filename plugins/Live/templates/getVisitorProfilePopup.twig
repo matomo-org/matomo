@@ -46,6 +46,17 @@
                             {%- if visitorData.totalAbandonedCarts|default(0) > 0 %} {{ 'Live_AbandonedCartSummary'|translate('<strong>', visitorData.totalAbandonedCarts, '</strong>', visitorData.totalAbandonedCartsItems, '<strong>', visitorData.totalAbandonedCartsRevenue|money(idSite), '</strong>')|raw }}{%- endif -%}
                         </p>
                         {% endif %}
+                        {% if visitorData.totalSearches|default(0) %}
+                        <p>
+                            {{ 'Actions_WidgetSearchKeywords'|translate }}:
+                            {%- for entry in visitorData.searches %} <strong title="{% if entry.searches == 1 %}{{ 'Actions_OneSearch'|translate }}{% else %}{{ 'UserCountryMap_Searches'|translate(entry.searches) }}{% endif %}">{{ entry.keyword }}</strong>{% if not loop.last %},{% endif %}{% endfor %}
+                        </p>
+                        {% endif %}
+                        {% if visitorData.averagePageGenerationTime is defined %}
+                        <p title="{{ 'Live_CalculatedOverNPageViews'|translate(visitorData.totalPageViews) }}">
+                            {{ 'Live_AveragePageGenerationTime'|translate('<strong>' ~ visitorData.averagePageGenerationTime ~ 's</strong>')|raw }}
+                        </p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="visitor-profile-important-visits">
