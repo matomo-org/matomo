@@ -442,6 +442,7 @@ class CronArchive
         // already processed above for "day"
         if ($period != "day") {
             $ch = $this->getNewCurlHandle($url);
+            $this->addCurlHandleToMulti($mh, $ch);
             $aCurl[$url] = $ch;
             $this->requests++;
         }
@@ -449,6 +450,7 @@ class CronArchive
         foreach ($this->getSegmentsForSite($idsite) as $segment) {
             $segmentUrl = $url . '&segment=' . urlencode($segment);
             $ch = $this->getNewCurlHandle($segmentUrl);
+            $this->addCurlHandleToMulti($mh, $ch);
             $aCurl[$segmentUrl] = $ch;
             $this->requests++;
         }
@@ -457,13 +459,14 @@ class CronArchive
         $visitsAllDaysInPeriod = false;
 
         if (!empty($aCurl)) {
-            // FIXME: This code used to execute multiple curl requests asynchronously. This caused
-            // deadlocks since archive tables are locked for the entire archiving process. Moving back
-            // to synchronous requests is a quick fix, but the locking mechanism can be changed to
-            // only lock when getting the new archive ID. When that is done, this code should be changed
-            // back to use asnychronous requests.
+            $running = null;
+            do {
+                usleep(10000);
+                curl_multi_exec($mh, $running);
+            } while ($running > 0);
+
             foreach ($aCurl as $url => $ch) {
-                $content = curl_exec($ch);
+                $content = curl_multi_getcontent($ch);
                 $successResponse = $this->checkResponse($content, $url);
                 $success = $successResponse && $success;
                 if ($url == $urlNoSegment
@@ -475,8 +478,12 @@ class CronArchive
                     }
                     $visitsAllDaysInPeriod = @array_sum($stats);
                 }
-                curl_close($ch);
             }
+
+            foreach ($aCurl as $ch) {
+                curl_multi_remove_handle($mh, $ch);
+            }
+            curl_multi_close($mh);
         }
 
         $this->log("Archived website id = $idsite, period = $period, "
