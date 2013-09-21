@@ -24,6 +24,8 @@ use Piwik\DataTable;
  */
 class DataCollection
 {
+    const METADATA_CONTAINER_ROW_KEY = '_metadata';
+
     /**
      * The archive data, indexed first by site ID and then by period date range. Eg,
      *
@@ -154,7 +156,7 @@ class DataCollection
     public function addMetadata($idSite, $period, $name, $value)
     {
         $row = & $this->get($idSite, $period);
-        $row['_metadata'][$name] = $value;
+        $row[self::METADATA_CONTAINER_ROW_KEY][$name] = $value;
     }
 
     /**
@@ -167,11 +169,11 @@ class DataCollection
      *                             Eg, array('site' => 'idSite', 'period' => 'Date')
      * @return array
      */
-    public function getArray($resultIndices)
+    public function getIndexedArray($resultIndices)
     {
         $indexKeys = array_keys($resultIndices);
 
-        $result = $this->createEmptyIndex($indexKeys);
+        $result = $this->createOrderedIndex($indexKeys);
         foreach ($this->data as $idSite => $rowsByPeriod) {
             foreach ($rowsByPeriod as $period => $row) {
                 // FIXME: This hack works around a strange bug that occurs when getting
@@ -186,9 +188,7 @@ class DataCollection
                     continue;
                 }
 
-                $indexRowKeys = $this->getRowKeys($indexKeys, $row, $idSite, $period);
-
-                $this->setIndexRow($result, $indexRowKeys, $row);
+                $this->putRowInIndex($result, $indexKeys, $row, $idSite, $period);
             }
         }
         return $result;
@@ -210,7 +210,7 @@ class DataCollection
         $dataTableFactory = new DataTableFactory(
             $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->defaultRow);
 
-        $index = $this->getArray($resultIndices);
+        $index = $this->getIndexedArray($resultIndices);
         return $dataTableFactory->make($index, $resultIndices);
     }
 
@@ -251,7 +251,7 @@ class DataCollection
         $dataTableFactory->expandDataTable($depth, $addMetadataSubTableId);
         $dataTableFactory->useSubtable($idSubTable);
 
-        $index = $this->getArray($resultIndices);
+        $index = $this->getIndexedArray($resultIndices);
         return $dataTableFactory->make($index, $resultIndices);
     }
 
@@ -263,8 +263,8 @@ class DataCollection
      */
     public static function getDataRowMetadata($data)
     {
-        if (isset($data['_metadata'])) {
-            return $data['_metadata'];
+        if (isset($data[self::METADATA_CONTAINER_ROW_KEY])) {
+            return $data[self::METADATA_CONTAINER_ROW_KEY];
         } else {
             return array();
         }
@@ -277,31 +277,34 @@ class DataCollection
      */
     public static function removeMetadataFromDataRow(&$data)
     {
-        unset($data['_metadata']);
+        unset($data[self::METADATA_CONTAINER_ROW_KEY]);
     }
 
     /**
      * Creates an empty index using a list of metadata names. If the 'site' and/or
      * 'period' metadata names are supplied, empty rows are added for every site/period
      * that was queried for.
+     * 
+     * Using this function ensures consistent ordering in the indexed result.
      *
-     * @param array $indexKeys List of metadata names to index archive data by.
+     * @param array $metadataNamesToIndexBy List of metadata names to index archive data by.
      * @return array
      */
-    private function createEmptyIndex($indexKeys)
+    private function createOrderedIndex($metadataNamesToIndexBy)
     {
         $result = array();
 
-        if (!empty($indexKeys)) {
-            $index = array_shift($indexKeys);
-            if ($index == 'site') {
-                foreach ($this->sitesId as $idSite) {
-                    $result[$idSite] = $this->createEmptyIndex($indexKeys);
-                }
-            } else if ($index == 'period') {
-                foreach ($this->periods as $period => $periodObject) {
-                    $result[$period] = $this->createEmptyIndex($indexKeys);
-                }
+        if (!empty($metadataNamesToIndexBy)) {
+            $metadataName = array_shift($metadataNamesToIndexBy);
+
+            if ($metadataName == 'site') {
+                $indexKeyValues = array_values($this->sitesId);
+            } else if ($metadataName == 'period') {
+                $indexKeyValues = array_keys($this->periods);
+            }
+
+            foreach ($indexKeyValues as $key) {
+                $result[$key] = $this->createOrderedIndex($metadataNamesToIndexBy);
             }
         }
 
@@ -309,45 +312,28 @@ class DataCollection
     }
 
     /**
-     * Sets a row in an index by the index keys of the row.
+     * Puts an archive data row in an index.
      */
-    private function setIndexRow(&$result, $keys, $row)
+    private function putRowInIndex(&$index, $metadataNamesToIndexBy, $row, $idSite, $period)
     {
-        $keyCount = count($keys);
+        $currentLevel = &$index;
 
-        if ($keyCount > 1) {
-            $firstKey = array_shift($keys);
-            $this->setIndexRow($result[$firstKey], $keys, $row);
-        } else if ($keyCount == 1) {
-            $result[reset($keys)] = $row;
-        } else {
-            $result = $row;
-        }
-    }
-
-    /**
-     * Returns the index keys for a row based on a set of metadata names.
-     *
-     * @param array $metadataNames
-     * @param array $row
-     * @param int $idSite The site ID for the row (needed since site ID is not
-     *                    stored as metadata).
-     * @param string $period eg, '2012-01-01,2012-01-31'. The period for the
-     *                       row (needed since period is not stored as metadata).
-     * @return array
-     */
-    private function getRowKeys($metadataNames, $row, $idSite, $period)
-    {
-        $result = array();
-        foreach ($metadataNames as $name) {
-            if ($name == 'site') {
-                $result['site'] = $idSite;
-            } else if ($name == 'period') {
-                $result['period'] = $period;
-            } else if (isset($row['_metadata'][$name])) {
-                $result[$name] = $row['_metadata'][$name];
+        foreach ($metadataNamesToIndexBy as $metadataName) {
+            if ($metadataName == 'site') {
+                $key = $idSite;
+            } else if ($metadataName == 'period') {
+                $key = $period;
+            } else {
+                $key = $row[self::METADATA_CONTAINER_ROW_KEY][$metadataName];
             }
+
+            if (!isset($currentLevel[$key])) {
+                $currentLevel[$key] = array();
+            }
+
+            $currentLevel = &$currentLevel[$key];
         }
-        return $result;
+
+        $currentLevel = $row;
     }
 }

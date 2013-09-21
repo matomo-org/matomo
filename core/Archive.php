@@ -178,7 +178,7 @@ class Archive
         $data = $this->get($names, 'numeric');
 
         $resultIndices = $this->getResultIndices();
-        $result = $data->getArray($resultIndices);
+        $result = $data->getIndexedArray($resultIndices);
 
         // if only one metric is returned, just return it as a numeric value
         if (empty($resultIndices)
@@ -207,7 +207,7 @@ class Archive
     public function getBlob($names, $idSubtable = null)
     {
         $data = $this->get($names, 'blob', $idSubtable);
-        return $data->getArray($this->getResultIndices());
+        return $data->getIndexedArray($this->getResultIndices());
     }
 
     /**
