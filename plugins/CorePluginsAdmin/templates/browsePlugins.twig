@@ -13,6 +13,13 @@
         {% include "@CorePluginsAdmin/browsePluginsActions.twig" %}
     </div>
 
+    {% if not isSuperUser %}
+        <div class="pluginslistNonSuperUserHint">
+            You can browse the list of plugins that can be installed to customize or extend your Piwik platform. Please
+            contact your administrator to get any of these installed for you.
+        </div>
+    {% endif %}
+
     <div class="pluginslist">
 
         {% if plugins|length %}
