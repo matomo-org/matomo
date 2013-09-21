@@ -415,7 +415,16 @@
          * Show/hide the zoom out button based on the currently selected node.
          */
         _toggleZoomOut: function (toggle) {
-            $('.infoviz-treemap-zoom-out', this.$element).css('visibility', toggle || !this.treemap.clickedNode ? 'visible' : 'hidden');
+            var toggle = toggle || !this._isFirstLevelNode(this.treemap.clickedNode);
+            $('.infoviz-treemap-zoom-out', this.$element).css('visibility', toggle ? 'visible' : 'hidden');
+        },
+
+        /**
+         * Returns true if node is a child of the root node, false if it represents a subtable row.
+         */
+        _isFirstLevelNode: function (node) {
+            var parent = node.getParents()[0];
+            return !parent || parent.id.indexOf('treemap-root') != -1;
         },
 
         /**

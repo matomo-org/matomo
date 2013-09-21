@@ -11,6 +11,7 @@
 
 namespace Piwik\Plugins\TreemapVisualization;
 
+use Piwik\Period;
 use Piwik\Common;
 
 /**
@@ -43,7 +44,7 @@ class TreemapVisualization extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
+            'AssetManager.getStylesheetFiles'     => 'getStylesheetFiles',
             'AssetManager.getJsFiles'             => 'getJsFiles',
             'DataTableVisualization.getAvailable' => 'getAvailableDataTableVisualizations',
             'ViewDataTable.configureReportView'   => 'configureReportViewForActions'
@@ -76,6 +77,22 @@ class TreemapVisualization extends \Piwik\Plugin
 
         // make sure treemap is shown on actions reports
         if ($module === 'Actions') {
+            if ($view->getViewDataTableId() != Treemap::ID) {
+                // make sure we're looking at data that the treemap visualization can use (a single datatable)
+                // TODO: this is truly ugly code. need to think up an abstraction that can allow us to describe the
+                //       problem...
+                $requestArray = $view->getRequestArray() + $_GET + $_POST;
+                $date = Common::getRequestVar('date', null, 'string', $requestArray);
+                $period = Common::getRequestVar('period', null, 'string', $requestArray);
+                $idSite = Common::getRequestVar('idSite', null, 'string', $requestArray);
+                if (Period::isMultiplePeriod($date, $period)
+                    || strpos($idSite, ',') !== false
+                    || $idSite == 'all'
+                ) {
+                    return;
+                }
+            }
+
             $view->show_all_views_icons = true;
             $view->show_bar_chart = false;
             $view->show_pie_chart = false;

@@ -681,7 +681,7 @@ class ViewDataTable
     /**
      * @return string URL to call the API, eg. "method=Referers.getKeywords&period=day&date=yesterday"...
      */
-    protected function getRequestArray()
+    public function getRequestArray()
     {
         // we prepare the array to give to the API Request
         // we setup the method and format variable
@@ -1057,11 +1057,10 @@ class ViewDataTable
 
     protected function buildView()
     {
-        Piwik_PostEvent(self::CONFIGURE_VIEW_EVENT, array($this));
-
         $visualization = new $this->visualizationClass($this);
+        Piwik_PostEvent(self::CONFIGURE_VIEW_EVENT, array($this));
         $this->overrideViewProperties();
-
+        
         try {
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI();
