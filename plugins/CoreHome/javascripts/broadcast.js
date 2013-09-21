@@ -155,7 +155,8 @@ var broadcast = {
         } else {
             // start page
             Piwik_Popover.close();
-            $('#content').empty();
+
+            $('#content:not(.admin)').empty();
         }
     },
 
