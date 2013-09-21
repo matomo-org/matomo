@@ -36,7 +36,6 @@ class Controller extends \Piwik\Controller\Admin
         Piwik::checkUserIsSuperUser();
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
-        $view->errorMessage = '';
 
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
         $pluginName = strip_tags($pluginName);
@@ -64,7 +63,7 @@ class Controller extends \Piwik\Controller\Admin
             return $view;
         }
 
-        $marketplace  = new MarketplaceApiClient();
+        $marketplace  = new Marketplace();
         $view->plugin = $marketplace->getPluginInfo($pluginName);
 
         return $view;
@@ -94,10 +93,9 @@ class Controller extends \Piwik\Controller\Admin
         }
 
         $view = $this->configureView('@CorePluginsAdmin/pluginDetails');
-        $view->errorMessage = '';
 
         try {
-            $marketplace  = new MarketplaceApiClient();
+            $marketplace  = new Marketplace();
             $view->plugin = $marketplace->getPluginInfo($pluginName);
         } catch (\Exception $e) {
             $view->errorMessage = $e->getMessage();
@@ -188,9 +186,13 @@ class Controller extends \Piwik\Controller\Admin
     protected function configureView($template)
     {
         Piwik::checkUserIsNotAnonymous();
+
         $view = new View($template);
         $this->setBasicVariablesView($view);
         $this->displayWarningIfConfigFileNotWritable($view);
+
+        $view->errorMessage = '';
+
         return $view;
     }
 

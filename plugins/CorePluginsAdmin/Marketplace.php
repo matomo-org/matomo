@@ -30,6 +30,13 @@ class Marketplace
         $this->client = new MarketplaceApiClient();
     }
 
+    public function getPluginInfo($pluginName)
+    {
+        $marketplace = new MarketplaceApiClient();
+
+        return $marketplace->getPluginInfo($pluginName);
+    }
+
     public function searchPlugins($query, $sort, $themesOnly)
     {
         if ($themesOnly) {
@@ -51,7 +58,7 @@ class Marketplace
 
     private function hasPluginUpdate($plugin)
     {
-        if (empty($plugin)) {
+        if (empty($plugin->name)) {
             return false;
         }
 
@@ -89,15 +96,14 @@ class Marketplace
         foreach ($pluginsHavingUpdate as $updatePlugin) {
             foreach ($loadedPlugins as $loadedPlugin) {
 
-                if ($loadedPlugin->getPluginName() == $updatePlugin->name) {
+                if (!empty($updatePlugin->name) && $loadedPlugin->getPluginName() == $updatePlugin->name) {
                     $updatePlugin->currentVersion = $loadedPlugin->getVersion();
-                    $updatePlugin->isActivated = $pluginManager->isPluginActivated($updatePlugin->name);
+                    $updatePlugin->isActivated    = $pluginManager->isPluginActivated($updatePlugin->name);
                     break;
-
                 }
             }
-
         }
+
         return $pluginsHavingUpdate;
     }
 

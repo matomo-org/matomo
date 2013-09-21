@@ -36,47 +36,6 @@ class MarketplaceApiClient
         $cache->deleteAll();
     }
 
-    private function fetch($action, $params)
-    {
-        $query  = http_build_query($params);
-        $result = $this->getCachedResult($action, $query);
-
-        if (false === $result) {
-            $endpoint = $this->domain . '/api/1.0/';
-            $url      = sprintf('%s%s?%s', $endpoint, $action, $query);
-            $result   = Http::sendHttpRequest($url, 5);
-            $this->cacheResult($action, $query, $result);
-        }
-
-        $result = json_decode($result);
-
-        if (!empty($result->error)) {
-            // TODO create own exception
-            throw new \Exception($result->error);
-        }
-
-        return $result;
-    }
-
-    private function getCachedResult($action, $query)
-    {
-        $cacheKey = $this->getCacheKey($action, $query);
-
-        return $this->cache->get($cacheKey);
-    }
-
-    private function cacheResult($action, $query, $result)
-    {
-        $cacheKey = $this->getCacheKey($action, $query);
-
-        $this->cache->set($cacheKey, $result);
-    }
-
-    private function getCacheKey($action, $query)
-    {
-        return sprintf('api.1.0.%s.%s', str_replace('/', '.', $action), md5($query));
-    }
-
     public function getPluginInfo($name)
     {
         $action = sprintf('plugins/%s/info', $name);
@@ -88,14 +47,12 @@ class MarketplaceApiClient
     {
         $plugin = $this->getPluginInfo($pluginOrThemeName);
 
-        if (empty($plugin)) {
-            // TODO throw exception notExistingPlugin
-            return;
+        if (empty($plugin->versions)) {
+            return false;
         }
 
         $latestVersion = array_pop($plugin->versions);
-
-        $downloadUrl = $latestVersion->download;
+        $downloadUrl   = $latestVersion->download;
 
         $success = Http::fetchRemoteFile($this->domain . $downloadUrl, $target);
 
@@ -104,15 +61,14 @@ class MarketplaceApiClient
 
     /**
      * @param \Piwik\Plugin[] $plugins
+     * @return array|mixed
      */
     public function checkUpdates($plugins)
     {
         $params = array();
 
         foreach ($plugins as $plugin) {
-            $pluginName = $plugin->getPluginName();
-
-            $params[] = array('name' => $pluginName, 'version' => $plugin->getVersion());
+            $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion());
         }
 
         $params = array('plugins' => $params);
@@ -128,15 +84,18 @@ class MarketplaceApiClient
 
     /**
      * @param \Piwik\Plugin[] $plugins
+     * @return array
      */
     public function getInfoOfPluginsHavingUpdate($plugins)
     {
         $hasUpdates = $this->checkUpdates($plugins);
 
         $pluginDetails = array();
+
         foreach ($hasUpdates as $pluginHavingUpdate) {
             $plugin = $this->getPluginInfo($pluginHavingUpdate->name);
-            if (!$plugin->isTheme) {
+
+            if (empty($plugin->isTheme)) {
                 $pluginDetails[] = $plugin;
             }
         }
@@ -146,6 +105,7 @@ class MarketplaceApiClient
 
     /**
      * @param \Piwik\Plugin[] $plugins
+     * @return array
      */
     public function getInfoOfThemesHavingUpdate($plugins)
     {
@@ -154,7 +114,8 @@ class MarketplaceApiClient
         $pluginDetails = array();
         foreach ($hasUpdates as $pluginHavingUpdate) {
             $plugin = $this->getPluginInfo($pluginHavingUpdate->name);
-            if ($plugin->isTheme) {
+
+            if (!empty($plugin->isTheme)) {
                 $pluginDetails[] = $plugin;
             }
         }
@@ -182,6 +143,50 @@ class MarketplaceApiClient
         }
 
         return array();
+    }
+
+    private function fetch($action, $params)
+    {
+        $query  = http_build_query($params);
+        $result = $this->getCachedResult($action, $query);
+
+        if (false === $result) {
+            $endpoint = $this->domain . '/api/1.0/';
+            $url      = sprintf('%s%s?%s', $endpoint, $action, $query);
+            $result   = Http::sendHttpRequest($url, 5);
+            $this->cacheResult($action, $query, $result);
+        }
+
+        $result = json_decode($result);
+
+        if (is_null($result)) {
+            throw new MarketplaceApiException('Failure during communication with marketplace, unable to read response');
+        }
+
+        if (!empty($result->error)) {
+            throw new MarketplaceApiException($result->error);
+        }
+
+        return $result;
+    }
+
+    private function getCachedResult($action, $query)
+    {
+        $cacheKey = $this->getCacheKey($action, $query);
+
+        return $this->cache->get($cacheKey);
+    }
+
+    private function cacheResult($action, $query, $result)
+    {
+        $cacheKey = $this->getCacheKey($action, $query);
+
+        $this->cache->set($cacheKey, $result);
+    }
+
+    private function getCacheKey($action, $query)
+    {
+        return sprintf('api.1.0.%s.%s', str_replace('/', '.', $action), md5($query));
     }
 
 }
