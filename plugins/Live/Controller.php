@@ -224,6 +224,7 @@ class Controller extends \Piwik\Controller
             'module' => 'UserCountryMap',
             'action' => 'realtimeMap',
             'segment' => self::getSegmentWithVisitorId(),
+            'visitorId' => false,
             'changeVisitAlpha' => 0,
             'removeOldVisits' => 0,
             'realtimeWindow' => 'false',
@@ -243,7 +244,7 @@ class Controller extends \Piwik\Controller
                 $segment = urldecode($segment) . ';';
             }
 
-            $idVisitor = Common::getRequestVar('idVisitor', false);
+            $idVisitor = Common::getRequestVar('visitorId', false);
             if ($idVisitor === false) {
                 $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
             }
