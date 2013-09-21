@@ -24,7 +24,6 @@ use Piwik\View;
 use Piwik\PluginsManager;
 
 /**
- *
  * @package CorePluginsAdmin
  */
 class Controller extends \Piwik\Controller\Admin
@@ -32,11 +31,11 @@ class Controller extends \Piwik\Controller\Admin
     private $validSortMethods  = array('popular', 'newest', 'alpha');
     private $defaultSortMethod = 'popular';
 
-    public function updatePlugin()
+    private function createUpdateOrInstallView($template, $nonceName)
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = $this->configureView('@CorePluginsAdmin/updatePlugin');
+        $view = $this->configureView('@CorePluginsAdmin/' . $template);
         $view->errorMessage = '';
 
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
@@ -49,13 +48,12 @@ class Controller extends \Piwik\Controller\Admin
 
         $view->plugin = array('name' => $pluginName);
 
-        if (!Nonce::verifyNonce('CorePluginsAdmin.updatePlugin', $nonce)) {
+        if (!Nonce::verifyNonce('CorePluginsAdmin.' . $nonceName, $nonce)) {
             $view->errorMessage = Piwik_Translate('ExceptionNonceMismatch');
-            echo $view->render();
-            return;
+            return $view;
         }
 
-        Nonce::discardNonce('CorePluginsAdmin.updatePlugin');
+        Nonce::discardNonce('CorePluginsAdmin.' . $nonceName);
 
         try {
             $pluginInstaller = new PluginInstaller($pluginName);
@@ -63,54 +61,25 @@ class Controller extends \Piwik\Controller\Admin
 
         } catch (PluginInstallerException $e) {
             $view->errorMessage = $e->getMessage();
-            echo $view->render();
-            return;
+            return $view;
         }
 
         $marketplace  = new MarketplaceApiClient();
         $view->plugin = $marketplace->getPluginInfo($pluginName);
 
+        return $view;
+    }
+
+    public function updatePlugin()
+    {
+        $view = $this->createUpdateOrInstallView('updatePlugin', 'updatePlugin');
         echo $view->render();
     }
 
     public function installPlugin()
     {
-        Piwik::checkUserIsSuperUser();
-
-        $view = $this->configureView('@CorePluginsAdmin/installPlugin');
-        $view->errorMessage = '';
-
-        $pluginName = Common::getRequestVar('pluginName', '', 'string');
-        $pluginName = strip_tags($pluginName);
-        $nonce      = Common::getRequestVar('nonce', '', 'string');
-
-        if (empty($pluginName)) {
-            throw new \Exception('Plugin parameter is missing');
-        }
-
-        $view->plugin = array('name' => $pluginName);
-
-        if (!Nonce::verifyNonce('CorePluginsAdmin.installPlugin', $nonce)) {
-            $view->errorMessage = Piwik_Translate('ExceptionNonceMismatch');
-            echo $view->render();
-            return;
-        }
-
-        Nonce::discardNonce('CorePluginsAdmin.installPlugin');
-
-        try {
-            $pluginInstaller = new PluginInstaller($pluginName);
-            $pluginInstaller->installOrUpdatePluginFromMarketplace();
-
-        } catch (PluginInstallerException $e) {
-            $view->errorMessage = $e->getMessage();
-            echo $view->render();
-            return;
-        }
-
-        $marketplace  = new MarketplaceApiClient();
-        $view->plugin = $marketplace->getPluginInfo($pluginName);
-        $view->nonce  = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
+        $view = $this->createUpdateOrInstallView('installPlugin', 'installPlugin');
+        $view->nonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
 
         echo $view->render();
     }
@@ -131,7 +100,7 @@ class Controller extends \Piwik\Controller\Admin
         echo $view->render();
     }
 
-    public function browsePlugins()
+    private function createBrowsePluginsOrThemesView($template, $themesOnly)
     {
         $query = Common::getRequestVar('query', '', 'string', $_POST);
         $query = strip_tags($query);
@@ -141,10 +110,10 @@ class Controller extends \Piwik\Controller\Admin
             $sort = $this->defaultSortMethod;
         }
 
-        $view = $this->configureView('@CorePluginsAdmin/browsePlugins');
+        $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
         $marketplace   = new Marketplace();
-        $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly = false);
+        $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly);
 
         $view->query   = $query;
         $view->sort    = $sort;
@@ -152,30 +121,18 @@ class Controller extends \Piwik\Controller\Admin
         $view->updateNonce  = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
         $view->isSuperUser  = Piwik::isUserIsSuperUser();
 
+        return $view;
+    }
+
+    public function browsePlugins()
+    {
+        $view = $this->createBrowsePluginsOrThemesView('browsePlugins', $themesOnly = false);
         echo $view->render();
     }
 
     public function browseThemes()
     {
-        $query = Common::getRequestVar('query', '', 'string', $_POST);
-        $query = strip_tags($query);
-        $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
-
-        if (!in_array($sort, $this->validSortMethods)) {
-            $sort = $this->defaultSortMethod;
-        }
-
-        $view = $this->configureView('@CorePluginsAdmin/browseThemes');
-
-        $marketplace   = new Marketplace();
-        $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly = true);
-
-        $view->query   = $query;
-        $view->sort    = $sort;
-        $view->installNonce = Nonce::getNonce('CorePluginsAdmin.installPlugin');
-        $view->updateNonce  = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
-        $view->isSuperUser  = Piwik::isUserIsSuperUser();
-
+        $view = $this->createBrowsePluginsOrThemesView('browseThemes', $themesOnly = true);
         echo $view->render();
     }
 
@@ -185,31 +142,7 @@ class Controller extends \Piwik\Controller\Admin
         echo $view->render();
     }
 
-    function plugins()
-    {
-        Piwik::checkUserIsSuperUser();
-
-        $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
-        $pluginName = Common::getRequestVar('pluginName', '', 'string');
-
-        $view = $this->configureView('@CorePluginsAdmin/plugins');
-
-        $view->activatedPluginName = '';
-        if ($activated && $pluginName) {
-            $view->activatedPluginName = $pluginName;
-        }
-
-        $view->updateNonce   = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
-        $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
-        $view->pluginsInfo   = $this->getPluginsInfo();
-
-        $marketplace = new Marketplace();
-        $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
-
-        echo $view->render();
-    }
-
-    function themes()
+    private function createPluginsOrThemesView($template, $themesOnly)
     {
         Piwik::checkUserIsSuperUser();
 
@@ -217,22 +150,32 @@ class Controller extends \Piwik\Controller\Admin
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
         $pluginName = strip_tags($pluginName);
 
-        $view = $this->configureView('@CorePluginsAdmin/themes');
+        $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
         $view->activatedPluginName = '';
         if ($activated && $pluginName) {
             $view->activatedPluginName = $pluginName;
         }
 
-        $pluginsInfo = $this->getPluginsInfo($themesOnly = true);
-
         $view->updateNonce   = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
         $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
-        $view->pluginsInfo   = $pluginsInfo;
+        $view->pluginsInfo   = $this->getPluginsInfo($themesOnly);
 
         $marketplace = new Marketplace();
-        $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($pluginsInfo, $themesOnly = true);
+        $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly);
 
+        return $view;
+    }
+
+    function plugins()
+    {
+        $view = $this->createPluginsOrThemesView('plugins', $themesOnly = false);
+        echo $view->render();
+    }
+
+    function themes()
+    {
+        $view = $this->createPluginsOrThemesView('themes', $themesOnly = true);
         echo $view->render();
     }
 
