@@ -20,7 +20,7 @@ use Piwik\DataTable;
  *
  * Archive data is loaded into an instance of this type, can be indexed by archive
  * metadata (such as the site ID, period string, etc.), and can be transformed into
- * DataTable and Set instances.
+ * DataTable and Map instances.
  */
 class DataCollection
 {
@@ -196,7 +196,7 @@ class DataCollection
 
     /**
      * Returns archive data as a DataTable indexed by metadata. Indexed data will
-     * be represented by Set instances.
+     * be represented by Map instances.
      *
      * @param array $resultIndices An array mapping metadata names to pretty labels
      *                             for them. Each archive data row will be indexed
@@ -216,7 +216,7 @@ class DataCollection
 
     /**
      * Returns archive data as a DataTable indexed by metadata. Indexed data will
-     * be represented by Set instances. Each DataTable will have
+     * be represented by Map instances. Each DataTable will have
      * its subtable IDs set.
      *
      * This function will only work if blob data was loaded and only one record
