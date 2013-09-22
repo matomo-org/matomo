@@ -69,26 +69,26 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
             // test with excluded User Agent
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (excludeduseragentstring)');
             $t->setIp('211.1.2.3');
-            //self::checkResponse($t->doTrackPageView('visit from excluded User Agent'));
+            self::checkResponse($t->doTrackPageView('visit from excluded User Agent'));
 
             $t->setUserAgent('Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20110814 Firefox/6.0 Google (+https://developers.google.com/+/web/snippet/)');
-            //self::checkResponse($t->doTrackPageView('visit from excluded User Agent'));
+            self::checkResponse($t->doTrackPageView('visit from excluded User Agent'));
 
             // test w/ global excluded User Agent
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (globalexcludeduseragent)');
             $t->setIp('211.1.2.3');
-            //self::checkResponse($t->doTrackPageView('visit from global excluded User Agent'));
+            self::checkResponse($t->doTrackPageView('visit from global excluded User Agent'));
 
             // test with excluded IP
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent
             $t->setIp($excludedIp);
-            self::checkResponse($t->doTrackPageView('visit from IP excluded'));
+            //self::checkResponse($t->doTrackPageView('visit from IP excluded'));
 
             // test with global list of excluded IPs
             $excludedIpBis = '145.5.3.4';
             API::getInstance()->setGlobalExcludedIps($excludedIpBis);
             $t->setIp($excludedIpBis);
-            self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
+            //self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
         }
 
         try {
