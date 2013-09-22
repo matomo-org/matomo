@@ -194,7 +194,7 @@ class CacheFile
         Filesystem::unlinkRecursive($this->cachePath, $deleteRootToo = false, $beforeUnlink);
     }
 
-    private function opCacheInvalidate($filepath)
+    public function opCacheInvalidate($filepath)
     {
         if (function_exists('opcache_invalidate')
             && is_file($filepath)
