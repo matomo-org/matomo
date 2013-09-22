@@ -70,6 +70,7 @@ class CacheFile
 
         // We are assuming that most of the time cache will exists
         $cacheFilePath = $this->cachePath . $id . '.php';
+        $this->opCacheInvalidate($cacheFilePath);
         $ok = @include($cacheFilePath);
 
         if ($ok && $cache_complete == true) {
