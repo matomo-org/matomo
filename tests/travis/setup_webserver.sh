@@ -21,6 +21,10 @@ USER=$(whoami)
 sed -i "s/@USER@/$USER/g" "$DIR/php-fpm.ini"
 sed -i "s|@PHP_FPM_SOCK@|$PHP_FPM_SOCK|g" "$DIR/php-fpm.ini"
 
+sudo echo "
+catch_workers_output = yes
+" >> /etc/php-fpm.d/www.conf
+
 # Setup nginx
 echo "Configuring nginx"
 PIWIK_ROOT=$(realpath "$DIR/../..")
