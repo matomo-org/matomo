@@ -186,6 +186,7 @@ class CacheFile
      */
     public function deleteAll()
     {
+        $self = $this;
         $beforeUnlink = function ($path) use ($self) {
             $self->opCacheInvalidate($path);
         };

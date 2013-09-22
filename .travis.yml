@@ -47,7 +47,7 @@ after_success:
 
 after_script:
   - cat /var/log/nginx/error.log
-  - cat $TRAVIS_BUILD_DIR/tmp/php-fpm.log
+  - cat $TRAVIS_BUILD_DIR/../piwik/tmp/php-fpm.log
   - cd $TRAVIS_BUILD_DIR
   - ./tests/travis/upload_artifacts.sh
 
