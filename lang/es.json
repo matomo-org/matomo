@@ -1222,7 +1222,6 @@
         "CancelAndReturnToReports": "Cancelar y %svolver a la lista de reportes%s",
         "CreateAndScheduleReport": "Crear y Programar un reporte",
         "CreateReport": "Crear Reporte",
-        "DefaultContainingAllReports": "El reporte por defecto contiene todas las estadísticas disponibles.",
         "DescriptionOnFirstPage": "La descripción del reporte será mostrada en la primera página del reporte.",
         "DisplayFormat_TablesOnly": "Mostrar sólo Tablas (no gráficas)",
         "EmailHello": "Hola,",
@@ -1235,7 +1234,6 @@
         "MustBeLoggedIn": "Usted debe haber iniciado sesión para crear y programar reportes personalizados.",
         "NoRecipients": "Este reporte no tiene destinatarios",
         "Pagination": "Página %s de %s",
-        "PDF": "PDF",
         "PiwikReports": "Reportes Piwik",
         "PleaseFindAttachedFile": "Encontrará el reporte de %1$s %2$s como un archivo PDF adjunto.",
         "PleaseFindBelow": "Por favor encuentre debajo su reporte %1$s para %2$s.",
@@ -1347,7 +1345,6 @@
         "FromPreviousSiteSearchesInline": "%s desde búsquedas internas",
         "FromSearchEngines": "Desde motores de búsqueda",
         "FromWebsites": "Desde sitios de internet",
-        "Including": "incluyendo",
         "IncomingTraffic": "Tráfico entrante",
         "LoopsInline": "%s recargas de página",
         "NoDataForAction": "No hay información para %s",
@@ -1359,7 +1356,6 @@
         "ToFollowingPagesInline": "%s a páginas internas",
         "ToFollowingSiteSearches": "Búsquedas internas",
         "ToFollowingSiteSearchesInline": "%s búsquedas internas",
-        "ToInternalPages": "a páginas internas",
         "XOfAllPageviews": "%s de todas las vistas de esta página",
         "XOutOfYVisits": "%s (de %s)"
     },
@@ -1728,7 +1724,6 @@
     },
     "UserCountryMap": {
         "map": "mapa",
-        "toggleFullscreen": "Pantalla completa",
         "worldMap": "mapamundi"
     },
     "UserSettings": {
@@ -2069,7 +2064,6 @@
         "PluginDescription": "Reporta los Números Generales del Análisis: visita, visitantes únicos, número de acciones, porcentaje de abandono, etc.",
         "VisitsSummary": "Resumen de visitas",
         "VisitsSummaryDocumentation": "Esta es una visión holística de la evolución de las visitas.",
-        "WidgetLastVisitors": "Gráfica de últimos visitantes únicos",
         "WidgetLastVisits": "Gráfica de las últimas visitas",
         "WidgetOverviewGraph": "Visión general con gráfica",
         "WidgetVisits": "Visión general de visitas"

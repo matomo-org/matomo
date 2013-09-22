@@ -520,7 +520,6 @@
     "ScheduledReports": {
         "CreateReport": "יצירת דוח",
         "EmailHello": "שלום,",
-        "PDF": "PDF",
         "SendReportTo": "שלח דוח אל",
         "SentToMe": "שלח אלי"
     },
@@ -1009,7 +1008,6 @@
         "NbVisitsBounced": "%s ביקורים קפצו (עזבו את האתר אחרי עמוד אחד)",
         "PluginDescription": "מדווח על ניתוח המספרים הכללי: ביקורים, מבקרים יחודיים, מספר פעולות, שיעור קפיצה וכו'",
         "VisitsSummary": "תקציר ביקורים",
-        "WidgetLastVisitors": "גרף מבקרים יחודיים אחרונים",
         "WidgetLastVisits": "גרף ביקורים אחרונים",
         "WidgetOverviewGraph": "מבט כללי עם גרף",
         "WidgetVisits": "מבט כללי על ביקורים"

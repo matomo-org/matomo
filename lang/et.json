@@ -742,7 +742,6 @@
         "GenerateTime": "Lehe genereerimiseks kulus %s sekundit",
         "MaxNbActions": "%s maksmimum tegevuste arv ühel külastusel",
         "NbUniqueVisitors": "%s unikaalset külastajat",
-        "WidgetLastVisitors": "Viimaste unikaalsete külastajate graafik",
         "WidgetLastVisits": "Viimaste külastuste graafik",
         "WidgetOverviewGraph": "Graafikutega ülevaade",
         "WidgetVisits": "Külastuste ülevaade"

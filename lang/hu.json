@@ -728,7 +728,6 @@
         "EmailReports": "Jelentés e-mailben",
         "EmailSchedule": "E-mail küldésének ütemezése",
         "MonthlyScheduleHelp": "Havi ütemezés: a jelentés a hónap első napján kerül elküldésre.",
-        "PDF": "PDF",
         "PiwikReports": "Piwik jelentések",
         "PleaseFindAttachedFile": "A %2$s oldalról szóló %1$s webanalitikai jelentés a csatolt fájlban található.",
         "SendReportNow": "Jelentés elküldése most",
@@ -1079,7 +1078,6 @@
     },
     "UserCountryMap": {
         "map": "térkép",
-        "toggleFullscreen": "teljes képernyőre",
         "worldMap": "világtérkép"
     },
     "UserSettings": {
@@ -1382,7 +1380,6 @@
         "PluginDescription": "Jelentések webanalitikai alapadatokról: látogatások, egyedi látogatások, akciók gyakorisága, visszafordulások aránya, stb.",
         "VisitsSummary": "Látogatások összesítése",
         "VisitsSummaryDocumentation": "Ez egy összefoglaló nézet a látogatások folyamatáról.",
-        "WidgetLastVisitors": "Utolsó egyedi látogatók grafikonja",
         "WidgetLastVisits": "Utolsó látogatások grafikonja",
         "WidgetOverviewGraph": "Áttekintés grafikonnal",
         "WidgetVisits": "Látogatások áttekintése"

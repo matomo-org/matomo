@@ -668,12 +668,10 @@
     },
     "ScheduledReports": {
         "CreateReport": "Izveidot atskaiti",
-        "DefaultContainingAllReports": "Noklusējuma atskaite satur visu pieejamo statistiku.",
         "EmailHello": "Sveiki,",
         "EmailReports": "E-pasta atskaites",
         "FrontPage": "Pirmā lapa",
         "Pagination": "%s. lapa no %s",
-        "PDF": "PDF",
         "PiwikReports": "Piwik atskaites",
         "ReportFormat": "Atskaites formāts",
         "ReportsIncluded": "Iekļautā statistika",
@@ -1021,7 +1019,6 @@
     },
     "UserCountryMap": {
         "map": "karte",
-        "toggleFullscreen": "Pārslēgt pilnekrāna režīmu",
         "worldMap": "Pasaules karte"
     },
     "UserSettings": {

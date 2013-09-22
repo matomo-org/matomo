@@ -647,7 +647,6 @@
         "AlsoSendReportToTheseEmails": "Taip pat siųsti šią ataskaitą šiems adresatams (kiekvienam adresui atskira eilutė)",
         "CreateAndScheduleReport": "Sukurti ir suplanuoti ataskaitą",
         "CreateReport": "Sukurti ataskaitą",
-        "DefaultContainingAllReports": "Numatytoji ataskaita turi visą pasiekiamą statistiką",
         "EmailHello": "Sveiki,",
         "EmailReports": "Ataskaitos el. paštu",
         "EmailSchedule": "Siuntimo tvarkaraštis",
@@ -655,7 +654,6 @@
         "ManageEmailReports": "Administruoti ataskaitas",
         "MonthlyScheduleHelp": "Kas mėnesį: ataskaita bus išsiųsta kiekvieno mėnesio pirmąją dieną.",
         "Pagination": "Puslapis %s iš %s",
-        "PDF": "PDF",
         "PiwikReports": "Piwik ataskaitos",
         "PleaseFindAttachedFile": "Prašome peržiūrėti %1$s ataskaitų failą skirtą %2$s.",
         "PluginDescription": "Sukurkite ir atsisiųskite savo ataskaitas arba nustatytike jų kadieninį, kas savaitinį ar mėnesinį atsisiuntimą.",
@@ -1014,7 +1012,6 @@
     },
     "UserCountryMap": {
         "map": "žemėlapis",
-        "toggleFullscreen": "Perjungti į visą ekraną",
         "worldMap": "pasaulio žamėlapis"
     },
     "UserSettings": {
@@ -1310,7 +1307,6 @@
         "NbVisitsBounced": "%s atsitiktiniai apsilankymai (paliko svetainę po pirmojo puslapio)",
         "PluginDescription": "Parodo pagrindinius analizatoriaus duomenis: apsilankymus, unikalius lankytojus, veiksmų kiekį, šoklumo koeficientą ir t.t.",
         "VisitsSummary": "Apsilankymų suvestinė",
-        "WidgetLastVisitors": "Paskutinių unikalių lankytojų diagrama",
         "WidgetLastVisits": "Paskutinių apsilankymų diagrama",
         "WidgetOverviewGraph": "Peržiūra su diagrama",
         "WidgetVisits": "Apsilankymų peržiūra"
