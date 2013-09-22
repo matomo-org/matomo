@@ -1,5 +1,6 @@
 <?php
 define('PIWIK_MODE_ARCHIVE', true);
+define('PIWIK_ARCHIVE_NO_TRUNCATE', true);
 
 // make sure the test environment is loaded
 require_once realpath(dirname(__FILE__)) . '/../../../core/EventDispatcher.php';
