@@ -41,7 +41,7 @@ abstract class PluginsArchiver
     {
         $className = get_class($this);
         $pluginName = str_replace(array("Piwik\\Plugins\\", "\\Archiver"), "", $className);
-        if(strpos($pluginName, "\\") !== false) {
+        if (strpos($pluginName, "\\") !== false) {
             throw new \Exception("unexpected plugin name $pluginName in shouldArchive()");
         }
         return $this->getProcessor()->shouldProcessReportsForPlugin($pluginName);

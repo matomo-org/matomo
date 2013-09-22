@@ -82,7 +82,7 @@ class DbHelper
      */
     public static function dropDatabase()
     {
-        if(defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             Schema::getInstance()->dropDatabase();
         }
     }

@@ -256,9 +256,9 @@ class AssetManager
 
         // We also look for the currently enabled theme and add CSS from the json
         $theme = PluginsManager::getInstance()->getThemeEnabled();
-        if($theme) {
+        if ($theme) {
             $info = $theme->getInformation();
-            if(isset($info['stylesheet'])) {
+            if (isset($info['stylesheet'])) {
                 $themeStylesheetFile = 'plugins/'. $theme->getPluginName() . '/' . $info['stylesheet'];
             }
             $stylesheets[] = $themeStylesheetFile;

@@ -99,8 +99,8 @@ class API
 
             $intersect = function($array, $array2) {
                 $res = $array;
-                foreach($array as $module => $keys) {
-                    if(!isset($array2[$module])) {
+                foreach ($array as $module => $keys) {
+                    if (!isset($array2[$module])) {
                         unset($res[$module]);
                     } else {
                         $res[$module] = array_intersect_key($res[$module], array_filter($array2[$module], 'strlen'));
@@ -164,7 +164,7 @@ class API
         $translations = json_decode($data, true);
         $languageInfo = array();
         foreach ($translations as $module => $keys) {
-            foreach($keys as $key => $value) {
+            foreach ($keys as $key => $value) {
                 $languageInfo[] = array(
                     'label' => sprintf("%s_%s", $module, $key),
                     'value' => $value
@@ -199,7 +199,7 @@ class API
         $translations = json_decode($data, true);
         $languageInfo = array();
         foreach ($translations as $module => $keys) {
-            foreach($keys as $key => $value) {
+            foreach ($keys as $key => $value) {
                 $languageInfo[] = array(
                     'label' => sprintf("%s_%s", $module, $key),
                     'value' => $value

@@ -55,7 +55,7 @@ if ($minimumPhpInvalid) {
 
     $autoloadPath = '/vendor/autoload.php';
     $autoloader = PIWIK_INCLUDE_PATH . $autoloadPath;
-    if(!file_exists($autoloader)) {
+    if (!file_exists($autoloader)) {
         $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed.
         You can install Composer in a few easy steps. In the piwik directory, run in the command line the following (eg. via ssh):
                     <pre> curl -sS https://getcomposer.org/installer | php".
@@ -90,7 +90,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
                             <li><a target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
                             </ul>';
         }
-        if($optionalLinkBack) {
+        if ($optionalLinkBack) {
             $optionalLinkBack = '<a href="javascript:window.back();">Go Back</a><br/>';
         }
         $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');

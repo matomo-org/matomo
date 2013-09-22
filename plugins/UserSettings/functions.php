@@ -23,7 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 
 function getPluginsLogo($oldLabel)
 {
-    if($oldLabel == Piwik_Translate('General_Others')) {
+    if ($oldLabel == Piwik_Translate('General_Others')) {
         return false;
     }
     return 'plugins/UserSettings/images/plugins/' . $oldLabel . '.gif';

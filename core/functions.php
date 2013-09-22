@@ -67,7 +67,7 @@ namespace {
             $args = array($args);
         }
 
-        if(strpos($string, "_") !== FALSE) {
+        if (strpos($string, "_") !== FALSE) {
             list($plugin, $key) = explode("_", $string, 2);
             if (isset($GLOBALS['Piwik_translations'][$plugin]) && isset($GLOBALS['Piwik_translations'][$plugin][$key])) {
                 $string = $GLOBALS['Piwik_translations'][$plugin][$key];
@@ -262,7 +262,7 @@ namespace {
 
     // Bridge between pre Piwik2 serialized format and namespaced classes
     // Do not need to define these classes in tracker or archive
-    if(empty($GLOBALS['PIWIK_TRACKER_MODE'])
+    if (empty($GLOBALS['PIWIK_TRACKER_MODE'])
         && !defined('PIWIK_MODE_ARCHIVE')) {
         class Piwik_DataTable_Row_DataTableSummary extends \Piwik\DataTable\Row\DataTableSummaryRow {
         }
