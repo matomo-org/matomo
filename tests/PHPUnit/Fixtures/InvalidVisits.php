@@ -59,7 +59,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
         //self::checkResponse($t->doTrackPageView('bot visit, please do not record'));
 
         // Test IP Exclusion works with or without IP exclusion
-        foreach (array(false, true) as $enable) {
+        foreach (array(/*false,*/ true) as $enable) {
             $excludedIp = '154.1.12.34';
             API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4', $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = 'excludeduseragentstring');
 
