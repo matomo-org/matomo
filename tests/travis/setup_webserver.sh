@@ -18,6 +18,8 @@ PHP_FPM_LOG="$HOME/piwik/tmp/php-fpm.log"
 
 USER=$(whoami)
 
+touch "$PHP_FPM_LOG"
+
 # Adjust php-fpm.ini
 sed -i "s/@USER@/$USER/g" "$DIR/php-fpm.ini"
 sed -i "s|@PHP_FPM_SOCK@|$PHP_FPM_SOCK|g" "$DIR/php-fpm.ini"
