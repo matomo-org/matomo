@@ -28,6 +28,8 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     public function getApiForTesting()
     {
         // this will output empty XML result sets as no visit was tracked
+        return array('VisitsSummary.get', array('idSite' => self::$fixture->idSite,
+                                                'date'   => self::$fixture->dateTime));
         return array(
             array('all', array('idSite' => self::$fixture->idSite,
                                'date'   => self::$fixture->dateTime)),
