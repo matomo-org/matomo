@@ -192,8 +192,9 @@ class Filesystem
      *
      * @param string $dir            Directory name
      * @param boolean $deleteRootToo  Delete specified top-level directory as well
+     * @param Closure|false $beforeUnlink A closure to execute before unlinking.
      */
-    public static function unlinkRecursive($dir, $deleteRootToo)
+    public static function unlinkRecursive($dir, $deleteRootToo, $beforeUnlink = false)
     {
         if (!$dh = @opendir($dir)) {
             return;
@@ -203,8 +204,13 @@ class Filesystem
                 continue;
             }
 
-            if (!@unlink($dir . '/' . $obj)) {
-                self::unlinkRecursive($dir . '/' . $obj, true);
+            $path = $dir . '/' . $obj;
+            if ($beforeUnlink) {
+                $beforeUnlink($path);
+            }
+
+            if (!@unlink($path)) {
+                self::unlinkRecursive($path, true);
             }
         }
         closedir($dh);

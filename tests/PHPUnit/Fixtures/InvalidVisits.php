@@ -85,10 +85,10 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
             self::checkResponse($t->doTrackPageView('visit from IP excluded'));
 
             // test with global list of excluded IPs
-            /*$excludedIpBis = '145.5.3.4';
+            $excludedIpBis = '145.5.3.4';
             API::getInstance()->setGlobalExcludedIps($excludedIpBis);
             $t->setIp($excludedIpBis);
-            self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));*/
+            self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
         }
 
         try {

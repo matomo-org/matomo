@@ -186,7 +186,11 @@ class CacheFile
      */
     public function deleteAll()
     {
-        Filesystem::unlinkRecursive($this->cachePath, $deleteRootToo = false);
+        $beforeUnlink = function ($path) use ($self) {
+            $self->opCacheInvalidate($path);
+        };
+
+        Filesystem::unlinkRecursive($this->cachePath, $deleteRootToo = false, $beforeUnlink);
     }
 
     private function opCacheInvalidate($filepath)
