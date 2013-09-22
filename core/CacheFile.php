@@ -24,6 +24,10 @@ use Exception;
  */
 class CacheFile
 {
+    // for testing purposes since tests run on both CLI/FPM (changes in CLI can't invalidate
+    // opcache in FPM, so we have to invalidate before reading)
+    public static $invalidateOpCacheBeforeRead = false;
+
     /**
      * @var string
      */
@@ -70,7 +74,10 @@ class CacheFile
 
         // We are assuming that most of the time cache will exists
         $cacheFilePath = $this->cachePath . $id . '.php';
-        $this->opCacheInvalidate($cacheFilePath);
+        if (self::$invalidateOpCacheBeforeRead) {
+            $this->opCacheInvalidate($cacheFilePath);
+        }
+
         $ok = @include($cacheFilePath);
 
         if ($ok && $cache_complete == true) {

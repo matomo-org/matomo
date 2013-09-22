@@ -207,6 +207,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         FakeAccess::$superUserLogin = 'superUserLogin';
         
         \Piwik\SettingsPiwik::$cachedKnownSegmentsToArchive = null;
+        \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
     }
 
     public static function tearDownAfterClass()
