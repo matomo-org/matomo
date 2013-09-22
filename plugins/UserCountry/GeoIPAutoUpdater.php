@@ -105,6 +105,8 @@ class GeoIPAutoUpdater
 
         $zippedOutputPath = GeoIp::getPathForGeoIpDatabase($zippedFilename);
 
+        $url = self::removeDateFromUrl($url);
+
         // download zipped file to misc dir
         try {
             $success = Http::sendHttpRequest($url, $timeout = 3600, $userAgent = null, $zippedOutputPath);
@@ -285,12 +287,18 @@ class GeoIPAutoUpdater
      */
     public static function setUpdaterOptionsFromUrl()
     {
-        self::setUpdaterOptions(array(
-                                     'loc'    => Common::getRequestVar('loc_db', false, 'string'),
-                                     'isp'    => Common::getRequestVar('isp_db', false, 'string'),
-                                     'org'    => Common::getRequestVar('org_db', false, 'string'),
-                                     'period' => Common::getRequestVar('period', false, 'string'),
-                                ));
+        $options = array(
+            'loc'    => Common::getRequestVar('loc_db', false, 'string'),
+            'isp'    => Common::getRequestVar('isp_db', false, 'string'),
+            'org'    => Common::getRequestVar('org_db', false, 'string'),
+            'period' => Common::getRequestVar('period', false, 'string'),
+        );
+
+        foreach (self::$urlOptions as $optionKey => $optionName) {
+            $options[$optionKey] = Common::unsanitizeInputValue($options[$optionKey]); // URLs should not be sanitized
+        }
+
+        self::setUpdaterOptions($options);
     }
 
     /**
@@ -313,7 +321,10 @@ class GeoIPAutoUpdater
                 continue;
             }
 
-            Piwik_SetOption($optionName, $url = $options[$optionKey]);
+            $url = $options[$optionKey];
+            $url = self::removeDateFromUrl($url);
+
+            Piwik_SetOption($optionName, $url);
         }
 
         // set period option
@@ -589,5 +600,17 @@ class GeoIPAutoUpdater
     {
         $timestamp = Piwik_GetOption(self::LAST_RUN_TIME_OPTION_NAME);
         return $timestamp === false ? false : Date::factory((int)$timestamp);
+    }
+
+    /**
+     * Removes the &date=... query parameter if present in the URL. This query parameter
+     * is in MaxMind URLs by default and will force the download of an old database.
+     * 
+     * @param string $url
+     * @return string
+     */
+    private static function removeDateFromUrl($url)
+    {
+        return preg_replace("/&date=[^&#]*/", '', $url);
     }
 }
