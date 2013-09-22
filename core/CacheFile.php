@@ -174,8 +174,8 @@ class CacheFile
 
         $filename = $this->cachePath . $id . '.php';
         if (file_exists($filename)) {
-            @unlink($filename);
             $this->opCacheInvalidate($filename);
+            @unlink($filename);
             return true;
         }
         return false;
