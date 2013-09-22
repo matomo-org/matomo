@@ -18,6 +18,8 @@ class Piwik_TestingEnvironment
             $login = 'superUserLogin';
         });
         Piwik_AddAction('Config.createConfigSingleton', function($config) {
+            \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
+
             $config->setTestEnvironment();
 
             $pluginsToLoad = array(

@@ -3,14 +3,14 @@ language: php
 # We want to test against PHP 5.3/5.4/5.5
 php:
   - 5.5
-  #- 5.4
-  #- 5.3
+  - 5.4
+  - 5.3
 
 # Separate different test suites
 env:
   matrix:
-    #- TEST_SUITE=PluginTests
-    #- TEST_SUITE=CoreTests
+    - TEST_SUITE=PluginTests
+    - TEST_SUITE=CoreTests
     - TEST_SUITE=IntegrationTests
   global:
     - secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
