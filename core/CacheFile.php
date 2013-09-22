@@ -143,6 +143,9 @@ class CacheFile
                     @unlink($tmp_filename);
                 }
             }
+
+            $this->opCacheInvalidate($id);
+
             return true;
         }
         return false;
@@ -164,6 +167,7 @@ class CacheFile
         $filename = $this->cachePath . $id . '.php';
         if (file_exists($filename)) {
             @unlink($filename);
+            $this->opCacheInvalidate($filename);
             return true;
         }
         return false;
@@ -175,5 +179,12 @@ class CacheFile
     public function deleteAll()
     {
         Filesystem::unlinkRecursive($this->cachePath, $deleteRootToo = false);
+    }
+
+    private function opCacheInvalidate($filepath)
+    {
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($filepath);
+        }
     }
 }
