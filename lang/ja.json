@@ -1034,7 +1034,6 @@
         "CancelAndReturnToReports": "キャンセルして%sリポート一覧へ戻る%s",
         "CreateAndScheduleReport": "リポートの作成とスケジュール",
         "CreateReport": "リポートの作成",
-        "DefaultContainingAllReports": "デフォルトのレポートには、使用可能なすべての統計が含まれています。",
         "DescriptionOnFirstPage": "リポートの説明はリポートの最初のページに表示されます。",
         "DisplayFormat_TablesOnly": "表のみを表示(グラフは表示しない)",
         "EmailHello": "こんにちは！",
@@ -1044,7 +1043,6 @@
         "ManageEmailReports": "メールリポートの管理",
         "MonthlyScheduleHelp": "月間スケジュール： リポートは毎月1日に送信されます。",
         "MustBeLoggedIn": "カスタムリポートの作成とスケジュールにはログインする必要があります。",
-        "PDF": "PDF",
         "PiwikReports": "Piwik リポート",
         "PleaseFindAttachedFile": "%2$s の %1$s のリポートを添付しています。",
         "PleaseFindBelow": "%2$s の %1$s のリポートをお届けします。",
@@ -1410,7 +1408,6 @@
     },
     "UserCountryMap": {
         "map": "地図",
-        "toggleFullscreen": "フルスクリーンに切り替える",
         "worldMap": "世界地図"
     },
     "UserSettings": {
@@ -1743,7 +1740,6 @@
         "PluginDescription": "全体的な解析数（ビジット、ユニークビジター数、アクション数、バウンス率等）をリポートします。",
         "VisitsSummary": "ビジットの概要",
         "VisitsSummaryDocumentation": "ビジット推移の概観です",
-        "WidgetLastVisitors": "最終ユニークビジターのグラフ",
         "WidgetLastVisits": "最終ビジットのグラフ",
         "WidgetOverviewGraph": "グラフ付き概観",
         "WidgetVisits": "ビジットの概観"

@@ -1086,7 +1086,6 @@
         "CancelAndReturnToReports": "Peruuta ja %spalaa raporttilistaan%s",
         "CreateAndScheduleReport": "Luo ja ajasta raportti",
         "CreateReport": "Luo raportti",
-        "DefaultContainingAllReports": "Oletusraportti sisältää kaikki saatavilla olevat tilastot.",
         "DescriptionOnFirstPage": "Tämä kuvaus näytetään raportin ensimmäisellä sivulla.",
         "DisplayFormat_TablesOnly": "Näytä vain taulukot (ei kuvaajia)",
         "EmailHello": "Hei,",
@@ -1099,7 +1098,6 @@
         "MustBeLoggedIn": "Sinun täytyy olla kirjautuneena sisään ennen kustomoitujen raporttien luomista ja ajastamista.",
         "NoRecipients": "Tällä raportilla ei ole vastaanottajia",
         "Pagination": "Sivu %s\/%s",
-        "PDF": "PDF",
         "PiwikReports": "Piwikin raportit",
         "PleaseFindAttachedFile": "Liitteenä on raporttisi %1$s sivulle %2$s.",
         "PleaseFindBelow": "Alla on raporttisi %1$s sivulle %2$s.",
@@ -1187,7 +1185,6 @@
         "FromPreviousPagesInline": "%s sisäisiltä sivuilta",
         "FromSearchEngines": "Hakukoneista",
         "FromWebsites": "Verkkosivuilta",
-        "Including": "sisältäen",
         "IncomingTraffic": "Sisääntuleva liikenne",
         "LoopsInline": "%s sivujen uudelleenlatauksia",
         "NoDataForAction": "%s:lle ei ole tietoja",
@@ -1197,7 +1194,6 @@
         "ShareOfAllPageviews": "Tällä sivulla on %s sivunavausta (%s kaikista)",
         "ToFollowingPages": "Sisäisille sivuille",
         "ToFollowingPagesInline": "%s sisäisille sivuille",
-        "ToInternalPages": "sisäisille sivuille",
         "XOfAllPageviews": "%s kaikista tämän sivun katseluista",
         "XOutOfYVisits": "%s (%s:stä)"
     },
@@ -1507,7 +1503,6 @@
     },
     "UserCountryMap": {
         "map": "kartta",
-        "toggleFullscreen": "Vaihda koko näytön kokoiseen",
         "worldMap": "maailmankartta"
     },
     "UserSettings": {
@@ -1844,7 +1839,6 @@
         "PluginDescription": "Yleiset analyysit: käynnit, uniikit kävijät, toimintojen määrä, lähtevien määrä jne.",
         "VisitsSummary": "Yhteenveto käynneistä",
         "VisitsSummaryDocumentation": "Tämä on käyntien muutoksen yleiskatsaus",
-        "WidgetLastVisitors": "Edelliset uniikit kävijät",
         "WidgetLastVisits": "Edelliset käynnit",
         "WidgetOverviewGraph": "Yleiskatsaus graafilla",
         "WidgetVisits": "Käyntien yleiskatsaus"

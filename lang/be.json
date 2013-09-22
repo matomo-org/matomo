@@ -817,7 +817,6 @@
         "CancelAndReturnToReports": "Адмяніць і %sвярнуцца да спісу справаздач %s",
         "CreateAndScheduleReport": "Стварыць справаздачу і зрабіць расклад",
         "CreateReport": "Стварыць справаздачу",
-        "DefaultContainingAllReports": "Па змаўчанні справаздача ўключае ўсе даступныя статыстычныя дадзеныя.",
         "DescriptionOnFirstPage": "Апісанне справаздачы будзе адлюстроўвацца на першай старонцы справаздачы.",
         "EmailHello": "Прывітанне,",
         "EmailReports": "Справаздачы па Email",
@@ -1191,7 +1190,6 @@
     },
     "UserCountryMap": {
         "map": "карта",
-        "toggleFullscreen": "Уключыць поўнаэкранны рэжым",
         "worldMap": "карта свету"
     },
     "UserSettings": {
@@ -1433,7 +1431,6 @@
         "PluginDescription": "Справаздачы у агульных аналітычных лічбах: наведванні, унікальныя наведвальнікі, колькасць дзеянняў, узровень адмоў і г.д.",
         "VisitsSummary": "Наведванні сумарна",
         "VisitsSummaryDocumentation": "Гэта агляд зменаў наведванняў.",
-        "WidgetLastVisitors": "Графік апошніх унікальных наведванняў",
         "WidgetLastVisits": "Графік апошніх наведванняў",
         "WidgetOverviewGraph": "Агляд па ўсіх графіках",
         "WidgetVisits": "Агляд наведванняў"

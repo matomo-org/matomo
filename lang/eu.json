@@ -952,7 +952,6 @@
         "NbUniqueVisitors": "%s bisitari desberdin",
         "NbVisitsBounced": "%s bisita errebotatu dira (webgunea utzi dute orri bat ikusi ondoren)",
         "VisitsSummary": "Bisiten laburpena",
-        "WidgetLastVisitors": "Azken bisitari desberdinen grafikoa",
         "WidgetLastVisits": "Azken bisiten grafikoa",
         "WidgetOverviewGraph": "Ikuspegi orokorra grafikoarekin",
         "WidgetVisits": "Bisiten ikuspegi orokorra"

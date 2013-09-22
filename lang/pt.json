@@ -839,7 +839,6 @@
         "CancelAndReturnToReports": "Cancelar e %sretornar para a lista de relatórios %s",
         "CreateAndScheduleReport": "Criar e agendar um relatório",
         "CreateReport": "Criar um relatório",
-        "DefaultContainingAllReports": "O Relatório padrão contém todas as estatísticas disponíveis.",
         "DescriptionOnFirstPage": "A descrição do relatório será exibido na primeira página do relatório.",
         "EmailHello": "Olá,",
         "EmailReports": "Relatórios Email",
@@ -849,7 +848,6 @@
         "MonthlyScheduleHelp": "Agenda mensal: o relatório será enviado no primeiro dia de cada mês.",
         "MustBeLoggedIn": "Deve estar autenticado para criar e agendar relatórios personalizados.",
         "Pagination": "Página %s de %s",
-        "PDF": "PDF",
         "PiwikReports": "Relatórios Piwik",
         "PleaseFindAttachedFile": "Por favor encontre anexado o seu %1$s relatório para %2$s.",
         "PleaseFindBelow": "Veja abaixo o relatório %1$s para %2$s.",
@@ -1214,7 +1212,6 @@
     },
     "UserCountryMap": {
         "map": "mapa",
-        "toggleFullscreen": "Alternar ecrã inteiro",
         "worldMap": "mapa mundial"
     },
     "UserSettings": {
@@ -1544,7 +1541,6 @@
         "PluginDescription": "Relata os números gerais das Analíticas: visitas, visitantes únicos, número de acções, Taxa de Ressalto, etc.",
         "VisitsSummary": "Resumo das Visitas",
         "VisitsSummaryDocumentation": "Isto é uma visualização global da evolução das visitas.",
-        "WidgetLastVisitors": "Gráfico dos últimos visitantes únicos",
         "WidgetLastVisits": "Gráfico das últimas visitas",
         "WidgetOverviewGraph": "Visão geral com gráfico",
         "WidgetVisits": "Visão geral das visitas"

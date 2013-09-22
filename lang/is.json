@@ -392,7 +392,6 @@
         "EmailReports": "Senda skýrslur með tölvupósti",
         "EmailSchedule": "Tímaáætlun fyrir tölvupóst",
         "MonthlyScheduleHelp": "Mánaðarleg tímaáætlun: skýrsla er send fyrsta dag hvers mánaðar.",
-        "PDF": "PDF",
         "PiwikReports": "Piwik skýrslur",
         "PleaseFindAttachedFile": "Gjörðu svo vel að skoða skýrslu um %2$s í skránni %1$s sem er hjálögð.",
         "SendReportNow": "Senda skýrslu strax",
@@ -965,7 +964,6 @@
         "NbVisitsBounced": "%s heimsóknir hafa skoppað (yfirgefið vefinn eftir eina síðu)",
         "PluginDescription": "Gefur skýrslu um almennar greiningartölur: heimsóknir, einstakir gestir, fjöldi aðgerða, skopptíðni, o.s.frv.",
         "VisitsSummary": "Samantekt heimsókna",
-        "WidgetLastVisitors": "Línurit yfir síðustu einstaka gesti",
         "WidgetLastVisits": "Línurit yfir síðustu heimsóknir",
         "WidgetOverviewGraph": "Yfirlit með línuriti",
         "WidgetVisits": "Heimsóknayfirlit"

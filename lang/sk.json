@@ -590,7 +590,6 @@
         "EmailReports": "Reporty e-mailom",
         "EmailSchedule": "E-mail report",
         "MonthlyScheduleHelp": "Mesačný plán: správa bude odoslaná prvý deň každého mesiaca.",
-        "PDF": "PDF",
         "PiwikReports": "Reporty",
         "PleaseFindAttachedFile": "Nájdete v priloženom súbore %1$s reporte pre %2$s.",
         "SendReportNow": "Teraz poslať report",
@@ -906,7 +905,6 @@
     },
     "UserCountryMap": {
         "map": "mapa",
-        "toggleFullscreen": "Prepínač na celú obrazovku",
         "worldMap": "svetová mapa"
     },
     "UserSettings": {
@@ -1192,7 +1190,6 @@
         "NbVisitsBounced": "%s návštev odskočilo (odišli po zobrazení jednej stránky)",
         "PluginDescription": "Všeobecný analytický report: návštevy, jedinečné návštevy, počet akcií, Bounce Rate, atď",
         "VisitsSummary": "Všetky návštevy",
-        "WidgetLastVisitors": "Graf posledných jedinečných návštevníkov",
         "WidgetLastVisits": "Graf posledných návštev",
         "WidgetOverviewGraph": "Prehľad s grafom",
         "WidgetVisits": "Prehľad návštevníkov"
