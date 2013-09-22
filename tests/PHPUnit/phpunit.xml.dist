@@ -37,8 +37,7 @@
       <directory>./Core</directory>
   </testsuite>
   <testsuite name="IntegrationTests">
-      <!-- <directory>./Integration</directory> -->
-      <file>./Integration/NoVisitTest.php</file>
+      <directory>./Integration</directory>
   </testsuite>
   <!-- NOTE: UI Tests are not included here since they significantly add to the test run time. -->
 </testsuites>
