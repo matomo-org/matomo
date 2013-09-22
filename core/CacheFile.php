@@ -184,7 +184,9 @@ class CacheFile
 
     private function opCacheInvalidate($filepath)
     {
-        if (function_exists('opcache_invalidate')) {
+        if (function_exists('opcache_invalidate')
+            && is_file($filepath)
+        ) {
             opcache_invalidate($filepath, $force = true);
         }
     }
