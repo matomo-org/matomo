@@ -95,8 +95,8 @@ class ColumnDelete extends Filter
         // remove columns specified in $this->columnsToRemove
         if (!empty($this->columnsToRemove)) {
             foreach ($table->getRows() as $row) {
-                if ($this->deleteIfZeroOnly) {
-                    foreach ($this->columnsToRemove as $column) {
+                foreach ($this->columnsToRemove as $column) {
+                    if ($this->deleteIfZeroOnly) {
                         $value = $row->getColumn($column);
                         if ($value === false || !empty($value)) {
                             continue;
