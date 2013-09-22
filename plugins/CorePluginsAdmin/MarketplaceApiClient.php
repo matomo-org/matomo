@@ -83,10 +83,11 @@ class MarketplaceApiClient
     }
 
     /**
-     * @param \Piwik\Plugin[] $plugins
+     * @param  \Piwik\Plugin[] $plugins
+     * @param  bool            $themesOnly
      * @return array
      */
-    public function getInfoOfPluginsHavingUpdate($plugins)
+    public function getInfoOfPluginsHavingUpdate($plugins, $themesOnly)
     {
         $hasUpdates = $this->checkUpdates($plugins);
 
@@ -95,27 +96,7 @@ class MarketplaceApiClient
         foreach ($hasUpdates as $pluginHavingUpdate) {
             $plugin = $this->getPluginInfo($pluginHavingUpdate->name);
 
-            if (empty($plugin->isTheme)) {
-                $pluginDetails[] = $plugin;
-            }
-        }
-
-        return $pluginDetails;
-    }
-
-    /**
-     * @param \Piwik\Plugin[] $plugins
-     * @return array
-     */
-    public function getInfoOfThemesHavingUpdate($plugins)
-    {
-        $hasUpdates = $this->checkUpdates($plugins);
-
-        $pluginDetails = array();
-        foreach ($hasUpdates as $pluginHavingUpdate) {
-            $plugin = $this->getPluginInfo($pluginHavingUpdate->name);
-
-            if (!empty($plugin->isTheme)) {
+            if (!empty($plugin->isTheme) == $themesOnly) {
                 $pluginDetails[] = $plugin;
             }
         }

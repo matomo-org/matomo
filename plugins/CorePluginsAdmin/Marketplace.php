@@ -83,11 +83,7 @@ class Marketplace
         $loadedPlugins = $pluginManager->getLoadedPlugins();
 
         try {
-            if ($themesOnly) {
-                $pluginsHavingUpdate = $this->client->getInfoOfThemesHavingUpdate($loadedPlugins);
-            } else {
-                $pluginsHavingUpdate = $this->client->getInfoOfPluginsHavingUpdate($loadedPlugins);
-            }
+            $pluginsHavingUpdate = $this->client->getInfoOfPluginsHavingUpdate($loadedPlugins, $themesOnly);
 
         } catch (\Exception $e) {
             $pluginsHavingUpdate = array();

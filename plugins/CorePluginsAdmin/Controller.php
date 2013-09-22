@@ -48,7 +48,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->plugin = array('name' => $pluginName);
 
         if (!Nonce::verifyNonce('CorePluginsAdmin.' . $nonceName, $nonce)) {
-            $view->errorMessage = Piwik_Translate('ExceptionNonceMismatch');
+            $view->errorMessage = Piwik_Translate('General_ExceptionNonceMismatch');
             return $view;
         }
 
@@ -272,7 +272,7 @@ class Controller extends \Piwik\Controller\Admin
         }
 
         if (!Nonce::verifyNonce('CorePluginsAdmin.activatePlugin', $nonce)) {
-            throw new \Exception(Piwik_Translate('ExceptionNonceMismatch'));
+            throw new \Exception(Piwik_Translate('General_ExceptionNonceMismatch'));
         }
 
         Nonce::discardNonce('CorePluginsAdmin.activatePlugin');
