@@ -182,8 +182,6 @@ class Translate
      */
     private function getClientSideTranslationKeys()
     {
-        $moduleRegex = '#^.*_js$#i';
-
         $result = array();
 
         Piwik_PostEvent(self::GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT, array(&$result));
