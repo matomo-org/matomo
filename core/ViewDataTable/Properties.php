@@ -529,7 +529,7 @@ class Properties
     /**
      * The list of ViewDataTable properties that are 'Client Side Parameters'.
      * 
-     * @see Piwik\DataTableVisualization::getClientSideParameters
+     * @see Piwik\ViewDataTable\Visualization::getClientSideParameters
      */
     public static $clientSideParameters = array(
         'filter_excludelowpop',
@@ -541,7 +541,7 @@ class Properties
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
      * 
-     * @see Piwik\DataTableVisualization::getClientSideProperties
+     * @see Piwik\ViewDataTable\Visualization::getClientSideProperties
      */
     public static $clientSideProperties = array(
         'show_limit_control'
@@ -550,7 +550,7 @@ class Properties
     /**
      * The list of ViewDataTable properties that can be overriden by query parameters.
      * 
-     * @see Piwik\DataTableVisualization::getOverridableProperties
+     * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
      */
     public static $overridableProperties = array(
         'show_goals',
@@ -627,7 +627,7 @@ class Properties
             $properties = self::getFlippedClassConstantMap($visualizationClass);
 
             $parentClass = get_parent_class($visualizationClass);
-            if ($parentClass != 'Piwik\\DataTableVisualization') {
+            if ($parentClass != 'Piwik\\ViewDataTable\\Visualization') {
                 $properties += self::getVisualizationProperties($parentClass);
             }
 

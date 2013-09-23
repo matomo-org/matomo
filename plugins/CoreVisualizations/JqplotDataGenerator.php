@@ -15,7 +15,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\DataTable;
-use Piwik\Visualization;
+use Piwik\ViewDataTable\Visualization;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';
@@ -64,7 +64,7 @@ class JqplotDataGenerator
      * @param array  $properties
      * @param string $graphType
      *
-     * @internal param \Piwik\Visualization\ $visualization
+     * @internal param \Piwik\ViewDataTable\Visualization\ $visualization
      */
     public function __construct($properties, $graphType)
     {

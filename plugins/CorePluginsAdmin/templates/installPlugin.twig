@@ -18,11 +18,12 @@
 
                     <p>Unzipping theme</p>
 
-                    <p>Installing theme</p>
-
                     <p>You have successfully installed the theme {{ plugin.name }} {{ plugin.latestVersion }}.</p>
 
                     <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Theme</a></strong>
+
+                        |
+                        <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
 
                 {% else %}
 
@@ -30,17 +31,15 @@
 
                     <p>Unzipping plugin</p>
 
-                    <p>Installing plugin</p>
-
                     <p>You have successfully installed the Plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
 
                     <p><strong><a href="{{ linkTo({'action': 'activate', 'pluginName': plugin.name, 'nonce': nonce}) }}">Activate Plugin</a></strong>
 
+                        |
+                        <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
+
                 {% endif %}
             </div>
-
-            |
-            <a href="{{ linkTo({'action': 'extend'}) }}">Back to Extend Piwik</a></p>
 
         {% endif %}
     </div>

@@ -425,7 +425,7 @@ abstract class Controller
 
             $view->topMenu = Piwik_GetTopMenu();
         } catch (Exception $e) {
-            Piwik_ExitWithMessage($e->getMessage(), '' /* $e->getTraceAsString() */);
+            Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
         }
     }
 

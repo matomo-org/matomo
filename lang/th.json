@@ -915,7 +915,6 @@
         "MonthlyScheduleHelp": "ตารางเวลารายเดือน: รายงานจะถูกส่งไปวันแรกของแต่ละเดือน",
         "OClock": "นาฬิกา",
         "Pagination": "หน้า %s จาก %s",
-        "PDF": "PDF",
         "PiwikReports": "รายงาน Piwik",
         "PleaseFindAttachedFile": "กรุณาหาในไฟล์แนบของคุณ %1$s รายงานสำหรับ %2$s",
         "ReportFormat": "รูปแบบรายงาน",
@@ -986,7 +985,6 @@
     "Transitions": {
         "FromCampaigns": "จากแคมเปญ",
         "FromWebsites": "จากเว็บไซต์",
-        "Including": "รวมทั้ง",
         "NoDataForAction": "ยังไม่มีข้อมูลสำหรับ %s"
     },
     "UserCountry": {
@@ -1282,7 +1280,6 @@
     },
     "UserCountryMap": {
         "map": "แผนที่",
-        "toggleFullscreen": "สลับเต็มจอ",
         "worldMap": "แผนที่โลก"
     },
     "UserSettings": {
@@ -1593,7 +1590,6 @@
         "PluginDescription": "รายงานตัวเลขการวิเคราะห์ทั่วไป: เข้าชม ผู้เข้าชมที่ไม่ซ้ำกัน หมายเลขของการดำเนินการ อัตราการตอบกลับ ฯลฯ",
         "VisitsSummary": "สรุปการเข้าชม",
         "VisitsSummaryDocumentation": "ภาพรวมของผู้เข้าชม",
-        "WidgetLastVisitors": "ผู้เข้าชมที่ไม่ซ้ำกราฟล่าสุด",
         "WidgetLastVisits": "กราฟของผู้เข้าชมล่าสุด",
         "WidgetOverviewGraph": "ภาพรวมและกราฟ",
         "WidgetVisits": "ภาพรวมผู้เข้าชม"

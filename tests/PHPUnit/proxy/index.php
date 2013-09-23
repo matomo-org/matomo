@@ -13,6 +13,7 @@ ob_start();
 
 define('PIWIK_INCLUDE_PATH', '../../..');
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
+define('PIWIK_PRINT_ERROR_BACKTRACE', true);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';

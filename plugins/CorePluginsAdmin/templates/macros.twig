@@ -41,7 +41,7 @@
 
 {% endmacro %}
 
-{% macro tablePlugins(pluginsInfo, token_auth, activateNonce, isTheme) %}
+{% macro tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, isTheme) %}
 
 <div class='entityContainer'>
     <table class="dataTable entityTable">
@@ -84,15 +84,15 @@
                             {{ 'CorePluginsAdmin_Active'|translate }}
                         {% else %}
                             {{ 'CorePluginsAdmin_Inactive'|translate }} <br/>
-                            - {% if plugin.uninstallable %}<a href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&token_auth={{
-                        token_auth }}'>uninstall</a>{% endif %}
+                            - {% if plugin.uninstallable %}<a href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{
+                        uninstallNonce }}'>uninstall</a>{% endif %}
                         {% endif %}
                     </td>
 
                     <td class="togl action-links">
                         {% if plugin.invalid is not defined %}
                             {% if plugin.activated %}
-                                <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&token_auth={{ token_auth }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
+                                <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&nonce={{ deactivateNonce }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
                             {% else %}
                                 <a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={{ name }}&nonce={{  activateNonce }}'>{{ 'CorePluginsAdmin_Activate'|translate }}</a>
                             {% endif %}

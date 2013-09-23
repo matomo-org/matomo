@@ -8,11 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\Visualization;
+namespace Piwik\ViewDataTable;
 
 use Piwik\Common;
 use Piwik\DataTable\Row;
-use Piwik\DataTableVisualization;
+use Piwik\ViewDataTable\Visualization;
 
 /**
  * This is an abstract visualization that should be the base of any 'graph' visualization.
@@ -20,7 +20,7 @@ use Piwik\DataTableVisualization;
  * Derived visualizations can decide for themselves whether they should support individual
  * properties.
  */
-abstract class Graph extends DataTableVisualization
+abstract class Graph extends Visualization
 {
     const ID = 'graph';
 

@@ -35,6 +35,7 @@ class PluginInstaller
         $tmpPluginFolder = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName;
 
         $this->makeSureFoldersAreWritable();
+        $this->makeSurePluginNameIsValid();
         $this->downloadPluginFromMarketplace($tmpPluginZip);
         $this->extractPluginFiles($tmpPluginZip, $tmpPluginFolder);
         $this->makeSurePluginJsonExists($tmpPluginFolder);
@@ -53,21 +54,21 @@ class PluginInstaller
     {
         $this->removeFileIfExists($pluginZipTargetFile);
 
-        try {
-            $marketplace   = new MarketplaceApiClient();
-            $pluginDetails = $marketplace->getPluginInfo($this->pluginName);
-        } catch (\Exception $e) {
-            throw new PluginInstallerException($e->getMessage());
-        }
-
-        if (empty($pluginDetails)) {
-            throw new PluginInstallerException('A plugin with this name does not exist');
-        }
+        $marketplace = new MarketplaceApiClient();
 
         try {
             $marketplace->download($this->pluginName, $pluginZipTargetFile);
         } catch (\Exception $e) {
-            throw new PluginInstallerException('Failed to download plugin: ' . $e->getMessage());
+
+            try {
+                $downloadUrl  = $marketplace->getDownloadUrl($this->pluginName);
+                $errorMessage = sprintf('Failed to download plugin from %s: %s', $downloadUrl, $e->getMessage());
+
+            } catch (\Exception $ex) {
+                $errorMessage = sprintf('Failed to download plugin: %s', $e->getMessage());
+            }
+
+            throw new PluginInstallerException($errorMessage);
         }
     }
 
@@ -94,7 +95,7 @@ class PluginInstaller
     private function makeSurePluginJsonExists($tmpPluginFolder)
     {
         if (!file_exists($tmpPluginFolder . DIRECTORY_SEPARATOR . $this->pluginName . DIRECTORY_SEPARATOR . 'plugin.json')) {
-            throw new PluginInstallerException('Plugin is not valid, missing plugin.json');
+            throw new PluginInstallerException('Plugin is not valid, it is missing the plugin.json file.');
         }
     }
 
@@ -112,9 +113,7 @@ class PluginInstaller
      */
     private function removeFolderIfExists($pathExtracted)
     {
-        if (file_exists($pathExtracted)) {
-            Filesystem::unlinkRecursive($pathExtracted, true);
-        }
+        Filesystem::unlinkRecursive($pathExtracted, true);
     }
 
     /**
@@ -124,6 +123,23 @@ class PluginInstaller
     {
         if (file_exists($targetTmpFile)) {
             unlink($targetTmpFile);
+        }
+    }
+
+    /**
+     * @throws PluginInstallerException
+     */
+    private function makeSurePluginNameIsValid()
+    {
+        try {
+            $marketplace   = new MarketplaceApiClient();
+            $pluginDetails = $marketplace->getPluginInfo($this->pluginName);
+        } catch (\Exception $e) {
+            throw new PluginInstallerException($e->getMessage());
+        }
+
+        if (empty($pluginDetails)) {
+            throw new PluginInstallerException('This plugin was not found in the Marketplace.');
         }
     }
 

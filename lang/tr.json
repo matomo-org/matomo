@@ -1050,9 +1050,7 @@
         "SubmenuLocations": "Konumlar"
     },
     "UserCountryMap": {
-        "LoginToViewRealTime": "Giriş yaparak gerçek zamanlı ziyaretçi haritasını görebilirsiniz!",
         "map": "harita",
-        "toggleFullscreen": "Geniş tüm ekran",
         "VisitorMap": "Ziyaretçi Haritası",
         "worldMap": "Dünya Haritası"
     },
@@ -1315,7 +1313,6 @@
         "PluginDescription": "Genel analiz sonuçlarını rapor eder: ziyaretler,tekil ziyaretçiler,etkinlik sayıları,sıçrama oranı vb.",
         "VisitsSummary": "Özeri gör",
         "VisitsSummaryDocumentation": "Ziyaretler için genel bakış niteliğindedir.",
-        "WidgetLastVisitors": "Son tekil ziyaretçi grafiği",
         "WidgetLastVisits": "Son ziyaret grafiği",
         "WidgetOverviewGraph": "Grafiklere genel bakış",
         "WidgetVisits": "Ziyaret özeti"

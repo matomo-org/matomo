@@ -6,11 +6,13 @@
 <div style="max-width:980px;">
 
     {% if activatedPluginName %}
-        <div id="feedback-success">You have successfully activated plugin {{ activatedPluginName }}</div>
+        <div id="feedback-success"><strong>Well done!</strong> You have successfully activated theme {{ activatedPluginName }}</div>
     {% endif %}
 
     {% if pluginsHavingUpdate|length %}
         <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
+
+        <p>{{ 'Update your themes to enjoy the latest version.'|translate }}</p>
 
         {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, true) }}
     {% endif %}
@@ -19,7 +21,7 @@
 
     <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}</p>
 
-    {{ plugins.tablePlugins(pluginsInfo, token_auth, activateNonce, true) }}
+    {{ plugins.tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, true) }}
 
 </div>
 {% endblock %}

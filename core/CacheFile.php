@@ -128,6 +128,10 @@ class CacheFile
 
         $id = $this->cachePath . $id . '.php';
 
+        if (is_object($content)) {
+            throw new \Exception('You cannot use the CacheFile to cache an object, only arrays, strings and numbers.');
+        }
+
         $cache_literal = "<" . "?php\n";
         $cache_literal .= "$" . "content   = " . var_export($content, true) . ";\n";
         $cache_literal .= "$" . "expires_on   = " . $this->getExpiresTime() . ";\n";

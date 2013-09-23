@@ -784,7 +784,6 @@
         "FrontPage": "Strona główna",
         "ManageEmailReports": "Administracja raportami pocztowymi",
         "MonthlyScheduleHelp": "Planowanie miesięczne: raport będzie wysyłany pierwszego dnia każdego miesiąca.",
-        "PDF": "PDF",
         "PiwikReports": "Raporty Piwik",
         "PleaseFindAttachedFile": "Prosimy odszukać w pliku załącznika twój %1$s raport dla %2$s.",
         "PleaseFindBelow": "Prosimy odszukać w poniższym %1$s raport %2$s.",
@@ -1143,7 +1142,6 @@
     },
     "UserCountryMap": {
         "map": "mapa",
-        "toggleFullscreen": "Tryb pełnoekranowy",
         "worldMap": "mapa świata"
     },
     "UserSettings": {
@@ -1450,7 +1448,6 @@
         "NbVisitsBounced": "%s odwiedzin powróciło (opuszczając serwis po jednej stronie)",
         "PluginDescription": "Ogólne raporty liczbowe odnośnie: odwiedzin, jednorazowych odwiedzin, zakres ich działań, współczynnik rezygnacji, etc.",
         "VisitsSummary": "Podsumowanie odwiedzin",
-        "WidgetLastVisitors": "Wykres ostatnich jednorazowych odwiedzających",
         "WidgetLastVisits": "Wykres z ostatnich odwiedzin",
         "WidgetOverviewGraph": "Podgląd z wykresem",
         "WidgetVisits": "Podgląd odwiedzin"

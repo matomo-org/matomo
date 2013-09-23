@@ -9,8 +9,9 @@
  * @package Piwik
  */
 
-namespace Piwik;
+namespace Piwik\ViewDataTable;
 
+use Piwik\View;
 use Piwik\DataTable;
 
 /**
@@ -20,7 +21,7 @@ use Piwik\DataTable;
  * 
  * TODO: must be more in depth
  */
-abstract class DataTableVisualization extends View
+abstract class Visualization extends View
 {
     /**
      * This event is used to gather all available DataTable visualizations. Callbacks
@@ -28,7 +29,7 @@ abstract class DataTableVisualization extends View
      * 
      * Callback Signature: function (&$visualizations) {}
      */
-    const GET_AVAILABLE_EVENT = 'DataTableVisualization.getAvailable';
+    const GET_AVAILABLE_EVENT = 'ViewDataTable.Visualization.getAvailable';
 
     /**
      * Default implementation of getDefaultPropertyValues static function.
@@ -45,7 +46,7 @@ abstract class DataTableVisualization extends View
      * to be both visible to client side JavaScript, and passed along as query parameters
      * in every AJAX request.
      * 
-     * Derived DataTableVisualizations can specify client side parameters by declaring
+     * Derived Visualizations can specify client side parameters by declaring
      * a static $clientSideParameters field that contains a list of view property
      * names.
      * 
@@ -61,7 +62,7 @@ abstract class DataTableVisualization extends View
      * require to be visible to client side JavaScript. Unlike 'client side parameters',
      * these will not be passed with AJAX requests as query parameters.
      * 
-     * Derived DataTableVisualizations can specify client side properties by declaring
+     * Derived Visualizations can specify client side properties by declaring
      * a static $clientSideProperties field that contains a list of view property
      * names.
      * 
@@ -77,7 +78,7 @@ abstract class DataTableVisualization extends View
      * If a query parameter is sent with the same name as a view property, the view
      * property will be set to the value of the query parameter.
      * 
-     * Derived DataTableVisualizations can specify overridable properties by declaring
+     * Derived Visualizations can specify overridable properties by declaring
      * a static $overridableProperties field that contains a list of view property
      * names.
      */
@@ -102,18 +103,18 @@ abstract class DataTableVisualization extends View
     }
 
     /**
-     * Returns the list of parents for a DataTableVisualization class excluding the
-     * DataTableVisualization class and above.
+     * Returns the list of parents for a Visualization class excluding the
+     * Visualization class and above.
      * 
-     * @param string $klass The class name of the DataTableVisualization.
-     * @return DataTableVisualization[]  The list of parent classes in order from highest
+     * @param string $klass The class name of the Visualization.
+     * @return Visualization[]  The list of parent classes in order from highest
      *                                   ancestor to the descended class.
      */
     public static function getVisualizationClassLineage($klass)
     {
         $klasses = array_merge(array($klass), array_values(class_parents($klass, $autoload = false)));
 
-        $idx = array_search('Piwik\\DataTableVisualization', $klasses);
+        $idx = array_search('Piwik\\ViewDataTable\\Visualization', $klasses);
         if ($idx !== false) {
             $klasses = array_slice($klasses, 0, $idx);
         }
@@ -142,7 +143,7 @@ abstract class DataTableVisualization extends View
     }
 
     /**
-     * Returns all registered visualization classes. Uses the 'DataTableVisualization.getAvailable'
+     * Returns all registered visualization classes. Uses the 'Visualization.getAvailable'
      * event to retrieve visualizations.
      * 
      * @return array Array mapping visualization IDs with their associated visualization classes.
@@ -159,7 +160,7 @@ abstract class DataTableVisualization extends View
         foreach ($visualizations as $viz) {
             if (!class_exists($viz)) {
                 throw new \Exception(
-                    "Invalid visualization class '$viz' found in DataTableVisualization.getAvailableVisualizations.");
+                    "Invalid visualization class '$viz' found in Visualization.getAvailableVisualizations.");
             }
 
             if (is_subclass_of($viz, __CLASS__)) {

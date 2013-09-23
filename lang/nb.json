@@ -789,7 +789,6 @@
         "ManageEmailReports": "Administrer e-postrapporter",
         "MonthlyScheduleHelp": "Månedsplan: Rapportene blir sendt første dag i hver måned.",
         "Pagination": "Side %s av %s",
-        "PDF": "PDF",
         "PiwikReports": "Piwik-rapporter",
         "PleaseFindAttachedFile": "I den vedlagte filen finner du din %1$s rapport for %2$s.",
         "ReportFormat": "Rapportformat",
@@ -804,7 +803,6 @@
     "SegmentEditor": {
         "AddNewSegment": "Legg til nytt segment",
         "ChooseASegment": "Velg et segment",
-        "NewSegment": "Nytt segment",
         "OperatorAND": "OG",
         "OperatorOR": "ELLER",
         "SegmentIsDisplayedForWebsite": "og vises for",
@@ -858,11 +856,9 @@
         "FromPreviousSiteSearchesInline": "%s fra interne søk",
         "FromSearchEngines": "Fra søkemotorer",
         "FromWebsites": "Fra nettsider",
-        "Including": "inkludert",
         "IncomingTraffic": "Innkommende trafikk",
         "OutgoingTraffic": "Utgående trafikk",
         "ToFollowingSiteSearches": "Interne søk",
-        "ToInternalPages": "til interne sider",
         "XOutOfYVisits": "%s (av %s)"
     },
     "UserCountry": {
@@ -1176,7 +1172,6 @@
         "Regions": "Regioner",
         "Seconds": "sekunder",
         "SecondsAgo": "%s sekunder siden",
-        "toggleFullscreen": "Slå av\/på fullskjerm",
         "worldMap": "verdenskart",
         "WorldWide": "Verdensbasis"
     },
@@ -1481,7 +1476,6 @@
         "NbVisitsBounced": "%s besøk har sprettet (forlatt nettstedet etter en side)",
         "PluginDescription": "Rapporterer generell statistikk: Besøk, unike besøkende, antall handlinger, sprettfrekvens, osv.",
         "VisitsSummary": "Besøksammendrag",
-        "WidgetLastVisitors": "Grafikk over siste unike besøkende",
         "WidgetLastVisits": "Graf over siste besøk",
         "WidgetOverviewGraph": "Oversikt med grafikk",
         "WidgetVisits": "Besøksoversikt"

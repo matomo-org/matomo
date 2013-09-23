@@ -840,7 +840,6 @@
         "CancelAndReturnToReports": "إلغاء و%s رجوع إلى قائمة التقارير%s",
         "CreateAndScheduleReport": "أنشئ وأعد جدولاً لتقرير",
         "CreateReport": "إنشاء تقرير",
-        "DefaultContainingAllReports": "التقرير الافتراضي يتضمن كافة الإحصائيات المتوافرة.",
         "DescriptionOnFirstPage": "وصف التقرير سيتم عرضه في الصفحة الأولى من التقرير.",
         "EmailHello": "مرحباً",
         "EmailReports": "التقارير البريدية",
@@ -849,7 +848,6 @@
         "ManageEmailReports": "إدارة تقارير البريد",
         "MonthlyScheduleHelp": "الجدولة الشهرية: سيتم إرسال التقرير في الأول من كل شهر.",
         "MustBeLoggedIn": "يجب أن تسجل الدخول لإنشاء وجدولة التقارير.",
-        "PDF": "PDF",
         "PiwikReports": "تقارير Piwik",
         "PleaseFindAttachedFile": "انظر المرفقات رجاء لتحميل %1$s التقارير حول %2$s.",
         "PleaseFindBelow": "ستجد %1$s تقريرك حول %2$s أدناه.",
@@ -1210,7 +1208,6 @@
     },
     "UserCountryMap": {
         "map": "خريطة",
-        "toggleFullscreen": "تبديل ملء الشاشة",
         "worldMap": "خريطة العالم"
     },
     "UserSettings": {
@@ -1511,7 +1508,6 @@
         "NbVisitsBounced": "%s زيارات مرتدة (غادر الموقع بعد مشاهدة أول صفحة)",
         "PluginDescription": "يعد تقاريراً حول أرقام التحليلات العامة الخاصة بالزيارات، الزيارات الفريدة، عدد السلوكيات، معدل الارتداد، وغيرها.",
         "VisitsSummary": "ملخص الزيارات",
-        "WidgetLastVisitors": "الرسم البياني لآخر الزيارات الفريدة",
         "WidgetLastVisits": "الرسم البياني لآخر الزيارات",
         "WidgetOverviewGraph": "نظرة عامة مع الرسم البياني",
         "WidgetVisits": "نظرة عامة على الزيارات"

@@ -1185,7 +1185,6 @@
         "CancelAndReturnToReports": "Cancela i %storna a la llista d'informes%s",
         "CreateAndScheduleReport": "Crear i programar un informe",
         "CreateReport": "Crear un informe",
-        "DefaultContainingAllReports": "L'informe per defecte conte totes les estadístiques disponibles.",
         "DescriptionOnFirstPage": "La descripció del informes es mostrarà a la primera pàgina del informe.",
         "DisplayFormat_TablesOnly": "Mostra només taules (sense gràfics)",
         "EmailHello": "Hola,",
@@ -1198,7 +1197,6 @@
         "MustBeLoggedIn": "Heu d'estar identificat per crear i programar informes personalitzats",
         "NoRecipients": "Aquest informe no té destinataris",
         "Pagination": "Pàgina %s de %s",
-        "PDF": "PDF",
         "PiwikReports": "Informes Piwik",
         "PleaseFindAttachedFile": "Podeu trobar al fitxer adjunt el vostre informe %1$s per a %2$s.",
         "PleaseFindBelow": "A continuació podeu trobar el vostre informe %1$s per a %2$s.",
@@ -1310,7 +1308,6 @@
         "FromPreviousSiteSearchesInline": "%s de la cerques internes",
         "FromSearchEngines": "De cercadors",
         "FromWebsites": "De llocs web",
-        "Including": "incloïent",
         "IncomingTraffic": "Tràfic entrant",
         "LoopsInline": "%s refrescos de pàgina",
         "NoDataForAction": "No hi ha informació per %s",
@@ -1322,7 +1319,6 @@
         "ToFollowingPagesInline": "%s a pàgines internes",
         "ToFollowingSiteSearches": "Cerques internes",
         "ToFollowingSiteSearchesInline": "%s cerques internes",
-        "ToInternalPages": "a pàgines internes",
         "XOfAllPageviews": "%s de totes les visualitzacions d'aquesta pàgina",
         "XOutOfYVisits": "%s (de %s)"
     },
@@ -1691,7 +1687,6 @@
     },
     "UserCountryMap": {
         "map": "mapa",
-        "toggleFullscreen": "Mostra pantalla completa",
         "worldMap": "Mapa mundial"
     },
     "UserSettings": {
@@ -2031,7 +2026,6 @@
         "PluginDescription": "Informa de les principals analítiques: visitants, visitants únics, nombre d'accions, rati de rebots,etc.",
         "VisitsSummary": "Resum de les visites",
         "VisitsSummaryDocumentation": "Aquesta és una visió general de l'evolució visita.",
-        "WidgetLastVisitors": "Gràfic dels darrers visitants únics",
         "WidgetLastVisits": "Gràfic de les darreres visites",
         "WidgetOverviewGraph": "Resum amb gràfic",
         "WidgetVisits": "Resum de les visites"

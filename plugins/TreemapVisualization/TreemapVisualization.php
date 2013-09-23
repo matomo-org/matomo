@@ -44,14 +44,14 @@ class TreemapVisualization extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'     => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'             => 'getJsFiles',
-            'DataTableVisualization.getAvailable' => 'getAvailableDataTableVisualizations',
-            'ViewDataTable.configureReportView'   => 'configureReportViewForActions'
+            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
+            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'ViewDataTable.Visualization.getAvailable' => 'getAvailableVisualizations',
+            'ViewDataTable.configureReportView'        => 'configureReportViewForActions'
         );
     }
 
-    public function getAvailableDataTableVisualizations(&$visualizations)
+    public function getAvailableVisualizations(&$visualizations)
     {
         // treemap doesn't work w/ flat=1
         if (!Common::getRequestVar('flat', 0)) {

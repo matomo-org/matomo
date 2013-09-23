@@ -250,8 +250,8 @@
 <img src="' + piwikURL + '?' + $.param(params) + '" style="border:0" alt="" />\n\
 <!-- End Piwik -->';
 
-            result = result.replace("&", "&amp;", "g");
-            $('#image-tracking-link').find('textarea').val(result);
+            result = result.replace(/[&]/g, "&amp;");
+            $('#image-tracking-text').find('textarea').val(result);
         };
 
         // on image link tracker site change, change available goals
@@ -318,7 +318,7 @@
         });
 
         // on click generated code textareas, select the text so it can be easily copied
-        $('#javascript-text>textarea,#image-tracking-link>textarea').click(function () {
+        $('#javascript-text>textarea,#image-tracking-text>textarea').click(function () {
             $(this).select();
         });
 

@@ -13,7 +13,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 use Piwik\Common;
 use Piwik\View;
 use Piwik\DataTable;
-use Piwik\Visualization\Graph;
+use Piwik\ViewDataTable\Graph;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
 /**

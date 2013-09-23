@@ -11,12 +11,12 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\View;
-use Piwik\DataTableVisualization;
+use Piwik\ViewDataTable\Visualization;
 
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
  */
-class VisitorLog extends DataTableVisualization
+class VisitorLog extends Visualization
 {
     static public $clientSideParameters = array(
         'filter_limit',

@@ -965,7 +965,6 @@
         "ManageEmailReports": "Spravovat emailové hlášení",
         "MonthlyScheduleHelp": "Měsíční plán: hlášení bude odesláno první den měsíce",
         "Pagination": "Stránka %s z %s",
-        "PDF": "PDF",
         "PiwikReports": "Hlášení Piwiku",
         "PleaseFindAttachedFile": "Prosím najděte v přiloženém souboru %1$s hlášení pro %2$s",
         "PluginDescription": "Vytvořit a uložit vlastní hlášení a dostávat denní, týdenní nebo měsíční emailové hlášení.",
@@ -1358,7 +1357,6 @@
         "Searches": "%s vyhledávání",
         "Seconds": "sekund",
         "SecondsAgo": "před %s sekundami",
-        "toggleFullscreen": "Přepnout celou obrazovku",
         "VisitorMap": "Mapa návštěvníků",
         "worldMap": "mapa světa",
         "WorldWide": "Celostvětová"
@@ -1680,7 +1678,6 @@
         "PluginDescription": "Hlásí základní analytická čísla: návštěv, unikátních návštěvníků, počet akcí, poměr návratů",
         "VisitsSummary": "Shrnutí návštěv",
         "VisitsSummaryDocumentation": "Toto je přehled vývoj návštěv",
-        "WidgetLastVisitors": "Graf posledních jedinečných návštěvníků",
         "WidgetLastVisits": "Graf posledních návštěv",
         "WidgetOverviewGraph": "Přehled s grafem",
         "WidgetVisits": "Přehled návštěv"

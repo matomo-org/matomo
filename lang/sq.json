@@ -907,7 +907,6 @@
         "CancelAndReturnToReports": "Anuloje dhe %skthehu te lista e raporteve%s",
         "CreateAndScheduleReport": "Krijoni dhe Planifikoni një raport",
         "CreateReport": "Krijoje Raportin",
-        "DefaultContainingAllReports": "Raporti parazgjedhje përmban krejt statistikat e passhme.",
         "DescriptionOnFirstPage": "Përshkrimi i raportit do të shfaqet te faqja e parë e raportit.",
         "EmailHello": "Tungjatjeta,",
         "EmailReports": "Dërgo Raportet Me Email",
@@ -917,7 +916,6 @@
         "MonthlyScheduleHelp": "Planifikim mujor: raporti do të dërgohet ditën e parë të çdo muaji.",
         "MustBeLoggedIn": "Duhet të jeni i futur që të krijoni dhe të planifikoni raporte të personalizuar.",
         "Pagination": "Faqja %s nga %s",
-        "PDF": "PDF",
         "PiwikReports": "Raporte Piwik",
         "PleaseFindAttachedFile": "Ju lutem, shihni te kartela bashkangjitur %1$s raportin tuaj për %2$s.",
         "PleaseFindBelow": "Ju lutem, shihni më poshtë raportin tuaj %1$s për %2$s.",
@@ -1283,7 +1281,6 @@
     },
     "UserCountryMap": {
         "map": "hartë",
-        "toggleFullscreen": "Kalo në\/dil nga mënyra tërë ekrani",
         "worldMap": "hartë e botës"
     },
     "UserSettings": {
@@ -1530,7 +1527,6 @@
         "PluginDescription": "Raporton numrat e përgjithshëm të Analizës: vizita, vizitorë unikë, numër veprimesh, Shkallë Kthimesh, etj.",
         "VisitsSummary": "Përmbledhje Vizitash",
         "VisitsSummaryDocumentation": "Kjo është një përmbledhje e evolucionit të vizitave",
-        "WidgetLastVisitors": "Grafik për vizitorët e fundit unikë",
         "WidgetLastVisits": "Grafik për vizitat e fundit",
         "WidgetOverviewGraph": "Përmbledhje me grafik",
         "WidgetVisits": "Përmbledhje vizitash"

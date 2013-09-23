@@ -68,6 +68,18 @@ if ($minimumPhpInvalid) {
 
 if (!function_exists('Piwik_ExitWithMessage')) {
     /**
+     * Returns true if Piwik should print the backtrace with error messages.
+     * 
+     * To make sure the backtrace is printed, define PIWIK_PRINT_ERROR_BACKTRACE.
+     * 
+     * @return bool 
+     */
+    function Piwik_ShouldPrintBackTraceWithMessage()
+    {
+        return defined('PIWIK_PRINT_ERROR_BACKTRACE') || defined('PIWIK_TRACKER_DEBUG');
+    }
+
+    /**
      * Displays info/warning/error message in a friendly UI and exits.
      *
      * @param string $message Main message, must be html encoded before calling
@@ -103,7 +115,8 @@ if (!function_exists('Piwik_ExitWithMessage')) {
                     . '<a href="index.php">Go to Piwik</a><br/>
                        <a href="index.php?module=Login">Login</a>'
                     . '</p>'
-                    . ' ' . $optionalTrace . ' ' . $optionalLinks;
+                    . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
+                    . ' ' . $optionalLinks;
 
         echo $headerPage . $content . $footerPage;
         exit;
