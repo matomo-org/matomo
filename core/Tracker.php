@@ -218,7 +218,7 @@ class Tracker
                 }
             }
 
-            foreach($idSitesForAuthentication as $idSiteForAuthentication) {
+            foreach ($idSitesForAuthentication as $idSiteForAuthentication) {
                 // a Bulk Tracking request that is not authenticated should fail
                 if (!Request::authenticateSuperUserOrAdmin($tokenAuth, $idSiteForAuthentication)) {
                     throw new Exception("token_auth specified does not have Admin permission for site " . intval($idSiteForAuthentication));
@@ -483,7 +483,7 @@ class Tracker
      */
     protected function end()
     {
-        if($this->usingBulkTracking) {
+        if ($this->usingBulkTracking) {
             $result = array(
                     'status' => 'success',
                     'tracked' => $this->countOfLoggedRequests
@@ -624,7 +624,7 @@ class Tracker
             return;
         }
 
-        if(strlen( $this->getOutputBuffer() ) > 0) {
+        if (strlen($this->getOutputBuffer()) > 0) {
             // If there was an error during tracker, return so errors can be flushed
             return;
         }

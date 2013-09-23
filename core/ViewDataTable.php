@@ -713,7 +713,7 @@ class ViewDataTable
         }
         
         $segment = Request::getRawSegmentFromRequest();
-        if(!empty($segment)) {
+        if (!empty($segment)) {
             $requestArray['segment'] = $segment;
         }
 
@@ -812,7 +812,7 @@ class ViewDataTable
         }
 
         $rawSegment = Request::getRawSegmentFromRequest();
-        if(!empty($rawSegment)) {
+        if (!empty($rawSegment)) {
             $javascriptVariablesToSet['segment'] = $rawSegment;
         }
 

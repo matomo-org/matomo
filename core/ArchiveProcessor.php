@@ -249,7 +249,7 @@ abstract class ArchiveProcessor
      */
     protected function setNumberOfVisits($visitsMetricCached, $convertedVisitsMetricCached = false)
     {
-        if($visitsMetricCached === false) {
+        if ($visitsMetricCached === false) {
             $this->visitsMetricCached = $this->convertedVisitsMetricCached = false;
         } else {
             $this->visitsMetricCached = (int)$visitsMetricCached;

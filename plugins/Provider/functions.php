@@ -71,7 +71,7 @@ function getPrettyProviderName( $in )
 
     $prettyNames = Common::getProviderNames();
 
-    if(is_array($prettyNames)
+    if (is_array($prettyNames)
         && array_key_exists(strtolower($providerName), $prettyNames))
     {
         $providerName = $prettyNames[strtolower($providerName)];

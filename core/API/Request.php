@@ -266,7 +266,7 @@ class Request
         $segment = Common::getRequestVar('segment', '', 'string');
         if (!empty($segment)) {
             $request = Request::getRequestParametersGET();
-            if(!empty($request['segment'])) {
+            if (!empty($request['segment'])) {
                 $segmentRaw = $request['segment'];
             }
         }

@@ -135,7 +135,7 @@ function getOsFullNameExtended($label)
         $os = substr($label, 0, 3);
         $ver = substr($label, 4, 15);
         $name = UserAgentParserEnhanced::getOsNameFromId($os, $ver);
-        if(!empty($name)) {
+        if (!empty($name)) {
             return $name;
         }
     }

@@ -195,10 +195,10 @@ class PluginsManager
      */
     public function uninstallPlugin($pluginName)
     {
-        if($this->isPluginActivated($pluginName)) {
+        if ($this->isPluginActivated($pluginName)) {
             throw new \Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
         }
-        if(!$this->isPluginInFilesystem($pluginName)) {
+        if (!$this->isPluginInFilesystem($pluginName)) {
             throw new \Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
         }
         self::deletePluginFromFilesystem($pluginName);
@@ -212,7 +212,7 @@ class PluginsManager
         Config::getInstance()->forceSave();
         Filesystem::deleteAllCacheOnUpdate();
 
-        if($this->isPluginInFilesystem($pluginName)) {
+        if ($this->isPluginInFilesystem($pluginName)) {
             return false;
         }
         return true;
@@ -285,10 +285,10 @@ class PluginsManager
 
         // Only one theme enabled at a time
         $themeEnabled = $this->getThemeEnabled();
-        if($themeEnabled) {
+        if ($themeEnabled) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
             $plugin = $this->loadPlugin($pluginName);
-            if($plugin->isTheme()) {
+            if ($plugin->isTheme()) {
                 $plugins = $this->deactivatePlugin( $themeAlreadyEnabled, $plugins );
             }
         }
@@ -332,9 +332,9 @@ class PluginsManager
     public function getThemeEnabled()
     {
         $plugins = $this->getLoadedPlugins();
-        foreach($plugins as $plugin) {
+        foreach ($plugins as $plugin) {
             /* @var $plugin Plugin */
-            if($plugin->isTheme()
+            if ($plugin->isTheme()
                 && $plugin->getPluginName() != self::DEFAULT_THEME) {
                 return $plugin;
             }
@@ -358,7 +358,7 @@ class PluginsManager
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
             // If the plugin is not core and looks bogus, do not load
-            if($this->isPluginThirdPartyAndBogus($pluginName))
+            if ($this->isPluginThirdPartyAndBogus($pluginName))
             {
                 $info = array(
                     'invalid'         => true,
@@ -538,8 +538,8 @@ class PluginsManager
     public function getIgnoredBogusPlugins()
     {
         $ignored = array();
-        foreach($this->pluginsToLoad as $pluginName) {
-            if($this->isPluginThirdPartyAndBogus($pluginName)) {
+        foreach ($this->pluginsToLoad as $pluginName) {
+            if ($this->isPluginThirdPartyAndBogus($pluginName)) {
                 $ignored[] = $pluginName;
             }
         }
@@ -595,7 +595,7 @@ class PluginsManager
         require_once $path;
 
         $namespacedClass = $this->getClassNamePlugin($pluginName);
-        if(!class_exists($namespacedClass, false)) {
+        if (!class_exists($namespacedClass, false)) {
             throw new \Exception("The class $pluginClassName couldn't be found in the file '$path'");
         }
         $newPlugin = new $namespacedClass;
@@ -609,7 +609,7 @@ class PluginsManager
     protected function getClassNamePlugin($pluginName)
     {
         $className = $pluginName;
-        if($pluginName == 'API') {
+        if ($pluginName == 'API') {
             $className = 'Plugin';
         }
         return "\\Piwik\\Plugins\\$pluginName\\$className";
@@ -715,7 +715,7 @@ class PluginsManager
             return false;
         }
 
-        if(isset($translations[$pluginName])) {
+        if (isset($translations[$pluginName])) {
             // only merge translations of plugin - prevents overwritten strings
             Translate::getInstance()->mergeTranslationArray(array($pluginName => $translations[$pluginName]));
         }
