@@ -105,7 +105,14 @@ class ArchiveWriter
 								'" . $date . "',
 								0 "
             . " FROM $numericTable as tb1";
-        $db->exec($insertSql);
+        try { // TODO: this is temporary, remove when deadlocking issue is fixed
+            $db->exec($insertSql);
+        } catch (Exception $ex) {
+            if (\Zend_Registry::get('db')->isErrNo($e, 1213)) {
+                $deadlockInfo = \Piwik\Db::fetchAll("SHOW ENGINE INNODB STATUS");
+                Piwik::log("DEADLOCK INFO: " . print_r($deadlockInfo));
+            }
+        }
         Db::releaseDbLock($dbLockName);
         $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
         $id = $db->fetchOne($selectIdSql, $locked);
