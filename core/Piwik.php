@@ -87,12 +87,16 @@ class Piwik
      */
     static public function exitWithErrorMessage($message)
     {
+        if (!Common::isPhpCliMode()) {
+            @header('Content-Type: text/html; charset=utf-8');
+        }
+        
         $output = "<style>a{color:red;}</style>\n" .
             "<div style='color:red;font-family:Georgia;font-size:120%'>" .
             "<p><img src='plugins/Zeitgeist/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20' />" .
             $message .
             "</p></div>";
-        print(ScreenFormatter::getFormattedString($output));
+        print($output);
         exit;
     }
 

@@ -82,6 +82,11 @@ class Log
     /**
      * TODO
      */
+    private $loggingToScreen;
+
+    /**
+     * TODO
+     */
     public function __construct()
     {
         $logConfig = Config::getInstance()->log;
@@ -102,6 +107,10 @@ class Log
             $writer = $this->createWriterByName($writerName);
             if (!empty($writer)) {
                 $this->writers[] = $writer;
+            }
+
+            if ($writer == 'screen') {
+                $this->loggingToScreen = true;
             }
         }
     }
@@ -206,6 +215,13 @@ class Log
     {
         foreach ($this->writers as $writer) {
             $writer($level, $pluginName, $datetime, $message);
+        }
+
+        // errors are always printed to screen
+        if ($level == self::ERROR
+            && !$this->loggingToScreen
+        ) {
+            $this->logToScreen($this->formatMessage($level, $pluginName, $datetime, $message));
         }
     }
 
