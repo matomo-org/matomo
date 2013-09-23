@@ -807,7 +807,6 @@
         "DatabaseAbilities": "Habilitats de la Base de Dades",
         "DatabaseCheck": "Revisió de la base de dades",
         "DatabaseClientVersion": "Versió del client de base de dades",
-        "DatabaseCreatedSuccess": "La base de dades %s s'ha creat correctament!",
         "DatabaseCreation": "Creació de la base de dades",
         "DatabaseErrorConnect": "Hi ha hagut un error amb la connexió al servidor de bases de dades.",
         "DatabaseServerVersion": "Versió del servidor de base de dades",
@@ -921,7 +920,6 @@
         "PluginDescription": "Aquesta extensió mostrarà una llista dels idiomes disponibles per l'interfície de Piwik. L'idioma seleccionat es guardarà com a preferència per a cada usuari."
     },
     "Live": {
-        "GoalTime": "Temps de la primera conversió",
         "GoalType": "Tipus",
         "KeywordRankedOnSearchResultForThisVisitor": "La paraula clau %1$s està a la posició %2$s del ranking de %3$s resultats de cerca per aquest visitant.",
         "LastHours": "Últimes %s hores",
@@ -931,7 +929,6 @@
         "PageRefreshed": "Nombre de vegades que s'ha vist\/refrescat una pàgina",
         "PluginDescription": "Mireu els vostres visitants en temps real!",
         "Referrer_URL": "URL del referent",
-        "Time": "Temps",
         "VisitorLog": "Registre de visitants",
         "VisitorLogDocumentation": "Aquesta taula mostra les últimes visites pel període de temps seleccionat. Podeu veure quan s'ha produït l'últim accès d'un visitant pasant per damunt de la data de visita. %s Si el període de temps inclou avui, podeu veure els visitants en temps real! %s La informació que es mostra és sempre en directa, sense dependre de cada quan executeu el treball programat d'arxivat.",
         "VisitorsInRealTime": "Visitants en temps real",
@@ -1686,8 +1683,7 @@
         "WidgetLocation": "Ubicació del visitant"
     },
     "UserCountryMap": {
-        "map": "mapa",
-        "worldMap": "Mapa mundial"
+        "map": "mapa"
     },
     "UserSettings": {
         "BrowserFamilies": "Motors dels navegadors",

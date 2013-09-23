@@ -736,7 +736,6 @@
         "DatabaseAbilities": "Schopnosti databáze",
         "DatabaseCheck": "Kontrola databáze",
         "DatabaseClientVersion": "Verze klienta databáze",
-        "DatabaseCreatedSuccess": "Databáze %s vytvořena úspěšně!",
         "DatabaseCreation": "Vytvoření databáze",
         "DatabaseErrorConnect": "Nastala chyba při připojování k databázovému serveru",
         "DatabaseServerVersion": "Verze databázového serveru",
@@ -829,7 +828,6 @@
         "PluginDescription": "Tento zásuvný modul zobrazí seznam jazyků pro rozhraní Piwiku. Vybraný jazyk bude uložen v nastaveních každého uživatele"
     },
     "Live": {
-        "GoalTime": "První čas konverze",
         "GoalType": "Typ",
         "LastHours": "Posledních %s hodin",
         "LastMinutes": "Posledních %s minut",
@@ -841,7 +839,6 @@
         "RealTimeVisitorCount": "Počet návštěvníků v reálném čase",
         "Referrer_URL": "Odkazující URL",
         "SimpleRealTimeWidget_Message": "%s a %s v posledních %s.",
-        "Time": "Čas",
         "VisitorLog": "Pohled na návštěvníky",
         "VisitorsInRealTime": "Návstěv v reálném čase"
     },
@@ -1358,7 +1355,6 @@
         "Seconds": "sekund",
         "SecondsAgo": "před %s sekundami",
         "VisitorMap": "Mapa návštěvníků",
-        "worldMap": "mapa světa",
         "WorldWide": "Celostvětová"
     },
     "UserSettings": {

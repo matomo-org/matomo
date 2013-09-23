@@ -153,7 +153,6 @@
     "Installation": {
         "Congratulations": "Õnnitleme",
         "CongratulationsHelp": "<p>Õnnitlused! Sinu Piwiki Installatsioon on edukalt lõpuni viidud.<\/p><p>Sisesta javascript kood oma lehele ja jää külastusi ootama!<\/p>",
-        "DatabaseCreatedSuccess": "%s andmebaas loodud!",
         "Installation": "Installatsioon",
         "InstallationStatus": "Installatiooni olek",
         "NoConfigFound": "Piwiki konfguratsioonifaili ei leitud, kuid sa üritasid minna Piwiki lehele.<br \/><b>  » Võid <a href='index.php'>installeerida Piwiko<\/a><\/b><br \/><small>Kui Piwik on varem installeeritud ja sul on andmebaasis tabeleid, siis ei ole põhjust muretsemiseks saad taaskasutada ja säilitada olemasolevad andmed!<\/small>",

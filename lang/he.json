@@ -796,8 +796,7 @@
     "UserCountryMap": {
         "Hours": "שעות",
         "map": "מפה",
-        "VisitorMap": "מפת מבקרים",
-        "worldMap": "מפה עולמית"
+        "VisitorMap": "מפת מבקרים"
     },
     "UserSettings": {
         "Language_aa": "אפארית",

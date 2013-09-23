@@ -450,7 +450,6 @@
         "CongratulationsHelp": "<p>გილოცავთ! Piwik–ის ინსტალირება დასრულდა.<\/p><p>დარწმუნდით, რომ JavaScript კოდი ჩაწერილია თქვენს გვერდებზე და დაელოდეთ პირველ ვიზიტორებს!<\/p>",
         "DatabaseCheck": "მონაცემთა ბაზის შემოწმება",
         "DatabaseClientVersion": "მონაცემთა ბაზის კლიენტის ვერსია",
-        "DatabaseCreatedSuccess": "%s მონაცემთა ბაზა წარმატებით შეიქმნა!",
         "DatabaseCreation": "მონაცემთა ბაზის შექმნა",
         "DatabaseErrorConnect": "მონაცემთა ბაზის სერვერთან დაკავშირების დროს მოხდა შეცდომა",
         "DatabaseServerVersion": "მონაცემთა ბაზის სერვერის ვერსია",
@@ -543,14 +542,12 @@
         "PluginDescription": "ეს პლაგინი აჩვენებს სიას იმ ენებისა, რომლებზეც შესაძლებელია Piwik ინტერფეისის წარმოდგენა. თითოეული მომხმარებლისთვის შეინახება შერჩეული ენა."
     },
     "Live": {
-        "GoalTime": "პირველი კონვერსიის დრო",
         "GoalType": "ტიპი",
         "LastHours": "ბოლო %s საათი",
         "LastMinutes": "ბოლო %s წუთი",
         "LinkVisitorLog": "იხილეთ ვიზიტორების ჟურნალი დეტალურად",
         "PluginDescription": "ადევნეთ თვალი თქვენს ვიზიტორებს, ცოცხლად, რეალურ დროში!",
         "Referrer_URL": "რეფერერის URL",
-        "Time": "დრო",
         "VisitorLog": "ვიზიტორების ჟურნალი",
         "VisitorsInRealTime": "ვიზიტორები რეალურ დროში"
     },
@@ -962,8 +959,7 @@
         "SubmenuLocations": "მდებარეობები"
     },
     "UserCountryMap": {
-        "map": "რუკა",
-        "worldMap": "მსოფლიო რუკა"
+        "map": "რუკა"
     },
     "UserSettings": {
         "BrowserFamilies": "ბრაუზერის ოჯახები",

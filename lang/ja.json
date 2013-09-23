@@ -776,7 +776,6 @@
         "CongratulationsHelp": "<p>おめでとうございます！ Piwik のインストールは完了しました。<\/p><p>javascript コードをウェブサイトのページに埋め込み、最初のビジターをお待ちください！<\/p>",
         "DatabaseCheck": "データベースの確認",
         "DatabaseClientVersion": "データベースクライアントのバージョン",
-        "DatabaseCreatedSuccess": "データベース %s は正常に作成されました！",
         "DatabaseCreation": "データベースの作成",
         "DatabaseErrorConnect": "データベースサーバーへの接続中にエラーが発生しました",
         "DatabaseServerVersion": "データベースサーバーのバージョン",
@@ -877,7 +876,6 @@
         "PluginDescription": "Piwik インターフェイスで利用可能な言語リストを表示します。 選択された言語は、各ユーザーの優先設定に保存されます。"
     },
     "Live": {
-        "GoalTime": "最初のコンバージョン時間",
         "GoalType": "タイプ",
         "KeywordRankedOnSearchResultForThisVisitor": "キーワード %1$s はこのビジターの %3$s 検索結果ページで %2$s にランクされました。",
         "LastHours": "最近の %s 時間",
@@ -887,7 +885,6 @@
         "PageRefreshed": "このページが見られた\/更新された回数",
         "PluginDescription": "ビジターをリアルタイムにライブでスパイします！",
         "Referrer_URL": "参照元 URL",
-        "Time": "時間",
         "VisitorLog": "ビジターログ",
         "VisitorLogDocumentation": "この表は選択した日付期間内で最新のビジットについて表示しています。ビジットの日付の上にマウスを移動して、そのビジターの最後のビジットが何日前か見ることが出来ます。%s 期間内に本日が含まれていれば、ビジターをリアルタイムで見られます！ %s ここに表示されるのは、アーカイブのためのcronジョブ設定の頻度に関わらず、常にライブのデータです。",
         "VisitorsInRealTime": "リアルタイムのビジター",
@@ -1407,8 +1404,7 @@
         "SubmenuLocations": "位置"
     },
     "UserCountryMap": {
-        "map": "地図",
-        "worldMap": "世界地図"
+        "map": "地図"
     },
     "UserSettings": {
         "BrowserFamilies": "ブラウザファミリー",

@@ -841,7 +841,6 @@
         "DatabaseAbilities": "امکانات پایگاه داده",
         "DatabaseCheck": "چک کردن پایگاه داده",
         "DatabaseClientVersion": "نسخه پایگاه داده کلاینت",
-        "DatabaseCreatedSuccess": "پایگاه داده ی %s با موفقیت ایجاد شد!",
         "DatabaseCreation": "ایجاد پایگاه داده",
         "DatabaseErrorConnect": "خطا در هنگام اتصال به سرور پایگاه داده",
         "DatabaseServerVersion": "نسخه پایگاه داده سرور",
@@ -951,7 +950,6 @@
     "Live": {
         "ConvertedNGoals": "تبدیل %s اهداف",
         "FirstVisit": "بازدید اول",
-        "GoalTime": "اولین تبدیل زمان",
         "GoalType": "نوع",
         "HideMap": "پنهان کردن نقشه",
         "LastHours": "آخرین %s ساعات",
@@ -970,7 +968,6 @@
         "Referrer_URL": "URL بازگشتی",
         "ShowMap": "نمایش نقشه",
         "SimpleRealTimeWidget_Message": "%s و %s در اخرین %s",
-        "Time": "زمان",
         "ViewVisitorProfile": "مشاهده نمایه دیدن کننده",
         "VisitedPages": "صفحات بازدید شده",
         "VisitorLog": "لاگ بازدیدکننده",
@@ -1712,7 +1709,6 @@
         "SecondsAgo": "%s ثانیه پیش",
         "ShowingVisits": "مکان اخرین بازدید کنندگان",
         "VisitorMap": "نقشه بازدیدکننده",
-        "worldMap": "نقشه جهان",
         "WorldWide": "سراسر جهان"
     },
     "UserSettings": {

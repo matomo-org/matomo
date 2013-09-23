@@ -671,7 +671,6 @@
         "LinkVisitorLog": "Ayrıntılı ziyaretçi kayitlari",
         "PluginDescription": "Ziyaretçilerinizi gözleyin, canlı, gerçek zamanlı!",
         "Referrer_URL": "Yönlendirme Siteleri",
-        "Time": "Zaman",
         "VisitorLog": "Ziyaretçi kayıtları",
         "VisitorsInRealTime": "Gerçek Zamanlı Ziyaretçiler"
     },
@@ -1051,8 +1050,7 @@
     },
     "UserCountryMap": {
         "map": "harita",
-        "VisitorMap": "Ziyaretçi Haritası",
-        "worldMap": "Dünya Haritası"
+        "VisitorMap": "Ziyaretçi Haritası"
     },
     "UserSettings": {
         "BrowserFamilies": "Tarayıcı aileleri",
