@@ -21,7 +21,7 @@
 
     <p>{{ 'CorePluginsAdmin_MainDescription'|translate }}</p>
 
-    {{ plugins.tablePlugins(pluginsInfo, token_auth, activateNonce, false) }}
+    {{ plugins.tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, false) }}
 
 </div>
 {% endblock %}

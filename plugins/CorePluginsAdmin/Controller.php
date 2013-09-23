@@ -28,26 +28,22 @@ use Piwik\PluginsManager;
  */
 class Controller extends \Piwik\Controller\Admin
 {
+    const UPDATE_NONCE     = 'CorePluginsAdmin.updatePlugin';
+    const INSTALL_NONCE    = 'CorePluginsAdmin.installPlugin';
+    const ACTIVATE_NONCE   = 'CorePluginsAdmin.activatePlugin';
+    const DEACTIVATE_NONCE = 'CorePluginsAdmin.deactivatePlugin';
+    const UNINSTALL_NONCE  = 'CorePluginsAdmin.uninstallPlugin';
+
     private $validSortMethods  = array('popular', 'newest', 'alpha');
     private $defaultSortMethod = 'popular';
 
     private function createUpdateOrInstallView($template, $nonceName)
     {
-        Piwik::checkUserIsSuperUser();
+        $pluginName = $this->initPluginModification($nonceName);
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
-        $pluginName = Common::getRequestVar('pluginName', null, 'string');
-        $nonce      = Common::getRequestVar('nonce', null, 'string');
-
         $view->plugin = array('name' => $pluginName);
-
-        if (!Nonce::verifyNonce('CorePluginsAdmin.' . $nonceName, $nonce)) {
-            $view->errorMessage = Piwik_Translate('General_ExceptionNonceMismatch');
-            return $view;
-        }
-
-        Nonce::discardNonce('CorePluginsAdmin.' . $nonceName);
 
         try {
             $pluginInstaller = new PluginInstaller($pluginName);
@@ -66,13 +62,13 @@ class Controller extends \Piwik\Controller\Admin
 
     public function updatePlugin()
     {
-        $view = $this->createUpdateOrInstallView('updatePlugin', 'updatePlugin');
+        $view = $this->createUpdateOrInstallView('updatePlugin', static::UPDATE_NONCE);
         echo $view->render();
     }
 
     public function installPlugin()
     {
-        $view = $this->createUpdateOrInstallView('installPlugin', 'installPlugin');
+        $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
         $view->nonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
 
         echo $view->render();
@@ -110,8 +106,8 @@ class Controller extends \Piwik\Controller\Admin
 
         $view->query   = $query;
         $view->sort    = $sort;
-        $view->installNonce = Nonce::getNonce('CorePluginsAdmin.installPlugin');
-        $view->updateNonce  = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
+        $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
+        $view->updateNonce  = Nonce::getNonce(static::UPDATE_NONCE);
         $view->isSuperUser  = Piwik::isUserIsSuperUser();
 
         return $view;
@@ -141,7 +137,6 @@ class Controller extends \Piwik\Controller\Admin
 
         $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
-        $pluginName = strip_tags($pluginName);
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
@@ -150,9 +145,11 @@ class Controller extends \Piwik\Controller\Admin
             $view->activatedPluginName = $pluginName;
         }
 
-        $view->updateNonce   = Nonce::getNonce('CorePluginsAdmin.updatePlugin');
-        $view->activateNonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
-        $view->pluginsInfo   = $this->getPluginsInfo($themesOnly);
+        $view->updateNonce     = Nonce::getNonce(static::UPDATE_NONCE);
+        $view->activateNonce   = Nonce::getNonce(static::ACTIVATE_NONCE);
+        $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
+        $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
+        $view->pluginsInfo     = $this->getPluginsInfo($themesOnly);
 
         $marketplace = new Marketplace();
         $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly);
@@ -228,7 +225,7 @@ class Controller extends \Piwik\Controller\Admin
 
     public function deactivate($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification();
+        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
         \Piwik\PluginsManager::getInstance()->deactivatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
@@ -240,26 +237,25 @@ class Controller extends \Piwik\Controller\Admin
         }
     }
 
-    protected function initPluginModification()
+    protected function initPluginModification($nonceName)
     {
         Piwik::checkUserIsSuperUser();
-        $this->checkTokenInUrl();
+
+        $nonce = Common::getRequestVar('nonce', null, 'string');
+
+        if (!Nonce::verifyNonce($nonceName, $nonce)) {
+            throw new \Exception(Piwik_Translate('General_ExceptionNonceMismatch'));
+        }
+
+        Nonce::discardNonce($nonceName);
+
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
         return $pluginName;
     }
 
     public function activate($redirectAfter = true)
     {
-        Piwik::checkUserIsSuperUser();
-
-        $pluginName = Common::getRequestVar('pluginName', null, 'string');
-        $nonce      = Common::getRequestVar('nonce', null, 'string');
-
-        if (!Nonce::verifyNonce('CorePluginsAdmin.activatePlugin', $nonce)) {
-            throw new \Exception(Piwik_Translate('General_ExceptionNonceMismatch'));
-        }
-
-        Nonce::discardNonce('CorePluginsAdmin.activatePlugin');
+        $pluginName = $this->initPluginModification(static::ACTIVATE_NONCE);
 
         \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
 
@@ -278,8 +274,10 @@ class Controller extends \Piwik\Controller\Admin
 
     public function uninstall($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification();
+        $pluginName  = $this->initPluginModification(static::UNINSTALL_NONCE);
+
         $uninstalled = \Piwik\PluginsManager::getInstance()->uninstallPlugin($pluginName);
+
         if (!$uninstalled) {
             $path = Filesystem::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
             $messagePermissions = Filechecks::getErrorMessageMissingPermissions($path);
@@ -289,6 +287,7 @@ class Controller extends \Piwik\Controller\Admin
             $exitMessage = $messageIntro . "<br/><br/>" . $messagePermissions;
             Piwik_ExitWithMessage($exitMessage, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = true);
         }
+
         $this->redirectAfterModification($redirectAfter);
     }
 
