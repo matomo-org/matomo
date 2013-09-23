@@ -17,6 +17,7 @@ use Piwik\Period\Range;
 use Piwik\Plugins\API\API;
 use Piwik\ViewDataTable\Properties;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
+use Piwik\ViewDataTable\Visualization;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -158,11 +159,11 @@ class ViewDataTable
                                 $visualizationId = null)
     {
         if (class_exists($visualizationId)
-            && is_subclass_of($visualizationId, "Piwik\\DataTableVisualization")
+            && is_subclass_of($visualizationId, "Piwik\\ViewDataTable\\Visualization")
         ) {
             $visualizationClass = $visualizationId;
         } else {
-            $visualizationClass = $visualizationId ? DataTableVisualization::getClassFromId($visualizationId) : null;
+            $visualizationClass = $visualizationId ? Visualization::getClassFromId($visualizationId) : null;
         }
 
         $this->visualizationClass = $visualizationClass;
@@ -453,7 +454,7 @@ class ViewDataTable
             return null;
         }
 
-        $visualizationIds = DataTableVisualization::getVisualizationIdsWithInheritance($this->visualizationClass);
+        $visualizationIds = Visualization::getVisualizationIdsWithInheritance($this->visualizationClass);
         foreach ($visualizationIds as $visualizationId) {
             if (empty($properties[$visualizationId])) {
                 continue;
@@ -1207,8 +1208,8 @@ class ViewDataTable
             }
 
             if ($this->show_non_core_visualizations) {
-                $nonCoreVisualizations = DataTableVisualization::getNonCoreVisualizations();
-                $nonCoreVisualizationInfo = DataTableVisualization::getVisualizationInfoFor($nonCoreVisualizations);
+                $nonCoreVisualizations = Visualization::getNonCoreVisualizations();
+                $nonCoreVisualizationInfo = Visualization::getVisualizationInfoFor($nonCoreVisualizations);
 
                 foreach ($nonCoreVisualizationInfo as $format => $info) {
                     $graphViewIcons['buttons'][] = array(

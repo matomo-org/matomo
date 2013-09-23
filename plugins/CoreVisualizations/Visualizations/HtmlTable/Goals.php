@@ -14,7 +14,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
- * DataTableVisualization that derives from HtmlTable and sets show_goals_columns to true.
+ * DataTable Visualization that derives from HtmlTable and sets show_goals_columns to true.
  */
 class Goals extends HtmlTable
 {

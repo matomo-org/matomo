@@ -14,7 +14,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
-use Piwik\DataTableVisualization;
+use Piwik\ViewDataTable\Visualization;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
@@ -27,7 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Ht
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
  */
-class HtmlTable extends DataTableVisualization
+class HtmlTable extends Visualization
 {
     const ID = 'table';
 

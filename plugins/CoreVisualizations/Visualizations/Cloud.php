@@ -13,7 +13,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 use Piwik\Common;
 use Piwik\View;
 use Piwik\DataTable;
-use Piwik\DataTableVisualization;
+use Piwik\ViewDataTable\Visualization;
 
 /**
  * Generates a tag cloud from a given data array.
@@ -24,7 +24,7 @@ use Piwik\DataTableVisualization;
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Cloud extends DataTableVisualization
+class Cloud extends Visualization
 {
     const ID = 'cloud';
     
