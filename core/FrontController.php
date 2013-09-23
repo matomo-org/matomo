@@ -310,7 +310,7 @@ class FrontController
                 throw $e;
             }
 
-            $trace = $e->getTraceAsString();
+            $debugTrace = $e->getTraceAsString();
             Piwik_ExitWithMessage($e->getMessage(), $debugTrace, true);
         }
     }
