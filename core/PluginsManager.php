@@ -393,7 +393,7 @@ class PluginsManager
         return file_exists($path . "/" . MetadataLoader::PLUGIN_JSON_FILENAME);
     }
 
-    protected function isPluginBundledWithCore($name)
+    public function isPluginBundledWithCore($name)
     {
         // Reading the plugins from the global.ini.php config file
         $pluginsBundledWithPiwik = Config::getInstance()->getFromDefaultConfig('Plugins');
