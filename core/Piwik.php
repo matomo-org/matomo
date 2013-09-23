@@ -14,7 +14,6 @@ use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db;
-use Piwik\Log\ScreenFormatter;
 use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Session;

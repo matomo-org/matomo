@@ -13,7 +13,6 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
-use Piwik\Log;
 use Piwik\Session;
 use Zend_Registry;
 

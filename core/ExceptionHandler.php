@@ -10,7 +10,6 @@
  */
 use Piwik\Piwik;
 use Piwik\Log;
-use Piwik\Log\ExceptionScreenFormatter;
 use Piwik\FrontController;
 
 /**
@@ -22,9 +21,8 @@ use Piwik\FrontController;
 function Piwik_ExceptionHandler(Exception $exception)
 {
     try {
-        \Zend_Registry::get('logger_exception')->logEvent($exception);
+        Log::e("%s (%s): %s", array($exception->getFile(), $exception->getLine(), $exception->getMessage())); // TODO add backtrace?
     } catch (Exception $e) {
-
         if (FrontController::shouldRethrowException()) {
             throw $exception;
         }

@@ -168,7 +168,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             DbHelper::createDatabaseObject();
 
             DbHelper::createTables();
-            \Piwik\Log::make();
 
             \Piwik\PluginsManager::getInstance()->loadPlugins(array());
         } catch (Exception $e) {

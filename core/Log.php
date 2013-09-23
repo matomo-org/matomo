@@ -141,16 +141,16 @@ class Log
 
         $writer = false;
         if ($writerName == 'file') {
-            $writer = function ($pluginName, $datetime, $message) use ($self) {
-                $self->logToFile($this->formatMessage($pluginName, $datetime, $message));
+            $writer = function ($level, $pluginName, $datetime, $message) use ($self) {
+                $self->logToFile($this->formatMessage($level, $pluginName, $datetime, $message));
             };
         } else if ($writerName == 'screen') {
             $writer = function ($pluginName, $datetime, $message) use ($self) {
-                $self->logToScreen($this->formatMessage($pluginName, $datetime, $message));
+                $self->logToScreen($this->formatMessage($level, $pluginName, $datetime, $message));
             };
         } else if ($writerName == 'db') {
-            $writer = function ($pluginName, $datetime, $message) use ($self) {
-                $self->logToDatabase($pluginName, $datetime, $message);
+            $writer = function ($level, $pluginName, $datetime, $message) use ($self) {
+                $self->logToDatabase($level, $pluginName, $datetime, $message);
             };
         }
         return $writer;
@@ -166,22 +166,22 @@ class Log
         echo $message . "\n";
     }
 
-    private function logToDatabase($pluginName, $datetime, $message)
+    private function logToDatabase(logToDatabase$pluginName, $datetime, $message)
     {
         $sql = "INSERT INTO " . Common::prefixTable($this->logToDatabaseTable)
-             . " (plugin, time, message)"
-             . " VALUES (?, ?, ?)";
-        Db::query($sql, array($pluginName, $datetime, $message));
+             . " (plugin, time, level, message)"
+             . " VALUES (?, ?, ?, ?)";
+        Db::query($sql, array($pluginName, $datetime, $level, $message));
     }
 
     /**
      * TODO
      */
-    public function log($level, $pluginName, $message, $sprintfParams = array())
+    private function doLog($level, $pluginName, $message, $sprintfParams = array())
     {
         if ($this->shouldLoggerLog($level)) {
             $datetime = date("Y-m-d H:i:s");
-            $message = sprintf($message, $sprintfParams);
+            $message = vsprintf($message, $sprintfParams);
 
             $this->writeMessage($pluginName, $message, $datetime);
         }
@@ -190,11 +190,11 @@ class Log
     /**
      * TODO
      */
-    private function formatMessage($pluginName, $message, $datetime)
+    private function formatMessage($level, $pluginName, $message, $datetime)
     {
         return str_replace(
-            array("%pluginName%", "%message%", "%datetime%"),
-            array($pluginName, $message, $datetime),
+            array("%pluginName%", "%message%", "%datetime%", "%level%"),
+            array($pluginName, $message, $datetime, $this->getStringLevel($level)),
             $this->logMessageFormat
         );
     }
@@ -202,10 +202,10 @@ class Log
     /**
      * TODO
      */
-    private function writeMessage($pluginName, $datetime, $message)
+    private function writeMessage($level, $pluginName, $datetime, $message)
     {
         foreach ($this->writers as $writer) {
-            $writer($pluginName, $datetime, $message);
+            $writer($level, $pluginName, $datetime, $message);
         }
     }
 
@@ -214,7 +214,7 @@ class Log
      */
     public static function log($level, $pluginName, $message, $sprintfParams = array())
     {
-        self::getInstance()->log($level, $pluginName, $message, $sprintfParams);
+        self::getInstance()->doLog($level, $pluginName, $message, $sprintfParams);
     }
 
     /**
@@ -305,5 +305,18 @@ class Log
             default:
                 return -1;
         }
+    }
+
+    private function getStringLevel($level)
+    {
+        static $levelToName = array(
+            self::NONE => 'NONE',
+            self::ERROR => 'ERROR',
+            self::WARN => 'WARN',
+            self::INFO => 'INFO',
+            self::DEBUG => 'DEBUG',
+            self::VERBOSE => 'VERBOSE'
+        );
+        return $levelToName[$level];
     }
 }
