@@ -19,7 +19,6 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Url;
-use Piwik\Version;
 use Piwik\View;
 use Piwik\PluginsManager;
 
