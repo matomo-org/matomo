@@ -47,10 +47,10 @@ class Marketplace
 
         $dateFormat = Piwik_Translate('CoreHome_ShortDateFormatWithYear');
 
-        foreach ($plugins as $plugin) {
-            $plugin->canBeUpdated = $this->hasPluginUpdate($plugin);
-            $plugin->isInstalled  = PluginsManager::getInstance()->isPluginLoaded($plugin->name);
-            $plugin->lastUpdated  = Date::factory($plugin->lastUpdated)->getLocalized($dateFormat);
+        foreach ($plugins as &$plugin) {
+            $plugin['canBeUpdated'] = $this->hasPluginUpdate($plugin);
+            $plugin['isInstalled']  = PluginsManager::getInstance()->isPluginLoaded($plugin['name']);
+            $plugin['lastUpdated']  = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
         }
 
         return $plugins;
@@ -58,14 +58,14 @@ class Marketplace
 
     private function hasPluginUpdate($plugin)
     {
-        if (empty($plugin->name)) {
+        if (empty($plugin['name'])) {
             return false;
         }
 
-        $pluginsHavingUpdate = $this->getPluginsHavingUpdate($plugin->isTheme);
+        $pluginsHavingUpdate = $this->getPluginsHavingUpdate($plugin['isTheme']);
 
         foreach ($pluginsHavingUpdate as $pluginHavingUpdate) {
-            if ($plugin->name == $pluginHavingUpdate->name) {
+            if ($plugin['name'] == $pluginHavingUpdate['name']) {
                 return true;
             }
         }
@@ -89,12 +89,14 @@ class Marketplace
             $pluginsHavingUpdate = array();
         }
 
-        foreach ($pluginsHavingUpdate as $updatePlugin) {
+        foreach ($pluginsHavingUpdate as &$updatePlugin) {
             foreach ($loadedPlugins as $loadedPlugin) {
 
-                if (!empty($updatePlugin->name) && $loadedPlugin->getPluginName() == $updatePlugin->name) {
-                    $updatePlugin->currentVersion = $loadedPlugin->getVersion();
-                    $updatePlugin->isActivated    = $pluginManager->isPluginActivated($updatePlugin->name);
+                if (!empty($updatePlugin['name'])
+                    && $loadedPlugin->getPluginName() == $updatePlugin['name']) {
+
+                    $updatePlugin['currentVersion'] = $loadedPlugin->getVersion();
+                    $updatePlugin['isActivated']    = $pluginManager->isPluginActivated($updatePlugin['name']);
                     break;
                 }
             }

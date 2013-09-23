@@ -6,11 +6,13 @@
 <div style="max-width:980px;">
 
     {% if activatedPluginName %}
-        <div id="feedback-success">You have successfully activated plugin {{ activatedPluginName }}</div>
+        <div id="feedback-success"><strong>Well done!</strong> You have successfully activated plugin {{ activatedPluginName }}</div>
     {% endif %}
 
     {% if pluginsHavingUpdate|length %}
         <h2>{{ pluginsHavingUpdate|length }} Update(s) available</h2>
+
+        <p>{{ 'Update your plugins now to benefit from the latest improvements.'|translate }}</p>
 
         {{ plugins.tablePluginUpdates(pluginsHavingUpdate, updateNonce, activateNonce, 0) }}
     {% endif %}

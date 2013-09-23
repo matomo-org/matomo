@@ -37,13 +37,8 @@ class Controller extends \Piwik\Controller\Admin
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
-        $pluginName = Common::getRequestVar('pluginName', '', 'string');
-        $pluginName = strip_tags($pluginName);
-        $nonce      = Common::getRequestVar('nonce', '', 'string');
-
-        if (empty($pluginName)) {
-            throw new \Exception('Plugin parameter is missing');
-        }
+        $pluginName = Common::getRequestVar('pluginName', null, 'string');
+        $nonce      = Common::getRequestVar('nonce', null, 'string');
 
         $view->plugin = array('name' => $pluginName);
 
@@ -58,7 +53,7 @@ class Controller extends \Piwik\Controller\Admin
             $pluginInstaller = new PluginInstaller($pluginName);
             $pluginInstaller->installOrUpdatePluginFromMarketplace();
 
-        } catch (PluginInstallerException $e) {
+        } catch (\Exception $e) {
             $view->errorMessage = $e->getMessage();
             return $view;
         }
@@ -85,12 +80,7 @@ class Controller extends \Piwik\Controller\Admin
 
     public function pluginDetails()
     {
-        $pluginName = Common::getRequestVar('pluginName', '', 'string');
-        $pluginName = strip_tags($pluginName);
-
-        if (empty($pluginName)) {
-            return;
-        }
+        $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
         $view = $this->configureView('@CorePluginsAdmin/pluginDetails');
 
@@ -107,7 +97,6 @@ class Controller extends \Piwik\Controller\Admin
     private function createBrowsePluginsOrThemesView($template, $themesOnly)
     {
         $query = Common::getRequestVar('query', '', 'string', $_POST);
-        $query = strip_tags($query);
         $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
 
         if (!in_array($sort, $this->validSortMethods)) {
@@ -263,13 +252,8 @@ class Controller extends \Piwik\Controller\Admin
     {
         Piwik::checkUserIsSuperUser();
 
-        $pluginName = Common::getRequestVar('pluginName', '', 'string');
-        $pluginName = strip_tags($pluginName);
-        $nonce      = Common::getRequestVar('nonce', '', 'string');
-
-        if (empty($pluginName)) {
-            throw new \Exception('Plugin parameter is missing');
-        }
+        $pluginName = Common::getRequestVar('pluginName', null, 'string');
+        $nonce      = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce('CorePluginsAdmin.activatePlugin', $nonce)) {
             throw new \Exception(Piwik_Translate('General_ExceptionNonceMismatch'));
@@ -283,11 +267,12 @@ class Controller extends \Piwik\Controller\Admin
             $params = array('activated' => 1, 'pluginName' => $pluginName);
             $plugin = PluginsManager::getInstance()->loadPlugin($pluginName);
 
+            $actionToRedirect = 'plugins';
             if ($plugin->isTheme()) {
-                $this->redirectToIndex('CorePluginsAdmin', 'themes', null, null, null, $params);
-            } else {
-                $this->redirectToIndex('CorePluginsAdmin', 'plugins', null, null, null, $params);
+                $actionToRedirect = 'themes';
             }
+
+            $this->redirectToIndex('CorePluginsAdmin', $actionToRedirect, null, null, null, $params);
         }
     }
 
