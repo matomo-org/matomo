@@ -80,6 +80,7 @@ class Marketplace
     public function getPluginsHavingUpdate($themesOnly)
     {
         $pluginManager = PluginsManager::getInstance();
+        $pluginManager->returnLoadedPluginsInfo();
         $loadedPlugins = $pluginManager->getLoadedPlugins();
 
         try {
