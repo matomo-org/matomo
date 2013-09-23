@@ -268,8 +268,6 @@ class FrontController
                 throw $e;
             }
 
-            Log::make();
-
             // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
             Access::getInstance();
 

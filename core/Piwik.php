@@ -61,26 +61,13 @@ class Piwik
     public static $shouldLog = null;
 
     /**
-     * Log a message
+     * Log a message TODO: remove
      *
      * @param string $message
      */
     static public function log($message = '')
     {
-        if (is_null(self::$shouldLog)) {
-            self::$shouldLog = SettingsPiwik::shouldLoggerLog();
-            // It is possible that the logger is not setup:
-            // - Tracker request, and debug disabled,
-            // - and some scheduled tasks call code that tries and log something
-            try {
-                \Zend_Registry::get('logger_message');
-            } catch (Exception $e) {
-                self::$shouldLog = false;
-            }
-        }
-        if (self::$shouldLog) {
-            \Zend_Registry::get('logger_message')->logEvent($message);
-        }
+        Log::i("none", $message);
     }
 
     /**
