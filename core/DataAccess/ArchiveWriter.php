@@ -108,7 +108,7 @@ class ArchiveWriter
         try { // TODO: this is temporary, remove when deadlocking issue is fixed
             $db->exec($insertSql);
         } catch (Exception $ex) {
-            if (\Zend_Registry::get('db')->isErrNo($e, 1213)) {
+            if (\Zend_Registry::get('db')->isErrNo($ex, 1213)) {
                 $deadlockInfo = \Piwik\Db::fetchAll("SHOW ENGINE INNODB STATUS");
                 Piwik::log("DEADLOCK INFO: " . print_r($deadlockInfo));
             }
