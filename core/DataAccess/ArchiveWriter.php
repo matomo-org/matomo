@@ -112,6 +112,7 @@ class ArchiveWriter
                 $deadlockInfo = \Piwik\Db::fetchAll("SHOW ENGINE INNODB STATUS");
                 Piwik::log("DEADLOCK INFO: " . print_r($deadlockInfo));
             }
+            throw $ex;
         }
         Db::releaseDbLock($dbLockName);
         $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
