@@ -575,7 +575,6 @@
         "CongratulationsHelp": "<p>Gratulacje! Twoja instalacja Piwik zakończyła się powodzeniem.<\/p><p>Miej pewność, że już dodałeś swój kod JavaScript do kodu swoich stron które chcesz badać, no i możesz teraz już czekać na swoich pierwszych odwiedzających!<\/p>",
         "DatabaseCheck": "Sprawdzenie bazy danych",
         "DatabaseClientVersion": "Wersja kliencka bazy danych",
-        "DatabaseCreatedSuccess": "Baza danych %s została pomyślnie utworzona!",
         "DatabaseCreation": "Utworzenie bazy danych",
         "DatabaseErrorConnect": "Błąd podczas próby połączenia się z serwerem baz danych",
         "DatabaseServerVersion": "Wersja serwera bazy danych",
@@ -674,7 +673,6 @@
         "PluginDescription": "Ta wtyczka będzie wyświetlać listę osiągalnych tłumaczeń interfejsu Piwik. Wybrany język zostanie zapisany w konfiguracji każdego z użytkowników."
     },
     "Live": {
-        "GoalTime": "Pierwszy czas przetwarzania",
         "GoalType": "Rodzaj",
         "KeywordRankedOnSearchResultForThisVisitor": "Słowo kluczowe %1$s zdobyło pozycję %2$s w %3$s wynikach wyszukania strony dla tego odwiedzającego",
         "LastHours": "w czasie ostatnich %s godzin",
@@ -682,7 +680,6 @@
         "LinkVisitorLog": "Zobacz szczegółowy log twoich odwiedzających",
         "PluginDescription": "Szpieguje odwiedzających, na żywo, w czasie rzeczywistym!",
         "Referrer_URL": "Przysyłający adres URL",
-        "Time": "Czas",
         "VisitorLog": "Log odwiedzających",
         "VisitorsInRealTime": "Odwiedzający w czasie rzeczywistym"
     },
@@ -1141,8 +1138,7 @@
         "SubmenuLocations": "Położenia"
     },
     "UserCountryMap": {
-        "map": "mapa",
-        "worldMap": "mapa świata"
+        "map": "mapa"
     },
     "UserSettings": {
         "BrowserFamilies": "Rodzina przeglądarek",

@@ -829,7 +829,6 @@
         "DatabaseAbilities": "데이터베이스 속성",
         "DatabaseCheck": "데이터베이스 확인",
         "DatabaseClientVersion": "데이터베이스 클라이언트 버전",
-        "DatabaseCreatedSuccess": "데이터베이스 %s 를 성공적으로 생성했습니다!",
         "DatabaseCreation": "데이터베이스 생성",
         "DatabaseErrorConnect": "데이터베이스 서버 연결 시도 중 오류 발생",
         "DatabaseServerVersion": "데이터베이스 서버 버전",
@@ -943,7 +942,6 @@
         "PluginDescription": "Piwik 인터페이스에서 사용 가능한 언어 목록을 표시합니다. 선택된 언어는 각 사용자의 기본 설정에 저장됩니다."
     },
     "Live": {
-        "GoalTime": "첫 번째 전환 시간",
         "GoalType": "유형",
         "KeywordRankedOnSearchResultForThisVisitor": "키워드 %1$s 이 방문자의 %3$s 검색 결과 페이지에서 %2$s에 랭크되었습니다.",
         "LastHours": "최근 %s시간",
@@ -953,7 +951,6 @@
         "PageRefreshed": "이 페이지를 볼 수 있음 \/ 업데이트된 횟수",
         "PluginDescription": "방문자를 실시간 라이브로 관찰합니다!",
         "Referrer_URL": "참조 URL",
-        "Time": "시간",
         "VisitorLog": "방문자 기록",
         "VisitorLogDocumentation": "이 표는 선택한 날짜 기간 내에 최신 방문에 표시하고 있습니다. 방문 날짜 위로 마우스를 이동하고, 그 방문자의 마지막 방문이 며칠 전인지 볼 수 있습니다. %s 기간내에 오늘이 포함되어 있으면, 방문객을 실시간으로 볼 수 있습니다! %s 여기에 표시되는 것은 보관을위한 cron 작업 설정 빈도에 상관없는 라이브 데이터입니다.",
         "VisitorsInRealTime": "실시간 방문자",
@@ -1758,7 +1755,6 @@
         "ShowingVisits": "최근 방문의 지리적 위치",
         "Unlocated": "<b>%s<\/b> %c 방문에서 %p의 지리적 위치를 찾을 수 없습니다.",
         "VisitorMap": "방문자 지도",
-        "worldMap": "세계지도",
         "WorldWide": "전세계"
     },
     "UserSettings": {

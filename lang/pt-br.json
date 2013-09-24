@@ -912,7 +912,6 @@
         "DatabaseAbilities": "Capacidades de banco de dados",
         "DatabaseCheck": "check do banco de dados",
         "DatabaseClientVersion": "versão do banco de dados client",
-        "DatabaseCreatedSuccess": "Banco de dados %s criado com sucesso!",
         "DatabaseCreation": "Criação do banco de dados",
         "DatabaseErrorConnect": "Erro enquanto tentando conectar ao servidor do banco de dados",
         "DatabaseServerVersion": "versão do servidor de banco de dados",
@@ -1032,7 +1031,6 @@
     "Live": {
         "ConvertedNGoals": "%s Metas convertidas",
         "FirstVisit": "Primeiro visitante",
-        "GoalTime": "Primeira vez de conversão",
         "GoalType": "Tipo",
         "KeywordRankedOnSearchResultForThisVisitor": "A palavra-chave %1$s foi classificada %2$s em %3$s páginas de resultados de pesquisa para este visitante",
         "LastHours": "Últimas %s horas",
@@ -1047,7 +1045,6 @@
         "RealTimeVisitorCount": "Contagem de visitantes em tempo real",
         "Referrer_URL": "URL de encaminhamento",
         "SimpleRealTimeWidget_Message": "%s e %s na última %s.",
-        "Time": "Tempo",
         "VisitedPages": "Páginas visitadas",
         "VisitorLog": "Log de visitantes",
         "VisitorLogDocumentation": "Esta tabela mostra as últimas visitas dentro do período selecionado. Você pode ver quando a última visita de um visitante ocorreu passando o mouse sobre a data da visita. %s se o intervalo de data incluir hoje, você pode ver os seus visitantes em tempo real! %s Os dados exibidos aqui são sempre ao vivo, independentemente de estar usando o arquivamento agendado por cron.",
@@ -1904,7 +1901,6 @@
         "ShowingVisits": "Geo-localização das últimas visitas",
         "Unlocated": "<b>%s<\/b> %p das visitas de %c não puderam ser geo localizados.",
         "VisitorMap": "Mapa de visitantes",
-        "worldMap": "mapa mundi",
         "WorldWide": "World-Wide"
     },
     "UserSettings": {

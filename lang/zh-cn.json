@@ -903,7 +903,6 @@
         "DatabaseAbilities": "数据库能力",
         "DatabaseCheck": "数据库检查",
         "DatabaseClientVersion": "数据库客户端版本",
-        "DatabaseCreatedSuccess": "数据库 %s 已成功建立！",
         "DatabaseCreation": "数据库建立",
         "DatabaseErrorConnect": "连接至数据库服务器时发生错误",
         "DatabaseServerVersion": "数据库服务器版本",
@@ -1019,7 +1018,6 @@
         "PluginDescription": "这个插件会显示 Piwik 页面可以使用的语言列表。选择的语言将会被保存在每个用户的偏好里。"
     },
     "Live": {
-        "GoalTime": "第一次转化时间",
         "GoalType": "类型",
         "KeywordRankedOnSearchResultForThisVisitor": "这个访客的关键字 %1$s 排名 %2$s 于 %3$s 搜索结果页面。",
         "LastHours": "最后%s小时",
@@ -1033,7 +1031,6 @@
         "RealTimeVisitorCount": "实时访客计数",
         "Referrer_URL": "来源网址",
         "SimpleRealTimeWidget_Message": "%s 和 %s 在最近 %s。",
-        "Time": "时间",
         "VisitorLog": "访客日志",
         "VisitorLogDocumentation": "本表显示所选时间段内最新的访客资料，鼠标移到日期上可以查看上次访问时间，%s 如果时间段包含今天，您可以实时查看访客! %s 这里显示的数据总是实时的，无论是否使用定时处理任务。",
         "VisitorsInRealTime": "实时访客",
@@ -1866,7 +1863,6 @@
         "ShowingVisits": "最后访客地理位置",
         "Unlocated": "<b>%s<\/b> %p 的访问来自 %c 无法定位地理位置。",
         "VisitorMap": "访客地图",
-        "worldMap": "世界地图",
         "WorldWide": "全世界"
     },
     "UserSettings": {

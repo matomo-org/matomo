@@ -695,7 +695,6 @@
         "CongratulationsHelp": "<p>Urime! Instalimi juaj i Piwik-ut u plotësua.<\/p><p>Sigurohuni që keni futur kodin JavaScript te faqet tuaja, dhe prisni për vizitorët e parë!<\/p>",
         "DatabaseCheck": "Kontroll i Bazës së të dhënave",
         "DatabaseClientVersion": "Version klienti baze të dhënash",
-        "DatabaseCreatedSuccess": "Baza e të dhënave %s u krijua me sukses!",
         "DatabaseCreation": "Krijim baze të dhënash",
         "DatabaseErrorConnect": "Gabim gjatë provës për t'u lidhur me shërbyesin e bazës së të dhënave",
         "DatabaseServerVersion": "Version shërbyesi baze të dhënash",
@@ -794,7 +793,6 @@
         "PluginDescription": "Kjo shtojcë do të shfaqë një listë të gjuhëve të mundshme për ndërfaqen e Piwik-ut. Gjuha e përzgjedhur do të ruhet te parapëlqimet e çdo përdoruesi."
     },
     "Live": {
-        "GoalTime": "Koha e shndërrimit të parë",
         "GoalType": "Lloj",
         "KeywordRankedOnSearchResultForThisVisitor": "Për këtë vizitor, fjalëkyçi %1$s u radhit i %2$s te faqja e përfundimeve të kërkimit për %3$s",
         "LastHours": "%s orët e fundit",
@@ -803,7 +801,6 @@
         "PageRefreshed": "Sa herë rresht është parë \/ rifreskuar kjo faqew.",
         "PluginDescription": "Gjurmoni vizitorët tuaj, live, në kohë reale!",
         "Referrer_URL": "URL Referuesi",
-        "Time": "Kohë",
         "VisitorLog": "Regjistër Vizitori",
         "VisitorLogDocumentation": "Kjo tabelë tregon vizitat e fundit brenda intervalit kohor të përzgjedhur. Se kur u bë vizita e fundit nga një vizitor mund ta shihni duke kaluar kursorin përsipër datës së një vizite. %s Nëse intervali kohor e përfshin ditën e sotme, mund t’i shihni vizitorët aty për aty! %s Të dhënat e shfaqura këtu janë përherë më të rejat, pavarësisht nëse e përdorni a jo dhe se sa shpesh funksionin cron për arkivim.",
         "VisitorsInRealTime": "Vizitorë në Kohë Reale",
@@ -1280,8 +1277,7 @@
         "SubmenuLocations": "Vende"
     },
     "UserCountryMap": {
-        "map": "hartë",
-        "worldMap": "hartë e botës"
+        "map": "hartë"
     },
     "UserSettings": {
         "BrowserFamilies": "Familje shfletuesi",

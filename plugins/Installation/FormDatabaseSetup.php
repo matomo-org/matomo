@@ -16,6 +16,7 @@ use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
 use Piwik\Db\Adapter;
 use Piwik\DbHelper;
+use Piwik\Db;
 use Piwik\Filesystem;
 use Piwik\QuickForm2;
 use Zend_Db_Adapter_Exception;
@@ -120,7 +121,7 @@ class FormDatabaseSetup extends QuickForm2
         }
 
         try {
-            @DbHelper::createDatabaseObject($dbInfos);
+            @Db::createDatabaseObject($dbInfos);
         } catch (Zend_Db_Adapter_Exception $e) {
             $db = Adapter::factory($adapter, $dbInfos, $connect = false);
 
@@ -128,11 +129,11 @@ class FormDatabaseSetup extends QuickForm2
             if ($db->isErrNo($e, '1049')) {
                 $dbInfosConnectOnly = $dbInfos;
                 $dbInfosConnectOnly['dbname'] = null;
-                @DbHelper::createDatabaseObject($dbInfosConnectOnly);
+                @Db::createDatabaseObject($dbInfosConnectOnly);
                 @DbHelper::createDatabase($dbInfos['dbname']);
 
                 // select the newly created database
-                @DbHelper::createDatabaseObject($dbInfos);
+                @Db::createDatabaseObject($dbInfos);
             } else {
                 throw $e;
             }
@@ -179,7 +180,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
             }
         }
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
 
         try {
             // try to drop tables before running privilege tests

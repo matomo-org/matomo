@@ -509,7 +509,6 @@
         "Congratulations": "Apsveicam",
         "DatabaseCheck": "Datubāzes pārbaude",
         "DatabaseClientVersion": "Datubāzes klienta versija",
-        "DatabaseCreatedSuccess": "Datubāze %s veiksmīgi izveidota!",
         "DatabaseCreation": "Datubāzes izveide",
         "DatabaseErrorConnect": "Kļūda mēģinot sasniegt datubāzes serveri",
         "DatabaseServerVersion": "Datubāzes servera versija",
@@ -576,7 +575,6 @@
         "PluginDescription": "Šis spraudnis rāda visu pieejamo Piwik interfeisa valodu sarakstu. Izvēlētā valoda tiks saglabāta katra lietotāja iestatījumos."
     },
     "Live": {
-        "GoalTime": "Pirmās konversijas laiks",
         "GoalType": "Tips",
         "KeywordRankedOnSearchResultForThisVisitor": "Atslēgvārds %1$s ir %2$s vietā %3$s šī lietotāja meklēšanas rezultātu lapā.",
         "LastHours": "Pēdējās %s stundas",
@@ -584,7 +582,6 @@
         "LinkVisitorLog": "Apskatīt detalizētu apmeklētāju žurnālu",
         "PluginDescription": "Izspiego savus apmeklētājus, dzīvajā, reāllaikā!",
         "Referrer_URL": "Atsauces URL",
-        "Time": "Laiks",
         "VisitorLog": "Apmeklētāju žurnāls",
         "VisitorLogDocumentation": "Šī tabula atspoguļo pēdējos apmeklējumus izvēlētajā datumu intervālā. Jūs varat apskatīt pēdējo apmeklētāja apmeklējuma laiku kursoru uzbīdot uz apmeklējuma datuma. %s Ja datumu intervāls iekļauj šodienu, Jūs varat skatīt apmeklētājus reāllaikā! %s Dati, kas apskatāmi šeit, ir vienmēr aktuālie, neatkarīgi no tā vai lietojat arhivēšanas darbu, vai nē.",
         "VisitorsInRealTime": "Apmeklētāji reāllaikā",
@@ -1018,8 +1015,7 @@
         "SubmenuLocations": "Lokācijas"
     },
     "UserCountryMap": {
-        "map": "karte",
-        "worldMap": "Pasaules karte"
+        "map": "karte"
     },
     "UserSettings": {
         "BrowserFamilies": "Pārlūku ģimenes",

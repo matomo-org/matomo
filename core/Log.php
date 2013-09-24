@@ -13,12 +13,6 @@ namespace Piwik;
 use Piwik\Common;
 use Piwik\Db;
 
-/* TODO:
-; all calls to the API (method name, parameters, execution time, caller IP, etc.)
-; disabled by default as it can cause serious overhead and should only be used wisely
-;logger_api_call[] = file
-*/
-
 /**
  * TODO
  */
@@ -37,6 +31,21 @@ class Log
     const LOG_WRITERS_CONFIG_OPTION = 'log_writers';
     const LOGGER_FILE_PATH_CONFIG_OPTION = 'logger_file_path';
     const LOGGER_DATABASE_TABLE_CONFIG_OPTION = 'logger_db_table';
+
+    /**
+     * TODO
+     */
+    const FORMAT_FILE_MESSAGE_EVENT = 'Log.formatFileMessage';
+
+    /**
+     * TODO
+     */
+    const FORMAT_SCREEN_MESSAGE_EVENT = 'Log.formatScreenMessage';
+
+    /**
+     * TODO
+     */
+    const FORMAT_DATABASE_MESSAGE_EVENT = 'Log.formatDatabaseMessage';
 
     /**
      * TODO
@@ -150,37 +159,49 @@ class Log
 
         $writer = false;
         if ($writerName == 'file') {
-            $writer = function ($level, $pluginName, $datetime, $message) use ($self) {
-                $self->logToFile($this->formatMessage($level, $pluginName, $datetime, $message));
-            };
+            $writer = array($this, 'logToFile');
         } else if ($writerName == 'screen') {
-            $writer = function ($pluginName, $datetime, $message) use ($self) {
-                $self->logToScreen($this->formatMessage($level, $pluginName, $datetime, $message));
-            };
+            $writer = array($this, 'logToScreen');
         } else if ($writerName == 'db') {
-            $writer = function ($level, $pluginName, $datetime, $message) use ($self) {
-                $self->logToDatabase($level, $pluginName, $datetime, $message);
-            };
+            $writer = array($this, 'logToDatabase');
         }
         return $writer;
     }
 
-    private function logToFile($message)
+    private function logToFile($level, $pluginName, $datetime, $message)
     {
+        if (is_string($message)) {
+            $message = $this->formatMessage($level, $pluginName, $datetime, $message);
+        } else {
+            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime));
+        }
+
         file_put_contents($this->logToFileFilename, $message . "\n", FILE_APPEND);
     }
 
-    private function logToScreen($message)
+    private function logToScreen($level, $pluginName, $datetime, $message)
     {
+        if (is_string($message)) {
+            $message = $this->formatMessage($level, $pluginName, $datetime, $message);
+        } else {
+            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime));
+        }
+
         echo $message . "\n";
     }
 
-    private function logToDatabase(logToDatabase$pluginName, $datetime, $message)
+    private function logToDatabase($level, $pluginName, $datetime, $message)
     {
+        if (is_string($message)) {
+            $message = $this->formatMessage($level, $pluginName, $datetime, $message);
+        } else {
+            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime));
+        }
+
         $sql = "INSERT INTO " . Common::prefixTable($this->logToDatabaseTable)
              . " (plugin, time, level, message)"
              . " VALUES (?, ?, ?, ?)";
-        Db::query($sql, array($pluginName, $datetime, $level, $message));
+        Db::query($sql, array($pluginName, $datetime, $level, (string)$message));
     }
 
     /**
@@ -221,7 +242,7 @@ class Log
         if ($level == self::ERROR
             && !$this->loggingToScreen
         ) {
-            $this->logToScreen($this->formatMessage($level, $pluginName, $datetime, $message));
+            $this->logToScreen($level, $pluginName, $datetime, $message);
         }
     }
 
@@ -305,7 +326,7 @@ class Log
 
     private function getLogLevelFromStringName($name)
     {
-        switch ($name) {
+        switch (strtoupper($name)) {
             case 'NONE':
                 return self::NONE;
             case 'ERROR':

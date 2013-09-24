@@ -828,7 +828,6 @@
         "DatabaseAbilities": "Capacidades de la base de datos",
         "DatabaseCheck": "Comprobar base de datos",
         "DatabaseClientVersion": "Versión de cliente de la base de datos",
-        "DatabaseCreatedSuccess": "¡Base de datos %s creada con éxito!",
         "DatabaseCreation": "Creación de la base de datos",
         "DatabaseErrorConnect": "Error al intentar conectarse al servidor de la base de datos",
         "DatabaseServerVersion": "Versión del servidor de la base de datos",
@@ -942,7 +941,6 @@
         "PluginDescription": "Este plugin mostrará una lista de idiomas para la interfaz de Piwik. Esta selección de idioma será grabada en las preferencias de cada usuario."
     },
     "Live": {
-        "GoalTime": "1ra Conversión",
         "GoalType": "Tipo",
         "KeywordRankedOnSearchResultForThisVisitor": "La palabra clave %1$s ha sido clasificada %2$s en la página de resultados de la búsqueda %3$s para este visitante.",
         "LastHours": "Últimas %s horas",
@@ -952,7 +950,6 @@
         "PageRefreshed": "Número de veces que esta página ha sido vista \/ refrescada en una fila",
         "PluginDescription": "Espiar a tus visitantes, en vivo, en tiempo real!",
         "Referrer_URL": "URL de referencia",
-        "Time": "Hora",
         "VisitorLog": "Registro de visitantes",
         "VisitorLogDocumentation": "Esta tabla muestra las últimas visitas en el rango de fecha seleccionado.%s Si el rango de fecha incluye hoy, ¡usted puede ver sus visitantes en tiempo real! %s La información mostrada aquí es siempre en tiempo real, sin tener en cuenta si está usando o cada cuanto tiempo está usando el trabajo de cron para archivar.",
         "VisitorsInRealTime": "Visitantes en Tiempo Real",
@@ -1723,8 +1720,7 @@
         "WidgetLocation": "Ubicación del visitante"
     },
     "UserCountryMap": {
-        "map": "mapa",
-        "worldMap": "mapamundi"
+        "map": "mapa"
     },
     "UserSettings": {
         "BrowserFamilies": "Familia de Navegadores",

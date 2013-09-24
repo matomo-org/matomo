@@ -913,7 +913,6 @@
         "DatabaseAbilities": "Δυνατότητες βάσης δεδομένων",
         "DatabaseCheck": "Έλεγχος βάσης δεδομένων",
         "DatabaseClientVersion": "Έκδοση πελάτη βάσεων δεδομένων",
-        "DatabaseCreatedSuccess": "Η βάση δεδομένων %s δημιουργήθηκε επιτυχώς!",
         "DatabaseCreation": "Δημιουργία βάσεων δεδομένων",
         "DatabaseErrorConnect": "Σφάλμα κατά την προσπάθεια σύνδεσης στο διακομιστή βάσεων δεδομένων",
         "DatabaseServerVersion": "Έκδοση διακομιστή βάσεων δεδομένων",
@@ -1036,7 +1035,6 @@
         "ConvertedNGoals": "Μετατράπηκαν %s Στόχοι",
         "EcommerceSummaryConversions": "%1$s%2$s παραγγελίες από σύνολο %3$s%4$s, αγοράστηκαν %5$s αντικείμενα.",
         "FirstVisit": "Πρώτη επίσκεψη",
-        "GoalTime": "1ος χρόνος Μετατροπής",
         "GoalType": "Τύπος",
         "HideMap": "απόκρυψη χάρτη",
         "KeywordRankedOnSearchResultForThisVisitor": "Η λέξη-κλειδί %1$s βαθμολογήθηκε ως %2$s στη σελίδα αποτελεσμάτων αναζήτησης %3$s για αυτόν τον επισκέπτη",
@@ -1057,7 +1055,6 @@
         "Referrer_URL": "URL Αναφορέα",
         "ShowMap": "εμφάνιση χάρτη",
         "SimpleRealTimeWidget_Message": "%s και %s στα τελευταία %s.",
-        "Time": "Ώρα",
         "ViewVisitorProfile": "Εμφάνιση του προφίλ επισκέπτη",
         "VisitedPages": "Σελίδες που έχουν επισκεφθεί",
         "VisitorLog": "Καταγραφή Επισκεπτών",
@@ -1915,7 +1912,6 @@
         "ShowingVisits": "Επισκέψεις με γεωτοποθεσία από τις τελευταίες",
         "Unlocated": "<b>%s<\/b> %p από τις επισκέψεις από %c δεν ήταν δυνατόν να χαρακτηριστούν με γεωτοποθεσία.",
         "VisitorMap": "Χάρτης Επισκεπτών",
-        "worldMap": "παγκόσμιος χάρτης",
         "WorldWide": "Παγκοσμίως"
     },
     "UserSettings": {

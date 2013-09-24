@@ -94,7 +94,7 @@ class DbHelper
      */
     public static function isDatabaseConnectionUTF8()
     {
-        return \Zend_Registry::get('db')->isConnectionUTF8();
+        return Db::get()->isConnectionUTF8();
     }
 
     /**
@@ -107,7 +107,7 @@ class DbHelper
      */
     public static function checkDatabaseVersion()
     {
-        \Zend_Registry::get('db')->checkServerVersion();
+        Db::get()->checkServerVersion();
     }
 
     /**
@@ -115,32 +115,7 @@ class DbHelper
      */
     public static function disconnectDatabase()
     {
-        \Zend_Registry::get('db')->closeConnection();
-    }
-
-    /**
-     * Create database object and connect to database
-     * @param array|null $dbInfos
-     */
-    public static function createDatabaseObject($dbInfos = null)
-    {
-        $config = Config::getInstance();
-
-        if (is_null($dbInfos)) {
-            $dbInfos = $config->database;
-        }
-
-        Piwik_PostEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
-
-        $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
-
-        $db = null;
-        Piwik_PostEvent('Reporting.createDatabase', array(&$db));
-        if (is_null($db)) {
-            $adapter = $dbInfos['adapter'];
-            $db = @Adapter::factory($adapter, $dbInfos);
-        }
-        \Zend_Registry::set('db', $db);
+        Db::get()->closeConnection();
     }
 
     /**

@@ -897,7 +897,6 @@
         "DatabaseAbilities": "Kemampuan Basisdata",
         "DatabaseCheck": "Pemeriksaan Basisdata",
         "DatabaseClientVersion": "Versi klien basisdata",
-        "DatabaseCreatedSuccess": "Basisdata %s berhasil dibuat!",
         "DatabaseCreation": "Pembuatan basisdata",
         "DatabaseErrorConnect": "Galat ketika coba sambungan ke peladen basisdata",
         "DatabaseServerVersion": "Versi peladen basisdata",
@@ -1014,7 +1013,6 @@
         "PluginDescription": "Pengaya ini akan menampilkan daftar bahasa yang tersedia dalam antarmuka Piwik. Bahasa yang dipilih akan tersimpan dalam pengaturan setiap pengguna."
     },
     "Live": {
-        "GoalTime": "Waktu Konversi Pertama",
         "GoalType": "Jenis",
         "KeywordRankedOnSearchResultForThisVisitor": "Kata kunci %1$s menuduki peringkat %2$s dalam halaman pencarian %3$s untuk pengunjung ini",
         "LastHours": "Jam %s terakhir",
@@ -1028,7 +1026,6 @@
         "RealTimeVisitorCount": "Jumlah Pengunjung Waktu Nyata",
         "Referrer_URL": "URL Pengarah",
         "SimpleRealTimeWidget_Message": "%s dan %s dalam %s terakhir.",
-        "Time": "Waktu",
         "VisitorLog": "Catatan Pengunjung",
         "VisitorLogDocumentation": "Tabel berikut menampilkan kunjungan terakhir selama rentang tanggal yang dipilih.%s Bila hari ini termasuk dalam rentang tanggal, Anda dapat melihat pengunjung Anda dalam waktu nyata! %s Data yang ditampilkan di sini selalu ditampilkan secara langsung, tidak terpengaruh bagaimana Anda mengatur pengarsipan di tugas Cron.",
         "VisitorsInRealTime": "Pengunjung dalam Waktu Nyata",
@@ -1864,7 +1861,6 @@
         "ShowingVisits": "Kunjungan Lokasi-Geo terakhir",
         "Unlocated": "<b>%s<\/b> %p kunjungan dari %c lokasi-geo tidak diketahui.",
         "VisitorMap": "Peta Pengunjung",
-        "worldMap": "peta dunia",
         "WorldWide": "Seluruh Dunia"
     },
     "UserSettings": {

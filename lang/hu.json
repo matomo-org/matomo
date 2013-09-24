@@ -556,7 +556,6 @@
         "CongratulationsHelp": "<p>Gratulálunk! A Piwik telepítése kész!<\/p><p>Bizonyosodj meg róla, hogy a JavaScript követőkód beillesztésre került minden weblapba. Ebben az esetben nincs más hátra, mint várnod az első látogatókat!<\/p>",
         "DatabaseCheck": "Adatbázis-ellenőrzés",
         "DatabaseClientVersion": "Adatbáziskliens verziója",
-        "DatabaseCreatedSuccess": "%s adatbázis sikeresen létrehozva!",
         "DatabaseCreation": "Adatbázis létrehozása",
         "DatabaseErrorConnect": "Hiba lépett fel az adatbázishoz történő csatlakozáskor.",
         "DatabaseServerVersion": "Adatbázisszerver verziója",
@@ -655,7 +654,6 @@
         "PluginDescription": "Ez a kiegészítő a Piwik felhasználói felület megtekintéséhez elérhető nyelvek listáját jeleníti meg. A kiválasztott nyelv a felhasználóhoz kötötten rögzítésre kerül."
     },
     "Live": {
-        "GoalTime": "Első konverzió ideje",
         "GoalType": "Típus",
         "KeywordRankedOnSearchResultForThisVisitor": "A %1$s kulcsszó %2$s. helyezésen jelent meg a(z) %3$s. találati lista oldalon a látogató számára.",
         "LastHours": "Legutóbbi %s óra",
@@ -663,7 +661,6 @@
         "LinkVisitorLog": "Részletes látogatói adatok megtekintése",
         "PluginDescription": "Kövesd nyomon látogatóid valós időben!",
         "Referrer_URL": "Hivatkozó URL",
-        "Time": "Idő",
         "VisitorLog": "Látogatói adatok",
         "VisitorLogDocumentation": "Ez a táblázat a legutolsó látogatásokat mutatja a kiválasztott időintervallumon belül.%s Ha az időintervallum tartalmazz a mai napot is, akkor élőben láthatod látogatóid! %s Az itt kijelzett adatok mindig élőek maradnak, függetlenül, hogy hogyan és milyen gyakran használod az archiválásra szolgáló cron job-ot.",
         "VisitorsInRealTime": "Látogatók valós időben"
@@ -1077,8 +1074,7 @@
         "SubmenuLocations": "Helyek"
     },
     "UserCountryMap": {
-        "map": "térkép",
-        "worldMap": "világtérkép"
+        "map": "térkép"
     },
     "UserSettings": {
         "BrowserFamilies": "Böngészőcsaládok",

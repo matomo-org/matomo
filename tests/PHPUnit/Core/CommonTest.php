@@ -382,7 +382,10 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testIsValidFilenameValidValues()
     {
         $valid = array(
-            "test", "test.txt", "test.......", "en-ZHsimplified",
+            "test",
+            "test.txt",
+            "test.......",
+            "en-ZHsimplified",
         );
         foreach ($valid as $toTest) {
             $this->assertTrue(Filesystem::isValidFilename($toTest), $toTest . " not valid!");
@@ -397,7 +400,15 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testIsValidFilenameNotValidValues()
     {
         $notvalid = array(
-            "../test", "/etc/htpasswd", '$var', ';test', '[bizarre]', '', ".htaccess", "very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename",
+            "../test",
+            "/etc/htpasswd",
+            '$var',
+            ';test',
+            '[bizarre]',
+            '',
+            ".htaccess",
+            "very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename",
+            "WHITE SPACE",
         );
         foreach ($notvalid as $toTest) {
             $this->assertFalse(Filesystem::isValidFilename($toTest), $toTest . " valid but shouldn't!");

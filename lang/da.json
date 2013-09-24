@@ -912,7 +912,6 @@
         "DatabaseAbilities": "Database egenskaber",
         "DatabaseCheck": "Database check",
         "DatabaseClientVersion": "Database klient version",
-        "DatabaseCreatedSuccess": "Databasen %s blev oprettet!",
         "DatabaseCreation": "Database oprettet",
         "DatabaseErrorConnect": "Fejl ved tilkobling til databaseserveren",
         "DatabaseServerVersion": "Databaseserver version",
@@ -1032,7 +1031,6 @@
     "Live": {
         "ConvertedNGoals": "Omregnet %s mål",
         "FirstVisit": "Første besøg",
-        "GoalTime": "1. konverterings tid",
         "GoalType": "Type",
         "KeywordRankedOnSearchResultForThisVisitor": "Nøgleordet %1$s blev rangeret %2$s på %3$s side med søgeresultater for denne besøgende",
         "LastHours": "Sidste %s timer",
@@ -1047,7 +1045,6 @@
         "RealTimeVisitorCount": "Tidstro besøgsantal",
         "Referrer_URL": "Henvisning netadresse",
         "SimpleRealTimeWidget_Message": "%s og %s i den sidste %s.",
-        "Time": "Tid",
         "VisitedPages": "Besøgte sider",
         "VisitorLog": "Besøgslog",
         "VisitorLogDocumentation": "Tabelen viser de nyeste besøg inden for det valgte datointerval.%s Hvis datointervallet omfatter i dag, kan du se dine besøgende i virkelig tid! %s Data, der vises her er altid live, uanset hvor ofte arkiveringsjob kører.",
@@ -1904,7 +1901,6 @@
         "ShowingVisits": "Geografisk placeret besøg af sidste",
         "Unlocated": "<b>%s<\/b> besøg %p fra %c kunne ikke placeres geografisk.",
         "VisitorMap": "Besøgerkort",
-        "worldMap": "Verdenskort",
         "WorldWide": "Hele verden"
     },
     "UserSettings": {

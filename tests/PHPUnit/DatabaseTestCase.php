@@ -9,6 +9,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
 use Piwik\DbHelper;
+use Piwik\Db;
 use Piwik\Option;
 use Piwik\Plugins\PDFReports\API;
 use Piwik\Site;
@@ -38,13 +39,13 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
             $dbName = $dbConfig['dbname'];
             $dbConfig['dbname'] = null;
 
-            DbHelper::createDatabaseObject($dbConfig);
+            Db::createDatabaseObject($dbConfig);
 
             DbHelper::dropDatabase();
             DbHelper::createDatabase($dbName);
             DbHelper::disconnectDatabase();
 
-            DbHelper::createDatabaseObject();
+            Db::createDatabaseObject();
             DbHelper::createTables();
 
 //            \Piwik\PluginsManager::getInstance()->loadPlugins(array());

@@ -15,7 +15,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DbHelper;
-use Zend_Registry;
+use Piwik\Db;
 
 class ArchiveTableCreator
 {
@@ -51,7 +51,7 @@ class ArchiveTableCreator
         }
 
         if (!in_array($tableName, self::$tablesAlreadyInstalled)) {
-            $db = \Zend_Registry::get('db');
+            $db = Db::get();
             $sql = DbHelper::getTableCreateSql($tableNamePrefix);
 
             // replace table name template by real name

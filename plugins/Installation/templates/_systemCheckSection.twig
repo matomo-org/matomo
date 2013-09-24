@@ -131,7 +131,7 @@
 </table>
 <br/>
 
-<h2>{{ 'Optional'|translate }}</h2>
+<h2>{{ 'Installation_Optional'|translate }}</h2>
 <table class="infos" id="systemCheckOptional">
     <tr>
         <td class="label">{{ 'Installation_SystemCheckFileIntegrity'|translate }}</td>
@@ -315,6 +315,7 @@
                         <em><strong>{{ 'General_Error'|translate }}:</strong></em>
                         {{ infos.extra.load_data_infile_error|raw }}
                     {% endif %}
+                    <p>Troubleshooting: <a target='_blank' href="?module=Proxy&action=redirect&url=http://piwik.org/faq/troubleshooting/%23faq_194">FAQ on piwik.org</a></p>
                 {% endif %}
             </td>
         </tr>

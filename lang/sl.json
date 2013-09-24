@@ -655,7 +655,6 @@
         "NbVisitor": "1 obiskovalec",
         "NbVisitors": "%s obiskovalcev",
         "PluginDescription": "Opazujte vaše obiskovalce v živo!",
-        "Time": "Čas",
         "VisitorLog": "Dnevnik obiskovalcev",
         "VisitorsInRealTime": "Obiskovalci v živo",
         "VisitorsLastVisit": "Zadnji obisk tega obiskovalce je bil pred %s dnevi."
@@ -1095,8 +1094,7 @@
         "WidgetLocation": "Lokacija obiskovalca"
     },
     "UserCountryMap": {
-        "map": "zemljevid",
-        "worldMap": "svetovni zemljevid"
+        "map": "zemljevid"
     },
     "UserSettings": {
         "BrowserFamilies": "Družine brskalnikov",
