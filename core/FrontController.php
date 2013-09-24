@@ -259,7 +259,7 @@ class FrontController
             }
 
             try {
-                DbHelper::createDatabaseObject();
+                Db::createDatabaseObject();
             } catch (Exception $e) {
                 if (self::shouldRethrowException()) {
                     throw $e;

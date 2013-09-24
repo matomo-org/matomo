@@ -110,7 +110,7 @@ class API
         // validation of requested reports
         $reports = self::validateRequestedReports($idSite, $reportType, $reports);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $idReport = $db->fetchOne("SELECT max(idreport) + 1 FROM " . Common::prefixTable('report'));
 
         if ($idReport == false) {
@@ -170,7 +170,7 @@ class API
         // validation of requested reports
         $reports = self::validateRequestedReports($idSite, $reportType, $reports);
 
-        \Zend_Registry::get('db')->update(Common::prefixTable('report'),
+        Db::get()->update(Common::prefixTable('report'),
             array(
                  'description' => $description,
                  'idsegment'   => $idSegment,
@@ -198,7 +198,7 @@ class API
         $report = reset($pdfReports);
         Piwik::checkUserIsSuperUserOrTheUser($report['login']);
 
-        \Zend_Registry::get('db')->update(Common::prefixTable('report'),
+        Db::get()->update(Common::prefixTable('report'),
             array(
                  'deleted' => 1,
             ),
@@ -548,7 +548,7 @@ class API
         );
 
         // Update flag in DB
-        \Zend_Registry::get('db')->update(Common::prefixTable('report'),
+        Db::get()->update(Common::prefixTable('report'),
             array('ts_last_sent' => Date::now()->getDatetime()),
             "idreport = " . $report['idreport']
         );

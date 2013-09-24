@@ -18,7 +18,6 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
-use Zend_Registry;
 
 class BatchInsert
 {
@@ -62,7 +61,7 @@ class BatchInsert
     {
         $filePath = PIWIK_USER_PATH . '/' . AssetManager::MERGED_FILE_DIR . $tableName . '-' . Common::generateUniqId() . '.csv';
 
-        if (Zend_Registry::get('db')->hasBulkLoader()) {
+        if (Db::get()->hasBulkLoader()) {
             try {
                 $fileSpec = array(
                     'delim'            => "\t",
@@ -185,7 +184,7 @@ class BatchInsert
 //				echo $sql . ' ---- ' .  $e->getMessage();
                 $code = $e->getCode();
                 $message = $e->getMessage() . ($code ? "[$code]" : '');
-                if (!Zend_Registry::get('db')->isErrNo($e, '1148')) {
+                if (!Db::get()->isErrNo($e, '1148')) {
                     Piwik::log(sprintf("LOAD DATA INFILE failed... Error was: %s", $message));
                 }
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;

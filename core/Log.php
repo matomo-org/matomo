@@ -76,7 +76,7 @@ abstract class Log extends \Zend_Log
     function addWriteToDatabase()
     {
         $writerDb = new \Zend_Log_Writer_Db(
-            \Zend_Registry::get('db'),
+            Db::get(),
             $this->logToDatabaseTableName,
             $this->logToDatabaseColumnMapping);
 

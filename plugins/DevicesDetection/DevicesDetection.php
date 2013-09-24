@@ -19,7 +19,6 @@ use Piwik\Plugins\DevicesDetection\Archiver;
 use Piwik\WidgetsList;
 use Piwik\Db;
 use UserAgentParserEnhanced;
-use Zend_Registry;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
@@ -224,7 +223,7 @@ class DevicesDetection extends \Piwik\Plugin
                 Db::exec($q2);
             }
         } catch (Exception $e) {
-            if (!Zend_Registry::get('db')->isErrNo($e, '1060')) {
+            if (!Db::get()->isErrNo($e, '1060')) {
                 throw $e;
             }
         }

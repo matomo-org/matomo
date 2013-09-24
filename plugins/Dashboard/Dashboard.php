@@ -16,7 +16,6 @@ use Piwik\Common;
 use Piwik\Site;
 use Piwik\Db;
 use Piwik\WidgetsList;
-use Zend_Registry;
 
 /**
  * @package Dashboard
@@ -264,7 +263,7 @@ class Dashboard extends \Piwik\Plugin
         } catch (Exception $e) {
             // mysql code error 1050:table already exists
             // see bug #153 http://dev.piwik.org/trac/ticket/153
-            if (!Zend_Registry::get('db')->isErrNo($e, '1050')) {
+            if (!Db::get()->isErrNo($e, '1050')) {
                 throw $e;
             }
         }

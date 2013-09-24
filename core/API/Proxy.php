@@ -15,7 +15,6 @@ use Piwik\Common;
 use Piwik\Timer;
 use ReflectionClass;
 use ReflectionMethod;
-use Zend_Registry;
 
 /**
  * Proxy is a singleton that has the knowledge of every method available, their parameters
@@ -198,20 +197,6 @@ class Proxy
             // Restore the request
             $_GET = $saveGET;
             $_SERVER['QUERY_STRING'] = $saveQUERY_STRING;
-
-            // log the API Call
-            try {
-                \Zend_Registry::get('logger_api_call')->logEvent(
-                    $className,
-                    $methodName,
-                    $parameterNamesDefaultValues,
-                    $finalParameters,
-                    $timer->getTimeMs(),
-                    $returnedValue
-                );
-            } catch (Exception $e) {
-                // logger can fail (eg. Tracker request)
-            }
         } catch (Exception $e) {
             $_GET = $saveGET;
             throw $e;

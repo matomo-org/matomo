@@ -27,7 +27,6 @@ use Piwik\ScheduledTime;
 use Piwik\Site;
 use Piwik\View;
 use Zend_Mime;
-use Zend_Registry;
 
 /**
  *
@@ -550,7 +549,7 @@ class PDFReports extends \Piwik\Plugin
                 Db::exec($query);
             }
         } catch (Exception $e) {
-            if (!Zend_Registry::get('db')->isErrNo($e, '1050')) {
+            if (!Db::get()->isErrNo($e, '1050')) {
                 throw $e;
             }
         }

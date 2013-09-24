@@ -398,9 +398,9 @@ class Tracker
             $config = Config::getInstance();
 
             try {
-                $db = \Zend_Registry::get('db');
+                $db = Db::get();
             } catch (Exception $e) {
-                DbHelper::createDatabaseObject();
+                Db::createDatabaseObject();
             }
 
             $pluginsManager = PluginsManager::getInstance();

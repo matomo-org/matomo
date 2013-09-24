@@ -249,7 +249,7 @@ class Updater
                 $currentVersion = Piwik_GetOption('version_' . $name);
             } catch (\Exception $e) {
                 // mysql error 1146: table doesn't exist
-                if (\Zend_Registry::get('db')->isErrNo($e, '1146')) {
+                if (Db::get()->isErrNo($e, '1146')) {
                     // case when the option table is not yet created (before 0.2.10)
                     $currentVersion = false;
                 } else {
@@ -294,7 +294,7 @@ class Updater
                 Db::exec($update);
             } catch (\Exception $e) {
                 if (($ignoreError === false)
-                    || !\Zend_Registry::get('db')->isErrNo($e, $ignoreError)
+                    || !Db::get()->isErrNo($e, $ignoreError)
                 ) {
                     $message = $file . ":\nError trying to execute the query '" . $update . "'.\nThe error was: " . $e->getMessage();
                     throw new Updater_UpdateErrorException($message);

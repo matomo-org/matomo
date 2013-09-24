@@ -69,7 +69,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $oldDbName = $dbConfig['dbname'];
         $dbConfig['dbname'] = null;
 
-        DbHelper::createDatabaseObject($dbConfig);
+        Db::createDatabaseObject($dbConfig);
 
         $dbConfig['dbname'] = $oldDbName;
     }
@@ -165,7 +165,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
             // reconnect once we're sure the database exists
             Config::getInstance()->database['dbname'] = $dbName;
-            DbHelper::createDatabaseObject();
+            Db::createDatabaseObject();
 
             DbHelper::createTables();
             \Piwik\Log::make();

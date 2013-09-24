@@ -111,7 +111,7 @@ class API
         $pattern = $this->checkPattern($pattern);
 
         // save in db
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $idGoal = $db->fetchOne("SELECT max(idgoal) + 1
 								FROM " . Common::prefixTable('goal') . "
 								WHERE idsite = ?", $idSite);
@@ -157,7 +157,7 @@ class API
         $name = $this->checkName($name);
         $pattern = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern);
-        \Zend_Registry::get('db')->update(Common::prefixTable('goal'),
+        Db::get()->update(Common::prefixTable('goal'),
             array(
                  'name'            => $name,
                  'match_attribute' => $matchAttribute,

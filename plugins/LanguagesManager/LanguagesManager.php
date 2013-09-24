@@ -20,7 +20,6 @@ use Piwik\Plugins\LanguagesManager\API;
 use Piwik\View;
 use Piwik\Db;
 use Piwik\Translate;
-use Zend_Registry;
 
 /**
  *
@@ -116,7 +115,7 @@ class LanguagesManager extends \Piwik\Plugin
         } catch (Exception $e) {
             // mysql code error 1050:table already exists
             // see bug #153 http://dev.piwik.org/trac/ticket/153
-            if (!Zend_Registry::get('db')->isErrNo($e, '1050')) {
+            if (!Db::get()->isErrNo($e, '1050')) {
                 throw $e;
             }
         }
