@@ -494,10 +494,6 @@ log_only_when_debug_parameter = 0
 ; eg. if the value is tmp/logs files will be created in /path/to/piwik/tmp/logs/
 logger_file_path = tmp/logs
 
-; all calls to the API (method name, parameters, execution time, caller IP, etc.)
-; disabled by default as it can cause serious overhead and should only be used wisely
-;logger_api_call[] = file
-
 [Plugins]
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
