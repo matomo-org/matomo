@@ -139,11 +139,11 @@ class Error
 
     public static function setErrorHandler()
     {
-        Piwik_AddAction('Log.formatFileMessage', array('Error', 'formatFileAndDBLogMessage'));
-        Piwik_AddAction('Log.formatDatabaseMessage', array('Error', 'formatFileAndDBLogMessage'));
-        Piwik_AddAction('Log.formatScreenMessage', array('Error', 'formatScreenMessage'));
+        Piwik_AddAction('Log.formatFileMessage', array('\\Piwik\\Error', 'formatFileAndDBLogMessage'));
+        Piwik_AddAction('Log.formatDatabaseMessage', array('\\Piwik\\Error', 'formatFileAndDBLogMessage'));
+        Piwik_AddAction('Log.formatScreenMessage', array('\\Piwik\\Error', 'formatScreenMessage'));
 
-        set_error_handler(array('Error', 'errorHandler'));
+        set_error_handler(array('\\Piwik\\Error', 'errorHandler'));
     }
 
     public static function errorHandler($errno, $errstr, $errfile, $errline)
@@ -153,7 +153,7 @@ class Error
             return;
         }
 
-        $plugin = false;
+        $plugin = 'unknown';
 
         $backtrace = '';
         $bt = @debug_backtrace();
@@ -166,18 +166,13 @@ class Error
                     . '(...) called at ['
                     . (isset($debug['file']) ? $debug['file'] : '') . ':'
                     . (isset($debug['line']) ? $debug['line'] : '') . ']' . "\n";
-
-                // try and discern the plugin name
-                if (empty($plugin)) {
-                    if (preg_match("/^Piwik\\Plugins\\([a-z_]+)\\/", $debug['class'], $matches)) {
-                        $plugin = $matches[1];
-                    }
-                }
             }
+
+            $plugin = Plugin::getPluginNameFromBacktrace($bt);
         }
 
         $error = new Error($errno, $errstr, $errfile, $errline, $backtrace);
-        Log::e($plugin ?: 'unknown', $error);
+        Log::e($plugin, $error);
 
         switch ($errno) {
             case E_ERROR:

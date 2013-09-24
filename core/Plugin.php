@@ -193,4 +193,18 @@ class Plugin
     {
         return $this->pluginName;
     }
+
+    public static function getPluginNameFromBacktrace($backtrace)
+    {
+        $plugin = false;
+        foreach ($backtrace as $tracepoint) {
+            // try and discern the plugin name
+            if (empty($plugin)) {
+                if (preg_match("/^Piwik\\Plugins\\([a-z_]+)\\/", $tracepoint['class'], $matches)) {
+                    $plugin = $matches[1];
+                }
+            }
+        }
+        return $plugin ?: 'unknown';
+    }
 }

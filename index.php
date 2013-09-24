@@ -10,6 +10,7 @@
 
 use Piwik\FrontController;
 use Piwik\Error;
+use Piwik\ExceptionHandler;
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
@@ -44,7 +45,7 @@ if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
     Error::setErrorHandler();
     
     require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
-    set_exception_handler('Piwik_ExceptionHandler');
+    ExceptionHandler::setUp();
 }
 
 if (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH) {

@@ -155,8 +155,6 @@ class Log
 
     private function createWriterByName($writerName)
     {
-        $self = $this;
-
         $writer = false;
         if ($writerName == 'file') {
             $writer = array($this, 'logToFile');
