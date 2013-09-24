@@ -11,6 +11,7 @@
 namespace Piwik;
 
 use Piwik\Log;
+use Piwik\Version;
 
 /**
  * TODO
@@ -20,27 +21,27 @@ class Error
     /**
      * TODO
      */
-    private $errno;
+    public $errno;
 
     /**
      * TODO
      */
-    private $errstr;
+    public $errstr;
 
     /**
      * TODO
      */
-    private $errfile;
+    public $errfile;
 
     /**
      * TODO
      */
-    private $errline;
+    public $errline;
 
     /**
      * TODO
      */
-    private $backtrace;
+    public $backtrace;
 
     /**
      * TODO
@@ -51,20 +52,88 @@ class Error
         $this->errstr = $errstr;
         $this->errfile = $errfile;
         $this->errline = $errline;
-        $this->backgrace = $backtrace;
+        $this->backtrace = $backtrace;
     }
 
-    public static function formatFileAndDBLogMessage(&$message, $level, $pluginName, $datetime)
+    public function getErrNoString()
     {
-        if ($message instanceof Error) {
-            // TODO
+        switch ($this->errno) {
+            case E_ERROR:
+                return "Error";
+            case E_WARNING:
+                return "Warning";
+            case E_PARSE:
+                return "Parse Error";
+            case E_NOTICE:
+                return "Notice";
+            case E_CORE_ERROR:
+                return "Core Error";
+            case E_CORE_WARNING:
+                return "Core Warning";
+            case E_COMPILE_ERROR:
+                return "Compile Error";
+            case E_COMPILE_WARNING:
+                return "Compile Warning";
+            case E_USER_ERROR:
+                return "User Error";
+            case E_USER_WARNING:
+                return "User Warning";
+            case E_USER_NOTICE:
+                return "User Notice";
+            case E_STRICT:
+                return "Strict Notice";
+            case E_RECOVERABLE_ERROR:
+                return "Recoverable Error";
+            case E_DEPRECATED:
+                return "Deprecated";
+            case E_USER_DEPRECATED:
+                return "User Deprecated";
+            default:
+                return "Unknown error ({$this->errno})";
         }
     }
 
-    public static function formatScreenMessage(&$message, $level, $pluginName, $datetime)
+    public static function formatFileAndDBLogMessage(&$message, $level, $pluginName, $datetime, $log)
     {
         if ($message instanceof Error) {
-            // TODO
+            $message = $message->$errfile . '(' . $message->errline . '): ' . $message->getErrNoString()
+                     . ' - ' . $message->errstr . "\n" . $message->backtrace;
+
+            $message = $log->formatMessage($level, $pluginName, $datetime, $message);
+        }
+    }
+
+    public static function formatScreenMessage(&$message, $level, $pluginName, $datetime, $log)
+    {
+        if ($message instanceof Error) {
+            $errno = $message->errno & error_reporting();
+
+            // problem when using error_reporting with the @ silent fail operator
+            // it gives an errno 0, and in this case the objective is to NOT display anything on the screen!
+            // is there any other case where the errno is zero at this point?
+            if ($errno == 0) {
+                $message = false;
+                return;
+            }
+
+            if (!Common::isPhpCliMode()) {
+                @header('Content-Type: text/html; charset=utf-8');
+            }
+
+            $htmlString = '';
+            $htmlString .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>
+        <strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Version::VERSION : '') . ")
+        and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
+        ";
+            $htmlString .= $message->getErrNoString();
+            $htmlString .= ":</strong> <em>{$message->errstr}</em> in <strong>{$message->errfile}</strong>";
+            $htmlString .= " on line <strong>{$message->errline}</strong>\n";
+            $htmlString .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\">";
+            $htmlString .= str_replace(array("\n", '#'), array("<br />\n", "<br />\n#"), $message->backtrace);
+            $htmlString .= "</div><br />";
+            $htmlString .= "\n </pre></div><br />";
+
+            $message = $htmlString;
         }
     }
 
@@ -107,7 +176,7 @@ class Error
             }
         }
 
-        $error = new Error($errno, $errstr, $errfile, $errline, $backtrace); // TODO (also logger_error formatting)
+        $error = new Error($errno, $errstr, $errfile, $errline, $backtrace);
         Log::e($plugin ?: 'unknown', $error);
 
         switch ($errno) {

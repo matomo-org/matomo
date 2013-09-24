@@ -173,7 +173,11 @@ class Log
         if (is_string($message)) {
             $message = $this->formatMessage($level, $pluginName, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime));
+            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $log));
+        }
+
+        if (empty($message)) {
+            return;
         }
 
         file_put_contents($this->logToFileFilename, $message . "\n", FILE_APPEND);
@@ -184,7 +188,11 @@ class Log
         if (is_string($message)) {
             $message = $this->formatMessage($level, $pluginName, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime));
+            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $log));
+        }
+
+        if (empty($message)) {
+            return;
         }
 
         echo $message . "\n";
@@ -195,9 +203,14 @@ class Log
         if (is_string($message)) {
             $message = $this->formatMessage($level, $pluginName, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime));
+            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $log));
         }
 
+        if (empty($message)) {
+            return;
+        }
+
+        // TODO: allow different columns
         $sql = "INSERT INTO " . Common::prefixTable($this->logToDatabaseTable)
              . " (plugin, time, level, message)"
              . " VALUES (?, ?, ?, ?)";
@@ -220,7 +233,7 @@ class Log
     /**
      * TODO
      */
-    private function formatMessage($level, $pluginName, $message, $datetime)
+    public function formatMessage($level, $pluginName, $message, $datetime)
     {
         return str_replace(
             array("%pluginName%", "%message%", "%datetime%", "%level%"),
