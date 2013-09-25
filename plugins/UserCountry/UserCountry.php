@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
 use Piwik\Url;
+use Piwik\IP;
 use Piwik\Plugins\UserCountry\Archiver;
 use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -48,12 +49,18 @@ class UserCountry extends \Piwik\Plugin
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
             'AssetManager.getJsFiles'                  => 'getJsFiles',
-            'Tracker.getVisitorLocation'               => 'getVisitorLocation',
+            'Tracker.newVisitorInformation'            => 'getVisitorLocation',
             'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
+            'Tracker.setTrackerCacheGeneral'           => 'setTrackerCacheGeneral'
         );
         return $hooks;
+    }
+
+    public function setTrackerCacheGeneral(&$cache)
+    {
+        $cache['currentLocationProviderId'] = LocationProvider::getCurrentProviderId();
     }
 
     public function getScheduledTasks(&$tasks)
@@ -72,9 +79,16 @@ class UserCountry extends \Piwik\Plugin
         $jsFiles[] = "plugins/UserCountry/javascripts/userCountry.js";
     }
 
-    public function getVisitorLocation(&$location, $visitorInfo)
+    public function getVisitorLocation(&$visitorInfo, $extraInfo)
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
+
+        $userInfo = array(
+            'lang' => $visitorInfo['location_browser_lang'],
+            'ip' => IP::N2P($visitorInfo['location_ip'])
+        );
+
+        $location = array();
 
         $id = Common::getCurrentLocationProviderId();
         $provider = LocationProvider::getProviderById($id);
@@ -84,17 +98,74 @@ class UserCountry extends \Piwik\Plugin
             Common::printDebug("GEO: no current location provider sent, falling back to default '$id' one.");
         }
 
-        $location = $provider->getLocation($visitorInfo);
+        $location = $provider->getLocation($userInfo);
 
         // if we can't find a location, use default provider
         if ($location === false) {
             $defaultId = DefaultProvider::ID;
             $provider = LocationProvider::getProviderById($defaultId);
-            $location = $provider->getLocation($visitorInfo);
+            $location = $provider->getLocation($userInfo);
             Common::printDebug("GEO: couldn't find a location with Geo Module '$id', using Default '$defaultId' provider as fallback...");
             $id = $defaultId;
         }
         Common::printDebug("GEO: Found IP location (provider '" . $id . "'): " . var_export($location, true));
+
+        if (empty($location['country_code'])) { // sanity check
+            $location['country_code'] = \Piwik\Tracker\Visit::UNKNOWN_CODE;
+        }
+
+        // add optional location components
+        $this->updateVisitInfoWithLocation($visitorInfo, $location);
+    }
+
+    /**
+     * Sets visitor info array with location info.
+     *
+     * @param array $visitorInfo
+     * @param array $location See LocationProvider::getLocation for more info.
+     */
+    private function updateVisitInfoWithLocation(&$visitorInfo, $location)
+    {
+        static $logVisitToLowerLocationMapping = array(
+            'location_country' => LocationProvider::COUNTRY_CODE_KEY,
+        );
+
+        static $logVisitToLocationMapping = array(
+            'location_region'    => LocationProvider::REGION_CODE_KEY,
+            'location_city'      => LocationProvider::CITY_NAME_KEY,
+            'location_latitude'  => LocationProvider::LATITUDE_KEY,
+            'location_longitude' => LocationProvider::LONGITUDE_KEY,
+        );
+
+        foreach ($logVisitToLowerLocationMapping as $column => $locationKey) {
+            if (!empty($location[$locationKey])) {
+                $visitorInfo[$column] = strtolower($location[$locationKey]);
+            }
+        }
+
+        foreach ($logVisitToLocationMapping as $column => $locationKey) {
+            if (!empty($location[$locationKey])) {
+                $visitorInfo[$column] = $location[$locationKey];
+            }
+        }
+
+        // if the location has provider/organization info, set it
+        if (!empty($location[LocationProvider::ISP_KEY])) {
+            $providerValue = $location[LocationProvider::ISP_KEY];
+
+            // if the org is set and not the same as the isp, add it to the provider value
+            if (!empty($location[LocationProvider::ORG_KEY])
+                && $location[LocationProvider::ORG_KEY] != $providerValue
+            ) {
+                $providerValue .= ' - ' . $location[LocationProvider::ORG_KEY];
+            }
+        } else if (!empty($location[LocationProvider::ORG_KEY])) {
+            $providerValue = $location[LocationProvider::ORG_KEY];
+        }
+
+        if (isset($providerValue)) {
+            $visitorInfo['location_provider'] = $providerValue;
+        }
     }
 
     public function addWidgets()

@@ -10,6 +10,7 @@ use Piwik\AssetManager;
 use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugins\VisitsSummary\API;
+use Piwik\Db;
 
 abstract class UITest extends IntegrationTestCase
 {
@@ -93,7 +94,7 @@ abstract class UITest extends IntegrationTestCase
 
         self::removeRecursiveLinks();
 
-        if (!Zend_Registry::get('db')) {
+        if (!Db::get()) {
             DbHelper::createDatabaseObject();
         }
 
@@ -106,7 +107,7 @@ abstract class UITest extends IntegrationTestCase
     {
         parent::setUp();
         
-        if (!Zend_Registry::get('db')) {
+        if (!Db::get()) {
             DbHelper::createDatabaseObject();
         }
     }
@@ -115,8 +116,7 @@ abstract class UITest extends IntegrationTestCase
     {
         parent::tearDown();
         
-        \Zend_Registry::get('db')->closeConnection();
-        \Zend_Registry::set('db', false);
+        Db::get()->closeConnection();
     }
     
     private static function runCaptureProgram($urlInfo)

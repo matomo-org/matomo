@@ -18,6 +18,7 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Url;
+use Piwik\Db;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -75,7 +76,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
-        \Zend_Registry::get('db')->update(Common::prefixTable("site"),
+        Db::get()->update(Common::prefixTable("site"),
             array('ts_created' => Date::factory($dateTime)->subDay(1)->getDatetime()),
             "idsite = $idSite"
         );
@@ -178,6 +179,9 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function checkBulkTrackingResponse($response) {
         $data = json_decode($response, true);
+        if (!is_array($data)) {
+            echo "Bulk tracking response is not an array: " . var_export($data, true) . "\n";
+        }
         self::assertArrayHasKey('status', $data);
         self::assertEquals('success', $data['status']);
     }
