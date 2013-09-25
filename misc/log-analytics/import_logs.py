@@ -1351,9 +1351,12 @@ class Parser(object):
             else:
                 logging.debug('Format %s does not match', name)
 
-        if format:
-            logging.debug('Format %s is the best match', format.name)
+        if not format:
+            fatal_error("cannot determine the log format using the first line of the log file. Try removing it" +
+                        " or specifying the format with the --log-format-name command line argument.")
+            return
 
+        logging.debug('Format %s is the best match', format.name)
         return format
 
     def parse(self, filename):
