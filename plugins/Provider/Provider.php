@@ -18,7 +18,6 @@ use Piwik\ArchiveProcessor;
 use Piwik\Db;
 use Piwik\Plugins\Provider\Archiver;
 use Piwik\WidgetsList;
-use Zend_Registry;
 
 /**
  *
@@ -78,7 +77,7 @@ class Provider extends \Piwik\Plugin
         try {
             Db::exec($query);
         } catch (Exception $e) {
-            if (!Zend_Registry::get('db')->isErrNo($e, '1060')) {
+            if (!Db::get()->isErrNo($e, '1060')) {
                 throw $e;
             }
         }

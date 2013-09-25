@@ -572,7 +572,6 @@
         "CongratulationsHelp": "<p>Gratulerer! Din Piwik installasjon er fullført.<\/p><p>Sørg for at JavaScript-koden er lagt inn på dine sider, og vent på dine første besøkende!<\/p>",
         "DatabaseCheck": "Databasesjekk",
         "DatabaseClientVersion": "Databaseklient-versjon",
-        "DatabaseCreatedSuccess": "Databasen %s ble vellykket opprettet!",
         "DatabaseCreation": "Databaseopprettelse",
         "DatabaseErrorConnect": "Klarte ikke koble til databasetjeneren",
         "DatabaseServerVersion": "Databasetjener-versjon",
@@ -671,7 +670,6 @@
         "PluginDescription": "Spioner på dine besøkende, live, i sanntid!",
         "RealTimeVisitorCount": "Besøkstall i sanntid",
         "Referrer_URL": "Henvisnings-URL",
-        "Time": "Tid",
         "VisitorLog": "Logg over besøkende"
     },
     "Login": {
@@ -1172,7 +1170,6 @@
         "Regions": "Regioner",
         "Seconds": "sekunder",
         "SecondsAgo": "%s sekunder siden",
-        "worldMap": "verdenskart",
         "WorldWide": "Verdensbasis"
     },
     "UserSettings": {

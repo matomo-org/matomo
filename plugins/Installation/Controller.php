@@ -234,7 +234,7 @@ class Controller extends \Piwik\Controller\Admin
         }
 
         $this->createDbFromSessionInformation();
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
 
         try {
             $db->checkClientVersion();
@@ -543,7 +543,7 @@ class Controller extends \Piwik\Controller\Admin
     {
         $dbInfos = $this->session->db_infos;
         Config::getInstance()->database = $dbInfos;
-        DbHelper::createDatabaseObject($dbInfos);
+        Db::createDatabaseObject($dbInfos);
     }
 
     /**

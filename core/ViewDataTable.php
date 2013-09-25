@@ -1276,6 +1276,13 @@ class ViewDataTable
                     $this->getPropertyFromQueryParam($name, $default);
             }
         }
+
+        // handle special 'columns' query parameter
+        $columns = Common::getRequestVar('columns', false);
+        if ($columns !== false) {
+            $this->columns_to_display = Piwik::getArrayFromApiParameter($columns);
+            array_unshift($this->columns_to_display, 'label');
+        }
     }
 
     private function getPropertyFromQueryParam($name, $defaultValue)

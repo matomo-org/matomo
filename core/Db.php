@@ -9,8 +9,11 @@
  * @package PluginsFunctions
  */
 namespace Piwik;
+
 use Exception;
+use Piwik\Db\Adapter;
 use Piwik\Tracker;
+use Piwik\Config;
 
 /**
  * SQL wrapper
@@ -19,21 +22,48 @@ use Piwik\Tracker;
  */
 class Db
 {
+    private static $connection = null;
+
     /**
      * Returns the database adapter to use
      *
      * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface
      */
-    static private function getDb()
+    static public function get()
     {
         $db = null;
         if (!empty($GLOBALS['PIWIK_TRACKER_MODE'])) {
             $db = Tracker::getDatabase();
         }
         if ($db === null) {
-            $db = \Zend_Registry::get('db');
+            $db = self::$connection;
         }
         return $db;
+    }
+
+    /**
+     * Create database object and connect to database
+     * @param array|null $dbInfos
+     */
+    public static function createDatabaseObject($dbInfos = null)
+    {
+        $config = Config::getInstance();
+
+        if (is_null($dbInfos)) {
+            $dbInfos = $config->database;
+        }
+
+        Piwik_PostEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
+
+        $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
+
+        $db = null;
+        Piwik_PostEvent('Reporting.createDatabase', array(&$db));
+        if (is_null($db)) {
+            $adapter = $dbInfos['adapter'];
+            $db = @Adapter::factory($adapter, $dbInfos);
+        }
+        self::$connection = $db;
     }
 
     /**
@@ -47,10 +77,10 @@ class Db
     static public function exec($sql)
     {
         /** @var \Zend_Db_Adapter_Abstract $db */
-        $db = \Zend_Registry::get('db');
+        $db = self::get();
         $profiler = $db->getProfiler();
         $q = $profiler->queryStart($sql, \Zend_Db_Profiler::INSERT);
-        $return = self::getDb()->exec($sql);
+        $return = self::get()->exec($sql);
         $profiler->queryEnd($q);
         return $return;
     }
@@ -67,7 +97,7 @@ class Db
      */
     static public function query($sql, $parameters = array())
     {
-        return self::getDb()->query($sql, $parameters);
+        return self::get()->query($sql, $parameters);
     }
 
     /**
@@ -79,7 +109,7 @@ class Db
      */
     static public function fetchAll($sql, $parameters = array())
     {
-        return self::getDb()->fetchAll($sql, $parameters);
+        return self::get()->fetchAll($sql, $parameters);
     }
 
     /**
@@ -91,7 +121,7 @@ class Db
      */
     static public function fetchRow($sql, $parameters = array())
     {
-        return self::getDb()->fetchRow($sql, $parameters);
+        return self::get()->fetchRow($sql, $parameters);
     }
 
     /**
@@ -103,7 +133,7 @@ class Db
      */
     static public function fetchOne($sql, $parameters = array())
     {
-        return self::getDb()->fetchOne($sql, $parameters);
+        return self::get()->fetchOne($sql, $parameters);
     }
 
     /**
@@ -115,7 +145,7 @@ class Db
      */
     static public function fetchAssoc($sql, $parameters = array())
     {
-        return self::getDb()->fetchAssoc($sql, $parameters);
+        return self::get()->fetchAssoc($sql, $parameters);
     }
 
     /**
@@ -379,7 +409,7 @@ class Db
          */
         $sql = 'SELECT GET_LOCK(?, 1)';
 
-        $db = \Zend_Registry::get('db');
+        $db = self::get();
 
         while ($maxRetries > 0) {
             if ($db->fetchOne($sql, array($lockName)) == '1') {
@@ -400,7 +430,7 @@ class Db
     {
         $sql = 'SELECT RELEASE_LOCK(?)';
 
-        $db = \Zend_Registry::get('db');
+        $db = self::get();
         return $db->fetchOne($sql, array($lockName)) == '1';
     }
 

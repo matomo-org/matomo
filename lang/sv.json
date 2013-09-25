@@ -871,7 +871,6 @@
         "DatabaseAbilities": "Databasförmågor",
         "DatabaseCheck": "Databaskontroll",
         "DatabaseClientVersion": "Databasklient version",
-        "DatabaseCreatedSuccess": "Databasen %s skapades utan problem!",
         "DatabaseCreation": "Databas skapas",
         "DatabaseErrorConnect": "Fel uppstod när anslutningsförsök till databasservern gjordes.",
         "DatabaseServerVersion": "Databasserver version",
@@ -985,7 +984,6 @@
         "PluginDescription": "Denna plugin kommer att visa en lista över tillgängliga språk för Piwik's gränssnitt. Det valda språket kommer att sparas i inställningarna för varje användare."
     },
     "Live": {
-        "GoalTime": "1:a omvandlingstid",
         "GoalType": "Typ",
         "KeywordRankedOnSearchResultForThisVisitor": "Sökordet %1$s rankade %2$s på %3$s i sökresultatet för besökaren",
         "LastHours": "Senaste %s timmarna",
@@ -999,7 +997,6 @@
         "RealTimeVisitorCount": "Besöksräknare i realtid",
         "Referrer_URL": "Hänvisningsadress",
         "SimpleRealTimeWidget_Message": "%s och %s dom senaste %s.",
-        "Time": "Tid",
         "VisitorLog": "Besökslogg",
         "VisitorLogDocumentation": "Denna tabell visar de senaste besök inom det valda datumintervallet. %s Om datumet inkluderar idag kan du se dina besökare i realtid! %s data som visas här är alltid live, oavsett om och hur ofta du använder cron-jobb för arkivering.",
         "VisitorsInRealTime": "Besökare i realtid",
@@ -1806,7 +1803,6 @@
         "ShowingVisits": "Geolokaliserade besök de senaste",
         "Unlocated": "<b>%s<\/b> %p av besöken från %c kunde inte geolokaliseras.",
         "VisitorMap": "Besökskarta",
-        "worldMap": "världskarta",
         "WorldWide": "Hela världen"
     },
     "UserSettings": {

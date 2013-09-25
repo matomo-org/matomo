@@ -17,8 +17,8 @@ use Piwik\Date;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\RankingQuery;
+use Piwik\Db;
 use Piwik\Tracker\GoalManager;
-use Zend_Registry;
 
 /**
  * This class queries the Visitor logs tables (visits, actions, conversions, ecommerce)
@@ -518,6 +518,6 @@ class LogAggregator
 
     public function getDb()
     {
-        return \Zend_Registry::get('db');
+        return Db::get();
     }
 }

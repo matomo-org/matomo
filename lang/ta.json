@@ -288,13 +288,11 @@
         "SystemCheckTracker": "கண்காணிப்பு நிலை"
     },
     "Live": {
-        "GoalTime": "1ம் மாற்ற நேரம்",
         "GoalType": "வகை",
         "LastHours": "கடைசி %s மணிநேரம்",
         "LastMinutes": "கடைசி %s நிமிடங்கள்",
         "NbVisitor": "1 வருகையாளர்",
         "NbVisitors": "%s வருகையாளர்கள்",
-        "Time": "நேரம்",
         "VisitorLog": "வருகையாளர் பதிவு"
     },
     "Login": {

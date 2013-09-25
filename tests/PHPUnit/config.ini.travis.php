@@ -15,3 +15,6 @@ dbname            = piwik_tests
 adapter            = PDO_MYSQL ; PDO_MYSQL, MYSQLI, or PDO_PGSQL
 tables_prefix        = piwiktests_
 ;charset        = utf8
+
+[log]
+logger_message[] = file

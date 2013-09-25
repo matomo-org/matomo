@@ -132,7 +132,7 @@ class API
             $where = 'WHERE login IN (' . Common::getSqlStringFieldsArray($userLogins) . ')';
             $bind = $userLogins;
         }
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $users = $db->fetchAll("SELECT *
 								FROM " . Common::prefixTable("user") . "
 								$where
@@ -155,7 +155,7 @@ class API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $users = $db->fetchAll("SELECT login
 								FROM " . Common::prefixTable("user") . "
 								ORDER BY login ASC");
@@ -187,7 +187,7 @@ class API
 
         $this->checkAccessType($access);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $users = $db->fetchAll("SELECT login,idsite
 								FROM " . Common::prefixTable("access")
             . " WHERE access = ?
@@ -218,7 +218,7 @@ class API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $users = $db->fetchAll("SELECT login,access
 								FROM " . Common::prefixTable("access")
             . " WHERE idsite = ?", $idSite);
@@ -234,7 +234,7 @@ class API
         Piwik::checkUserHasAdminAccess($idSite);
         $this->checkAccessType($access);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $users = $db->fetchAll("SELECT login
 								FROM " . Common::prefixTable("access")
             . " WHERE idsite = ? AND access = ?", array($idSite, $access));
@@ -271,7 +271,7 @@ class API
         $this->checkUserExists($userLogin);
         $this->checkUserIsNotSuperUser($userLogin);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $users = $db->fetchAll("SELECT idsite,access
 								FROM " . Common::prefixTable("access")
             . " WHERE login = ?", $userLogin);
@@ -298,7 +298,7 @@ class API
         $this->checkUserExists($userLogin);
         $this->checkUserIsNotSuperUser($userLogin);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $user = $db->fetchRow("SELECT *
 								FROM " . Common::prefixTable("user")
             . " WHERE login = ?", $userLogin);
@@ -317,7 +317,7 @@ class API
         Piwik::checkUserIsSuperUser();
         $this->checkUserEmailExists($userEmail);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $user = $db->fetchRow("SELECT *
 								FROM " . Common::prefixTable("user")
             . " WHERE email = ?", $userEmail);
@@ -383,7 +383,7 @@ class API
 
         $token_auth = $this->getTokenAuth($userLogin, $passwordTransformed);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
 
         $db->insert(Common::prefixTable("user"), array(
                                                       'login'           => $userLogin,
@@ -443,7 +443,7 @@ class API
         $alias = $this->getCleanAlias($alias, $userLogin);
         $token_auth = $this->getTokenAuth($userLogin, $password);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
 
         $db->update(Common::prefixTable("user"),
             array(
@@ -559,7 +559,7 @@ class API
         $this->deleteUserAccess($userLogin, $idSites);
 
         // delete UserAccess
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
 
         // if the access is noaccess then we don't save it as this is the default value
         // when no access are specified
@@ -639,7 +639,7 @@ class API
      */
     private function deleteUserOnly($userLogin)
     {
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $db->query("DELETE FROM " . Common::prefixTable("user") . " WHERE login = ?", $userLogin);
 
         Piwik_PostEvent('UsersManager.deleteUser', array($userLogin));
@@ -656,7 +656,7 @@ class API
      */
     private function deleteUserAccess($userLogin, $idSites = null)
     {
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
 
         if (is_null($idSites)) {
             $db->query("DELETE FROM " . Common::prefixTable("access") .

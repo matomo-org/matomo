@@ -484,7 +484,6 @@
         "CongratulationsHelp": "<p>Sveikiname! Piwik diegimas baigtas.<\/p><p>Įsitikinkite, kad JavaScript žymė (tag) yra įrašyta visuose puslapiuose ir laukite pirmųjų lankytojų!<\/p>",
         "DatabaseCheck": "Duomenų bazės patikra",
         "DatabaseClientVersion": "Duomenų bazės kliento versija",
-        "DatabaseCreatedSuccess": "Duombazė %s sukurta sėkmingai!",
         "DatabaseCreation": "Duomenų bazės sukūrimas",
         "DatabaseErrorConnect": "Klaida jungiantis prie duombazės serverio",
         "DatabaseServerVersion": "Duomenų bazių serverio versija",
@@ -569,7 +568,6 @@
         "PluginDescription": "Šis papildinys pateikia visų prieinamų kalbų Piwik vartotojo sąsajai sąrašą. Kiekvienas naudotojas gali pasirinkti savo kalbą."
     },
     "Live": {
-        "GoalTime": "1-os konversijos laikas",
         "GoalType": "Tipas",
         "KeywordRankedOnSearchResultForThisVisitor": "Šiam lankytojui raktažodis %1$s buvo parodytas %2$s %3$s paieškos rezultatuose",
         "LastHours": "Paskutinės %s valandos",
@@ -577,7 +575,6 @@
         "LinkVisitorLog": "Peržiūrėti išsamų apsilankymų žurnalą",
         "PluginDescription": "Sekite savo lankytojus gyvai, realiu laiku!",
         "Referrer_URL": "Persiunčiančiojo URL",
-        "Time": "Laikas",
         "VisitorLog": "Apsilankymų žurnalas",
         "VisitorsInRealTime": "Lankytojai realiuoju laiku"
     },
@@ -1011,8 +1008,7 @@
         "SubmenuLocations": "Vietovės"
     },
     "UserCountryMap": {
-        "map": "žemėlapis",
-        "worldMap": "pasaulio žamėlapis"
+        "map": "žemėlapis"
     },
     "UserSettings": {
         "BrowserFamilies": "Naršyklių šeimos",

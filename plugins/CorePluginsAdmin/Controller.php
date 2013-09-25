@@ -68,7 +68,7 @@ class Controller extends \Piwik\Controller\Admin
     public function installPlugin()
     {
         $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
-        $view->nonce = Nonce::getNonce('CorePluginsAdmin.activatePlugin');
+        $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
 
         echo $view->render();
     }

@@ -461,7 +461,6 @@
         "CongratulationsHelp": "<p>恭喜！ 你的 Piwik 安裝已經完成。<\/p><p>請確認你的 JavaScript 追蹤碼已插入至你的網頁中，然後等候你的首位訪客吧！<\/p>",
         "DatabaseCheck": "資料庫檢查",
         "DatabaseClientVersion": "資料庫客戶端版本",
-        "DatabaseCreatedSuccess": "資料庫 %s 已成功建立！",
         "DatabaseCreation": "資料庫建立",
         "DatabaseErrorConnect": "連線至資料庫伺服器時發生錯誤",
         "DatabaseServerVersion": "資料庫伺服器版本",
@@ -547,7 +546,6 @@
         "LinkVisitorLog": "查看詳細的訪客記錄",
         "PluginDescription": "窺視你的訪客，即時！",
         "Referrer_URL": "推薦連結",
-        "Time": "時間",
         "VisitorLog": "訪客記錄",
         "VisitorsInRealTime": "目前正在參觀網站的訪客",
         "VisitorsLastVisit": "此訪客於 %s 天前曾來訪"
@@ -965,8 +963,7 @@
         "WidgetLocation": "訪客所在地點"
     },
     "UserCountryMap": {
-        "map": "地圖",
-        "worldMap": "世界地圖"
+        "map": "地圖"
     },
     "UserSettings": {
         "BrowserFamilies": "瀏覽器家族",

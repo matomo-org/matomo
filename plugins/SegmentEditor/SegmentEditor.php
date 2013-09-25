@@ -16,7 +16,6 @@ use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SegmentEditor\Controller;
 use Piwik\Version;
 use Piwik\Db;
-use Zend_Registry;
 
 /**
  * @package SegmentEditor
@@ -94,7 +93,7 @@ class SegmentEditor extends \Piwik\Plugin
                 Db::exec($query);
             }
         } catch (Exception $e) {
-            if (!Zend_Registry::get('db')->isErrNo($e, '1050')) {
+            if (!Db::get()->isErrNo($e, '1050')) {
                 throw $e;
             }
         }

@@ -17,10 +17,10 @@ use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Db;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
-use Zend_Registry;
 
 /**
  * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
@@ -424,7 +424,7 @@ abstract class ArchiveProcessor
 
     protected function compress($data)
     {
-        if (Zend_Registry::get('db')->hasBlobDataType()) {
+        if (Db::get()->hasBlobDataType()) {
             return gzcompress($data);
         }
         return $data;

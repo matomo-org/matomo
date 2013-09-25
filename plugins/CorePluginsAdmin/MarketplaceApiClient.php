@@ -11,7 +11,9 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\CacheFile;
 use Piwik\Http;
+use Piwik\Piwik;
 use Piwik\PluginsManager;
+use Piwik\Version;
 
 /**
  *
@@ -193,7 +195,7 @@ class MarketplaceApiClient
         $latestVersion = array_pop($plugin['versions']);
         $downloadUrl   = $latestVersion['download'];
 
-        return $this->domain . $downloadUrl;
+        return $this->domain . $downloadUrl . '?coreVersion=' . Version::VERSION;
     }
 
 }

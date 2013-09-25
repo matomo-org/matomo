@@ -480,7 +480,6 @@
         "ConfirmDeleteExistingTables": "Ste si istý, že chcete zmazať tabuľky: %s z Vašej databázy? VAROVANIE: DÁTA Z TÝCHTO TABULIEK NEBUDE MOŽNÉ OBNOVIŤ!",
         "Congratulations": "Blahoželanie",
         "CongratulationsHelp": "<p>Blahoželáme Vám! Inštalácia Piwik je dokončená.<\/p><p>Uistite sa, že Váš javascript kód je vložený od Vašich stránok a počkajte si na prvých návštevníkov!<\/p>",
-        "DatabaseCreatedSuccess": "Vytvorenie databázy %s prebehlo úspešne!",
         "Email": "e-mail",
         "ErrorInvalidState": "Chyba: zdá sa, že sa pokúšate preskočiť krok v inštalačnom procese, alebo máte zakázané „cookies“, alebo je Piwik konfiguračný súbor už vytvorený. %1$sUistite sa, že máte povolené „cookies“%2$s a potom choďte späť %3$s na prvú stránku inštalácie %4$s.",
         "GoBackAndDefinePrefix": "Choďte späť a zadefinujte predponu pre Piwik tabuľky",
@@ -518,12 +517,10 @@
         "WelcomeHelp": "<p>Piwik je open source projekt analýzy webstránok, ktorý zjednodušuje získavanie informácií o Vašich návštevníkoch.<\/p><p>Tento proces je rozdelený do %s jednoduchých krokov a bude trvať asi 5 minút.<\/p>"
     },
     "Live": {
-        "GoalTime": "1. Prechodné obdobie",
         "GoalType": "Typ",
         "LinkVisitorLog": "Zobraziť podrobný záznam návštevníkov",
         "PluginDescription": "Spy na svojich návštevníkov, naživo, v reálnom čase!",
         "Referrer_URL": "Referenčné URL",
-        "Time": "Čas",
         "VisitorLog": "Záznam návštevníka"
     },
     "Login": {
@@ -904,8 +901,7 @@
         "SubmenuLocations": "Umiestnenie"
     },
     "UserCountryMap": {
-        "map": "mapa",
-        "worldMap": "svetová mapa"
+        "map": "mapa"
     },
     "UserSettings": {
         "BrowserFamilies": "Rodina prehliadača",

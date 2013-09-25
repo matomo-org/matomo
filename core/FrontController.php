@@ -259,7 +259,7 @@ class FrontController
             }
 
             try {
-                DbHelper::createDatabaseObject();
+                Db::createDatabaseObject();
             } catch (Exception $e) {
                 if (self::shouldRethrowException()) {
                     throw $e;
@@ -310,7 +310,7 @@ class FrontController
                 throw $e;
             }
 
-            $trace = $e->getTraceAsString();
+            $debugTrace = $e->getTraceAsString();
             Piwik_ExitWithMessage($e->getMessage(), $debugTrace, true);
         }
     }

@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Segment;
+use Piwik\Db;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
@@ -138,7 +139,7 @@ class API
         Piwik_PostEvent(self::DELETE_SEGMENT_EVENT, array(&$idSegment));
 
         $segment = $this->getSegmentOrFail($idSegment);
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $db->delete(Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
         return true;
     }
@@ -175,7 +176,7 @@ class API
             'ts_last_edit'       => Date::now()->getDatetime(),
         );
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $db->update(Common::prefixTable("segment"),
             $bind,
             "idsegment = $idSegment"
@@ -203,7 +204,7 @@ class API
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 
-        $db = \Zend_Registry::get('db');
+        $db = Db::get();
         $bind = array(
             'name'               => $name,
             'definition'         => $definition,
@@ -231,7 +232,7 @@ class API
         if (!is_numeric($idSegment)) {
             throw new Exception("idSegment should be numeric.");
         }
-        $segment = \Zend_Registry::get('db')->fetchRow("SELECT * " .
+        $segment = Db::get()->fetchRow("SELECT * " .
             " FROM " . Common::prefixTable("segment") .
             " WHERE idsegment = ?", $idSegment);
 
@@ -289,7 +290,7 @@ class API
                         AND deleted = 0
                         $extraWhere
                       ORDER BY name ASC";
-        $segments = \Zend_Registry::get('db')->fetchAll($sql, $bind);
+        $segments = Db::get()->fetchAll($sql, $bind);
 
         return $segments;
     }

@@ -316,7 +316,6 @@
         "Congratulations": "Zorionak",
         "CongratulationsHelp": "<p>Zorionak! Zure Piwik instalazioa osatu da.<\/p><p>Egiaztatu JavaScript kodea zure orrietan txertatuta dagoela eta ondoren itxaron lehenengo bisitei!<\/p>",
         "DatabaseCheck": "Datu-basearen egiaztapena",
-        "DatabaseCreatedSuccess": "%s datu-basea ondo sortu da!",
         "DatabaseCreation": "Datu-basea sortzea",
         "DatabaseErrorConnect": "Errorea datu-basearen zerbitzariarekin konektatzen saiatzean",
         "DatabaseServerVersion": "Datu-basearen zerbitzariaren bertsioa",
@@ -384,7 +383,6 @@
     },
     "Live": {
         "Referrer_URL": "URL erreferentea",
-        "Time": "Ordua",
         "VisitorLog": "Bisitariaren loga"
     },
     "Login": {

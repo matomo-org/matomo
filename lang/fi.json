@@ -744,7 +744,6 @@
         "DatabaseAbilities": "Tietokannan toiminnot",
         "DatabaseCheck": "Tietokannan tarkistus",
         "DatabaseClientVersion": "Tietokanta-asiakkaan versio",
-        "DatabaseCreatedSuccess": "Tietokanta %s luotu onnistuneesti!",
         "DatabaseCreation": "Tietokannan luominen",
         "DatabaseErrorConnect": "Virhe tietokantayhteyden avaamisessa",
         "DatabaseServerVersion": "Tietokantapalvelimen versio",
@@ -850,7 +849,6 @@
         "PluginDescription": "Tämä lisäosa listaa saatavilla olevat kielet Piwikin käyttöliittymässä. Valittu kieli tallennetaan käyttäjäkohtaisesti."
     },
     "Live": {
-        "GoalTime": "1. vaihtamisen aika",
         "GoalType": "Tyyppi",
         "KeywordRankedOnSearchResultForThisVisitor": "Hakusana %1$s oli %2$s. sivulla %3$s hakukoneen tuloksissa tälle kävijälle.",
         "LastHours": "Edelliset %s tuntia",
@@ -860,7 +858,6 @@
         "PageRefreshed": "Montako kertaa tätä sivua katsottiin \/ päivitettiin peräkkäin.",
         "PluginDescription": "Vakoile kävijöitäsi reaaliaikaisesti!",
         "Referrer_URL": "Saapumisosoite",
-        "Time": "Aika",
         "VisitorLog": "Kävijän tiedot",
         "VisitorLogDocumentation": "Tämä taulukko näyttää viimeisimmät käynnit valitulta aikaväliltä. Voit nähdä, koska viimeisin käynti oli pitämällä hiirtä päiväyksen päällä. %s Jos aikaväli sisältää tämän päivän, näet kävijät reaaliaikaisena! %s Näytetyt tiedot ovat aina reaaliaikaisia, riippumatta arkistoinnista.",
         "VisitorsInRealTime": "Reaaliaikaiset kävijätiedot",
@@ -1502,8 +1499,7 @@
         "WidgetLocation": "Kävijän sijainti"
     },
     "UserCountryMap": {
-        "map": "kartta",
-        "worldMap": "maailmankartta"
+        "map": "kartta"
     },
     "UserSettings": {
         "BrowserFamilies": "Selainluokat",

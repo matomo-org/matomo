@@ -256,7 +256,6 @@
         "GoalType": "రకం",
         "LastHours": "గత %s గంటలు",
         "LastMinutes": "గత %s నిమిషాలు",
-        "Time": "సమయం",
         "VisitorLog": "సందర్శకుల చిట్టా"
     },
     "Login": {
@@ -588,8 +587,7 @@
         "SubmenuLocations": "ప్రాంతాలు"
     },
     "UserCountryMap": {
-        "map": "పటం",
-        "worldMap": "ప్రపంచ పటం"
+        "map": "పటం"
     },
     "UserSettings": {
         "BrowserFamilies": "విహారిణి కుటుంబాలు",
