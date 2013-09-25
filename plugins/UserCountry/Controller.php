@@ -191,6 +191,8 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
                 if ($info !== false) {
                     echo Piwik_Common::json_encode($info);
                     return;
+                } else {
+                    echo 1;
                 }
             } catch (Exception $ex) {
                 echo Piwik_Common::json_encode(array('error' => $ex->getMessage()));

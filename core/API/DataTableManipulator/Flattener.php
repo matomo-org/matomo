@@ -61,10 +61,11 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
      */
     protected function manipulateDataTable($dataTable)
     {
-        if ($this->includeAggregateRows) {
-            $dataTable->applyQueuedFilters();
-        }
-        
+        // apply filters now since subtables have their filters applied before generic filters. if we don't do this
+        // now, we'll try to apply filters to rows that have already been manipulated. this results in errors like
+        // 'column ... already exists'.
+        $dataTable->applyQueuedFilters();
+
         $newDataTable = $dataTable->getEmptyClone($keepFilters = false);
         foreach ($dataTable->getRows() as $row) {
             $this->flattenRow($row, $newDataTable);

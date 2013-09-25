@@ -48,6 +48,7 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
             array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateTime,
+                'period'                 => 'week',
                 'otherRequestParameters' => array(
                     'flat'     => '1',
                     'expanded' => '0'
@@ -58,6 +59,7 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
             array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateTime,
+                'period'                 => 'week',
                 'testSuffix'             => '_withAggregate',
                 'otherRequestParameters' => array(
                     'flat'                   => '1',
@@ -71,7 +73,7 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
             'idSite'                 => $idSite,
             'date'                   => $dateTime,
             'otherRequestParameters' => array(
-                'date'                   => '2010-03-06,2010-03-08',
+                'date'                   => '2010-03-05,2010-03-08',
                 'flat'                   => '1',
                 'include_aggregate_rows' => '1',
                 'expanded'               => '0'
