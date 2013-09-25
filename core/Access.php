@@ -162,7 +162,7 @@ class Access
         // access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
         $result = $this->auth->authenticate();
 
-        if (!$result->isValid()) {
+        if (!$result->wasAuthenticationSuccessful()) {
             return false;
         }
         $this->login = $result->getIdentity();
