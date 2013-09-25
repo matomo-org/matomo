@@ -156,11 +156,15 @@ class Db
      * @param string $where            The where clause of the query. Must include the WHERE keyword.
      * @param int $maxRowsPerQuery  The maximum number of rows to delete per DELETE query.
      * @param array $parameters       Parameters to bind in the query.
+     * @param string $primaryKey Name of primary key to sort by.
      * @return int  The total number of rows deleted.
      */
-    static public function deleteAllRows($table, $where, $maxRowsPerQuery = 100000, $parameters = array())
+    static public function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
     {
-        $sql = "DELETE FROM $table $where LIMIT " . (int)$maxRowsPerQuery;
+        $sql = "DELETE FROM $table
+                $where
+                ORDER BY $orderBy ASC
+                LIMIT " . (int)$maxRowsPerQuery;
 
         // delete rows w/ a limit
         $totalRowsDeleted = 0;

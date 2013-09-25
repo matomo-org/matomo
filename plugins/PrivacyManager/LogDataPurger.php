@@ -76,7 +76,7 @@ class LogDataPurger
         foreach ($logTables as $logTable) {
             // deleting from log_action must be handled differently, so we do it later
             if ($logTable != Common::prefixTable('log_action')) {
-                Db::deleteAllRows($logTable, $where, $this->maxRowsToDeletePerQuery, array($maxIdVisit));
+                Db::deleteAllRows($logTable, $where, "idvisit", $this->maxRowsToDeletePerQuery, array($maxIdVisit));
             }
         }
 
