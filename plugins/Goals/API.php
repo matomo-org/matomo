@@ -207,7 +207,7 @@ class API
 										WHERE idsite = ?
 											AND idgoal = ?",
             array($idSite, $idGoal));
-        Db::deleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ?", 100000, array($idGoal));
+        Db::deleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ?", "idvisit", 100000, array($idGoal));
         Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 

@@ -118,7 +118,7 @@ class ReportsPurger
                     if (!empty($where)) {
                         $where = "WHERE $where";
                     }
-                    Db::deleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
+                    Db::deleteAllRows($table, $where, "idarchive", $this->maxRowsToDeletePerQuery);
                 }
 
                 if ($optimize) {
@@ -133,7 +133,7 @@ class ReportsPurger
             if ($this->keepBasicMetrics == 1 && !empty($this->metricsToKeep)) {
                 $where = "WHERE name NOT IN ('" . implode("','", $this->metricsToKeep) . "') AND name NOT LIKE 'done%'";
                 foreach ($oldNumericTables as $table) {
-                    Db::deleteAllRows($table, $where, $this->maxRowsToDeletePerQuery);
+                    Db::deleteAllRows($table, $where, "idarchive", $this->maxRowsToDeletePerQuery);
                 }
 
                 if ($optimize) {
