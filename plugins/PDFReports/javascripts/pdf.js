@@ -108,6 +108,13 @@ function initManagePdf() {
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams(parameters, 'POST');
         ajaxHandler.setLoadingElement();
+        ajaxHandler.setCallback(function (response) {
+            $('.reportSentSuccess').fadeIn('slow', function () {
+                setTimeout(function () {
+                    $('.reportSentSuccess').fadeOut('slow');
+                }, 1000);
+            });
+        });
         ajaxHandler.send(true);
     });
 

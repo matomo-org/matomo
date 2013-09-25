@@ -2187,7 +2187,8 @@
         "TopOfReport": "Back to top",
         "Pagination": "Page %s of %s",
         "ReportIncludeNWebsites": "The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).",
-        "TopLinkTooltip": "Create Email Reports to get Piwik stats delivered to your email or your customers' address automatically!"
+        "TopLinkTooltip": "Create Email Reports to get Piwik stats delivered to your email or your customers' address automatically!",
+        "ReportSent": "Report sent"
     },
     "ImageGraph": {
         "PluginDescription": "Generate beautiful static PNG Graph images for any Piwik report.",
