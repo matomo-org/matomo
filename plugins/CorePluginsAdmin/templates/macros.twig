@@ -90,7 +90,9 @@
                     </td>
 
                     <td class="togl action-links">
-                        {% if plugin.invalid is not defined %}
+                        {% if plugin.invalid is defined or plugin.alwaysActivated %}
+                            -
+                        {% else %}
                             {% if plugin.activated %}
                                 <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&nonce={{ deactivateNonce }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
                             {% else %}
