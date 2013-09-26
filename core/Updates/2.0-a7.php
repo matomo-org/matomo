@@ -23,12 +23,15 @@ class Piwik_Updates_2_0_a7 extends Updates
             // ignore existing column name error (1060)
             'ALTER TABLE ' . Common::prefixTable('logger_message')
                 . " ADD COLUMN plugin VARCHAR(50) NULL AFTER idlogger_message" => 1060,
+
+            'ALTER TABLE ' . Common::prefixTable('logger_message')
+                . " ADD COLUMN level TINYINT AFTER timestamp" => 1060,
         );
     }
 
     static function update()
     {
-        // add plugin column to logger_message table
+        // add plugin & level columns to logger_message table
         Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

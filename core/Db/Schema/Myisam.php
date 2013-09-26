@@ -129,6 +129,7 @@ class Myisam implements SchemaInterface
 									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
                                       plugin VARCHAR(50) NULL,
 									  timestamp TIMESTAMP NULL,
+                                      level TINYINT NULL,
 									  message TEXT NULL,
 									  PRIMARY KEY(idlogger_message)
 									)  DEFAULT CHARSET=utf8

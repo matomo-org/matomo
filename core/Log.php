@@ -30,6 +30,7 @@ class Log
     const LOG_LEVEL_CONFIG_OPTION = 'log_level';
     const LOG_WRITERS_CONFIG_OPTION = 'log_writers';
     const LOGGER_FILE_PATH_CONFIG_OPTION = 'logger_file_path';
+    const STRING_MESSAGE_FORMAT_OPTION = 'string_message_format';
 
     /**
      * TODO
@@ -54,12 +55,20 @@ class Log
     /**
      * TODO
      */
-    private static function getInstance()
+    public static function getInstance()
     {
         if (self::$instance === null) {
             self::$instance = new Log();
         }
         return self::$instance;
+    }
+
+    /**
+     * TODO
+     */
+    public static function clearInstance()
+    {
+        self::$instance = null;
     }
 
     /**
@@ -96,7 +105,15 @@ class Log
         $this->setCurrentLogLevelFromConfig($logConfig);
         $this->setLogWritersFromConfig($logConfig);
         $this->setLogFilePathFromConfig($logConfig);
+        $this->setStringLogMessageFormat($logConfig);
         $this->disableLoggingBasedOnConfig($logConfig);
+    }
+
+    private function setStringLogMessageFormat($logConfig)
+    {
+        if (isset($logConfig['string_message_format'])) {
+            $this->logMessageFormat = $logConfig['string_message_format'];
+        }
     }
 
     private function setLogWritersFromConfig($logConfig)
@@ -111,7 +128,7 @@ class Log
                 $this->writers[] = $writer;
             }
 
-            if ($writer == 'screen') {
+            if ($writerName == 'screen') {
                 $this->loggingToScreen = true;
             }
         }
@@ -132,11 +149,14 @@ class Log
 
     private function setLogFilePathFromConfig($logConfig)
     {
-        $logDir = $logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
-        if ($logDir[0] != '/' && $logDir[0] != DIRECTORY_SEPARATOR) {
-            $logDir = PIWIK_USER_PATH . '/' . $logDir;
+        $logPath = $logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
+        if ($logPath[0] != '/' && $logPath[0] != DIRECTORY_SEPARATOR) {
+            $logPath = PIWIK_USER_PATH . '/' . $logPath;
         }
-        $this->logToFileFilename = $logDir . '/piwik.log';
+        if (is_dir($logPath)) {
+            $logPath .= '/piwik.log';
+        }
+        $this->logToFileFilename = $logPath;
     }
 
     private function createWriterByName($writerName)
@@ -146,7 +166,7 @@ class Log
             $writer = array($this, 'logToFile');
         } else if ($writerName == 'screen') {
             $writer = array($this, 'logToScreen');
-        } else if ($writerName == 'db') {
+        } else if ($writerName == 'database') {
             $writer = array($this, 'logToDatabase');
         }
         return $writer;
@@ -170,7 +190,7 @@ class Log
     private function logToScreen($level, $pluginName, $datetime, $message)
     {
         if (is_string($message)) {
-            $message = $this->formatMessage($level, $pluginName, $datetime, $message);
+            $message = '<pre>' . $this->formatMessage($level, $pluginName, $datetime, $message) . '</pre>';
         } else {
             Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $this));
         }
@@ -196,7 +216,7 @@ class Log
 
         // TODO: allow different columns
         $sql = "INSERT INTO " . Common::prefixTable('logger_message')
-             . " (plugin, time, level, message)"
+             . " (plugin, timestamp, level, message)"
              . " VALUES (?, ?, ?, ?)";
         Db::query($sql, array($pluginName, $datetime, $level, (string)$message));
     }
@@ -205,7 +225,9 @@ class Log
     {
         if ($this->shouldLoggerLog($level)) {
             $datetime = date("Y-m-d H:i:s");
-            if (is_string($message)) {
+            if (is_string($message)
+                && !empty($sprintfParams)
+            ) {
                 $message = vsprintf($message, $sprintfParams);
             }
 
@@ -219,7 +241,7 @@ class Log
     /**
      * TODO
      */
-    public function formatMessage($level, $pluginName, $message, $datetime)
+    public function formatMessage($level, $pluginName, $datetime, $message)
     {
         return str_replace(
             array("%pluginName%", "%message%", "%datetime%", "%level%"),
@@ -248,9 +270,9 @@ class Log
     /**
      * TODO
      */
-    private static function log($level, $message /* ... */)
+    private static function log($level, $message, $sprintfParams)
     {
-        self::getInstance()->doLog($level, $message, array_slice(func_get_args(), 2));
+        self::getInstance()->doLog($level, $message, $sprintfParams);
     }
 
     /**
@@ -258,7 +280,7 @@ class Log
      */
     public static function error($message /* ... */)
     {
-        self::log(self::ERROR, $message, array_slice(func_get_args(), 2));
+        self::log(self::ERROR, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -266,7 +288,7 @@ class Log
      */
     public static function warning($message /* ... */)
     {
-        self::log(self::WARN, $message, array_slice(func_get_args(), 2));
+        self::log(self::WARN, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -274,7 +296,7 @@ class Log
      */
     public static function info($message /* ... */)
     {
-        self::log(self::INFO, $message, array_slice(func_get_args(), 2));
+        self::log(self::INFO, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -282,7 +304,7 @@ class Log
      */
     public static function debug($message /* ... */)
     {
-        self::log(self::DEBUG, $message, array_slice(func_get_args(), 2));
+        self::log(self::DEBUG, $message, array_slice(func_get_args(), 1));
     }
 
     /**
@@ -290,7 +312,7 @@ class Log
      */
     public static function verbose($message /* ... */)
     {
-        self::log(self::VERBOSE, $message, array_slice(func_get_args(), 2));
+        self::log(self::VERBOSE, $message, array_slice(func_get_args(), 1));
     }
 
     private function shouldLoggerLog($level)
