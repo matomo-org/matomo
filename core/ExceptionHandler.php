@@ -22,6 +22,11 @@ use Piwik\API\ResponseBuilder;
  */
 class ExceptionHandler
 {
+    /**
+     * TODO
+     */
+    public static $debugBacktraceForTests = null;
+
     public static function setUp()
     {
         Piwik_AddAction('Log.formatFileMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
@@ -35,7 +40,7 @@ class ExceptionHandler
     {
         if ($message instanceof \Exception) {
             $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
-                $message->getTraceAsString());
+                self::$debugBacktraceForTests ?: $message->getTraceAsString());
 
             $message = $log->formatMessage($level, $pluginName, $datetime, $message);
         }

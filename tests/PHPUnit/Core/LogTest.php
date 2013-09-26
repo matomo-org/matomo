@@ -25,34 +25,10 @@ class LogTest extends DatabaseTestCase
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php',
-        'file' => '[] LogTest.php(178): dummy error message
-#0 [internal function]: LogTest->testLoggingWorksWhenMessageIsException(\'file\')
-#1 TestCase.php(976): ReflectionMethod->invokeArgs(Object(LogTest), Array)
-#2 TestCase.php(831): PHPUnit_Framework_TestCase->runTest()
-#3 TestResult.php(648): PHPUnit_Framework_TestCase->runBare()
-#4 TestCase.php(776): PHPUnit_Framework_TestResult->run(Object(LogTest))
-#5 TestSuite.php(775): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
-#6 TestSuite.php(745): PHPUnit_Framework_TestSuite->runTest(Object(LogTest), Object(PHPUnit_Framework_TestResult))
-#7 TestSuite.php(705): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult), false, Array, Array, false)
-#8 TestRunner.php(349): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult), false, Array, Array, false)
-#9 Command.php(176): PHPUnit_TextUI_TestRunner->doRun(Object(PHPUnit_Framework_TestSuite), Array)
-#10 Command.php(129): PHPUnit_TextUI_Command->run(Array, true)
-#11 phpunit(46): PHPUnit_TextUI_Command::main()
-#12 {main}',
-        'database' => '[] LogTest.php(178): dummy error message
-#0 [internal function]: LogTest->testLoggingWorksWhenMessageIsException(\'database\')
-#1 TestCase.php(976): ReflectionMethod->invokeArgs(Object(LogTest), Array)
-#2 TestCase.php(831): PHPUnit_Framework_TestCase->runTest()
-#3 TestResult.php(648): PHPUnit_Framework_TestCase->runBare()
-#4 TestCase.php(776): PHPUnit_Framework_TestResult->run(Object(LogTest))
-#5 TestSuite.php(775): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
-#6 TestSuite.php(745): PHPUnit_Framework_TestSuite->runTest(Object(LogTest), Object(PHPUnit_Framework_TestResult))
-#7 TestSuite.php(705): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult), false, Array, Array, false)
-#8 TestRunner.php(349): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult), false, Array, Array, false)
-#9 Command.php(176): PHPUnit_TextUI_TestRunner->doRun(Object(PHPUnit_Framework_TestSuite), Array)
-#10 Command.php(129): PHPUnit_TextUI_Command->run(Array, true)
-#11 phpunit(46): PHPUnit_TextUI_Command::main()
-#12 {main}'
+        'file' => '[] LogTest.php(156): dummy error message
+dummy backtrace',
+        'database' => '[] LogTest.php(156): dummy error message
+dummy backtrace'
     );
 
     public static $expectedErrorOutput = array(
@@ -92,6 +68,7 @@ dummy backtrace'
         Config::getInstance()->log['logger_file_path'] = self::getLogFileLocation();
         @unlink(self::getLogFileLocation());
         Log::clearInstance();
+        Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = "dummy backtrace";
     }
 
     public function tearDown()
@@ -100,6 +77,7 @@ dummy backtrace'
 
         Log::clearInstance();
         @unlink(self::getLogFileLocation());
+        Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = null;
     }
 
     /**

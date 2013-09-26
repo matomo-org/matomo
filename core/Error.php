@@ -21,6 +21,11 @@ class Error
     /**
      * TODO
      */
+    public static $debugBacktraceForTests = null;
+
+    /**
+     * TODO
+     */
     public $errno;
 
     /**
@@ -154,17 +159,21 @@ class Error
         }
 
         $backtrace = '';
-        $bt = @debug_backtrace();
-        if ($bt !== null && isset($bt[0])) {
-            foreach ($bt as $i => $debug) {
-                $backtrace .= "#$i  "
-                    . (isset($debug['class']) ? $debug['class'] : '')
-                    . (isset($debug['type']) ? $debug['type'] : '')
-                    . (isset($debug['function']) ? $debug['function'] : '')
-                    . '(...) called at ['
-                    . (isset($debug['file']) ? $debug['file'] : '') . ':'
-                    . (isset($debug['line']) ? $debug['line'] : '') . ']' . "\n";
+        if (empty(self::$debugBacktraceForTests)) {
+            $bt = @debug_backtrace();
+            if ($bt !== null && isset($bt[0])) {
+                foreach ($bt as $i => $debug) {
+                    $backtrace .= "#$i  "
+                        . (isset($debug['class']) ? $debug['class'] : '')
+                        . (isset($debug['type']) ? $debug['type'] : '')
+                        . (isset($debug['function']) ? $debug['function'] : '')
+                        . '(...) called at ['
+                        . (isset($debug['file']) ? $debug['file'] : '') . ':'
+                        . (isset($debug['line']) ? $debug['line'] : '') . ']' . "\n";
+                }
             }
+        } else {
+            $backtrace = self::$debugBacktraceForTests;
         }
 
         $error = new Error($errno, $errstr, $errfile, $errline, $backtrace);
