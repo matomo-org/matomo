@@ -255,8 +255,8 @@ class API
                     $result['totalAbandonedCartsItems'] += $action['items'];
                 }
 
-                if (isset($result['siteSearchKeyword'])) {
-                    $keyword = $result['siteSearchKeyword'];
+                if (isset($action['siteSearchKeyword'])) {
+                    $keyword = $action['siteSearchKeyword'];
 
                     if (!isset($siteSearchKeywords[$keyword])) {
                         $siteSearchKeyword[$keyword] = 0;
@@ -265,8 +265,8 @@ class API
                     ++$siteSearchKeywords[$keyword];
                 }
 
-                if (isset($result['generationTime'])) {
-                    $pageGenerationTimeTotal += $result['generationTime'];
+                if (isset($action['generationTime'])) {
+                    $pageGenerationTimeTotal += $action['generationTime'];
                     ++$result['totalPageViews'];
                 }
             }

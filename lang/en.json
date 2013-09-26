@@ -1749,7 +1749,8 @@
         "UpdaterHasNotBeenRun": "The updater has never been run.",
         "HowToInstallApacheModule": "How do I install the GeoIP module for Apache?",
         "HowToInstallNginxModule": "How do I install the GeoIP module for Nginx?",
-        "HowToInstallGeoIpPecl": "How do I install the GeoIP PECL extension?"
+        "HowToInstallGeoIpPecl": "How do I install the GeoIP PECL extension?",
+        "GeoIPIncorrectDatabaseFormat": "Your GeoIP database does not seem to have the correct format. It may be corrupt. Make sure you are using the binary version and try replacing it with another copy."
     },
     "UserCountryMap": {
         "map": "map",
