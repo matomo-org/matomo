@@ -259,7 +259,7 @@ class API
                     $keyword = $action['siteSearchKeyword'];
 
                     if (!isset($siteSearchKeywords[$keyword])) {
-                        $siteSearchKeyword[$keyword] = 0;
+                        $siteSearchKeywords[$keyword] = 0;
                         ++$result['totalSearches'];
                     }
                     ++$siteSearchKeywords[$keyword];
@@ -308,7 +308,8 @@ class API
         }
 
         if ($result['totalPageViews']) {
-            $result['averagePageGenerationTime'] = $pageGenerationTimeTotal / $result['totalPageViews'];
+            $result['averagePageGenerationTime'] =
+                round($pageGenerationTimeTotal / $result['totalPageViews'], $precision = 2);
         }
 
         $result['totalVisitDurationPretty'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($result['totalVisitDuration']);
