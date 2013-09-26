@@ -9,7 +9,7 @@ body#simple  {
 	width:780px;
 	margin: 30px auto auto;
     border-radius: 12px;
-    display: table; // Contains floating children
+    display: table; /* Contains floating children */
 }
 #h1 {
 	color: #006;
