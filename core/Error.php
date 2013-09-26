@@ -129,7 +129,7 @@ class Error
             $htmlString .= ":</strong> <em>{$message->errstr}</em> in <strong>{$message->errfile}</strong>";
             $htmlString .= " on line <strong>{$message->errline}</strong>\n";
             $htmlString .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\">";
-            $htmlString .= str_replace(array("\n", '#'), array("<br />\n", "<br />\n#"), $message->backtrace);
+            $htmlString .= str_replace("\n", "<br />\n", $message->backtrace);
             $htmlString .= "</div><br />";
             $htmlString .= "\n </pre></div><br />";
 
