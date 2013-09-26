@@ -66,7 +66,7 @@ class Piwik
      */
     static public function log($message = '')
     {
-        Log::i("none", $message);
+        Log::info($message);
     }
 
     /**

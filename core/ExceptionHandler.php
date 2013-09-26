@@ -56,8 +56,7 @@ class ExceptionHandler
 
     public static function exceptionHandler(Exception $exception)
     {
-        $plugin = Plugin::getPluginNameFromBacktrace($exception->getTrace());
-        Log::e($plugin, $exception);
+        Log::error($exception);
 
         // TODO: what about this code?
         /*if (FrontController::shouldRethrowException()) {

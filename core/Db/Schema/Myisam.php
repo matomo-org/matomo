@@ -127,6 +127,7 @@ class Myisam implements SchemaInterface
 
             'logger_message'        => "CREATE TABLE {$prefixTables}logger_message (
 									  idlogger_message INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      plugin VARCHAR(50) NULL,
 									  timestamp TIMESTAMP NULL,
 									  message TEXT NULL,
 									  PRIMARY KEY(idlogger_message)

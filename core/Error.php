@@ -96,7 +96,7 @@ class Error
     public static function formatFileAndDBLogMessage(&$message, $level, $pluginName, $datetime, $log)
     {
         if ($message instanceof Error) {
-            $message = $message->$errfile . '(' . $message->errline . '): ' . $message->getErrNoString()
+            $message = $message->errfile . '(' . $message->errline . '): ' . $message->getErrNoString()
                      . ' - ' . $message->errstr . "\n" . $message->backtrace;
 
             $message = $log->formatMessage($level, $pluginName, $datetime, $message);
@@ -153,8 +153,6 @@ class Error
             return;
         }
 
-        $plugin = 'unknown';
-
         $backtrace = '';
         $bt = @debug_backtrace();
         if ($bt !== null && isset($bt[0])) {
@@ -167,12 +165,10 @@ class Error
                     . (isset($debug['file']) ? $debug['file'] : '') . ':'
                     . (isset($debug['line']) ? $debug['line'] : '') . ']' . "\n";
             }
-
-            $plugin = Plugin::getPluginNameFromBacktrace($bt);
         }
 
         $error = new Error($errno, $errstr, $errfile, $errline, $backtrace);
-        Log::e($plugin, $error);
+        Log::error($error);
 
         switch ($errno) {
             case E_ERROR:

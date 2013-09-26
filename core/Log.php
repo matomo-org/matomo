@@ -30,7 +30,6 @@ class Log
     const LOG_LEVEL_CONFIG_OPTION = 'log_level';
     const LOG_WRITERS_CONFIG_OPTION = 'log_writers';
     const LOGGER_FILE_PATH_CONFIG_OPTION = 'logger_file_path';
-    const LOGGER_DATABASE_TABLE_CONFIG_OPTION = 'logger_db_table';
 
     /**
      * TODO
@@ -55,7 +54,7 @@ class Log
     /**
      * TODO
      */
-    public static function getInstance()
+    private static function getInstance()
     {
         if (self::$instance === null) {
             self::$instance = new Log();
@@ -81,11 +80,6 @@ class Log
     /**
      * TODO
      */
-    private $logToDatabaseTable = "logger_message";
-
-    /**
-     * TODO
-     */
     private $logToFileFilename;
 
     /**
@@ -94,15 +88,14 @@ class Log
     private $loggingToScreen;
 
     /**
-     * TODO
+     * Constructor.
      */
-    public function __construct()
+    private function __construct()
     {
         $logConfig = Config::getInstance()->log;
         $this->setCurrentLogLevelFromConfig($logConfig);
         $this->setLogWritersFromConfig($logConfig);
         $this->setLogFilePathFromConfig($logConfig);
-        $this->setLogDatabaseTableFromConfig($logConfig);
         $this->disableLoggingBasedOnConfig($logConfig);
     }
 
@@ -137,13 +130,6 @@ class Log
         }
     }
 
-    private function setLogDatabaseTableFromConfig($logConfig)
-    {
-        if (!empty($logConfig[self::LOGGER_DATABASE_TABLE_CONFIG_OPTION])) {
-            $this->logToDatabaseTable = $logConfig[self::LOGGER_DATABASE_TABLE_CONFIG_OPTION];
-        }
-    }
-
     private function setLogFilePathFromConfig($logConfig)
     {
         $logDir = $logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
@@ -171,7 +157,7 @@ class Log
         if (is_string($message)) {
             $message = $this->formatMessage($level, $pluginName, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $log));
+            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $this));
         }
 
         if (empty($message)) {
@@ -186,7 +172,7 @@ class Log
         if (is_string($message)) {
             $message = $this->formatMessage($level, $pluginName, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $log));
+            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $this));
         }
 
         if (empty($message)) {
@@ -201,7 +187,7 @@ class Log
         if (is_string($message)) {
             $message = $this->formatMessage($level, $pluginName, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $log));
+            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $this));
         }
 
         if (empty($message)) {
@@ -209,22 +195,24 @@ class Log
         }
 
         // TODO: allow different columns
-        $sql = "INSERT INTO " . Common::prefixTable($this->logToDatabaseTable)
+        $sql = "INSERT INTO " . Common::prefixTable('logger_message')
              . " (plugin, time, level, message)"
              . " VALUES (?, ?, ?, ?)";
         Db::query($sql, array($pluginName, $datetime, $level, (string)$message));
     }
 
-    /**
-     * TODO
-     */
-    private function doLog($level, $pluginName, $message, $sprintfParams = array())
+    private function doLog($level, $message, $sprintfParams = array())
     {
         if ($this->shouldLoggerLog($level)) {
             $datetime = date("Y-m-d H:i:s");
-            $message = vsprintf($message, $sprintfParams);
+            if (is_string($message)) {
+                $message = vsprintf($message, $sprintfParams);
+            }
 
-            $this->writeMessage($pluginName, $message, $datetime);
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            $pluginName = Plugin::getPluginNameFromBacktrace($backtrace);
+
+            $this->writeMessage($level, $pluginName, $datetime, $message);
         }
     }
 
@@ -260,55 +248,51 @@ class Log
     /**
      * TODO
      */
-    public static function log($level, $pluginName, $message, $sprintfParams = array())
+    private static function log($level, $message /* ... */)
     {
-        self::getInstance()->doLog($level, $pluginName, $message, $sprintfParams);
+        self::getInstance()->doLog($level, $message, array_slice(func_get_args(), 2));
     }
 
     /**
      * TODO
      */
-    public static function e($pluginName, $message, $sprintfParams = array())
+    public static function error($message /* ... */)
     {
-        self::log(self::ERROR, $pluginName, $message, $sprintfParams);
+        self::log(self::ERROR, $message, array_slice(func_get_args(), 2));
     }
 
     /**
      * TODO
      */
-    public static function w($pluginName, $message, $sprintfParams = array())
+    public static function warning($message /* ... */)
     {
-        self::log(self::WARN, $pluginName, $message, $sprintfParams);
+        self::log(self::WARN, $message, array_slice(func_get_args(), 2));
     }
 
     /**
      * TODO
      */
-    public static function i($pluginName, $message, $sprintfParams = array())
+    public static function info($message /* ... */)
     {
-        self::log(self::INFO, $pluginName, $message, $sprintfParams);
+        self::log(self::INFO, $message, array_slice(func_get_args(), 2));
     }
 
     /**
      * TODO
      */
-    public static function d($pluginName, $message, $sprintfParams = array())
+    public static function debug($message /* ... */)
     {
-        self::log(self::DEBUG, $pluginName, $message, $sprintfParams);
+        self::log(self::DEBUG, $message, array_slice(func_get_args(), 2));
     }
 
     /**
      * TODO
      */
-    public static function v($pluginName, $message, $sprintfParams = array())
+    public static function verbose($message /* ... */)
     {
-        self::log(self::VERBOSE, $pluginName, $message, $sprintfParams);
+        self::log(self::VERBOSE, $message, array_slice(func_get_args(), 2));
     }
 
-    /**
-     * Returns if logging should work
-     * @return bool
-     */
     private function shouldLoggerLog($level)
     {
         return $level <= $this->currentLogLevel;
