@@ -407,38 +407,4 @@ class AccessTest extends DatabaseTestCase
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertFalse($access->isSuperUser());
     }
-
-    /**
-     * @group Core
-     * @group Access
-     */
-    public function testReloadAccessWithMockedAuthSuperUser()
-    {
-        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName'));
-        $mock->expects($this->once())
-            ->method('authenticate')
-            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'superuser', 'superusertoken')));
-
-        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
-        $access = Access::getInstance();
-        $this->assertTrue($access->reloadAccess($mock));
-        $this->assertTrue($access->isSuperUser());
-    }
-
-    /**
-     * @group Core
-     * @group Access
-     */
-    public function testReloadAccessWithMockedAuthInvalidUser()
-    {
-        $mock = $this->getMock('\\Piwik\\Auth', array('authenticate', 'getName'));
-        $mock->expects($this->once())
-            ->method('authenticate')
-            ->will($this->returnValue(new AuthResult(AuthResult::FAILURE_CREDENTIAL_INVALID, null, null)));
-
-        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
-        $access = Access::getInstance();
-        $this->assertFalse($access->reloadAccess($mock));
-    }
-
 }
