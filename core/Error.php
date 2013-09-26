@@ -128,7 +128,7 @@ class Error
             $htmlString .= $message->getErrNoString();
             $htmlString .= ":</strong> <em>{$message->errstr}</em> in <strong>{$message->errfile}</strong>";
             $htmlString .= " on line <strong>{$message->errline}</strong>\n";
-            $htmlString .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\">";
+            $htmlString .= "<br /><br />Backtrace --&gt;<div style=\"font-family:Courier;font-size:10pt\"><br />\n";
             $htmlString .= str_replace("\n", "<br />\n", $message->backtrace);
             $htmlString .= "</div><br />";
             $htmlString .= "\n </pre></div><br />";
