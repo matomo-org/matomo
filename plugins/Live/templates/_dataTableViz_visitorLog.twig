@@ -155,25 +155,27 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                     {% if visitor.getColumn('referrerType') == 'direct' %}{{ 'Referers_DirectEntry'|translate }}{% endif %}
                 </div>
             </td>
-            <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %} visitor-log-page-list">
-                {% if visitor.getColumn('visitorId') is not empty %}
-                <a class="visitor-log-visitor-profile-link" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
-                    <img src="plugins/Live/images/visitorProfileLaunch.png"/> <span>{{ 'Live_ViewVisitorProfile'|translate }}</span>
-                </a>
-                {% endif %}
-                <strong>
-                    {{ visitor.getColumn('actionDetails')|length }}
-                    {% if visitor.getColumn('actionDetails')|length <= 1 %}
-                        {{ 'General_Action'|translate }}
-                    {% else %}
-                        {{ 'General_Actions'|translate }}
+            <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">
+                <div class="visitor-log-page-list">
+                    {% if visitor.getColumn('visitorId') is not empty %}
+                    <a class="visitor-log-visitor-profile-link" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
+                        <img src="plugins/Live/images/visitorProfileLaunch.png"/> <span>{{ 'Live_ViewVisitorProfile'|translate }}</span>
+                    </a>
                     {% endif %}
-                    {% if visitor.getColumn('visitDuration') > 0 %}- {{ visitor.getColumn('visitDurationPretty')|raw }}{% endif %}
-                </strong>
-                <br/>
-                <ol class='visitorLog'>
-                    {% include "@Live/_actionsList.twig" with {'actionDetails': visitor.getColumn('actionDetails')} %}
-                </ol>
+                    <strong>
+                        {{ visitor.getColumn('actionDetails')|length }}
+                        {% if visitor.getColumn('actionDetails')|length <= 1 %}
+                            {{ 'General_Action'|translate }}
+                        {% else %}
+                            {{ 'General_Actions'|translate }}
+                        {% endif %}
+                        {% if visitor.getColumn('visitDuration') > 0 %}- {{ visitor.getColumn('visitDurationPretty')|raw }}{% endif %}
+                    </strong>
+                    <br/>
+                    <ol class='visitorLog'>
+                        {% include "@Live/_actionsList.twig" with {'actionDetails': visitor.getColumn('actionDetails')} %}
+                    </ol>
+                </div>
             </td>
         </tr>
     {% endset %}
