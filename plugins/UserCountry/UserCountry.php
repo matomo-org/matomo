@@ -372,13 +372,24 @@ class UserCountry extends \Piwik\Plugin
 
     private function getDisplayPropertiesForGetCountry()
     {
-        return array(
+        $result = array(
             'show_exclude_low_population' => false,
             'show_goals'                  => true,
             'filter_limit'                => 5,
             'translations'                => array('label' => Piwik_Translate('UserCountry_Country')),
             'documentation'               => Piwik_Translate('UserCountry_getCountryDocumentation')
         );
+
+        if (LocationProvider::getCurrentProviderId() == DefaultProvider::ID) {
+            // if we're using the default location provider, add a note explaining how it works
+            $footerMessage = Piwik_Translate("General_Note") . ': '
+                           . Piwik_Translate('UserCountry_DefaultLocationProviderExplanation',
+                                             array('<a target="_blank" href="http://piwik.org/docs/geo-locate/">', '</a>'));
+
+            $result['show_footer_message'] = $footerMessage;
+        }
+
+        return $result;
     }
 
     private function getDisplayPropertiesForGetContinent()
