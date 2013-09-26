@@ -187,7 +187,31 @@ class Php extends GeoIp
                 array('mb_internal_encoding', 'mbstring'));
         }
 
-        return parent::isWorking();
+        $geoIpError = false;
+        $catchGeoIpError = function ($errno, $errstr, $errfile, $errline) use (&$geoIpError) {
+            $filename = basename($errfile);
+            if ($filename == 'geoip.inc'
+                || $filename == 'geoipcity.inc'
+            ) {
+                $geoIpError = array($errno, $errstr, $errfile, $errline);
+            } else {
+                throw new \Exception("Error in PHP GeoIP provider: $errstr on line $errline of $errfile"); // unexpected
+            }
+        };
+
+        // catch GeoIP errors
+        set_error_handler($catchGeoIpError);
+        $result = parent::isWorking();
+        restore_error_handler();
+
+        if ($geoIpError) {
+            list($errno, $errstr, $errfile, $errline) = $geoIpError;
+            Piwik::log("Got GeoIP error when testing PHP GeoIP location provider: $errfile($errline): $errstr");
+
+            return Piwik_Translate('UserCountry_GeoIPIncorrectDatabaseFormat');
+        }
+
+        return $result;
     }
 
     /**

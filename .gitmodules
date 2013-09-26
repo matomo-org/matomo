@@ -7,3 +7,6 @@
 [submodule "plugins/VisitorGenerator"]
 	path = plugins/VisitorGenerator
 	url = https://github.com/piwik/plugin-VisitorGenerator
+[submodule "plugins/TreemapVisualization"]
+	path = plugins/TreemapVisualization
+	url = https://github.com/piwik/plugin-TreemapVisualization.git

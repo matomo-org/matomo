@@ -8,7 +8,6 @@ use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Tracker;
 use Piwik\Tracker\Cache;
-use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
  * Piwik - Open source web analytics
@@ -483,29 +482,29 @@ class Request
         return $this->forcedVisitorId;
     }
 
-    public function enrichLocation($location)
+    public function overrideLocation(&$visitorInfo)
     {
         if (!$this->isAuthenticated()) {
-            return $location;
+            return;
         }
 
         // check for location override query parameters (ie, lat, long, country, region, city)
         static $locationOverrideParams = array(
-            'country' => array('string', LocationProvider::COUNTRY_CODE_KEY),
-            'region'  => array('string', LocationProvider::REGION_CODE_KEY),
-            'city'    => array('string', LocationProvider::CITY_NAME_KEY),
-            'lat'     => array('float', LocationProvider::LATITUDE_KEY),
-            'long'    => array('float', LocationProvider::LONGITUDE_KEY),
+            'country' => array('string', 'location_country'),
+            'region'  => array('string', 'location_region'),
+            'city'    => array('string', 'location_city'),
+            'lat'     => array('float', 'location_latitude'),
+            'long'    => array('float', 'location_longitude'),
         );
         foreach ($locationOverrideParams as $queryParamName => $info) {
-            list($type, $locationResultKey) = $info;
+            list($type, $visitorInfoKey) = $info;
 
             $value = Common::getRequestVar($queryParamName, false, $type, $this->params);
             if (!empty($value)) {
-                $location[$locationResultKey] = $value;
+                $visitorInfo[$visitorInfoKey] = $value;
             }
         }
-        return $location;
+        return;
     }
 
     public function getPlugins()

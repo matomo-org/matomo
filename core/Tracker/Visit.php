@@ -39,7 +39,6 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Referrer;
 use Exception;
 use Piwik\Tracker\VisitExcluded;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use UserAgentParser;
 
 /**
@@ -477,10 +476,6 @@ class Visit implements Tracker\VisitInterface
             'location_browser_lang'     => $userInfo['location_browser_lang'],
         );
 
-        // add optional location components
-        $location = $this->getVisitorLocation($userInfo['location_browser_lang']);
-        $this->updateVisitInfoWithLocation($location);
-
         // Add Custom variable key,value to the visitor array
         $this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
 
@@ -488,6 +483,8 @@ class Visit implements Tracker\VisitInterface
             'UserAgent' => $this->request->getUserAgent(),
         );
         Piwik_PostEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $extraInfo));
+
+        $this->request->overrideLocation($this->visitorInfo);
 
         $debugVisitInfo = $this->visitorInfo;
         $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
@@ -508,77 +505,6 @@ class Visit implements Tracker\VisitInterface
             $t = $smallintMysqlLimit;
         }
         return $t;
-    }
-
-    /**
-     * Returns the location of the visitor, based on the visitor's IP and browser language.
-     *
-     * @param string $browserLang
-     * @return array See LocationProvider::getLocation for more info.
-     */
-    private function getVisitorLocation($browserLang)
-    {
-        $location = array();
-        $userInfo = array('lang' => $browserLang, 'ip' => IP::N2P($this->getVisitorIp()));
-        Piwik_PostEvent('Tracker.getVisitorLocation', array(&$location, $userInfo));
-
-        $location = $this->request->enrichLocation($location);
-
-        if (empty($location['country_code'])) // sanity check
-        {
-            $location['country_code'] = self::UNKNOWN_CODE;
-        }
-
-        return $location;
-    }
-
-    /**
-     * Sets visitor info array with location info.
-     *
-     * @param array $location See LocationProvider::getLocation for more info.
-     */
-    private function updateVisitInfoWithLocation($location)
-    {
-        static $logVisitToLowerLocationMapping = array(
-            'location_country' => LocationProvider::COUNTRY_CODE_KEY,
-        );
-
-        static $logVisitToLocationMapping = array(
-            'location_region'    => LocationProvider::REGION_CODE_KEY,
-            'location_city'      => LocationProvider::CITY_NAME_KEY,
-            'location_latitude'  => LocationProvider::LATITUDE_KEY,
-            'location_longitude' => LocationProvider::LONGITUDE_KEY,
-        );
-
-        foreach ($logVisitToLowerLocationMapping as $column => $locationKey) {
-            if (!empty($location[$locationKey])) {
-                $this->visitorInfo[$column] = strtolower($location[$locationKey]);
-            }
-        }
-
-        foreach ($logVisitToLocationMapping as $column => $locationKey) {
-            if (!empty($location[$locationKey])) {
-                $this->visitorInfo[$column] = $location[$locationKey];
-            }
-        }
-
-        // if the location has provider/organization info, set it
-        if (!empty($location[LocationProvider::ISP_KEY])) {
-            $providerValue = $location[LocationProvider::ISP_KEY];
-
-            // if the org is set and not the same as the isp, add it to the provider value
-            if (!empty($location[LocationProvider::ORG_KEY])
-                && $location[LocationProvider::ORG_KEY] != $providerValue
-            ) {
-                $providerValue .= ' - ' . $location[LocationProvider::ORG_KEY];
-            }
-        } else if (!empty($location[LocationProvider::ORG_KEY])) {
-            $providerValue = $location[LocationProvider::ORG_KEY];
-        }
-
-        if (isset($providerValue)) {
-            $this->visitorInfo['location_provider'] = $providerValue;
-        }
     }
 
     /**
@@ -921,7 +847,6 @@ class Visit implements Tracker\VisitInterface
             $os,
             $browserName,
             $browserVersion,
-            $resolution,
             $plugin_Flash,
             $plugin_Java,
             $plugin_Director,
@@ -1036,7 +961,7 @@ class Visit implements Tracker\VisitInterface
      * @param $browserLang
      * @return string
      */
-    protected function getConfigHash($os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
+    protected function getConfigHash($os, $browserName, $browserVersion, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
     {
         $hash = md5($os . $browserName . $browserVersion . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true);
         return Common::substr($hash, 0, Tracker::LENGTH_BINARY_ID);

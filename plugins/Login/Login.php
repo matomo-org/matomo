@@ -116,7 +116,7 @@ class Login extends \Piwik\Plugin
         $authCookieExpiry = $rememberMe ? time() + Config::getInstance()->General['login_cookie_expire'] : 0;
         $authCookiePath = Config::getInstance()->General['login_cookie_path'];
         $cookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
-        if (!$authResult->isValid()) {
+        if (!$authResult->wasAuthenticationSuccessful()) {
             $cookie->delete();
             throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
         }

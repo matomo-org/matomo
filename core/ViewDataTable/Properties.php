@@ -693,7 +693,7 @@ class Properties
      */
     public static function getDefaultPropertyValues()
     {
-        $result = array(
+        return array(
             'footer_icons' => false,
             'show_visualization_only' => false,
             'datatable_js_type' => 'DataTable',
@@ -749,14 +749,6 @@ class Properties
             'columns_to_display' => array(),
             'y_axis_unit' => false
         );
-
-        $columns = Common::getRequestVar('columns', false);
-        if ($columns !== false) {
-            $result['columns_to_display'] = Piwik::getArrayFromApiParameter($columns);
-            array_unshift($result['columns_to_display'], 'label');
-        }
-
-        return $result;
     }
 
     private static function getFlippedClassConstantMap($klass)

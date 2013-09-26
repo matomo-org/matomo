@@ -408,7 +408,12 @@ var broadcast = {
             // if content is whole HTML document, do not show it, otherwise recursive page load could occur
             var htmlDocType = '<!DOCTYPE';
             if (content.substring(0, htmlDocType.length) == htmlDocType) {
-                return;
+                // if the content has an error message, display it
+                if ($(content).filter('title').text() == 'Piwik › Error') {
+                    content = $(content).filter('#contentsimple');
+                } else {
+                    return;
+                }
             }
 
             if (urlAjax == broadcast.lastUrlRequested) {

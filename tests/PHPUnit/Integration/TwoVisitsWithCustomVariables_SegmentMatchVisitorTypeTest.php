@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Common;
+use Piwik\Db;
 
 /**
  * Tests use of custom variable segments.
@@ -87,10 +88,10 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);
-            $countBlobs = \Zend_Registry::get('db')->fetchOne($sql);
+            $countBlobs = Db::get()->fetchOne($sql);
 
             if($expectedRows != $countBlobs) {
-                var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " ORDER BY name, idarchive ASC"));
+                var_export(Db::get()->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " ORDER BY name, idarchive ASC"));
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
         }
@@ -105,4 +106,3 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType::$fixture
     = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType::$fixture->doExtraQuoteTests = false;
-
