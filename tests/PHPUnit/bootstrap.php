@@ -106,6 +106,6 @@ Try again.
         echo "\nPiwik should be running at: " . $piwikServerUrl
             . "\nbut this URL returned an unexpected response: '"
             . substr($fetched, 0, 700) . "...'\n\n";
-        exit;
+        exit 1;
     }
 }
