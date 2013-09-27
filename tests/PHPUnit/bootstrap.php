@@ -105,7 +105,7 @@ Try again.
     if (strpos($fetched, $expectedString) === false) {
         echo "\nPiwik should be running at: " . $piwikServerUrl
             . "\nbut this URL returned an unexpected response: '"
-            . substr($fetched, 0, 700) . "...'\n\n";
+            . $fetched . "...'\n\n";
         exit(1);
     }
 }
