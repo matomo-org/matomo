@@ -8,41 +8,62 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Log;
-use Piwik\Log\ExceptionScreenFormatter;
 use Piwik\FrontController;
+use Piwik\API\ResponseBuilder;
 
 /**
- * Exception handler used to display nicely exceptions in Piwik
- *
- * @param Exception $exception
- * @throws Exception
+ * Contains Piwik's uncaught exception handler and log file formatting for exception
+ * instances.
  */
-function Piwik_ExceptionHandler(Exception $exception)
+class ExceptionHandler
 {
-    try {
-        \Zend_Registry::get('logger_exception')->logEvent($exception);
-    } catch (Exception $e) {
+    /**
+     * The backtrace string to use when testing.
+     * 
+     * @var string
+     */
+    public static $debugBacktraceForTests = null;
 
-        if (FrontController::shouldRethrowException()) {
-            throw $exception;
+    public static function setUp()
+    {
+        Piwik_AddAction('Log.formatFileMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
+        Piwik_AddAction('Log.formatDatabaseMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
+        Piwik_AddAction('Log.formatScreenMessage', array('\\Piwik\\ExceptionHandler', 'formatScreenMessage'));
+
+        set_exception_handler(array('\\Piwik\\ExceptionHandler', 'exceptionHandler'));
+    }
+
+    public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, $log)
+    {
+        if ($message instanceof \Exception) {
+            $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
+                self::$debugBacktraceForTests ?: $message->getTraceAsString());
+
+            $message = $log->formatMessage($level, $tag, $datetime, $message);
         }
+    }
 
-        // case when the exception is raised before the logger being ready
-        // we handle the exception a la mano, but using the Logger formatting properties
-        $event = array();
-        $event['errno'] = $exception->getCode();
-        $event['message'] = $exception->getMessage();
-        $event['errfile'] = $exception->getFile();
-        $event['errline'] = $exception->getLine();
-        $event['backtrace'] = $exception->getTraceAsString();
+    public static function formatScreenMessage(&$message, $level, $tag, $datetime, $log)
+    {
+        if ($message instanceof \Exception) {
+            if (!Common::isPhpCliMode()) {
+                @header('Content-Type: text/html; charset=utf-8');
+            }
 
-        $formatter = new ExceptionScreenFormatter();
+            $outputFormat = strtolower(Common::getRequestVar('format', 'html', 'string'));
+            $response = new ResponseBuilder($outputFormat);
+            $message = $response->getResponseException(new \Exception($message->getMessage()));
+        }
+    }
 
-        $message = $formatter->format($event);
-        $message .= "<br /><br />And this exception raised another exception \"" . $e->getMessage() . "\"";
-
-        Piwik::exitWithErrorMessage($message);
+    public static function exceptionHandler(Exception $exception)
+    {
+        Log::error($exception);
     }
 }

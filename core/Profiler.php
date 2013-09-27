@@ -17,7 +17,8 @@ namespace Piwik;
  *   enable_sql_profiler = 1
  *
  *   [log]
- *   logger_message[]="screen"
+ *   log_writers[] = file
+ *   log_level=debug
  *
  * @package Piwik
  */
