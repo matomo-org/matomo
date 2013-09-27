@@ -35,7 +35,7 @@ before_script:
   - uname -a
   - date
   - php -r "var_dump(gd_info());"
-  - mysql -e 'create database piwik_test;'
+  - mysql -e 'create database piwik_tests;'
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
