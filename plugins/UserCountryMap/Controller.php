@@ -76,7 +76,8 @@ class Controller extends \Piwik\Controller
                                                      'bounce_rate'          => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
                                                      'avg_time_on_site'     => Piwik_Translate('VisitsSummary_AverageVisitDuration'),
                                                      'and_n_others'         => Piwik_Translate('UserCountryMap_AndNOthers'),
-                                                     'no_data'              => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
+                                                     'no_data'              => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport'),
+                                                     'nb_uniq_visitors'     => Piwik_Translate('VisitsSummary_NbUniqueVisitors')
                                                 ));
 
         $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
