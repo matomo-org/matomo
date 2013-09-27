@@ -65,10 +65,5 @@ class ExceptionHandler
     public static function exceptionHandler(Exception $exception)
     {
         Log::error($exception);
-
-        // TODO: what about this code?
-        /*if (FrontController::shouldRethrowException()) {
-            throw $exception;
-        }*/
     }
 }
