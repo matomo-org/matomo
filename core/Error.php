@@ -14,42 +14,61 @@ use Piwik\Log;
 use Piwik\Version;
 
 /**
- * TODO
+ * Holds PHP error information (non-exception errors). Also contains log formatting logic
+ * for PHP errors and Piwik's error handler function.
  */
 class Error
 {
     /**
-     * TODO
+     * The backtrace string to use when testing.
+     * 
+     * @var string
      */
     public static $debugBacktraceForTests = null;
 
     /**
-     * TODO
+     * The error number. See http://php.net/manual/en/errorfunc.constants.php#errorfunc.constants.errorlevels
+     * 
+     * @var int
      */
     public $errno;
 
     /**
-     * TODO
+     * The error message.
+     * 
+     * @var string
      */
     public $errstr;
 
     /**
-     * TODO
+     * The file in which the error occurred.
+     * 
+     * @var string
      */
     public $errfile;
 
     /**
-     * TODO
+     * The line number on which the error occurred.
+     * 
+     * @var int
      */
     public $errline;
 
     /**
-     * TODO
+     * The error backtrace.
+     * 
+     * @var string
      */
     public $backtrace;
 
     /**
-     * TODO
+     * Constructor.
+     * 
+     * @param int $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int $errline
+     * @param string $backtrace
      */
     public function __construct($errno, $errstr, $errfile, $errline, $backtrace)
     {

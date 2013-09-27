@@ -18,12 +18,15 @@ use Piwik\FrontController;
 use Piwik\API\ResponseBuilder;
 
 /**
- * TODO
+ * Contains Piwik's uncaught exception handler and log file formatting for exception
+ * instances.
  */
 class ExceptionHandler
 {
     /**
-     * TODO
+     * The backtrace string to use when testing.
+     * 
+     * @var string
      */
     public static $debugBacktraceForTests = null;
 
