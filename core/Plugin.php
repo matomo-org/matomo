@@ -195,7 +195,10 @@ class Plugin
     }
 
     /**
-     * TODO
+     * Extracts the plugin name from a backtrace array. Returns false if we can't find one.
+     * 
+     * @param array $backtrace The result of the debug_backtrace() or Exception::getTrace().
+     * @return string|false
      */
     public static function getPluginNameFromBacktrace($backtrace)
     {
