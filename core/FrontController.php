@@ -264,7 +264,13 @@ class FrontController
                 if (self::shouldRethrowException()) {
                     throw $e;
                 }
-                Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
+
+                try {
+                    Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
+                } catch (Exception $nested) {
+                    // ignore
+                }
+                
                 throw $e;
             }
 
