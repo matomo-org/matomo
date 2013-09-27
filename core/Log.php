@@ -14,7 +14,18 @@ use Piwik\Common;
 use Piwik\Db;
 
 /**
- * TODO
+ * Logging utility.
+ * 
+ * You can log messages using one of the public static functions (eg, 'error', 'warning',
+ * 'info', etc.).
+ * 
+ * Currently, Piwik supports the following logging backends:
+ * - logging to the screen
+ * - logging to a file
+ * - logging to a database
+ * 
+ * The logging utility can be configured by manipulating the INI config options in the
+ * [log] section.
  */
 class Log
 {
@@ -33,27 +44,52 @@ class Log
     const STRING_MESSAGE_FORMAT_OPTION = 'string_message_format';
 
     /**
-     * TODO
+     * This event is called when trying to log an object to a file. Plugins can use
+     * this event to convert objects to strings before they are logged.
+     * 
+     * Callback signature: function (&$message, $level, $pluginName, $datetime, $logger)
+     * 
+     * The $message parameter is the object that is being logged. Event handlers should
+     * check if the object is of a certain type and if it is, set $message to the
+     * string that should be logged.
      */
     const FORMAT_FILE_MESSAGE_EVENT = 'Log.formatFileMessage';
 
     /**
-     * TODO
+     * This event is called when trying to log an object to the screen. Plugins can use
+     * this event to convert objects to strings before they are logged.
+     * 
+     * Callback signature: function (&$message, $level, $pluginName, $datetiem, $logger)
+     * 
+     * The $message parameter is the object that is being logged. Event handlers should
+     * check if the object is of a certain type and if it is, set $message to the
+     * string that should be logged.
      */
     const FORMAT_SCREEN_MESSAGE_EVENT = 'Log.formatScreenMessage';
 
     /**
-     * TODO
+     * This event is called when trying to log an object to a database table. Plugins can use
+     * this event to convert objects to strings before they are logged.
+     * 
+     * Callback signature: function (&$message, $level, $pluginName, $datetiem, $logger)
+     * 
+     * The $message parameter is the object that is being logged. Event handlers should
+     * check if the object is of a certain type and if it is, set $message to the
+     * string that should be logged.
      */
     const FORMAT_DATABASE_MESSAGE_EVENT = 'Log.formatDatabaseMessage';
 
     /**
-     * TODO
+     * The singleton Log instance.
+     * 
+     * @var Log
      */
     private static $instance = null;
 
     /**
-     * TODO
+     * Returns the singleton Log instance or creates it if it doesn't exist.
+     * 
+     * @return Log
      */
     public static function getInstance()
     {
@@ -64,7 +100,8 @@ class Log
     }
 
     /**
-     * TODO
+     * Unsets the singleton instance so it will be re-created the next time getInstance() is
+     * called. For testing purposes only.
      */
     public static function clearInstance()
     {
@@ -72,27 +109,40 @@ class Log
     }
 
     /**
-     * TODO
+     * The current logging level. Everything of equal or greater priority will be logged.
+     * Everything else will be ignored.
+     * 
+     * @var int
      */
     private $currentLogLevel = self::WARN;
 
     /**
-     * TODO
+     * The array of callbacks executed when logging to a file. Each callback writes a log
+     * message to a logging backend.
+     * 
+     * @var array
      */
     private $writers = array();
 
     /**
-     * TODO
+     * The log message format string that turns a plugin name, date-time and message into
+     * one string to log.
+     * 
+     * @var string
      */
     private $logMessageFormat = "[%pluginName%:%datetime%] %message%";
 
     /**
-     * TODO
+     * If we're logging to a file, this is the path to the file to log to.
+     * 
+     * @var string
      */
-    private $logToFileFilename;
+    private $logToFilePath;
 
     /**
-     * TODO
+     * True if we're currently setup to log to a screen, false if otherwise.
+     * 
+     * @var bool
      */
     private $loggingToScreen;
 
@@ -109,11 +159,85 @@ class Log
         $this->disableLoggingBasedOnConfig($logConfig);
     }
 
-    private function setStringLogMessageFormat($logConfig)
+    /**
+     * Logs a message using the ERROR log level.
+     * 
+     * Note: Messages logged with the ERROR level are always logged to the screen in addition
+     * to configured writers.
+     * 
+     * @param string $message The log message. This can be a sprintf format string.
+     * @param ... mixed Optional sprintf params.
+     */
+    public static function error($message /* ... */)
     {
-        if (isset($logConfig['string_message_format'])) {
-            $this->logMessageFormat = $logConfig['string_message_format'];
-        }
+        self::log(self::ERROR, $message, array_slice(func_get_args(), 1));
+    }
+
+    /**
+     * Logs a message using the WARNING log level.
+     * 
+     * @param string $message The log message. This can be a sprintf format string.
+     * @param ... mixed Optional sprintf params.
+     */
+    public static function warning($message /* ... */)
+    {
+        self::log(self::WARN, $message, array_slice(func_get_args(), 1));
+    }
+
+    /**
+     * Logs a message using the INFO log level.
+     * 
+     * @param string $message The log message. This can be a sprintf format string.
+     * @param ... mixed Optional sprintf params.
+     */
+    public static function info($message /* ... */)
+    {
+        self::log(self::INFO, $message, array_slice(func_get_args(), 1));
+    }
+
+    /**
+     * Logs a message using the DEBUG log level.
+     * 
+     * @param string $message The log message. This can be a sprintf format string.
+     * @param ... mixed Optional sprintf params.
+     */
+    public static function debug($message /* ... */)
+    {
+        self::log(self::DEBUG, $message, array_slice(func_get_args(), 1));
+    }
+
+    /**
+     * Logs a message using the VERBOSE log level.
+     * 
+     * @param string $message The log message. This can be a sprintf format string.
+     * @param ... mixed Optional sprintf params.
+     */
+    public static function verbose($message /* ... */)
+    {
+        self::log(self::VERBOSE, $message, array_slice(func_get_args(), 1));
+    }
+
+    /**
+     * Creates log message combining logging info including a log level, plugin name,
+     * date time, and caller provided log message. The log message can be set through
+     * the string_message_format ini option in the [log] section. By default it will
+     * create log messages like:
+     * 
+     * [plugin:datetime] log message
+     * 
+     * @param int $level
+     * @param string $pluginName
+     * @param string $datetime
+     * @param string $message
+     * @return string
+     */
+    public function formatMessage($level, $pluginName, $datetime, $message)
+    {
+        return str_replace(
+            array("%pluginName%", "%message%", "%datetime%", "%level%"),
+            array($pluginName, $message, $datetime, $this->getStringLevel($level)),
+            $this->logMessageFormat
+        );
     }
 
     private function setLogWritersFromConfig($logConfig)
@@ -147,6 +271,13 @@ class Log
         }
     }
 
+    private function setStringLogMessageFormat($logConfig)
+    {
+        if (isset($logConfig['string_message_format'])) {
+            $this->logMessageFormat = $logConfig['string_message_format'];
+        }
+    }
+
     private function setLogFilePathFromConfig($logConfig)
     {
         $logPath = $logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
@@ -156,7 +287,7 @@ class Log
         if (is_dir($logPath)) {
             $logPath .= '/piwik.log';
         }
-        $this->logToFileFilename = $logPath;
+        $this->logToFilePath = $logPath;
     }
 
     private function createWriterByName($writerName)
@@ -184,7 +315,7 @@ class Log
             return;
         }
 
-        file_put_contents($this->logToFileFilename, $message . "\n", FILE_APPEND);
+        file_put_contents($this->logToFilePath, $message . "\n", FILE_APPEND);
     }
 
     private function logToScreen($level, $pluginName, $datetime, $message)
@@ -214,7 +345,6 @@ class Log
             return;
         }
 
-        // TODO: allow different columns
         $sql = "INSERT INTO " . Common::prefixTable('logger_message')
              . " (plugin, timestamp, level, message)"
              . " VALUES (?, ?, ?, ?)";
@@ -238,21 +368,6 @@ class Log
         }
     }
 
-    /**
-     * TODO
-     */
-    public function formatMessage($level, $pluginName, $datetime, $message)
-    {
-        return str_replace(
-            array("%pluginName%", "%message%", "%datetime%", "%level%"),
-            array($pluginName, $message, $datetime, $this->getStringLevel($level)),
-            $this->logMessageFormat
-        );
-    }
-
-    /**
-     * TODO
-     */
     private function writeMessage($level, $pluginName, $datetime, $message)
     {
         foreach ($this->writers as $writer) {
@@ -267,52 +382,9 @@ class Log
         }
     }
 
-    /**
-     * TODO
-     */
     private static function log($level, $message, $sprintfParams)
     {
         self::getInstance()->doLog($level, $message, $sprintfParams);
-    }
-
-    /**
-     * TODO
-     */
-    public static function error($message /* ... */)
-    {
-        self::log(self::ERROR, $message, array_slice(func_get_args(), 1));
-    }
-
-    /**
-     * TODO
-     */
-    public static function warning($message /* ... */)
-    {
-        self::log(self::WARN, $message, array_slice(func_get_args(), 1));
-    }
-
-    /**
-     * TODO
-     */
-    public static function info($message /* ... */)
-    {
-        self::log(self::INFO, $message, array_slice(func_get_args(), 1));
-    }
-
-    /**
-     * TODO
-     */
-    public static function debug($message /* ... */)
-    {
-        self::log(self::DEBUG, $message, array_slice(func_get_args(), 1));
-    }
-
-    /**
-     * TODO
-     */
-    public static function verbose($message /* ... */)
-    {
-        self::log(self::VERBOSE, $message, array_slice(func_get_args(), 1));
     }
 
     private function shouldLoggerLog($level)
