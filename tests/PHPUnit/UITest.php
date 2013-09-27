@@ -94,9 +94,7 @@ abstract class UITest extends IntegrationTestCase
 
         self::removeRecursiveLinks();
 
-        if (!Db::get()) {
-            DbHelper::createDatabaseObject();
-        }
+        Db::createDatabaseObject();
 
         self::outputDiffViewerHtmlFile();
         
