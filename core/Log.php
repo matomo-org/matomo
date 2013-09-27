@@ -64,6 +64,9 @@ class Log
      * The $message parameter is the object that is being logged. Event handlers should
      * check if the object is of a certain type and if it is, set $message to the
      * string that should be logged.
+     * 
+     * The result of this callback can be HTML so no sanitization is done on the result.
+     * This means YOU MUST SANITIZE THE MESSAGE YOURSELF if you use this event.
      */
     const FORMAT_SCREEN_MESSAGE_EVENT = 'Log.formatScreenMessage';
 
@@ -321,7 +324,8 @@ class Log
     private function logToScreen($level, $tag, $datetime, $message)
     {
         if (is_string($message)) {
-            $message = '<pre>' . $this->formatMessage($level, $tag, $datetime, $message) . '</pre>';
+            $message = Common::sanitizeInputValue($this->formatMessage($level, $tag, $datetime, $message));
+            $message = '<pre>' . $message . '</pre>';
         } else {
             Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $this));
         }
