@@ -808,7 +808,7 @@ class Piwik(object):
         try:
             return json.loads(res)
         except ValueError:
-            truncate_after = 1000
+            truncate_after = 300
             raise urllib2.URLError('Piwik returned an invalid response: ' + res[:truncate_after])
 
 

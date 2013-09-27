@@ -31,14 +31,15 @@ class Db
      */
     static public function get()
     {
-        $db = null;
         if (!empty($GLOBALS['PIWIK_TRACKER_MODE'])) {
-            $db = Tracker::getDatabase();
+            return Tracker::getDatabase();
         }
-        if ($db === null) {
-            $db = self::$connection;
+
+        if (self::$connection === null) {
+            self::createDatabaseObject();
         }
-        return $db;
+
+        return self::$connection;
     }
 
     /**
