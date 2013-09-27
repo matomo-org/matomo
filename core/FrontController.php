@@ -261,7 +261,7 @@ class FrontController
             try {
                 Db::createDatabaseObject();
             } catch (Exception $e) {
-                throw $e; // TODO: remove
+                echo $e->getMessage() . "\n" . $e->getTraceAsString();
 
                 if (self::shouldRethrowException()) {
                     throw $e;
