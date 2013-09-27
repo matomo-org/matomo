@@ -371,7 +371,7 @@ class Log
     private function writeMessage($level, $pluginName, $datetime, $message)
     {
         foreach ($this->writers as $writer) {
-            $writer($level, $pluginName, $datetime, $message);
+            call_user_func($writer, $level, $pluginName, $datetime, $message);
         }
 
         // errors are always printed to screen
