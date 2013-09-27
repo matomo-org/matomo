@@ -261,16 +261,12 @@ class FrontController
             try {
                 Db::createDatabaseObject();
             } catch (Exception $e) {
+                throw $e; // TODO: remove
+
                 if (self::shouldRethrowException()) {
                     throw $e;
                 }
-
-                try {
-                    Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
-                } catch (Exception $nested) {
-                    // ignore
-                }
-                
+                Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
                 throw $e;
             }
 
