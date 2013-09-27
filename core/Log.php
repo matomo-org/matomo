@@ -47,7 +47,7 @@ class Log
      * This event is called when trying to log an object to a file. Plugins can use
      * this event to convert objects to strings before they are logged.
      * 
-     * Callback signature: function (&$message, $level, $pluginName, $datetime, $logger)
+     * Callback signature: function (&$message, $level, $tag, $datetime, $logger)
      * 
      * The $message parameter is the object that is being logged. Event handlers should
      * check if the object is of a certain type and if it is, set $message to the
@@ -59,7 +59,7 @@ class Log
      * This event is called when trying to log an object to the screen. Plugins can use
      * this event to convert objects to strings before they are logged.
      * 
-     * Callback signature: function (&$message, $level, $pluginName, $datetiem, $logger)
+     * Callback signature: function (&$message, $level, $tag, $datetiem, $logger)
      * 
      * The $message parameter is the object that is being logged. Event handlers should
      * check if the object is of a certain type and if it is, set $message to the
@@ -71,7 +71,7 @@ class Log
      * This event is called when trying to log an object to a database table. Plugins can use
      * this event to convert objects to strings before they are logged.
      * 
-     * Callback signature: function (&$message, $level, $pluginName, $datetiem, $logger)
+     * Callback signature: function (&$message, $level, $tag, $datetiem, $logger)
      * 
      * The $message parameter is the object that is being logged. Event handlers should
      * check if the object is of a certain type and if it is, set $message to the
@@ -125,12 +125,12 @@ class Log
     private $writers = array();
 
     /**
-     * The log message format string that turns a plugin name, date-time and message into
+     * The log message format string that turns a tag name, date-time and message into
      * one string to log.
      * 
      * @var string
      */
-    private $logMessageFormat = "[%pluginName%:%datetime%] %message%";
+    private $logMessageFormat = "[%tag%:%datetime%] %message%";
 
     /**
      * If we're logging to a file, this is the path to the file to log to.
@@ -218,24 +218,24 @@ class Log
     }
 
     /**
-     * Creates log message combining logging info including a log level, plugin name,
+     * Creates log message combining logging info including a log level, tag name,
      * date time, and caller provided log message. The log message can be set through
      * the string_message_format ini option in the [log] section. By default it will
      * create log messages like:
      * 
-     * [plugin:datetime] log message
+     * [tag:datetime] log message
      * 
      * @param int $level
-     * @param string $pluginName
+     * @param string $tag
      * @param string $datetime
      * @param string $message
      * @return string
      */
-    public function formatMessage($level, $pluginName, $datetime, $message)
+    public function formatMessage($level, $tag, $datetime, $message)
     {
         return str_replace(
-            array("%pluginName%", "%message%", "%datetime%", "%level%"),
-            array($pluginName, $message, $datetime, $this->getStringLevel($level)),
+            array("%tag%", "%message%", "%datetime%", "%level%"),
+            array($tag, $message, $datetime, $this->getStringLevel($level)),
             $this->logMessageFormat
         );
     }
@@ -303,12 +303,12 @@ class Log
         return $writer;
     }
 
-    private function logToFile($level, $pluginName, $datetime, $message)
+    private function logToFile($level, $tag, $datetime, $message)
     {
         if (is_string($message)) {
-            $message = $this->formatMessage($level, $pluginName, $datetime, $message);
+            $message = $this->formatMessage($level, $tag, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $this));
+            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $this));
         }
 
         if (empty($message)) {
@@ -318,12 +318,12 @@ class Log
         file_put_contents($this->logToFilePath, $message . "\n", FILE_APPEND);
     }
 
-    private function logToScreen($level, $pluginName, $datetime, $message)
+    private function logToScreen($level, $tag, $datetime, $message)
     {
         if (is_string($message)) {
-            $message = '<pre>' . $this->formatMessage($level, $pluginName, $datetime, $message) . '</pre>';
+            $message = '<pre>' . $this->formatMessage($level, $tag, $datetime, $message) . '</pre>';
         } else {
-            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $this));
+            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $this));
         }
 
         if (empty($message)) {
@@ -333,12 +333,12 @@ class Log
         echo $message . "\n";
     }
 
-    private function logToDatabase($level, $pluginName, $datetime, $message)
+    private function logToDatabase($level, $tag, $datetime, $message)
     {
         if (is_string($message)) {
-            $message = $this->formatMessage($level, $pluginName, $datetime, $message);
+            $message = $this->formatMessage($level, $tag, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $pluginName, $datetime, $this));
+            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $this));
         }
 
         if (empty($message)) {
@@ -346,9 +346,9 @@ class Log
         }
 
         $sql = "INSERT INTO " . Common::prefixTable('logger_message')
-             . " (plugin, timestamp, level, message)"
+             . " (tag, timestamp, level, message)"
              . " VALUES (?, ?, ?, ?)";
-        Db::query($sql, array($pluginName, $datetime, $level, (string)$message));
+        Db::query($sql, array($tag, $datetime, $level, (string)$message));
     }
 
     private function doLog($level, $message, $sprintfParams = array())
@@ -362,23 +362,28 @@ class Log
             }
 
             $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-            $pluginName = Plugin::getPluginNameFromBacktrace($backtrace);
+            $tag = Plugin::getPluginNameFromBacktrace($backtrace);
 
-            $this->writeMessage($level, $pluginName, $datetime, $message);
+            // if we can't determine the plugin, use the name of the calling class
+            if ($tag == false) {
+                $tag = $this->getClassNameThatIsLogging($backtrace);
+            }
+
+            $this->writeMessage($level, $tag, $datetime, $message);
         }
     }
 
-    private function writeMessage($level, $pluginName, $datetime, $message)
+    private function writeMessage($level, $tag, $datetime, $message)
     {
         foreach ($this->writers as $writer) {
-            call_user_func($writer, $level, $pluginName, $datetime, $message);
+            call_user_func($writer, $level, $tag, $datetime, $message);
         }
 
         // errors are always printed to screen
         if ($level == self::ERROR
             && !$this->loggingToScreen
         ) {
-            $this->logToScreen($level, $pluginName, $datetime, $message);
+            $this->logToScreen($level, $tag, $datetime, $message);
         }
     }
 
@@ -444,5 +449,17 @@ class Log
             self::VERBOSE => 'VERBOSE'
         );
         return $levelToName[$level];
+    }
+
+    private function getClassNameThatIsLogging($backtrace)
+    {
+        foreach ($backtrace as $tracepoint) {
+            if (isset($tracepoint['class'])
+                && $tracepoint['class'] != "Piwik\\Log"
+            ) {
+                return $tracepoint['class'];
+            }
+        }
+        return false;
     }
 }

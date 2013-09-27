@@ -39,17 +39,17 @@ class ExceptionHandler
         set_exception_handler(array('\\Piwik\\ExceptionHandler', 'exceptionHandler'));
     }
 
-    public static function formatFileAndDBLogMessage(&$message, $level, $pluginName, $datetime, $log)
+    public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, $log)
     {
         if ($message instanceof \Exception) {
             $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
                 self::$debugBacktraceForTests ?: $message->getTraceAsString());
 
-            $message = $log->formatMessage($level, $pluginName, $datetime, $message);
+            $message = $log->formatMessage($level, $tag, $datetime, $message);
         }
     }
 
-    public static function formatScreenMessage(&$message, $level, $pluginName, $datetime, $log)
+    public static function formatScreenMessage(&$message, $level, $tag, $datetime, $log)
     {
         if ($message instanceof \Exception) {
             if (!Common::isPhpCliMode()) {

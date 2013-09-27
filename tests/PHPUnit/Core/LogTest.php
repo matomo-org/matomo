@@ -18,16 +18,16 @@ use Piwik\Plugins\TestPlugin\TestLoggingUtility;
 class LogTest extends DatabaseTestCase
 {
     const TESTMESSAGE = 'test%smessage';
-    const STRING_MESSAGE_FORMAT = '[%pluginName%] %message%';
+    const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
     const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
 
     public static $expectedExceptionOutput = array(
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php',
-        'file' => '[] LogTest.php(156): dummy error message
+        'file' => '[LogTest] LogTest.php(156): dummy error message
 dummy backtrace',
-        'database' => '[] LogTest.php(156): dummy error message
+        'database' => '[LogTest] LogTest.php(156): dummy error message
 dummy backtrace'
     );
 
@@ -40,9 +40,9 @@ dummy backtrace'
 <br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
 dummy backtrace</div><br />
  </pre></div><br />',
-        'file' => '[] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+        'file' => '[LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
 dummy backtrace',
-        'database' => '[] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+        'database' => '[LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
 dummy backtrace'
     );
 
@@ -104,7 +104,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true);
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'LogTest');
     }
 
     /**
@@ -121,7 +121,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true);
+        $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true, $tag = 'LogTest');
     }
 
     /**
@@ -139,7 +139,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::$expectedErrorOutput[$backend]);
+        $this->checkBackend($backend, self::$expectedErrorOutput[$backend], $formatMessage = false, $tag = 'LogTest');
         $this->checkBackend('screen', self::$expectedErrorOutput['screen']); // errors should always written to the screen
     }
 
@@ -158,7 +158,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::$expectedExceptionOutput[$backend]);
+        $this->checkBackend($backend, self::$expectedExceptionOutput[$backend], $formatMessage = false, $tag = 'LogTest');
         $this->checkBackend('screen', self::$expectedExceptionOutput['screen']); // errors should always written to the screen
     }
 
@@ -176,7 +176,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $plugin = 'TestPlugin');
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'TestPlugin');
     }
 
     /**
@@ -196,10 +196,10 @@ dummy backtrace'
         $this->checkNoMessagesLogged($backend);
     }
 
-    private function checkBackend($backend, $expectedMessage, $formatMessage = false, $plugin = false)
+    private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)
     {
         if ($formatMessage) {
-            $expectedMessage = sprintf(self::STRING_MESSAGE_FORMAT_SPRINTF, $plugin, $expectedMessage);
+            $expectedMessage = sprintf(self::STRING_MESSAGE_FORMAT_SPRINTF, $tag, $expectedMessage);
         }
 
         if ($backend == 'screen') {
@@ -225,11 +225,11 @@ dummy backtrace'
             $message = $this->removePathsFromBacktrace($message);
             $this->assertEquals($expectedMessage, $message);
 
-            $pluginInDb = Db::fetchOne("SELECT plugin FROM " . Common::prefixTable('logger_message') . " LIMIT 1");
-            if ($plugin === false) {
-                $this->assertEmpty($pluginInDb);
+            $tagInDb = Db::fetchOne("SELECT tag FROM " . Common::prefixTable('logger_message') . " LIMIT 1");
+            if ($tag === false) {
+                $this->assertEmpty($tagInDb);
             } else {
-                $this->assertEquals($plugin, $pluginInDb);
+                $this->assertEquals($tag, $tagInDb);
             }
         }
     }

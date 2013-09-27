@@ -117,17 +117,17 @@ class Error
         }
     }
 
-    public static function formatFileAndDBLogMessage(&$message, $level, $pluginName, $datetime, $log)
+    public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, $log)
     {
         if ($message instanceof Error) {
             $message = $message->errfile . '(' . $message->errline . '): ' . $message->getErrNoString()
                      . ' - ' . $message->errstr . "\n" . $message->backtrace;
 
-            $message = $log->formatMessage($level, $pluginName, $datetime, $message);
+            $message = $log->formatMessage($level, $tag, $datetime, $message);
         }
     }
 
-    public static function formatScreenMessage(&$message, $level, $pluginName, $datetime, $log)
+    public static function formatScreenMessage(&$message, $level, $tag, $datetime, $log)
     {
         if ($message instanceof Error) {
             $errno = $message->errno & error_reporting();
