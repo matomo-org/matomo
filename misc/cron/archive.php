@@ -638,8 +638,8 @@ class CronArchive
     {
         $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
-        $config->log['logger_message'] = array("logger_message" => "screen");
-        \Piwik\Log::make();
+        $config->log['logger_writers'] = array("screen");
+        $config->log['log_level'] = 'INFO';
 
         if (!function_exists("curl_multi_init")) {
             $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");

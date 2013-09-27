@@ -33,4 +33,5 @@ mkdir ./tmp/latest
 mkdir ./tmp/sessions
 mkdir ./tmp/templates_c
 mkdir ./tmp/tcpdf
+mkdir ./tmp/logs
 chmod a+rw ./tests/lib/geoip-files
