@@ -472,7 +472,7 @@ class CronArchive
                 if ($url == $urlNoSegment
                     && $successResponse
                 ) {
-                    $stats = unserialize($content);
+                    $stats = @unserialize($content);
                     if (!is_array($stats)) {
                         $this->logError("Error unserializing the following response: " . $content);
                     }
