@@ -133,11 +133,12 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                         {% if visitor.getColumn('referrerKeyword') is not empty %} - {{ visitor.getColumn('referrerKeyword') }}{% endif %}
                     {% endif %}
                     {% if visitor.getColumn('referrerType') == 'search' %}
+                        {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
                         {% if visitor.getColumn('searchEngineIcon') %}
                             <img src="{{ visitor.getColumn('searchEngineIcon') }}" alt="{{ visitor.getColumn('referrerName') }}"/>
                         {% endif %}
                         {{ visitor.getColumn('referrerName') }}
-                        {% if visitor.getColumn('referrerKeyword') is not empty %}{{ 'Referers_Keywords'|translate }}:
+                        {% if visitor.getColumn('referrerKeyword') is not empty and visitor.getColumn('referrerKeyword') != keywordNotDefined %}{{ 'Referers_Keywords'|translate }}:
                             <br/>
                             <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" style="text-decoration:underline;">
                                 "{{ visitor.getColumn('referrerKeyword') }}"</a>

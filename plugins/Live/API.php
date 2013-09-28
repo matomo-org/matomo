@@ -23,6 +23,7 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\Referers\API as APIReferers;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tracker\Action;
@@ -447,7 +448,8 @@ class API
             'date' => $serverDate,
             'prettyDate' => Date::factory($serverDate)->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT),
             'daysAgo' => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
-            'referralSummary' => $this->getReferrerSummaryForVisit($visit),
+            'referrerType' => $visit->getColumn('referrerType'),
+            'referralSummary' => self::getReferrerSummaryForVisit($visit),
         );
     }
 
@@ -456,8 +458,9 @@ class API
      * 
      * @param Row $visit
      * @return bool|mixed|string
+     * @ignore
      */
-    private function getReferrerSummaryForVisit($visit)
+    public static function getReferrerSummaryForVisit($visit)
     {
         $referrerType = $visit->getColumn('referrerType');
         if ($referrerType === false
@@ -468,7 +471,9 @@ class API
             $result = $visit->getColumn('referrerName');
 
             $keyword = $visit->getColumn('referrerKeyword');
-            if ($keyword !== false) {
+            if ($keyword !== false
+                && $keyword != APIReferers::getKeywordNotDefinedString()
+            ) {
                 $result .= ' (' . $keyword . ')';
             }
         } else if ($referrerType == 'campaign') {
