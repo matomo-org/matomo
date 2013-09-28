@@ -14,7 +14,6 @@ use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db;
-use Piwik\Log\ScreenFormatter;
 use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Session;
@@ -61,26 +60,13 @@ class Piwik
     public static $shouldLog = null;
 
     /**
-     * Log a message
+     * Log a message TODO: remove
      *
      * @param string $message
      */
     static public function log($message = '')
     {
-        if (is_null(self::$shouldLog)) {
-            self::$shouldLog = SettingsPiwik::shouldLoggerLog();
-            // It is possible that the logger is not setup:
-            // - Tracker request, and debug disabled,
-            // - and some scheduled tasks call code that tries and log something
-            try {
-                \Zend_Registry::get('logger_message');
-            } catch (Exception $e) {
-                self::$shouldLog = false;
-            }
-        }
-        if (self::$shouldLog) {
-            \Zend_Registry::get('logger_message')->logEvent($message);
-        }
+        Log::info($message);
     }
 
     /**
@@ -101,12 +87,16 @@ class Piwik
      */
     static public function exitWithErrorMessage($message)
     {
+        if (!Common::isPhpCliMode()) {
+            @header('Content-Type: text/html; charset=utf-8');
+        }
+        
         $output = "<style>a{color:red;}</style>\n" .
             "<div style='color:red;font-family:Georgia;font-size:120%'>" .
             "<p><img src='plugins/Zeitgeist/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20' />" .
             $message .
             "</p></div>";
-        print(ScreenFormatter::getFormattedString($output));
+        print($output);
         exit;
     }
 

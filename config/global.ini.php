@@ -469,11 +469,13 @@ username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
 
 [log]
-;possible values for log: screen, database, file
-; by default, standard logging/debug messages are hidden from screen
-;logger_message[] = screen
-logger_error[] = screen
-logger_exception[] = screen
+; possible values for log: screen, database, file
+log_writers[] = file
+
+; log level, everything logged w/ this level or one of greater severity
+; will be logged. everything else will be ignored. possible values are:
+; NONE, ERROR, WARN, INFO, DEBUG, VERBOSE
+log_level = WARN
 
 ; if set to 1, only requests done in CLI mode (eg. the archive.php cron run) will be logged
 ; NOTE: log_only_when_debug_parameter will also be checked for
@@ -486,10 +488,6 @@ log_only_when_debug_parameter = 0
 ; if configured to log in files, log files will be created in this path
 ; eg. if the value is tmp/logs files will be created in /path/to/piwik/tmp/logs/
 logger_file_path = tmp/logs
-
-; all calls to the API (method name, parameters, execution time, caller IP, etc.)
-; disabled by default as it can cause serious overhead and should only be used wisely
-;logger_api_call[] = file
 
 [Plugins]
 Plugins[] = CorePluginsAdmin

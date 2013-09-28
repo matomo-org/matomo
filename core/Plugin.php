@@ -193,4 +193,23 @@ class Plugin
     {
         return $this->pluginName;
     }
+
+    /**
+     * Extracts the plugin name from a backtrace array. Returns false if we can't find one.
+     * 
+     * @param array $backtrace The result of the debug_backtrace() or Exception::getTrace().
+     * @return string|false
+     */
+    public static function getPluginNameFromBacktrace($backtrace)
+    {
+        foreach ($backtrace as $tracepoint) {
+            // try and discern the plugin name
+            if (isset($tracepoint['class'])
+                && preg_match("/Piwik\\\\Plugins\\\\([a-zA-Z_0-9]+)\\\\/", $tracepoint['class'], $matches)
+            ) {
+                return $matches[1];
+            }
+        }
+        return false;
+    }
 }
