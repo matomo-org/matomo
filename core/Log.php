@@ -14,6 +14,7 @@ use Piwik\Log\APICall;
 use Piwik\Log\Error;
 use Piwik\Log\Exception;
 use Piwik\Log\Message;
+use Piwik\Registry;
 
 /**
  *
@@ -197,7 +198,7 @@ abstract class Log extends \Zend_Log
             if ($logger->getWritersCount() == 0) {
                 $logger->addWriteToNull();
             }
-            \Zend_Registry::set($loggerType, $logger);
+            Registry::set($loggerType, $logger);
         }
     }
 

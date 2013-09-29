@@ -20,9 +20,9 @@ use Piwik\Plugins\API\API;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Registry;
 use Piwik\View;
 use Piwik\ViewDataTable;
-use Zend_Registry;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
@@ -611,7 +611,7 @@ abstract class Controller
             && $currentLogin != 'anonymous'
         ) {
             $errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . Piwik::getSuperUserEmail() . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
-            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . \Zend_Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik_Translate('General_Logout') . "</a></b><br />";
+            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik_Translate('General_Logout') . "</a></b><br />";
             Piwik_ExitWithMessage($errorMessage, false, true);
         }
 

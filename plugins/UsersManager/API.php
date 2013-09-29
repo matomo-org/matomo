@@ -46,7 +46,7 @@ class API
      * Example of how you would overwrite the UsersManager_API with your own class:
      * Call the following in your plugin __construct() for example:
      *
-     * \Zend_Registry::set('UsersManager_API',Piwik_MyCustomUsersManager_API::getInstance());
+     * Registry::set('UsersManager_API',Piwik_MyCustomUsersManager_API::getInstance());
      *
      * @throws Exception
      * @return \Piwik\Plugins\UsersManager\API
@@ -54,7 +54,7 @@ class API
     static public function getInstance()
     {
         try {
-            $instance = \Zend_Registry::get('UsersManager_API');
+            $instance = \Piwik\Registry::get('UsersManager_API');
             if (!($instance instanceof API)) {
                 // Exception is caught below and corrected
                 throw new Exception('UsersManager_API must inherit API');
@@ -62,7 +62,7 @@ class API
             self::$instance = $instance;
         } catch (Exception $e) {
             self::$instance = new self;
-            \Zend_Registry::set('UsersManager_API', self::$instance);
+            \Piwik\Registry::set('UsersManager_API', self::$instance);
         }
         return self::$instance;
     }

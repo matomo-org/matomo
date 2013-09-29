@@ -47,7 +47,7 @@ function Piwik_ErrorHandler($errno, $errstr, $errfile, $errline)
     }
 
     try {
-        \Zend_Registry::get('logger_error')->logEvent($errno, $errstr, $errfile, $errline, $backtrace);
+        \Piwik\Registry::get('logger_error')->logEvent($errno, $errstr, $errfile, $errline, $backtrace);
     } catch (Exception $e) {
         // in case the error occurs before the logger creation, we simply display it
         print("<pre>$errstr \nin '$errfile' at the line $errline\n\n$backtrace\n</pre>");

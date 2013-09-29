@@ -17,10 +17,10 @@ use Piwik\Db;
 use Piwik\Log\ScreenFormatter;
 use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Registry;
 use Piwik\Session;
 use Piwik\Tracker;
 use Piwik\View;
-use Zend_Registry;
 
 /**
  * @see core/Translate.php
@@ -73,13 +73,13 @@ class Piwik
             // - Tracker request, and debug disabled,
             // - and some scheduled tasks call code that tries and log something
             try {
-                \Zend_Registry::get('logger_message');
+                Registry::get('logger_message');
             } catch (Exception $e) {
                 self::$shouldLog = false;
             }
         }
         if (self::$shouldLog) {
-            \Zend_Registry::get('logger_message')->logEvent($message);
+            Registry::get('logger_message')->logEvent($message);
         }
     }
 
@@ -457,7 +457,7 @@ class Piwik
      */
     static public function getLoginPluginName()
     {
-        return \Zend_Registry::get('auth')->getName();
+        return Registry::get('auth')->getName();
     }
 
     /**

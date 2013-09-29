@@ -241,7 +241,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         \Piwik\Plugins\PDFReports\API::$cache = array();
-        \Zend_Registry::_unsetInstance();
+        \Piwik\Registry::unsetInstance();
 
         $_GET = $_REQUEST = array();
         Translate::getInstance()->unloadEnglishTranslation();

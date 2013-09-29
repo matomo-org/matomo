@@ -121,7 +121,7 @@ class API
         Piwik_PostEvent('FrontController.initAuthenticationObject',
             array(&$notification, $allowCookieAuthentication = true));
 
-        $auth = \Zend_Registry::get('auth');
+        $auth = \Piwik\Registry::get('auth');
         $success = Access::getInstance()->reloadAccess($auth);
 
         if (!$success) {

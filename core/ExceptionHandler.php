@@ -12,6 +12,7 @@ use Piwik\Piwik;
 use Piwik\Log;
 use Piwik\Log\ExceptionScreenFormatter;
 use Piwik\FrontController;
+use Piwik\Registry;
 
 /**
  * Exception handler used to display nicely exceptions in Piwik
@@ -22,7 +23,7 @@ use Piwik\FrontController;
 function Piwik_ExceptionHandler(Exception $exception)
 {
     try {
-        \Zend_Registry::get('logger_exception')->logEvent($exception);
+        Registry::get('logger_exception')->logEvent($exception);
     } catch (Exception $e) {
 
         if (FrontController::shouldRethrowException()) {

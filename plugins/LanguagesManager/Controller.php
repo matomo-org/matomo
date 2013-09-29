@@ -15,7 +15,6 @@ use Piwik\Common;
 use Piwik\DbHelper;
 use Piwik\Piwik;
 use Piwik\Url;
-use Zend_Registry;
 
 /**
  * @package LanguagesManager
@@ -35,7 +34,7 @@ class Controller extends \Piwik\Controller
             $this->checkTokenInUrl();
         }
         LanguagesManager::setLanguageForSession($language);
-        if (Zend_Registry::isRegistered('access')) {
+        if (\Piwik\Registry::isRegistered('access')) {
             $currentUser = Piwik::getCurrentUserLogin();
             if ($currentUser && $currentUser !== 'anonymous') {
                 API::getInstance()->setLanguageForUser($currentUser, $language);
