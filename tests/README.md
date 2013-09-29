@@ -4,6 +4,7 @@ This document briefly describes how to use and modify Piwik tests.
 ## How To Run Piwik Tests
 
 To run tests, you must use the Git master. Tests files are not in the Piwik zip archive.
+
 You can get the latest Git revision at: http://github.com/piwik/piwik
 
 ```
@@ -15,7 +16,10 @@ To execute the tests:
  * In your php.ini make sure you have the setting to show all errors:
  `error_reporting = E_ALL | E_STRICT`
 
- * Go to tests/index.php to see the tests homepage and run the Integration tests via a visual UI, or run JS Tests
+ * Go to tests/index.php to see the tests homepage
+   and run the Integration tests via a visual UI, or run JS Tests
+
+ * Next you will need to install PHPUnit
 
 ## Integration Tests
 
@@ -75,6 +79,24 @@ Otherwise, if you didn't expect to modify the API outputs, it might be that your
 5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
+### PHP 5.5: also update PHPUnit to latest
+
+See http://phpunit.de/manual/current/en/installation.html
+or try:
+    $ sudo pear install -a phpunit/PHPUnit
+
+### Troubleshooting
+
+If you get any of these errors:
+ * `RuntimeException: Unable to create the cache directory ( piwik/tmp/templates_c/66/77).`
+ * or `fopen( piwik/tmp/latest/testgz.txt): failed to open stream: No such file or directory`
+ * or `Exception: Error while creating the file: piwik/tmp/latest/LATEST`
+ * or `PHP Warning:  file_put_contents( piwik/tmp/logs/piwik.test.log): failed to open stream: Permission denied in [..]`
+
+On your dev server, give your user permissions to write to the directory:
+
+    $ sudo chmod 777 -R piwik/tmp/templates_c/
+
 ## JavaScript Tests
 
 piwik.js is unit tested and you can run tests via piwik/tests/javascript/
@@ -101,6 +123,7 @@ You should now have some interesting data to test with in November 2012!
 ## Selenium Webdriver tests
 
 We would like to add Webdriver selenium testing for the following: installation, auto update from 1.0, initial user login.
+
 Task is tracked in: http://dev.piwik.org/trac/ticket/2935
 
 ## Scheduled Reports Tests
