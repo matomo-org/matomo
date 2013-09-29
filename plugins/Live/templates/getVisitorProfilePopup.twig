@@ -30,8 +30,8 @@
                 <div class="visitor-profile-summary">
                     <h1>{{ 'General_Summary'|translate }}</h1>
                     <div>
-                        <p>{{ 'Live_VisitSummary'|translate('<strong>', visitorData.totalVisitDurationPretty, '</strong>', '<strong>', visitorData.totalActions, visitorData.totalVisits, '</strong>')|raw }}</p>
-                        <p><strong>{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}</strong>
+                        <p>{{ 'Live_VisitSummary'|translate('<strong>' ~ visitorData.totalVisitDurationPretty ~ '</strong>', '', '', '<strong>', visitorData.totalActions, visitorData.totalVisits, '</strong>')|raw }}</p>
+                        <p>{% if visitorData.totalGoalConversions %}<strong>{% endif %}{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}{% if visitorData.totalGoalConversions %}</strong>{% endif %}
                         {%- if visitorData.totalGoalConversions %} (
                             {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
                             {%- set idGoal = idGoal[7:] -%}
@@ -60,22 +60,25 @@
                     </div>
                 </div>
                 <div class="visitor-profile-important-visits">
+                    {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
                     <div>
                         <h1>{% if visitorData.visitsAggregated == 100 %}{{ 'General_Visit'|translate }}# 100{% else %}{{ 'Live_FirstVisit'|translate }}{% endif %}</h1>
                         <div>
                             <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</span></p>
                             <p><span>{{ 'General_FromReferrer'|translate }}:</span>
-                            <strong>{{ visitorData.firstVisit.referralSummary }}</strong></p>
+                            <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.firstVisit.referralSummary }}</strong></p>
                         </div>
                     </div>
+                    {% if visitorData.lastVisits.getRowsCount() != 1 %}
                     <div>
                         <h1>{{ 'Live_LastVisit'|translate }}</h1>
                         <div>
                             <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong><span>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</span></p>
                             <p><span>{{ 'General_FromReferrer'|translate }}:</span>
-                            <strong>{{ visitorData.lastVisit.referralSummary }}</strong></p>
+                            <strong {% if visitorData.lastVisit.referrerType == 'search' and '(' not in visitorData.lastVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitorData.lastVisit.referralSummary }}</strong></p>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
                 <div>
                     <div class="visitor-profile-location">

@@ -13,8 +13,6 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
-use Piwik\Log;
-use Piwik\Registry;
 use Piwik\Session;
 
 /**
@@ -267,8 +265,6 @@ class FrontController
                 Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
                 throw $e;
             }
-
-            Log::make();
 
             // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
             Access::getInstance();

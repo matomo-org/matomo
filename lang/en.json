@@ -2166,7 +2166,7 @@
         "CancelAndReturnToReports": "Cancel and %sreturn to the list of reports%s",
         "DescriptionOnFirstPage": "The report description will be displayed on the first page of the report.",
         "Segment_Help": "You can select an existing custom segment to apply to data in this email report. You may create and edit custom segments in your dashboard %s(click here to open)%s, then click on the \"%s\" box, then \"%s\".",
-        "Segment_Deletion_Error": "This segment cannot be deleted, because it is used to generate the email report(s) %s. To delete this segment, you can first edit these reports so they don't use this segment.",
+        "Segment_Deletion_Error": "This segment cannot be deleted or made invisible to other users because it is used to generate email report(s) %s. Please retry after removing this segment from this report(s).",
         "WeeklyScheduleHelp": "Weekly schedule: report will be sent on Monday of each week.",
         "MonthlyScheduleHelp": "Monthly schedule: report will be sent the first day of each month.",
         "ReportHour": "Send report at",

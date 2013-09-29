@@ -31,12 +31,14 @@
 		
 		
 		<daysAgo>0</daysAgo>
+		<referrerType>direct</referrerType>
 		<referralSummary>Direct Entry</referralSummary>
 	</firstVisit>
 	<lastVisit>
 		
 		
 		<daysAgo>0</daysAgo>
+		<referrerType>direct</referrerType>
 		<referralSummary>Direct Entry</referralSummary>
 	</lastVisit>
 	<visitsAggregated>2</visitsAggregated>

@@ -85,24 +85,6 @@ class SettingsPiwik
     }
 
     /**
-     * Returns if logging should work
-     * @return bool
-     */
-    public static function shouldLoggerLog()
-    {
-        try {
-            $shouldLog = (Common::isPhpCliMode()
-                    || Config::getInstance()->log['log_only_when_cli'] == 0)
-                &&
-                (Config::getInstance()->log['log_only_when_debug_parameter'] == 0
-                    || isset($_REQUEST['debug']));
-        } catch (Exception $e) {
-            $shouldLog = false;
-        }
-        return $shouldLog;
-    }
-
-    /**
      * Cache for result of getPiwikUrl.
      * Can be overwritten for testing purposes only.
      *
