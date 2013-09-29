@@ -94,7 +94,7 @@ class PDFReports extends \Piwik\Plugin
             'template_reportParametersPDFReports'         => 'template_reportParametersPDFReports',
             'UsersManager.deleteUser'                     => 'deleteUserReport',
             'SitesManager.deleteSite'                     => 'deleteSiteReport',
-            APISegmentEditor::DELETE_SEGMENT_EVENT => 'segmentDeletion',
+            APISegmentEditor::DEACTIVATE_SEGMENT_EVENT    => 'segmentDeactivation',
         );
     }
 
@@ -450,9 +450,9 @@ class PDFReports extends \Piwik\Plugin
         }
     }
 
-    public function segmentDeletion(&$idSegment)
+    public function segmentDeactivation(&$idSegment)
     {
-        $reportsUsingSegment = API::getInstance()->getReports(false, false, false, true, $idSegment);
+        $reportsUsingSegment = API::getInstance()->getReports(false, false, false, false, $idSegment);
 
         if (count($reportsUsingSegment) > 0) {
 

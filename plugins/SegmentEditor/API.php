@@ -24,7 +24,7 @@ use Piwik\Db;
  */
 class API
 {
-    const DELETE_SEGMENT_EVENT = 'SegmentEditor.delete';
+    const DEACTIVATE_SEGMENT_EVENT = 'SegmentEditor.deactivate';
 
     static private $instance = null;
 
@@ -135,10 +135,10 @@ class API
     {
         $this->checkUserIsNotAnonymous();
 
-        // allow plugins using the segment to throw an exception or propagate the deletion
-        Piwik_PostEvent(self::DELETE_SEGMENT_EVENT, array(&$idSegment));
+        $this->sendSegmentDeactivationEvent($idSegment);
 
-        $segment = $this->getSegmentOrFail($idSegment);
+        $this->getSegmentOrFail($idSegment);
+
         $db = Db::get();
         $db->delete(Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
         return true;
@@ -166,6 +166,10 @@ class API
         $definition = $this->checkSegmentValue($definition, $idSite);
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
+
+        if($this->segmentVisibilityIsReduced($idSite, $enabledAllUsers, $segment)) {
+            $this->sendSegmentDeactivationEvent($idSegment);
+        }
 
         $bind = array(
             'name'               => $name,
@@ -240,7 +244,11 @@ class API
             return false;
         }
         try {
-            Piwik::checkUserIsSuperUserOrTheUser($segment['login']);
+
+            if(!$segment['enable_all_users']) {
+                Piwik::checkUserIsSuperUserOrTheUser($segment['login']);
+            }
+
         } catch (Exception $e) {
             throw new Exception("You can only edit the custom segments you have created yourself. This segment was created and 'shared with you' by the Super User. " .
                 "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.");
@@ -293,5 +301,29 @@ class API
         $segments = Db::get()->fetchAll($sql, $bind);
 
         return $segments;
+    }
+
+    /**
+     * When deleting or making a segment invisible, allow plugins to throw an exception or propagate the action
+     *
+     * @param $idSegment
+     */
+    private function sendSegmentDeactivationEvent($idSegment)
+    {
+        Piwik_PostEvent(self::DEACTIVATE_SEGMENT_EVENT, array(&$idSegment));
+    }
+
+    /**
+     * @param $idSiteNewValue
+     * @param $enableAllUserNewValue
+     * @param $segment
+     * @return bool
+     */
+    private function segmentVisibilityIsReduced($idSiteNewValue, $enableAllUserNewValue, $segment)
+    {
+        $allUserVisibilityIsDropped = $segment['enable_all_users'] && !$enableAllUserNewValue;
+        $allWebsiteVisibilityIsDropped = !isset($segment['idSite']) && $idSiteNewValue;
+
+        return $allUserVisibilityIsDropped || $allWebsiteVisibilityIsDropped;
     }
 }
