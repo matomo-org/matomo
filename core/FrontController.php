@@ -227,10 +227,11 @@ class FrontController
 
             $directoriesToCheck = array(
                 '/tmp/',
-                '/tmp/templates_c/',
-                '/tmp/cache/',
                 '/tmp/assets/',
-                '/tmp/tcpdf/'
+                '/tmp/cache/',
+                '/tmp/logs/',
+                '/tmp/tcpdf/',
+                '/tmp/templates_c/',
             );
 
             Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);

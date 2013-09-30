@@ -52,6 +52,31 @@ class ArchiveWriter
         $this->dateStart = $this->period->getDateStart();
     }
 
+    protected function getArchiveLockName()
+    {
+        $numericTable = $this->getTableNumeric();
+        $dbLockName = "allocateNewArchiveId.$numericTable";
+        return $dbLockName;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    protected function acquireArchiveTableLock()
+    {
+        $dbLockName = $this->getArchiveLockName();
+        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
+            throw new Exception("allocateNewArchiveId: Cannot get named lock for table $numericTable.");
+        }
+    }
+
+    protected function releaseArchiveTableLock()
+    {
+        $dbLockName = $this->getArchiveLockName();
+        Db::releaseDbLock($dbLockName);
+    }
+
     public function getIdArchive()
     {
         if ($this->idArchive === false) {
@@ -87,14 +112,10 @@ class ArchiveWriter
         $numericTable = $this->getTableNumeric();
         $idSite = $this->idSite;
 
-        $db = Db::get();
+        $this->acquireArchiveTableLock();
+
         $locked = self::PREFIX_SQL_LOCK . Common::generateUniqId();
         $date = date("Y-m-d H:i:s");
-        $dbLockName = "allocateNewArchiveId.$numericTable";
-
-        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("allocateNewArchiveId: Cannot get named lock for table $numericTable.");
-        }
         $insertSql = "INSERT INTO $numericTable "
             . " SELECT ifnull(max(idarchive),0)+1,
 								'" . $locked . "',
@@ -106,7 +127,7 @@ class ArchiveWriter
 								0 "
             . " FROM $numericTable as tb1";
         try { // TODO: this is temporary, remove when deadlocking issue is fixed
-            $db->exec($insertSql);
+            Db::get()->exec($insertSql);
         } catch (Exception $ex) {
             if (Db::get()->isErrNo($ex, 1213)) {
                 $deadlockInfo = \Piwik\Db::fetchAll("SHOW ENGINE INNODB STATUS");
@@ -114,9 +135,9 @@ class ArchiveWriter
             }
             throw $ex;
         }
-        Db::releaseDbLock($dbLockName);
+        $this->releaseArchiveTableLock();
         $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
-        $id = $db->fetchOne($selectIdSql, $locked);
+        $id = Db::get()->fetchOne($selectIdSql, $locked);
         return $id;
     }
 
@@ -155,11 +176,15 @@ class ArchiveWriter
 
     protected function deletePreviousArchiveStatus()
     {
+        // without advisory lock here, the DELETE would acquire Exclusive Lock
+        $this->acquireArchiveTableLock();
 
         Db::query("DELETE FROM " . $this->getTableNumeric() . "
 					WHERE idarchive = ? AND (name = '" . $this->doneFlag . "' OR name LIKE '" . self::PREFIX_SQL_LOCK . "%')",
             array($this->getIdArchive())
         );
+
+        $this->releaseArchiveTableLock();
     }
 
     protected function logArchiveStatusAsFinal()

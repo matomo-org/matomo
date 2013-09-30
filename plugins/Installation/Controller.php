@@ -721,12 +721,13 @@ class Controller extends \Piwik\Controller\Admin
 
         $directoriesToCheck = array_merge($directoriesToCheck, array(
                                                                     '/tmp/',
-                                                                    '/tmp/templates_c/',
-                                                                    '/tmp/cache/',
                                                                     '/tmp/assets/',
+                                                                    '/tmp/cache/',
                                                                     '/tmp/latest/',
-                                                                    '/tmp/tcpdf/',
+                                                                    '/tmp/logs/',
                                                                     '/tmp/sessions/',
+                                                                    '/tmp/tcpdf/',
+                                                                    '/tmp/templates_c/',
                                                                ));
 
         $infos['directories'] = Filechecks::checkDirectoriesWritable($directoriesToCheck);
