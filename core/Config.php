@@ -155,7 +155,39 @@ class Config
      */
     public static function getLocalConfigPath()
     {
+        $path = self::getByDomainConfigPath();
+        if($path) {
+            return $path;
+        }
+
         return PIWIK_USER_PATH . '/config/config.ini.php';
+    }
+
+    public function getConfigHostnameIfSet()
+    {
+        if($this->getByDomainConfigPath() === false) {
+            return false;
+        }
+        return $this->getHostname();
+    }
+
+    protected static function getByDomainConfigPath()
+    {
+        $host = self::getHostname();
+        $perHostFilename = $host . '.config.ini.php';
+        $pathDomainConfig = PIWIK_USER_PATH . '/config/' . $perHostFilename;
+        if (Filesystem::isValidFilename($perHostFilename)
+            && file_exists($pathDomainConfig)
+        ) {
+            return $pathDomainConfig;
+        }
+        return false;
+    }
+
+    protected static function getHostname()
+    {
+        $host = Url::getHost($checkIfTrusted = false); // Check trusted requires config file which is not ready yet
+        return $host;
     }
 
     /**

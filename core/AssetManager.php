@@ -46,6 +46,8 @@ class AssetManager
     const CSS_IMPORT_EVENT = "AssetManager.getStylesheetFiles";
     const JS_IMPORT_EVENT = "AssetManager.getJsFiles";
     const MERGED_FILE_DIR = "tmp/assets/";
+    const COMPRESSED_FILE_LOCATION = "/tmp/assets/";
+
     const CSS_IMPORT_DIRECTIVE = "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />\n";
     const JS_IMPORT_DIRECTIVE = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
     const GET_CSS_MODULE_ACTION = "index.php?module=Proxy&action=getCss";
@@ -500,8 +502,9 @@ class AssetManager
             }
 
             // Tries to remove compressed version of the merged file.
-            // See Piwik::serverStaticFile() for more info on static file compression
-            $compressedFileLocation = PIWIK_USER_PATH . Piwik::COMPRESSED_FILE_LOCATION . $filename;
+            // See ProxyHttp::serverStaticFile() for more info on static file compression
+            $compressedFileLocation = PIWIK_USER_PATH . self::COMPRESSED_FILE_LOCATION . $filename;
+            $compressedFileLocation = SettingsPiwik::rewriteTmpPathWithHostname($compressedFileLocation);
 
             @unlink($compressedFileLocation . ".deflate");
             @unlink($compressedFileLocation . ".gz");
@@ -538,6 +541,7 @@ class AssetManager
     private static function getMergedFileDirectory()
     {
         $mergedFileDirectory = PIWIK_USER_PATH . '/' . self::MERGED_FILE_DIR;
+        $mergedFileDirectory = SettingsPiwik::rewriteTmpPathWithHostname($mergedFileDirectory);
 
         if (!is_dir($mergedFileDirectory)) {
             Filesystem::mkdir($mergedFileDirectory);

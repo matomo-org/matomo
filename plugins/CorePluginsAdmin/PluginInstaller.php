@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
+use Piwik\SettingsPiwik;
 use Piwik\Unzip;
 
 /**
@@ -33,6 +34,9 @@ class PluginInstaller
     {
         $tmpPluginZip    = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName . '.zip';
         $tmpPluginFolder = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName;
+
+        $tmpPluginZip = SettingsPiwik::rewriteTmpPathWithHostname($tmpPluginZip);
+        $tmpPluginFolder = SettingsPiwik::rewriteTmpPathWithHostname($tmpPluginFolder);
 
         $this->makeSureFoldersAreWritable();
         $this->makeSurePluginNameIsValid();

@@ -30,8 +30,8 @@ fi
 mkdir ./tmp/assets
 mkdir ./tmp/cache
 mkdir ./tmp/latest
+mkdir ./tmp/logs
 mkdir ./tmp/sessions
 mkdir ./tmp/templates_c
 mkdir ./tmp/tcpdf
-mkdir ./tmp/logs
 chmod a+rw ./tests/lib/geoip-files

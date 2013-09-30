@@ -144,7 +144,6 @@
         "LogoNotWriteable": "Um ein eigenes Logo in Piwik verwenden zu können, wird Schreibzugriff auf die Logo Dateien im themes Ordner benötigt: %s",
         "LogoUpload": "Wählen Sie ein Logo für den Upload",
         "LogoUploadDescription": "Es werden Logos in %s Formaten, ohne Transparenz und mit einer minimalen Höhe von %s Pixeln unterstützt.",
-        "MenuCommunity": "Community",
         "MenuDiagnostic": "Diagnose",
         "MenuGeneralSettings": "Allgemeine Einstellungen",
         "MenuManage": "Verwalten",

@@ -141,7 +141,6 @@
         "LogoNotWriteable": "Untuk menggunakan logo kustom, Piwik membutuhkan akses tulis ke file logo dalam direktori tema: %s",
         "LogoUpload": "Pilih Logo untuk diunggah",
         "LogoUploadDescription": "Silakan unggah berkas dalam format %s, tanpa latar belakang transparan, dengan ketinggian minimal %s piksel.",
-        "MenuCommunity": "Komunitas",
         "MenuDiagnostic": "Diagnosis",
         "MenuGeneralSettings": "Pengaturan Umum",
         "MenuManage": "Kelola",

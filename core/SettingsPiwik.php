@@ -166,4 +166,30 @@ class SettingsPiwik
 
         return $result;
     }
+
+    /**
+     * If Piwik uses per-domain config file, also make tmp/ folder per-domain
+     * @param $path
+     * @return string
+     * @throws \Exception
+     */
+    public static function rewriteTmpPathWithHostname($path)
+    {
+        $configByHost = Config::getInstance()->getConfigHostnameIfSet();
+        if(empty($configByHost)) {
+            return $path;
+        }
+
+        $tmp = '/tmp/';
+        if(($posTmp = strrpos($path, $tmp)) === false) {
+            throw new Exception("The path $path was expected to contain the string /tmp/ ");
+        }
+
+        $tmpToReplace = $tmp . $configByHost . '/';
+
+        // replace only the latest occurrence (in case path contains twice /tmp)
+        $path = substr_replace($path, $tmpToReplace, $posTmp, strlen($tmp));
+
+        return $path;
+    }
 }

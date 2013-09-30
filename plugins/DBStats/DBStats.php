@@ -43,7 +43,7 @@ class DBStats extends \Piwik\Plugin
         Piwik_AddAdminSubMenu('CoreAdminHome_MenuDiagnostic', 'DBStats_DatabaseUsage',
             array('module' => 'DBStats', 'action' => 'index'),
             Piwik::isUserIsSuperUser(),
-            $order = 9);
+            $order = 6);
     }
 
     /**

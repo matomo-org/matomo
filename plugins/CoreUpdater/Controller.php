@@ -21,6 +21,7 @@ use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Unzip;
 use Piwik\UpdateCheck;
@@ -43,6 +44,7 @@ class Controller extends \Piwik\Controller
     private $warningMessages = array();
     private $errorMessages = array();
     private $deactivatedPlugins = array();
+    private $pathPiwikZip = false;
 
     static protected function getLatestZipUrl($newVersion)
     {
@@ -127,17 +129,22 @@ class Controller extends \Piwik\Controller
 
     private function oneClick_Download()
     {
-        $this->pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . 'latest.zip';
+        $pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . 'latest.zip';
+        $this->pathPiwikZip = SettingsPiwik::rewriteTmpPathWithHostname($pathPiwikZip);
+
         Filechecks::dieIfDirectoriesNotWritable(array(self::PATH_TO_EXTRACT_LATEST_VERSION));
 
         // we catch exceptions in the caller (i.e., oneClickUpdate)
         $url = self::getLatestZipUrl($this->newVersion) . '?cb=' . $this->newVersion;
-        $fetched = Http::fetchRemoteFile($url, $this->pathPiwikZip);
+
+        Http::fetchRemoteFile($url, $this->pathPiwikZip);
     }
 
     private function oneClick_Unpack()
     {
         $pathExtracted = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION;
+        $pathExtracted = SettingsPiwik::rewriteTmpPathWithHostname($pathExtracted);
+
         $this->pathRootExtractedPiwik = $pathExtracted . 'piwik';
 
         if (file_exists($this->pathRootExtractedPiwik)) {

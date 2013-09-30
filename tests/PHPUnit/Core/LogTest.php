@@ -65,7 +65,7 @@ dummy backtrace'
         parent::setUp();
 
         Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
-        Config::getInstance()->log['logger_file_path'] = self::getLogFileLocation();
+        Config::getInstance()->log['logger_file_path'] = self::getDefaultLogFileLocation();
         @unlink(self::getLogFileLocation());
         Log::clearInstance();
         Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = "dummy backtrace";
@@ -258,6 +258,15 @@ dummy backtrace'
 
     public static function getLogFileLocation()
     {
-        return PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.test.log';
+        $path = self::getDefaultLogFileLocation();
+        $path = \Piwik\SettingsPiwik::rewriteTmpPathWithHostname($path);
+        return $path;
     }
+
+    protected static function getDefaultLogFileLocation()
+    {
+        $path = PIWIK_INCLUDE_PATH . '/tmp/logs/piwik.test.log';
+        return $path;
+    }
+
 }

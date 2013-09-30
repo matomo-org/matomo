@@ -16,8 +16,12 @@
  */
 
 define('K_PATH_MAIN', PIWIK_INCLUDE_PATH . '/libs/tcpdf/');
-define('K_PATH_CACHE', PIWIK_USER_PATH . '/tmp/tcpdf/');
-define('K_PATH_IMAGES', PIWIK_USER_PATH . '/tmp/tcpdf/');
+
+$pathTmpTCPDF = PIWIK_USER_PATH . '/tmp/tcpdf/';
+$pathTmpTCPDF = \Piwik\SettingsPiwik::rewriteTmpPathWithHostname($pathTmpTCPDF);
+
+define('K_PATH_CACHE', $pathTmpTCPDF);
+define('K_PATH_IMAGES', $pathTmpTCPDF);
 
 if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 

@@ -40,9 +40,12 @@ class Filechecks
     {
         $resultCheck = array();
         foreach ($directoriesToCheck as $directoryToCheck) {
+
             if (!preg_match('/^' . preg_quote(PIWIK_USER_PATH, '/') . '/', $directoryToCheck)) {
                 $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
             }
+
+            $directoryToCheck = SettingsPiwik::rewriteTmpPathWithHostname($directoryToCheck);
 
             // Create an empty directory
             $isFile = strpos($directoryToCheck, '.') !== false;

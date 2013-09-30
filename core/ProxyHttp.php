@@ -91,7 +91,8 @@ class ProxyHttp
                 // optional compression
                 $compressed = false;
                 $encoding = '';
-                $compressedFileLocation = PIWIK_USER_PATH . Piwik::COMPRESSED_FILE_LOCATION . basename($file);
+                $compressedFileLocation = PIWIK_USER_PATH . AssetManager::COMPRESSED_FILE_LOCATION . basename($file);
+                $compressedFileLocation = SettingsPiwik::rewriteTmpPathWithHostname($compressedFileLocation);
 
                 $phpOutputCompressionEnabled = ProxyHttp::isPhpOutputCompressed();
                 if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && !$phpOutputCompressionEnabled) {

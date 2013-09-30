@@ -125,7 +125,6 @@
         "LogoNotWriteable": "لاستخدام شعار مخصص، ستحتاج إلى صلاحيات الكتابة على ملفات الشعار في مجلد القالب: %s",
         "LogoUpload": "اختر شعاراً لرفعه",
         "LogoUploadDescription": "الرجاء رفع ملف بصيغة %s، بدون خلفيات شفافة بارتفاع لا يقل عن %s بكسل.",
-        "MenuCommunity": "المجتمع",
         "MenuDiagnostic": "التشخيص",
         "MenuGeneralSettings": "الإعدادات العامة",
         "MenuManage": "الإدارة",

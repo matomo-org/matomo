@@ -142,7 +142,6 @@
         "LogoNotWriteable": "Pour utiliser un logo personnalisé Piwik a besoin d'un accès en écriture aux fichiers de logo dans les répertoires des thèmes: %s",
         "LogoUpload": "Sélectionnez le logo à télécharger",
         "LogoUploadDescription": "Veuillez télécharger un fichier dans un de ces formats %s, sans fond transparent et avec une hauteur minimale de %s pixels.",
-        "MenuCommunity": "Communauté",
         "MenuDiagnostic": "Diagnostique",
         "MenuGeneralSettings": "Paramètres généraux",
         "MenuManage": "Gérer",

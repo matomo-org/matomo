@@ -81,8 +81,7 @@ class CoreAdminHome extends \Piwik\Plugin
     function addMenu()
     {
         Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 1);
-        Piwik_AddAdminSubMenu('CoreAdminHome_MenuCommunity', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 3);
-        Piwik_AddAdminSubMenu('CoreAdminHome_MenuDiagnostic', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 20);
+        Piwik_AddAdminSubMenu('CoreAdminHome_MenuDiagnostic', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 6);
         Piwik_AddAdminSubMenu('General_Settings', null, "", Piwik::isUserHasSomeAdminAccess(), $order = 5);
         Piwik_AddAdminSubMenu('General_Settings', 'CoreAdminHome_MenuGeneralSettings',
             array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),

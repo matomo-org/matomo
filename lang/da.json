@@ -142,7 +142,6 @@
         "LogoNotWriteable": "For at anvende et brugerdefineret logo, kræver Piwik skrive adgang til logofilerne i skabelonmappen: %s",
         "LogoUpload": "Vælg et logo til overførelse",
         "LogoUploadDescription": "Overfør en fil i formatet %s, ingen gennemsigtig baggrund og med en højde på minimum %s pixels.",
-        "MenuCommunity": "Fællesskab",
         "MenuDiagnostic": "Diagnosticering",
         "MenuGeneralSettings": "Generelle indstillinger",
         "MenuManage": "Administrere",

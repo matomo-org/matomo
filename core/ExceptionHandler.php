@@ -10,12 +10,8 @@
  */
 namespace Piwik;
 
-use Piwik\Common;
-use Piwik\Piwik;
-use Piwik\Plugin;
-use Piwik\Log;
-use Piwik\FrontController;
 use Piwik\API\ResponseBuilder;
+use Piwik\Plugin;
 
 /**
  * Contains Piwik's uncaught exception handler and log file formatting for exception
@@ -62,7 +58,7 @@ class ExceptionHandler
         }
     }
 
-    public static function exceptionHandler(Exception $exception)
+    public static function exceptionHandler(\Exception $exception)
     {
         Log::error($exception);
     }

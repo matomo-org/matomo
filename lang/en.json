@@ -508,7 +508,6 @@
     },
     "CoreAdminHome": {
         "PluginDescription": "Administration area of Piwik.",
-        "MenuCommunity": "Community",
         "MenuDiagnostic": "Diagnostic",
         "MenuGeneralSettings": "General settings",
         "MenuManage": "Manage",

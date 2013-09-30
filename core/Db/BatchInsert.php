@@ -17,6 +17,7 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 
 class BatchInsert
@@ -60,6 +61,7 @@ class BatchInsert
     public static function tableInsertBatch($tableName, $fields, $values, $throwException = false)
     {
         $filePath = PIWIK_USER_PATH . '/' . AssetManager::MERGED_FILE_DIR . $tableName . '-' . Common::generateUniqId() . '.csv';
+        $filePath = SettingsPiwik::rewriteTmpPathWithHostname($filePath);
 
         if (Db::get()->hasBulkLoader()) {
             try {

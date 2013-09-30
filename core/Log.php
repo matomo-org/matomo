@@ -290,7 +290,8 @@ class Log
         if (is_dir($logPath)) {
             $logPath .= '/piwik.log';
         }
-        $this->logToFilePath = $logPath;
+
+        $this->logToFilePath = SettingsPiwik::rewriteTmpPathWithHostname($logPath);
     }
 
     private function createWriterByName($writerName)

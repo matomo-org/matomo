@@ -46,11 +46,14 @@ class Twig
         $chainLoader = new Twig_Loader_Chain(array($loader));
 
         // Create new Twig Environment and set cache dir
+        $templatesCompiledPath = PIWIK_USER_PATH . '/tmp/templates_c';
+        $templatesCompiledPath = SettingsPiwik::rewriteTmpPathWithHostname($templatesCompiledPath);
+
         $this->twig = new Twig_Environment($chainLoader,
             array(
                  'debug'            => true, // to use {{ dump(var) }} in twig templates
                  'strict_variables' => true, // throw an exception if variables are invalid
-                 'cache'            => PIWIK_USER_PATH . '/tmp/templates_c',
+                 'cache'            => $templatesCompiledPath,
             )
         );
         $this->twig->addExtension(new Twig_Extension_Debug());

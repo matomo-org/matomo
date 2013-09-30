@@ -16,6 +16,7 @@ use Piwik\Loader;
 use Piwik\Plugins\ImageGraph\API;
 use pData;
 use pImage;
+use Piwik\SettingsPiwik;
 
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pImage.class.php";
@@ -243,6 +244,8 @@ abstract class StaticGraph
     protected static function getOutputPath($filename)
     {
         $outputFilename = PIWIK_USER_PATH . '/tmp/assets/' . $filename;
+        $outputFilename = SettingsPiwik::rewriteTmpPathWithHostname($outputFilename);
+
         @chmod($outputFilename, 0600);
         @unlink($outputFilename);
         return $outputFilename;

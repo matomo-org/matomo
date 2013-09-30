@@ -34,8 +34,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
  */
 class Piwik
 {
-    const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
-
     /**
      * Piwik periods
      * @var array
