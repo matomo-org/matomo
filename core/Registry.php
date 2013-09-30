@@ -53,7 +53,7 @@ class Registry
 
     public function getKey($key) {
         if(!$this->hasKey($key)) {
-            return null;
+            throw new \Exception(sprintf("Key '%s' doesn't exist in Registry", $key));
         }
         return $this->data[$key];
     }
