@@ -77,7 +77,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
-        \Zend_Registry::_unsetInstance();
+        \Piwik\Registry::unsetInstance();
     }
 
 }

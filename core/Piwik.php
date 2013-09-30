@@ -16,10 +16,10 @@ use Piwik\Db\Schema;
 use Piwik\Db;
 use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Registry;
 use Piwik\Session;
 use Piwik\Tracker;
 use Piwik\View;
-use Zend_Registry;
 
 /**
  * @see core/Translate.php
@@ -445,7 +445,7 @@ class Piwik
      */
     static public function getLoginPluginName()
     {
-        return \Zend_Registry::get('auth')->getName();
+        return Registry::get('auth')->getName();
     }
 
     /**

@@ -58,8 +58,8 @@ class Login extends \Piwik\Plugin
      */
     public function ApiRequestAuthenticate($tokenAuth)
     {
-        \Zend_Registry::get('auth')->setLogin($login = null);
-        \Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
+        \Piwik\Registry::get('auth')->setLogin($login = null);
+        \Piwik\Registry::get('auth')->setTokenAuth($tokenAuth);
     }
 
     /**
@@ -69,7 +69,7 @@ class Login extends \Piwik\Plugin
     function initAuthenticationObject($allowCookieAuthentication = false)
     {
         $auth = new Auth();
-        \Zend_Registry::set('auth', $auth);
+        \Piwik\Registry::set('auth', $auth);
 
         $action = Piwik::getAction();
         if (Piwik::getModule() === 'API'
@@ -107,7 +107,7 @@ class Login extends \Piwik\Plugin
 
         $tokenAuth = API::getInstance()->getTokenAuth($login, $md5Password);
 
-        $auth = \Zend_Registry::get('auth');
+        $auth = \Piwik\Registry::get('auth');
         $auth->setLogin($login);
         $auth->setTokenAuth($tokenAuth);
         $authResult = $auth->authenticate();

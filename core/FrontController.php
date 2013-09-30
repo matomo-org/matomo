@@ -14,7 +14,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Session;
-use Zend_Registry;
+use Piwik\Registry;
 
 /**
  * Front controller.
@@ -168,7 +168,7 @@ class FrontController
             if (class_exists('Piwik\\Profiler')) {
                 Profiler::displayDbProfileReport();
                 Profiler::printQueryCount();
-                Piwik::log(Zend_Registry::get('timer'));
+                Piwik::log(Registry::get('timer'));
             }
         } catch (Exception $e) {
         }
@@ -224,7 +224,7 @@ class FrontController
         $initialized = true;
 
         try {
-            \Zend_Registry::set('timer', new Timer);
+            Registry::set('timer', new Timer);
 
             $directoriesToCheck = array(
                 '/tmp/',
@@ -283,7 +283,7 @@ class FrontController
 
             Piwik_PostEvent('FrontController.initAuthenticationObject');
             try {
-                $authAdapter = \Zend_Registry::get('auth');
+                $authAdapter = Registry::get('auth');
             } catch (Exception $e) {
                 throw new Exception("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
                                 <br />You can activate the plugin by adding:<br />
