@@ -13,6 +13,7 @@ namespace Piwik\Plugins\Installation;
 use Exception;
 use Piwik\Access;
 use Piwik\API\Request;
+use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -22,6 +23,7 @@ use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
+use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -111,7 +113,8 @@ class Controller extends \Piwik\Controller\Admin
             $this->getInstallationSteps(),
             __FUNCTION__
         );
-        $view->newInstall = !file_exists(Config::getLocalConfigPath());
+        $isConfigFileFound = file_exists(Config::getLocalConfigPath());
+        $view->newInstall = !$isConfigFileFound;
         $view->errorMessage = $message;
         $this->skipThisStep(__FUNCTION__);
         $view->showNextStep = $view->newInstall;
@@ -533,7 +536,6 @@ class Controller extends \Piwik\Controller\Admin
         $this->createDbFromSessionInformation();
 
         Piwik::setUserIsSuperUser();
-        \Piwik\Log::make();
     }
 
     /**
@@ -585,6 +587,18 @@ class Controller extends \Piwik\Controller\Admin
         $language = Common::getRequestVar('language');
         LanguagesManager::setLanguageForSession($language);
         Url::redirectToReferer();
+    }
+
+    /**
+     * Prints out the CSS for installer/updater
+     *
+     * During installation and update process, we load a minimal Less file.
+     * At this point Piwik may not be setup yet to write files in tmp/assets/
+     * so in this case we compile and return the string on every request.
+     */
+    public function getBaseCss()
+    {
+        echo AssetManager::getCompiledBaseCss();
     }
 
     /**

@@ -55,6 +55,25 @@ class AssetManager
     const MINIFIED_JS_RATIO = 100;
 
     /**
+     * @param $file
+     * @param $less
+     * @param $mergedContent
+     * @return string
+     */
+    protected static function getCssContentFromFile($file, $less)
+    {
+        self::validateCssFile($file);
+
+        $fileLocation = self::getAbsoluteLocation($file);
+        $less->addImportDir(dirname($fileLocation));
+
+        $content = file_get_contents($fileLocation);
+        $content = self::rewriteCssPathsDirectives($file, $content);
+
+        return $content;
+    }
+
+    /**
      * Returns CSS file inclusion directive(s) using the markup <link>
      *
      * @return string
@@ -106,23 +125,13 @@ class AssetManager
             return;
         }
 
+        $files = self::getStylesheetFiles();
         $less = self::makeLess();
 
         // Loop through each css file
-        $files = self::getStylesheetFiles();
         $mergedContent = "";
         foreach ($files as $file) {
-
-            self::validateCssFile($file);
-
-            $fileLocation = self::getAbsoluteLocation($file);
-            $less->addImportDir(dirname($fileLocation));
-
-            $content = file_get_contents($fileLocation);
-
-            $content = self::rewriteCssPathsDirectives($file, $content);
-
-            $mergedContent = $mergedContent . $content;
+            $mergedContent .= self::getCssContentFromFile($file, $less, $mergedContent);
         }
 
         $fileHash = md5($mergedContent);
@@ -164,6 +173,20 @@ class AssetManager
         }
         $less = new lessc;
         return $less;
+    }
+
+    /**
+     * Returns the base.less compiled to css
+     *
+     * @return string
+     */
+    public static function getCompiledBaseCss()
+    {
+        $file =  '/plugins/Zeitgeist/stylesheets/base.less';
+        $less = self::makeLess();
+        $lessContent = self::getCssContentFromFile($file, $less);
+        $css = $less->compile($lessContent);
+        return $css;
     }
 
     /*
@@ -256,7 +279,7 @@ class AssetManager
 
         $stylesheets = self::sortCssFiles($stylesheets);
 
-        // We also look for the currently enabled theme and add CSS from the json
+        // We look for the currently enabled theme and add CSS from the json
         $theme = PluginsManager::getInstance()->getThemeEnabled();
         if($theme) {
             $info = $theme->getInformation();

@@ -63,7 +63,10 @@ class Installation extends \Piwik\Plugin
 
         $step = Common::getRequestVar('action', 'welcome', 'string');
         $controller = $this->getInstallationController();
-        if (in_array($step, array_keys($controller->getInstallationSteps())) || $step == 'saveLanguage') {
+        $isActionWhiteListed = in_array($step, array( 'saveLanguage', 'getBaseCss'));
+        if (in_array($step, array_keys($controller->getInstallationSteps()))
+            || $isActionWhiteListed
+        ) {
             $controller->$step($message);
         } else {
             Piwik::exitWithErrorMessage(Piwik_Translate('Installation_NoConfigFound'));
