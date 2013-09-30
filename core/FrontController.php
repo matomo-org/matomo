@@ -14,6 +14,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Session;
+use Piwik\Registry;
 
 /**
  * Front controller.
