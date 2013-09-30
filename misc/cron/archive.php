@@ -44,6 +44,7 @@ Notes:
 	* If you use Piwik to track dozens/hundreds of websites, please let the team know at hello@piwik.org
 	  it makes us happy to learn successful user stories :)
 	* Enjoy!
+
 ";
 /*
 Ideas for improvements:
@@ -117,12 +118,12 @@ class CronArchive
 
     public function init()
     {
+        $this->displayHelp();
         $this->initPiwikHost();
+        $this->initLog();
         $this->initCore();
         $this->initTokenAuth();
         $this->initCheckCli();
-        $this->initLog();
-        $this->displayHelp();
         $this->initStateFromParameters();
         Piwik::setUserIsSuperUser(true);
 
@@ -159,6 +160,7 @@ class CronArchive
 
         $this->initWebsitesToProcess();
         flush();
+
     }
 
     /**
@@ -554,7 +556,11 @@ class CronArchive
     private function log($m)
     {
         $this->output .= $m . "\n";
-        Piwik::log($m);
+        try {
+            Piwik::log($m);
+        } catch(Exception $e) {
+            print($m . "\n");
+        }
     }
 
     /**
@@ -599,11 +605,10 @@ class CronArchive
     {
         $this->logError($m);
         $fe = fopen('php://stderr', 'w');
-        fwrite($fe, "Error in the last Piwik archive.php run: \n" . $m
+        fwrite($fe, "Error in the last Piwik archive.php run: \n" . $m . "\n"
             . ($backtrace ? "\n\n Here is the full errors output:\n\n" . $this->output : '')
         );
-        trigger_error($m, E_USER_ERROR);
-        exit;
+        exit(1);
     }
 
     private function logNetworkError($url, $response)
@@ -624,7 +629,7 @@ class CronArchive
     private function usage()
     {
         global $USAGE;
-        $this->logLines($USAGE);
+        echo $USAGE;
     }
 
     private function logLines($t)
@@ -638,8 +643,8 @@ class CronArchive
     {
         $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
-        $config->log['logger_writers'] = array("screen");
-        $config->log['log_level'] = 'INFO';
+        $config->log[\Piwik\Log::LOG_WRITERS_CONFIG_OPTION] = array("screen");
+        $config->log[\Piwik\Log::LOG_LEVEL_CONFIG_OPTION] = 'VERBOSE';
 
         if (!function_exists("curl_multi_init")) {
             $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");
@@ -683,6 +688,7 @@ class CronArchive
     private function displayHelp()
     {
         $displayHelp = $this->isParameterSet('help') || $this->isParameterSet('h');
+
         if ($displayHelp) {
             $this->usage();
             exit;
@@ -833,9 +839,7 @@ class CronArchive
             }
         }
 
-        // HOST is required for the Config object
-        $parsed = parse_url($piwikUrl);
-        Url::setHost($parsed['host']);
+        $this->initConfigObject($piwikUrl);
 
         if (Config::getInstance()->General['force_ssl'] == 1) {
             $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
@@ -843,6 +847,28 @@ class CronArchive
         $this->piwikUrl = $piwikUrl . "index.php";
     }
 
+    /**
+     * Config file must be found for the script to run
+     *
+     * @param $piwikUrl
+     * @throws Exception
+     */
+    protected function initConfigObject($piwikUrl)
+    {
+        // HOST is required for the Config object
+        $parsed = parse_url($piwikUrl);
+        Url::setHost($parsed['host']);
+
+        Config::getInstance()->clear();
+
+        try {
+            Config::getInstance()->checkLocalConfigFound();
+        } catch (Exception $e) {
+            throw new Exception("The configuration file for Piwik could not be found. " .
+            "Please check that config/config.ini.php is readable by the user " .
+            get_current_user());
+        }
+    }
 
     /**
      * Returns if the requested parameter is defined in the command line arguments.

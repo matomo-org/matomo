@@ -148,7 +148,7 @@ class Session extends Zend_Session
      */
     public static function getSessionsDirectory()
     {
-        //tmp
-        return PIWIK_USER_PATH . '/tmp/sessions';
+        $path = PIWIK_USER_PATH . '/tmp/sessions';
+        return SettingsPiwik::rewriteTmpPathWithHostname($path);
     }
 }

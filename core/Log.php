@@ -133,7 +133,7 @@ class Log
      * 
      * @var string
      */
-    private $logMessageFormat = "[%tag%:%datetime%] %message%";
+    private $logMessageFormat = "[%tag%%datetime%] %message%";
 
     /**
      * If we're logging to a file, this is the path to the file to log to.
@@ -236,6 +236,7 @@ class Log
      */
     public function formatMessage($level, $tag, $datetime, $message)
     {
+        $tag = $tag ? $tag . ':' : '';
         return str_replace(
             array("%tag%", "%message%", "%datetime%", "%level%"),
             array($tag, $message, $datetime, $this->getStringLevel($level)),
@@ -264,7 +265,7 @@ class Log
     private function setCurrentLogLevelFromConfig($logConfig)
     {
         if (!empty($logConfig[self::LOG_LEVEL_CONFIG_OPTION])) {
-            $logLevel = $this->getLogLevelFromStringName(self::LOG_LEVEL_CONFIG_OPTION);
+            $logLevel = $this->getLogLevelFromStringName($logConfig[self::LOG_LEVEL_CONFIG_OPTION]);
 
             if ($logLevel >= self::NONE // sanity check
                 && $logLevel <= self::VERBOSE
@@ -287,11 +288,12 @@ class Log
         if ($logPath[0] != '/' && $logPath[0] != DIRECTORY_SEPARATOR) {
             $logPath = PIWIK_USER_PATH . '/' . $logPath;
         }
+
+        $logPath = SettingsPiwik::rewriteTmpPathWithHostname($logPath);
         if (is_dir($logPath)) {
             $logPath .= '/piwik.log';
         }
-
-        $this->logToFilePath = SettingsPiwik::rewriteTmpPathWithHostname($logPath);
+        $this->logToFilePath = $logPath;
     }
 
     private function createWriterByName($writerName)
@@ -324,9 +326,20 @@ class Log
 
     private function logToScreen($level, $tag, $datetime, $message)
     {
+        static $currentRequestKey;
+        if(empty($currentRequestKey)) {
+            $currentRequestKey = substr(Common::generateUniqId(), 0, 5);
+        }
+
         if (is_string($message)) {
-            $message = Common::sanitizeInputValue($this->formatMessage($level, $tag, $datetime, $message));
-            $message = '<pre>' . $message . '</pre>';
+            $message = '[' . $currentRequestKey . '] ' . $message;
+            $message = $this->formatMessage($level, $tag, $datetime, $message);
+
+            if(!Common::isPhpCliMode()) {
+                $message = Common::sanitizeInputValue($message);
+                $message = '<pre>' . $message . '</pre>';
+            }
+
         } else {
             Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $this));
         }
@@ -425,7 +438,8 @@ class Log
 
     private function getLogLevelFromStringName($name)
     {
-        switch (strtoupper($name)) {
+        $name = strtoupper($name);
+        switch ($name) {
             case 'NONE':
                 return self::NONE;
             case 'ERROR':
@@ -461,6 +475,8 @@ class Log
         foreach ($backtrace as $tracepoint) {
             if (isset($tracepoint['class'])
                 && $tracepoint['class'] != "Piwik\\Log"
+                && $tracepoint['class'] != "Piwik\\Piwik"
+                && $tracepoint['class'] != "CronArchive"
             ) {
                 return $tracepoint['class'];
             }
