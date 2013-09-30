@@ -95,7 +95,7 @@ If you get any of these errors:
 
 On your dev server, give your user permissions to write to the directory:
 
-    $ sudo chmod 777 -R piwik/tmp/templates_c/
+    $ sudo chmod 777 -R piwik/tmp/
 
 ## JavaScript Tests
 
