@@ -268,6 +268,16 @@ class Url
     }
 
     /**
+     * Sets the host. Useful for CLI scripts, eg. archive.php
+     *
+     * @param $host string
+     */
+    static public function setHost($host)
+    {
+        $_SERVER['HTTP_HOST'] = $host;
+    }
+
+    /**
      * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
      * will return "example.org"
      *

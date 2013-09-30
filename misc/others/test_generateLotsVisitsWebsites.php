@@ -31,7 +31,6 @@ class Piwik_StressTests_CopyLogs
         $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
         $config->log['logger_message'] = array("logger_message" => "screen");
-        \Piwik\Log::make();
     }
 
     function run()

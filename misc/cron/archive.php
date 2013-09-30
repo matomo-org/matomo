@@ -117,12 +117,12 @@ class CronArchive
 
     public function init()
     {
+        $this->initPiwikHost();
         $this->initCore();
         $this->initTokenAuth();
         $this->initCheckCli();
         $this->initLog();
         $this->displayHelp();
-        $this->initPiwikHost();
         $this->initStateFromParameters();
         Piwik::setUserIsSuperUser(true);
 
@@ -675,6 +675,7 @@ class CronArchive
             FrontController::getInstance()->init();
         } catch (Exception $e) {
             echo "ERROR: During Piwik init, Message: " . $e->getMessage();
+            //echo $e->getTraceAsString();
             exit;
         }
     }
@@ -831,6 +832,11 @@ class CronArchive
                 $piwikUrl .= '/';
             }
         }
+
+        // HOST is required for the Config object
+        $parsed = parse_url($piwikUrl);
+        Url::setHost($parsed['host']);
+
         if (Config::getInstance()->General['force_ssl'] == 1) {
             $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
         }

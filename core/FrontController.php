@@ -260,6 +260,7 @@ class FrontController
 
             try {
                 Db::createDatabaseObject();
+                Piwik_GetOption('TestingIfDatabaseConnectionWorked');
             } catch (Exception $e) {
                 if (self::shouldRethrowException()) {
                     throw $e;

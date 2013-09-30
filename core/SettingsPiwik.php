@@ -175,7 +175,11 @@ class SettingsPiwik
      */
     public static function rewriteTmpPathWithHostname($path)
     {
-        $configByHost = Config::getInstance()->getConfigHostnameIfSet();
+        try {
+            $configByHost = Config::getInstance()->getConfigHostnameIfSet();
+        } catch(Exception $e) {
+            // Config file not found
+        }
         if(empty($configByHost)) {
             return $path;
         }

@@ -40,13 +40,15 @@ require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
 
+define('PIWIK_PRINT_ERROR_BACKTRACE', false);
+
 if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
     require_once PIWIK_INCLUDE_PATH . '/core/Error.php';
     Error::setErrorHandler();
-    
     require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
     ExceptionHandler::setUp();
 }
+
 
 if (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH) {
     $controller = FrontController::getInstance();

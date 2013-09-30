@@ -77,7 +77,6 @@ if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
     Common::printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
     \Piwik\Tracker\Db::enableProfiling();
     \Piwik\FrontController::createConfigObject();
-    \Piwik\Log::make();
 }
 
 if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
