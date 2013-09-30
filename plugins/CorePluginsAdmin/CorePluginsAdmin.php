@@ -89,6 +89,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginDetail.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginOverview.js";
     }
 
 }
