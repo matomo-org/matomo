@@ -11,11 +11,11 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Registry;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
-use Zend_Registry;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -148,7 +148,7 @@ class View implements ViewInterface
         }
 
         try {
-            $this->totalTimeGeneration = \Zend_Registry::get('timer')->getTime();
+            $this->totalTimeGeneration = Registry::get('timer')->getTime();
             $this->totalNumberOfQueries = Profiler::getQueryCount();
         } catch (Exception $e) {
             $this->totalNumberOfQueries = 0;

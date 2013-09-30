@@ -18,7 +18,6 @@ use Piwik\Tracker\Db\Pdo\Mysql;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitInterface;
-use Zend_Registry;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
