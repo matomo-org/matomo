@@ -717,7 +717,8 @@
         "MenuPlatform": "Platform",
         "MenuExtend": "Extend",
         "PluginNotCompatibleWith": "%1$s plugin is not compatible with %2$s.",
-        "PluginAskDevToUpdate": "If you enjoyed this plugin, maybe you can ask the developers to update it to work on the latest Piwik. "
+        "PluginAskDevToUpdate": "If you enjoyed this plugin, maybe you can ask the developers to update it to work on the latest Piwik. ",
+        "UninstallConfirm": "You are about to uninstall a plugin. The plugin will be completely removed from your platform and it won't be recoverable. Are you sure you want to do this?"
     },
     "CoreUpdater": {
         "PluginDescription": "Piwik updating mechanism",

@@ -43,6 +43,14 @@
 
 {% macro tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, isTheme) %}
 
+<div id="confirmUninstallPlugin" class="ui-confirm">
+
+    <h2 id="uninstallPluginConfirm">{{ 'CorePluginsAdmin_UninstallConfirm'|translate }}</h2>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+
+</div>
+
 <div class='entityContainer'>
     <table class="dataTable entityTable">
         <thead>
@@ -84,7 +92,7 @@
                             {{ 'CorePluginsAdmin_Active'|translate }}
                         {% else %}
                             {{ 'CorePluginsAdmin_Inactive'|translate }} <br/>
-                            - {% if plugin.uninstallable %}<a href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{
+                            - {% if plugin.uninstallable %}<a class="uninstall" href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&nonce={{
                         uninstallNonce }}'>uninstall</a>{% endif %}
                         {% endif %}
                     </td>
