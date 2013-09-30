@@ -201,6 +201,11 @@ class PluginsManager
         if(!$this->isPluginInFilesystem($pluginName)) {
             throw new \Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
         }
+
+        $this->returnLoadedPluginsInfo();
+        $plugin = $this->getLoadedPlugin($pluginName);
+        $plugin->uninstall();
+
         self::deletePluginFromFilesystem($pluginName);
 
         $this->removePluginFromPluginsConfig($pluginName);
