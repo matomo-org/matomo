@@ -134,7 +134,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                     {% endif %}
                     {% if visitor.getColumn('referrerType') == 'search' %}
                         {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
-                        {%- set showKeyword = visitor.getColumn('referrerKeyword') is not empty and visitor.getColumn('referrerKeyword') != keywordNotDefined %-}
+                        {%- set showKeyword = visitor.getColumn('referrerKeyword') is not empty and visitor.getColumn('referrerKeyword') != keywordNotDefined -%}
                         {% if visitor.getColumn('searchEngineIcon') %}
                             <img src="{{ visitor.getColumn('searchEngineIcon') }}" alt="{{ visitor.getColumn('referrerName') }}"/>
                         {% endif %}
