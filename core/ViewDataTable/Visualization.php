@@ -29,7 +29,7 @@ abstract class Visualization extends View
      * 
      * Callback Signature: function (&$visualizations) {}
      */
-    const GET_AVAILABLE_EVENT = 'ViewDataTable.Visualization.getAvailable';
+    const GET_AVAILABLE_EVENT = 'ViewDataTable.getAvailableVisualization';
 
     /**
      * Default implementation of getDefaultPropertyValues static function.
