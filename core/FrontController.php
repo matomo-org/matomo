@@ -120,9 +120,15 @@ class FrontController
         // or even change the plugin being called
         $params = array($controller, $action, $parameters);
         Piwik_PostEvent('Request.dispatch', $params);
+        Piwik_PostEvent(sprintf('Controller.%s.%s', $module, $action), array($parameters));
 
         try {
-            return call_user_func_array(array($params[0], $params[1]), $params[2]);
+            $result = call_user_func_array(array($params[0], $params[1]), $params[2]);
+            Piwik_PostEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
+            Piwik_PostEvent('Request.dispatch.end', array(&$result, $parameters));
+
+            return $result;
+
         } catch (NoAccessException $e) {
             Piwik_PostEvent('User.isNotAuthorized', array($e), $pending = true);
         } catch (Exception $e) {
