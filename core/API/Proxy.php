@@ -181,18 +181,21 @@ class Proxy
             // start the timer
             $timer = new Timer();
 
+            // allow plugins to manipulate the value
+            $pluginName = $this->getModuleNameFromClassName($className);
+
+            Piwik_PostEvent(sprintf('API.%s.%s', $pluginName, $methodName), array($finalParameters));
+
             // call the method
             $returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);
 
-            // allow plugins to manipulate the value
-            $pluginName = $this->getModuleNameFromClassName($className);
-            Piwik_PostEvent('API.Request.end', array(
-                                                    &$returnedValue,
-                                                    array('className'  => $className,
-                                                          'module'     => $pluginName,
-                                                          'action'     => $methodName,
-                                                          'parameters' => &$parametersRequest)
-                                               ));
+            Piwik_PostEvent(sprintf('API.%s.%s.end', $pluginName, $methodName), array(
+                &$returnedValue,
+                array('className'  => $className,
+                    'module'     => $pluginName,
+                    'action'     => $methodName,
+                    'parameters' => $finalParameters)
+            ));
 
             // Restore the request
             $_GET = $saveGET;
