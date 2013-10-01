@@ -43,8 +43,8 @@ class AssetManager
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
     const MERGED_JS_FILE = "asset_manager_global_js.js";
     const TRANSLATIONS_JS_FILE = "asset_manager_translations_js.js";
-    const CSS_IMPORT_EVENT = "AssetManager.getStylesheetFiles";
-    const JS_IMPORT_EVENT = "AssetManager.getJavaScriptFiles";
+    const STYLESHEET_IMPORT_EVENT = "AssetManager.getStylesheetFiles";
+    const JAVASCRIPT_IMPORT_EVENT = "AssetManager.getJavaScriptFiles";
     const MERGED_FILE_DIR = "tmp/assets/";
     const COMPRESSED_FILE_LOCATION = "/tmp/assets/";
 
@@ -275,7 +275,7 @@ class AssetManager
     private static function getStylesheetFiles()
     {
         $stylesheets = array();
-        Piwik_PostEvent(self::CSS_IMPORT_EVENT, array(&$stylesheets));
+        Piwik_PostEvent(self::STYLESHEET_IMPORT_EVENT, array(&$stylesheets));
 
         $stylesheets = self::sortCssFiles($stylesheets);
 
@@ -387,7 +387,7 @@ class AssetManager
     private static function getJsFiles()
     {
         $jsFiles = array();
-        Piwik_PostEvent(self::JS_IMPORT_EVENT, array(&$jsFiles));
+        Piwik_PostEvent(self::JAVASCRIPT_IMPORT_EVENT, array(&$jsFiles));
         $jsFiles = self::sortJsFiles($jsFiles);
         return $jsFiles;
     }
