@@ -169,6 +169,7 @@ class Controller extends \Piwik\Controller\Admin
     {
         $view = $this->configureView('@CorePluginsAdmin/extend');
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
+        $view->isSuperUser  = Piwik::isUserIsSuperUser();
 
         echo $view->render();
     }

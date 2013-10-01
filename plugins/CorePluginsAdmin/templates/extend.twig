@@ -42,7 +42,9 @@
 
                 <span class="callToAction">
                     by <a href="#">writing your own plugin</a>
-                    <br/> or by <a href="#" class="uploadPlugin">uploading a plugin</a>
+                    {% if isSuperUser %}
+                        <br/> or by <a href="#" class="uploadPlugin">uploading a plugin</a>
+                    {% endif %}
                 </span>
 
             </div>
@@ -57,7 +59,9 @@
 
                 <span class="callToAction">
                     by <a href="#">design your own theme</a><br />
-                    or by <a href="#" class="uploadPlugin">uploading a theme</a>
+                    {% if isSuperUser %}
+                        or by <a href="#" class="uploadPlugin">uploading a theme</a>
+                    {% endif %}
                 </span>
             </div>
         </div>
