@@ -133,7 +133,7 @@ class Log
      * 
      * @var string
      */
-    private $logMessageFormat = "[%tag%%datetime%] %message%";
+    private $logMessageFormat = "%tag%[%datetime%] %message%";
 
     /**
      * If we're logging to a file, this is the path to the file to log to.
@@ -236,7 +236,6 @@ class Log
      */
     public function formatMessage($level, $tag, $datetime, $message)
     {
-        $tag = $tag ? $tag . ':' : '';
         return str_replace(
             array("%tag%", "%message%", "%datetime%", "%level%"),
             array($tag, $message, $datetime, $this->getStringLevel($level)),
@@ -332,7 +331,10 @@ class Log
         }
 
         if (is_string($message)) {
-            $message = '[' . $currentRequestKey . '] ' . $message;
+            if(!defined('PIWIK_TEST_MODE')
+                || !PIWIK_TEST_MODE) {
+                $message = '[' . $currentRequestKey . '] ' . $message;
+            }
             $message = $this->formatMessage($level, $tag, $datetime, $message);
 
             if(!Common::isPhpCliMode()) {

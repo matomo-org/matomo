@@ -109,6 +109,7 @@ class Config
         }
 
         $this->init();
+
         if (isset($this->configGlobal['database_tests'])
             || isset($this->configLocal['database_tests'])
         ) {
@@ -223,7 +224,6 @@ class Config
      */
     public function init()
     {
-        $this->clear();
         $this->initialized = true;
         $reportError = !empty($GLOBALS['PIWIK_TRACKER_MODE']);
 

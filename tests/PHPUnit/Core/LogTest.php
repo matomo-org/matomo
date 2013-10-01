@@ -187,6 +187,7 @@ dummy backtrace'
     public function testLogMessagesIgnoredWhenNotWithinLevel($backend)
     {
         Config::getInstance()->log['log_writers'] = array($backend);
+        Config::getInstance()->log['log_level'] = 'ERROR';
 
         ob_start();
         Log::info(self::TESTMESSAGE);
@@ -203,13 +204,14 @@ dummy backtrace'
         }
 
         if ($backend == 'screen') {
-            if ($formatMessage) {
+            if ($formatMessage
+                && !Common::isPhpCliMode()) {
                 $expectedMessage = '<pre>' . $expectedMessage . '</pre>';
             }
 
             $this->screenOutput = $this->removePathsFromBacktrace($this->screenOutput);
 
-            $this->assertEquals($expectedMessage . "\n", $this->screenOutput);
+            $this->assertEquals($expectedMessage . "\n", $this->screenOutput, "unexpected output: ".$this->screenOutput);
         } else if ($backend == 'file') {
             $this->assertTrue(file_exists(self::getLogFileLocation()));
 
@@ -237,7 +239,7 @@ dummy backtrace'
     private function checkNoMessagesLogged($backend)
     {
         if ($backend == 'screen') {
-            $this->assertEmpty($this->screenOutput);
+            $this->assertEmpty($this->screenOutput, "Output not empty: ".$this->screenOutput);
         } else if ($backend == 'file') {
             $this->assertFalse(file_exists(self::getLogFileLocation()));
         } else if ($backend == 'database') {
