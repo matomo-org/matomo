@@ -116,14 +116,14 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
             <td class="column">
                 <div class="referer">
                     {% if visitor.getColumn('referrerType') == 'website' %}
-                        {{ 'Referers_ColumnWebsite'|translate }}:
+                        {{ 'Referrers_ColumnWebsite'|translate }}:
                         <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" title="{{ visitor.getColumn('referrerUrl') }}"
                            style="text-decoration:underline;">
                             {{ visitor.getColumn('referrerName') }}
                         </a>
                     {% endif %}
                     {% if visitor.getColumn('referrerType') == 'campaign' %}
-                        {{ 'Referers_ColumnCampaign'|translate }}
+                        {{ 'Referrers_ColumnCampaign'|translate }}
                         <br/>
                         {{ visitor.getColumn('referrerName') }}
                         {% if visitor.getColumn('referrerKeyword') is not empty %} - {{ visitor.getColumn('referrerKeyword') }}{% endif %}
@@ -135,7 +135,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                             <img src="{{ visitor.getColumn('searchEngineIcon') }}" alt="{{ visitor.getColumn('referrerName') }}"/>
                         {% endif %}
                         <span {% if not showKeyword %}title="{{ keywordNotDefined }}"{% endif %}>{{ visitor.getColumn('referrerName') }}</span>
-                        {% if showKeyword %}{{ 'Referers_Keywords'|translate }}:
+                        {% if showKeyword %}{{ 'Referrers_Keywords'|translate }}:
                             <br/>
                             <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" style="text-decoration:underline;">
                                 "{{ visitor.getColumn('referrerKeyword') }}"</a>
@@ -150,7 +150,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
                             </span>
                         {% endif %}
                     {% endif %}
-                    {% if visitor.getColumn('referrerType') == 'direct' %}{{ 'Referers_DirectEntry'|translate }}{% endif %}
+                    {% if visitor.getColumn('referrerType') == 'direct' %}{{ 'Referrers_DirectEntry'|translate }}{% endif %}
                 </div>
             </td>
             <td class="column {% if visitor.getColumn('visitConverted') and not isWidget %}highlightField{% endif %}">

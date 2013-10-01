@@ -45,7 +45,7 @@ class WidgetsListTest extends DatabaseTestCase
             'UserSettings_VisitorSettings' => 11,
             'General_Actions'              => 8,
             'Actions_SubmenuSitesearch'    => 5,
-            'Referers_Referrers'            => 7,
+            'Referrers_Referrers'            => 7,
             'Goals_Goals'                  => 1,
             'SEO'                          => 2,
             'Example Widgets'              => 4,

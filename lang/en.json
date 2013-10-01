@@ -1245,7 +1245,7 @@
         "SubmenuLocationsProvider": "Locations & Provider",
         "ProviderReportDocumentation": "This report shows which Internet Service Providers your visitors used to access the website. You can click on a provider name for more details. %s If Piwik can't determine a visitor's provider, it is listed as IP."
     },
-    "Referers": {
+    "Referrers": {
         "PluginDescription": "Reports the Referrers data: Search Engines, Keywords, Websites, Campaign Tracking, Direct Entry.",
         "Referrer": "Referrer",
         "Referrers": "Referrers",

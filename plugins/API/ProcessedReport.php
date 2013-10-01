@@ -195,7 +195,7 @@ class ProcessedReport
                 Piwik_Translate('Goals_Ecommerce'),
                 Piwik_Translate('General_Actions'),
                 Piwik_Translate('Actions_SubmenuSitesearch'),
-                Piwik_Translate('Referers_Referrers'),
+                Piwik_Translate('Referrers_Referrers'),
                 Piwik_Translate('Goals_Goals'),
                 Piwik_Translate('General_Visitors'),
                 Piwik_Translate('DevicesDetection_DevicesDetection'),

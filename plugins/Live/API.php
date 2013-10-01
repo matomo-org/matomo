@@ -466,7 +466,7 @@ class API
         if ($referrerType === false
             || $referrerType == 'direct'
         ) {
-            $result = Piwik_Translate('Referers_DirectEntry');
+            $result = Piwik_Translate('Referrers_DirectEntry');
         } else if ($referrerType == 'search') {
             $result = $visit->getColumn('referrerName');
 
@@ -477,7 +477,7 @@ class API
                 $result .= ' (' . $keyword . ')';
             }
         } else if ($referrerType == 'campaign') {
-            $result = Piwik_Translate('Referers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
+            $result = Piwik_Translate('Referrers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
         } else {
             $result = $visit->getColumn('referrerName');
         }
