@@ -88,16 +88,16 @@ class Goals extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'AssetManager.getJsFiles'          => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
-            'Common.fetchWebsiteAttributes'    => 'fetchGoalsFromDb',
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
+            'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
+            'Site.getSiteAttributes'           => 'fetchGoalsFromDb',
+            'ArchiveProcessor.Day.compute'     => 'archiveDay',
+            'ArchiveProcessor.Period.compute'  => 'archivePeriod',
             'API.getReportMetadata.end'        => 'getReportMetadata',
             'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
-            'WidgetsList.add'                  => 'addWidgets',
-            'Menu.add'                         => 'addMenus',
-            'SitesManager.deleteSite'          => 'deleteSiteGoals',
+            'WidgetsList.addWidget'            => 'addWidgets',
+            'Menu.addMenuEntry'                => 'addMenus',
+            'SitesManager.deleteSite.end'      => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'  => 'getActualReportsWithGoalMetrics',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'

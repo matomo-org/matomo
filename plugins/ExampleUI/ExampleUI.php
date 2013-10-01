@@ -33,7 +33,7 @@ class ExampleUI extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'Menu.add' => 'addMenus',
+            'Menu.addMenuEntry' => 'addMenus',
         );
         return $hooks;
     }

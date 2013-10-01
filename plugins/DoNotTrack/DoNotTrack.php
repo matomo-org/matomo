@@ -29,7 +29,7 @@ class DoNotTrack extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Tracker.Visit.isExcluded' => 'checkHeader',
+            'Tracker.isExcludedVisit' => 'checkHeader',
         );
     }
 

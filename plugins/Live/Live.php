@@ -42,10 +42,10 @@ class Live extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'WidgetsList.add'                          => 'addWidget',
-            'Menu.add'                                 => 'addMenu',
+            'WidgetsList.addWidget'                    => 'addWidget',
+            'Menu.addMenuEntry'                        => 'addMenu',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
         );

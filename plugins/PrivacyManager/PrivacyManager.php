@@ -68,8 +68,8 @@ class PrivacyManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'         => 'getJsFiles',
-            'AdminMenu.add'                   => 'addMenu',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'AdminMenu.addMenuEntry'          => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
         );
     }

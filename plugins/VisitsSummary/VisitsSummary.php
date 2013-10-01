@@ -29,8 +29,8 @@ class VisitsSummary extends \Piwik\Plugin
     {
         return array(
             'API.getReportMetadata' => 'getReportMetadata',
-            'WidgetsList.add'       => 'addWidgets',
-            'Menu.add'              => 'addMenu',
+            'WidgetsList.addWidget' => 'addWidgets',
+            'Menu.addMenuEntry'     => 'addMenu',
         );
     }
 

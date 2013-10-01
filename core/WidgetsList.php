@@ -31,14 +31,14 @@ class WidgetsList
 
     /**
      * Returns all available widgets
-     * The event WidgetsList.add is used to create the list
+     * The event WidgetsList.addWidget is used to create the list
      *
      * @return array
      */
     static public function get()
     {
         self::addWidgets();
-        Piwik_PostEvent('WidgetsList.get');
+        Piwik_PostEvent('WidgetsList.getWidgets');
 
         uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
 
@@ -56,7 +56,7 @@ class WidgetsList
     {
         if (!self::$hookCalled) {
             self::$hookCalled = true;
-            Piwik_PostEvent('WidgetsList.add');
+            Piwik_PostEvent('WidgetsList.addWidget');
         }
     }
 

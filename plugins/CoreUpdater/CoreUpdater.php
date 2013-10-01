@@ -31,8 +31,8 @@ class CoreUpdater extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'FrontController.dispatchCoreAndPluginUpdatesScreen' => 'dispatch',
-            'FrontController.checkForUpdates'                    => 'updateCheck',
+            'Request.dispatchCoreAndPluginUpdatesScreen' => 'dispatch',
+            'Updater.checkForUpdates'                    => 'updateCheck',
         );
         return $hooks;
     }

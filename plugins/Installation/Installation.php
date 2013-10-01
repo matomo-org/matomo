@@ -28,10 +28,10 @@ class Installation extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'FrontController.NoConfigurationFile'  => 'dispatch',
-            'FrontController.badConfigurationFile' => 'dispatch',
-            'AdminMenu.add'                        => 'addMenu',
-            'AssetManager.getStylesheetFiles'      => 'getStylesheetFiles',
+            'Config.NoConfigurationFile'      => 'dispatch',
+            'Config.badConfigurationFile'     => 'dispatch',
+            'AdminMenu.addMenuEntry'          => 'addMenu',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
         return $hooks;
     }

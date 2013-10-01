@@ -32,14 +32,14 @@ class Admin extends MenuAbstract
     }
 
     /**
-     * Triggers the AdminMenu.add hook and returns the menu.
+     * Triggers the AdminMenu.addMenuEntry hook and returns the menu.
      *
      * @return Array
      */
     public function get()
     {
         if (!$this->menu) {
-            Piwik_PostEvent('AdminMenu.add');
+            Piwik_PostEvent('AdminMenu.addMenuEntry');
         }
         return parent::get();
     }

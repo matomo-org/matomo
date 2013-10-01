@@ -51,7 +51,7 @@ class Main extends MenuAbstract
     }
 
     /**
-     * Triggers the Menu.add hook and returns the menu.
+     * Triggers the Menu.addMenuEntry hook and returns the menu.
      *
      * @return Array
      */
@@ -59,7 +59,7 @@ class Main extends MenuAbstract
     {
         // We trigger the Event only once!
         if (!$this->menu) {
-            Piwik_PostEvent('Menu.add');
+            Piwik_PostEvent('Menu.addMenuEntry');
         }
         return parent::get();
     }

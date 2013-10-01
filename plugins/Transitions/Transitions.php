@@ -23,7 +23,7 @@ class Transitions extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }

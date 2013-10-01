@@ -26,8 +26,8 @@ class CorePluginsAdmin extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AdminMenu.add' => 'addMenu',
-            'AssetManager.getJsFiles' => 'getJsFiles',
+            'AdminMenu.addMenuEntry'  => 'addMenu',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'

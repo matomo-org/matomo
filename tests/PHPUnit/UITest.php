@@ -23,7 +23,7 @@ abstract class UITest extends IntegrationTestCase
     public static function createAccessInstance()
     {
         Access::setSingletonInstance($access = new Test_Access_OverrideLogin());
-        Piwik_PostEvent('FrontController.initAuthenticationObject');
+        Piwik_PostEvent('Request.initAuthenticationObject');
     }
     
     public static function setUpBeforeClass()

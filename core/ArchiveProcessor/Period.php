@@ -25,7 +25,7 @@ use Piwik\SettingsPiwik;
  * The archiving for a period is done by aggregating "sub periods" contained within this period.
  * For example to process a week's data, we sum each day's data.
  *
- * Public methods can be called by the plugins that hook on the event 'ArchiveProcessing_Period.compute'
+ * Public methods can be called by the plugins that hook on the event 'ArchiveProcessor.Period.compute'
  *
  * @package Piwik
  * @subpackage ArchiveProcessor
@@ -49,7 +49,7 @@ class Period extends ArchiveProcessor
     /**
      * This method will compute the sum of DataTables over the period for the given fields $recordNames.
      * The resulting DataTable will be then added to queue of data to be recorded in the database.
-     * It will usually be called in a plugin that listens to the hook 'ArchiveProcessing_Period.compute'
+     * It will usually be called in a plugin that listens to the hook 'ArchiveProcessor.Period.compute'
      *
      * For example if $recordNames = 'UserCountry_country' the method will select all UserCountry_country DataTable for the period
      * (eg. the 31 dataTable of the last month), sum them, then record it in the DB
@@ -184,7 +184,7 @@ class Period extends ArchiveProcessor
 
     protected function compute()
     {
-        Piwik_PostEvent('ArchiveProcessing_Period.compute', array(&$this));
+        Piwik_PostEvent('ArchiveProcessor.Period.compute', array(&$this));
     }
 
     protected function aggregateCoreVisitsMetrics()

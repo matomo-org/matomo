@@ -102,6 +102,6 @@ class Day extends ArchiveProcessor
 
     protected function compute()
     {
-        Piwik_PostEvent('ArchiveProcessing_Day.compute', array(&$this));
+        Piwik_PostEvent('ArchiveProcessor.Day.compute', array(&$this));
     }
 }

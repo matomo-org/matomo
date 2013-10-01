@@ -28,11 +28,11 @@ class Dashboard extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'UsersManager.deleteUser'                => 'deleteDashboardLayout',
-            'Menu.add'                               => 'addMenus',
-            'TopMenu.add'                            => 'addTopMenu',
+            'Menu.addMenuEntry'                      => 'addMenus',
+            'TopMenu.addMenuEntry'                   => 'addTopMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }

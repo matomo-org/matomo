@@ -32,17 +32,17 @@ class Login extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'FrontController.initAuthenticationObject' => 'initAuthenticationObject',
-            'FrontController.NoAccessException'        => 'noAccess',
-            'API.Request.authenticate'                 => 'ApiRequestAuthenticate',
-            'Login.initSession'                        => 'initSession',
+            'Request.initAuthenticationObject'  => 'initAuthenticationObject',
+            'User.isNotAuthorized'              => 'noAccess',
+            'API.Request.authenticate'          => 'ApiRequestAuthenticate',
+            'Login.initSession'                 => 'initSession',
         );
         return $hooks;
     }
 
     /**
      * Redirects to Login form with error message.
-     * Listens to FrontController.NoAccessException hook.
+     * Listens to User.isNotAuthorized hook.
      */
     public function noAccess(Exception $exception)
     {
@@ -64,7 +64,7 @@ class Login extends \Piwik\Plugin
 
     /**
      * Initializes the authentication object.
-     * Listens to FrontController.initAuthenticationObject hook.
+     * Listens to Request.initAuthenticationObject hook.
      */
     function initAuthenticationObject($allowCookieAuthentication = false)
     {

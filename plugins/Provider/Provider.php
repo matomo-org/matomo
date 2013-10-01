@@ -31,11 +31,11 @@ class Provider extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'            => 'archiveDay',
-            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
+            'ArchiveProcessor.Day.compute'             => 'archiveDay',
+            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
             'Tracker.newVisitorInformation'            => 'logProviderInfo',
-            'WidgetsList.add'                          => 'addWidget',
-            'Menu.add'                                 => 'addMenu',
+            'WidgetsList.addWidget'                    => 'addWidget',
+            'Menu.addMenuEntry'                        => 'addMenu',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',

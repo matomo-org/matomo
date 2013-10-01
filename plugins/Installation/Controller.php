@@ -65,8 +65,6 @@ class Controller extends \Piwik\Controller\Admin
             $this->session->currentStepDone = '';
             $this->session->skipThisStep = array();
         }
-
-        Piwik_PostEvent('InstallationController.construct', array($this));
     }
 
     protected static function initServerFilesForSecurity()

@@ -61,11 +61,11 @@ class DevicesDetection extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'ArchiveProcessing_Day.compute'            => "archiveDay",
-            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
-            'Menu.add'                                 => 'addMenu',
+            'ArchiveProcessor.Day.compute'             => 'archiveDay',
+            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
+            'Menu.addMenuEntry'                        => 'addMenu',
             'Tracker.newVisitorInformation'            => 'parseMobileVisitData',
-            'WidgetsList.add'                          => 'addWidgets',
+            'WidgetsList.addWidget'                    => 'addWidgets',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',

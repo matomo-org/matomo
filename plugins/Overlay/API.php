@@ -118,7 +118,7 @@ class API
     private function authenticate($idSite)
     {
         $notification = null;
-        Piwik_PostEvent('FrontController.initAuthenticationObject',
+        Piwik_PostEvent('Request.initAuthenticationObject',
             array(&$notification, $allowCookieAuthentication = true));
 
         $auth = \Piwik\Registry::get('auth');

@@ -39,16 +39,16 @@ class UserCountry extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'            => 'archiveDay',
-            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
-            'WidgetsList.add'                          => 'addWidgets',
-            'Menu.add'                                 => 'addMenu',
-            'AdminMenu.add'                            => 'addAdminMenu',
+            'ArchiveProcessor.Day.compute'             => 'archiveDay',
+            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
+            'WidgetsList.addWidget'                    => 'addWidgets',
+            'Menu.addMenuEntry'                        => 'addMenu',
+            'AdminMenu.addMenuEntry'                   => 'addAdminMenu',
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
             'Tracker.newVisitorInformation'            => 'getVisitorLocation',
             'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',

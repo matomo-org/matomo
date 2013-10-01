@@ -114,7 +114,7 @@ class Visit implements Tracker\VisitInterface
         }
 
         // Anonymize IP (after testing for IP exclusion)
-        Piwik_PostEvent('Tracker.Visit.setVisitorIp', array(&$this->visitorInfo['location_ip']));
+        Piwik_PostEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
 
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
         if (!empty($this->visitorCustomVariables)) {
@@ -509,11 +509,11 @@ class Visit implements Tracker\VisitInterface
 
     /**
      * Save new visitor information to log_visit table.
-     * Provides pre- and post- event hooks (Tracker.saveVisitorInformation and Tracker.saveVisitorInformation.end) for plugins
+     * Provides pre- and post- event hooks (Tracker.visitorInformation) for plugins
      */
     protected function saveVisitorInformation()
     {
-        Piwik_PostEvent('Tracker.saveVisitorInformation', array(&$this->visitorInfo));
+        Piwik_PostEvent('Tracker.visitorInformation', array(&$this->visitorInfo));
 
         $this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
         $this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
@@ -532,8 +532,6 @@ class Visit implements Tracker\VisitInterface
 
         $this->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
         $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
-
-        Piwik_PostEvent('Tracker.saveVisitorInformation.end', array(&$this->visitorInfo));
     }
 
     /**
@@ -912,7 +910,7 @@ class Visit implements Tracker\VisitInterface
     protected function newAction()
     {
         $action = null;
-        Piwik_PostEvent('Tracker.newAction', array(&$action));
+        Piwik_PostEvent('Tracker.createNewAction', array(&$action));
 
         if (is_null($action)) {
             $action = new Action($this->request);

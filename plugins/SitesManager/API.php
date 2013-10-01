@@ -549,8 +549,6 @@ class API
         Access::getInstance()->reloadAccess();
         $this->postUpdateWebsite($idSite);
 
-        Piwik_PostEvent('SitesManager.addSite', array($idSite));
-
         return (int)$idSite;
     }
 
@@ -595,7 +593,7 @@ class API
         // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
         Cache::deleteCacheWebsiteAttributes($idSite);
 
-        Piwik_PostEvent('SitesManager.deleteSite', array($idSite));
+        Piwik_PostEvent('SitesManager.deleteSite.end', array($idSite));
     }
 
     /**
@@ -1057,8 +1055,6 @@ class API
             $this->addSiteAliasUrls($idSite, array_slice($urls, 1));
         }
         $this->postUpdateWebsite($idSite);
-
-        Piwik_PostEvent('SitesManager.updateSite', array($idSite));
     }
 
     private function checkAndReturnCommaSeparatedStringList($parameters)

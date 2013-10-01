@@ -78,9 +78,9 @@ class PDFReports extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'TopMenu.add'                                 => 'addTopMenu',
+            'TopMenu.addMenuEntry'                        => 'addTopMenu',
             'TaskScheduler.getScheduledTasks'             => 'getScheduledTasks',
-            'AssetManager.getJsFiles'                     => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'             => 'getJsFiles',
             'PDFReports.getReportParameters'              => 'getReportParameters',
             'PDFReports.validateReportParameters'         => 'validateReportParameters',
             'PDFReports.getReportMetadata'                => 'getReportMetadata',
@@ -93,7 +93,7 @@ class PDFReports extends \Piwik\Plugin
             'PDFReports.sendReport'                       => 'sendReport',
             'template_reportParametersPDFReports'         => 'template_reportParametersPDFReports',
             'UsersManager.deleteUser'                     => 'deleteUserReport',
-            'SitesManager.deleteSite'                     => 'deleteSiteReport',
+            'SitesManager.deleteSite.end'                 => 'deleteSiteReport',
             APISegmentEditor::DEACTIVATE_SEGMENT_EVENT    => 'segmentDeactivation',
         );
     }

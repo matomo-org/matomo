@@ -55,14 +55,14 @@ class Actions extends \Piwik\Plugin
     {
         $hooks = array(
             'ArchiveProcessing_Day.compute'            => 'archiveDay',
-            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
-            'WidgetsList.add'                          => 'addWidgets',
-            'Menu.add'                                 => 'addMenus',
+            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
+            'WidgetsList.addWidget'                    => 'addWidgets',
+            'Menu.addMenuEntry'                        => 'addMenus',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
-            'AssetManager.getStylesheetFiles'                 => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'                  => 'getJsFiles'
+            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'          => 'getJsFiles'
         );
         return $hooks;
     }

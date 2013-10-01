@@ -25,8 +25,8 @@ class Feedback extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'                  => 'getJsFiles',
-            'TopMenu.add'                              => 'addTopMenu',
+            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
+            'TopMenu.addMenuEntry'                     => 'addTopMenu',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );
     }

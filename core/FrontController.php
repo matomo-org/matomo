@@ -119,12 +119,12 @@ class FrontController
         // Generic hook that plugins can use to modify any input to the function,
         // or even change the plugin being called
         $params = array($controller, $action, $parameters);
-        Piwik_PostEvent('FrontController.dispatch', $params);
+        Piwik_PostEvent('Request.dispatch', $params);
 
         try {
             return call_user_func_array(array($params[0], $params[1]), $params[2]);
         } catch (NoAccessException $e) {
-            Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
+            Piwik_PostEvent('User.isNotAuthorized', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
             $message = Common::sanitizeInputValue($e->getMessage());
@@ -198,7 +198,7 @@ class FrontController
         try {
             Config::getInstance();
         } catch (Exception $e) {
-            Piwik_PostEvent('FrontController.NoConfigurationFile', array($e), $pending = true);
+            Piwik_PostEvent('Config.NoConfigurationFile', array($e), $pending = true);
             $exceptionToThrow = $e;
         }
         return $exceptionToThrow;
@@ -265,14 +265,14 @@ class FrontController
                 if (self::shouldRethrowException()) {
                     throw $e;
                 }
-                Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
+                Piwik_PostEvent('Config.badConfigurationFile', array($e), $pending = true);
                 throw $e;
             }
 
             // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
             Access::getInstance();
 
-            Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
+            Piwik_PostEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
             PluginsManager::getInstance()->installLoadedPlugins();
 
@@ -281,7 +281,7 @@ class FrontController
                 $host = SettingsPiwik::getPiwikUrl();
             }
 
-            Piwik_PostEvent('FrontController.initAuthenticationObject');
+            Piwik_PostEvent('Request.initAuthenticationObject');
             try {
                 $authAdapter = Registry::get('auth');
             } catch (Exception $e) {
@@ -302,7 +302,7 @@ class FrontController
             Translate::getInstance()->reloadLanguage();
             $pluginsManager->postLoadPlugins();
 
-            Piwik_PostEvent('FrontController.checkForUpdates');
+            Piwik_PostEvent('Updater.checkForUpdates');
         } catch (Exception $e) {
 
             if (self::shouldRethrowException()) {

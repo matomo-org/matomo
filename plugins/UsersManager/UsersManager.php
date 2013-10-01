@@ -31,11 +31,11 @@ class UsersManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AdminMenu.add'                          => 'addMenu',
-            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AdminMenu.addMenuEntry'                 => 'addMenu',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'SitesManager.deleteSite'                => 'deleteSite',
-            'Common.fetchWebsiteAttributes'          => 'recordAdminUsersInCache',
+            'SitesManager.deleteSite.end'            => 'deleteSite',
+            'Site.getSiteAttributes'                 => 'recordAdminUsersInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }

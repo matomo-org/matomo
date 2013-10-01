@@ -28,10 +28,10 @@ class SitesManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'AdminMenu.add'                          => 'addMenu',
-            'Common.fetchWebsiteAttributes'          => 'recordWebsiteDataInCache',
+            'AdminMenu.addMenuEntry'                 => 'addMenu',
+            'Site.getSiteAttributes'                 => 'recordWebsiteDataInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
     }

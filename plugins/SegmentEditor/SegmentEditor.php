@@ -41,11 +41,11 @@ class SegmentEditor extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Piwik.getKnownSegmentsToArchiveForSite'  => 'getKnownSegmentsToArchiveForSite',
-            'Piwik.getKnownSegmentsToArchiveAllSites' => 'getKnownSegmentsToArchiveAllSites',
-            'AssetManager.getJsFiles'                 => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'                => 'getStylesheetFiles',
-            'template_nextToCalendar'                 => 'getSegmentEditorHtml',
+            'Segments.getKnownSegmentsToArchiveForSite'  => 'getKnownSegmentsToArchiveForSite',
+            'Segments.getKnownSegmentsToArchiveAllSites' => 'getKnownSegmentsToArchiveAllSites',
+            'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
+            'template_nextToCalendar'                    => 'getSegmentEditorHtml',
         );
     }
 

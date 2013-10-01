@@ -29,7 +29,7 @@ class CoreVisualizations extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'                  => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
             'ViewDataTable.Visualization.getAvailable' => 'getAvailableDataTableVisualizations',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );

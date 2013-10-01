@@ -33,12 +33,12 @@ class LanguagesManager extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'    => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'     => 'getJsFiles',
-            'TopMenu.add'                 => 'showLanguagesSelector',
-            'Translate.getLanguageToLoad' => 'getLanguageToLoad',
-            'UsersManager.deleteUser'     => 'deleteUserLanguage',
-            'template_topBar'             => 'addLanguagesManagerToOtherTopBar',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'TopMenu.addMenuEntry'            => 'showLanguagesSelector',
+            'User.getLanguage'                => 'getLanguageToLoad',
+            'UsersManager.deleteUser'         => 'deleteUserLanguage',
+            'template_topBar'                 => 'addLanguagesManagerToOtherTopBar',
         );
     }
 

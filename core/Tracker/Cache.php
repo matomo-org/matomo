@@ -61,7 +61,7 @@ class Cache
         Piwik::setUserIsSuperUser();
 
         $content = array();
-        Piwik_PostEvent('Common.fetchWebsiteAttributes', array(&$content, $idSite));
+        Piwik_PostEvent('Site.getSiteAttributes', array(&$content, $idSite));
 
         // restore original user privilege
         Piwik::setUserIsSuperUser($isSuperUser);

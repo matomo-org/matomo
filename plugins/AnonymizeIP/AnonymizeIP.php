@@ -41,7 +41,7 @@ class AnonymizeIP extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Tracker.Visit.setVisitorIp' => 'setVisitorIpAddress',
+            'Tracker.setVisitorIp' => 'setVisitorIpAddress',
         );
     }
 

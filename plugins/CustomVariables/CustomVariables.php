@@ -33,10 +33,10 @@ class CustomVariables extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'            => 'archiveDay',
-            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
-            'WidgetsList.add'                          => 'addWidgets',
-            'Menu.add'                                 => 'addMenus',
+            'ArchiveProcessor.Day.compute'             => 'archiveDay',
+            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
+            'WidgetsList.addWidget'                    => 'addWidgets',
+            'Menu.addMenuEntry'                        => 'addMenus',
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',

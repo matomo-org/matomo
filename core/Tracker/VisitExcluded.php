@@ -75,7 +75,7 @@ class VisitExcluded
         }
 
         /* custom filters can override the built-in filters above */
-        Piwik_PostEvent('Tracker.Visit.isExcluded', array(&$excluded));
+        Piwik_PostEvent('Tracker.isExcludedVisit', array(&$excluded));
 
         /*
          * Following exclude operations happen after the hook.

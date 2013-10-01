@@ -30,9 +30,9 @@ class CoreAdminHome extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'AssetManager.getJsFiles'         => 'getJsFiles',
-            'AdminMenu.add'                   => 'addMenu',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'AdminMenu.addMenuEntry'          => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
         );
     }

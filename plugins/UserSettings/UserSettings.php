@@ -164,10 +164,10 @@ class UserSettings extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'            => 'archiveDay',
-            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
-            'WidgetsList.add'                          => 'addWidgets',
-            'Menu.add'                                 => 'addMenu',
+            'ArchiveProcessor.Day.compute'             => 'archiveDay',
+            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
+            'WidgetsList.addWidget'                    => 'addWidgets',
+            'Menu.addMenuEntry'                        => 'addMenu',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',

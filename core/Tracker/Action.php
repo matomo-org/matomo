@@ -642,7 +642,7 @@ class Action implements ActionInterface
         /*
         * send the Action object ($this)  and the list of ids ($info) as arguments to the event
         */
-        Piwik_PostEvent('Tracker.Action.record', array($this, $info));
+        Piwik_PostEvent('Tracker.recordAction', array($this, $info));
     }
 
     public function getCustomVariables()

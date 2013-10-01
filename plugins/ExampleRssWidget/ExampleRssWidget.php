@@ -25,7 +25,7 @@ class ExampleRssWidget extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'WidgetsList.add'          => 'addWidgets'
+            'WidgetsList.addWidget'           => 'addWidgets'
         );
     }
 

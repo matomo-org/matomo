@@ -35,14 +35,14 @@ class Piwik_TestingEnvironment
 
             $config->General['session_save_handler'] = 'dbtables'; // to avoid weird session error in travis
         });
-        Piwik_AddAction('FrontController.dispatch', function() {
+        Piwik_AddAction('Request.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
         });
         Piwik_AddAction('AssetManager.getStylesheetFiles', function(&$stylesheets) {
             $stylesheets[] = 'tests/resources/screenshot-override/override.css';
         });
-        Piwik_AddAction('AssetManager.getJsFiles', function(&$jsFiles) {
+        Piwik_AddAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
             $jsFiles[] = 'tests/resources/screenshot-override/jquery.waitforimages.js';
             $jsFiles[] = 'tests/resources/screenshot-override/override.js';
         });

@@ -54,9 +54,9 @@ class UserCountryMap extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'AssetManager.getJsFiles'  => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Menu.add'                 => 'addMenu',
+            'Menu.addMenuEntry'               => 'addMenu',
         );
         return $hooks;
     }

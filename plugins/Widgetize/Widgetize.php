@@ -24,9 +24,9 @@ class Widgetize extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'TopMenu.add'                            => 'addTopMenu',
+            'TopMenu.addMenuEntry'                   => 'addTopMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }

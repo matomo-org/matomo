@@ -28,7 +28,7 @@ class Overlay extends \Piwik\Plugin
     function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJsFiles'                => 'getJsFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }

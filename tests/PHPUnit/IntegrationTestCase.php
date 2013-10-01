@@ -57,7 +57,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         Access::setSingletonInstance(null);
         Access::getInstance();
-        Piwik_PostEvent('FrontController.initAuthenticationObject');
+        Piwik_PostEvent('Request.initAuthenticationObject');
     }
     
     /**

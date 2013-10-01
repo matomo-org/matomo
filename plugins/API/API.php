@@ -649,7 +649,7 @@ class Plugin extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'TopMenu.add'              => 'addTopMenu',
+            'TopMenu.addMenuEntry'            => 'addTopMenu',
         );
     }
 

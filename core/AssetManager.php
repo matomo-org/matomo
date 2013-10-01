@@ -44,7 +44,7 @@ class AssetManager
     const MERGED_JS_FILE = "asset_manager_global_js.js";
     const TRANSLATIONS_JS_FILE = "asset_manager_translations_js.js";
     const CSS_IMPORT_EVENT = "AssetManager.getStylesheetFiles";
-    const JS_IMPORT_EVENT = "AssetManager.getJsFiles";
+    const JS_IMPORT_EVENT = "AssetManager.getJavaScriptFiles";
     const MERGED_FILE_DIR = "tmp/assets/";
     const COMPRESSED_FILE_LOCATION = "/tmp/assets/";
 
@@ -156,7 +156,7 @@ class AssetManager
 
         $mergedContent = $less->compile($mergedContent);
 
-        Piwik_PostEvent('AssetManager.filterMergedCss', array(&$mergedContent));
+        Piwik_PostEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
 
         $mergedContent =
             $firstLineCompileHash . "\n"
@@ -354,7 +354,7 @@ class AssetManager
         }
         $mergedContent = str_replace("\n", "\r\n", $mergedContent);
 
-        Piwik_PostEvent('AssetManager.filterMergedJs', array(&$mergedContent));
+        Piwik_PostEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent));
 
         self::writeAssetToFile($mergedContent, self::MERGED_JS_FILE);
     }
