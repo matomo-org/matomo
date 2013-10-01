@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
+use Piwik\Log;
 use Piwik\SettingsPiwik;
 use Piwik\Unzip;
 
@@ -47,6 +48,27 @@ class PluginInstaller
 
         $this->removeFileIfExists($tmpPluginZip);
         $this->removeFolderIfExists($tmpPluginFolder);
+    }
+
+    public function installOrUpdatePluginFromFile($pathToZip)
+    {
+        $tmpPluginFolder = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName;
+        $tmpPluginFolder = SettingsPiwik::rewriteTmpPathWithHostname($tmpPluginFolder);
+
+        $this->makeSureFoldersAreWritable();
+        $this->extractPluginFiles($pathToZip, $tmpPluginFolder);
+
+        $this->makeSurePluginJsonExists($tmpPluginFolder);
+        $metadata = $this->getPluginMetadataIfValid($tmpPluginFolder);
+
+        $this->pluginName = $metadata->name;
+
+        $this->fixPluginFolderIfNeeded($tmpPluginFolder);
+        $this->copyPluginToDestination($tmpPluginFolder);
+        $this->removeFileIfExists($pathToZip);
+        $this->removeFolderIfExists($tmpPluginFolder);
+
+        return $metadata;
     }
 
     private function makeSureFoldersAreWritable()
@@ -98,9 +120,83 @@ class PluginInstaller
 
     private function makeSurePluginJsonExists($tmpPluginFolder)
     {
-        if (!file_exists($tmpPluginFolder . DIRECTORY_SEPARATOR . $this->pluginName . DIRECTORY_SEPARATOR . 'plugin.json')) {
+        $pluginJsonPath = $this->getPathToPluginJson($tmpPluginFolder);
+
+        if (!file_exists($pluginJsonPath)) {
             throw new PluginInstallerException('Plugin is not valid, it is missing the plugin.json file.');
         }
+    }
+
+    private function getPluginMetadataIfValid($tmpPluginFolder)
+    {
+        $pluginJsonPath = $this->getPathToPluginJson($tmpPluginFolder);
+
+        $metadata = file_get_contents($pluginJsonPath);
+        $metadata = json_decode($metadata);
+
+        if (empty($metadata)) {
+            throw new PluginInstallerException('Plugin is not valid, plugin.json is empty or does not contain valid JSON.');
+        }
+
+        if (empty($metadata->name)) {
+            throw new PluginInstallerException('Plugin is not valid, the plugin.json file does not specify the plugin name.');
+        }
+
+        if (empty($metadata->version)) {
+            throw new PluginInstallerException('Plugin is not valid, the plugin.json file does not specify the plugin version.');
+        }
+
+        if (empty($metadata->description)) {
+            throw new PluginInstallerException('Plugin is not valid, the plugin.json file does not specify a description.');
+        }
+
+        return $metadata;
+    }
+
+    private function getPathToPluginJson($tmpPluginFolder)
+    {
+        $firstSubFolder = $this->getNameOfFirstSubfolder($tmpPluginFolder);
+        $path = $tmpPluginFolder . DIRECTORY_SEPARATOR . $firstSubFolder . DIRECTORY_SEPARATOR . 'plugin.json';
+
+        return $path;
+    }
+
+    /**
+     * @param $pluginDir
+     * @throws PluginInstallerException
+     * @return string
+     */
+    private function getNameOfFirstSubfolder($pluginDir)
+    {
+        if ($dir = opendir($pluginDir)) {
+            $firstSubFolder = '';
+
+            while ($file = readdir($dir)) {
+                if ($file[0] != '.' && is_dir($pluginDir . DIRECTORY_SEPARATOR . $file)) {
+                    $firstSubFolder = $file;
+                    break;
+                }
+            }
+
+            if (empty($firstSubFolder)) {
+                throw new PluginInstallerException('The plugin ZIP file does not contain a subfolder.');
+            }
+
+            return $firstSubFolder;
+        }
+    }
+
+    private function fixPluginFolderIfNeeded($tmpPluginFolder)
+    {
+        $firstSubFolder = $this->getNameOfFirstSubfolder($tmpPluginFolder);
+
+        if ($firstSubFolder === $this->pluginName) {
+            return;
+        }
+
+        $from = $tmpPluginFolder . DIRECTORY_SEPARATOR . $firstSubFolder;
+        $to   = $tmpPluginFolder . DIRECTORY_SEPARATOR . $this->pluginName;
+        rename($from, $to);
     }
 
     private function copyPluginToDestination($tmpPluginFolder)

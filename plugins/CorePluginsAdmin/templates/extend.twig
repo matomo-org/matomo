@@ -5,6 +5,19 @@
 {% block content %}
     <div class="extendPlatform">
 
+        <div class="ui-confirm" id="installPluginByUpload">
+            <h2>Extend Piwik by uploading a ZIP file</h2>
+
+            <p class="description">You may upload here a ZIP downloaded from the Piwik Marketplace or your own plugin or theme.</p>
+
+            <form enctype="multipart/form-data"
+                  method="post"
+                  action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
+                <input type="file" name="pluginZip"><br />
+                <input class="startUpload" type="submit" value="Upload ZIP file">
+            </form>
+        </div>
+
         <div class="introduction">
 
             <h2>Extend Piwik with Plugins and Themes</h2>
@@ -21,24 +34,31 @@
         <div>
             <div class="byPlugins">
                 <h3 class="header">Get new functionality</h3>
-                <span class="callToAction">by <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">installing a new plugin</a></span>
+                <span class="callToAction">by <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">installing a new plugin from the Marketplace</a></span>
 
                 <p>
                     <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}"><img class="teaserImage" alt="Install a new plugin" src=""/></a>
                 </p>
 
-                <span class="callToAction">or <a href="#">write your own plugin</a></span>
+                <span class="callToAction">
+                    by <a href="#">writing your own plugin</a>
+                    <br/> or by <a href="#" class="uploadPlugin">uploading a plugin</a>
+                </span>
+
             </div>
 
             <div class="byThemes">
                 <h3 class="header">Enjoy another look & feel</h3>
-                <span class="callToAction">by <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">installing a new theme</a></span>
+                <span class="callToAction">by <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">installing a new theme from the Marketplace</a></span>
 
                 <p>
                     <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}"><img class="teaserImage" alt="Install a new theme" src=""/></a>
                 </p>
 
-                <span class="callToAction">or <a href="#">design your own theme</a></span>
+                <span class="callToAction">
+                    by <a href="#">design your own theme</a><br />
+                    or by <a href="#" class="uploadPlugin">uploading a theme</a>
+                </span>
             </div>
         </div>
     </div>

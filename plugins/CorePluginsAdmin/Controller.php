@@ -73,6 +73,47 @@ class Controller extends \Piwik\Controller\Admin
         echo $view->render();
     }
 
+    public function uploadPlugin()
+    {
+        Piwik::checkUserIsSuperUser();
+
+        $nonce = Common::getRequestVar('nonce', null, 'string');
+
+        if (!Nonce::verifyNonce(static::INSTALL_NONCE, $nonce)) {
+            throw new \Exception(Piwik_Translate('General_ExceptionNonceMismatch'));
+        }
+
+        Nonce::discardNonce(static::INSTALL_NONCE);
+
+        if (empty($_FILES['pluginZip'])) {
+            throw new \Exception('You did not specify a ZIP file.');
+        }
+
+        if (!empty($_FILES['pluginZip']['error'])) {
+            throw new \Exception('Something went wrong during the plugin file upload. Please try again.');
+        }
+
+        $file = $_FILES['pluginZip']['tmp_name'];
+        if (!file_exists($file)) {
+            throw new \Exception('Something went wrong during the plugin file upload. Please try again.');
+        }
+
+        $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
+
+        $pluginInstaller = new PluginInstaller('uploaded');
+        $pluginMetadata  = $pluginInstaller->installOrUpdatePluginFromFile($file);
+
+        $view->nonce  = Nonce::getNonce(static::ACTIVATE_NONCE);
+        $view->plugin = array(
+            'name'    => $pluginMetadata->name,
+            'version' => $pluginMetadata->version,
+            'isTheme' => !empty($pluginMetadata->theme),
+            'isActivated' => PluginsManager::getInstance()->isPluginActivated($pluginMetadata->name)
+        );
+
+        echo $view->render();
+    }
+
     public function pluginDetails()
     {
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
@@ -127,6 +168,8 @@ class Controller extends \Piwik\Controller\Admin
     function extend()
     {
         $view = $this->configureView('@CorePluginsAdmin/extend');
+        $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
+
         echo $view->render();
     }
 
