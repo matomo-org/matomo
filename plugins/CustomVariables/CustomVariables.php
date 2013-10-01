@@ -40,7 +40,7 @@ class CustomVariables extends \Piwik\Plugin
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }

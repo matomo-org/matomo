@@ -170,7 +170,7 @@ class UserSettings extends \Piwik\Plugin
             'Menu.addMenuEntry'                        => 'addMenu',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }

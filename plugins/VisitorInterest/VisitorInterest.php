@@ -33,7 +33,7 @@ class VisitorInterest extends \Piwik\Plugin
             'WidgetsList.addWidget'                    => 'addWidgets',
             'Menu.addMenuEntry'                        => 'addMenu',
             'API.getReportMetadata'                    => 'getReportMetadata',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }

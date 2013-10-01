@@ -63,10 +63,10 @@ class ViewDataTable
      * 
      * Callback Signature: function (ViewDataTable $view) {}
      */
-    const CONFIGURE_VIEW_EVENT = 'ViewDataTable.configureReportView';
+    const CONFIGURE_VIEW_EVENT = 'Visualization.initView';
 
     /**
-     * This event is called when determining the default set of footer icons to disblay
+     * This event is called when determining the default set of footer icons to display
      * below a report.
      * 
      * Plugins can use this event to modify the default set of footer icons. You can
@@ -92,7 +92,7 @@ class ViewDataTable
      *     ...
      * )
      */
-    const CONFIGURE_FOOTER_ICONS_EVENT = 'ViewDataTable.configureFooterIcons';
+    const CONFIGURE_FOOTER_ICONS_EVENT = 'Visualization.configureFooterIcons';
 
     /**
      * The class name of the visualization to use.
@@ -383,7 +383,7 @@ class ViewDataTable
     /**
      * Returns the defaut view properties for a report, if any.
      *
-     * Plugins can associate callbacks with the ViewDataTable.getReportDisplayProperties
+     * Plugins can associate callbacks with the Visualization.getReportDisplayProperties
      * event to set the default properties of reports.
      *
      * @param string $apiAction
@@ -404,7 +404,7 @@ class ViewDataTable
     {
         if (self::$reportPropertiesCache === null) {
             self::$reportPropertiesCache = array();
-            Piwik_PostEvent('ViewDataTable.getReportDisplayProperties', array(&self::$reportPropertiesCache));
+            Piwik_PostEvent('Visualization.getReportDisplayProperties', array(&self::$reportPropertiesCache));
         }
 
         return self::$reportPropertiesCache;

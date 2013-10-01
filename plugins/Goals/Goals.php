@@ -99,7 +99,7 @@ class Goals extends \Piwik\Plugin
             'Menu.addMenuEntry'                => 'addMenus',
             'SitesManager.deleteSite.end'      => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'  => 'getActualReportsWithGoalMetrics',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );
         return $hooks;

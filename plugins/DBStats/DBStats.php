@@ -31,10 +31,10 @@ class DBStats extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'                 => 'getStylesheetFiles',
+            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
             'AdminMenu.addMenuEntry'                   => 'addMenu',
             'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
     }
 

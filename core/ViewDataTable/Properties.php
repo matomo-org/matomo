@@ -28,7 +28,7 @@ class Properties
     /**
      * The default viewDataTable ID to use when determining which visualization to use.
      * This property is only valid for reports whose properties are determined by the
-     * ViewDataTable.getReportDisplayProperties event. When manually creating ViewDataTables,
+     * Visualization.getReportDisplayProperties event. When manually creating ViewDataTables,
      * setting this property will have no effect.
      * 
      * Default value: 'table'

@@ -46,7 +46,7 @@ class Live extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
             'WidgetsList.addWidget'                    => 'addWidget',
             'Menu.addMenuEntry'                        => 'addMenu',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
         );
     }

@@ -68,7 +68,7 @@ class DevicesDetection extends \Piwik\Plugin
             'WidgetsList.addWidget'                    => 'addWidgets',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
     }
 

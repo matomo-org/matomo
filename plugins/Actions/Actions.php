@@ -60,7 +60,7 @@ class Actions extends \Piwik\Plugin
             'Menu.addMenuEntry'                        => 'addMenus',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'          => 'getJsFiles'
         );

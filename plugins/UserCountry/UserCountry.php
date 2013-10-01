@@ -51,7 +51,7 @@ class UserCountry extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
             'Tracker.newVisitorInformation'            => 'getVisitorLocation',
             'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
-            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
             'Tracker.setTrackerCacheGeneral'           => 'setTrackerCacheGeneral'
         );
