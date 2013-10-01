@@ -77,7 +77,7 @@ class WidgetsList
             'DevicesDetection_DevicesDetection',
             'General_Actions',
             'Actions_SubmenuSitesearch',
-            'Referers_Referers',
+            'Referers_Referrers',
             'Goals_Goals',
             'Goals_Ecommerce',
             '_others_',

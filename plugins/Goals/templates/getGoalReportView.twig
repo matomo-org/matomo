@@ -13,7 +13,7 @@
                 <li>{{ 'Goals_BestKeywords'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.keyword} %}</li>
             {% endif %}
             {% if topDimensions.website is defined and topDimensions.website|length > 0 %}
-                <li>{{ 'Goals_BestReferers'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.website} %}</li>
+                <li>{{ 'Goals_BestReferrers'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.website} %}</li>
             {% endif %}
             <li>
                 {{ 'Goals_ReturningVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_returning~"</strong>")|raw }}

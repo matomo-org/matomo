@@ -306,7 +306,7 @@ class Controller extends \Piwik\Controller
         $view->documentation = Piwik_Translate('Referers_EvolutionDocumentation') . '<br />'
             . Piwik_Translate('General_BrokenDownReportDocumentation') . '<br />'
             . Piwik_Translate('Referers_EvolutionDocumentationMoreInfo', '&quot;'
-                . Piwik_Translate('Referers_DetailsByRefererType') . '&quot;');
+                . Piwik_Translate('Referers_DetailsByReferrerType') . '&quot;');
 
         return $this->renderView($view, $fetch);
     }
