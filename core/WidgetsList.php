@@ -31,7 +31,7 @@ class WidgetsList
 
     /**
      * Returns all available widgets
-     * The event WidgetsList.addWidget is used to create the list
+     * The event WidgetsList.addWidgets is used to create the list
      *
      * @return array
      */
@@ -56,7 +56,7 @@ class WidgetsList
     {
         if (!self::$hookCalled) {
             self::$hookCalled = true;
-            Piwik_PostEvent('WidgetsList.addWidget');
+            Piwik_PostEvent('WidgetsList.addWidgets');
         }
     }
 

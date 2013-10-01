@@ -69,7 +69,7 @@ class PrivacyManager extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'AdminMenu.addMenuEntry'          => 'addMenu',
+            'AdminMenu.addMenuEntries'        => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
         );
     }

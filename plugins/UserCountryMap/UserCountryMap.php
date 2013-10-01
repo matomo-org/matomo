@@ -56,7 +56,7 @@ class UserCountryMap extends \Piwik\Plugin
         $hooks = array(
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Menu.addMenuEntry'               => 'addMenu',
+            'Menu.addMenuEntries'             => 'addMenu',
         );
         return $hooks;
     }

@@ -26,7 +26,7 @@ class Widgetize extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'TopMenu.addMenuEntry'                   => 'addTopMenu',
+            'TopMenu.addMenuEntries'                 => 'addTopMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }

@@ -32,7 +32,7 @@ class DBStats extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'AdminMenu.addMenuEntry'                   => 'addMenu',
+            'AdminMenu.addMenuEntries'                 => 'addMenu',
             'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
         );

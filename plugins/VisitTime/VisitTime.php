@@ -32,8 +32,8 @@ class VisitTime extends \Piwik\Plugin
         $hooks = array(
             'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidget'                    => 'addWidgets',
-            'Menu.addMenuEntry'                        => 'addMenu',
+            'WidgetsList.addWidgets'                   => 'addWidgets',
+            'Menu.addMenuEntries'                      => 'addMenu',
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',

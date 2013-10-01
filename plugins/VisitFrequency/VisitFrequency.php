@@ -24,9 +24,9 @@ class VisitFrequency extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'WidgetsList.addWidget' => 'addWidgets',
-            'Menu.addMenuEntry'     => 'addMenu',
-            'API.getReportMetadata' => 'getReportMetadata',
+            'WidgetsList.addWidgets' => 'addWidgets',
+            'Menu.addMenuEntries'    => 'addMenu',
+            'API.getReportMetadata'  => 'getReportMetadata',
         );
         return $hooks;
     }

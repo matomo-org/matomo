@@ -30,7 +30,7 @@ class SitesManager extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'AdminMenu.addMenuEntry'                 => 'addMenu',
+            'AdminMenu.addMenuEntries'               => 'addMenu',
             'Site.getSiteAttributes'                 => 'recordWebsiteDataInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );

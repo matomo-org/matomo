@@ -25,7 +25,7 @@ class ExamplePlugin extends \Piwik\Plugin
     {
         return array(
 //			'Controller.renderView' => 'addUniqueVisitorsColumnToGivenReport',
-            'WidgetsList.addWidget' => 'addWidgets',
+            'WidgetsList.addWidgets' => 'addWidgets',
         );
     }
 

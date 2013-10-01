@@ -36,7 +36,7 @@ class SEO extends \Piwik\Plugin
      */
     public function getListHooksRegistered()
     {
-        $hooks = array('WidgetsList.addWidget' => 'addWidgets');
+        $hooks = array('WidgetsList.addWidgets' => 'addWidgets');
         return $hooks;
     }
 

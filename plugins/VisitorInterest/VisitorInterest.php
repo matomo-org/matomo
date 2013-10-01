@@ -30,8 +30,8 @@ class VisitorInterest extends \Piwik\Plugin
         $hooks = array(
             'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidget'                    => 'addWidgets',
-            'Menu.addMenuEntry'                        => 'addMenu',
+            'WidgetsList.addWidgets'                   => 'addWidgets',
+            'Menu.addMenuEntries'                      => 'addMenu',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
         );

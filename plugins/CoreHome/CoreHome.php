@@ -26,7 +26,7 @@ class CoreHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
-            'WidgetsList.addWidget'                    => 'addWidgets',
+            'WidgetsList.addWidgets'                   => 'addWidgets',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );
     }

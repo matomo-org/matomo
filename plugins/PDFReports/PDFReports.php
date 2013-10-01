@@ -78,7 +78,7 @@ class PDFReports extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'TopMenu.addMenuEntry'                        => 'addTopMenu',
+            'TopMenu.addMenuEntries'                      => 'addTopMenu',
             'TaskScheduler.getScheduledTasks'             => 'getScheduledTasks',
             'AssetManager.getJavaScriptFiles'             => 'getJsFiles',
             'PDFReports.getReportParameters'              => 'getReportParameters',

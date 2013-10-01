@@ -63,9 +63,9 @@ class DevicesDetection extends \Piwik\Plugin
         return array(
             'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'Menu.addMenuEntry'                        => 'addMenu',
+            'Menu.addMenuEntries'                      => 'addMenu',
             'Tracker.newVisitorInformation'            => 'parseMobileVisitData',
-            'WidgetsList.addWidget'                    => 'addWidgets',
+            'WidgetsList.addWidgets'                   => 'addWidgets',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',

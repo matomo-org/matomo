@@ -56,8 +56,8 @@ class Actions extends \Piwik\Plugin
         $hooks = array(
             'ArchiveProcessing_Day.compute'            => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidget'                    => 'addWidgets',
-            'Menu.addMenuEntry'                        => 'addMenus',
+            'WidgetsList.addWidgets'                   => 'addWidgets',
+            'Menu.addMenuEntries'                      => 'addMenus',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',

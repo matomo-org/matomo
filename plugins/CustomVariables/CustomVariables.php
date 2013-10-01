@@ -35,8 +35,8 @@ class CustomVariables extends \Piwik\Plugin
         $hooks = array(
             'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidget'                    => 'addWidgets',
-            'Menu.addMenuEntry'                        => 'addMenus',
+            'WidgetsList.addWidgets'                   => 'addWidgets',
+            'Menu.addMenuEntries'                      => 'addMenus',
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',

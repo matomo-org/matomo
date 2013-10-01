@@ -32,7 +32,7 @@ class CoreAdminHome extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'AdminMenu.addMenuEntry'          => 'addMenu',
+            'AdminMenu.addMenuEntries'        => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
         );
     }

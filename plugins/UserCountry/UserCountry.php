@@ -41,9 +41,9 @@ class UserCountry extends \Piwik\Plugin
         $hooks = array(
             'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidget'                    => 'addWidgets',
-            'Menu.addMenuEntry'                        => 'addMenu',
-            'AdminMenu.addMenuEntry'                   => 'addAdminMenu',
+            'WidgetsList.addWidgets'                   => 'addWidgets',
+            'Menu.addMenuEntries'                      => 'addMenu',
+            'AdminMenu.addMenuEntries'                 => 'addAdminMenu',
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
