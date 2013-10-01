@@ -110,7 +110,7 @@ class PluginInstaller
         $this->removeFolderIfExists($pathExtracted);
 
         if (0 == ($pluginFiles = $archive->extract($pathExtracted))) {
-            throw new PluginInstallerException(Piwik_TranslateException('Plugin_ExceptionArchiveIncompatible', $archive->errorInfo()));
+            throw new PluginInstallerException(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
         }
 
         if (0 == count($pluginFiles)) {
@@ -179,7 +179,7 @@ class PluginInstaller
             }
 
             if (empty($firstSubFolder)) {
-                throw new PluginInstallerException('The plugin ZIP file does not contain a subfolder.');
+                throw new PluginInstallerException('The plugin ZIP file does not contain a subfolder, but Piwik expects plugin files to be within a subfolder in the Zip archive.');
             }
 
             return $firstSubFolder;

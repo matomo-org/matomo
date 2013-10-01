@@ -76,7 +76,9 @@ if (!function_exists('Piwik_ExitWithMessage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
-        return defined('PIWIK_PRINT_ERROR_BACKTRACE') || defined('PIWIK_TRACKER_DEBUG');
+        $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
+                || (defined('PIWIK_TRACKER_DEBUG') && PIWIK_TRACKER_DEBUG);
+        return $bool;
     }
 
     /**
