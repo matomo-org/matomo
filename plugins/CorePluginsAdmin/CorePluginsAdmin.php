@@ -30,6 +30,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
             'AssetManager.getJsFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
@@ -91,6 +92,11 @@ class CorePluginsAdmin extends \Piwik\Plugin
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginDetail.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginOverview.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginExtend.js";
+    }
+
+    public function getClientSideTranslationKeys(&$translations)
+    {
+        $translations[] = 'CorePluginsAdmin_NoZipFileSelected';
     }
 
 }

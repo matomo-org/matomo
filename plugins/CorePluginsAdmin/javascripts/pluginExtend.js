@@ -19,11 +19,12 @@ $(document).ready(function () {
 
     $('#uploadPluginForm').submit(function (event) {
 
-        $zipFile = $('[name=pluginZip]');
+        var $zipFile = $('[name=pluginZip]');
+        var fileName = $zipFile.val();
 
-        if (!$zipFile.val()) {
+        if (!fileName || '.zip' != fileName.slice(-4)) {
             event.preventDefault();
-            alert('Please select a ZIP file.');
+            alert(_pk_translate('CorePluginsAdmin_NoZipFileSelected'));
         }
     });
 
