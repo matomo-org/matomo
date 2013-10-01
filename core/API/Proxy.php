@@ -184,18 +184,21 @@ class Proxy
             // allow plugins to manipulate the value
             $pluginName = $this->getModuleNameFromClassName($className);
 
-            Piwik_PostEvent(sprintf('API.%s.%s', $pluginName, $methodName), array($finalParameters));
+            Piwik_PostEvent(sprintf('API.Request.dispatch', $pluginName, $methodName), array(&$finalParameters));
+            Piwik_PostEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
             // call the method
             $returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);
 
-            Piwik_PostEvent(sprintf('API.%s.%s.end', $pluginName, $methodName), array(
+            $endHookParams = array(
                 &$returnedValue,
                 array('className'  => $className,
-                    'module'     => $pluginName,
-                    'action'     => $methodName,
-                    'parameters' => $finalParameters)
-            ));
+                      'module'     => $pluginName,
+                      'action'     => $methodName,
+                      'parameters' => $finalParameters)
+            );
+            Piwik_PostEvent(sprintf('API.%s.%s.end', $pluginName, $methodName), $endHookParams);
+            Piwik_PostEvent(sprintf('API.Request.dispatch.end', $pluginName, $methodName), $endHookParams);
 
             // Restore the request
             $_GET = $saveGET;
