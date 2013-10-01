@@ -39,7 +39,7 @@ class UserCountryMap extends \Piwik\Plugin
         WidgetsList::add('General_Visitors', Piwik_Translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
         WidgetsList::add('Live!', Piwik_Translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
 
-        Piwik_AddAction('template_leftColumnUserCountry', array('Piwik\Plugins\UserCountryMap\UserCountryMap', 'insertMapInLocationReport'));
+        Piwik_AddAction('Template.leftColumnUserCountry', array('Piwik\Plugins\UserCountryMap\UserCountryMap', 'insertMapInLocationReport'));
     }
 
     static public function insertMapInLocationReport(&$out)

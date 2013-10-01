@@ -91,7 +91,7 @@ class PDFReports extends \Piwik\Plugin
             'PDFReports.processReports'                   => 'processReports',
             'PDFReports.allowMultipleReports'             => 'allowMultipleReports',
             'PDFReports.sendReport'                       => 'sendReport',
-            'template_reportParametersPDFReports'         => 'template_reportParametersPDFReports',
+            'Template.reportParametersPDFReports'         => 'template_reportParametersPDFReports',
             'UsersManager.deleteUser'                     => 'deleteUserReport',
             'SitesManager.deleteSite.end'                 => 'deleteSiteReport',
             APISegmentEditor::DEACTIVATE_SEGMENT_EVENT    => 'segmentDeactivation',

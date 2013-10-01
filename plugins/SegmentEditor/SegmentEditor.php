@@ -45,7 +45,7 @@ class SegmentEditor extends \Piwik\Plugin
             'Segments.getKnownSegmentsToArchiveAllSites' => 'getKnownSegmentsToArchiveAllSites',
             'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
             'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
-            'template_nextToCalendar'                    => 'getSegmentEditorHtml',
+            'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
         );
     }
 

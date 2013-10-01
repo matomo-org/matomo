@@ -79,7 +79,7 @@ class MobileMessaging extends \Piwik\Plugin
             'PDFReports.getReportRecipients'      => 'getReportRecipients',
             'PDFReports.allowMultipleReports'     => 'allowMultipleReports',
             'PDFReports.sendReport'               => 'sendReport',
-            'template_reportParametersPDFReports' => 'template_reportParametersPDFReports',
+            'Template.reportParametersPDFReports' => 'template_reportParametersPDFReports',
         );
     }
 

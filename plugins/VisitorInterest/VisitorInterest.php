@@ -115,8 +115,8 @@ class VisitorInterest extends \Piwik\Plugin
 
     function postLoad()
     {
-        Piwik_AddAction('template_headerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'headerVisitsFrequency'));
-        Piwik_AddAction('template_footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
+        Piwik_AddAction('Template.headerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'headerVisitsFrequency'));
+        Piwik_AddAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)

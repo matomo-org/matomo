@@ -1,4 +1,4 @@
-{{ postEvent("template_headerVisitsFrequency") }}
+{{ postEvent("Template.headerVisitsFrequency") }}
 
 <h2 data-graph-id="VisitFrequency.getEvolutionGraph">{{ 'VisitFrequency_ColumnReturningVisits'|translate }}</h2>
     {{ graphEvolutionVisitFrequency|raw }}
@@ -6,4 +6,4 @@
 
 {% include "@VisitFrequency/_sparklines.twig" %}
 
-{{ postEvent("template_footerVisitsFrequency") }}
+{{ postEvent("Template.footerVisitsFrequency") }}

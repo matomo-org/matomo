@@ -1,5 +1,5 @@
 <div id="leftcolumn">
-    {{ postEvent("template_leftColumnUserCountry") }}
+    {{ postEvent("Template.leftColumnUserCountry") }}
 
     <h2>{{ 'UserCountry_Continent'|translate }}</h2>
     {{ dataTableContinent|raw }}
@@ -9,7 +9,7 @@
         {{ 'UserCountry_DistinctCountries'|translate("<strong>"~numberDistinctCountries~"</strong>")|raw }}
     </div>
 
-    {{ postEvent("template_footerUserCountry") }}
+    {{ postEvent("Template.footerUserCountry") }}
 
 </div>
 

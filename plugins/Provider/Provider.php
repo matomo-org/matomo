@@ -103,7 +103,7 @@ class Provider extends \Piwik\Plugin
 
     public function postLoad()
     {
-        Piwik_AddAction('template_footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
+        Piwik_AddAction('Template.footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
     }
 
     /**

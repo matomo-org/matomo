@@ -2,7 +2,7 @@
 
 {% block content %}
 {% spaceless %}
-<span style="float:right;">{{ postEvent('template_topBar')|raw }}</span>
+<span style="float:right;">{{ postEvent('Template.topBar')|raw }}</span>
 {% set helpMessage %}
     {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
 {% endset %}

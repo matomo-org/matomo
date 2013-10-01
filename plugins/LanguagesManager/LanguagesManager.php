@@ -38,7 +38,7 @@ class LanguagesManager extends \Piwik\Plugin
             'TopMenu.addMenuEntry'            => 'showLanguagesSelector',
             'User.getLanguage'                => 'getLanguageToLoad',
             'UsersManager.deleteUser'         => 'deleteUserLanguage',
-            'template_topBar'                 => 'addLanguagesManagerToOtherTopBar',
+            'Template.topBar'                 => 'addLanguagesManagerToOtherTopBar',
         );
     }
 
