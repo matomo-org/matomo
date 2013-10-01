@@ -12,8 +12,10 @@
 
             <form enctype="multipart/form-data"
                   method="post"
+                  id="uploadPluginForm"
                   action="{{ linkTo({'action':'uploadPlugin', 'nonce': installNonce}) }}">
-                <input type="file" name="pluginZip"><br />
+                <input type="file" name="pluginZip">
+                <br />
                 <input class="startUpload" type="submit" value="Upload ZIP file">
             </form>
         </div>

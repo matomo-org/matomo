@@ -17,4 +17,14 @@ $(document).ready(function () {
         });
     });
 
+    $('#uploadPluginForm').submit(function (event) {
+
+        $zipFile = $('[name=pluginZip]');
+
+        if (!$zipFile.val()) {
+            event.preventDefault();
+            alert('Please select a ZIP file.');
+        }
+    });
+
 });
