@@ -31,6 +31,7 @@
         "ExitPageTitles": "Titlurile paginilor de ieşire",
         "ExitPageTitlesReportDocumentation": "Acest raport conţine informaţii despre titlurile paginilor de ieşire ce au fost folosite în timpul perioadei specificate.",
         "LearnMoreAboutSiteSearchLink": "Află mai multe despre urmărirea utilizării motorului de căutare de pe situl tău.",
+        "OneSearch": "1 căutare",
         "OutlinkDocumentation": "Un outlink este un link ce trimite vizitatori de pe website-ul tău (către alt domeniu).",
         "OutlinksReportDocumentation": "Acest raport arată o listă ierarhică al URL-urilor outlink-urilor ce au fost click-uite de vizitatorii tăi.",
         "PagesReportDocumentation": "Acest raport conţine informaţii despre URL-urile paginilor ce au fost vizitate. %s Acest tabel este organizat ierarhic,URL-urile sunt afişate într-o structură tip arbore.",
@@ -79,6 +80,7 @@
     },
     "CoreAdminHome": {
         "Administration": "Administrare",
+        "BrandingSettings": "Setări branding",
         "CustomLogoHelpText": "Poţi personaliza logoul Piwik care va fi afişat în interfaţa de utilizator şi în rapoartele email.",
         "EmailServerSettings": "Setările serverului email",
         "ForBetaTestersOnly": "Numai pentru beta-testeri",
@@ -88,6 +90,7 @@
         "JavaScriptTracking": "Urmărire prin JavaScript",
         "JSTracking_CampaignKwdParam": "Parametru Campanie Cuvânt Cheie",
         "JSTracking_CustomCampaignQueryParamDesc": "Notă: %1$sPiwik va detecta automat parametrii Google Analytics.%2$s",
+        "JSTracking_MergeSubdomains": "Urmărește vizitatorii din subdomeniile",
         "JSTracking_PageCustomVars": "Urmăreşte o variabilă personalizată pentru fiecare vizualitare a paginii",
         "JSTracking_VisitorCustomVars": "Urmăreşte variabile personalizate pentru acest vizitator",
         "LatestBetaRelease": "Ultima versiune beta",
@@ -810,7 +813,7 @@
         "SubmenuLocationsProvider": "Locație și operatori",
         "WidgetProviders": "Provideri"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Campanii",
         "ColumnCampaign": "Campanie",
         "ColumnSearchEngine": "Motor de căutare",
@@ -823,7 +826,7 @@
         "DistinctSearchEngines": "motoare căutare distincte",
         "DistinctWebsites": "situri web distincte",
         "Keywords": "Cuvinte-cheie",
-        "Referers": "Referinte",
+        "Referrers": "Referinte",
         "SearchEngines": "Motoare căutare",
         "Socials": "Reţele sociale",
         "SubmenuSearchEngines": "Motoare căutare şi cuvinte",

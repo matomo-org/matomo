@@ -8,15 +8,30 @@
         "ColumnEntryPageURL": "Adres URL stron z których wchodzono",
         "ColumnExitPageTitle": "Tytuł strony wybierany przy opuszczaniu strony",
         "ColumnExitPageURL": "Adres URL wybierany przy opuszczaniu strony",
+        "ColumnNoResultKeyword": "Brak wyników dla podanego słowa kluczowego",
         "ColumnPageName": "Nazwa strony",
         "ColumnPageURL": "Adres URL strony",
+        "ColumnSearchCategory": "Kategoria wyszukiwania",
+        "ColumnSearches": "Wyszukiwania",
+        "ColumnSearchesDocumentation": "Liczba wizyt, która wyszukiwała tego słowa kluczowego w wyszukiwarce na Twojej stronie.",
+        "ColumnSearchResultsCount": "Liczba wyników wyszukiwania",
+        "ColumnSiteSearchKeywords": "Unikalne słowa kluczowe",
         "ColumnUniqueClicks": "Kliknięcia bez powtórzeń",
         "ColumnUniqueDownloads": "Pobrania bez powtórzeń",
+        "OneSearch": "1 wyszukiwanie",
         "PageUrls": "Strony URL",
         "PluginDescription": "Raporty o oglądanych stronach, linkach zewnętrznych i pobraniach. Śledzenie linków zewnętrznych i pobrań jest automatyczne!",
         "SubmenuPagesEntry": "Strony wejść",
         "SubmenuPagesExit": "Strony wyjść",
-        "SubmenuPageTitles": "Tytuły stron"
+        "SubmenuPageTitles": "Tytuły stron",
+        "WidgetPagesEntry": "Strony wejściowe",
+        "WidgetPagesExit": "Strony wyjściowe",
+        "WidgetPageTitles": "Tytuły stron",
+        "WidgetSearchCategories": "Kategorie wyszukiwań"
+    },
+    "Annotations": {
+        "AddAnnotationsFor": "Dodaj adnotacje dla %s...",
+        "Annotations": "Adnotacje"
     },
     "AnonymizeIP": {
         "PluginDescription": "Anonimizacja ostatniego bajtu w adresie IP odwiedzających, by dostosować się do być może lokalnego prawa do prywatności\/wytycznych o prywatności."
@@ -515,7 +530,7 @@
         "AllowMultipleConversionsPerVisit": "Zezwalaj na wiele zamian przypadających w trakcie wizyty",
         "BestCountries": "Pochodzenie najlepszych krajów:",
         "BestKeywords": "Pochodzenie najlepszych słów kluczowych:",
-        "BestReferers": "Pochodzenie najlepszych serwisów internetowych jako odsyłających do nas:",
+        "BestReferrers": "Pochodzenie najlepszych serwisów internetowych jako odsyłających do nas:",
         "CaseSensitive": "dopasowanie czułości",
         "ClickOutlink": "kliknij na link do zewnętrznej strony",
         "ColumnConversions": "Zmiany",
@@ -735,13 +750,13 @@
         "SubmenuLocationsProvider": "Lokalizacje & dostawcy",
         "WidgetProviders": "Dostawcy"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kampanie reklamowe",
         "ColumnCampaign": "Kampania",
         "ColumnSearchEngine": "Wyszukiwarka",
         "ColumnWebsite": "Strona",
         "ColumnWebsitePage": "Pojedyncza strona",
-        "DetailsByRefererType": "Szczegóły według typu odsyłaczy",
+        "DetailsByReferrerType": "Szczegóły według typu odsyłaczy",
         "DirectEntry": "wejścia bezpośrednie",
         "Distinct": "Wyróżnione odsyłacze według ich typu",
         "DistinctCampaigns": "wyróżnione kampanie",
@@ -750,8 +765,8 @@
         "DistinctWebsites": "wyróżnione serwisy internetowe",
         "Keywords": "Słowa kluczowe",
         "PluginDescription": "Raporty danych z odsyłaczy: wyszukiwarek, słów kluczowych, stron, śledzenia kampanii reklamowych, wejść bezpośrednich.",
-        "RefererName": "Nazwa odsyłacza",
-        "Referers": "Odsyłacze",
+        "ReferrerName": "Nazwa odsyłacza",
+        "Referrers": "Odsyłacze",
         "SearchEngines": "Wyszukiwarki",
         "SubmenuSearchEngines": "Wyszukiwarki & słowa kluczowe",
         "SubmenuWebsites": "Serwisy internetowe",

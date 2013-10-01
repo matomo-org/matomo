@@ -440,7 +440,7 @@
         "AddNewGoal": "Pridať nový cieľ",
         "BestCountries": "Vaša najlepšia konverzia s krajín:",
         "BestKeywords": "Vaše top konverzie kľúčových slov:",
-        "BestReferers": "Vaša najlepšia konverzia s webových stránok a odkazovačov:",
+        "BestReferrers": "Vaša najlepšia konverzia s webových stránok a odkazovačov:",
         "ClickOutlink": "Kliknite na odkaz, na externé webové stránky",
         "ColumnConversions": "Konverzie",
         "Contains": "obsahuje %s",
@@ -552,13 +552,13 @@
         "SubmenuLocationsProvider": "Umiestnenie & poskytovateľ",
         "WidgetProviders": "Poskytovatelia"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kampane",
         "ColumnCampaign": "Kampaň",
         "ColumnSearchEngine": "Vyhľadávač",
         "ColumnWebsite": "Portál",
         "ColumnWebsitePage": "Stránka portálu",
-        "DetailsByRefererType": "Detaily za typ odkazu",
+        "DetailsByReferrerType": "Detaily za typ odkazu",
         "DirectEntry": "Priamy vstup",
         "Distinct": "Rozlíšiť odkazy podľa typu odkazu",
         "DistinctCampaigns": "rôzne kampane",
@@ -567,7 +567,7 @@
         "DistinctWebsites": "rôzne portály",
         "Keywords": "Kľúčové slová",
         "PluginDescription": "Report o odkazoch: Vyhľadávače, Kľúčové slová, webové stránky, monitorovanie kampaní, priamy vstup.",
-        "Referers": "Odkazy",
+        "Referrers": "Odkazy",
         "SearchEngines": "Vyhľadávače",
         "SubmenuSearchEngines": "Vyhľadávače a kľúčové slová",
         "SubmenuWebsites": "Webstránky",

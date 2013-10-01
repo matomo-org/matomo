@@ -703,13 +703,13 @@
         "SubmenuLocationsProvider": "Lokacije & Ponudnik",
         "WidgetProviders": "Ponudniki"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kampanje",
         "ColumnCampaign": "Kampanja",
         "ColumnSearchEngine": "Spletni Iskalnik",
         "ColumnWebsite": "Spletna stran",
         "ColumnWebsitePage": "Spletna stran",
-        "DetailsByRefererType": "Podrobnosti o tipu napotitelja",
+        "DetailsByReferrerType": "Podrobnosti o tipu napotitelja",
         "DirectEntry": "Neposreden obisk",
         "Distinct": "Različnih napotiteljev po tipu",
         "DistinctCampaigns": "različne kampanje",

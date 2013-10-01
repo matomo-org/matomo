@@ -661,7 +661,7 @@
         "AddNewGoalOrEditExistingGoal": "%sPřidat nový cíl%s, nebo %sUpravit%s existující cíle",
         "BestCountries": "Země s nejvyšším počtem konverzí jsou:",
         "BestKeywords": "Klíčová slova s nejvyšším počtem konverzí jsou:",
-        "BestReferers": "Odkazující stránky s nejvyšším počtem konverzí jsou:",
+        "BestReferrers": "Odkazující stránky s nejvyšším počtem konverzí jsou:",
         "CaseSensitive": "shoda s velikostí písmen",
         "ClickOutlink": "Kliknout na odkaz na externí sídlo",
         "ColumnConversions": "Přechody",
@@ -915,13 +915,13 @@
         "SubmenuLocationsProvider": "Umístění a poskytovatel",
         "WidgetProviders": "Poskytovatelé"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kampaně",
         "ColumnCampaign": "Kampaň",
         "ColumnSearchEngine": "Vyhledávací stroj",
         "ColumnWebsite": "Web sídlo",
         "ColumnWebsitePage": "Web stránka",
-        "DetailsByRefererType": "Podrobnosti podle typu refereru",
+        "DetailsByReferrerType": "Podrobnosti podle typu refereru",
         "DirectEntry": "Přímy vstup",
         "Distinct": "Jedineční refereři podle typu",
         "DistinctCampaigns": "jedinečné kampaně",
@@ -930,7 +930,7 @@
         "DistinctWebsites": "jedinečná webová sídla",
         "Keywords": "Klíčových slov",
         "PluginDescription": "Zobrazí data refererů: vyhledávací stroje, klíčová slova, webová sídla, správu kampaní, přímé vstupy",
-        "Referers": "Odkazující stránky",
+        "Referrers": "Odkazující stránky",
         "SearchEngines": "Vyhledávacích strojů",
         "SubmenuSearchEngines": "Vyhledávače & klíčová slova",
         "SubmenuWebsites": "Web sídla",

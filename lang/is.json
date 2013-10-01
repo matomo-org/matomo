@@ -356,13 +356,13 @@
         "SubmenuLocationsProvider": "Staðsetningar & Veitandi",
         "WidgetProviders": "Veitendur"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Herferðir",
         "ColumnCampaign": "Herferð",
         "ColumnSearchEngine": "Leitarvél",
         "ColumnWebsite": "Vefur",
         "ColumnWebsitePage": "Vefsíða",
-        "DetailsByRefererType": "Smáatriði eftir Tegund Sendanda",
+        "DetailsByReferrerType": "Smáatriði eftir Tegund Sendanda",
         "DirectEntry": "Beinar Innfærslur",
         "Distinct": "Mismundandi Sendendur eftir Tegund Sendanda",
         "DistinctCampaigns": "mismunandi herferðir",
@@ -371,7 +371,7 @@
         "DistinctWebsites": "mismunandi vefir",
         "Keywords": "Leitarorð",
         "PluginDescription": "Gefur skýrslu um sendendur: Leitarvélar, Leitarorð, Vefi, rekja herferð, bein innfærsla.",
-        "Referers": "Sendendur",
+        "Referrers": "Sendendur",
         "SearchEngines": "Leitarvélar",
         "SubmenuSearchEngines": "Leitarvélar & Leitarorð",
         "SubmenuWebsites": "Vefir",

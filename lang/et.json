@@ -191,11 +191,11 @@
         "SubmenuLocationsProvider": "Asukoht & pakkuja",
         "WidgetProviders": "Pakkujad"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kampaaniad",
         "DirectEntry": "Otse sisenetud",
         "Keywords": "Võtmesõnad",
-        "Referers": "Viitajad",
+        "Referrers": "Viitajad",
         "SearchEngines": "Otsingumootorid",
         "SubmenuSearchEngines": "Otsimootorid & võtmesõnad",
         "SubmenuWebsites": "Veebilehed",

@@ -500,15 +500,15 @@
         "Accounts": "חשבונות",
         "AddAccount": "הוספת חשבון"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "קמפיינים",
         "ColumnSocial": "רשת חברתית",
         "ColumnWebsite": "אתר",
         "ColumnWebsitePage": "עמוד אתר",
         "Keywords": "מילות מפתח",
-        "RefererName": "שם הפניה",
-        "Referers": "הפניות",
         "Referrer": "מפנה",
+        "ReferrerName": "שם הפניה",
+        "Referrers": "הפניות",
         "ReferrersOverview": "סקירת הפניות",
         "SearchEngines": "מנועי חיפוש",
         "Socials": "רשתות חברתיות",

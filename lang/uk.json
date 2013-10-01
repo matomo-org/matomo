@@ -397,7 +397,7 @@
         "AddNewGoalOrEditExistingGoal": "%sДодати нову Ціль%s або %sРедагувати%s існуючі Цілі",
         "BestCountries": "Країни з найкращою корверсією:",
         "BestKeywords": "Ключові слова з найкращоб конверсією:",
-        "BestReferers": "Джерела трафіку з найкращою конверсією:",
+        "BestReferrers": "Джерела трафіку з найкращою конверсією:",
         "CaseSensitive": "співпадіння чутливе до регістру",
         "ClickOutlink": "Клацання по посиланню на зовнішній веб-сайт",
         "ColumnConversions": "Конверсії",
@@ -577,13 +577,13 @@
         "SubmenuLocationsProvider": "Місцезнаходження та провайдер",
         "WidgetProviders": "Провайдери"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Кампанії",
         "ColumnCampaign": "Кампанія",
         "ColumnSearchEngine": "Пошукова машина",
         "ColumnWebsite": "Веб-сайт",
         "ColumnWebsitePage": "Сторінка Веб-сайту",
-        "DetailsByRefererType": "Деталі по типу реферера",
+        "DetailsByReferrerType": "Деталі по типу реферера",
         "DirectEntry": "Прямі заходи",
         "Distinct": "Унікальні реферери по типу реферера",
         "DistinctCampaigns": "унікальні компанії",
@@ -592,7 +592,7 @@
         "DistinctWebsites": "унікальні веб-сайти",
         "Keywords": "Ключові слова",
         "PluginDescription": "Звіти та дані реферерів: пошукові машини, ключові слова, веб-сайти, відслідковування кампаній, прямі заходи.",
-        "Referers": "Реферер",
+        "Referrers": "Реферер",
         "SearchEngines": "Пошукові системи",
         "SubmenuSearchEngines": "Пошукові системи і ключові слова",
         "SubmenuWebsites": "Веб-сайти",

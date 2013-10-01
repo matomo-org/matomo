@@ -680,7 +680,7 @@
         "AllowMultipleConversionsPerVisit": "訪問ごとに複数のコンバージョンを許可",
         "BestCountries": "ベストコンバージョンの国：",
         "BestKeywords": "トップコンバージョンのキーワード：",
-        "BestReferers": "ベストコンバージョンの参照元ウェブサイト",
+        "BestReferrers": "ベストコンバージョンの参照元ウェブサイト",
         "CaseSensitive": "大文字小文字を区別する一致",
         "ClickOutlink": "外部ウェブサイトへのリンクをクリック",
         "ColumnAverageOrderRevenueDocumentation": "平均注文値（AOV）は、全てのeコマース注文の総収益を注文数で割ったものです。",
@@ -979,7 +979,7 @@
         "SubmenuLocationsProvider": "所在地とプロバイダ",
         "WidgetProviders": "プロバイダ"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "キャンペーン",
         "CampaignsDocumentation": "キャンペーンの結果としてウェブサイトを訪れたビジター。詳細のリポートは %s こちら %s",
         "CampaignsReportDocumentation": "このリポートは、ウェブサイトに訪問者を導いたキャンペーンについて示します。 %s キャンペーンのトラッキングの詳細については、%s piwik.orgのキャンペーンについてのドキュメント %s を読んでください。",
@@ -987,7 +987,7 @@
         "ColumnSearchEngine": "検索エンジン",
         "ColumnWebsite": "ウェブサイト",
         "ColumnWebsitePage": "ウェブサイトページ",
-        "DetailsByRefererType": "参照元タイプごとの詳細",
+        "DetailsByReferrerType": "参照元タイプごとの詳細",
         "DirectEntry": "直接アクセス",
         "DirectEntryDocumentation": "ブラウザにURLを入力して、ウェブサイトの閲覧を開始したビジター - 直接ウェブサイトを見に来た。",
         "Distinct": "参照元タイプごとの個別参照元",
@@ -1000,8 +1000,8 @@
         "Keywords": "キーワード",
         "KeywordsReportDocumentation": "このリポートは、ユーザーがウェブサイトをビジットするのに使用した検索したキーワードを示します。 %s テーブル内の行をクリックすると、キーワードに対して照会された検索エンジンの分布を見ることができます。",
         "PluginDescription": "検索エンジン、キーワード、ウェブサイト、キャンペーントラッキング、直接アクセスの参照元データをリポートします。",
-        "RefererName": "参照元の名称",
-        "Referers": "参照元",
+        "ReferrerName": "参照元の名称",
+        "Referrers": "参照元",
         "SearchEngines": "検索エンジン",
         "SearchEnginesDocumentation": "検索エンジンを参照してウェブサイトに来たビジター。詳細のリポートは %s こちら %s",
         "SearchEnginesReportDocumentation": "このリポートは、どの検索エンジンがこのウェブサイトにユーザーを呼びこんだかを示しています。 %s テーブル内の行をクリックすると、ユーザーが特定の検索エンジンを使って何を検索していたかを確認できます。",

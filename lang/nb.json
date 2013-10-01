@@ -744,14 +744,14 @@
         "SubmenuLocationsProvider": "Lokasjoner og tilbyder",
         "WidgetProviders": "Tilbydere"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kampanjer",
         "ColumnCampaign": "Kampanje",
         "ColumnSearchEngine": "Søkemotor",
         "ColumnSocial": "Sosiale nettverk",
         "ColumnWebsite": "Nettsted",
         "ColumnWebsitePage": "Nettside",
-        "DetailsByRefererType": "Detaljer etter henvisningstype",
+        "DetailsByReferrerType": "Detaljer etter henvisningstype",
         "DirectEntry": "Direkte treff",
         "Distinct": "Ulike henvisere etter henvisningstype",
         "DistinctCampaigns": "ulike kampanjer",
@@ -760,7 +760,7 @@
         "DistinctWebsites": "ulike nettsteder",
         "Keywords": "Nøkkelord",
         "PluginDescription": "Rapporterer henviserdata: Søkemotorer, nøkkelord, nettsteder, kampanjesporing, direkte inngang.",
-        "Referers": "Henvisere",
+        "Referrers": "Henvisere",
         "SearchEngines": "Søkemotorer",
         "Socials": "Sosiale nettverk",
         "SubmenuSearchEngines": "Søkemotorer og nøkkelord",

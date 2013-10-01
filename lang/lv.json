@@ -590,7 +590,7 @@
     "Login": {
         "ContactAdmin": "Iespējams, ka Jūsu resursdatoram ir atslēgta mail() metode. <br \/>Sazinieties ar savu Piwik administrātoru.",
         "ExceptionPasswordMD5HashExpected": "Paroles parametram ir jābūt paroles MD5 summai.",
-        "InvalidNonceOrHeadersOrReferer": "Formas drošība nenostrādāja. Lūdzu pārlādējiet formu un pārbaudiet vai sīkfailu atbalsts ir ieslēgts. Ja lietojat starpniekserveri, Jums %s jāiestata Piwik lai pieņemtu starpniekservera galveni %s, kas pārsūta resursdatora galveni. Papildus pārbaudiet vai Jūsu iepriekšējās vietnes galvene ir nosūtīta pareizi.",
+        "InvalidNonceOrHeadersOrReferrer": "Formas drošība nenostrādāja. Lūdzu pārlādējiet formu un pārbaudiet vai sīkfailu atbalsts ir ieslēgts. Ja lietojat starpniekserveri, Jums %s jāiestata Piwik lai pieņemtu starpniekservera galveni %s, kas pārsūta resursdatora galveni. Papildus pārbaudiet vai Jūsu iepriekšējās vietnes galvene ir nosūtīta pareizi.",
         "InvalidOrExpiredToken": "Kods ir nepareizs vai tam ir beidzies termiņš.",
         "InvalidUsernameEmail": "Nepareizs lietotājvārds un\/vai e-pasta adrese",
         "LogIn": "Pieteikties",
@@ -640,17 +640,17 @@
         "SubmenuLocationsProvider": "Lokācijas un pakalpojumu sniedzējs",
         "WidgetProviders": "Pakalpojumu sniedzēji"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kampaņas",
         "ColumnCampaign": "Kampaņa",
         "ColumnSearchEngine": "Meklēšanas dzinējs",
         "ColumnWebsite": "Vietne",
         "ColumnWebsitePage": "Vietnes lapa",
-        "DetailsByRefererType": "Detaļas pēc referera tipa",
+        "DetailsByReferrerType": "Detaļas pēc referera tipa",
         "DirectEntry": "Tiešā ieeja",
         "Keywords": "Atslēgvārdi",
-        "RefererName": "Referera nosaukums",
-        "Referers": "Refereri",
+        "ReferrerName": "Referera nosaukums",
+        "Referrers": "Refereri",
         "SearchEngines": "Meklēšanas dzinēji",
         "SubmenuSearchEngines": "Meklēšanas dzinēji un atslēgvārdi",
         "SubmenuWebsites": "Vietnes",

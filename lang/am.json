@@ -250,11 +250,11 @@
         "SubmenuLocationsProvider": "መገኛ እና አቅራቢ",
         "WidgetProviders": "አቅራቢዎች"
     },
-    "Referers": {
+    "Referrers": {
         "ColumnSearchEngine": "የመፈለጊያ ሞተሮች",
         "ColumnWebsite": "ድር ጣቢያዎች",
         "ColumnWebsitePage": "የድር ጣቢያዎች ገፅ",
-        "DetailsByRefererType": "ዝርዝር በአመላካች ዓይነት",
+        "DetailsByReferrerType": "ዝርዝር በአመላካች ዓይነት",
         "DirectEntry": "ቀጥተኛ ምዝግብ",
         "Distinct": "የተለዩ ምልከታዎች በአመላካች ዓይነት",
         "DistinctCampaigns": "የተለዩ campaigns",
@@ -262,7 +262,7 @@
         "DistinctSearchEngines": "የተለዩ የመፈለጊያ ሞተሮች",
         "DistinctWebsites": "የተለዩ ድር ጣቢያዎች",
         "Keywords": "ቁልፍ ቃላት",
-        "Referers": "አመላካቾች",
+        "Referrers": "አመላካቾች",
         "SearchEngines": "የመፈለጊያ ሞተሮች",
         "SubmenuSearchEngines": "የመፈለጊያ ሞተሮች እና ቁልፍ ቃላት",
         "SubmenuWebsites": "ድር ጣቢያዎች",

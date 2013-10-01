@@ -503,7 +503,7 @@
         "AddNewGoalOrEditExistingGoal": "%sHozz létre új célt%s vagy %sszerkeszd%s a már meglévő célokat",
         "BestCountries": "A legjobban konvertáló országok a következőek:",
         "BestKeywords": "A legjobban konvertáló kulcsszavak a következőek:",
-        "BestReferers": "A legjobban konvertáló hivatkozó weboldalak a következőek:",
+        "BestReferrers": "A legjobban konvertáló hivatkozó weboldalak a következőek:",
         "CaseSensitive": "Kisbetű-nagybetű érzékeny egyezés",
         "ClickOutlink": "rákattintanak egy külső weboldalra mutató linkre",
         "ColumnConversions": "Konverziók",
@@ -690,13 +690,13 @@
         "SubmenuLocationsProvider": "Hely és internetszolgáltató",
         "WidgetProviders": "Internetszolgáltatók"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kampányok",
         "ColumnCampaign": "Kampány",
         "ColumnSearchEngine": "Keresőoldal",
         "ColumnWebsite": "Weboldal",
         "ColumnWebsitePage": "Weboldal weblapja",
-        "DetailsByRefererType": "Forgalmi források szerinti részletes adatok",
+        "DetailsByReferrerType": "Forgalmi források szerinti részletes adatok",
         "DirectEntry": "Közvetlen látogatás",
         "Distinct": "Különböző források a forgalmi forrás típus szerint",
         "DistinctCampaigns": "különböző kampány",
@@ -705,7 +705,7 @@
         "DistinctWebsites": "különböző weboldal",
         "Keywords": "Kulcsszavak",
         "PluginDescription": "Jelentések a látogatások forrásáról és a hivatkozó weboldalakról (a böngészők által továbbított Referrer adatok segítségével): keresőoldalakról, kulcsszavakról, weboldalakról, kampányokról, direkt látogatásokról.",
-        "Referers": "Források",
+        "Referrers": "Források",
         "SearchEngines": "Keresőoldalak",
         "SubmenuSearchEngines": "Keresőoldalak és kulcsszavak",
         "SubmenuWebsites": "Weboldalak",

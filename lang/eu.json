@@ -401,13 +401,13 @@
         "SubmenuLocationsProvider": "Kokalekuak eta hornitzailea",
         "WidgetProviders": "Hornitzaileak"
     },
-    "Referers": {
+    "Referrers": {
         "Campaigns": "Kanpainak",
         "ColumnCampaign": "Kanpaina",
         "ColumnSearchEngine": "Bilaketa-motorra",
         "ColumnWebsite": "Webgunea",
         "ColumnWebsitePage": "Webguneko orria",
-        "DetailsByRefererType": "Xehetasunak erreferente motako",
+        "DetailsByReferrerType": "Xehetasunak erreferente motako",
         "DirectEntry": "Sarrera zuzena",
         "Distinct": "Erreferente desberdinak erreferente motagatik",
         "DistinctCampaigns": "kanpaina desberdin",
@@ -415,7 +415,7 @@
         "DistinctSearchEngines": "bilaketa-motor desberdin",
         "DistinctWebsites": "webgune desberdin",
         "Keywords": "Gako-hitzak",
-        "Referers": "Erreferenteak",
+        "Referrers": "Erreferenteak",
         "SearchEngines": "Bilaketa-motorrak",
         "SubmenuSearchEngines": "Bilaketa-motorrak eta gako-hitzak",
         "SubmenuWebsites": "Webguneak",
