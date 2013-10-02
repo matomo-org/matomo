@@ -638,7 +638,7 @@
 		<module>Referers</module>
 		<action>getAll</action>
 		<dimension>Referrer</dimension>
-		<documentation>This report shows all your Referers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.</documentation>
+		<documentation>This report shows all your Referrers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>

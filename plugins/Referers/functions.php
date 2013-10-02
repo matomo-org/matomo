@@ -221,16 +221,16 @@ function getRefererTypeLabel($label)
     $indexTranslation = '';
     switch ($label) {
         case Common::REFERRER_TYPE_DIRECT_ENTRY:
-            $indexTranslation = 'Referers_DirectEntry';
+            $indexTranslation = 'Referrers_DirectEntry';
             break;
         case Common::REFERRER_TYPE_SEARCH_ENGINE:
-            $indexTranslation = 'Referers_SearchEngines';
+            $indexTranslation = 'Referrers_SearchEngines';
             break;
         case Common::REFERRER_TYPE_WEBSITE:
-            $indexTranslation = 'Referers_Websites';
+            $indexTranslation = 'Referrers_Websites';
             break;
         case Common::REFERRER_TYPE_CAMPAIGN:
-            $indexTranslation = 'Referers_Campaigns';
+            $indexTranslation = 'Referrers_Campaigns';
             break;
         default:
             // case of newsletter, partners, before Piwik 0.2.25

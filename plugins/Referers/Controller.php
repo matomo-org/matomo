@@ -254,10 +254,10 @@ class Controller extends \Piwik\Controller
     }
 
     protected $referrerTypeToLabel = array(
-        Common::REFERRER_TYPE_DIRECT_ENTRY  => 'Referers_DirectEntry',
-        Common::REFERRER_TYPE_SEARCH_ENGINE => 'Referers_SearchEngines',
-        Common::REFERRER_TYPE_WEBSITE       => 'Referers_Websites',
-        Common::REFERRER_TYPE_CAMPAIGN      => 'Referers_Campaigns',
+        Common::REFERRER_TYPE_DIRECT_ENTRY  => 'Referrers_DirectEntry',
+        Common::REFERRER_TYPE_SEARCH_ENGINE => 'Referrers_SearchEngines',
+        Common::REFERRER_TYPE_WEBSITE       => 'Referrers_Websites',
+        Common::REFERRER_TYPE_CAMPAIGN      => 'Referrers_Campaigns',
     );
 
     public function getEvolutionGraph($fetch = false, $typeReferer = false, array $columns = array())
