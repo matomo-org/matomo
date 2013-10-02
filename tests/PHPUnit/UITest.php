@@ -16,6 +16,7 @@ abstract class UITest extends IntegrationTestCase
 {
     const IMAGE_TYPE = 'png';
     const CAPTURE_PROGRAM = 'phantomjs';
+    const SCREENSHOT_GROUP_SIZE = 20;
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
     private static $imageMagickAvailable = false;
@@ -58,9 +59,9 @@ abstract class UITest extends IntegrationTestCase
         $urlsToTest = static::getUrlsForTesting();
 
         reset($urlsToTest);
-        for ($i = 0; $i < count($urlsToTest); $i += 25) {
+        for ($i = 0; $i < count($urlsToTest); $i += self::SCREENSHOT_GROUP_SIZE) {
             $urls = array();
-            for ($j = $i; $j != $i + 25 && $j < count($urlsToTest); ++$j) {
+            for ($j = $i; $j != $i + self::SCREENSHOT_GROUP_SIZE && $j < count($urlsToTest); ++$j) {
                 list($name, $urlQuery) = current($urlsToTest);
 
                 list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
