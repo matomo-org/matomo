@@ -41,6 +41,8 @@ abstract class UITest extends IntegrationTestCase
         }
         
         parent::setUpBeforeClass();
+
+        DbHelper::createAnonymousUser();
         
         AssetManager::removeMergedAssets();
         
@@ -135,12 +137,13 @@ abstract class UITest extends IntegrationTestCase
     
     protected function compareScreenshot($name, $urlQuery)
     {
-        list($expectedPath, $processedPath) = self::getProcessedAndExpectedScreenshotPaths($name);
+        list($processedPath, $expectedPath) = self::getProcessedAndExpectedScreenshotPaths($name);
 
         $processed = file_get_contents($processedPath);
         
         if (!file_exists($expectedPath)) {
             $this->markTestIncomplete("expected screenshot for processed '$processedPath' is missing");
+            return;
         }
         
         $expected = file_get_contents($expectedPath);
