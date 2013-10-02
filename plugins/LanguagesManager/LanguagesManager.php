@@ -35,7 +35,7 @@ class LanguagesManager extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'TopMenu.addMenuEntries'          => 'showLanguagesSelector',
+            'Menu.Top.addItems'               => 'showLanguagesSelector',
             'User.getLanguage'                => 'getLanguageToLoad',
             'UsersManager.deleteUser'         => 'deleteUserLanguage',
             'Template.topBar'                 => 'addLanguagesManagerToOtherTopBar',

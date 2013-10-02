@@ -35,7 +35,7 @@ class Provider extends \Piwik\Plugin
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
             'Tracker.newVisitorInformation'            => 'logProviderInfo',
             'WidgetsList.addWidgets'                   => 'addWidget',
-            'Menu.addMenuEntries'                      => 'addMenu',
+            'Menu.Reporting.addItems'                  => 'addMenu',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',

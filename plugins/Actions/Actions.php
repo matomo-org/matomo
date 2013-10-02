@@ -57,7 +57,7 @@ class Actions extends \Piwik\Plugin
             'ArchiveProcessing_Day.compute'            => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
             'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.addMenuEntries'                      => 'addMenus',
+            'Menu.Reporting.addItems'                  => 'addMenus',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',

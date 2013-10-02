@@ -33,7 +33,7 @@ class VisitTime extends \Piwik\Plugin
             'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
             'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.addMenuEntries'                      => 'addMenu',
+            'Menu.Reporting.addItems'                  => 'addMenu',
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',

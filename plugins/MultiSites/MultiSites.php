@@ -34,7 +34,7 @@ class MultiSites extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'TopMenu.addMenuEntries'          => 'addTopMenu',
+            'Menu.Top.addItems'               => 'addTopMenu',
             'API.getReportMetadata'           => 'getReportMetadata',
         );
     }

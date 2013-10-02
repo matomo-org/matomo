@@ -909,14 +909,7 @@ class Visit implements Tracker\VisitInterface
      */
     protected function newAction()
     {
-        $action = null;
-        Piwik_PostEvent('Tracker.createNewAction', array(&$action));
-
-        if (is_null($action)) {
-            $action = new Action($this->request);
-        } elseif (!($action instanceof ActionInterface)) {
-            throw new Exception("The Action object set in the plugin must implement the interface ActionInterface");
-        }
+        $action = new Action($this->request);
         return $action;
     }
 

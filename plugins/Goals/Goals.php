@@ -96,7 +96,7 @@ class Goals extends \Piwik\Plugin
             'API.getReportMetadata.end'        => 'getReportMetadata',
             'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
             'WidgetsList.addWidgets'           => 'addWidgets',
-            'Menu.addMenuEntries'              => 'addMenus',
+            'Menu.Reporting.addItems'          => 'addMenus',
             'SitesManager.deleteSite.end'      => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'  => 'getActualReportsWithGoalMetrics',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',

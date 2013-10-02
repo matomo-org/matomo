@@ -34,7 +34,7 @@ class Referers extends \Piwik\Plugin
             'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
             'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.addMenuEntries'                      => 'addMenus',
+            'Menu.Reporting.addItems'                  => 'addMenus',
             'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',

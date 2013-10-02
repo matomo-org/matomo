@@ -634,8 +634,6 @@ abstract class Controller
             $defaultWebsiteId = $defaultReport;
         }
 
-        Piwik_PostEvent('User.getDefaultWebsiteId', array(&$defaultWebsiteId));
-
         if ($defaultWebsiteId) {
             return $defaultWebsiteId;
         }

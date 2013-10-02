@@ -24,10 +24,10 @@ class Feedback extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
-            'TopMenu.addMenuEntries'                   => 'addTopMenu',
-            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'Menu.Top.addItems'                      => 'addTopMenu',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 

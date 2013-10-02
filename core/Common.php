@@ -770,12 +770,6 @@ class Common
      */
     public static function getCountry($lang, $enableLanguageToCountryGuess, $ip)
     {
-        $country = null;
-        Piwik_PostEvent('Request.getCountry', array(&$country, $ip));
-        if (!empty($country)) {
-            return strtolower($country);
-        }
-
         if (empty($lang) || strlen($lang) < 2 || $lang == 'xx') {
             return 'xx';
         }

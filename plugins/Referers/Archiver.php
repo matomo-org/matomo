@@ -57,7 +57,6 @@ class Archiver extends PluginsArchiver
         $query = $this->getLogAggregator()->queryConversionsByDimension(array("referer_type", "referer_name", "referer_keyword"));
         $this->aggregateFromConversions($query);
 
-        Piwik_PostEvent('Referrers.archiveDay', $this);
         $this->recordDayReports();
     }
 

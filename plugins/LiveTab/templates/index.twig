@@ -1,0 +1,74 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+
+    <h2>{{ 'LiveTab_Settings'|translate }}</h2>
+
+    {% import 'macros.twig' as piwik %}
+    {% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.errorDiv('ajaxErrorLiveTab') }}
+    {{ ajax.loadingDiv('ajaxLoadingLiveTab') }}
+
+    <table class="adminTable" style='width:620px;'>
+        <tr>
+            <td style='width:400px'>{{ 'LiveTab_MetricToDisplay'|translate }}</td>
+            <td style='width:220px'>
+                <fieldset>
+                    <label>
+                        <select id='metricToDisplay'>
+                            {% for metric, metricName in availableMetrics %}
+                                <option value='{{ metric }}'
+                                        {% if metricToDisplay==metric %} selected='selected' {% endif %}
+                                        >
+                                    {{ metricName }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <br/>
+                        <span class='form-description'>
+                            ({{ 'General_Default'|translate }}) {{ 'LiveTab_DefaultDisplayMetric'|translate }}
+                        </span>
+
+                    </label>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ 'LiveTab_LastMinutes'|translate }}</td>
+            <td>
+                <fieldset>
+                    <label>
+
+                        {{ 'General_NMinutes'|translate("<input size='3' value='" ~ lastMinutes ~ "' id='lastMinutes' />")|raw }}
+
+                        <br/>
+                        <span class='form-description'>
+                            ({{ 'General_Default'|translate }}) {{ 'LiveTab_DefaultLastMinutes'|translate }}
+                        </span>
+
+                    </label>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ 'LiveTab_RefreshInterval'|translate }}</td>
+            <td>
+                <fieldset>
+                    <label>
+
+                        {{ 'General_NSeconds'|translate("<input size='3' value='" ~ refreshInterval ~ "' id='refreshInterval' />")|raw }}
+
+                        <br/>
+                        <span class='form-description'>
+                            ({{ 'General_Default'|translate }}) {{ 'LiveTab_DefaultRefreshInterval'|translate }}
+                        </span>
+
+                    </label>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+
+    <input type="submit" value="{{ 'General_Save'|translate }}" id="liveTabSubmit" class="submit"/>
+
+{% endblock %}

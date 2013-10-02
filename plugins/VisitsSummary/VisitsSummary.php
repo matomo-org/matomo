@@ -28,9 +28,9 @@ class VisitsSummary extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'API.getReportMetadata'  => 'getReportMetadata',
-            'WidgetsList.addWidgets' => 'addWidgets',
-            'Menu.addMenuEntries'    => 'addMenu',
+            'API.getReportMetadata'   => 'getReportMetadata',
+            'WidgetsList.addWidgets'  => 'addWidgets',
+            'Menu.Reporting.addItems' => 'addMenu',
         );
     }
 

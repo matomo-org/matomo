@@ -52,14 +52,14 @@ class Top extends MenuAbstract
     }
 
     /**
-     * Triggers the TopMenu.addMenuEntries hook and returns the menu.
+     * Triggers the Menu.Top.addItems hook and returns the menu.
      *
      * @return Array
      */
     public function get()
     {
         if (!$this->menu) {
-            Piwik_PostEvent('TopMenu.addMenuEntries');
+            Piwik_PostEvent('Menu.Top.addItems');
         }
         return parent::get();
     }

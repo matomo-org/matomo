@@ -30,7 +30,7 @@ class Installation extends \Piwik\Plugin
         $hooks = array(
             'Config.NoConfigurationFile'      => 'dispatch',
             'Config.badConfigurationFile'     => 'dispatch',
-            'AdminMenu.addMenuEntries'        => 'addMenu',
+            'Menu.Admin.addItems'             => 'addMenu',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
         );
         return $hooks;

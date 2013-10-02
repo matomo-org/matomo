@@ -31,8 +31,8 @@ class Dashboard extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'UsersManager.deleteUser'                => 'deleteDashboardLayout',
-            'Menu.addMenuEntries'                    => 'addMenus',
-            'TopMenu.addMenuEntries'                 => 'addTopMenu',
+            'Menu.Reporting.addItems'                => 'addMenus',
+            'Menu.Top.addItems'                      => 'addTopMenu',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }

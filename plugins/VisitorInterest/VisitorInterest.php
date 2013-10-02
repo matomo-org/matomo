@@ -31,7 +31,7 @@ class VisitorInterest extends \Piwik\Plugin
             'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
             'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.addMenuEntries'                      => 'addMenu',
+            'Menu.Reporting.addItems'                  => 'addMenu',
             'API.getReportMetadata'                    => 'getReportMetadata',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
