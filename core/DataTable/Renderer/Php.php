@@ -70,7 +70,7 @@ class Php extends Renderer
     /**
      * Computes the dataTable output and returns the string/binary
      *
-     * @param null|DataTable\Map|Simple $dataTable
+     * @param null|DataTable|DataTable\Map|Simple $dataTable
      * @return string
      */
     public function render($dataTable = null)

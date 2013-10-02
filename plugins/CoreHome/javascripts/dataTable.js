@@ -36,7 +36,7 @@ function DataTable(element) {
     this.init();
 }
 
-DataTable._footerIconHandlers = {}
+DataTable._footerIconHandlers = {};
 
 DataTable.initNewDataTables = function () {
     $('div.dataTable').each(function () {
@@ -765,7 +765,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             handler(self, id);
-        })
+        });
 
         //Graph icon Collapsed functionality
         self.currentGraphViewIcon = 0;

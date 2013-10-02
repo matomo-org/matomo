@@ -25,6 +25,7 @@ class Evolution extends JqplotDataGenerator
 {
     /**
      * @param DataTable|DataTable\Map $dataTable
+     * @param $visualization
      */
     protected function initChartObjectData($dataTable, $visualization)
     {

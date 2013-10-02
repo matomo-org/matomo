@@ -40,7 +40,7 @@ class Main extends MenuAbstract
     {
         $menu = Main::getInstance()->get();
 
-        foreach ($menu as $mainMenuName => $subMenus) {
+        foreach ($menu as $subMenus) {
             foreach ($subMenus as $subMenuName => $menuUrl) {
                 if (strpos($subMenuName, '_') !== 0 && $menuUrl['_url'] == $url) {
                     return true;

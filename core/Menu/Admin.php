@@ -54,7 +54,7 @@ class Admin extends MenuAbstract
         $menu = Piwik_GetAdminMenu();
         $currentModule = Piwik::getModule();
         $currentAction = Piwik::getAction();
-        foreach ($menu as $name => $submenu) {
+        foreach ($menu as $submenu) {
             foreach ($submenu as $subMenuName => $parameters) {
                 if (strpos($subMenuName, '_') !== 0 &&
                     $parameters['_url']['module'] == $currentModule

@@ -47,7 +47,7 @@ class Profiler
     /**
      * Outputs SQL Profiling reports from Zend
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public static function displayDbProfileReport()
     {

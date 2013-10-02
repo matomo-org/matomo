@@ -57,7 +57,7 @@ class AssetManager
     /**
      * @param $file
      * @param $less
-     * @param $mergedContent
+     * @internal param $mergedContent
      * @return string
      */
     protected static function getCssContentFromFile($file, $less)

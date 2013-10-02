@@ -113,6 +113,7 @@ class CacheFile
      *
      * @param string $id       The cache entry ID
      * @param array $content  The cache content
+     * @throws \Exception
      * @return bool  True if the entry was succesfully stored
      */
     public function set($id, $content)

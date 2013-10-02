@@ -27,7 +27,7 @@ class Db
     /**
      * Returns the database adapter to use
      *
-     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface
+     * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
      */
     static public function get()
     {
@@ -155,9 +155,9 @@ class Db
      *
      * @param string $table            The name of the table to delete from. Must be prefixed.
      * @param string $where            The where clause of the query. Must include the WHERE keyword.
+     * @param $orderBy
      * @param int $maxRowsPerQuery  The maximum number of rows to delete per DELETE query.
      * @param array $parameters       Parameters to bind in the query.
-     * @param string $primaryKey Name of primary key to sort by.
      * @return int  The total number of rows deleted.
      */
     static public function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())

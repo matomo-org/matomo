@@ -937,7 +937,6 @@ class Visit implements Tracker\VisitInterface
      * @param $os
      * @param $browserName
      * @param $browserVersion
-     * @param $resolution
      * @param $plugin_Flash
      * @param $plugin_Java
      * @param $plugin_Director
