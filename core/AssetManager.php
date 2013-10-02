@@ -42,7 +42,6 @@ class AssetManager
 {
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
     const MERGED_JS_FILE = "asset_manager_global_js.js";
-    const TRANSLATIONS_JS_FILE = "asset_manager_translations_js.js";
     const STYLESHEET_IMPORT_EVENT = "AssetManager.getStylesheetFiles";
     const JAVASCRIPT_IMPORT_EVENT = "AssetManager.getJavaScriptFiles";
     const MERGED_FILE_DIR = "tmp/assets/";
@@ -90,12 +89,17 @@ class AssetManager
      */
     public static function getJsAssets()
     {
+        $result = "<script type=\"text/javascript\">\n" . Translate::getInstance()->getJavascriptTranslations() . "\n</script>";
+
         if (self::isMergedAssetsDisabled()) {
             // Individual includes mode
             self::removeMergedAsset(self::MERGED_JS_FILE);
-            return self::getIndividualJsIncludes();
+            $result .= self::getIndividualJsIncludes();
+        } else {
+            $result .= sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_JS_MODULE_ACTION);
         }
-        return sprintf(self::JS_IMPORT_DIRECTIVE, self::GET_JS_MODULE_ACTION);
+
+        return $result;
     }
 
     /**
@@ -333,10 +337,6 @@ class AssetManager
      */
     private static function generateMergedJsFile()
     {
-        // initialize the merged content to the translations JavaScript file
-        $translationsFile = self::getTranslationsJsFileLocation();
-        $mergedContent = PHP_EOL . JSMin::minify(file_get_contents($translationsFile));
-
         // Loop through each js file
         $files = self::getJsFiles();
         foreach ($files as $file) {
@@ -367,9 +367,6 @@ class AssetManager
     private static function getIndividualJsIncludes()
     {
         $jsIncludeString = '';
-
-        // add translations include
-        $jsIncludeString .= sprintf(self::JS_IMPORT_DIRECTIVE, "index.php?module=Proxy&action=getTranslationJs");
 
         $jsFiles = self::getJsFiles();
         foreach ($jsFiles as $jsFile) {
@@ -434,7 +431,7 @@ class AssetManager
      *
      * @return string
      */
-    private static function isMergedAssetsDisabled()
+    public static function isMergedAssetsDisabled()
     {
         return Config::getInstance()->Debug['disable_merged_assets'];
     }
@@ -466,34 +463,6 @@ class AssetManager
         }
 
         return self::getAbsoluteMergedFileLocation(self::MERGED_JS_FILE);
-    }
-
-    /**
-     * Returns the translations JS file's absolute location.
-     * If the file does not exist, it is generated.
-     * 
-     * @return string
-     */
-    public static function getTranslationsJsFileLocation()
-    {
-        $isGenerated = self::isGenerated(self::TRANSLATIONS_JS_FILE);
-
-        if (!$isGenerated) {
-            $translationJs = str_replace("\n", "\r\n", Translate::getInstance()->getJavascriptTranslations());
-            self::writeAssetToFile($translationJs, self::TRANSLATIONS_JS_FILE);
-        }
-
-        return self::getAbsoluteMergedFileLocation(self::TRANSLATIONS_JS_FILE);
-    }
-
-    /**
-     * Remove translations Js file.
-     * 
-     * @return string
-     */
-    public static function removeTranslationsJsFile()
-    {
-        self::removeMergedAsset(self::TRANSLATIONS_JS_FILE);
     }
 
     /**
@@ -541,7 +510,6 @@ class AssetManager
     {
         self::removeMergedAsset(self::MERGED_CSS_FILE);
         self::removeMergedAsset(self::MERGED_JS_FILE);
-        self::removeMergedAsset(self::TRANSLATIONS_JS_FILE);
     }
 
     /**

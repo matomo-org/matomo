@@ -52,24 +52,6 @@ class Controller extends \Piwik\Controller
     }
 
     /**
-     * Output the translations JavaScript file.
-     * This method is called when the asset manager is disabled (otherwise it would be part
-     * of the merged JS file.)
-     * 
-     * Note: This method always regenerates the file since not doing so would make development
-     * painful.
-     * 
-     * @see core/AssetManager.php
-     */
-    public function getTranslationJs()
-    {
-        AssetManager::removeTranslationsJsFile();
-        
-        $translationsJsFile = AssetManager::getTranslationsJsFileLocation();
-        ProxyHttp::serverStaticFile($translationsJsFile, self::JS_MIME_TYPE);
-    }
-
-    /**
      * Output redirection page instead of linking directly to avoid
      * exposing the referrer on the Piwik demo.
      *
