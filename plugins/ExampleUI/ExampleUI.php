@@ -35,6 +35,7 @@ class ExampleUI extends \Piwik\Plugin
         $this->addSubMenu('Pie graph', 'pieGraph', 3);
         $this->addSubMenu('Tag clouds', 'tagClouds', 4);
         $this->addSubMenu('Sparklines', 'sparklines', 5);
+        $this->addSubMenu('Evolution Graph', 'evolutionGraph', 6);
     }
 
     private function addSubMenu($subMenu, $action, $order)

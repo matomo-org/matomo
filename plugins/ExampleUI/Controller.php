@@ -11,6 +11,8 @@
 namespace Piwik\Plugins\ExampleUI;
 
 use Piwik\Common;
+use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\ViewDataTable;
 use Piwik\View;
 
@@ -47,20 +49,25 @@ class Controller extends \Piwik\Controller
 
     public function evolutionGraph()
     {
-        echo "<h2>Evolution of server temperatures over the last few days</h2>";
-        $this->echoEvolutionGraph();
-    }
+        $view = new View('@ExampleUI/evolutiongraph');
 
-    public function echoEvolutionGraph()
-    {
-        $view = ViewDataTable::factory(
-            'graphEvolution', 'ExampleUI.getTemperaturesEvolution', $controllerAction = 'ExampleUI.echoEvolutionGraph');
-
-        $view->y_axis_unit = '°C'; // useful if the user requests the bar graph
-        $view->translations['server1'] = "Temperature server piwik.org";
-        $view->translations['server2'] = "Temperature server dev.piwik.org";
+        $this->setPeriodVariablesView($view);
+        $view->evolutionGraph = $this->getEvolutionGraph(true, array('server1', 'server2'));
 
         echo $view->render();
+    }
+
+    public function getEvolutionGraph($fetch = false, array $columns = array())
+    {
+        if (empty($columns)) {
+            $columns = Common::getRequestVar('columns');
+            $columns = Piwik::getArrayFromApiParameter($columns);
+        }
+
+        $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
+            $selectableColumns = array('server1', 'server2'), 'My documentation', 'ExampleUI.getTemperaturesEvolution');
+
+        return $this->renderView($view, $fetch);
     }
 
     public function barGraph()
