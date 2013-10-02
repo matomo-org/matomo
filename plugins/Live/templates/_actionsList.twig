@@ -91,13 +91,13 @@
                         <img src='{{ action.icon }}'>
                     {% endif %}
                     <a href="{{ action.url }}" target="_blank" class="action-list-url truncated-text-line" 
-                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="{% if action.type=='action' and action.pageTitle is not empty %}margin-left: 25px;{% endif %}text-decoration:underline;"{% endif %}>
+                       {% if overrideLinkStyle is not defined or overrideLinkStyle %}style="{% if action.type=='action' and action.pageTitle is not empty %}margin-left: 9px;{% endif %}text-decoration:underline;"{% endif %}>
                         {{ action.url }}
                     </a>
                     {% if action.type == 'action' and action.pageTitle is not empty %}</p>{% endif %}
                 {% elseif action.type != 'search' %}
                     <p>
-                    <span style="margin-left: 25px;">{{ clientSideParameters.pageUrlNotDefined }}</span>
+                    <span style="margin-left: 9px;">{{ clientSideParameters.pageUrlNotDefined }}</span>
                     </p>
                 {% endif %}
             {% else %}
