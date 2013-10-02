@@ -71,6 +71,7 @@ class Controller extends \Piwik\Controller
         $view->y_axis_unit = '°C';
         $view->show_footer = false;
         $view->translations['value'] = "Temperature";
+        $view->visualization_properties->selectable_columns = array("value");
         $view->visualization_properties->max_graph_elements = 24;
 
         echo $view->render();
