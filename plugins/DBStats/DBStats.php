@@ -252,13 +252,13 @@ class DBStats extends \Piwik\Plugin
         $properties['filter_sort_column'] = 'label';
         $properties['filter_sort_order'] = 'desc';
         $properties['filter_limit'] = 25;
-        $properties['highlight_summary_row'] = true;
         $properties['show_search'] = false;
         $properties['show_exclude_low_population'] = false;
         $properties['show_tag_cloud'] = false;
         $properties['show_table_all_columns'] = false;
-        $properties['keep_summary_row'] = true;
+        $properties['visualization_properties']['table']['keep_summary_row'] = true;
         $properties['visualization_properties']['table']['disable_row_evolution'] = true;
+        $properties['visualization_properties']['table']['highlight_summary_row'] = true;
         $properties['translations'] = array(
             'label'          => Piwik_Translate('DBStats_Table'),
             'year'           => Piwik_Translate('CoreHome_PeriodYear'),
