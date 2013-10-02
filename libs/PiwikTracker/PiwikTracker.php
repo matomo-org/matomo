@@ -88,6 +88,8 @@ class PiwikTracker
         $this->generationTime = false;
 
         $this->requestCookie = '';
+		$this->updateClientCookies = false;
+		$this->clientCookieDomain = ''; 
         $this->idSite = $idSite;
         $this->urlReferrer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
         $this->pageCharset = self::DEFAULT_CHARSET_PARAMETER_VALUES;
@@ -251,6 +253,11 @@ class PiwikTracker
     {
         $this->visitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
         $this->forcedVisitorId = false;
+		
+		if ($this->updateClientCookies) {
+			$ts = time(); 
+			$this->setFirstPartyCookie('id', $visitorId . '.' . $ts . '.1.' . $ts . '.' . $ts ); 
+		}
     }
 
     /**
@@ -351,6 +358,33 @@ class PiwikTracker
     public function enableBulkTracking()
     {
         $this->doBulkRequests = true;
+    }
+
+	/**
+	 * Enable Cookie Creation - this will cause a first party VisitorId cookie to be set when the VisitorId is set or reset
+	 *
+	 * @param bool $create determines whether or not client cookies will be updated
+	 * $param string $domain sets the domain under which the cookie will be placed (primarily used to create domain wildcard cookies)
+	 */
+	public function setUpdateClientCookies( $create, $domain = '' )
+	{
+		$this->updateClientCookies = $create;
+		$this->clientCookieDomain = $domain;
+	}
+
+	/**
+	 * Sets a first party cookie.  This is useful when using the PHP Tracking API along with the Javascript Tracking API.
+	 *
+	 * @param string $baseName value will be combined with '_pk_', the SiteID, and a hash to determine the cookie name
+	 * $param string $value indicates the value of the cookie to be stored on the client's computer
+	 * @return bool
+	 */
+	protected function setFirstPartyCookie($baseName, $value)
+	{
+		$hash = substr( sha1( self::getCurrentHost() . '/' ), 0, 4);
+		$name = '_pk_' . $baseName . '.' . $this->idSite . '.' . $hash;
+
+		return setcookie( $name, $value, null, '/', $this->clientCookieDomain );
     }
 
     /**
@@ -739,6 +773,10 @@ class PiwikTracker
                 . ")");
         }
         $this->forcedVisitorId = $visitorId;
+		if ($this->updateClientCookies) {
+			$ts = time(); 
+			$this->setFirstPartyCookie('id', $visitorId . '.' . $ts . '.1.' . $ts . '.' . $ts ); 
+		}
     }
 
     /**
