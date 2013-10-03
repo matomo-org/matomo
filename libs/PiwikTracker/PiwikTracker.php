@@ -256,7 +256,7 @@ class PiwikTracker
 		
 		if ($this->updateClientCookies) {
 			$ts = time(); 
-			$this->setFirstPartyCookie('id', $visitorId . '.' . $ts . '.1.' . $ts . '.' . $ts ); 
+			$this->setFirstPartyCookie('id', $this->visitorId . '.' . $ts . '.1.' . $ts . '.' . $ts ); 
 		}
     }
 
