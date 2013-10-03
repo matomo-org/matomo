@@ -337,6 +337,8 @@ class AssetManager
      */
     private static function generateMergedJsFile()
     {
+        $mergedContent = "";
+        
         // Loop through each js file
         $files = self::getJsFiles();
         foreach ($files as $file) {

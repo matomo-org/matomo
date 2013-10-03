@@ -90,7 +90,7 @@ class Controller extends \Piwik\Controller
         $websiteId = Common::getRequestVar('idSite', false, 'int');
         if ($websiteId) {
             $website = new Site($websiteId);
-            $datetimeCreationDate = $this->site->getCreationDate()->getDatetime();
+            $datetimeCreationDate = $website->getCreationDate()->getDatetime();
             $creationDateLocalTimezone = Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
             $todayLocalTimezone = Date::factory('now', $website->getTimezone())->toString('Y-m-d');
             if ($creationDateLocalTimezone == $todayLocalTimezone) {

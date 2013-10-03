@@ -4,6 +4,32 @@ if (!defined('PIWIK_TEST_MODE')) {
     define('PIWIK_TEST_MODE', true);
 }
 
+class Piwik_MockAccess
+{
+    private $access;
+
+    public function __construct($access)
+    {
+        $this->access = $access;
+        $access->setSuperUser(true);
+    }
+
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array(array($this->access, $name), $arguments);
+    }
+
+    public function reloadAccess($auth = null)
+    {
+        return true;
+    }
+
+    public function getLogin()
+    {
+        return 'superUserLogin';
+    }
+}
+
 /**
  * Sets the test environment.
  */
@@ -12,10 +38,8 @@ class Piwik_TestingEnvironment
     public static function addHooks()
     {
         Piwik_AddAction('Access.createAccessSingleton', function($access) {
-            $access->setSuperUser(true);
-        });
-        Piwik_AddAction('Access.loadingSuperUserAccess', function(&$idSitesByAccess, &$login) {
-            $login = 'superUserLogin';
+            $access = new Piwik_MockAccess($access);
+            \Piwik\Access::setSingletonInstance($access);
         });
         Piwik_AddAction('Config.createConfigSingleton', function($config) {
             \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
@@ -45,10 +69,6 @@ class Piwik_TestingEnvironment
         Piwik_AddAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
             $jsFiles[] = 'tests/resources/screenshot-override/jquery.waitforimages.js';
             $jsFiles[] = 'tests/resources/screenshot-override/override.js';
-        });
-        Piwik_AddAction('Request.dispatch', function () {
-            \Piwik\Access::setSingletonInstance(null);
-            \Piwik\Access::getInstance();
         });
     }
 }
