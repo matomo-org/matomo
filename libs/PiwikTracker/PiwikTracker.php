@@ -858,17 +858,11 @@ class PiwikTracker
      */
     protected function deleteCookies() 
     {
-        $savedConfigCookiesDisabled = $configCookiesDisabled;
-
-        // Temporarily allow cookies just to delete the existing ones
-        $configCookiesDisabled = false;
-        setCookie($this->getCookieName('id'), '', -86400, configCookiePath, configCookieDomain);
-        setCookie($this->getCookieName('ses'), '', -86400, configCookiePath, configCookieDomain);
-        setCookie($this->getCookieName('cvar'), '', -86400, configCookiePath, configCookieDomain);
-        setCookie($this->getCookieName('ref'), '', -86400, configCookiePath, configCookieDomain);
-
-        $configCookiesDisabled = $savedConfigCookiesDisabled;
-    }
+        setcookie($this->getCookieName('id'), '', -86400, '', $this->clientCookieDomain);
+        setcookie($this->getCookieName('ses'), '', -86400, '', $this->clientCookieDomain);
+        setcookie($this->getCookieName('cvar'), '', -86400, '', $this->clientCookieDomain);
+        setcookie($this->getCookieName('ref'), '', -86400, '', $this->clientCookieDomain);
+   }
     
     /**
      * Returns the currently assigned Attribution Information stored in a first party cookie.
