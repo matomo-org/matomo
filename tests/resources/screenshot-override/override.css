@@ -1,3 +1,7 @@
 #header_message>.header_short {
     display:none;
 }
+
+.visitor-profile-widget-link>strong {
+    display:none;
+}

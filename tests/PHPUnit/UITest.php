@@ -16,7 +16,7 @@ abstract class UITest extends IntegrationTestCase
 {
     const IMAGE_TYPE = 'png';
     const CAPTURE_PROGRAM = 'phantomjs';
-    const SCREENSHOT_GROUP_SIZE = 20;
+    const SCREENSHOT_GROUP_SIZE = 25;
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
     private static $imageMagickAvailable = false;

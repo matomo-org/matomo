@@ -58,6 +58,7 @@ class Piwik_TestingEnvironment
             $config->Plugins = array('Plugins' => $pluginsToLoad);
 
             $config->General['session_save_handler'] = 'dbtables'; // to avoid weird session error in travis
+            $config->superuser['email'] = 'hello@example.org';
         });
         Piwik_AddAction('Request.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
