@@ -109,6 +109,13 @@ class PiwikTracker
         }
         $this->setNewVisitorId();
 
+		// Life of the visitor cookie (in milliseconds)
+		$this->configVisitorCookieTimeout = 63072000000, // 2 years
+		// Life of the session cookie (in milliseconds)
+		$this->configSessionCookieTimeout = 1800000, // 30 minutes
+		// Life of the referral cookie (in milliseconds)
+		$this->configReferralCookieTimeout = 15768000000, // 6 months
+		
         // Allow debug while blocking the request
         $this->requestTimeout = 600;
         $this->doBulkRequests = false;
@@ -407,10 +414,9 @@ class PiwikTracker
      * $param string $value indicates the value of the cookie to be stored on the client's computer
      * @return bool
      */
-    protected function setFirstPartyCookie($baseName, $value)
+    protected function setVisitorIdCookie($visitorId, $createTs, $visitCount, $nowTs, $lastVisitTs)
     {
-        $name = $this->getCookieName($baseName);
-        return setcookie( $name, $value, null, '/', $this->clientCookieDomain );
+        return setcookie( $this->getCookieName('id');, visitorId . '.' . $createTs . '.'.$visitCount.'.' . $nowTs . '.' . $lastVisitTs, $this->configVisitorCookieTimeout, '/', $this->clientCookieDomain );
     }
 
     /**
@@ -856,11 +862,13 @@ class PiwikTracker
      * Deletes all cookies from client
      * 
      */
-    protected function deleteCookies() 
+    public function deleteCookies() 
     {
-        setcookie($this->getCookieName('id'), '', -86400, '', $this->clientCookieDomain);
-        setcookie($this->getCookieName('ses'), '', -86400, '', $this->clientCookieDomain);
-        setcookie($this->getCookieName('cvar'), '', -86400, '', $this->clientCookieDomain);
+		die ('cookie name is '.$this->getCookieName('id'));
+		return 
+        setcookie($this->getCookieName('id'), '', -86400, '', $this->clientCookieDomain) && 
+        setcookie($this->getCookieName('ses'), '', -86400, '', $this->clientCookieDomain) &&
+        setcookie($this->getCookieName('cvar'), '', -86400, '', $this->clientCookieDomain) &&
         setcookie($this->getCookieName('ref'), '', -86400, '', $this->clientCookieDomain);
    }
     
@@ -1186,11 +1194,15 @@ class PiwikTracker
 
         // Update client cookies in getRequest to parallel piwik.js logic
         if ($this->updateClientCookies) {
-            if ($visitorId != $this->visitorId || !$currentVisitTs) {
-                $this->setFirstPartyCookie('id', $visitorId . '.' . $this->currentTs . '.1.' . $this->currentTs . '.' . $this->currentTs ); 
-            } else {
-                $this->setFirstPartyCookie('id', $visitorId . '.' . $this->currentTs . '.1.' . $this->currentTs . '.' . $this->currentTs ); 
-            }
+			// Determine whether
+			$sesname = $this->getCookieName('ses');
+			if (!$this->getCookieMatchingName($sesname)) {
+				// new session (new visit)
+				$this->visitCount++
+				$this->lastVisitTs = $this->currentVisitTs;
+			}
+			$this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs ); 
+			$this->setCookie($sesname, '*', $this->configSessionCookieTimeout, '', $this->clientCookieDomain);
         }
 
         return $url;
