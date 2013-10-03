@@ -410,8 +410,6 @@ class PiwikTracker
     /**
      * Sets a first party cookie.  This is useful when using the PHP Tracking API along with the Javascript Tracking API.
      *
-     * @param string $baseName value will be combined with prefix and domain hash to determine the cookie name
-     * $param string $value indicates the value of the cookie to be stored on the client's computer
      * @return bool
      */
     protected function setVisitorIdCookie($visitorId, $createTs, $visitCount, $nowTs, $lastVisitTs, $lastEcommerceOrderTs = '')
@@ -1200,8 +1198,8 @@ class PiwikTracker
 
         // Update client cookies in getRequest to parallel piwik.js logic
         if ($this->updateClientCookies) {
+            // Initialize cookie data if it's still defaulted to false
             if (!$this->lastVisitTs) {
-                // Initialize cookie data if it's still defaulted to false
                 $this->loadVisitorIdCookie();
             }
             $sesname = $this->getCookieName('ses');
