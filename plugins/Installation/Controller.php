@@ -483,8 +483,9 @@ class Controller extends \Piwik\Controller\Admin
         );
         $this->skipThisStep(__FUNCTION__);
 
-        if (!file_exists(Config::getLocalConfigPath())) {
-//			$this->addTrustedHosts();
+        $configPath = Config::getLocalConfigPath();
+        if (!file_exists($configPath)) {
+			$this->addTrustedHosts();
             $this->writeConfigFileFromSession();
         }
 
@@ -560,7 +561,7 @@ class Controller extends \Piwik\Controller\Admin
         $config = Config::getInstance();
         try {
             // expect exception since config.ini.php doesn't exist yet
-            $config->init();
+            $config->checkLocalConfigFound();
         } catch (Exception $e) {
             $config->superuser = $this->session->superuser_infos;
             $config->database = $this->session->db_infos;
