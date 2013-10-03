@@ -93,6 +93,7 @@ class Controller extends \Piwik\Controller
         $view->columns_to_display    = array('value');
         $view->translations['value'] = "times the diameter of Earth";
         $view->show_footer_icons     = false;
+        $view->visualization_properties->selectable_columns = array("value");
         $view->visualization_properties->max_graph_elements = 10;
 
         echo $view->render();
