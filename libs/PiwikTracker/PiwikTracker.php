@@ -403,7 +403,7 @@ class PiwikTracker
     function getCookieName($baseName) {
         // NOTE: If the cookie name is changed, we must also update the method in piwik.js with
         // the same name.
-        $hash = substr( sha1( ($this->clientCookieDomain == '' ? self::getCurrentHost() : self::domainFixup($this->clientCookieDomain))  . '/' ), 0, 4);
+        $hash = substr( sha1( ($this->clientCookieDomain == '' ? self::getCurrentHost() : $this->clientCookieDomain)  . '/' ), 0, 4);
         return '_pk_' . $baseName . '.' . $this->idSite . '.' . $hash;
     }
      
@@ -416,7 +416,7 @@ class PiwikTracker
      */
     protected function setVisitorIdCookie($visitorId, $createTs, $visitCount, $nowTs, $lastVisitTs, $lastEcommerceOrderTs = '')
     {
-        return setcookie( $this->getCookieName('id'), visitorId . '.' . $createTs . '.' . $visitCount . '.' . $nowTs . '.' . $lastVisitTs . '.' . $lastEcommerceOrderTs, $nowTs + $this->configVisitorCookieTimeout / 1000, '/', $this->clientCookieDomain );
+        return setcookie( $this->getCookieName('id'), $visitorId . '.' . $createTs . '.' . $visitCount . '.' . $nowTs . '.' . $lastVisitTs . '.' . $lastEcommerceOrderTs, $nowTs + $this->configVisitorCookieTimeout / 1000, '/', $this->clientCookieDomain );
     }
 
     /**
