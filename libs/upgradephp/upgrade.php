@@ -265,14 +265,14 @@ function _json_decode($json, $assoc=FALSE, /*emu_args*/$n=0,$state=0,$waitfor=0)
       
       #-= in-array
       elseif ($state===']') {
-         list($v, $n) = _json_decode($json, 0, $n, 0, ",]");
+         list($v, $n) = _json_decode($json, $assoc, $n, 0, ",]");
          $val[] = $v;
          if ($json[$n] == "]") { return array($val, $n); }
       }
 
       #-= in-object
       elseif ($state==='}') {
-         list($i, $n) = _json_decode($json, 0, $n, 0, ":");   // this allowed non-string indicies
+         list($i, $n) = _json_decode($json, $assoc, $n, 0, ":");   // this allowed non-string indicies
          list($v, $n) = _json_decode($json, $assoc, $n+1, 0, ",}");
          $val[$i] = $v;
          if ($json[$n] == "}") { return array($val, $n); }
