@@ -1200,7 +1200,7 @@ class PiwikTracker
 
         // Update client cookies in getRequest to parallel piwik.js logic
         if ($this->updateClientCookies) {
-			if (!$this->lastVisitTs) 
+			if (!$this->lastVisitTs) {
 				// Initialize cookie data if it's still defaulted to false
 				$this->loadVisitorIdCookie();
 			}
