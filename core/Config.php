@@ -408,77 +408,79 @@ class Config
         $output = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
         $output .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
 
-        if ($configCache) {
+        if (!$configCache) {
+            return false;
+        }
+        if($configLocal) {
             foreach ($configLocal as $name => $section) {
                 if (!isset($configCache[$name])) {
                     $configCache[$name] = $this->decodeValues($section);
                 }
             }
-
-            $sectionNames = array_unique(array_merge(array_keys($configGlobal), array_keys($configCache)));
-
-            foreach ($sectionNames as $section) {
-                if (!isset($configCache[$section])) {
-                    continue;
-                }
-
-                // Only merge if the section exists in global.ini.php (in case a section only lives in config.ini.php)
-
-                // get local and cached config
-                $local = isset($configLocal[$section]) ? $configLocal[$section] : array();
-                $config = $configCache[$section];
-
-                // remove default values from both (they should not get written to local)
-                if (isset($configGlobal[$section])) {
-                    $config = $this->array_unmerge($configGlobal[$section], $configCache[$section]);
-                    $local = $this->array_unmerge($configGlobal[$section], $local);
-                }
-
-                // if either local/config have non-default values and the other doesn't,
-                // OR both have values, but different values, we must write to config.ini.php
-                if (empty($local) xor empty($config)
-                    || (!empty($local)
-                        && !empty($config)
-                        && self::compareElements($config, $configLocal[$section]))
-                ) {
-                    $dirty = true;
-                }
-
-                // no point in writing empty sections, so skip if the cached section is empty
-                if (empty($config)) {
-                    continue;
-                }
-
-                $output .= "[$section]\n";
-
-                foreach ($config as $name => $value) {
-                    $value = $this->encodeValues($value);
-
-                    if (is_numeric($name)) {
-                        $name = $section;
-                        $value = array($value);
-                    }
-
-                    if (is_array($value)) {
-                        foreach ($value as $currentValue) {
-                            $output .= $name . "[] = \"$currentValue\"\n";
-                        }
-                    } else {
-                        if (!is_numeric($value)) {
-                            $value = "\"$value\"";
-                        }
-                        $output .= $name . ' = ' . $value . "\n";
-                    }
-                }
-
-                $output .= "\n";
-            }
-
-            if ($dirty) {
-                return $output;
-            }
         }
 
+        $sectionNames = array_unique(array_merge(array_keys($configGlobal), array_keys($configCache)));
+
+        foreach ($sectionNames as $section) {
+            if (!isset($configCache[$section])) {
+                continue;
+            }
+
+            // Only merge if the section exists in global.ini.php (in case a section only lives in config.ini.php)
+
+            // get local and cached config
+            $local = isset($configLocal[$section]) ? $configLocal[$section] : array();
+            $config = $configCache[$section];
+
+            // remove default values from both (they should not get written to local)
+            if (isset($configGlobal[$section])) {
+                $config = $this->array_unmerge($configGlobal[$section], $configCache[$section]);
+                $local = $this->array_unmerge($configGlobal[$section], $local);
+            }
+
+            // if either local/config have non-default values and the other doesn't,
+            // OR both have values, but different values, we must write to config.ini.php
+            if (empty($local) xor empty($config)
+                || (!empty($local)
+                    && !empty($config)
+                    && self::compareElements($config, $configLocal[$section]))
+            ) {
+                $dirty = true;
+            }
+
+            // no point in writing empty sections, so skip if the cached section is empty
+            if (empty($config)) {
+                continue;
+            }
+
+            $output .= "[$section]\n";
+
+            foreach ($config as $name => $value) {
+                $value = $this->encodeValues($value);
+
+                if (is_numeric($name)) {
+                    $name = $section;
+                    $value = array($value);
+                }
+
+                if (is_array($value)) {
+                    foreach ($value as $currentValue) {
+                        $output .= $name . "[] = \"$currentValue\"\n";
+                    }
+                } else {
+                    if (!is_numeric($value)) {
+                        $value = "\"$value\"";
+                    }
+                    $output .= $name . ' = ' . $value . "\n";
+                }
+            }
+
+            $output .= "\n";
+        }
+
+        if ($dirty) {
+            return $output;
+        }
         return false;
     }
 
@@ -491,7 +493,7 @@ class Config
      * @param array $configCache
      * @param string $pathLocal
      */
-    public function writeConfig($configLocal, $configGlobal, $configCache, $pathLocal)
+    protected function writeConfig($configLocal, $configGlobal, $configCache, $pathLocal)
     {
         if ($this->isTest) {
             return;

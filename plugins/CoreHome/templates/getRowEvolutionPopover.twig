@@ -21,7 +21,7 @@
                             {{- metric.label|raw -}}
                         </span>
                         {% if metric.details %}:
-                            <span class="details">{{ metric.details }}</span>
+                            <span class="details">{{ metric.details|raw }}</span>
                         {% endif %}
                     </td>
                 </tr>
