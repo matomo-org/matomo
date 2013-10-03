@@ -117,13 +117,25 @@
 
         _setTooltipPercentages: function () {
             this.tooltip = {percentages: []};
+
             for (var seriesIdx = 0; seriesIdx != this.data.length; ++seriesIdx) {
                 var series = this.data[seriesIdx];
-                var sum = series.reduce(function (previousValue, currentValue) { return previousValue + currentValue; }, 0);
+                var sum = series.reduce(function (previousValue, currentValue) {
+                    if ($.isArray(currentValue) && currentValue[1]) {
+                        return previousValue + currentValue[1];
+                    }
+
+                    return previousValue + currentValue;
+                }, 0);
 
                 var percentages = this.tooltip.percentages[seriesIdx] = [];
                 for (var valueIdx = 0; valueIdx != series.length; ++valueIdx) {
-                    percentages[valueIdx] = sum > 0 ? Math.round(100 * series[valueIdx] / sum) : 0;
+                    var value = series[valueIdx];
+                    if ($.isArray(value) && value[1]) {
+                        value = value[1];
+                    }
+                    
+                    percentages[valueIdx] = sum > 0 ? Math.round(100 * value / sum) : 0;
                 }
             }
         },
