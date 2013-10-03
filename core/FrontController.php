@@ -134,7 +134,7 @@ class FrontController
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
             $message = Common::sanitizeInputValue($e->getMessage());
-            Piwik_ExitWithMessage($message, $debugTrace, true);
+            Piwik_ExitWithMessage($message, $debugTrace, true, true);
         }
     }
 

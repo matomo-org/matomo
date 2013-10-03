@@ -78,7 +78,7 @@
                 {% endif %}
                 {% if provider.statusMessage is defined and provider.statusMessage %}
                     {% set brokenReason %}
-                        {% if provider.status == 2 %}<strong><em>{{ 'General_Error'|translate }}:</em></strong> {% endif %}{{ provider.statusMessage }}
+                        {% if provider.status == 2 %}<strong><em>{{ 'General_Error'|translate }}:</em></strong> {% endif %}{{ provider.statusMessage|raw }}
                     {% endset %}
                     {{ piwik.inlineHelp(brokenReason) }}
                 {% endif %}

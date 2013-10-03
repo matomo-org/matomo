@@ -205,18 +205,16 @@ class PluginsManager
         $this->returnLoadedPluginsInfo();
         $plugin = $this->getLoadedPlugin($pluginName);
         $plugin->uninstall();
-
-        self::deletePluginFromFilesystem($pluginName);
+        Option::getInstance()->delete('version_' . $pluginName);
 
         $this->removePluginFromPluginsConfig($pluginName);
         $this->removePluginFromPluginsInstalledConfig($pluginName);
         $this->removePluginFromTrackerConfig($pluginName);
-
-        Option::getInstance()->delete('version_' . $pluginName);
-
         Config::getInstance()->forceSave();
+
         Filesystem::deleteAllCacheOnUpdate();
 
+        self::deletePluginFromFilesystem($pluginName);
         if($this->isPluginInFilesystem($pluginName)) {
             return false;
         }
@@ -290,7 +288,7 @@ class PluginsManager
 
         // Only one theme enabled at a time
         $themeEnabled = $this->getThemeEnabled();
-        if($themeEnabled) {
+        if($themeEnabled && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
             $plugin = $this->loadPlugin($pluginName);
             if($plugin->isTheme()) {
@@ -330,6 +328,7 @@ class PluginsManager
 
     /**
      * Returns the name of the non default theme currently enabled.
+     *
      * If Zeitgeist is enabled, returns false (nb: Zeitgeist cannot be disabled)
      *
      * @return Plugin
@@ -337,14 +336,19 @@ class PluginsManager
     public function getThemeEnabled()
     {
         $plugins = $this->getLoadedPlugins();
+
+        $theme = false;
         foreach($plugins as $plugin) {
             /* @var $plugin Plugin */
             if($plugin->isTheme()
-                && $plugin->getPluginName() != self::DEFAULT_THEME) {
-                return $plugin;
+                && $this->isPluginActivated($plugin->getPluginName())) {
+                if($plugin->getPluginName() != self::DEFAULT_THEME) {
+                    return $plugin; // enabled theme (not default)
+                }
+                $theme = $plugin; // default theme
             }
         }
-        return false;
+        return $theme;
     }
 
     /**
