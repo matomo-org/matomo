@@ -74,13 +74,38 @@ class Log
      * This event is called when trying to log an object to a database table. Plugins can use
      * this event to convert objects to strings before they are logged.
      * 
-     * Callback signature: function (&$message, $level, $tag, $datetiem, $logger)
+     * Callback signature: function (&$message, $level, $tag, $datetime, $logger)
      * 
      * The $message parameter is the object that is being logged. Event handlers should
      * check if the object is of a certain type and if it is, set $message to the
      * string that should be logged.
      */
     const FORMAT_DATABASE_MESSAGE_EVENT = 'Log.formatDatabaseMessage';
+
+    /**
+     * This event is called when the Log instance is created. Plugins can use this event to
+     * make new logging writers available.
+     * 
+     * A logging writer is a callback that takes the following arguments:
+     *   int $level, string $tag, string $datetime, string $message
+     * 
+     * $level is the log level to use, $tag is the log tag used, $datetime is the date time
+     * of the logging call and $message is the formatted log message.
+     * 
+     * Logging writers must be associated by name in the array passed to event handlers.
+     * 
+     * Callback signature: function (array &$writers)
+     * 
+     * Example handler:
+     *     function (&$writers) {
+     *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
+     *             ...
+     *         }
+     *     }
+     * 
+     *     // 'myloggername' can now be used in the log_writers config option.
+     */
+    const GET_AVAILABLE_WRITERS_EVENT = 'Log.getAvailableWriters';
 
     /**
      * The singleton Log instance.
@@ -245,15 +270,18 @@ class Log
 
     private function setLogWritersFromConfig($logConfig)
     {
+        $availableWritersByName = $this->getAvailableWriters();
+
         // set the log writers
         $logWriters = $logConfig[self::LOG_WRITERS_CONFIG_OPTION];
 
         $logWriters = array_map('trim', $logWriters);
         foreach ($logWriters as $writerName) {
-            $writer = $this->createWriterByName($writerName);
-            if (!empty($writer)) {
-                $this->writers[] = $writer;
+            if (empty($availableWritersByName[$writerName])) {
+                continue;
             }
+
+            $this->writers[] = $availableWritersByName[$writerName];
 
             if ($writerName == 'screen') {
                 $this->loggingToScreen = true;
@@ -295,17 +323,15 @@ class Log
         $this->logToFilePath = $logPath;
     }
 
-    private function createWriterByName($writerName)
+    private function getAvailableWriters()
     {
-        $writer = false;
-        if ($writerName == 'file') {
-            $writer = array($this, 'logToFile');
-        } else if ($writerName == 'screen') {
-            $writer = array($this, 'logToScreen');
-        } else if ($writerName == 'database') {
-            $writer = array($this, 'logToDatabase');
-        }
-        return $writer;
+        $writers = array();
+        Piwik_PostEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
+
+        $writers['file'] = array($this, 'logToFile');
+        $writers['screen'] = array($this, 'logToScreen');
+        $writers['database'] = array($this, 'logToDatabase');
+        return $writers;
     }
 
     private function logToFile($level, $tag, $datetime, $message)
