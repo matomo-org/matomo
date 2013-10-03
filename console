@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
+define('PIWIK_INCLUDE_PATH', PIWIK_DOCUMENT_ROOT);
+define('PIWIK_USER_PATH', PIWIK_DOCUMENT_ROOT);
+
+require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+
+$console = new Piwik\Console();
+$console->run();
