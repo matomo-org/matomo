@@ -31,11 +31,11 @@ class Evolution extends JqplotDataGenerator
     {
         // if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
         // we don't expect plugin developers to return a well defined Set
-        /* TODO remove completely? unecessary if DataTableCollection is created
+
         if ($dataTable instanceof DataTable) {
-            parent::initChartObjectData($dataTable);
+            parent::initChartObjectData($dataTable, $visualization);
             return;
-        }*/
+        }
 
         // the X label is extracted from the 'period' object in the table's metadata
         $xLabels = array();

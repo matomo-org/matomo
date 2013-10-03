@@ -198,7 +198,7 @@ abstract class Controller
         $meta = API::getInstance()->getReportMetadata($idSite, $period, $date);
 
         $columns = array_merge($columnsToDisplay, $selectableColumns);
-        $translations = array();
+        $translations = array_combine($columns, $columns);
         foreach ($meta as $reportMeta) {
             if ($reportMeta['action'] == 'get' && !isset($reportMeta['parameters'])) {
                 foreach ($columns as $column) {

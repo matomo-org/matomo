@@ -11,9 +11,6 @@
 
 namespace Piwik\Plugins\ExampleRssWidget;
 
-use Zend_Feed;
-use Zend_Feed_Exception;
-
 /**
  *
  * @package ExampleRssWidget
@@ -48,8 +45,8 @@ class RssRenderer
     public function get()
     {
         try {
-            $rss = Zend_Feed::import($this->url);
-        } catch (Zend_Feed_Exception $e) {
+            $rss = simplexml_load_file($this->url);
+        } catch (\Exception $e) {
             echo "Error while importing feed: {$e->getMessage()}\n";
             exit;
         }
@@ -57,19 +54,19 @@ class RssRenderer
         $output = '<div style="padding:10px 15px;"><ul class="rss">';
         $i = 0;
 
-        foreach ($rss as $post) {
-            $title = $post->title();
-            $date = @strftime("%B %e, %Y", strtotime($post->pubDate()));
-            $link = $post->link();
+        foreach ($rss->channel->item as $post) {
+            $title = $post->title;
+            $date = @strftime("%B %e, %Y", strtotime($post->pubDate));
+            $link = $post->link;
 
             $output .= '<li><a class="rss-title" title="" target="_blank" href="?module=Proxy&action=redirect&url=' . $link . '">' . $title . '</a>' .
                 '<span class="rss-date">' . $date . '</span>';
             if ($this->showDescription) {
-                $output .= '<div class="rss-description">' . $post->description() . '</div>';
+                $output .= '<div class="rss-description">' . $post->description . '</div>';
             }
 
             if ($this->showContent) {
-                $output .= '<div class="rss-content">' . $post->content() . '</div>';
+                $output .= '<div class="rss-content">' . $post->content . '</div>';
             }
             $output .= '</li>';
 
