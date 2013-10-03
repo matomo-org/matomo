@@ -135,43 +135,6 @@ class Myisam implements SchemaInterface
 									)  DEFAULT CHARSET=utf8
 			",
 
-            'logger_api_call'       => "CREATE TABLE {$prefixTables}logger_api_call (
-									  idlogger_api_call INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-									  class_name VARCHAR(255) NULL,
-									  method_name VARCHAR(255) NULL,
-									  parameter_names_default_values TEXT NULL,
-									  parameter_values TEXT NULL,
-									  execution_time FLOAT NULL,
-									  caller_ip VARBINARY(16) NOT NULL,
-									  timestamp TIMESTAMP NULL,
-									  returned_value TEXT NULL,
-									  PRIMARY KEY(idlogger_api_call)
-									)  DEFAULT CHARSET=utf8
-			",
-
-            'logger_error'          => "CREATE TABLE {$prefixTables}logger_error (
-									  idlogger_error INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-									  timestamp TIMESTAMP NULL,
-									  message TEXT NULL,
-									  errno INTEGER UNSIGNED NULL,
-									  errline INTEGER UNSIGNED NULL,
-									  errfile VARCHAR(255) NULL,
-									  backtrace TEXT NULL,
-									  PRIMARY KEY(idlogger_error)
-									) DEFAULT CHARSET=utf8
-			",
-
-            'logger_exception'      => "CREATE TABLE {$prefixTables}logger_exception (
-									  idlogger_exception INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-									  timestamp TIMESTAMP NULL,
-									  message TEXT NULL,
-									  errno INTEGER UNSIGNED NULL,
-									  errline INTEGER UNSIGNED NULL,
-									  errfile VARCHAR(255) NULL,
-									  backtrace TEXT NULL,
-									  PRIMARY KEY(idlogger_exception)
-									)  DEFAULT CHARSET=utf8
-			",
 
             'log_action'            => "CREATE TABLE {$prefixTables}log_action (
 									  idaction INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
