@@ -96,7 +96,7 @@ use Piwik\ViewDataTable\Visualization;
  * @property string filter_pattern
  * @property string export_limit
  * @property string y_axis_unit
- * @property \stdClass visualization_properties
+ * @property VisualizationPropertiesProxy visualization_properties
  * @property array filters
  * @property array after_data_loaded_functions
  * @property array subtable_controller_action
