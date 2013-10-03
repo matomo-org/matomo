@@ -23,28 +23,15 @@ class Controller extends \Piwik\Controller
 {
     public function dataTables()
     {
-        $view = ViewDataTable::factory('table', 'ExampleUI.getTemperatures', $controllerAction = 'ExampleUI.dataTables');
+        $controllerAction = $this->pluginName . '.' . __FUNCTION__;
+        $apiAction        = 'ExampleUI.getTemperatures';
 
-        $view->translations['value'] = "Temperature in °C";
-        $view->translations['label'] = "Hour of day";
-        $view->filter_sort_column    = 'label';
-        $view->filter_sort_order     = 'asc';
-        $view->filter_limit          = 24;
-        $view->y_axis_unit           = '°C'; // useful if the user requests the bar graph
-        $view->show_exclude_low_population = false;
-        $view->show_table_all_columns      = false;
-        $view->visualization_properties->setForVisualization(
-            'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable',
-            'disable_row_evolution',
-            true
-        );
-        $view->visualization_properties->setForVisualization(
-            'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph',
-            'max_graph_elements',
-            24
-        );
+        /**
+         * this is an example how you can make a custom visualization reusable.
+         */
+        $table = new CustomDataTable();
 
-        echo $view->render();
+        echo $table->render('Temperature in °C', 'Hour of day', $apiAction, $controllerAction);
     }
 
     public function evolutionGraph()
