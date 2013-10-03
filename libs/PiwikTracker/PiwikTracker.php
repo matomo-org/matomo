@@ -109,13 +109,13 @@ class PiwikTracker
         }
         $this->setNewVisitorId();
 
-		// Life of the visitor cookie (in milliseconds)
-		$this->configVisitorCookieTimeout = 63072000000; // 2 years
-		// Life of the session cookie (in milliseconds)
-		$this->configSessionCookieTimeout = 1800000; // 30 minutes
-		// Life of the referral cookie (in milliseconds)
-		$this->configReferralCookieTimeout = 15768000000; // 6 months
-		
+        // Life of the visitor cookie (in milliseconds)
+        $this->configVisitorCookieTimeout = 63072000000; // 2 years
+        // Life of the session cookie (in milliseconds)
+        $this->configSessionCookieTimeout = 1800000; // 30 minutes
+        // Life of the referral cookie (in milliseconds)
+        $this->configReferralCookieTimeout = 15768000000; // 6 months
+        
         // Allow debug while blocking the request
         $this->requestTimeout = 600;
         $this->doBulkRequests = false;
@@ -850,18 +850,18 @@ class PiwikTracker
                 if (count($parts)>5) {
                     $this->lastEcommerceOrderTs = $parts[5];
                 } else {
-					$this->lastEcommerceOrderTs = '';
+                    $this->lastEcommerceOrderTs = '';
                 }
                 return true;
             }
         }
-		// If we didn't return true already, the cookie didn't exist or was invalid.
-		// Initialize default values
-		$this->createTs = $this->currentTs;
-		$this->visitCount = 1;
-		$this->currentVisitTs = $this->currentTs;
-		$this->lastVisitTs = $this->currentTs;
-		$this->lastEcommerceOrderTs = '';
+        // If we didn't return true already, the cookie didn't exist or was invalid.
+        // Initialize default values
+        $this->createTs = $this->currentTs;
+        $this->visitCount = 1;
+        $this->currentVisitTs = $this->currentTs;
+        $this->lastVisitTs = $this->currentTs;
+        $this->lastEcommerceOrderTs = '';
         return false;
     }
     
@@ -871,12 +871,12 @@ class PiwikTracker
      */
     public function deleteCookies() 
     {
-		return 
+        return 
         setcookie($this->getCookieName('id'), '', $this->currentTs - 86400, '/', $this->clientCookieDomain) && 
         setcookie($this->getCookieName('ses'), '', $this->currentTs - 86400, '/', $this->clientCookieDomain) &&
         setcookie($this->getCookieName('cvar'), '', $this->currentTs - 86400, '/', $this->clientCookieDomain) &&
         setcookie($this->getCookieName('ref'), '', $this->currentTs - 86400, '/', $this->clientCookieDomain);
-	}
+    }
     
     /**
      * Returns the currently assigned Attribution Information stored in a first party cookie.
@@ -1200,18 +1200,18 @@ class PiwikTracker
 
         // Update client cookies in getRequest to parallel piwik.js logic
         if ($this->updateClientCookies) {
-			if (!$this->lastVisitTs) {
-				// Initialize cookie data if it's still defaulted to false
-				$this->loadVisitorIdCookie();
-			}
-			$sesname = $this->getCookieName('ses');
-			if (!$this->getCookieMatchingName($sesname)) {
-				// new session (new visit)
-				$this->visitCount++;
-				$this->lastVisitTs = $this->currentVisitTs;
-			}
-			$this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
-			setcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, '/', $this->clientCookieDomain);
+            if (!$this->lastVisitTs) {
+                // Initialize cookie data if it's still defaulted to false
+                $this->loadVisitorIdCookie();
+            }
+            $sesname = $this->getCookieName('ses');
+            if (!$this->getCookieMatchingName($sesname)) {
+                // new session (new visit)
+                $this->visitCount++;
+                $this->lastVisitTs = $this->currentVisitTs;
+            }
+            $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
+            setcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, '/', $this->clientCookieDomain);
         }
         return $url;
     }
