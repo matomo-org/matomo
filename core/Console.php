@@ -12,6 +12,7 @@ namespace Piwik;
 
 use Piwik\Plugins\CoreConsole\GeneratePlugin;
 use Piwik\Plugins\CoreConsole\RunTests;
+use Piwik\Plugins\CoreConsole\WatchLog;
 use Symfony\Component\Console\Application;
 
 class Console
@@ -22,6 +23,7 @@ class Console
 
         $console->add(new RunTests());
         $console->add(new GeneratePlugin());
+        $console->add(new WatchLog());
 
         $console->run();
     }
