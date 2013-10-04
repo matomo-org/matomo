@@ -12,6 +12,7 @@
 namespace Piwik\Plugins\CoreConsole;
 
 use Piwik\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,12 +26,18 @@ class RunTests extends Command
     {
         $this->setName('tests');
         $this->setDescription('Run Piwik PHPUnit tests');
+        $this->addArgument('group', InputArgument::OPTIONAL, 'Optional test group', '');
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $options = $input->getOption('options');
+        $group = $input->getArgument('group');
+
+        if (!empty($group)) {
+            $options = '--group ' . $group . ' ' . $options;
+        }
 
         $cmd = sprintf('cd %s/tests/PHPUnit && phpunit %s', PIWIK_DOCUMENT_ROOT, $options);
 
