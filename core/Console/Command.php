@@ -12,6 +12,7 @@ namespace Piwik\Console;
 
 use Piwik\Common;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Command extends SymfonyCommand
 {
@@ -22,5 +23,23 @@ class Command extends SymfonyCommand
         }
 
         parent::__construct($name);
+    }
+
+    public function writeSuccessMessage(OutputInterface $output, $messages)
+    {
+        $lengths = array_map('strlen', $messages);
+        $maxLen  = max($lengths) + 4;
+
+        $separator = str_pad('', $maxLen, '*');
+
+        $output->writeln('');
+        $output->writeln('<info>' . $separator . '</info>');
+
+        foreach ($messages as $message) {
+            $output->writeln('  ' . $message . '  ');
+        }
+
+        $output->writeln('<info>' . $separator . '</info>');
+        $output->writeln('');
     }
 }

@@ -36,7 +36,7 @@ class RunTests extends Command
         $group = $input->getArgument('group');
 
         if (!empty($group)) {
-            $options = '--group ' . $group . ' ' . $options;
+            $options = '--group ' . ucfirst($group) . ' ' . $options;
         }
 
         $cmd = sprintf('cd %s/tests/PHPUnit && phpunit %s', PIWIK_DOCUMENT_ROOT, $options);
