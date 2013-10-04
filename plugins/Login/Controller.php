@@ -356,10 +356,6 @@ class Controller extends \Piwik\Controller
         }
 
         if ($user['email'] == Piwik::getSuperUserEmail()) {
-            if (!Config::getInstance()->isFileWritable()) {
-                throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)", "<br/>")));
-            }
-
             $user['password'] = $passwordHash;
             Config::getInstance()->superuser = $user;
             Config::getInstance()->forceSave();

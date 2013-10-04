@@ -21,6 +21,7 @@
     "require": {
         "php": ">=5.3.0",
         "twig/twig": "1.*",
-        "leafo/lessphp": "0.3.*"
+        "leafo/lessphp": "0.3.*",
+        "symfony/console": ">=v2.3.5"
     }
 }

@@ -19,7 +19,11 @@
 
     <h2>{{ 'CorePluginsAdmin_ThemesManagement'|translate }}</h2>
 
-    <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}</p>
+    <p>{{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+    {% if otherUsersCount > 0 %}
+        <br/> Note: the other {{ otherUsersCount }} users registered in this Piwik are also using the theme {{ themeEnabled }}.
+    {% endif %}
+    </p>
 
     {{ plugins.tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, true) }}
 

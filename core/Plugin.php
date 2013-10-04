@@ -59,7 +59,7 @@ class Plugin
         $this->pluginInformation = $metadataLoader->load();
 
         if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
-            throw new \Exception('Plugin ' . $pluginName .  ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class.');
+            throw new \Exception('Plugin ' . $pluginName .  ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/'.$pluginName);
         }
     }
 

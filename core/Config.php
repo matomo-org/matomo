@@ -492,6 +492,8 @@ class Config
      * @param array $configGlobal
      * @param array $configCache
      * @param string $pathLocal
+     *
+     * @throws Exception if config file not writable
      */
     protected function writeConfig($configLocal, $configGlobal, $configCache, $pathLocal)
     {
@@ -501,7 +503,10 @@ class Config
 
         $output = $this->dumpConfig($configLocal, $configGlobal, $configCache);
         if ($output !== false) {
-            @file_put_contents($pathLocal, $output);
+            $success = @file_put_contents($pathLocal, $output);
+            if(!$success) {
+                throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)", "")));
+            }
         }
 
         $this->clear();

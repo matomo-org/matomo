@@ -194,6 +194,10 @@ class Controller extends \Piwik\Controller\Admin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->pluginsInfo     = $this->getPluginsInfo($themesOnly);
 
+        $users = \Piwik\Plugins\UsersManager\API::getInstance()->getUsers();
+        $view->otherUsersCount = count($users) - 1;
+        $view->themeEnabled = PluginsManager::getInstance()->getThemeEnabled()->getPluginName();
+
         $marketplace = new Marketplace();
         $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly);
 

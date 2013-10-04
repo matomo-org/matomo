@@ -100,7 +100,7 @@ class MobileMessaging extends \Piwik\Plugin
         $jsFiles[] = "plugins/MobileMessaging/javascripts/MobileMessagingSettings.js";
     }
 
-    public function getStylesheetFiles($stylesheets)
+    public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
     }
