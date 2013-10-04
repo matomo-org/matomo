@@ -44,7 +44,8 @@ class GeneratePlugin extends Command
         $this->generatePluginJson($pluginName, $version, $description, $isTheme);
         $this->generatePluginFiles($isTheme, $pluginName);
 
-        $output->writeln(sprintf('Plugin %s %s generated', $pluginName, $version));
+        $title = $isTheme ? 'Theme' : 'Plugin';
+        $output->writeln(sprintf('%s %s %s generated. Enjoy!', $title, $pluginName, $version));
     }
 
     /**
