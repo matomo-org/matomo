@@ -646,6 +646,10 @@ class Archive
         }
 
         $plugin = substr($report, 0, strpos($report, '_'));
+        if ($plugin == 'Referrers') { // TODO: remove when Referers plugin name is changed
+            $plugin = 'Referers';
+        }
+        
         if (empty($plugin)
             || !\Piwik\PluginsManager::getInstance()->isPluginActivated($plugin)
         ) {

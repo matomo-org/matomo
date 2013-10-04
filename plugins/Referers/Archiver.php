@@ -21,16 +21,17 @@ use Piwik\PluginsArchiver;
 
 class Archiver extends PluginsArchiver
 {
-    const SEARCH_ENGINES_RECORD_NAME = 'Referers_keywordBySearchEngine';
-    const KEYWORDS_RECORD_NAME = 'Referers_searchEngineByKeyword';
-    const CAMPAIGNS_RECORD_NAME = 'Referers_keywordByCampaign';
-    const WEBSITES_RECORD_NAME = 'Referers_urlByWebsite';
-    const REFERRER_TYPE_RECORD_NAME = 'Referers_type';
-    const METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME = 'Referers_distinctSearchEngines';
-    const METRIC_DISTINCT_KEYWORD_RECORD_NAME = 'Referers_distinctKeywords';
-    const METRIC_DISTINCT_CAMPAIGN_RECORD_NAME = 'Referers_distinctCampaigns';
-    const METRIC_DISTINCT_WEBSITE_RECORD_NAME = 'Referers_distinctWebsites';
-    const METRIC_DISTINCT_URLS_RECORD_NAME = 'Referers_distinctWebsitesUrls';
+    const SEARCH_ENGINES_RECORD_NAME = 'Referrers_keywordBySearchEngine';
+    const KEYWORDS_RECORD_NAME = 'Referrers_searchEngineByKeyword';
+    const CAMPAIGNS_RECORD_NAME = 'Referrers_keywordByCampaign';
+    const WEBSITES_RECORD_NAME = 'Referrers_urlByWebsite';
+    const REFERRER_TYPE_RECORD_NAME = 'Referrers_type';
+    const METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME = 'Referrers_distinctSearchEngines';
+    const METRIC_DISTINCT_KEYWORD_RECORD_NAME = 'Referrers_distinctKeywords';
+    const METRIC_DISTINCT_CAMPAIGN_RECORD_NAME = 'Referrers_distinctCampaigns';
+    const METRIC_DISTINCT_WEBSITE_RECORD_NAME = 'Referrers_distinctWebsites';
+    const METRIC_DISTINCT_URLS_RECORD_NAME = 'Referrers_distinctWebsitesUrls';
+    
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTableLevelZero;
     protected $maximumRowsInSubDataTable;

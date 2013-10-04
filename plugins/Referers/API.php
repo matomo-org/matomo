@@ -19,6 +19,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\DataTable\Map;
 use Piwik\Plugins\Referers\Archiver;
 
 /**
@@ -56,8 +57,62 @@ class API
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
         $dataTable = Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable);
+
+        // backwards compatibility: before v2.0, Referrers_... blobs were named Referers_... . here we
+        // check if we're missing blobs w/ the correct name, and if so, try to use the old name.
+        $dataMissing = true;
+        $dataTable->filter(function ($table) use (&$dataMissing) {
+            if ($table->getRowsCount() > 0) {
+                $dataMissing = false;
+            }
+        });
+
+        if ($dataMissing) {
+            $oldName = $this->getOldReferrersRecordName($name);
+            $oldData = Archive::getDataTableFromArchive($oldName, $idSite, $period, $date, $segment, $expanded, $idSubtable);
+
+            if ($dataTable instanceof DataTable) {
+                $dataTable = $oldData;
+            } else {
+                $this->replaceEmptyDataTablesWith($dataTable, $oldData);
+            }
+        }
+
         $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ReplaceColumnNames');
+        return $dataTable;
+    }
+
+    private function getNumeric($name, $idSite, $period, $date, $segment)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+        $archive = Archive::build($idSite, $period, $date, $segment);
+        $dataTable = $archive->getDataTableFromNumeric($name);
+
+        // backwards compatibility: before v2.0, Referrers_... metrics were named Referers_... . here we
+        // check if we're missing metrics w/ the correct name, and if so, try to use the old name.
+        // NOTE: getDataTableFromNumeric will return a DataTable w/ data even if no metrics are found.
+        //       In this case, there will be one row w/ column values of 0.
+        $dataMissing = true;
+        $dataTable->filter(function ($table) use (&$dataMissing, $name) {
+            if ($table->getRowsCount() > 0
+                && $table->getFirstRow()->getColumn($name) != 0
+            ) {
+                $dataMissing = false;
+            }
+        });
+
+        if ($dataMissing) {
+            $oldName = $this->getOldReferrersRecordName($name);
+            $oldData = $archive->getDataTableFromNumeric($oldName);
+
+            if ($dataTable instanceof DataTable) {
+                $dataTable = $oldData;
+            } else {
+                $this->replaceEmptyDataTablesWith($dataTable, $oldData);
+            }
+        }
+
         return $dataTable;
     }
 
@@ -416,13 +471,6 @@ class API
         return $this->getNumeric(Archiver::METRIC_DISTINCT_URLS_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
-    private function getNumeric($name, $idSite, $period, $date, $segment)
-    {
-        Piwik::checkUserHasViewAccess($idSite);
-        $archive = Archive::build($idSite, $period, $date, $segment);
-        return $archive->getDataTableFromNumeric($name);
-    }
-
     /**
      * Removes idsubdatatable_in_db metadata from a DataTable. Used by Social tables since
      * they use fake subtable IDs.
@@ -533,5 +581,39 @@ class API
                 }
             }
         }
+    }
+
+    /**
+     * Replaces empty DataTables in a DataTable Map with DataTables in another DataTable Map.
+     * Only replaces DataTables if DataTables in $replaceIn are empty.
+     * 
+     * @param Map $replaceIn
+     * @param Map $replaceWith
+     */
+    private function replaceEmptyDataTablesWith(&$replaceIn, $replaceWith)
+    {
+        foreach ($replaceWith->getArray() as $label => $replaceWithChildTable) {
+            if ($replaceWithChildTable instanceof Map) { // recurse
+                $this->replaceEmptyDataTablesWith($replaceIn->getTable($label), $replaceWithChildTable);
+            } else {
+                $replaceInChildTable = $replaceIn->getTable($label);
+
+                if (!$this->isDataTableEmpty($replaceWithChildTable)
+                    && $this->isDataTableEmpty($replaceInChildTable)
+                ) {
+                    $replaceIn->addTable($replaceWithChildTable, $label);
+                }
+            }
+        }
+    }
+
+    private function getOldReferrersRecordName($name)
+    {
+        return str_replace('Referrers', 'Referers', $name);
+    }
+
+    private function isDataTableEmpty($table)
+    {
+        return empty($table) || $table->getRowsCount() == 0;
     }
 }
