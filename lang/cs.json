@@ -81,7 +81,7 @@
         "Administration": "Administrace",
         "BrandingSettings": "Označení nastavení",
         "ClickHereToOptIn": "Klikněte zde pro přihlášení.",
-        "ClickHereToOptOut": "Klikněte zde pro odhlášení.",
+        "ClickHereToOptOut": "Klikněte zde odhlásit.",
         "EmailServerSettings": "Nastavení server E-mailu",
         "ForBetaTestersOnly": "Pouze pro beta testery",
         "ImageTracking": "Sledováním obrázkem",
@@ -107,7 +107,10 @@
         "TrackAGoal": "Sledovat cíl",
         "TrackingCode": "Sledovací kód",
         "UseCustomLogo": "Použít vlastní logotyp",
-        "WithOptionalRevenue": "volitelné hodnoty"
+        "WithOptionalRevenue": "volitelné hodnoty",
+        "YouAreOptedIn": "Návštěva této stránky se aktuálně zaznamenává pomocí Piwik Wabanalyse.",
+        "YouMayOptOut": "Zde se můžete rozhodnou, zda se smí ve Vašem prohlížeči ukládat jedinečná analytická data “ Cookies” , a zda umožníte provozovateli webové stránky shromažďovat a analyzovat různé statistické údaje.",
+        "YouMayOptOutBis": "Pokud jste se rozhodli že ne, klikněte na přiložený odkaz pro uložení deaktivačního Cookie ve Vašem prohlížeči."
     },
     "CoreHome": {
         "CategoryNoData": "V této kategorii nejsou k dispozici žádná data. Zkuste \"Zobrazit všechny výsledky\".",

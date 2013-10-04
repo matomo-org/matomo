@@ -238,6 +238,7 @@
         "MainDescription": "I Plugins estendono le funzionalità di Piwik. Una volta installati, è possibile attivarli o disattivarli qui (non tutti sono in italiano).",
         "MenuExtend": "Estendi",
         "MenuPlatform": "Piattaforma",
+        "NoZipFileSelected": "Seleziona un file ZIP.",
         "PluginAskDevToUpdate": "Se ti è piaciuto questo plugin, forse puoi chiedere ai suoi sviluppatori di aggiornarlo per lavorare sull'ultima versione di Piwik.",
         "PluginDescription": "Interfaccia di amministrazione plugins.",
         "PluginHomepage": "Homepage Plugins",
@@ -248,6 +249,7 @@
         "Themes": "Temi",
         "ThemesDescription": "I temi possono cambiare l'aspetto dell'interfaccia utente Piwik e fornire una nuova esperienza visiva per godere i tuoi reports statistici.",
         "ThemesManagement": "Gestisci i temi",
+        "UninstallConfirm": "State per disinstallare un plugin %s. Questo verrà completamente rimosso dalla vostra piattaforma e non potrà essere recuperato. Siete sicuri di volerlo fare?",
         "Version": "Versione"
     },
     "CoreUpdater": {
