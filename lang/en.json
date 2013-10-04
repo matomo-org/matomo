@@ -684,7 +684,7 @@
         "EstimatedSpaceSaved": "Estimated space saved",
         "KeepReportSegments": "For kept data above, also keep segmented reports",
         "DoNotTrack_SupportDNTPreference": "Support Do Not Track preference",
-        "DoNotTrack_Description": "Do Not Track is a technology and policy proposal that enables users to opt out of tracking by websites they do not visit, including analytics services, advertising networks, and social platforms.",
+        "DoNotTrack_Description": "Do Not Track is a technology and policy proposal that enables users to opt out of tracking by websites they do visit, including analytics services, advertising networks, and social platforms.",
         "DoNotTrack_Enabled": "You are currently respecting your users Privacy, Bravo!",
         "DoNotTrack_EnabledMoreInfo": "When users have set their web browser to \"I do not want to be tracked\" (DoNotTrack is enabled) then Piwik will not track these visits.",
         "DoNotTrack_Disabled": "Piwik is currently tracking all visitors, even when they specified \"I do not want to be tracked\" in their web browsers.",
