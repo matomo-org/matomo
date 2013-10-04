@@ -160,7 +160,7 @@ function ajaxHelper() {
      * @param {string} url
      */
     this.setUrl = function (url) {
-        this.getUrl = url;
+        this.addParams(broadcast.getValuesFromUrl(url), 'GET');
     };
 
     /**
