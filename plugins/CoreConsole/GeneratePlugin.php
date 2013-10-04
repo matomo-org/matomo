@@ -149,12 +149,14 @@ class GeneratePlugin extends Command
             if (file_exists($pluginPath)) {
                 throw new \RunTimeException('A plugin with this name already exists');
             }
+
+            return $pluginName;
         };
 
         $pluginName = $input->getOption('name');
 
         if (empty($pluginName)) {
-            $dialog = $this->getHelperSet()->get('dialog');
+            $dialog     = $this->getHelperSet()->get('dialog');
             $pluginName = $dialog->askAndValidate($output, 'Enter a plugin name: ', $validate);
         } else {
             $validate($pluginName);
@@ -180,6 +182,8 @@ class GeneratePlugin extends Command
             if (150 < strlen($description)) {
                 throw new \RunTimeException('Description is too long, max 150 characters allowed.');
             }
+
+            return $description;
         };
 
         $description = $input->getOption('description');
