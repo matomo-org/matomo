@@ -925,10 +925,13 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
 (function ($, require) {
     $.jqplot.preInitHooks.push(function (target, data, options) {
-        var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
-
         // create the series picker
         var dataTable = $('#' + target).closest('.dataTable').data('uiControlObject');
+        if (!dataTable) { // if we're not dealing w/ a DataTable visualization, don't add the series picker
+            return;
+        }
+
+        var SeriesPicker = require('piwik/DataTableVisualizations/Widgets').SeriesPicker;
         var seriesPicker = new SeriesPicker(dataTable);
 
         // handle placeSeriesPicker event
