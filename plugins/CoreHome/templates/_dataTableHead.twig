@@ -5,9 +5,9 @@
                {% if properties.metrics_documentation[column]|default is not empty %}
                    <div class="columnDocumentation">
                        <div class="columnDocumentationTitle">
-                           {{ properties.translations[column]|default(column) }}
+                           {{ properties.translations[column]|default(column)|raw }}
                        </div>
-                       {{ properties.metrics_documentation[column] }}
+                       {{ properties.metrics_documentation[column]|raw }}
                    </div>
                {% endif %}
                <div id="thDIV">{{ properties.translations[column]|default(column)|raw }}</div>
