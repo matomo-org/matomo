@@ -56,7 +56,6 @@ class Config
     {
         if (self::$instance == null) {
             self::$instance = new self;
-            self::$instance->init();
 
             Piwik_PostTestEvent('Config.createConfigSingleton', array(self::$instance));
         }
@@ -300,6 +299,10 @@ class Config
     {
         if (!$this->initialized) {
             $this->init();
+
+            // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
+            // infinite recursion)
+            Piwik_PostTestEvent('Config.createConfigSingleton', array(self::$instance));
         }
 
         // check cache for merged section
