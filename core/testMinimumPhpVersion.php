@@ -57,7 +57,7 @@ if ($minimumPhpInvalid) {
     $autoloader = PIWIK_INCLUDE_PATH . $autoloadPath;
     if(!file_exists($autoloader)) {
         $composerInstall = "<pre> curl -sS https://getcomposer.org/installer | php \n php composer.phar install</pre> ";
-        if(\Piwik\SettingsServer::isWindows()) {
+        if(DIRECTORY_SEPARATOR === '\\'  /* ::isWindows() */) {
             $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line.";
         }
         $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed.
