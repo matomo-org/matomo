@@ -10,8 +10,17 @@
  */
 namespace Piwik\Console;
 
+use Piwik\Common;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class Command extends SymfonyCommand
 {
+    public function __construct($name = null)
+    {
+        if (!Common::isPhpCliMode()) {
+            throw new \RuntimeException('Only executable in CLI mode');
+        }
+
+        parent::__construct($name);
+    }
 }
