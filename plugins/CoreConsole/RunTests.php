@@ -14,7 +14,7 @@ namespace Piwik\Plugins\CoreConsole;
 use Piwik\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @package CoreConsole
@@ -25,13 +25,13 @@ class RunTests extends Command
     {
         $this->setName('tests');
         $this->setDescription('Run Piwik PHPUnit tests');
-        $this->addArgument('options', InputArgument::OPTIONAL, 'All options will be forwarded to phpunit', '');
+        $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $options = $input->getArgument('options');
-echo '' . $options;return;
+        $options = $input->getOption('options');
+
         $cmd = sprintf('cd %s/tests/PHPUnit && phpunit %s', PIWIK_DOCUMENT_ROOT, $options);
 
         $output->writeln('Executing command: ' . $cmd);
