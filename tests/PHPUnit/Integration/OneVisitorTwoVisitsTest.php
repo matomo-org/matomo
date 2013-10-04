@@ -7,12 +7,6 @@
  */
 use Piwik\API\Proxy;
 use Piwik\Archive;
-use Piwik\Db;
-use Piwik\Date;
-use Piwik\Period;
-use Piwik\Segment;
-use Piwik\DataAccess\ArchiveWriter;
-use Piwik\ArchiveProcessor\Rules;
 
 /**
  * This use case covers many simple tracking features.
@@ -26,48 +20,15 @@ use Piwik\ArchiveProcessor\Rules;
  */
 class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 {
-    const DUMMY_BLOB_VALUE = 'dummyblobvalue';
-
-    public static $oldReferrerRecordNames = array(
-        'Referers_keywordBySearchEngine',
-        'Referers_searchEngineByKeyword',
-        'Referers_keywordByCampaign',
-        'Referers_urlByWebsite',
-        'Referers_type',
-        'Referers_distinctSearchEngines',
-        'Referers_distinctKeywords',
-        'Referers_distinctCampaigns',
-        'Referers_distinctWebsites',
-        'Referers_distinctWebsitesUrls',
-    );
-
     public static $fixture = null; // initialized below class
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-
-        $idSite = self::$fixture->idSite;
-        $period = Period::factory('day', Date::factory('2010-05-06'));
-        $archiveWriter = new ArchiveWriter($idSite, new Segment('', array($idSite)), $period, 'Referers', $temp = false);
-
-        $archiveWriter->initNewArchive();
-        foreach (self::$oldReferrerRecordNames as $recordName) {
-            $archiveWriter->insertRecord('nb_visits', 1); // records are ignored if visits is absent or == 0
-            $archiveWriter->insertRecord($recordName, self::DUMMY_BLOB_VALUE);
-        }
-        $archiveWriter->finalizeArchive();
-    }
 
     public function setUp()
     {
-        Rules::$archivingDisabledByTests = false;
         Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
     public function tearDown()
     {
-        Rules::$archivingDisabledByTests = false;
         Proxy::getInstance()->setHideIgnoredFunctions(true);
     }
 
@@ -239,36 +200,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         {
             // pass
         }
-    }
-
-    /**
-     * Returns the old mispelled Referrer blob record names. Used as data provider for
-     * testReferrersReportsWhenOldBlobNameInDB.
-     */
-    public function getOldReferrerRecordNames()
-    {
-        $result = array();
-        foreach (self::$oldReferrerRecordNames as $name) {
-            $result[] = array($name);
-        }
-        return $result;
-    }
-
-    /**
-     * Test that if old Referrer blob names (Referrer_...) are found in the DB, they will be
-     * used instead of launching archiving.
-     *
-     * @group        Integration
-     * @group        OneVisitorTwoVisits
-     * @dataProvider getOldReferrerRecordNames
-     */
-    public function testReferrersReportsWhenOldBlobNameInDB($recordName)
-    {
-        Rules::$archivingDisabledByTests = true;
-
-        $archive = Archive::build(self::$fixture->idSite, 'day', '2010-05-06');
-        $blob = $archive->getBlob($recordName);
-        $this->assertNotEmpty($blob);
     }
 }
 

@@ -7,8 +7,82 @@
  */
 require_once 'Referers/Referers.php';
 
-class ReferersTest extends PHPUnit_Framework_TestCase
+use Piwik\Date;
+use Piwik\Period;
+use Piwik\Segment;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
+use Piwik\DataAccess\ArchiveWriter;
+use Piwik\ArchiveProcessor\Rules;
+
+class ReferersTest extends IntegrationTestCase
 {
+    public static $oldReferrerRecordNames = array(
+        'Referers_keywordBySearchEngine',
+        'Referers_searchEngineByKeyword',
+        'Referers_keywordByCampaign',
+        'Referers_urlByWebsite',
+        'Referers_type',
+    );
+
+    public static $oldReferrerMetricNames = array(
+        'Referers_distinctSearchEngines',
+        'Referers_distinctKeywords',
+        'Referers_distinctCampaigns',
+        'Referers_distinctWebsites',
+        'Referers_distinctWebsitesUrls',
+    );
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        Test_Piwik_BaseFixture::createWebsite('2010-01-01', $ecommerce = 0, $name = 'Site #1');
+        Test_Piwik_BaseFixture::createWebsite('2010-01-01', $ecommerce = 0, $name = 'Site #2');
+
+        $testDataTable = new DataTable();
+        $testDataTable->addRow(new Row(array(
+            Row::COLUMNS => array(
+                'testcol1' => 'testdata1',
+                'testcol2' => 'testdata2'
+            )
+        )));
+        $testDataTable->addRow(new Row(array(
+            Row::COLUMNS => array(
+                'testcol3' => 'testdata3',
+            )
+        )));
+        $testDataTableBlob = $testDataTable->getSerialized();
+        $testDataTableBlob = @gzcompress($testDataTableBlob[0]);
+
+        foreach (array(1, 2) as $idSite) {
+            foreach (array('2010-05-06', '2010-05-07') as $date) {
+                $period = Period::factory('day', Date::factory($date));
+                $archiveWriter = new ArchiveWriter($idSite, new Segment('', array($idSite)), $period, 'Referers', $temp = false);
+
+                $archiveWriter->initNewArchive();
+                $archiveWriter->insertRecord('nb_visits', 1); // records are ignored if visits is absent or == 0
+                foreach (self::$oldReferrerRecordNames as $recordName) {
+                    $archiveWriter->insertRecord($recordName, $testDataTableBlob);
+                }
+                foreach (self::$oldReferrerMetricNames as $recordName) {
+                    $archiveWriter->insertRecord($recordName, 5);
+                }
+                $archiveWriter->finalizeArchive();
+            }
+        }
+    }
+
+    public function setUp()
+    {
+        Rules::$archivingDisabledByTests = false;
+    }
+
+    public function tearDown()
+    {
+        Rules::$archivingDisabledByTests = false;
+    }
+
     /**
      * Dataprovider serving all search engine data
      */
@@ -139,5 +213,50 @@ class ReferersTest extends PHPUnit_Framework_TestCase
     {
         include PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
         $this->assertEquals($expected, \Piwik\Plugins\Referers\getSearchEngineUrlFromUrlAndKeyword($url, $keyword));
+    }
+
+    public function getReferrerReportsToTest()
+    {
+        $idSite = 1;
+
+        $referrersApi = array(
+            'Referers.getRefererType',
+            'Referers.getKeywords',
+            'Referers.getSearchEngines',
+            'Referers.getCampaigns',
+            'Referers.getWebsites',
+            'Referers.getNumberOfDistinctSearchEngines',
+            'Referers.getNumberOfDistinctKeywords',
+            'Referers.getNumberOfDistinctCampaigns',
+            'Referers.getNumberOfDistinctWebsites',
+            'Referers.getNumberOfDistinctWebsitesUrls'
+        );
+
+        return array(
+            // test all Referrers reports alone
+            array($referrersApi, array('idSite' => $idSite,
+                                       'date' => '2010-05-06',
+                                       'period' => 'day',
+                                       'testSuffix' => '_referrerOldName')),
+
+            // test one Referrers report with multiple sites + dates
+            array('Referers.getKeywords', array('idSite' => 'all',
+                                                'date' => '2010-05-06,2010-05-07',
+                                                'period' => 'day',
+                                                'testSuffix' => '_referrerOldName_multiple')),
+        );
+    }
+
+    /**
+     * Test that if old Referrer blob names (Referrer_...) are found in the DB, they will be
+     * used instead of launching archiving.
+     *
+     * @group        Integration
+     * @group        OneVisitorTwoVisits
+     * @dataProvider getReferrerReportsToTest
+     */
+    public function testReferrersReportsWhenOldBlobNameInDB($api, $params)
+    {
+        $this->runApiTests($api, $params);
     }
 }
