@@ -22,5 +22,13 @@ class PLUGINNAME extends Plugin
      */
     public function getListHooksRegistered()
     {
+        return array(
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+        );
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = 'plugins/PLUGINNAME/javascripts/plugin.js';
     }
 }
