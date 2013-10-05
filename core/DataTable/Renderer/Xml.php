@@ -93,7 +93,7 @@ class Xml extends Renderer
     {
         $array = $this->getArrayFromDataTable($table);
         if ($table instanceof Map) {
-            $out = $this->renderDataTableArray($table, $array, $prefixLines);
+            $out = $this->renderDataTableMap($table, $array, $prefixLines);
 
             if ($returnOnlyDataTableXml) {
                 return $out;
@@ -213,7 +213,7 @@ class Xml extends Renderer
                 } else {
                     $result .= $prefixLines . $prefix . "\n";
                     if ($value instanceof Map) {
-                        $result .= $this->renderDataTableArray($value, $this->getArrayFromDataTable($value), $prefixLines);
+                        $result .= $this->renderDataTableMap($value, $this->getArrayFromDataTable($value), $prefixLines);
                     } else if ($value instanceof Simple) {
                         $result .= $this->renderDataTableSimple($this->getArrayFromDataTable($value), $prefixLines);
                     } else {
@@ -244,7 +244,7 @@ class Xml extends Renderer
      * @param string $prefixLines
      * @return string
      */
-    protected function renderDataTableArray($table, $array, $prefixLines = "")
+    protected function renderDataTableMap($table, $array, $prefixLines = "")
     {
         // CASE 1
         //array
@@ -268,7 +268,7 @@ class Xml extends Renderer
             return $xml;
         }
 
-        $subTables = $table->getArray();
+        $subTables = $table->getDataTables();
         $firstTable = current($subTables);
 
         // CASE 2
@@ -341,7 +341,7 @@ class Xml extends Renderer
 
         if ($firstTable instanceof Map) {
             $xml = '';
-            $tables = $table->getArray();
+            $tables = $table->getDataTables();
             $nameDescriptionAttribute = $table->getKeyName();
             foreach ($tables as $valueAttribute => $tableInArray) {
                 $out = $this->renderTable($tableInArray, true, $prefixLines . "\t");

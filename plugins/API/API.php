@@ -443,7 +443,7 @@ class API
             $params['columns'] = implode(',', $columns);
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
             // make sure the table has all columns
-            $array = ($dataTable instanceof DataTable\Map ? $dataTable->getArray() : array($dataTable));
+            $array = ($dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : array($dataTable));
             foreach ($array as $table) {
                 // we don't support idSites=all&date=DATE1,DATE2
                 if ($table instanceof DataTable) {
@@ -478,8 +478,8 @@ class API
     {
         // handle table arrays
         if ($table1 instanceof DataTable\Map && $table2 instanceof DataTable\Map) {
-            $subTables2 = $table2->getArray();
-            foreach ($table1->getArray() as $index => $subTable1) {
+            $subTables2 = $table2->getDataTables();
+            foreach ($table1->getDataTables() as $index => $subTable1) {
                 $subTable2 = $subTables2[$index];
                 $this->mergeDataTables($subTable1, $subTable2);
             }

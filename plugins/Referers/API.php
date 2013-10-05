@@ -170,7 +170,7 @@ class API
         }
 
         // set subtable IDs for each row to the label (which holds the int referrer type)
-        // NOTE: not yet possible to do this w/ DataTable_Array instances
+        // NOTE: not yet possible to do this w/ DataTable\Map instances
         if (!($dataTable instanceof DataTable\Map)) {
             $this->setGetReferrerTypeSubtables($dataTable, $idSite, $period, $date, $segment, $expanded);
         }
@@ -275,7 +275,7 @@ class API
 
         // If period=lastX we only keep the first resultset as we want to return a plain list
         if ($table instanceof DataTable\Map) {
-            $tables = $table->getArray();
+            $tables = $table->getDataTables();
             $table = current($tables);
         }
         // Keep the response simple, only include keywords
@@ -316,7 +316,7 @@ class API
         $searchEngines->applyQueuedFilters();
 
         if ($searchEngines instanceof DataTable\Map) {
-            $dataTables = $searchEngines->getArray();
+            $dataTables = $searchEngines->getDataTables();
 
             // find first datatable containing data
             foreach ($dataTables AS $subTable) {
@@ -480,7 +480,7 @@ class API
     private function removeSubtableMetadata($dataTable)
     {
         if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getArray() as $childTable) {
+            foreach ($dataTable->getDataTables() as $childTable) {
                 $this->removeSubtableMetadata($childTable);
             }
         } else {
@@ -500,7 +500,7 @@ class API
     private function setSocialIdSubtables($dataTable)
     {
         if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getArray() as $childTable) {
+            foreach ($dataTable->getDataTables() as $childTable) {
                 $this->setSocialIdSubtables($childTable);
             }
         } else {
@@ -532,7 +532,7 @@ class API
     private function removeSubtableIds($table)
     {
         if ($table instanceof DataTable\Map) {
-            foreach ($table->getArray() as $childTable) {
+            foreach ($table->getDataTables() as $childTable) {
                 $this->removeSubtableIds($childTable);
             }
         } else {
@@ -592,7 +592,7 @@ class API
      */
     private function replaceEmptyDataTablesWith(Map $replaceIn, Map $replaceWith)
     {
-        foreach ($replaceWith->getArray() as $label => $replaceWithChildTable) {
+        foreach ($replaceWith->getDataTables() as $label => $replaceWithChildTable) {
             if ($replaceWithChildTable instanceof Map) { // recurse
                 $this->replaceEmptyDataTablesWith($replaceIn->getTable($label), $replaceWithChildTable);
             } else {

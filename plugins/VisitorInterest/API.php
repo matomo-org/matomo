@@ -116,7 +116,7 @@ class API
     private static function addVisitsPercentColumn($dataTable)
     {
         if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getArray() as $table) {
+            foreach ($dataTable->getDataTables() as $table) {
                 self::addVisitsPercentColumn($table);
             }
         } else {

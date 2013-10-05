@@ -137,7 +137,7 @@ class Csv extends Renderer
         }
 
         if ($table instanceof DataTable\Map) {
-            $str = $this->renderDataTableArray($table, $allColumns);
+            $str = $this->renderDataTableMap($table, $allColumns);
         } else {
             $str = $this->renderDataTable($table, $allColumns);
         }
@@ -151,10 +151,10 @@ class Csv extends Renderer
      * @param array $allColumns
      * @return string
      */
-    protected function renderDataTableArray($table, &$allColumns = array())
+    protected function renderDataTableMap($table, &$allColumns = array())
     {
         $str = '';
-        foreach ($table->getArray() as $currentLinePrefix => $dataTable) {
+        foreach ($table->getDataTables() as $currentLinePrefix => $dataTable) {
             $returned = explode("\n", $this->renderTable($dataTable, $allColumns));
 
             // get rid of the columns names

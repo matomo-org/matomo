@@ -39,7 +39,7 @@ class Evolution extends JqplotDataGenerator
 
         // the X label is extracted from the 'period' object in the table's metadata
         $xLabels = array();
-        foreach ($dataTable->getArray() as $metadataDataTable) {
+        foreach ($dataTable->getDataTables() as $metadataDataTable) {
             $xLabels[] = $metadataDataTable->getMetadata('period')->getLocalizedShortString(); // eg. "Aug 2009"
         }
 
@@ -71,7 +71,7 @@ class Evolution extends JqplotDataGenerator
         $visualization->setAxisYValues($allSeriesData);
         $visualization->setAxisYUnits($seriesUnits);
 
-        $dataTables = $dataTable->getArray();
+        $dataTables = $dataTable->getDataTables();
 
         if ($this->isLinkEnabled()) {
             $idSite = Common::getRequestVar('idSite', null, 'int');
@@ -79,7 +79,7 @@ class Evolution extends JqplotDataGenerator
 
             $axisXOnClick = array();
             $queryStringAsHash = $this->getQueryStringAsHash();
-            foreach ($dataTable->getArray() as $idDataTable => $metadataDataTable) {
+            foreach ($dataTable->getDataTables() as $idDataTable => $metadataDataTable) {
                 $dateInUrl = $metadataDataTable->getMetadata('period')->getDateStart();
                 $parameters = array(
                     'idSite'  => $idSite,
@@ -103,10 +103,10 @@ class Evolution extends JqplotDataGenerator
         }
     }
 
-    private function getSeriesData($rowLabel, $columnName, $dataTable)
+    private function getSeriesData($rowLabel, $columnName, DataTable\Map $dataTable)
     {
         $seriesData = array();
-        foreach ($dataTable->getArray() as $childTable) {
+        foreach ($dataTable->getDataTables() as $childTable) {
             // get the row for this label (use the first if $rowLabel is false)
             if ($rowLabel === false) {
                 $row = $childTable->getFirstRow();

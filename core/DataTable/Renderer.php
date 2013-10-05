@@ -153,7 +153,7 @@ abstract class Renderer
             && !($table instanceof DataTable)
             && !($table instanceof DataTable\Map)
         ) {
-            throw new Exception("DataTable renderers renderer accepts only DataTable and Set instances, and array instances.");
+            throw new Exception("DataTable renderers renderer accepts only DataTable and Map instances, and arrays.");
         }
         $this->table = $table;
     }

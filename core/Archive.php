@@ -218,7 +218,7 @@ class Archive
      * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referers_distinctKeywords',
      *                            etc.
      * @return DataTable|DataTable\Map|bool False if no value with the given names. Based on the number
-     *                                      of sites/periods, the result can be a DataTable_Array, which
+     *                                      of sites/periods, the result can be a DataTable\Map, which
      *                                      contains DataTable instances.
      */
     public function getDataTableFromNumeric($names)

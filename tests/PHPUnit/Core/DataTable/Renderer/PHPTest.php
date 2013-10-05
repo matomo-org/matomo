@@ -246,7 +246,7 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
      * -------------------------
      */
 
-    protected function _getDataTableArrayTest()
+    protected function _getDataTableMapTest()
     {
         $array1 = array(
             array(Row::COLUMNS  => array('label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11,),
@@ -283,7 +283,7 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleArrayTest()
+    protected function _getDataTableSimpleMapTest()
     {
         $array1 = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0,);
         $table1 = new Simple;
@@ -304,7 +304,7 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneRowArrayTest()
+    protected function _getDataTableSimpleOneRowMapTest()
     {
         $array1 = array('nb_visits' => 14.0);
         $table1 = new Simple;
@@ -324,27 +324,27 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
         return $table;
     }
 
-    protected function _getDataTableArray_containsDataTableArray_normal()
+    protected function _getDataTableMap_containsDataTableMap_normal()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableArrayTest(), 'idSite');
+        $table->addTable($this->_getDataTableMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableArray_containsDataTableArray_simple()
+    protected function _getDataTableMap_containsDataTableMap_simple()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleArrayTest(), 'idSite');
+        $table->addTable($this->_getDataTableSimpleMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableArray_containsDataTableArray_simpleOneRow()
+    protected function _getDataTableMap_containsDataTableMap_simpleOneRow()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleOneRowArrayTest(), 'idSite');
+        $table->addTable($this->_getDataTableSimpleOneRowMapTest(), 'idSite');
         return $table;
     }
 
@@ -355,9 +355,9 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_PHP
      */
-    public function testPHPArrayTest1()
+    public function testPHPMapTest1()
     {
-        $dataTable = $this->_getDataTableArrayTest();
+        $dataTable = $this->_getDataTableMapTest();
         $render = new Php();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -412,9 +412,9 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_PHP
      */
-    public function testPHPArrayTest2()
+    public function testPHPMapTest2()
     {
-        $dataTable = $this->_getDataTableSimpleArrayTest();
+        $dataTable = $this->_getDataTableSimpleMapTest();
         $render = new Php();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -442,9 +442,9 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_PHP
      */
-    public function testPHPArrayTest3()
+    public function testPHPMapTest3()
     {
-        $dataTable = $this->_getDataTableSimpleOneRowArrayTest();
+        $dataTable = $this->_getDataTableSimpleOneRowMapTest();
         $render = new Php();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -463,9 +463,9 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_PHP
      */
-    public function testPHPArrayIsMadeOfArrayTest1()
+    public function testPHPMapIsMadeOfMapTest1()
     {
-        $dataTable = $this->_getDataTableArray_containsDataTableArray_normal();
+        $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
         $render = new Php();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -522,9 +522,9 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_PHP
      */
-    public function testPHPArrayIsMadeOfArrayTest2()
+    public function testPHPMapIsMadeOfMapTest2()
     {
-        $dataTable = $this->_getDataTableArray_containsDataTableArray_simple();
+        $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
         $render = new Php();
         $render->setTable($dataTable);
         $rendered = $render->render();
@@ -553,9 +553,9 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_PHP
      */
-    public function testPHPArrayIsMadeOfArrayTest3()
+    public function testPHPMapIsMadeOfMapTest3()
     {
-        $dataTable = $this->_getDataTableArray_containsDataTableArray_simpleOneRow();
+        $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();
         $render = new Php();
         $render->setTable($dataTable);
         $rendered = $render->render();

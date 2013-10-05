@@ -67,7 +67,7 @@ abstract class DataTableManipulator
     protected function manipulate($dataTable)
     {
         if ($dataTable instanceof DataTable\Map) {
-            return $this->manipulateDataTableArray($dataTable);
+            return $this->manipulateDataTableMap($dataTable);
         } else if ($dataTable instanceof DataTable) {
             return $this->manipulateDataTable($dataTable);
         } else {
@@ -76,15 +76,15 @@ abstract class DataTableManipulator
     }
 
     /**
-     * Manipulates child DataTables of a DataTable_Array. See @manipulate for more info.
+     * Manipulates child DataTables of a DataTable\Map. See @manipulate for more info.
      *
      * @param DataTable\Map  $dataTable
      * @return DataTable\Map
      */
-    protected function manipulateDataTableArray($dataTable)
+    protected function manipulateDataTableMap($dataTable)
     {
         $result = $dataTable->getEmptyClone();
-        foreach ($dataTable->getArray() as $tableLabel => $childTable) {
+        foreach ($dataTable->getDataTables() as $tableLabel => $childTable) {
             $newTable = $this->manipulate($childTable);
             $result->addTable($newTable, $tableLabel);
         }

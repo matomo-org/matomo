@@ -106,7 +106,7 @@ class DataTableGenericFilter
     protected function applyGenericFilters($datatable)
     {
         if ($datatable instanceof DataTable\Map) {
-            $tables = $datatable->getArray();
+            $tables = $datatable->getDataTables();
             $filterWasApplied = false;
             foreach ($tables as $table) {
                 $filterWasApplied = $this->applyGenericFilters($table);

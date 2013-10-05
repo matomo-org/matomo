@@ -139,7 +139,7 @@ class Php extends Renderer
             }
         } else if ($dataTable instanceof DataTable\Map) {
             $flatArray = array();
-            foreach ($dataTable->getArray() as $keyName => $table) {
+            foreach ($dataTable->getDataTables() as $keyName => $table) {
                 $serializeSave = $this->serialize;
                 $this->serialize = false;
                 $flatArray[$keyName] = $this->flatRender($table);

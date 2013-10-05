@@ -87,7 +87,7 @@ class RowEvolution
     {
         // set label index metadata
         $labelsToIndex = array_flip($labels);
-        foreach ($dataTable->getArray() as $table) {
+        foreach ($dataTable->getDataTables() as $table) {
             foreach ($table->getRows() as $row) {
                 $label = $row->getColumn('label');
                 if (isset($labelsToIndex[$label])) {
@@ -106,7 +106,7 @@ class RowEvolution
     protected function getLabelsFromDataTable($dataTable, $labels)
     {
         // if no labels specified, use all possible labels as list
-        foreach ($dataTable->getArray() as $table) {
+        foreach ($dataTable->getDataTables() as $table) {
             $labels = array_merge($labels, $table->getColumn('label'));
         }
         $labels = array_values(array_unique($labels));
@@ -138,7 +138,7 @@ class RowEvolution
 
         $logo = $actualLabel = false;
         $urlFound = false;
-        foreach ($dataTable->getArray() as $date => $subTable) {
+        foreach ($dataTable->getDataTables() as $date => $subTable) {
             /** @var $subTable DataTable */
             $subTable->applyQueuedFilters();
             if ($subTable->getRowsCount() > 0) {
@@ -331,7 +331,7 @@ class RowEvolution
         }
         unset($metadata['logos']);
 
-        $subDataTables = $dataTable->getArray();
+        $subDataTables = $dataTable->getDataTables();
         $firstDataTable = reset($subDataTables);
         $firstDataTableRow = $firstDataTable->getFirstRow();
         $lastDataTable = end($subDataTables);
@@ -381,7 +381,7 @@ class RowEvolution
     }
 
     /** Get row evolution for a multiple labels */
-    private function getMultiRowEvolution($dataTable, $metadata, $apiModule, $apiAction, $labels, $column,
+    private function getMultiRowEvolution(DataTable\Map $dataTable, $metadata, $apiModule, $apiAction, $labels, $column,
                                           $legendAppendMetric = true,
                                           $labelUseAbsoluteUrl = true)
     {
@@ -394,7 +394,7 @@ class RowEvolution
         // get the processed label and logo (if any) for every requested label
         $actualLabels = $logos = array();
         foreach ($labels as $labelIdx => $label) {
-            foreach ($dataTable->getArray() as $table) {
+            foreach ($dataTable->getDataTables() as $table) {
                 $labelRow = $this->getRowEvolutionRowFromLabelIdx($table, $labelIdx);
 
                 if ($labelRow) {
@@ -417,7 +417,7 @@ class RowEvolution
         // convert rows to be array($column.'_'.$labelIdx => $value) as opposed to
         // array('label' => $label, 'column' => $value).
         $dataTableMulti = $dataTable->getEmptyClone();
-        foreach ($dataTable->getArray() as $tableLabel => $table) {
+        foreach ($dataTable->getDataTables() as $tableLabel => $table) {
             $newRow = new Row();
 
             foreach ($labels as $labelIdx => $label) {

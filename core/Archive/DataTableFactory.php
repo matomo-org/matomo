@@ -149,7 +149,7 @@ class DataTableFactory
 
             $dataTable = $this->createDataTable($index, $keyMetadata = array());
         } else {
-            $dataTable = $this->createDataTableArrayFromIndex($index, $resultIndices);
+            $dataTable = $this->createDataTableMapFromIndex($index, $resultIndices);
         }
 
         $this->transformMetadata($dataTable);
@@ -247,7 +247,7 @@ class DataTableFactory
      * @param array $keyMetadata The metadata to add to the table when it's created.
      * @return DataTable\Map
      */
-    private function createDataTableArrayFromIndex($index, $resultIndices, $keyMetadata = array())
+    private function createDataTableMapFromIndex($index, $resultIndices, $keyMetadata = array())
     {
         $resultIndexLabel = reset($resultIndices);
         $resultIndex = key($resultIndices);
@@ -263,7 +263,7 @@ class DataTableFactory
             if (empty($resultIndices)) {
                 $newTable = $this->createDataTable($value, $keyMetadata);
             } else {
-                $newTable = $this->createDataTableArrayFromIndex($value, $resultIndices, $keyMetadata);
+                $newTable = $this->createDataTableMapFromIndex($value, $resultIndices, $keyMetadata);
             }
 
             $result->addTable($newTable, $this->prettifyIndexLabel($resultIndex, $label));

@@ -420,7 +420,7 @@ class API
             } else // if the report has no dimension we have multiple reports each with only one row within the reportData
             {
                 // $periodsData instanceof Simple[]
-                $periodsData = array_values($reportData->getArray());
+                $periodsData = array_values($reportData->getDataTables());
                 $periodsCount = count($periodsData);
 
                 for ($i = 0; $i < $periodsCount; $i++) {

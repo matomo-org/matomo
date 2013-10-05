@@ -554,7 +554,7 @@ class ViewDataTable
     }
 
     /**
-     * Checks that the API returned a normal DataTable (as opposed to DataTable_Array)
+     * Checks that the API returned a normal DataTable (as opposed to DataTable\Map)
      * @throws \Exception
      * @return void
      */

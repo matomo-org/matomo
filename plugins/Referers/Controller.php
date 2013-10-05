@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\Referers;
 
 use Piwik\API\Request;
+use Piwik\DataTable\Map;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
@@ -357,7 +358,8 @@ class Controller extends \Piwik\Controller
             . '&format=original';
         $request = new Request($topPageUrlRequest);
         $request = $request->process();
-        $tables = $request->getArray();
+        /** @var $request Map */
+        $tables = $request->getDataTables();;
 
         $topPageUrl = false;
         $first = key($tables);

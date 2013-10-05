@@ -353,8 +353,8 @@ class API
         if ($customVariables instanceof DataTable\Map) {
             $dataTable = $customVariables->getEmptyClone();
 
-            $customVariableDatatables = $customVariables->getArray();
-            $dataTables = $dataTable->getArray();
+            $customVariableDatatables = $customVariables->getDataTables();
+            $dataTables = $dataTable->getDataTables();
             foreach ($customVariableDatatables as $key => $customVariableTableForDate) {
                 // we do not enter the IF, in the case idSite=1,3 AND period=day&date=datefrom,dateto,
                 if (isset($customVariableTableForDate->metadata['period'])) {
@@ -412,7 +412,7 @@ class API
                 // if an array occurs inside the nested table, we only look for the first match (see below)
                 $newTableArray = $table->getEmptyClone();
 
-                foreach ($table->getArray() as $label => $subTable) {
+                foreach ($table->getDataTables() as $label => $subTable) {
                     $newSubTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
 
                     $newTableArray->addTable($newSubTable, $label);
@@ -432,7 +432,7 @@ class API
     {
         // filter a data table array
         if ($table instanceof DataTable\Map) {
-            foreach ($table->getArray() as $subTable) {
+            foreach ($table->getDataTables() as $subTable) {
                 $filteredSubTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
 
                 if ($filteredSubTable->getRowsCount() > 0) {

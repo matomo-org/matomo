@@ -95,7 +95,7 @@ class API
      * This function will merge the result of the archive query so each
      * row in the result DataTable will correspond to the metrics of a single
      * site. If a date range is specified, the result will be a
-     * DataTable_Array, but it will still be merged.
+     * DataTable\Map, but it will still be merged.
      *
      * @param string $period The period type to get data for.
      * @param string $date The date(s) to get data for.
@@ -226,7 +226,7 @@ class API
         // $dataTable instanceOf Set
         $dataTable = $archive->getDataTableFromNumeric($fieldsToGet);
 
-        // get rid of the DataTable_Array that is created by the IndexedBySite archive type
+        // get rid of the DataTable\Map that is created by the IndexedBySite archive type
         if ($dataTable instanceof DataTable\Map
             && $multipleWebsitesRequested
         ) {
@@ -251,7 +251,7 @@ class API
         if ($strLastDate !== false) {
             if ($lastPeriod !== false) {
                 // NOTE: no easy way to set last period date metadata when range of dates is requested.
-                //       will be easier if DataTable_Array::metadata is removed, and metadata that is
+                //       will be easier if DataTable\Map::metadata is removed, and metadata that is
                 //       put there is put directly in DataTable::metadata.
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
@@ -340,8 +340,8 @@ class API
         }
 
         if ($currentData instanceof DataTable\Map) {
-            $pastArray = $pastData->getArray();
-            foreach ($currentData->getArray() as $subTable) {
+            $pastArray = $pastData->getDataTables();
+            foreach ($currentData->getDataTables() as $subTable) {
                 $this->calculateEvolutionPercentages($subTable, current($pastArray), $apiMetrics);
                 next($pastArray);
             }
@@ -370,7 +370,7 @@ class API
     private function setMetricsTotalsMetadata($dataTable, $apiMetrics)
     {
         if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getArray() as $table) {
+            foreach ($dataTable->getDataTables() as $table) {
                 $this->setMetricsTotalsMetadata($table, $apiMetrics);
             }
         } else {
@@ -409,8 +409,8 @@ class API
     private function setPastDataMetadata($dataTable, $pastData, $apiMetrics)
     {
         if ($dataTable instanceof DataTable\Map) {
-            $pastArray = $pastData->getArray();
-            foreach ($dataTable->getArray() as $subTable) {
+            $pastArray = $pastData->getDataTables();
+            foreach ($dataTable->getDataTables() as $subTable) {
                 $this->setPastDataMetadata($subTable, current($pastArray), $apiMetrics);
                 next($pastArray);
             }

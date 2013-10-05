@@ -260,8 +260,8 @@ class API
 
         // Handle case where date=last30&period=day
         if ($customVariables instanceof DataTable\Map) {
-            $customVariableDatatables = $customVariables->getArray();
-            $dataTables = $dataTable->getArray();
+            $customVariableDatatables = $customVariables->getDataTables();
+            $dataTables = $dataTable->getDataTables();
             foreach ($customVariableDatatables as $key => $customVariableTableForDate) {
                 $dataTableForDate = isset($dataTables[$key]) ? $dataTables[$key] : new DataTable();
 
@@ -296,7 +296,7 @@ class API
     protected function renameNotDefinedRow($dataTable, $notDefinedStringPretty)
     {
         if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getArray() as $table) {
+            foreach ($dataTable->getDataTables() as $table) {
                 $this->renameNotDefinedRow($table, $notDefinedStringPretty);
             }
             return;
@@ -414,7 +414,7 @@ class API
         }
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             if ($dataTable instanceof DataTable\Map) {
-                foreach ($dataTable->getArray() as $row) {
+                foreach ($dataTable->getDataTables() as $row) {
                     $this->enrichTable($row);
                 }
             } else {

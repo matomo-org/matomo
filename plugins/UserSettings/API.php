@@ -185,9 +185,9 @@ class API
 
         // check whether given tables are arrays
         if ($dataTable instanceof DataTable\Map) {
-            $tableArray = $dataTable->getArray();
-            $browserTypesArray = $browserTypes->getArray();
-            $visitSumsArray = $visitsSums->getArray();
+            $tableArray = $dataTable->getDataTables();
+            $browserTypesArray = $browserTypes->getDataTables();
+            $visitSumsArray = $visitsSums->getDataTables();
         } else {
             $tableArray = array($dataTable);
             $browserTypesArray = array($browserTypes);

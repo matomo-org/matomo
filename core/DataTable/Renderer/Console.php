@@ -69,11 +69,11 @@ class Console extends Renderer
      * @param string $prefix      prefix to output before table data
      * @return string
      */
-    protected function renderDataTableArray(DataTable\Map $tableArray, $prefix)
+    protected function renderDataTableMap(DataTable\Map $tableArray, $prefix)
     {
         $output = "Set<hr />";
         $prefix = $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-        foreach ($tableArray->getArray() as $descTable => $table) {
+        foreach ($tableArray->getDataTables() as $descTable => $table) {
             $output .= $prefix . "<b>" . $descTable . "</b><br />";
             $output .= $prefix . $this->renderTable($table, $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
             $output .= "<hr />";
@@ -96,7 +96,7 @@ class Console extends Renderer
         }
 
         if ($table instanceof DataTable\Map) {
-            return $this->renderDataTableArray($table, $prefix);
+            return $this->renderDataTableMap($table, $prefix);
         }
 
         if ($table->getRowsCount() == 0) {
@@ -107,12 +107,12 @@ class Console extends Renderer
         $output = '';
         $i = 1;
         foreach ($table->getRows() as $row) {
-            $dataTableArrayBreak = false;
+            $dataTableMapBreak = false;
             $columns = array();
             foreach ($row->getColumns() as $column => $value) {
                 if ($value instanceof DataTable\Map) {
-                    $output .= $this->renderDataTableArray($value, $prefix);
-                    $dataTableArrayBreak = true;
+                    $output .= $this->renderDataTableMap($value, $prefix);
+                    $dataTableMapBreak = true;
                     break;
                 }
                 if (is_string($value)) $value = "'$value'";
@@ -120,7 +120,7 @@ class Console extends Renderer
 
                 $columns[] = "'$column' => $value";
             }
-            if ($dataTableArrayBreak === true) {
+            if ($dataTableMapBreak === true) {
                 continue;
             }
             $columns = implode(", ", $columns);

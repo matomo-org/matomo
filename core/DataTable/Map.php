@@ -13,8 +13,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
 
 /**
- * The DataTable_Array is a way to store an array of dataTable.
- * The Set implements some of the features of the DataTable such as queueFilter, getRowsCount.
+ * The DataTable Map is a way to store an array of dataTable.
+ * The Map implements some of the features of the DataTable such as queueFilter, getRowsCount.
  *
  * @package Piwik
  * @subpackage DataTable
@@ -61,34 +61,34 @@ class Map
     }
 
     /**
-     * Returns the number of DataTable in this DataTable_Array
+     * Returns the number of DataTable in this DataTable\Map
      *
      * @return int
      */
     public function getRowsCount()
     {
-        return count($this->array);
+        return count($this->getDataTables());
     }
 
     /**
-     * Queue a filter to the DataTable_Array will queue this filter to every DataTable of the DataTable_Array.
+     * Queue a filter to the DataTable\Map will queue this filter to every DataTable of the DataTable\Map.
      *
      * @param string $className   Filter name, eg. Limit
      * @param array $parameters  Filter parameters, eg. array( 50, 10 )
      */
     public function queueFilter($className, $parameters = array())
     {
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $table->queueFilter($className, $parameters);
         }
     }
 
     /**
-     * Apply the filters previously queued to each of the DataTable of this DataTable_Array.
+     * Apply the filters previously queued to each of the DataTable of this DataTable\Map.
      */
     public function applyQueuedFilters()
     {
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $table->applyQueuedFilters();
         }
     }
@@ -101,7 +101,7 @@ class Map
      */
     public function filter($className, $parameters = array())
     {
-        foreach ($this->array as $id => $table) {
+        foreach ($this->getDataTables() as $id => $table) {
             $table->filter($className, $parameters);
         }
     }
@@ -111,7 +111,7 @@ class Map
      *
      * @return DataTable[]
      */
-    public function getArray()
+    public function getDataTables()
     {
         return $this->array;
     }
@@ -129,13 +129,13 @@ class Map
 
     /**
      * Returns the first row
-     * This method can be used to treat DataTable and DataTable_Array in the same way
+     * This method can be used to treat DataTable and DataTable\Map in the same way
      *
      * @return Row
      */
     public function getFirstRow()
     {
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $row = $table->getFirstRow();
             if ($row !== false) {
                 return $row;
@@ -145,7 +145,7 @@ class Map
     }
 
     /**
-     * Adds a new DataTable to the DataTable_Array
+     * Adds a new DataTable to the DataTable\Map
      *
      * @param DataTable $table
      * @param string $label  Label used to index this table in the array
@@ -156,8 +156,8 @@ class Map
     }
 
     /**
-     * Returns a string output of this DataTable_Array (applying the default renderer to every DataTable
-     * of this DataTable_Array).
+     * Returns a string output of this DataTable\Map (applying the default renderer to every DataTable
+     * of this DataTable\Map).
      *
      * @return string
      */
@@ -173,7 +173,7 @@ class Map
      */
     public function enableRecursiveSort()
     {
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $table->enableRecursiveSort();
         }
     }
@@ -187,7 +187,7 @@ class Map
      */
     public function renameColumn($oldName, $newName)
     {
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $table->renameColumn($oldName, $newName);
         }
     }
@@ -200,14 +200,14 @@ class Map
      */
     public function deleteColumns($columns)
     {
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $table->deleteColumns($columns);
         }
     }
 
     public function deleteRow($id)
     {
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $table->deleteRow($id);
         }
     }
@@ -220,7 +220,7 @@ class Map
      */
     public function deleteColumn($column)
     {
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $table->deleteColumn($column);
         }
     }
@@ -234,7 +234,7 @@ class Map
     public function getColumn($name)
     {
         $values = array();
-        foreach ($this->array as $table) {
+        foreach ($this->getDataTables() as $table) {
             $moreValues = $table->getColumn($name);
             foreach ($moreValues as &$value) {
                 $values[] = $value;
@@ -249,7 +249,7 @@ class Map
      * to the label of the DataTable they were originally from.
      *
      * The result of this function is determined by the type of DataTable
-     * this instance holds. If this DataTable_Array instance holds an array
+     * this instance holds. If this DataTable\Map instance holds an array
      * of DataTables, this function will transform it from:
      * <code>
      * Label 0:
@@ -262,11 +262,11 @@ class Map
      * DataTable(row1[label = 'Label 0'], row2[label = 'Label 1'])
      * </code>
      *
-     * If this instance holds an array of DataTable_Arrays, this function will
+     * If this instance holds an array of DataTable\Maps, this function will
      * transform it from:
      * <code>
-     * Outer Label 0:            // the outer DataTable_Array
-     *   Inner Label 0:            // one of the inner DataTable_Arrays
+     * Outer Label 0:            // the outer DataTable\Map
+     *   Inner Label 0:            // one of the inner DataTable\Maps
      *     DataTable(row1)
      *   Inner Label 1:
      *     DataTable(row2)
@@ -284,7 +284,7 @@ class Map
      *   DataTable(row2[label = 'Outer Label 0'], row4[label = 'Outer Label 1'])
      * </code>
      *
-     * In addition, if this instance holds an array of DataTable_Arrays, the
+     * In addition, if this instance holds an array of DataTable\Maps, the
      * metadata of the first child is used as the metadata of the result.
      *
      * This function can be used, for example, to smoosh IndexedBySite archive
@@ -299,8 +299,9 @@ class Map
         if ($firstChild instanceof Map) {
             $result = $firstChild->getEmptyClone();
 
-            foreach ($this->array as $label => $subTableArray) {
-                foreach ($subTableArray->array as $innerLabel => $subTable) {
+            /** @var $subTableArray Map */
+            foreach ($this->getDataTables() as $label => $subTableArray) {
+                foreach ($subTableArray->getDataTables() as $innerLabel => $subTable) {
                     if (!isset($result->array[$innerLabel])) {
                         $dataTable = new DataTable();
                         $dataTable->metadata = $subTable->metadata;
@@ -314,7 +315,7 @@ class Map
         } else {
             $result = new DataTable();
 
-            foreach ($this->array as $label => $subTable) {
+            foreach ($this->getDataTables() as $label => $subTable) {
                 $this->copyRowsAndSetLabel($result, $subTable, $label);
             }
         }
@@ -354,7 +355,7 @@ class Map
      */
     public function addDataTable(DataTable $tableToSum)
     {
-        foreach ($this->getArray() as $childTable) {
+        foreach ($this->getDataTables() as $childTable) {
             if ($childTable->getRowsCount() > 0) {
                 $childTable->addDataTable($tableToSum);
             }
@@ -362,7 +363,7 @@ class Map
     }
 
     /**
-     * Returns a new DataTable_Array w/ child tables that have had their
+     * Returns a new DataTable\Map w/ child tables that have had their
      * subtables merged.
      *
      * @see DataTable::mergeSubtables
@@ -372,23 +373,23 @@ class Map
     public function mergeSubtables()
     {
         $result = $this->getEmptyClone();
-        foreach ($this->array as $label => $childTable) {
+        foreach ($this->getDataTables() as $label => $childTable) {
             $result->addTable($childTable->mergeSubtables(), $label);
         }
         return $result;
     }
 
     /**
-     * Returns a new DataTable_Array w/o any child DataTables, but with
+     * Returns a new DataTable\Map w/o any child DataTables, but with
      * the same key name as this instance.
      *
      * @return Map
      */
     public function getEmptyClone()
     {
-        $newTableArray = new Map;
-        $newTableArray->setKeyName($this->getKeyName());
-        return $newTableArray;
+        $dataTableMap = new Map;
+        $dataTableMap->setKeyName($this->getKeyName());
+        return $dataTableMap;
     }
 
     /**
@@ -400,7 +401,7 @@ class Map
     public function getMetadataIntersectArray($name)
     {
         $data = array();
-        foreach ($this->getArray() as $childTable) {
+        foreach ($this->getDataTables() as $childTable) {
             $childData = $childTable->getMetadata($name);
             if (is_array($childData)) {
                 $data = array_intersect($data, $childData);
@@ -416,7 +417,7 @@ class Map
      */
     public function getColumns()
     {
-        foreach ($this->getArray() as $childTable) {
+        foreach ($this->getDataTables() as $childTable) {
             if ($childTable->getRowsCount() > 0) {
                 return $childTable->getColumns();
             }

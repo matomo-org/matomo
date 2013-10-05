@@ -87,7 +87,7 @@ class Html extends Renderer
         }
 
         if ($table instanceof DataTable\Map) {
-            foreach ($table->getArray() as $date => $subtable) {
+            foreach ($table->getDataTables() as $date => $subtable) {
                 if ($subtable->getRowsCount()) {
                     $this->buildTableStructure($subtable, '_' . $table->getKeyName(), $date);
                 }

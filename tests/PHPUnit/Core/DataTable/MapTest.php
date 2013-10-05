@@ -38,24 +38,24 @@ class Test_DataTable_Map extends PHPUnit_Framework_TestCase
         return $dataTable;
     }
 
-    private function createInstanceWithDataTableArrays()
+    private function createInstanceWithDataTableMaps()
     {
         $dataTable = new DataTable\Map();
 
-        $subDataTableArray1 = $this->createInstanceWithDataTables();
-        $dataTable->addTable($subDataTableArray1, 'subArray1');
+        $subDataTableMap1 = $this->createInstanceWithDataTables();
+        $dataTable->addTable($subDataTableMap1, 'subArray1');
 
-        $subDataTableArray2 = $this->createInstanceWithDataTables();
-        $dataTable->addTable($subDataTableArray2, 'subArray2');
+        $subDataTableMap2 = $this->createInstanceWithDataTables();
+        $dataTable->addTable($subDataTableMap2, 'subArray2');
 
         return $dataTable;
     }
 
     /**
-     * Tests that Set::mergeChildren works when the DataTable_Array contains DataTables.
+     * Tests that Set::mergeChildren works when the DataTable\Map contains DataTables.
      * @group Core
      * @group DataTable
-     * @group DataTable_Array
+     * @group DataTable\Map
      */
     public function test_MergeChildrenDataTable()
     {
@@ -83,18 +83,18 @@ class Test_DataTable_Map extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that Set::mergeChildren works when the DataTable_Array contains DataTable_Arrays.
+     * Tests that Set::mergeChildren works when the DataTable\Map contains DataTable\Maps.
      * @group Core
      * @group DataTable
-     * @group DataTable_Array
+     * @group DataTable\Map
      */
-    public function testMergeChildrenDataTableArray()
+    public function testMergeChildrenDataTableMap()
     {
-        $dataTable = $this->createInstanceWithDataTableArrays();
+        $dataTable = $this->createInstanceWithDataTableMaps();
 
         $result = $dataTable->mergeChildren();
 
-        // check that the result is a DataTable_Array w/ two DataTable children
+        // check that the result is a DataTable\Map w/ two DataTable children
         $this->assertInstanceOf('\Piwik\DataTable\Map', $result);
         $this->assertEquals(2, $result->getRowsCount());
 

@@ -246,7 +246,7 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
      * -------------------------
      */
 
-    protected function _getDataTableArrayTest()
+    protected function _getDataTableMapTest()
     {
         $array1 = array(
             array(Row::COLUMNS  => array('label' => 'Google', 'nb_uniq_visitors' => 11, 'nb_visits' => 11,),
@@ -283,7 +283,7 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleArrayTest()
+    protected function _getDataTableSimpleMapTest()
     {
         $array1 = array('max_actions' => 14.0, 'nb_uniq_visitors' => 57.0,);
         $table1 = new Simple;
@@ -304,7 +304,7 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         return $table;
     }
 
-    protected function _getDataTableSimpleOneRowArrayTest()
+    protected function _getDataTableSimpleOneRowMapTest()
     {
         $array1 = array('nb_visits' => 14.0);
         $table1 = new Simple;
@@ -324,27 +324,27 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         return $table;
     }
 
-    protected function _getDataTableArray_containsDataTableArray_normal()
+    protected function _getDataTableMap_containsDataTableMap_normal()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableArrayTest(), 'idSite');
+        $table->addTable($this->_getDataTableMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableArray_containsDataTableArray_simple()
+    protected function _getDataTableMap_containsDataTableMap_simple()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleArrayTest(), 'idSite');
+        $table->addTable($this->_getDataTableSimpleMapTest(), 'idSite');
         return $table;
     }
 
-    protected function _getDataTableArray_containsDataTableArray_simpleOneRow()
+    protected function _getDataTableMap_containsDataTableMap_simpleOneRow()
     {
         $table = new DataTable\Map();
         $table->setKeyName('parentArrayKey');
-        $table->addTable($this->_getDataTableSimpleOneRowArrayTest(), 'idSite');
+        $table->addTable($this->_getDataTableSimpleOneRowMapTest(), 'idSite');
         return $table;
     }
 
@@ -354,9 +354,9 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_XML
      */
-    public function testXMLArrayTest1()
+    public function testXMLMapTest1()
     {
-        $dataTable = $this->_getDataTableArrayTest();
+        $dataTable = $this->_getDataTableMapTest();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -404,9 +404,9 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_XML
      */
-    public function testXMLArrayIsMadeOfArrayTest1()
+    public function testXMLArrayIsMadeOfMapTest1()
     {
-        $dataTable = $this->_getDataTableArray_containsDataTableArray_normal();
+        $dataTable = $this->_getDataTableMap_containsDataTableMap_normal();
 
         $render = new Xml();
         $render->setTable($dataTable);
@@ -458,9 +458,9 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_XML
      */
-    public function testXMLArrayTest2()
+    public function testXMLMapTest2()
     {
-        $dataTable = $this->_getDataTableSimpleArrayTest();
+        $dataTable = $this->_getDataTableSimpleMapTest();
         $render = new Xml();
         $render->setTable($dataTable);
 
@@ -485,9 +485,9 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_XML
      */
-    public function testXMLArrayIsMadeOfArrayTest2()
+    public function testXMLArrayIsMadeOfMapTest2()
     {
-        $dataTable = $this->_getDataTableArray_containsDataTableArray_simple();
+        $dataTable = $this->_getDataTableMap_containsDataTableMap_simple();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
@@ -514,9 +514,9 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_XML
      */
-    public function testXMLArrayTest3()
+    public function testXMLMapTest3()
     {
-        $dataTable = $this->_getDataTableSimpleOneRowArrayTest();
+        $dataTable = $this->_getDataTableSimpleOneRowMapTest();
         $render = new Xml();
         $render->setTable($dataTable);
 
@@ -536,9 +536,9 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
      * @group DataTable_Renderer
      * @group DataTable_Renderer_XML
      */
-    public function testXMLArrayIsMadeOfArrayTest3()
+    public function testXMLArrayIsMadeOfMapTest3()
     {
-        $dataTable = $this->_getDataTableArray_containsDataTableArray_simpleOneRow();
+        $dataTable = $this->_getDataTableMap_containsDataTableMap_simpleOneRow();
         $render = new Xml();
         $render->setTable($dataTable);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>

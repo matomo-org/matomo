@@ -72,17 +72,17 @@ class Sparkline extends ViewDataTable
     }
 
     /**
-     * @param DataTable\Map $dataTableArray
+     * @param DataTable\Map $dataTableMap
      * @param string $columnToPlot
      *
      * @return array
      * @throws \Exception
      */
-    protected function getValuesFromDataTableArray($dataTableArray, $columnToPlot)
+    protected function getValuesFromDataTableMap($dataTableMap, $columnToPlot)
     {
-        $dataTableArray->applyQueuedFilters();
+        $dataTableMap->applyQueuedFilters();
         $values = array();
-        foreach ($dataTableArray->getArray() as $table) {
+        foreach ($dataTableMap->getDataTables() as $table) {
             if ($table->getRowsCount() > 1) {
                 throw new Exception("Expecting only one row per DataTable");
             }
@@ -114,7 +114,7 @@ class Sparkline extends ViewDataTable
         // a Set is returned when using the normal code path to request data from Archives, in all core plugins
         // however plugins can also return simple datatable, hence why the sparkline can accept both data types
         if ($this->dataTable instanceof DataTable\Map) {
-            $values = $this->getValuesFromDataTableArray($dataTable, $columnToPlot);
+            $values = $this->getValuesFromDataTableMap($dataTable, $columnToPlot);
         } elseif ($this->dataTable instanceof DataTable) {
             $values = $this->dataTable->getColumn($columnToPlot);
         }

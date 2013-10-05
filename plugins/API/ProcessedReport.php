@@ -373,7 +373,7 @@ class ProcessedReport
             $rowsMetadata->setKeyName("prettyDate");
 
             // Process each Simple entry
-            foreach ($dataTable->getArray() as $label => $simpleDataTable) {
+            foreach ($dataTable->getDataTables() as $label => $simpleDataTable) {
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
                 list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
