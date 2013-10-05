@@ -10,6 +10,7 @@
  */
 namespace Piwik;
 
+use Piwik\Plugins\CoreConsole\GenerateController;
 use Piwik\Plugins\CoreConsole\GeneratePlugin;
 use Piwik\Plugins\CoreConsole\GenerateApi;
 use Piwik\Plugins\CoreConsole\RunTests;
@@ -25,6 +26,7 @@ class Console
         $console->add(new RunTests());
         $console->add(new GeneratePlugin());
         $console->add(new GenerateApi());
+        $console->add(new GenerateController());
         $console->add(new WatchLog());
 
         $console->run();

@@ -32,7 +32,7 @@ class API
     }
 
     /**
-     * Get Answer to Life
+     * Get Answer to Life. Please remove if you do not need this API method.
      * @return integer
      */
     public function getAnswerToLife()

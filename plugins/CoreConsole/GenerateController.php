@@ -20,24 +20,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class GenerateApi extends GeneratePluginBase
+class GenerateController extends GeneratePluginBase
 {
     protected function configure()
     {
-        $this->setName('generate:api')
-             ->setDescription('Adds an API to an existing plugin')
-             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have an API yet');
+        $this->setName('generate:controller')
+             ->setDescription('Adds a Controller to an existing plugin')
+             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a Controller yet');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginName = $this->getPluginName($input, $output);
 
-        $this->copyTemplateToPlugin('api', $pluginName);
+        $this->copyTemplateToPlugin('controller', $pluginName);
 
         $this->writeSuccessMessage($output, array(
-            sprintf('API.php for %s generated.', $pluginName),
-            'You can now start adding API methods',
+            sprintf('Controller for %s generated.', $pluginName),
             'Enjoy!'
         ));
     }
@@ -50,11 +49,11 @@ class GenerateApi extends GeneratePluginBase
      */
     private function getPluginName(InputInterface $input, OutputInterface $output)
     {
-        $pluginNames = $this->getPluginNamesHavingNotSpecificFile('API.php');
+        $pluginNames = $this->getPluginNamesHavingNotSpecificFile('Controller.php');
 
         $validate = function ($pluginName) use ($pluginNames) {
             if (!in_array($pluginName, $pluginNames)) {
-                throw new \InvalidArgumentException('You have to enter the name of an existing plugin which does not already have an API');
+                throw new \InvalidArgumentException('You have to enter the name of an existing plugin which does not already have a Controller');
             }
 
             return $pluginName;
@@ -73,6 +72,5 @@ class GenerateApi extends GeneratePluginBase
 
         return $pluginName;
     }
-
 
 }
