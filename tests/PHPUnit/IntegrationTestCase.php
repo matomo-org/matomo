@@ -1114,6 +1114,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
 
             $rowsSql = array();
+            $bind = array();
             foreach ($rows as $row) {
                 $values = array();
                 foreach ($row as $name => $value) {
@@ -1124,7 +1125,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     } else if (!ctype_print($value)) {
                         $values[] = "x'" . bin2hex(substr($value, 1)) . "'";
                     } else {
-                        $values[] = "'$value'";
+                        $values[] = "?";
+                        $bind[] = $value;
                     }
                 }
 
@@ -1132,7 +1134,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
 
             $sql = "INSERT INTO $table VALUES " . implode(',', $rowsSql);
-            Db::query($sql);
+            Db::query($sql, $bind);
         }
     }
 

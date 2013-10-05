@@ -410,15 +410,15 @@ class API
                 // search an array of tables, e.g. when using date=last30
                 // note that if the root is an array, we filter all children
                 // if an array occurs inside the nested table, we only look for the first match (see below)
-                $newTableArray = $table->getEmptyClone();
+                $dataTableMap = $table->getEmptyClone();
 
                 foreach ($table->getDataTables() as $label => $subTable) {
                     $newSubTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
 
-                    $newTableArray->addTable($newSubTable, $label);
+                    $dataTableMap->addTable($newSubTable, $label);
                 }
 
-                return $newTableArray;
+                return $dataTableMap;
             }
         }
 

@@ -185,17 +185,17 @@ class API
 
         // check whether given tables are arrays
         if ($dataTable instanceof DataTable\Map) {
-            $tableArray = $dataTable->getDataTables();
+            $dataTableMap = $dataTable->getDataTables();
             $browserTypesArray = $browserTypes->getDataTables();
             $visitSumsArray = $visitsSums->getDataTables();
         } else {
-            $tableArray = array($dataTable);
+            $dataTableMap = array($dataTable);
             $browserTypesArray = array($browserTypes);
             $visitSumsArray = array($visitsSums);
         }
 
         // walk through the results and calculate the percentage
-        foreach ($tableArray as $key => $table) {
+        foreach ($dataTableMap as $key => $table) {
             // get according browserType table
             foreach ($browserTypesArray AS $k => $browsers) {
                 if ($k == $key) {

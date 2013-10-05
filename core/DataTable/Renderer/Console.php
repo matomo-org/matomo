@@ -65,15 +65,15 @@ class Console extends Renderer
     /**
      * Computes the output of the given array of data tables
      *
-     * @param DataTable\Map $tableArray  data tables to render
+     * @param DataTable\Map $map  data tables to render
      * @param string $prefix      prefix to output before table data
      * @return string
      */
-    protected function renderDataTableMap(DataTable\Map $tableArray, $prefix)
+    protected function renderDataTableMap(DataTable\Map $map, $prefix)
     {
         $output = "Set<hr />";
         $prefix = $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-        foreach ($tableArray->getDataTables() as $descTable => $table) {
+        foreach ($map->getDataTables() as $descTable => $table) {
             $output .= $prefix . "<b>" . $descTable . "</b><br />";
             $output .= $prefix . $this->renderTable($table, $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
             $output .= "<hr />";

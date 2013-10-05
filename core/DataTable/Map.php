@@ -299,9 +299,9 @@ class Map
         if ($firstChild instanceof Map) {
             $result = $firstChild->getEmptyClone();
 
-            /** @var $subTableArray Map */
-            foreach ($this->getDataTables() as $label => $subTableArray) {
-                foreach ($subTableArray->getDataTables() as $innerLabel => $subTable) {
+            /** @var $subDataTableMap Map */
+            foreach ($this->getDataTables() as $label => $subDataTableMap) {
+                foreach ($subDataTableMap->getDataTables() as $innerLabel => $subTable) {
                     if (!isset($result->array[$innerLabel])) {
                         $dataTable = new DataTable();
                         $dataTable->metadata = $subTable->metadata;
