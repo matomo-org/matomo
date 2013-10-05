@@ -5,12 +5,69 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-(function ($) {
+(function ($, require) {
+
+    var piwikHost = window.location.host,
+        piwikPath = location.pathname.substring(0, location.pathname.lastIndexOf('/')),
+        exports = require('piwik/Tracking');
+
+    /**
+     * Singleton class used to trigger events on. Plugins can bind to these events
+     * to customize the tracking code shown to users.
+     * 
+     * The following events are triggered:
+     * 
+     * - customizeJavaScriptParams: function (eventObject, params)
+     * 
+     *   Triggered before tracking JavaScript is generated. This event can be used to
+     *   customize how the generated code looks, without having to parse JavaScript.
+     * 
+     *   params is an object containing the data used to create the JavaScript tracking
+     *   code.
+     * 
+     * - customizeJavaScript: function (eventObject, eventData)
+     *   
+     *   Triggered after tracking JavaScript is generated. This event can be used to
+     *   customize how the generated code looks, if it cannot be done with the
+     *   customizeJavaScriptParams event.
+     *   
+     *   eventData is an object with one element, 'code', which holds the JavaScript
+     *   tracking code.
+     * 
+     * - customizeTrackerLinkParams: function (eventObject, params)
+     * 
+     *   Triggered before the tracking link is generated. This event can be used to
+     *   customize how the generated link looks, without having to parse the HTML
+     *   link code.
+     * 
+     *   params is an object containing the data used to create the tracking link.
+     * 
+     * - customizeTrackerLink: function (eventObject, eventData)
+     * 
+     *   Triggered after the tracking link is generated. This event can be used to
+     *   customize how the generated link looks, if the customization cannot be done
+     *   with the customizeTrackerLinkParams event.
+     * 
+     *   eventData is an object with one element, 'code', which holds the tracking
+     *   link HTML.
+     * 
+     * @constructor
+     */
+    var TrackingCodeGenerator = function () {
+        // empty
+    }
+
+    var TrackingCodeGeneratorSingleton = exports.TrackingCodeGenerator = new TrackingCodeGenerator();
 
     $(document).ready(function () {
 
-        var piwikHost = window.location.host,
-            piwikPath = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        // get preloaded server-side data necessary for code generation
+        var dataElement = $('#js-tracking-generator-data'),
+            currencySymbols = JSON.parse(dataElement.attr('data-currencies')),
+            siteUrls = {},
+            siteCurrencies = {},
+            allGoals = {},
+            noneText = $('#image-tracker-goal').find('>option').text();
 
         //
         // utility methods
@@ -59,20 +116,13 @@
             return element.hostname;
         };
 
-        // get preloaded server-side data necessary for code generation
-        var dataElement = $('#js-tracking-generator-data'),
-            currencySymbols = JSON.parse(dataElement.attr('data-currencies')),
-            siteUrls = {},
-            siteCurrencies = {},
-            allGoals = {},
-            noneText = $('#image-tracker-goal').find('>option').text();
-
         // queries Piwik for needed site info for one site
         var getSiteData = function (idSite, sectionSelect, callback) {
             // if data is already loaded, don't do an AJAX request
             if (siteUrls[idSite]
                 && siteCurrencies[idSite]
-                && typeof allGoals[idSite] !== 'undefined') {
+                && typeof allGoals[idSite] !== 'undefined'
+            ) {
                 callback();
                 return;
             }
@@ -136,37 +186,46 @@
 
         // function that generates JS code
         var generateJsCode = function () {
-            // get data
-            var idSite = $('#js-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
-                groupPageTitlesByDomain = $('#javascript-tracking-group-by-domain').is(':checked'),
-                mergeSubdomains = $('#javascript-tracking-all-subdomains').is(':checked'),
-                mergeAliasUrls = $('#javascript-tracking-all-aliases').is(':checked'),
-                visitorCustomVariables = getCustomVariables('javascript-tracking-visitor-cv'),
-                pageCustomVariables = getCustomVariables('javascript-tracking-page-cv'),
-                customCampaignNameQueryParam = null,
-                customCampaignKeywordParam = null,
-                doNotTrack = $('#javascript-tracking-do-not-track').is(':checked');
+            // get params used to generate JS code
+            var params = {
+                idSite: $('#js-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
+                groupPageTitlesByDomain: $('#javascript-tracking-group-by-domain').is(':checked'),
+                mergeSubdomains: $('#javascript-tracking-all-subdomains').is(':checked'),
+                mergeAliasUrls: $('#javascript-tracking-all-aliases').is(':checked'),
+                visitorCustomVariables: getCustomVariables('javascript-tracking-visitor-cv'),
+                pageCustomVariables: getCustomVariables('javascript-tracking-page-cv'),
+                customCampaignNameQueryParam: null,
+                customCampaignKeywordParam: null,
+                doNotTrack: $('#javascript-tracking-do-not-track').is(':checked'),
+                piwikHost: piwikHost,
+                piwikPath: piwikPath
+            };
 
             if ($('#custom-campaign-query-params-check').is(':checked')) {
-                customCampaignNameQueryParam = $('#custom-campaign-name-query-param').val();
-                customCampaignKeywordParam = $('#custom-campaign-keyword-query-param').val();
+                params.customCampaignNameQueryParam = $('#custom-campaign-name-query-param').val();
+                params.customCampaignKeywordParam = $('#custom-campaign-keyword-query-param').val();
             }
+
+            // allow plugins to modify data used to generate tracking code
+            $(TrackingCodeGeneratorSingleton).trigger('customizeJavaScriptParams', params);
+
+            var idSite = params.idSite;
 
             // generate JS
             var result = '<!-- Piwik -->\n\
 <script type="text/javascript">\n\
   var _paq = _paq || [];\n';
 
-            if (groupPageTitlesByDomain) {
+            if (params.groupPageTitlesByDomain) {
                 result += '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);\n';
             }
 
-            if (mergeSubdomains) {
+            if (params.mergeSubdomains) {
                 var mainHostAllSub = '*.' + getHostNameFromUrl(siteUrls[idSite][0]);
                 result += '  _paq.push(["setCookieDomain", ' + JSON.stringify(mainHostAllSub) + ']);\n';
             }
 
-            if (mergeAliasUrls) {
+            if (params.mergeAliasUrls) {
                 var siteHosts = [];
                 for (var i = 0; i != siteUrls[idSite].length; ++i) {
                     siteHosts[i] = '*.' + getHostNameFromUrl(siteUrls[idSite][i]);
@@ -174,33 +233,33 @@
                 result += '  _paq.push(["setDomains", ' + JSON.stringify(siteHosts) + ']);\n';
             }
 
-            if (visitorCustomVariables.length) {
+            if (params.visitorCustomVariables.length) {
                 result += '  // you can set up to 5 custom variables for each visitor\n';
-                result += getCustomVariableJS(visitorCustomVariables, 'visit');
+                result += getCustomVariableJS(params.visitorCustomVariables, 'visit');
             }
 
-            if (pageCustomVariables.length) {
+            if (params.pageCustomVariables.length) {
                 result += '  // you can set up to 5 custom variables for each action (page view, ' +
                     'download, click, site search)\n';
-                result += getCustomVariableJS(pageCustomVariables, 'page');
+                result += getCustomVariableJS(params.pageCustomVariables, 'page');
             }
 
-            if (customCampaignNameQueryParam) {
-                result += '  _paq.push(["setCampaignNameKey", ' + JSON.stringify(customCampaignNameQueryParam) + ']);\n';
+            if (params.customCampaignNameQueryParam) {
+                result += '  _paq.push(["setCampaignNameKey", ' + JSON.stringify(params.customCampaignNameQueryParam) + ']);\n';
             }
 
-            if (customCampaignKeywordParam) {
-                result += '  _paq.push(["setCampaignKeywordKey", ' + JSON.stringify(customCampaignKeywordParam) + ']);\n';
+            if (params.customCampaignKeywordParam) {
+                result += '  _paq.push(["setCampaignKeywordKey", ' + JSON.stringify(params.customCampaignKeywordParam) + ']);\n';
             }
 
-            if (doNotTrack) {
+            if (params.doNotTrack) {
                 result += '  _paq.push(["setDoNotTrack", true]);\n';
             }
 
             result += '  _paq.push(["trackPageView"]);\n\
   _paq.push(["enableLinkTracking"]);\n\n\
   (function() {\n\
-    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://' + piwikHost + piwikPath + '/";\n\
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://' + params.piwikHost + params.piwikPath + '/";\n\
     _paq.push(["setTrackerUrl", u+"piwik.php"]);\n\
     _paq.push(["setSiteId", ' + JSON.stringify(idSite) + ']);\n\
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";\n\
@@ -209,46 +268,62 @@
 </script>\n\
 '+'<!-- End Piwik Code -->';
 
+            // allow plugins to modify generated JavaScript
+            var eventData = {code: result};
+            $(TrackingCodeGeneratorSingleton).trigger('customizeJavaScript', eventData);
+            result = eventData.code;
+
             $('#javascript-text').find('textarea').val(result)
         };
 
         // function that generates image tracker link
         var generateImageTrackerLink = function () {
-            // get data ( (("https:" == document.location.protocol)?"https://' + piwikHost + '":"http://' + piwikHost + '") )
-            var idSite = $('#image-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
-                path = document.location.pathname,
-                piwikURL = ("https:" == document.location.protocol ? "https://" + piwikHost : "http://" + piwikHost) + path.substring(0, path.lastIndexOf('/')) + '/piwik.php',
-                actionName = $('#image-tracker-action-name').val(),
-                idGoal = null,
-                revenue = null;
+            // get data used to generate the link
+            var generateDataParams = {
+                idSite: $('#image-tracker-website').find('.custom_select_main_link').attr('data-siteid'),
+                actionName: $('#image-tracker-action-name').val(),
+                piwikHost: piwikHost,
+                piwikPath: piwikPath
+            }
 
             if ($('#image-tracking-goal-check').is(':checked')) {
-                idGoal = $('#image-tracker-goal').val();
-                if (idGoal) {
-                    revenue = $('#image-tracker-advanced-options').find('.revenue').val();
+                generateDataParams.idGoal = $('#image-tracker-goal').val();
+                if (generateDataParams.idGoal) {
+                    generateDataParams.revenue = $('#image-tracker-advanced-options').find('.revenue').val();
                 }
             }
+
+            // allow plugins to modify data used to generate tracking code
+            $(TrackingCodeGeneratorSingleton).trigger('customizeTrackerLinkParams', generateDataParams);
 
             // generate link HTML
             var params = {
-                idsite: idSite,
+                idsite: generateDataParams.idSite,
                 rec: 1
             };
 
-            if (actionName) {
-                params.action_name = actionName;
+            if (generateDataParams.actionName) {
+                params.action_name = generateDataParams.actionName;
             }
 
-            if (idGoal) {
-                params.idGoal = idGoal;
-                if (revenue) {
-                    params.revenue = revenue;
+            if (generateDataParams.idGoal) {
+                params.idGoal = generateDataParams.idGoal;
+                if (generateDataParams.revenue) {
+                    params.revenue = generateDataParams.revenue;
                 }
             }
+
+            var piwikURL = ("https:" == document.location.protocol ? "https://" : "http://") + generateDataParams.piwikHost 
+                         + generateDataParams.piwikPath + '/piwik.php';
 
             var result = '<!-- Piwik Image Tracker -->\n\
 <img src="' + piwikURL + '?' + $.param(params) + '" style="border:0" alt="" />\n\
 <!-- End Piwik -->';
+
+            // allow plugins to modify tracking link code
+            var eventData = {code: result};
+            $(TrackingCodeGeneratorSingleton).trigger('customizeTrackerLink', result);
+            result = eventData.code;
 
             result = result.replace(/[&]/g, "&amp;");
             $('#image-tracking-text').find('textarea').val(result);
@@ -336,4 +411,4 @@
         );
     });
 
-}(jQuery));
+}(jQuery, require));
