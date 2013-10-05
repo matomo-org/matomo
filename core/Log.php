@@ -312,10 +312,10 @@ class Log
     private function setLogFilePathFromConfig($logConfig)
     {
         $logPath = $logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
-        if ($logPath[0] != '/' && $logPath[0] != DIRECTORY_SEPARATOR) {
-            $logPath = PIWIK_USER_PATH . '/' . $logPath;
+        if ( !SettingsServer::isWindows()
+                && $logPath[0] != '/') {
+            $logPath = PIWIK_USER_PATH . DIRECTORY_SEPARATOR . $logPath;
         }
-
         $logPath = SettingsPiwik::rewriteTmpPathWithHostname($logPath);
         if (is_dir($logPath)) {
             $logPath .= '/piwik.log';

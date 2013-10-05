@@ -56,15 +56,17 @@ if ($minimumPhpInvalid) {
     $autoloadPath = '/vendor/autoload.php';
     $autoloader = PIWIK_INCLUDE_PATH . $autoloadPath;
     if(!file_exists($autoloader)) {
-        $composerInstall = "<pre> curl -sS https://getcomposer.org/installer | php \n php composer.phar install</pre> ";
+        $composerInstall = "In the piwik directory, run in the command line the following (eg. via ssh): "
+                    . "<pre> curl -sS https://getcomposer.org/installer | php \n php composer.phar install</pre> ";
         if(DIRECTORY_SEPARATOR === '\\'  /* ::isWindows() */) {
-            $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line.";
+            $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line. "
+                            ." <br>Then run this command in a terminal in the piwik directory: <br> $ php composer update ";
         }
-        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed.
-        You can install Composer in a few easy steps. In the piwik directory, run in the command line the following (eg. via ssh):
-                    " . $composerInstall . " </p><p>This will download and install composer, and initialize composer for Piwik (eg. download the twig library in vendor/twig).
-                    <br/>Then reload this page to access your analytics reports.
-                    <br/><br/>Note: if for some reasons you cannot execute this command, install the latest Piwik release from <a
+        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:
+                    <br/>" . $composerInstall
+                    . " This will initialize composer for Piwik and download libraries we use in vendor/* directory.
+                    <br/><br/>Then reload this page to access your analytics reports.
+                    <br/><br/>Note: if for some reasons you cannot installer composer, instead install the latest Piwik release from <a
                     href='http://builds.piwik.org/latest.zip'>builds.piwik.org</a>.</p>";
     }
 }
