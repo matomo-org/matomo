@@ -32,11 +32,22 @@ class API
     }
 
     /**
-     * Get Answer to Life. Please remove if you do not need this API method.
-     * @return integer
+     * Example method. Please remove if you do not need this API method.
+     * You can call this API method like this:
+     * /index.php?module=API&method=PLUGINNAME.getAnswerToLife
+     * /index.php?module=API&method=PLUGINNAME.getAnswerToLife?truth=0
+     *
+     * @param  bool $truth
+     *
+     * @return bool
      */
-    public function getAnswerToLife()
+    public function getAnswerToLife($truth = true)
     {
-        return 42;
+        if ($truth) {
+
+            return 42;
+        }
+
+        return 24;
     }
 }
