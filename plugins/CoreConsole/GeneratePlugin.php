@@ -14,6 +14,7 @@ namespace Piwik\Plugins\CoreConsole;
 use Piwik\Common;
 use Piwik\Console\Command;
 use Piwik\Filesystem;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,8 +30,9 @@ class GeneratePlugin extends Command
              ->setAliases(array('generate:theme'))
              ->setDescription('Generates a new plugin/theme including all needed files')
              ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Plugin name ([a-Z0-9_-])')
-             ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters.')
-             ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version');
+             ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
+             ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
+             ->addOption('full', null, InputOption::VALUE_OPTIONAL, 'If a value is set, an API and a Controller will be created as well. Option is only available for creating plugins, not for creating themes.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -39,6 +41,7 @@ class GeneratePlugin extends Command
         $pluginName  = $this->getPluginName($input, $output);
         $description = $this->getPluginDescription($input, $output);
         $version     = $this->getPluginVersion($input, $output);
+        $createFullPlugin = !$isTheme && $this->getCreateFullPlugin($input, $output);
 
         $this->generatePluginFolder($pluginName);
         $this->generatePluginJson($pluginName, $version, $description, $isTheme);
@@ -49,6 +52,23 @@ class GeneratePlugin extends Command
         $this->writeSuccessMessage($output, array(
             sprintf('%s %s %s generated. Enjoy!', $title, $pluginName, $version)
         ));
+
+        if (!empty($createFullPlugin)) {
+            $this->executePluginCommand($output, 'generate:api', $pluginName);
+            $this->executePluginCommand($output, 'generate:controller', $pluginName);
+        }
+    }
+
+    private function executePluginCommand(OutputInterface $output, $commandName, $pluginName)
+    {
+        $command = $this->getApplication()->find($commandName);
+        $arguments = array(
+            'command'      => $commandName,
+            '--pluginname' => $pluginName
+        );
+
+        $input = new ArrayInput($arguments);
+        $command->run($input, $output);
     }
 
     /**
@@ -205,7 +225,7 @@ class GeneratePlugin extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return mixed
+     * @return string
      */
     protected function getPluginVersion(InputInterface $input, OutputInterface $output)
     {
@@ -217,6 +237,23 @@ class GeneratePlugin extends Command
         }
 
         return $version;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed
+     */
+    protected function getCreateFullPlugin(InputInterface $input, OutputInterface $output)
+    {
+        $full = $input->getOption('full');
+
+        if (is_null($full)) {
+            $dialog = $this->getHelperSet()->get('dialog');
+            $full   = $dialog->askConfirmation($output, 'Shall we also create an API and a Controller? (y/N)', false);
+        }
+
+        return !empty($full);
     }
 
 }
