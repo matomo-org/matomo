@@ -78,7 +78,7 @@ See [PHPUnit update](http://phpunit.de/manual/current/en/installation.html) or t
 
     $ sudo pear install -a phpunit/PHPUnit
 
-### Troubleshooting
+### Troubleshooting failing tests
 
 If you get any of these errors:
  * `RuntimeException: Unable to create the cache directory ( piwik/tmp/templates_c/66/77).`
@@ -90,7 +90,18 @@ On your dev server, give your user permissions to write to the directory:
 
     $ sudo chmod 777 -R piwik/tmp/
 
+### Troubleshooting SLOW tests
 
+If the tests are running incredibly slow on your machine, maybe you are running mysql DB on an ext4 partition?
+Here is the tip that will save you hours of research: if you use Mysql on ext4 partition,
+make sure you add "nobarrier" option to /etc/fstab to disable some super slow IO feature.
+
+Change from:
+    `UUID=83237e54-445f-8b83-180f06459d46       /       ext4    errors=remount-ro     0       1`
+to this:
+    `UUID=83237e54-445f-8b83-180f06459d46       /       ext4    errors=remount-ro,nobarrier     0       1`
+
+Then
 ## Integration Tests
 
 Integration tests files are in `tests/PHPUnit/Integration/*Test.php`
