@@ -24,19 +24,21 @@ class RunTests extends Command
 {
     protected function configure()
     {
-        $this->setName('tests');
+        $this->setName('tests:run');
         $this->setDescription('Run Piwik PHPUnit tests');
-        $this->addArgument('group', InputArgument::OPTIONAL, 'Optional test group', '');
+        $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,integration', '');
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $options = $input->getOption('options');
-        $group = $input->getArgument('group');
+        $group   = $input->getArgument('group');
 
         if (!empty($group)) {
-            $options = '--group ' . ucfirst($group) . ' ' . $options;
+            $groups  = explode(',', $group);
+            $groups  = array_map('ucfirst', $groups);
+            $options = '--group ' . implode(',', $groups) . ' ' . $options;
         }
 
         $cmd = sprintf('cd %s/tests/PHPUnit && phpunit %s', PIWIK_DOCUMENT_ROOT, $options);

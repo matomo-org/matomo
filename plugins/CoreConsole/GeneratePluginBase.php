@@ -22,14 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class GeneratePluginBase extends Command
 {
-    /**
-     * @param $pluginName
-     * @return string
-     */
-    protected function getPluginPath($pluginName)
+    public function getPluginPath($pluginName)
     {
-        $pluginPath = PIWIK_INCLUDE_PATH . '/plugins/' . ucfirst($pluginName);
-        return $pluginPath;
+        return PIWIK_INCLUDE_PATH . '/plugins/' . ucfirst($pluginName);
     }
 
     private function createFolderWithinPluginIfNotExists($pluginName, $folder)
@@ -41,7 +36,7 @@ class GeneratePluginBase extends Command
         }
     }
 
-    private function createFileWithinPluginIfNotExists($pluginName, $fileName, $content)
+    protected function createFileWithinPluginIfNotExists($pluginName, $fileName, $content)
     {
         $pluginPath = $this->getPluginPath($pluginName);
 
@@ -66,7 +61,7 @@ class GeneratePluginBase extends Command
             if (is_dir($file)) {
                 $this->createFolderWithinPluginIfNotExists($pluginName, $fileNamePlugin);
             } else {
-                $template   = file_get_contents($file);
+                $template = file_get_contents($file);
                 $template = str_replace('PLUGINNAME', $pluginName, $template);
                 $this->createFileWithinPluginIfNotExists($pluginName, $fileNamePlugin, $template);
             }

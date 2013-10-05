@@ -37,6 +37,7 @@ class GenerateController extends GeneratePluginBase
 
         $this->writeSuccessMessage($output, array(
             sprintf('Controller for %s generated.', $pluginName),
+            'You can now start adding Controller actions',
             'Enjoy!'
         ));
     }

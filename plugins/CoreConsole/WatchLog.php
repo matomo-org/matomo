@@ -25,6 +25,7 @@ class WatchLog extends Command
     protected function configure()
     {
         $this->setName('log:watch');
+        $this->setDescription('Outputs the last parts of the log files and follows as the log file grows. Works not under Windows');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

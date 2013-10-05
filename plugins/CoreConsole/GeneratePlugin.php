@@ -12,7 +12,6 @@
 namespace Piwik\Plugins\CoreConsole;
 
 use Piwik\Common;
-use Piwik\Console\Command;
 use Piwik\Filesystem;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class GeneratePlugin extends Command
+class GeneratePlugin extends GeneratePluginBase
 {
     protected function configure()
     {
@@ -45,15 +44,20 @@ class GeneratePlugin extends Command
 
         $this->generatePluginFolder($pluginName);
         $this->generatePluginJson($pluginName, $version, $description, $isTheme);
-        $this->generatePluginFiles($isTheme, $pluginName);
 
-        $title = $isTheme ? 'Theme' : 'Plugin';
+        if ($isTheme) {
+            $this->copyTemplateToPlugin('theme', $pluginName);
+        } else {
+            $this->copyTemplateToPlugin('plugin', $pluginName);
+            $this->generatePluginFile($pluginName);
+        }
 
         $this->writeSuccessMessage($output, array(
-            sprintf('%s %s %s generated. Enjoy!', $title, $pluginName, $version)
+            sprintf('%s %s %s generated.', $isTheme ? 'Theme' : 'Plugin', $pluginName, $version),
+            'Enjoy!'
         ));
 
-        if (!empty($createFullPlugin)) {
+        if ($createFullPlugin) {
             $this->executePluginCommand($output, 'generate:api', $pluginName);
             $this->executePluginCommand($output, 'generate:controller', $pluginName);
         }
@@ -61,7 +65,7 @@ class GeneratePlugin extends Command
 
     private function executePluginCommand(OutputInterface $output, $commandName, $pluginName)
     {
-        $command = $this->getApplication()->find($commandName);
+        $command   = $this->getApplication()->find($commandName);
         $arguments = array(
             'command'      => $commandName,
             '--pluginname' => $pluginName
@@ -82,29 +86,12 @@ class GeneratePlugin extends Command
         return false !== strpos($commandName, 'theme');
     }
 
-    /**
-     * @param $pluginName
-     * @return string
-     */
-    public function getPluginPath($pluginName)
-    {
-        $pluginPath = PIWIK_INCLUDE_PATH . '/plugins/' . ucfirst($pluginName);
-        return $pluginPath;
-    }
-
     private function generatePluginFolder($pluginName)
     {
         $pluginPath = $this->getPluginPath($pluginName);
         Filesystem::mkdir($pluginPath, true);
     }
 
-    /**
-     * @param $pluginName
-     * @param $version
-     * @param $description
-     * @param $isTheme
-     * @return array
-     */
     private function generatePluginJson($pluginName, $version, $description, $isTheme)
     {
         $pluginJson = array(
@@ -120,33 +107,19 @@ class GeneratePlugin extends Command
 
         $content = json_encode($pluginJson);
         $content = str_replace('",', "\",\n ", $content);
-        $this->writePluginFile($pluginName, '/plugin.json', $content);
+        $this->createFileWithinPluginIfNotExists($pluginName, '/plugin.json', $content);
 
         return $pluginJson;
     }
 
-    private function writePluginFile($pluginName, $fileName, $content)
-    {
-        $pluginPath = $this->getPluginPath($pluginName);
-
-        file_put_contents($pluginPath . $fileName, $content);
-    }
-
     /**
-     * @param $isTheme
-     * @param $pluginName
+     * @param string $pluginName
      */
-    private function generatePluginFiles($isTheme, $pluginName)
+    private function generatePluginFile($pluginName)
     {
-        if ($isTheme) {
-            $pluginPath = $this->getPluginPath($pluginName);
-            Filesystem::mkdir($pluginPath . '/stylesheets', false);
-            $this->writePluginFile($pluginName, '/stylesheets/theme.less', '');
-        } else {
-            $template   = file_get_contents(__DIR__ . '/templates/PluginTemplate.php');
-            $pluginFile = str_replace('PLUGINNAME', $pluginName, $template);
-            $this->writePluginFile($pluginName, '/' . $pluginName . '.php', $pluginFile);
-        }
+        $template = file_get_contents(__DIR__ . '/templates/PluginTemplate.php');
+        $template = str_replace('PLUGINNAME', $pluginName, $template);
+        $this->createFileWithinPluginIfNotExists($pluginName, '/' . $pluginName . '.php', $template);
     }
 
     /**
