@@ -590,7 +590,7 @@ class API
      * @param Map $replaceIn
      * @param Map $replaceWith
      */
-    private function replaceEmptyDataTablesWith(&$replaceIn, $replaceWith)
+    private function replaceEmptyDataTablesWith(Map $replaceIn, Map $replaceWith)
     {
         foreach ($replaceWith->getArray() as $label => $replaceWithChildTable) {
             if ($replaceWithChildTable instanceof Map) { // recurse
