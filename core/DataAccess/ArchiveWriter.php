@@ -127,15 +127,7 @@ class ArchiveWriter
 								'" . $date . "',
 								0 "
             . " FROM $numericTable as tb1";
-        try { // TODO: this is temporary, remove when deadlocking issue is fixed
-            Db::get()->exec($insertSql);
-        } catch (Exception $ex) {
-            if (Db::get()->isErrNo($ex, 1213)) {
-                $deadlockInfo = \Piwik\Db::fetchAll("SHOW ENGINE INNODB STATUS");
-                Log::debug("DEADLOCK INFO: " . print_r($deadlockInfo));
-            }
-            throw $ex;
-        }
+        Db::get()->exec($insertSql);
         $this->releaseArchiveTableLock();
         $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
         $id = Db::get()->fetchOne($selectIdSql, $locked);

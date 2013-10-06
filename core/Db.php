@@ -81,7 +81,14 @@ class Db
         $db = self::get();
         $profiler = $db->getProfiler();
         $q = $profiler->queryStart($sql, \Zend_Db_Profiler::INSERT);
-        $return = self::get()->exec($sql);
+
+        try {
+            $return = self::get()->exec($sql);
+        } catch (Exception $ex) {
+            self::logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
+
         $profiler->queryEnd($q);
         return $return;
     }
@@ -98,7 +105,12 @@ class Db
      */
     static public function query($sql, $parameters = array())
     {
-        return self::get()->query($sql, $parameters);
+        try {
+            return self::get()->query($sql, $parameters);
+        } catch (Exception $ex) {
+            self::logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -110,7 +122,12 @@ class Db
      */
     static public function fetchAll($sql, $parameters = array())
     {
-        return self::get()->fetchAll($sql, $parameters);
+        try {
+            return self::get()->fetchAll($sql, $parameters);
+        } catch (Exception $ex) {
+            self::logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -122,7 +139,12 @@ class Db
      */
     static public function fetchRow($sql, $parameters = array())
     {
-        return self::get()->fetchRow($sql, $parameters);
+        try {
+            return self::get()->fetchRow($sql, $parameters);
+        } catch (Exception $ex) {
+            self::logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -134,7 +156,12 @@ class Db
      */
     static public function fetchOne($sql, $parameters = array())
     {
-        return self::get()->fetchOne($sql, $parameters);
+        try {
+            return self::get()->fetchOne($sql, $parameters);
+        } catch (Exception $ex) {
+            self::logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -146,7 +173,12 @@ class Db
      */
     static public function fetchAssoc($sql, $parameters = array())
     {
-        return self::get()->fetchAssoc($sql, $parameters);
+        try {
+            return self::get()->fetchAssoc($sql, $parameters);
+        } catch (Exception $ex) {
+            self::logExtraInfoIfDeadlock($ex);
+            throw $ex;
+        }
     }
 
     /**
@@ -469,4 +501,13 @@ class Db
         return self::$lockPrivilegeGranted;
     }
 
+    private static function logExtraInfoIfDeadlock($ex)
+    {
+        if (self::get()->isErrNo($ex, 1213)) {
+            $deadlockInfo = self::fetchAll("SHOW ENGINE INNODB STATUS");
+
+            // log using exception so backtrace appears in log output
+            Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
+        }
+    }
 }
