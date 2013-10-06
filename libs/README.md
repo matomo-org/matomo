@@ -4,11 +4,6 @@ In general, bug fixes and improvements are reported upstream.  Until these are
 included upstream, we maintain a list of bug fixes and local mods made to
 third-party libraries:
 
- * Event/
-   - in r41, php 5 incompatibility
-   - in r1035 and r1041, profiling hook via increaseNotificationCount()
-   - in r1287, fix php 5.3.x incompatibilities 
-   - in r1296, strip require_once (to support autoloading)
  * HTML/Quickform2/
    - in r2626, php 5.1.6 incompatibility
    - in r3040, exception classes don't follow PEAR naming convention
@@ -25,8 +20,6 @@ third-party libraries:
    - in r2419, add static keyword to isError and raiseError as it throws notices
      in HTML_Quickform2
    - in r2422, is_a() is deprecated for php 5.0 to 5.2.x
- * Smarty/
-   - in r3773, chmod after tempnam
  * sparkline/
    - in r1296, remove require_once
    - empty sparklines with floats, off-by-one errors, and locale conflict
