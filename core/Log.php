@@ -195,6 +195,7 @@ class Log
      * 
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
+     * @api
      */
     public static function error($message /* ... */)
     {
@@ -206,6 +207,7 @@ class Log
      * 
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
+     * @api
      */
     public static function warning($message /* ... */)
     {
@@ -217,6 +219,7 @@ class Log
      * 
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
+     * @api
      */
     public static function info($message /* ... */)
     {
@@ -228,6 +231,7 @@ class Log
      * 
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
+     * @api
      */
     public static function debug($message /* ... */)
     {
@@ -239,6 +243,7 @@ class Log
      * 
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
+     * @api
      */
     public static function verbose($message /* ... */)
     {

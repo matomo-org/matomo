@@ -30,6 +30,7 @@ use Piwik\Common;
  * and inetPtonW().
  *
  * @package Piwik
+ * @api
  */
 class IP
 {

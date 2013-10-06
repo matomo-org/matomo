@@ -18,6 +18,7 @@ use Piwik\Log;
  * Used to check for the latest Piwik version and download updates.
  *
  * @package Piwik
+ * @api
  */
 class Http
 {

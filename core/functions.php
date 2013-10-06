@@ -26,6 +26,7 @@ namespace {
      * @param bool $pending
      * @param null $plugins
      * @return void
+     * @api
      */
     function Piwik_PostEvent($eventName, $params = array(), $pending = false, $plugins = null)
     {
@@ -37,6 +38,7 @@ namespace {
      *
      * @param string $eventName  Name of event
      * @param callable $function  Callback hook
+     * @api
      */
     function Piwik_AddAction($eventName, $function)
     {
@@ -60,6 +62,7 @@ namespace {
      * @param string $string Translation string index
      * @param array|string|int $args sprintf arguments
      * @return string
+     * @api
      */
     function Piwik_Translate($string, $args = array())
     {
@@ -102,6 +105,7 @@ namespace {
      *
      * @param string $name  Key
      * @return string|bool  Value or false, if not found
+     * @api
      */
     function Piwik_GetOption($name)
     {
@@ -114,6 +118,7 @@ namespace {
      * @param string $name
      * @param string $value
      * @param int $autoLoad  if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+     * @api
      */
     function Piwik_SetOption($name, $value, $autoLoad = 0)
     {
