@@ -56,8 +56,6 @@ class Config
     {
         if (self::$instance == null) {
             self::$instance = new self;
-
-            Piwik_PostTestEvent('Config.createConfigSingleton', array(self::$instance));
         }
         return self::$instance;
     }
@@ -213,7 +211,6 @@ class Config
 
         $this->pathGlobal = self::getGlobalConfigPath();
         $this->pathLocal = self::getLocalConfigPath();
-
     }
 
     /**

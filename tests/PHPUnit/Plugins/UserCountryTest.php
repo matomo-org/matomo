@@ -129,7 +129,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 
     public function setUp()
     {
-        Piwik::$shouldLog = null;
+        // empty
     }
 
     public function tearDown()

@@ -11,6 +11,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Log;
 
 /**
  * Server-side http client to retrieve content from remote servers, and optionally save to a local file.
@@ -576,15 +577,14 @@ class Http
             }
 
             if ($expectedFileSize == 0) {
-                Piwik::log(sprintf("HEAD request for '%s' failed, got following: %s", $url, print_r($expectedFileSizeResult, true)));
+                Log::info("HEAD request for '%s' failed, got following: %s", $url, print_r($expectedFileSizeResult, true));
                 throw new Exception(Piwik_Translate('General_DownloadFail_HttpRequestFail'));
             }
 
             Piwik_SetOption($downloadOption, $expectedFileSize);
         } else {
             $expectedFileSize = (int)Piwik_GetOption($downloadOption);
-            if ($expectedFileSize === false) // sanity check
-            {
+            if ($expectedFileSize === false) { // sanity check
                 throw new Exception("Trying to continue a download that never started?! That's not supposed to happen...");
             }
         }
@@ -615,8 +615,8 @@ class Http
             || $result['status'] > 299
         ) {
             $result['data'] = self::truncateStr($result['data'], 1024);
-            Piwik::log("Failed to download range '" . $byteRange[0] . "-" . $byteRange[1]
-                . "' of file from url '$url'. Got result: " . print_r($result, true));
+            Log::info("Failed to download range '%s-%s' of file from url '%s'. Got result: %s",
+                $byteRange[0], $byteRange[1], $url, print_r($result, true));
 
             throw new Exception(Piwik_Translate('General_DownloadFail_HttpRequestFail'));
         }

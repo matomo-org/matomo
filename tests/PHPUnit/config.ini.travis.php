@@ -17,4 +17,5 @@ tables_prefix        = piwiktests_
 ;charset        = utf8
 
 [log]
-logger_message[] = file
+log_writers[] = file
+log_level = debug

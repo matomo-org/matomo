@@ -124,7 +124,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         // run the command
         exec($cmd, $output, $result);
         if ($result !== 0) {
-            throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
+            throw new Exception("archive cron failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
         }
 
         return $output;

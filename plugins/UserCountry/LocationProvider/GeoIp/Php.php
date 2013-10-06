@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 use Piwik\Piwik;
+use Piwik\Log;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 /**
@@ -129,7 +130,7 @@ class Php extends GeoIp
                     $result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr($locationGeoIp, $ip);
                     break;
                 default: // unknown database type, log warning and fallback to country edition
-                    Piwik::log(sprintf("Found unrecognized database type: %s", $locationGeoIp->databaseType));
+                    Log::warning("Found unrecognized database type: %s", $locationGeoIp->databaseType);
 
                     $result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr($locationGeoIp, $ip);
                     break;
@@ -206,7 +207,7 @@ class Php extends GeoIp
 
         if ($geoIpError) {
             list($errno, $errstr, $errfile, $errline) = $geoIpError;
-            Piwik::log("Got GeoIP error when testing PHP GeoIP location provider: $errfile($errline): $errstr");
+            Log::warning("Got GeoIP error when testing PHP GeoIP location provider: %s(%s): %s", $errfile, $errline, $errstr);
 
             return Piwik_Translate('UserCountry_GeoIPIncorrectDatabaseFormat');
         }

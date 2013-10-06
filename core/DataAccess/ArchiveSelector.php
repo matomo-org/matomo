@@ -22,6 +22,7 @@ use Piwik\Segment;
 use Piwik\Site;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
+use Piwik\Log;
 
 /**
  * Data Access object used to query archives
@@ -292,8 +293,8 @@ class ArchiveSelector
         }
         self::deleteArchivesWithPeriodRange($dateStart);
 
-        Piwik::log("Purging temporary archives: done [ purged archives older than $purgeArchivesOlderThan in "
-            . $dateStart->toString("Y-m") . " ] [Deleted IDs: " . implode(',', $idArchivesToDelete) . "]");
+        Log::debug("Purging temporary archives: done [ purged archives older than %s in %s ] [Deleted IDs: %s]",
+            $purgeArchivesOlderThan, $dateStart->toString("Y-m"), implode(',', $idArchivesToDelete));
     }
 
     /*
@@ -307,7 +308,7 @@ class ArchiveSelector
         $bind = array(Piwik::$idPeriods['range'], $yesterday);
         $numericTable = ArchiveTableCreator::getNumericTable($date);
         Db::query(sprintf($query, $numericTable), $bind);
-        Piwik::log("Purging Custom Range archives: done [ purged archives older than $yesterday from $numericTable / blob ]");
+        Log::debug("Purging Custom Range archives: done [ purged archives older than %s from %s / blob ]", $yesterday, $numericTable);
         try {
             Db::query(sprintf($query, ArchiveTableCreator::getBlobTable($date)), $bind);
         } catch (Exception $e) {

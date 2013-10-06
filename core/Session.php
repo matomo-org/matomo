@@ -11,6 +11,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Log;
 use Piwik\Session\SaveHandler\DbTable;
 use Zend_Session;
 
@@ -120,7 +121,7 @@ class Session extends Zend_Session
             Zend_Session::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
-            Piwik::log('Unable to start session: ' . $e->getMessage());
+            Log::warning('Unable to start session: ' . $e->getMessage());
 
             $enableDbSessions = '';
             if (DbHelper::isInstalled()) {

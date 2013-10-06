@@ -47,7 +47,7 @@ always_archive_data_range = 0;
 
 ; if set to 1, all the SQL queries will be recorded by the profiler
 ; and a profiling summary will be printed at the end of the request
-; NOTE: you must also set [log] logger_message[] = "screen" to enable the profiler to print on screen
+; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
 ; if set to 1, a Piwik tracking code will be included in the Piwik UI footer and will track visits, pages, etc. to idsite = 1

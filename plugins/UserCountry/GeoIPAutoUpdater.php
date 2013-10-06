@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UserCountry;
 
 use Exception;
 use Piwik\Piwik;
+use Piwik\Log;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Http;
@@ -78,7 +79,7 @@ class GeoIPAutoUpdater
             }
         } catch (Exception $ex) {
             // message will already be prefixed w/ 'GeoIPAutoUpdater: '
-            Piwik::log($ex->getMessage());
+            Log::error($ex);
             $this->performRedundantDbChecks();
             throw $ex;
         }
@@ -120,7 +121,7 @@ class GeoIPAutoUpdater
                 . "'$zippedOutputPath'! (Unknown error)");
         }
 
-        Piwik::log(sprintf("GeoIPAutoUpdater: successfully downloaded '%s'", $url));
+        Log::info("GeoIPAutoUpdater: successfully downloaded '%s'", $url);
 
         try {
             self::unzipDownloadedFile($zippedOutputPath, $unlink = true);
@@ -129,7 +130,7 @@ class GeoIPAutoUpdater
                 . "downloading " . "'$url': " . $ex->getMessage());
         }
 
-        Piwik::log(sprintf("GeoIPAutoUpdater: successfully updated GeoIP database '%s'", $url));
+        Log::info("GeoIPAutoUpdater: successfully updated GeoIP database '%s'", $url);
     }
 
     /**
@@ -221,8 +222,8 @@ class GeoIPAutoUpdater
             ) {
                 if (self::$unzipPhpError !== null) {
                     list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-                    Piwik::log("GeoIPAutoUpdater: Encountered PHP error when testing newly downloaded" .
-                        " GeoIP database: $errno: $errstr on line $errline of $errfile.");
+                    Log::info("GeoIPAutoUpdater: Encountered PHP error when testing newly downloaded" .
+                        " GeoIP database: %s: %s on line %s of %s.", $errno, $errstr, $errline, $errfile);
                 }
 
                 throw new Exception(Piwik_Translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
@@ -530,8 +531,8 @@ class GeoIPAutoUpdater
             self::getTestLocationCatchPhpErrors($provider);
             if (self::$unzipPhpError !== null) {
                 list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-                Piwik::log("GeoIPAutoUpdater: Encountered PHP error when performing redundant " .
-                    "tests on GeoIP $type database: $errno: $errstr on line $errline of $errfile.");
+                Log::warning("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
+                           . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
 
                 // get the current filename for the DB and an available new one to rename it to
                 list($oldPath, $newPath) = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);

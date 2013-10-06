@@ -174,7 +174,7 @@ class FrontController
             if (class_exists('Piwik\\Profiler')) {
                 Profiler::displayDbProfileReport();
                 Profiler::printQueryCount();
-                Piwik::log(Registry::get('timer'));
+                Log::debug(Registry::get('timer'));
             }
         } catch (Exception $e) {
         }

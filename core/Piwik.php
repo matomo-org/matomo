@@ -51,23 +51,6 @@ class Piwik
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
 
     /**
-     * Logging and error handling
-     *
-     * @var bool|null
-     */
-    public static $shouldLog = null;
-
-    /**
-     * Log a message TODO: remove
-     *
-     * @param string $message
-     */
-    static public function log($message = '')
-    {
-        Log::info($message);
-    }
-
-    /**
      * Trigger E_USER_ERROR with optional message
      *
      * @param string $message

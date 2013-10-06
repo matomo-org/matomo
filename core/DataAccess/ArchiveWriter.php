@@ -21,6 +21,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
+use Piwik\Log;
 
 /**
  * This class is used to create a new Archive.
@@ -97,7 +98,7 @@ class ArchiveWriter
         $lockName = $this->getArchiveProcessorLockName();
         $result = Db::getDbLock($lockName, $maxRetries = 30);
         if (!$result) {
-            Piwik::log("SELECT GET_LOCK failed to acquire lock. Proceeding anyway.");
+            Log::debug("SELECT GET_LOCK failed to acquire lock. Proceeding anyway.");
         }
     }
 
@@ -131,7 +132,7 @@ class ArchiveWriter
         } catch (Exception $ex) {
             if (Db::get()->isErrNo($ex, 1213)) {
                 $deadlockInfo = \Piwik\Db::fetchAll("SHOW ENGINE INNODB STATUS");
-                Piwik::log("DEADLOCK INFO: " . print_r($deadlockInfo));
+                Log::debug("DEADLOCK INFO: " . print_r($deadlockInfo));
             }
             throw $ex;
         }

@@ -19,6 +19,7 @@ use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
+use Piwik\Log;
 use Piwik\Tracker\Cache;
 
 /**
@@ -142,7 +143,7 @@ class Rules
             return $purgeArchivesOlderThan;
         }
 
-        Piwik::log("Purging temporary archives: skipped.");
+        Log::info("Purging temporary archives: skipped.");
         return false;
     }
 
@@ -203,7 +204,7 @@ class Rules
                 && $isArchivingDisabled
                 && Config::getInstance()->General['browser_archiving_disabled_enforce']
             ) {
-                Piwik::log("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
+                Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
                 return true;
             }
             return false;

@@ -1126,7 +1126,7 @@ class ViewDataTable
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
-            Piwik::log("Failed to get data from API: " . $e->getMessage());
+            Log::warning("Failed to get data from API: " . $e->getMessage());
 
             $loadingError = array('message' => $e->getMessage());
         }

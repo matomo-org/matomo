@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Log;
 
 /**
  * Purges the log_visit, log_conversion and related tables of old visit data.
@@ -85,7 +86,7 @@ class LogDataPurger
             $this->purgeUnusedLogActions();
         } else {
             $logMessage = get_class($this) . ": LOCK TABLES privilege not granted; skipping unused actions purge";
-            Piwik::log($logMessage);
+            Log::warning($logMessage);
         }
 
         // optimize table overhead after deletion
@@ -324,4 +325,3 @@ class LogDataPurger
         );
     }
 }
-

@@ -14,6 +14,7 @@ use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Metrics;
 use Piwik\Date;
+use Piwik\Log;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
 
@@ -456,15 +457,15 @@ class Archive
                 // we already know there are no stats for this period
                 // we add one day to make sure we don't miss the day of the website creation
                 if ($twoDaysAfterPeriod->isEarlier($site->getCreationDate())) {
-                    $archiveDesc = $this->getArchiveDescriptor($idSite, $period);
-                    Piwik::log("Archive $archiveDesc skipped, archive is before the website was created.");
+                    Log::verbose("Archive site %s, %s (%s) skipped, archive is before the website was created.",
+                        $idSite, $period->getLabel(), $period->getPrettyString());
                     continue;
                 }
 
                 // if the starting date is in the future we know there is no visiidsite = ?t
                 if ($twoDaysBeforePeriod->isLater($today)) {
-                    $archiveDesc = $this->getArchiveDescriptor($idSite, $period);
-                    Piwik::log("Archive $archiveDesc skipped, archive is after today.");
+                    Log::verbose("Archive site %s, %s (%s) skipped, archive is after today.",
+                        $idSite, $period->getLabel(), $period->getPrettyString());
                     continue;
                 }
 
@@ -576,11 +577,6 @@ class Archive
         // Round up the value with 2 decimals
         // we cast the result as float because returns false when no visitors
         return round((float)$value, 2);
-    }
-
-    private function getArchiveDescriptor($idSite, $period)
-    {
-        return "site $idSite, {$period->getLabel()} ({$period->getPrettyString()})";
     }
 
     private function uncompress($data)

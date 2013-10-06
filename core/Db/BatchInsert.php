@@ -14,6 +14,7 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Log;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
@@ -93,7 +94,7 @@ class BatchInsert
                     return true;
                 }
             } catch (Exception $e) {
-                Piwik::log(sprintf("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was: %s", $e->getMessage()));
+                Log::info("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was: %s", $e->getMessage());
 
                 if ($throwException) {
                     throw $e;
@@ -187,7 +188,7 @@ class BatchInsert
                 $code = $e->getCode();
                 $message = $e->getMessage() . ($code ? "[$code]" : '');
                 if (!Db::get()->isErrNo($e, '1148')) {
-                    Piwik::log(sprintf("LOAD DATA INFILE failed... Error was: %s", $message));
+                    Log::info("LOAD DATA INFILE failed... Error was: %s", $message);
                 }
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;
             }

@@ -11,6 +11,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Timer;
 use Piwik\Url;
 use Piwik\Version;
+use Piwik\Log;
 
 $USAGE = "
 Usage: 
@@ -355,7 +356,7 @@ class CronArchive
 
             $requestsWebsite = $this->requests - $requestsBefore;
             $debug = $this->shouldArchiveAllWebsites ? ", last days = $visitsAllDays visits" : "";
-            Piwik::log("Archived website id = $idsite, today = $visitsToday visits"
+            Log::info("Archived website id = $idsite, today = $visitsToday visits"
                 . $debug . ", $requestsWebsite API requests, "
                 . $timerWebsite->__toString()
                 . " [" . ($websitesWithVisitsSinceLastRun + $skipped) . "/"
@@ -557,7 +558,7 @@ class CronArchive
     {
         $this->output .= $m . "\n";
         try {
-            Piwik::log($m);
+            Log::info($m);
         } catch(Exception $e) {
             print($m . "\n");
         }

@@ -10,6 +10,8 @@
  */
 namespace Piwik;
 
+use Piwik\Log;
+
 /**
  * Class Profiler helps with measuring memory, and profiling the database.
  * To enable set in your config.ini.php
@@ -86,7 +88,7 @@ class Profiler
         $str .= '(Average query length: ' . round($totalTime / $queryCount, 3) . ' seconds)';
         $str .= '<br />Queries per second: ' . round($queryCount / $totalTime, 1);
         $str .= '<br />Longest query length: ' . round($longestTime, 3) . " seconds (<code>$longestQuery</code>)";
-        Piwik::log($str);
+        Log::debug($str);
         self::getSqlProfilingQueryBreakdownOutput($infoIndexedByQuery);
     }
 
@@ -135,7 +137,7 @@ class Profiler
     {
         $totalTime = self::getDbElapsedSecs();
         $queryCount = Profiler::getQueryCount();
-        Piwik::log(sprintf("Total queries = %d (total sql time = %.2fs)", $queryCount, $totalTime));
+        Log::debug(sprintf("Total queries = %d (total sql time = %.2fs)", $queryCount, $totalTime));
     }
 
     /**
@@ -179,6 +181,6 @@ class Profiler
             $query = preg_replace('/([\t\n\r ]+)/', ' ', $query);
             $output .= "Executed <b>$count</b> time" . ($count == 1 ? '' : 's') . " in <b>" . $timeMs . "ms</b> $avgTimeString <pre>\t$query</pre>";
         }
-        Piwik::log($output);
+        Log::debug($output);
     }
 }

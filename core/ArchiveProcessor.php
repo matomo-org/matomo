@@ -21,6 +21,7 @@ use Piwik\Db;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
+use Piwik\Log;
 
 /**
  * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
@@ -347,7 +348,8 @@ abstract class ArchiveProcessor
         if ($this->isArchiveTemporary()) {
             $temporary = 'temporary archive';
         }
-        Piwik::log(sprintf("'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
+        Log::verbose(
+            "'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
             $this->getPeriod()->getLabel(),
             $this->getSite()->getId(),
             $temporary,
@@ -355,7 +357,7 @@ abstract class ArchiveProcessor
             $requestedPlugin,
             $this->getDateStart()->getDateStartUTC(),
             $this->getDateEnd()->getDateEndUTC()
-        ));
+        );
     }
 
     /**

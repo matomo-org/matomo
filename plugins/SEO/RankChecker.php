@@ -14,6 +14,7 @@ use Exception;
 use Piwik\Http;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\Log;
 
 /**
  * The functions below are derived/adapted from GetRank.org's
@@ -190,7 +191,7 @@ class RankChecker
             $majesticInfo = $this->getMajesticInfo();
             return $majesticInfo['backlink_count'];
         } catch (Exception $e) {
-            Piwik::log($e->getMessage());
+            Log::info($e);
             return 0;
         }
     }
@@ -206,7 +207,7 @@ class RankChecker
             $majesticInfo = $this->getMajesticInfo();
             return $majesticInfo['referrer_domains_count'];
         } catch (Exception $e) {
-            Piwik::log($e->getMessage());
+            Log::info($e);
             return 0;
         }
     }
