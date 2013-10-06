@@ -409,7 +409,7 @@ action_sitesearch_record_url = 0
 ; Anonymize a visitor's IP address after testing for "Ip exclude"
 ; This value is the level of anonymization Piwik will use; if the AnonymizeIP plugin is deactivated, this value is ignored.
 ; For IPv4/IPv6 addresses, valid values are the number of octets in IP address to mask (from 0 to 4).
-; For IPv6 addresses 0..4 means that 0,10,12,15 or all octets are masked.
+; For IPv6 addresses 0..4 means that 0, 64, 80, 104 or all bits are masked.
 ip_address_mask_length = 1
 
 ; Tracker cache files are the simple caching layer for Tracking.
