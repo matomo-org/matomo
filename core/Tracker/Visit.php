@@ -10,23 +10,6 @@
  */
 
 namespace Piwik\Tracker;
-/**
- * @package Piwik
- * @subpackage Tracker
- */
-interface VisitInterface
-{
-    /**
-     * @param Request $request
-     * @return void
-     */
-    public function setRequest(Request $request);
-
-    /**
-     * @return void
-     */
-    public function handle();
-}
 
 use Piwik\Config;
 use Piwik\Common;
@@ -202,7 +185,7 @@ class Visit implements Tracker\VisitInterface
                         $this->visitorInfo['time_spent_ref_action']
                     );
                 }
-            } catch (VisitorNotFoundInDatabase $e) {
+            } catch (VisitorNotFoundInDb $e) {
 
                 // There is an edge case when:
                 // - two manual goal conversions happen in the same second
@@ -268,7 +251,7 @@ class Visit implements Tracker\VisitInterface
      * @param $idActionName
      * @param $actionType
      * @param $visitIsConverted
-     * @throws VisitorNotFoundInDatabase
+     * @throws VisitorNotFoundInDb
      */
     protected function handleKnownVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted)
     {
@@ -361,7 +344,7 @@ class Visit implements Tracker\VisitInterface
             Common::printDebug("Visitor with this idvisit wasn't found in the DB.");
             Common::printDebug("$sqlQuery --- ");
             Common::printDebug($sqlBind);
-            throw new VisitorNotFoundInDatabase(
+            throw new VisitorNotFoundInDb(
                 "The visitor with idvisitor=" . bin2hex($this->visitorInfo['idvisitor']) . " and idvisit=" . $this->visitorInfo['idvisit']
                     . " wasn't found in the DB, we fallback to a new visitor");
         }
@@ -988,13 +971,3 @@ class Visit implements Tracker\VisitInterface
         return false;
     }
 }
-
-
-/**
- * @package Piwik
- * @subpackage Tracker
- */
-class VisitorNotFoundInDatabase extends Exception
-{
-}
-
