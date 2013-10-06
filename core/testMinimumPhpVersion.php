@@ -28,13 +28,6 @@ if ($minimumPhpInvalid) {
 				support PHP $piwik_minimumPHPVersion.</p>
 				<p>Also see the FAQ: <a href='http://piwik.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
 } else {
-    $piwik_zend_compatibility_mode = ini_get("zend.ze1_compatibility_mode");
-    if ($piwik_zend_compatibility_mode == 1) {
-        $piwik_errorMessage .= "<p><strong>Piwik is not compatible with the directive <code>zend.ze1_compatibility_mode = On</code></strong></p>
-					<p>It seems your php.ini file has <pre>zend.ze1_compatibility_mode = On</pre>It makes PHP5 behave like PHP4.
-					If you want to use Piwik you need to set <pre>zend.ze1_compatibility_mode = Off</pre> in your php.ini configuration file, and restart your web server. You may have to ask your system administrator.</p>";
-    }
-
     if (!class_exists('ArrayObject')) {
         $piwik_errorMessage .= "<p><strong>Piwik and Zend Framework require the SPL extension</strong></p>
 					<p>It appears your PHP was compiled with <pre>--disable-spl</pre>.
