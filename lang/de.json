@@ -115,6 +115,7 @@
         "ImportingServerLogs": "Import von Server Log-Dateien",
         "ImportingServerLogsDesc": "Eine Alternative zum Tracken der Besucher im Browser (entweder mit JavaScript oder mit einem Bild-Link) ist der kontinuierliche Import von Server Logdateien. Erfahren Sie mehr über %1$sServer Logdatei Analyse%2$s",
         "InvalidPluginsWarning": "Folgende Plugins sind nicht kompatibel mit %1$s und konnten nicht geladen werden: %2$s",
+        "InvalidPluginsYouCanUninstall": "Sie können diese Plugins auf der %1$sManage Plugins%2$s Seite aktualisieren oder deinstallieren.",
         "JavaScriptTracking": "Tracking mit JavaScript",
         "JSTracking_CampaignKwdParam": "Kampagnen Stichwort Parameter",
         "JSTracking_CampaignNameParam": "Parameter für Kampagnenname",
@@ -249,6 +250,7 @@
         "Themes": "Themes",
         "ThemesDescription": "Themes können das Aussehen der Benutzeroberfläche für Piwik Anwender ändern, und bringen so ein komplett neues visuelles Erlebnis, das Ihnen die Analyse Ihrer Berichte angenehm gestaltet.",
         "ThemesManagement": "Themes verwalten",
+        "UninstallConfirm": "Sie sind gerade dabei das Plugin %s zu deinstallieren. Das Plugin wird komplett und endgültig von ihrer Plattform entfernt. Sind sie sicher, dass sie das wollen?",
         "Version": "Version"
     },
     "CoreUpdater": {
