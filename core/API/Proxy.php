@@ -12,7 +12,6 @@
 namespace Piwik\API;
 use Exception;
 use Piwik\Common;
-use Piwik\Timer;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -177,9 +176,6 @@ class Proxy
 
             // load parameters in the right order, etc.
             $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValues, $parametersRequest);
-
-            // start the timer
-            $timer = new Timer();
 
             // allow plugins to manipulate the value
             $pluginName = $this->getModuleNameFromClassName($className);
