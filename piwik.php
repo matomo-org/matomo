@@ -51,6 +51,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db/DbException.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/IgnoreCookie.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/VisitInterface.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Visit.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/GoalManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Action.php';

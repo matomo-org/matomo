@@ -71,6 +71,16 @@ class Twig
         $this->addFunction_sparkline();
         $this->addFunction_postEvent();
         $this->addFunction_isPluginLoaded();
+        $this->addFunction_getJavascriptTranslations();
+    }
+
+    protected function addFunction_getJavascriptTranslations()
+    {
+        $getJavascriptTranslations = new Twig_SimpleFunction(
+            'getJavascriptTranslations',
+            array(Translate::getInstance(), 'getJavascriptTranslations')
+        );
+        $this->twig->addFunction($getJavascriptTranslations);
     }
 
     protected function addFunction_isPluginLoaded()

@@ -399,7 +399,7 @@ class Log
         $sql = "INSERT INTO " . Common::prefixTable('logger_message')
              . " (tag, timestamp, level, message)"
              . " VALUES (?, ?, ?, ?)";
-        Db::query($sql, array($tag, $datetime, $level, (string)$message));
+        Db::query($sql, array($tag, $datetime, self::getStringLevel($level), (string)$message));
     }
 
     private function doLog($level, $message, $sprintfParams = array())

@@ -186,8 +186,8 @@
             ajax.addParams({
                 module: 'Live',
                 action: 'getVisitList',
-                period: 'range',
-                date: piwik.minDateYear + '-01-01' + ',today',
+                period: '',
+                date: '',
                 idVisitor: $element.attr('data-visitor-id'),
                 filter_offset: $('.visitor-profile-visits>li', $element).length
             }, 'GET');

@@ -38,7 +38,7 @@ use UserAgentParser;
  * @package Piwik
  * @subpackage Tracker
  */
-class Visit implements Tracker\VisitInterface
+class Visit implements VisitInterface
 {
     const UNKNOWN_CODE = 'xx';
 

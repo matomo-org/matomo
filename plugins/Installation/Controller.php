@@ -597,6 +597,7 @@ class Controller extends \Piwik\Controller\Admin
      */
     public function getBaseCss()
     {
+        @header('Content-Type: text/css');
         echo AssetManager::getCompiledBaseCss();
     }
 
