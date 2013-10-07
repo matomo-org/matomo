@@ -62,10 +62,17 @@ abstract class UITest extends IntegrationTestCase
         for ($i = 0; $i < count($urlsToTest); $i += self::SCREENSHOT_GROUP_SIZE) {
             $urls = array();
             for ($j = $i; $j != $i + self::SCREENSHOT_GROUP_SIZE && $j < count($urlsToTest); ++$j) {
-                list($name, $urlQuery) = current($urlsToTest);
+                $currentTest = current($urlsToTest);
+
+                if (count($currentTest) == 2) {
+                    list($name, $urlQuery) = $currentTest;
+                    $jsToTest = false;
+                } else {
+                    list($name, $urlQuery, $jsToTest) = $currentTest;
+                }
 
                 list($processedScreenshotPath, $expectedScreenshotPath) = self::getProcessedAndExpectedScreenshotPaths($name);
-                $urls[] = array($processedScreenshotPath, self::getProxyUrl() . $urlQuery);
+                $urls[] = array($processedScreenshotPath, self::getProxyUrl() . $urlQuery, $jsToTest);
 
                 next($urlsToTest);
             }

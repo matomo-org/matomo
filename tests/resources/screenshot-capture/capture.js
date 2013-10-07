@@ -32,6 +32,7 @@ PageRenderer.prototype = {
 
         this.outputPath = this.urls[this.urlIndex][0];
         this.url = this.urls[this.urlIndex][1];
+        this.jsToTest = this.urls[this.urlIndex][2];
 
         console.log("SAVING " + this.url + " at " + this._getElapsedExecutionTime());
 
@@ -44,8 +45,31 @@ PageRenderer.prototype = {
 
         this.webpage.viewportSize = {width:1350, height:768};
 
-        this.webpage.open(this.url);
+        var self = this;
+        this.webpage.open(this.url, function () {
+            if (self.jsToTest) {
+                self.webpage.evaluate(function (js) {
+                    var $ = window.jQuery;
+                    eval(js);
+                }, self.jsToTest);
+            }
+
+            self._setNoAjaxCheckTimeout();
+        });
         this._setPageTimeouts();
+    },
+
+    _setNoAjaxCheckTimeout: function () {
+        var url = this.url, self = this;
+
+        // in case there are no ajax requests, try triggering after a couple secs
+        setTimeout(function () {
+            if (url == self.url) {
+                self.webpage.evaluate(function () {
+                    window.piwik.ajaxRequestFinished();
+                });
+            }
+        }, 5000);
     },
 
     _setPageTimeouts: function () {

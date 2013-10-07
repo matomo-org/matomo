@@ -38,9 +38,4 @@
     window.piwik.ajaxRequestFinished = triggerRenderIfNoAjax;
     window.piwik._triggerRenderInsane = triggerRenderInsane;
 
-    // in case there are no ajax requests, try triggering after a couple secs
-    setTimeout(function () {
-        triggerRenderIfNoAjax();
-    }, 5000);
-
 }(jQuery));
