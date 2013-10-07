@@ -74,7 +74,6 @@ $(function () {
                 appendTo: $('.custom_select_container', selector),
                 select: function (event, ui) {
                     event.preventDefault();
-                    
                     if (ui.item.id > 0) {
                         // set attributes of selected site display (what shows in the box)
                         $('.custom_select_main_link', selector)
@@ -102,7 +101,29 @@ $(function () {
                     $('.custom_select_main_link', selector).addClass('custom_select_loading');
                 },
                 open: function (event, ui) {
+                    var widthSitesSelection = +$('.custom_select_ul_list', selector).width();
+
                     $('.custom_select_main_link', selector).removeClass('custom_select_loading');
+
+                    var maxSitenameWidth = $('.max_sitename_width', selector);
+                    if (widthSitesSelection > maxSitenameWidth.val()) {
+                        maxSitenameWidth.val(widthSitesSelection);
+                    }
+                    else {
+                        maxSitenameWidth = +maxSitenameWidth.val(); // convert to int
+                    }
+
+                    $('.custom_select_ul_list', selector).hide();
+
+                    // customize jquery-ui's autocomplete positioning
+                    var cssToRemove = {float: 'none', position: 'static'};
+                    $('.siteSelect.ui-autocomplete', selector)
+                        .show().width(widthSitesSelection).css(cssToRemove)
+                        .find('li,a').each(function () {
+                            $(this).css(cssToRemove);
+                        });
+
+                    $('.custom_select_block_show', selector).width(widthSitesSelection);
                 }
             }).data("ui-autocomplete")._renderItem = function (ul, item) {
                 $(ul).addClass('siteSelect');
@@ -158,12 +179,12 @@ $(function () {
                     $(this).click(function (e) {
                         var idsite = $(this).attr('data-siteid'),
                             name = $(this).text(),
-                            mainLinkElem = $(".custom_select_main_link > span", selector);
-                            oldName = mainLinkElem.text();
+                            mainLinkElem = $(".custom_select_main_link", selector),
+                            mainLinkSpan = $('span', mainLinkElem),
+                            oldName = mainLinkSpan.text();
 
-                        mainLinkElem
-                            .attr('data-siteid', idsite)
-                            .text(name);
+                        mainLinkElem.attr('data-siteid', idsite);
+                        mainLinkSpan.text(name);
                         $(this).text(oldName);
 
                         selector.trigger('piwik:siteSelected', {id: idsite, name: name});
