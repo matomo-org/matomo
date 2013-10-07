@@ -142,6 +142,11 @@ class PluginInstaller
             throw new PluginInstallerException('Plugin is not valid, the plugin.json file does not specify the plugin name.');
         }
 
+        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $metadata->name)) {
+            throw new PluginInstallerException('The plugin name specified in plugin.json contains illegal characters. ' .
+                            'Plugin name can only contain following characters: [a-zA-Z0-9-_].');
+        }
+
         if (empty($metadata->version)) {
             throw new PluginInstallerException('Plugin is not valid, the plugin.json file does not specify the plugin version.');
         }

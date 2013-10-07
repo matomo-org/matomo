@@ -516,9 +516,9 @@ abstract class Controller
                                                                                        '</a>'
                                                                                   ));
             }
-            $view->invalidHostMessageHowToFix = '<b>How do I fix this problem and how do I login again?</b><br/> The Piwik Super User can manually edit the file piwik/config/config.ini.php
-						and add the following lines: <pre>[General]' . "\n" . 'trusted_hosts[] = "' . $validHost . '"</pre><br/>After making the change, you will be able to login again.<br/><br/>
-						You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
+            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Piwik Super User can manually edit the file piwik/config/config.ini.php
+						and add the following lines: <pre>[General]' . "\n" . 'trusted_hosts[] = "' . $invalidHost . '"</pre>After making the change, you will be able to login again.</p>
+						<p>You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
 						<pre>[General]' . "\n" . 'enable_trusted_host_check=0</pre>';
 
             $view->invalidHost = $invalidHost; // for UserSettings warning

@@ -73,14 +73,7 @@
 
         {# untrusted host warning #}
         {% if (isValidHost is defined and invalidHostMessage is defined and isValidHost == false) %}
-            <div class="message_error">
-                <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidHostMessage }}
-
-                <br><br>{{ invalidHostMessageHowToFix }}
-                <br/><br/><a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171"
-                             target="_blank">{{ 'General_Help'|translate }}
-                    <img style="vertical-align: bottom;" src="plugins/Zeitgeist/images/help_grey.png"/></a><br/>
-            </div>
+            {% include '@CoreHome/_warningInvalidHost.twig' %}
         {% else %}
             <div id="message_container">
                 {% if form_data.errors %}

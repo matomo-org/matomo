@@ -159,15 +159,9 @@
     </div>
     <h2 id="trustedHostsSection">{{ 'CoreAdminHome_TrustedHostSettings'|translate }}</h2>
     <div id='trustedHostSettings'>
-        {# untrusted host warning (display again) #}
-        {% if isValidHost is defined and invalidHostMessage is defined and not isValidHost %}
-            <div class="ajaxSuccess">
-                <a style="float:right;" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank">
-                    <img src="plugins/Zeitgeist/images/help_grey.png"/>
-                </a>
-                <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidHostMessage }}
-            </div>
-        {% endif %}
+
+        {% include "@CoreHome/_warningInvalidHost.twig" %}
+
         {% if trustedHosts|length == 1 and (isValidHost is not defined or isValidHost) %}
             {{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}:&nbsp;&nbsp;
             <input name="trusted_host" type="text" value="{{ trustedHosts[0] }}"/>
