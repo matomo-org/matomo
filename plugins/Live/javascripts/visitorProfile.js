@@ -188,7 +188,7 @@
                 action: 'getVisitList',
                 period: '',
                 date: '',
-                idVisitor: $element.attr('data-visitor-id'),
+                visitorId: $element.attr('data-visitor-id'),
                 filter_offset: $('.visitor-profile-visits>li', $element).length
             }, 'GET');
             ajax.setCallback(function (response) {
