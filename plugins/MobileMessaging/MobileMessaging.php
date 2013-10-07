@@ -13,7 +13,7 @@ namespace Piwik\Plugins\MobileMessaging;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\View;
-use Piwik\Plugins\API\API;
+use Piwik\Plugins\API\API as APIPlugins;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 use Piwik\Plugins\PDFReports\API as APIPDFReports;
@@ -130,7 +130,7 @@ class MobileMessaging extends \Piwik\Plugin
             $idSite = $notificationInfo[APIPDFReports::ID_SITE_INFO_KEY];
 
             foreach (self::$availableReports as $availableReport) {
-                $reportMetadata = API::getInstance()->getMetadata(
+                $reportMetadata = APIPlugins::getInstance()->getMetadata(
                     $idSite,
                     $availableReport['module'],
                     $availableReport['action']
