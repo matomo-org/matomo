@@ -1025,7 +1025,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         if (!empty($this->missingExpectedFiles)) {
             $expectedDir = dirname(reset($this->missingExpectedFiles));
-            $this->markTestIncomplete(" ERROR: Could not find expected API output '"
+            $this->fail(" ERROR: Could not find expected API output '"
                 . implode("', '", $this->missingExpectedFiles)
                 . "'. For new tests, to pass the test, you can copy files from the processed/ directory into"
                 . " $expectedDir  after checking that the output is valid. %s ");
