@@ -50,7 +50,7 @@ function formSetEditReport(idReport) {
 
 function getReportAjaxRequest(idReport, defaultApiMethod) {
     var parameters = {};
-    piwikHelper.lazyScrollTo(".entityContainer", 400);
+    piwikHelper.lazyScrollTo(".centerLargeDiv>h2", 400);
     parameters.module = 'API';
     parameters.method = defaultApiMethod;
     if (idReport == 0) {
@@ -66,6 +66,14 @@ function toggleReportType(reportType) {
         $('.' + $(type).val()).hide();
     });
     $('.' + reportType).show();
+}
+
+function fadeInOutSuccessMessage(selector) {
+    $(selector).fadeIn('slow', function () {
+        setTimeout(function () {
+            $(selector).fadeOut('slow');
+        }, 1000);
+    });
 }
 
 function initManagePdf() {
@@ -95,6 +103,11 @@ function initManagePdf() {
         ajaxHandler.addParams({hour: $('#report_hour').val()}, 'GET');
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement();
+        if (idReport) {
+            ajaxHandler.setCallback(function (response) {
+                fadeInOutSuccessMessage('.reportUpdatedSuccess');
+            });
+        }
         ajaxHandler.send(true);
         return false;
     });
@@ -109,11 +122,7 @@ function initManagePdf() {
         ajaxHandler.addParams(parameters, 'POST');
         ajaxHandler.setLoadingElement();
         ajaxHandler.setCallback(function (response) {
-            $('.reportSentSuccess').fadeIn('slow', function () {
-                setTimeout(function () {
-                    $('.reportSentSuccess').fadeOut('slow');
-                }, 1000);
-            });
+            fadeInOutSuccessMessage('.reportSentSuccess');
         });
         ajaxHandler.send(true);
     });

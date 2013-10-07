@@ -11,6 +11,7 @@
 <div class="centerLargeDiv">
     <h2>{{ 'ScheduledReports_ManageEmailReports'|translate }}</h2>
     <span class="ajaxSuccess reportSentSuccess" style="display:none;">{{ 'ScheduledReports_ReportSent'|translate }}!</span>
+    <span class="ajaxSuccess reportUpdatedSuccess" style="display:none;">{{ 'ScheduledReports_ReportUpdated'|translate }}!</span>
 
     <div class="entityContainer">
         {% import 'ajaxMacros.twig' as ajax %}
@@ -45,6 +46,16 @@
     .reportCategory {
         font-weight: bold;
         margin-bottom: 5px;
+    }
+
+    .entityAddContainer {
+        position:relative;
+    }
+
+    .entityAddContainer > .entityCancel:first-child {
+        position: absolute;
+        right:0;
+        bottom:100%;
     }
 </style>
 {% endblock %}
