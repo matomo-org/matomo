@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package PDFReports
+ * @package ScheduledReports
  */
-namespace Piwik\Plugins\PDFReports;
+namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
 use Piwik\Piwik;
@@ -24,7 +24,7 @@ use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Zend_Mime;
 
 /**
- * The PDFReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
+ * The ScheduledReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
  *
  * "generateReport" will generate the requested report (for a specific date range, website and in the requested language).
  * "sendEmailReport" will send the report by email to the recipients specified for this report.
@@ -33,20 +33,20 @@ use Zend_Mime;
  * or manage existing reports with "updateReport" and "deleteReport".
  * See also the documentation about <a href='http://piwik.org/docs/email-reports/' target='_blank'>Scheduled Email reports</a> in Piwik.
  *
- * @package PDFReports
+ * @package ScheduledReports
  */
 class API
 {
-    const VALIDATE_PARAMETERS_EVENT = 'PDFReports.validateReportParameters';
-    const GET_REPORT_PARAMETERS_EVENT = 'PDFReports.getReportParameters';
-    const GET_REPORT_METADATA_EVENT = 'PDFReports.getReportMetadata';
-    const GET_REPORT_TYPES_EVENT = 'PDFReports.getReportTypes';
-    const GET_REPORT_FORMATS_EVENT = 'PDFReports.getReportFormats';
-    const GET_RENDERER_INSTANCE_EVENT = 'PDFReports.getRendererInstance';
-    const PROCESS_REPORTS_EVENT = 'PDFReports.processReports';
-    const GET_REPORT_RECIPIENTS_EVENT = 'PDFReports.getReportRecipients';
-    const ALLOW_MULTIPLE_REPORTS_EVENT = 'PDFReports.allowMultipleReports';
-    const SEND_REPORT_EVENT = 'PDFReports.sendReport';
+    const VALIDATE_PARAMETERS_EVENT = 'ScheduledReports.validateReportParameters';
+    const GET_REPORT_PARAMETERS_EVENT = 'ScheduledReports.getReportParameters';
+    const GET_REPORT_METADATA_EVENT = 'ScheduledReports.getReportMetadata';
+    const GET_REPORT_TYPES_EVENT = 'ScheduledReports.getReportTypes';
+    const GET_REPORT_FORMATS_EVENT = 'ScheduledReports.getReportFormats';
+    const GET_RENDERER_INSTANCE_EVENT = 'ScheduledReports.getRendererInstance';
+    const PROCESS_REPORTS_EVENT = 'ScheduledReports.processReports';
+    const GET_REPORT_RECIPIENTS_EVENT = 'ScheduledReports.getReportRecipients';
+    const ALLOW_MULTIPLE_REPORTS_EVENT = 'ScheduledReports.allowMultipleReports';
+    const SEND_REPORT_EVENT = 'ScheduledReports.sendReport';
 
     const OUTPUT_DOWNLOAD = 1;
     const OUTPUT_SAVE_ON_DISK = 2;
@@ -69,7 +69,7 @@ class API
     static private $instance = null;
 
     /**
-     * @return \Piwik\Plugins\PDFReports\API
+     * @return \Piwik\Plugins\ScheduledReports\API
      */
     static public function getInstance()
     {
@@ -86,8 +86,8 @@ class API
      * @param string $description Report description
      * @param string $period Schedule frequency: day, week or month
      * @param int $hour Hour (0-23) when the report should be sent
-     * @param string $reportType 'email' or any other format provided via the PDFReports.getReportTypes hook
-     * @param string $reportFormat 'pdf', 'html' or any other format provided via the PDFReports.getReportFormats hook
+     * @param string $reportType 'email' or any other format provided via the ScheduledReports.getReportTypes hook
+     * @param string $reportFormat 'pdf', 'html' or any other format provided via the ScheduledReports.getReportFormats hook
      * @param array $reports array of reports
      * @param array $parameters array of parameters
      * @param bool|int $idSegment Segment Identifier
@@ -295,7 +295,7 @@ class API
      * @param bool|false|string $language If not passed, will use default language.
      * @param bool|false|int $outputType 1 = download report, 2 = save report to disk, 3 = output report in browser, 4 = return report content to caller, defaults to download
      * @param bool|false|string $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
-     * @param bool|false|string $reportFormat 'pdf', 'html' or any other format provided via the PDFReports.getReportFormats hook
+     * @param bool|false|string $reportFormat 'pdf', 'html' or any other format provided via the ScheduledReports.getReportFormats hook
      * @param bool|false|array $parameters array of parameters
      * @return array|void
      */

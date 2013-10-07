@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package PDFReports
+ * @package ScheduledReports
  */
-namespace Piwik\Plugins\PDFReports;
+namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
 use Piwik\Common;
@@ -30,9 +30,9 @@ use Zend_Mime;
 
 /**
  *
- * @package PDFReports
+ * @package ScheduledReports
  */
-class PDFReports extends \Piwik\Plugin
+class ScheduledReports extends \Piwik\Plugin
 {
     const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
     const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
@@ -81,17 +81,17 @@ class PDFReports extends \Piwik\Plugin
             'Menu.Top.addItems'                           => 'addTopMenu',
             'TaskScheduler.getScheduledTasks'             => 'getScheduledTasks',
             'AssetManager.getJavaScriptFiles'             => 'getJsFiles',
-            'PDFReports.getReportParameters'              => 'getReportParameters',
-            'PDFReports.validateReportParameters'         => 'validateReportParameters',
-            'PDFReports.getReportMetadata'                => 'getReportMetadata',
-            'PDFReports.getReportTypes'                   => 'getReportTypes',
-            'PDFReports.getReportFormats'                 => 'getReportFormats',
-            'PDFReports.getRendererInstance'              => 'getRendererInstance',
-            'PDFReports.getReportRecipients'              => 'getReportRecipients',
-            'PDFReports.processReports'                   => 'processReports',
-            'PDFReports.allowMultipleReports'             => 'allowMultipleReports',
-            'PDFReports.sendReport'                       => 'sendReport',
-            'Template.reportParametersPDFReports'         => 'template_reportParametersPDFReports',
+            'ScheduledReports.getReportParameters'              => 'getReportParameters',
+            'ScheduledReports.validateReportParameters'         => 'validateReportParameters',
+            'ScheduledReports.getReportMetadata'                => 'getReportMetadata',
+            'ScheduledReports.getReportTypes'                   => 'getReportTypes',
+            'ScheduledReports.getReportFormats'                 => 'getReportFormats',
+            'ScheduledReports.getRendererInstance'              => 'getRendererInstance',
+            'ScheduledReports.getReportRecipients'              => 'getReportRecipients',
+            'ScheduledReports.processReports'                   => 'processReports',
+            'ScheduledReports.allowMultipleReports'             => 'allowMultipleReports',
+            'ScheduledReports.sendReport'                       => 'sendReport',
+            'Template.reportParametersScheduledReports'         => 'template_reportParametersScheduledReports',
             'UsersManager.deleteUser'                     => 'deleteUserReport',
             'SitesManager.deleteSite.end'                 => 'deleteSiteReport',
             APISegmentEditor::DEACTIVATE_SEGMENT_EVENT    => 'segmentDeactivation',
@@ -113,7 +113,7 @@ class PDFReports extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/PDFReports/javascripts/pdf.js";
+        $jsFiles[] = "plugins/ScheduledReports/javascripts/pdf.js";
     }
 
     public function validateReportParameters(&$parameters, $info)
@@ -403,9 +403,9 @@ class PDFReports extends \Piwik\Plugin
         }
     }
 
-    static public function template_reportParametersPDFReports(&$out)
+    static public function template_reportParametersScheduledReports(&$out)
     {
-        $view = new View('@PDFReports/reportParametersPDFReports');
+        $view = new View('@ScheduledReports/reportParametersScheduledReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
         $view->displayFormats = self::getDisplayFormats();
         $view->reportType = self::EMAIL_TYPE;
@@ -472,7 +472,7 @@ class PDFReports extends \Piwik\Plugin
     {
         Piwik_AddTopMenu(
             $this->getTopMenuTranslationKey(),
-            array('module' => 'PDFReports', 'action' => 'index', 'segment' => false),
+            array('module' => 'ScheduledReports', 'action' => 'index', 'segment' => false),
             true,
             13,
             $isHTML = false,

@@ -239,7 +239,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
-        \Piwik\Plugins\PDFReports\API::$cache = array();
+        \Piwik\Plugins\ScheduledReports\API::$cache = array();
         \Piwik\Registry::unsetInstance();
 
         $_GET = $_REQUEST = array();
@@ -268,7 +268,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'Live',
         'SEO',
         'ExampleAPI',
-        'PDFReports',
+        'ScheduledReports',
         'MobileMessaging',
         'Transitions',
         'API',
@@ -352,7 +352,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         array_push(
             $apiCalls,
             array(
-                 'PDFReports.generateReport',
+                 'ScheduledReports.generateReport',
                  array(
                      'testSuffix'             => '_scheduled_report_in_html_tables_only',
                      'date'                   => $dateTime,
@@ -362,7 +362,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                      'otherRequestParameters' => array(
                          'idReport'     => 1,
                          'reportFormat' => ReportRenderer::HTML_FORMAT,
-                         'outputType'   => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
+                         'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
                      )
                  )
             )
@@ -371,11 +371,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // We run this particular test on one PHP version only (which should run on Travis CI + Most devs)
         if (stristr(phpversion(), '5.4') !== false) {
             // PDF Scheduled Report
-            // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__PDFReports.generateReport_week.original.pdf
+            // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
             array_push(
                 $apiCalls,
                 array(
-                     'PDFReports.generateReport',
+                     'ScheduledReports.generateReport',
                      array(
                          'testSuffix'             => '_scheduled_report_in_pdf_tables_only',
                          'date'                   => $dateTime,
@@ -385,7 +385,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                          'otherRequestParameters' => array(
                              'idReport'     => 1,
                              'reportFormat' => ReportRenderer::PDF_FORMAT,
-                             'outputType'   => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
                          )
                      )
                 )
@@ -396,7 +396,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         array_push(
             $apiCalls,
             array(
-                 'PDFReports.generateReport',
+                 'ScheduledReports.generateReport',
                  array(
                      'testSuffix'             => '_scheduled_report_via_sms_one_site',
                      'date'                   => $dateTime,
@@ -405,7 +405,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                      'fileExtension'          => 'sms.txt',
                      'otherRequestParameters' => array(
                          'idReport'   => 2,
-                         'outputType' => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
+                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
                      )
                  )
             )
@@ -415,7 +415,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         array_push(
             $apiCalls,
             array(
-                 'PDFReports.generateReport',
+                 'ScheduledReports.generateReport',
                  array(
                      'testSuffix'             => '_scheduled_report_via_sms_all_sites',
                      'date'                   => $dateTime,
@@ -424,7 +424,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                      'fileExtension'          => 'sms.txt',
                      'otherRequestParameters' => array(
                          'idReport'   => 3,
-                         'outputType' => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
+                         'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
                      )
                  )
             )
@@ -435,7 +435,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             array_push(
                 $apiCalls,
                 array(
-                     'PDFReports.generateReport',
+                     'ScheduledReports.generateReport',
                      array(
                          'testSuffix'             => '_scheduled_report_in_html_tables_and_graph',
                          'date'                   => $dateTime,
@@ -445,7 +445,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                          'otherRequestParameters' => array(
                              'idReport'     => 4,
                              'reportFormat' => ReportRenderer::HTML_FORMAT,
-                             'outputType'   => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
                          )
                      )
                 )
@@ -455,7 +455,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             array_push(
                 $apiCalls,
                 array(
-                     'PDFReports.generateReport',
+                     'ScheduledReports.generateReport',
                      array(
                          'testSuffix'             => '_scheduled_report_in_html_row_evolution_graph',
                          'date'                   => $dateTime,
@@ -464,7 +464,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                          'fileExtension'          => 'html',
                          'otherRequestParameters' => array(
                              'idReport'     => 5,
-                             'outputType'   => \Piwik\Plugins\PDFReports\API::OUTPUT_RETURN
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
                          )
                      )
                 )

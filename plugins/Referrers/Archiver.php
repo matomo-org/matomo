@@ -15,9 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\DataArray;
-use Piwik\Plugins\Referrers\API;
 use Piwik\PluginsArchiver;
-
 
 class Archiver extends PluginsArchiver
 {

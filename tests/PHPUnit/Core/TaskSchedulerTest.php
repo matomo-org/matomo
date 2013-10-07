@@ -69,7 +69,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         return array(
             array(true, 'CoreAdminHome.purgeOutdatedArchives', $timetable),
             array(true, 'PrivacyManager.deleteReportData_1', $timetable),
-            array(false, 'PDFReports.weeklySchedule"', $timetable)
+            array(false, 'ScheduledReports.weeklySchedule"', $timetable)
         );
     }
 
@@ -98,7 +98,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         return array(
             array(1355529607, 'CoreAdminHome', 'purgeOutdatedArchives', null, $timetable),
             array(1322229607, 'PrivacyManager', 'deleteReportData', 1, $timetable),
-            array(false, 'PDFReports', 'weeklySchedule', null, $timetable)
+            array(false, 'ScheduledReports', 'weeklySchedule', null, $timetable)
         );
     }
 
@@ -132,7 +132,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         return array(
             array(false, 'CoreAdminHome.purgeOutdatedArchives', $timetable),
             array(true, 'PrivacyManager.deleteReportData_1', $timetable),
-            array(false, 'PDFReports.weeklySchedule"', $timetable)
+            array(false, 'ScheduledReports.weeklySchedule"', $timetable)
         );
     }
 

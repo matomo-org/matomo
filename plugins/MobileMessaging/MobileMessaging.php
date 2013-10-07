@@ -16,7 +16,7 @@ use Piwik\View;
 use Piwik\Plugins\API\API as APIPlugins;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
-use Piwik\Plugins\PDFReports\API as APIPDFReports;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 
 /**
  *
@@ -70,16 +70,16 @@ class MobileMessaging extends \Piwik\Plugin
             'Menu.Admin.addItems'                 => 'addMenu',
             'AssetManager.getJavaScriptFiles'     => 'getJsFiles',
             'AssetManager.getStylesheetFiles'     => 'getStylesheetFiles',
-            'PDFReports.getReportParameters'      => 'getReportParameters',
-            'PDFReports.validateReportParameters' => 'validateReportParameters',
-            'PDFReports.getReportMetadata'        => 'getReportMetadata',
-            'PDFReports.getReportTypes'           => 'getReportTypes',
-            'PDFReports.getReportFormats'         => 'getReportFormats',
-            'PDFReports.getRendererInstance'      => 'getRendererInstance',
-            'PDFReports.getReportRecipients'      => 'getReportRecipients',
-            'PDFReports.allowMultipleReports'     => 'allowMultipleReports',
-            'PDFReports.sendReport'               => 'sendReport',
-            'Template.reportParametersPDFReports' => 'template_reportParametersPDFReports',
+            'ScheduledReports.getReportParameters'      => 'getReportParameters',
+            'ScheduledReports.validateReportParameters' => 'validateReportParameters',
+            'ScheduledReports.getReportMetadata'        => 'getReportMetadata',
+            'ScheduledReports.getReportTypes'           => 'getReportTypes',
+            'ScheduledReports.getReportFormats'         => 'getReportFormats',
+            'ScheduledReports.getRendererInstance'      => 'getRendererInstance',
+            'ScheduledReports.getReportRecipients'      => 'getReportRecipients',
+            'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
+            'ScheduledReports.sendReport'               => 'sendReport',
+            'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
         );
     }
 
@@ -127,7 +127,7 @@ class MobileMessaging extends \Piwik\Plugin
     public function getReportMetadata(&$availableReportMetadata, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $idSite = $notificationInfo[APIPDFReports::ID_SITE_INFO_KEY];
+            $idSite = $notificationInfo[APIScheduledReports::ID_SITE_INFO_KEY];
 
             foreach (self::$availableReports as $availableReport) {
                 $reportMetadata = APIPlugins::getInstance()->getMetadata(
@@ -186,7 +186,7 @@ class MobileMessaging extends \Piwik\Plugin
     public function getReportRecipients(&$recipients, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[APIPDFReports::REPORT_KEY];
+            $report = $notificationInfo[APIScheduledReports::REPORT_KEY];
             $recipients = $report['parameters'][self::PHONE_NUMBERS_PARAMETER];
         }
     }
@@ -194,9 +194,9 @@ class MobileMessaging extends \Piwik\Plugin
     public function sendReport($notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[APIPDFReports::REPORT_KEY];
-            $contents = $notificationInfo[APIPDFReports::REPORT_CONTENT_KEY];
-            $reportSubject = $notificationInfo[APIPDFReports::REPORT_SUBJECT_KEY];
+            $report = $notificationInfo[APIScheduledReports::REPORT_KEY];
+            $contents = $notificationInfo[APIScheduledReports::REPORT_CONTENT_KEY];
+            $reportSubject = $notificationInfo[APIScheduledReports::REPORT_SUBJECT_KEY];
 
             $parameters = $report['parameters'];
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
@@ -217,13 +217,13 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    static public function template_reportParametersPDFReports(&$out)
+    static public function template_reportParametersScheduledReports(&$out)
     {
         if (Piwik::isUserIsAnonymous()) {
             return;
         }
 
-        $view = new View('@MobileMessaging/reportParametersPDFReports');
+        $view = new View('@MobileMessaging/reportParametersScheduledReports');
         $view->reportType = self::MOBILE_TYPE;
         $view->phoneNumbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
         $out .= $view->render();
@@ -231,7 +231,7 @@ class MobileMessaging extends \Piwik\Plugin
 
     private static function manageEvent($notificationInfo)
     {
-        return in_array($notificationInfo[APIPDFReports::REPORT_TYPE_INFO_KEY], array_keys(self::$managedReportTypes));
+        return in_array($notificationInfo[APIScheduledReports::REPORT_TYPE_INFO_KEY], array_keys(self::$managedReportTypes));
     }
 
     function install()
@@ -245,7 +245,7 @@ class MobileMessaging extends \Piwik\Plugin
     function deactivate()
     {
         // delete all mobile reports
-        $pdfReportsAPIInstance = APIPDFReports::getInstance();
+        $pdfReportsAPIInstance = APIScheduledReports::getInstance();
         $reports = $pdfReportsAPIInstance->getReports();
 
         foreach ($reports as $report) {

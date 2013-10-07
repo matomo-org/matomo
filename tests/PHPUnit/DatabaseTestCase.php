@@ -11,7 +11,7 @@ use Piwik\DataTable\Manager;
 use Piwik\DbHelper;
 use Piwik\Db;
 use Piwik\Option;
-use Piwik\Plugins\PDFReports\API;
+use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 

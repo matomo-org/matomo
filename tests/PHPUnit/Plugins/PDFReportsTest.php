@@ -8,8 +8,8 @@
 use Piwik\Access;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\Plugins\PDFReports\API as APIPDFReports;
-use Piwik\Plugins\PDFReports\PDFReports;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ScheduledTime;
 use Piwik\ScheduledTask;
@@ -17,9 +17,9 @@ use Piwik\ScheduledTime\Daily;
 use Piwik\ScheduledTime\Monthly;
 use Piwik\Site;
 
-require_once 'PDFReports/PDFReports.php';
+require_once 'ScheduledReports/ScheduledReports.php';
 
-class PDFReportsTest extends DatabaseTestCase
+class ScheduledReportsTest extends DatabaseTestCase
 {
     private $idSite = 1;
 
@@ -29,19 +29,19 @@ class PDFReportsTest extends DatabaseTestCase
 
         // setup the access layer
         self::setSuperUser();
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('API', 'UserCountry', 'PDFReports', 'MobileMessaging'));
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports', 'MobileMessaging'));
         \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
 
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
 
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
         FakeAccess::setIdSitesView(array($this->idSite, 2));
-        APIPDFReports::$cache = array();
+        APIScheduledReports::$cache = array();
     }
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testAddReportGetReports()
     {
@@ -68,41 +68,41 @@ class PDFReportsTest extends DatabaseTestCase
         self::addReport($dataWebsiteTwo);
 
         // Testing getReports without parameters
-        $tmp = APIPDFReports::getInstance()->getReports();
+        $tmp = APIScheduledReports::getInstance()->getReports();
         $report = reset($tmp);
         $this->assertReportsEqual($report, $dataWebsiteTwo);
 
         $idReport = self::addReport($data);
 
         // Passing 3 parameters
-        $tmp = APIPDFReports::getInstance()->getReports($this->idSite, $data['period'], $idReport);
+        $tmp = APIScheduledReports::getInstance()->getReports($this->idSite, $data['period'], $idReport);
         $report = reset($tmp);
         $this->assertReportsEqual($report, $data);
 
         // Passing only idsite
-        $tmp = APIPDFReports::getInstance()->getReports($this->idSite);
+        $tmp = APIScheduledReports::getInstance()->getReports($this->idSite);
         $report = reset($tmp);
         $this->assertReportsEqual($report, $data);
 
         // Passing only period
-        $tmp = APIPDFReports::getInstance()->getReports($idSite = false, $data['period']);
+        $tmp = APIScheduledReports::getInstance()->getReports($idSite = false, $data['period']);
         $report = reset($tmp);
         $this->assertReportsEqual($report, $data);
 
         // Passing only idreport
-        $tmp = APIPDFReports::getInstance()->getReports($idSite = false, $period = false, $idReport);
+        $tmp = APIScheduledReports::getInstance()->getReports($idSite = false, $period = false, $idReport);
         $report = reset($tmp);
         $this->assertReportsEqual($report, $data);
     }
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetReportsIdReportNotFound()
     {
         try {
-            APIPDFReports::getInstance()->getReports($idSite = false, $period = false, $idReport = 1);
+            APIScheduledReports::getInstance()->getReports($idSite = false, $period = false, $idReport = 1);
         } catch (Exception $e) {
             return;
         }
@@ -111,12 +111,12 @@ class PDFReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetReportsInvalidPermission()
     {
         try {
-            APIPDFReports::getInstance()->getReports(
+            APIScheduledReports::getInstance()->getReports(
                 $idSite = 44,
                 $period = false,
                 self::addReport(self::getDailyPDFReportData($this->idSite))
@@ -130,7 +130,7 @@ class PDFReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testAddReportInvalidWebsite()
     {
@@ -144,7 +144,7 @@ class PDFReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testAddReportInvalidPeriod()
     {
@@ -160,7 +160,7 @@ class PDFReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testUpdateReport()
     {
@@ -169,7 +169,7 @@ class PDFReportsTest extends DatabaseTestCase
 
         self::updateReport($idReport, $dataAfter);
 
-        $reports = APIPDFReports::getInstance()->getReports($idSite = false, $period = false, $idReport);
+        $reports = APIScheduledReports::getInstance()->getReports($idSite = false, $period = false, $idReport);
 
         $this->assertReportsEqual(
             reset($reports),
@@ -179,42 +179,42 @@ class PDFReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testDeleteReport()
     {
         // Deletes non existing report throws exception
         try {
-            APIPDFReports::getInstance()->deleteReport($idReport = 1);
+            APIScheduledReports::getInstance()->deleteReport($idReport = 1);
             $this->fail('Exception not raised');
         } catch (Exception $e) {
         }
 
         $idReport = self::addReport(self::getMonthlyEmailReportData($this->idSite));
-        $this->assertEquals(1, count(APIPDFReports::getInstance()->getReports()));
-        APIPDFReports::getInstance()->deleteReport($idReport);
-        $this->assertEquals(0, count(APIPDFReports::getInstance()->getReports()));
+        $this->assertEquals(1, count(APIScheduledReports::getInstance()->getReports()));
+        APIScheduledReports::getInstance()->deleteReport($idReport);
+        $this->assertEquals(0, count(APIScheduledReports::getInstance()->getReports()));
     }
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyMobileMessagingInactive()
     {
         // unload MobileMessaging plugin
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports'));
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('ScheduledReports'));
 
-        $pdfReportPlugin = new PDFReports();
+        $pdfReportPlugin = new ScheduledReports();
         $this->assertEquals(
-            PDFReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
+            ScheduledReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
             $pdfReportPlugin->getTopMenuTranslationKey()
         );
     }
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyUserIsAnonymous()
     {
@@ -222,9 +222,9 @@ class PDFReportsTest extends DatabaseTestCase
         FakeAccess::$identity = 'anonymous';
         Access::setSingletonInstance($anonymousAccess);
 
-        $pdfReportPlugin = new PDFReports();
+        $pdfReportPlugin = new ScheduledReports();
         $this->assertEquals(
-            PDFReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
+            ScheduledReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
             $pdfReportPlugin->getTopMenuTranslationKey()
         );
     }
@@ -234,7 +234,7 @@ class PDFReportsTest extends DatabaseTestCase
      * even though there is no sms reports configured
      *
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyNoReportMobileAccountOK()
     {
@@ -242,9 +242,9 @@ class PDFReportsTest extends DatabaseTestCase
         self::setSuperUser();
         APIMobileMessaging::getInstance()->setSMSAPICredential('StubbedProvider', '');
 
-        $pdfReportPlugin = new PDFReports();
+        $pdfReportPlugin = new ScheduledReports();
         $this->assertEquals(
-            PDFReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
+            ScheduledReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
             $pdfReportPlugin->getTopMenuTranslationKey()
         );
     }
@@ -254,13 +254,13 @@ class PDFReportsTest extends DatabaseTestCase
      * and no reports at all have been configured
      *
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyNoReportMobileAccountKO()
     {
-        $pdfReportPlugin = new PDFReports();
+        $pdfReportPlugin = new ScheduledReports();
         $this->assertEquals(
-            PDFReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
+            ScheduledReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
             $pdfReportPlugin->getTopMenuTranslationKey()
         );
     }
@@ -270,11 +270,11 @@ class PDFReportsTest extends DatabaseTestCase
      * whatever the status of the mobile provider account
      *
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyOneSMSReportMobileAccountKO()
     {
-        APIPDFReports::getInstance()->addReport(
+        APIScheduledReports::getInstance()->addReport(
             1,
             '',
             ScheduledTime::PERIOD_DAY,
@@ -287,9 +287,9 @@ class PDFReportsTest extends DatabaseTestCase
             )
         );
 
-        $pdfReportPlugin = new PDFReports();
+        $pdfReportPlugin = new ScheduledReports();
         $this->assertEquals(
-            PDFReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
+            ScheduledReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
             $pdfReportPlugin->getTopMenuTranslationKey()
         );
     }
@@ -299,7 +299,7 @@ class PDFReportsTest extends DatabaseTestCase
      * whatever the status of the mobile provider account
      *
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyNoSMSReportAccountOK()
     {
@@ -309,16 +309,16 @@ class PDFReportsTest extends DatabaseTestCase
 
         self::addReport(self::getMonthlyEmailReportData($this->idSite));
 
-        $pdfReportPlugin = new PDFReports();
+        $pdfReportPlugin = new ScheduledReports();
         $this->assertEquals(
-            PDFReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
+            ScheduledReports::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
             $pdfReportPlugin->getTopMenuTranslationKey()
         );
     }
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      */
     public function testGetScheduledTasks()
     {
@@ -356,14 +356,14 @@ class PDFReportsTest extends DatabaseTestCase
         $report6['period'] = ScheduledTime::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
-        $stubbedAPIPDFReports = $this->getMock('\\Piwik\\Plugins\\PDFReports\\API');
-        $stubbedAPIPDFReports->expects($this->any())->method('getReports')->will($this->returnValue(
+        $stubbedAPIScheduledReports = $this->getMock('\\Piwik\\Plugins\\ScheduledReports\\API');
+        $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
                 array($report1, $report2, $report3, $report4, $report5, $report6))
         );
 
-        $stubbedAPIPDFReportsClass = new ReflectionProperty('\\Piwik\\Plugins\\PDFReports\\API', 'instance');
-        $stubbedAPIPDFReportsClass->setAccessible(true);
-        $stubbedAPIPDFReportsClass->setValue($stubbedAPIPDFReports);
+        $stubbedAPIScheduledReportsClass = new ReflectionProperty('\\Piwik\\Plugins\\ScheduledReports\\API', 'instance');
+        $stubbedAPIScheduledReportsClass->setAccessible(true);
+        $stubbedAPIScheduledReportsClass->setValue($stubbedAPIScheduledReports);
 
         // initialize sites 1 and 2
         Site::$infoSites = array(
@@ -385,19 +385,19 @@ class PDFReportsTest extends DatabaseTestCase
         $scheduleTask4->setHour(15); // site is UTC-6.5, configured to be sent at 8h
 
         $expectedTasks = array(
-            new ScheduledTask (APIPDFReports::getInstance(), 'sendReport', 1, $scheduleTask1),
-            new ScheduledTask (APIPDFReports::getInstance(), 'sendReport', 2, $scheduleTask2),
-            new ScheduledTask (APIPDFReports::getInstance(), 'sendReport', 4, $scheduleTask3),
-            new ScheduledTask (APIPDFReports::getInstance(), 'sendReport', 5, $scheduleTask4),
+            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 1, $scheduleTask1),
+            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 2, $scheduleTask2),
+            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 4, $scheduleTask3),
+            new ScheduledTask (APIScheduledReports::getInstance(), 'sendReport', 5, $scheduleTask4),
         );
 
-        $pdfReportPlugin = new PDFReports();
+        $pdfReportPlugin = new ScheduledReports();
         $tasks = array();
         $pdfReportPlugin->getScheduledTasks($tasks);
         $this->assertEquals($expectedTasks, $tasks);
 
         // restore API
-        $stubbedAPIPDFReportsClass->setValue(null);
+        $stubbedAPIScheduledReportsClass->setValue(null);
     }
 
     /**
@@ -414,17 +414,17 @@ class PDFReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group PDFReports
+     * @group ScheduledReports
      * @dataProvider getGetReportSubjectAndReportTitleTestCases
      */
     public function testGetReportSubjectAndReportTitle($expectedReportSubject, $expectedReportTitle, $websiteName, $reports)
     {
         $getReportSubjectAndReportTitle = new ReflectionMethod(
-            '\\Piwik\\Plugins\\PDFReports\\API', 'getReportSubjectAndReportTitle'
+            '\\Piwik\\Plugins\\ScheduledReports\\API', 'getReportSubjectAndReportTitle'
         );
         $getReportSubjectAndReportTitle->setAccessible(true);
 
-        list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke(new APIPDFReports(), $websiteName, $reports);
+        list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke(new APIScheduledReports(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }
@@ -439,7 +439,7 @@ class PDFReportsTest extends DatabaseTestCase
 
     private static function addReport($data)
     {
-        $idReport = APIPDFReports::getInstance()->addReport(
+        $idReport = APIScheduledReports::getInstance()->addReport(
             $data['idsite'],
             $data['description'],
             $data['period'],
@@ -492,7 +492,7 @@ class PDFReportsTest extends DatabaseTestCase
 
     private static function updateReport($idReport, $data)
     {
-        $idReport = APIPDFReports::getInstance()->updateReport(
+        $idReport = APIScheduledReports::getInstance()->updateReport(
             $idReport,
             $data['idsite'],
             $data['description'],

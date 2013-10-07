@@ -14,7 +14,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
-use Piwik\Plugins\PDFReports\API as APIPDFReports;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 
 /**
  * The MobileMessaging API lets you manage and access all the MobileMessaging plugin features including :
@@ -221,7 +221,7 @@ class API
         $this->savePhoneNumbers($phoneNumbers);
 
         // remove phone number from reports
-        $pdfReportsAPIInstance = APIPDFReports::getInstance();
+        $pdfReportsAPIInstance = APIScheduledReports::getInstance();
         $reports = $pdfReportsAPIInstance->getReports(
             $idSite = false,
             $period = false,

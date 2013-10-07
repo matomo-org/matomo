@@ -6,30 +6,30 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package PDFReports
+ * @package ScheduledReports
  */
-namespace Piwik\Plugins\PDFReports;
+namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\PDFReports\API;
+use Piwik\Plugins\ScheduledReports\API;
 use Piwik\View;
-use Piwik\Plugins\PDFReports\PDFReports;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 /**
  *
- * @package PDFReports
+ * @package ScheduledReports
  */
 class Controller extends \Piwik\Controller
 {
-    const DEFAULT_REPORT_TYPE = PDFReports::EMAIL_TYPE;
+    const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
 
     public function index()
     {
-        $view = new View('@PDFReports/index');
+        $view = new View('@ScheduledReports/index');
         $this->setGeneralVariablesView($view);
 
         $view->countWebsites = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
@@ -38,7 +38,7 @@ class Controller extends \Piwik\Controller
         $reportTypes = API::getReportTypes();
         $view->reportTypes = $reportTypes;
         $view->defaultReportType = self::DEFAULT_REPORT_TYPE;
-        $view->defaultReportFormat = PDFReports::DEFAULT_REPORT_FORMAT;
+        $view->defaultReportFormat = ScheduledReports::DEFAULT_REPORT_FORMAT;
 
         $reportsByCategoryByType = array();
         $reportFormatsByReportType = array();
@@ -74,9 +74,9 @@ class Controller extends \Piwik\Controller
 
         $view->downloadOutputType = API::OUTPUT_INLINE;
 
-        $view->periods = PDFReports::getPeriodToFrequency();
-        $view->defaultPeriod = PDFReports::DEFAULT_PERIOD;
-        $view->defaultHour = PDFReports::DEFAULT_HOUR;
+        $view->periods = ScheduledReports::getPeriodToFrequency();
+        $view->defaultPeriod = ScheduledReports::DEFAULT_PERIOD;
+        $view->defaultHour = ScheduledReports::DEFAULT_HOUR;
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
 

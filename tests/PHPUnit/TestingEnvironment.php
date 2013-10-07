@@ -51,7 +51,7 @@ class Piwik_TestingEnvironment
                 "LanguagesManager", "Actions", "Dashboard", "MultiSites", "Referrers", "UserSettings", "Goals",
                 "SEO", "UserCountry", "VisitsSummary", "VisitFrequency", "VisitTime", "VisitorInterest",
                 "ExampleAPI", "ExamplePlugin", "ExampleRssWidget", "Provider", "Feedback", "Login", "UsersManager",
-                "SitesManager", "Installation", "CoreUpdater", "PDFReports", "UserCountryMap", "Live",
+                "SitesManager", "Installation", "CoreUpdater", "ScheduledReports", "UserCountryMap", "Live",
                 "CustomVariables", "PrivacyManager", "ImageGraph", "DoNotTrack", "Annotations", "MobileMessaging",
                 "Overlay", "SegmentEditor", "DevicesDetection", "DBStats",
             );

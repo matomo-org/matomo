@@ -54,7 +54,7 @@ function getReportAjaxRequest(idReport, defaultApiMethod) {
     parameters.module = 'API';
     parameters.method = defaultApiMethod;
     if (idReport == 0) {
-        parameters.method = 'PDFReports.addReport';
+        parameters.method = 'ScheduledReports.addReport';
     }
     parameters.format = 'json';
     return parameters;
@@ -72,7 +72,7 @@ function initManagePdf() {
     // Click Add/Update Submit
     $('#addEditReport').submit(function () {
         var idReport = $('#report_idreport').val();
-        var apiParameters = getReportAjaxRequest(idReport, 'PDFReports.updateReport');
+        var apiParameters = getReportAjaxRequest(idReport, 'ScheduledReports.updateReport');
         apiParameters.idReport = idReport;
         apiParameters.description = $('#report_description').val();
         apiParameters.idSegment = $('#report_segment').find('option:selected').val();
@@ -102,7 +102,7 @@ function initManagePdf() {
     // Email now
     $('a[name=linkSendNow]').click(function () {
         var idReport = $(this).attr('idreport');
-        var parameters = getReportAjaxRequest(idReport, 'PDFReports.sendReport');
+        var parameters = getReportAjaxRequest(idReport, 'ScheduledReports.sendReport');
         parameters.idReport = idReport;
 
         var ajaxHandler = new ajaxHelper();
@@ -123,7 +123,7 @@ function initManagePdf() {
         var idReport = $(this).attr('id');
 
         function onDelete() {
-            var parameters = getReportAjaxRequest(idReport, 'PDFReports.deleteReport');
+            var parameters = getReportAjaxRequest(idReport, 'ScheduledReports.deleteReport');
             parameters.idReport = idReport;
 
             var ajaxHandler = new ajaxHelper();

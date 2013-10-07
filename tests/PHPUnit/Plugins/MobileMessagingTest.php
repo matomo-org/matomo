@@ -10,7 +10,7 @@ use Piwik\Access;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
-use Piwik\Plugins\PDFReports\API as APIPDFReports;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
 class MobileMessagingTest extends DatabaseTestCase
@@ -29,7 +29,7 @@ class MobileMessagingTest extends DatabaseTestCase
 
         $this->idSiteAccess = APISitesManager::getInstance()->addSite("test", "http://test");
 
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging', 'MultiSites'));
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging', 'MultiSites'));
         \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
     }
 
@@ -43,10 +43,10 @@ class MobileMessagingTest extends DatabaseTestCase
     public function testWarnUserViaSMSMultiSitesDeactivated()
     {
         // safety net
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging'));
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging'));
         $this->assertFalse(\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites'));
 
-        $PdfReportsAPIInstance = APIPDFReports::getInstance();
+        $PdfReportsAPIInstance = APIScheduledReports::getInstance();
         $reportId = $PdfReportsAPIInstance->addReport(
             $this->idSiteAccess,
             'description',
@@ -238,10 +238,10 @@ class MobileMessagingTest extends DatabaseTestCase
     public function testSendReport($expectedReportContent, $expectedPhoneNumber, $expectedFrom, $reportContent, $phoneNumber, $reportSubject)
     {
         $notificationInfo = array(
-             APIPDFReports::REPORT_CONTENT_KEY   => $reportContent,
-             APIPDFReports::REPORT_SUBJECT_KEY     => $reportSubject,
-             APIPDFReports::REPORT_TYPE_INFO_KEY => MobileMessaging::MOBILE_TYPE,
-             APIPDFReports::REPORT_KEY           => array(
+             APIScheduledReports::REPORT_CONTENT_KEY   => $reportContent,
+             APIScheduledReports::REPORT_SUBJECT_KEY     => $reportSubject,
+             APIScheduledReports::REPORT_TYPE_INFO_KEY => MobileMessaging::MOBILE_TYPE,
+             APIScheduledReports::REPORT_KEY           => array(
                  'parameters' => array(MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
              ),
         );

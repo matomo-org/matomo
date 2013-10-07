@@ -5,10 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Plugins\PDFReports\PDFReports;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\ScheduledTask;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/PDFReports/PDFReports.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/ScheduledReports.php';
 
 class ScheduledTaskTest extends PHPUnit_Framework_TestCase
 {
@@ -18,8 +18,8 @@ class ScheduledTaskTest extends PHPUnit_Framework_TestCase
      */
     public function testGetClassName()
     {
-        $scheduledTask = new ScheduledTask (new PDFReports(), null, null, null);
-        $this->assertEquals('PDFReports', $scheduledTask->getClassName());
+        $scheduledTask = new ScheduledTask (new ScheduledReports(), null, null, null);
+        $this->assertEquals('ScheduledReports', $scheduledTask->getClassName());
     }
 
     /**
@@ -30,8 +30,8 @@ class ScheduledTaskTest extends PHPUnit_Framework_TestCase
         return array(
             array('CoreAdminHome.purgeOutdatedArchives', 'CoreAdminHome', 'purgeOutdatedArchives', null),
             array('CoreAdminHome.purgeOutdatedArchives_previous30', 'CoreAdminHome', 'purgeOutdatedArchives', 'previous30'),
-            array('PDFReports.weeklySchedule', 'PDFReports', 'weeklySchedule', null),
-            array('PDFReports.weeklySchedule_1', 'PDFReports', 'weeklySchedule', 1),
+            array('ScheduledReports.weeklySchedule', 'ScheduledReports', 'weeklySchedule', null),
+            array('ScheduledReports.weeklySchedule_1', 'ScheduledReports', 'weeklySchedule', 1),
         );
     }
 

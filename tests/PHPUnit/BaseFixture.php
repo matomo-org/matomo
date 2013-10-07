@@ -10,8 +10,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\Plugins\PDFReports\API as APIPDFReports;
-use Piwik\Plugins\PDFReports\PDFReports;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -224,13 +224,13 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function setUpScheduledReports($idSite)
     {
-        // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'PDFReports.addReport'
+        // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'ScheduledReports.addReport'
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
         // retrieve available reports
-        $availableReportMetadata = APIPDFReports::getReportMetadata($idSite, PDFReports::EMAIL_TYPE);
+        $availableReportMetadata = APIScheduledReports::getReportMetadata($idSite, ScheduledReports::EMAIL_TYPE);
 
         $availableReportIds = array();
         foreach ($availableReportMetadata as $reportMetadata) {
@@ -239,19 +239,19 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
         //@review should we also test evolution graphs?
         // set-up mail report
-        APIPDFReports::getInstance()->addReport(
+        APIScheduledReports::getInstance()->addReport(
             $idSite,
             'Mail Test report',
             'day', // overridden in getApiForTestingScheduledReports()
             0,
-            PDFReports::EMAIL_TYPE,
+            ScheduledReports::EMAIL_TYPE,
             ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
             $availableReportIds,
-            array(PDFReports::DISPLAY_FORMAT_PARAMETER => PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
 
         // set-up sms report for one website
-        APIPDFReports::getInstance()->addReport(
+        APIScheduledReports::getInstance()->addReport(
             $idSite,
             'SMS Test report, one website',
             'day', // overridden in getApiForTestingScheduledReports()
@@ -263,7 +263,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
 
         // set-up sms report for all websites
-        APIPDFReports::getInstance()->addReport(
+        APIScheduledReports::getInstance()->addReport(
             $idSite,
             'SMS Test report, all websites',
             'day', // overridden in getApiForTestingScheduledReports()
@@ -276,29 +276,29 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
         if (self::canImagesBeIncludedInScheduledReports()) {
             // set-up mail report with images
-            APIPDFReports::getInstance()->addReport(
+            APIScheduledReports::getInstance()->addReport(
                 $idSite,
                 'Mail Test report',
                 'day', // overridden in getApiForTestingScheduledReports()
                 0,
-                PDFReports::EMAIL_TYPE,
+                ScheduledReports::EMAIL_TYPE,
                 ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
                 $availableReportIds,
-                array(PDFReports::DISPLAY_FORMAT_PARAMETER => PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
+                array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
             );
 
             // set-up mail report with one row evolution based png graph
-            APIPDFReports::getInstance()->addReport(
+            APIScheduledReports::getInstance()->addReport(
                 $idSite,
                 'Mail Test report',
                 'day',
                 0,
-                PDFReports::EMAIL_TYPE,
+                ScheduledReports::EMAIL_TYPE,
                 ReportRenderer::HTML_FORMAT,
                 array('Actions_getPageTitles'),
                 array(
-                     PDFReports::DISPLAY_FORMAT_PARAMETER => PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY,
-                     PDFReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                     ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                     ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
                 )
             );
         }
