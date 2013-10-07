@@ -102,13 +102,6 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
     {
         // custom setup
         self::deleteArchiveTables();
-        $generalConfig['datatable_archiving_maximum_rows_referers'] = 4; // USING old style pre 2.0 *_referers instead of current *_referrers
-        $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 4; // IDEM
-        $generalConfig['datatable_archiving_maximum_rows_actions'] = 4;
-        $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 4;
-        $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 4;
-        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 4;
-        $generalConfig['datatable_archiving_maximum_rows_standard'] = 4;
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
         ArchivingHelper::reloadConfig();
 
@@ -162,8 +155,8 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
     {
         self::createTestConfig();
         $generalConfig =& Config::getInstance()->General;
-        $generalConfig['datatable_archiving_maximum_rows_referrers'] = 3;
-        $generalConfig['datatable_archiving_maximum_rows_subtable_referrers'] = 2;
+        $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 2;
