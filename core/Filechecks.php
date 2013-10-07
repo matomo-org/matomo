@@ -48,8 +48,7 @@ class Filechecks
             $directoryToCheck = SettingsPiwik::rewriteTmpPathWithHostname($directoryToCheck);
 
             // Create an empty directory
-            $isFile = strpos($directoryToCheck, '.') !== false;
-            if (!$isFile && !file_exists($directoryToCheck)) {
+            if (!file_exists($directoryToCheck)) {
                 Filesystem::mkdir($directoryToCheck);
             }
 

@@ -50,9 +50,6 @@ class Piwik_Updates_2_0_a13 extends Updates
         \Piwik\Option::getInstance()->delete('version_Referers');
 
         Updater::updateDatabase(__FILE__, self::getSql());
-        \Piwik\PluginsManager::getInstance()->deactivatePlugin('Referers');
-        \Piwik\PluginsManager::getInstance()->deactivatePlugin('PDFReports');
-
         // Deleting old plugins
         $obsoleteDirectories = array(
             PIWIK_INCLUDE_PATH . '/plugins/Referers',
@@ -63,6 +60,9 @@ class Piwik_Updates_2_0_a13 extends Updates
                 Filesystem::unlinkRecursive($dir, true);
             }
         }
+
+        \Piwik\PluginsManager::getInstance()->deactivatePlugin('Referers');
+        \Piwik\PluginsManager::getInstance()->deactivatePlugin('PDFReports');
 
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('Referrers');
