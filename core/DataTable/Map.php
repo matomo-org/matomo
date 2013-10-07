@@ -18,6 +18,8 @@ use Piwik\DataTable\Renderer\Console;
  *
  * @package Piwik
  * @subpackage DataTable
+ *
+ * @api
  */
 class Map
 {
