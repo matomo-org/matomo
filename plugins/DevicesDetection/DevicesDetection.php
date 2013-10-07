@@ -42,6 +42,33 @@ class DevicesDetection extends \Piwik\Plugin
         );
     }
 
+    protected function getRawMetadataDeviceType()
+    {
+        $deviceTypeList = implode(", ", UserAgentParserEnhanced::$deviceTypes);
+
+        $deviceTypeLabelToCode = function ($type) use ($deviceTypeList) {
+            $index = array_search(strtolower(trim(urldecode($type))), UserAgentParserEnhanced::$deviceTypes);
+            if ($index === false) {
+                throw new Exception("deviceType segment must be one of: $deviceTypeList");
+            }
+            return $index;
+        };
+
+        return array(
+            'DevicesDetection_DevicesDetection',
+            'DevicesDetection_DeviceType',
+            'DevicesDetection',
+            'getType',
+            'DevicesDetection_DeviceType',
+
+            // Segment
+            'deviceType',
+            'log_visit.config_device_type',
+            $deviceTypeList,
+            $deviceTypeLabelToCode
+        );
+    }
+
     /**
      * @see Piwik_Plugin::getInformation
      */
@@ -49,9 +76,9 @@ class DevicesDetection extends \Piwik\Plugin
     {
         return array(
             'description'     => "[Beta Plugin] " . Piwik_Translate("DevicesDetection_PluginDescription"),
-            'author'          => 'Piwik and Clearcode.cc',
-            'author_homepage' => 'http://clearcode.cc',
-            'version'         => '1.12-b6',
+            'author'          => 'Piwik PRO',
+            'author_homepage' => 'http://piwik.pro',
+            'version'         => '1.13',
         );
     }
 
@@ -81,20 +108,11 @@ class DevicesDetection extends \Piwik\Plugin
      */
     protected function getRawMetadataReports()
     {
-        $report = array(
-            array(
-                'DevicesDetection_DevicesDetection',
-                'DevicesDetection_DeviceType',
-                'DevicesDetection',
-                'getType',
-                'DevicesDetection_DeviceType',
 
-                // Segment
-                'deviceType',
-                'log_visit.config_device_type',
-                implode(", ", UserAgentParserEnhanced::$deviceTypes), // comma separated examples
-                function($type) { return array_search( strtolower(trim(urldecode($type))), UserAgentParserEnhanced::$deviceTypes); }
-            ),
+        $report = array(
+            // device type report (tablet, desktop, mobile...)
+            $this->getRawMetadataDeviceType(),
+
             // device brands report
             array(
                 'DevicesDetection_DevicesDetection',
@@ -164,9 +182,10 @@ class DevicesDetection extends \Piwik\Plugin
     {
         // Note: only one field segmented so far: deviceType
         foreach ($this->getRawMetadataReports() as $report) {
-            @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues) = $report;
+            @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues, $sqlFilter) = $report;
 
             if (empty($segment)) continue;
+
             $segments[] = array(
                 'type'           => 'dimension',
                 'category'       => Piwik_Translate('General_Visit'),
