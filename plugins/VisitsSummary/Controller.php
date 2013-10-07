@@ -15,7 +15,7 @@ use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Plugins\Actions\API;
+use Piwik\Plugins\Actions\API as APIActions;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\Site;
@@ -140,7 +140,7 @@ class Controller extends \Piwik\Controller
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
 
-        $dataTableActions = API::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
+        $dataTableActions = APIActions::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
             \Piwik\API\Request::getRawSegmentFromRequest());
         $dataActionsRow =
             $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();

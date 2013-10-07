@@ -14,7 +14,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\Goals\API;
+use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\Site;
@@ -134,7 +134,7 @@ class Controller extends \Piwik\Controller
         $view->defaultMetric = 'nb_visits';
         $liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = APIGoals::getInstance()->getGoals($idSite);
         $site = new Site($idSite);
         $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
 

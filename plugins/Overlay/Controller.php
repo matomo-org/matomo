@@ -17,7 +17,7 @@ use Piwik\Metrics;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\ArchivingHelper;
-use Piwik\Plugins\SitesManager\API;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
 use Piwik\Tracker\Action;
 use Piwik\View;
@@ -130,7 +130,7 @@ class Controller extends \Piwik\Controller
         $idSite = Common::getRequestVar('idsite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
-        $sitesManager = API::getInstance();
+        $sitesManager = APISitesManager::getInstance();
         $site = $sitesManager->getSiteFromId($idSite);
         $urls = $sitesManager->getSiteUrlsFromId($idSite);
 
