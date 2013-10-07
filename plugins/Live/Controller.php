@@ -182,7 +182,9 @@ class Controller extends \Piwik\Controller
         $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(
             'segment' => self::getSegmentWithVisitorId(),
             'filter_limit' => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
-            'disable_generic_filters' => 1
+            'disable_generic_filters' => 1,
+            'period' => false,
+            'date' => false
         ));
 
         if (empty($nextVisits)) {
