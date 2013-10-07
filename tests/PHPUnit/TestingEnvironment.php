@@ -63,6 +63,7 @@ class Piwik_TestingEnvironment
         Piwik_AddAction('Request.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
+            \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
         });
         Piwik_AddAction('AssetManager.getStylesheetFiles', function(&$stylesheets) {
             $stylesheets[] = 'tests/resources/screenshot-override/override.css';

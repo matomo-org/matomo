@@ -23,6 +23,8 @@ use Piwik\DataTable;
  */
 class API
 {
+    public static $disableRandomness = false;
+
     private static $instance = null;
 
     /**
@@ -43,8 +45,14 @@ class API
         $period = new Range($period, 'last30');
 
         foreach ($period->getSubperiods() as $subPeriod) {
-            $server1 = mt_rand(50, 90);
-            $server2 = mt_rand(40, 110);
+            if (self::$disableRandomness) {
+                $server1 = 50;
+                $server2 = 40;
+            } else {
+                $server1 = mt_rand(50, 90);
+                $server2 = mt_rand(40, 110);
+            }
+
             $value   = array('server1' => $server1, 'server2' => $server2);
 
             $temperatures[$subPeriod->getLocalizedShortString()] = $value;
@@ -61,7 +69,9 @@ class API
         );
 
         $temperatureValues = array_slice(range(50, 90), 0, count($xAxis));
-        shuffle($temperatureValues);
+        if (!self::$disableRandomness) {
+            shuffle($temperatureValues);
+        }
 
         $temperatures = array();
         foreach ($xAxis as $i => $xAxisLabel) {
