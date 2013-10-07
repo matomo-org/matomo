@@ -143,7 +143,7 @@ abstract class UITest extends IntegrationTestCase
         $processed = file_get_contents($processedPath);
         
         if (!file_exists($expectedPath)) {
-            $this->markTestIncomplete("expected screenshot for processed '$processedPath' is missing");
+            $this->fail("expected screenshot for processed '$processedPath' is missing");
             return;
         }
         
