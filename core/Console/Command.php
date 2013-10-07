@@ -17,8 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * BaseClass for console commands.
  * @package Piwik_Console
- *
- * @api "ignore"
  */
 class Command extends SymfonyCommand
 {
