@@ -25,6 +25,19 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class DevicesDetection extends \Piwik\Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
+    public function getInformation()
+    {
+        return array(
+            'description'     => "[Beta Plugin] " . Piwik_Translate("DevicesDetection_PluginDescription"),
+            'author'          => 'Piwik PRO',
+            'author_homepage' => 'http://piwik.pro',
+            'version'         => '1.14',
+        );
+    }
+
     /** The set of related reports displayed under the 'Operating Systems' header. */
     private $osRelatedReports = null;
     private $browserRelatedReports = null;
@@ -66,19 +79,6 @@ class DevicesDetection extends \Piwik\Plugin
             'log_visit.config_device_type',
             $deviceTypeList,
             $deviceTypeLabelToCode
-        );
-    }
-
-    /**
-     * @see Piwik_Plugin::getInformation
-     */
-    public function getInformation()
-    {
-        return array(
-            'description'     => "[Beta Plugin] " . Piwik_Translate("DevicesDetection_PluginDescription"),
-            'author'          => 'Piwik PRO',
-            'author_homepage' => 'http://piwik.pro',
-            'version'         => '1.13',
         );
     }
 
@@ -230,8 +230,8 @@ class DevicesDetection extends \Piwik\Plugin
 // we catch the exception
         try {
             $q1 = "ALTER TABLE `" . Common::prefixTable("log_visit") . "`
-                ADD `config_os_version` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_os` ,
-                ADD `config_device_type` TINYINT( 10 ) NULL DEFAULT NULL AFTER `config_browser_version` ,
+                ADD `config_os_version` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_os` ,
+                ADD `config_device_type` TINYINT( 100 ) NULL DEFAULT NULL AFTER `config_browser_version` ,
                 ADD `config_device_brand` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_type` ,
                 ADD `config_device_model` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_brand`";
             Db::exec($q1);

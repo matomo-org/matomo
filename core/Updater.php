@@ -122,14 +122,14 @@ class Updater
                 require_once $file; // prefixed by PIWIK_INCLUDE_PATH
 
                 $className = $this->getUpdateClassName($componentName, $fileVersion);
-                if (class_exists($className, false)) {
-                    $queriesForComponent = call_user_func(array($className, 'getSql'));
-                    foreach ($queriesForComponent as $query => $error) {
-                        $queries[] = $query . ';';
-                    }
-
-                    $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
+                if (!class_exists($className, false)) {
+                    throw new \Exception("The class $className was not found in $file");
                 }
+                $queriesForComponent = call_user_func(array($className, 'getSql'));
+                foreach ($queriesForComponent as $query => $error) {
+                    $queries[] = $query . ';';
+                }
+                $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
             }
             // unfortunately had to extract this query from the Option class
             $queries[] = 'UPDATE `' . Common::prefixTable('option') . '`
@@ -141,12 +141,13 @@ class Updater
 
     private function getUpdateClassName($componentName, $fileVersion)
     {
-        ////unprefixClass TODOA FIXME
         $suffix = strtolower(str_replace(array('-', '.'), '_', $fileVersion));
+        $className = 'Updates_' . $suffix;
+
         if ($componentName == 'core') {
-            return 'Piwik_Updates_' . $suffix;
+            return '\\Piwik\\Updates\\' . $className;
         }
-        return 'Piwik_' . $componentName . '_Updates_' . $suffix;
+        return '\\Piwik\\Plugins\\' . $componentName . '\\'. $className;
     }
 
     /**
