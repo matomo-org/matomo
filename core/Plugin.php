@@ -22,6 +22,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
  * Any plugin has to at least implement the abstract methods of this class.
  *
  * @package Piwik
+ *
+ * @api
  */
 class Plugin
 {

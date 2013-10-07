@@ -19,6 +19,8 @@ use Piwik\ScheduledTime;
  * @see ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
+ *
+ * @api
  */
 class Weekly extends ScheduledTime
 {

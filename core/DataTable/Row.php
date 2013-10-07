@@ -33,6 +33,8 @@ use Piwik\DataTable;
  *
  * @package Piwik
  * @subpackage DataTable
+ *
+ * @api
  */
 class Row
 {

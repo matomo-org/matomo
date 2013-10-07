@@ -22,6 +22,8 @@ use Piwik\PluginsManager;
  * Parent class of all plugins Controllers with admin functions
  *
  * @package Piwik
+ *
+ * @api
  */
 abstract class Admin extends Controller
 {
