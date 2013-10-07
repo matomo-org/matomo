@@ -19,7 +19,7 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\SitesManager\API;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
@@ -147,7 +147,7 @@ class Controller extends \Piwik\Controller\Admin
         $this->setBasicVariablesView($view);
         $view->topMenu = Piwik_GetTopMenu();
 
-        $viewableIdSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
 
         $defaultIdSite = reset($viewableIdSites);
         $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
@@ -155,7 +155,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = \Piwik\MetricsFormatter::getCurrencySymbol($view->idSite);
 
-        $allUrls = API::getInstance()->getSiteUrlsFromId($view->idSite);
+        $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {
             $aliasUrl = $allUrls[1];
         } else {
@@ -167,7 +167,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->defaultReportSiteDomain = @parse_url($mainUrl, PHP_URL_HOST);
 
         // get currencies for each viewable site
-        $view->currencySymbols = API::getInstance()->getCurrencySymbols();
+        $view->currencySymbols = APISitesManager::getInstance()->getCurrencySymbols();
 
         $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\Controller::isDntSupported();
 
