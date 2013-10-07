@@ -280,7 +280,7 @@ class Controller extends \Piwik\Controller\Admin
     protected function redirectAfterModification($redirectAfter)
     {
         if ($redirectAfter) {
-            Url::redirectToReferer();
+            Url::redirectToReferrer();
         }
     }
 

@@ -45,7 +45,7 @@ class Request
         $this->timestamp = time();
         $this->enforcedIp = false;
 
-        // When the 'url' and referer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
+        // When the 'url' and referrer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referrer, which will be in this case
         // the URL of the page containing the Simple Image beacon
         if (empty($this->params['urlref'])

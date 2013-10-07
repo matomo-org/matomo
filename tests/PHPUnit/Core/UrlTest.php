@@ -257,10 +257,10 @@ class UrlTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group Url
      */
-    public function testGetReferer()
+    public function testGetReferrer()
     {
         $_SERVER['HTTP_REFERER'] = 'http://www.piwik.org';
-        $this->assertEquals('http://www.piwik.org', Url::getReferer());
+        $this->assertEquals('http://www.piwik.org', Url::getReferrer());
     }
 
     /**

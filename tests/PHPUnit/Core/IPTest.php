@@ -691,7 +691,8 @@ class IPTest extends PHPUnit_Framework_TestCase
     public function testGetHostByAddr()
     {
         $hosts = array('localhost', 'localhost.localdomain', strtolower(@php_uname('n')), '127.0.0.1');
-        $this->assertTrue(in_array(strtolower(IP::getHostByAddr('127.0.0.1')), $hosts), '127.0.0.1 -> localhost');
+        $host = IP::getHostByAddr('127.0.0.1');
+        $this->assertTrue(in_array(strtolower($host), $hosts), $host . ' -> localhost');
 
         if (!SettingsServer::isWindows() || PHP_VERSION >= '5.3') {
             $hosts = array('ip6-localhost', 'localhost', 'localhost.localdomain', strtolower(@php_uname('n')), '::1');

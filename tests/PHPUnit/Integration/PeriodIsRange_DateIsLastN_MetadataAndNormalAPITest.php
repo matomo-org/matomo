@@ -61,8 +61,8 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
             'Actions.getPageUrls',
             'Goals.get',
             'CustomVariables.getCustomVariables',
-            'Referers.getCampaigns',
-            'Referers.getKeywords',
+            'Referrers.getCampaigns',
+            'Referrers.getKeywords',
             'VisitsSummary.get',
             'Live');
 

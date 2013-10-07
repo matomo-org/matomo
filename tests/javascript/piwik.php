@@ -69,13 +69,13 @@ if (isset($_GET['requests'])) {
 		}
 //		$uri = htmlspecialchars($uri);
 
-		$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+		$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 		$ua = $_SERVER['HTTP_USER_AGENT'];
 
 		$data = json_decode(get_magic_quotes_gpc() ? stripslashes($_REQUEST['data']) : $_REQUEST['data'], true);
 		$token = isset($data['token']) ? $data['token'] : '';
 
-		$query = $sqlite->exec("INSERT INTO requests (token, ip, ts, uri, referer, ua) VALUES (\"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referer\", \"$ua\")");
+		$query = $sqlite->exec("INSERT INTO requests (token, ip, ts, uri, referer, ua) VALUES (\"$token\", \"$ip\", \"$ts\", \"$uri\", \"$referrer\", \"$ua\")");
 		if (!$query) {
 			header("HTTP/1.0 500 Internal Server Error");
 		} else {

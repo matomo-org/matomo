@@ -16,9 +16,9 @@ use Piwik\Plugins\SEO\MajesticClient;
 use Piwik\Plugins\SEO\RankChecker;
 
 /**
- * @see plugins/Referers/functions.php
+ * @see plugins/Referrers/functions.php
  */
-require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 
 /**
  * The SEO API lets you access a list of SEO metrics for the specified URL: Google Pagerank, Goolge/Bing indexed pages
@@ -57,22 +57,22 @@ class API
         $data = array(
             'Google PageRank'                          => array(
                 'rank' => $rank->getPageRank(),
-                'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://google.com'),
+                'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://google.com'),
                 'id'   => 'pagerank'
             ),
             Piwik_Translate('SEO_Google_IndexedPages') => array(
                 'rank' => $rank->getIndexedPagesGoogle(),
-                'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://google.com'),
+                'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://google.com'),
                 'id'   => 'google-index',
             ),
             Piwik_Translate('SEO_Bing_IndexedPages')   => array(
                 'rank' => $rank->getIndexedPagesBing(),
-                'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://bing.com'),
+                'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://bing.com'),
                 'id'   => 'bing-index',
             ),
             Piwik_Translate('SEO_AlexaRank')           => array(
                 'rank' => $rank->getAlexaRank(),
-                'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://alexa.com'),
+                'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://alexa.com'),
                 'id'   => 'alexa',
             ),
             Piwik_Translate('SEO_DomainAge')           => array(
@@ -99,7 +99,7 @@ class API
         // Add DMOZ only if > 0 entries found
         $dmozRank = array(
             'rank' => $rank->getDmoz(),
-            'logo' => \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl('http://dmoz.org'),
+            'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://dmoz.org'),
             'id'   => 'dmoz',
         );
         if ($dmozRank['rank'] > 0) {

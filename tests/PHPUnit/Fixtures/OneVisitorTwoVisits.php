@@ -54,7 +54,7 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
 
         $t->disableCookieSupport();
 
-        $t->setUrlReferrer('http://referer.com/page.htm?param=valuewith some spaces');
+        $t->setUrlReferrer('http://referrer.com/page.htm?param=valuewith some spaces');
 
         // testing URL excluded parameters
         $parameterToExclude = 'excluded_parameter';
@@ -151,7 +151,7 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         // Temporary, until we implement 1st party cookies in PiwikTracker
         $t->DEBUG_APPEND_URL = '&_idvc=2';
 
-        // Goal Tracking URL matching, testing custom referer including keyword
+        // Goal Tracking URL matching, testing custom referrer including keyword
 		$t->setGenerationTime(134);
         self::checkResponse($t->doTrackPageView('Checkout/Purchasing...'));
         // -

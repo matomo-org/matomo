@@ -48,7 +48,7 @@ class Piwik_TestingEnvironment
 
             $pluginsToLoad = array(
                 "CorePluginsAdmin", "CoreAdminHome", "CoreHome", "Proxy", "API", "Widgetize", "Transitions",
-                "LanguagesManager", "Actions", "Dashboard", "MultiSites", "Referers", "UserSettings", "Goals",
+                "LanguagesManager", "Actions", "Dashboard", "MultiSites", "Referrers", "UserSettings", "Goals",
                 "SEO", "UserCountry", "VisitsSummary", "VisitFrequency", "VisitTime", "VisitorInterest",
                 "ExampleAPI", "ExamplePlugin", "ExampleRssWidget", "Provider", "Feedback", "Login", "UsersManager",
                 "SitesManager", "Installation", "CoreUpdater", "PDFReports", "UserCountryMap", "Live",

@@ -40,7 +40,7 @@
  * Reference: http://www.php.net/manual/en/mbstring.encodings.php
  *
  * You can add new search engines icons by adding the icon in the
- * plugins/Referers/images/searchEngines directory using the format
+ * plugins/Referrers/images/searchEngines directory using the format
  * 'mainSearchEngineUrl.png'. Example: www.google.com.png
  *
  * To help Piwik link directly the search engine result page for the keyword,
@@ -822,7 +822,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Teoma
         'www.teoma.com'                  => array('Teoma', 'q', 'web?q={k}'),
 
-        // Terra -- referer does not contain search phrase (keywords)
+        // Terra -- referrer does not contain search phrase (keywords)
         'buscador.terra.es'              => array('Terra', 'query', 'Default.aspx?source=Search&query={k}'),
         'buscador.terra.cl'              => array('Terra'),
         'buscador.terra.com.br'          => array('Terra'),

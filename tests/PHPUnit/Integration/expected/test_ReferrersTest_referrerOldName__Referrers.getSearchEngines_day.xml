@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<testcol3>testdata3</testcol3>
+		<url>URL unknown!</url>
+		<logo>plugins/Referrers/images/searchEngines/xx.png</logo>
+	</row>
+	<row>
+		<testcol1>testdata1</testcol1>
+		<testcol2>testdata2</testcol2>
+		<url>URL unknown!</url>
+		<logo>plugins/Referrers/images/searchEngines/xx.png</logo>
+	</row>
+</result>

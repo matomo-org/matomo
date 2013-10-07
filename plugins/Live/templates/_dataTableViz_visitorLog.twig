@@ -114,7 +114,7 @@ GPS (lat/long): {{ visitor.getColumn('latitude') }},{{ visitor.getColumn('longit
             {% endif %}
 
             <td class="column">
-                <div class="referer">
+                <div class="referrer">
                     {% if visitor.getColumn('referrerType') == 'website' %}
                         {{ 'Referrers_ColumnWebsite'|translate }}:
                         <a href="{{ visitor.getColumn('referrerUrl') }}" target="_blank" title="{{ visitor.getColumn('referrerUrl') }}"

@@ -496,7 +496,7 @@ class API
     }
 
     /**
-     * Given an API report to query (eg. "Referers.getKeywords", and a Label (eg. "free%20software"),
+     * Given an API report to query (eg. "Referrers.getKeywords", and a Label (eg. "free%20software"),
      * this function will query the API for the previous days/weeks/etc. and will return
      * a ready to use data structure containing the metrics for the requested Label, along with enriched information (min/max values, etc.)
      *

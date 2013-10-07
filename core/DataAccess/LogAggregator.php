@@ -128,9 +128,9 @@ class LogAggregator
     /**
      * Query visits logs by dimension, and return the aggregate data.
      *
-     * @param array|string $dimensions     Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
+     * @param array|string $dimensions     Can be a string, eg. "referrer_name", will be aliased as 'label' in the returned rows
      *                                      Can also be an array of strings, when the dimension spans multiple fields,
-     *                                      eg. array("referer_name", "referer_keyword")
+     *                                      eg. array("referrer_name", "referrer_keyword")
      * @param bool|string $where Additional condition for WHERE clause
      * @param array $additionalSelects Additional SELECT clause
      * @param bool|array $metrics   Set this if you want to limit the columns that are returned.

@@ -223,10 +223,10 @@ noreply_email_address = "noreply@{DOMAIN}"
 feedback_email_address = "hello@piwik.org"
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
-; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
-datatable_archiving_maximum_rows_referers = 1000
-; maximum number of rows for any of the Referers subtable (search engines by keyword, keyword by campaign, etc.)
-datatable_archiving_maximum_rows_subtable_referers = 50
+; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)
+datatable_archiving_maximum_rows_referrers = 1000
+; maximum number of rows for any of the Referrers subtable (search engines by keyword, keyword by campaign, etc.)
+datatable_archiving_maximum_rows_subtable_referrers = 50
 
 ; maximum number of rows for the Custom Variables names report
 datatable_archiving_maximum_rows_custom_variables = 1000
@@ -388,13 +388,13 @@ scheduled_tasks_min_interval = 3600
 ignore_visits_cookie_name = piwik_ignore
 
 ; Comma separated list of variable names that will be read to define a Campaign name, for example CPC campaign
-; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referer named 'Adwords-CPC'
+; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC' then it will be counted as a campaign referrer named 'Adwords-CPC'
 ; Includes by default the GA style campaign parameters
 campaign_var_name = "pk_campaign,piwik_campaign,utm_campaign,utm_source,utm_medium"
 
 ; Comma separated list of variable names that will be read to track a Campaign Keyword
 ; Example: If a visitor first visits 'index.php?piwik_campaign=Adwords-CPC&piwik_kwd=My killer keyword' ;
-; then it will be counted as a campaign referer named 'Adwords-CPC' with the keyword 'My killer keyword'
+; then it will be counted as a campaign referrer named 'Adwords-CPC' with the keyword 'My killer keyword'
 ; Includes by default the GA style campaign keyword parameter utm_term
 campaign_keyword_var_name = "pk_kwd,piwik_kwd,utm_term"
 
@@ -502,7 +502,7 @@ Plugins[] = LanguagesManager
 Plugins[] = Actions
 Plugins[] = Dashboard
 Plugins[] = MultiSites
-Plugins[] = Referers
+Plugins[] = Referrers
 Plugins[] = UserSettings
 Plugins[] = Goals
 Plugins[] = SEO

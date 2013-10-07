@@ -61,7 +61,7 @@ class Archive
      * Archive IDs are indexed by done flag and period, ie:
      *
      * array(
-     *     'done.Referers' => array(
+     *     'done.Referrers' => array(
      *         '2010-01-01' => 1,
      *         '2010-01-02' => 2,
      *     ),
@@ -170,7 +170,7 @@ class Archive
      * Returns the value of the element $name from the current archive
      * The value to be returned is a numeric value and is stored in the archive_numeric_* tables
      *
-     * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referers_distinctKeywords',
+     * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referrers_distinctKeywords',
      *                            etc.
      * @return mixed              False if no value with the given name, numeric if only one site
      *                            and date and we're not forcing an index, and array if multiple
@@ -201,7 +201,7 @@ class Archive
      *
      * It can return anything from strings, to serialized PHP arrays or PHP objects, etc.
      *
-     * @param string|array $names One or more archive names, eg, 'Referers_keywordBySearchEngine'.
+     * @param string|array $names One or more archive names, eg, 'Referrers_keywordBySearchEngine'.
      * @param null $idSubtable
      * @return string|array|bool  False if no value with the given name, numeric if only one site
      *                            and date and we're not forcing an index, and array if multiple
@@ -218,7 +218,7 @@ class Archive
      *
      * Note: Every DataTable instance returned will have at most one row in it.
      *
-     * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referers_distinctKeywords',
+     * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referrers_distinctKeywords',
      *                            etc.
      * @return DataTable|DataTable\Map|bool False if no value with the given names. Based on the number
      *                                      of sites/periods, the result can be a DataTable\Map, which
@@ -233,7 +233,7 @@ class Archive
     /**
      * This method will build a dataTable from the blob value $name in the current archive.
      *
-     * For example $name = 'Referers_searchEngineByKeyword' will return a
+     * For example $name = 'Referrers_searchEngineByKeyword' will return a
      * DataTable containing all the keywords. If a $idSubtable is given, the method
      * will return the subTable of $name. If 'all' is supplied for $idSubtable every subtable
      * will be returned.
@@ -644,10 +644,6 @@ class Archive
         }
 
         $plugin = substr($report, 0, strpos($report, '_'));
-        if ($plugin == 'Referrers') { // TODO: remove when Referers plugin name is changed
-            $plugin = 'Referers';
-        }
-        
         if (empty($plugin)
             || !\Piwik\PluginsManager::getInstance()->isPluginActivated($plugin)
         ) {

@@ -392,7 +392,7 @@ class API
 
             foreach ($subData as &$row) {
                 if ($referrerType == Common::REFERRER_TYPE_SEARCH_ENGINE && empty($row['referrer_data'])) {
-                    $row['referrer_data'] = \Piwik\Plugins\Referers\API::LABEL_KEYWORD_NOT_DEFINED;
+                    $row['referrer_data'] = \Piwik\Plugins\Referrers\API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
                 $referrerData[$referrerType][Metrics::INDEX_NB_VISITS] += $row[Metrics::INDEX_NB_VISITS];
@@ -585,7 +585,7 @@ class API
                 }
                 $report['referrers'][] = array(
                     'label'     => $this->getReferrerLabel($referrerId),
-                    'shortName' => \Piwik\Plugins\Referers\getRefererTypeFromShortName($referrerId),
+                    'shortName' => \Piwik\Plugins\Referrers\getReferrerTypeFromShortName($referrerId),
                     'visits'    => $visits,
                     'details'   => $details
                 );
@@ -599,7 +599,7 @@ class API
         if (count($report['referrers']) == 0) {
             $report['referrers'][] = array(
                 'label'     => $this->getReferrerLabel(Common::REFERRER_TYPE_DIRECT_ENTRY),
-                'shortName' => \Piwik\Plugins\Referers\getRefererTypeLabel(Common::REFERRER_TYPE_DIRECT_ENTRY),
+                'shortName' => \Piwik\Plugins\Referrers\getReferrerTypeLabel(Common::REFERRER_TYPE_DIRECT_ENTRY),
                 'visits'    => 0
             );
         }

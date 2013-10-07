@@ -61,8 +61,8 @@
 		<regionCode>CA</regionCode>
 		<city>not a city</city>
 		<location>not a city, California, United States</location>
-		<latitude>1.000000</latitude>
-		<longitude>2.000000</longitude>
+		<latitude>1</latitude>
+		<longitude>2</longitude>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -73,7 +73,7 @@
 		<referrerKeywordPosition />
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>

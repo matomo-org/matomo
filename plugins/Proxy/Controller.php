@@ -62,11 +62,11 @@ class Controller extends \Piwik\Controller
         $url = Common::getRequestVar('url', '', 'string', $_GET);
 
         // validate referrer
-        $referrer = Url::getReferer();
+        $referrer = Url::getReferrer();
         if (empty($referrer) || !Url::isLocalUrl($referrer)) {
             die('Invalid Referrer detected - This means that your web browser is not sending the "Referrer URL" which is
 				required to proceed with the redirect. Verify your browser settings and add-ons, to check why your browser
-				 is not sending this referer.
+				 is not sending this referrer.
 
 				<br/><br/>You can access the page at: ' . $url);
         }

@@ -266,7 +266,7 @@ class Properties
      * Array property containing custom data to be saved in JSON in the data-params HTML attribute
      * of a data table div. This data can be used by JavaScript DataTable classes.
      * 
-     * e.g. array('typeReferer' => ...)
+     * e.g. array('typeReferrer' => ...)
      * 
      * Default value: array()
      */

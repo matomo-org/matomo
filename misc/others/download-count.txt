@@ -6,8 +6,8 @@ Count the download for 'latest.zip' on the 20th March
 Value to be compared with the one given by Piwik in Actions > Downloads
 
 
-Count the no of hits by referers, excluding piwik.org as a referer
+Count the no of hits by referrers, excluding piwik.org as a referer
 # cat /var/log/apache2/access.log | awk '{print $11}' | grep -vE "(^"-"$|/dev.piwik.org|/piwik.org)" | sort | uniq -c | sort -rn | head -n20
 
-Count the no of hits by referers
+Count the no of hits by referrers
 # cat /var/log/apache2/access.log | awk '{print $11}' | sort | uniq -c | sort -rn | head -n20

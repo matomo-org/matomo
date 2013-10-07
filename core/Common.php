@@ -27,7 +27,7 @@ use Piwik\Tracker\Cache;
 class Common
 {
     /**
-     * Const used to map the referer type to an integer in the log_visit table
+     * Const used to map the referrer type to an integer in the log_visit table
      */
     const REFERRER_TYPE_DIRECT_ENTRY = 1;
     const REFERRER_TYPE_SEARCH_ENGINE = 2;

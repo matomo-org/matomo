@@ -15,7 +15,7 @@ use Piwik\Archive;
  * - Tracks 4 page views: 3 clicks and a file download
  * - URLs parameters exclude is tested
  * - In a returning visit, tracks a Goal conversion
- *   URL matching, with custom referer and keyword
+ *   URL matching, with custom referrer and keyword
  *   NO cookie support
  */
 class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase

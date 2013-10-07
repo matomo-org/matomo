@@ -577,12 +577,12 @@ class Action implements ActionInterface
      *
      * @param int $idVisit is the ID of the current visit in the DB table log_visit
      * @param $visitorIdCookie
-     * @param int $idRefererActionUrl is the ID of the last action done by the current visit.
-     * @param $idRefererActionName
-     * @param int $timeSpentRefererAction is the number of seconds since the last action was done.
-     *                 It is directly related to idRefererActionUrl.
+     * @param int $idReferrerActionUrl is the ID of the last action done by the current visit.
+     * @param $idReferrerActionName
+     * @param int $timeSpentReferrerAction is the number of seconds since the last action was done.
+     *                 It is directly related to idReferrerActionUrl.
      */
-    public function record($idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction)
+    public function record($idVisit, $visitorIdCookie, $idReferrerActionUrl, $idReferrerActionName, $timeSpentReferrerAction)
     {
         $this->loadIdActionNameAndUrl();
 
@@ -599,9 +599,9 @@ class Action implements ActionInterface
             'server_time'           => Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp()),
             'idaction_url'          => $this->getIdActionUrl(),
             'idaction_name'         => $idActionName,
-            'idaction_url_ref'      => $idRefererActionUrl,
-            'idaction_name_ref'     => $idRefererActionName,
-            'time_spent_ref_action' => $timeSpentRefererAction
+            'idaction_url_ref'      => $idReferrerActionUrl,
+            'idaction_name_ref'     => $idReferrerActionName,
+            'time_spent_ref_action' => $timeSpentReferrerAction
         );
 
         if (!empty($this->timeGeneration)) {
@@ -633,9 +633,9 @@ class Action implements ActionInterface
             'idSite'                 => $this->request->getIdSite(),
             'idLinkVisitAction'      => $this->idLinkVisitAction,
             'idVisit'                => $idVisit,
-            'idRefererActionUrl'     => $idRefererActionUrl,
-            'idRefererActionName'    => $idRefererActionName,
-            'timeSpentRefererAction' => $timeSpentRefererAction,
+            'idReferrerActionUrl'     => $idReferrerActionUrl,
+            'idReferrerActionName'    => $idReferrerActionName,
+            'timeSpentReferrerAction' => $timeSpentReferrerAction,
         );
         Common::printDebug($insertWithoutNulls);
 
@@ -1019,7 +1019,7 @@ interface ActionInterface
 
     public function getActionType();
 
-    public function record($idVisit, $visitorIdCookie, $idRefererActionUrl, $idRefererActionName, $timeSpentRefererAction);
+    public function record($idVisit, $visitorIdCookie, $idReferrerActionUrl, $idReferrerActionName, $timeSpentReferrerAction);
 
     public function getIdActionUrl();
 

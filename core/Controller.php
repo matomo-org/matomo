@@ -34,7 +34,7 @@ use Piwik\ViewDataTable;
 abstract class Controller
 {
     /**
-     * Plugin name, eg. Referers
+     * Plugin name, eg. Referrers
      * @var string
      */
     protected $pluginName;
@@ -291,7 +291,7 @@ abstract class Controller
      * Returns a numeric value from the API.
      * Works only for API methods that originally returns numeric values (there is no cast here)
      *
-     * @param string $methodToCall  Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
+     * @param string $methodToCall  Name of method to call, eg. Referrers.getNumberOfDistinctSearchEngines
      * @param bool|string $date          A custom date to use when getting the value. If false, the 'date' query
      *                                          parameter is used.
      *

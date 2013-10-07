@@ -104,9 +104,9 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
         self::checkResponse($t4->doTrackPageView('second page'));
 
         // Test with Google adsense type URL:
-        $adsenseRefererUrl = 'http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-12345&output=html&h=280&slotname=123&w=336&lmt=1359388321&202&url=http%3A%2F%2Fwww.adsense-publisher-website.org%2F&dt=123&bpp=13&shv=r22&jsv=1565606614&correlator=ss&ga_vid=aaa&ga_sid=1359435122&ga_hid=1801871121&ga_fc=0&u_tz=780&u_his=4&u_java=1&u_h=900&u_w=1600&u_ah=876&u_aw=1551&u_cd=24&u_nplug=4&u_nmime=5&dff=georgia&dfs=16&adx=33&ady=201&biw=1551&bih=792&oid=3&fu=0&ifi=1&dtd=608&p=http%3A//www.adsense-publisher-website.com';
+        $adsenseReferrerUrl = 'http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-12345&output=html&h=280&slotname=123&w=336&lmt=1359388321&202&url=http%3A%2F%2Fwww.adsense-publisher-website.org%2F&dt=123&bpp=13&shv=r22&jsv=1565606614&correlator=ss&ga_vid=aaa&ga_sid=1359435122&ga_hid=1801871121&ga_fc=0&u_tz=780&u_his=4&u_java=1&u_h=900&u_w=1600&u_ah=876&u_aw=1551&u_cd=24&u_nplug=4&u_nmime=5&dff=georgia&dfs=16&adx=33&ady=201&biw=1551&bih=792&oid=3&fu=0&ifi=1&dtd=608&p=http%3A//www.adsense-publisher-website.com';
         $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(5)->getDatetime());
-        $t4->setUrlReferrer($adsenseRefererUrl);
+        $t4->setUrlReferrer($adsenseReferrerUrl);
         $t4->setUrl('http://example.org/index.html?utm_campaign=Adsense campaign');
         self::checkResponse($t4->doTrackPageView('second page'));
 

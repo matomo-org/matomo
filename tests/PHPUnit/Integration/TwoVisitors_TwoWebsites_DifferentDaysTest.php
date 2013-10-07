@@ -42,7 +42,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
     {
         return array('VisitFrequency.get',
                      'VisitsSummary.get',
-                     'Referers.getWebsites',
+                     'Referrers.getWebsites',
                      'Actions.getPageUrls',
                      'Actions.getPageTitles',
                      'Actions.getOutlinks',

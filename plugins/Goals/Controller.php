@@ -21,7 +21,7 @@ use Piwik\View\ReportsByDimension;
 use Piwik\ViewDataTable;
 use Piwik\View;
 use Piwik\Plugins\Goals\Goals;
-use Piwik\Plugins\Referers\API as APIReferers;
+use Piwik\Plugins\Referrers\API as APIReferrers;
 
 /**
  *
@@ -312,11 +312,11 @@ class Controller extends \Piwik\Controller
         }
 
         $keywordNotDefinedString = '';
-        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')) {
-            $keywordNotDefinedString = APIReferers::getKeywordNotDefinedString();
+        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referrers')) {
+            $keywordNotDefinedString = APIReferrers::getKeywordNotDefinedString();
             $topDimensionsToLoad += array(
-                'keyword' => 'Referers.getKeywords',
-                'website' => 'Referers.getWebsites',
+                'keyword' => 'Referrers.getKeywords',
+                'website' => 'Referrers.getWebsites',
             );
         }
         $topDimensions = array();

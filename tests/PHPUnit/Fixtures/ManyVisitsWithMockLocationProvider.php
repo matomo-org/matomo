@@ -141,7 +141,7 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Test_Piwik_B
             $this->trackAction($t, $actionType, $visitorCounter, null);
 
             for ($j = 0; $j != 4; ++$j) {
-                // NOTE: to test referers w/o creating too many visits, we don't actually track 4 actions, but
+                // NOTE: to test referrers w/o creating too many visits, we don't actually track 4 actions, but
                 //	   4 separate visits
                 $actionDate = $visitDate->addHour($j + 1);
 

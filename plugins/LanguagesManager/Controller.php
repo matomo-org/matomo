@@ -40,6 +40,6 @@ class Controller extends \Piwik\Controller
                 API::getInstance()->setLanguageForUser($currentUser, $language);
             }
         }
-        Url::redirectToReferer();
+        Url::redirectToReferrer();
     }
 }

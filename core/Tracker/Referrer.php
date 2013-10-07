@@ -19,25 +19,25 @@ use Piwik\UrlHelper;
  */
 class Referrer
 {
-    // @see detect*() referer methods
-    protected $typeRefererAnalyzed;
-    protected $nameRefererAnalyzed;
-    protected $keywordRefererAnalyzed;
-    protected $refererHost;
-    protected $refererUrl;
-    protected $refererUrlParse;
+    // @see detect*() referrer methods
+    protected $typeReferrerAnalyzed;
+    protected $nameReferrerAnalyzed;
+    protected $keywordReferrerAnalyzed;
+    protected $referrerHost;
+    protected $referrerUrl;
+    protected $referrerUrlParse;
     protected $currentUrlParse;
     protected $idsite;
 
-    // Used to prefix when a adsense referer is detected
+    // Used to prefix when a adsense referrer is detected
     const LABEL_PREFIX_ADSENSE_KEYWORD = '(adsense) ';
 
     /**
      * Returns an array containing the following information:
      * - referer_type
-     *        - direct            -- absence of referer URL OR referer URL has the same host
-     *        - site                -- based on the referer URL
-     *        - search_engine        -- based on the referer URL
+     *        - direct            -- absence of referrer URL OR referrer URL has the same host
+     *        - site                -- based on the referrer URL
+     *        - search_engine        -- based on the referrer URL
      *        - campaign            -- based on campaign URL parameter
      *
      * - referer_name
@@ -54,86 +54,86 @@ class Referrer
      *         - ()
      *         - ()
      *
-     * - referer_url : the same for all the referer types
+     * - referer_url : the same for all the referrer types
      *
-     * @param string $refererUrl must be URL Encoded
+     * @param string $referrerUrl must be URL Encoded
      * @param string $currentUrl
      * @param int $idSite
      * @return array
      */
-    public function getRefererInformation($refererUrl, $currentUrl, $idSite)
+    public function getReferrerInformation($referrerUrl, $currentUrl, $idSite)
     {
         $this->idsite = $idSite;
 
         // default values for the referer_* fields
-        $refererUrl = Common::unsanitizeInputValue($refererUrl);
-        if (!empty($refererUrl)
-            && !UrlHelper::isLookLikeUrl($refererUrl)
+        $referrerUrl = Common::unsanitizeInputValue($referrerUrl);
+        if (!empty($referrerUrl)
+            && !UrlHelper::isLookLikeUrl($referrerUrl)
         ) {
-            $refererUrl = '';
+            $referrerUrl = '';
         }
 
         $currentUrl = Action::cleanupUrl($currentUrl);
 
-        $this->refererUrl = $refererUrl;
-        $this->refererUrlParse = @parse_url($this->refererUrl);
+        $this->referrerUrl = $referrerUrl;
+        $this->referrerUrlParse = @parse_url($this->referrerUrl);
         $this->currentUrlParse = @parse_url($currentUrl);
-        $this->typeRefererAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
-        $this->nameRefererAnalyzed = '';
-        $this->keywordRefererAnalyzed = '';
-        $this->refererHost = '';
+        $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
+        $this->nameReferrerAnalyzed = '';
+        $this->keywordReferrerAnalyzed = '';
+        $this->referrerHost = '';
 
-        if (isset($this->refererUrlParse['host'])) {
-            $this->refererHost = $this->refererUrlParse['host'];
+        if (isset($this->referrerUrlParse['host'])) {
+            $this->referrerHost = $this->referrerUrlParse['host'];
         }
 
-        $refererDetected = false;
+        $referrerDetected = false;
 
         if (!empty($this->currentUrlParse['host'])
-            && $this->detectRefererCampaign()
+            && $this->detectReferrerCampaign()
         ) {
-            $refererDetected = true;
+            $referrerDetected = true;
         }
 
-        if (!$refererDetected) {
-            if ($this->detectRefererDirectEntry()
-                || $this->detectRefererSearchEngine()
+        if (!$referrerDetected) {
+            if ($this->detectReferrerDirectEntry()
+                || $this->detectReferrerSearchEngine()
             ) {
-                $refererDetected = true;
+                $referrerDetected = true;
             }
         }
 
-        if (!empty($this->refererHost)
-            && !$refererDetected
+        if (!empty($this->referrerHost)
+            && !$referrerDetected
         ) {
-            $this->typeRefererAnalyzed = Common::REFERRER_TYPE_WEBSITE;
-            $this->nameRefererAnalyzed = mb_strtolower($this->refererHost, 'UTF-8');
+            $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_WEBSITE;
+            $this->nameReferrerAnalyzed = mb_strtolower($this->referrerHost, 'UTF-8');
         }
 
-        $refererInformation = array(
-            'referer_type'    => $this->typeRefererAnalyzed,
-            'referer_name'    => $this->nameRefererAnalyzed,
-            'referer_keyword' => $this->keywordRefererAnalyzed,
-            'referer_url'     => $this->refererUrl,
+        $referrerInformation = array(
+            'referer_type'    => $this->typeReferrerAnalyzed,
+            'referer_name'    => $this->nameReferrerAnalyzed,
+            'referer_keyword' => $this->keywordReferrerAnalyzed,
+            'referer_url'     => $this->referrerUrl,
         );
 
-        return $refererInformation;
+        return $referrerInformation;
     }
 
     /**
      * Search engine detection
      * @return bool
      */
-    protected function detectRefererSearchEngine()
+    protected function detectReferrerSearchEngine()
     {
-        $searchEngineInformation = UrlHelper::extractSearchEngineInformationFromUrl($this->refererUrl);
-        Piwik_PostEvent('Tracker.detectRefererSearchEngine', array(&$searchEngineInformation, $this->refererUrl));
+        $searchEngineInformation = UrlHelper::extractSearchEngineInformationFromUrl($this->referrerUrl);
+        Piwik_PostEvent('Tracker.detectReferrerSearchEngine', array(&$searchEngineInformation, $this->referrerUrl));
         if ($searchEngineInformation === false) {
             return false;
         }
-        $this->typeRefererAnalyzed = Common::REFERRER_TYPE_SEARCH_ENGINE;
-        $this->nameRefererAnalyzed = $searchEngineInformation['name'];
-        $this->keywordRefererAnalyzed = $searchEngineInformation['keywords'];
+        $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_SEARCH_ENGINE;
+        $this->nameReferrerAnalyzed = $searchEngineInformation['name'];
+        $this->keywordReferrerAnalyzed = $searchEngineInformation['keywords'];
         return true;
     }
 
@@ -151,45 +151,45 @@ class Referrer
         }
 
         if (!empty($campaignName)) {
-            $this->typeRefererAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
-            $this->nameRefererAnalyzed = $campaignName;
+            $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN;
+            $this->nameReferrerAnalyzed = $campaignName;
 
             foreach ($this->campaignKeywords as $campaignKeywordParameter) {
                 $campaignKeyword = UrlHelper::getParameterFromQueryString($string, $campaignKeywordParameter);
                 if (!empty($campaignKeyword)) {
-                    $this->keywordRefererAnalyzed = trim(urldecode($campaignKeyword));
+                    $this->keywordReferrerAnalyzed = trim(urldecode($campaignKeyword));
                     break;
                 }
             }
 
             // if the campaign keyword is empty, try to get a keyword from the referrer URL
-            if (empty($this->keywordRefererAnalyzed)) {
+            if (empty($this->keywordReferrerAnalyzed)) {
                 // Set the Campaign keyword to the keyword found in the Referrer URL if any
-                $referrerUrlInfo = UrlHelper::extractSearchEngineInformationFromUrl($this->refererUrl);
+                $referrerUrlInfo = UrlHelper::extractSearchEngineInformationFromUrl($this->referrerUrl);
                 if (!empty($referrerUrlInfo['keywords'])) {
-                    $this->keywordRefererAnalyzed = $referrerUrlInfo['keywords'];
+                    $this->keywordReferrerAnalyzed = $referrerUrlInfo['keywords'];
                 }
 
                 // Set the keyword, to the hostname found, in a Adsense Referrer URL '&url=' parameter
-                if (empty($this->keywordRefererAnalyzed)
-                    && !empty($this->refererUrlParse['query'])
-                    && !empty($this->refererHost)
-                    && (strpos($this->refererHost, 'google') !== false || strpos($this->refererHost, 'doubleclick') !== false)
+                if (empty($this->keywordReferrerAnalyzed)
+                    && !empty($this->referrerUrlParse['query'])
+                    && !empty($this->referrerHost)
+                    && (strpos($this->referrerHost, 'google') !== false || strpos($this->referrerHost, 'doubleclick') !== false)
                 ) {
                     // This parameter sometimes is found & contains the page with the adsense ad bringing visitor to our site
                     $adsenseReferrerParameter = 'url';
-                    $value = trim(urldecode(UrlHelper::getParameterFromQueryString($this->refererUrlParse['query'], $adsenseReferrerParameter)));
+                    $value = trim(urldecode(UrlHelper::getParameterFromQueryString($this->referrerUrlParse['query'], $adsenseReferrerParameter)));
                     if (!empty($value)) {
                         $parsedAdsenseReferrerUrl = parse_url($value);
                         if (!empty($parsedAdsenseReferrerUrl['host'])) {
-                            $this->keywordRefererAnalyzed = self::LABEL_PREFIX_ADSENSE_KEYWORD . $parsedAdsenseReferrerUrl['host'];
+                            $this->keywordReferrerAnalyzed = self::LABEL_PREFIX_ADSENSE_KEYWORD . $parsedAdsenseReferrerUrl['host'];
                         }
                     }
                 }
 
                 // or we default to the referrer hostname otherwise
-                if (empty($this->keywordRefererAnalyzed)) {
-                    $this->keywordRefererAnalyzed = $this->refererHost;
+                if (empty($this->keywordReferrerAnalyzed)) {
+                    $this->keywordReferrerAnalyzed = $this->referrerHost;
                 }
             }
 
@@ -202,7 +202,7 @@ class Referrer
      * Campaign analysis
      * @return bool
      */
-    protected function detectRefererCampaign()
+    protected function detectReferrerCampaign()
     {
         if (!isset($this->currentUrlParse['query'])
             && !isset($this->currentUrlParse['fragment'])
@@ -231,24 +231,24 @@ class Referrer
 
     /**
      * We have previously tried to detect the campaign variables in the URL
-     * so at this stage, if the referer host is the current host,
-     * or if the referer host is any of the registered URL for this website,
+     * so at this stage, if the referrer host is the current host,
+     * or if the referrer host is any of the registered URL for this website,
      * it is considered a direct entry
      * @return bool
      */
-    protected function detectRefererDirectEntry()
+    protected function detectReferrerDirectEntry()
     {
-        if (!empty($this->refererHost)) {
-            // is the referer host the current host?
+        if (!empty($this->referrerHost)) {
+            // is the referrer host the current host?
             if (isset($this->currentUrlParse['host'])) {
                 $currentHost = mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
-                if ($currentHost == mb_strtolower($this->refererHost, 'UTF-8')) {
-                    $this->typeRefererAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
+                if ($currentHost == mb_strtolower($this->referrerHost, 'UTF-8')) {
+                    $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                     return true;
                 }
             }
-            if (Visit::isHostKnownAliasHost($this->refererHost, $this->idsite)) {
-                $this->typeRefererAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
+            if (Visit::isHostKnownAliasHost($this->referrerHost, $this->idsite)) {
+                $this->typeReferrerAnalyzed = Common::REFERRER_TYPE_DIRECT_ENTRY;
                 return true;
             }
         }

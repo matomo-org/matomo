@@ -232,10 +232,10 @@ class GoalManager
      */
     public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
     {
-        $refererTimestamp = $this->request->getParam('_refts');
-        $refererUrl = $this->request->getParam('_ref');
-        $refererCampaignName = trim(urldecode($this->request->getParam('_rcn')));
-        $refererCampaignKeyword = trim(urldecode($this->request->getParam('_rck')));
+        $referrerTimestamp = $this->request->getParam('_refts');
+        $referrerUrl = $this->request->getParam('_ref');
+        $referrerCampaignName = trim(urldecode($this->request->getParam('_rcn')));
+        $referrerCampaignKeyword = trim(urldecode($this->request->getParam('_rck')));
         $browserLanguage = $this->request->getBrowserLanguage();
 
         $location_country = isset($visitorInformation['location_country'])
@@ -296,28 +296,28 @@ class GoalManager
 
         // 0) In some (unknown!?) cases the campaign is not found in the attribution cookie, but the URL ref was found.
         //    In this case we look up if the current visit is credited to a campaign and will credit this campaign rather than the URL ref (since campaigns have higher priority)
-        if (empty($refererCampaignName)
+        if (empty($referrerCampaignName)
             && $type == Common::REFERRER_TYPE_CAMPAIGN
             && !empty($name)
         ) {
             // Use default values per above
         } // 1) Campaigns from 1st party cookie
-        elseif (!empty($refererCampaignName)) {
+        elseif (!empty($referrerCampaignName)) {
             $type = Common::REFERRER_TYPE_CAMPAIGN;
-            $name = $refererCampaignName;
-            $keyword = $refererCampaignKeyword;
-            $time = $refererTimestamp;
+            $name = $referrerCampaignName;
+            $keyword = $referrerCampaignKeyword;
+            $time = $referrerTimestamp;
         } // 2) Referrer URL parsing
-        elseif (!empty($refererUrl)) {
+        elseif (!empty($referrerUrl)) {
             $referrer = new Referrer();
-            $referrer = $referrer->getRefererInformation($refererUrl, $currentUrl = '', $idSite);
+            $referrer = $referrer->getReferrerInformation($referrerUrl, $currentUrl = '', $idSite);
 
-            // if the parsed referer is interesting enough, ie. website or search engine
+            // if the parsed referrer is interesting enough, ie. website or search engine
             if (in_array($referrer['referer_type'], array(Common::REFERRER_TYPE_SEARCH_ENGINE, Common::REFERRER_TYPE_WEBSITE))) {
                 $type = $referrer['referer_type'];
                 $name = $referrer['referer_name'];
                 $keyword = $referrer['referer_keyword'];
-                $time = $refererTimestamp;
+                $time = $referrerTimestamp;
             }
         }
         $goal += array(

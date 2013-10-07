@@ -40,13 +40,13 @@
 			<row idgoal='ecommerceAbandonedCart'>
 				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>2510.11</revenue>
+				<revenue>2510</revenue>
 				<items>4</items>
 			</row>
 			<row idgoal='ecommerceOrder'>
 				<nb_conversions>2</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>3111.11</revenue>
+				<revenue>3111</revenue>
 				<revenue_subtotal>2500</revenue_subtotal>
 				<revenue_tax>511</revenue_tax>
 				<revenue_shipping>100.11</revenue_shipping>
@@ -55,7 +55,7 @@
 			</row>
 		</goals>
 		<nb_conversions>2</nb_conversions>
-		<revenue>3111.11</revenue>
+		<revenue>3111</revenue>
 	</row>
 	<row>
 		<label>3h</label>
@@ -109,7 +109,7 @@
 			<row idgoal='ecommerceAbandonedCart'>
 				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>2510.11</revenue>
+				<revenue>2510</revenue>
 				<items>4</items>
 			</row>
 		</goals>

@@ -585,7 +585,7 @@ class Controller extends \Piwik\Controller\Admin
     {
         $language = Common::getRequestVar('language');
         LanguagesManager::setLanguageForSession($language);
-        Url::redirectToReferer();
+        Url::redirectToReferrer();
     }
 
     /**

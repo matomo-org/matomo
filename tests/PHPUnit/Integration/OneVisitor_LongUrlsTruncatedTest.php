@@ -25,7 +25,7 @@ class Test_Piwik_Integration_OneVisitor_LongUrlsTruncated extends IntegrationTes
     public function getApiForTesting()
     {
         $apiToCall = array(
-            'Referers.getKeywords',
+            'Referrers.getKeywords',
             'Actions.getPageUrls',
 
             // Specifically testing getPlugin filter_truncate works

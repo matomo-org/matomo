@@ -27,7 +27,7 @@ use UserAgentParser;
 /**
  * Class used to handle a Visit.
  * A visit is either NEW or KNOWN.
- * - If a visit is NEW then we process the visitor information (settings, referers, etc.) and save
+ * - If a visit is NEW then we process the visitor information (settings, referrers, etc.) and save
  * a new line in the log_visit table.
  * - If a visit is KNOWN then we update the visit row in the log_visit table, updating the number of pages
  * views, time spent, etc.
@@ -173,15 +173,15 @@ class Visit implements VisitInterface
         if ($this->isVisitorKnown()
             && $isLastActionInTheSameVisit
         ) {
-            $idRefererActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
-            $idRefererActionName = $this->visitorInfo['visit_exit_idaction_name'];
+            $idReferrerActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
+            $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
             try {
                 $this->handleKnownVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted);
                 if (!is_null($action)) {
                     $action->record($this->visitorInfo['idvisit'],
                         $this->visitorInfo['idvisitor'],
-                        $idRefererActionUrl,
-                        $idRefererActionName,
+                        $idReferrerActionUrl,
+                        $idReferrerActionName,
                         $this->visitorInfo['time_spent_ref_action']
                     );
                 }
@@ -310,7 +310,7 @@ class Visit implements VisitInterface
         // trigger event before update
         Piwik_PostEvent('Tracker.knownVisitorUpdate', array(&$valuesToUpdate));
 
-        $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentRefererAction();
+        $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentReferrerAction();
 
         // update visitorInfo
         foreach ($valuesToUpdate AS $name => $value) {
@@ -355,7 +355,7 @@ class Visit implements VisitInterface
     /**
      * @return int Time in seconds
      */
-    protected function getTimeSpentRefererAction()
+    protected function getTimeSpentReferrerAction()
     {
         $timeSpent = $this->request->getCurrentTimestamp() - $this->visitorInfo['visit_last_action_time'];
         if ($timeSpent < 0
@@ -397,9 +397,9 @@ class Visit implements VisitInterface
 
         // Referrer data
         $referrer = new Referrer();
-        $refererUrl = $this->request->getParam('urlref');
+        $referrerUrl = $this->request->getParam('urlref');
         $currentUrl = $this->request->getParam('url');
-        $refererInfo = $referrer->getRefererInformation($refererUrl, $currentUrl, $this->request->getIdSite());
+        $referrerInfo = $referrer->getReferrerInformation($referrerUrl, $currentUrl, $this->request->getIdSite());
 
         $visitorReturning = $isReturningCustomer
             ? 2 /* Returning customer */
@@ -436,10 +436,10 @@ class Visit implements VisitInterface
             'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
             'visit_goal_converted'      => $visitIsConverted ? 1 : 0,
             'visit_goal_buyer'          => $this->goalManager->getBuyerType(),
-            'referer_type'              => $refererInfo['referer_type'],
-            'referer_name'              => $refererInfo['referer_name'],
-            'referer_url'               => $refererInfo['referer_url'],
-            'referer_keyword'           => $refererInfo['referer_keyword'],
+            'referer_type'              => $referrerInfo['referer_type'],
+            'referer_name'              => $referrerInfo['referer_name'],
+            'referer_url'               => $referrerInfo['referer_url'],
+            'referer_keyword'           => $referrerInfo['referer_keyword'],
             'config_id'                 => $userInfo['config_id'],
             'config_os'                 => $userInfo['config_os'],
             'config_browser_name'       => $userInfo['config_browser_name'],
@@ -954,7 +954,7 @@ class Visit implements VisitInterface
         return Common::generateUniqId();
     }
 
-    // is the referer host any of the registered URLs for this website?
+    // is the referrer host any of the registered URLs for this website?
     static public function isHostKnownAliasHost($urlHost, $idSite)
     {
         $websiteData = Cache::getCacheWebsiteAttributes($idSite);

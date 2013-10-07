@@ -30,7 +30,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
             'Actions.getSiteSearchKeywords',
             'Actions.getPageTitles',
             'Actions.getPageUrls',
-            'Referers.getWebsites',
+            'Referrers.getWebsites',
         );
 
         return array(

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Google - free &gt; proprietary</label>
+		<nb_visits>9</nb_visits>
+		<nb_actions>9</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>9</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
+		<url>http://google.com/search?q=free+%3E+proprietary</url>
+		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
+	</row>
+	<row>
+		<label>Google - justice )(&amp;^#%$ not corruption!</label>
+		<nb_visits>8</nb_visits>
+		<nb_actions>8</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>8</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+		<url>http://google.com/search?q=justice+%29%28%26%5E%23%25%24+not+corruption%21</url>
+		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
+	</row>
+	<row>
+		<label>Google - peace &quot;,&quot; not war</label>
+		<nb_visits>8</nb_visits>
+		<nb_actions>8</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>8</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+		<url>http://google.com/search?q=peace+%22%2C%22+not+war</url>
+		<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
+	</row>
+</result>

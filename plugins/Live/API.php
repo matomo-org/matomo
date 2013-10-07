@@ -23,7 +23,7 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\Referers\API as APIReferers;
+use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tracker\Action;
@@ -472,7 +472,7 @@ class API
 
             $keyword = $visit->getColumn('referrerKeyword');
             if ($keyword !== false
-                && $keyword != APIReferers::getKeywordNotDefinedString()
+                && $keyword != APIReferrers::getKeywordNotDefinedString()
             ) {
                 $result .= ' (' . $keyword . ')';
             }

@@ -384,9 +384,9 @@ class Url
      * Redirects the user to the referrer if found.
      * If the user doesn't have a referrer set, it redirects to the current URL without query string.
      */
-    static public function redirectToReferer()
+    static public function redirectToReferrer()
     {
-        $referrer = self::getReferer();
+        $referrer = self::getReferrer();
         if ($referrer !== false) {
             self::redirectToUrl($referrer);
         }
@@ -415,7 +415,7 @@ class Url
      *
      * @return string|bool
      */
-    static public function getReferer()
+    static public function getReferrer()
     {
         if (!empty($_SERVER['HTTP_REFERER'])) {
             return $_SERVER['HTTP_REFERER'];

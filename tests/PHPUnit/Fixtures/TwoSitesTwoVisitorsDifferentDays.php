@@ -69,7 +69,7 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         // First visitor on Idsite 1: two page views
         $datetimeSpanOverTwoDays = '2010-01-03 23:55:00';
         $visitorA = self::getTracker($idSite, $datetimeSpanOverTwoDays, $defaultInit = true);
-        $visitorA->setUrlReferrer('http://referer.com/page.htm?param=valuewith some spaces');
+        $visitorA->setUrlReferrer('http://referrer.com/page.htm?param=valuewith some spaces');
         $visitorA->setUrl('http://example.org/index.htm#ignoredFragment');
         $visitorA->DEBUG_APPEND_URL = '&_idts=' . Date::factory($datetimeSpanOverTwoDays)->getTimestamp();
         $visitorA->setGenerationTime(123);
@@ -103,7 +103,7 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         // Temporary, until we implement 1st party cookies in PiwikTracker
         $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts=' . Date::factory($dateTime)->getTimestamp();
 
-        $visitorB->setUrlReferrer('http://referer.com/Other_Page.htm');
+        $visitorB->setUrlReferrer('http://referrer.com/Other_Page.htm');
         $visitorB->setUrl('http://example.org/index.htm');
         $visitorB->setGenerationTime(323);
         self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
@@ -126,10 +126,10 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         self::checkBulkTrackingResponse($visitorB->doBulkTrack());
 
         // -
-        // First visitor on Idsite 2: one page view, with Website referer
+        // First visitor on Idsite 2: one page view, with Website referrer
         $visitorAsite2 = self::getTracker($idSite2, Date::factory($dateTime)->addHour(24)->getDatetime(), $defaultInit = true);
         $visitorAsite2->setUserAgent('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0;)');
-        $visitorAsite2->setUrlReferrer('http://only-homepage-referer.com/');
+        $visitorAsite2->setUrlReferrer('http://only-homepage-referrer.com/');
         $visitorAsite2->setUrl('http://example2.com/home#notIgnoredFragment#');
         $visitorAsite2->DEBUG_APPEND_URL = '&_idts=' . Date::factory($dateTime)->addHour(24)->getTimestamp();
         $visitorAsite2->setGenerationTime(193);

@@ -19,12 +19,12 @@ use Piwik\Config;
 class ImageGraph extends \Piwik\Plugin
 {
     static private $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
-        'Referers_getRefererType',
+        'Referrers_getReferrerType',
     );
 
     // row evolution support not yet implemented for these APIs
     static private $REPORTS_DISABLED_EVOLUTION_GRAPH = array(
-        'Referers_getAll',
+        'Referrers_getAll',
     );
 
     public function getInformation()

@@ -13,20 +13,20 @@ namespace Piwik\Plugins\Live;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Plugins\API\API as APIMetadata;
-use Piwik\Plugins\Referers\API as APIReferers;
+use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit;
 use Piwik\UrlHelper;
 
 /**
- * @see plugins/Referers/functions.php
+ * @see plugins/Referrers/functions.php
  * @see plugins/UserCountry/functions.php
  * @see plugins/UserSettings/functions.php
  * @see plugins/Provider/functions.php
  */
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/Provider/functions.php';
@@ -97,12 +97,12 @@ class Visitor
             'providerName'                => $this->getProviderName(),
             'providerUrl'                 => $this->getProviderUrl(),
 
-            'referrerType'                => $this->getRefererType(),
-            'referrerTypeName'            => $this->getRefererTypeName(),
-            'referrerName'                => $this->getRefererName(),
+            'referrerType'                => $this->getReferrerType(),
+            'referrerTypeName'            => $this->getReferrerTypeName(),
+            'referrerName'                => $this->getReferrerName(),
             'referrerKeyword'             => $this->getKeyword(),
             'referrerKeywordPosition'     => $this->getKeywordPosition(),
-            'referrerUrl'                 => $this->getRefererUrl(),
+            'referrerUrl'                 => $this->getReferrerUrl(),
             'referrerSearchEngineUrl'     => $this->getSearchEngineUrl(),
             'referrerSearchEngineIcon'    => $this->getSearchEngineIcon(),
             'operatingSystem'             => $this->getOperatingSystem(),
@@ -337,41 +337,41 @@ class Visitor
         return $customVariables;
     }
 
-    function getRefererType()
+    function getReferrerType()
     {
-        return \Piwik\Plugins\Referers\getRefererTypeFromShortName($this->details['referer_type']);
+        return \Piwik\Plugins\Referrers\getReferrerTypeFromShortName($this->details['referer_type']);
     }
 
-    function getRefererTypeName()
+    function getReferrerTypeName()
     {
-        return \Piwik\Plugins\Referers\getRefererTypeLabel($this->details['referer_type']);
+        return \Piwik\Plugins\Referrers\getReferrerTypeLabel($this->details['referer_type']);
     }
 
     function getKeyword()
     {
         $keyword = $this->details['referer_keyword'];
-        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')
-            && $this->getRefererType() == 'search'
+        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referrers')
+            && $this->getReferrerType() == 'search'
         ) {
-            $keyword = \Piwik\Plugins\Referers\API::getCleanKeyword($keyword);
+            $keyword = \Piwik\Plugins\Referrers\API::getCleanKeyword($keyword);
         }
         return urldecode($keyword);
     }
 
-    function getRefererUrl()
+    function getReferrerUrl()
     {
-        if ($this->getRefererType() == 'search') {
-            if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')
-                && $this->details['referer_keyword'] == APIReferers::LABEL_KEYWORD_NOT_DEFINED
+        if ($this->getReferrerType() == 'search') {
+            if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referrers')
+                && $this->details['referer_keyword'] == APIReferrers::LABEL_KEYWORD_NOT_DEFINED
             ) {
                 return 'http://piwik.org/faq/general/#faq_144';
             } // Case URL is google.XX/url.... then we rewrite to the search result page url
-            elseif ($this->getRefererName() == 'Google'
+            elseif ($this->getReferrerName() == 'Google'
                 && strpos($this->details['referer_url'], '/url')
             ) {
                 $refUrl = @parse_url($this->details['referer_url']);
                 if (isset($refUrl['host'])) {
-                    $url = \Piwik\Plugins\Referers\getSearchEngineUrlFromUrlAndKeyword('http://google.com', $this->getKeyword());
+                    $url = \Piwik\Plugins\Referrers\getSearchEngineUrlFromUrlAndKeyword('http://google.com', $this->getKeyword());
                     $url = str_replace('google.com', $refUrl['host'], $url);
                     return $url;
                 }
@@ -385,8 +385,8 @@ class Visitor
 
     function getKeywordPosition()
     {
-        if ($this->getRefererType() == 'search'
-            && strpos($this->getRefererName(), 'Google') !== false
+        if ($this->getReferrerType() == 'search'
+            && strpos($this->getReferrerName(), 'Google') !== false
         ) {
             $url = @parse_url($this->details['referer_url']);
             if (empty($url['query'])) {
@@ -400,17 +400,17 @@ class Visitor
         return null;
     }
 
-    function getRefererName()
+    function getReferrerName()
     {
         return urldecode($this->details['referer_name']);
     }
 
     function getSearchEngineUrl()
     {
-        if ($this->getRefererType() == 'search'
+        if ($this->getReferrerType() == 'search'
             && !empty($this->details['referer_name'])
         ) {
-            return \Piwik\Plugins\Referers\getSearchEngineUrlFromName($this->details['referer_name']);
+            return \Piwik\Plugins\Referrers\getSearchEngineUrlFromName($this->details['referer_name']);
         }
         return null;
     }
@@ -419,7 +419,7 @@ class Visitor
     {
         $searchEngineUrl = $this->getSearchEngineUrl();
         if (!is_null($searchEngineUrl)) {
-            return \Piwik\Plugins\Referers\getSearchEngineLogoFromUrl($searchEngineUrl);
+            return \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl($searchEngineUrl);
         }
         return null;
     }

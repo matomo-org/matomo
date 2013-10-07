@@ -42,7 +42,7 @@ class ExamplePlugin extends \Piwik\Plugin
     public function addUniqueVisitorsColumnToGivenReport($view)
     {
         $view = $view['view'];
-        if ($view->getCurrentControllerName() == 'Referers'
+        if ($view->getCurrentControllerName() == 'Referrers'
             && $view->getCurrentControllerAction() == 'getWebsites'
         ) {
             $view->columns_to_display[] = 'nb_uniq_visitors';

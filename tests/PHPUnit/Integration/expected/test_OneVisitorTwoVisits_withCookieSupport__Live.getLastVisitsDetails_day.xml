@@ -74,7 +74,7 @@
 		<referrerKeywordPosition />
 		<referrerUrl>http://search.yahoo.com/search?p=purchase</referrerUrl>
 		<referrerSearchEngineUrl>http://search.yahoo.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/search.yahoo.com.png</referrerSearchEngineIcon>
+		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/search.yahoo.com.png</referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
@@ -255,10 +255,10 @@
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>referer.com</referrerName>
+		<referrerName>referrer.com</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
-		<referrerUrl>http://referer.com/page.htm?param=valuewith some spaces</referrerUrl>
+		<referrerUrl>http://referrer.com/page.htm?param=valuewith some spaces</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>

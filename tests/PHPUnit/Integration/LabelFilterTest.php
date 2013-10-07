@@ -106,10 +106,10 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
                 'expanded' => 0
             )
         );
-        $return[] = array('Referers.getSearchEngines', $searchEngineTest);
+        $return[] = array('Referrers.getSearchEngines', $searchEngineTest);
 
         $searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword)));
-        $return[] = array('Referers.getSearchEngines', $searchEngineTest);
+        $return[] = array('Referrers.getSearchEngines', $searchEngineTest);
 
         return $return;
     }

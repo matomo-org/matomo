@@ -26,7 +26,7 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
 
     public function getApiForTesting()
     {
-        $apiToCall = array('VisitsSummary.get', 'Referers.getCampaigns', 'Referers.getWebsites');
+        $apiToCall = array('VisitsSummary.get', 'Referrers.getCampaigns', 'Referrers.getWebsites');
 
         return array(
             // TOTAL should be: 1 visit, 1 converted goal, 1 page view

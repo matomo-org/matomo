@@ -52,7 +52,7 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomVariables extends Test_Piwik_BaseFix
         $idGoal2 = $this->idGoal2;
 
         $visitorA = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        // Used to test actual referer + keyword position in Live!
+        // Used to test actual referrer + keyword position in Live!
         $visitorA->setUrlReferrer(urldecode('http://www.google.com/url?sa=t&source=web&cd=1&ved=0CB4QFjAA&url=http%3A%2F%2Fpiwik.org%2F&rct=j&q=this%20keyword%20should%20be%20ranked&ei=V8WfTePkKKLfiALrpZWGAw&usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&sig2=BvKAdCtNixsmfNWXjsNyMw'));
 
         // no campaign, but a search engine to attribute the goal conversion to

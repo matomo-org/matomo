@@ -163,7 +163,7 @@ var broadcast = {
     /**
      * propagateAjax -- update hash values then make ajax calls.
      *    example :
-     *       1) <a href="javascript:broadcast.propagateAjax('module=Referers&action=getKeywords')">View keywords report</a>
+     *       1) <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getKeywords')">View keywords report</a>
      *       2) Main menu li also goes through this function.
      *
      * Will propagate your new value into the current hash string and make ajax calls.

@@ -82,7 +82,7 @@ class Proxy
      * The module to be registered must be
      * - a singleton (providing a getInstance() method)
      * - the API file must be located in plugins/ModuleName/API.php
-     *   for example plugins/Referers/API.php
+     *   for example plugins/Referrers/API.php
      *
      * The method will introspect the methods, their parameters, etc.
      *
@@ -228,7 +228,7 @@ class Proxy
      * Returns the 'moduleName' part of 'Piwik_moduleName_API' classname
      *
      * @param string $className  "API"
-     * @return string "Referers"
+     * @return string "Referrers"
      */
     public function getModuleNameFromClassName($className)
     {

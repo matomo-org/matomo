@@ -70,9 +70,9 @@ class Nonce
             return false;
         }
 
-        // validate referer
-        $referer = Url::getReferer();
-        if (!empty($referer) && !Url::isLocalUrl($referer)) {
+        // validate referrer
+        $referrer = Url::getReferrer();
+        if (!empty($referrer) && !Url::isLocalUrl($referrer)) {
             return false;
         }
 

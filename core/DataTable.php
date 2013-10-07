@@ -62,7 +62,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *                        'visits' => 1550,
  *                        'visits_length' => 514214,
  *                        'returning_visits' => 77)
- * - metadata = array(    'logo' => '/plugins/Referers/images/searchEngines/google.com.png',
+ * - metadata = array(    'logo' => '/plugins/Referrers/images/searchEngines/google.com.png',
  *                        'url' => 'http://google.com')
  * - DataTable = DataTable containing several DataTable\Row containing the keywords information for this search engine
  *            Example of one DataTable\Row

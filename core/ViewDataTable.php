@@ -739,7 +739,7 @@ class ViewDataTable
     }
 
     /**
-     * @return string URL to call the API, eg. "method=Referers.getKeywords&period=day&date=yesterday"...
+     * @return string URL to call the API, eg. "method=Referrers.getKeywords&period=day&date=yesterday"...
      */
     public function getRequestArray()
     {

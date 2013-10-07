@@ -97,7 +97,7 @@
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2510.11</revenue>
+				<revenue>2510</revenue>
 				<items>4</items>
 				
 				<itemDetails>
@@ -289,7 +289,7 @@
 			<row>
 				<type>ecommerceOrder</type>
 				<orderId>937nsjusu 3894</orderId>
-				<revenue>1111.11</revenue>
+				<revenue>1111</revenue>
 				<revenueSubTotal>1000</revenueSubTotal>
 				<revenueTax>111</revenueTax>
 				<revenueShipping>0.11</revenueShipping>
@@ -425,7 +425,7 @@
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2510.11</revenue>
+				<revenue>2510</revenue>
 				<items>4</items>
 				
 				<itemDetails>

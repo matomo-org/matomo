@@ -74,7 +74,7 @@ class Controller extends \Piwik\Controller
             $mail->setBodyText(Common::unsanitizeInputValue($body) . "\n"
                 . 'Piwik ' . Version::VERSION . "\n"
                 . 'IP: ' . IP::getIpFromHeader() . "\n"
-                . 'URL: ' . Url::getReferer() . "\n");
+                . 'URL: ' . Url::getReferrer() . "\n");
             @$mail->send();
         } catch (Exception $e) {
             $view->errorString = $e->getMessage();

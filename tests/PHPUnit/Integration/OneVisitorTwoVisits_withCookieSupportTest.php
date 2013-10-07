@@ -8,7 +8,7 @@
 
 /**
  * Same as OneVisitorTwoVisits.test.php, but with cookie support, which incurs some slight changes
- * in the reporting data (more accurate unique visitor count, better referer tracking for goals, etc.)
+ * in the reporting data (more accurate unique visitor count, better referrer tracking for goals, etc.)
  */
 class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends IntegrationTestCase
 {
@@ -28,7 +28,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Integ
     {
         $apiToCall = array(
             'VisitTime', 'VisitsSummary', 'VisitorInterest', 'VisitFrequency', 'UserSettings',
-            'UserCountry', 'Referers', 'Provider', 'Goals', 'CustomVariables', 'CoreAdminHome',
+            'UserCountry', 'Referrers', 'Provider', 'Goals', 'CustomVariables', 'CoreAdminHome',
             'Actions', 'Live.getLastVisitsDetails');
 
         return array(

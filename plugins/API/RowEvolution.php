@@ -197,7 +197,7 @@ class RowEvolution
         $url = $row->getMetadata('url');
         if ($url
             && ($apiModule == 'Actions'
-                || ($apiModule == 'Referers'
+                || ($apiModule == 'Referrers'
                     && $apiAction == 'getWebsites'))
             && $labelUseAbsoluteUrl
         ) {

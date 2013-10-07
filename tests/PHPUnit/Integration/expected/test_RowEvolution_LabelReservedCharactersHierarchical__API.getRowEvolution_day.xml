@@ -255,7 +255,7 @@
 			</nb_visits_2>
 			<nb_visits_3>
 				<name>Google (Visits)</name>
-				<logo>plugins/Referers/images/searchEngines/google.com.png</logo>
+				<logo>plugins/Referrers/images/searchEngines/google.com.png</logo>
 				<min>1</min>
 				<max>1</max>
 				<change>0%</change>

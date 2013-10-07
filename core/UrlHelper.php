@@ -153,9 +153,9 @@ class UrlHelper
 
         $urlQuery = $separator . $urlQuery;
         //		$urlQuery = str_replace(array('%20'), ' ', $urlQuery);
-        $refererQuery = trim($urlQuery);
+        $referrerQuery = trim($urlQuery);
 
-        $values = explode($separator, $refererQuery);
+        $values = explode($separator, $referrerQuery);
 
         $nameToValue = array();
 
@@ -245,7 +245,7 @@ class UrlHelper
      *       as the google keyword parameter couldn't be found.
      *
      * @see unit tests in /tests/core/Common.test.php
-     * @param string $referrerUrl  URL referer URL, eg. $_SERVER['HTTP_REFERER']
+     * @param string $referrerUrl  URL referrer URL, eg. $_SERVER['HTTP_REFERER']
      * @return array|bool   false if a keyword couldn't be extracted,
      *                        or array(
      *                            'name' => 'Google',
@@ -253,62 +253,62 @@ class UrlHelper
      */
     public static function extractSearchEngineInformationFromUrl($referrerUrl)
     {
-        $refererParsed = @parse_url($referrerUrl);
-        $refererHost = '';
-        if (isset($refererParsed['host'])) {
-            $refererHost = $refererParsed['host'];
+        $referrerParsed = @parse_url($referrerUrl);
+        $referrerHost = '';
+        if (isset($referrerParsed['host'])) {
+            $referrerHost = $referrerParsed['host'];
         }
-        if (empty($refererHost)) {
+        if (empty($referrerHost)) {
             return false;
         }
         // some search engines (eg. Bing Images) use the same domain
         // as an existing search engine (eg. Bing), we must also use the url path
-        $refererPath = '';
-        if (isset($refererParsed['path'])) {
-            $refererPath = $refererParsed['path'];
+        $referrerPath = '';
+        if (isset($referrerParsed['path'])) {
+            $referrerPath = $referrerParsed['path'];
         }
 
         // no search query
-        if (!isset($refererParsed['query'])) {
-            $refererParsed['query'] = '';
+        if (!isset($referrerParsed['query'])) {
+            $referrerParsed['query'] = '';
         }
-        $query = $refererParsed['query'];
+        $query = $referrerParsed['query'];
 
         // Google Referrers URLs sometimes have the fragment which contains the keyword
-        if (!empty($refererParsed['fragment'])) {
-            $query .= '&' . $refererParsed['fragment'];
+        if (!empty($referrerParsed['fragment'])) {
+            $query .= '&' . $referrerParsed['fragment'];
         }
 
         $searchEngines = Common::getSearchEngineUrls();
 
-        $hostPattern = self::getLossyUrl($refererHost);
-        if (array_key_exists($refererHost . $refererPath, $searchEngines)) {
-            $refererHost = $refererHost . $refererPath;
-        } elseif (array_key_exists($hostPattern . $refererPath, $searchEngines)) {
-            $refererHost = $hostPattern . $refererPath;
+        $hostPattern = self::getLossyUrl($referrerHost);
+        if (array_key_exists($referrerHost . $referrerPath, $searchEngines)) {
+            $referrerHost = $referrerHost . $referrerPath;
+        } elseif (array_key_exists($hostPattern . $referrerPath, $searchEngines)) {
+            $referrerHost = $hostPattern . $referrerPath;
         } elseif (array_key_exists($hostPattern, $searchEngines)) {
-            $refererHost = $hostPattern;
-        } elseif (!array_key_exists($refererHost, $searchEngines)) {
+            $referrerHost = $hostPattern;
+        } elseif (!array_key_exists($referrerHost, $searchEngines)) {
             if (!strncmp($query, 'cx=partner-pub-', 15)) {
                 // Google custom search engine
-                $refererHost = 'google.com/cse';
-            } elseif (!strncmp($refererPath, '/pemonitorhosted/ws/results/', 28)) {
+                $referrerHost = 'google.com/cse';
+            } elseif (!strncmp($referrerPath, '/pemonitorhosted/ws/results/', 28)) {
                 // private-label search powered by InfoSpace Metasearch
-                $refererHost = 'wsdsold.infospace.com';
-            } elseif (strpos($refererHost, '.images.search.yahoo.com') != false) {
+                $referrerHost = 'wsdsold.infospace.com';
+            } elseif (strpos($referrerHost, '.images.search.yahoo.com') != false) {
                 // Yahoo! Images
-                $refererHost = 'images.search.yahoo.com';
-            } elseif (strpos($refererHost, '.search.yahoo.com') != false) {
+                $referrerHost = 'images.search.yahoo.com';
+            } elseif (strpos($referrerHost, '.search.yahoo.com') != false) {
                 // Yahoo!
-                $refererHost = 'search.yahoo.com';
+                $referrerHost = 'search.yahoo.com';
             } else {
                 return false;
             }
         }
-        $searchEngineName = $searchEngines[$refererHost][0];
+        $searchEngineName = $searchEngines[$referrerHost][0];
         $variableNames = null;
-        if (isset($searchEngines[$refererHost][1])) {
-            $variableNames = $searchEngines[$refererHost][1];
+        if (isset($searchEngines[$referrerHost][1])) {
+            $variableNames = $searchEngines[$referrerHost][1];
         }
         if (!$variableNames) {
             $searchEngineNames = Common::getSearchEngineNames();
@@ -391,7 +391,7 @@ class UrlHelper
                                     strpos($query, '&q=') !== false
                                     || strpos($query, '?q=') !== false
                                     // then they started sending the full host only (no path/query string)
-                                    || (empty($query) && (empty($refererPath) || $refererPath == '/') && empty($refererParsed['fragment']))
+                                    || (empty($query) && (empty($referrerPath) || $referrerPath == '/') && empty($referrerParsed['fragment']))
                                 )
                             )
                             // search engines with no keyword
@@ -418,10 +418,10 @@ class UrlHelper
 
         if (!empty($key)) {
             if (function_exists('iconv')
-                && isset($searchEngines[$refererHost][3])
+                && isset($searchEngines[$referrerHost][3])
             ) {
                 // accepts string, array, or comma-separated list string in preferred order
-                $charsets = $searchEngines[$refererHost][3];
+                $charsets = $searchEngines[$referrerHost][3];
                 if (!is_array($charsets)) {
                     $charsets = explode(',', $charsets);
                 }

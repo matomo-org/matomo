@@ -69,7 +69,7 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
             'date'       => $dateTime,
             'segment'    => 'referrerUrl==http://www.google.com/search?q=piwik',
         ));
-        $return[] = array('Referers.getKeywordsForPageUrl', array(
+        $return[] = array('Referrers.getKeywordsForPageUrl', array(
             'testSuffix'             => '_keywords',
             'idSite'                 => $idSite,
             'date'                   => $dateTime,
