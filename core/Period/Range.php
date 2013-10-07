@@ -22,6 +22,7 @@ use Piwik\Period\Week;
  *
  * @package Piwik
  * @subpackage Period
+ * @api
  */
 class Range extends Period
 {

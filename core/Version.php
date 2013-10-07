@@ -15,6 +15,8 @@ namespace Piwik;
  * Piwik version information.
  *
  * @package Piwik
+ *
+ * @api
  */
 final class Version
 {

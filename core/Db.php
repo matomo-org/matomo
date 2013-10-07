@@ -19,6 +19,7 @@ use Piwik\Config;
  * SQL wrapper
  *
  * @package PluginsFunctions
+ * @api
  */
 class Db
 {

@@ -10,6 +10,12 @@
  */
 namespace Piwik;
 
+/**
+ * Class UrlHelper
+ * @package Piwik
+ *
+ * @api
+ */
 class UrlHelper
 {
     /**

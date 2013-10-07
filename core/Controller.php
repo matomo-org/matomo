@@ -29,6 +29,7 @@ use Piwik\ViewDataTable;
  * It defines some helper functions controllers can use.
  *
  * @package Piwik
+ * @api
  */
 abstract class Controller
 {

@@ -64,6 +64,7 @@ class Common
      *
      * @param string $table  The table name to prefix, ie "log_visit"
      * @return string  The table name prefixed, ie "piwik-production_log_visit"
+     * @api
      */
     public static function prefixTable($table)
     {
@@ -91,6 +92,7 @@ class Common
      *
      * @param string $table
      * @return string
+     * @api
      */
     public static function unprefixTable($table)
     {
@@ -374,6 +376,7 @@ class Common
      *                    or if the variable we want to read doesn't have neither a value nor a default value specified
      *
      * @return mixed The variable after cleaning
+     * @api
      */
     public static function getRequestVar($varName, $varDefault = null, $varType = null, $requestArrayToUse = null)
     {
@@ -573,6 +576,7 @@ class Common
      *
      * @param mixed $value
      * @return string
+     * @api
      */
     public static function json_encode($value)
     {
@@ -586,6 +590,7 @@ class Common
      * @param string $json
      * @param bool $assoc
      * @return mixed
+     * @api
      */
     public static function json_decode($json, $assoc = false)
     {
@@ -638,6 +643,7 @@ class Common
      * @see core/DataFiles/Languages.php
      *
      * @return array  Array of 2 letter ISO codes => Language name (in English)
+     * @api
      */
     public static function getLanguagesList()
     {
@@ -653,6 +659,7 @@ class Common
      * @see core/DataFiles/LanguageToCountry.php
      *
      * @return array  Array of ( 2 letter ISO language codes => 2 letter ISO country codes )
+     * @api
      */
     public static function getLanguageToCountryList()
     {

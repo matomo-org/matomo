@@ -17,7 +17,6 @@ namespace Piwik;
  * - create a new cookie, set values, expiration date, etc. and save it
  *
  * @package Piwik
- * @api
  */
 class Cookie
 {

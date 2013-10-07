@@ -17,6 +17,7 @@ use Exception;
  * and handle URL redirection.
  *
  * @package Piwik
+ * @api
  */
 class Url
 {

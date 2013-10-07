@@ -12,6 +12,8 @@ namespace Piwik;
 
 /**
  * This class holds the various mappings we use to internally store and manipulate metrics.
+ *
+ * @api
  */
 class Metrics
 {

@@ -47,6 +47,8 @@ use Piwik\DataAccess\ArchiveSelector;
  *
  * @package Piwik
  * @subpackage Archive
+ *
+ * @api
  */
 class Archive
 {

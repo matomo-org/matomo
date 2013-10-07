@@ -89,6 +89,7 @@ namespace {
      * @param string $message Translation string index
      * @param array $args sprintf arguments
      * @return string
+     * @api
      */
     function Piwik_TranslateException($message, $args = array())
     {
@@ -142,6 +143,7 @@ namespace {
      * @param string $url
      * @param boolean $displayedForCurrentUser
      * @param int $order
+     * @api
      */
     function Piwik_AddAdminMenu($adminMenuName, $url, $displayedForCurrentUser = true, $order = 10)
     {
@@ -156,6 +158,7 @@ namespace {
      * @param string $url
      * @param boolean $displayedForCurrentUser
      * @param int $order
+     * @api
      */
     function Piwik_AddAdminSubMenu($adminMenuName, $adminSubMenuName, $url, $displayedForCurrentUser = true, $order = 10)
     {
@@ -192,6 +195,7 @@ namespace {
      * @param string $url
      * @param boolean $displayedForCurrentUser
      * @param int $order
+     * @api
      */
     function Piwik_AddMenu($mainMenuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 10)
     {
@@ -243,6 +247,7 @@ namespace {
      * @param int         $order
      * @param bool        $isHTML
      * @param bool|string $tooltip Tooltip to display.
+     * @api
      */
     function Piwik_AddTopMenu($topMenuName, $data, $displayedForCurrentUser = true, $order = 10, $isHTML = false,
                               $tooltip = false)

@@ -29,6 +29,8 @@ use Piwik\SettingsPiwik;
  *
  * @package Piwik
  * @subpackage ArchiveProcessor
+ *
+ * @api
  */
 class Period extends ArchiveProcessor
 {

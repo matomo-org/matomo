@@ -21,6 +21,7 @@ use Exception;
  * - openx/lib/max/Delivery/cache.php
  *
  * @package Piwik
+ * @api
  */
 class CacheFile
 {

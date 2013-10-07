@@ -17,6 +17,7 @@ use Piwik\Plugins\SitesManager\API;
 /**
  *
  * @package Piwik
+ * @api
  */
 class Site
 {

@@ -12,6 +12,12 @@ namespace Piwik;
 
 use Exception;
 
+/**
+ * Class SettingsPiwik
+ * @package Piwik
+ *
+ * @api
+ */
 class SettingsPiwik
 {
     /**

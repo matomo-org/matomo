@@ -18,6 +18,8 @@ use Piwik\DataTable;
  * This class
  * @package Piwik
  * @subpackage ArchiveProcessor
+ *
+ * @api
  */
 class Day extends ArchiveProcessor
 {

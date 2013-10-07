@@ -45,6 +45,8 @@ use Piwik\UrlHelper;
  * @see http://piwik.org/docs/analytics-api
  * @package Piwik
  * @subpackage Piwik_API
+ *
+ * @api
  */
 class Request
 {

@@ -14,6 +14,10 @@ use Piwik\Common;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * BaseClass for console commands.
+ * @package Piwik_Console
+ */
 class Command extends SymfonyCommand
 {
     public function __construct($name = null)

@@ -24,6 +24,7 @@ use Piwik\Session\SessionNamespace;
  * - a mix of PRNGs (pseudo-random number generators) to increase entropy and make it less predictable
  *
  * @package Piwik
+ * @api
  */
 class Nonce
 {

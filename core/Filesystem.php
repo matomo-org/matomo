@@ -13,6 +13,11 @@ namespace Piwik;
 use Exception;
 use Piwik\Tracker\Cache;
 
+/**
+ * Class Filesystem
+ * @package Piwik
+ * @api
+ */
 class Filesystem
 {
     /**

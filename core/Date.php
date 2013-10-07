@@ -16,6 +16,7 @@ use Exception;
  * Date object widely used in Piwik.
  *
  * @package Piwik
+ * @api
  */
 class Date
 {

@@ -28,6 +28,8 @@ if (!defined('PIWIK_USER_PATH')) {
  * View class to render the user interface
  *
  * @package Piwik
+ *
+ * @api
  */
 class View implements ViewInterface
 {

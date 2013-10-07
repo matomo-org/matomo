@@ -107,6 +107,8 @@ use Piwik\ViewDataTable\Visualization;
  * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
  * @subpackage ViewDataTable
+ *
+ * @api
  */
 class ViewDataTable
 {

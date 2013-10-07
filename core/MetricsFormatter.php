@@ -12,6 +12,12 @@ namespace Piwik;
 
 use Piwik\Tracker\GoalManager;
 
+/**
+ * Class MetricsFormatter
+ * @package Piwik
+ *
+ * @api
+ */
 class MetricsFormatter
 {
     /**

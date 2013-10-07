@@ -65,6 +65,7 @@ class Piwik
      * ... and dies
      *
      * @param string $message
+     * @api
      */
     static public function exitWithErrorMessage($message)
     {
@@ -167,6 +168,7 @@ class Piwik
      * Get current user email address
      *
      * @return string
+     * @api
      */
     static public function getCurrentUserEmail()
     {
@@ -181,6 +183,7 @@ class Piwik
      * Returns Super User login
      *
      * @return string
+     * @api
      */
     static public function getSuperUserLogin()
     {
@@ -191,6 +194,7 @@ class Piwik
      * Returns Super User email
      *
      * @return string
+     * @api
      */
     static public function getSuperUserEmail()
     {
@@ -202,6 +206,7 @@ class Piwik
      * Get current user login
      *
      * @return string  login ID
+     * @api
      */
     static public function getCurrentUserLogin()
     {
@@ -212,6 +217,7 @@ class Piwik
      * Get current user's token auth
      *
      * @return string  Token auth
+     * @api
      */
     static public function getCurrentUserTokenAuth()
     {
@@ -224,6 +230,8 @@ class Piwik
      *
      * @param string $theUser
      * @return bool
+     *
+     * @api
      */
     static public function isUserIsSuperUserOrTheUser($theUser)
     {
@@ -240,6 +248,7 @@ class Piwik
      *
      * @param string $theUser
      * @throws NoAccessException  if the user is neither the super user nor the user $theUser
+     * @api
      */
     static public function checkUserIsSuperUserOrTheUser($theUser)
     {
@@ -257,6 +266,7 @@ class Piwik
      * Returns true if the current user is the Super User
      *
      * @return bool
+     * @api
      */
     static public function isUserIsSuperUser()
     {
@@ -272,6 +282,7 @@ class Piwik
      * Is user the anonymous user?
      *
      * @return bool  True if anonymouse; false otherwise
+     * @api
      */
     static public function isUserIsAnonymous()
     {
@@ -282,6 +293,7 @@ class Piwik
      * Checks if user is not the anonymous user.
      *
      * @throws NoAccessException  if user is anonymous.
+     * @api
      */
     static public function checkUserIsNotAnonymous()
     {
@@ -295,6 +307,7 @@ class Piwik
      * This should be used with great care as this gives the user all permissions.
      *
      * @param bool $bool  true to set current user as super user
+     * @api
      */
     static public function setUserIsSuperUser($bool = true)
     {
@@ -305,6 +318,7 @@ class Piwik
      * Check that user is the superuser
      *
      * @throws Exception if not the superuser
+     * @api
      */
     static public function checkUserIsSuperUser()
     {
@@ -315,7 +329,10 @@ class Piwik
      * Returns true if the user has admin access to the sites
      *
      * @param mixed $idSites
+     *
      * @return bool
+     *
+     * @api
      */
     static public function isUserHasAdminAccess($idSites)
     {
@@ -332,6 +349,7 @@ class Piwik
      *
      * @param mixed $idSites
      * @throws Exception if user doesn't have admin access to the sites
+     * @api
      */
     static public function checkUserHasAdminAccess($idSites)
     {
@@ -342,6 +360,7 @@ class Piwik
      * Returns true if the user has admin access to any sites
      *
      * @return bool
+     * @api
      */
     static public function isUserHasSomeAdminAccess()
     {
@@ -357,6 +376,7 @@ class Piwik
      * Check user has admin access to any sites
      *
      * @throws Exception if user doesn't have admin access to any sites
+     * @api
      */
     static public function checkUserHasSomeAdminAccess()
     {
@@ -368,6 +388,8 @@ class Piwik
      *
      * @param mixed $idSites
      * @return bool
+     *
+     * @api
      */
     static public function isUserHasViewAccess($idSites)
     {
@@ -384,6 +406,8 @@ class Piwik
      *
      * @param mixed $idSites
      * @throws Exception if user doesn't have view access to sites
+     *
+     * @api
      */
     static public function checkUserHasViewAccess($idSites)
     {
@@ -394,6 +418,8 @@ class Piwik
      * Returns true if the user has view access to any sites
      *
      * @return bool
+     *
+     * @api
      */
     static public function isUserHasSomeViewAccess()
     {
@@ -409,6 +435,8 @@ class Piwik
      * Check user has view access to any sites
      *
      * @throws Exception if user doesn't have view access to any sites
+     *
+     * @api
      */
     static public function checkUserHasSomeViewAccess()
     {
@@ -445,6 +473,8 @@ class Piwik
      * Returns the current module read from the URL (eg. 'API', 'UserSettings', etc.)
      *
      * @return string
+     *
+     * @api
      */
     static public function getModule()
     {
@@ -455,6 +485,8 @@ class Piwik
      * Returns the current action read from the URL
      *
      * @return string
+     *
+     * @api
      */
     static public function getAction()
     {
@@ -490,6 +522,8 @@ class Piwik
      * @param string $newAction   Target action
      * @param array $parameters  Parameters to modify in the URL
      * @return bool  false if the URL to redirect to is already this URL
+     *
+     * @api
      */
     static public function redirectToModule($newModule, $newAction = '', $parameters = array())
     {
@@ -509,6 +543,8 @@ class Piwik
      *
      * @param string $email
      * @return bool
+     *
+     * @api
      */
     static public function isValidEmailString($email)
     {

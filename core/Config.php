@@ -51,6 +51,7 @@ class Config
      * Returns the singleton Piwik_Config
      *
      * @return \Piwik\Config
+     * @api
      */
     public static function getInstance()
     {
@@ -291,6 +292,7 @@ class Config
      * @param string $name
      * @return string|array The value requested, returned by reference
      * @throws Exception if the value requested not found in both files
+     * @api
      */
     public function &__get($name)
     {
@@ -341,6 +343,7 @@ class Config
      *
      * @param string $name This corresponds to the section name
      * @param mixed $value
+     * @api
      */
     public function __set($name, $value)
     {
@@ -514,6 +517,7 @@ class Config
 
     /**
      * Force save
+     * @api
      */
     public function forceSave()
     {

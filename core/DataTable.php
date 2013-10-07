@@ -144,6 +144,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *
  * @package Piwik
  * @subpackage DataTable
+ *
+ * @api
  */
 class DataTable
 {
