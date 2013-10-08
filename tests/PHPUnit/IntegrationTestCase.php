@@ -710,7 +710,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl)
+    protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst)
     {
         $isTestLogImportReverseChronological = strpos($testName, 'ImportedInRandomOrderTest') === false;
         $isLiveMustDeleteDates = (strpos($requestUrl, 'Live.getLastVisits') !== false
@@ -721,7 +721,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $request = new Request($requestUrl);
         $dateTime = Common::getRequestVar('date', '', 'string', UrlHelper::getArrayFromQueryString($requestUrl));
 
-        list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths($testName, $apiId);
+        list($processedFilePath, $expectedFilePath) =
+            $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
 
         // Cast as string is important. For example when calling
         // with format=original, objects or php arrays can be returned.
@@ -874,16 +875,19 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         return array($path . '/processed/', $path . '/expected/');
     }
 
-    private function getProcessedAndExpectedPaths($testName, $testId, $format = null)
+    private function getProcessedAndExpectedPaths($testName, $testId, $format = null, $compareAgainst = false)
     {
-        $filename = $testName . '__' . $testId;
+        $filenameSuffix = '__' . $testId;
         if ($format) {
-            $filename .= ".$format";
+            $filenameSuffix .= ".$format";
         }
+
+        $processedFilename = $testName . $filenameSuffix;
+        $expectedFilename = ($compareAgainst ?: $testName) . $filenameSuffix;
 
         list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
 
-        return array($processedDir . $filename, $expectedDir . $filename);
+        return array($processedDir . $processedFilename, $expectedDir . $expectedFilename);
     }
 
     private function loadExpectedFile($filePath)
@@ -952,7 +956,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         if ($api == 'all') {
             self::setApiToCall(array());
-            self::setApiNotToCall(self::$defaultApiNotToCall);
+            self::setApiNotToCall(static::$defaultApiNotToCall);
         } else {
             if (!is_array($api)) {
                 $api = array($api);
@@ -1013,8 +1017,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             isset($params['supertableApi']) ? $params['supertableApi'] : false,
             isset($params['fileExtension']) ? $params['fileExtension'] : false);
 
+        $compareAgainst = isset($params['compareAgainst']) ? ('test_' . $params['compareAgainst']) : false;
         foreach ($requestUrls as $apiId => $requestUrl) {
-            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl);
+            $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl, $compareAgainst);
         }
 
         // change the language back to en

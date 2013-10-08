@@ -9,58 +9,63 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DbHelper;
+use Piwik\Db;
 
 /**
- * Reusable fixture. Loads a ~1GB SQL dump into the DB.
+ * Reusable fixture. Loads a SQL dump into the DB.
  */
 class Piwik_Test_Fixture_SqlDump
 {
-    public static $dumpUrl = "http://piwik-team.s3.amazonaws.com/generated-logs-one-day.sql.gz";
-
     public $date = '2012-09-03';
+    public $dateTime = '2012-09-03';
     public $period = 'day';
     public $idSite = 'all';
     public $tablesPrefix = 'piwik_';
+    public $dumpUrl = "http://piwik-team.s3.amazonaws.com/generated-logs-one-day.sql.gz";
 
     public function setUp()
     {
-        $dumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql.gz';
-        $deflatedDumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql';
-        $bufferSize = 1024 * 1024;
-
         // drop all tables
         DbHelper::dropTables();
 
-        // download data dump
-        $dump = fopen(self::$dumpUrl, 'rb');
-        $outfile = fopen($dumpPath, 'wb');
-        $bytesRead = 0;
-        while (!feof($dump)) {
-            fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
-            $bytesRead += $bufferSize;
-        }
-        fclose($dump);
-        fclose($outfile);
+        // download data dump if url supplied
+        if (is_file($this->dumpUrl)) {
+            $deflatedDumpPath = $this->dumpUrl;
+        } else {
+            $dumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql.gz';
+            $deflatedDumpPath = PIWIK_INCLUDE_PATH . '/tmp/logdump.sql'; // TODO: should depend on name of URL
+            $bufferSize = 1024 * 1024;
 
-        if ($bytesRead <= 40 * 1024 * 1024) // sanity check
-        {
-            throw new Exception("Could not download sql dump!");
-        }
+            $dump = fopen($this->dumpUrl, 'rb');
+            $outfile = fopen($dumpPath, 'wb');
+            $bytesRead = 0;
+            while (!feof($dump)) {
+                fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
+                $bytesRead += $bufferSize;
+            }
+            fclose($dump);
+            fclose($outfile);
 
-        // unzip the dump
-        exec("gunzip -c \"" . $dumpPath . "\" > \"$deflatedDumpPath\"", $output, $return);
-        if ($return !== 0) {
-            throw new Exception("gunzip failed: " . implode("\n", $output));
+            if ($bytesRead <= 40 * 1024 * 1024) { // sanity check
+                throw new Exception("Could not download sql dump!");
+            }
+
+            // unzip the dump
+            exec("gunzip -c \"" . $dumpPath . "\" > \"$deflatedDumpPath\"", $output, $return);
+            if ($return !== 0) {
+                throw new Exception("gunzip failed: " . implode("\n", $output));
+            }
         }
 
         // load the data into the correct database
         $user = Config::getInstance()->database['username'];
         $password = Config::getInstance()->database['password'];
         $dbName = Config::getInstance()->database['dbname'];
-        Config::getInstance()->database['tables_prefix'] = 'piwik_';
+        Config::getInstance()->database['tables_prefix'] = $this->tablesPrefix;
         Common::$cachedTablePrefix = null;
 
-        exec("mysql -u \"$user\" \"--password=$password\" $dbName < \"" . $deflatedDumpPath . "\" 2>&1", $output, $return);
+        $cmd = "mysql -u \"$user\" \"--password=$password\" $dbName < \"" . $deflatedDumpPath . "\" 2>&1";
+        exec($cmd, $output, $return);
         if ($return !== 0) {
             throw new Exception("Failed to load sql dump: " . implode("\n", $output));
         }
