@@ -261,8 +261,9 @@ class Updater
                     // This should not happen
                     $currentVersion = Version::VERSION;
                 } else {
-                    //
-                    $currentVersion = '0.0.1';
+                    // When plugins have been installed since Piwik 2.0 this should not happen
+                    // We "fix" the data for any plugin that may have been ported from Piwik 1.x
+                    $currentVersion = $version;
                 }
                 self::recordComponentSuccessfullyUpdated($name, $currentVersion);
             }
@@ -274,7 +275,7 @@ class Updater
                     self::INDEX_NEW_VERSION     => $version
                 );
             } else if ($versionCompare == 1) {
-                // the version in the DB is newest.. we choose to ignore (for the time being)
+                // the version in the DB is newest.. we choose to ignore
             }
         }
         return $componentsToUpdate;
