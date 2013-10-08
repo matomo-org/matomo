@@ -8,12 +8,15 @@
  * @category Piwik
  * @package Updates
  */
+
+namespace Piwik\Updates;
+
 use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_0_4_4 extends Updates
+class Updates_0_4_4 extends Updates
 {
     static function update()
     {

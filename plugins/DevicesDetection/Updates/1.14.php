@@ -26,8 +26,14 @@ class Updates_1_14 extends Updates
         );
     }
 
+    static function isMajorUpdate()
+    {
+        return true;
+    }
+
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
     }
+
 }

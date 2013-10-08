@@ -37,6 +37,59 @@ class FrontController
 
     private static $instance = null;
 
+    protected function prepareDispatch($module, $action, $parameters)
+    {
+        if (is_null($module)) {
+            $defaultModule = 'CoreHome';
+            $module = Common::getRequestVar('module', $defaultModule, 'string');
+        }
+
+        if (is_null($action)) {
+            $action = Common::getRequestVar('action', false);
+        }
+
+        if (!Session::isFileBasedSessions()
+            && ($module !== 'API' || ($action && $action !== 'index'))
+        ) {
+            Session::start();
+        }
+
+        if (is_null($parameters)) {
+            $parameters = array();
+        }
+
+        if (!ctype_alnum($module)) {
+            throw new Exception("Invalid module name '$module'");
+        }
+
+        if (!PluginsManager::getInstance()->isPluginActivated($module)) {
+            throw new PluginDeactivatedException($module);
+        }
+
+        $controllerClassName = $this->getClassNameController($module);
+
+        // FrontController's autoloader
+        if (!class_exists($controllerClassName, false)) {
+            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
+            if (!is_readable($moduleController)) {
+                throw new Exception("Module controller $moduleController not found!");
+            }
+            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
+        }
+
+        $class = $this->getClassNameController($module);
+        /** @var $controller Controller */
+        $controller = new $class;
+        if ($action === false) {
+            $action = $controller->getDefaultAction();
+        }
+
+        if (!is_callable(array($controller, $action))) {
+            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
+        }
+        return array($module, $action, $parameters, $controller);
+    }
+
     /**
      * returns singleton
      *
@@ -67,63 +120,16 @@ class FrontController
             return;
         }
 
-        if (is_null($module)) {
-            $defaultModule = 'CoreHome';
-            $module = Common::getRequestVar('module', $defaultModule, 'string');
-        }
-
-        if (is_null($action)) {
-            $action = Common::getRequestVar('action', false);
-        }
-
-        if (!Session::isFileBasedSessions()
-            && ($module !== 'API' || ($action && $action !== 'index'))
-        ) {
-            Session::start();
-        }
-
-        if (is_null($parameters)) {
-            $parameters = array();
-        }
-
-        if (!ctype_alnum($module)) {
-            throw new Exception("Invalid module name '$module'");
-        }
-
-        if (!PluginsManager::getInstance()->isPluginActivated($module)) {
-            throw new PluginDeactivatedException($module);
-        }
-
-        $controllerClassName = $this->getClassNameController( $module );
-
-        // FrontController's autoloader
-        if (!class_exists($controllerClassName, false)) {
-            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
-            if (!is_readable($moduleController)) {
-                throw new Exception("Module controller $moduleController not found!");
-            }
-            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
-        }
-
-        $class = $this->getClassNameController($module);
-        /** @var $controller Controller */
-        $controller = new $class;
-        if ($action === false) {
-            $action = $controller->getDefaultAction();
-        }
-
-        if (!is_callable(array($controller, $action))) {
-            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
-        }
+        // list($module, $action, $parameters, $controller)
+        $params = $this->prepareDispatch($module, $action, $parameters);
 
         // Generic hook that plugins can use to modify any input to the function,
         // or even change the plugin being called
-        $params = array($controller, $action, $parameters);
         Piwik_PostEvent('Request.dispatch', $params);
         Piwik_PostEvent(sprintf('Controller.%s.%s', $module, $action), array($parameters));
 
         try {
-            $result = call_user_func_array(array($params[0], $params[1]), $params[2]);
+            $result = call_user_func_array(array($params[3], $params[1]), $params[2]);
             Piwik_PostEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
             Piwik_PostEvent('Request.dispatch.end', array(&$result, $parameters));
 

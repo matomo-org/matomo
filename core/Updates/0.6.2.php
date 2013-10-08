@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Updates
  */
+
+namespace Piwik\Updates;
+
 use Piwik\Filesystem;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
@@ -17,7 +20,7 @@ use Piwik\Updates;
 /**
  * @package Updates
  */
-class Piwik_Updates_0_6_2 extends Updates
+class Updates_0_6_2 extends Updates
 {
     static function update()
     {

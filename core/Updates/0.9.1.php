@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Updates
  */
+
+namespace Piwik\Updates;
+
 use Piwik\Common;
 use Piwik\SettingsServer;
 use Piwik\Updater;
@@ -16,7 +19,7 @@ use Piwik\Updates;
 /**
  * @package Updates
  */
-class Piwik_Updates_0_9_1 extends Updates
+class Updates_0_9_1 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {

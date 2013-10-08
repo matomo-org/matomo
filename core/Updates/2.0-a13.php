@@ -8,7 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Updates;
+
 use Piwik\Common;
+use Piwik\Filesystem;
 use Piwik\Updater;
 use Piwik\Updates;
 use Piwik\Db;
@@ -16,7 +19,7 @@ use Piwik\Db;
 /**
  * @package Updates
  */
-class Piwik_Updates_2_0_a13 extends Updates
+class Updates_2_0_a13 extends Updates
 {
     public static function getSql($schema = 'Myisam')
     {
@@ -50,6 +53,7 @@ class Piwik_Updates_2_0_a13 extends Updates
         \Piwik\Option::getInstance()->delete('version_Referers');
 
         Updater::updateDatabase(__FILE__, self::getSql());
+
         // Deleting old plugins
         $obsoleteDirectories = array(
             PIWIK_INCLUDE_PATH . '/plugins/Referers',
@@ -61,8 +65,6 @@ class Piwik_Updates_2_0_a13 extends Updates
             }
         }
 
-        \Piwik\PluginsManager::getInstance()->deactivatePlugin('Referers');
-        \Piwik\PluginsManager::getInstance()->deactivatePlugin('PDFReports');
 
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('Referrers');

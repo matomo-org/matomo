@@ -112,13 +112,14 @@ class Filechecks
         $messages[] = true;
 
         $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
-        if (!file_exists($manifest)) {
-            $suffix = " If you are deploying Piwik from Git, this message is normal.";
-            $messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest') . $suffix;
-            return $messages;
+        if (file_exists($manifest)) {
+            require_once $manifest;
         }
 
-        require_once $manifest;
+        if(!class_exists('\\Piwik\\Manifest')){
+            $messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest') . " If you are deploying Piwik from Git, this message is normal.";
+            return $messages;
+        }
 
         $files = \Piwik\Manifest::$files;
 

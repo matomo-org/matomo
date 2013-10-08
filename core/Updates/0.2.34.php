@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Updates
  */
+
+namespace Piwik\Updates;
+
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Cache;
@@ -16,7 +19,7 @@ use Piwik\Updates;
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_34 extends Updates
+class Updates_0_2_34 extends Updates
 {
     static function update($schema = 'Myisam')
     {
