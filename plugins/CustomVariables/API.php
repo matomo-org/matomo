@@ -112,10 +112,10 @@ class API
             // Hack Ecommerce product price tracking to display correctly
             $dataTable->renameColumn('price_viewed', 'price');
         }
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', function($label) {
-			return $label == \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED
-				? Piwik_Translate('General_NotDefined', Piwik_Translate('CustomVariables_ColumnCustomVariableValue'))
-				: $label;
+        $dataTable->queueFilter('ColumnCallbackReplace', array('label', function ($label) {
+            return $label == \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED
+                ? Piwik_Translate('General_NotDefined', Piwik_Translate('CustomVariables_ColumnCustomVariableValue'))
+                : $label;
         }));
         return $dataTable;
     }

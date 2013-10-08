@@ -76,7 +76,7 @@ class API
     );
 
     static private $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
-        'UserSettings_getPlugin'  => array(
+        'UserSettings_getPlugin'    => array(
             false // override if !$isMultiplePeriod
             => StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,
         ),

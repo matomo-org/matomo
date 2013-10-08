@@ -39,7 +39,7 @@ class Controller extends \Piwik\Controller
 
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
-        $segment = $segmentOverride ?: Request::getRawSegmentFromRequest() ?: '';
+        $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = new View('@UserCountryMap/visitorMap');
@@ -47,12 +47,12 @@ class Controller extends \Piwik\Controller
         // request visits summary
         $request = new Request(
             'method=VisitsSummary.get&format=PHP'
-                . '&idSite=' . $idSite
-                . '&period=' . $period
-                . '&date=' . $date
-                . '&segment=' . $segment
-                . '&token_auth=' . $token_auth
-                . '&filter_limit=-1'
+            . '&idSite=' . $idSite
+            . '&period=' . $period
+            . '&date=' . $date
+            . '&segment=' . $segment
+            . '&token_auth=' . $token_auth
+            . '&filter_limit=-1'
         );
         $config = array();
         $config['visitsSummary'] = unserialize($request->process());
@@ -158,7 +158,7 @@ class Controller extends \Piwik\Controller
             'goal_conversions' => Piwik_Translate('UserCountryMap_GoalConversions'),
         );
 
-        $segment = $segmentOverride ?: Request::getRawSegmentFromRequest() ?: '';
+        $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
         $params = array(
             'period'     => 'range',
             'idSite'     => $idSite,
@@ -174,17 +174,17 @@ class Controller extends \Piwik\Controller
         $reqParams = $this->getEnrichedRequest($params, $encode = false);
 
         $view->config = array(
-            'metrics' => array(),
-            'svgBasePath' => $view->piwikUrl . 'plugins/UserCountryMap/svg/',
+            'metrics'            => array(),
+            'svgBasePath'        => $view->piwikUrl . 'plugins/UserCountryMap/svg/',
             'liveRefreshAfterMs' => $liveRefreshAfterMs,
-            '_' => $locale,
-            'reqParams' => $reqParams,
-            'siteHasGoals' => $hasGoals,
-            'maxVisits' => $maxVisits,
-            'changeVisitAlpha' => Common::getRequestVar('changeVisitAlpha', true, 'int'),
-            'removeOldVisits' => Common::getRequestVar('removeOldVisits', true, 'int'),
-            'showFooterMessage' => Common::getRequestVar('showFooterMessage', true, 'int'),
-            'showDateTime' => Common::getRequestVar('showDateTime', true, 'int'),
+            '_'                  => $locale,
+            'reqParams'          => $reqParams,
+            'siteHasGoals'       => $hasGoals,
+            'maxVisits'          => $maxVisits,
+            'changeVisitAlpha'   => Common::getRequestVar('changeVisitAlpha', true, 'int'),
+            'removeOldVisits'    => Common::getRequestVar('removeOldVisits', true, 'int'),
+            'showFooterMessage'  => Common::getRequestVar('showFooterMessage', true, 'int'),
+            'showDateTime'       => Common::getRequestVar('showDateTime', true, 'int'),
             'doNotRefreshVisits' => Common::getRequestVar('doNotRefreshVisits', false, 'int')
         );
 
@@ -223,12 +223,12 @@ class Controller extends \Piwik\Controller
     {
         $request = new Request(
             'method=API.getMetadata&format=PHP'
-                . '&apiModule=UserCountry&apiAction=getCountry'
-                . '&idSite=' . $idSite
-                . '&period=' . $period
-                . '&date=' . $date
-                . '&token_auth=' . $token_auth
-                . '&filter_limit=-1'
+            . '&apiModule=UserCountry&apiAction=getCountry'
+            . '&idSite=' . $idSite
+            . '&period=' . $period
+            . '&date=' . $date
+            . '&token_auth=' . $token_auth
+            . '&filter_limit=-1'
         );
         $metaData = $request->process();
 
@@ -253,7 +253,7 @@ class Controller extends \Piwik\Controller
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth
-            . "&segment=" . ($segmentOverride ?: Request::getRawSegmentFromRequest())
+            . "&segment=" . ($segmentOverride ? : Request::getRawSegmentFromRequest())
             . "&enable_filter_excludelowpop=1"
             . "&showRawMetrics=1";
 
@@ -271,6 +271,6 @@ class Controller extends \Piwik\Controller
     private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false, $segmentOverride = false)
     {
         return $this->getApiRequestUrl('API', 'getProcessedReport&apiModule=' . $module . '&apiAction=' . $action,
-                                       $idSite, $period, $date, $token_auth, $filter_by_country, $segmentOverride);
+            $idSite, $period, $date, $token_auth, $filter_by_country, $segmentOverride);
     }
 }

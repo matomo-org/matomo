@@ -48,8 +48,8 @@ class Marketplace
 
         foreach ($plugins as &$plugin) {
             $plugin['canBeUpdated'] = $this->hasPluginUpdate($plugin);
-            $plugin['isInstalled']  = PluginsManager::getInstance()->isPluginLoaded($plugin['name']);
-            $plugin['lastUpdated']  = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
+            $plugin['isInstalled'] = PluginsManager::getInstance()->isPluginLoaded($plugin['name']);
+            $plugin['lastUpdated'] = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
         }
 
         return $plugins;
@@ -93,10 +93,11 @@ class Marketplace
             foreach ($loadedPlugins as $loadedPlugin) {
 
                 if (!empty($updatePlugin['name'])
-                    && $loadedPlugin->getPluginName() == $updatePlugin['name']) {
+                    && $loadedPlugin->getPluginName() == $updatePlugin['name']
+                ) {
 
                     $updatePlugin['currentVersion'] = $loadedPlugin->getVersion();
-                    $updatePlugin['isActivated']    = $pluginManager->isPluginActivated($updatePlugin['name']);
+                    $updatePlugin['isActivated'] = $pluginManager->isPluginActivated($updatePlugin['name']);
                     break;
                 }
             }

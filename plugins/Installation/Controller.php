@@ -243,7 +243,7 @@ class Controller extends \Piwik\Controller\Admin
             $error = true;
         }
 
-    if (!DbHelper::isDatabaseConnectionUTF8()) {
+        if (!DbHelper::isDatabaseConnectionUTF8()) {
             $dbInfos = $this->session->db_infos;
             $dbInfos['charset'] = 'utf8';
             $this->session->db_infos = $dbInfos;
@@ -484,7 +484,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $configPath = Config::getLocalConfigPath();
         if (!file_exists($configPath)) {
-			$this->addTrustedHosts();
+            $this->addTrustedHosts();
             $this->writeConfigFileFromSession();
         }
 

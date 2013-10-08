@@ -63,7 +63,9 @@ class Chart
                 'internalLabel' => $label
             );
 
-            array_walk($data, function(&$v) { $v = (float)$v; });
+            array_walk($data, function (&$v) {
+                $v = (float)$v;
+            });
             $this->data[] = & $data;
         }
     }
@@ -110,11 +112,11 @@ class Chart
 
         // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
         $data = array(
-            'params'       => array(
+            'params' => array(
                 'axes'   => &$this->axes,
                 'series' => &$this->series
             ),
-            'data'         => &$this->data
+            'data'   => &$this->data
         );
 
         return $data;

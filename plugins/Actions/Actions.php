@@ -54,7 +54,7 @@ class Actions extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'            => 'archiveDay',
+            'ArchiveProcessor.Day.compute'             => 'archiveDay',
             'ArchiveProcessor.Period.compute'          => 'archivePeriod',
             'WidgetsList.addWidgets'                   => 'addWidgets',
             'Menu.Reporting.addItems'                  => 'addMenus',
@@ -76,7 +76,7 @@ class Actions extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/Actions/javascripts/actionsDataTable.js";
     }
-    
+
     public function getSegmentsMetadata(&$segments)
     {
         $sqlFilter = array($this, 'getIdActionFromSegment');
@@ -673,7 +673,7 @@ class Actions extends \Piwik\Plugin
 
         if (ViewDataTable::shouldLoadExpanded()) {
             $result['visualization_properties']['table']['show_expanded'] = true;
-            
+
             $result['filters'][] = function ($dataTable) {
                 Actions::setDataTableRowLevels($dataTable);
             };
@@ -876,17 +876,17 @@ class Actions extends \Piwik\Plugin
     public function getDisplayPropertiesForSiteSearchCategories()
     {
         return array(
-            'translations'           => array(
+            'translations'             => array(
                 'label'               => Piwik_Translate('Actions_ColumnSearchCategory'),
                 'nb_visits'           => Piwik_Translate('Actions_ColumnSearches'),
                 'nb_pages_per_search' => Piwik_Translate('Actions_ColumnPagesPerSearch')
             ),
-            'columns_to_display'     => array('label', 'nb_visits', 'nb_pages_per_search'),
-            'show_table_all_columns' => false,
-            'show_bar_chart'         => false,
+            'columns_to_display'       => array('label', 'nb_visits', 'nb_pages_per_search'),
+            'show_table_all_columns'   => false,
+            'show_bar_chart'           => false,
             'visualization_properties' => array(
                 'table' => array(
-                    'disable_row_evolution'  => false,
+                    'disable_row_evolution' => false,
                 )
             )
         );

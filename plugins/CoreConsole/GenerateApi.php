@@ -23,8 +23,8 @@ class GenerateApi extends GeneratePluginBase
     protected function configure()
     {
         $this->setName('generate:api')
-             ->setDescription('Adds an API to an existing plugin')
-             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have an API yet');
+            ->setDescription('Adds an API to an existing plugin')
+            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have an API yet');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -34,10 +34,10 @@ class GenerateApi extends GeneratePluginBase
         $this->copyTemplateToPlugin('api', $pluginName);
 
         $this->writeSuccessMessage($output, array(
-            sprintf('API.php for %s generated.', $pluginName),
-            'You can now start adding API methods',
-            'Enjoy!'
-        ));
+                                                 sprintf('API.php for %s generated.', $pluginName),
+                                                 'You can now start adding API methods',
+                                                 'Enjoy!'
+                                            ));
     }
 
     /**
@@ -61,7 +61,7 @@ class GenerateApi extends GeneratePluginBase
         $pluginName = $input->getOption('pluginname');
 
         if (empty($pluginName)) {
-            $dialog     = $this->getHelperSet()->get('dialog');
+            $dialog = $this->getHelperSet()->get('dialog');
             $pluginName = $dialog->askAndValidate($output, 'Enter the name of your plugin: ', $validate, false, null, $pluginNames);
         } else {
             $validate($pluginName);

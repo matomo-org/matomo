@@ -25,13 +25,13 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Controller\Admin
 {
-    const UPDATE_NONCE     = 'CorePluginsAdmin.updatePlugin';
-    const INSTALL_NONCE    = 'CorePluginsAdmin.installPlugin';
-    const ACTIVATE_NONCE   = 'CorePluginsAdmin.activatePlugin';
+    const UPDATE_NONCE = 'CorePluginsAdmin.updatePlugin';
+    const INSTALL_NONCE = 'CorePluginsAdmin.installPlugin';
+    const ACTIVATE_NONCE = 'CorePluginsAdmin.activatePlugin';
     const DEACTIVATE_NONCE = 'CorePluginsAdmin.deactivatePlugin';
-    const UNINSTALL_NONCE  = 'CorePluginsAdmin.uninstallPlugin';
+    const UNINSTALL_NONCE = 'CorePluginsAdmin.uninstallPlugin';
 
-    private $validSortMethods  = array('popular', 'newest', 'alpha');
+    private $validSortMethods = array('popular', 'newest', 'alpha');
     private $defaultSortMethod = 'popular';
 
     private function createUpdateOrInstallView($template, $nonceName)
@@ -51,7 +51,7 @@ class Controller extends \Piwik\Controller\Admin
             return $view;
         }
 
-        $marketplace  = new Marketplace();
+        $marketplace = new Marketplace();
         $view->plugin = $marketplace->getPluginInfo($pluginName);
 
         return $view;
@@ -99,13 +99,13 @@ class Controller extends \Piwik\Controller\Admin
         $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
 
         $pluginInstaller = new PluginInstaller('uploaded');
-        $pluginMetadata  = $pluginInstaller->installOrUpdatePluginFromFile($file);
+        $pluginMetadata = $pluginInstaller->installOrUpdatePluginFromFile($file);
 
-        $view->nonce  = Nonce::getNonce(static::ACTIVATE_NONCE);
+        $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
         $view->plugin = array(
-            'name'    => $pluginMetadata->name,
-            'version' => $pluginMetadata->version,
-            'isTheme' => !empty($pluginMetadata->theme),
+            'name'        => $pluginMetadata->name,
+            'version'     => $pluginMetadata->version,
+            'isTheme'     => !empty($pluginMetadata->theme),
             'isActivated' => PluginsManager::getInstance()->isPluginActivated($pluginMetadata->name)
         );
 
@@ -119,7 +119,7 @@ class Controller extends \Piwik\Controller\Admin
         $view = $this->configureView('@CorePluginsAdmin/pluginDetails');
 
         try {
-            $marketplace  = new Marketplace();
+            $marketplace = new Marketplace();
             $view->plugin = $marketplace->getPluginInfo($pluginName);
         } catch (\Exception $e) {
             $view->errorMessage = $e->getMessage();
@@ -131,7 +131,7 @@ class Controller extends \Piwik\Controller\Admin
     private function createBrowsePluginsOrThemesView($template, $themesOnly)
     {
         $query = Common::getRequestVar('query', '', 'string', $_POST);
-        $sort  = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
+        $sort = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
 
         if (!in_array($sort, $this->validSortMethods)) {
             $sort = $this->defaultSortMethod;
@@ -139,14 +139,14 @@ class Controller extends \Piwik\Controller\Admin
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
 
-        $marketplace   = new Marketplace();
+        $marketplace = new Marketplace();
         $view->plugins = $marketplace->searchPlugins($query, $sort, $themesOnly);
 
-        $view->query   = $query;
-        $view->sort    = $sort;
+        $view->query = $query;
+        $view->sort = $sort;
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
-        $view->updateNonce  = Nonce::getNonce(static::UPDATE_NONCE);
-        $view->isSuperUser  = Piwik::isUserIsSuperUser();
+        $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
+        $view->isSuperUser = Piwik::isUserIsSuperUser();
 
         return $view;
     }
@@ -167,7 +167,7 @@ class Controller extends \Piwik\Controller\Admin
     {
         $view = $this->configureView('@CorePluginsAdmin/extend');
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
-        $view->isSuperUser  = Piwik::isUserIsSuperUser();
+        $view->isSuperUser = Piwik::isUserIsSuperUser();
 
         echo $view->render();
     }
@@ -176,7 +176,7 @@ class Controller extends \Piwik\Controller\Admin
     {
         Piwik::checkUserIsSuperUser();
 
-        $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
+        $activated = Common::getRequestVar('activated', false, 'integer', $_GET);
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
@@ -186,11 +186,11 @@ class Controller extends \Piwik\Controller\Admin
             $view->activatedPluginName = $pluginName;
         }
 
-        $view->updateNonce     = Nonce::getNonce(static::UPDATE_NONCE);
-        $view->activateNonce   = Nonce::getNonce(static::ACTIVATE_NONCE);
-        $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
+        $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
+        $view->activateNonce = Nonce::getNonce(static::ACTIVATE_NONCE);
+        $view->uninstallNonce = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
-        $view->pluginsInfo     = $this->getPluginsInfo($themesOnly);
+        $view->pluginsInfo = $this->getPluginsInfo($themesOnly);
 
         $users = \Piwik\Plugins\UsersManager\API::getInstance()->getUsers();
         $view->otherUsersCount = count($users) - 1;
@@ -233,11 +233,11 @@ class Controller extends \Piwik\Controller\Admin
 
         foreach ($plugins as $pluginName => &$plugin) {
             if (!isset($plugin['info'])) {
-                    $description = '<strong><em>'
-                                . Piwik_Translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
-                                . '</strong> <br/> '
-                                . Piwik_Translate('CorePluginsAdmin_PluginAskDevToUpdate')
-                                . '</em>';
+                $description = '<strong><em>'
+                    . Piwik_Translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
+                    . '</strong> <br/> '
+                    . Piwik_Translate('CorePluginsAdmin_PluginAskDevToUpdate')
+                    . '</em>';
                 $plugin['info'] = array(
                     'description' => $description,
                     'version'     => Piwik_Translate('General_Unknown'),
@@ -249,7 +249,7 @@ class Controller extends \Piwik\Controller\Admin
         $pluginsFiltered = $this->keepPluginsOrThemes($themesOnly, $plugins);
         return $pluginsFiltered;
     }
-    
+
     protected function keepPluginsOrThemes($themesOnly, $plugins)
     {
         $pluginsFiltered = array();
@@ -319,7 +319,7 @@ class Controller extends \Piwik\Controller\Admin
 
     public function uninstall($redirectAfter = true)
     {
-        $pluginName  = $this->initPluginModification(static::UNINSTALL_NONCE);
+        $pluginName = $this->initPluginModification(static::UNINSTALL_NONCE);
 
         $uninstalled = \Piwik\PluginsManager::getInstance()->uninstallPlugin($pluginName);
 

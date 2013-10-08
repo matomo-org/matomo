@@ -148,9 +148,9 @@ class API
      * Modifies an existing stored segment.
      *
      * @param int $idSegment The ID of the stored segment to modify.
-     * @param string $name  The new name of the segment.
-     * @param string $definition  The new definition of the segment.
-     * @param bool $idSite  If supplied, associates the stored segment with as single site.
+     * @param string $name The new name of the segment.
+     * @param string $definition The new definition of the segment.
+     * @param bool $idSite If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      *
@@ -167,7 +167,7 @@ class API
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 
-        if($this->segmentVisibilityIsReduced($idSite, $enabledAllUsers, $segment)) {
+        if ($this->segmentVisibilityIsReduced($idSite, $enabledAllUsers, $segment)) {
             $this->sendSegmentDeactivationEvent($idSegment);
         }
 
@@ -191,9 +191,9 @@ class API
     /**
      * Adds a new stored segment.
      *
-     * @param string $name  The new name of the segment.
-     * @param string $definition  The new definition of the segment.
-     * @param bool $idSite  If supplied, associates the stored segment with as single site.
+     * @param string $name The new name of the segment.
+     * @param string $definition The new definition of the segment.
+     * @param bool $idSite If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      *
@@ -245,7 +245,7 @@ class API
         }
         try {
 
-            if(!$segment['enable_all_users']) {
+            if (!$segment['enable_all_users']) {
                 Piwik::checkUserIsSuperUserOrTheUser($segment['login']);
             }
 
@@ -263,7 +263,7 @@ class API
     /**
      * Returns all stored segments.
      *
-     * @param bool $idSite  Whether to return stored segments that are only auto-archived for a specific idSite, or all of them. If supplied, must be a valid site ID.
+     * @param bool $idSite Whether to return stored segments that are only auto-archived for a specific idSite, or all of them. If supplied, must be a valid site ID.
      * @param bool $returnOnlyAutoArchived Whether to only return stored segments that are auto-archived or not.
      * @return array
      */

@@ -156,7 +156,9 @@ class API
             'segment'        => 'visitorType',
             'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik_Translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
             'sqlSegment'     => 'log_visit.visitor_returning',
-            'sqlFilter'      => function($type) { return $type == "new" ? 0 : ($type == "returning" ? 1 : 2); }
+            'sqlFilter'      => function ($type) {
+                    return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);
+                }
         );
         $segments[] = array(
             'type'       => 'metric',

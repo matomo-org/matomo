@@ -56,11 +56,11 @@ class Referrers extends \Piwik\Plugin
                                                   'documentation'     => Piwik_Translate('Referrers_TypeReportDocumentation') . '<br />'
                                                       . '<b>' . Piwik_Translate('Referrers_DirectEntry') . ':</b> ' . Piwik_Translate('Referrers_DirectEntryDocumentation') . '<br />'
                                                       . '<b>' . Piwik_Translate('Referrers_SearchEngines') . ':</b> ' . Piwik_Translate('Referrers_SearchEnginesDocumentation',
-                                                      array('<br />', '&quot;' . Piwik_Translate('Referrers_SubmenuSearchEngines') . '&quot;')) . '<br />'
+                                                          array('<br />', '&quot;' . Piwik_Translate('Referrers_SubmenuSearchEngines') . '&quot;')) . '<br />'
                                                       . '<b>' . Piwik_Translate('Referrers_Websites') . ':</b> ' . Piwik_Translate('Referrers_WebsitesDocumentation',
-                                                      array('<br />', '&quot;' . Piwik_Translate('Referrers_SubmenuWebsites') . '&quot;')) . '<br />'
+                                                          array('<br />', '&quot;' . Piwik_Translate('Referrers_SubmenuWebsites') . '&quot;')) . '<br />'
                                                       . '<b>' . Piwik_Translate('Referrers_Campaigns') . ':</b> ' . Piwik_Translate('Referrers_CampaignsDocumentation',
-                                                      array('<br />', '&quot;' . Piwik_Translate('Referrers_Campaigns') . '&quot;')),
+                                                          array('<br />', '&quot;' . Piwik_Translate('Referrers_Campaigns') . '&quot;')),
                                                   'order'             => 1,
                                               ),
                                               array(
@@ -328,16 +328,16 @@ class Referrers extends \Piwik\Plugin
         }
 
         return array(
-            'default_view_type' => 'tableAllColumns',
-            'show_search' => false,
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_limit_control' => false,
+            'default_view_type'           => 'tableAllColumns',
+            'show_search'                 => false,
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'show_limit_control'          => false,
             'show_exclude_low_population' => false,
-            'show_goals' => true,
-            'filter_limit' => 10,
-            'translations' => array('label' => $labelColumnTitle),
-            'visualization_properties' => array(
+            'show_goals'                  => true,
+            'filter_limit'                => 10,
+            'translations'                => array('label' => $labelColumnTitle),
+            'visualization_properties'    => array(
                 'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
@@ -350,15 +350,15 @@ class Referrers extends \Piwik\Plugin
         $setGetAllHtmlPrefix = array($this, 'setGetAllHtmlPrefix');
         return array(
             'show_exclude_low_population' => false,
-            'translations' => array('label' => Piwik_Translate('Referrers_Referrer')),
-            'show_goals' => true,
-            'filter_limit' => 20,
-            'visualization_properties' => array(
+            'translations'                => array('label' => Piwik_Translate('Referrers_Referrer')),
+            'show_goals'                  => true,
+            'filter_limit'                => 20,
+            'visualization_properties'    => array(
                 'table' => array(
                     'disable_row_actions' => true
                 )
             ),
-            'filters' => array(
+            'filters'                     => array(
                 array('MetadataCallbackAddMetadata', array('referer_type', 'html_label_prefix', $setGetAllHtmlPrefix))
             )
         );
@@ -367,12 +367,12 @@ class Referrers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetKeywords()
     {
         return array(
-            'subtable_controller_action' => 'getSearchEnginesFromKeywordId',
+            'subtable_controller_action'  => 'getSearchEnginesFromKeywordId',
             'show_exclude_low_population' => false,
-            'translations' => array('label' => Piwik_Translate('General_ColumnKeyword')),
-            'show_goals' => true,
-            'filter_limit' => 25,
-            'visualization_properties' => array(
+            'translations'                => array('label' => Piwik_Translate('General_ColumnKeyword')),
+            'show_goals'                  => true,
+            'filter_limit'                => 25,
+            'visualization_properties'    => array(
                 'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
@@ -392,13 +392,13 @@ class Referrers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetSearchEngines()
     {
         return array(
-            'subtable_controller_action' => 'getKeywordsFromSearchEngineId',
-            'show_search' => false,
+            'subtable_controller_action'  => 'getKeywordsFromSearchEngineId',
+            'show_search'                 => false,
             'show_exclude_low_population' => false,
-            'show_goals' => true,
-            'filter_limit' => 25,
-            'translations' => array('label' => Piwik_Translate('Referrers_ColumnSearchEngine')),
-            'visualization_properties' => array(
+            'show_goals'                  => true,
+            'filter_limit'                => 25,
+            'translations'                => array('label' => Piwik_Translate('Referrers_ColumnSearchEngine')),
+            'visualization_properties'    => array(
                 'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
@@ -418,12 +418,12 @@ class Referrers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetWebsites()
     {
         return array(
-            'subtable_controller_action' => 'getUrlsFromWebsiteId',
+            'subtable_controller_action'  => 'getUrlsFromWebsiteId',
             'show_exclude_low_population' => false,
-            'show_goals' => true,
-            'filter_limit' => 25,
-            'translations' => array('label' => Piwik_Translate('Referrers_ColumnWebsite')),
-            'visualization_properties' => array(
+            'show_goals'                  => true,
+            'filter_limit'                => 25,
+            'translations'                => array('label' => Piwik_Translate('Referrers_ColumnWebsite')),
+            'visualization_properties'    => array(
                 'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )
@@ -434,13 +434,13 @@ class Referrers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetSocials()
     {
         $result = array(
-            'default_view_type' => 'graphPie',
-            'subtable_controller_action' => 'getUrlsForSocial',
+            'default_view_type'           => 'graphPie',
+            'subtable_controller_action'  => 'getUrlsForSocial',
             'show_exclude_low_population' => false,
-            'filter_limit' => 10,
-            'show_goals' => true,
-            'translations' => array('label' => Piwik_Translate('Referrers_ColumnSocial')),
-            'visualization_properties' => array(
+            'filter_limit'                => 10,
+            'show_goals'                  => true,
+            'translations'                => array('label' => Piwik_Translate('Referrers_ColumnSocial')),
+            'visualization_properties'    => array(
                 'table' => array(
                     'disable_subtable_when_show_goals' => true,
                 )

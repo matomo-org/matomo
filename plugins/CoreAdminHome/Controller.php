@@ -72,8 +72,7 @@ class Controller extends \Piwik\Controller\Admin
             $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/misc/user/');
             $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png')
                 && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.svg')
-                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');
-            ;
+                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');;
             $view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 
             $trustedHosts = array();

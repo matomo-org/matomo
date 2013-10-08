@@ -15,11 +15,11 @@ use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
+
 use Piwik\Metrics;
-
 use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 
+use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 use Piwik\Tracker\Action;
 
 /**
@@ -119,11 +119,11 @@ class API
     }
 
     /**
-     * @param int      $idSite
-     * @param string   $period
-     * @param Date     $date
-     * @param bool     $segment
-     * @param bool     $expanded
+     * @param int $idSite
+     * @param string $period
+     * @param Date $date
+     * @param bool $segment
+     * @param bool $expanded
      * @param bool|int $idSubtable
      * @param bool|int $depth
      *
@@ -181,7 +181,9 @@ class API
         // Keep only pages which are following site search
         $dataTable->filter('ColumnCallbackDeleteRow', array(
                                                            'nb_hits_following_search',
-                                                           function($value) { return $value > 0; }
+                                                           function ($value) {
+                                                               return $value > 0;
+                                                           }
                                                       ));
     }
 
@@ -321,7 +323,9 @@ class API
         $dataTable->filter('ColumnCallbackDeleteRow',
             array(
                  Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
-                 function($value) { return $value >= 1; }
+                 function ($value) {
+                     return $value >= 1;
+                 }
             ));
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
         $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);

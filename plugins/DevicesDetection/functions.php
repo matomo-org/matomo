@@ -85,12 +85,12 @@ function getDeviceTypeLabel($label)
 function getDeviceTypeLogo($label)
 {
     $deviceTypeLogos = Array(
-        "Desktop" => "normal.gif",
-        "Smartphone" => "smartphone.png",
-        "Tablet" => "tablet.png",
-        "Tv" => "tv.png",
+        "Desktop"       => "normal.gif",
+        "Smartphone"    => "smartphone.png",
+        "Tablet"        => "tablet.png",
+        "Tv"            => "tv.png",
         "Feature phone" => "mobile.gif",
-        "Console" => "console.gif");
+        "Console"       => "console.gif");
 
     if (!array_key_exists($label, $deviceTypeLogos) || $label == "Unknown") {
         $label = 'unknown.gif';
@@ -135,13 +135,12 @@ function getOsFullNameExtended($label)
         $os = substr($label, 0, 3);
         $ver = substr($label, 4, 15);
         $name = UserAgentParserEnhanced::getOsNameFromId($os, $ver);
-        if(!empty($name)) {
+        if (!empty($name)) {
             return $name;
         }
     }
     return Piwik_Translate('General_Unknown');
 }
-
 
 
 function getOsLogoExtended($label)

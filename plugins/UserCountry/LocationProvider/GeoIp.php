@@ -234,8 +234,8 @@ abstract class GeoIp extends LocationProvider
     public static function isDatabaseInstalled()
     {
         return self::getPathToGeoIpDatabase(self::$dbNames['loc'])
-            || self::getPathToGeoIpDatabase(self::$dbNames['isp'])
-            || self::getPathToGeoIpDatabase(self::$dbNames['org']);
+        || self::getPathToGeoIpDatabase(self::$dbNames['isp'])
+        || self::getPathToGeoIpDatabase(self::$dbNames['org']);
     }
 
     /**

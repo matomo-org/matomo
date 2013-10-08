@@ -486,8 +486,8 @@ function DisplayTopKeywords($url = "")
         $totalRow = Piwik_Translate('General_Total');
         return $this->getUrlSparkline(
             'getEvolutionGraph',
-            array('columns'     => array('nb_visits'),
-                  'rows'        => array(self::getTranslatedReferrerTypeLabel($referrerType), $totalRow),
+            array('columns'      => array('nb_visits'),
+                  'rows'         => array(self::getTranslatedReferrerTypeLabel($referrerType), $totalRow),
                   'typeReferrer' => $referrerType)
         );
     }

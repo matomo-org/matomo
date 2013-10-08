@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\MultiSites;
 
 
-
 /**
  *
  * @package MultiSites

@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
 
-
 /**
  *
  * @package StaticGraph

@@ -67,9 +67,9 @@ class MobileMessaging extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Admin.addItems'                 => 'addMenu',
-            'AssetManager.getJavaScriptFiles'     => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'     => 'getStylesheetFiles',
+            'Menu.Admin.addItems'                       => 'addMenu',
+            'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
             'ScheduledReports.getReportMetadata'        => 'getReportMetadata',

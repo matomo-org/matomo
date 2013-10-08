@@ -40,7 +40,7 @@ class API
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
-        
+
         // array values are comma separated
         $columns = Piwik::getArrayFromApiParameter($columns);
         $tempColumns = array();

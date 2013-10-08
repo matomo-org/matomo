@@ -55,7 +55,7 @@ class AnonymizeIP extends \Piwik\Plugin
     public static function applyIPMask($ip, $maskLength)
     {
         // IPv4 or mapped IPv4 in IPv6
-        if(IP::isIPv4($ip)) {
+        if (IP::isIPv4($ip)) {
             $i = Common::strlen($ip);
             if ($maskLength > $i) {
                 $maskLength = $i;

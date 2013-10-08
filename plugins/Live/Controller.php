@@ -165,10 +165,10 @@ class Controller extends \Piwik\Controller
     {
         $view = new View('@Live/getSingleVisitSummary.twig');
         $visits = Request::processRequest('Live.getLastVisitsDetails', array(
-            'segment' => 'visitId==' . Common::getRequestVar('visitId'),
-            'period' => false,
-            'date' => false
-        ));
+                                                                            'segment' => 'visitId==' . Common::getRequestVar('visitId'),
+                                                                            'period'  => false,
+                                                                            'date'    => false
+                                                                       ));
         $view->visitData = $visits->getFirstRow()->getColumns();
         $view->visitReferralSummary = API::getReferrerSummaryForVisit($visits->getFirstRow());
         $view->showLocation = true;
@@ -180,12 +180,12 @@ class Controller extends \Piwik\Controller
     public function getVisitList()
     {
         $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(
-            'segment' => self::getSegmentWithVisitorId(),
-            'filter_limit' => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
-            'disable_generic_filters' => 1,
-            'period' => false,
-            'date' => false
-        ));
+                                                                                'segment'                 => self::getSegmentWithVisitorId(),
+                                                                                'filter_limit'            => API::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
+                                                                                'disable_generic_filters' => 1,
+                                                                                'period'                  => false,
+                                                                                'date'                    => false
+                                                                           ));
 
         if (empty($nextVisits)) {
             return;
@@ -201,38 +201,38 @@ class Controller extends \Piwik\Controller
     private function getVisitorProfileExportLink()
     {
         return Url::getCurrentQueryStringWithParametersModified(array(
-            'module'       => 'API',
-            'action'       => 'index',
-            'method'       => 'Live.getVisitorProfile',
-            'format'       => 'XML',
-            'expanded'     => 1
-        ));
+                                                                     'module'   => 'API',
+                                                                     'action'   => 'index',
+                                                                     'method'   => 'Live.getVisitorProfile',
+                                                                     'format'   => 'XML',
+                                                                     'expanded' => 1
+                                                                ));
     }
 
     private function setWidgetizedVisitorProfileUrl($view)
     {
         if (PluginsManager::getInstance()->isPluginLoaded('Widgetize')) {
             $view->widgetizedLink = Url::getCurrentQueryStringWithParametersModified(array(
-                'module' => 'Widgetize',
-                'action' => 'iframe',
-                'moduleToWidgetize' => 'Live',
-                'actionToWidgetize' => 'getVisitorProfilePopup'
-            ));
+                                                                                          'module'            => 'Widgetize',
+                                                                                          'action'            => 'iframe',
+                                                                                          'moduleToWidgetize' => 'Live',
+                                                                                          'actionToWidgetize' => 'getVisitorProfilePopup'
+                                                                                     ));
         }
     }
 
     private function getUserCountryMapUrlForVisitorProfile()
     {
         $params = array(
-            'module' => 'UserCountryMap',
-            'action' => 'realtimeMap',
-            'segment' => self::getSegmentWithVisitorId(),
-            'visitorId' => false,
-            'changeVisitAlpha' => 0,
-            'removeOldVisits' => 0,
-            'realtimeWindow' => 'false',
-            'showFooterMessage' => 0,
-            'showDateTime' => 0,
+            'module'             => 'UserCountryMap',
+            'action'             => 'realtimeMap',
+            'segment'            => self::getSegmentWithVisitorId(),
+            'visitorId'          => false,
+            'changeVisitAlpha'   => 0,
+            'removeOldVisits'    => 0,
+            'realtimeWindow'     => 'false',
+            'showFooterMessage'  => 0,
+            'showDateTime'       => 0,
             'doNotRefreshVisits' => 1
         );
         return Url::getCurrentQueryStringWithParametersModified($params);

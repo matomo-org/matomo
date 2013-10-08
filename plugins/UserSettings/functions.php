@@ -22,7 +22,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 
 function getPluginsLogo($oldLabel)
 {
-    if($oldLabel == Piwik_Translate('General_Others')) {
+    if ($oldLabel == Piwik_Translate('General_Others')) {
         return false;
     }
     return 'plugins/UserSettings/images/plugins/' . $oldLabel . '.gif';
@@ -161,11 +161,11 @@ function getBrowserVersion($str)
 
 function getLogoImageFromId($dir, $id)
 {
-    $path = $dir.'/'.$id.'.gif';
+    $path = $dir . '/' . $id . '.gif';
     if (file_exists(PIWIK_INCLUDE_PATH . '/' . $path)) {
         return $path;
     } else {
-        return $dir.'/UNK.gif';
+        return $dir . '/UNK.gif';
     }
 }
 

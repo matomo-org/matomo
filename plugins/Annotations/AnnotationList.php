@@ -421,7 +421,7 @@ class AnnotationList
     public static function canUserAddNotesFor($idSite)
     {
         return Piwik::isUserHasViewAccess($idSite)
-            && !Piwik::isUserIsAnonymous($idSite);
+        && !Piwik::isUserIsAnonymous($idSite);
     }
 
     /**

@@ -79,7 +79,7 @@ class RowEvolution
     }
 
     /**
-     * @param array         $labels
+     * @param array $labels
      * @param DataTable\Map $dataTable
      * @return mixed
      */
@@ -99,8 +99,8 @@ class RowEvolution
     }
 
     /**
-     * @param DataTable\Map  $dataTable
-     * @param array          $labels
+     * @param DataTable\Map $dataTable
+     * @param array $labels
      * @return array
      */
     protected function getLabelsFromDataTable($dataTable, $labels)
@@ -186,10 +186,10 @@ class RowEvolution
     }
 
     /**
-     * @param Row     $row
-     * @param string  $apiModule
-     * @param string  $apiAction
-     * @param bool    $labelUseAbsoluteUrl
+     * @param Row $row
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param bool $labelUseAbsoluteUrl
      * @return bool|string
      */
     private function getRowUrlForEvolutionLabel($row, $apiModule, $apiAction, $labelUseAbsoluteUrl)

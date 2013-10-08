@@ -397,9 +397,9 @@ class API
                 'SELECT idsite
                 FROM ' . Common::prefixTable('site') . '
 					WHERE (main_url = ? OR main_url = ?) ' .
-                    'UNION
-                    SELECT idsite
-                    FROM ' . Common::prefixTable('site_url') . '
+                'UNION
+                SELECT idsite
+                FROM ' . Common::prefixTable('site_url') . '
 					WHERE (url = ? OR url = ?) ', array($url, $urlBis, $url, $urlBis));
         } else {
             $login = Piwik::getCurrentUserLogin();
@@ -407,12 +407,12 @@ class API
                 'SELECT idsite
                 FROM ' . Common::prefixTable('site') . '
 					WHERE (main_url = ? OR main_url = ?)' .
-                    'AND idsite IN (' . Access::getSqlAccessSite('idsite') . ') ' .
-                    'UNION
-                    SELECT idsite
-                    FROM ' . Common::prefixTable('site_url') . '
+                'AND idsite IN (' . Access::getSqlAccessSite('idsite') . ') ' .
+                'UNION
+                SELECT idsite
+                FROM ' . Common::prefixTable('site_url') . '
 					WHERE (url = ? OR url = ?)' .
-                    'AND idsite IN (' . Access::getSqlAccessSite('idsite') . ')',
+                'AND idsite IN (' . Access::getSqlAccessSite('idsite') . ')',
                 array($url, $urlBis, $login, $url, $urlBis, $login));
         }
 
@@ -1080,7 +1080,9 @@ class API
     public function getCurrencyList()
     {
         $currencies = MetricsFormatter::getCurrencyList();
-        return array_map(function($a) { return $a[1]." (".$a[0].")"; }, $currencies);
+        return array_map(function ($a) {
+            return $a[1] . " (" . $a[0] . ")";
+        }, $currencies);
     }
 
     /**
@@ -1091,7 +1093,9 @@ class API
     public function getCurrencySymbols()
     {
         $currencies = MetricsFormatter::getCurrencyList();
-        return array_map(function($a) { return $a[0]; }, $currencies);
+        return array_map(function ($a) {
+            return $a[0];
+        }, $currencies);
     }
 
     /**

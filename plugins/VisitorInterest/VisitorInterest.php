@@ -11,8 +11,8 @@
 namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\ArchiveProcessor;
-use Piwik\FrontController;
 
+use Piwik\FrontController;
 use Piwik\Metrics;
 use Piwik\WidgetsList;
 
@@ -164,18 +164,18 @@ class VisitorInterest extends \Piwik\Plugin
     private function getDisplayPropertiesForGetNumberOfVisitsPerVisitDuration()
     {
         return array(
-            'default_view_type' => 'cloud',
-            'filter_sort_column' => 'label',
-            'filter_sort_order' => 'asc',
-            'translations' => array('label' => Piwik_Translate('VisitorInterest_ColumnVisitDuration')),
-            'enable_sort' => false,
+            'default_view_type'           => 'cloud',
+            'filter_sort_column'          => 'label',
+            'filter_sort_order'           => 'asc',
+            'translations'                => array('label' => Piwik_Translate('VisitorInterest_ColumnVisitDuration')),
+            'enable_sort'                 => false,
             'show_exclude_low_population' => false,
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_limit_control' => false,
-            'show_search' => false,
-            'show_table_all_columns' => false,
-            'visualization_properties' => array(
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'show_limit_control'          => false,
+            'show_search'                 => false,
+            'show_table_all_columns'      => false,
+            'visualization_properties'    => array(
                 'graph' => array(
                     'max_graph_elements' => 10
                 )
@@ -186,18 +186,18 @@ class VisitorInterest extends \Piwik\Plugin
     private function getDisplayPropertiesForGetNumberOfVisitsPerPage()
     {
         return array(
-            'default_view_type' => 'cloud',
-            'filter_sort_column' => 'label',
-            'filter_sort_order' => 'asc',
-            'translations' => array('label' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit')),
-            'enable_sort' => false,
+            'default_view_type'           => 'cloud',
+            'filter_sort_column'          => 'label',
+            'filter_sort_order'           => 'asc',
+            'translations'                => array('label' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit')),
+            'enable_sort'                 => false,
             'show_exclude_low_population' => false,
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_limit_control' => false,
-            'show_search' => false,
-            'show_table_all_columns' => false,
-            'visualization_properties' => array(
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'show_limit_control'          => false,
+            'show_search'                 => false,
+            'show_table_all_columns'      => false,
+            'visualization_properties'    => array(
                 'graph' => array(
                     'max_graph_elements' => 10
                 )

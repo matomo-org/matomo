@@ -217,11 +217,11 @@ class ServerBased extends GeoIp
                 array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
         $installDocs =
             '<em><a target="_blank" href="http://piwik.org/faq/how-to/#faq_165">'
-                . Piwik_Translate('UserCountry_HowToInstallApacheModule')
-                . '</a></em><br/><em>'
-                . '<a target="_blank" href="http://piwik.org/faq/how-to/#faq_166">'
-                . Piwik_Translate('UserCountry_HowToInstallNginxModule')
-                . '</a></em>';
+            . Piwik_Translate('UserCountry_HowToInstallApacheModule')
+            . '</a></em><br/><em>'
+            . '<a target="_blank" href="http://piwik.org/faq/how-to/#faq_166">'
+            . Piwik_Translate('UserCountry_HowToInstallNginxModule')
+            . '</a></em>';
 
         $geoipServerVars = array();
         foreach ($_SERVER as $key => $value) {

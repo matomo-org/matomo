@@ -531,7 +531,7 @@ class GeoIPAutoUpdater
             if (self::$unzipPhpError !== null) {
                 list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
                 Log::warning("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
-                           . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
+                    . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
 
                 // get the current filename for the DB and an available new one to rename it to
                 list($oldPath, $newPath) = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);
@@ -605,7 +605,7 @@ class GeoIPAutoUpdater
     /**
      * Removes the &date=... query parameter if present in the URL. This query parameter
      * is in MaxMind URLs by default and will force the download of an old database.
-     * 
+     *
      * @param string $url
      * @return string
      */

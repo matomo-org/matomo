@@ -10,11 +10,11 @@
  * @package DevicesDetection
  */
 //yml parser
-require_once(PIWIK_INCLUDE_PATH.'/libs/spyc.php');
+require_once(PIWIK_INCLUDE_PATH . '/libs/spyc.php');
 
 class UserAgentParserEnhanced
 {
-    public static $deviceTypes = array( 'desktop', 'smartphone', 'tablet', 'feature phone', 'console', 'tv', 'car browser' );
+    public static $deviceTypes = array('desktop', 'smartphone', 'tablet', 'feature phone', 'console', 'tv', 'car browser');
 
     public static $deviceBrands = array(
         'AC' => 'Acer',
@@ -124,118 +124,118 @@ class UserAgentParserEnhanced
         'ZT' => 'ZTE',
     );
     public static $osShorts = array(
-        'AIX' => 'AIX',
-        'Android' => 'AND',
-        'Apple TV' => 'ATV',
-        'Arch Linux' => 'ARL',
-        'BackTrack' => 'BTR',
-        'Bada' => 'SBA',
-        'BlackBerry OS' => 'BLB',
+        'AIX'                  => 'AIX',
+        'Android'              => 'AND',
+        'Apple TV'             => 'ATV',
+        'Arch Linux'           => 'ARL',
+        'BackTrack'            => 'BTR',
+        'Bada'                 => 'SBA',
+        'BlackBerry OS'        => 'BLB',
         'BlackBerry Tablet OS' => 'QNX',
-        'Bot' => 'BOT',
-        'Brew' => 'BMP',
-        'CentOS' => 'CES',
-        'Chrome OS' => 'COS',
-        'Debian' => 'DEB',
-        'DragonFly' => 'DFB',
-        'Fedora' => 'FED',
-        'Firefox OS' => 'FOS',
-        'FreeBSD' => 'BSD',
-        'Gentoo' => 'GNT',
-        'Google TV' => 'GTV',
-        'HP-UX' => 'HPX',
-        'IRIX' => 'IRI',
-        'Knoppix' => 'KNO',
-        'Kubuntu' => 'KBT',
-        'Linux' => 'LIN',
-        'Lubuntu' => 'LBT',
-        'Mac' => 'MAC',
-        'Mandriva' => 'MDR',
-        'MeeGo' => 'SMG',
-        'Mint' => 'MIN',
-        'NetBSD' => 'NBS',
-        'Nintendo' => 'WII',
-        'Nintendo Mobile' => 'NDS',
-        'OS/2' => 'OS2',
-        'OSF1' => 'T64',
-        'OpenBSD' => 'OBS',
-        'PlayStation' => 'PSP',
-        'PlayStation 3' => 'PS3',
-        'Presto' => 'PRS',
-        'Puppy' => 'PPY',
-        'Red Hat' => 'RHT',
-        'SUSE' => 'SSE',
-        'Slackware' => 'SLW',
-        'Solaris' => 'SOS',
-        'Syllable' => 'SYL',
-        'Symbian' => 'SYM',
-        'Symbian OS' => 'SYS',
+        'Bot'                  => 'BOT',
+        'Brew'                 => 'BMP',
+        'CentOS'               => 'CES',
+        'Chrome OS'            => 'COS',
+        'Debian'               => 'DEB',
+        'DragonFly'            => 'DFB',
+        'Fedora'               => 'FED',
+        'Firefox OS'           => 'FOS',
+        'FreeBSD'              => 'BSD',
+        'Gentoo'               => 'GNT',
+        'Google TV'            => 'GTV',
+        'HP-UX'                => 'HPX',
+        'IRIX'                 => 'IRI',
+        'Knoppix'              => 'KNO',
+        'Kubuntu'              => 'KBT',
+        'Linux'                => 'LIN',
+        'Lubuntu'              => 'LBT',
+        'Mac'                  => 'MAC',
+        'Mandriva'             => 'MDR',
+        'MeeGo'                => 'SMG',
+        'Mint'                 => 'MIN',
+        'NetBSD'               => 'NBS',
+        'Nintendo'             => 'WII',
+        'Nintendo Mobile'      => 'NDS',
+        'OS/2'                 => 'OS2',
+        'OSF1'                 => 'T64',
+        'OpenBSD'              => 'OBS',
+        'PlayStation'          => 'PSP',
+        'PlayStation 3'        => 'PS3',
+        'Presto'               => 'PRS',
+        'Puppy'                => 'PPY',
+        'Red Hat'              => 'RHT',
+        'SUSE'                 => 'SSE',
+        'Slackware'            => 'SLW',
+        'Solaris'              => 'SOS',
+        'Syllable'             => 'SYL',
+        'Symbian'              => 'SYM',
+        'Symbian OS'           => 'SYS',
         'Symbian OS Series 40' => 'S40',
         'Symbian OS Series 60' => 'S60',
-        'Symbian^3' => 'SY3',
-        'Talkatone' => 'TKT',
-        'Tizen' => 'TIZ',
-        'Ubuntu' => 'UBT',
-        'WebTV' => 'WTV',
-        'WinWAP' => 'WWP',
-        'Windows' => 'WIN',
-        'Windows 2000' => 'W2K',
-        'Windows 3.1' => 'W31',
-        'Windows 7' => 'WI7',
-        'Windows 8' => 'WI8',
-        'Windows 95' => 'W95',
-        'Windows 98' => 'W98',
-        'Windows CE' => 'WCE',
-        'Windows ME' => 'WME',
-        'Windows Mobile' => 'WMO',
-        'Windows NT' => 'WNT',
-        'Windows Phone' => 'WPH',
-        'Windows RT' => 'WRT',
-        'Windows Server 2003' => 'WS3',
-        'Windows Vista' => 'WVI',
-        'Windows XP' => 'WXP',
-        'Xbox' => 'XBX',
-        'Xubuntu' => 'XBT',
-        'YunOs' => 'YNS',
-        'iOS' => 'IOS',
-        'palmOS' => 'POS',
-        'webOS' => 'WOS'
+        'Symbian^3'            => 'SY3',
+        'Talkatone'            => 'TKT',
+        'Tizen'                => 'TIZ',
+        'Ubuntu'               => 'UBT',
+        'WebTV'                => 'WTV',
+        'WinWAP'               => 'WWP',
+        'Windows'              => 'WIN',
+        'Windows 2000'         => 'W2K',
+        'Windows 3.1'          => 'W31',
+        'Windows 7'            => 'WI7',
+        'Windows 8'            => 'WI8',
+        'Windows 95'           => 'W95',
+        'Windows 98'           => 'W98',
+        'Windows CE'           => 'WCE',
+        'Windows ME'           => 'WME',
+        'Windows Mobile'       => 'WMO',
+        'Windows NT'           => 'WNT',
+        'Windows Phone'        => 'WPH',
+        'Windows RT'           => 'WRT',
+        'Windows Server 2003'  => 'WS3',
+        'Windows Vista'        => 'WVI',
+        'Windows XP'           => 'WXP',
+        'Xbox'                 => 'XBX',
+        'Xubuntu'              => 'XBT',
+        'YunOs'                => 'YNS',
+        'iOS'                  => 'IOS',
+        'palmOS'               => 'POS',
+        'webOS'                => 'WOS'
     );
     protected static $desktopOsArray = array('IBM', 'Linux', 'Mac', 'Unix', 'Windows');
     public static $osFamilies = array(
-        'Android' => array('AND'),
-        'Apple TV' => array('ATV'),
-        'BlackBerry' => array('BLB'),
-        'Bot' => array('BOT'),
-        'Brew' => array('BMP'),
-        'Chrome OS' => array('COS'),
-        'Firefox OS' => array('FOS'),
-        'Gaming Console' => array('WII', 'PS3'),
-        'Google TV' => array('GTV'),
-        'IBM' => array('OS2'),
-        'iOS' => array('IOS'),
-        'Linux' => array('LIN', 'ARL', 'DEB', 'KNO', 'MIN', 'UBT', 'KBT', 'XBT', 'LBT', 'FED', 'RHT', 'MDR', 'GNT', 'SLW', 'SSE', 'PPY', 'CES', 'BTR', 'YNS', 'PRS'),
-        'Mac' => array('MAC'),
+        'Android'               => array('AND'),
+        'Apple TV'              => array('ATV'),
+        'BlackBerry'            => array('BLB'),
+        'Bot'                   => array('BOT'),
+        'Brew'                  => array('BMP'),
+        'Chrome OS'             => array('COS'),
+        'Firefox OS'            => array('FOS'),
+        'Gaming Console'        => array('WII', 'PS3'),
+        'Google TV'             => array('GTV'),
+        'IBM'                   => array('OS2'),
+        'iOS'                   => array('IOS'),
+        'Linux'                 => array('LIN', 'ARL', 'DEB', 'KNO', 'MIN', 'UBT', 'KBT', 'XBT', 'LBT', 'FED', 'RHT', 'MDR', 'GNT', 'SLW', 'SSE', 'PPY', 'CES', 'BTR', 'YNS', 'PRS'),
+        'Mac'                   => array('MAC'),
         'Mobile Gaming Console' => array('PSP', 'NDS', 'XBX'),
-        'Other Mobile' => array('WOS', 'POS', 'QNX', 'SBA', 'TIZ'),
-        'Simulator' => array('TKT', 'WWP'),
-        'Symbian' => array('SYM', 'SYS', 'SY3', 'S60', 'S40', 'SMG'),
-        'Unix' => array('SOS', 'AIX', 'HPX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
-        'WebTV' => array('WTV'),
-        'Windows' => array('WI8', 'WI7', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95', 'WRT', 'W31', 'WIN'),
-        'Windows Mobile' => array('WPH', 'WMO', 'WCE')
+        'Other Mobile'          => array('WOS', 'POS', 'QNX', 'SBA', 'TIZ'),
+        'Simulator'             => array('TKT', 'WWP'),
+        'Symbian'               => array('SYM', 'SYS', 'SY3', 'S60', 'S40', 'SMG'),
+        'Unix'                  => array('SOS', 'AIX', 'HPX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
+        'WebTV'                 => array('WTV'),
+        'Windows'               => array('WI8', 'WI7', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95', 'WRT', 'W31', 'WIN'),
+        'Windows Mobile'        => array('WPH', 'WMO', 'WCE')
     );
     public static $browserFamilies = array(
-        'Android Browser' => array('AN'),
+        'Android Browser'    => array('AN'),
         'BlackBerry Browser' => array('BB'),
-        'Chrome' => array('CH', 'CM', 'CI', 'CF', 'CR', 'RM'),
-        'Firefox' => array('FF', 'FE', 'SX', 'FB', 'PX', 'MB'),
-        'Internet Explorer' => array('IE', 'IM'),
-        'Konqueror' => array('KO'),
-        'NetFront' => array('NF'),
-        'Nokia Browser' => array('NB'),
-        'Opera' => array('OP', 'OM', 'OI'),
-        'Safari' => array('SF', 'MF')
+        'Chrome'             => array('CH', 'CM', 'CI', 'CF', 'CR', 'RM'),
+        'Firefox'            => array('FF', 'FE', 'SX', 'FB', 'PX', 'MB'),
+        'Internet Explorer'  => array('IE', 'IM'),
+        'Konqueror'          => array('KO'),
+        'NetFront'           => array('NF'),
+        'Nokia Browser'      => array('NB'),
+        'Opera'              => array('OP', 'OM', 'OI'),
+        'Safari'             => array('SF', 'MF')
     );
     public static $browsers = array(
         'AB' => 'ABrowse',
@@ -384,9 +384,9 @@ class UserAgentParserEnhanced
         }
 
         $this->os = array(
-            'name' => $this->buildOsName($osRegex['name'], $matches),
+            'name'       => $this->buildOsName($osRegex['name'], $matches),
             'short_name' => $short,
-            'version' => $this->buildOsVersion($osRegex['version'], $matches)
+            'version'    => $this->buildOsVersion($osRegex['version'], $matches)
         );
 
         if (array_key_exists($this->os['name'], self::$osShorts)) {
@@ -412,9 +412,9 @@ class UserAgentParserEnhanced
         }
 
         $this->browser = array(
-            'name' => $this->buildBrowserName($browserRegex['name'], $matches),
+            'name'       => $this->buildBrowserName($browserRegex['name'], $matches),
             'short_name' => $short,
-            'version' => $this->buildBrowserVersion($browserRegex['version'], $matches)
+            'version'    => $this->buildBrowserVersion($browserRegex['version'], $matches)
         );
     }
 
@@ -439,7 +439,7 @@ class UserAgentParserEnhanced
         $this->fullName = $brand;
 
         if (isset($mobileRegex['device'])) {
-            $this->device = array_search($mobileRegex['device'],self::$deviceTypes);
+            $this->device = array_search($mobileRegex['device'], self::$deviceTypes);
         }
 
         if (isset($mobileRegex['model'])) {

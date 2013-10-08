@@ -16,8 +16,8 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics;
-use Piwik\Piwik;
 
+use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;

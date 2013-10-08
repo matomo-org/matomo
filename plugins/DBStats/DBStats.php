@@ -11,8 +11,8 @@
 namespace Piwik\Plugins\DBStats;
 
 use Piwik\Common;
-use Piwik\Date;
 
+use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Weekly;
@@ -149,7 +149,7 @@ class DBStats extends \Piwik\Plugin
 
         $result['title'] = Piwik_Translate('DBStats_MetricTables');
         $result['related_reports'] = array(
-           'DBStats.getMetricDataSummaryByYear' => Piwik_Translate('DBStats_MetricDataByYear')
+            'DBStats.getMetricDataSummaryByYear' => Piwik_Translate('DBStats_MetricDataByYear')
         );
 
         return $result;
@@ -163,8 +163,8 @@ class DBStats extends \Piwik\Plugin
 
         $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
         $result['title'] = Piwik_Translate('DBStats_MetricDataByYear');
-        $result['related_reports'] =  array(
-           'DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')
+        $result['related_reports'] = array(
+            'DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')
         );
 
         return $result;
@@ -193,7 +193,7 @@ class DBStats extends \Piwik\Plugin
         $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
         $result['title'] = Piwik_Translate('DBStats_ReportDataByYear');
         $result['related_reports'] = array(
-           'DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')
+            'DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')
         );
 
         return $result;

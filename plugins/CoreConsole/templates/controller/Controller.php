@@ -9,6 +9,7 @@
  * @package PLUGINNAME
  */
 namespace Piwik\Plugins\PLUGINNAME;
+
 use Piwik\View;
 
 /**

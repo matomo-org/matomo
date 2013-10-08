@@ -12,8 +12,8 @@ namespace Piwik\Plugins\Goals;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
-use Piwik\Db;
 
+use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
@@ -87,17 +87,17 @@ class Goals extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
-            'Site.getSiteAttributes'           => 'fetchGoalsFromDb',
-            'ArchiveProcessor.Day.compute'     => 'archiveDay',
-            'ArchiveProcessor.Period.compute'  => 'archivePeriod',
-            'API.getReportMetadata.end'        => 'getReportMetadata',
-            'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
-            'WidgetsList.addWidgets'           => 'addWidgets',
-            'Menu.Reporting.addItems'          => 'addMenus',
-            'SitesManager.deleteSite.end'      => 'deleteSiteGoals',
-            'Goals.getReportsWithGoalMetrics'  => 'getActualReportsWithGoalMetrics',
+            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
+            'Site.getSiteAttributes'                   => 'fetchGoalsFromDb',
+            'ArchiveProcessor.Day.compute'             => 'archiveDay',
+            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
+            'API.getReportMetadata.end'                => 'getReportMetadata',
+            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
+            'WidgetsList.addWidgets'                   => 'addWidgets',
+            'Menu.Reporting.addItems'                  => 'addMenus',
+            'SitesManager.deleteSite.end'              => 'deleteSiteGoals',
+            'Goals.getReportsWithGoalMetrics'          => 'getActualReportsWithGoalMetrics',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
             'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
         );

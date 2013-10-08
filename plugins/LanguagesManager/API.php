@@ -55,8 +55,8 @@ class API
     public function isLanguageAvailable($languageCode)
     {
         return $languageCode !== false
-            && Filesystem::isValidFilename($languageCode)
-            && in_array($languageCode, $this->getAvailableLanguages());
+        && Filesystem::isValidFilename($languageCode)
+        && in_array($languageCode, $this->getAvailableLanguages());
     }
 
     /**
@@ -97,10 +97,10 @@ class API
             $data = file_get_contents(sprintf('%s/lang/%s.json', PIWIK_INCLUDE_PATH, $filename));
             $translations = json_decode($data, true);
 
-            $intersect = function($array, $array2) {
+            $intersect = function ($array, $array2) {
                 $res = $array;
-                foreach($array as $module => $keys) {
-                    if(!isset($array2[$module])) {
+                foreach ($array as $module => $keys) {
+                    if (!isset($array2[$module])) {
                         unset($res[$module]);
                     } else {
                         $res[$module] = array_intersect_key($res[$module], array_filter($array2[$module], 'strlen'));
@@ -164,7 +164,7 @@ class API
         $translations = json_decode($data, true);
         $languageInfo = array();
         foreach ($translations as $module => $keys) {
-            foreach($keys as $key => $value) {
+            foreach ($keys as $key => $value) {
                 $languageInfo[] = array(
                     'label' => sprintf("%s_%s", $module, $key),
                     'value' => $value
@@ -199,7 +199,7 @@ class API
         $translations = json_decode($data, true);
         $languageInfo = array();
         foreach ($translations as $module => $keys) {
-            foreach($keys as $key => $value) {
+            foreach ($keys as $key => $value) {
                 $languageInfo[] = array(
                     'label' => sprintf("%s_%s", $module, $key),
                     'value' => $value
@@ -239,9 +239,9 @@ class API
         }
         $paramsBind = array($login, $languageCode, $languageCode);
         Db::query('INSERT INTO ' . Common::prefixTable('user_language') .
-                ' (login, language)
-                    VALUES (?,?)
-                ON DUPLICATE KEY UPDATE language=?',
+            ' (login, language)
+                VALUES (?,?)
+            ON DUPLICATE KEY UPDATE language=?',
             $paramsBind);
         return true;
     }

@@ -269,8 +269,8 @@ class Pecl extends GeoIp
     public static function isLocationDatabaseAvailable()
     {
         return self::isCityDatabaseAvailable()
-            || self::isRegionDatabaseAvailable()
-            || self::isCountryDatabaseAvailable();
+        || self::isRegionDatabaseAvailable()
+        || self::isCountryDatabaseAvailable();
     }
 
     /**
@@ -281,7 +281,7 @@ class Pecl extends GeoIp
     public static function isCityDatabaseAvailable()
     {
         return geoip_db_avail(GEOIP_CITY_EDITION_REV0)
-            || geoip_db_avail(GEOIP_CITY_EDITION_REV1);
+        || geoip_db_avail(GEOIP_CITY_EDITION_REV1);
     }
 
     /**
@@ -292,7 +292,7 @@ class Pecl extends GeoIp
     public static function isRegionDatabaseAvailable()
     {
         return geoip_db_avail(GEOIP_REGION_EDITION_REV0)
-            || geoip_db_avail(GEOIP_REGION_EDITION_REV1);
+        || geoip_db_avail(GEOIP_REGION_EDITION_REV1);
     }
 
     /**

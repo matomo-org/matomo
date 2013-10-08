@@ -14,11 +14,11 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Url;
 
+use Piwik\Url;
 use Piwik\WidgetsList;
 
 /**
@@ -84,7 +84,7 @@ class UserCountry extends \Piwik\Plugin
 
         $userInfo = array(
             'lang' => $visitorInfo['location_browser_lang'],
-            'ip' => IP::N2P($visitorInfo['location_ip'])
+            'ip'   => IP::N2P($visitorInfo['location_ip'])
         );
 
         $location = array();
@@ -382,8 +382,8 @@ class UserCountry extends \Piwik\Plugin
         if (LocationProvider::getCurrentProviderId() == DefaultProvider::ID) {
             // if we're using the default location provider, add a note explaining how it works
             $footerMessage = Piwik_Translate("General_Note") . ': '
-                           . Piwik_Translate('UserCountry_DefaultLocationProviderExplanation',
-                                             array('<a target="_blank" href="http://piwik.org/docs/geo-locate/">', '</a>'));
+                . Piwik_Translate('UserCountry_DefaultLocationProviderExplanation',
+                    array('<a target="_blank" href="http://piwik.org/docs/geo-locate/">', '</a>'));
 
             $result['show_footer_message'] = $footerMessage;
         }
@@ -461,13 +461,13 @@ class UserCountry extends \Piwik\Plugin
                 if (!$self->isGeoIPWorking()) {
                     $params = array('module' => 'UserCountry', 'action' => 'adminIndex');
                     $footerMessage .= ' ' . Piwik_Translate('UserCountry_NoDataForGeoIPReport2',
-                        array('<a target="_blank" href="' . Url::getCurrentQueryStringWithParametersModified($params) . '">',
-                              '</a>',
-                              '<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
-                              '</a>'));
+                            array('<a target="_blank" href="' . Url::getCurrentQueryStringWithParametersModified($params) . '">',
+                                  '</a>',
+                                  '<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
+                                  '</a>'));
                 } else {
                     $footerMessage .= ' ' . Piwik_Translate('UserCountry_ToGeolocateOldVisits',
-                        array('<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">', '</a>'));
+                            array('<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">', '</a>'));
                 }
 
                 $view->show_footer_message = $footerMessage;
@@ -484,8 +484,8 @@ class UserCountry extends \Piwik\Plugin
     {
         $provider = LocationProvider::getCurrentProvider();
         return $provider instanceof GeoIp
-            && $provider->isAvailable() === true
-            && $provider->isWorking() === true;
+        && $provider->isAvailable() === true
+        && $provider->isWorking() === true;
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

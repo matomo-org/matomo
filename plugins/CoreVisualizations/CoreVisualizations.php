@@ -28,10 +28,10 @@ class CoreVisualizations extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
-            'Visualization.addVisualizations'         => 'getAvailableDataTableVisualizations',
-            'Translate.getClientSideTranslationKeys'  => 'getClientSideTranslationKeys'
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'Visualization.addVisualizations'        => 'getAvailableDataTableVisualizations',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 

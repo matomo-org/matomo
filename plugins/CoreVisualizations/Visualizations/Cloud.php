@@ -27,11 +27,11 @@ use Piwik\ViewDataTable\Visualization;
 class Cloud extends Visualization
 {
     const ID = 'cloud';
-    
+
     /**
      * Whether to display the logo assocatied with a DataTable row (stored as 'logo' row metadata)
      * instead of the label in Tag Clouds.
-     * 
+     *
      * Default value: false
      */
     const DISPLAY_LOGO_INSTEAD_OF_LABEL = 'display_logo_instead_of_label';
@@ -53,7 +53,7 @@ class Cloud extends Visualization
             if ($dataTable->getRowsCount() == 0) {
                 return;
             }
-            
+
             $columnToDisplay = isset($view->columns_to_display[1]) ? $view->columns_to_display[1] : 'nb_visits';
 
             $labelMetadata = array();
@@ -85,10 +85,10 @@ class Cloud extends Visualization
     public static function getDefaultPropertyValues()
     {
         return array(
-            'show_offset_information' => false,
+            'show_offset_information'     => false,
             'show_exclude_low_population' => false,
-            'show_limit_control' => false,
-            'visualization_properties' => array(
+            'show_limit_control'          => false,
+            'visualization_properties'    => array(
                 'cloud' => array(
                     'display_logo_instead_of_label' => false,
                 )

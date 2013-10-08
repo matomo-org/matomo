@@ -29,7 +29,7 @@ class Archiver extends PluginsArchiver
     const METRIC_DISTINCT_CAMPAIGN_RECORD_NAME = 'Referrers_distinctCampaigns';
     const METRIC_DISTINCT_WEBSITE_RECORD_NAME = 'Referrers_distinctWebsites';
     const METRIC_DISTINCT_URLS_RECORD_NAME = 'Referrers_distinctWebsitesUrls';
-    
+
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTableLevelZero;
     protected $maximumRowsInSubDataTable;
@@ -45,7 +45,7 @@ class Archiver extends PluginsArchiver
         // Reading pre 2.0 config file settings
         $this->maximumRowsInDataTableLevelZero = @Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
         $this->maximumRowsInSubDataTable = @Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
-        if(empty($this->maximumRowsInDataTableLevelZero)) {
+        if (empty($this->maximumRowsInDataTableLevelZero)) {
             $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_referrers'];
             $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referrers'];
         }
@@ -239,25 +239,25 @@ class Archiver extends PluginsArchiver
 
         $mappingFromArchiveName = array(
             self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME =>
-            array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => self::SEARCH_ENGINES_RECORD_NAME,
-            ),
+                array('typeCountToUse' => 'level0',
+                      'nameTableToUse' => self::SEARCH_ENGINES_RECORD_NAME,
+                ),
             self::METRIC_DISTINCT_KEYWORD_RECORD_NAME       =>
-            array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => self::KEYWORDS_RECORD_NAME,
-            ),
+                array('typeCountToUse' => 'level0',
+                      'nameTableToUse' => self::KEYWORDS_RECORD_NAME,
+                ),
             self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME      =>
-            array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => self::CAMPAIGNS_RECORD_NAME,
-            ),
+                array('typeCountToUse' => 'level0',
+                      'nameTableToUse' => self::CAMPAIGNS_RECORD_NAME,
+                ),
             self::METRIC_DISTINCT_WEBSITE_RECORD_NAME       =>
-            array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => self::WEBSITES_RECORD_NAME,
-            ),
+                array('typeCountToUse' => 'level0',
+                      'nameTableToUse' => self::WEBSITES_RECORD_NAME,
+                ),
             self::METRIC_DISTINCT_URLS_RECORD_NAME          =>
-            array('typeCountToUse' => 'recursive',
-                  'nameTableToUse' => self::WEBSITES_RECORD_NAME,
-            ),
+                array('typeCountToUse' => 'recursive',
+                      'nameTableToUse' => self::WEBSITES_RECORD_NAME,
+                ),
         );
 
         foreach ($mappingFromArchiveName as $name => $infoMapping) {

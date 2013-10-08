@@ -9,8 +9,8 @@
  * @package CorePluginsAdmin
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
-use Piwik\CacheFile;
 
+use Piwik\CacheFile;
 use Piwik\Http;
 use Piwik\PluginsManager;
 use Piwik\Version;
@@ -71,7 +71,7 @@ class MarketplaceApiClient
         $params = array();
 
         foreach ($plugins as $plugin) {
-            $pluginName   = $plugin->getPluginName();
+            $pluginName = $plugin->getPluginName();
             if (!PluginsManager::getInstance()->isPluginBundledWithCore($pluginName)) {
                 $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion());
             }
@@ -90,7 +90,7 @@ class MarketplaceApiClient
 
     /**
      * @param  \Piwik\Plugin[] $plugins
-     * @param  bool            $themesOnly
+     * @param  bool $themesOnly
      * @return array
      */
     public function getInfoOfPluginsHavingUpdate($plugins, $themesOnly)
@@ -135,18 +135,18 @@ class MarketplaceApiClient
     private function fetch($action, $params)
     {
         ksort($params);
-        $query  = http_build_query($params);
+        $query = http_build_query($params);
         $result = $this->getCachedResult($action, $query);
 
         if (false === $result) {
             $endpoint = $this->domain . '/api/1.0/';
-            $url      = sprintf('%s%s?%s', $endpoint, $action, $query);
+            $url = sprintf('%s%s?%s', $endpoint, $action, $query);
             $response = Http::sendHttpRequest($url, static::HTTP_REQUEST_TIMEOUT);
-            $result   = json_decode($response, true);
+            $result = json_decode($response, true);
 
             if (is_null($result)) {
                 $message = sprintf('There was an error reading the response from the Marketplace: %s. Please try again later.',
-                                   substr($response, 0, 50));
+                    substr($response, 0, 50));
                 throw new MarketplaceApiException($message);
             }
 
@@ -193,7 +193,7 @@ class MarketplaceApiClient
         }
 
         $latestVersion = array_pop($plugin['versions']);
-        $downloadUrl   = $latestVersion['download'];
+        $downloadUrl = $latestVersion['download'];
 
         return $this->domain . $downloadUrl . '?coreVersion=' . Version::VERSION;
     }

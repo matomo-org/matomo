@@ -47,9 +47,9 @@ class Evolution extends JqplotDataGenerator
 
         // if rows to display are not specified, default to all rows (TODO: perhaps this should be done elsewhere?)
         $rowsToDisplay = $this->properties['visualization_properties']->rows_to_display
-            ?: array_unique($dataTable->getColumn('label'))
-            ?: array(false) // make sure that a series is plotted even if there is no data
-            ;
+            ? : array_unique($dataTable->getColumn('label'))
+                ? : array(false) // make sure that a series is plotted even if there is no data
+        ;
 
         // collect series data to show. each row-to-display/column-to-display permutation creates a series.
         $allSeriesData = array();
@@ -93,9 +93,9 @@ class Evolution extends JqplotDataGenerator
                 }
                 $link = 'index.php?' .
                     Url::getQueryStringFromParameters(array(
-                        'module' => 'CoreHome',
-                        'action' => 'index',
-                    ) + $parameters)
+                            'module' => 'CoreHome',
+                            'action' => 'index',
+                        ) + $parameters)
                     . $hash;
                 $axisXOnClick[] = $link;
             }
@@ -118,7 +118,7 @@ class Evolution extends JqplotDataGenerator
             if ($row === false) {
                 $seriesData[] = 0;
             } else {
-                $seriesData[] = $row->getColumn($columnName) ?: 0;
+                $seriesData[] = $row->getColumn($columnName) ? : 0;
             }
         }
         return $seriesData;

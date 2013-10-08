@@ -67,11 +67,11 @@ class Controller extends \Piwik\Controller
         $label = implode('>', $path);
         $request = new Request(
             'method=Actions.getPageUrls'
-                . '&idSite=' . urlencode($idSite)
-                . '&date=' . urlencode($date)
-                . '&period=' . urlencode($period)
-                . '&label=' . urlencode($label)
-                . '&format=original'
+            . '&idSite=' . urlencode($idSite)
+            . '&date=' . urlencode($date)
+            . '&period=' . urlencode($period)
+            . '&label=' . urlencode($label)
+            . '&format=original'
         );
         $dataTable = $request->process();
 

@@ -33,11 +33,11 @@ class RunTests extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $options = $input->getOption('options');
-        $group   = $input->getArgument('group');
+        $group = $input->getArgument('group');
 
         if (!empty($group)) {
-            $groups  = explode(',', $group);
-            $groups  = array_map('ucfirst', $groups);
+            $groups = explode(',', $group);
+            $groups = array_map('ucfirst', $groups);
             $options = '--group ' . implode(',', $groups) . ' ' . $options;
         }
 

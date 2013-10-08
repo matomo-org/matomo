@@ -32,10 +32,10 @@ class Login extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'Request.initAuthenticationObject'  => 'initAuthenticationObject',
-            'User.isNotAuthorized'              => 'noAccess',
-            'API.Request.authenticate'          => 'ApiRequestAuthenticate',
-            'Login.initSession'                 => 'initSession',
+            'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'User.isNotAuthorized'             => 'noAccess',
+            'API.Request.authenticate'         => 'ApiRequestAuthenticate',
+            'Login.initSession'                => 'initSession',
         );
         return $hooks;
     }

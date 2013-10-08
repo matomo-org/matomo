@@ -13,8 +13,8 @@ namespace Piwik\Plugins\CustomVariables;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\DataArray;
 
+use Piwik\DataArray;
 use Piwik\Metrics;
 use Piwik\PluginsArchiver;
 use Piwik\Tracker;
@@ -86,7 +86,7 @@ class Archiver extends PluginsArchiver
     protected function getSelectAveragePrice()
     {
         return LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
-            . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
+        . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 
     protected function aggregateFromVisits($query, $keyField, $valueField)

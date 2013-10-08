@@ -117,7 +117,7 @@ class API
     /**
      * Returns the list of all the users
      *
-     * @param string $userLogins  Comma separated list of users to select. If not specified, will return all users
+     * @param string $userLogins Comma separated list of users to select. If not specified, will return all users
      * @return array the list of all the users
      */
     public function getUsers($userLogins = '')
@@ -508,7 +508,7 @@ class API
 								FROM " . Common::prefixTable("user") . "
 								WHERE email = ?", $userEmail);
         return $count != 0
-            || Config::getInstance()->superuser['email'] == $userEmail;
+        || Config::getInstance()->superuser['email'] == $userEmail;
     }
 
     /**
@@ -659,12 +659,12 @@ class API
 
         if (is_null($idSites)) {
             $db->query("DELETE FROM " . Common::prefixTable("access") .
-                    " WHERE login = ?",
+                " WHERE login = ?",
                 array($userLogin));
         } else {
             foreach ($idSites as $idsite) {
                 $db->query("DELETE FROM " . Common::prefixTable("access") .
-                        " WHERE idsite = ? AND login = ?",
+                    " WHERE idsite = ? AND login = ?",
                     array($idsite, $userLogin)
                 );
             }

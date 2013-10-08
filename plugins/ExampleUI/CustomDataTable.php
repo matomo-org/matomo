@@ -22,12 +22,12 @@ class CustomDataTable
 
         $view->translations['value'] = $value;
         $view->translations['label'] = $label;
-        $view->filter_sort_column    = 'label';
-        $view->filter_sort_order     = 'asc';
-        $view->filter_limit          = 24;
-        $view->y_axis_unit           = '°C'; // useful if the user requests the bar graph
+        $view->filter_sort_column = 'label';
+        $view->filter_sort_order = 'asc';
+        $view->filter_limit = 24;
+        $view->y_axis_unit = '°C'; // useful if the user requests the bar graph
         $view->show_exclude_low_population = false;
-        $view->show_table_all_columns      = false;
+        $view->show_table_all_columns = false;
         $view->visualization_properties->setForVisualization(
             'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable',
             'disable_row_evolution',

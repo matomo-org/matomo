@@ -23,7 +23,7 @@ class Controller extends \Piwik\Controller
     public function dataTables()
     {
         $controllerAction = $this->pluginName . '.' . __FUNCTION__;
-        $apiAction        = 'ExampleUI.getTemperatures';
+        $apiAction = 'ExampleUI.getTemperatures';
 
         /**
          * this is an example how you can make a custom visualization reusable.
@@ -76,9 +76,9 @@ class Controller extends \Piwik\Controller
         $view = ViewDataTable::factory(
             'graphPie', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.pieGraph');
 
-        $view->columns_to_display    = array('value');
+        $view->columns_to_display = array('value');
         $view->translations['value'] = "times the diameter of Earth";
-        $view->show_footer_icons     = false;
+        $view->show_footer_icons = false;
         $view->visualization_properties->selectable_columns = array("value");
         $view->visualization_properties->max_graph_elements = 10;
 
@@ -103,9 +103,9 @@ class Controller extends \Piwik\Controller
         $view = ViewDataTable::factory(
             'cloud', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.echoSimpleTagClouds');
 
-        $view->columns_to_display    = array('label', 'value');
+        $view->columns_to_display = array('label', 'value');
         $view->translations['value'] = "times the diameter of Earth";
-        $view->show_footer           = false;
+        $view->show_footer = false;
 
         echo $view->render();
     }
@@ -120,7 +120,7 @@ class Controller extends \Piwik\Controller
             'display_logo_instead_of_label',
             true
         );
-        $view->columns_to_display    = array('label', 'value');
+        $view->columns_to_display = array('label', 'value');
         $view->translations['value'] = "times the diameter of Earth";
 
         echo $view->render();

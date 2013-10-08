@@ -248,7 +248,7 @@ class ReportsPurger
         $toRemoveMonth = (int)$toRemoveDate->toString('m');
 
         return $reportDateYear < $toRemoveYear
-            || ($reportDateYear == $toRemoveYear && $reportDateMonth <= $toRemoveMonth);
+        || ($reportDateYear == $toRemoveYear && $reportDateMonth <= $toRemoveMonth);
     }
 
     private function getNumericTableDeleteCount($table)

@@ -9,8 +9,8 @@
  * @package CorePluginsAdmin
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
-use Piwik\Filechecks;
 
+use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\SettingsPiwik;
 use Piwik\Unzip;
@@ -22,7 +22,7 @@ use Piwik\Unzip;
 class PluginInstaller
 {
     const PATH_TO_DOWNLOAD = '/tmp/latest/plugins/';
-    const PATH_TO_EXTRACT  = '/plugins/';
+    const PATH_TO_EXTRACT = '/plugins/';
 
     private $pluginName;
 
@@ -33,7 +33,7 @@ class PluginInstaller
 
     public function installOrUpdatePluginFromMarketplace()
     {
-        $tmpPluginZip    = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName . '.zip';
+        $tmpPluginZip = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName . '.zip';
         $tmpPluginFolder = PIWIK_USER_PATH . self::PATH_TO_DOWNLOAD . $this->pluginName;
 
         $tmpPluginZip = SettingsPiwik::rewriteTmpPathWithHostname($tmpPluginZip);
@@ -87,7 +87,7 @@ class PluginInstaller
         } catch (\Exception $e) {
 
             try {
-                $downloadUrl  = $marketplace->getDownloadUrl($this->pluginName);
+                $downloadUrl = $marketplace->getDownloadUrl($this->pluginName);
                 $errorMessage = sprintf('Failed to download plugin from %s: %s', $downloadUrl, $e->getMessage());
 
             } catch (\Exception $ex) {
@@ -144,7 +144,7 @@ class PluginInstaller
 
         if (!preg_match('/^[a-zA-Z0-9_-]+$/', $metadata->name)) {
             throw new PluginInstallerException('The plugin name specified in plugin.json contains illegal characters. ' .
-                            'Plugin name can only contain following characters: [a-zA-Z0-9-_].');
+                'Plugin name can only contain following characters: [a-zA-Z0-9-_].');
         }
 
         if (empty($metadata->version)) {
@@ -201,7 +201,7 @@ class PluginInstaller
         }
 
         $from = $tmpPluginFolder . DIRECTORY_SEPARATOR . $firstSubFolder;
-        $to   = $tmpPluginFolder . DIRECTORY_SEPARATOR . $this->pluginName;
+        $to = $tmpPluginFolder . DIRECTORY_SEPARATOR . $this->pluginName;
         rename($from, $to);
     }
 
@@ -238,7 +238,7 @@ class PluginInstaller
     private function makeSurePluginNameIsValid()
     {
         try {
-            $marketplace   = new MarketplaceApiClient();
+            $marketplace = new MarketplaceApiClient();
             $pluginDetails = $marketplace->getPluginInfo($this->pluginName);
         } catch (\Exception $e) {
             throw new PluginInstallerException($e->getMessage());

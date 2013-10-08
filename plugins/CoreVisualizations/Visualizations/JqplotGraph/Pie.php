@@ -33,7 +33,7 @@ class Pie extends JqplotGraph
             if ($metricColumn == 'label') {
                 $metricColumn = next($view->columns_to_display);
             }
-            $view->columns_to_display = array($metricColumn ?: 'nb_visits');
+            $view->columns_to_display = array($metricColumn ? : 'nb_visits');
         };
     }
 

@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
-
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
@@ -69,9 +68,9 @@ class API
         $settings = $this->getCredentialManagerSettings();
         return array(
             MobileMessaging::PROVIDER_OPTION =>
-            isset($settings[MobileMessaging::PROVIDER_OPTION]) ? $settings[MobileMessaging::PROVIDER_OPTION] : null,
+                isset($settings[MobileMessaging::PROVIDER_OPTION]) ? $settings[MobileMessaging::PROVIDER_OPTION] : null,
             MobileMessaging::API_KEY_OPTION  =>
-            isset($settings[MobileMessaging::API_KEY_OPTION]) ? $settings[MobileMessaging::API_KEY_OPTION] : null,
+                isset($settings[MobileMessaging::API_KEY_OPTION]) ? $settings[MobileMessaging::API_KEY_OPTION] : null,
         );
     }
 

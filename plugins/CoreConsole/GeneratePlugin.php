@@ -26,20 +26,20 @@ class GeneratePlugin extends GeneratePluginBase
     protected function configure()
     {
         $this->setName('generate:plugin')
-             ->setAliases(array('generate:theme'))
-             ->setDescription('Generates a new plugin/theme including all needed files')
-             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Plugin name ([a-Z0-9_-])')
-             ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
-             ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
-             ->addOption('full', null, InputOption::VALUE_OPTIONAL, 'If a value is set, an API and a Controller will be created as well. Option is only available for creating plugins, not for creating themes.');
+            ->setAliases(array('generate:theme'))
+            ->setDescription('Generates a new plugin/theme including all needed files')
+            ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Plugin name ([a-Z0-9_-])')
+            ->addOption('description', null, InputOption::VALUE_REQUIRED, 'Plugin description, max 150 characters')
+            ->addOption('pluginversion', null, InputOption::VALUE_OPTIONAL, 'Plugin version')
+            ->addOption('full', null, InputOption::VALUE_OPTIONAL, 'If a value is set, an API and a Controller will be created as well. Option is only available for creating plugins, not for creating themes.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $isTheme     = $this->isTheme($input);
-        $pluginName  = $this->getPluginName($input, $output);
+        $isTheme = $this->isTheme($input);
+        $pluginName = $this->getPluginName($input, $output);
         $description = $this->getPluginDescription($input, $output);
-        $version     = $this->getPluginVersion($input, $output);
+        $version = $this->getPluginVersion($input, $output);
         $createFullPlugin = !$isTheme && $this->getCreateFullPlugin($input, $output);
 
         $this->generatePluginFolder($pluginName);
@@ -53,9 +53,9 @@ class GeneratePlugin extends GeneratePluginBase
         }
 
         $this->writeSuccessMessage($output, array(
-            sprintf('%s %s %s generated.', $isTheme ? 'Theme' : 'Plugin', $pluginName, $version),
-            'Enjoy!'
-        ));
+                                                 sprintf('%s %s %s generated.', $isTheme ? 'Theme' : 'Plugin', $pluginName, $version),
+                                                 'Enjoy!'
+                                            ));
 
         if ($createFullPlugin) {
             $this->executePluginCommand($output, 'generate:api', $pluginName);
@@ -65,7 +65,7 @@ class GeneratePlugin extends GeneratePluginBase
 
     private function executePluginCommand(OutputInterface $output, $commandName, $pluginName)
     {
-        $command   = $this->getApplication()->find($commandName);
+        $command = $this->getApplication()->find($commandName);
         $arguments = array(
             'command'      => $commandName,
             '--pluginname' => $pluginName
@@ -153,7 +153,7 @@ class GeneratePlugin extends GeneratePluginBase
         $pluginName = $input->getOption('name');
 
         if (empty($pluginName)) {
-            $dialog     = $this->getHelperSet()->get('dialog');
+            $dialog = $this->getHelperSet()->get('dialog');
             $pluginName = $dialog->askAndValidate($output, 'Enter a plugin name: ', $validate);
         } else {
             $validate($pluginName);
@@ -186,7 +186,7 @@ class GeneratePlugin extends GeneratePluginBase
         $description = $input->getOption('description');
 
         if (empty($description)) {
-            $dialog      = $this->getHelperSet()->get('dialog');
+            $dialog = $this->getHelperSet()->get('dialog');
             $description = $dialog->askAndValidate($output, 'Enter a plugin description: ', $validate);
         } else {
             $validate($description);
@@ -205,7 +205,7 @@ class GeneratePlugin extends GeneratePluginBase
         $version = $input->getOption('pluginversion');
 
         if (is_null($version)) {
-            $dialog  = $this->getHelperSet()->get('dialog');
+            $dialog = $this->getHelperSet()->get('dialog');
             $version = $dialog->ask($output, 'Enter a plugin version number (default to 0.1.0): ', '0.1.0');
         }
 
@@ -223,7 +223,7 @@ class GeneratePlugin extends GeneratePluginBase
 
         if (is_null($full)) {
             $dialog = $this->getHelperSet()->get('dialog');
-            $full   = $dialog->askConfirmation($output, 'Shall we also create an API and a Controller? (y/N)', false);
+            $full = $dialog->askConfirmation($output, 'Shall we also create an API and a Controller? (y/N)', false);
         }
 
         return !empty($full);

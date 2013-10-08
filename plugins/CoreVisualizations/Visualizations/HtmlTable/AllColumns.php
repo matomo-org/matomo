@@ -22,7 +22,7 @@ class AllColumns extends HtmlTable
 
     /**
      * Constructor.
-     * 
+     *
      * @param \Piwik\ViewDataTable $view
      */
     public function __construct($view)

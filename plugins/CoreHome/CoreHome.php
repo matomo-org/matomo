@@ -24,10 +24,10 @@ class CoreHome extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
-            'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'WidgetsList.addWidgets'                 => 'addWidgets',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 

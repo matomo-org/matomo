@@ -34,7 +34,7 @@ class HtmlTable extends Visualization
     /**
      * If this property is set to true, subtables will be shown as embedded in the original table.
      * If false, subtables will be shown as whole tables between rows.
-     * 
+     *
      * Default value: false
      */
     const SHOW_EMBEDDED_SUBTABLE = 'show_embedded_subtable';
@@ -42,7 +42,7 @@ class HtmlTable extends Visualization
     /**
      * Controls whether the entire DataTable should be rendered (including subtables) or just one
      * specific table in the tree.
-     * 
+     *
      * Default value: false
      */
     const SHOW_EXPANDED = 'show_expanded';
@@ -50,7 +50,7 @@ class HtmlTable extends Visualization
     /**
      * When showing an expanded datatable, this property controls whether rows with subtables are
      * replaced with their subtables, or if they are shown alongside their subtables.
-     * 
+     *
      * Default value: false
      */
     const REPLACE_ROW_WITH_SUBTABLE = 'replace_row_with_subtable';
@@ -59,7 +59,7 @@ class HtmlTable extends Visualization
      * Controls whether any DataTable Row Action icons are shown. If true, no icons are shown.
      *
      * @see also self::DISABLE_ROW_EVOLUTION
-     * 
+     *
      * Default value: false
      */
     const DISABLE_ROW_ACTIONS = 'disable_row_actions';
@@ -68,7 +68,7 @@ class HtmlTable extends Visualization
      * Controls whether the row evolution DataTable Row Action icon is shown or not.
      *
      * @see also self::DISABLE_ROW_ACTIONS
-     * 
+     *
      * Default value: false
      */
     const DISABLE_ROW_EVOLUTION = 'disable_row_evolution';
@@ -77,7 +77,7 @@ class HtmlTable extends Visualization
      * If true, the 'label', 'nb_visits', 'nb_uniq_visitors' (if present), 'nb_actions',
      * 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate' and 'conversion_rate' (if
      * goals view is not allowed) are displayed.
-     * 
+     *
      * Default value: false
      */
     const SHOW_EXTRA_COLUMNS = 'show_extra_columns';
@@ -85,7 +85,7 @@ class HtmlTable extends Visualization
     /**
      * If true, conversions for each existing goal will be displayed for the visits in
      * each row.
-     * 
+     *
      * Default value: false
      */
     const SHOW_GOALS_COLUMNS = 'show_goals_columns';
@@ -95,7 +95,7 @@ class HtmlTable extends Visualization
      * 'show_goals_columns' property is also true.
      *
      * @see also self::SHOW_GOALS_COLUMNS
-     * 
+     *
      * Default value: false
      */
     const DISABLE_SUBTABLE_IN_GOALS_VIEW = 'disable_subtable_when_show_goals';
@@ -104,16 +104,16 @@ class HtmlTable extends Visualization
      * Controls whether the summary row is displayed on every page of the datatable view or not.
      * If false, the summary row will be treated as the last row of the dataset and will only visible
      * when viewing the last rows.
-     * 
+     *
      * Default value: false
      */
     const KEEP_SUMMARY_ROW = 'keep_summary_row';
 
     /**
      * If true, the summary row will be colored differently than all other DataTable rows.
-     * 
+     *
      * @see also self::KEEP_SUMMARY_ROW
-     * 
+     *
      * Default value: false
      */
     const HIGHLIGHT_SUMMARY_ROW = 'highlight_summary_row';
@@ -172,20 +172,20 @@ class HtmlTable extends Visualization
     public static function getDefaultPropertyValues()
     {
         $defaults = array(
-            'enable_sort' => true,
-            'datatable_js_type' => 'DataTable',
-            'filter_limit' => Config::getInstance()->General['datatable_default_limit'],
+            'enable_sort'              => true,
+            'datatable_js_type'        => 'DataTable',
+            'filter_limit'             => Config::getInstance()->General['datatable_default_limit'],
             'visualization_properties' => array(
                 'table' => array(
-                    'disable_row_evolution' => false,
-                    'disable_row_actions' => false,
-                    'show_extra_columns' => false,
-                    'show_goals_columns' => false,
+                    'disable_row_evolution'            => false,
+                    'disable_row_actions'              => false,
+                    'show_extra_columns'               => false,
+                    'show_goals_columns'               => false,
                     'disable_subtable_when_show_goals' => false,
-                    'keep_summary_row' => false,
-                    'highlight_summary_row' => false,
-                    'show_expanded' => false,
-                    'show_embedded_subtable' => false
+                    'keep_summary_row'                 => false,
+                    'highlight_summary_row'            => false,
+                    'show_expanded'                    => false,
+                    'show_embedded_subtable'           => false
                 ),
             ),
         );
@@ -236,10 +236,10 @@ class HtmlTable extends Visualization
         $view->show_exclude_low_population = true;
         $view->show_goals = true;
         $view->translations += array(
-            'nb_conversions'            => Piwik_Translate('Goals_ColumnConversions'),
-            'conversion_rate'           => Piwik_Translate('General_ColumnConversionRate'),
-            'revenue'                   => Piwik_Translate('General_ColumnRevenue'),
-            'revenue_per_visit'         => Piwik_Translate('General_ColumnValuePerVisit'),
+            'nb_conversions'    => Piwik_Translate('Goals_ColumnConversions'),
+            'conversion_rate'   => Piwik_Translate('General_ColumnConversionRate'),
+            'revenue'           => Piwik_Translate('General_ColumnRevenue'),
+            'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
         );
         $view->metrics_documentation['nb_visits'] = Piwik_Translate('Goals_ColumnVisits');
 
@@ -270,14 +270,16 @@ class HtmlTable extends Visualization
             'AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal), $priority = true);
 
         // prettify columns
-        $setRatePercent = function ($rate, $thang = false) { return $rate == 0 ? "0%" : $rate; };
+        $setRatePercent = function ($rate, $thang = false) {
+            return $rate == 0 ? "0%" : $rate;
+        };
         foreach ($view->columns_to_display as $columnName) {
             if (strpos($columnName, 'conversion_rate') !== false) {
                 $view->filters[] = array('ColumnCallbackReplace', array($columnName, $setRatePercent));
             }
         }
 
-        $formatPercent = function ($value) use($idSite) {
+        $formatPercent = function ($value) use ($idSite) {
             return MetricsFormatter::getPrettyMoney(sprintf("%.1f", $value), $idSite);
         };
 
@@ -288,7 +290,9 @@ class HtmlTable extends Visualization
         }
 
         // this ensures that the value is set to zero for all rows where the value was not set (no conversion)
-        $identityFunction = function ($value) { return $value; };
+        $identityFunction = function ($value) {
+            return $value;
+        };
         foreach ($view->columns_to_display as $columnName) {
             if (!$this->isRevenueColumn($columnName)) {
                 $view->filters[] = array('ColumnCallbackReplace', array($columnName, $identityFunction));
@@ -341,7 +345,7 @@ class HtmlTable extends Visualization
             $view->columns_to_display[] = $column;
             $view->translations[$column] = Piwik_Translate('Goals_ConversionRate', $goal['name']);
             $view->metrics_documentation[$column]
-                = Piwik_Translate('Goals_ColumnConversionRateDocumentation', $goal['quoted_name'] ?: $goal['name']);
+                = Piwik_Translate('Goals_ColumnConversionRateDocumentation', $goal['quoted_name'] ? : $goal['name']);
         }
 
         $view->columns_to_display[] = 'revenue_per_visit';
@@ -382,23 +386,23 @@ class HtmlTable extends Visualization
         // set translations & metric docs for goal specific metrics
         foreach ($idGoals as $idGoal) {
             $goalName = $allGoals[$idGoal]['name'];
-            $quotedGoalName = $allGoals[$idGoal]['quoted_name'] ?: $goalName;
+            $quotedGoalName = $allGoals[$idGoal]['quoted_name'] ? : $goalName;
 
             $view->translations += array(
-                'goal_' . $idGoal . '_nb_conversions' => Piwik_Translate('Goals_Conversions', $goalName),
-                'goal_' . $idGoal . '_conversion_rate' => Piwik_Translate('Goals_ConversionRate', $goalName),
-                'goal_' . $idGoal . '_revenue' =>
-                Piwik_Translate('%s ' . Piwik_Translate('General_ColumnRevenue'), $goalName),
+                'goal_' . $idGoal . '_nb_conversions'    => Piwik_Translate('Goals_Conversions', $goalName),
+                'goal_' . $idGoal . '_conversion_rate'   => Piwik_Translate('Goals_ConversionRate', $goalName),
+                'goal_' . $idGoal . '_revenue'           =>
+                    Piwik_Translate('%s ' . Piwik_Translate('General_ColumnRevenue'), $goalName),
                 'goal_' . $idGoal . '_revenue_per_visit' =>
-                Piwik_Translate('%s ' . Piwik_Translate('General_ColumnValuePerVisit'), $goalName),
+                    Piwik_Translate('%s ' . Piwik_Translate('General_ColumnValuePerVisit'), $goalName),
             );
 
             $view->metrics_documentation += array(
-                'goal_' . $idGoal . '_nb_conversions' => Piwik_Translate('Goals_ColumnConversionsDocumentation', $quotedGoalName),
-                'goal_' . $idGoal . '_conversion_rate' => Piwik_Translate('Goals_ColumnConversionRateDocumentation', $quotedGoalName),
-                'goal_' . $idGoal . '_revenue' => Piwik_Translate('Goals_ColumnRevenueDocumentation', $quotedGoalName),
+                'goal_' . $idGoal . '_nb_conversions'    => Piwik_Translate('Goals_ColumnConversionsDocumentation', $quotedGoalName),
+                'goal_' . $idGoal . '_conversion_rate'   => Piwik_Translate('Goals_ColumnConversionRateDocumentation', $quotedGoalName),
+                'goal_' . $idGoal . '_revenue'           => Piwik_Translate('Goals_ColumnRevenueDocumentation', $quotedGoalName),
                 'goal_' . $idGoal . '_revenue_per_visit' =>
-                Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_EcommerceAndGoalsMenu')),
+                    Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_EcommerceAndGoalsMenu')),
             );
         }
 
@@ -413,8 +417,8 @@ class HtmlTable extends Visualization
         // add the ecommerce goal if ecommerce is enabled for the site
         if (Site::isEcommerceEnabledFor($idSite)) {
             $ecommerceGoal = array(
-                'idgoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
-                'name'   => Piwik_Translate('Goals_EcommerceOrder'),
+                'idgoal'      => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
+                'name'        => Piwik_Translate('Goals_EcommerceOrder'),
                 'quoted_name' => false
             );
             $allGoals[$ecommerceGoal['idgoal']] = $ecommerceGoal;

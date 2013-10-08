@@ -506,7 +506,7 @@ class ArchivingHelper
     {
         return new Row(array(
                             Row::COLUMNS =>
-                            array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
+                                array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
                        ));
     }
 }

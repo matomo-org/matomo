@@ -55,7 +55,7 @@ class FormDatabaseSetup extends QuickForm2
         $requiredPrivileges = Rule_checkUserPrivileges::getRequiredPrivilegesPretty();
         $user->addRule('checkUserPrivileges',
             Piwik_Translate('Installation_InsufficientPrivilegesMain', $requiredPrivileges . '<br/><br/>') .
-                Piwik_Translate('Installation_InsufficientPrivilegesHelp'));
+            Piwik_Translate('Installation_InsufficientPrivilegesHelp'));
 
         $this->addElement('password', 'password')
             ->setLabel(Piwik_Translate('General_Password'));
@@ -310,7 +310,7 @@ class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
     {
         $prefix = $this->owner->getValue();
         return empty($prefix)
-            || Filesystem::isValidFilename($prefix);
+        || Filesystem::isValidFilename($prefix);
     }
 }
 

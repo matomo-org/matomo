@@ -192,43 +192,43 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetResolution()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations' => array('label' => Piwik_Translate('UserSettings_ColumnResolution'))
-        ));
+                                                                                'translations' => array('label' => Piwik_Translate('UserSettings_ColumnResolution'))
+                                                                           ));
     }
 
     private function getDisplayPropertiesForGetConfiguration()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'filter_limit' => 3,
-            'translations' => array('label' => Piwik_Translate('UserSettings_ColumnConfiguration'))
-        ));
+                                                                                'filter_limit' => 3,
+                                                                                'translations' => array('label' => Piwik_Translate('UserSettings_ColumnConfiguration'))
+                                                                           ));
     }
 
     private function getDisplayPropertiesForGetOS()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnOperatingSystem')),
-            'title'          => Piwik_Translate('UserSettings_OperatingSystems'),
-            'related_reports' => $this->getOsRelatedReports()
-        ));
+                                                                                'translations'    => array('label' => Piwik_Translate('UserSettings_ColumnOperatingSystem')),
+                                                                                'title'           => Piwik_Translate('UserSettings_OperatingSystems'),
+                                                                                'related_reports' => $this->getOsRelatedReports()
+                                                                           ));
     }
 
     private function getDisplayPropertiesForGetOSFamily()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations'   => array('label' => Piwik_Translate('UserSettings_OperatingSystemFamily')),
-            'title'          => Piwik_Translate('UserSettings_OperatingSystemFamily'),
-            'related_reports' => $this->getOsRelatedReports()
-        ));
+                                                                                'translations'    => array('label' => Piwik_Translate('UserSettings_OperatingSystemFamily')),
+                                                                                'title'           => Piwik_Translate('UserSettings_OperatingSystemFamily'),
+                                                                                'related_reports' => $this->getOsRelatedReports()
+                                                                           ));
     }
 
     private function getDisplayPropertiesForGetBrowserVersion()
     {
         $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnBrowserVersion')),
-            'title'          => Piwik_Translate('UserSettings_ColumnBrowserVersion'),
-            'related_reports' => $this->getBrowserRelatedReports()
-        ));
+                                                                                   'translations'    => array('label' => Piwik_Translate('UserSettings_ColumnBrowserVersion')),
+                                                                                   'title'           => Piwik_Translate('UserSettings_ColumnBrowserVersion'),
+                                                                                   'related_reports' => $this->getBrowserRelatedReports()
+                                                                              ));
         $result['visualization_properties']['graph']['max_graph_elements'] = 7;
         return $result;
     }
@@ -236,10 +236,10 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetBrowser()
     {
         $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnBrowser')),
-            'title'          => Piwik_Translate('UserSettings_Browsers'),
-            'related_reports' => $this->getBrowserRelatedReports()
-        ));
+                                                                                   'translations'    => array('label' => Piwik_Translate('UserSettings_ColumnBrowser')),
+                                                                                   'title'           => Piwik_Translate('UserSettings_Browsers'),
+                                                                                   'related_reports' => $this->getBrowserRelatedReports()
+                                                                              ));
         $result['visualization_properties']['graph']['max_graph_elements'] = 7;
         return $result;
     }
@@ -247,60 +247,60 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetBrowserType()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnBrowserFamily')),
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_limit_control'      => false,
-            'default_view_type'       => 'graphPie',
-        ));
+                                                                                'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnBrowserFamily')),
+                                                                                'show_offset_information' => false,
+                                                                                'show_pagination_control' => false,
+                                                                                'show_limit_control'      => false,
+                                                                                'default_view_type'       => 'graphPie',
+                                                                           ));
     }
 
     private function getDisplayPropertiesForGetWideScreen()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')),
-            'show_offset_information' => false,
-            'show_pagination_control' => false,
-            'show_limit_control'      => false,
-            'title'                   => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
-            'related_reports'          => $this->getWideScreenDeviceTypeRelatedReports()
-        ));
+                                                                                'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')),
+                                                                                'show_offset_information' => false,
+                                                                                'show_pagination_control' => false,
+                                                                                'show_limit_control'      => false,
+                                                                                'title'                   => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
+                                                                                'related_reports'         => $this->getWideScreenDeviceTypeRelatedReports()
+                                                                           ));
     }
 
     private function getDisplayPropertiesForGetMobileVsDesktop()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations'            => array('label' => Piwik_Translate('UserSettings_MobileVsDesktop')),
-            'title'                   => Piwik_Translate('UserSettings_MobileVsDesktop'),
-            'related_reports'          => $this->getWideScreenDeviceTypeRelatedReports()
-        ));
+                                                                                'translations'    => array('label' => Piwik_Translate('UserSettings_MobileVsDesktop')),
+                                                                                'title'           => Piwik_Translate('UserSettings_MobileVsDesktop'),
+                                                                                'related_reports' => $this->getWideScreenDeviceTypeRelatedReports()
+                                                                           ));
     }
 
     private function getDisplayPropertiesForGetPlugin()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-            'translations'             => array(
-                'label'                => Piwik_Translate('General_Plugin'),
-                'nb_visits_percentage' =>
-                    str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits'))
-            ),
-            'show_offset_information'  => false,
-            'show_pagination_control'  => false,
-            'show_limit_control'       => false,
-            'show_all_views_icons'     => false,
-            'show_table_all_columns'   => false,
-            'columns_to_display'       => array('label', 'nb_visits_percentage', 'nb_visits'),
-            'filter_sort_column'       => 'nb_visits_percentage',
-            'filter_sort_order'        => 'desc',
-            'filter_limit'             => 10,
-            'show_footer_message'      => Piwik_Translate('UserSettings_PluginDetectionDoesNotWorkInIE'),
-        ));
+                                                                                'translations'            => array(
+                                                                                    'label'                => Piwik_Translate('General_Plugin'),
+                                                                                    'nb_visits_percentage' =>
+                                                                                        str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits'))
+                                                                                ),
+                                                                                'show_offset_information' => false,
+                                                                                'show_pagination_control' => false,
+                                                                                'show_limit_control'      => false,
+                                                                                'show_all_views_icons'    => false,
+                                                                                'show_table_all_columns'  => false,
+                                                                                'columns_to_display'      => array('label', 'nb_visits_percentage', 'nb_visits'),
+                                                                                'filter_sort_column'      => 'nb_visits_percentage',
+                                                                                'filter_sort_order'       => 'desc',
+                                                                                'filter_limit'            => 10,
+                                                                                'show_footer_message'     => Piwik_Translate('UserSettings_PluginDetectionDoesNotWorkInIE'),
+                                                                           ));
     }
 
     private function getDisplayPropertiesForGetLanguage()
     {
         return array(
-            'translations'  => array('label' => Piwik_Translate('General_Language')),
+            'translations'                => array('label' => Piwik_Translate('General_Language')),
             'filter_sort_column'          => 'nb_visits',
             'filter_sort_order'           => 'desc',
             'show_search'                 => false,
@@ -313,14 +313,14 @@ class UserSettings extends \Piwik\Plugin
     {
         return array(
             'UserSettings.getMobileVsDesktop' => Piwik_Translate('UserSettings_MobileVsDesktop'),
-            'UserSettings.getWideScreen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')
+            'UserSettings.getWideScreen'      => Piwik_Translate('UserSettings_ColumnTypeOfScreen')
         );
     }
 
     private function getBrowserRelatedReports()
     {
         return array(
-            'UserSettings.getBrowser' => Piwik_Translate('UserSettings_Browsers'),
+            'UserSettings.getBrowser'        => Piwik_Translate('UserSettings_Browsers'),
             'UserSettings.getBrowserVersion' => Piwik_Translate('UserSettings_ColumnBrowserVersion')
         );
     }
@@ -339,7 +339,7 @@ class UserSettings extends \Piwik\Plugin
             'show_search'                 => false,
             'show_exclude_low_population' => false,
             'filter_limit'                => 5,
-            'visualization_properties' => array(
+            'visualization_properties'    => array(
                 'graph' => array(
                     'max_graph_elements' => 5
                 )

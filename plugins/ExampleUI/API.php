@@ -53,7 +53,7 @@ class API
                 $server2 = mt_rand(40, 110);
             }
 
-            $value   = array('server1' => $server1, 'server2' => $server2);
+            $value = array('server1' => $server1, 'server2' => $server2);
 
             $temperatures[$subPeriod->getLocalizedShortString()] = $value;
         }
@@ -103,7 +103,7 @@ class API
 
         foreach ($planetsDataTable->getRows() as $row) {
             $logo = sprintf('plugins/ExampleUI/images/icons-planet/%s.png', strtolower($row->getColumn('label')));
-            $url  = sprintf('http://en.wikipedia.org/wiki/%s', $row->getColumn('label'));
+            $url = sprintf('http://en.wikipedia.org/wiki/%s', $row->getColumn('label'));
 
             $row->addMetadata('logo', $logo);
             $row->addMetadata('url', $url);

@@ -44,7 +44,7 @@ class API
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
         $dataTable->filter('Sort', array('label', 'asc', true));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ .'\getTimeLabel'));
+        $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getTimeLabel'));
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
@@ -131,9 +131,9 @@ class API
 
     /**
      * @param DataTable $table
-     * @param int       $idSite
-     * @param string    $period
-     * @param string    $date
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
      * @return mixed
      */
     protected function removeHoursInFuture($table, $idSite, $period, $date)

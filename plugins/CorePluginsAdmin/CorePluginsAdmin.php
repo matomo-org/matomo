@@ -26,10 +26,10 @@ class CorePluginsAdmin extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Admin.addItems' => 'addMenu',
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+            'Menu.Admin.addItems'                    => 'addMenu',
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'TaskScheduler.getScheduledTasks'        => 'getScheduledTasks',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
@@ -56,12 +56,12 @@ class CorePluginsAdmin extends \Piwik\Plugin
     function addMenu()
     {
         $pluginsUpdateMessage = '';
-        $themesUpdateMessage  = '';
+        $themesUpdateMessage = '';
 
         if (Piwik::isUserIsSuperUser()) {
             $marketplace = new Marketplace();
             $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
-            $themesHavingUpdate  = $marketplace->getPluginsHavingUpdate($themesOnly = true);
+            $themesHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = true);
 
             if (!empty($pluginsHavingUpdate)) {
                 $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate));

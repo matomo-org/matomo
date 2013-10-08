@@ -49,7 +49,7 @@ class Controller extends \Piwik\Controller
         $passwordLen = strlen($password) / 2;
         $hash = Common::hash(
             $userInfo . substr($password, 0, $passwordLen)
-                . SettingsPiwik::getSalt() . substr($password, $passwordLen)
+            . SettingsPiwik::getSalt() . substr($password, $passwordLen)
         );
         return $hash;
     }
@@ -287,10 +287,10 @@ class Controller extends \Piwik\Controller
         $mail->addTo($email, $login);
         $mail->setSubject(Piwik_Translate('Login_MailTopicPasswordChange'));
         $bodyText = str_replace(
-            '\n',
-            "\n",
-            sprintf(Piwik_Translate('Login_MailPasswordChangeBody'), $login, $ip, $url)
-        ) . "\n";
+                '\n',
+                "\n",
+                sprintf(Piwik_Translate('Login_MailPasswordChangeBody'), $login, $ip, $url)
+            ) . "\n";
         $mail->setBodyText($bodyText);
 
         $fromEmailName = Config::getInstance()->General['login_password_recovery_email_name'];

@@ -15,8 +15,8 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
-use Piwik\Db;
 
+use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Translate;
 use Piwik\View;

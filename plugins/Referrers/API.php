@@ -81,7 +81,7 @@ class API
      * @return DataTable
      */
     public function  getReferrerType($idSite, $period, $date, $segment = false, $typeReferrer = false,
-                                    $idSubtable = false, $expanded = false)
+                                     $idSubtable = false, $expanded = false)
     {
         // if idSubtable is supplied, interpret idSubtable as referrer type and return correct report
         if ($idSubtable !== false) {
@@ -305,7 +305,9 @@ class API
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         // the htmlspecialchars_decode call is for BC for before 1.1
         // as the Referrer URL was previously encoded in the log tables, but is now recorded raw
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', function($label) { return htmlspecialchars_decode($label); }));
+        $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', function ($label) {
+            return htmlspecialchars_decode($label);
+        }));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\getPathFromUrl'));
         return $dataTable;
     }

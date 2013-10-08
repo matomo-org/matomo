@@ -12,9 +12,9 @@ namespace Piwik\Plugins\Annotations;
 
 use Exception;
 use Piwik\Date;
+
 use Piwik\Period;
 use Piwik\Period\Range;
-
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 use Piwik\ViewDataTable;
@@ -308,7 +308,7 @@ class API
      * @param string|bool $date The start date of the period (or the date range of a range
      *                           period).
      * @param string $period The period type ('day', 'week', 'month', 'year' or 'range').
-     * @param bool|int $lastN  Whether to include the last N periods in the range or not.
+     * @param bool|int $lastN Whether to include the last N periods in the range or not.
      *                         Ignored if period == range.
      *
      * @return Date[]   array of Date objects or array(false, false)

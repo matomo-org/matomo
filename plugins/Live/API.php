@@ -62,7 +62,7 @@ class API
     const VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE = 100;
     const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
     const VISITOR_PROFILE_DATE_FORMAT = '%day% %shortMonth% %longYear%';
-    
+
     static private $instance = null;
 
     /**
@@ -168,7 +168,7 @@ class API
 
     /**
      * Returns an array describing a visitor using her last visits (uses a maximum of 100).
-     * 
+     *
      * @param int $idSite Site ID
      * @param string|false $visitorId The ID of the visitor whose profile to retrieve.
      * @param string|false $segment
@@ -185,9 +185,9 @@ class API
         $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $visitorId;
 
         $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $newSegment,
-                                              $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
-                                              $filter_offset = false, $overrideVisitorId = false,
-                                              $minTimestamp = false);
+            $filter_limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
+            $filter_offset = false, $overrideVisitorId = false,
+            $minTimestamp = false);
         if ($visits->getRowsCount() == 0) {
             return array();
         }
@@ -244,13 +244,13 @@ class API
                         $result['totalRevenueByGoal'][$idGoalKey] += $action['revenue'];
                     }
                 } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER // handle ecommerce order
-                           && $isEcommerceEnabled
+                    && $isEcommerceEnabled
                 ) {
                     ++$result['totalEcommerceConversions'];
                     $result['totalEcommerceRevenue'] += $action['revenue'];
                     $result['totalEcommerceItems'] += $action['items'];
                 } else if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART // handler abandoned cart
-                           && $isEcommerceEnabled
+                    && $isEcommerceEnabled
                 ) {
                     ++$result['totalAbandonedCarts'];
                     $result['totalAbandonedCartsRevenue'] += $action['revenue'];
@@ -294,18 +294,18 @@ class API
         // transform country/continents/search keywords into something that will look good in XML
         $result['countries'] = $result['continents'] = $result['searches'] = array();
         foreach ($countries as $countryCode => $nbVisits) {
-            $result['countries'][] = array('country' => $countryCode,
-                                           'nb_visits' => $nbVisits,
-                                           'flag' => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
+            $result['countries'][] = array('country'    => $countryCode,
+                                           'nb_visits'  => $nbVisits,
+                                           'flag'       => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
                                            'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode));
         }
         foreach ($continents as $continentCode => $nbVisits) {
-            $result['continents'][] = array('continent' => $continentCode,
-                                            'nb_visits' => $nbVisits,
+            $result['continents'][] = array('continent'  => $continentCode,
+                                            'nb_visits'  => $nbVisits,
                                             'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode));
         }
         foreach ($siteSearchKeywords as $keyword => $searchCount) {
-            $result['searches'][] = array('keyword' => $keyword,
+            $result['searches'][] = array('keyword'  => $keyword,
                                           'searches' => $searchCount);
         }
 
@@ -377,7 +377,7 @@ class API
 
     /**
      * Returns the visitor ID of the most recent visit.
-     * 
+     *
      * @param int $idSite
      * @param string|false $segment
      * @return string
@@ -402,7 +402,7 @@ class API
     /**
      * Returns the ID of a visitor that is adjacent to another visitor (by time of last action)
      * in the log_visit table.
-     * 
+     *
      * @param int $idSite The ID of the site whose visits should be looked at.
      * @param string $visitorId The ID of the visitor to get an adjacent visitor for.
      * @param string $visitLastActionTime The last action time of the latest visit for $visitorId.
@@ -448,7 +448,7 @@ class API
 
     /**
      * Returns a summary for an important visit. Used to describe the first & last visits of a visitor.
-     * 
+     *
      * @param Row $visit
      * @return array
      */
@@ -458,17 +458,17 @@ class API
 
         $serverDate = $visit->getColumn('serverDate');
         return array(
-            'date' => $serverDate,
-            'prettyDate' => Date::factory($serverDate)->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT),
-            'daysAgo' => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
-            'referrerType' => $visit->getColumn('referrerType'),
+            'date'            => $serverDate,
+            'prettyDate'      => Date::factory($serverDate)->getLocalized(self::VISITOR_PROFILE_DATE_FORMAT),
+            'daysAgo'         => (int)Date::secondsToDays($today->getTimestamp() - Date::factory($serverDate)->getTimestamp()),
+            'referrerType'    => $visit->getColumn('referrerType'),
             'referralSummary' => self::getReferrerSummaryForVisit($visit),
         );
     }
 
     /**
      * Returns a summary for a visit's referral.
-     * 
+     *
      * @param Row $visit
      * @return bool|mixed|string
      * @ignore

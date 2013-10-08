@@ -101,12 +101,12 @@ class Live extends \Piwik\Plugin
             ),
             'footer_icons'                => array(
                 array(
-                    'class' => 'tableAllColumnsSwitch',
+                    'class'   => 'tableAllColumnsSwitch',
                     'buttons' => array(
                         array(
-                            'id' => 'Piwik\\Plugins\\Live\\VisitorLog',
+                            'id'    => 'Piwik\\Plugins\\Live\\VisitorLog',
                             'title' => Piwik_Translate('Live_LinkVisitorLog'),
-                            'icon' => 'plugins/Zeitgeist/images/table.png'
+                            'icon'  => 'plugins/Zeitgeist/images/table.png'
                         )
                     )
                 )

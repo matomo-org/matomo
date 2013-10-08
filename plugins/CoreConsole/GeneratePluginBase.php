@@ -44,7 +44,7 @@ class GeneratePluginBase extends Command
     }
 
     /**
-     * @param string $templateName  eg. 'controller' or 'api'
+     * @param string $templateName eg. 'controller' or 'api'
      * @param string $pluginName
      */
     protected function copyTemplateToPlugin($templateName, $pluginName)

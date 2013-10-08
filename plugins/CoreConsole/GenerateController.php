@@ -23,8 +23,8 @@ class GenerateController extends GeneratePluginBase
     protected function configure()
     {
         $this->setName('generate:controller')
-             ->setDescription('Adds a Controller to an existing plugin')
-             ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a Controller yet');
+            ->setDescription('Adds a Controller to an existing plugin')
+            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a Controller yet');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -34,10 +34,10 @@ class GenerateController extends GeneratePluginBase
         $this->copyTemplateToPlugin('controller', $pluginName);
 
         $this->writeSuccessMessage($output, array(
-            sprintf('Controller for %s generated.', $pluginName),
-            'You can now start adding Controller actions',
-            'Enjoy!'
-        ));
+                                                 sprintf('Controller for %s generated.', $pluginName),
+                                                 'You can now start adding Controller actions',
+                                                 'Enjoy!'
+                                            ));
     }
 
     /**
@@ -61,7 +61,7 @@ class GenerateController extends GeneratePluginBase
         $pluginName = $input->getOption('pluginname');
 
         if (empty($pluginName)) {
-            $dialog     = $this->getHelperSet()->get('dialog');
+            $dialog = $this->getHelperSet()->get('dialog');
             $pluginName = $dialog->askAndValidate($output, 'Enter the name of your plugin: ', $validate, false, null, $pluginNames);
         } else {
             $validate($pluginName);

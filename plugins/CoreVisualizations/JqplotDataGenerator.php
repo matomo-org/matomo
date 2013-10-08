@@ -13,8 +13,8 @@ namespace Piwik\Plugins\CoreVisualizations;
 
 use Exception;
 use Piwik\Common;
-use Piwik\DataTable;
 
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
 
@@ -61,7 +61,7 @@ class JqplotDataGenerator
     /**
      * Constructor.
      *
-     * @param array  $properties
+     * @param array $properties
      * @param string $graphType
      *
      * @internal param \Piwik\ViewDataTable\Visualization\ $visualization

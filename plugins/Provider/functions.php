@@ -65,15 +65,15 @@ function getHostnameUrl($in)
  * @param string $in hostname
  * @return string Real ISP name, IP (if IP address didn't resolve), or Unknown
  */
-function getPrettyProviderName( $in )
+function getPrettyProviderName($in)
 {
     $providerName = getHostnameName($in);
 
     $prettyNames = Common::getProviderNames();
 
-    if(is_array($prettyNames)
-        && array_key_exists(strtolower($providerName), $prettyNames))
-    {
+    if (is_array($prettyNames)
+        && array_key_exists(strtolower($providerName), $prettyNames)
+    ) {
         $providerName = $prettyNames[strtolower($providerName)];
     }
 

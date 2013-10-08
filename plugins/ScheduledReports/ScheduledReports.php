@@ -78,23 +78,23 @@ class ScheduledReports extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Menu.Top.addItems'                           => 'addTopMenu',
-            'TaskScheduler.getScheduledTasks'             => 'getScheduledTasks',
-            'AssetManager.getJavaScriptFiles'             => 'getJsFiles',
-            'ScheduledReports.getReportParameters'              => 'getReportParameters',
-            'ScheduledReports.validateReportParameters'         => 'validateReportParameters',
-            'ScheduledReports.getReportMetadata'                => 'getReportMetadata',
-            'ScheduledReports.getReportTypes'                   => 'getReportTypes',
-            'ScheduledReports.getReportFormats'                 => 'getReportFormats',
-            'ScheduledReports.getRendererInstance'              => 'getRendererInstance',
-            'ScheduledReports.getReportRecipients'              => 'getReportRecipients',
-            'ScheduledReports.processReports'                   => 'processReports',
-            'ScheduledReports.allowMultipleReports'             => 'allowMultipleReports',
-            'ScheduledReports.sendReport'                       => 'sendReport',
-            'Template.reportParametersScheduledReports'         => 'template_reportParametersScheduledReports',
-            'UsersManager.deleteUser'                     => 'deleteUserReport',
-            'SitesManager.deleteSite.end'                 => 'deleteSiteReport',
-            APISegmentEditor::DEACTIVATE_SEGMENT_EVENT    => 'segmentDeactivation',
+            'Menu.Top.addItems'                         => 'addTopMenu',
+            'TaskScheduler.getScheduledTasks'           => 'getScheduledTasks',
+            'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
+            'ScheduledReports.getReportParameters'      => 'getReportParameters',
+            'ScheduledReports.validateReportParameters' => 'validateReportParameters',
+            'ScheduledReports.getReportMetadata'        => 'getReportMetadata',
+            'ScheduledReports.getReportTypes'           => 'getReportTypes',
+            'ScheduledReports.getReportFormats'         => 'getReportFormats',
+            'ScheduledReports.getRendererInstance'      => 'getRendererInstance',
+            'ScheduledReports.getReportRecipients'      => 'getReportRecipients',
+            'ScheduledReports.processReports'           => 'processReports',
+            'ScheduledReports.allowMultipleReports'     => 'allowMultipleReports',
+            'ScheduledReports.sendReport'               => 'sendReport',
+            'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
+            'UsersManager.deleteUser'                   => 'deleteUserReport',
+            'SitesManager.deleteSite.end'               => 'deleteSiteReport',
+            APISegmentEditor::DEACTIVATE_SEGMENT_EVENT  => 'segmentDeactivation',
         );
     }
 
@@ -219,9 +219,9 @@ class ScheduledReports extends \Piwik\Plugin
                         $displayFormat == self::DISPLAY_FORMAT_GRAPHS_ONLY || $displayFormat == self::DISPLAY_FORMAT_TABLES_AND_GRAPHS
                         :
                         $displayFormat != self::DISPLAY_FORMAT_TABLES_ONLY)
-                        && \Piwik\SettingsServer::isGdExtensionEnabled()
-                        && \Piwik\PluginsManager::getInstance()->isPluginActivated('ImageGraph')
-                        && !empty($metadata['imageGraphUrl']);
+                    && \Piwik\SettingsServer::isGdExtensionEnabled()
+                    && \Piwik\PluginsManager::getInstance()->isPluginActivated('ImageGraph')
+                    && !empty($metadata['imageGraphUrl']);
 
                 $processedReport['evolutionGraph'] = $evolutionGraph;
 
