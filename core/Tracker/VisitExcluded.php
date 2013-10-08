@@ -71,7 +71,10 @@ class VisitExcluded
             }
         }
 
-        /* custom filters can override the built-in filters above */
+        /**
+         * At every page view, this event will be called. It is useful for plugins that want to exclude specific visits
+         * (ie. IP excluding, Cookie excluding). If you set `$excluded` to `true`, the visit will be excluded.
+         */
         Piwik_PostEvent('Tracker.isExcludedVisit', array(&$excluded));
 
         /*

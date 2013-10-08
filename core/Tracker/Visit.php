@@ -93,7 +93,9 @@ class Visit implements VisitInterface
             return;
         }
 
-        // Anonymize IP (after testing for IP exclusion)
+        /**
+         * This event can be used for instance to anonymize the IP (after testing for IP exclusion).
+         */
         Piwik_PostEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
 
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
@@ -304,7 +306,10 @@ class Visit implements VisitInterface
         // Custom Variables overwrite previous values on each page view
         $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
 
-        // trigger event before update
+        /**
+         * This event is triggered before a known visitor is updated. Use it to change any visitor information before
+         * the visitor is saved.
+         */
         Piwik_PostEvent('Tracker.knownVisitorUpdate', array(&$valuesToUpdate));
 
         $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentReferrerAction();
@@ -346,6 +351,10 @@ class Visit implements VisitInterface
                     . " wasn't found in the DB, we fallback to a new visitor");
         }
 
+        /**
+         * After a known visitor is updated by Piwik, this event is called. Useful for plugins that want to register
+         * information about a returning visitor, or filter the existing information.
+         */
         Piwik_PostEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo));
     }
 
@@ -462,6 +471,12 @@ class Visit implements VisitInterface
         $extraInfo = array(
             'UserAgent' => $this->request->getUserAgent(),
         );
+
+        /**
+         * Before a new visitor is updated by Piwik, this event is called. Useful for plugins that want to register
+         * new information about a visitor, or filter the existing information. `$extraInfo` contains the UserAgent.
+         * You can for instance change the user's location country depending on the User Agent.
+         */
         Piwik_PostEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $extraInfo));
 
         $this->request->overrideLocation($this->visitorInfo);
@@ -493,8 +508,6 @@ class Visit implements VisitInterface
      */
     protected function saveVisitorInformation()
     {
-        Piwik_PostEvent('Tracker.visitorInformation', array(&$this->visitorInfo));
-
         $this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
         $this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
         $this->visitorInfo['referer_keyword'] = substr($this->visitorInfo['referer_keyword'], 0, 255);

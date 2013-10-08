@@ -639,10 +639,11 @@ class Action implements ActionInterface
         );
         Common::printDebug($insertWithoutNulls);
 
-        /*
-        * send the Action object ($this)  and the list of ids ($info) as arguments to the event
-        */
-        Piwik_PostEvent('Tracker.recordAction', array($this, $info));
+        /**
+         * This hook is called after saving (and updating) visitor information. You can use for instance to sync the
+         * recorded action with third party systems.
+         */
+        Piwik_PostEvent('Tracker.recordAction', array($trackerAction = $this, $info));
     }
 
     public function getCustomVariables()
