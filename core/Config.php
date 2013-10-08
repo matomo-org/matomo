@@ -135,8 +135,6 @@ class Config
             $this->configCache['Plugins'] = $this->configGlobal['Plugins'];
             $this->configCache['Plugins']['Plugins'][] = 'DevicesDetection';
         }
-
-        $this->configCache['disable_merged_assets'] = 1;
     }
 
     /**

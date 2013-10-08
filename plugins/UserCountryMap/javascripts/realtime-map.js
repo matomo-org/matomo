@@ -81,6 +81,7 @@
                 changeVisitAlpha = typeof config.changeVisitAlpha === 'undefined' ? true : config.changeVisitAlpha,
                 removeOldVisits = typeof config.removeOldVisits === 'undefined' ? true : config.removeOldVisits,
                 doNotRefreshVisits = typeof config.doNotRefreshVisits === 'undefined' ? false : config.doNotRefreshVisits,
+                enableAnimation = typeof config.enableAnimation === 'undefined' ? true : config.enableAnimation,
                 width = main.width(),
                 lastTimestamp = -1,
                 lastVisits = [],
@@ -177,8 +178,9 @@
              * from the map
              */
             function age(r) {
-                var now = new Date().getTime() / 1000;
-                var o = (r.lastActionTimestamp - oldest) / (now - oldest);
+                var nowSecs = Math.floor(now);
+                var o = (r.lastActionTimestamp - oldest) / (nowSecs - oldest);
+                o = Math.floor(o * 100) / 100; // normalize age for testing purposes
                 return Math.min(1, Math.max(0, o));
             }
 
@@ -435,14 +437,16 @@
 
                         visitSymbols.layout().render();
 
-                        $.each(newSymbols, function (i, s) {
-                            if (i > 10) return false;
+                        if (!enableAnimation) {
+                            $.each(newSymbols, function (i, s) {
+                                if (i > 10) return false;
 
-                            s.path.hide(); // hide new symbol at first
-                            var t = setTimeout(function () { animateSymbol(s); },
-                                1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
-                            symbolFadeInTimer.push(t);
-                        });
+                                s.path.hide(); // hide new symbol at first
+                                var t = setTimeout(function () { animateSymbol(s); },
+                                    1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
+                                symbolFadeInTimer.push(t);
+                            });
+                        }
 
                         lastTimestamp = report[0].lastActionTimestamp;
 

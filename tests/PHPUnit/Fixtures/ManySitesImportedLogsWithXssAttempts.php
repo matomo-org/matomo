@@ -11,6 +11,7 @@ use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\WidgetsList;
+use Piwik\Date;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 
@@ -27,6 +28,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $this->setupDashboards();
         $this->setupXssSegment();
         $this->addAnnotations();
+        $this->trackVisitsForRealtimeMap();
     }
 
     public function setUpWebsitesAndGoals()
@@ -47,13 +49,13 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $dashboardColumnCount = 3;
         $dashboardCount = 3;
         
+        $layout = array();
+        for ($j = 0; $j != $dashboardColumnCount; ++$j) {
+            $layout[] = array();
+        }
+
         $dashboards = array();
         for ($i = 0; $i != $dashboardCount; ++$i) {
-            $layout = array();
-            for ($j = 0; $j != $dashboardColumnCount; ++$j) {
-                $layout[] = array();
-            }
-            
             $dashboards[] = $layout;
         }
         
@@ -61,9 +63,10 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $_GET['idSite'] = $this->idSite;
         
         // collect widgets to add to the layout
+        $allWidgets = WidgetsList::get();
         $groupedWidgets = array();
         $dashboard = 0;
-        foreach (WidgetsList::get() as $category => $widgets) {
+        foreach ($allWidgets as $category => $widgets) {
             foreach ($widgets as $widget) {
                 if ($widget['uniqueId'] == 'widgetSEOgetRank'
                     || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
@@ -90,13 +93,32 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
                 $dashboards[$dashboardIndex][$column][] = $widget;
             }
         }
-        
+
         foreach ($dashboards as $id => $layout) {
             $_GET['name'] = self::makeXssContent('dashboard name' . $id);
             $_GET['layout'] = Common::json_encode($layout);
             $_GET['idDashboard'] = $id + 1;
             FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         }
+
+        // create empty dashboard
+        $widget = reset($allWidgets[Piwik_Translate('UserSettings_VisitorSettings')]);
+        $dashboard = array(
+            array(
+                array(
+                    'uniqueId' => $widget['uniqueId'],
+                    'parameters' => $widget['parameters']
+                )
+            ),
+            array(),
+            array()
+        );
+
+        $_GET['name'] = 'D4';
+        $_GET['layout'] = Common::json_encode($dashboard);
+        $_GET['idDashboard'] = 4;
+        $_GET['idSite'] = 2;
+        FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         
         $_GET = $oldGet;
     }
@@ -115,6 +137,47 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         APIAnnotations::getInstance()->add(
             $this->idSite, '2012-08-08', self::makeXssContent("annotation"), $starred = 0);
         APIAnnotations::getInstance()->add($this->idSite, '2012-08-10', "Note 3", $starred = 1);
+    }
+
+    public function trackVisitsForRealtimeMap()
+    {
+        $dateTime = Date::factory('now')->addHour(-1.25)->getDatetime();
+        $idSite = 2;
+
+        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(-3)->getDatetime(), $defaultInit = true, $useLocal = true);
+        $t->setTokenAuth(self::getTokenAuth());
+        $t->setUrl('http://example.org/index1.htm');
+        self::checkResponse($t->doTrackPageView('incredible title!'));
+
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = true);
+        $t->setTokenAuth(self::getTokenAuth());
+        $t->setUrl('http://example.org/index1.htm');
+        $t->setCountry('jp');
+        $t->setRegion("40");
+        $t->setCity('Tokyo');
+        $t->setLatitude(35.70);
+        $t->setLongitude(139.71);
+        self::checkResponse($t->doTrackPageView('incredible title!'));
+
+        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(0.5)->getDatetime(), $defaultInit = true, $useLocal = true);
+        $t->setTokenAuth(self::getTokenAuth());
+        $t->setUrl('http://example.org/index2.htm');
+        $t->setCountry('ca');
+        $t->setRegion("QC");
+        $t->setCity('Montreal');
+        $t->setLatitude(45.52);
+        $t->setLongitude(-73.58);
+        self::checkResponse($t->doTrackPageView('incredible title!'));
+
+        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(1)->getDatetime(), $defaultInit = true, $useLocal = true);
+        $t->setTokenAuth(self::getTokenAuth());
+        $t->setUrl('http://example.org/index3.htm');
+        $t->setCountry('br');
+        $t->setRegion("27");
+        $t->setCity('Sao Paolo');
+        $t->setLatitude(-23.55);
+        $t->setLongitude(-46.64);
+        self::checkResponse($t->doTrackPageView('incredible title!'));
     }
     
     // NOTE: since API_Request does sanitization, API methods do not. when calling them, we must
