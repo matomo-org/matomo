@@ -155,8 +155,8 @@ class API
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
 
-        $pdfReports = $this->getReports($idSite, $periodSearch = false, $idReport);
-        $report = reset($pdfReports);
+        $scheduledReports = $this->getReports($idSite, $periodSearch = false, $idReport);
+        $report = reset($scheduledReports);
         $idReport = $report['idreport'];
 
         $currentUser = Piwik::getCurrentUserLogin();
@@ -194,8 +194,8 @@ class API
      */
     public function deleteReport($idReport)
     {
-        $pdfReports = $this->getReports($idSite = false, $periodSearch = false, $idReport);
-        $report = reset($pdfReports);
+        $APIScheduledReports = $this->getReports($idSite = false, $periodSearch = false, $idReport);
+        $report = reset($APIScheduledReports);
         Piwik::checkUserIsSuperUserOrTheUser($report['login']);
 
         Db::get()->update(Common::prefixTable('report'),

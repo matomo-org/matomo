@@ -221,8 +221,8 @@ class API
         $this->savePhoneNumbers($phoneNumbers);
 
         // remove phone number from reports
-        $pdfReportsAPIInstance = APIScheduledReports::getInstance();
-        $reports = $pdfReportsAPIInstance->getReports(
+        $APIScheduledReports = APIScheduledReports::getInstance();
+        $reports = $APIScheduledReports->getReports(
             $idSite = false,
             $period = false,
             $idReport = false,
@@ -244,7 +244,7 @@ class API
                     $reportParameters[MobileMessaging::PHONE_NUMBERS_PARAMETER] = $updatedPhoneNumbers;
 
                     // note: reports can end up without any recipients
-                    $pdfReportsAPIInstance->updateReport(
+                    $APIScheduledReports->updateReport(
                         $report['idreport'],
                         $report['idsite'],
                         $report['description'],

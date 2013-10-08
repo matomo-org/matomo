@@ -46,8 +46,8 @@ class MobileMessagingTest extends DatabaseTestCase
         \Piwik\PluginsManager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging'));
         $this->assertFalse(\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites'));
 
-        $PdfReportsAPIInstance = APIScheduledReports::getInstance();
-        $reportId = $PdfReportsAPIInstance->addReport(
+        $APIScheduledReports = APIScheduledReports::getInstance();
+        $reportId = $APIScheduledReports->addReport(
             $this->idSiteAccess,
             'description',
             'month',
@@ -59,7 +59,7 @@ class MobileMessagingTest extends DatabaseTestCase
         );
 
         list($outputFilename, $prettyDate, $websiteName, $additionalFiles) =
-            $PdfReportsAPIInstance->generateReport(
+            $APIScheduledReports->generateReport(
                 $reportId,
                 '01-01-2010',
                 'en',

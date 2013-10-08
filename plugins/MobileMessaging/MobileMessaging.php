@@ -245,12 +245,12 @@ class MobileMessaging extends \Piwik\Plugin
     function deactivate()
     {
         // delete all mobile reports
-        $pdfReportsAPIInstance = APIScheduledReports::getInstance();
-        $reports = $pdfReportsAPIInstance->getReports();
+        $APIScheduledReports = APIScheduledReports::getInstance();
+        $reports = $APIScheduledReports->getReports();
 
         foreach ($reports as $report) {
             if ($report['type'] == MobileMessaging::MOBILE_TYPE) {
-                $pdfReportsAPIInstance->deleteReport($report['idreport']);
+                $APIScheduledReports->deleteReport($report['idreport']);
             }
         }
     }
