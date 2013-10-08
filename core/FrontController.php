@@ -128,7 +128,7 @@ class FrontController
          * called. You could also use this to build an enhanced permission system. The event is triggered before any
          * controller is called.
          *
-         * The `$params array contains the following properties: `array($module, $action, $parameters, $controller)`
+         * The `$params` array contains the following properties: `array($module, $action, $parameters, $controller)`
          */
         Piwik_PostEvent('Request.dispatch', $params);
 

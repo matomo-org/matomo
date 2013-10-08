@@ -59,6 +59,27 @@ class Top extends MenuAbstract
     public function get()
     {
         if (!$this->menu) {
+
+            /**
+             * This event is triggered to collect all available menu items that should be displayed on the very top next
+             * to login/logout, API and other menu items. Subscribe to this event if you want to add one or more items.
+             * It's fairly easy. Just define the name of your menu item as well as a controller and an action that
+             * should be executed once a user selects your menu item. It is also possible to display the item only for
+             * users having a specific role.
+             *
+             * Example:
+             * ```
+             * public function addMenuItems()
+             * {
+             *     Piwik_AddTopMenu(
+             *         'TopMenuName',
+             *         array('module' => 'MyPlugin', 'action' => 'index'),
+             *         Piwik::isUserIsSuperUser(),
+             *         $order = 6
+             *     );
+             * }
+             * ```
+             */
             Piwik_PostEvent('Menu.Top.addItems');
         }
         return parent::get();
