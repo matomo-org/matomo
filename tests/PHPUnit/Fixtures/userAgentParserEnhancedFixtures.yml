@@ -1,3 +1,19 @@
+- user_agent: Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.20 Safari/537.36 OPR/15.0.1147.18 (Edition Next)
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: Opera Mobile
+    short_name: OM
+    version: 15.0
+  os_family: Other
+  browser_family: Other
+  device: 0
+  brand: null
+  model: null
+
+
 - user_agent: sam-r560 UP.Browser/6.2.3.8 (GUI) MMP/2.0
   os:
     name: UNK
@@ -23,9 +39,9 @@
     name: Openwave Mobile Browser
     short_name: OV
     version: 6.2
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -39,9 +55,9 @@
     name: Openwave Mobile Browser
     short_name: OV
     version: 6.2
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -55,9 +71,9 @@
     name: UC Browser
     short_name: UC
     version: 8.4
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -130,14 +146,14 @@
   os:
     name: Linux
     short_name: LIN
-    version: 
+    version:
   browser:
     name: Opera
     short_name: OP
     version: 12.10
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -151,9 +167,9 @@
     name: Opera Mini
     short_name: OI
     version: 5.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -162,14 +178,14 @@
   os:
     name: Android
     short_name: AND
-    version: 
+    version:
   browser:
     name: Opera Mini
     short_name: OI
     version: 7.5
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -184,8 +200,8 @@
     short_name: OP
     version: 9.70
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -198,7 +214,7 @@
   browser:
     name: Mobile Safari
     short_name: MF
-    version: 
+    version:
   device: 1
   brand: AP
   model: iPod Touch
@@ -214,7 +230,7 @@
   browser:
     name: Mobile Safari
     short_name: MF
-    version: 
+    version:
   device: 1
   brand: AP
   model: iPod Touch
@@ -230,7 +246,7 @@
   browser:
     name: Mobile Safari
     short_name: MF
-    version: 
+    version:
   device: 1
   brand: AP
   model: iPhone
@@ -246,7 +262,7 @@
   browser:
     name: Mobile Safari
     short_name: MF
-    version: 
+    version:
   device: 1
   brand: AP
   model: iPhone
@@ -262,7 +278,7 @@
   browser:
     name: Mobile Safari
     short_name: MF
-    version: 
+    version:
   device: 1
   brand: AP
   model: iPhone
@@ -278,7 +294,7 @@
   browser:
     name: Mobile Safari
     short_name: MF
-    version: 
+    version:
   device: 1
   brand: AP
   model: iPhone
@@ -326,7 +342,7 @@
   browser:
     name: Mobile Safari
     short_name: MF
-    version: 
+    version:
   device: 2
   brand: AP
   model: iPad
@@ -342,7 +358,7 @@
   browser:
     name: Mobile Safari
     short_name: MF
-    version: 
+    version:
   device: 2
   brand: AP
   model: iPad
@@ -376,8 +392,8 @@
     short_name: IE
     version: 9.0
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -392,8 +408,8 @@
     short_name: IE
     version: 10.0
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -408,8 +424,8 @@
     short_name: CH
     version: 24.0
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -424,8 +440,8 @@
     short_name: CH
     version: 26.0
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -440,8 +456,8 @@
     short_name: FF
     version: 18.0
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -456,8 +472,8 @@
     short_name: CH
     version: 23.0
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -472,8 +488,8 @@
     short_name: SF
     version: 5.0
   device: 0
-  brand: 
-  model: 
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -482,7 +498,7 @@
   os:
     name: Android
     short_name: AND
-    version: 
+    version:
   browser:
     name: Mobile Silk
     short_name: MS
@@ -503,9 +519,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -791,9 +807,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -839,9 +855,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -967,9 +983,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1047,9 +1063,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1063,9 +1079,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1191,9 +1207,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1209,7 +1225,7 @@
     version: 4.0
   device: 1
   brand: GO
-  model: 
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1223,9 +1239,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1287,9 +1303,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1319,9 +1335,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1335,9 +1351,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1351,9 +1367,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1367,9 +1383,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1399,9 +1415,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1415,9 +1431,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1431,9 +1447,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1465,7 +1481,7 @@
     version: 4.0
   device: 1
   brand: AU
-  model: 
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1481,7 +1497,7 @@
     version: 4.0
   device: 1
   brand: AU
-  model: 
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1511,9 +1527,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1527,9 +1543,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1543,9 +1559,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1559,9 +1575,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1641,7 +1657,7 @@
     version: 4.0
   device: 1
   brand: AU
-  model: 
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1687,9 +1703,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1703,9 +1719,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1831,9 +1847,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1847,9 +1863,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1863,9 +1879,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -1895,9 +1911,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2007,9 +2023,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2023,9 +2039,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2103,9 +2119,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2119,9 +2135,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2151,9 +2167,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2167,9 +2183,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2215,9 +2231,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2231,9 +2247,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2279,9 +2295,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2519,9 +2535,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2551,9 +2567,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2567,9 +2583,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2583,9 +2599,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2599,9 +2615,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2615,9 +2631,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2647,9 +2663,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2663,9 +2679,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2679,9 +2695,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2695,9 +2711,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2711,9 +2727,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2727,9 +2743,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2759,9 +2775,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2775,9 +2791,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2791,9 +2807,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2823,9 +2839,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2839,9 +2855,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2855,9 +2871,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2871,9 +2887,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2887,9 +2903,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2903,9 +2919,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2919,9 +2935,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2935,9 +2951,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -2951,9 +2967,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3047,9 +3063,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3063,9 +3079,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3079,9 +3095,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3095,9 +3111,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3111,9 +3127,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3127,9 +3143,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3143,9 +3159,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3159,9 +3175,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3175,9 +3191,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3191,9 +3207,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3207,9 +3223,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3223,9 +3239,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3239,9 +3255,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3335,9 +3351,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3351,9 +3367,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3383,9 +3399,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3399,9 +3415,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3415,9 +3431,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3431,9 +3447,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3447,9 +3463,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3463,9 +3479,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3495,9 +3511,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3511,9 +3527,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3543,9 +3559,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3559,9 +3575,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3575,9 +3591,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3703,9 +3719,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3719,9 +3735,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3735,9 +3751,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3767,9 +3783,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3783,9 +3799,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3799,9 +3815,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3815,9 +3831,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3831,9 +3847,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3863,9 +3879,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3879,9 +3895,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3959,9 +3975,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3975,9 +3991,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -3991,9 +4007,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4007,9 +4023,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4023,9 +4039,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4039,9 +4055,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4055,9 +4071,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4071,9 +4087,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4103,9 +4119,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4119,9 +4135,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4135,9 +4151,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4183,9 +4199,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4199,9 +4215,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4215,9 +4231,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4231,9 +4247,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4263,9 +4279,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4279,9 +4295,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4295,9 +4311,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4311,9 +4327,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4327,9 +4343,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4343,9 +4359,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4407,9 +4423,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4423,9 +4439,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4471,9 +4487,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4487,9 +4503,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4503,9 +4519,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4535,9 +4551,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4551,9 +4567,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4567,9 +4583,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4615,9 +4631,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4647,9 +4663,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4663,9 +4679,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4679,9 +4695,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4711,9 +4727,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4727,9 +4743,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4743,9 +4759,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4759,9 +4775,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4775,9 +4791,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4791,9 +4807,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4807,9 +4823,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4823,9 +4839,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4839,9 +4855,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4855,9 +4871,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4871,9 +4887,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4903,9 +4919,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4951,9 +4967,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -4967,9 +4983,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5015,9 +5031,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5031,9 +5047,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5047,9 +5063,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5063,9 +5079,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5079,9 +5095,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5095,9 +5111,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5111,9 +5127,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5127,9 +5143,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5143,9 +5159,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5159,9 +5175,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5191,9 +5207,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5207,9 +5223,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5303,9 +5319,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5319,9 +5335,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5334,10 +5350,10 @@
   browser:
     name: Maxthon
     short_name: MX
-    version: 
-  device: 
-  brand: 
-  model: 
+    version:
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5351,9 +5367,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5367,9 +5383,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5383,9 +5399,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5415,9 +5431,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5431,9 +5447,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5447,9 +5463,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5463,9 +5479,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5511,9 +5527,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5527,9 +5543,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5543,9 +5559,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5559,9 +5575,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5575,9 +5591,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5623,9 +5639,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5655,9 +5671,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5671,9 +5687,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5687,9 +5703,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5703,9 +5719,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5735,9 +5751,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5751,9 +5767,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5767,9 +5783,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5783,9 +5799,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5831,9 +5847,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5847,9 +5863,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5863,9 +5879,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5879,9 +5895,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5911,9 +5927,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5927,9 +5943,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5943,9 +5959,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5959,9 +5975,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5975,9 +5991,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -5993,7 +6009,7 @@
     version: 4.0
   device: 1
   brand: HP
-  model: 
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6007,9 +6023,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6023,9 +6039,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6039,9 +6055,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6055,9 +6071,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6071,9 +6087,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6087,9 +6103,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6103,9 +6119,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6151,9 +6167,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6215,9 +6231,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6263,9 +6279,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6279,9 +6295,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6295,9 +6311,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6311,9 +6327,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6327,9 +6343,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6343,9 +6359,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6359,9 +6375,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6375,9 +6391,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6391,9 +6407,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6423,9 +6439,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6439,9 +6455,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6455,9 +6471,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6471,9 +6487,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6503,9 +6519,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6519,9 +6535,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6535,9 +6551,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6551,9 +6567,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6567,9 +6583,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6583,9 +6599,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6615,9 +6631,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6631,9 +6647,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6647,9 +6663,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6679,9 +6695,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6695,9 +6711,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6711,9 +6727,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6727,9 +6743,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6743,9 +6759,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6759,9 +6775,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6807,9 +6823,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6839,9 +6855,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6855,9 +6871,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6871,9 +6887,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6887,9 +6903,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6903,9 +6919,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -6919,9 +6935,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7015,9 +7031,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7111,9 +7127,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7127,9 +7143,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7143,9 +7159,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7159,9 +7175,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7255,9 +7271,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7271,9 +7287,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7287,9 +7303,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7319,9 +7335,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7335,9 +7351,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7399,9 +7415,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7415,9 +7431,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7575,9 +7591,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7591,9 +7607,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7607,9 +7623,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7623,9 +7639,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7655,9 +7671,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7671,9 +7687,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7703,9 +7719,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7719,9 +7735,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7751,9 +7767,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7767,9 +7783,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7783,9 +7799,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7799,9 +7815,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7831,9 +7847,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7847,9 +7863,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7863,9 +7879,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7879,9 +7895,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7895,9 +7911,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7911,9 +7927,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7927,9 +7943,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7943,9 +7959,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7959,9 +7975,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -7975,9 +7991,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8023,9 +8039,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8311,9 +8327,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8407,9 +8423,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8423,9 +8439,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8487,9 +8503,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8505,7 +8521,7 @@
     version: 4.0
   device: 1
   brand: GO
-  model: 
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8567,9 +8583,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8583,9 +8599,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8711,9 +8727,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8727,9 +8743,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8759,9 +8775,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8775,9 +8791,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8791,9 +8807,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8823,9 +8839,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8887,9 +8903,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8903,9 +8919,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8919,9 +8935,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8935,9 +8951,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8951,9 +8967,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8967,9 +8983,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8983,9 +8999,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -8999,9 +9015,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9015,9 +9031,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9031,9 +9047,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9047,9 +9063,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9063,9 +9079,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9111,9 +9127,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9175,9 +9191,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9207,9 +9223,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9223,9 +9239,9 @@
     name: Safari
     short_name: SF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9239,9 +9255,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9255,9 +9271,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9271,9 +9287,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9287,9 +9303,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9303,9 +9319,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9319,9 +9335,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9335,9 +9351,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9351,9 +9367,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9367,9 +9383,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9383,9 +9399,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9399,9 +9415,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9415,9 +9431,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9431,9 +9447,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9447,9 +9463,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9495,9 +9511,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9543,9 +9559,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9575,9 +9591,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9591,9 +9607,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9607,9 +9623,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9639,9 +9655,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9671,9 +9687,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9687,9 +9703,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9703,9 +9719,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9719,9 +9735,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9735,9 +9751,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9751,9 +9767,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9767,9 +9783,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9783,9 +9799,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9847,9 +9863,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9863,9 +9879,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9879,9 +9895,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9895,9 +9911,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9911,9 +9927,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9927,9 +9943,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9943,9 +9959,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -9959,9 +9975,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10023,9 +10039,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10039,9 +10055,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10071,9 +10087,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10119,9 +10135,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10183,9 +10199,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10199,9 +10215,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10215,9 +10231,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10231,9 +10247,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10247,9 +10263,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10567,9 +10583,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10599,9 +10615,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10615,9 +10631,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10631,9 +10647,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10679,9 +10695,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10711,9 +10727,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10791,9 +10807,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10807,9 +10823,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10951,9 +10967,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -10967,9 +10983,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -11015,9 +11031,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -11031,9 +11047,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -11047,9 +11063,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -11063,9 +11079,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -11143,9 +11159,9 @@
     name: Mobile Safari
     short_name: MF
     version: 4.0
-  device: 
-  brand: 
-  model: 
+  device:
+  brand:
+  model:
   os_family: Other
   browser_family: Other
 
@@ -11340,5 +11356,4 @@
   model: GT-S5839i
   os_family: Other
   browser_family: Other
-
 

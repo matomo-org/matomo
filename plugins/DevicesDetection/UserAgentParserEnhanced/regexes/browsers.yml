@@ -52,12 +52,12 @@
   version: '$1'
   
 #Opera
-- regex: '(:?Opera Tablet.*Version|Opera/.+Opera Mobi.+Version|Safari.*OPR)/(\d+\.\d+)'
+- regex: '(?:Opera Tablet.*Version|Opera/.+Opera Mobi.+Version|Safari.*OPR)/(\d+\.\d+)'
   name: Opera Mobile
-  version: '$2'
+  version: '$1'
 - regex: 'Opera Mini/(:?att/)?(\d+\.\d+)'
   name: Opera Mini
-  version: '$2'
+  version: '$1'
 - regex: 'Opera[/ ](?:9.80.*Version/)?(\d+\.\d+)'
   name: Opera
   version: '$1'
