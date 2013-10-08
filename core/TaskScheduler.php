@@ -54,7 +54,7 @@ class TaskScheduler
          * depending on the interval that you specify. See `Piwik\ScheduledTask` for more information.
          *
          * Example:
-         * ``
+         * ```
          * public function getScheduledTasks(&$tasks)
          * {
          *     $tasks[] = new ScheduledTask(
