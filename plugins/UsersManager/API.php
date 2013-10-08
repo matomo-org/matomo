@@ -460,8 +460,8 @@ class API
         Cache::deleteTrackerCache();
 
         /**
-         * This event is triggered after an existing user has updated its information and after the data has been saved.
-         * `$userLogin` contains the updated user information like login name, alias and email.
+         * This event is triggered after an existing user has been updated. `$userLogin` contains the updated user
+         * information like login name, alias and email.
          */
         Piwik_PostEvent('UsersManager.updateUser.end', array($userLogin));
     }

@@ -311,7 +311,7 @@ class API
     private function sendSegmentDeactivationEvent($idSegment)
     {
         /**
-         * This event is triggered then a segment is deleted or made invisible. It allows plugins to throw an exception
+         * This event is triggered when a segment is deleted or made invisible. It allows plugins to throw an exception
          * or to propagate the action.
          */
         Piwik_PostEvent(self::DEACTIVATE_SEGMENT_EVENT, array(&$idSegment));

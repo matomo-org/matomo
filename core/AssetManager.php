@@ -161,9 +161,9 @@ class AssetManager
         $mergedContent = $less->compile($mergedContent);
 
         /**
-         * This event is triggered after the less stylesheets are compiled to CSS, minified and merged but before the
-         * generated CSS is written to disk. It can be used to change the generated stylesheets to your needs,
-         * like replacing image paths or adding further custom stylesheets.
+         * This event is triggered after the less stylesheets are compiled to CSS and after the CSS is minified and
+         * merged into one file but before the generated CSS is written to disk. It can be used to change the modify the
+         * stylesheets to your needs, like replacing image paths or adding further custom stylesheets.
          */
         Piwik_PostEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
 
@@ -286,9 +286,9 @@ class AssetManager
         $stylesheets = array();
 
         /**
-         * This event is triggered to gather a list of all stylesheets (CSS and Less). Use this event to add your own
+         * This event is triggered to gather a list of all stylesheets (CSS and LESS). Use this event to add your own
          * stylesheets. Note: In case you are in development you may enable the config setting `disable_merged_assets`.
-         * Otherwise your custom stylesheets won't be loaded. It is best practice to place stylesheet files within a
+         * Otherwise your custom stylesheets won't be loaded. It is best practice to place stylesheets within a
          * `stylesheets` folder.
          *
          * Example:

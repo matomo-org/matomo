@@ -61,9 +61,9 @@ class Main extends MenuAbstract
 
             /**
              * This event is triggered to collect all available reporting menu items. Subscribe to this event if you
-             * want to add one or more items to the Piwik reporting menu. It's fairly easy. Just define the name of your
-             * menu item as well as a controller and an action that should be executed once a user selects your menu
-             * item. It is also possible to display the item only for users having a specific role.
+             * want to add one or more items to the Piwik reporting menu. Just define the name of your menu item as
+             * well as a controller and an action that should be executed once a user selects your menu item. It is
+             * also possible to display the item only for users having a specific role.
              *
              * Example:
              * ```

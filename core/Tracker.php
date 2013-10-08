@@ -576,18 +576,7 @@ class Tracker
         }
 
         try {
-            $db = null;
-
-            /**
-             * This event is triggered after the database config is loaded but immediately before a connection to the
-             * database is established. Use this event to create your own database handler instead of the default Piwik
-             * DB handler.
-             */
-            Piwik_PostEvent('Tracker.createDatabase', array(&$db));
-            if (is_null($db)) {
-                $db = self::connectPiwikTrackerDb();
-            }
-            self::$db = $db;
+            self::$db = self::connectPiwikTrackerDb();
         } catch (Exception $e) {
             throw new DbException($e->getMessage(), $e->getCode());
         }
@@ -625,7 +614,7 @@ class Tracker
          * usage of your own or your extended visit object but make sure to implement the
          * `Piwik\Tracker\VisitInterface`.
          */
-        Piwik_PostEvent('Tracker.getNewVisitObject', array(&$visit));
+        Piwik_PostEvent('Tracker.makeNewVisitObject', array(&$visit));
 
         if (is_null($visit)) {
             $visit = new Visit();

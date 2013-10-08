@@ -109,7 +109,7 @@ class ProcessedReport
         }
 
         /**
-         * This event is triggered to after all available reports are collected. Plugins can add custom metrics to
+         * This event is triggered after all available reports are collected. Plugins can add custom metrics to
          * other reports or remove reports from the list of all available reports.
          */
         Piwik_PostEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));

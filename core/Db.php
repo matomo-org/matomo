@@ -63,18 +63,9 @@ class Db
 
         $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
 
-        $db = null;
+        $adapter = $dbInfos['adapter'];
+        $db      = @Adapter::factory($adapter, $dbInfos);
 
-        /**
-         * This event is triggered after the database config is loaded but immediately before a connection to the
-         * database is established. Use this event to create your own database handler instead of the default Piwik
-         * DB handler.
-         */
-        Piwik_PostEvent('Reporting.createDatabase', array(&$db));
-        if (is_null($db)) {
-            $adapter = $dbInfos['adapter'];
-            $db = @Adapter::factory($adapter, $dbInfos);
-        }
         self::$connection = $db;
     }
 

@@ -339,6 +339,8 @@ class Goals extends \Piwik\Plugin
 
         unset($goalMetrics['nb_visits_converted']);
 
+        $reportsWithGoals = array();
+
         /*
          * Add the metricsGoal and processedMetricsGoal entry
          * to all reports that have Goal segmentation
@@ -347,7 +349,6 @@ class Goals extends \Piwik\Plugin
          * generated documentation. Maybe we can create a private/protected function to trigger this event to have it
          * defined only once?
          */
-        $reportsWithGoals = array();
         Piwik_PostEvent('Goals.getReportsWithGoalMetrics', array(&$reportsWithGoals));
         foreach ($reportsWithGoals as $reportWithGoals) {
             // Select this report from the API metadata array

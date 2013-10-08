@@ -125,8 +125,8 @@ class FrontController
 
         /**
          * Generic hook that plugins can use to modify any input to the function, or even change the plugin being
-         * called. You could also use this to build an enhanced permission system. The event is triggered before any
-         * controller is called.
+         * called. You could also use this to build an enhanced permission system. The event is triggered before every
+         * call to a controller method.
          *
          * The `$params` array contains the following properties: `array($module, $action, $parameters, $controller)`
          */
@@ -134,7 +134,7 @@ class FrontController
 
         /**
          * This event is similar to the `Request.dispatch` hook. It distinguishes the possibility to subscribe only to a
-         * specific controller call instead of all controller calls. You can use it for example to modify any input
+         * specific controller method instead of all controller methods. You can use it for example to modify any input
          * parameters or execute any other logic before the actual controller is called.
          */
         Piwik_PostEvent(sprintf('Controller.%s.%s', $module, $action), array($parameters));
@@ -144,15 +144,15 @@ class FrontController
 
             /**
              * This event is similar to the `Request.dispatch.end` hook. It distinguishes the possibility to subscribe
-             * only to the end of a specific controller call instead of all controller calls. You can use it for example
-             * to modify the response of a single controller.
+             * only to the end of a specific controller method instead of all controller methods. You can use it for
+             * example to modify the response of a single controller method.
              */
             Piwik_PostEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
 
             /**
-             * Generic hook that plugins can use to modify any output of any controller. The event is triggered after
-             * any controller is executed but before the result is send to the user. The parameters originally
-             * passed to the controller are available as well.
+             * Generic hook that plugins can use to modify any output of any controller method. The event is triggered
+             * after a controller method is executed but before the result is send to the user. The parameters
+             * originally passed to the method are available as well.
              */
             Piwik_PostEvent('Request.dispatch.end', array(&$result, $parameters));
 
@@ -343,6 +343,7 @@ class FrontController
              * This event is triggered shortly before the user is authenticated. Use it to create your own
              * authentication object instead of the Piwik authentication. Make sure to implement the `Piwik\Auth`
              * interface in case you want to define your own authentication.
+             * @matt here we have a problem if multiple plugins listen to this event?
              */
             Piwik_PostEvent('Request.initAuthenticationObject');
             try {

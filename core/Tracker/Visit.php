@@ -306,7 +306,7 @@ class Visit implements VisitInterface
         $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
 
         /**
-         * This event is triggered before a known visitor is updated. Use it to change any visitor information before
+         * This event is triggered before saving a known visitor. Use it to change any visitor information before
          * the visitor is saved.
          */
         Piwik_PostEvent('Tracker.knownVisitorUpdate', array(&$valuesToUpdate));
@@ -351,8 +351,8 @@ class Visit implements VisitInterface
         }
 
         /**
-         * After a known visitor is updated by Piwik, this event is called. Useful for plugins that want to register
-         * information about a returning visitor, or filter the existing information.
+         * After a known visitor is saved and updated by Piwik, this event is called. Useful for plugins that want to
+         * register information about a returning visitor, or filter the existing information.
          */
         Piwik_PostEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo));
     }
@@ -472,7 +472,7 @@ class Visit implements VisitInterface
         );
 
         /**
-         * Before a new visitor is updated by Piwik, this event is called. Useful for plugins that want to register
+         * Before a new visitor is saved by Piwik, this event is called. Useful for plugins that want to register
          * new information about a visitor, or filter the existing information. `$extraInfo` contains the UserAgent.
          * You can for instance change the user's location country depending on the User Agent.
          */

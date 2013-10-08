@@ -322,6 +322,22 @@ class Controller extends Admin
                     'md5Password' => md5($newPassword),
                     'rememberMe'  => false,
                 );
+
+                /**
+                 * This event is triggered to initialize a user session. You can use this event to authenticate user against
+                 * third party systems.
+                 *
+                 * Example:
+                 * ```
+                 * public function initSession($info)
+                 * {
+                 *     $login = $info['login'];
+                 *     $md5Password = $info['md5Password'];
+                 *     $rememberMe = $info['rememberMe'];
+                 * }
+                 * ```
+                 * @matt this event is also triggered twice.
+                 */
                 Piwik_PostEvent('Login.initSession', array($info));
             }
 

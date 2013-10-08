@@ -641,7 +641,7 @@ class Action implements ActionInterface
         Common::printDebug($insertWithoutNulls);
 
         /**
-         * This hook is called after saving (and updating) visitor information. You can use for instance to sync the
+         * This hook is called after saving (and updating) visitor information. You can use it for instance to sync the
          * recorded action with third party systems.
          */
         Piwik_PostEvent('Tracker.recordAction', array($trackerAction = $this, $info));

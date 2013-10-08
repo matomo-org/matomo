@@ -151,8 +151,8 @@ abstract class Visualization extends View
         $visualizations = array();
 
         /**
-         * This event is used to gather all available DataTable visualizations. Callbacks
-         * should add visualization class names to the incoming array.
+         * This event is used to gather all available DataTable visualizations. Callbacks should add visualization
+         * class names to the incoming array.
          */
         Piwik_PostEvent(self::GET_AVAILABLE_EVENT, array(&$visualizations));
 

@@ -41,9 +41,9 @@ class Admin extends MenuAbstract
 
             /**
              * This event is triggered to collect all available admin menu items. Subscribe to this event if you want
-             * to add one or more items to the Piwik admin menu. It's fairly easy. Just define the name of your menu
-             * item as well as a controller and an action that should be executed once a user selects your menu item.
-             * It is also possible to display the item only for users having a specific role.
+             * to add one or more items to the Piwik admin menu. Just define the name of your menu item as well as a
+             * controller and an action that should be executed once a user selects your menu item. It is also possible
+             * to display the item only for users having a specific role.
              *
              * Example:
              * ```

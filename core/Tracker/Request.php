@@ -294,7 +294,7 @@ class Request
 
         /**
          * This event allows a plugin to set/change the idsite in the tracking request. Note: A modified idSite has to
-         * be higher than 0, otherwise an exception will be triggered. By default the idSite is specified on the URL
+         * be higher than `0`, otherwise an exception will be triggered. By default the idSite is specified on the URL
          * parameter `idsite`.
          */
         Piwik_PostEvent('Tracker.setSiteId', array(&$idSite, $this->params));

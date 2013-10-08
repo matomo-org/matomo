@@ -427,7 +427,7 @@ class ViewDataTable
             self::$reportPropertiesCache = array();
             /**
              * This event is triggered to gather the report display properties for each available report. If you define
-             * your own report, you mant to subscribe to this event to define how your report shall be displayed in the
+             * your own report, you want to subscribe to this event to define how your report shall be displayed in the
              * Piwik UI.
              *
              * Example:

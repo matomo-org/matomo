@@ -58,8 +58,8 @@ class WidgetsList
 
             /**
              * This event is triggered to collect all available widgets. Subscribe to this event if you want to create
-             * one or more custom widgets. It's fairly easy. Just define the name of your widgets as well as a
-             * controller and an action that should be executed once your widget is requested.
+             * one or more custom widgets. Just define the name of your widgets as well as a controller and an action
+             * that should be executed once your widget is requested.
              *
              * Example:
              * ```

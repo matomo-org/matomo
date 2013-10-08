@@ -406,7 +406,7 @@ class GoalManager
         }
 
         /**
-         * This hook is called after recording an ecommerce goal. You can use for instance to sync the recorded goal
+         * This hook is called after recording an ecommerce goal. You can use it for instance to sync the recorded goal
          * with third party systems. `$goal` contains all available information like `items` and `revenue`.
          */
         Piwik_PostEvent('Tracker.recordEcommerceGoal', array($goal));
@@ -771,8 +771,8 @@ class GoalManager
             $this->recordGoal($newGoal);
 
             /**
-             * This hook is called after recording a standard goal. You can use for instance to sync the recorded goal
-             * with third party systems. `$goal` contains all available information like `url` and `revenue`.
+             * This hook is called after recording a standard goal. You can use it for instance to sync the recorded
+             * goal with third party systems. `$goal` contains all available information like `url` and `revenue`.
              */
             Piwik_PostEvent('Tracker.recordStandardGoals', array($newGoal));
         }

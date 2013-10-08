@@ -184,7 +184,8 @@ class Request
 
             /**
              * This event will be triggered if the token_auth is found in the $request parameter. In this case the
-             * current session will be authenticated using this token_auth. It will overwrite the previous Auth object.
+             * current session will be authenticated using this token_auth. It will overwrite the previous `Auth`
+             * object.
              * @matt
              */
             Piwik_PostEvent('API.Request.authenticate', array($token_auth));
