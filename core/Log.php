@@ -43,68 +43,12 @@ class Log
     const LOGGER_FILE_PATH_CONFIG_OPTION = 'logger_file_path';
     const STRING_MESSAGE_FORMAT_OPTION = 'string_message_format';
 
-    /**
-     * This event is called when trying to log an object to a file. Plugins can use
-     * this event to convert objects to strings before they are logged.
-     * 
-     * Callback signature: function (&$message, $level, $tag, $datetime, $logger)
-     * 
-     * The $message parameter is the object that is being logged. Event handlers should
-     * check if the object is of a certain type and if it is, set $message to the
-     * string that should be logged.
-     */
     const FORMAT_FILE_MESSAGE_EVENT = 'Log.formatFileMessage';
 
-    /**
-     * This event is called when trying to log an object to the screen. Plugins can use
-     * this event to convert objects to strings before they are logged.
-     * 
-     * Callback signature: function (&$message, $level, $tag, $datetiem, $logger)
-     * 
-     * The $message parameter is the object that is being logged. Event handlers should
-     * check if the object is of a certain type and if it is, set $message to the
-     * string that should be logged.
-     * 
-     * The result of this callback can be HTML so no sanitization is done on the result.
-     * This means YOU MUST SANITIZE THE MESSAGE YOURSELF if you use this event.
-     */
     const FORMAT_SCREEN_MESSAGE_EVENT = 'Log.formatScreenMessage';
 
-    /**
-     * This event is called when trying to log an object to a database table. Plugins can use
-     * this event to convert objects to strings before they are logged.
-     * 
-     * Callback signature: function (&$message, $level, $tag, $datetime, $logger)
-     * 
-     * The $message parameter is the object that is being logged. Event handlers should
-     * check if the object is of a certain type and if it is, set $message to the
-     * string that should be logged.
-     */
     const FORMAT_DATABASE_MESSAGE_EVENT = 'Log.formatDatabaseMessage';
 
-    /**
-     * This event is called when the Log instance is created. Plugins can use this event to
-     * make new logging writers available.
-     * 
-     * A logging writer is a callback that takes the following arguments:
-     *   int $level, string $tag, string $datetime, string $message
-     * 
-     * $level is the log level to use, $tag is the log tag used, $datetime is the date time
-     * of the logging call and $message is the formatted log message.
-     * 
-     * Logging writers must be associated by name in the array passed to event handlers.
-     * 
-     * Callback signature: function (array &$writers)
-     * 
-     * Example handler:
-     *     function (&$writers) {
-     *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
-     *             ...
-     *         }
-     *     }
-     * 
-     *     // 'myloggername' can now be used in the log_writers config option.
-     */
     const GET_AVAILABLE_WRITERS_EVENT = 'Log.getAvailableWriters';
 
     /**
@@ -331,6 +275,28 @@ class Log
     private function getAvailableWriters()
     {
         $writers = array();
+
+        /**
+         * This event is called when the Log instance is created. Plugins can use this event to
+         * make new logging writers available.
+         *
+         * A logging writer is a callback that takes the following arguments:
+         *   int $level, string $tag, string $datetime, string $message
+         *
+         * $level is the log level to use, $tag is the log tag used, $datetime is the date time
+         * of the logging call and $message is the formatted log message.
+         *
+         * Logging writers must be associated by name in the array passed to event handlers.
+         *
+         * Example handler:
+         *     function (&$writers) {
+         *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
+         *             ...
+         *         }
+         *     }
+         *
+         *     // 'myloggername' can now be used in the log_writers config option.
+         */
         Piwik_PostEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 
         $writers['file'] = array($this, 'logToFile');
@@ -344,7 +310,17 @@ class Log
         if (is_string($message)) {
             $message = $this->formatMessage($level, $tag, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $this));
+            $logger = $this;
+
+            /**
+             * This event is called when trying to log an object to a file. Plugins can use
+             * this event to convert objects to strings before they are logged.
+             *
+             * The $message parameter is the object that is being logged. Event handlers should
+             * check if the object is of a certain type and if it is, set $message to the
+             * string that should be logged.
+             */
+            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
 
         if (empty($message)) {
@@ -374,7 +350,20 @@ class Log
             }
 
         } else {
-            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $this));
+            $logger = $this;
+
+            /**
+             * This event is called when trying to log an object to the screen. Plugins can use
+             * this event to convert objects to strings before they are logged.
+             *
+             * The $message parameter is the object that is being logged. Event handlers should
+             * check if the object is of a certain type and if it is, set $message to the
+             * string that should be logged.
+             *
+             * The result of this callback can be HTML so no sanitization is done on the result.
+             * This means YOU MUST SANITIZE THE MESSAGE YOURSELF if you use this event.
+             */
+            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
 
         if (empty($message)) {
@@ -389,7 +378,17 @@ class Log
         if (is_string($message)) {
             $message = $this->formatMessage($level, $tag, $datetime, $message);
         } else {
-            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $this));
+            $logger = $this;
+
+            /**
+             * This event is called when trying to log an object to a database table. Plugins can use
+             * this event to convert objects to strings before they are logged.
+             *
+             * The $message parameter is the object that is being logged. Event handlers should
+             * check if the object is of a certain type and if it is, set $message to the
+             * string that should be logged.
+             */
+            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
 
         if (empty($message)) {
