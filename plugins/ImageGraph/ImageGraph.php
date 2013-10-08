@@ -18,15 +18,6 @@ use Piwik\Url;
 
 class ImageGraph extends \Piwik\Plugin
 {
-    static private $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
-        'Referrers_getReferrerType',
-    );
-
-    // row evolution support not yet implemented for these APIs
-    static private $REPORTS_DISABLED_EVOLUTION_GRAPH = array(
-        'Referrers_getAll',
-    );
-
     public function getInformation()
     {
         $suffix = ' Debug: <a href="' . Url::getCurrentQueryStringWithParametersModified(
@@ -35,6 +26,15 @@ class ImageGraph extends \Piwik\Plugin
         $info['description'] .= ' ' . $suffix;
         return $info;
     }
+
+    static private $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
+        'Referrers_getReferrerType',
+    );
+
+    // row evolution support not yet implemented for these APIs
+    static private $REPORTS_DISABLED_EVOLUTION_GRAPH = array(
+        'Referrers_getAll',
+    );
 
     /**
      * @see Piwik_Plugin::getListHooksRegistered

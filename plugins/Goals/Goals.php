@@ -26,6 +26,15 @@ use Piwik\WidgetsList;
  */
 class Goals extends \Piwik\Plugin
 {
+    public function getInformation()
+    {
+        $suffix = Piwik_Translate('SitesManager_PiwikOffersEcommerceAnalytics',
+            array('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">', '</a>'));
+        $info = parent::getInformation();
+        $info['description'] .= ' ' . $suffix;
+        return $info;
+    }
+
     protected $ecommerceReports = array(
         array('Goals_ProductSKU', 'Goals', 'getItemsSku'),
         array('Goals_ProductName', 'Goals', 'getItemsName'),
@@ -75,15 +84,6 @@ class Goals extends \Piwik\Plugin
             $columns[] = 'items';
         }
         return $columns;
-    }
-
-    public function getInformation()
-    {
-        $suffix = Piwik_Translate('SitesManager_PiwikOffersEcommerceAnalytics',
-            array('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">', '</a>'));
-        $info = parent::getInformation();
-        $info['description'] .= ' ' . $suffix;
-        return $info;
     }
 
     /**
