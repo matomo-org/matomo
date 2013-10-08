@@ -289,13 +289,15 @@ class Log
          * Logging writers must be associated by name in the array passed to event handlers.
          *
          * Example handler:
-         *     function (&$writers) {
-         *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
-         *             ...
-         *         }
+         * ```
+         * function (&$writers) {
+         *     $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
+         *         ...
          *     }
+         * }
          *
-         *     // 'myloggername' can now be used in the log_writers config option.
+         * // 'myloggername' can now be used in the log_writers config option.
+         * ```
          */
         Piwik_PostEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 

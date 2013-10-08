@@ -23,12 +23,7 @@ use Piwik\DataTable;
  */
 abstract class Visualization extends View
 {
-    /**
-     * This event is used to gather all available DataTable visualizations. Callbacks
-     * should add visualization class names to the incoming array.
-     * 
-     * Callback Signature: function (&$visualizations) {}
-     */
+
     const GET_AVAILABLE_EVENT = 'Visualization.addVisualizations';
 
     /**
@@ -154,6 +149,11 @@ abstract class Visualization extends View
     {
         /** @var self[] $visualizations */
         $visualizations = array();
+
+        /**
+         * This event is used to gather all available DataTable visualizations. Callbacks
+         * should add visualization class names to the incoming array.
+         */
         Piwik_PostEvent(self::GET_AVAILABLE_EVENT, array(&$visualizations));
         
         $result = array();
