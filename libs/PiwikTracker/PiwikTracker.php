@@ -927,8 +927,6 @@ class PiwikTracker
             return true;
         }
 
-        $response = '';
-
         if (!$this->cookieSupport) {
             $this->requestCookie = '';
         }

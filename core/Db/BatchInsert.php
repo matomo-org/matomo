@@ -174,9 +174,9 @@ class BatchInsert
 
         $exceptions = array();
         foreach ($keywords as $keyword) {
+            $queryStart = 'LOAD DATA ' . $keyword . 'INFILE ';
+            $sql = $queryStart . $query;
             try {
-                $queryStart = 'LOAD DATA ' . $keyword . 'INFILE ';
-                $sql = $queryStart . $query;
                 $result = @Db::exec($sql);
                 if (empty($result) || $result < 0) {
                     continue;
