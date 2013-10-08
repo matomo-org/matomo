@@ -679,6 +679,7 @@ class PluginsManager
         } catch (\Exception $e) {
             throw new PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());
         }
+        Updater::recordComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
     }
 
     /**

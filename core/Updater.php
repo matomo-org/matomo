@@ -52,10 +52,10 @@ class Updater
      * @param string $name
      * @param string $version
      */
-    public function recordComponentSuccessfullyUpdated($name, $version)
+    public static function recordComponentSuccessfullyUpdated($name, $version)
     {
         try {
-            Piwik_SetOption($this->getNameInOptionTable($name), $version, $autoLoad = 1);
+            Piwik_SetOption(self::getNameInOptionTable($name), $version, $autoLoad = 1);
         } catch (\Exception $e) {
             // case when the option table is not yet created (before 0.2.10)
         }
@@ -66,7 +66,7 @@ class Updater
      * @param string $name
      * @return string
      */
-    private function getNameInOptionTable($name)
+    private static function getNameInOptionTable($name)
     {
         return 'version_' . $name;
     }
@@ -132,7 +132,7 @@ class Updater
             // unfortunately had to extract this query from the Option class
             $queries[] = 'UPDATE `' . Common::prefixTable('option') . '`
     				SET option_value = \'' . $fileVersion . '\'
-    				WHERE option_name = \'' . $this->getNameInOptionTable($componentName) . '\';';
+    				WHERE option_name = \'' . self::getNameInOptionTable($componentName) . '\';';
         }
         return $queries;
     }
@@ -168,7 +168,7 @@ class Updater
                     call_user_func(array($className, 'update'));
                 }
 
-                $this->recordComponentSuccessfullyUpdated($componentName, $fileVersion);
+                self::recordComponentSuccessfullyUpdated($componentName, $fileVersion);
             } catch (Updater_UpdateErrorException $e) {
                 throw $e;
             } catch (\Exception $e) {
@@ -177,7 +177,7 @@ class Updater
         }
 
         // to debug, create core/Updates/X.php, update the core/Version.php, throw an Exception in the try, and comment the following line
-        $this->recordComponentSuccessfullyUpdated($componentName, $this->componentsWithNewVersion[$componentName][self::INDEX_NEW_VERSION]);
+        self::recordComponentSuccessfullyUpdated($componentName, $this->componentsWithNewVersion[$componentName][self::INDEX_NEW_VERSION]);
         return $warningMessages;
     }
 
@@ -220,7 +220,7 @@ class Updater
                 uasort($componentsWithUpdateFile[$name], "version_compare");
             } else {
                 // there are no update file => nothing to do, update to the new version is successful
-                $this->recordComponentSuccessfullyUpdated($name, $newVersion);
+                self::recordComponentSuccessfullyUpdated($name, $newVersion);
             }
         }
         return $componentsWithUpdateFile;
@@ -245,7 +245,7 @@ class Updater
 
         foreach ($this->componentsToCheck as $name => $version) {
             try {
-                $currentVersion = Piwik_GetOption('version_' . $name);
+                $currentVersion = Piwik_GetOption(self::getNameInOptionTable($name));
             } catch (\Exception $e) {
                 // mysql error 1146: table doesn't exist
                 if (Db::get()->isErrNo($e, '1146')) {
@@ -261,9 +261,10 @@ class Updater
                     // This should not happen
                     $currentVersion = Version::VERSION;
                 } else {
+                    //
                     $currentVersion = '0.0.1';
                 }
-                $this->recordComponentSuccessfullyUpdated($name, $currentVersion);
+                self::recordComponentSuccessfullyUpdated($name, $currentVersion);
             }
 
             $versionCompare = version_compare($currentVersion, $version);

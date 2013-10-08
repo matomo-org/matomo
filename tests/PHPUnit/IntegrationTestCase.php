@@ -124,7 +124,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         try {
             $fixture->setUp();
         } catch (Exception $e) {
-            // Skip whole test suite if an error occurs while setup
             self::fail("Failed to setup fixture: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
     }

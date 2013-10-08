@@ -315,8 +315,7 @@ class Controller extends \Piwik\Controller\Admin
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
 
-            $updater = new Updater();
-            $updater->recordComponentSuccessfullyUpdated('core', Version::VERSION);
+            Updater::recordComponentSuccessfullyUpdated('core', Version::VERSION);
             $view->tablesCreated = true;
             $view->showNextStep = true;
         }
