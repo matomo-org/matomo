@@ -20,21 +20,6 @@ use Piwik\WidgetsList;
  */
 class Live extends \Piwik\Plugin
 {
-    /**
-     * This event is called in the Live.getVisitorProfile API method. Plugins can use this event
-     * to discover and add extra data to visitor profiles.
-     * 
-     * For example, if an email address is found in a custom variable, a plugin could load the
-     * gravatar for the email and add it to the visitor profile so it will display in the 
-     * visitor profile popup.
-     * 
-     * The following visitor profile elements can be set to augment the visitor profile popup:
-     * - visitorAvatar: A URL to an image to display in the top left corner of the popup.
-     * - visitorDescription: Text to be used as the tooltip of the avatar image.
-     * 
-     * Callback Signature: function (array &$result);
-     */
-    const GET_EXTRA_VISITOR_DETAILS_EVENT = 'Live.getExtraVisitorDetails';
 
     /**
      * @see Piwik_Plugin::getListHooksRegistered
