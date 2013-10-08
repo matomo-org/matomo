@@ -127,6 +127,11 @@ class Referrer
     protected function detectReferrerSearchEngine()
     {
         $searchEngineInformation = UrlHelper::extractSearchEngineInformationFromUrl($this->referrerUrl);
+
+        /**
+         * This event is triggered after basic search engine detection has been attempted. A plugin can use this event
+         * to modify or provide new results based on the passed referrer URL.
+         */
         Piwik_PostEvent('Tracker.detectReferrerSearchEngine', array(&$searchEngineInformation, $this->referrerUrl));
         if ($searchEngineInformation === false) {
             return false;
