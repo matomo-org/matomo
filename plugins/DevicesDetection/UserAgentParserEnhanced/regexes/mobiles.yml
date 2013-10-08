@@ -142,7 +142,7 @@ Apple:
       device: 'tablet'
     - regex: 'iPod'
       model: 'iPod Touch'
-      device: 'palmtop'
+      device: 'smartphone'
     - regex: 'iPhone'
       model: 'iPhone'
       device: 'smartphone'
