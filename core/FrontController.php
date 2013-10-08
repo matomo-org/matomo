@@ -10,6 +10,7 @@
  */
 
 namespace Piwik;
+
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
@@ -222,8 +223,8 @@ class FrontController
         // which load the HTML page of the installer with the error.
         // This is at least required for misc/cron/archive.php and useful to all other scripts
         return (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH)
-            || Common::isPhpCliMode()
-            || SettingsServer::isArchivePhpTriggered();
+        || Common::isPhpCliMode()
+        || SettingsServer::isArchivePhpTriggered();
     }
 
     /**

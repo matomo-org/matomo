@@ -33,13 +33,13 @@ class Session extends Zend_Session
     {
         $config = Config::getInstance();
         return !isset($config->General['session_save_handler'])
-            || $config->General['session_save_handler'] === 'files';
+        || $config->General['session_save_handler'] === 'files';
     }
 
     /**
      * Start the session
      *
-     * @param array|bool $options  An array of configuration options; the auto-start (bool) setting is ignored
+     * @param array|bool $options An array of configuration options; the auto-start (bool) setting is ignored
      * @return void
      */
     public static function start($options = false)

@@ -184,7 +184,7 @@ class SettingsServer
     /**
      * Set maximum script execution time.
      *
-     * @param int $executionTime  max execution time in seconds (0 = no limit)
+     * @param int $executionTime max execution time in seconds (0 = no limit)
      */
     public static function setMaxExecutionTime($executionTime)
     {

@@ -29,8 +29,8 @@ class UpdateCheck
     /**
      * Check for a newer version
      *
-     * @param bool $force     Force check
-     * @param int $interval  Interval used for update checks
+     * @param bool $force Force check
+     * @param int $interval Interval used for update checks
      */
     public static function check($force = false, $interval = null)
     {

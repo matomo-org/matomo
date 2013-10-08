@@ -24,7 +24,7 @@ class Mail extends Zend_Mail
     /**
      * Default charset utf-8
      *
-     * @param string $charset  charset, defaults to utf-8
+     * @param string $charset charset, defaults to utf-8
      */
     public function __construct($charset = 'utf-8')
     {

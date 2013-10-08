@@ -9,6 +9,7 @@
  * @package Piwik
  */
 namespace Piwik\DataTable;
+
 use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
 
@@ -75,8 +76,8 @@ class Map
     /**
      * Queue a filter to the DataTable\Map will queue this filter to every DataTable of the DataTable\Map.
      *
-     * @param string $className   Filter name, eg. Limit
-     * @param array $parameters  Filter parameters, eg. array( 50, 10 )
+     * @param string $className Filter name, eg. Limit
+     * @param array $parameters Filter parameters, eg. array( 50, 10 )
      */
     public function queueFilter($className, $parameters = array())
     {
@@ -98,8 +99,8 @@ class Map
     /**
      * Apply a filter to all tables in the array
      *
-     * @param string $className   Name of filter class
-     * @param array $parameters  Filter parameters
+     * @param string $className Name of filter class
+     * @param array $parameters Filter parameters
      */
     public function filter($className, $parameters = array())
     {
@@ -150,7 +151,7 @@ class Map
      * Adds a new DataTable to the DataTable\Map
      *
      * @param DataTable $table
-     * @param string $label  Label used to index this table in the array
+     * @param string $label Label used to index this table in the array
      */
     public function addTable($table, $label)
     {
@@ -329,9 +330,9 @@ class Map
      * Utility function used by mergeChildren. Copies the rows from one table,
      * sets their 'label' columns to a value and adds them to another table.
      *
-     * @param DataTable $toTable    The table to copy rows to.
-     * @param DataTable $fromTable  The table to copy rows from.
-     * @param string $label      The value to set the 'label' column of every copied row.
+     * @param DataTable $toTable The table to copy rows to.
+     * @param DataTable $fromTable The table to copy rows from.
+     * @param string $label The value to set the 'label' column of every copied row.
      */
     private function copyRowsAndSetLabel($toTable, $fromTable, $label)
     {
@@ -341,10 +342,10 @@ class Map
 
             $columns = array_merge(array('label' => $label), $oldColumns);
             $row = new Row(array(
-                                                Row::COLUMNS              => $columns,
-                                                Row::METADATA             => $fromRow->getMetadata(),
-                                                Row::DATATABLE_ASSOCIATED => $fromRow->getIdSubDataTable()
-                                           ));
+                                Row::COLUMNS              => $columns,
+                                Row::METADATA             => $fromRow->getMetadata(),
+                                Row::DATATABLE_ASSOCIATED => $fromRow->getIdSubDataTable()
+                           ));
             $toTable->addRow($row);
         }
     }
@@ -414,7 +415,7 @@ class Map
 
     /**
      * @see DataTable::getColumns()
-     * 
+     *
      * @return array
      */
     public function getColumns()

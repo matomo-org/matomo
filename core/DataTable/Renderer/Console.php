@@ -55,7 +55,7 @@ class Console extends Renderer
     /**
      * Sets the prefix to be used
      *
-     * @param string $str  new prefix
+     * @param string $str new prefix
      */
     public function setPrefixRow($str)
     {
@@ -65,8 +65,8 @@ class Console extends Renderer
     /**
      * Computes the output of the given array of data tables
      *
-     * @param DataTable\Map $map  data tables to render
-     * @param string $prefix      prefix to output before table data
+     * @param DataTable\Map $map data tables to render
+     * @param string $prefix prefix to output before table data
      * @return string
      */
     protected function renderDataTableMap(DataTable\Map $map, $prefix)
@@ -84,8 +84,8 @@ class Console extends Renderer
     /**
      * Computes the given dataTable output and returns the string/binary
      *
-     * @param DataTable $table   data table to render
-     * @param string $prefix  prefix to output before table data
+     * @param DataTable $table data table to render
+     * @param string $prefix prefix to output before table data
      * @return string
      */
     protected function renderTable($table, $prefix = "")

@@ -41,7 +41,7 @@ class Updates_1_9_b16 extends Updates
 			ADD sitesearch TINYINT DEFAULT 1 AFTER `excluded_parameters`,
             ADD sitesearch_keyword_parameters TEXT NOT NULL AFTER `sitesearch`,
             ADD sitesearch_category_parameters TEXT NOT NULL AFTER `sitesearch_keyword_parameters`'
-                                                                                                   => 1060,
+                                                                                             => 1060,
 
             // enable Site Search for all websites, users can manually disable the setting
             'UPDATE `' . Common::prefixTable('site') . '`

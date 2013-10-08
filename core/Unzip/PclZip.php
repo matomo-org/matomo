@@ -11,7 +11,6 @@
 namespace Piwik\Unzip;
 
 
-
 /**
  * @see libs/PclZip
  */
@@ -37,7 +36,7 @@ class PclZip implements UncompressInterface
     /**
      * Constructor
      *
-     * @param string $filename  Name of the .zip archive
+     * @param string $filename Name of the .zip archive
      */
     public function __construct($filename)
     {
@@ -48,7 +47,7 @@ class PclZip implements UncompressInterface
     /**
      * Extract files from archive to target directory
      *
-     * @param string $pathExtracted  Absolute path of target directory
+     * @param string $pathExtracted Absolute path of target directory
      * @return mixed  Array of filenames if successful; or 0 if an error occurred
      */
     public function extract($pathExtracted)
@@ -76,7 +75,7 @@ class PclZip implements UncompressInterface
             PCLZIP_OPT_PATH, $pathExtracted,
             PCLZIP_OPT_STOP_ON_ERROR,
             PCLZIP_OPT_REPLACE_NEWER,
-            PCLZIP_CB_PRE_EXTRACT, function($p_event, &$p_header) use ($pathExtracted) {
+            PCLZIP_CB_PRE_EXTRACT, function ($p_event, &$p_header) use ($pathExtracted) {
                 return strncmp($p_header['filename'], $pathExtracted, strlen($pathExtracted)) ? 0 : 1;
             }
         );

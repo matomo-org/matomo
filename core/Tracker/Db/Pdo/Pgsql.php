@@ -110,7 +110,7 @@ class Pgsql extends Mysql
     /**
      * Return number of affected rows in last query
      *
-     * @param mixed $queryResult  Result from query()
+     * @param mixed $queryResult Result from query()
      * @return int
      */
     public function rowCount($queryResult)

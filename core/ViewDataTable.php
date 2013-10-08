@@ -117,14 +117,14 @@ class ViewDataTable
 
     /**
      * The class name of the visualization to use.
-     * 
+     *
      * @var string|null
      */
     private $visualizationClass;
 
     /**
      * Cache for getAllReportDisplayProperties result.
-     * 
+     *
      * @var array
      */
     public static $reportPropertiesCache = null;
@@ -228,7 +228,7 @@ class ViewDataTable
 
     /**
      * Returns the API method that will be called to obatin the report data.
-     * 
+     *
      * @return string e.g. 'Actions.getPageUrls'
      */
     public function getReportApiMethod()
@@ -238,7 +238,7 @@ class ViewDataTable
 
     /**
      * Returns the view's associated visualization class name.
-     * 
+     *
      * @return string
      */
     public function getVisualizationClass()
@@ -248,7 +248,7 @@ class ViewDataTable
 
     /**
      * Gets a view property by reference.
-     * 
+     *
      * @param string $name A valid view property name. @see Properties for all
      *                     valid view properties.
      * @return mixed
@@ -262,7 +262,7 @@ class ViewDataTable
 
     /**
      * Sets a view property.
-     * 
+     *
      * @param string $name A valid view property name. @see Properties for all
      *                     valid view properties.
      * @param mixed $value
@@ -301,10 +301,10 @@ class ViewDataTable
      * If defaultType is specified and if there is no 'viewDataTable' in the URL, a ViewDataTable of this $defaultType will be returned.
      * If force is set to true, a ViewDataTable of the $defaultType will be returned in all cases.
      *
-     * @param string      $defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
+     * @param string $defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
      * @param string|bool $apiAction
      * @param string|bool $controllerAction
-     * @param bool        $forceDefault
+     * @param bool $forceDefault
      *
      * @return ViewDataTable
      */
@@ -321,7 +321,7 @@ class ViewDataTable
             $defaultType = $defaultProperties['default_view_type'];
         }
 
-        $type = Common::getRequestVar('viewDataTable', $defaultType ?: 'table', 'string');
+        $type = Common::getRequestVar('viewDataTable', $defaultType ? : 'table', 'string');
 
         if ($type == 'sparkline') {
             $result = new ViewDataTable\Sparkline($controllerAction, $apiAction, $defaultProperties);
@@ -357,7 +357,7 @@ class ViewDataTable
 
     /**
      * Returns the list of view properties that can be overriden by query parameters.
-     * 
+     *
      * @return array
      */
     public function getOverridableProperties()
@@ -418,7 +418,7 @@ class ViewDataTable
 
     /**
      * Returns the list of display properties for all available reports.
-     * 
+     *
      * @return array
      */
     private static function getAllReportDisplayProperties()
@@ -590,7 +590,7 @@ class ViewDataTable
                 || $haveNbUniqVisitors
             ) {
                 $columnsToDisplay = array('label');
-                
+
                 // if unique visitors data is available, show it, otherwise just visits
                 if ($haveNbUniqVisitors) {
                     $columnsToDisplay[] = 'nb_uniq_visitors';
@@ -692,7 +692,7 @@ class ViewDataTable
     private function areQueuedFiltersDisabled()
     {
         return isset($this->viewProperties['disable_queued_filters'])
-            && $this->viewProperties['disable_queued_filters'];
+        && $this->viewProperties['disable_queued_filters'];
     }
 
     /**
@@ -749,9 +749,9 @@ class ViewDataTable
                 $requestArray[$varToSet] = $value;
             }
         }
-        
+
         $segment = Request::getRawSegmentFromRequest();
-        if(!empty($segment)) {
+        if (!empty($segment)) {
             $requestArray['segment'] = $segment;
         }
 
@@ -850,7 +850,7 @@ class ViewDataTable
         }
 
         $rawSegment = Request::getRawSegmentFromRequest();
-        if(!empty($rawSegment)) {
+        if (!empty($rawSegment)) {
             $javascriptVariablesToSet['segment'] = $rawSegment;
         }
 
@@ -860,7 +860,7 @@ class ViewDataTable
     /**
      * Returns array of properties that should be visible to client side JavaScript. The data
      * will be available in the data-props HTML attribute of the .dataTable div.
-     * 
+     *
      * @return array Maps property names w/ property values.
      */
     private function getClientSidePropertiesToSet()
@@ -982,7 +982,8 @@ class ViewDataTable
         if ($strPeriod !== false
             && $strDate !== false
             && (is_null($this->dataTable)
-                || (!empty($this->dataTable) && $this->dataTable->getRowsCount() == 0))) {
+                || (!empty($this->dataTable) && $this->dataTable->getRowsCount() == 0))
+        ) {
             // if range, only look at the first date
             if ($strPeriod == 'range') {
                 $idSite = Common::getRequestVar('idSite', '');
@@ -1045,10 +1046,10 @@ class ViewDataTable
         if (!method_exists($namespacedApiClassName::getInstance(), $apiAction)) {
             throw new \Exception("$namespacedApiClassName Invalid action name '$apiAction' for '$pluginName' plugin.");
         }
-        
-        $view = self::factory(null, $pluginName.'.'.$apiAction);
+
+        $view = self::factory(null, $pluginName . '.' . $apiAction);
         $rendered = $view->render();
-        
+
         if ($fetch) {
             return $rendered;
         } else {
@@ -1058,7 +1059,7 @@ class ViewDataTable
 
     /**
      * Convenience function. Calls main() & renders the view that gets built.
-     * 
+     *
      * @return string The result of rendering.
      */
     public function render()
@@ -1066,7 +1067,7 @@ class ViewDataTable
         $this->buildView();
         return $this->view->render();
     }
-    
+
     /**
      * Returns whether the DataTable result will have to be expanded for the
      * current request before rendering.
@@ -1078,8 +1079,8 @@ class ViewDataTable
         // if filter_column_recursive & filter_pattern_recursive are supplied, and flat isn't supplied
         // we have to load all the child subtables.
         return Common::getRequestVar('filter_column_recursive', false) !== false
-            && Common::getRequestVar('filter_pattern_recursive', false) !== false
-            && Common::getRequestVar('flat', false) === false;
+        && Common::getRequestVar('filter_pattern_recursive', false) !== false
+        && Common::getRequestVar('flat', false) === false;
     }
 
     protected function overrideViewProperties()
@@ -1107,7 +1108,7 @@ class ViewDataTable
          */
         Piwik_PostEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
         $this->overrideViewProperties();
-        
+
         try {
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI();
@@ -1168,23 +1169,23 @@ class ViewDataTable
 
         // add normal view icons (eg, normal table, all columns, goals)
         $normalViewIcons = array(
-            'class' => 'tableAllColumnsSwitch',
+            'class'   => 'tableAllColumnsSwitch',
             'buttons' => array(),
         );
 
         if ($this->show_table) {
             $normalViewIcons['buttons'][] = array(
-                'id' => 'table',
+                'id'    => 'table',
                 'title' => Piwik_Translate('General_DisplaySimpleTable'),
-                'icon' => 'plugins/Zeitgeist/images/table.png',
+                'icon'  => 'plugins/Zeitgeist/images/table.png',
             );
         }
 
         if ($this->show_table_all_columns) {
             $normalViewIcons['buttons'][] = array(
-                'id' => 'tableAllColumns',
+                'id'    => 'tableAllColumns',
                 'title' => Piwik_Translate('General_DisplayTableWithMoreMetrics'),
-                'icon' => 'plugins/Zeitgeist/images/table_more.png'
+                'icon'  => 'plugins/Zeitgeist/images/table_more.png'
             );
         }
 
@@ -1194,27 +1195,27 @@ class ViewDataTable
             } else {
                 $icon = 'plugins/Zeitgeist/images/goal.png';
             }
-            
+
             $normalViewIcons['buttons'][] = array(
-                'id' => 'tableGoals',
+                'id'    => 'tableGoals',
                 'title' => Piwik_Translate('General_DisplayTableWithGoalMetrics'),
-                'icon' => $icon
+                'icon'  => $icon
             );
         }
 
         if ($this->show_ecommerce) {
             $normalViewIcons['buttons'][] = array(
-                'id' => 'ecommerceOrder',
+                'id'    => 'ecommerceOrder',
                 'title' => Piwik_Translate('General_EcommerceOrders'),
-                'icon' => 'plugins/Zeitgeist/images/ecommerceOrder.gif',
-                'text' => Piwik_Translate('General_EcommerceOrders')
+                'icon'  => 'plugins/Zeitgeist/images/ecommerceOrder.gif',
+                'text'  => Piwik_Translate('General_EcommerceOrders')
             );
 
             $normalViewIcons['buttons'][] = array(
-                'id' => 'ecommerceAbandonedCart',
+                'id'    => 'ecommerceAbandonedCart',
                 'title' => Piwik_Translate('General_AbandonedCarts'),
-                'icon' => 'plugins/Zeitgeist/images/ecommerceAbandonedCart.gif',
-                'text' => Piwik_Translate('General_AbandonedCarts')
+                'icon'  => 'plugins/Zeitgeist/images/ecommerceAbandonedCart.gif',
+                'text'  => Piwik_Translate('General_AbandonedCarts')
             );
         }
 
@@ -1224,32 +1225,32 @@ class ViewDataTable
 
         // add graph views
         $graphViewIcons = array(
-            'class' => 'tableGraphViews tableGraphCollapsed',
+            'class'   => 'tableGraphViews tableGraphCollapsed',
             'buttons' => array(),
         );
 
         if ($this->show_all_views_icons) {
             if ($this->show_bar_chart) {
                 $graphViewIcons['buttons'][] = array(
-                    'id' => 'graphVerticalBar',
+                    'id'    => 'graphVerticalBar',
                     'title' => Piwik_Translate('General_VBarGraph'),
-                    'icon' => 'plugins/Zeitgeist/images/chart_bar.png'
+                    'icon'  => 'plugins/Zeitgeist/images/chart_bar.png'
                 );
             }
 
             if ($this->show_pie_chart) {
                 $graphViewIcons['buttons'][] = array(
-                    'id' => 'graphPie',
+                    'id'    => 'graphPie',
                     'title' => Piwik_Translate('General_Piechart'),
-                    'icon' => 'plugins/Zeitgeist/images/chart_pie.png'
+                    'icon'  => 'plugins/Zeitgeist/images/chart_pie.png'
                 );
             }
 
             if ($this->show_tag_cloud) {
                 $graphViewIcons['buttons'][] = array(
-                    'id' => 'cloud',
+                    'id'    => 'cloud',
                     'title' => Piwik_Translate('General_TagCloud'),
-                    'icon' => 'plugins/Zeitgeist/images/tagcloud.png'
+                    'icon'  => 'plugins/Zeitgeist/images/tagcloud.png'
                 );
             }
 
@@ -1259,9 +1260,9 @@ class ViewDataTable
 
                 foreach ($nonCoreVisualizationInfo as $format => $info) {
                     $graphViewIcons['buttons'][] = array(
-                        'id' => $format,
+                        'id'    => $format,
                         'title' => Piwik_Translate($info['title']),
-                        'icon' => $info['table_icon']
+                        'icon'  => $info['table_icon']
                     );
                 }
             }
@@ -1299,7 +1300,7 @@ class ViewDataTable
          * ```
          */
         Piwik_PostEvent(self::CONFIGURE_FOOTER_ICONS_EVENT, array(&$result, $viewDataTable = $this));
-        
+
         return $result;
     }
 

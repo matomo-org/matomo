@@ -95,7 +95,7 @@ abstract class Period
         return
             is_string($dateString)
             && (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
-            || Range::parseDateRange($dateString))
+                || Range::parseDateRange($dateString))
             && $period != 'range';
     }
 

@@ -12,7 +12,6 @@
 namespace Piwik\ViewDataTable;
 
 
-
 /**
  * Proxy object used to get/set visualization properties. Used to check that property
  * names are valid.
@@ -21,21 +20,21 @@ class VisualizationPropertiesProxy
 {
     /**
      * The visualization class name.
-     * 
+     *
      * @var string
      */
     private $visualizationClass;
 
     /**
      * Stores visualization properties.
-     * 
+     *
      * @var array
      */
     private $visualizationProperties = array();
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $visualizationClass The visualization class to get/set properties of.
      */
     public function __construct($visualizationClass)
@@ -53,7 +52,7 @@ class VisualizationPropertiesProxy
 
     /**
      * Gets a reference to a visualization property.
-     * 
+     *
      * @param string $name A valid property name for the current visualization.
      * @return mixed
      * @throws \Exception if the property name is invalid.
@@ -63,13 +62,13 @@ class VisualizationPropertiesProxy
         if ($this->visualizationClass !== null) {
             Properties::checkValidVisualizationProperty($this->visualizationClass, $name);
         }
-        
+
         return $this->visualizationProperties[$name];
     }
 
     /**
      * Sets a visualization property.
-     * 
+     *
      * @param string $name A valid property name for the current visualization.
      * @param mixed $value
      * @return mixed Returns $value.
@@ -80,14 +79,14 @@ class VisualizationPropertiesProxy
         if ($this->visualizationClass !== null) {
             Properties::checkValidVisualizationProperty($this->visualizationClass, $name);
         }
-        
+
         return $this->visualizationProperties[$name] = $value;
     }
 
     /**
      * Sets a visualization property, but only if the visualization is an instance of a
      * certain class.
-     * 
+     *
      * @param string $forClass The visualization class to check for.
      * @param string $name A valid property name for the current visualization.
      * @param mixed $value

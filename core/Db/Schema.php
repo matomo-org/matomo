@@ -165,7 +165,7 @@ class Schema
     /**
      * Get the SQL to create a specific Piwik table
      *
-     * @param string $tableName  name of the table to create
+     * @param string $tableName name of the table to create
      * @return string  SQL
      */
     public function getTableCreateSql($tableName)
@@ -186,7 +186,7 @@ class Schema
     /**
      * Create database
      *
-     * @param null|string $dbName  database name to create
+     * @param null|string $dbName database name to create
      */
     public function createDatabase($dbName = null)
     {
@@ -249,7 +249,7 @@ class Schema
     /**
      * Get list of tables installed
      *
-     * @param bool $forceReload  Invalidate cache
+     * @param bool $forceReload Invalidate cache
      * @return array  installed tables
      */
     public function getTablesInstalled($forceReload = true)

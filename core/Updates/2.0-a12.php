@@ -22,7 +22,7 @@ class Updates_2_0_a12 extends Updates
 {
     public static function getSql($schema = 'Myisam')
     {
-        $result =  array(
+        $result = array(
             'ALTER TABLE ' . Common::prefixTable('logger_message') . ' MODIFY level VARCHAR(16) NULL' => false
         );
 

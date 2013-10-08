@@ -12,7 +12,6 @@
 namespace Piwik\Translate\Filter;
 
 
-
 /**
  * @package Piwik
  * @subpackage Piwik_Translate
@@ -26,7 +25,7 @@ class ByBaseTranslations extends FilterAbstract
      *
      * @param array $baseTranslations
      */
-    public function __construct($baseTranslations=array())
+    public function __construct($baseTranslations = array())
     {
         $this->baseTranslations = $baseTranslations;
     }
@@ -34,7 +33,7 @@ class ByBaseTranslations extends FilterAbstract
     /**
      * Removes all translations that aren't present in the base translations set in constructor
      *
-     * @param  array  $translations
+     * @param  array $translations
      *
      * @return array   filtered translations
      */

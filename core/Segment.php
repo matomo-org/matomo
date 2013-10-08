@@ -9,6 +9,7 @@
  * @package Piwik
  */
 namespace Piwik;
+
 use Exception;
 use Piwik\Plugins\API\API;
 
@@ -154,12 +155,12 @@ class Segment
     /**
      * Extend SQL query with segment expressions
      *
-     * @param string $select   select clause
-     * @param array $from     array of table names (without prefix)
-     * @param bool|string $where    (optional )where clause
-     * @param array|string $bind     (optional) params to bind
-     * @param bool|string $orderBy  (optional) order by clause
-     * @param bool|string $groupBy  (optional) group by clause
+     * @param string $select select clause
+     * @param array $from array of table names (without prefix)
+     * @param bool|string $where (optional )where clause
+     * @param array|string $bind (optional) params to bind
+     * @param bool|string $orderBy (optional) order by clause
+     * @param bool|string $groupBy (optional) group by clause
      * @return string entire select query
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false)
@@ -207,7 +208,7 @@ class Segment
 
     /**
      * Generate the join sql based on the needed tables
-     * @param array $tables  tables to join
+     * @param array $tables tables to join
      * @throws Exception if tables can't be joined
      * @return array
      */
@@ -307,11 +308,11 @@ class Segment
 
     /**
      * Build select query the normal way
-     * @param string $select   fieldlist to be selected
-     * @param string $from     tablelist to select from
-     * @param string $where    where clause
-     * @param string $orderBy  order by clause
-     * @param string $groupBy  group by clause
+     * @param string $select fieldlist to be selected
+     * @param string $from tablelist to select from
+     * @param string $where where clause
+     * @param string $orderBy order by clause
+     * @param string $groupBy group by clause
      * @return string
      */
     private function buildSelectQuery($select, $from, $where, $orderBy, $groupBy)

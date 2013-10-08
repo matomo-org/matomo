@@ -32,7 +32,7 @@ class Command extends SymfonyCommand
     public function writeSuccessMessage(OutputInterface $output, $messages)
     {
         $lengths = array_map('strlen', $messages);
-        $maxLen  = max($lengths) + 4;
+        $maxLen = max($lengths) + 4;
 
         $separator = str_pad('', $maxLen, '*');
 

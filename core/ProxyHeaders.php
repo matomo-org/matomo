@@ -11,7 +11,6 @@
 namespace Piwik;
 
 
-
 /**
  * Proxy headers
  *

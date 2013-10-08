@@ -45,11 +45,11 @@ class ColumnCallbackAddColumn extends Filter
     /**
      * Constructor.
      *
-     * @param DataTable $table               The DataTable that will be filtered.
-     * @param array|string $columns             The names of the columns to pass to the callback.
-     * @param string $columnToAdd         The name of the column to add.
-     * @param mixed $functionToApply     The callback to apply to each row of a DataTable.
-     * @param array $functionParameters  Extra parameters to pass to $functionToApply.
+     * @param DataTable $table The DataTable that will be filtered.
+     * @param array|string $columns The names of the columns to pass to the callback.
+     * @param string $columnToAdd The name of the column to add.
+     * @param mixed $functionToApply The callback to apply to each row of a DataTable.
+     * @param array $functionParameters Extra parameters to pass to $functionToApply.
      */
     public function __construct($table, $columns, $columnToAdd, $functionToApply, $functionParameters = array())
     {
@@ -69,7 +69,7 @@ class ColumnCallbackAddColumn extends Filter
      * Executes a callback on every row of the supplied table and adds the result of
      * the callback as a new column to each row.
      *
-     * @param DataTable $table  The table to filter.
+     * @param DataTable $table The table to filter.
      */
     public function filter($table)
     {

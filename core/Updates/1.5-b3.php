@@ -33,7 +33,7 @@ class Updates_1_5_b3 extends Updates
 				 CHANGE custom_var_k4 custom_var_k4 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_v4 custom_var_v4 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_k5 custom_var_k5 VARCHAR(100) DEFAULT NULL,
-				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(100) DEFAULT NULL'                                                                                    => false,
+				 CHANGE custom_var_v5 custom_var_v5 VARCHAR(100) DEFAULT NULL'                                                                              => false,
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 				 CHANGE custom_var_k1 custom_var_k1 VARCHAR(100) DEFAULT NULL,
 				 CHANGE custom_var_v1 custom_var_v1 VARCHAR(100) DEFAULT NULL,

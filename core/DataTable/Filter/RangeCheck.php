@@ -26,9 +26,9 @@ class RangeCheck extends Filter
 
     /**
      * @param DataTable $table
-     * @param string $columnToFilter  name of the column to filter
-     * @param float $minimumValue    minimum value for range
-     * @param float $maximumValue    maximum value for range
+     * @param string $columnToFilter name of the column to filter
+     * @param float $minimumValue minimum value for range
+     * @param float $maximumValue maximum value for range
      */
     public function __construct($table, $columnToFilter, $minimumValue = 0.00, $maximumValue = 100.0)
     {

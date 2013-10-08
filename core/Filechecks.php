@@ -116,7 +116,7 @@ class Filechecks
             require_once $manifest;
         }
 
-        if(!class_exists('\\Piwik\\Manifest')){
+        if (!class_exists('\\Piwik\\Manifest')) {
             $messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest') . " If you are deploying Piwik from Git, this message is normal.";
             return $messages;
         }

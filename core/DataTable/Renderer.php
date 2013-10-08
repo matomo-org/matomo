@@ -143,7 +143,7 @@ abstract class Renderer
     /**
      * Set the DataTable to be rendered
      *
-     * @param DataTable|Simple|DataTable\Map $table  table to be rendered
+     * @param DataTable|Simple|DataTable\Map $table table to be rendered
      * @throws Exception
      */
     public function setTable($table)
@@ -160,7 +160,7 @@ abstract class Renderer
     /**
      * Set the Exception to be rendered
      *
-     * @param Exception $exception  to be rendered
+     * @param Exception $exception to be rendered
      * @throws Exception
      */
     public function setException($exception)
@@ -216,7 +216,7 @@ abstract class Renderer
     /**
      * Returns $rawData after all applicable characters have been converted to HTML entities.
      *
-     * @param String $rawData  data to be converted
+     * @param String $rawData data to be converted
      * @return String
      */
     static protected function renderHtmlEntities($rawData)
@@ -227,7 +227,7 @@ abstract class Renderer
     /**
      * Format a value to xml
      *
-     * @param string|number|bool $value  value to format
+     * @param string|number|bool $value value to format
      * @return int|string
      */
     public static function formatValueXml($value)

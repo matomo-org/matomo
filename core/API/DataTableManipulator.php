@@ -76,7 +76,7 @@ abstract class DataTableManipulator
     /**
      * Manipulates child DataTables of a DataTable\Map. See @manipulate for more info.
      *
-     * @param DataTable\Map  $dataTable
+     * @param DataTable\Map $dataTable
      * @return DataTable\Map
      */
     protected function manipulateDataTableMap($dataTable)
@@ -127,7 +127,7 @@ abstract class DataTableManipulator
             }
         }
 
-        $class = Request::getClassNameAPI( $this->apiModule );
+        $class = Request::getClassNameAPI($this->apiModule);
         $method = $this->getApiMethodForSubtable();
 
         $this->manipulateSubtableRequest($request);

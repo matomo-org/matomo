@@ -7,6 +7,9 @@ Steps:
  * Use latest Phpstorm 
  * Copy this Piwik_codestyle.xml file in your  ~/.WebIde60/config/codestyles/
   * If you use Windows or Mac see which path to copy at: http://intellij-support.jetbrains.com/entries/23358108
+  * To automatically link to the file in Piwik:
+  `$ ln -s ~/dev/piwik-master/misc/others/phpstorm-codestyles/Piwik_codestyle.xml  ~/.WebIde70/config/codestyles/Piwik_codestyle.xml`
+
  * Restart PhpStorm.
  * Select this coding in Settings>Code style.
 

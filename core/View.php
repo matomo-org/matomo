@@ -59,7 +59,7 @@ class View implements ViewInterface
 
     /**
      * Returns the template filename.
-     * 
+     *
      * @return string
      */
     public function getTemplateFile()
@@ -69,7 +69,7 @@ class View implements ViewInterface
 
     /**
      * Returns the variables to bind to the template when rendering.
-     * 
+     *
      * @return array
      */
     public function getTemplateVars()
@@ -123,7 +123,7 @@ class View implements ViewInterface
             $count = SettingsPiwik::getWebsitesCountToDisplay();
 
             $sites = APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($count);
-            usort($sites, function($site1, $site2) {
+            usort($sites, function ($site1, $site2) {
                 return strcasecmp($site1["name"], $site2["name"]);
             });
             $this->sites = $sites;

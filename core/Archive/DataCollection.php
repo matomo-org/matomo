@@ -283,7 +283,7 @@ class DataCollection
      * Creates an empty index using a list of metadata names. If the 'site' and/or
      * 'period' metadata names are supplied, empty rows are added for every site/period
      * that was queried for.
-     * 
+     *
      * Using this function ensures consistent ordering in the indexed result.
      *
      * @param array $metadataNamesToIndexBy List of metadata names to index archive data by.
@@ -315,7 +315,7 @@ class DataCollection
      */
     private function putRowInIndex(&$index, $metadataNamesToIndexBy, $row, $idSite, $period)
     {
-        $currentLevel = &$index;
+        $currentLevel = & $index;
 
         foreach ($metadataNamesToIndexBy as $metadataName) {
             if ($metadataName == 'site') {
@@ -330,7 +330,7 @@ class DataCollection
                 $currentLevel[$key] = array();
             }
 
-            $currentLevel = &$currentLevel[$key];
+            $currentLevel = & $currentLevel[$key];
         }
 
         $currentLevel = $row;

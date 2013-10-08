@@ -46,7 +46,7 @@ class Filesystem
      *
      * Apache-specific; for IIS @see web.config
      *
-     * @param string $path     without trailing slash
+     * @param string $path without trailing slash
      * @param bool $overwrite whether to overwrite an existing file or not
      * @param string $content
      */
@@ -169,9 +169,9 @@ class Filesystem
      * Recursively find pathnames that match a pattern
      * @see glob()
      *
-     * @param string $sDir      directory
-     * @param string $sPattern  pattern
-     * @param int $nFlags    glob() flags
+     * @param string $sDir directory
+     * @param string $sPattern pattern
+     * @param int $nFlags glob() flags
      * @return array
      */
     public static function globr($sDir, $sPattern, $nFlags = null)
@@ -195,8 +195,8 @@ class Filesystem
     /**
      * Recursively delete a directory
      *
-     * @param string $dir            Directory name
-     * @param boolean $deleteRootToo  Delete specified top-level directory as well
+     * @param string $dir Directory name
+     * @param boolean $deleteRootToo Delete specified top-level directory as well
      * @param \Closure|false $beforeUnlink A closure to execute before unlinking.
      */
     public static function unlinkRecursive($dir, $deleteRootToo, \Closure $beforeUnlink = null)
@@ -228,8 +228,8 @@ class Filesystem
     /**
      * Copy individual file from $source to $target.
      *
-     * @param string $source      eg. './tmp/latest/index.php'
-     * @param string $dest        eg. './index.php'
+     * @param string $source eg. './tmp/latest/index.php'
+     * @param string $dest eg. './index.php'
      * @param bool $excludePhp
      * @throws Exception
      * @return bool
@@ -259,8 +259,8 @@ class Filesystem
     /**
      * Copy recursively from $source to $target.
      *
-     * @param string $source      eg. './tmp/latest'
-     * @param string $target      eg. '.'
+     * @param string $source eg. './tmp/latest'
+     * @param string $target eg. '.'
      * @param bool $excludePhp
      */
     public static function copyRecursive($source, $target, $excludePhp = false)

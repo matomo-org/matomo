@@ -285,7 +285,7 @@ class Request
     protected function isTimestampValid($time)
     {
         return $time <= $this->getCurrentTimestamp()
-            && $time > $this->getCurrentTimestamp() - 10 * 365 * 86400;
+        && $time > $this->getCurrentTimestamp() - 10 * 365 * 86400;
     }
 
     public function getIdSite()
@@ -460,7 +460,7 @@ class Request
 
     public function setForceIp($ip)
     {
-        if(!empty($ip)) {
+        if (!empty($ip)) {
             $this->enforcedIp = $ip;
         }
     }
@@ -470,14 +470,14 @@ class Request
         if (!is_numeric($dateTime)) {
             $dateTime = strtotime($dateTime);
         }
-        if(!empty($dateTime)) {
+        if (!empty($dateTime)) {
             $this->timestamp = $dateTime;
         }
     }
 
     public function setForcedVisitorId($visitorId)
     {
-        if(!empty($visitorId)) {
+        if (!empty($visitorId)) {
             $this->forcedVisitorId = $visitorId;
         }
     }

@@ -47,10 +47,10 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
     /**
      * Constructor.
      *
-     * @param DataTable $table          The DataTable that will be filtered.
-     * @param string $labelSingular  The string to use when the range being beautified
+     * @param DataTable $table The DataTable that will be filtered.
+     * @param string $labelSingular The string to use when the range being beautified
      *                                         is equal to '1-1 units'.
-     * @param string $labelPlural    The string to use when the range being beautified
+     * @param string $labelPlural The string to use when the range being beautified
      *                                         references more than one unit. This must be a format
      *                                         string that takes one string parameter.
      */
@@ -65,7 +65,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
     /**
      * Beautifies a range label and returns the pretty result.
      *
-     * @param string $value  The range string. This must be in either a '$min-$max' format
+     * @param string $value The range string. This must be in either a '$min-$max' format
      *                        a '$min+' format.
      * @return string  The pretty range label.
      */
@@ -114,8 +114,8 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
      * This function can be overridden in derived types to customize beautifcation
      * behavior based on the range values.
      *
-     * @param string $oldLabel    The original label value.
-     * @param int $lowerBound  The lower bound of the range.
+     * @param string $oldLabel The original label value.
+     * @param int $lowerBound The lower bound of the range.
      * @return string  The pretty range label.
      */
     public function getSingleUnitLabel($oldLabel, $lowerBound)
@@ -134,9 +134,9 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
      * This function can be overridden in derived types to customize beautifcation
      * behavior based on the range values.
      *
-     * @param string $oldLabel    The original label value.
-     * @param int $lowerBound  The lower bound of the range.
-     * @param int $upperBound  The upper bound of the range.
+     * @param string $oldLabel The original label value.
+     * @param int $lowerBound The lower bound of the range.
+     * @param int $upperBound The upper bound of the range.
      * @return string  The pretty range label.
      */
     public function getRangeLabel($oldLabel, $lowerBound, $upperBound)
@@ -151,8 +151,8 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
      * This function can be overridden in derived types to customize beautifcation
      * behavior based on the range values.
      *
-     * @param string $oldLabel    The original label value.
-     * @param int $lowerBound  The lower bound of the range.
+     * @param string $oldLabel The original label value.
+     * @param int $lowerBound The lower bound of the range.
      * @return string  The pretty range label.
      */
     public function getUnboundedLabel($oldLabel, $lowerBound)

@@ -353,7 +353,7 @@ class Range extends Period
     /**
      * Returns the date that is one period before the supplied date.
      *
-     * @param bool|string $date   The date to get the last date of.
+     * @param bool|string $date The date to get the last date of.
      * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
      *
      * @return array An array with two elements, a string for the date before $date and

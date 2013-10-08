@@ -136,11 +136,11 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     /**
      * Calculates the evolution percentage for two arbitrary values.
      *
-     * @param float|int $currentValue      The current metric value.
-     * @param float|int $pastValue         The value of the metric in the past. We measure the % change
+     * @param float|int $currentValue The current metric value.
+     * @param float|int $pastValue The value of the metric in the past. We measure the % change
      *                                      from this value to $currentValue.
      * @param float|int $quotientPrecision The quotient precision to round to.
-     * @param bool $appendPercentSign      Whether to append a '%' sign to the end of the number or not.
+     * @param bool $appendPercentSign Whether to append a '%' sign to the end of the number or not.
      *
      * @return string The evolution percent 15%
      */

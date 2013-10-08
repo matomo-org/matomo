@@ -11,8 +11,8 @@
 namespace Piwik\API;
 
 use Exception;
-use Piwik\API\DataTableManipulator\Flattener;
 
+use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\Common;
 use Piwik\DataTable\Renderer\Json;
@@ -67,9 +67,9 @@ class ResponseBuilder
      *
      * - If an integer / float is returned, we simply return it
      *
-     * @param mixed $value      The initial returned value, before post process. If set to null, success response is returned.
-     * @param bool|string $apiModule  The API module that was called
-     * @param bool|string $apiMethod  The API method that was called
+     * @param mixed $value The initial returned value, before post process. If set to null, success response is returned.
+     * @param bool|string $apiModule The API module that was called
+     * @param bool|string $apiMethod The API method that was called
      * @return mixed  Usually a string, but can still be a PHP data structure if the format requested is 'original'
      */
     public function getResponse($value = null, $apiModule = false, $apiMethod = false)
@@ -170,7 +170,7 @@ class ResponseBuilder
     /**
      * Returns true if the user requested to serialize the output data (&serialize=1 in the request)
      *
-     * @param mixed $defaultSerializeValue  Default value in case the user hasn't specified a value
+     * @param mixed $defaultSerializeValue Default value in case the user hasn't specified a value
      * @return bool
      */
     protected function caseRendererPHPSerialize($defaultSerializeValue = 1)
@@ -242,9 +242,9 @@ class ResponseBuilder
                     @header("Content-Type: text/xml;charset=utf-8");
                     $return =
                         "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
-                            "<result>\n" .
-                            "\t<success message=\"" . $message . "\" />\n" .
-                            "</result>";
+                        "<result>\n" .
+                        "\t<success message=\"" . $message . "\" />\n" .
+                        "</result>";
                     break;
                 case 'json':
                     @header("Content-Type: application/json");
@@ -426,7 +426,7 @@ class ResponseBuilder
      *        ),
      *    );
      *
-     * @param array $array  can contain scalar, arrays, DataTable and Set
+     * @param array $array can contain scalar, arrays, DataTable and Set
      * @return string
      */
     public static function convertMultiDimensionalArrayToJson($array)

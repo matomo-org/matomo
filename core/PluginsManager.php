@@ -118,7 +118,7 @@ class PluginsManager
     /**
      * Returns true if plugin is always activated
      *
-     * @param string $name  Name of plugin
+     * @param string $name Name of plugin
      * @return bool
      */
     private function isPluginAlwaysActivated($name)
@@ -140,19 +140,19 @@ class PluginsManager
     /**
      * Returns true if plugin has been activated
      *
-     * @param string $name  Name of plugin
+     * @param string $name Name of plugin
      * @return bool
      */
     public function isPluginActivated($name)
     {
         return in_array($name, $this->pluginsToLoad)
-            || $this->isPluginAlwaysActivated($name);
+        || $this->isPluginAlwaysActivated($name);
     }
 
     /**
      * Returns true if plugin is loaded (in memory)
      *
-     * @param string $name  Name of plugin
+     * @param string $name Name of plugin
      * @return bool
      */
     public function isPluginLoaded($name)
@@ -194,10 +194,10 @@ class PluginsManager
      */
     public function uninstallPlugin($pluginName)
     {
-        if($this->isPluginActivated($pluginName)) {
+        if ($this->isPluginActivated($pluginName)) {
             throw new \Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
         }
-        if(!$this->isPluginInFilesystem($pluginName)) {
+        if (!$this->isPluginInFilesystem($pluginName)) {
             throw new \Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
         }
 
@@ -214,7 +214,7 @@ class PluginsManager
         Filesystem::deleteAllCacheOnUpdate();
 
         self::deletePluginFromFilesystem($pluginName);
-        if($this->isPluginInFilesystem($pluginName)) {
+        if ($this->isPluginInFilesystem($pluginName)) {
             return false;
         }
         return true;
@@ -228,7 +228,7 @@ class PluginsManager
     /**
      * Deactivate plugin
      *
-     * @param string $pluginName  Name of plugin
+     * @param string $pluginName Name of plugin
      * @param array|bool $plugins Array of plugin names
      * @return array|bool
      */
@@ -269,7 +269,7 @@ class PluginsManager
     /**
      * Activate the specified plugin and install (if needed)
      *
-     * @param string $pluginName  Name of plugin
+     * @param string $pluginName Name of plugin
      * @throws \Exception
      */
     public function activatePlugin($pluginName)
@@ -287,11 +287,11 @@ class PluginsManager
 
         // Only one theme enabled at a time
         $themeEnabled = $this->getThemeEnabled();
-        if($themeEnabled && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
+        if ($themeEnabled && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
             $plugin = $this->loadPlugin($pluginName);
-            if($plugin->isTheme()) {
-                $plugins = $this->deactivatePlugin( $themeAlreadyEnabled, $plugins );
+            if ($plugin->isTheme()) {
+                $plugins = $this->deactivatePlugin($themeAlreadyEnabled, $plugins);
             }
         }
 
@@ -322,7 +322,7 @@ class PluginsManager
         $existingPlugins = $this->readPluginsDirectory();
         $isPluginInFilesystem = array_search($pluginName, $existingPlugins) !== false;
         return Filesystem::isValidFilename($pluginName)
-                && $isPluginInFilesystem;
+        && $isPluginInFilesystem;
     }
 
     /**
@@ -337,11 +337,12 @@ class PluginsManager
         $plugins = $this->getLoadedPlugins();
 
         $theme = false;
-        foreach($plugins as $plugin) {
+        foreach ($plugins as $plugin) {
             /* @var $plugin Plugin */
-            if($plugin->isTheme()
-                && $this->isPluginActivated($plugin->getPluginName())) {
-                if($plugin->getPluginName() != self::DEFAULT_THEME) {
+            if ($plugin->isTheme()
+                && $this->isPluginActivated($plugin->getPluginName())
+            ) {
+                if ($plugin->getPluginName() != self::DEFAULT_THEME) {
                     return $plugin; // enabled theme (not default)
                 }
                 $theme = $plugin; // default theme
@@ -366,8 +367,7 @@ class PluginsManager
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
             // If the plugin is not core and looks bogus, do not load
-            if($this->isPluginThirdPartyAndBogus($pluginName))
-            {
+            if ($this->isPluginThirdPartyAndBogus($pluginName)) {
                 $info = array(
                     'invalid'         => true,
                     'activated'       => false,
@@ -408,8 +408,8 @@ class PluginsManager
         $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
 
         return (!empty($pluginsBundledWithPiwik)
-                && in_array($name, $pluginsBundledWithPiwik))
-            || in_array($name, $this->corePluginsDisabledByDefault);
+            && in_array($name, $pluginsBundledWithPiwik))
+        || in_array($name, $this->corePluginsDisabledByDefault);
     }
 
     protected function isPluginThirdPartyAndBogus($pluginName)
@@ -424,7 +424,7 @@ class PluginsManager
     /**
      * Load the specified plugins
      *
-     * @param array $pluginsToLoad  Array of plugins to load
+     * @param array $pluginsToLoad Array of plugins to load
      */
     public function loadPlugins(array $pluginsToLoad)
     {
@@ -455,7 +455,7 @@ class PluginsManager
     /**
      * Load translations for loaded plugins
      *
-     * @param bool|string $language  Optional language code
+     * @param bool|string $language Optional language code
      */
     public function loadPluginTranslations($language = false)
     {
@@ -534,7 +534,8 @@ class PluginsManager
 
         foreach ($this->pluginsToLoad as $pluginName) {
             if (!$this->isPluginLoaded($pluginName)
-                && !$this->isPluginThirdPartyAndBogus($pluginName)) {
+                && !$this->isPluginThirdPartyAndBogus($pluginName)
+            ) {
                 $newPlugin = $this->loadPlugin($pluginName);
                 if ($newPlugin === null) {
                     continue;
@@ -546,8 +547,8 @@ class PluginsManager
     public function getIgnoredBogusPlugins()
     {
         $ignored = array();
-        foreach($this->pluginsToLoad as $pluginName) {
-            if($this->isPluginThirdPartyAndBogus($pluginName)) {
+        foreach ($this->pluginsToLoad as $pluginName) {
+            if ($this->isPluginThirdPartyAndBogus($pluginName)) {
                 $ignored[] = $pluginName;
             }
         }
@@ -603,7 +604,7 @@ class PluginsManager
         require_once $path;
 
         $namespacedClass = $this->getClassNamePlugin($pluginName);
-        if(!class_exists($namespacedClass, false)) {
+        if (!class_exists($namespacedClass, false)) {
             throw new \Exception("The class $pluginClassName couldn't be found in the file '$path'");
         }
         $newPlugin = new $namespacedClass;
@@ -617,7 +618,7 @@ class PluginsManager
     protected function getClassNamePlugin($pluginName)
     {
         $className = $pluginName;
-        if($pluginName == 'API') {
+        if ($pluginName == 'API') {
             $className = 'Plugin';
         }
         return "\\Piwik\\Plugins\\$pluginName\\$className";
@@ -683,7 +684,7 @@ class PluginsManager
     /**
      * Add a plugin in the loaded plugins array
      *
-     * @param string $pluginName  plugin name without prefix (eg. 'UserCountry')
+     * @param string $pluginName plugin name without prefix (eg. 'UserCountry')
      * @param Plugin $newPlugin
      */
     private function addLoadedPlugin($pluginName, Plugin $newPlugin)
@@ -723,7 +724,7 @@ class PluginsManager
             return false;
         }
 
-        if(isset($translations[$pluginName])) {
+        if (isset($translations[$pluginName])) {
             // only merge translations of plugin - prevents overwritten strings
             Translate::getInstance()->mergeTranslationArray(array($pluginName => $translations[$pluginName]));
         }
@@ -816,7 +817,7 @@ class PluginsManager
     {
         $name = basename($path);
         return file_exists($path . "/" . $name . ".php")
-             || self::isManifestFileFound($path);
+        || self::isManifestFileFound($path);
     }
 
     /**

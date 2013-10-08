@@ -24,7 +24,7 @@ class Updates_0_4_1 extends Updates
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
-				CHANGE `idlink_va` `idlink_va` INT(11) DEFAULT NULL'                                                                           => false,
+				CHANGE `idlink_va` `idlink_va` INT(11) DEFAULT NULL'                                                                     => false,
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 				CHANGE `idaction` `idaction` INT(11) DEFAULT NULL' => '1054',
         );

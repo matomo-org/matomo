@@ -27,7 +27,7 @@ class AddColumnsProcessedMetrics extends Filter
 
     /**
      * @param DataTable $table
-     * @param bool $deleteRowsWithNoVisit  Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
+     * @param bool $deleteRowsWithNoVisit Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
      * @return AddColumnsProcessedMetrics
      */
     public function __construct($table, $deleteRowsWithNoVisit = true)

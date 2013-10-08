@@ -9,14 +9,14 @@
  * @package Piwik
  */
 namespace Piwik;
-use Exception;
 
+use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\Db;
 
+use Piwik\Db;
 use Piwik\Period;
 
 /**
@@ -246,7 +246,7 @@ abstract class ArchiveProcessor
      */
     protected function setNumberOfVisits($visitsMetricCached, $convertedVisitsMetricCached = false)
     {
-        if($visitsMetricCached === false) {
+        if ($visitsMetricCached === false) {
             $this->visitsMetricCached = $this->convertedVisitsMetricCached = false;
         } else {
             $this->visitsMetricCached = (int)$visitsMetricCached;

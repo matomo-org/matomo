@@ -55,7 +55,7 @@ class AuthResult
 
     /**
      * The login used to authenticate.
-     * 
+     *
      * @var string
      */
     protected $login = null;
@@ -63,7 +63,7 @@ class AuthResult
     /**
      * The authentication result code. Can be self::FAILURE, self::SUCCESS, or
      * self::SUCCESS_SUPERUSER_AUTH_CODE.
-     * 
+     *
      * @var int
      */
     protected $code = null;
@@ -84,7 +84,7 @@ class AuthResult
 
     /**
      * Returns the login used to authenticate.
-     * 
+     *
      * @return string
      */
     public function getIdentity()
@@ -104,7 +104,7 @@ class AuthResult
 
     /**
      * Returns the authentication result code.
-     * 
+     *
      * @return int
      */
     public function getCode()
@@ -114,7 +114,7 @@ class AuthResult
 
     /**
      * Returns true if this result was successfully authentication.
-     * 
+     *
      * @return bool
      */
     public function wasAuthenticationSuccessful()

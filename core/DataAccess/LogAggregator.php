@@ -15,8 +15,8 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics;
-use Piwik\Segment;
 
+use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
@@ -128,12 +128,12 @@ class LogAggregator
     /**
      * Query visits logs by dimension, and return the aggregate data.
      *
-     * @param array|string $dimensions     Can be a string, eg. "referrer_name", will be aliased as 'label' in the returned rows
+     * @param array|string $dimensions Can be a string, eg. "referrer_name", will be aliased as 'label' in the returned rows
      *                                      Can also be an array of strings, when the dimension spans multiple fields,
      *                                      eg. array("referrer_name", "referrer_keyword")
      * @param bool|string $where Additional condition for WHERE clause
      * @param array $additionalSelects Additional SELECT clause
-     * @param bool|array $metrics   Set this if you want to limit the columns that are returned.
+     * @param bool|array $metrics Set this if you want to limit the columns that are returned.
      *                                      The possible values in the array are Metrics::INDEX_*.
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                      A pre-configured ranking query instance that is used to limit the result.
@@ -275,7 +275,7 @@ class LogAggregator
     protected function isFieldFunctionOrComplexExpression($field)
     {
         return strpos($field, "(") !== false
-            || strpos($field, "CASE") !== false;
+        || strpos($field, "CASE") !== false;
     }
 
     protected function getSelectAliasAs($metricId)
@@ -286,7 +286,7 @@ class LogAggregator
     protected function isMetricRequested($metricId, $metricsRequested)
     {
         return $metricsRequested === false
-            || in_array($metricId, $metricsRequested);
+        || in_array($metricId, $metricsRequested);
     }
 
     protected function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
@@ -349,13 +349,13 @@ class LogAggregator
     /**
      * Queries the Actions table log_link_visit_action and returns the aggregate data.
      *
-     * @param array|string $dimensions      the dimensionRecord(s) you're interested in
-     * @param string $where      where clause
+     * @param array|string $dimensions the dimensionRecord(s) you're interested in
+     * @param string $where where clause
      * @param array|bool $additionalSelects additional select clause
-     * @param bool|array $metrics    Set this if you want to limit the columns that are returned.
+     * @param bool|array $metrics Set this if you want to limit the columns that are returned.
      *                                  The possible values in the array are Metrics::INDEX_*.
-     * @param \Piwik\RankingQuery $rankingQuery     pre-configured ranking query instance
-     * @param bool|string $joinLogActionOnColumn  column from log_link_visit_action that
+     * @param \Piwik\RankingQuery $rankingQuery pre-configured ranking query instance
+     * @param bool|string $joinLogActionOnColumn column from log_link_visit_action that
      *                                              log_action should be joined on.
      *                                                can be an array to join multiple times.
      * @return mixed

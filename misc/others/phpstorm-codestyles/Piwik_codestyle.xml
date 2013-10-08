@@ -21,129 +21,129 @@
       <rules>
         <rule>
           <match>
-            <TYPE>CONST</TYPE>
+            <CONST />
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>FIELD</TYPE>
-              <MODIFIER>PUBLIC</MODIFIER>
-              <MODIFIER>STATIC</MODIFIER>
+              <FIELD />
+              <PUBLIC />
+              <STATIC />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>FIELD</TYPE>
-              <MODIFIER>PROTECTED</MODIFIER>
-              <MODIFIER>STATIC</MODIFIER>
+              <FIELD />
+              <PROTECTED />
+              <STATIC />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>FIELD</TYPE>
-              <MODIFIER>PRIVATE</MODIFIER>
-              <MODIFIER>STATIC</MODIFIER>
+              <FIELD />
+              <PRIVATE />
+              <STATIC />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>FIELD</TYPE>
-              <MODIFIER>PUBLIC</MODIFIER>
+              <FIELD />
+              <PUBLIC />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>FIELD</TYPE>
-              <MODIFIER>PROTECTED</MODIFIER>
+              <FIELD />
+              <PROTECTED />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>FIELD</TYPE>
-              <MODIFIER>PRIVATE</MODIFIER>
+              <FIELD />
+              <PRIVATE />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
-            <TYPE>CONSTRUCTOR</TYPE>
+            <CONSTRUCTOR />
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>METHOD</TYPE>
-              <MODIFIER>PUBLIC</MODIFIER>
-              <MODIFIER>STATIC</MODIFIER>
-            </AND>
-          </match>
-        </rule>
-        <rule>
-          <match>
-            <AND>
-              <TYPE>METHOD</TYPE>
-              <MODIFIER>PROTECTED</MODIFIER>
-              <MODIFIER>STATIC</MODIFIER>
+              <METHOD />
+              <PUBLIC />
+              <STATIC />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>METHOD</TYPE>
-              <MODIFIER>PRIVATE</MODIFIER>
-              <MODIFIER>STATIC</MODIFIER>
+              <METHOD />
+              <PROTECTED />
+              <STATIC />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>METHOD</TYPE>
-              <MODIFIER>PUBLIC</MODIFIER>
+              <METHOD />
+              <PRIVATE />
+              <STATIC />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>METHOD</TYPE>
-              <MODIFIER>PROTECTED</MODIFIER>
+              <METHOD />
+              <PUBLIC />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
             <AND>
-              <TYPE>METHOD</TYPE>
-              <MODIFIER>PRIVATE</MODIFIER>
+              <METHOD />
+              <PROTECTED />
             </AND>
           </match>
         </rule>
         <rule>
           <match>
-            <TYPE>TRAIT</TYPE>
+            <AND>
+              <METHOD />
+              <PRIVATE />
+            </AND>
           </match>
         </rule>
         <rule>
           <match>
-            <TYPE>INTERFACE</TYPE>
+            <TRAIT />
           </match>
         </rule>
         <rule>
           <match>
-            <TYPE>CLASS</TYPE>
+            <INTERFACE />
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <CLASS />
           </match>
         </rule>
       </rules>

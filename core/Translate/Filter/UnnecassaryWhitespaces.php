@@ -12,7 +12,6 @@
 namespace Piwik\Translate\Filter;
 
 
-
 /**
  * @package Piwik
  * @subpackage Piwik_Translate
@@ -26,7 +25,7 @@ class UnnecassaryWhitespaces extends FilterAbstract
      *
      * @param array $baseTranslations
      */
-    public function __construct($baseTranslations=array())
+    public function __construct($baseTranslations = array())
     {
         $this->baseTranslations = $baseTranslations;
     }
@@ -46,7 +45,7 @@ class UnnecassaryWhitespaces extends FilterAbstract
 
                 $baseTranslation = '';
                 if (isset($this->baseTranslations[$pluginName][$key])) {
-                    $baseTranslation  = $this->baseTranslations[$pluginName][$key];
+                    $baseTranslation = $this->baseTranslations[$pluginName][$key];
                 }
 
                 // remove excessive line breaks (and leading/trailing whitespace) from translations

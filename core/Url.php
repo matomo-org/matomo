@@ -35,9 +35,9 @@ class Url
     static public function getCurrentUrl()
     {
         return self::getCurrentScheme() . '://'
-            . self::getCurrentHost()
-            . self::getCurrentScriptName()
-            . self::getCurrentQueryString();
+        . self::getCurrentHost()
+        . self::getCurrentScriptName()
+        . self::getCurrentQueryString();
     }
 
     /**
@@ -51,8 +51,8 @@ class Url
     static public function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
     {
         return self::getCurrentScheme() . '://'
-            . self::getCurrentHost($default = 'unknown', $checkTrustedHost)
-            . self::getCurrentScriptName();
+        . self::getCurrentHost($default = 'unknown', $checkTrustedHost)
+        . self::getCurrentScriptName();
     }
 
     /**
@@ -64,8 +64,8 @@ class Url
     static public function getCurrentUrlWithoutFileName()
     {
         return self::getCurrentScheme() . '://'
-            . self::getCurrentHost()
-            . self::getCurrentScriptPath();
+        . self::getCurrentHost()
+        . self::getCurrentScriptPath();
     }
 
     /**
@@ -451,8 +451,8 @@ class Url
         $parsedUrl = @parse_url($url);
         $host = IP::sanitizeIp(@$parsedUrl['host']);
         return !empty($host)
-            && ($disableHostCheck || in_array($host, $hosts))
-            && !empty($parsedUrl['scheme'])
-            && in_array($parsedUrl['scheme'], array('http', 'https'));
+        && ($disableHostCheck || in_array($host, $hosts))
+        && !empty($parsedUrl['scheme'])
+        && in_array($parsedUrl['scheme'], array('http', 'https'));
     }
 }

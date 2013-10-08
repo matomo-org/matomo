@@ -133,7 +133,7 @@ class DbTable implements Zend_Session_SaveHandler_Interface
      * Garbage Collection - remove old session data older
      * than $maxlifetime (in seconds)
      *
-     * @param int $maxlifetime  timestamp in seconds
+     * @param int $maxlifetime timestamp in seconds
      * @return bool  always true
      */
     public function gc($maxlifetime)

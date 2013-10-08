@@ -11,7 +11,6 @@
 namespace Piwik;
 
 
-
 /**
  * Class Profiler helps with measuring memory, and profiling the database.
  * To enable set in your config.ini.php

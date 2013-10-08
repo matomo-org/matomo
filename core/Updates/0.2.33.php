@@ -26,7 +26,7 @@ class Updates_0_2_33 extends Updates
         $sqlarray = array(
             // 0.2.33 [1020]
             'ALTER TABLE `' . Common::prefixTable('user_dashboard') . '`
-				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci '                                                                            => '1146',
+				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci '                                                                      => '1146',
             'ALTER TABLE `' . Common::prefixTable('user_language') . '`
 				CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci ' => '1146',
         );

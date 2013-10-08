@@ -18,7 +18,7 @@ use Piwik\View;
  * Base class for all DataTable visualizations. Different visualizations are used to
  * handle different values of the viewDataTable query parameter. Each one will display
  * DataTable data in a different way.
- * 
+ *
  * TODO: must be more in depth
  */
 abstract class Visualization extends View
@@ -28,7 +28,7 @@ abstract class Visualization extends View
 
     /**
      * Default implementation of getDefaultPropertyValues static function.
-     * 
+     *
      * @return array
      */
     public static function getDefaultPropertyValues()
@@ -40,11 +40,11 @@ abstract class Visualization extends View
      * Returns the array of view properties that a DataTable visualization will require
      * to be both visible to client side JavaScript, and passed along as query parameters
      * in every AJAX request.
-     * 
+     *
      * Derived Visualizations can specify client side parameters by declaring
      * a static $clientSideParameters field that contains a list of view property
      * names.
-     * 
+     *
      * @return array
      */
     public static function getClientSideParameters()
@@ -56,11 +56,11 @@ abstract class Visualization extends View
      * Returns an array of view property names that a DataTable visualization will
      * require to be visible to client side JavaScript. Unlike 'client side parameters',
      * these will not be passed with AJAX requests as query parameters.
-     * 
+     *
      * Derived Visualizations can specify client side properties by declaring
      * a static $clientSideProperties field that contains a list of view property
      * names.
-     * 
+     *
      * @return array
      */
     public static function getClientSideProperties()
@@ -72,7 +72,7 @@ abstract class Visualization extends View
      * Returns an array of view property names that can be overriden by query parameters.
      * If a query parameter is sent with the same name as a view property, the view
      * property will be set to the value of the query parameter.
-     * 
+     *
      * Derived Visualizations can specify overridable properties by declaring
      * a static $overridableProperties field that contains a list of view property
      * names.
@@ -85,7 +85,7 @@ abstract class Visualization extends View
     /**
      * Returns the viewDataTable ID for this DataTable visualization. Derived classes
      * should declare a const ID field with the viewDataTable ID.
-     * 
+     *
      * @return string
      */
     public static function getViewDataTableId()
@@ -100,7 +100,7 @@ abstract class Visualization extends View
     /**
      * Returns the list of parents for a Visualization class excluding the
      * Visualization class and above.
-     * 
+     *
      * @param string $klass The class name of the Visualization.
      * @return Visualization[]  The list of parent classes in order from highest
      *                                   ancestor to the descended class.
@@ -119,9 +119,9 @@ abstract class Visualization extends View
 
     /**
      * Returns the viewDataTable IDs of a visualization's class lineage.
-     * 
+     *
      * @see self::getVisualizationClassLineage
-     * 
+     *
      * @param string $klass The visualization class.
      *
      * @return array
@@ -140,7 +140,7 @@ abstract class Visualization extends View
     /**
      * Returns all registered visualization classes. Uses the 'Visualization.getAvailable'
      * event to retrieve visualizations.
-     * 
+     *
      * @return array Array mapping visualization IDs with their associated visualization classes.
      * @throws \Exception If a visualization class does not exist or if a duplicate visualization ID
      *                   is found.
@@ -155,7 +155,7 @@ abstract class Visualization extends View
          * should add visualization class names to the incoming array.
          */
         Piwik_PostEvent(self::GET_AVAILABLE_EVENT, array(&$visualizations));
-        
+
         $result = array();
         foreach ($visualizations as $viz) {
             if (!class_exists($viz)) {
@@ -177,7 +177,7 @@ abstract class Visualization extends View
 
     /**
      * Returns all available visualizations that are not part of the CoreVisualizations plugin.
-     * 
+     *
      * @return array Array mapping visualization IDs with their associated visualization classes.
      */
     public static function getNonCoreVisualizations()
@@ -194,7 +194,7 @@ abstract class Visualization extends View
     /**
      * Returns an array mapping visualization IDs with information necessary for adding the
      * visualizations to the footer of DataTable views.
-     * 
+     *
      * @param array $visualizations An array mapping visualization IDs w/ their associated classes.
      * @return array
      */
@@ -209,7 +209,7 @@ abstract class Visualization extends View
 
     /**
      * Returns the visualization class by it's viewDataTable ID.
-     * 
+     *
      * @param string $id The visualization ID.
      * @return string The visualization class name. If $id is not a valid ID, the HtmlTable visualization
      *                is returned.

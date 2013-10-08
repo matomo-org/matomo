@@ -215,10 +215,10 @@ class Rules
     protected static function isRequestAuthorizedToArchive()
     {
         return !self::$archivingDisabledByTests &&
-            (Rules::isBrowserTriggerEnabled()
-                || Common::isPhpCliMode()
-                || (Piwik::isUserIsSuperUser()
-                    && SettingsServer::isArchivePhpTriggered()));
+        (Rules::isBrowserTriggerEnabled()
+            || Common::isPhpCliMode()
+            || (Piwik::isUserIsSuperUser()
+                && SettingsServer::isArchivePhpTriggered()));
     }
 
     public static function isBrowserTriggerEnabled()

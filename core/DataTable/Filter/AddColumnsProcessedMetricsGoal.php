@@ -11,7 +11,6 @@
 namespace Piwik\DataTable\Filter;
 
 use Exception;
-
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -48,8 +47,8 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
      * - revenue per visit
      *
      * @param DataTable $table
-     * @param bool $enable             should be true (automatically set to true when filter_update_columns_when_show_all_goals is found in the API request)
-     * @param string $processOnlyIdGoal  Defines what metrics to add (don't process metrics when you don't display them)
+     * @param bool $enable should be true (automatically set to true when filter_update_columns_when_show_all_goals is found in the API request)
+     * @param string $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them)
      *                                             If self::GOALS_FULL_TABLE, all Goal metrics (and per goal metrics) will be processed
      *                                             If self::GOALS_OVERVIEW, only the main goal metrics will be added
      *                                             If an int > 0, then will process only metrics for this specific Goal
@@ -121,7 +120,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
                 foreach ($goals as $goalId => $columnValue) {
                     $goalId = str_replace("idgoal=", "", $goalId);
                     if (($this->processOnlyIdGoal > self::GOALS_FULL_TABLE
-                        || $this->isEcommerce)
+                            || $this->isEcommerce)
                         && $this->processOnlyIdGoal != $goalId
                     ) {
                         continue;

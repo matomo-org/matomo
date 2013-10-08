@@ -20,8 +20,8 @@ use Piwik\Log;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Segment;
 
+use Piwik\Segment;
 use Piwik\Site;
 
 /**
@@ -275,8 +275,8 @@ class ArchiveSelector
 
         // create the SQL to find archives that are DONE
         return "(name IN ($allDoneFlags)) AND " .
-            " (value = '" . ArchiveProcessor::DONE_OK . "' OR " .
-            " value = '" . ArchiveProcessor::DONE_OK_TEMPORARY . "')";
+        " (value = '" . ArchiveProcessor::DONE_OK . "' OR " .
+        " value = '" . ArchiveProcessor::DONE_OK_TEMPORARY . "')";
     }
 
     static public function purgeOutdatedArchives(Date $dateStart)

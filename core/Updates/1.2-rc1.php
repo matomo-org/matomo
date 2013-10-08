@@ -48,14 +48,14 @@ class Updates_1_2_rc1 extends Updates
     			ADD custom_var_v4 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_k5 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
-			   '                                                                                                                                                  => false,
+			   '                                                                                                                                      => false,
             'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
 				ADD `idsite` INT( 10 ) UNSIGNED NOT NULL AFTER `idlink_va` , 
 				ADD `server_time` DATETIME AFTER `idsite`,
 				ADD `idvisitor` BINARY(8) NOT NULL AFTER `idsite`,
 				ADD `idaction_name_ref` INT UNSIGNED NOT NULL AFTER `idaction_name`,
 				ADD INDEX `index_idsite_servertime` ( `idsite` , `server_time` )
-			   '                                                               => false,
+			   '                                                         => false,
 
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 			    DROP `referer_idvisit`,
@@ -72,30 +72,30 @@ class Updates_1_2_rc1 extends Updates
     			ADD custom_var_v4 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_k5 VARCHAR(100) DEFAULT NULL,
     			ADD custom_var_v5 VARCHAR(100) DEFAULT NULL
-			   '                                                                      => false,
+			   '                                                                => false,
 
             // Migrate 128bits IDs inefficiently stored as 8bytes (256 bits) into 64bits
             'UPDATE ' . Common::prefixTable('log_visit') . '
     			SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16))),
     				config_id = binary(unhex(substring(config_md5config,1,16)))
-	   			'                                                                             => false,
+	   			'                                                                       => false,
             'UPDATE ' . Common::prefixTable('log_conversion') . '
     			SET idvisitor = binary(unhex(substring(visitor_idcookie,1,16)))
-	   			'                                                                        => false,
+	   			'                                                                  => false,
 
             // Drop migrated fields
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 		    	DROP visitor_idcookie, 
 		    	DROP config_md5config
-		    	'                                                                          => false,
+		    	'                                                                    => false,
             'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 		    	DROP visitor_idcookie
-		    	'                                                                     => false,
+		    	'                                                               => false,
 
             // Recreate INDEX on new field
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 		    	ADD INDEX `index_idsite_datetime_config` (idsite, visit_last_action_time, config_id)
-		    	'                                                                          => false,
+		    	'                                                                    => false,
 
             // Backfill action logs as best as we can
             'UPDATE ' . Common::prefixTable('log_link_visit_action') . ' as action,
@@ -108,13 +108,13 @@ class Updates_1_2_rc1 extends Updates
 
             'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
 				CHANGE `server_time` `server_time` DATETIME NOT NULL
-			   '                                                               => false,
+			   '                                                         => false,
 
             // New index used max once per request, in case this table grows significantly in the future
-            'ALTER TABLE `' . Common::prefixTable('option') . '` ADD INDEX ( `autoload` ) '                                                                 => false,
+            'ALTER TABLE `' . Common::prefixTable('option') . '` ADD INDEX ( `autoload` ) '                                                           => false,
 
             // new field for websites
-            'ALTER TABLE `' . Common::prefixTable('site') . '` ADD `group` VARCHAR( 250 ) NOT NULL'                                                         => false,
+            'ALTER TABLE `' . Common::prefixTable('site') . '` ADD `group` VARCHAR( 250 ) NOT NULL'                                                   => false,
         );
     }
 

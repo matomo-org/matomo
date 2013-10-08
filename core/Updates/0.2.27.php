@@ -25,7 +25,7 @@ class Updates_0_2_27 extends Updates
     {
         $sqlarray = array(
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
-				ADD `visit_goal_converted` VARCHAR( 1 ) NOT NULL AFTER `visit_total_time`'                                                                              => false,
+				ADD `visit_goal_converted` VARCHAR( 1 ) NOT NULL AFTER `visit_total_time`'                                                                        => false,
             // 0.2.27 [826]
             'ALTER IGNORE TABLE `' . Common::prefixTable('log_visit') . '`
 				CHANGE `visit_goal_converted` `visit_goal_converted` TINYINT(1) NOT NULL' => false,

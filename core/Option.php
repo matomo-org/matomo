@@ -59,7 +59,7 @@ class Option
     /**
      * Returns the option value for the requested option $name, fetching from database, if not in cache.
      *
-     * @param string $name  Key
+     * @param string $name Key
      * @return string|bool  Value or false, if not found
      */
     public function get($name)
@@ -83,14 +83,14 @@ class Option
      *
      * @param string $name
      * @param string $value
-     * @param int $autoLoad  if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+     * @param int $autoLoad if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
      */
     public function set($name, $value, $autoLoad = 0)
     {
         $autoLoad = (int)$autoLoad;
         Db::query('INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
-                ' VALUES (?, ?, ?) ' .
-                ' ON DUPLICATE KEY UPDATE option_value = ?',
+            ' VALUES (?, ?, ?) ' .
+            ' ON DUPLICATE KEY UPDATE option_value = ?',
             array($name, $value, $autoLoad, $value));
         $this->all[$name] = $value;
     }
@@ -98,8 +98,8 @@ class Option
     /**
      * Delete key-value pair from database and reload cache.
      *
-     * @param string $name   Key to match exactly
-     * @param string $value  Optional value
+     * @param string $name Key to match exactly
+     * @param string $value Optional value
      */
     public function delete($name, $value = null)
     {
@@ -120,8 +120,8 @@ class Option
      * Delete key-value pair(s) from database and reload cache.
      * The supplied pattern should use '%' as wildcards, and literal '_' should be escaped.
      *
-     * @param string $name   Pattern of key to match.
-     * @param string $value  Optional value
+     * @param string $name Pattern of key to match.
+     * @param string $value Optional value
      */
     public function deleteLike($name, $value = null)
     {

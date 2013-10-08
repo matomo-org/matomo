@@ -61,13 +61,13 @@ class Plugin
         $this->pluginInformation = $metadataLoader->load();
 
         if ($this->hasDefinedPluginInformationInPluginClass() && $metadataLoader->hasPluginJson()) {
-            throw new \Exception('Plugin ' . $pluginName .  ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/'.$pluginName);
+            throw new \Exception('Plugin ' . $pluginName . ' has defined the method getInformation() and as well as having a plugin.json file. Please delete the getInformation() method from the plugin class. Alternatively, you may delete the plugin directory from plugins/' . $pluginName);
         }
     }
 
     private function hasDefinedPluginInformationInPluginClass()
     {
-        $myClassName     = get_class();
+        $myClassName = get_class();
         $pluginClassName = get_class($this);
 
         if ($pluginClassName == $myClassName) {
@@ -198,7 +198,7 @@ class Plugin
 
     /**
      * Extracts the plugin name from a backtrace array. Returns false if we can't find one.
-     * 
+     *
      * @param array $backtrace The result of the debug_backtrace() or Exception::getTrace().
      * @return string|false
      */

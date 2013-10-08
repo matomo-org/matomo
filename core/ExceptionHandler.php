@@ -21,7 +21,7 @@ class ExceptionHandler
 {
     /**
      * The backtrace string to use when testing.
-     * 
+     *
      * @var string
      */
     public static $debugBacktraceForTests = null;
@@ -39,7 +39,7 @@ class ExceptionHandler
     {
         if ($message instanceof \Exception) {
             $message = sprintf("%s(%d): %s\n%s", $message->getFile(), $message->getLine(), $message->getMessage(),
-                self::$debugBacktraceForTests ?: $message->getTraceAsString());
+                self::$debugBacktraceForTests ? : $message->getTraceAsString());
 
             $message = $log->formatMessage($level, $tag, $datetime, $message);
         }

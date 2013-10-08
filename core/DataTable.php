@@ -12,7 +12,6 @@
 namespace Piwik;
 
 use Closure;
-
 use Exception;
 use Piwik\DataTable\Filter;
 use Piwik\DataTable\Manager;
@@ -301,7 +300,7 @@ class DataTable
      * Sort the dataTable rows using the php callback function
      *
      * @param string $functionCallback
-     * @param string $columnSortedBy    The column name. Used to then ask the datatable what column are you sorted by
+     * @param string $columnSortedBy The column name. Used to then ask the datatable what column are you sorted by
      */
     public function sort($functionCallback, $columnSortedBy)
     {
@@ -373,9 +372,9 @@ class DataTable
     /**
      * Apply a filter to this datatable
      *
-     * @param string|Closure $className   Class name, eg. "Sort" or "Sort".
+     * @param string|Closure $className Class name, eg. "Sort" or "Sort".
      *                                    If this variable is a closure, it will get executed immediately.
-     * @param array $parameters  Array of parameters to the filter, eg. array('nb_visits', 'asc')
+     * @param array $parameters Array of parameters to the filter, eg. array('nb_visits', 'asc')
      */
     public function filter($className, $parameters = array())
     {
@@ -405,8 +404,8 @@ class DataTable
      * Queue a DataTable_Filter that will be applied when applyQueuedFilters() is called.
      * (just before sending the datatable back to the browser (or API, etc.)
      *
-     * @param string $className   The class name of the filter, eg. Limit
-     * @param array $parameters  The parameters to give to the filter, eg. array( $offset, $limit) for the filter Limit
+     * @param string $className The class name of the filter, eg. Limit
+     * @param array $parameters The parameters to give to the filter, eg. array( $offset, $limit) for the filter Limit
      */
     public function queueFilter($className, $parameters = array())
     {
@@ -471,7 +470,7 @@ class DataTable
     /**
      * Returns the Row that has a column 'label' with the value $label
      *
-     * @param string $label  Value of the column 'label' of the row to return
+     * @param string $label Value of the column 'label' of the row to return
      * @return \Piwik\DataTable\Row|bool  The row if found, false otherwise
      */
     public function getRowFromLabel($label)
@@ -494,7 +493,7 @@ class DataTable
     /**
      * Returns the row id for the givel label
      *
-     * @param string $label  Value of the column 'label' of the row to return
+     * @param string $label Value of the column 'label' of the row to return
      * @return int|Row
      */
     public function getRowIdFromLabel($label)
@@ -587,7 +586,7 @@ class DataTable
     /**
      * Add a row to the table and rebuild the index if necessary
      *
-     * @param \Piwik\DataTable\Row $row  to add at the end of the array
+     * @param \Piwik\DataTable\Row $row to add at the end of the array
      * @return \Piwik\DataTable\Row
      */
     public function addRow(Row $row)
@@ -638,7 +637,7 @@ class DataTable
                 $this->rowsIndexByLabel[$label] = self::ID_SUMMARY_ROW;
             }
         }
-        
+
         return $row;
     }
 
@@ -655,7 +654,7 @@ class DataTable
     /**
      * Adds a new row from a PHP array data structure
      *
-     * @param array $row  eg. array(Row::COLUMNS => array( 'visits' => 13, 'test' => 'toto'),)
+     * @param array $row eg. array(Row::COLUMNS => array( 'visits' => 13, 'test' => 'toto'),)
      */
     public function addRowFromArray($row)
     {
@@ -665,7 +664,7 @@ class DataTable
     /**
      * Adds a new row a PHP array data structure
      *
-     * @param array $row  eg. array('name' => 'google analytics', 'license' => 'commercial')
+     * @param array $row eg. array('name' => 'google analytics', 'license' => 'commercial')
      */
     public function addRowFromSimpleArray($row)
     {
@@ -751,7 +750,7 @@ class DataTable
     /**
      * Returns an array containing the rows Metadata values
      *
-     * @param string $name  Metadata column to return
+     * @param string $name Metadata column to return
      * @return array
      */
     public function getRowsMetadata($name)
@@ -851,8 +850,8 @@ class DataTable
     /**
      * Rename a column in all rows
      *
-     * @param string $oldName  Old column name
-     * @param string $newName  New column name
+     * @param string $oldName Old column name
+     * @param string $newName New column name
      */
     public function renameColumn($oldName, $newName)
     {
@@ -948,7 +947,7 @@ class DataTable
     /**
      * Deletes the rows from the list of rows ID
      *
-     * @param array $aKeys  ID of the rows to delete
+     * @param array $aKeys ID of the rows to delete
      * @throws Exception if any of the row to delete couldn't be found
      */
     public function deleteRows(array $aKeys)
@@ -1019,9 +1018,9 @@ class DataTable
      *  won't work.
      *
      * @throws Exception if an infinite recursion is found (a table row's has a subtable that is one of its parent table)
-     * @param int $maximumRowsInDataTable          If not null, defines the number of rows maximum of the serialized dataTable
-     * @param int $maximumRowsInSubDataTable       If not null, defines the number of rows maximum of the serialized subDataTable
-     * @param string $columnToSortByBeforeTruncation  Column to sort by before truncation
+     * @param int $maximumRowsInDataTable If not null, defines the number of rows maximum of the serialized dataTable
+     * @param int $maximumRowsInSubDataTable If not null, defines the number of rows maximum of the serialized subDataTable
+     * @param string $columnToSortByBeforeTruncation Column to sort by before truncation
      * @return array  Serialized arrays
      *            array(    // Datatable level0
      *                    0 => 'eghuighahgaueytae78yaet7yaetae',
@@ -1093,7 +1092,7 @@ class DataTable
      *
      * The function creates all the necessary DataTable\Row
      *
-     * @param string $stringSerialized  string of serialized datatable
+     * @param string $stringSerialized string of serialized datatable
      * @throws Exception
      */
     public function addRowsFromSerializedArray($stringSerialized)
@@ -1108,7 +1107,7 @@ class DataTable
     /**
      * Loads the DataTable from a PHP array data structure
      *
-     * @param array $array  Array with the following structure
+     * @param array $array Array with the following structure
      *                       array(
      *                             // row1
      *                             array(
@@ -1138,7 +1137,7 @@ class DataTable
      * Basically maps a simple multidimensional php array to a DataTable.
      * Not recursive (if a row contains a php array itself, it won't be loaded)
      *
-     * @param array $array  Array with the simple structure:
+     * @param array $array Array with the simple structure:
      *                       array(
      *                             array( col1_name => valueA, col2_name => valueC, ...),
      *                             array( col1_name => valueB, col2_name => valueD, ...),
@@ -1331,7 +1330,7 @@ class DataTable
      * a subtable is encountered w/o the queried label, a new row is created
      * with the label, and a subtable is added to the row.
      *
-     * @param array $path            The path to walk. An array of label values.
+     * @param array $path The path to walk. An array of label values.
      * @param array|bool $missingRowColumns
      *                                      The default columns to use when creating new arrays.
      *                                      If this parameter is supplied, new rows will be
@@ -1398,7 +1397,7 @@ class DataTable
     /**
      * Returns a new DataTable that contains the rows of each of this table's subtables.
      *
-     * @param string|bool $labelColumn       If supplied the label of the parent row will be
+     * @param string|bool $labelColumn If supplied the label of the parent row will be
      *                                        added to a new column in each subtable row. If set to,
      *                                  'label' each subtable row's label will be prepended w/
      *                                        the parent row's label.
@@ -1480,7 +1479,7 @@ class DataTable
 
     /**
      * Set multiple aggregation operations at once.
-     * @param array $operations  format: column name => operation
+     * @param array $operations format: column name => operation
      */
     public function setColumnAggregationOperations($operations)
     {

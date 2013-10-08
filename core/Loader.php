@@ -70,8 +70,8 @@ class Loader
     {
         $classPath = self::getClassFileName($class);
         if (strpos($class, '\Piwik') === 0
-            || strpos($class, 'Piwik') === 0)
-        {
+            || strpos($class, 'Piwik') === 0
+        ) {
             // Piwik classes are in core/ or plugins/
             do {
                 // auto-discover class location

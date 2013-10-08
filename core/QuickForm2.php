@@ -63,9 +63,9 @@ abstract class QuickForm2 extends HTML_QuickForm2
      *
      * @param    string|HTML_QuickForm2_Node $elementOrType Either type name (treated
      *               case-insensitively) or an element instance
-     * @param    mixed   $name Element name
-     * @param    mixed   $attributes Element attributes
-     * @param    array   $data Element-specific data
+     * @param    mixed $name Element name
+     * @param    mixed $attributes Element attributes
+     * @param    array $data Element-specific data
      * @return   HTML_QuickForm2_Node     Added element
      * @throws   HTML_QuickForm2_InvalidArgumentException
      * @throws   HTML_QuickForm2_NotFoundException

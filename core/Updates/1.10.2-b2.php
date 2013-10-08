@@ -25,7 +25,7 @@ class Updates_1_10_2_b2 extends Updates
         return array(
             // ignore existing column name error (1060)
             'ALTER TABLE ' . Common::prefixTable('site')
-                . " ADD COLUMN `keep_url_fragment` TINYINT NOT NULL DEFAULT 0 AFTER `group`" => 1060,
+            . " ADD COLUMN `keep_url_fragment` TINYINT NOT NULL DEFAULT 0 AFTER `group`" => 1060,
         );
     }
 

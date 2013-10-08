@@ -25,7 +25,7 @@ class Updates_0_2_32 extends Updates
         return array(
             // 0.2.32 [941]
             'ALTER TABLE `' . Common::prefixTable('access') . '`
-				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL'                                                                             => false,
+				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL'                                                                       => false,
             'ALTER TABLE `' . Common::prefixTable('user') . '`
 				CHANGE `login` `login` VARCHAR( 100 ) NOT NULL'           => false,
             'ALTER TABLE `' . Common::prefixTable('user_dashboard') . '`

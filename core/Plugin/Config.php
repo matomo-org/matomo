@@ -24,8 +24,8 @@ class Config
     /**
      * Constructor
      *
-     * @param string $pluginName      name of the plugin
-     * @param string $configFileName  name of the plugin file; defaults to local.config.php
+     * @param string $pluginName name of the plugin
+     * @param string $configFileName name of the plugin file; defaults to local.config.php
      */
     public function __construct($pluginName, $configFileName = 'local.config.php')
     {

@@ -58,7 +58,7 @@ class ColumnDelete extends Filter
      * @param DataTable $table
      * @param array|string $columnsToRemove An array of column names or a comma-separated list of
      *                                         column names. These columns will be removed.
-     * @param array|string $columnsToKeep   An array of column names that should be kept or a
+     * @param array|string $columnsToKeep An array of column names that should be kept or a
      *                                         comma-separated list of column names. Columns not in
      *                                         this list will be removed.
      * @param bool $deleteIfZeroOnly

@@ -37,8 +37,8 @@ class ReplaceColumnNames extends Filter
     protected $mappingToApply;
 
     /**
-     * @param DataTable $table  Table
-     * @param array $mappingToApply   Mapping to apply. Must have the format
+     * @param DataTable $table Table
+     * @param array $mappingToApply Mapping to apply. Must have the format
      *                                           array( OLD_COLUMN_NAME => NEW_COLUMN NAME,
      *                                                  OLD_COLUMN_NAME2 => NEW_COLUMN NAME2,
      *                                                 )

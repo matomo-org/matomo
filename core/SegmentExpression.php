@@ -10,6 +10,7 @@
  */
 
 namespace Piwik;
+
 use Exception;
 
 /**

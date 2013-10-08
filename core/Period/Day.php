@@ -9,6 +9,7 @@
  * @package Piwik
  */
 namespace Piwik\Period;
+
 use Exception;
 use Piwik\Period;
 

@@ -151,7 +151,7 @@ class TaskScheduler
     {
         $forceTaskExecution =
             (isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
-                || DEBUG_FORCE_SCHEDULED_TASKS;
+            || DEBUG_FORCE_SCHEDULED_TASKS;
 
         return $forceTaskExecution || (self::taskHasBeenScheduledOnce($taskName, $timetable) && time() >= $timetable[$taskName]);
     }

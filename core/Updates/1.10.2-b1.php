@@ -25,7 +25,7 @@ class Updates_1_10_2_b1 extends Updates
         return array(
             // ignore existing column name error (1060)
             'ALTER TABLE ' . Common::prefixTable('report')
-                . " ADD COLUMN hour tinyint NOT NULL default 0 AFTER period" => 1060,
+            . " ADD COLUMN hour tinyint NOT NULL default 0 AFTER period" => 1060,
         );
     }
 

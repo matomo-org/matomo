@@ -92,7 +92,7 @@ class Updater
     public function hasNewVersion($componentName)
     {
         return isset($this->componentsWithNewVersion) &&
-            isset($this->componentsWithNewVersion[$componentName]);
+        isset($this->componentsWithNewVersion[$componentName]);
     }
 
     /**
@@ -145,7 +145,7 @@ class Updater
         if ($componentName == 'core') {
             return '\\Piwik\\Updates\\' . $className;
         }
-        return '\\Piwik\\Plugins\\' . $componentName . '\\'. $className;
+        return '\\Piwik\\Plugins\\' . $componentName . '\\' . $className;
     }
 
     /**

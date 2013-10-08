@@ -25,10 +25,10 @@ class Updates_2_0_a7 extends Updates
         return array(
             // ignore existing column name error (1060)
             'ALTER TABLE ' . Common::prefixTable('logger_message')
-                . " ADD COLUMN tag VARCHAR(50) NULL AFTER idlogger_message" => 1060,
+            . " ADD COLUMN tag VARCHAR(50) NULL AFTER idlogger_message" => 1060,
 
             'ALTER TABLE ' . Common::prefixTable('logger_message')
-                . " ADD COLUMN level TINYINT AFTER timestamp" => 1060,
+            . " ADD COLUMN level TINYINT AFTER timestamp"               => 1060,
         );
     }
 

@@ -9,6 +9,7 @@
  * @package Piwik
  */
 namespace Piwik\DataTable;
+
 use Piwik\DataTable;
 
 /**
@@ -29,7 +30,7 @@ class Simple extends DataTable
     /**
      * Loads (append) in the DataTable the array information
      *
-     * @param array $array  Array containing the rows information
+     * @param array $array Array containing the rows information
      *                       array(
      *                             'Label row 1' => Value row 1,
      *                             'Label row 2' => Value row 2,

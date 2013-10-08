@@ -197,7 +197,7 @@ class UrlHelper
     /**
      * Returns the value of a GET parameter $parameter in an URL query $urlQuery
      *
-     * @param string $urlQuery  result of parse_url()['query'] and htmlentitied (& is &amp;) eg. module=test&amp;action=toto or ?page=test
+     * @param string $urlQuery result of parse_url()['query'] and htmlentitied (& is &amp;) eg. module=test&amp;action=toto or ?page=test
      * @param string $parameter
      * @return string|bool  Parameter value if found (can be the empty string!), null if not found
      */
@@ -214,7 +214,7 @@ class UrlHelper
      * Returns the path and query part from a URL.
      * Eg. http://piwik.org/test/index.php?module=CoreHome will return /test/index.php?module=CoreHome
      *
-     * @param string $url  either http://piwik.org/test or /
+     * @param string $url either http://piwik.org/test or /
      * @return string
      */
     public static function getPathAndQueryFromUrl($url)
@@ -245,7 +245,7 @@ class UrlHelper
      *       as the google keyword parameter couldn't be found.
      *
      * @see unit tests in /tests/core/Common.test.php
-     * @param string $referrerUrl  URL referrer URL, eg. $_SERVER['HTTP_REFERER']
+     * @param string $referrerUrl URL referrer URL, eg. $_SERVER['HTTP_REFERER']
      * @return array|bool   false if a keyword couldn't be extracted,
      *                        or array(
      *                            'name' => 'Google',

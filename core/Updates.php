@@ -21,7 +21,7 @@ abstract class Updates
     /**
      * Return SQL to be executed in this update
      *
-     * @param string $schema  Schema name
+     * @param string $schema Schema name
      * @return array(
      *              'ALTER .... ' => '1234', // if the query fails, it will be ignored if the error code is 1234
      *              'ALTER .... ' => false,  // if an error occurs, the update will stop and fail

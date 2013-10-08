@@ -75,7 +75,7 @@ class Adapter
      */
     private static function getAdapterClassName($adapterName)
     {
-         return 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace(array('_','\\'), ' ', strtolower($adapterName))));
+        return 'Piwik\Db\Adapter\\' . str_replace(' ', '\\', ucwords(str_replace(array('_', '\\'), ' ', strtolower($adapterName))));
     }
 
     /**

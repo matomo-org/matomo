@@ -9,6 +9,7 @@
  * @package Piwik
  */
 namespace Piwik\ArchiveProcessor;
+
 use Piwik\ArchiveProcessor;
 use Piwik\DataArray;
 use Piwik\DataTable;
@@ -63,7 +64,7 @@ class Day extends ArchiveProcessor
      * Windows XP    12    ...
      * Mac OS    15    36    ...
      *
-     * @param string $dimension  Table log_visit field name to be use to compute common stats
+     * @param string $dimension Table log_visit field name to be use to compute common stats
      * @return DataArray
      */
     public function getMetricsForDimension($dimension)

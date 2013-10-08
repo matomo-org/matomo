@@ -191,7 +191,7 @@ class AssetManager
      */
     public static function getCompiledBaseCss()
     {
-        $file =  '/plugins/Zeitgeist/stylesheets/base.less';
+        $file = '/plugins/Zeitgeist/stylesheets/base.less';
         $less = self::makeLess();
         $lessContent = self::getCssContentFromFile($file, $less);
         $css = $less->compile($lessContent);
@@ -306,10 +306,10 @@ class AssetManager
 
         // We look for the currently enabled theme and add CSS from the json
         $theme = PluginsManager::getInstance()->getThemeEnabled();
-        if($theme && $theme->getPluginName() != PluginsManager::DEFAULT_THEME) {
+        if ($theme && $theme->getPluginName() != PluginsManager::DEFAULT_THEME) {
             $info = $theme->getInformation();
-            if(isset($info['stylesheet'])) {
-                $themeStylesheetFile = 'plugins/'. $theme->getPluginName() . '/' . $info['stylesheet'];
+            if (isset($info['stylesheet'])) {
+                $themeStylesheetFile = 'plugins/' . $theme->getPluginName() . '/' . $info['stylesheet'];
             }
             $stylesheets[] = $themeStylesheetFile;
         }
@@ -359,7 +359,7 @@ class AssetManager
     private static function generateMergedJsFile()
     {
         $mergedContent = "";
-        
+
         // Loop through each js file
         $files = self::getJsFiles();
         foreach ($files as $file) {

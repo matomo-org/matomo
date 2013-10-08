@@ -39,8 +39,8 @@ class ExcludeLowPopulation extends Filter
      * Constructor
      *
      * @param DataTable $table
-     * @param string $columnToFilter              column to filter
-     * @param number|\Closure $minimumValue                minimum value
+     * @param string $columnToFilter column to filter
+     * @param number|\Closure $minimumValue minimum value
      * @param bool $minimumPercentageThreshold
      */
     public function __construct($table, $columnToFilter, $minimumValue, $minimumPercentageThreshold = false)

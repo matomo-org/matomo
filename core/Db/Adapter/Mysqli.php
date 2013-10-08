@@ -25,7 +25,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     /**
      * Constructor
      *
-     * @param array|Zend_Config $config  database configuration
+     * @param array|Zend_Config $config database configuration
      */
     public function __construct($config)
     {

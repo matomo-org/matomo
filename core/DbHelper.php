@@ -19,7 +19,7 @@ class DbHelper
     /**
      * Get list of tables installed
      *
-     * @param bool $forceReload  Invalidate cache
+     * @param bool $forceReload Invalidate cache
      * @return array  Tables installed
      */
     public static function getTablesInstalled($forceReload = true)
@@ -30,7 +30,7 @@ class DbHelper
     /**
      * Drop specific tables
      *
-     * @param array $doNotDelete  Names of tables to not delete
+     * @param array $doNotDelete Names of tables to not delete
      */
     public static function dropTables($doNotDelete = array())
     {
@@ -82,7 +82,7 @@ class DbHelper
      */
     public static function dropDatabase()
     {
-        if(defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+        if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
             Schema::getInstance()->dropDatabase();
         }
     }

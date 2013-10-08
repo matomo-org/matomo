@@ -20,45 +20,54 @@ class Registry
     private static $instance;
     private $data;
 
-    private function __construct() {
+    private function __construct()
+    {
         $this->data = array();
     }
 
-    public static function getInstance() {
-        if(self::$instance == null) {
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
             self::$instance = new Registry();
         }
         return self::$instance;
     }
 
-    public static function isRegistered($key) {
+    public static function isRegistered($key)
+    {
         return self::getInstance()->hasKey($key);
     }
 
-    public static function get($key) {
+    public static function get($key)
+    {
         return self::getInstance()->getKey($key);
     }
 
-    public static function set($key, $value) {
+    public static function set($key, $value)
+    {
         self::getInstance()->setKey($key, $value);
     }
 
-    public static function unsetInstance() {
+    public static function unsetInstance()
+    {
         self::$instance = null;
     }
 
-    public function setKey($key, $value) {
+    public function setKey($key, $value)
+    {
         $this->data[$key] = $value;
     }
 
-    public function getKey($key) {
-        if(!$this->hasKey($key)) {
+    public function getKey($key)
+    {
+        if (!$this->hasKey($key)) {
             throw new \Exception(sprintf("Key '%s' doesn't exist in Registry", $key));
         }
         return $this->data[$key];
     }
 
-    public function hasKey($key) {
+    public function hasKey($key)
+    {
         return array_key_exists($key, $this->data);
     }
 }

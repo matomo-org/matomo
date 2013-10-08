@@ -47,7 +47,7 @@ class Common
 
     /**
      * Hashes a string into an integer which should be very low collision risks
-     * @param string $string  String to hash
+     * @param string $string String to hash
      * @return int  Resulting int hash
      */
     public static function hashStringToInt($string)
@@ -62,7 +62,7 @@ class Common
      * Returns the table name prefixed by the table prefix.
      * Works in both Tracker and UI mode.
      *
-     * @param string $table  The table name to prefix, ie "log_visit"
+     * @param string $table The table name to prefix, ie "log_visit"
      * @return string  The table name prefixed, ie "piwik-production_log_visit"
      * @api
      */
@@ -140,7 +140,7 @@ class Common
      *
      * @param string $string
      * @param int $start
-     * @param int     ...      optional length
+     * @param int ...      optional length
      * @return string
      */
     public static function substr($string, $start)
@@ -173,7 +173,7 @@ class Common
      *
      * @param string $string
      * @param int $start
-     * @param int     ...      optional length
+     * @param int ...      optional length
      * @return string
      */
     public static function mb_substr($string, $start)
@@ -367,9 +367,9 @@ class Common
      *
      * @see sanitizeInputValues() for the applied sanitization
      *
-     * @param string $varName            name of the variable
-     * @param string $varDefault         default value. If '', and if the type doesn't match, exit() !
-     * @param string $varType            Expected type, the value must be one of the following: array, int, integer, string, json
+     * @param string $varName name of the variable
+     * @param string $varDefault default value. If '', and if the type doesn't match, exit() !
+     * @param string $varType Expected type, the value must be one of the following: array, int, integer, string, json
      * @param array $requestArrayToUse
      *
      * @throws Exception  if the variable type is not known
@@ -519,7 +519,7 @@ class Common
      *
      * @see http://php.net/bin2hex
      *
-     * @param string $str  Hexadecimal representation
+     * @param string $str Hexadecimal representation
      * @return string
      */
     public static function hex2bin($str)
@@ -562,7 +562,7 @@ class Common
      *
      * @deprecated 1.4
      *
-     * @param string $ip  IP address in network address format
+     * @param string $ip IP address in network address format
      * @return string
      */
     public static function long2ip($ip)
@@ -721,7 +721,7 @@ class Common
     /**
      * Returns the browser language code, eg. "en-gb,en;q=0.5"
      *
-     * @param string|null $browserLang  Optional browser language, otherwise taken from the request header
+     * @param string|null $browserLang Optional browser language, otherwise taken from the request header
      * @return string
      */
     public static function getBrowserLanguage($browserLang = null)
@@ -770,8 +770,8 @@ class Common
      * Returns the visitor country based on the Browser 'accepted language'
      * information, but provides a hook for geolocation via IP address.
      *
-     * @param string $lang                          browser lang
-     * @param bool $enableLanguageToCountryGuess  If set to true, some assumption will be made and detection guessed more often, but accuracy could be affected
+     * @param string $lang browser lang
+     * @param bool $enableLanguageToCountryGuess If set to true, some assumption will be made and detection guessed more often, but accuracy could be affected
      * @param string $ip
      * @return string  2 letter ISO code
      */
@@ -789,8 +789,8 @@ class Common
      * Returns list of valid country codes
      *
      * @param string $browserLanguage
-     * @param array $validCountries                 Array of valid countries
-     * @param bool $enableLanguageToCountryGuess  (if true, will guess country based on language that lacks region information)
+     * @param array $validCountries Array of valid countries
+     * @param bool $enableLanguageToCountryGuess (if true, will guess country based on language that lacks region information)
      * @return array Array of 2 letter ISO codes
      */
     public static function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
@@ -820,8 +820,8 @@ class Common
     /**
      * Returns the visitor language based only on the Browser 'accepted language' information
      *
-     * @param string $browserLanguage  Browser's accepted langauge header
-     * @param array $validLanguages   array of valid language codes
+     * @param string $browserLanguage Browser's accepted langauge header
+     * @param array $validLanguages array of valid language codes
      * @return string  2 letter ISO 639 code
      */
     public static function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
@@ -848,7 +848,7 @@ class Common
     /**
      * Returns the continent of a given country
      *
-     * @param string $country  2 letters isocode
+     * @param string $country 2 letters isocode
      *
      * @return string  Continent (3 letters code : afr, asi, eur, amn, ams, oce)
      */
@@ -901,7 +901,7 @@ class Common
      * Takes a list of fields defining numeric values and returns the corresponding
      * unnamed parameters to be bound to the field names in the where clause of a SQL query
      *
-     * @param array|string $fields  array( fieldName1, fieldName2, fieldName3)  Names of the mysql table fields to load
+     * @param array|string $fields array( fieldName1, fieldName2, fieldName3)  Names of the mysql table fields to load
      * @return string "?, ?, ?"
      */
     public static function getSqlStringFieldsArray($fields)

@@ -11,7 +11,6 @@
 namespace Piwik\DataTable\Filter;
 
 use Exception;
-
 use Piwik\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Manager;

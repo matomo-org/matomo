@@ -10,6 +10,7 @@
  */
 
 namespace Piwik\API;
+
 use Exception;
 use Piwik\Common;
 use ReflectionClass;
@@ -86,7 +87,7 @@ class Proxy
      *
      * The method will introspect the methods, their parameters, etc.
      *
-     * @param string $className  ModuleName eg. "API"
+     * @param string $className ModuleName eg. "API"
      */
     public function registerClass($className)
     {
@@ -108,8 +109,8 @@ class Proxy
     /**
      * Will be displayed in the API page
      *
-     * @param ReflectionClass $rClass     Instance of ReflectionClass
-     * @param string $className  Name of the class
+     * @param ReflectionClass $rClass Instance of ReflectionClass
+     * @param string $className Name of the class
      */
     private function setDocumentation($rClass, $className)
     {
@@ -144,9 +145,9 @@ class Proxy
      * It also logs the API calls, with the parameters values, the returned value, the performance, etc.
      * You can enable logging in config/global.ini.php (log_api_call)
      *
-     * @param string $className          The class name (eg. API)
-     * @param string $methodName         The method name
-     * @param array $parametersRequest  The parameters pairs (name=>value)
+     * @param string $className The class name (eg. API)
+     * @param string $methodName The method name
+     * @param array $parametersRequest The parameters pairs (name=>value)
      *
      * @return mixed|null
      * @throws Exception|\Piwik\NoAccessException
@@ -256,8 +257,8 @@ class Proxy
      * Returns the parameters names and default values for the method $name
      * of the class $class
      *
-     * @param string $class  The class name
-     * @param string $name   The method name
+     * @param string $class The class name
+     * @param string $name The method name
      * @return array  Format array(
      *                            'testParameter' => null, // no default value
      *                            'life'          => 42, // default value = 42
@@ -272,7 +273,7 @@ class Proxy
     /**
      * Returns the 'moduleName' part of 'Piwik_moduleName_API' classname
      *
-     * @param string $className  "API"
+     * @param string $className "API"
      * @return string "Referrers"
      */
     public function getModuleNameFromClassName($className)
@@ -297,7 +298,7 @@ class Proxy
     /**
      * Returns an array containing the values of the parameters to pass to the method to call
      *
-     * @param array $requiredParameters  array of (parameter name, default value)
+     * @param array $requiredParameters array of (parameter name, default value)
      * @param array $parametersRequest
      * @throws Exception
      * @return array values to pass to the function call
@@ -340,7 +341,7 @@ class Proxy
     /**
      * Includes the class API by looking up plugins/UserSettings/API.php
      *
-     * @param string $fileName  api class name eg. "API"
+     * @param string $fileName api class name eg. "API"
      * @throws Exception
      */
     private function includeApiFile($fileName)
@@ -356,8 +357,8 @@ class Proxy
     }
 
     /**
-     * @param string $class   name of a class
-     * @param ReflectionMethod $method  instance of ReflectionMethod
+     * @param string $class name of a class
+     * @param ReflectionMethod $method instance of ReflectionMethod
      */
     private function loadMethodMetadata($class, $method)
     {
@@ -389,8 +390,8 @@ class Proxy
     /**
      * Checks that the method exists in the class
      *
-     * @param string $className   The class name
-     * @param string $methodName  The method name
+     * @param string $className The class name
+     * @param string $methodName The method name
      * @throws Exception If the method is not found
      */
     private function checkMethodExists($className, $methodName)
@@ -403,8 +404,8 @@ class Proxy
     /**
      * Returns the number of required parameters (parameters without default values).
      *
-     * @param string $class  The class name
-     * @param string $name   The method name
+     * @param string $class The class name
+     * @param string $name The method name
      * @return int The number of required parameters
      */
     private function getNumberOfRequiredParameters($class, $name)
@@ -415,8 +416,8 @@ class Proxy
     /**
      * Returns true if the method is found in the API of the given class name.
      *
-     * @param string $className   The class name
-     * @param string $methodName  The method name
+     * @param string $className The class name
+     * @param string $methodName The method name
      * @return bool
      */
     private function isMethodAvailable($className, $methodName)
@@ -427,7 +428,7 @@ class Proxy
     /**
      * Checks that the class is a Singleton (presence of the getInstance() method)
      *
-     * @param string $className  The class name
+     * @param string $className The class name
      * @throws Exception If the class is not a Singleton
      */
     private function checkClassIsSingleton($className)

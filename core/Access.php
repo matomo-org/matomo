@@ -40,7 +40,7 @@ use Piwik\Db;
 class Access
 {
     private static $instance = null;
-    
+
     /**
      * Gets the singleton instance. Creates it if necessary.
      */
@@ -48,12 +48,12 @@ class Access
     {
         if (self::$instance == null) {
             self::$instance = new self;
-            
+
             Piwik_PostTestEvent('Access.createAccessSingleton', array(self::$instance));
         }
         return self::$instance;
     }
-    
+
     /**
      * Sets the singleton instance. For testing purposes.
      */
@@ -61,7 +61,7 @@ class Access
     {
         self::$instance = $instance;
     }
-    
+
     /**
      * Array of idsites available to the current user, indexed by permission level
      * @see getSitesIdWith*()
@@ -138,7 +138,7 @@ class Access
      * If the login/password is correct the user is either the SuperUser or a normal user.
      * We load the access levels for this user for all the websites.
      *
-     * @param null|Auth $auth  Auth adapter
+     * @param null|Auth $auth Auth adapter
      * @return bool  true on success, false if reloading access failed (when auth object wasn't specified and user is not enforced to be Super User)
      */
     public function reloadAccess(Auth $auth = null)
@@ -188,7 +188,7 @@ class Access
     /**
      * Returns the SQL query joining sites and access table for a given login
      *
-     * @param string $select  Columns or expression to SELECT FROM table, eg. "MIN(ts_created)"
+     * @param string $select Columns or expression to SELECT FROM table, eg. "MIN(ts_created)"
      * @return string  SQL query
      */
     public static function getSqlAccessSite($select)
@@ -196,7 +196,7 @@ class Access
         return "SELECT " . $select . "
 						  FROM " . Common::prefixTable('access') . " as t1
 							JOIN " . Common::prefixTable('site') . " as t2 USING (idsite) " .
-            " WHERE login = ?";
+        " WHERE login = ?";
     }
 
     /**
@@ -207,17 +207,17 @@ class Access
     protected function reloadAccessSuperUser()
     {
         $this->isSuperUser = true;
-        
+
         try {
             $allSitesId = Plugins\SitesManager\API::getInstance()->getAllSitesId();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $allSitesId = array();
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
         $this->login = Config::getInstance()->superuser['login'];
 
         Piwik_PostTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
-        
+
         return true;
     }
 
@@ -266,10 +266,10 @@ class Access
     {
         return $this->token_auth;
     }
-    
+
     /**
      * Returns the super user's login.
-     * 
+     *
      * @return string
      */
     public function getSuperUserLogin()
@@ -369,7 +369,7 @@ class Access
      * This method checks that the user has ADMIN access for the given list of websites.
      * If the user doesn't have ADMIN access for at least one website of the list, we throw an exception.
      *
-     * @param int|array $idSites  List of ID sites to check
+     * @param int|array $idSites List of ID sites to check
      * @throws \Piwik\NoAccessException If for any of the websites the user doesn't have an ADMIN access
      */
     public function checkUserHasAdminAccess($idSites)
@@ -390,7 +390,7 @@ class Access
      * This method checks that the user has VIEW or ADMIN access for the given list of websites.
      * If the user doesn't have VIEW or ADMIN access for at least one website of the list, we throw an exception.
      *
-     * @param int|array|string $idSites  List of ID sites to check (integer, array of integers, string comma separated list of integers)
+     * @param int|array|string $idSites List of ID sites to check (integer, array of integers, string comma separated list of integers)
      * @throws \Piwik\NoAccessException  If for any of the websites the user doesn't have an VIEW or ADMIN access
      */
     public function checkUserHasViewAccess($idSites)

@@ -147,8 +147,8 @@ class Db
     /**
      * Fetches first row of result from the database query
      *
-     * @param string $sql         SQL Query
-     * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql SQL Query
+     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
      * @return array
      * @throws \Exception
      */
@@ -165,8 +165,8 @@ class Db
     /**
      * Fetches first column of first row of result from the database query
      *
-     * @param string $sql         SQL Query
-     * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql SQL Query
+     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
      * @return string
      * @throws \Exception
      */
@@ -183,8 +183,8 @@ class Db
     /**
      * Fetches result from the database query as an array of associative arrays.
      *
-     * @param string $sql         SQL query
-     * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql SQL query
+     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
      * @return array
      * @throws \Exception
      */
@@ -202,11 +202,11 @@ class Db
      * Deletes all desired rows in a table, while using a limit. This function will execute a
      * DELETE query until there are no more rows to delete.
      *
-     * @param string $table            The name of the table to delete from. Must be prefixed.
-     * @param string $where            The where clause of the query. Must include the WHERE keyword.
+     * @param string $table The name of the table to delete from. Must be prefixed.
+     * @param string $where The where clause of the query. Must include the WHERE keyword.
      * @param $orderBy
-     * @param int $maxRowsPerQuery  The maximum number of rows to delete per DELETE query.
-     * @param array $parameters       Parameters to bind in the query.
+     * @param int $maxRowsPerQuery The maximum number of rows to delete per DELETE query.
+     * @param array $parameters Parameters to bind in the query.
      * @return int  The total number of rows deleted.
      */
     static public function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
@@ -230,7 +230,7 @@ class Db
     /**
      * Runs an OPTIMIZE TABLE query on the supplied table or tables. The table names must be prefixed.
      *
-     * @param string|array $tables  The name of the table to optimize or an array of tables to optimize.
+     * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
      * @return \Zend_Db_Statement
      */
     static public function optimizeTables($tables)
@@ -268,7 +268,7 @@ class Db
     /**
      * Drops the supplied table or tables. The table names must be prefixed.
      *
-     * @param string|array $tables  The name of the table to drop or an array of table names to drop.
+     * @param string|array $tables The name of the table to drop or an array of table names to drop.
      * @return \Zend_Db_Statement
      */
     static public function dropTables($tables)
@@ -283,8 +283,8 @@ class Db
     /**
      * Locks the supplied table or tables. The table names must be prefixed.
      *
-     * @param string|array $tablesToRead   The table or tables to obtain 'read' locks on.
-     * @param string|array $tablesToWrite  The table or tables to obtain 'write' locks on.
+     * @param string|array $tablesToRead The table or tables to obtain 'read' locks on.
+     * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on.
      * @return \Zend_Db_Statement
      */
     static public function lockTables($tablesToRead, $tablesToWrite = array())
@@ -326,13 +326,13 @@ class Db
      * Using several smaller SELECTs will ensure that the table will not be locked
      * for too long.
      *
-     * @param string  $sql     The SQL to perform. The last two conditions of the WHERE
+     * @param string $sql The SQL to perform. The last two conditions of the WHERE
      *                         expression must be as follows: 'id >= ? AND id < ?' where
      *                         'id' is the int id of the table.
-     * @param int     $first   The minimum ID to loop from.
-     * @param int     $last    The maximum ID to loop to.
-     * @param int     $step    The maximum number of rows to scan in each smaller SELECT.
-     * @param array   $params  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param int $first The minimum ID to loop from.
+     * @param int $last The maximum ID to loop to.
+     * @param int $step The maximum number of rows to scan in each smaller SELECT.
+     * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
      *
      * @return string
      */
@@ -361,13 +361,13 @@ class Db
      * for too long.
      *
      *
-     * @param string  $sql     The SQL to perform. The last two conditions of the WHERE
+     * @param string $sql The SQL to perform. The last two conditions of the WHERE
      *                         expression must be as follows: 'id >= ? AND id < ?' where
      *                         'id' is the int id of the table.
-     * @param int     $first   The minimum ID to loop from.
-     * @param int     $last    The maximum ID to loop to.
-     * @param int     $step    The maximum number of rows to scan in each smaller SELECT.
-     * @param array   $params  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param int $first The minimum ID to loop from.
+     * @param int $last The maximum ID to loop to.
+     * @param int $step The maximum number of rows to scan in each smaller SELECT.
+     * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
      *
      * @return array
      */
@@ -390,13 +390,13 @@ class Db
      * Performs a SELECT on a table one chunk at a time and returns an array
      * of every fetched row.
      *
-     * @param string $sql    The SQL to perform. The last two conditions of the WHERE
+     * @param string $sql The SQL to perform. The last two conditions of the WHERE
      *                       expression must be as follows: 'id >= ? AND id < ?' where
      *                      'id' is the int id of the table.
-     * @param int    $first  The minimum ID to loop from.
-     * @param int    $last   The maximum ID to loop to.
-     * @param int    $step   The maximum number of rows to scan in each smaller SELECT.
-     * @param array  $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param int $first The minimum ID to loop from.
+     * @param int $last The maximum ID to loop to.
+     * @param int $step The maximum number of rows to scan in each smaller SELECT.
+     * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
      *
      * @return array
      */
@@ -420,13 +420,13 @@ class Db
     /**
      * Performs a non-SELECT query on a table one chunk at a time.
      *
-     * @param string $sql    The SQL to perform. The last two conditions of the WHERE
+     * @param string $sql The SQL to perform. The last two conditions of the WHERE
      *                       expression must be as follows: 'id >= ? AND id < ?' where
      *                      'id' is the int id of the table.
-     * @param int    $first  The minimum ID to loop from.
-     * @param int    $last   The maximum ID to loop to.
-     * @param int    $step   The maximum number of rows to scan in each smaller query.
-     * @param array  $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param int $first The minimum ID to loop from.
+     * @param int $last The maximum ID to loop to.
+     * @param int $step The maximum number of rows to scan in each smaller query.
+     * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
      *
      * @return array
      */

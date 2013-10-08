@@ -18,49 +18,49 @@ class Error
 {
     /**
      * The backtrace string to use when testing.
-     * 
+     *
      * @var string
      */
     public static $debugBacktraceForTests = null;
 
     /**
      * The error number. See http://php.net/manual/en/errorfunc.constants.php#errorfunc.constants.errorlevels
-     * 
+     *
      * @var int
      */
     public $errno;
 
     /**
      * The error message.
-     * 
+     *
      * @var string
      */
     public $errstr;
 
     /**
      * The file in which the error occurred.
-     * 
+     *
      * @var string
      */
     public $errfile;
 
     /**
      * The line number on which the error occurred.
-     * 
+     *
      * @var int
      */
     public $errline;
 
     /**
      * The error backtrace.
-     * 
+     *
      * @var string
      */
     public $backtrace;
 
     /**
      * Constructor.
-     * 
+     *
      * @param int $errno
      * @param string $errstr
      * @param string $errfile
@@ -118,7 +118,7 @@ class Error
     {
         if ($message instanceof Error) {
             $message = $message->errfile . '(' . $message->errline . '): ' . $message->getErrNoString()
-                     . ' - ' . $message->errstr . "\n" . $message->backtrace;
+                . ' - ' . $message->errstr . "\n" . $message->backtrace;
 
             $message = $log->formatMessage($level, $tag, $datetime, $message);
         }

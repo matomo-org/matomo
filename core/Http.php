@@ -62,10 +62,10 @@ class Http
      * @param string $destinationPath
      * @param int $followDepth
      * @param bool $acceptLanguage
-     * @param array|bool $byteRange       For Range: header. Should be two element array of bytes, eg, array(0, 1024)
+     * @param array|bool $byteRange For Range: header. Should be two element array of bytes, eg, array(0, 1024)
      *                                    Doesn't work w/ fopen method.
      * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
-     * @param string $httpMethod      The HTTP method to use. Defaults to 'GET'.
+     * @param string $httpMethod The HTTP method to use. Defaults to 'GET'.
      *
      * @throws Exception
      * @return bool  true (or string) on success; false on HTTP response error code (1xx or 4xx)
@@ -96,12 +96,12 @@ class Http
      * @param string $destinationPath
      * @param resource $file
      * @param int $followDepth
-     * @param bool|string $acceptLanguage               Accept-language header
-     * @param bool $acceptInvalidSslCertificate  Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
-     * @param array|bool $byteRange                    For Range: header. Should be two element array of bytes, eg, array(0, 1024)
+     * @param bool|string $acceptLanguage Accept-language header
+     * @param bool $acceptInvalidSslCertificate Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
+     * @param array|bool $byteRange For Range: header. Should be two element array of bytes, eg, array(0, 1024)
      *                                                  Doesn't work w/ fopen method.
-     * @param bool $getExtendedInfo              True to return status code, headers & response, false if just response.
-     * @param string $httpMethod                   The HTTP method to use. Defaults to 'GET'.
+     * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
+     * @param string $httpMethod The HTTP method to use. Defaults to 'GET'.
      *
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
@@ -214,14 +214,14 @@ class Http
             // send HTTP request header
             $requestHeader .=
                 "Host: $host" . ($port != 80 ? ':' . $port : '') . "\r\n"
-                    . ($proxyAuth ? $proxyAuth : '')
-                    . 'User-Agent: ' . $userAgent . "\r\n"
-                    . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
-                    . $xff . "\r\n"
-                    . $via . "\r\n"
-                    . $rangeHeader
-                    . "Connection: close\r\n"
-                    . "\r\n";
+                . ($proxyAuth ? $proxyAuth : '')
+                . 'User-Agent: ' . $userAgent . "\r\n"
+                . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
+                . $xff . "\r\n"
+                . $via . "\r\n"
+                . $rangeHeader
+                . "Connection: close\r\n"
+                . "\r\n";
             fwrite($fsock, $requestHeader);
 
             $streamMetaData = array('timed_out' => false);
@@ -537,8 +537,8 @@ class Http
      * Note this function uses the Range HTTP header to accomplish downloading in
      * parts.
      *
-     * @param string $url            The url to download from.
-     * @param string $outputPath     The path to the file to save/append to.
+     * @param string $url The url to download from.
+     * @param string $outputPath The path to the file to save/append to.
      * @param bool $isContinuation True if this is the continuation of a download,
      *                               or if we're starting a fresh one.
      *
@@ -553,7 +553,7 @@ class Http
         ) {
             throw new Exception(
                 Piwik_Translate('General_DownloadFail_FileExists', "'" . $outputPath . "'")
-                    . ' ' . Piwik_Translate('General_DownloadPleaseRemoveExisting'));
+                . ' ' . Piwik_Translate('General_DownloadPleaseRemoveExisting'));
         }
 
         // if we're starting a download, get the expected file size & save as an option
@@ -595,7 +595,7 @@ class Http
         if ($existingSize >= $expectedFileSize) {
             throw new Exception(
                 Piwik_Translate('General_DownloadFail_FileExistsContinue', "'" . $outputPath . "'")
-                    . ' ' . Piwik_Translate('General_DownloadPleaseRemoveExisting'));
+                . ' ' . Piwik_Translate('General_DownloadPleaseRemoveExisting'));
         }
 
         // download a chunk of the file

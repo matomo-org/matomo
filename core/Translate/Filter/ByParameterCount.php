@@ -12,7 +12,6 @@
 namespace Piwik\Translate\Filter;
 
 
-
 /**
  * @package Piwik
  * @subpackage Piwik_Translate
@@ -26,7 +25,7 @@ class ByParameterCount extends FilterAbstract
      *
      * @param array $baseTranslations
      */
-    public function __construct($baseTranslations=array())
+    public function __construct($baseTranslations = array())
     {
         $this->baseTranslations = $baseTranslations;
     }
@@ -34,7 +33,7 @@ class ByParameterCount extends FilterAbstract
     /**
      * Removes all translations where the placeholder parameter count differs to base translation
      *
-     * @param  array  $translations
+     * @param  array $translations
      *
      * @return array   filtered translations
      *
@@ -48,16 +47,16 @@ class ByParameterCount extends FilterAbstract
             foreach ($pluginTranslations AS $key => $translation) {
 
                 if (isset($this->baseTranslations[$pluginName][$key])) {
-                    $baseTranslation  = $this->baseTranslations[$pluginName][$key];
+                    $baseTranslation = $this->baseTranslations[$pluginName][$key];
                 } else {
                     $baseTranslation = '';
                 }
 
                 // ensure that translated strings have the same number of %s as the english source strings
-                $baseCount        = $this->_getParametersCountToReplace($baseTranslation);
+                $baseCount = $this->_getParametersCountToReplace($baseTranslation);
                 $translationCount = $this->_getParametersCountToReplace($translation);
 
-                if ($baseCount != $translationCount)  {
+                if ($baseCount != $translationCount) {
 
                     $this->filteredData[$pluginName][$key] = $translation;
                     continue;
@@ -76,7 +75,7 @@ class ByParameterCount extends FilterAbstract
      * @param string $string
      * @return array
      */
-    protected  function _getParametersCountToReplace($string)
+    protected function _getParametersCountToReplace($string)
     {
         $sprintfParameters = array('%s', '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s', '%7$s', '%8$s', '%9$s');
         $count = array();

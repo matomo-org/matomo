@@ -12,40 +12,39 @@
 /**
  * Providers names
  */
-if(!isset($GLOBALS['Piwik_ProviderNames']))
-{
+if (!isset($GLOBALS['Piwik_ProviderNames'])) {
     $GLOBALS['Piwik_ProviderNames'] = array(
         // France
-        "wanadoo"		=> "Orange",
-        "proxad"		=> "Free",
-        "bbox"			=> "Bouygues Telecom",
-        "bouyguestelecom"	=> "Bouygues Telecom",
-        "coucou-networks"	=> "Free Mobile",
-        "sfr"			=> "SFR",               //Acronym, keep in uppercase
-        "univ-metz"		=> "Université de Lorraine",
-        "unilim"		=> "Université de Limoges",
-        "univ-paris5"		=> "Université Paris Descartes",
+        "wanadoo"                 => "Orange",
+        "proxad"                  => "Free",
+        "bbox"                    => "Bouygues Telecom",
+        "bouyguestelecom"         => "Bouygues Telecom",
+        "coucou-networks"         => "Free Mobile",
+        "sfr"                     => "SFR", //Acronym, keep in uppercase
+        "univ-metz"               => "Université de Lorraine",
+        "unilim"                  => "Université de Limoges",
+        "univ-paris5"             => "Université Paris Descartes",
 
         // US
-        "rr"			=> "Time Warner Cable Internet", // Not sure
-        "uu"			=> "Verizon",
+        "rr"                      => "Time Warner Cable Internet", // Not sure
+        "uu"                      => "Verizon",
 
         // UK
-        'zen.net' => 'Zen Internet',
+        'zen.net'                 => 'Zen Internet',
 
         // DE
-        't-ipconnect' => 'Deutsche Telekom',
-        't-dialin' => 'Deutsche Telekom',
-        'dtag' => 'Deutsche Telekom',
-        't-ipnet' => 'Deutsche Telekom',
-        'd1-online' => 'Deutsche Telekom (Mobile)',
-        'superkabel' => 'Kabel Deutschland',
-        'unitymediagroup' => 'Unitymedia',
-        'arcor-ip' => 'Vodafone',
+        't-ipconnect'             => 'Deutsche Telekom',
+        't-dialin'                => 'Deutsche Telekom',
+        'dtag'                    => 'Deutsche Telekom',
+        't-ipnet'                 => 'Deutsche Telekom',
+        'd1-online'               => 'Deutsche Telekom (Mobile)',
+        'superkabel'              => 'Kabel Deutschland',
+        'unitymediagroup'         => 'Unitymedia',
+        'arcor-ip'                => 'Vodafone',
         'kabel-badenwuerttemberg' => 'Kabel BW',
-        'alicedsl' => 'O2',
-        'komdsl' => 'komDSL - Thüga MeteringService',
-        'mediaways' => 'mediaWays - Telefonica',
-        'citeq' => 'Citeq - Stadt Münster',
+        'alicedsl'                => 'O2',
+        'komdsl'                  => 'komDSL - Thüga MeteringService',
+        'mediaways'               => 'mediaWays - Telefonica',
+        'citeq'                   => 'Citeq - Stadt Münster',
     );
 }

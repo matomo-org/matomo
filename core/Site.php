@@ -46,7 +46,7 @@ class Site
      * Sets the cached Site data with an array that associates site IDs with
      * individual site data.
      *
-     * @param array $sites  The array of sites data. Indexed by site ID.
+     * @param array $sites The array of sites data. Indexed by site ID.
      */
     public static function setSites($sites)
     {
@@ -56,7 +56,7 @@ class Site
     /**
      * Sets the cached Site data with a non-associated array of site data.
      *
-     * @param array $sites  The array of sites data.
+     * @param array $sites The array of sites data.
      */
     public static function setSitesFromArray($sites)
     {
@@ -113,7 +113,7 @@ class Site
 
     /**
      * Returns a site property
-     * @param string $name  property to return
+     * @param string $name property to return
      * @return mixed
      * @throws Exception
      */
@@ -247,9 +247,9 @@ class Site
      * Utility function. Returns the value of the specified field for the
      * site with the specified ID.
      *
-     * @param int|string $idsite  The ID of the site whose data is being
+     * @param int|string $idsite The ID of the site whose data is being
      *                             accessed.
-     * @param string $field   The name of the field to get.
+     * @param string $field The name of the field to get.
      * @return mixed
      */
     static protected function getFor($idsite, $field)
@@ -266,7 +266,7 @@ class Site
     /**
      * Returns the name of the site with the specified ID.
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function getNameFor($idsite)
@@ -277,7 +277,7 @@ class Site
     /**
      * Returns the timezone of the site with the specified ID.
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function getTimezoneFor($idsite)
@@ -288,7 +288,7 @@ class Site
     /**
      * Returns the creation date of the site with the specified ID.
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function getCreationDateFor($idsite)
@@ -299,7 +299,7 @@ class Site
     /**
      * Returns the url for the site with the specified ID.
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function getMainUrlFor($idsite)
@@ -310,7 +310,7 @@ class Site
     /**
      * Returns whether the site with the specified ID is ecommerce enabled
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function isEcommerceEnabledFor($idsite)
@@ -321,7 +321,7 @@ class Site
     /**
      * Returns whether the site with the specified ID is Site Search enabled
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function isSiteSearchEnabledFor($idsite)
@@ -332,7 +332,7 @@ class Site
     /**
      * Returns the currency of the site with the specified ID.
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function getCurrencyFor($idsite)
@@ -343,7 +343,7 @@ class Site
     /**
      * Returns the excluded IP addresses of the site with the specified ID.
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function getExcludedIpsFor($idsite)
@@ -354,7 +354,7 @@ class Site
     /**
      * Returns the excluded query parameters for the site with the specified ID.
      *
-     * @param int $idsite  The site ID.
+     * @param int $idsite The site ID.
      * @return string
      */
     static public function getExcludedQueryParametersFor($idsite)

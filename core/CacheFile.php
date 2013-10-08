@@ -44,8 +44,8 @@ class CacheFile
     const MINIMUM_TTL = 60;
 
     /**
-     * @param string $directory            directory to use
-     * @param int $timeToLiveInSeconds  TTL
+     * @param string $directory directory to use
+     * @param int $timeToLiveInSeconds TTL
      */
     public function __construct($directory, $timeToLiveInSeconds = 300)
     {
@@ -61,7 +61,7 @@ class CacheFile
     /**
      * Function to fetch a cache entry
      *
-     * @param string $id  The cache entry ID
+     * @param string $id The cache entry ID
      * @return array|bool  False on error, or array the cache content
      */
     public function get($id)
@@ -112,8 +112,8 @@ class CacheFile
     /**
      * A function to store content a cache entry.
      *
-     * @param string $id       The cache entry ID
-     * @param array $content  The cache content
+     * @param string $id The cache entry ID
+     * @param array $content The cache content
      * @throws \Exception
      * @return bool  True if the entry was succesfully stored
      */
@@ -170,7 +170,7 @@ class CacheFile
     /**
      * A function to delete a single cache entry
      *
-     * @param string $id  The cache entry ID
+     * @param string $id The cache entry ID
      * @return bool  True if the entry was succesfully deleted
      */
     public function delete($id)

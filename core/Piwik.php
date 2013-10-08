@@ -14,8 +14,8 @@ use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
 use Piwik\Db;
-use Piwik\Plugin;
 
+use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Session;
 use Piwik\Tracker;
@@ -39,10 +39,10 @@ class Piwik
      * @var array
      */
     public static $idPeriods = array(
-        'day' => 1,
-        'week' => 2,
+        'day'   => 1,
+        'week'  => 2,
         'month' => 3,
-        'year' => 4,
+        'year'  => 4,
         'range' => 5,
     );
 
@@ -72,7 +72,7 @@ class Piwik
         if (!Common::isPhpCliMode()) {
             @header('Content-Type: text/html; charset=utf-8');
         }
-        
+
         $output = "<style>a{color:red;}</style>\n" .
             "<div style='color:red;font-family:Georgia;font-size:120%'>" .
             "<p><img src='plugins/Zeitgeist/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20' />" .
@@ -122,7 +122,7 @@ class Piwik
      * Returns the Javascript code to be inserted on every page to track
      *
      * @param int $idSite
-     * @param string $piwikUrl  http://path/to/piwik/directory/
+     * @param string $piwikUrl http://path/to/piwik/directory/
      * @return string
      */
     static public function getJavascriptCode($idSite, $piwikUrl)
@@ -306,7 +306,7 @@ class Piwik
      * Helper method user to set the current as Super User.
      * This should be used with great care as this gives the user all permissions.
      *
-     * @param bool $bool  true to set current user as super user
+     * @param bool $bool true to set current user as super user
      * @api
      */
     static public function setUserIsSuperUser($bool = true)
@@ -518,9 +518,9 @@ class Piwik
     /**
      * Redirect to module (and action)
      *
-     * @param string $newModule   Target module
-     * @param string $newAction   Target action
-     * @param array $parameters  Parameters to modify in the URL
+     * @param string $newModule Target module
+     * @param string $newAction Target action
+     * @param array $parameters Parameters to modify in the URL
      * @return bool  false if the URL to redirect to is already this URL
      *
      * @api
@@ -636,7 +636,7 @@ class Piwik
 
     /**
      * Returns the class name of an object without its namespace.
-     * 
+     *
      * @param mixed|string $object
      * @return string
      */

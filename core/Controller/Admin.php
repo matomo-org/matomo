@@ -69,16 +69,16 @@ abstract class Admin extends Controller
         $missingPlugins = PluginsManager::getInstance()->getMissingPlugins();
         if (!empty($missingPlugins)) {
             $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
-                                             'module' => 'CorePluginsAdmin', 'action' => 'plugins'
-                                        ));
+                                                                                 'module' => 'CorePluginsAdmin', 'action' => 'plugins'
+                                                                            ));
             $view->invalidPluginsWarning = Piwik_Translate('CoreAdminHome_InvalidPluginsWarning', array(
-                                               self::getPiwikVersion(),
-                                               '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
-                                        . '<br/>'
-                                        . Piwik_Translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
-                                               '<a href="' . $pluginsLink . '"/>',
-                                               '</a>'
-                                          ));
+                                                                                                       self::getPiwikVersion(),
+                                                                                                       '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
+                . '<br/>'
+                . Piwik_Translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
+                                                                                      '<a href="' . $pluginsLink . '"/>',
+                                                                                      '</a>'
+                                                                                 ));
         }
 
         self::checkPhpVersion($view);

@@ -41,7 +41,7 @@ class MetricsFormatter
      * Pretty format a time
      *
      * @param int $numberOfSeconds
-     * @param bool $displayTimeAsSentence  If set to true, will output "5min 17s", if false "00:05:17"
+     * @param bool $displayTimeAsSentence If set to true, will output "5min 17s", if false "00:05:17"
      * @param bool $isHtml
      * @param bool $round to the full seconds
      * @return string
@@ -97,9 +97,9 @@ class MetricsFormatter
     /**
      * Pretty format a memory size value
      *
-     * @param number $size       size in bytes
-     * @param string $unit       The specific unit to use, if any. If null, the unit is determined by $size.
-     * @param int $precision  The precision to use when rounding.
+     * @param number $size size in bytes
+     * @param string $unit The specific unit to use, if any. If null, the unit is determined by $size.
+     * @param int $precision The precision to use when rounding.
      * @return string
      */
     public static function getPrettySizeFromBytes($size, $unit = null, $precision = 1)

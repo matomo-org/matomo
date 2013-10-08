@@ -25,9 +25,9 @@ class Limit extends Filter
      * Filter constructor.
      *
      * @param DataTable $table
-     * @param int $offset          Starting row (indexed from 0)
-     * @param int $limit           Number of rows to keep (specify -1 to keep all rows)
-     * @param bool $keepSummaryRow  Whether to keep the summary row or not.
+     * @param int $offset Starting row (indexed from 0)
+     * @param int $limit Number of rows to keep (specify -1 to keep all rows)
+     * @param bool $keepSummaryRow Whether to keep the summary row or not.
      */
     public function __construct($table, $offset, $limit = -1, $keepSummaryRow = false)
     {

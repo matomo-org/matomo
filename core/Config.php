@@ -10,6 +10,7 @@
  */
 
 namespace Piwik;
+
 use Exception;
 
 require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
@@ -156,7 +157,7 @@ class Config
     public static function getLocalConfigPath()
     {
         $path = self::getByDomainConfigPath();
-        if($path) {
+        if ($path) {
             return $path;
         }
 
@@ -165,7 +166,7 @@ class Config
 
     public function getConfigHostnameIfSet()
     {
-        if($this->getByDomainConfigPath() === false) {
+        if ($this->getByDomainConfigPath() === false) {
             return false;
         }
         return $this->getHostname();
@@ -234,7 +235,7 @@ class Config
             Piwik_ExitWithMessage(Piwik_TranslateException('General_ExceptionUnreadableFileDisabledMethod', array($this->pathGlobal, "parse_ini_file()")));
         }
 
-        if($reportError) {
+        if ($reportError) {
             $this->checkLocalConfigFound();
         }
         $this->configLocal = _parse_ini_file($this->pathLocal, true);
@@ -414,7 +415,7 @@ class Config
         if (!$configCache) {
             return false;
         }
-        if($configLocal) {
+        if ($configLocal) {
             foreach ($configLocal as $name => $section) {
                 if (!isset($configCache[$name])) {
                     $configCache[$name] = $this->decodeValues($section);
@@ -507,7 +508,7 @@ class Config
         $output = $this->dumpConfig($configLocal, $configGlobal, $configCache);
         if ($output !== false) {
             $success = @file_put_contents($pathLocal, $output);
-            if(!$success) {
+            if (!$success) {
                 throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)", "")));
             }
         }

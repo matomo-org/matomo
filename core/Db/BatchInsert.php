@@ -15,8 +15,8 @@ use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\DbHelper;
 
+use Piwik\DbHelper;
 use Piwik\Log;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -28,10 +28,10 @@ class BatchInsert
      *
      * NOTE: you should use tableInsertBatch() which will fallback to this function if LOAD DATA INFILE not available
      *
-     * @param string $tableName            PREFIXED table name! you must call Common::prefixTable() before passing the table name
-     * @param array $fields               array of unquoted field names
-     * @param array $values               array of data to be inserted
-     * @param bool $ignoreWhenDuplicate  Ignore new rows that contain unique key values that duplicate old rows
+     * @param string $tableName PREFIXED table name! you must call Common::prefixTable() before passing the table name
+     * @param array $fields array of unquoted field names
+     * @param array $values array of data to be inserted
+     * @param bool $ignoreWhenDuplicate Ignore new rows that contain unique key values that duplicate old rows
      */
     public static function tableInsertBatchIterate($tableName, $fields, $values, $ignoreWhenDuplicate = true)
     {
@@ -51,9 +51,9 @@ class BatchInsert
      * Performs a batch insert into a specific table using either LOAD DATA INFILE or plain INSERTs,
      * as a fallback. On MySQL, LOAD DATA INFILE is 20x faster than a series of plain INSERTs.
      *
-     * @param string $tableName  PREFIXED table name! you must call Common::prefixTable() before passing the table name
-     * @param array $fields     array of unquoted field names
-     * @param array $values     array of data to be inserted
+     * @param string $tableName PREFIXED table name! you must call Common::prefixTable() before passing the table name
+     * @param array $fields array of unquoted field names
+     * @param array $values array of data to be inserted
      * @param bool $throwException Whether to throw an exception that was caught while trying
      *                                LOAD DATA INFILE, or not.
      * @throws Exception
@@ -71,8 +71,8 @@ class BatchInsert
                     'quote'            => '"', // chr(34)
                     'escape'           => '\\\\', // chr(92)
                     'escapespecial_cb' => function ($str) {
-                        return str_replace(array(chr(92), chr(34)), array(chr(92) . chr(92), chr(92) . chr(34)), $str);
-                    },
+                            return str_replace(array(chr(92), chr(34)), array(chr(92) . chr(92), chr(92) . chr(34)), $str);
+                        },
                     'eol'              => "\r\n",
                     'null'             => 'NULL',
                 );
@@ -111,10 +111,10 @@ class BatchInsert
     /**
      * Batch insert into table from CSV (or other delimited) file.
      *
-     * @param string $tableName  Name of table
-     * @param array $fields     Field names
-     * @param string $filePath   Path name of a file.
-     * @param array $fileSpec   File specifications (delimiter, line terminator, etc)
+     * @param string $tableName Name of table
+     * @param array $fields Field names
+     * @param string $filePath Path name of a file.
+     * @param array $fileSpec File specifications (delimiter, line terminator, etc)
      *
      * @throws Exception
      * @return bool  True if successful; false otherwise
@@ -203,9 +203,9 @@ class BatchInsert
     /**
      * Create CSV (or other delimited) files
      *
-     * @param string $filePath  filename to create
-     * @param array $fileSpec  File specifications (delimiter, line terminator, etc)
-     * @param array $rows      Array of array corresponding to rows of values
+     * @param string $filePath filename to create
+     * @param array $fileSpec File specifications (delimiter, line terminator, etc)
+     * @param array $rows Array of array corresponding to rows of values
      * @throws Exception  if unable to create or write to file
      */
     static protected function createCSVFile($filePath, $fileSpec, $rows)

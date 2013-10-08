@@ -23,7 +23,7 @@ class ReplaceSummaryRowLabel extends Filter
 {
     /**
      * @param DataTable $table
-     * @param string|null $newLabel  new label for summary row
+     * @param string|null $newLabel new label for summary row
      */
     public function __construct($table, $newLabel = null)
     {

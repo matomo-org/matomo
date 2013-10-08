@@ -63,12 +63,12 @@ class Period extends ArchiveProcessor
      * It returns an array that gives information about the "final" DataTable. The array gives for every field name, the number of rows in the
      *  final DataTable (ie. the number of distinct LABEL over the period) (eg. the number of distinct keywords over the last month)
      *
-     * @param string|array $recordNames                           Field name(s) of DataTable to select so we can get the sum
-     * @param int $maximumRowsInDataTableLevelZero       Max row count of parent datatable to archive
-     * @param int $maximumRowsInSubDataTable             Max row count of children datatable(s) to archive
-     * @param string $columnToSortByBeforeTruncation     Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count)
-     * @param array $columnAggregationOperations         Operations for aggregating columns, @see Row::sumRow()
-     * @param array $invalidSummedColumnNameToRenamedName  (current_column_name => new_column_name) for columns that must change names when summed
+     * @param string|array $recordNames Field name(s) of DataTable to select so we can get the sum
+     * @param int $maximumRowsInDataTableLevelZero Max row count of parent datatable to archive
+     * @param int $maximumRowsInSubDataTable Max row count of children datatable(s) to archive
+     * @param string $columnToSortByBeforeTruncation Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count)
+     * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow()
+     * @param array $invalidSummedColumnNameToRenamedName (current_column_name => new_column_name) for columns that must change names when summed
      *                                                             (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
      *
      * @return array  array (
@@ -113,7 +113,7 @@ class Period extends ArchiveProcessor
      *
      * The aggregate metrics are then stored in the Archive and the values are returned.
      *
-     * @param array|string $columns            Array of strings or string containing the field names to select
+     * @param array|string $columns Array of strings or string containing the field names to select
      * @param bool|string $operationToApply Available operations = sum, max, min. If false, the operation will be guessed from the column name (guesses from column names min_ and max_)
      * @return array
      */
@@ -155,8 +155,8 @@ class Period extends ArchiveProcessor
      * All these DataTables are then added together, and the resulting DataTable is returned.
      *
      * @param string $name
-     * @param array $invalidSummedColumnNameToRenamedName  columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
-     * @param array $columnAggregationOperations           Operations for aggregating columns, @see Row::sumRow()
+     * @param array $invalidSummedColumnNameToRenamedName columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
+     * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow()
      * @return DataTable
      */
     protected function getRecordDataTableSum($name, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations = null)

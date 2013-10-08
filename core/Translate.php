@@ -9,6 +9,7 @@
  * @package Piwik
  */
 namespace Piwik;
+
 use Exception;
 
 /**
@@ -147,7 +148,7 @@ class Translate
      */
     public function getJavascriptTranslations()
     {
-        $translations = &$GLOBALS['Piwik_translations'];
+        $translations = & $GLOBALS['Piwik_translations'];
 
         $clientSideTranslations = array();
         foreach ($this->getClientSideTranslationKeys() as $key) {

@@ -105,8 +105,8 @@ class Cache
 
         Tracker::initCorePiwikInTrackerMode();
         $cacheContent = array(
-            'isBrowserTriggerEnabled'   => Rules::isBrowserTriggerEnabled(),
-            'lastTrackerCronRun'        => Piwik_GetOption('lastTrackerCronRun'),
+            'isBrowserTriggerEnabled' => Rules::isBrowserTriggerEnabled(),
+            'lastTrackerCronRun'      => Piwik_GetOption('lastTrackerCronRun'),
         );
 
         /**
@@ -135,7 +135,7 @@ class Cache
     /**
      * Regenerate Tracker cache files
      *
-     * @param array|int $idSites  Array of idSites to clear cache for
+     * @param array|int $idSites Array of idSites to clear cache for
      */
     static public function regenerateCacheWebsiteAttributes($idSites = array())
     {
@@ -151,7 +151,7 @@ class Cache
     /**
      * Delete existing Tracker cache
      *
-     * @param string $idSite  (website ID of the site to clear cache for
+     * @param string $idSite (website ID of the site to clear cache for
      */
     static public function deleteCacheWebsiteAttributes($idSite)
     {

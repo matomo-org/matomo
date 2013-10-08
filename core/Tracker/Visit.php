@@ -14,8 +14,8 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\IP;
 
+use Piwik\IP;
 use Piwik\Tracker;
 use UserAgentParser;
 
@@ -289,9 +289,9 @@ class Visit implements VisitInterface
             // therefore the request below throws exception, instead we make sure the UPDATE will affect the row
             $valuesToUpdate['visit_total_time'] = self::cleanupVisitTotalTime(
                 $valuesToUpdate['visit_total_time']
-                    + $this->goalManager->idGoal
-                    // +2 to offset idgoal=-1 and idgoal=0
-                    + 2);
+                + $this->goalManager->idGoal
+                // +2 to offset idgoal=-1 and idgoal=0
+                + 2);
         }
 
         // Might update the idvisitor when it was forced or overwritten for this visit
@@ -347,7 +347,7 @@ class Visit implements VisitInterface
             Common::printDebug($sqlBind);
             throw new VisitorNotFoundInDb(
                 "The visitor with idvisitor=" . bin2hex($this->visitorInfo['idvisitor']) . " and idvisit=" . $this->visitorInfo['idvisit']
-                    . " wasn't found in the DB, we fallback to a new visitor");
+                . " wasn't found in the DB, we fallback to a new visitor");
         }
 
         /**
@@ -432,11 +432,11 @@ class Visit implements VisitInterface
             'visit_exit_idaction_url'   => (int)$idActionUrl,
             'visit_exit_idaction_name'  => (int)$idActionName,
             'visit_total_actions'       => in_array($actionType,
-                array(Action::TYPE_ACTION_URL,
-                      Action::TYPE_DOWNLOAD,
-                      Action::TYPE_OUTLINK,
-                      Action::TYPE_SITE_SEARCH))
-                ? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
+                    array(Action::TYPE_ACTION_URL,
+                          Action::TYPE_DOWNLOAD,
+                          Action::TYPE_OUTLINK,
+                          Action::TYPE_SITE_SEARCH))
+                    ? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
             'visit_total_searches'      => $actionType == Action::TYPE_SITE_SEARCH ? 1 : 0,
             'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
             'visit_goal_converted'      => $visitIsConverted ? 1 : 0,
@@ -879,8 +879,8 @@ class Visit implements VisitInterface
     protected function isLastActionInTheSameVisit()
     {
         return isset($this->visitorInfo['visit_last_action_time'])
-            && ($this->visitorInfo['visit_last_action_time']
-                > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
+        && ($this->visitorInfo['visit_last_action_time']
+            > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
     }
 
     /**

@@ -78,8 +78,8 @@ class Json extends Renderer
         }
 
         // decode all entities
-        $callback = function(&$value,$key) {
-            if(is_string($value)) {
+        $callback = function (&$value, $key) {
+            if (is_string($value)) {
                 $value = html_entity_decode($value, ENT_QUOTES, "UTF-8");
             };
         };

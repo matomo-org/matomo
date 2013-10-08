@@ -133,7 +133,7 @@ class WidgetsList
             'uniqueId'   => $widgetUniqueId,
             'parameters' => array('module' => $controllerName,
                                   'action' => $controllerAction
-            ) + $customParameters
+                ) + $customParameters
         );
     }
 

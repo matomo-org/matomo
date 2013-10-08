@@ -23,7 +23,7 @@ class Updates_1_4_rc2 extends Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            "SET sql_mode=''"                                                                                                                                  => false,
+            "SET sql_mode=''"                                                                                                                            => false,
             // this converts the 32-bit UNSIGNED INT column to a 16 byte VARBINARY;
             // _but_ MySQL does string conversion! (e.g., integer 1 is converted to 49 -- the ASCII code for "1")
             'ALTER TABLE ' . Common::prefixTable('log_visit') . '

@@ -96,7 +96,7 @@ class Request
     /**
      * Constructs the request to the API, given the request url
      *
-     * @param string $request  GET request that defines the API call (must at least contain a "method" parameter)
+     * @param string $request GET request that defines the API call (must at least contain a "method" parameter)
      *                          Example: method=UserSettings.getWideScreen&idSite=1&date=yesterday&period=week&format=xml
      *                          If a request is not provided, then we use the $_GET and $_POST superglobal and fetch
      *                          the values directly from the HTTP GET query.
@@ -173,7 +173,7 @@ class Request
      * the current session will be authenticated using this token_auth.
      * It will overwrite the previous Auth object.
      *
-     * @param array $request  If null, uses the default request ($_GET)
+     * @param array $request If null, uses the default request ($_GET)
      * @return void
      */
     static public function reloadAuthUsingTokenAuth($request = null)
@@ -274,7 +274,7 @@ class Request
         $segment = Common::getRequestVar('segment', '', 'string');
         if (!empty($segment)) {
             $request = Request::getRequestParametersGET();
-            if(!empty($request['segment'])) {
+            if (!empty($request['segment'])) {
                 $segmentRaw = $request['segment'];
             }
         }

@@ -29,7 +29,7 @@ class Updates_0_2_10 extends Updates
 				option_name VARCHAR( 64 ) NOT NULL ,
 				option_value LONGTEXT NOT NULL ,
 				PRIMARY KEY ( idoption , option_name )
-			)'                                                                                                                                                             => false,
+			)'                                                                                                                                                       => false,
 
             // 0.1.7 [463]
             'ALTER IGNORE TABLE `' . Common::prefixTable('log_visit') . '`

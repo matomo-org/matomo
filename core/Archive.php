@@ -9,10 +9,11 @@
  * @package Piwik
  */
 namespace Piwik;
+
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
-use Piwik\DataAccess\ArchiveSelector;
 
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Range;
 
 /**
@@ -284,12 +285,12 @@ class Archive
      * Optionally loads the table recursively,
      * or optionally fetches a given subtable with $idSubtable
      *
-     * @param string   $name
-     * @param int      $idSite
-     * @param string   $period
-     * @param Date     $date
-     * @param string   $segment
-     * @param bool     $expanded
+     * @param string $name
+     * @param int $idSite
+     * @param string $period
+     * @param Date $date
+     * @param string $segment
+     * @param bool $expanded
      * @param int|null $idSubtable
      * @param int|null $depth
      *
@@ -363,7 +364,7 @@ class Archive
                 $value = $this->uncompress($row['value']);
                 $result->addMetadata($idSite, $periodStr, 'ts_archived', $row['ts_archived']);
             }
-            
+
             $resultRow = & $result->get($idSite, $periodStr);
             $resultRow[$row['name']] = $value;
         }

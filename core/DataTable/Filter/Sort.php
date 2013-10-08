@@ -30,10 +30,10 @@ class Sort extends Filter
 
     /**
      * @param DataTable $table
-     * @param string $columnToSort   name of the column to sort by
-     * @param string $order          order (asc|desc)
-     * @param bool $naturalSort    use natural sort?
-     * @param bool $recursiveSort  sort recursively?
+     * @param string $columnToSort name of the column to sort by
+     * @param string $order order (asc|desc)
+     * @param bool $naturalSort use natural sort?
+     * @param bool $recursiveSort sort recursively?
      */
     public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false)
     {
@@ -49,7 +49,7 @@ class Sort extends Filter
     /**
      * Updates the order
      *
-     * @param string $order  asc|desc
+     * @param string $order asc|desc
      */
     public function setOrder($order)
     {
@@ -72,7 +72,7 @@ class Sort extends Filter
     public function sort($a, $b)
     {
         return !isset($a->c[Row::COLUMNS][$this->columnToSort])
-            && !isset($b->c[Row::COLUMNS][$this->columnToSort])
+        && !isset($b->c[Row::COLUMNS][$this->columnToSort])
 
             ? 0
             : (
@@ -84,10 +84,10 @@ class Sort extends Filter
                 : (($a->c[Row::COLUMNS][$this->columnToSort] != $b->c[Row::COLUMNS][$this->columnToSort]
                 || !isset($a->c[Row::COLUMNS]['label']))
                 ? ($this->sign * (
-                $a->c[Row::COLUMNS][$this->columnToSort]
+                    $a->c[Row::COLUMNS][$this->columnToSort]
                     < $b->c[Row::COLUMNS][$this->columnToSort]
-                    ? -1
-                    : 1)
+                        ? -1
+                        : 1)
                 )
                 : -1 * $this->sign * strnatcasecmp(
                     $a->c[Row::COLUMNS]['label'],
@@ -107,7 +107,7 @@ class Sort extends Filter
     function naturalSort($a, $b)
     {
         return !isset($a->c[Row::COLUMNS][$this->columnToSort])
-            && !isset($b->c[Row::COLUMNS][$this->columnToSort])
+        && !isset($b->c[Row::COLUMNS][$this->columnToSort])
             ? 0
             : (!isset($a->c[Row::COLUMNS][$this->columnToSort])
                 ? 1
@@ -131,16 +131,16 @@ class Sort extends Filter
     function sortString($a, $b)
     {
         return !isset($a->c[Row::COLUMNS][$this->columnToSort])
-            && !isset($b->c[Row::COLUMNS][$this->columnToSort])
+        && !isset($b->c[Row::COLUMNS][$this->columnToSort])
             ? 0
             : (!isset($a->c[Row::COLUMNS][$this->columnToSort])
                 ? 1
                 : (!isset($b->c[Row::COLUMNS][$this->columnToSort])
                     ? -1
                     : $this->sign *
-                        strcasecmp($a->c[Row::COLUMNS][$this->columnToSort],
-                            $b->c[Row::COLUMNS][$this->columnToSort]
-                        )
+                    strcasecmp($a->c[Row::COLUMNS][$this->columnToSort],
+                        $b->c[Row::COLUMNS][$this->columnToSort]
+                    )
                 )
             );
     }

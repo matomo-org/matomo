@@ -409,7 +409,7 @@ class Myisam implements SchemaInterface
     /**
      * Get list of tables installed
      *
-     * @param bool $forceReload  Invalidate cache
+     * @param bool $forceReload Invalidate cache
      * @return array  installed Tables
      */
     public function getTablesInstalled($forceReload = true)
@@ -456,7 +456,7 @@ class Myisam implements SchemaInterface
     /**
      * Create database
      *
-     * @param string $dbName  Name of the database to create
+     * @param string $dbName Name of the database to create
      */
     public function createDatabase($dbName = null)
     {
@@ -523,7 +523,7 @@ class Myisam implements SchemaInterface
     /**
      * Drop specific tables
      *
-     * @param array $doNotDelete  Names of tables to not delete
+     * @param array $doNotDelete Names of tables to not delete
      */
     public function dropTables($doNotDelete = array())
     {

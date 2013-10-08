@@ -53,7 +53,7 @@ class DataTableFactory
     /**
      * The maximum number of subtable levels to create when creating an expanded
      * DataTable.
-     * 
+     *
      * @var int
      */
     private $maxSubtableDepth = null;
@@ -98,7 +98,7 @@ class DataTableFactory
      * Tells the factory instance to expand the DataTables that are created by
      * creating subtables and setting the subtable IDs of rows w/ subtables correctly.
      *
-     * @param null|int $maxSubtableDepth  max depth for subtables.
+     * @param null|int $maxSubtableDepth max depth for subtables.
      * @param bool $addMetadataSubtableId Whether to add the subtable ID used in the
      *                                    database to the in-memory DataTables as
      *                                    metadata or not.
@@ -331,10 +331,10 @@ class DataTableFactory
      * the subtable IDs of each DataTable row.
      *
      * @param DataTable $dataTable
-     * @param array     $blobRow An array associating record names (w/ subtable if applicable)
+     * @param array $blobRow An array associating record names (w/ subtable if applicable)
      *                           with blob values. This should hold every subtable blob for
      *                           the loaded DataTable.
-     * @param int       $treeLevel
+     * @param int $treeLevel
      */
     private function setSubtables($dataTable, $blobRow, $treeLevel = 0)
     {

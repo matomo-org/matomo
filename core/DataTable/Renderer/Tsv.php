@@ -11,7 +11,6 @@
 namespace Piwik\DataTable\Renderer;
 
 
-
 /**
  * TSV export
  *

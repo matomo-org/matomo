@@ -25,7 +25,7 @@ class Updates_1_12_b16 extends Updates
         return array(
             // ignore existing column name error (1060)
             'ALTER TABLE ' . Common::prefixTable('report')
-                . " ADD COLUMN idsegment INT(11) AFTER description" => 1060,
+            . " ADD COLUMN idsegment INT(11) AFTER description" => 1060,
         );
     }
 

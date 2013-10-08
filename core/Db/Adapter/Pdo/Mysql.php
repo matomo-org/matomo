@@ -29,7 +29,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Constructor
      *
-     * @param array|Zend_Config $config  database configuration
+     * @param array|Zend_Config $config database configuration
      */
     public function __construct($config)
     {
@@ -207,8 +207,8 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * Prepares and executes an SQL statement with bound data.
      * Caches prepared statements to avoid preparing the same query more than once
      *
-     * @param string|Zend_Db_Select $sql   The SQL statement with placeholders.
-     * @param array $bind  An array of data to bind to the placeholders.
+     * @param string|Zend_Db_Select $sql The SQL statement with placeholders.
+     * @param array $bind An array of data to bind to the placeholders.
      * @return Zend_Db_Statement_Interface
      */
     public function query($sql, $bind = array())

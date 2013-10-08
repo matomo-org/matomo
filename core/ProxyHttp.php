@@ -199,7 +199,7 @@ class ProxyHttp
      * @see http://support.microsoft.com/kb/316431/
      * @see RFC2616
      *
-     * @param string $override  One of "public", "private", "no-cache", or "no-store". (optional)
+     * @param string $override One of "public", "private", "no-cache", or "no-store". (optional)
      */
     public static function overrideCacheControlHeaders($override = null)
     {

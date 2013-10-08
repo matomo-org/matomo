@@ -27,7 +27,7 @@ class Updates_1_8_3_b1 extends Updates
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('site') . '`
-				CHANGE `excluded_parameters` `excluded_parameters` TEXT NOT NULL'                            => false,
+				CHANGE `excluded_parameters` `excluded_parameters` TEXT NOT NULL'                      => false,
 
             'CREATE TABLE `' . Common::prefixTable('report') . '` (
 					`idreport` INT(11) NOT NULL AUTO_INCREMENT,

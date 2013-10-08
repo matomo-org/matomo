@@ -11,7 +11,6 @@
 namespace Piwik\DataTable;
 
 use Exception;
-
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 

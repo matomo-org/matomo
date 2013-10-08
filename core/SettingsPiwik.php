@@ -160,7 +160,7 @@ class SettingsPiwik
      * -> Always process for day/week/month periods
      * For Year and Range, only process if it was enabled in the config file,
      *
-     * @param string $periodLabel  Period label (e.g., 'day')
+     * @param string $periodLabel Period label (e.g., 'day')
      * @return bool
      */
     public static function isUniqueVisitorsEnabled($periodLabel)
@@ -190,15 +190,15 @@ class SettingsPiwik
     {
         try {
             $configByHost = Config::getInstance()->getConfigHostnameIfSet();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // Config file not found
         }
-        if(empty($configByHost)) {
+        if (empty($configByHost)) {
             return $path;
         }
 
         $tmp = '/tmp/';
-        if(($posTmp = strrpos($path, $tmp)) === false) {
+        if (($posTmp = strrpos($path, $tmp)) === false) {
             throw new Exception("The path $path was expected to contain the string /tmp/ ");
         }
 

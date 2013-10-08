@@ -70,7 +70,7 @@ class Row
     /**
      * Efficient load of the Row structure from a well structured php array
      *
-     * @param array $row  The row array has the structure
+     * @param array $row The row array has the structure
      *                     array(
      *                           Row::COLUMNS => array(
      *                                                                 'label' => 'Piwik',
@@ -172,7 +172,7 @@ class Row
     /**
      * Deletes the given column
      *
-     * @param string $name  Column name
+     * @param string $name Column name
      * @return bool  True on success, false if the column didn't exist
      */
     public function deleteColumn($name)
@@ -202,7 +202,7 @@ class Row
     /**
      * Returns the given column
      *
-     * @param string $name  Column name
+     * @param string $name Column name
      * @return mixed|bool  The column value or false if it doesn't exist
      */
     public function getColumn($name)
@@ -217,7 +217,7 @@ class Row
      * Returns the array of all metadata,
      * or the specified metadata
      *
-     * @param string $name  Metadata name
+     * @param string $name Metadata name
      * @return mixed
      */
     public function getMetadata($name = null)
@@ -277,7 +277,7 @@ class Row
      * If this row doesn't have a SubDataTable yet, we create a new one.
      * Then we add the values of the given DataTable to this row's DataTable.
      *
-     * @param DataTable $subTable  Table to sum to this row's subDatatable
+     * @param DataTable $subTable Table to sum to this row's subDatatable
      * @see DataTable::addDataTable() for the algorithm used for the sum
      */
     public function sumSubtable(DataTable $subTable)
@@ -296,7 +296,7 @@ class Row
      * Set a DataTable to be associated to this row.
      * If the row already has a DataTable associated to it, throws an Exception.
      *
-     * @param DataTable $subTable  DataTable to associate to this row
+     * @param DataTable $subTable DataTable to associate to this row
      * @return DataTable Returns $subTable.
      * @throws Exception
      */
@@ -312,7 +312,7 @@ class Row
      * Set a DataTable to this row. If there is already
      * a DataTable associated, it is simply overwritten.
      *
-     * @param DataTable $subTable  DataTable to associate to this row
+     * @param DataTable $subTable DataTable to associate to this row
      * @return DataTable Returns $subTable.
      */
     public function setSubtable(DataTable $subTable)
@@ -334,7 +334,7 @@ class Row
         // self::DATATABLE_ASSOCIATED are set as negative values,
         // as a flag to signify that the subtable is loaded in memory
         return !is_null($this->c[self::DATATABLE_ASSOCIATED])
-            && $this->c[self::DATATABLE_ASSOCIATED] < 0;
+        && $this->c[self::DATATABLE_ASSOCIATED] < 0;
     }
 
     /**
@@ -361,8 +361,8 @@ class Row
     /**
      * Set the value $value to the column called $name.
      *
-     * @param string $name   name of the column to set
-     * @param mixed $value  value of the column to set
+     * @param string $name name of the column to set
+     * @param mixed $value value of the column to set
      */
     public function setColumn($name, $value)
     {
@@ -372,8 +372,8 @@ class Row
     /**
      * Set the value $value to the metadata called $name.
      *
-     * @param string $name   name of the metadata to set
-     * @param mixed $value  value of the metadata to set
+     * @param string $name name of the metadata to set
+     * @param mixed $value value of the metadata to set
      */
     public function setMetadata($name, $value)
     {
@@ -383,7 +383,7 @@ class Row
     /**
      * Deletes the given metadata
      *
-     * @param bool|string $name  Meta column name (omit to delete entire metadata)
+     * @param bool|string $name Meta column name (omit to delete entire metadata)
      * @return bool  True on success, false if the column didn't exist
      */
     public function deleteMetadata($name = false)
@@ -402,8 +402,8 @@ class Row
     /**
      * Add a new column to the row. If the column already exists, throws an exception
      *
-     * @param string $name   name of the column to add
-     * @param mixed $value  value of the column to set
+     * @param string $name name of the column to add
+     * @param mixed $value value of the column to set
      * @throws Exception
      */
     public function addColumn($name, $value)
@@ -418,7 +418,7 @@ class Row
     /**
      * Add columns to the row
      *
-     * @param array $columns  Name/Value pairs, e.g., array( name => value , ...)
+     * @param array $columns Name/Value pairs, e.g., array( name => value , ...)
      *
      * @throws Exception
      * @return void
@@ -440,8 +440,8 @@ class Row
     /**
      * Add a new metadata to the row. If the column already exists, throws an exception.
      *
-     * @param string $name   name of the metadata to add
-     * @param mixed $value  value of the metadata to set
+     * @param string $name name of the metadata to add
+     * @param mixed $value value of the metadata to set
      * @throws Exception
      */
     public function addMetadata($name, $value)
@@ -462,7 +462,7 @@ class Row
      *
      * @param \Piwik\DataTable\Row $rowToSum
      * @param bool $enableCopyMetadata
-     * @param array $aggregationOperations  for columns that should not be summed, determine which
+     * @param array $aggregationOperations for columns that should not be summed, determine which
      *                                                    aggregation should be used (min, max).
      *                                                    format: column name => function name
      */
@@ -623,8 +623,8 @@ class Row
      * - if they have exactly the same columns / metadata
      * - if they have a subDataTable associated, then we check that both of them are the same.
      *
-     * @param \Piwik\DataTable\Row $row1  first to compare
-     * @param \Piwik\DataTable\Row $row2  second to compare
+     * @param \Piwik\DataTable\Row $row1 first to compare
+     * @param \Piwik\DataTable\Row $row2 second to compare
      * @return bool
      */
     static public function isEqual(Row $row1, Row $row2)

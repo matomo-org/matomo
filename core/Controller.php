@@ -91,8 +91,8 @@ abstract class Controller
      * Helper method to convert "today" or "yesterday" to the default timezone specified.
      * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone
      *
-     * @param string $date             today, yesterday, YYYY-MM-DD
-     * @param string $defaultTimezone  default timezone to use
+     * @param string $date today, yesterday, YYYY-MM-DD
+     * @param string $defaultTimezone default timezone to use
      * @return Date
      */
     protected function getDateParameterInTimezone($date, $defaultTimezone)
@@ -144,8 +144,8 @@ abstract class Controller
      * - echo the output of the rendering if fetch = false
      * - returns the output of the rendering if fetch = true
      *
-     * @param ViewDataTable $view   view object to use
-     * @param bool $fetch  indicates whether to output or return the content
+     * @param ViewDataTable $view view object to use
+     * @param bool $fetch indicates whether to output or return the content
      * @return string|void
      */
     protected function renderView(ViewDataTable $view, $fetch = false)
@@ -213,7 +213,7 @@ abstract class Controller
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
         $view->columns_to_display = $columnsToDisplay;
         $view->visualization_properties->selectable_columns =
-            array_merge($view->visualization_properties->selectable_columns ?: array(), $selectableColumns);
+            array_merge($view->visualization_properties->selectable_columns ? : array(), $selectableColumns);
         $view->translations += $translations;
 
         if ($reportDocumentation) {
@@ -233,7 +233,7 @@ abstract class Controller
      * - date: YYYY-MM-DD, today, yesterday
      * - period: day, week, month, year
      *
-     * @param array $paramsToSet  array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
+     * @param array $paramsToSet array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
      * @throws \Piwik\NoAccessException
      * @return array
      */
@@ -290,8 +290,8 @@ abstract class Controller
      * Returns a numeric value from the API.
      * Works only for API methods that originally returns numeric values (there is no cast here)
      *
-     * @param string $methodToCall  Name of method to call, eg. Referrers.getNumberOfDistinctSearchEngines
-     * @param bool|string $date          A custom date to use when getting the value. If false, the 'date' query
+     * @param string $methodToCall Name of method to call, eg. Referrers.getNumberOfDistinctSearchEngines
+     * @param bool|string $date A custom date to use when getting the value. If false, the 'date' query
      *                                          parameter is used.
      *
      * @return int|float
@@ -311,8 +311,8 @@ abstract class Controller
      * It will automatically build a sparkline by setting the viewDataTable=sparkline parameter in the URL.
      * It will also computes automatically the 'date' for the 'last30' days/weeks/etc.
      *
-     * @param string $action            Method name of the controller to call in the img src
-     * @param array $customParameters  Array of name => value of parameters to set in the generated GET url
+     * @param string $action Method name of the controller to call in the img src
+     * @param array $customParameters Array of name => value of parameters to set in the generated GET url
      * @return string The generated URL
      */
     protected function getUrlSparkline($action, $customParameters = array())
@@ -321,7 +321,7 @@ abstract class Controller
             array('viewDataTable' => 'sparkline',
                   'action'        => $action,
                   'module'        => $this->pluginName)
-                + $customParameters
+            + $customParameters
         );
         // convert array values to comma separated
         foreach ($params as &$value) {
@@ -487,9 +487,9 @@ abstract class Controller
 
             $changeTrustedHostsUrl = "index.php"
                 . Url::getCurrentQueryStringWithParametersModified(array(
-                                                                              'module' => 'CoreAdminHome',
-                                                                              'action' => 'generalSettings'
-                                                                         ))
+                                                                        'module' => 'CoreAdminHome',
+                                                                        'action' => 'generalSettings'
+                                                                   ))
                 . "#trustedHostsSection";
 
             $warningStart = Piwik_Translate('CoreHome_InjectedHostWarningIntro', array(
@@ -567,12 +567,12 @@ abstract class Controller
      * Helper method used to redirect the current http request to another module/action
      * If specified, will also redirect to a given website, period and /or date
      *
-     * @param string $moduleToRedirect  Module, eg. "MultiSites"
-     * @param string $actionToRedirect  Action, eg. "index"
-     * @param string $websiteId         Website ID, eg. 1
-     * @param string $defaultPeriod     Default period, eg. "day"
-     * @param string $defaultDate       Default date, eg. "today"
-     * @param array $parameters        Parameters to append to url
+     * @param string $moduleToRedirect Module, eg. "MultiSites"
+     * @param string $actionToRedirect Action, eg. "index"
+     * @param string $websiteId Website ID, eg. 1
+     * @param string $defaultPeriod Default period, eg. "day"
+     * @param string $defaultDate Default date, eg. "today"
+     * @param array $parameters Parameters to append to url
      */
     public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null, $parameters = array())
     {

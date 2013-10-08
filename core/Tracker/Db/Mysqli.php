@@ -106,8 +106,8 @@ class Mysqli extends Db
      *
      * @see query()
      *
-     * @param string $query       Query
-     * @param array $parameters  Parameters to bind
+     * @param string $query Query
+     * @param array $parameters Parameters to bind
      * @return array
      * @throws Exception|DbException if an exception occured
      */
@@ -144,8 +144,8 @@ class Mysqli extends Db
      *
      * @see query()
      *
-     * @param string $query       Query
-     * @param array $parameters  Parameters to bind
+     * @param string $query Query
+     * @param array $parameters Parameters to bind
      *
      * @return array
      *
@@ -179,8 +179,8 @@ class Mysqli extends Db
     /**
      * Executes a query, using optional bound parameters.
      *
-     * @param string $query       Query
-     * @param array|string $parameters  Parameters to bind array('idsite'=> 1)
+     * @param string $query Query
+     * @param array|string $parameters Parameters to bind array('idsite'=> 1)
      *
      * @return bool|resource  false if failed
      * @throws DbException  if an exception occurred
@@ -273,7 +273,7 @@ class Mysqli extends Db
     /**
      * Return number of affected rows in last query
      *
-     * @param mixed $queryResult  Result from query()
+     * @param mixed $queryResult Result from query()
      * @return int
      */
     public function rowCount($queryResult)

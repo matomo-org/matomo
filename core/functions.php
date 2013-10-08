@@ -21,7 +21,7 @@ namespace {
     /**
      * Post an event to the dispatcher which will notice the observers.
      *
-     * @param string $eventName  The event name.
+     * @param string $eventName The event name.
      * @param array $params The parameter array to forward to observer callbacks.
      * @param bool $pending
      * @param null $plugins
@@ -36,8 +36,8 @@ namespace {
     /**
      * Register an action to execute for a given event
      *
-     * @param string $eventName  Name of event
-     * @param callable $function  Callback hook
+     * @param string $eventName Name of event
+     * @param callable $function Callback hook
      * @api
      */
     function Piwik_AddAction($eventName, $function)
@@ -70,7 +70,7 @@ namespace {
             $args = array($args);
         }
 
-        if(strpos($string, "_") !== FALSE) {
+        if (strpos($string, "_") !== false) {
             list($plugin, $key) = explode("_", $string, 2);
             if (isset($GLOBALS['Piwik_translations'][$plugin]) && isset($GLOBALS['Piwik_translations'][$plugin][$key])) {
                 $string = $GLOBALS['Piwik_translations'][$plugin][$key];
@@ -104,7 +104,7 @@ namespace {
     /**
      * Returns the option value for the requested option $name
      *
-     * @param string $name  Key
+     * @param string $name Key
      * @return string|bool  Value or false, if not found
      * @api
      */
@@ -118,7 +118,7 @@ namespace {
      *
      * @param string $name
      * @param string $value
-     * @param int $autoLoad  if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+     * @param int $autoLoad if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
      * @api
      */
     function Piwik_SetOption($name, $value, $autoLoad = 0)
@@ -241,11 +241,11 @@ namespace {
     /**
      * Adds a new entry to the TopMenu.
      *
-     * @param string      $topMenuName
-     * @param string      $data
-     * @param boolean     $displayedForCurrentUser
-     * @param int         $order
-     * @param bool        $isHTML
+     * @param string $topMenuName
+     * @param string $data
+     * @param boolean $displayedForCurrentUser
+     * @param int $order
+     * @param bool $isHTML
      * @param bool|string $tooltip Tooltip to display.
      * @api
      */
@@ -272,11 +272,13 @@ namespace {
 
     // Bridge between pre Piwik2 serialized format and namespaced classes
     // Do not need to define these classes in tracker or archive
-    if(class_exists('\\Piwik\\DataTable\\Row\\DataTableSummaryRow')) {
-        class Piwik_DataTable_Row_DataTableSummary extends \Piwik\DataTable\Row\DataTableSummaryRow {
+    if (class_exists('\\Piwik\\DataTable\\Row\\DataTableSummaryRow')) {
+        class Piwik_DataTable_Row_DataTableSummary extends \Piwik\DataTable\Row\DataTableSummaryRow
+        {
         }
 
-        class Piwik_DataTable_Row extends \Piwik\DataTable\Row {
+        class Piwik_DataTable_Row extends \Piwik\DataTable\Row
+        {
         }
     }
 

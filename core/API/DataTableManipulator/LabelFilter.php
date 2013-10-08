@@ -42,8 +42,8 @@ class LabelFilter extends DataTableManipulator
      * for the recursive search. If the label is not recursive, these parameters
      * are not needed.
      *
-     * @param string $labels      the labels to search for
-     * @param DataTable $dataTable  the data table to be filtered
+     * @param string $labels the labels to search for
+     * @param DataTable $dataTable the data table to be filtered
      * @param bool $addLabelIndex Whether to add label_index metadata describing which
      *                            label a row corresponds to.
      * @return DataTable

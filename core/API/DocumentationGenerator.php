@@ -11,8 +11,8 @@
 namespace Piwik\API;
 
 use Exception;
-use Piwik\Common;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\PluginsManager;
 use Piwik\Url;
@@ -120,9 +120,9 @@ class DocumentationGenerator
      * It will export links to XML, CSV, HTML, JSON, PHP, etc.
      * It will not export links for methods such as deleteSite or deleteUser
      *
-     * @param string $class            the class
-     * @param string $methodName       the method
-     * @param array $parametersToSet  parameters to set
+     * @param string $class the class
+     * @param string $methodName the method
+     * @param array $parametersToSet parameters to set
      * @return string|bool when not possible
      */
     public function getExampleUrl($class, $methodName, $parametersToSet = array())
@@ -213,8 +213,8 @@ class DocumentationGenerator
     /**
      * Returns the methods $class.$name parameters (and default value if provided) as a string.
      *
-     * @param string $class  The class name
-     * @param string $name   The method name
+     * @param string $class The class name
+     * @param string $name The method name
      * @return string  For example "(idSite, period, date = 'today')"
      */
     public function getParametersString($class, $name)

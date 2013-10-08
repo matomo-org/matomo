@@ -74,8 +74,8 @@ class Writer
      */
     protected $filterMessages = array();
 
-    const UNFILTERED  = 'unfiltered';
-    const FILTERED    = 'filtered';
+    const UNFILTERED = 'unfiltered';
+    const FILTERED = 'filtered';
 
     protected $currentState = self::UNFILTERED;
 
@@ -83,11 +83,11 @@ class Writer
      * If $pluginName is given, Writer will be initialized for the given plugin if it exists
      * Otherwise it will be initialized for core translations
      *
-     * @param string  $language    ISO 639-1 alpha-2 language code
-     * @param string  $pluginName  optional plugin name
+     * @param string $language ISO 639-1 alpha-2 language code
+     * @param string $pluginName optional plugin name
      * @throws \Exception
      */
-    public function __construct($language, $pluginName=null)
+    public function __construct($language, $pluginName = null)
     {
         $this->setLanguage($language);
 
@@ -104,7 +104,7 @@ class Writer
     }
 
     /**
-     * @param string $language  ISO 639-1 alpha-2 language code
+     * @param string $language ISO 639-1 alpha-2 language code
      *
      * @throws \Exception
      */
@@ -149,7 +149,7 @@ class Writer
     /**
      * Get translations from file
      *
-     * @param  string  $lang  ISO 639-1 alpha-2 language code
+     * @param  string $lang ISO 639-1 alpha-2 language code
      * @throws Exception
      * @return array   Array of translations ( plugin => ( key => translated string ) )
      */
@@ -189,11 +189,11 @@ class Writer
      * Get translation file path based on given params
      *
      * @param string $base Optional base directory (either 'lang' or 'tmp')
-     * @param string|null $lang  forced language
+     * @param string|null $lang forced language
      * @throws \Exception
      * @return string path
      */
-    protected function getTranslationPathBaseDirectory($base, $lang=null)
+    protected function getTranslationPathBaseDirectory($base, $lang = null)
     {
         if (empty($lang)) {
             $lang = $this->getLanguage();
@@ -371,7 +371,7 @@ class Writer
             $cleanedTranslations = $filter->filter($cleanedTranslations);
             $filteredData = $filter->getFilteredData();
             if (!empty($filteredData)) {
-                $this->filterMessages[] = get_class($filter) . " changed: " .var_export($filteredData, 1);
+                $this->filterMessages[] = get_class($filter) . " changed: " . var_export($filteredData, 1);
             }
         }
 

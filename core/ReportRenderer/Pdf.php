@@ -238,14 +238,14 @@ class Pdf extends ReportRenderer
             (
                 // it is the first report
                 $this->currentPage == 0
-                    // or, it is a graph-only report and it is the first of a series of self::MAX_GRAPH_REPORTS
-                    || ($graphOnlyReport && $graphOnlyReportCount == 0)
-                    // or, it is a table-only 2-column report and it is the first of a series of self::MAX_2COL_TABLE_REPORTS
-                    || ($tableOnly2ColumnReport && $tableOnly2ColumnReportCount == 0)
-                    // or it is a table-only report with more than 2 columns and it is the first of its series or there isn't enough space left on the page
-                    || ($tableOnlyManyColumnReport && ($tableOnlyManyColumnReportRowCount == 0 || $tableOnlyManyColumnReportRowCount + $rowCount >= self::MAX_ROW_COUNT))
-                    // or it is a report with both a table and a graph
-                    || !$graphOnlyReport && !$tableOnlyReport
+                // or, it is a graph-only report and it is the first of a series of self::MAX_GRAPH_REPORTS
+                || ($graphOnlyReport && $graphOnlyReportCount == 0)
+                // or, it is a table-only 2-column report and it is the first of a series of self::MAX_2COL_TABLE_REPORTS
+                || ($tableOnly2ColumnReport && $tableOnly2ColumnReportCount == 0)
+                // or it is a table-only report with more than 2 columns and it is the first of its series or there isn't enough space left on the page
+                || ($tableOnlyManyColumnReport && ($tableOnlyManyColumnReportRowCount == 0 || $tableOnlyManyColumnReportRowCount + $rowCount >= self::MAX_ROW_COUNT))
+                // or it is a report with both a table and a graph
+                || !$graphOnlyReport && !$tableOnlyReport
             )
         ) {
             $this->currentPage++;

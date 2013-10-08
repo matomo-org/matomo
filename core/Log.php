@@ -14,15 +14,15 @@ use Piwik\Db;
 
 /**
  * Logging utility.
- * 
+ *
  * You can log messages using one of the public static functions (eg, 'error', 'warning',
  * 'info', etc.).
- * 
+ *
  * Currently, Piwik supports the following logging backends:
  * - logging to the screen
  * - logging to a file
  * - logging to a database
- * 
+ *
  * The logging utility can be configured by manipulating the INI config options in the
  * [log] section.
  */
@@ -52,14 +52,14 @@ class Log
 
     /**
      * The singleton Log instance.
-     * 
+     *
      * @var Log
      */
     private static $instance = null;
 
     /**
      * Returns the singleton Log instance or creates it if it doesn't exist.
-     * 
+     *
      * @return Log
      */
     public static function getInstance()
@@ -82,7 +82,7 @@ class Log
     /**
      * The current logging level. Everything of equal or greater priority will be logged.
      * Everything else will be ignored.
-     * 
+     *
      * @var int
      */
     private $currentLogLevel = self::WARN;
@@ -90,7 +90,7 @@ class Log
     /**
      * The array of callbacks executed when logging to a file. Each callback writes a log
      * message to a logging backend.
-     * 
+     *
      * @var array
      */
     private $writers = array();
@@ -98,21 +98,21 @@ class Log
     /**
      * The log message format string that turns a tag name, date-time and message into
      * one string to log.
-     * 
+     *
      * @var string
      */
     private $logMessageFormat = "%tag%[%datetime%] %message%";
 
     /**
      * If we're logging to a file, this is the path to the file to log to.
-     * 
+     *
      * @var string
      */
     private $logToFilePath;
 
     /**
      * True if we're currently setup to log to a screen, false if otherwise.
-     * 
+     *
      * @var bool
      */
     private $loggingToScreen;
@@ -132,10 +132,10 @@ class Log
 
     /**
      * Logs a message using the ERROR log level.
-     * 
+     *
      * Note: Messages logged with the ERROR level are always logged to the screen in addition
      * to configured writers.
-     * 
+     *
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
      * @api
@@ -147,7 +147,7 @@ class Log
 
     /**
      * Logs a message using the WARNING log level.
-     * 
+     *
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
      * @api
@@ -159,7 +159,7 @@ class Log
 
     /**
      * Logs a message using the INFO log level.
-     * 
+     *
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
      * @api
@@ -171,7 +171,7 @@ class Log
 
     /**
      * Logs a message using the DEBUG log level.
-     * 
+     *
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
      * @api
@@ -183,7 +183,7 @@ class Log
 
     /**
      * Logs a message using the VERBOSE log level.
-     * 
+     *
      * @param string $message The log message. This can be a sprintf format string.
      * @param ... mixed Optional sprintf params.
      * @api
@@ -198,9 +198,9 @@ class Log
      * date time, and caller provided log message. The log message can be set through
      * the string_message_format ini option in the [log] section. By default it will
      * create log messages like:
-     * 
+     *
      * [tag:datetime] log message
-     * 
+     *
      * @param int $level
      * @param string $tag
      * @param string $datetime
@@ -260,8 +260,9 @@ class Log
     private function setLogFilePathFromConfig($logConfig)
     {
         $logPath = $logConfig[self::LOGGER_FILE_PATH_CONFIG_OPTION];
-        if ( !SettingsServer::isWindows()
-                && $logPath[0] != '/') {
+        if (!SettingsServer::isWindows()
+            && $logPath[0] != '/'
+        ) {
             $logPath = PIWIK_USER_PATH . DIRECTORY_SEPARATOR . $logPath;
         }
         $logPath = SettingsPiwik::rewriteTmpPathWithHostname($logPath);
@@ -334,18 +335,19 @@ class Log
     private function logToScreen($level, $tag, $datetime, $message)
     {
         static $currentRequestKey;
-        if(empty($currentRequestKey)) {
+        if (empty($currentRequestKey)) {
             $currentRequestKey = substr(Common::generateUniqId(), 0, 5);
         }
 
         if (is_string($message)) {
-            if(!defined('PIWIK_TEST_MODE')
-                || !PIWIK_TEST_MODE) {
+            if (!defined('PIWIK_TEST_MODE')
+                || !PIWIK_TEST_MODE
+            ) {
                 $message = '[' . $currentRequestKey . '] ' . $message;
             }
             $message = $this->formatMessage($level, $tag, $datetime, $message);
 
-            if(!Common::isPhpCliMode()) {
+            if (!Common::isPhpCliMode()) {
                 $message = Common::sanitizeInputValue($message);
                 $message = '<pre>' . $message . '</pre>';
             }
@@ -397,8 +399,8 @@ class Log
         }
 
         $sql = "INSERT INTO " . Common::prefixTable('logger_message')
-             . " (tag, timestamp, level, message)"
-             . " VALUES (?, ?, ?, ?)";
+            . " (tag, timestamp, level, message)"
+            . " VALUES (?, ?, ?, ?)";
         Db::query($sql, array($tag, $datetime, self::getStringLevel($level), (string)$message));
     }
 
@@ -493,11 +495,11 @@ class Log
     private function getStringLevel($level)
     {
         static $levelToName = array(
-            self::NONE => 'NONE',
-            self::ERROR => 'ERROR',
-            self::WARN => 'WARN',
-            self::INFO => 'INFO',
-            self::DEBUG => 'DEBUG',
+            self::NONE    => 'NONE',
+            self::ERROR   => 'ERROR',
+            self::WARN    => 'WARN',
+            self::INFO    => 'INFO',
+            self::DEBUG   => 'DEBUG',
             self::VERBOSE => 'VERBOSE'
         );
         return $levelToName[$level];

@@ -26,8 +26,8 @@ class Unzip
     /**
      * Factory method to create an unarchiver
      *
-     * @param string $name      Name of unarchiver
-     * @param string $filename  Name of .zip archive
+     * @param string $name Name of unarchiver
+     * @param string $filename Name of .zip archive
      * @return \Piwik\Unzip\UncompressInterface
      */
     static public function factory($name, $filename)

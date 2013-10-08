@@ -42,7 +42,7 @@ class Updates_0_9_1 extends Updates
         return array(
             'UPDATE ' . Common::prefixTable('site') . '
 				SET timezone = "UTC" 
-				WHERE timezone IN (' . $timezoneList . ')'                                                                  => false,
+				WHERE timezone IN (' . $timezoneList . ')'                                                            => false,
 
             'UPDATE `' . Common::prefixTable('option') . '`
 				SET option_value = "UTC" 

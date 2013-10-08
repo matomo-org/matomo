@@ -156,7 +156,7 @@ class Tracker
     /**
      * Update Tracker config
      *
-     * @param string $name  Setting name
+     * @param string $name Setting name
      * @param mixed $value Value
      */
     static private function updateTrackerConfig($name, $value)
@@ -212,12 +212,13 @@ class Tracker
 
                 // We need to check access for each single request
                 if (isset($request['idsite'])
-                    && !in_array($request['idsite'], $idSitesForAuthentication)) {
+                    && !in_array($request['idsite'], $idSitesForAuthentication)
+                ) {
                     $idSitesForAuthentication[] = $request['idsite'];
                 }
             }
 
-            foreach($idSitesForAuthentication as $idSiteForAuthentication) {
+            foreach ($idSitesForAuthentication as $idSiteForAuthentication) {
                 // a Bulk Tracking request that is not authenticated should fail
                 if (!Request::authenticateSuperUserOrAdmin($tokenAuth, $idSiteForAuthentication)) {
                     throw new Exception("token_auth specified does not have Admin permission for site " . intval($idSiteForAuthentication));
@@ -316,7 +317,7 @@ class Tracker
         // don't run scheduled tasks in CLI mode from Tracker, this is the case
         // where we bulk load logs & don't want to lose time with tasks
         return !Common::isPhpCliMode()
-            && $this->getState() != self::STATE_LOGGING_DISABLE;
+        && $this->getState() != self::STATE_LOGGING_DISABLE;
     }
 
     /**
@@ -422,12 +423,13 @@ class Tracker
         if ($this->usingBulkTracking) {
             // when doing bulk tracking we return JSON so the caller will know how many succeeded
             $result = array(
-                            'status' => 'error',
-                            'tracked' => $this->countOfLoggedRequests
+                'status'  => 'error',
+                'tracked' => $this->countOfLoggedRequests
             );
             // send error when in debug mode or when authenticated (which happens when doing log importing,
-            if (( isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
-                || $authenticated) {
+            if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
+                || $authenticated
+            ) {
                 $result['message'] = $this->getMessageFromException($e);
             }
             Common::sendHeader('Content-Type: application/json');
@@ -482,10 +484,10 @@ class Tracker
      */
     protected function end()
     {
-        if($this->usingBulkTracking) {
+        if ($this->usingBulkTracking) {
             $result = array(
-                    'status' => 'success',
-                    'tracked' => $this->countOfLoggedRequests
+                'status'  => 'success',
+                'tracked' => $this->countOfLoggedRequests
             );
             Common::sendHeader('Content-Type: application/json');
             echo Common::json_encode($result);
@@ -636,11 +638,12 @@ class Tracker
     protected function outputTransparentGif()
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG'])
-            && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
+            && $GLOBALS['PIWIK_TRACKER_DEBUG']
+        ) {
             return;
         }
 
-        if(strlen( $this->getOutputBuffer() ) > 0) {
+        if (strlen($this->getOutputBuffer()) > 0) {
             // If there was an error during tracker, return so errors can be flushed
             return;
         }
@@ -655,7 +658,7 @@ class Tracker
     protected function isVisitValid()
     {
         return $this->stateValid !== self::STATE_LOGGING_DISABLE
-            && $this->stateValid !== self::STATE_EMPTY_REQUEST;
+        && $this->stateValid !== self::STATE_EMPTY_REQUEST;
     }
 
     protected function getState()

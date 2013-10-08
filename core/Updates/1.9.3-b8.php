@@ -25,7 +25,7 @@ class Updates_1_9_3_b8 extends Updates
         return array(
             // ignore existing column name error (1060)
             'ALTER TABLE ' . Common::prefixTable('site')
-                . " ADD COLUMN excluded_user_agents TEXT NOT NULL AFTER excluded_parameters" => 1060,
+            . " ADD COLUMN excluded_user_agents TEXT NOT NULL AFTER excluded_parameters" => 1060,
         );
     }
 

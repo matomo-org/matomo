@@ -24,7 +24,7 @@ class Updates_0_2_12 extends Updates
     {
         return array(
             'ALTER TABLE `' . Common::prefixTable('site') . '`
-				CHANGE `ts_created` `ts_created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'                    => false,
+				CHANGE `ts_created` `ts_created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL'              => false,
             'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				DROP `config_color_depth`' => false,
 

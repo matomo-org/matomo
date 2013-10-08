@@ -39,9 +39,9 @@ class ColumnCallbackAddColumnQuotient extends Filter
      * @param number|string $divisorValueOrDivisorColumnName
      *                           if a numeric value is given, we use this value as the divisor to process the percentage.
      *                           if a string is given, this string is the column name's value used as the divisor.
-     * @param int $quotientPrecision                 Division precision
-     * @param bool|number $shouldSkipRows                    Whether rows w/o the column to read should be skipped.
-     * @param bool $getDivisorFromSummaryRow          Whether to get the divisor from the summary row or the current row.
+     * @param int $quotientPrecision Division precision
+     * @param bool|number $shouldSkipRows Whether rows w/o the column to read should be skipped.
+     * @param bool $getDivisorFromSummaryRow Whether to get the divisor from the summary row or the current row.
      */
     public function __construct($table, $columnNameToAdd, $columnValueToRead, $divisorValueOrDivisorColumnName, $quotientPrecision = 0, $shouldSkipRows = false, $getDivisorFromSummaryRow = false)
     {
@@ -106,7 +106,7 @@ class ColumnCallbackAddColumnQuotient extends Filter
      * Returns the dividend to use when calculating the new column value. Can
      * be overridden by descendent classes to customize behavior.
      *
-     * @param Row $row  The row being modified.
+     * @param Row $row The row being modified.
      * @return int|float
      */
     protected function getDividend($row)
@@ -118,7 +118,7 @@ class ColumnCallbackAddColumnQuotient extends Filter
      * Returns the divisor to use when calculating the new column value. Can
      * be overridden by descendent classes to customize behavior.
      *
-     * @param Row $row  The row being modified.
+     * @param Row $row The row being modified.
      * @return int|float
      */
     protected function getDivisor($row)

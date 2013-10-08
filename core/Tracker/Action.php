@@ -10,6 +10,7 @@
  */
 
 namespace Piwik\Tracker;
+
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
@@ -630,9 +631,9 @@ class Action implements ActionInterface
         $this->idLinkVisitAction = Tracker::getDatabase()->lastInsertId();
 
         $info = array(
-            'idSite'                 => $this->request->getIdSite(),
-            'idLinkVisitAction'      => $this->idLinkVisitAction,
-            'idVisit'                => $idVisit,
+            'idSite'                  => $this->request->getIdSite(),
+            'idLinkVisitAction'       => $this->idLinkVisitAction,
+            'idVisit'                 => $idVisit,
             'idReferrerActionUrl'     => $idReferrerActionUrl,
             'idReferrerActionName'    => $idReferrerActionName,
             'timeSpentReferrerAction' => $timeSpentReferrerAction,
@@ -951,7 +952,7 @@ class Action implements ActionInterface
      * being stored.
      *
      * @param array $queryParameters Name/value mapping of query parameters.
-     * @param bool|string $encoding        of the HTML page the URL is for. Used to workaround
+     * @param bool|string $encoding of the HTML page the URL is for. Used to workaround
      *                                      browser bugs & mis-coded webapps. See #3450.
      *
      * @return array

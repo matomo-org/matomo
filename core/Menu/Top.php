@@ -11,7 +11,6 @@
 namespace Piwik\Menu;
 
 
-
 /**
  * @package Piwik_Menu
  */

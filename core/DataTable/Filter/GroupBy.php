@@ -44,10 +44,10 @@ class GroupBy extends Filter
     /**
      * Constructor.
      *
-     * @param DataTable $table           The DataTable to filter.
-     * @param string $groupByColumn   The column name to reduce.
-     * @param mixed $reduceFunction  The reduce function. This must alter the $groupByColumn in some way.
-     * @param array $parameters      Extra parameters to supply to the reduce function.
+     * @param DataTable $table The DataTable to filter.
+     * @param string $groupByColumn The column name to reduce.
+     * @param mixed $reduceFunction The reduce function. This must alter the $groupByColumn in some way.
+     * @param array $parameters Extra parameters to supply to the reduce function.
      */
     public function __construct($table, $groupByColumn, $reduceFunction, $parameters = array())
     {
