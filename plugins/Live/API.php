@@ -368,8 +368,6 @@ class API
          * The following visitor profile elements can be set to augment the visitor profile popup:
          * - visitorAvatar: A URL to an image to display in the top left corner of the popup.
          * - visitorDescription: Text to be used as the tooltip of the avatar image.
-         *
-         * Callback Signature: function (array &$result);
          */
         Piwik_PostEvent('Live.getExtraVisitorDetails', array(&$result));
 
