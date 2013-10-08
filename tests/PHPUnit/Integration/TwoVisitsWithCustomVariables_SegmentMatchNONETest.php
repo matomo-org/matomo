@@ -58,7 +58,13 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
             if ($segment['segment'] == 'visitEcommerceStatus') {
                 $value = 'none';
             }
-            $segmentExpression[] = $segment['segment'] . '!=' . $value;
+            $matchNone = $segment['segment'] . '!=' . $value;
+
+            // deviceType != campaign matches ALL visits, but we want to match None
+            if($segment['segment'] == 'deviceType') {
+                $matchNone = $segment['segment'] . '==car%20browser';
+            }
+            $segmentExpression[] = $matchNone;
         }
 
         $segment = implode(";", $segmentExpression);
