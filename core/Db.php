@@ -55,11 +55,22 @@ class Db
             $dbInfos = $config->database;
         }
 
+        /**
+         * This event is triggered before a connection to the database is established. Use it to dynamically change the
+         * datatabase settings defined in the config. The reporting database config is used in case someone accesses
+         * the Piwik UI.
+         */
         Piwik_PostEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
 
         $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
 
         $db = null;
+
+        /**
+         * This event is triggered after the database config is loaded but immediately before a connection to the
+         * database is established. Use this event to create your own database handler instead of the default Piwik
+         * DB handler.
+         */
         Piwik_PostEvent('Reporting.createDatabase', array(&$db));
         if (is_null($db)) {
             $adapter = $dbInfos['adapter'];
