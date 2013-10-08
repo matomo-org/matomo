@@ -199,7 +199,7 @@
     name: Mobile Safari
     short_name: MF
     version: 
-  device: 
+  device: 1
   brand: AP
   model: iPod Touch
   os_family: Other
@@ -215,7 +215,7 @@
     name: Mobile Safari
     short_name: MF
     version: 
-  device: 
+  device: 1
   brand: AP
   model: iPod Touch
   os_family: Other
