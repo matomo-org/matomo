@@ -18,7 +18,7 @@ use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
 use Piwik\Period;
-use Piwik\Piwik;
+
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\Log;

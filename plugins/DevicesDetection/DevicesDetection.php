@@ -15,7 +15,7 @@ use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Config;
 use Piwik\Common;
-use Piwik\Plugins\DevicesDetection\Archiver;
+
 use Piwik\WidgetsList;
 use Piwik\Db;
 use UserAgentParserEnhanced;

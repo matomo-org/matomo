@@ -11,7 +11,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Metrics;
+
 use Piwik\Tracker\GoalManager;
 
 /**

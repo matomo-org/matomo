@@ -17,12 +17,11 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\Plugins\PrivacyManager\LogDataPurger;
+
 use Piwik\ScheduledTask;
 use Piwik\Db;
 use Piwik\ScheduledTime\Daily;
 use Piwik\Tracker\GoalManager;
-use Piwik\Plugins\PrivacyManager\ReportsPurger;
 
 /**
  * @see plugins/PrivacyManager/LogDataPurger.php

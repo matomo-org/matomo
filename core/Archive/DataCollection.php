@@ -12,7 +12,7 @@
 namespace Piwik\Archive;
 
 use Exception;
-use Piwik\Archive\DataTableFactory;
+
 use Piwik\DataTable;
 
 /**

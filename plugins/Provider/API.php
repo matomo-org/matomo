@@ -13,7 +13,6 @@ namespace Piwik\Plugins\Provider;
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugins\Provider\Archiver;
 
 /**
  * @see plugins/Provider/functions.php

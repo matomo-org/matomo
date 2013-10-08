@@ -10,7 +10,7 @@
  */
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
-use Piwik\Plugins\ImageGraph\StaticGraph\PieGraph;
+
 
 /**
  *

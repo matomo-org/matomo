@@ -15,7 +15,6 @@ use Piwik\Loader;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
-use Piwik\DataTable\Simple;
 
 /**
  * A DataTable Renderer can produce an output given a DataTable object.

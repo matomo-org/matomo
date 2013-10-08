@@ -15,8 +15,6 @@ use Piwik\DataTable\Row;
 use Piwik\Period\Range;
 use Piwik\DataTable;
 use Piwik\Plugins\API\API;
-use Piwik\API\Proxy;
-use Piwik\API\ResponseBuilder;
 
 /**
  * Base class for manipulating data tables.

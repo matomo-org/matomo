@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 
 use Piwik\Common;
 use Piwik\ViewDataTable;
-use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
 
 /**
  * MULTI ROW EVOLUTION

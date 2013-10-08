@@ -16,8 +16,7 @@ use Piwik\Piwik;
 use Piwik\WidgetsList;
 use Piwik\Url;
 use Piwik\IP;
-use Piwik\Plugins\UserCountry\Archiver;
-use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
+
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;

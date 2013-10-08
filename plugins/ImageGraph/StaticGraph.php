@@ -13,7 +13,7 @@ namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
 use Piwik\Loader;
-use Piwik\Plugins\ImageGraph\API;
+
 use pData;
 use pImage;
 use Piwik\SettingsPiwik;

@@ -11,7 +11,7 @@
 
 namespace Piwik\Plugins\CoreConsole;
 
-use Piwik\Common;
+
 use Piwik\Filesystem;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;

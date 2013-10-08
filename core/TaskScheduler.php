@@ -13,8 +13,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\ScheduledTask;
-use Piwik\Timer;
 
 define('DEBUG_FORCE_SCHEDULED_TASKS', false);
 

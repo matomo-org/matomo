@@ -18,7 +18,6 @@ use Piwik\DataTable;
 use Piwik\RankingQuery;
 use Piwik\PluginsArchiver;
 use Piwik\Tracker\Action;
-use Piwik\Plugins\Actions\ArchivingHelper;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports

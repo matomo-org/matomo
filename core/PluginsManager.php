@@ -13,7 +13,6 @@ namespace Piwik;
 
 use Piwik\Plugin\MetadataLoader;
 use Piwik\Translate;
-use Piwik\Option;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 

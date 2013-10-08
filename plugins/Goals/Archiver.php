@@ -18,7 +18,6 @@ use Piwik\DataArray;
 use Piwik\PluginsArchiver;
 use Piwik\PluginsManager;
 use Piwik\Tracker\GoalManager;
-use Piwik\Plugins\Goals\Goals;
 
 class Archiver extends PluginsArchiver
 {

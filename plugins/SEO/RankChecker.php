@@ -13,7 +13,7 @@ namespace Piwik\Plugins\SEO;
 use Exception;
 use Piwik\Http;
 use Piwik\MetricsFormatter;
-use Piwik\Piwik;
+
 use Piwik\Log;
 
 /**

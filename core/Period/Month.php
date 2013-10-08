@@ -11,7 +11,6 @@
 namespace Piwik\Period;
 
 use Piwik\Period;
-use Piwik\Period\Day;
 
 /**
  * @package Piwik

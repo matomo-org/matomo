@@ -20,7 +20,7 @@ use Piwik\FrontController;
 use Piwik\View\ReportsByDimension;
 use Piwik\ViewDataTable;
 use Piwik\View;
-use Piwik\Plugins\Goals\Goals;
+
 use Piwik\Plugins\Referrers\API as APIReferrers;
 
 /**

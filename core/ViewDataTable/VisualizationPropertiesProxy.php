@@ -11,7 +11,7 @@
 
 namespace Piwik\ViewDataTable;
 
-use Piwik\ViewDataTable\Properties;
+
 
 /**
  * Proxy object used to get/set visualization properties. Used to check that property

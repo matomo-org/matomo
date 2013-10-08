@@ -17,7 +17,7 @@ use Piwik\Config;
 use Piwik\Log;
 use Piwik\Db;
 use Piwik\DbHelper;
-use Piwik\Piwik;
+
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 

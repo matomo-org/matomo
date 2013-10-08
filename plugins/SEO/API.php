@@ -12,8 +12,6 @@ namespace Piwik\Plugins\SEO;
 
 use Piwik\Piwik;
 use Piwik\DataTable;
-use Piwik\Plugins\SEO\MajesticClient;
-use Piwik\Plugins\SEO\RankChecker;
 
 /**
  * @see plugins/Referrers/functions.php

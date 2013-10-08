@@ -12,7 +12,6 @@ namespace Piwik\Tracker\Db;
 
 use Exception;
 use Piwik\Tracker\Db;
-use Piwik\Tracker\Db\DbException;
 
 /**
  * mysqli wrapper

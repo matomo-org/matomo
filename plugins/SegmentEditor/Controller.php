@@ -12,7 +12,7 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\SegmentEditor\API;
+
 use Piwik\View;
 use Piwik\Plugins\API\API as APIMetadata;
 

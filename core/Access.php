@@ -10,10 +10,6 @@
  */
 namespace Piwik;
 
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\Auth;
-use Piwik\Site;
 use Piwik\Db;
 
 /**

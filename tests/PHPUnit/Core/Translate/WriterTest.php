@@ -1,5 +1,5 @@
 <?php
-use Piwik\Common;
+
 use Piwik\Translate\Writer;
 use Piwik\Translate\Validate\CoreTranslations;
 use Piwik\Translate\Validate\NoScripts;

@@ -15,9 +15,9 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\MobileMessaging\API;
+
 use Piwik\View;
-use Piwik\Plugins\MobileMessaging\CountryCallingCodes;
+
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';

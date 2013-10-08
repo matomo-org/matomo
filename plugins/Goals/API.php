@@ -20,8 +20,6 @@ use Piwik\Site;
 use Piwik\Db;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
-use Piwik\Plugins\Goals\Goals;
-use Piwik\Plugins\Goals\Archiver;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",

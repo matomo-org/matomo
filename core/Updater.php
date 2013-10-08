@@ -10,9 +10,6 @@
  */
 namespace Piwik;
 
-use Piwik\Common;
-use Piwik\Version;
-
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
  *

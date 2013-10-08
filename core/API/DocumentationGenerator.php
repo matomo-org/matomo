@@ -13,7 +13,7 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\API\Proxy;
+
 use Piwik\Url;
 use Piwik\PluginsManager;
 

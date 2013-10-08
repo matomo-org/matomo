@@ -10,7 +10,7 @@
  */
 namespace Piwik\Plugins\MultiSites;
 
-use Piwik\Plugins\MultiSites\API;
+
 
 /**
  *

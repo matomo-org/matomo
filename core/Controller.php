@@ -20,7 +20,7 @@ use Piwik\Plugins\API\API;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Registry;
+
 use Piwik\View;
 use Piwik\ViewDataTable;
 

@@ -10,7 +10,7 @@
  */
 namespace Piwik\DataTable\Renderer;
 
-use Piwik\DataTable\Renderer\Csv;
+
 
 /**
  * TSV export

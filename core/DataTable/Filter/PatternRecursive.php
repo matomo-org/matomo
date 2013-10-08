@@ -13,7 +13,7 @@ namespace Piwik\DataTable\Filter;
 use Exception;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter;
-use Piwik\DataTable\Filter\Pattern;
+
 use Piwik\DataTable\Manager;
 
 /**

@@ -13,7 +13,6 @@ namespace Piwik;
 use Exception;
 use Piwik\Db\Adapter;
 use Piwik\Tracker;
-use Piwik\Config;
 
 /**
  * SQL wrapper

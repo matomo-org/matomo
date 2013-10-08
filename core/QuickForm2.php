@@ -16,7 +16,6 @@ use HTML_QuickForm2_InvalidArgumentException;
 use HTML_QuickForm2_Node;
 use HTML_QuickForm2_NotFoundException;
 use HTML_QuickForm2_Renderer;
-use Piwik\Url;
 
 /**
  * Manages forms displayed in Twig

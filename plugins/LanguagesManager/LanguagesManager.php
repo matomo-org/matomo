@@ -16,7 +16,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Cookie;
-use Piwik\Plugins\LanguagesManager\API;
+
 use Piwik\View;
 use Piwik\Db;
 use Piwik\Translate;

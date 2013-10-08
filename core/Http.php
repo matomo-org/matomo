@@ -11,7 +11,6 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Log;
 
 /**
  * Server-side http client to retrieve content from remote servers, and optionally save to a local file.

@@ -10,7 +10,7 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 
-use Piwik\Piwik;
+
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;

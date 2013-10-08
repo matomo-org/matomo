@@ -10,7 +10,7 @@
  */
 namespace Piwik\Unzip;
 
-use Piwik\Unzip\UncompressInterface;
+
 
 /**
  * @see libs/PclZip

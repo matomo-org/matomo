@@ -11,7 +11,6 @@
 
 namespace Piwik;
 use Piwik\Plugin;
-use Piwik\PluginsManager;
 
 /**
  * This class allows code to post events from anywhere in Piwik and for

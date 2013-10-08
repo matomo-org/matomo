@@ -14,8 +14,6 @@ use Exception;
 use Piwik\Common;
 use Piwik\Period;
 use Piwik\Date;
-use Piwik\Period\Month;
-use Piwik\Period\Week;
 
 /**
  * from a starting date to an ending date

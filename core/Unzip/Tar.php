@@ -11,7 +11,6 @@
 namespace Piwik\Unzip;
 
 use Archive_Tar;
-use Piwik\Unzip\UncompressInterface;
 
 /**
  * @see libs/Archive_Tar

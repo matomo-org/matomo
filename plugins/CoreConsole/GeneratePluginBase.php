@@ -11,11 +11,9 @@
 
 namespace Piwik\Plugins\CoreConsole;
 
-use Piwik\Common;
+
 use Piwik\Console\Command;
 use Piwik\Filesystem;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package CoreConsole

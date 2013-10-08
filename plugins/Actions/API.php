@@ -17,10 +17,9 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DataTable;
-use Piwik\Plugins\Actions\Actions;
+
 use Piwik\Tracker\Action;
-use Piwik\Plugins\Actions\Archiver;
-use Piwik\Plugins\Actions\ArchivingHelper;
+
 use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 
 /**

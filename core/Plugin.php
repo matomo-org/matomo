@@ -9,7 +9,7 @@
  * @package Piwik
  */
 namespace Piwik;
-use Piwik\Common;
+
 use Piwik\Plugin\MetadataLoader;
 
 /**

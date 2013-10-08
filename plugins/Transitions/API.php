@@ -30,7 +30,6 @@ use Piwik\Segment;
 use Piwik\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
-use Piwik\Plugins\Transitions\Controller;
 
 /**
  * @package Transitions

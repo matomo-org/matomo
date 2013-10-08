@@ -10,9 +10,8 @@
  */
 namespace Piwik\ViewDataTable;
 
-use Piwik\Common;
+
 use Piwik\DataTable\Row;
-use Piwik\ViewDataTable\Visualization;
 
 /**
  * This is an abstract visualization that should be the base of any 'graph' visualization.

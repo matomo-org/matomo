@@ -10,10 +10,8 @@
  */
 
 namespace Piwik;
-use Piwik\Config;
-use Piwik\Common;
+
 use Piwik\ArchiveProcessor;
-use Piwik\DataAccess\LogAggregator;
 
 /**
  * Plugins that archive metrics for websites can implement an Archiver that extends this class

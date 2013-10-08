@@ -16,7 +16,7 @@ use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\ArchiveProcessor;
 use Piwik\Db;
-use Piwik\Plugins\Provider\Archiver;
+
 use Piwik\WidgetsList;
 
 /**

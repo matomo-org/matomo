@@ -12,7 +12,7 @@
 namespace Piwik;
 
 use Piwik\Unzip\Gzip;
-use Piwik\Unzip\UncompressInterface;
+
 use Piwik\Unzip\PclZip;
 use Piwik\Unzip\Tar;
 use Piwik\Unzip\ZipArchive;

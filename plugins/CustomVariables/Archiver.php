@@ -15,7 +15,7 @@ use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
 use Piwik\DataArray;
-use Piwik\Plugins\CustomVariables\API;
+
 use Piwik\Tracker;
 use Piwik\PluginsArchiver;
 use Piwik\Tracker\GoalManager;

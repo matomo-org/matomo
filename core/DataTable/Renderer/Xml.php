@@ -13,7 +13,7 @@ namespace Piwik\DataTable\Renderer;
 use Exception;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
-use Piwik\DataTable\Renderer\Php;
+
 use Piwik\DataTable\Simple;
 use Piwik\DataTable\Renderer;
 use Piwik\Piwik;

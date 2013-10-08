@@ -11,7 +11,7 @@
 
 namespace Piwik\Translate\Validate;
 
-use Piwik\Translate\Validate\ValidateAbstract;
+
 use Piwik\Common;
 
 /**

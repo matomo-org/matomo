@@ -13,7 +13,7 @@ namespace Piwik;
 
 use Closure;
 use Exception;
-use Piwik\Common;
+
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
 use Piwik\DataTable\Row;

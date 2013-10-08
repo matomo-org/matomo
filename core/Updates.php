@@ -10,7 +10,7 @@
  */
 namespace Piwik;
 
-use Piwik\Config;
+
 
 /**
  * Abstract class for update scripts

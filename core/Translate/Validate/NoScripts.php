@@ -11,9 +11,6 @@
 
 namespace Piwik\Translate\Validate;
 
-use Piwik\Translate\Validate\ValidateAbstract;
-use Piwik\Common;
-
 /**
  * @package Piwik
  * @subpackage Piwik_Translate

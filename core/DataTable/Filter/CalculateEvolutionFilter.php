@@ -13,7 +13,6 @@ namespace Piwik\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Site;
-use Piwik\DataTable\Filter\ColumnCallbackAddColumnPercentage;
 
 /**
  * A DataTable filter that calculates the evolution of a metric and adds

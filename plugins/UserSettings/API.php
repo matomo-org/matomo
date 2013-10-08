@@ -14,7 +14,6 @@ use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
-use Piwik\Plugins\UserSettings\Archiver;
 
 /**
  * @see plugins/UserSettings/functions.php

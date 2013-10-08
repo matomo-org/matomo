@@ -18,7 +18,6 @@ use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\DataTable;
 use Piwik\Site;
-use Piwik\Plugins\VisitTime\Archiver;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 

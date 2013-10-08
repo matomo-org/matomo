@@ -11,7 +11,7 @@
 namespace Piwik\DataTable;
 
 use Exception;
-use Piwik\DataTable\Manager;
+
 use Piwik\Metrics;
 use Piwik\DataTable;
 

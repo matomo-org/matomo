@@ -12,7 +12,6 @@ namespace Piwik\Plugins\MobileMessaging;
 
 use Exception;
 use Piwik\Loader;
-use Piwik\Plugins\MobileMessaging\GSMCharset;
 
 /**
  * The SMSProvider abstract class is used as a base class for SMS provider implementations.

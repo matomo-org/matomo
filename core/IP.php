@@ -11,9 +11,6 @@
 
 namespace Piwik;
 
-use Piwik\Config;
-use Piwik\Common;
-
 /**
  * Handling IP addresses (both IPv4 and IPv6).
  *

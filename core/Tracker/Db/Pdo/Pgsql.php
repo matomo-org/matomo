@@ -13,7 +13,6 @@ namespace Piwik\Tracker\Db\Pdo;
 
 use Exception;
 use PDO;
-use Piwik\Tracker\Db\Pdo\Mysql;
 
 /**
  * PDO PostgreSQL wrapper

@@ -15,8 +15,6 @@ use Piwik\Common;
 use Piwik\IP;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 
 /**
  * A LocationProvider that uses an GeoIP module installed in an HTTP Server.

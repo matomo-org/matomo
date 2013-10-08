@@ -13,7 +13,7 @@ namespace Piwik\Plugins\PrivacyManager;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Piwik;
+
 use Piwik\Log;
 
 /**

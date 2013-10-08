@@ -13,9 +13,9 @@ namespace Piwik\Plugins\ScheduledReports;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\ScheduledReports\API;
+
 use Piwik\View;
-use Piwik\Plugins\ScheduledReports\ScheduledReports;
+
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 

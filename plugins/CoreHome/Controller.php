@@ -12,11 +12,11 @@ namespace Piwik\Plugins\CoreHome;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\CacheFile;
+
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\AssetManager;
+
 use Piwik\FrontController;
 use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\View;

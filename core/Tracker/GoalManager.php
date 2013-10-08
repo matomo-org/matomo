@@ -14,10 +14,6 @@ use Exception;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Tracker;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\Cache;
-use Piwik\Tracker\Referrer;
-use Piwik\Tracker\Request;
 
 /**
  * @package Piwik

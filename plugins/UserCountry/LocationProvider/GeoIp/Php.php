@@ -10,7 +10,7 @@
  */
 namespace Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
-use Piwik\Piwik;
+
 use Piwik\Log;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 

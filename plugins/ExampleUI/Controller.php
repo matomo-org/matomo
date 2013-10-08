@@ -12,7 +12,7 @@ namespace Piwik\Plugins\ExampleUI;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Site;
+
 use Piwik\ViewDataTable;
 use Piwik\View;
 

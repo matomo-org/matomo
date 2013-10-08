@@ -11,7 +11,7 @@
 
 namespace Piwik\Translate\Filter;
 
-use Piwik\Translate\Filter\FilterAbstract;
+
 use Piwik\Translate;
 
 /**

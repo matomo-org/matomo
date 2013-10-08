@@ -13,7 +13,7 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\Common;
-use Piwik\Plugins\DBStats\API;
+
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Weekly;
 

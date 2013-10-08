@@ -12,7 +12,7 @@
  */
 
 // This is Piwik logo, the static file used in this test suit
-use Piwik\Piwik;
+
 use Piwik\ProxyHttp;
 use Piwik\SettingsServer;
 

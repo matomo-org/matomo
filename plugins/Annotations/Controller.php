@@ -12,8 +12,7 @@ namespace Piwik\Plugins\Annotations;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Plugins\Annotations\AnnotationList;
-use Piwik\Plugins\Annotations\API;
+
 use Piwik\View;
 
 /**

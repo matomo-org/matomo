@@ -12,7 +12,6 @@
 namespace Piwik\Plugins\ExampleRssWidget;
 
 use Exception;
-use Piwik\Plugins\ExampleRssWidget\RssRenderer;
 
 /**
  *

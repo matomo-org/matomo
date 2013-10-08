@@ -10,7 +10,7 @@
  */
 namespace Piwik\Period;
 
-use Piwik\Period\Day;
+
 use Piwik\Period;
 
 /**

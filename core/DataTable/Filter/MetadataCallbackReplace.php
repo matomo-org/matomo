@@ -11,7 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter\ColumnCallbackReplace;
+
 use Piwik\DataTable\Row;
 
 /**

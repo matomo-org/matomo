@@ -16,7 +16,7 @@ use Piwik\Metrics;
 use Piwik\Date;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik\RankingQuery;
+
 use Piwik\Db;
 use Piwik\Tracker\GoalManager;
 

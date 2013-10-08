@@ -12,9 +12,6 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\IP;
-use Piwik\Tracker\Cache;
-use Piwik\Tracker\IgnoreCookie;
-use Piwik\Tracker\Request;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings

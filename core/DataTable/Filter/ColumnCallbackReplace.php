@@ -13,7 +13,6 @@ namespace Piwik\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 use Piwik\DataTable\Row;
-use Piwik\Piwik;
 
 /**
  * Replace a column value with a new value resulting

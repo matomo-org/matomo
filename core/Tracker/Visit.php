@@ -15,13 +15,9 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Tracker;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\Cache;
-use Piwik\Tracker\GoalManager;
-use Piwik\Tracker\Request;
-use Piwik\Tracker\Referrer;
+
 use Exception;
-use Piwik\Tracker\VisitExcluded;
+
 use UserAgentParser;
 
 /**

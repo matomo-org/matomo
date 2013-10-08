@@ -12,8 +12,7 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Plugins\SegmentEditor\API;
-use Piwik\Plugins\SegmentEditor\Controller;
+
 use Piwik\Version;
 use Piwik\Db;
 

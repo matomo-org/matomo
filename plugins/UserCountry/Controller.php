@@ -18,10 +18,10 @@ use Piwik\Common;
 use Piwik\Http;
 use Piwik\IP;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
+
 use Piwik\ViewDataTable;
 use Piwik\View;
-use Piwik\Url;
+
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Pecl;

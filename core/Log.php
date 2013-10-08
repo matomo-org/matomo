@@ -10,7 +10,7 @@
  */
 namespace Piwik;
 
-use Piwik\Common;
+
 use Piwik\Db;
 
 /**

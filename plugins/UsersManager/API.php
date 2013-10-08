@@ -19,7 +19,6 @@ use Piwik\Date;
 use Piwik\Site;
 use Piwik\Db;
 use Piwik\Tracker\Cache;
-use Piwik\Plugins\UsersManager\UsersManager;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.

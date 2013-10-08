@@ -11,7 +11,7 @@
 
 namespace Piwik;
 use Exception;
-use Piwik\Date;
+
 use Piwik\Plugins\SitesManager\API;
 
 /**

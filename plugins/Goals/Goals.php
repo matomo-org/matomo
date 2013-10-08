@@ -13,8 +13,7 @@ namespace Piwik\Plugins\Goals;
 use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\Goals\API;
-use Piwik\Plugins\Goals\Archiver;
+
 use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
 use Piwik\Site;

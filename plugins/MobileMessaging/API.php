@@ -12,7 +12,7 @@ namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\MobileMessaging\MobileMessaging;
+
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 

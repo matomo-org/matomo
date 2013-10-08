@@ -9,7 +9,7 @@
  * @package Piwik
  */
 namespace Piwik;
-use Piwik\Common;
+
 
 /**
  * Option provides a very simple mechanism to save/retrieve key-values pair

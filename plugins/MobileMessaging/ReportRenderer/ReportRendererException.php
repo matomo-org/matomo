@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\MobileMessaging\ReportRenderer;
 
 use Piwik\ReportRenderer;
-use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 
 /**
  *

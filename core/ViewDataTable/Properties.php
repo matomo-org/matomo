@@ -13,10 +13,9 @@ namespace Piwik\ViewDataTable;
 
 use Exception;
 use ReflectionClass;
-use Piwik\Piwik;
+
 use Piwik\Config;
 use Piwik\Metrics;
-use Piwik\Common;
 
 /**
  * Contains the list of all core DataTable display properties for use with ViewDataTable.

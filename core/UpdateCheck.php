@@ -11,12 +11,8 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\Http;
+
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Url;
-use Piwik\Version;
 
 /**
  * Class to check if a newer version of Piwik is available

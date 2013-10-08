@@ -11,7 +11,6 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
-use Piwik\DataTable\Filter\ColumnCallbackReplace;
 
 /**
  * A DataTable filter that replaces range label columns with prettier,

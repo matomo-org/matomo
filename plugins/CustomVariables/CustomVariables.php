@@ -11,7 +11,7 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Plugins\CustomVariables\Archiver;
+
 use Piwik\Tracker;
 use Piwik\WidgetsList;
 

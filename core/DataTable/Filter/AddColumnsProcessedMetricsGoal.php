@@ -12,7 +12,7 @@ namespace Piwik\DataTable\Filter;
 
 use Exception;
 use Piwik\DataTable;
-use Piwik\DataTable\Filter\AddColumnsProcessedMetrics;
+
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Tracker\GoalManager;

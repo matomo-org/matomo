@@ -20,7 +20,7 @@ use Piwik\Date;
 use Piwik\ArchiveProcessor;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik\DataAccess\ArchiveTableCreator;
+
 use Piwik\Db;
 use Piwik\Log;
 

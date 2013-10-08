@@ -14,7 +14,6 @@ use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
-use Piwik\Plugins\VisitorInterest\Archiver;
 
 /**
  * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,

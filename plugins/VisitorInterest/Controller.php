@@ -10,7 +10,7 @@
  */
 namespace Piwik\Plugins\VisitorInterest;
 
-use Piwik\Metrics;
+
 use Piwik\ViewDataTable;
 use Piwik\View;
 

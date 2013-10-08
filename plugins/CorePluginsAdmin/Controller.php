@@ -11,8 +11,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Date;
+
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Nonce;

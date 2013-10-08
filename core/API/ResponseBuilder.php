@@ -13,7 +13,7 @@ namespace Piwik\API;
 use Exception;
 use Piwik\API\DataTableManipulator\Flattener;
 use Piwik\API\DataTableManipulator\LabelFilter;
-use Piwik\API\DataTableGenericFilter;
+
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable\Renderer;

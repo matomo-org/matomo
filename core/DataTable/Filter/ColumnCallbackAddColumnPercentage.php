@@ -11,7 +11,6 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\Piwik;
-use Piwik\DataTable\Filter\ColumnCallbackAddColumnQuotient;
 
 /**
  * Add a new column to the table which is a percentage based on the value resulting

@@ -10,7 +10,7 @@
  */
 namespace Piwik;
 
-use Piwik\Log;
+
 
 /**
  * Class Profiler helps with measuring memory, and profiling the database.

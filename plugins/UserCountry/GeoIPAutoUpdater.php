@@ -11,7 +11,7 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Exception;
-use Piwik\Piwik;
+
 use Piwik\Log;
 use Piwik\Common;
 use Piwik\Date;

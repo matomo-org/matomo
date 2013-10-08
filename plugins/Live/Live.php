@@ -10,7 +10,7 @@
  */
 namespace Piwik\Plugins\Live;
 
-use Piwik\Piwik;
+
 use Piwik\Common;
 use Piwik\WidgetsList;
 

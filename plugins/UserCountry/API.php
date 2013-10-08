@@ -16,7 +16,7 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\DataTable;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\Archiver;
+
 use Piwik\Tracker\Visit;
 
 /**

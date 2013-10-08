@@ -14,7 +14,7 @@ use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Period;
-use Piwik\Plugins\VisitTime\Archiver;
+
 use Piwik\Site;
 use Piwik\WidgetsList;
 

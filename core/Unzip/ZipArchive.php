@@ -11,7 +11,6 @@
 namespace Piwik\Unzip;
 
 use Exception;
-use Piwik\Unzip\UncompressInterface;
 
 /**
  * Unzip wrapper around ZipArchive

@@ -13,7 +13,6 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 
 /**
  * @see plugins/DBStats/MySQLMetadataProvider.php

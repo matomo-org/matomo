@@ -7,7 +7,6 @@ use Piwik\Common;
 use Piwik\Cookie;
 use Piwik\IP;
 use Piwik\Tracker;
-use Piwik\Tracker\Cache;
 
 /**
  * Piwik - Open source web analytics

@@ -12,7 +12,7 @@ namespace Piwik\Plugins\Dashboard;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\Dashboard\Dashboard;
+
 use Piwik\Session\SessionNamespace;
 use Piwik\View;
 use Piwik\Db;
