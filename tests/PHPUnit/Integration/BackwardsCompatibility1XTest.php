@@ -13,7 +13,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Benchmarks/Fixtures/SqlDump.ph
  */
 class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTestCase
 {
-    const FIXTURE_LOCATION = '/tests/resources/piwik-1.12-dump.sql';
+    const FIXTURE_LOCATION = '/tests/resources/piwik-1.13-dump.sql';
 
     public static $fixture = null; // initialized below class
     public static $defaultApiNotToCall = null; // initialized below class
