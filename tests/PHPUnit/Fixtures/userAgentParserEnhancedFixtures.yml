@@ -1,3 +1,37 @@
+
+
+- user_agent: Opera/9.80 (J2ME/MIDP; Opera Mini/5.0.22371/28.3782; U; en) Presto/2.8.119 Version/11.10
+  os:
+    name: UNK
+    short_name: UNK
+    version: UNK
+  browser:
+    name: Opera Mini
+    short_name: OI
+    version: 5.0
+  device:
+  brand:
+  model:
+  os_family: Other
+  browser_family: Other
+
+
+- user_agent: Opera/9.80 (Android; Opera Mini/7.5.32193/28.3782; U; es) Presto/2.8.119 Version/11.10
+  os:
+    name: Android
+    short_name: AND
+    version:
+  browser:
+    name: Opera Mini
+    short_name: OI
+    version: 7.5
+  device:
+  brand:
+  model:
+  os_family: Other
+  browser_family: Other
+
+
 - user_agent: Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.20 Safari/537.36 OPR/15.0.1147.18 (Edition Next)
   os:
     name: Windows 8
@@ -12,6 +46,38 @@
   device: 0
   brand: null
   model: null
+
+- user_agent: Opera/9.80 (X11; Linux zbov) Presto/2.11.355 Version/12.10
+  os:
+    name: Linux
+    short_name: LIN
+    version:
+  browser:
+    name: Opera
+    short_name: OP
+    version: 12.10
+  device: 0
+  brand:
+  model:
+  os_family: Other
+  browser_family: Other
+
+
+- user_agent: Mozilla/5.0 (Windows NT 6.2; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0 SeaMonkey/2.17.1
+  os:
+    name: Windows 8
+    short_name: WI8
+    version: 8
+  browser:
+    name: SeaMonkey
+    short_name: XX
+    version: 2.17
+  os_family: Other
+  browser_family: Other
+  device: 0
+  brand: null
+  model: null
+
 
 
 - user_agent: sam-r560 UP.Browser/6.2.3.8 (GUI) MMP/2.0
@@ -138,54 +204,6 @@
   device: 1
   brand: SA
   model: SGH-T259
-  os_family: Other
-  browser_family: Other
-
-
-- user_agent: Opera/9.80 (X11; Linux zbov) Presto/2.11.355 Version/12.10
-  os:
-    name: Linux
-    short_name: LIN
-    version:
-  browser:
-    name: Opera
-    short_name: OP
-    version: 12.10
-  device: 0
-  brand:
-  model:
-  os_family: Other
-  browser_family: Other
-
-
-- user_agent: Opera/9.80 (J2ME/MIDP; Opera Mini/5.0.22371/28.3782; U; en) Presto/2.8.119 Version/11.10
-  os:
-    name: UNK
-    short_name: UNK
-    version: UNK
-  browser:
-    name: Opera Mini
-    short_name: OI
-    version: 5.0
-  device:
-  brand:
-  model:
-  os_family: Other
-  browser_family: Other
-
-
-- user_agent: Opera/9.80 (Android; Opera Mini/7.5.32193/28.3782; U; es) Presto/2.8.119 Version/11.10
-  os:
-    name: Android
-    short_name: AND
-    version:
-  browser:
-    name: Opera Mini
-    short_name: OI
-    version: 7.5
-  device:
-  brand:
-  model:
   os_family: Other
   browser_family: Other
 

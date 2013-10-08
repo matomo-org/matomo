@@ -9,7 +9,7 @@
 ###############
 
 # SeaMonkey
-- regex: '(Iceape|SeaMonkey)/(\d+\.\d+)'
+- regex: '(Iceape|SeaMonkey|gnuzilla)/(\d+\.\d+)'
   name: $1
   version: '$2'
   
@@ -50,12 +50,12 @@
 - regex: '(?:Navigator|Netscape6)/(\d+\.\d+)'
   name: Netscape
   version: '$1'
-  
+
 #Opera
 - regex: '(?:Opera Tablet.*Version|Opera/.+Opera Mobi.+Version|Safari.*OPR)/(\d+\.\d+)'
   name: Opera Mobile
   version: '$1'
-- regex: 'Opera Mini/(:?att/)?(\d+\.\d+)'
+- regex: 'Opera Mini/(?:att/)?(\d+\.\d+)'
   name: Opera Mini
   version: '$1'
 - regex: 'Opera[/ ](?:9.80.*Version/)?(\d+\.\d+)'

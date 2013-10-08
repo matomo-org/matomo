@@ -357,9 +357,9 @@ Google:
   models:
     - regex: '(Galaxy Nexus)'
       model: '$1'
-    - regex: '(Nexus (:?S|4|One))'
+    - regex: '(Nexus (?:S|4|One))'
       model: '$1'
-    - regex: '(Nexus (:?7|10))'
+    - regex: '(Nexus (?:7|10))'
       device: 'tablet'
       model: '$1'
     - regex: '(GoogleTV)'
@@ -445,7 +445,7 @@ Kyocera:
   models:
     - regex: 'Kyocera-KZ-([A-Za-z0-9]+)'
       model: 'KZ $1'
-    - regex: 'Kyocera(:?[\-/])?([A-Za-z0-9]+)'
+    - regex: 'Kyocera(?:[\-/])?([A-Za-z0-9]+)'
       model: '$1'
     - regex: '(?:KWC|QC)-([A-Za-z0-9]+)'
       model: '$1'
