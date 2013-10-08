@@ -12,9 +12,9 @@ namespace Piwik\Plugins\SEO;
 
 use Exception;
 use Piwik\Http;
-use Piwik\MetricsFormatter;
-
 use Piwik\Log;
+
+use Piwik\MetricsFormatter;
 
 /**
  * The functions below are derived/adapted from GetRank.org's

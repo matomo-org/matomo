@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\UserCountry\LocationProvider;
 
-use Piwik\Config;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**

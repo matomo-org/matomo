@@ -12,11 +12,11 @@ namespace Piwik\Plugins\VisitTime;
 
 use Exception;
 use Piwik\Archive;
+use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Date;
-use Piwik\DataTable;
 use Piwik\Site;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';

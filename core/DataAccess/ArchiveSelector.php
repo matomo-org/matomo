@@ -12,17 +12,17 @@ namespace Piwik\DataAccess;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\ArchiveProcessor;
+use Piwik\Common;
+use Piwik\Date;
+use Piwik\Db;
+use Piwik\Log;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\ArchiveProcessor;
 use Piwik\Segment;
-use Piwik\Site;
 
-use Piwik\Db;
-use Piwik\Log;
+use Piwik\Site;
 
 /**
  * Data Access object used to query archives

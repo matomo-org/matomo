@@ -11,8 +11,8 @@
 namespace Piwik\DataTable\Filter;
 
 use Exception;
-use Piwik\DataTable;
 
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Tracker\GoalManager;

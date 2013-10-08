@@ -10,10 +10,10 @@
  */
 namespace Piwik;
 use Piwik\Archive\Parameters;
-use Piwik\Period\Range;
-
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
+
+use Piwik\Period\Range;
 
 /**
  * The archive object is used to query specific data for a day or a period of statistics for a given website.

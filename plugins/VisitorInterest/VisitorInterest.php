@@ -12,8 +12,8 @@ namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\ArchiveProcessor;
 use Piwik\FrontController;
-use Piwik\Metrics;
 
+use Piwik\Metrics;
 use Piwik\WidgetsList;
 
 /**

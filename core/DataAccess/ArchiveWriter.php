@@ -17,11 +17,11 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
-use Piwik\Period;
+use Piwik\Log;
 
+use Piwik\Period;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
-use Piwik\Log;
 
 /**
  * This class is used to create a new Archive.

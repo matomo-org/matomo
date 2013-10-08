@@ -10,9 +10,8 @@
  */
 namespace Piwik\Plugins\VisitorInterest;
 
-
-use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  * @package VisitorInterest

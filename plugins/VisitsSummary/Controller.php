@@ -11,14 +11,14 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\API\Request;
-use Piwik\DataTable\Row;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\Piwik;
 use Piwik\Plugins\Actions\API as APIActions;
-use Piwik\ViewDataTable;
-use Piwik\View;
 use Piwik\Site;
+use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  *

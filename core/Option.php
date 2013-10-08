@@ -10,7 +10,6 @@
  */
 namespace Piwik;
 
-
 /**
  * Option provides a very simple mechanism to save/retrieve key-values pair
  * from the database (persistent key-value datastore).

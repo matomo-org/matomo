@@ -13,13 +13,12 @@ namespace Piwik\Plugins\CustomVariables;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\Metrics;
 use Piwik\DataArray;
 
-use Piwik\Tracker;
+use Piwik\Metrics;
 use Piwik\PluginsArchiver;
+use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
-
 
 class Archiver extends PluginsArchiver
 {

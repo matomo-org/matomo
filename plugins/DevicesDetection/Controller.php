@@ -10,11 +10,11 @@
  */
 namespace Piwik\Plugins\DevicesDetection;
 
-use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\ViewDataTable;
-use Piwik\View;
 use Piwik\Db;
+use Piwik\Piwik;
+use Piwik\View;
+use Piwik\ViewDataTable;
 use UserAgentParserEnhanced;
 
 class Controller extends \Piwik\Controller

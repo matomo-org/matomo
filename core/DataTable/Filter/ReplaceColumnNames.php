@@ -12,9 +12,9 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable\Filter;
 use Piwik\DataTable\Simple;
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\DataTable;
 use Piwik\Tracker\GoalManager;
 
 /**

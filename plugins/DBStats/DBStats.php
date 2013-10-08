@@ -10,10 +10,10 @@
  */
 namespace Piwik\Plugins\DBStats;
 
-use Piwik\Piwik;
-use Piwik\Date;
 use Piwik\Common;
+use Piwik\Date;
 
+use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Weekly;
 

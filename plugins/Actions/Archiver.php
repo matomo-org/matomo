@@ -13,10 +13,10 @@ namespace Piwik\Plugins\Actions;
 use Piwik\Config;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row\DataTableSummaryRow;
-use Piwik\Metrics;
 use Piwik\DataTable;
-use Piwik\RankingQuery;
+use Piwik\Metrics;
 use Piwik\PluginsArchiver;
+use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 
 /**

@@ -11,15 +11,15 @@
 namespace Piwik\Plugins\Feedback;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\IP;
 use Piwik\Mail;
 use Piwik\Nonce;
-use Piwik\View;
-use Piwik\Version;
+use Piwik\Piwik;
 use Piwik\Url;
+use Piwik\Version;
+use Piwik\View;
 
 /**
  *

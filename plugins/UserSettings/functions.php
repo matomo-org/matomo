@@ -12,7 +12,6 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\Piwik;
-
 use Piwik\Tracker\Request;
 use UserAgentParser;
 

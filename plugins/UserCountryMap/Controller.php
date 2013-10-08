@@ -12,13 +12,13 @@ namespace Piwik\Plugins\UserCountryMap;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\ViewDataTable;
-use Piwik\View;
-use Piwik\Site;
 use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Site;
+use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  *

@@ -12,8 +12,8 @@ namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\API\Request;
 use Piwik\Piwik;
-use Piwik\SegmentExpression;
 use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
+use Piwik\SegmentExpression;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.

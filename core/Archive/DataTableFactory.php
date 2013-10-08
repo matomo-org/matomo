@@ -11,9 +11,9 @@
 
 namespace Piwik\Archive;
 
-use Piwik\Site;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Site;
 
 /**
  * Creates a DataTable or Set instance based on an array

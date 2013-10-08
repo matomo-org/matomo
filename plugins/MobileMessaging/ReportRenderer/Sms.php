@@ -12,9 +12,9 @@ namespace Piwik\Plugins\MobileMessaging\ReportRenderer;
 
 use Piwik\Common;
 use Piwik\Plugins\MultiSites\API;
-use Piwik\View;
 use Piwik\ReportRenderer;
 use Piwik\Site;
+use Piwik\View;
 
 /**
  *

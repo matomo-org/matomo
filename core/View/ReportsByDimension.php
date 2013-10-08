@@ -11,8 +11,8 @@
 namespace Piwik\View;
 
 use Piwik\FrontController;
-use Piwik\View;
 use Piwik\Url;
+use Piwik\View;
 
 /**
  * A facade that makes it easier to use the '_reportsByDimension.twig' template.

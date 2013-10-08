@@ -11,10 +11,10 @@
 namespace Piwik\Plugins\API;
 
 use Piwik\API\DocumentationGenerator;
-use Piwik\API\Request;
 use Piwik\API\Proxy;
-use Piwik\Config;
+use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\View;
 
 /**

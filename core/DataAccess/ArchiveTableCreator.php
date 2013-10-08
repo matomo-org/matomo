@@ -14,8 +14,8 @@ namespace Piwik\DataAccess;
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\DbHelper;
 use Piwik\Db;
+use Piwik\DbHelper;
 
 class ArchiveTableCreator
 {

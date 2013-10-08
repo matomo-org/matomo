@@ -10,14 +10,12 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-
-use Piwik\View;
-
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\View;
 
 /**
  *

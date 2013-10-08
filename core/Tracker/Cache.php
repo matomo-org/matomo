@@ -11,9 +11,9 @@
 namespace Piwik\Tracker;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\CacheFile;
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\CacheFile;
 use Piwik\Tracker;
 
 /**

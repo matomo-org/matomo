@@ -11,15 +11,15 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Config;
+use Piwik\Date;
+use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\Plugins\Goals\Archiver;
 
+use Piwik\Plugins\Goals\Archiver;
 use Piwik\ScheduledTask;
-use Piwik\Db;
 use Piwik\ScheduledTime\Daily;
 use Piwik\Tracker\GoalManager;
 

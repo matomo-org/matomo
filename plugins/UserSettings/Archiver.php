@@ -13,9 +13,9 @@ namespace Piwik\Plugins\UserSettings;
 
 use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
-use Piwik\Metrics;
-use Piwik\DataTable;
 use Piwik\DataArray;
+use Piwik\DataTable;
+use Piwik\Metrics;
 use Piwik\PluginsArchiver;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';

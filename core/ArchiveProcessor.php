@@ -10,14 +10,14 @@
  */
 namespace Piwik;
 use Exception;
+
 use Piwik\ArchiveProcessor\Rules;
-
-use Piwik\Period;
-
-use Piwik\Db;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
+use Piwik\Db;
+
+use Piwik\Period;
 
 /**
  * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.

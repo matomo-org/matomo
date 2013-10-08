@@ -11,17 +11,17 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Date;
+use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Week;
 use Piwik\Piwik;
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\Date;
 use Piwik\SettingsPiwik;
-use Piwik\TaskScheduler;
 use Piwik\Site;
-use Piwik\Db;
+use Piwik\TaskScheduler;
 
 /**
  * @package CoreAdminHome

@@ -12,16 +12,16 @@ namespace Piwik\Plugins\UsersManager;
 
 use Exception;
 use Piwik\API\ResponseBuilder;
-use Piwik\Controller\Admin;
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Tracker\IgnoreCookie;
-use Piwik\View;
-use Piwik\Url;
-use Piwik\Site;
+use Piwik\Controller\Admin;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Site;
+use Piwik\Tracker\IgnoreCookie;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  *

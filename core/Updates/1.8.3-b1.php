@@ -12,10 +12,10 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
+use Piwik\Db;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Updater;
 use Piwik\Updates;
-use Piwik\Db;
 
 /**
  * @package Updates

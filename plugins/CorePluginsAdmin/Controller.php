@@ -11,15 +11,14 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
-
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\PluginsManager;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\PluginsManager;
 
 /**
  * @package CorePluginsAdmin

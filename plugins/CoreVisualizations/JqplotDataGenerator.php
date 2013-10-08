@@ -13,9 +13,9 @@ namespace Piwik\Plugins\CoreVisualizations;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Metrics;
 use Piwik\DataTable;
 
+use Piwik\Metrics;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';

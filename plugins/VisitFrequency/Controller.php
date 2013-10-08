@@ -11,8 +11,8 @@
 namespace Piwik\Plugins\VisitFrequency;
 
 use Piwik\API\Request;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\View;
 
 /**

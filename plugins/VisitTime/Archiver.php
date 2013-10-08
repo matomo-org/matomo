@@ -11,8 +11,8 @@
 
 namespace Piwik\Plugins\VisitTime;
 
-use Piwik\Date;
 use Piwik\DataArray;
+use Piwik\Date;
 use Piwik\PluginsArchiver;
 
 class Archiver extends PluginsArchiver

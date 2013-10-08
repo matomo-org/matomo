@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\CacheFile;
-use Piwik\Http;
 
+use Piwik\Http;
 use Piwik\PluginsManager;
 use Piwik\Version;
 

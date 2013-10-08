@@ -12,20 +12,18 @@ namespace Piwik\Plugins\CoreHome;
 
 use Exception;
 use Piwik\API\Request;
-
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
-
 use Piwik\FrontController;
-use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
-use Piwik\View;
-use Piwik\Url;
-use Piwik\UpdateCheck;
-use Piwik\Site;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
+use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Site;
+use Piwik\UpdateCheck;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  *

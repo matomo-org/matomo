@@ -11,8 +11,8 @@
 
 namespace Piwik\ViewDataTable;
 
-use Piwik\View;
 use Piwik\DataTable;
+use Piwik\View;
 
 /**
  * Base class for all DataTable visualizations. Different visualizations are used to

@@ -11,12 +11,12 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Piwik;
-use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
-use Piwik\View;
 use Piwik\Plugins\API\API as APIPlugins;
+use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\ReportRendererException;
 use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
+use Piwik\View;
 
 /**
  *

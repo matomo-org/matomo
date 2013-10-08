@@ -10,8 +10,8 @@
  */
 
 namespace Piwik;
-use Exception;
 
+use Exception;
 use Piwik\Plugins\SitesManager\API;
 
 /**

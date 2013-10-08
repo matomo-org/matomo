@@ -11,8 +11,8 @@
 namespace Piwik\Tracker;
 
 use Exception;
-use Piwik\Config;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Tracker;
 
 /**

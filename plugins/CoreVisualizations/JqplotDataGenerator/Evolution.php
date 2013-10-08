@@ -14,9 +14,9 @@ namespace Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\ViewDataTable;
-use Piwik\Url;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+use Piwik\Url;
+use Piwik\ViewDataTable;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.

@@ -13,8 +13,8 @@ namespace Piwik\Plugins\Referrers;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Metrics;
 use Piwik\DataArray;
+use Piwik\Metrics;
 use Piwik\PluginsArchiver;
 
 class Archiver extends PluginsArchiver

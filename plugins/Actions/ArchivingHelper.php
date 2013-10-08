@@ -13,8 +13,8 @@ namespace Piwik\Plugins\Actions;
 use PDOStatement;
 use Piwik\Config;
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\Metrics;
 use Piwik\Tracker\Action;
 use Zend_Db_Statement;
 

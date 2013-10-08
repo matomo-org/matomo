@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\Installation;
 
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Translate;
 
 /**

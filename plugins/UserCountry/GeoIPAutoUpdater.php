@@ -11,18 +11,17 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Exception;
-
-use Piwik\Log;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Http;
+use Piwik\Log;
 use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
+use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime\Weekly;
 use Piwik\Unzip;
-use Piwik\ScheduledTask;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's

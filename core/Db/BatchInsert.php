@@ -14,10 +14,10 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Log;
 use Piwik\Db;
 use Piwik\DbHelper;
 
+use Piwik\Log;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 

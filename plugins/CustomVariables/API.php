@@ -11,9 +11,9 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Archive;
-use Piwik\Metrics;
-use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Date;
+use Piwik\Metrics;
 use Piwik\Tracker\Action;
 
 /**

@@ -11,16 +11,16 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\ReportRenderer;
 use Piwik\ReportRenderer\Html;
 use Piwik\Site;
 use Piwik\Translate;
-use Piwik\Db;
-use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Zend_Mime;
 
 /**

@@ -13,15 +13,15 @@ namespace Piwik\Plugins\MultiSites;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Archive;
+use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
+use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Plugins\Goals\Archiver;
-use Piwik\TaskScheduler;
-use Piwik\Site;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Site;
+use Piwik\TaskScheduler;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.

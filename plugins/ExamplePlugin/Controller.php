@@ -10,12 +10,11 @@
  */
 namespace Piwik\Plugins\ExamplePlugin;
 
-use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\View;
 use Piwik\Db;
-
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\View;
 
 /**
  *

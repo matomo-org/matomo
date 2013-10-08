@@ -12,10 +12,10 @@ namespace Piwik\DataTable\Renderer;
 
 use Exception;
 use Piwik\DataTable\Manager;
-use Piwik\DataTable\Simple;
 use Piwik\DataTable\Renderer;
-use Piwik\Piwik;
+use Piwik\DataTable\Simple;
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * Returns the equivalent PHP array for a given DataTable.

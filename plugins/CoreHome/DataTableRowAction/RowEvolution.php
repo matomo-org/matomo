@@ -11,14 +11,14 @@
 namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 
 use Exception;
-use Piwik\API\ResponseBuilder;
 use Piwik\API\Request;
+use Piwik\API\ResponseBuilder;
 use Piwik\Common;
-use Piwik\Metrics;
 use Piwik\Date;
-use Piwik\ViewDataTable;
-use Piwik\Url;
+use Piwik\Metrics;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
+use Piwik\Url;
+use Piwik\ViewDataTable;
 
 /**
  * ROW EVOLUTION

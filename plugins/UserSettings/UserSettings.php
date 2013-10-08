@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\ArchiveProcessor;
-
 use Piwik\WidgetsList;
 
 /**

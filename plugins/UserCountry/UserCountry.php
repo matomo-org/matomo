@@ -12,14 +12,14 @@ namespace Piwik\Plugins\UserCountry;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
-use Piwik\Piwik;
-use Piwik\WidgetsList;
-use Piwik\Url;
 use Piwik\IP;
-
+use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Url;
+
+use Piwik\WidgetsList;
 
 /**
  * @see plugins/UserCountry/GeoIPAutoUpdater.php

@@ -11,8 +11,8 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
-use Piwik\View;
 use Piwik\DataTable;
+use Piwik\View;
 use Piwik\ViewDataTable\Visualization;
 
 /**

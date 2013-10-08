@@ -11,14 +11,12 @@
 
 namespace Piwik\Plugins\MobileMessaging;
 
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-
-use Piwik\View;
-
 use Piwik\Plugins\MobileMessaging\SMSProvider;
+use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 

@@ -11,9 +11,8 @@
 namespace Piwik\DataTable;
 
 use Exception;
-
-use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\Metrics;
 
 /**
  * A DataTable is composed of rows.

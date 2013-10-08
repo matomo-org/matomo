@@ -12,12 +12,12 @@
 namespace Piwik;
 
 use Closure;
-use Exception;
 
+use Exception;
+use Piwik\DataTable\Filter;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
 use Piwik\DataTable\Row;
-use Piwik\DataTable\Filter;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use ReflectionClass;
 

@@ -12,15 +12,15 @@ namespace Piwik\Plugins\Actions;
 
 use Exception;
 use Piwik\Archive;
-use Piwik\Metrics;
-use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Date;
+use Piwik\Metrics;
+
+use Piwik\Piwik;
+use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 
 use Piwik\Tracker\Action;
-
-use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 
 /**
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),

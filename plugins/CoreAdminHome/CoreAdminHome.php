@@ -12,10 +12,10 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\Piwik;
 use Piwik\Date;
-use Piwik\ScheduledTask;
 use Piwik\Db;
+use Piwik\Piwik;
+use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;
 
 /**

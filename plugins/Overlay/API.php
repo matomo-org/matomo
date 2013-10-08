@@ -11,15 +11,14 @@
 namespace Piwik\Plugins\Overlay;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Access;
+use Piwik\Config;
 use Piwik\DataTable;
-use Piwik\Tracker\Action;
-use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\Transitions\API as APITransitions;
-
+use Piwik\Tracker\Action;
 
 class API
 {

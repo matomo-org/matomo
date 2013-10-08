@@ -10,11 +10,11 @@
  */
 
 namespace Piwik\Plugins\Installation;
-use HTML_QuickForm2_Rule;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
-use Piwik\QuickForm2;
+use HTML_QuickForm2_Rule;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\QuickForm2;
 
 /**
  *

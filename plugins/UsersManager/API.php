@@ -11,13 +11,13 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
 use Piwik\Access;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\Date;
-use Piwik\Site;
 use Piwik\Db;
+use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\Tracker\Cache;
 
 /**

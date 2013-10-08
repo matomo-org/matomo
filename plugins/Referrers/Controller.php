@@ -11,14 +11,14 @@
 namespace Piwik\Plugins\Referrers;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\DataTable\Map;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\ViewDataTable;
-use Piwik\View;
 use Piwik\Url;
+use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  *

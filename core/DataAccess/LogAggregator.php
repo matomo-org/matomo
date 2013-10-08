@@ -12,12 +12,12 @@ namespace Piwik\DataAccess;
 
 use PDOStatement;
 use Piwik\Common;
-use Piwik\Metrics;
 use Piwik\Date;
-use Piwik\Segment;
-use Piwik\Site;
-
 use Piwik\Db;
+use Piwik\Metrics;
+use Piwik\Segment;
+
+use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
 /**

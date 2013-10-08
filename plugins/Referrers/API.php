@@ -13,12 +13,12 @@ namespace Piwik\Plugins\Referrers;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
+use Piwik\Common;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Date;
-use Piwik\DataTable;
 
 /**
  * The Referrers API lets you access reports about Websites, Search engines, Keywords, Campaigns used to access your website.

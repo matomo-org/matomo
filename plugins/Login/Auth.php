@@ -10,9 +10,9 @@
  */
 namespace Piwik\Plugins\Login;
 
-use Piwik\Config;
-use Piwik\Common;
 use Piwik\AuthResult;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\Plugins\UsersManager\API;
 

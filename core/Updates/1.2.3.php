@@ -11,8 +11,8 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Config;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates;
 

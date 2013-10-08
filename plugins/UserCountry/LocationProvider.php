@@ -13,8 +13,8 @@ namespace Piwik\Plugins\UserCountry;
 use Exception;
 use Piwik\Common;
 use Piwik\IP;
-use Piwik\Tracker\Cache;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use Piwik\Tracker\Cache;
 use ReflectionClass;
 
 /**

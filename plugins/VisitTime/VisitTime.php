@@ -13,8 +13,8 @@ namespace Piwik\Plugins\VisitTime;
 use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
-use Piwik\Period;
 
+use Piwik\Period;
 use Piwik\Site;
 use Piwik\WidgetsList;
 

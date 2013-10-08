@@ -11,8 +11,8 @@
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Date;
+use Piwik\Piwik;
 use Piwik\Site;
 
 /**

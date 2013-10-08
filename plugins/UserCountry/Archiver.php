@@ -12,9 +12,9 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Metrics;
-use Piwik\DataTable;
 use Piwik\DataArray;
+use Piwik\DataTable;
+use Piwik\Metrics;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\PluginsArchiver;
 

@@ -12,8 +12,8 @@ namespace Piwik\Period;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Period;
 use Piwik\Date;
+use Piwik\Period;
 
 /**
  * from a starting date to an ending date

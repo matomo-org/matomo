@@ -12,8 +12,8 @@
 namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\DataAccess\LogAggregator;
-use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\Metrics;
 use Piwik\PluginsArchiver;
 
 class Archiver extends PluginsArchiver

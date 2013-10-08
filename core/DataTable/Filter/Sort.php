@@ -11,10 +11,10 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable\Filter;
-use Piwik\DataTable\Simple;
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
+use Piwik\DataTable\Simple;
 use Piwik\DataTable;
+use Piwik\Metrics;
 
 /**
  * Sort the DataTable based on the value of column $columnToSort ordered by $order.

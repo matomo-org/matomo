@@ -11,13 +11,12 @@
 
 namespace Piwik\Tracker;
 
-use Piwik\Config;
-use Piwik\Common;
-use Piwik\IP;
-use Piwik\Tracker;
-
 use Exception;
+use Piwik\Common;
+use Piwik\Config;
+use Piwik\IP;
 
+use Piwik\Tracker;
 use UserAgentParser;
 
 /**

@@ -12,11 +12,11 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
-use Piwik\Site;
 use Piwik\Controller;
 use Piwik\Period\Range;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
+use Piwik\Site;
 
 /**
  * Visualization that renders HTML for a line graph using jqPlot.

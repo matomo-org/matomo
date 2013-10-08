@@ -12,8 +12,8 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable\Filter;
 use Piwik\DataTable\Row;
-use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\Metrics;
 
 /**
  * @package Piwik

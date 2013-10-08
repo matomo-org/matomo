@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Date;
-
 use Piwik\PluginsManager;
 
 /**

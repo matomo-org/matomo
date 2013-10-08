@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\AnonymizeIP;
 
-use Piwik\Config;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\IP;
 use Piwik\Version;
 

@@ -9,8 +9,8 @@
  * @package Piwik
  */
 namespace Piwik;
-use Exception;
 
+use Exception;
 use Piwik\Period\Day;
 use Piwik\Period\Month;
 use Piwik\Period\Range;

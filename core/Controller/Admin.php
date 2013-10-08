@@ -11,12 +11,12 @@
 namespace Piwik\Controller;
 
 use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Controller;
+use Piwik\Piwik;
+use Piwik\PluginsManager;
+use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
-use Piwik\Url;
-use Piwik\PluginsManager;
 
 /**
  * Parent class of all plugins Controllers with admin functions

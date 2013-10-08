@@ -11,8 +11,8 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 /**
  * Visualization that renders HTML for a Pie graph using jqPlot.

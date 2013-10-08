@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\ExampleUI;
 
-use Piwik\Period\Range;
 use Piwik\DataTable;
+use Piwik\Period\Range;
 
 /**
  * ExampleUI API is also an example API useful if you are developing a Piwik plugin.

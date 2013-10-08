@@ -12,9 +12,8 @@ namespace Piwik\Plugins\ExampleUI;
 
 use Piwik\Common;
 use Piwik\Piwik;
-
-use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  * @package ExampleUI

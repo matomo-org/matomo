@@ -11,11 +11,11 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\Segment;
 use Piwik\Db;
+use Piwik\Piwik;
+use Piwik\Segment;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a

@@ -12,7 +12,6 @@
 namespace Piwik\Archive;
 
 use Exception;
-
 use Piwik\DataTable;
 
 /**

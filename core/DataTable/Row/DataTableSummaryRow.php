@@ -10,8 +10,8 @@
  */
 namespace Piwik\DataTable\Row;
 
-use Piwik\DataTable;
 use Piwik\DataTable\Manager;
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**

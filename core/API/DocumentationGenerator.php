@@ -11,11 +11,11 @@
 namespace Piwik\API;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Common;
 
-use Piwik\Url;
+use Piwik\Piwik;
 use Piwik\PluginsManager;
+use Piwik\Url;
 
 /**
  * @package Piwik

@@ -11,14 +11,14 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Db;
 
+use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 use Piwik\Translate;
-use Piwik\Site;
 use Piwik\WidgetsList;
-use Piwik\Db;
 
 /**
  *

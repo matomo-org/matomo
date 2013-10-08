@@ -14,12 +14,12 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
-use Piwik\Log;
 use Piwik\Tracker\Cache;
 
 /**

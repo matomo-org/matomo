@@ -11,7 +11,6 @@
 namespace Piwik;
 
 use Exception;
-
 use Piwik\Session\SaveHandler\DbTable;
 use Zend_Session;
 

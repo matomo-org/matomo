@@ -12,14 +12,14 @@
 namespace Piwik\Plugins\LanguagesManager;
 
 use Exception;
-use Piwik\Config;
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Cookie;
-
-use Piwik\View;
 use Piwik\Db;
+
+use Piwik\Piwik;
 use Piwik\Translate;
+use Piwik\View;
 
 /**
  *

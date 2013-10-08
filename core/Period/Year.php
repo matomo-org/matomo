@@ -10,8 +10,8 @@
  */
 namespace Piwik\Period;
 
-use Piwik\Period;
 use Piwik\Date;
+use Piwik\Period;
 
 /**
  * @package Piwik

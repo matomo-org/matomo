@@ -12,10 +12,10 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
-use Piwik\Loader;
-
 use pData;
 use pImage;
+
+use Piwik\Loader;
 use Piwik\SettingsPiwik;
 
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";

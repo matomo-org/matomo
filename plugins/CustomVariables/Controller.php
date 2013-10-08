@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
-use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  * @package CustomVariables

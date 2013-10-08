@@ -12,9 +12,9 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Archive;
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\DataTable;
 
 /**
  * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.

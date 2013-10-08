@@ -10,8 +10,6 @@
  */
 namespace Piwik;
 
-
-
 /**
  * Abstract class for update scripts
  *

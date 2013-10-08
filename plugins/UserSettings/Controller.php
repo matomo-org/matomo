@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\UserSettings;
 
-use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  *

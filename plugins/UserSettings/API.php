@@ -11,9 +11,9 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\Archive;
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\DataTable;
 
 /**
  * @see plugins/UserSettings/functions.php

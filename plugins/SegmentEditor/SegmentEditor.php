@@ -11,10 +11,10 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
-use Piwik\Common;
 
-use Piwik\Version;
+use Piwik\Common;
 use Piwik\Db;
+use Piwik\Version;
 
 /**
  * @package SegmentEditor

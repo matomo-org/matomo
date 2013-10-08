@@ -12,14 +12,14 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\API\DataTableManipulator\Flattener;
-use Piwik\API\DataTableManipulator\LabelFilter;
 
-use Piwik\DataTable\Renderer\Json;
-use Piwik\DataTable\Simple;
-use Piwik\DataTable\Renderer;
-use Piwik\Piwik;
+use Piwik\API\DataTableManipulator\LabelFilter;
 use Piwik\Common;
+use Piwik\DataTable\Renderer\Json;
+use Piwik\DataTable\Renderer;
+use Piwik\DataTable\Simple;
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * @package Piwik

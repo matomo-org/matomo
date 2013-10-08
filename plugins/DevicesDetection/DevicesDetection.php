@@ -13,11 +13,11 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Exception;
 use Piwik\ArchiveProcessor;
-use Piwik\Config;
 use Piwik\Common;
 
-use Piwik\WidgetsList;
+use Piwik\Config;
 use Piwik\Db;
+use Piwik\WidgetsList;
 use UserAgentParserEnhanced;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";

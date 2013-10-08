@@ -9,10 +9,10 @@
  * @package Piwik
  */
 namespace Piwik\ArchiveProcessor;
-use Piwik\Metrics;
 use Piwik\ArchiveProcessor;
 use Piwik\DataArray;
 use Piwik\DataTable;
+use Piwik\Metrics;
 
 /**
  * This class

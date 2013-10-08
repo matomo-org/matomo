@@ -11,8 +11,8 @@
 namespace Piwik\Plugins\Annotations;
 
 use Piwik\API\Request;
-use Piwik\Common;
 
+use Piwik\Common;
 use Piwik\View;
 
 /**

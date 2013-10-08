@@ -12,15 +12,15 @@ namespace Piwik\Plugins\API;
 
 use Exception;
 use Piwik\API\DataTableManipulator\LabelFilter;
-use Piwik\API\ResponseBuilder;
 use Piwik\API\Request;
+use Piwik\API\ResponseBuilder;
+use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Url;
 
 /**

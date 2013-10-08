@@ -11,10 +11,10 @@
 namespace Piwik\Plugins\Dashboard;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Site;
 use Piwik\Db;
+use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\WidgetsList;
 
 /**

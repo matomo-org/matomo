@@ -12,8 +12,8 @@
 // All classes and functions below are defined in the global namespace
 namespace {
 
-    use Piwik\EventDispatcher;
     use Piwik\DataTable;
+    use Piwik\EventDispatcher;
     use Piwik\Menu\Admin;
     use Piwik\Menu\Main;
     use Piwik\Menu\Top;

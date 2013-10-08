@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 use Piwik\Filechecks;
-use Piwik\Filesystem;
 
+use Piwik\Filesystem;
 use Piwik\SettingsPiwik;
 use Piwik\Unzip;
 

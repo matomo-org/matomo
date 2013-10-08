@@ -13,8 +13,8 @@ namespace Piwik\DataTable\Renderer;
 use Exception;
 use Piwik\Common;
 use Piwik\DataTable\Renderer;
-use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Url;
 
 /**

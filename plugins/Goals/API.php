@@ -12,12 +12,12 @@ namespace Piwik\Plugins\Goals;
 
 use Exception;
 use Piwik\Archive;
-use Piwik\Metrics;
-use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Site;
 use Piwik\Db;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 

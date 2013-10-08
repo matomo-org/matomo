@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\SEO;
 
-use Piwik\Piwik;
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * @see plugins/Referrers/functions.php

@@ -16,8 +16,8 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\API;
 use Piwik\ViewDataTable\Properties;
-use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik\ViewDataTable\Visualization;
+use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.

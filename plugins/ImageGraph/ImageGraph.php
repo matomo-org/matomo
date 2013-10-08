@@ -11,10 +11,10 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Piwik\Common;
-use Piwik\Period;
-use Piwik\Url;
-use Piwik\Site;
 use Piwik\Config;
+use Piwik\Period;
+use Piwik\Site;
+use Piwik\Url;
 
 class ImageGraph extends \Piwik\Plugin
 {

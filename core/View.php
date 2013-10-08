@@ -11,7 +11,6 @@
 namespace Piwik;
 
 use Exception;
-
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;

@@ -11,10 +11,10 @@
 namespace Piwik\DataTable;
 
 use Exception;
+use Piwik\DataTable;
 use Piwik\Loader;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\DataTable;
 
 /**
  * A DataTable Renderer can produce an output given a DataTable object.

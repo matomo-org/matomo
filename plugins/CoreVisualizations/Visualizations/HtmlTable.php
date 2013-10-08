@@ -14,12 +14,12 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
-use Piwik\ViewDataTable\Visualization;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
+use Piwik\ViewDataTable\Visualization;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/AllColumns.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/Goals.php';
