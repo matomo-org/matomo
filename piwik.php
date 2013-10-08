@@ -71,12 +71,15 @@ if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
 }
 if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
     require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-    require_once PIWIK_INCLUDE_PATH . '/core/ErrorHandler.php';
+
+    require_once PIWIK_INCLUDE_PATH . '/core/Error.php';
+    \Piwik\Error::setErrorHandler();
     require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
+    \Piwik\ExceptionHandler::setUp();
+
     $timer = new Timer();
-    set_error_handler('Piwik_ErrorHandler');
-    set_exception_handler('Piwik_ExceptionHandler');
     Common::printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
+
     \Piwik\Tracker\Db::enableProfiling();
     \Piwik\FrontController::createConfigObject();
 }
