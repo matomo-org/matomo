@@ -160,6 +160,11 @@ class AssetManager
 
         $mergedContent = $less->compile($mergedContent);
 
+        /**
+         * This event is triggered after the less stylesheets are compiled to CSS, minified and merged but before the
+         * generated CSS is written to disk. It can be used to change the generated stylesheets to your needs,
+         * like replacing image paths or adding further custom stylesheets.
+         */
         Piwik_PostEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
 
         $mergedContent =
@@ -279,6 +284,22 @@ class AssetManager
     private static function getStylesheetFiles()
     {
         $stylesheets = array();
+
+        /**
+         * This event is triggered to gather a list of all stylesheets (CSS and Less). Use this event to add your own
+         * stylesheets. Note: In case you are in development you may enable the config setting `disable_merged_assets`.
+         * Otherwise your custom stylesheets won't be loaded. It is best practice to place stylesheet files within a
+         * `stylesheets` folder.
+         *
+         * Example:
+         * ```
+         * public function getStylesheetFiles(&$stylesheets)
+         * {
+         *     $stylesheets[] = "plugins/MyPlugin/stylesheets/myfile.less";
+         *     $stylesheets[] = "plugins/MyPlugin/stylesheets/myfile.css";
+         * }
+         * ```
+         */
         Piwik_PostEvent(self::STYLESHEET_IMPORT_EVENT, array(&$stylesheets));
 
         $stylesheets = self::sortCssFiles($stylesheets);
@@ -356,6 +377,11 @@ class AssetManager
         }
         $mergedContent = str_replace("\n", "\r\n", $mergedContent);
 
+        /**
+         * This event is triggered after the JavaScript files are minified and merged to a single file but before the
+         * generated JS file is written to disk. It can be used to change the generated JavaScript to your needs,
+         * like adding further scripts or storing the generated file somewhere else.
+         */
         Piwik_PostEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent));
 
         self::writeAssetToFile($mergedContent, self::MERGED_JS_FILE);
@@ -386,6 +412,22 @@ class AssetManager
     private static function getJsFiles()
     {
         $jsFiles = array();
+
+        /**
+         * This event is triggered to gather a list of all JavaScript files. Use this event to add your own JavaScript
+         * files. Note: In case you are in development you may enable the config setting `disable_merged_assets`.
+         * Otherwise your custom JavaScript won't be loaded. It is best practice to place all your JavaScript files
+         * within a `javascripts` folder.
+         *
+         * Example:
+         * ```
+         * public function getJsFiles(&jsFiles)
+         * {
+         *     jsFiles[] = "plugins/MyPlugin/javascripts/myfile.js";
+         *     jsFiles[] = "plugins/MyPlugin/javascripts/anotherone.js";
+         * }
+         * ```
+         */
         Piwik_PostEvent(self::JAVASCRIPT_IMPORT_EVENT, array(&$jsFiles));
         $jsFiles = self::sortJsFiles($jsFiles);
         return $jsFiles;

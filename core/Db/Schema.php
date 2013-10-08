@@ -131,6 +131,9 @@ class Schema
     private function loadSchema()
     {
         $schema = null;
+        /**
+         * @matt can be removed?
+         */
         Piwik_PostEvent('Schema.loadSchema', array(&$schema));
         if ($schema === null) {
             $config = Config::getInstance();

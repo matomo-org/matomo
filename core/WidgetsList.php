@@ -38,7 +38,6 @@ class WidgetsList
     static public function get()
     {
         self::addWidgets();
-        Piwik_PostEvent('WidgetsList.getWidgets');
 
         uksort(self::$widgets, array('Piwik\WidgetsList', '_sortWidgetCategories'));
 
@@ -56,6 +55,20 @@ class WidgetsList
     {
         if (!self::$hookCalled) {
             self::$hookCalled = true;
+
+            /**
+             * This event is triggered to collect all available widgets. Subscribe to this event if you want to create
+             * one or more custom widgets. It's fairly easy. Just define the name of your widgets as well as a
+             * controller and an action that should be executed once your widget is requested.
+             *
+             * Example:
+             * ```
+             * public function addWidgets()
+             * {
+             *     WidgetsList::add('General_Actions', 'General_Pages', 'Actions', 'getPageUrls');
+             * }
+             * ```
+             */
             Piwik_PostEvent('WidgetsList.addWidgets');
         }
     }

@@ -180,7 +180,19 @@ class Proxy
             // allow plugins to manipulate the value
             $pluginName = $this->getModuleNameFromClassName($className);
 
+            /**
+             * Generic hook that plugins can use to modify any input to any API method. You could also use this to build
+             * an enhanced permission system. The event is triggered shortly before any API method is executed.
+             *
+             * The `$fnalParameters` contains all paramteres that will be passed to the actual API method.
+             */
             Piwik_PostEvent(sprintf('API.Request.dispatch', $pluginName, $methodName), array(&$finalParameters));
+
+            /**
+             * This event is similar to the `API.Request.dispatch` event. It distinguishes the possibility to subscribe
+             * only to a specific API method instead of all API methods. You can use it for example to modify any input
+             * parameters or to execute any other logic before the actual API method is called.
+             */
             Piwik_PostEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
             // call the method
@@ -193,7 +205,40 @@ class Proxy
                       'action'     => $methodName,
                       'parameters' => $finalParameters)
             );
+
+            /**
+             * This event is similar to the `API.Request.dispatch.end` event. It distinguishes the possibility to
+             * subscribe only to the end of a specific API method instead of all API methods. You can use it for example
+             * to modify the response. The passed parameters contains the returned value as well as some additional
+             * meta information:
+             *
+             * ```
+             * function (
+             *     &$returnedValue,
+             *     array('className'  => $className,
+             *           'module'     => $pluginName,
+             *           'action'     => $methodName,
+             *           'parameters' => $finalParameters)
+             * );
+             * ```
+             */
             Piwik_PostEvent(sprintf('API.%s.%s.end', $pluginName, $methodName), $endHookParams);
+
+            /**
+             * Generic hook that plugins can use to modify any output of any API method. The event is triggered after
+             * any API method is executed but before the result is send to the user. The parameters originally
+             * passed to the controller are available as well:
+             *
+             * ```
+             * function (
+             *     &$returnedValue,
+             *     array('className'  => $className,
+             *           'module'     => $pluginName,
+             *           'action'     => $methodName,
+             *           'parameters' => $finalParameters)
+             * );
+             * ```
+             */
             Piwik_PostEvent(sprintf('API.Request.dispatch.end', $pluginName, $methodName), $endHookParams);
 
             // Restore the request

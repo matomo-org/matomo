@@ -104,6 +104,21 @@ class Day extends ArchiveProcessor
 
     protected function compute()
     {
+        /**
+         * This event is triggered when the archiver wants to compute a new archive. Use this event to archive your
+         * custom report data if needed.
+         *
+         * Example:
+         * ```
+         * public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+         * {
+         *     $archiving = new Archiver($archiveProcessor);
+         *     if ($archiving->shouldArchive()) {
+         *         $archiving->archiveDay();
+         *     }
+         * }
+         * ```
+         */
         Piwik_PostEvent('ArchiveProcessor.Day.compute', array(&$this));
     }
 }

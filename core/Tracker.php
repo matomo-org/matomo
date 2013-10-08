@@ -554,6 +554,11 @@ class Tracker
             $configDb['port'] = '3306';
         }
 
+        /**
+         * This event is triggered before a connection to the database is established. Use it to dynamically change the
+         * datatabase settings defined in the config. The tracker database config is used in case a new pageview/visit
+         * will be tracked.
+         */
         Piwik_PostEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
         $db = Tracker::factory($configDb);
@@ -570,6 +575,12 @@ class Tracker
 
         try {
             $db = null;
+
+            /**
+             * This event is triggered after the database config is loaded but immediately before a connection to the
+             * database is established. Use this event to create your own database handler instead of the default Piwik
+             * DB handler.
+             */
             Piwik_PostEvent('Tracker.createDatabase', array(&$db));
             if (is_null($db)) {
                 $db = self::connectPiwikTrackerDb();
@@ -606,6 +617,12 @@ class Tracker
     protected function getNewVisitObject()
     {
         $visit = null;
+
+        /**
+         * This event is triggered once a new `Piwik\Tracker\Visit` object is requested. Use this event to force the
+         * usage of your own or your extended visit object but make sure to implement the
+         * `Piwik\Tracker\VisitInterface`.
+         */
         Piwik_PostEvent('Tracker.getNewVisitObject', array(&$visit));
 
         if (is_null($visit)) {
