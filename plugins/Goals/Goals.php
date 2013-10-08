@@ -35,6 +35,11 @@ class Goals extends \Piwik\Plugin
     static public function getReportsWithGoalMetrics()
     {
         $dimensions = array();
+
+        /**
+         * This event is triggered to define available goal segments.
+         * @matt
+         */
         Piwik_PostEvent('Goals.getReportsWithGoalMetrics', array(&$dimensions));
         $dimensionsByGroup = array();
         foreach ($dimensions as $dimension) {
@@ -337,6 +342,10 @@ class Goals extends \Piwik\Plugin
         /*
          * Add the metricsGoal and processedMetricsGoal entry
          * to all reports that have Goal segmentation
+         *
+         * @matt is this same event as triggered above? Do we need two names? Currently they appear twice in the
+         * generated documentation. Maybe we can create a private/protected function to trigger this event to have it
+         * defined only once?
          */
         $reportsWithGoals = array();
         Piwik_PostEvent('Goals.getReportsWithGoalMetrics', array(&$reportsWithGoals));

@@ -84,6 +84,12 @@ class ProcessedReport
         $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
 
         $availableReports = array();
+
+        /**
+         * This event is triggered to get all available reports. Your plugin can use this event to add one or
+         * multiple reports. By doing that the report will be for instance available in ScheduledReports as well as
+         * in the Piwik Mobile App.
+         */
         Piwik_PostEvent('API.getReportMetadata', array(&$availableReports, $parameters));
         foreach ($availableReports as &$availableReport) {
             if (!isset($availableReport['metrics'])) {
@@ -102,7 +108,10 @@ class ProcessedReport
             }
         }
 
-        // Some plugins need to add custom metrics after all plugins hooked in
+        /**
+         * This event is triggered to after all available reports are collected. Plugins can add custom metrics to
+         * other reports or remove reports from the list of all available reports.
+         */
         Piwik_PostEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order

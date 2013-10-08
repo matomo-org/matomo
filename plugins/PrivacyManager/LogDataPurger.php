@@ -227,8 +227,14 @@ class LogDataPurger
 
         // allow code to be executed after data is inserted. for concurrency testing purposes.
         if ($olderThan) {
+            /**
+             * @matt
+             */
             Piwik_PostEvent("LogDataPurger.ActionsToKeepInserted.olderThan");
         } else {
+            /**
+             * @matt
+             */
             Piwik_PostEvent("LogDataPurger.ActionsToKeepInserted.newerThan");
         }
     }

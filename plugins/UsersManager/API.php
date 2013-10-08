@@ -398,7 +398,11 @@ class API
         Access::getInstance()->reloadAccess();
         Cache::deleteTrackerCache();
 
-        Piwik_PostEvent('UsersManager.addUser', array($userLogin));
+        /**
+         * This event is triggered after a new user is created and saved in the database. `$userLogin` contains all
+         * relevant user information like login name, alias, email and transformed password.
+         */
+        Piwik_PostEvent('UsersManager.addUser.end', array($userLogin));
     }
 
     /**
@@ -455,7 +459,11 @@ class API
         );
         Cache::deleteTrackerCache();
 
-        Piwik_PostEvent('UsersManager.updateUser', array($userLogin));
+        /**
+         * This event is triggered after an existing user has updated its information and after the data has been saved.
+         * `$userLogin` contains the updated user information like login name, alias and email.
+         */
+        Piwik_PostEvent('UsersManager.updateUser.end', array($userLogin));
     }
 
     /**
@@ -641,6 +649,11 @@ class API
         $db = Db::get();
         $db->query("DELETE FROM " . Common::prefixTable("user") . " WHERE login = ?", $userLogin);
 
+        /**
+         * This event is triggered after a user has been deleted. Plugins can use this event to remove user specific
+         * values or settings. For instance removing all created dashboards that belong to a specific user.
+         * If you store any data related to a user, you may want to clean up that information.
+         */
         Piwik_PostEvent('UsersManager.deleteUser', array($userLogin));
     }
 

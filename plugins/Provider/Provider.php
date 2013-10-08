@@ -162,6 +162,22 @@ class Provider extends \Piwik\Plugin
             return 'Ip';
         } else {
             $cleanHostname = null;
+
+            /**
+             * This event is triggered to get a clean hostname depending on a given hostname. For instance it is used
+             * to return `site.co.jp` in `fvae.VARG.ceaga.site.co.jp`. Use this event to customize the way a hostname
+             * is cleaned.
+             *
+             * Example:
+             * ```
+             * public function getCleanHostname(&$cleanHostname, $hostname)
+             * {
+             *     if ('fvae.VARG.ceaga.site.co.jp' == $hostname) {
+             *         $cleanHostname = 'site.co.jp';
+             *     }
+             * }
+             * ```
+             */
             Piwik_PostEvent('Provider.getCleanHostname', array(&$cleanHostname, $hostname));
             if ($cleanHostname !== null) {
                 return $cleanHostname;

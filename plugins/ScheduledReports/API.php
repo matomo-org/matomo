@@ -412,13 +412,17 @@ class API
             self::REPORT_KEY           => $report,
         );
 
-        // allow plugins to alter processed reports
+        /**
+         * This event allows plugins to alter processed reports.
+         */
         Piwik_PostEvent(
             self::PROCESS_REPORTS_EVENT,
             array(&$processedReports, $notificationInfo)
         );
 
-        // retrieve report renderer instance
+        /**
+         * This event is triggered to retrieve the report renderer instance.
+         */
         $reportRenderer = null;
         Piwik_PostEvent(
             self::GET_RENDERER_INSTANCE_EVENT,
@@ -600,7 +604,9 @@ class API
             }
         }
 
-        // delegate report parameter validation
+        /**
+         * This event is triggered to delegate report parameter validation.
+         */
         Piwik_PostEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $notificationInfo));
 
         return Common::json_encode($parameters);
@@ -709,7 +715,9 @@ class API
             self::ID_SITE_INFO_KEY     => $idSite,
         );
 
-        // retrieve available reports
+        /**
+         * This event is used to retrieve all available reports.
+         */
         $availableReportMetadata = array();
         Piwik_PostEvent(
             self::GET_REPORT_METADATA_EVENT,
@@ -778,7 +786,9 @@ class API
             self::REPORT_KEY           => $report,
         );
 
-        // retrieve report renderer instance
+        /**
+         * This event is used to retrieve the report renderer instance.
+         */
         $recipients = array();
         Piwik_PostEvent(self::GET_REPORT_RECIPIENTS_EVENT, array(&$recipients, $notificationInfo));
 

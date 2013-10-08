@@ -169,6 +169,21 @@ class Controller extends \Piwik\Controller
                       'rememberMe'  => $rememberMe,
         );
         Nonce::discardNonce('Login.login');
+
+        /**
+         * This event is triggered to initialize a user session. You can use this event to authenticate user against
+         * third party systems.
+         *
+         * Example:
+         * ```
+         * public function initSession($info)
+         * {
+         *     $login = $info['login'];
+         *     $md5Password = $info['md5Password'];
+         *     $rememberMe = $info['rememberMe'];
+         * }
+         * ```
+         */
         Piwik_PostEvent('Login.initSession', array(&$info));
         Url::redirectToUrl($urlToRedirect);
     }

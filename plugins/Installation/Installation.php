@@ -59,7 +59,11 @@ class Installation extends \Piwik\Plugin
 
         Translate::getInstance()->loadCoreTranslation();
 
-        Piwik_PostEvent('Installation.startInstallation', array($this));
+        /**
+         * This event is triggered when the installation will be started. You can use this event to modify the
+         * installation process to your needs (adding/removing steps, removing steps, etc.).
+         */
+        Piwik_PostEvent('Installation.startInstallation', array($installation = $this));
 
         $step = Common::getRequestVar('action', 'welcome', 'string');
         $controller = $this->getInstallationController();

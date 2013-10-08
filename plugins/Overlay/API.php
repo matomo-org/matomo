@@ -116,6 +116,11 @@ class API
     /** Do cookie authentication. This way, the token can remain secret. */
     private function authenticate($idSite)
     {
+        /**
+         * This event is triggered shortly before the user is authenticated. Use it to create your own
+         * authentication object instead of the Piwik authentication. Make sure to implement the `Piwik\Auth`
+         * interface in case you want to define your own authentication.
+         */
         Piwik_PostEvent('Request.initAuthenticationObject', array($allowCookieAuthentication = true));
 
         $auth = \Piwik\Registry::get('auth');

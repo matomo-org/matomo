@@ -94,6 +94,11 @@ class API
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
     {
         $segments = array();
+
+        /**
+         * This event is triggered to get all available segments. Your plugin can use this event to add one or
+         * multiple new segments.
+         */
         Piwik_PostEvent('API.getSegmentsMetadata', array(&$segments, $idSites));
 
         $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();

@@ -594,6 +594,11 @@ class API
         // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
         Cache::deleteCacheWebsiteAttributes($idSite);
 
+        /**
+         * This event is triggered after a site has been deleted. Plugins can use this event to remove site specific
+         * values or settings. For instance removing all goals that belong to a specific website. If you store any data
+         * related to a website you may want to clean up that information.
+         */
         Piwik_PostEvent('SitesManager.deleteSite.end', array($idSite));
     }
 
