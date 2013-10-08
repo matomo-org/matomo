@@ -22,7 +22,7 @@ class Updates_1_5_rc6 extends Updates
     {
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('PrivacyManager');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

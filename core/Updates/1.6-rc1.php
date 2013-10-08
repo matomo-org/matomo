@@ -22,7 +22,7 @@ class Updates_1_6_rc1 extends Updates
     {
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('ImageGraph');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

@@ -182,7 +182,6 @@ class CronArchive
         return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
     }
 
-
     /**
      * Returns the option name of the option that stores the time the archive.php
      * script was last run.

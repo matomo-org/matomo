@@ -24,7 +24,7 @@ class Updates_0_4_4 extends Updates
         if (file_exists($obsoleteFile)) {
             $rc = @unlink($obsoleteFile);
             if (!$rc) {
-                throw new Exception(Piwik_TranslateException('General_ExceptionUndeletableFile', array($obsoleteFile)));
+                throw new \Exception(Piwik_TranslateException('General_ExceptionUndeletableFile', array($obsoleteFile)));
             }
         }
     }

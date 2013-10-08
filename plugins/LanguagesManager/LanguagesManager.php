@@ -156,6 +156,7 @@ class LanguagesManager extends \Piwik\Plugin
                 return $language['name'];
             }
         }
+        return false;
     }
 
     /**
@@ -206,5 +207,6 @@ class LanguagesManager extends \Piwik\Plugin
         $cookie = new Cookie($cookieName, 0);
         $cookie->set('language', $languageCode);
         $cookie->save();
+        return true;
     }
 }

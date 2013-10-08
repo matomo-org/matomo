@@ -42,9 +42,9 @@ class Updates_0_6_3 extends Updates
                     $config->database = $dbInfos;
                     $config->forceSave();
                 } else {
-                    throw new Exception('mandatory update failed');
+                    throw new \Exception('mandatory update failed');
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 throw new \Piwik\Updater_UpdateErrorException("Please edit your config/config.ini.php file and add below <code>[database]</code> the following line: <br /><code>schema = Myisam</code>");
             }
         }

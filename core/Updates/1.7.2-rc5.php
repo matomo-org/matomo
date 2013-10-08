@@ -32,7 +32,7 @@ class Updates_1_7_2_rc5 extends Updates
     {
         try {
             Updater::updateDatabase(__FILE__, self::getSql());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

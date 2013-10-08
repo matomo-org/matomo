@@ -111,7 +111,7 @@ class Updates_1_8_3_b1 extends Updates
             }
 
             Db::query('DROP TABLE `' . Common::prefixTable('pdf') . '`');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
     }

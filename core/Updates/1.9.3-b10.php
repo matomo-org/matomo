@@ -27,7 +27,7 @@ class Updates_1_9_3_b10 extends Updates
     {
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('Annotations');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // pass
         }
     }

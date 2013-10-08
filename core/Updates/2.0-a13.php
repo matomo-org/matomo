@@ -68,11 +68,11 @@ class Updates_2_0_a13 extends Updates
 
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('Referrers');
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
         }
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('ScheduledReports');
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
         }
 
     }

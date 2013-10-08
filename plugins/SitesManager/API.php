@@ -93,6 +93,7 @@ class API
     /**
      * Returns all websites belonging to the specified group
      * @param string $group Group name
+     * @return array of sites
      */
     public function getSitesFromGroup($group)
     {

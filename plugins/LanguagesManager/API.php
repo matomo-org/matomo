@@ -243,5 +243,6 @@ class API
                     VALUES (?,?)
                 ON DUPLICATE KEY UPDATE language=?',
             $paramsBind);
+        return true;
     }
 }

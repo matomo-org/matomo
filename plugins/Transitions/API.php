@@ -406,7 +406,6 @@ class API
             }
         }
 
-        //FIXMEA refactor after integration tests written
         $array = new DataArray($referrerData, $referrerSubData);
         return ArchiveProcessor\Day::getDataTableFromDataArray($array);
     }

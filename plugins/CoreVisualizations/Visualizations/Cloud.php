@@ -181,5 +181,6 @@ class Cloud extends Visualization
                 return $key;
             }
         }
+        return 0;
     }
 }

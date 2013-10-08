@@ -185,7 +185,7 @@ class Updates_1_8_4_b1 extends Updates
             self::enableMaintenanceMode();
             Updater::updateDatabase(__FILE__, self::getSql());
             self::disableMaintenanceMode();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             self::disableMaintenanceMode();
             throw $e;
         }

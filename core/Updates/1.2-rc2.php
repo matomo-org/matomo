@@ -22,7 +22,7 @@ class Updates_1_2_rc2 extends Updates
     {
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('CustomVariables');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

@@ -10,7 +10,7 @@
  */
 namespace Piwik\Menu;
 
-use Piwik\Menu\MenuAbstract;
+
 use Piwik\Piwik;
 
 /**

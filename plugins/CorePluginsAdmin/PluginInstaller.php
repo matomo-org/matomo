@@ -173,22 +173,23 @@ class PluginInstaller
      */
     private function getNameOfFirstSubfolder($pluginDir)
     {
-        if ($dir = opendir($pluginDir)) {
-            $firstSubFolder = '';
-
-            while ($file = readdir($dir)) {
-                if ($file[0] != '.' && is_dir($pluginDir . DIRECTORY_SEPARATOR . $file)) {
-                    $firstSubFolder = $file;
-                    break;
-                }
-            }
-
-            if (empty($firstSubFolder)) {
-                throw new PluginInstallerException('The plugin ZIP file does not contain a subfolder, but Piwik expects plugin files to be within a subfolder in the Zip archive.');
-            }
-
-            return $firstSubFolder;
+        if (!($dir = opendir($pluginDir))) {
+            return false;
         }
+        $firstSubFolder = '';
+
+        while ($file = readdir($dir)) {
+            if ($file[0] != '.' && is_dir($pluginDir . DIRECTORY_SEPARATOR . $file)) {
+                $firstSubFolder = $file;
+                break;
+            }
+        }
+
+        if (empty($firstSubFolder)) {
+            throw new PluginInstallerException('The plugin ZIP file does not contain a subfolder, but Piwik expects plugin files to be within a subfolder in the Zip archive.');
+        }
+
+        return $firstSubFolder;
     }
 
     private function fixPluginFolderIfNeeded($tmpPluginFolder)

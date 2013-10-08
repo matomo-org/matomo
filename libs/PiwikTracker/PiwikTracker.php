@@ -370,7 +370,7 @@ class PiwikTracker
      *
      * @param string $keyword Searched query on the site
      * @param string $category Optional, Search engine category if applicable
-     * @param int $countResults results displayed on the search result page. Used to track "zero result" keywords.
+     * @param bool|int $countResults results displayed on the search result page. Used to track "zero result" keywords.
      *
      * @return mixed Response or true if using bulk requests.
      */

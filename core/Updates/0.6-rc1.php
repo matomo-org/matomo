@@ -61,7 +61,7 @@ class Updates_0_6_rc1 extends Updates
 
         // Outputs warning message, pointing users to the plugin download page
         if (!empty($disabledPlugins)) {
-            throw new Exception("The following plugins were disabled during the upgrade:"
+            throw new \Exception("The following plugins were disabled during the upgrade:"
                 . "<ul><li>" .
                 implode('</li><li>', $disabledPlugins) .
                 "</li></ul>");

@@ -34,7 +34,7 @@ class Updates_1_4_rc1 extends Updates
     {
         try {
             Updater::updateDatabase(__FILE__, self::getSql());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

@@ -27,7 +27,7 @@ class Updates_1_11_b1 extends Updates
     {
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('UserCountryMap');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // pass
         }
     }

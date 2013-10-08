@@ -73,7 +73,8 @@ class Db
      * The return result is DBMS-specific. For MySQLI, it returns the number of rows affected.  For PDO, it returns the Zend_Db_Statement object
      * If you want to fetch data from the DB you should use the function Db::fetchAll()
      *
-     * @param string $sql  SQL Query
+     * @param string $sql SQL Query
+     * @throws \Exception
      * @return integer|\Zend_Db_Statement
      */
     static public function exec($sql)
@@ -100,8 +101,9 @@ class Db
      *
      * See also http://framework.zend.com/manual/en/zend.db.statement.html
      *
-     * @param string $sql         SQL Query
-     * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql SQL Query
+     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @throws \Exception
      * @return \Zend_Db_Statement
      */
     static public function query($sql, $parameters = array())
@@ -117,8 +119,9 @@ class Db
     /**
      * Executes the SQL Query and fetches all the rows from the database query
      *
-     * @param string $sql         SQL Query
-     * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql SQL Query
+     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @throws \Exception
      * @return array (one row in the array per row fetched in the DB)
      */
     static public function fetchAll($sql, $parameters = array())
@@ -137,6 +140,7 @@ class Db
      * @param string $sql         SQL Query
      * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
      * @return array
+     * @throws \Exception
      */
     static public function fetchRow($sql, $parameters = array())
     {
@@ -154,6 +158,7 @@ class Db
      * @param string $sql         SQL Query
      * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
      * @return string
+     * @throws \Exception
      */
     static public function fetchOne($sql, $parameters = array())
     {
@@ -171,6 +176,7 @@ class Db
      * @param string $sql         SQL query
      * @param array $parameters  Parameters to bind in the query, array( param1 => value1, param2 => value2)
      * @return array
+     * @throws \Exception
      */
     static public function fetchAssoc($sql, $parameters = array())
     {

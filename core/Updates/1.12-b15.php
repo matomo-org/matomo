@@ -22,7 +22,7 @@ class Updates_1_12_b15 extends Updates
     {
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('SegmentEditor');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // pass
         }
     }

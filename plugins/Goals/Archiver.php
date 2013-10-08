@@ -246,6 +246,7 @@ class Archiver extends PluginsArchiver
             $this->aggregateFromEcommerceItems($query, $dimension);
         }
         $this->recordItemReports();
+        return true;
     }
 
     protected function initItemReports()

@@ -39,7 +39,7 @@ class Updates_1_9_b19 extends Updates
 
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('Transitions');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

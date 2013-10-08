@@ -113,6 +113,7 @@ class Updater
      * Returns the list of SQL queries that would be executed during the update
      *
      * @return array of SQL queries
+     * @throws \Exception
      */
     public function getSqlQueriesToExecute()
     {

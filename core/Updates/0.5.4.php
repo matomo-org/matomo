@@ -41,9 +41,9 @@ class Updates_0_5_4 extends Updates
                     $config->superuser = $superuser;
                     $config->forceSave();
                 } else {
-                    throw new Exception('mandatory update failed');
+                    throw new \Exception('mandatory update failed');
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 throw new \Piwik\Updater_UpdateErrorException("Please edit your config/config.ini.php file and add below <code>[superuser]</code> the following line: <br /><code>salt = $salt</code>");
             }
         }
@@ -56,10 +56,10 @@ class Updates_0_5_4 extends Updates
                     $config->Plugins = $plugins;
                     $config->forceSave();
                 } else {
-                    throw new Exception('optional update failed');
+                    throw new \Exception('optional update failed');
                 }
-            } catch (Exception $e) {
-                throw new Exception("You can now enable the new MultiSites plugin in the Plugins screen in the Piwik admin!");
+            } catch (\Exception $e) {
+                throw new \Exception("You can now enable the new MultiSites plugin in the Plugins screen in the Piwik admin!");
             }
         }
 

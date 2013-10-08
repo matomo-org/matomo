@@ -197,7 +197,7 @@ class Filesystem
      *
      * @param string $dir            Directory name
      * @param boolean $deleteRootToo  Delete specified top-level directory as well
-     * @param Closure|false $beforeUnlink A closure to execute before unlinking.
+     * @param \Closure|false $beforeUnlink A closure to execute before unlinking.
      */
     public static function unlinkRecursive($dir, $deleteRootToo, \Closure $beforeUnlink = null)
     {

@@ -35,7 +35,7 @@ class Updates_2_0_a12 extends Updates
                 if ($rows == 0) {
                     $result["DROP TABLE $tableName"] = false;
                 }
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 // ignore
             }
         }

@@ -27,7 +27,7 @@ class Updates_1_10_1 extends Updates
     {
         try {
             \Piwik\PluginsManager::getInstance()->activatePlugin('Overlay');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // pass
         }
     }
