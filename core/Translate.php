@@ -16,23 +16,6 @@ use Exception;
  */
 class Translate
 {
-    /**
-     * This event is called before generating the JavaScript code that allows other JavaScript
-     * to access Piwik i18n strings. Plugins should handle this event to specify which translations
-     * should be available to JavaScript code.
-     * 
-     * Event handlers should add whole translation keys, ie, keys that include the plugin name.
-     * For example:
-     * 
-     * <code>
-     * public function getClientSideTranslationKeys(&$result)
-     * {
-     *     $result[] = "MyPlugin_MyTranslation";
-     * }
-     * </code>
-     * 
-     * Callback Signature: function (array &$result)
-     */
     const GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT = 'Translate.getClientSideTranslationKeys';
 
     static private $instance = null;
@@ -184,6 +167,21 @@ class Translate
     {
         $result = array();
 
+        /**
+         * This event is called before generating the JavaScript code that allows other JavaScript
+         * to access Piwik i18n strings. Plugins should handle this event to specify which translations
+         * should be available to JavaScript code.
+         *
+         * Event handlers should add whole translation keys, ie, keys that include the plugin name.
+         * For example:
+         *
+         * ```
+         * public function getClientSideTranslationKeys(&$result)
+         * {
+         *     $result[] = "MyPlugin_MyTranslation";
+         * }
+         * ```
+         */
         Piwik_PostEvent(self::GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT, array(&$result));
 
         $result = array_unique($result);

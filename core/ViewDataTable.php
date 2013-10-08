@@ -112,45 +112,7 @@ use Piwik\ViewDataTable\Visualization;
  */
 class ViewDataTable
 {
-    /**
-     * This event is called before a visualization is created. Plugins can use this event to
-     * override view properties for individual reports or visualizations.
-     * 
-     * Themes can use this event to make sure reports look nice with their themes. Plugins
-     * that provide new visualizations can use this event to make sure certain reports
-     * are configured differently when viewed with the new visualization.
-     * 
-     * Callback Signature: function (ViewDataTable $view) {}
-     */
     const CONFIGURE_VIEW_EVENT = 'Visualization.initView';
-
-    /**
-     * This event is called when determining the default set of footer icons to display
-     * below a report.
-     * 
-     * Plugins can use this event to modify the default set of footer icons. You can
-     * add new icons or remove existing ones.
-     * 
-     * Callback Signature: function (array &$result, ViewDataTable $view) {}
-     * 
-     * $result must have the following format:
-     * 
-     * array(
-     *     array( // footer icon group 1
-     *         'class' => 'footerIconGroup1CssClass',
-     *         'buttons' => array(
-     *             'id' => 'myid',
-     *             'title' => 'My Tooltip',
-     *             'icon' => 'path/to/my/icon.png'
-     *         )
-     *     ),
-     *     array( // footer icon group 2
-     *         'class' => 'footerIconGroup2CssClass',
-     *         'buttons' => array(...)
-     *     ),
-     *     ...
-     * )
-     */
     const CONFIGURE_FOOTER_ICONS_EVENT = 'Visualization.configureFooterIcons';
 
     /**
@@ -1118,7 +1080,16 @@ class ViewDataTable
     protected function buildView()
     {
         $visualization = new $this->visualizationClass($this);
-        Piwik_PostEvent(self::CONFIGURE_VIEW_EVENT, array($this));
+
+        /**
+         * This event is called before a visualization is created. Plugins can use this event to
+         * override view properties for individual reports or visualizations.
+         *
+         * Themes can use this event to make sure reports look nice with their themes. Plugins
+         * that provide new visualizations can use this event to make sure certain reports
+         * are configured differently when viewed with the new visualization.
+         */
+        Piwik_PostEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
         $this->overrideViewProperties();
         
         try {
@@ -1284,7 +1255,34 @@ class ViewDataTable
             $result[] = $graphViewIcons;
         }
 
-        Piwik_PostEvent(self::CONFIGURE_FOOTER_ICONS_EVENT, array(&$result, $this));
+        /**
+         * This event is called when determining the default set of footer icons to display
+         * below a report.
+         *
+         * Plugins can use this event to modify the default set of footer icons. You can
+         * add new icons or remove existing ones.
+         *
+         * $result must have the following format:
+         *
+         * ```
+         * array(
+         *     array( // footer icon group 1
+         *         'class' => 'footerIconGroup1CssClass',
+         *         'buttons' => array(
+         *             'id' => 'myid',
+         *             'title' => 'My Tooltip',
+         *             'icon' => 'path/to/my/icon.png'
+         *         )
+         *     ),
+         *     array( // footer icon group 2
+         *         'class' => 'footerIconGroup2CssClass',
+         *         'buttons' => array(...)
+         *     ),
+         *     ...
+         * )
+         * ```
+         */
+        Piwik_PostEvent(self::CONFIGURE_FOOTER_ICONS_EVENT, array(&$result, $viewDataTable = $this));
         
         return $result;
     }
