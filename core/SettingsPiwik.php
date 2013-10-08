@@ -62,6 +62,9 @@ class SettingsPiwik
             $segments = Config::getInstance()->Segments;
             $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
 
+            /**
+             * @matt
+             */
             Piwik_PostEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$cachedResult));
 
             self::$cachedKnownSegmentsToArchive = array_unique($cachedResult);
@@ -74,6 +77,10 @@ class SettingsPiwik
     public static function getKnownSegmentsToArchiveForSite($idSite)
     {
         $segments = array();
+
+        /**
+         * @matt
+         */
         Piwik_PostEvent('Segments.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
         return $segments;
     }

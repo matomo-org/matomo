@@ -425,6 +425,22 @@ class ViewDataTable
     {
         if (self::$reportPropertiesCache === null) {
             self::$reportPropertiesCache = array();
+            /**
+             * This event is triggered to gather the report display properties for each available report. If you define
+             * your own report, you mant to subscribe to this event to define how your report shall be displayed in the
+             * Piwik UI.
+             *
+             * Example:
+             * ```
+             * public function getReportDisplayProperties(&$properties)
+             * {
+             *     $properties['Provider.getProvider'] = array(
+             *         'translations' => array('label' => Piwik_Translate('Provider_ColumnProvider')),
+             *         'filter_limit' => 5
+             *     )
+             * }
+             * ```
+             */
             Piwik_PostEvent('Visualization.getReportDisplayProperties', array(&self::$reportPropertiesCache));
         }
 

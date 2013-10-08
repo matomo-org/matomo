@@ -37,6 +37,7 @@ use UserAgentParser;
  *
  * @package Piwik
  * @subpackage Tracker
+ * @api
  */
 class Visit implements VisitInterface
 {

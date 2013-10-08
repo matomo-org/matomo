@@ -113,6 +113,11 @@ class Translate
         if (is_null(self::$languageToLoad)) {
             $lang = Common::getRequestVar('language', '', 'string');
 
+            /**
+             * This event is triggered to identify the language code, such as 'en', for the current user. You can use
+             * it for instance to detect the users language by using a third party API such as a CMS. The language that
+             * is set in the request URL is passed as an argument.
+             */
             Piwik_PostEvent('User.getLanguage', array(&$lang));
 
             self::$languageToLoad = $lang;
