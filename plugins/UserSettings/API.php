@@ -83,7 +83,7 @@ class API
     {
         $dataTable = $this->getOS($idSite, $period, $date, $segment, $addShortLabel = false);
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getOSFamily'));
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik::translate'));
+        $dataTable->queueFilter('ColumnCallbackReplace', array('label', array('\\Piwik\\Piwik','translate')));
         return $dataTable;
     }
 
@@ -101,7 +101,7 @@ class API
             array('logo', __NAMESPACE__ . '\getDeviceTypeImg', null, array('label')));
 
         // translate the labels
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik::translate'));
+        $dataTable->queueFilter('ColumnCallbackReplace', array('label', array('\\Piwik\\Piwik','translate')));
 
         return $dataTable;
     }

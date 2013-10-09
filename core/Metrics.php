@@ -10,6 +10,9 @@
  */
 namespace Piwik;
 
+
+require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
+
 /**
  * This class holds the various mappings we use to internally store and manipulate metrics.
  *
@@ -235,7 +238,7 @@ class Metrics
             'exit_rate'                     => 'General_ColumnExitRate'
         );
 
-        $trans = array_map('Piwik::translate', $trans);
+        $trans = array_map(array('\\Piwik\\Piwik','translate'), $trans);
 
         $dailySum = ' (' . Piwik::translate('General_DailySum') . ')';
         $afterEntry = ' ' . Piwik::translate('General_AfterEntry');
@@ -258,7 +261,7 @@ class Metrics
             'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
             'nb_actions'       => 'General_ColumnNbActions',
         );
-        $translations = array_map('Piwik::translate', $translations);
+        $translations = array_map(array('\\Piwik\\Piwik','translate'), $translations);
         return $translations;
     }
 
@@ -271,7 +274,7 @@ class Metrics
             'bounce_rate'          => 'General_ColumnBounceRate',
             'conversion_rate'      => 'General_ColumnConversionRate',
         );
-        return array_map('Piwik::translate', $translations);
+        return array_map(array('\\Piwik\\Piwik','translate'), $translations);
     }
 
     static public function getDefaultMetricsDocumentation()
@@ -288,7 +291,7 @@ class Metrics
             'nb_hits'              => 'General_ColumnPageviewsDocumentation',
             'exit_rate'            => 'General_ColumnExitRateDocumentation'
         );
-        return array_map('Piwik::translate', $documentation);
+        return array_map(array('\\Piwik\\Piwik','translate'), $documentation);
     }
 
     public static function getPercentVisitColumn()
