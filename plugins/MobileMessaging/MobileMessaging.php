@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIPlugins;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
@@ -236,9 +237,9 @@ class MobileMessaging extends \Piwik\Plugin
 
     function install()
     {
-        $delegatedManagement = Piwik_GetOption(self::DELEGATED_MANAGEMENT_OPTION);
+        $delegatedManagement = Option::get(self::DELEGATED_MANAGEMENT_OPTION);
         if (empty($delegatedManagement)) {
-            Piwik_SetOption(self::DELEGATED_MANAGEMENT_OPTION, self::DELEGATED_MANAGEMENT_OPTION_DEFAULT);
+            Option::set(self::DELEGATED_MANAGEMENT_OPTION, self::DELEGATED_MANAGEMENT_OPTION_DEFAULT);
         }
     }
 

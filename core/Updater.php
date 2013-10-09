@@ -55,7 +55,7 @@ class Updater
     public static function recordComponentSuccessfullyUpdated($name, $version)
     {
         try {
-            Piwik_SetOption(self::getNameInOptionTable($name), $version, $autoLoad = 1);
+            Option::set(self::getNameInOptionTable($name), $version, $autoLoad = 1);
         } catch (\Exception $e) {
             // case when the option table is not yet created (before 0.2.10)
         }
@@ -245,7 +245,7 @@ class Updater
 
         foreach ($this->componentsToCheck as $name => $version) {
             try {
-                $currentVersion = Piwik_GetOption(self::getNameInOptionTable($name));
+                $currentVersion = Option::get(self::getNameInOptionTable($name));
             } catch (\Exception $e) {
                 // mysql error 1146: table doesn't exist
                 if (Db::get()->isErrNo($e, '1146')) {

@@ -233,7 +233,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             DbHelper::dropDatabase();
         }
         Manager::getInstance()->deleteAll();
-        Option::getInstance()->clearCache();
+        Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
         Config::getInstance()->clear();

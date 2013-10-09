@@ -61,32 +61,6 @@ namespace {
         }
     }
 
-
-    /**
-     * Returns the option value for the requested option $name
-     *
-     * @param string $name Key
-     * @return string|bool  Value or false, if not found
-     * @api
-     */
-    function Piwik_GetOption($name)
-    {
-        return Piwik\Option::getInstance()->get($name);
-    }
-
-    /**
-     * Sets the option value in the database
-     *
-     * @param string $name
-     * @param string $value
-     * @param int $autoLoad if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
-     * @api
-     */
-    function Piwik_SetOption($name, $value, $autoLoad = 0)
-    {
-        Piwik\Option::getInstance()->set($name, $value, $autoLoad);
-    }
-
     /**
      * Returns the AdminMenu
      *

@@ -307,11 +307,11 @@ class FrontController
 
             try {
                 Db::createDatabaseObject();
-                Piwik_GetOption('TestingIfDatabaseConnectionWorked');
+                Option::get('TestingIfDatabaseConnectionWorked');
             } catch (Exception $exception) {
                 if (self::shouldRethrowException()) {
                     throw $exception;
-                }
+        }
 
                 /**
                  * This event is triggered in case a config file is not in the correct format or in case required values

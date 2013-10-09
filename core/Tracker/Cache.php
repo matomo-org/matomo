@@ -13,6 +13,7 @@ namespace Piwik\Tracker;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CacheFile;
 use Piwik\Config;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Tracker;
 
@@ -106,7 +107,7 @@ class Cache
         Tracker::initCorePiwikInTrackerMode();
         $cacheContent = array(
             'isBrowserTriggerEnabled' => Rules::isBrowserTriggerEnabled(),
-            'lastTrackerCronRun'      => Piwik_GetOption('lastTrackerCronRun'),
+            'lastTrackerCronRun'      => Option::get('lastTrackerCronRun'),
         );
 
         /**

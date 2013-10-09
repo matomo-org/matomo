@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Http;
 use Piwik\Log;
+use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
@@ -60,19 +61,19 @@ class GeoIPAutoUpdater
     public function update()
     {
         try {
-            Piwik_SetOption(self::LAST_RUN_TIME_OPTION_NAME, Date::factory('today')->getTimestamp());
+            Option::set(self::LAST_RUN_TIME_OPTION_NAME, Date::factory('today')->getTimestamp());
 
-            $locUrl = Piwik_GetOption(self::LOC_URL_OPTION_NAME);
+            $locUrl = Option::get(self::LOC_URL_OPTION_NAME);
             if (!empty($locUrl)) {
                 $this->downloadFile('loc', $locUrl);
             }
 
-            $ispUrl = Piwik_GetOption(self::ISP_URL_OPTION_NAME);
+            $ispUrl = Option::get(self::ISP_URL_OPTION_NAME);
             if (!empty($ispUrl)) {
                 $this->downloadFile('isp', $ispUrl);
             }
 
-            $orgUrl = Piwik_GetOption(self::ORG_URL_OPTION_NAME);
+            $orgUrl = Option::get(self::ORG_URL_OPTION_NAME);
             if (!empty($orgUrl)) {
                 $this->downloadFile('org', $orgUrl);
             }
@@ -324,7 +325,7 @@ class GeoIPAutoUpdater
             $url = $options[$optionKey];
             $url = self::removeDateFromUrl($url);
 
-            Piwik_SetOption($optionName, $url);
+            Option::set($optionName, $url);
         }
 
         // set period option
@@ -339,7 +340,7 @@ class GeoIPAutoUpdater
                 ));
             }
 
-            Piwik_SetOption(self::SCHEDULE_PERIOD_OPTION_NAME, $period);
+            Option::set(self::SCHEDULE_PERIOD_OPTION_NAME, $period);
         }
     }
 
@@ -351,9 +352,9 @@ class GeoIPAutoUpdater
      */
     public static function isUpdaterSetup()
     {
-        if (Piwik_GetOption(self::LOC_URL_OPTION_NAME) !== false
-            || Piwik_GetOption(self::ISP_URL_OPTION_NAME) !== false
-            || Piwik_GetOption(self::ORG_URL_OPTION_NAME) !== false
+        if (Option::get(self::LOC_URL_OPTION_NAME) !== false
+            || Option::get(self::ISP_URL_OPTION_NAME) !== false
+            || Option::get(self::ORG_URL_OPTION_NAME) !== false
         ) {
             return true;
         }
@@ -370,7 +371,7 @@ class GeoIPAutoUpdater
     {
         $result = array();
         foreach (self::$urlOptions as $key => $optionName) {
-            $result[$key] = Piwik_GetOption($optionName);
+            $result[$key] = Option::get($optionName);
         }
         return $result;
     }
@@ -387,7 +388,7 @@ class GeoIPAutoUpdater
         if (empty(self::$urlOptions[$key])) {
             throw new Exception("Invalid key $key");
         }
-        $url = Piwik_GetOption(self::$urlOptions[$key]);
+        $url = Option::get(self::$urlOptions[$key]);
         return $url;
     }
 
@@ -408,7 +409,7 @@ class GeoIPAutoUpdater
      */
     public static function getSchedulePeriod()
     {
-        $period = Piwik_GetOption(self::SCHEDULE_PERIOD_OPTION_NAME);
+        $period = Option::get(self::SCHEDULE_PERIOD_OPTION_NAME);
         if ($period === false) {
             $period = self::SCHEDULE_PERIOD_MONTHLY;
         }
@@ -598,7 +599,7 @@ class GeoIPAutoUpdater
      */
     public static function getLastRunTime()
     {
-        $timestamp = Piwik_GetOption(self::LAST_RUN_TIME_OPTION_NAME);
+        $timestamp = Option::get(self::LAST_RUN_TIME_OPTION_NAME);
         return $timestamp === false ? false : Date::factory((int)$timestamp);
     }
 

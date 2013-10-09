@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\IP;
 use Piwik\MetricsFormatter;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -714,7 +715,7 @@ class API
     {
         Piwik::checkUserIsSuperUser();
         $excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
-        Piwik_SetOption(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
+        Option::set(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
         Cache::deleteTrackerCache();
         return true;
     }
@@ -730,8 +731,8 @@ class API
     public function setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters)
     {
         Piwik::checkUserIsSuperUser();
-        Piwik_SetOption(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL, $searchKeywordParameters);
-        Piwik_SetOption(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL, $searchCategoryParameters);
+        Option::set(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL, $searchKeywordParameters);
+        Option::set(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL, $searchCategoryParameters);
         Cache::deleteTrackerCache();
         return true;
     }
@@ -742,7 +743,7 @@ class API
     public function getSearchKeywordParametersGlobal()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $names = Piwik_GetOption(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL);
+        $names = Option::get(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL);
         if ($names === false) {
             $names = self::DEFAULT_SEARCH_KEYWORD_PARAMETERS;
         }
@@ -758,7 +759,7 @@ class API
     public function getSearchCategoryParametersGlobal()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return Piwik_GetOption(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL);
+        return Option::get(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL);
     }
 
     /**
@@ -769,7 +770,7 @@ class API
     public function getExcludedQueryParametersGlobal()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Piwik_GetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
+        return Option::get(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
     }
 
     /**
@@ -782,7 +783,7 @@ class API
     public function getExcludedUserAgentsGlobal()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return Piwik_GetOption(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL);
+        return Option::get(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL);
     }
 
     /**
@@ -798,7 +799,7 @@ class API
 
         // update option
         $excludedUserAgents = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
-        Piwik_SetOption(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $excludedUserAgents);
+        Option::set(self::OPTION_EXCLUDED_USER_AGENTS_GLOBAL, $excludedUserAgents);
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
@@ -813,7 +814,7 @@ class API
     public function isSiteSpecificUserAgentExcludeEnabled()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return (bool)Piwik_GetOption(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE);
+        return (bool)Option::get(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE);
     }
 
     /**
@@ -827,7 +828,7 @@ class API
         Piwik::checkUserIsSuperUser();
 
         // update option
-        Piwik_SetOption(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE, $enabled);
+        Option::set(self::OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE, $enabled);
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
@@ -842,7 +843,7 @@ class API
     public function getKeepURLFragmentsGlobal()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return (bool)Piwik_GetOption(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL);
+        return (bool)Option::get(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL);
     }
 
     /**
@@ -858,7 +859,7 @@ class API
         Piwik::checkUserIsSuperUser();
 
         // update option
-        Piwik_SetOption(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL, $enabled);
+        Option::set(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL, $enabled);
 
         // make sure tracker cache will reflect change
         Cache::deleteTrackerCache();
@@ -875,7 +876,7 @@ class API
     {
         Piwik::checkUserIsSuperUser();
         $excludedQueryParameters = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
-        Piwik_SetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
+        Option::set(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL, $excludedQueryParameters);
         Cache::deleteTrackerCache();
         return true;
     }
@@ -888,7 +889,7 @@ class API
     public function getExcludedIpsGlobal()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        return Piwik_GetOption(self::OPTION_EXCLUDED_IPS_GLOBAL);
+        return Option::get(self::OPTION_EXCLUDED_IPS_GLOBAL);
     }
 
     /**
@@ -899,7 +900,7 @@ class API
     public function getDefaultCurrency()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $defaultCurrency = Piwik_GetOption(self::OPTION_DEFAULT_CURRENCY);
+        $defaultCurrency = Option::get(self::OPTION_DEFAULT_CURRENCY);
         if ($defaultCurrency) {
             return $defaultCurrency;
         }
@@ -916,7 +917,7 @@ class API
     {
         Piwik::checkUserIsSuperUser();
         $this->checkValidCurrency($defaultCurrency);
-        Piwik_SetOption(self::OPTION_DEFAULT_CURRENCY, $defaultCurrency);
+        Option::set(self::OPTION_DEFAULT_CURRENCY, $defaultCurrency);
         return true;
     }
 
@@ -928,7 +929,7 @@ class API
      */
     public function getDefaultTimezone()
     {
-        $defaultTimezone = Piwik_GetOption(self::OPTION_DEFAULT_TIMEZONE);
+        $defaultTimezone = Option::get(self::OPTION_DEFAULT_TIMEZONE);
         if ($defaultTimezone) {
             return $defaultTimezone;
         }
@@ -945,7 +946,7 @@ class API
     {
         Piwik::checkUserIsSuperUser();
         $this->checkValidTimezone($defaultTimezone);
-        Piwik_SetOption(self::OPTION_DEFAULT_TIMEZONE, $defaultTimezone);
+        Option::set(self::OPTION_DEFAULT_TIMEZONE, $defaultTimezone);
         return true;
     }
 

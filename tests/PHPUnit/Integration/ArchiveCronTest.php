@@ -100,7 +100,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                 // lastRunKey() function inlined
                 $lastRunArchiveOption = "lastRunArchive" . $period . "_" . $idSite;
                 
-                Piwik_SetOption($lastRunArchiveOption, $time);
+                \Piwik\Option::set($lastRunArchiveOption, $time);
             }
         }
     }

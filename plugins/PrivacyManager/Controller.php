@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\MetricsFormatter;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
@@ -245,7 +246,7 @@ class Controller extends \Piwik\Controller\Admin
 
         $scheduleTimetable = $taskScheduler->getScheduledTimeForMethod("PrivacyManager", "deleteLogTables");
 
-        $optionTable = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS);
+        $optionTable = Option::get(self::OPTION_LAST_DELETE_PIWIK_LOGS);
 
         //If task was already rescheduled, read time from taskTimetable. Else, calculate next possible runtime.
         if (!empty($scheduleTimetable) && ($scheduleTimetable - time() > 0)) {

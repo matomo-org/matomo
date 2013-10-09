@@ -13,6 +13,7 @@ namespace Piwik\Plugins\UserCountry;
 use Exception;
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Option;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Cache;
 use ReflectionClass;
@@ -263,7 +264,7 @@ abstract class LocationProvider
      */
     public static function getCurrentProviderId()
     {
-        $optionValue = Piwik_GetOption(self::CURRENT_PROVIDER_OPTION_NAME);
+        $optionValue = Option::get(self::CURRENT_PROVIDER_OPTION_NAME);
         return $optionValue === false ? DefaultProvider::ID : $optionValue;
     }
 
@@ -293,7 +294,7 @@ abstract class LocationProvider
             throw new Exception(
                 "Invalid provider ID '$providerId'. The provider either does not exist or is not available");
         }
-        Piwik_SetOption(self::CURRENT_PROVIDER_OPTION_NAME, $providerId);
+        Option::set(self::CURRENT_PROVIDER_OPTION_NAME, $providerId);
         Cache::clearCacheGeneral();
         return $provider;
     }

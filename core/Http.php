@@ -581,9 +581,9 @@ class Http
                 throw new Exception(Piwik_Translate('General_DownloadFail_HttpRequestFail'));
             }
 
-            Piwik_SetOption($downloadOption, $expectedFileSize);
+            Option::set($downloadOption, $expectedFileSize);
         } else {
-            $expectedFileSize = (int)Piwik_GetOption($downloadOption);
+            $expectedFileSize = (int)Option::get($downloadOption);
             if ($expectedFileSize === false) { // sanity check
                 throw new Exception("Trying to continue a download that never started?! That's not supposed to happen...");
             }

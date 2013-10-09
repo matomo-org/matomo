@@ -1144,7 +1144,7 @@ class ViewDataTable
             // if it's likely that the report data for this data table has been purged,
             // set whether we should display a message to that effect.
             $view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
-            $view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
+            $view->deleteReportsOlderThan = Option::get('delete_reports_older_than');
         }
         $view->idSubtable = $this->idSubtable;
         $view->clientSideParameters = $this->getClientSideParametersToSet();

@@ -66,7 +66,7 @@ class UsersManager extends \Piwik\Plugin
      */
     public function deleteSite($idSite)
     {
-        Option::getInstance()->deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
+        Option::deleteLike('%\_' . API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
     /**

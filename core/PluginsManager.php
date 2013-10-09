@@ -204,7 +204,7 @@ class PluginsManager
         $this->returnLoadedPluginsInfo();
         $plugin = $this->getLoadedPlugin($pluginName);
         $plugin->uninstall();
-        Option::getInstance()->delete('version_' . $pluginName);
+        Option::delete('version_' . $pluginName);
 
         $this->removePluginFromPluginsConfig($pluginName);
         $this->removePluginFromPluginsInstalledConfig($pluginName);

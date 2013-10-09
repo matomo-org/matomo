@@ -144,7 +144,7 @@ class Login extends \Piwik\Plugin
         $optionName = self::getPasswordResetInfoOptionName($login);
         $optionData = UsersManager::getPasswordHash($password);
 
-        Piwik_SetOption($optionName, $optionData);
+        Option::set($optionName, $optionData);
     }
 
     /**
@@ -155,7 +155,7 @@ class Login extends \Piwik\Plugin
     public static function removePasswordResetInfo($login)
     {
         $optionName = self::getPasswordResetInfoOptionName($login);
-        Option::getInstance()->delete($optionName);
+        Option::delete($optionName);
     }
 
     /**
@@ -167,7 +167,7 @@ class Login extends \Piwik\Plugin
     public static function getPasswordToResetTo($login)
     {
         $optionName = self::getPasswordResetInfoOptionName($login);
-        return Piwik_GetOption($optionName);
+        return Option::get($optionName);
     }
 
     /**

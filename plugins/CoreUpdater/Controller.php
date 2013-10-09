@@ -19,6 +19,7 @@ use Piwik\DbHelper;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Http;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\SettingsPiwik;
@@ -311,7 +312,7 @@ class Controller extends \Piwik\Controller
         } else {
             $this->errorMessages = array();
             try {
-                $currentVersion = Piwik_GetOption('version_core');
+                $currentVersion = Option::get('version_core');
             } catch (Exception $e) {
                 $currentVersion = '<= 0.2.9';
             }

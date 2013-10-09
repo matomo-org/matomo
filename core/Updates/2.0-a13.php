@@ -13,6 +13,7 @@ namespace Piwik\Updates;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Filesystem;
+use Piwik\Option;
 use Piwik\Updater;
 use Piwik\Updates;
 
@@ -50,7 +51,7 @@ class Updates_2_0_a13 extends Updates
     public static function update()
     {
         // delete schema version_
-        \Piwik\Option::getInstance()->delete('version_Referers');
+        Option::delete('version_Referers');
 
         Updater::updateDatabase(__FILE__, self::getSql());
 

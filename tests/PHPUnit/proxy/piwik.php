@@ -44,7 +44,7 @@ GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
 Tracker::setTestEnvironment();
 Manager::getInstance()->deleteAll();
-Option::getInstance()->clearCache();
+Option::clearCache();
 Site::clearCache();
 Cache::deleteTrackerCache();
 

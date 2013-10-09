@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Option;
 
 /**
  * Utility class that provides general information about databases, including the size of
@@ -227,7 +228,7 @@ class MySQLMetadataProvider
             $dataTableOptionName = $this->getCachedOptionName($status['Name'], 'byArchiveName');
 
             // if option exists && !$forceCache, use the cached data, otherwise create the
-            $cachedData = Piwik_GetOption($dataTableOptionName);
+            $cachedData = Option::get($dataTableOptionName);
             if ($cachedData !== false && !$forceCache) {
                 $table = new DataTable();
                 $table->addRowsFromSerializedArray($cachedData);
@@ -243,7 +244,7 @@ class MySQLMetadataProvider
 
                 $serializedTables = $table->getSerialized();
                 $serializedTable = reset($serializedTables);
-                Piwik_SetOption($dataTableOptionName, $serializedTable);
+                Option::set($dataTableOptionName, $serializedTable);
             }
 
             // add estimated_size column

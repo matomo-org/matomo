@@ -121,7 +121,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         parent::tearDown();
         Manager::getInstance()->deleteAll();
-        Option::getInstance()->clearCache();
+        Option::clearCache();
         Site::clearCache();
         Cache::deleteTrackerCache();
         ArchiveTableCreator::clear();
@@ -142,7 +142,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // check that initial option is set
         $this->assertEquals(
-            1, Piwik_GetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
+            1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
 
         // perform other checks
         $this->_checkNoDataChanges();
@@ -159,7 +159,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->instance->deleteReportData();
 
         // check that initial option is set
-        $this->assertEquals(1, Piwik_GetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
+        $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
 
         // perform other checks
         $this->_checkNoDataChanges();
@@ -175,9 +175,9 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         $yesterdaySecs = Date::factory('yesterday')->getTimestamp();
 
-        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
-        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $yesterdaySecs);
-        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $yesterdaySecs);
+        Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
+        Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $yesterdaySecs);
+        Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $yesterdaySecs);
         $this->instance->deleteLogData();
         $this->instance->deleteReportData();
 
@@ -849,9 +849,9 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         $lastDateSecs = Date::factory('today')->subDay(8)->getTimestamp();
 
-        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
-        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDateSecs);
-        Piwik_SetOption(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $lastDateSecs);
+        Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
+        Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDateSecs);
+        Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $lastDateSecs);
     }
 
     protected function _getTableCount($tableName, $where = '')

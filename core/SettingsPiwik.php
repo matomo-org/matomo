@@ -125,7 +125,7 @@ class SettingsPiwik
         }
 
         $key = 'piwikUrl';
-        $url = Piwik_GetOption($key);
+        $url = Option::get($key);
         if (Common::isPhpCliMode()
             // in case archive.php is triggered with domain localhost
             || SettingsServer::isArchivePhpTriggered()
@@ -141,7 +141,7 @@ class SettingsPiwik
             || $currentUrl != $url
         ) {
             if (strlen($currentUrl) >= strlen('http://a/')) {
-                Piwik_SetOption($key, $currentUrl, $autoLoad = true);
+                Option::set($key, $currentUrl, $autoLoad = true);
             }
             $url = $currentUrl;
         }

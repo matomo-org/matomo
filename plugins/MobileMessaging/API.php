@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\MobileMessaging;
 
 use Piwik\Common;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
@@ -401,7 +402,7 @@ class API
 
     private function setUserSettings($user, $settings)
     {
-        Piwik_SetOption(
+        Option::set(
             $user . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION,
             Common::json_encode($settings)
         );
@@ -425,7 +426,7 @@ class API
     private function getUserSettings($user)
     {
         $optionIndex = $user . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION;
-        $userSettings = Piwik_GetOption($optionIndex);
+        $userSettings = Option::get($optionIndex);
 
         if (empty($userSettings)) {
             $userSettings = array();
@@ -454,7 +455,7 @@ class API
     public function setDelegatedManagement($delegatedManagement)
     {
         Piwik::checkUserIsSuperUser();
-        Piwik_SetOption(MobileMessaging::DELEGATED_MANAGEMENT_OPTION, $delegatedManagement);
+        Option::set(MobileMessaging::DELEGATED_MANAGEMENT_OPTION, $delegatedManagement);
     }
 
     /**
@@ -465,6 +466,6 @@ class API
     public function getDelegatedManagement()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Piwik_GetOption(MobileMessaging::DELEGATED_MANAGEMENT_OPTION) == 'true';
+        return Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION) == 'true';
     }
 }

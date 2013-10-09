@@ -13,6 +13,7 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\Common;
 
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Weekly;
@@ -72,7 +73,7 @@ class DBStats extends \Piwik\Plugin
         $api->getIndividualMetricsSummary(true);
 
         $now = Date::now()->getLocalized("%longYear%, %shortMonth% %day%");
-        Piwik_SetOption(self::TIME_OF_LAST_TASK_RUN_OPTION, $now);
+        Option::set(self::TIME_OF_LAST_TASK_RUN_OPTION, $now);
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -83,7 +84,7 @@ class DBStats extends \Piwik\Plugin
     /** Returns the date when the cacheDataByArchiveNameReports was last run. */
     public static function getDateOfLastCachingRun()
     {
-        return Piwik_GetOption(self::TIME_OF_LAST_TASK_RUN_OPTION);
+        return Option::get(self::TIME_OF_LAST_TASK_RUN_OPTION);
     }
 
     public function getReportDisplayProperties(&$properties)

@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -76,7 +77,7 @@ class API
     public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
     {
         Piwik::checkUserIsSuperUserOrTheUser($userLogin);
-        Piwik_SetOption($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
+        Option::set($this->getPreferenceId($userLogin, $preferenceName), $preferenceValue);
     }
 
     /**
@@ -89,7 +90,7 @@ class API
     {
         Piwik::checkUserIsSuperUserOrTheUser($userLogin);
 
-        $optionValue = Piwik_GetOption($this->getPreferenceId($userLogin, $preferenceName));
+        $optionValue = Option::get($this->getPreferenceId($userLogin, $preferenceName));
         if ($optionValue !== false) {
             return $optionValue;
         }

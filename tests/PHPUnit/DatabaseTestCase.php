@@ -71,7 +71,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         IntegrationTestCase::unloadAllPlugins();
         DbHelper::dropDatabase();
         Manager::getInstance()->deleteAll();
-        Option::getInstance()->clearCache();
+        Option::clearCache();
         API::$cache = array();
         Site::clearCache();
         Cache::deleteTrackerCache();

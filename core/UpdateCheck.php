@@ -38,13 +38,13 @@ class UpdateCheck
             $interval = self::CHECK_INTERVAL;
         }
 
-        $lastTimeChecked = Piwik_GetOption(self::LAST_TIME_CHECKED);
+        $lastTimeChecked = Option::get(self::LAST_TIME_CHECKED);
         if ($force
             || $lastTimeChecked === false
             || time() - $interval > $lastTimeChecked
         ) {
             // set the time checked first, so that parallel Piwik requests don't all trigger the http requests
-            Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoLoad = 1);
+            Option::set(self::LAST_TIME_CHECKED, time(), $autoLoad = 1);
             $parameters = array(
                 'piwik_version' => Version::VERSION,
                 'php_version'   => PHP_VERSION,
@@ -71,7 +71,7 @@ class UpdateCheck
                 // e.g., disable_functions = fsockopen; allow_url_open = Off
                 $latestVersion = '';
             }
-            Piwik_SetOption(self::LATEST_VERSION, $latestVersion);
+            Option::set(self::LATEST_VERSION, $latestVersion);
         }
     }
 
@@ -83,7 +83,7 @@ class UpdateCheck
      */
     public static function isNewestVersionAvailable()
     {
-        $latestVersion = Piwik_GetOption(self::LATEST_VERSION);
+        $latestVersion = Option::get(self::LATEST_VERSION);
         if (!empty($latestVersion)
             && version_compare(Version::VERSION, $latestVersion) == -1
         ) {

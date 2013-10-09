@@ -103,7 +103,7 @@ class TaskScheduler
                 if (self::taskShouldBeRescheduled($taskName, $timetable)) {
                     // update the scheduled time
                     $timetable[$taskName] = $task->getRescheduledTime();
-                    Piwik_SetOption(self::TIMETABLE_OPTION_STRING, serialize($timetable));
+                    Option::set(self::TIMETABLE_OPTION_STRING, serialize($timetable));
                 }
             }
         }
@@ -186,7 +186,7 @@ class TaskScheduler
 
     static private function getTimetableFromOptionTable()
     {
-        return self::getTimetableFromOptionValue(Piwik_GetOption(self::TIMETABLE_OPTION_STRING));
+        return self::getTimetableFromOptionValue(Option::get(self::TIMETABLE_OPTION_STRING));
     }
 
     /**

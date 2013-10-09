@@ -223,8 +223,8 @@ class CronArchive
 
             $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
             if (!$this->shouldResetState) {
-                $lastTimestampWebsiteProcessedPeriods = Piwik_GetOption($this->lastRunKey($idsite, "periods"));
-                $lastTimestampWebsiteProcessedDay = Piwik_GetOption($this->lastRunKey($idsite, "day"));
+                $lastTimestampWebsiteProcessedPeriods = Option::get($this->lastRunKey($idsite, "periods"));
+                $lastTimestampWebsiteProcessedDay = Option::get($this->lastRunKey($idsite, "day"));
             }
 
             // For period other than days, we only re-process the reports at most
@@ -272,7 +272,7 @@ class CronArchive
 
             // Fake that the request is already done, so that other archive.php
             // running do not grab the same website from the queue
-            Piwik_SetOption($this->lastRunKey($idsite, "day"), time());
+            Option::set($this->lastRunKey($idsite, "day"), time());
 
             $url = $this->getVisitsRequestUrl($idsite, "day",
                 // when some data was purged from this website
@@ -292,7 +292,7 @@ class CronArchive
                 || count($response) == 0
             ) {
                 // cancel the succesful run flag
-                Piwik_SetOption($this->lastRunKey($idsite, "day"), 0);
+                Option::set($this->lastRunKey($idsite, "day"), 0);
 
                 $this->log("WARNING: Empty or invalid response '$content' for website id $idsite, " . $timerWebsite->__toString() . ", skipping");
                 $skipped++;
@@ -334,7 +334,7 @@ class CronArchive
                 }
                 // Record succesful run of this website's periods archiving
                 if ($success) {
-                    Piwik_SetOption($this->lastRunKey($idsite, "periods"), time());
+                    Option::set($this->lastRunKey($idsite, "periods"), time());
 
                     // Remove this website from the list of websites to be invalidated
                     // since it's now just been re-processing the reports, job is done!
@@ -345,7 +345,7 @@ class CronArchive
                             if ($found !== false) {
                                 unset($websiteIdsInvalidated[$found]);
 //								$this->log("Websites left to invalidate: " . implode(", ", $websiteIdsInvalidated));
-                                Piwik_SetOption(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
+                                Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
                             }
                         }
                     }
@@ -548,7 +548,7 @@ class CronArchive
             $this->logFatalError($summary);
         } else {
             // No error -> Logs the successful script execution until completion
-            Piwik_SetOption(self::OPTION_ARCHIVING_FINISHED_TS, time());
+            Option::set(self::OPTION_ARCHIVING_FINISHED_TS, time());
         }
     }
 
@@ -739,7 +739,7 @@ class CronArchive
             $this->shouldArchiveAllWebsites = true;
         }
 
-        $this->timeLastCompleted = Piwik_GetOption(self::OPTION_ARCHIVING_FINISHED_TS);
+        $this->timeLastCompleted = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         if ($this->shouldResetState) {
             $this->timeLastCompleted = false;
         }

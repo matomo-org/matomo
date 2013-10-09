@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Period;
 use Piwik\Period\Week;
 use Piwik\Piwik;
@@ -195,7 +196,7 @@ class API
         $invalidatedIdSites = array_merge($invalidatedIdSites, $idSites);
         $invalidatedIdSites = array_unique($invalidatedIdSites);
         $invalidatedIdSites = array_values($invalidatedIdSites);
-        Piwik_SetOption(self::OPTION_INVALIDATED_IDSITES, serialize($invalidatedIdSites));
+        Option::set(self::OPTION_INVALIDATED_IDSITES, serialize($invalidatedIdSites));
 
         Site::clearCache();
 
@@ -221,7 +222,7 @@ class API
     static public function getWebsiteIdsToInvalidate()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $invalidatedIdSites = Piwik_GetOption(self::OPTION_INVALIDATED_IDSITES);
+        $invalidatedIdSites = Option::get(self::OPTION_INVALIDATED_IDSITES);
         if ($invalidatedIdSites
             && ($invalidatedIdSites = unserialize($invalidatedIdSites))
             && count($invalidatedIdSites)
