@@ -63,8 +63,14 @@ Ideas for improvements:
 	  it returns last temporary monthly report generated, if the last month haven't yet been processed / finalized
  */
 
-define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
-define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
+if (!defined('PIWIK_INCLUDE_PATH')) {
+    define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
+}
+
+if (!defined('PIWIK_USER_PATH')) {
+    define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
+}
+
 define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
