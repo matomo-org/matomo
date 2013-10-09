@@ -59,7 +59,7 @@ class GitCommit extends Command
                 continue;
             }
 
-            $cmd = sprintf('cd %s/%s && git checkout HEAD && git add . && git commit -am "%s"', PIWIK_DOCUMENT_ROOT, $submodule, $commitMessage);
+            $cmd = sprintf('cd %s/%s && git pull && git add . && git commit -am "%s"', PIWIK_DOCUMENT_ROOT, $submodule, $commitMessage);
             $this->passthru($cmd, $output);
         }
 
