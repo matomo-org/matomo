@@ -307,6 +307,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $serializedDatatable = '';
         // Prior Piwik 2.0, we didn't use namespaces. Some
         require PIWIK_INCLUDE_PATH . "/tests/resources/pre-Piwik2-DataTable-archived.php";
+        require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
 
         $this->assertTrue(strlen($serializedDatatable) > 1000);
 

@@ -1097,6 +1097,8 @@ class DataTable
      */
     public function addRowsFromSerializedArray($stringSerialized)
     {
+        require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
+        
         $serialized = unserialize($stringSerialized);
         if ($serialized === false) {
             throw new Exception("The unserialization has failed!");
@@ -1508,14 +1510,4 @@ class DataTable
         $result->addRowsFromSerializedArray($data);
         return $result;
     }
-}
-
-
-// Bridge for when serialized classes were not using namespaces yet (pre Piwik 2.0)
-class Piwik_DataTable_Row_DataTableSummary extends DataTableSummaryRow
-{
-}
-
-class Piwik_DataTable_Row extends Row
-{
 }
