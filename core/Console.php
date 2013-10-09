@@ -13,6 +13,7 @@ namespace Piwik;
 use Piwik\Plugins\CoreConsole\GenerateApi;
 use Piwik\Plugins\CoreConsole\GenerateController;
 use Piwik\Plugins\CoreConsole\GeneratePlugin;
+use Piwik\Plugins\CoreConsole\GitPull;
 use Piwik\Plugins\CoreConsole\RunTests;
 use Piwik\Plugins\CoreConsole\WatchLog;
 use Symfony\Component\Console\Application;
@@ -28,6 +29,7 @@ class Console
         $console->add(new GenerateApi());
         $console->add(new GenerateController());
         $console->add(new WatchLog());
+        $console->add(new GitPull());
 
         $console->run();
     }
