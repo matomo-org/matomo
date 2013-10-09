@@ -34,13 +34,13 @@ class GitCommit extends Command
         $commitMessage = $input->getOption('message');
 
         if (empty($commitMessage)) {
-            $output->writeln('No message specified');
+            $output->writeln('No message specified. Use option -m or --message.');
             return;
         }
 
-        if (!$this->hasUnpushedCommits()) {
+        if (!$this->hasChangesToBeCommitted()) {
             $dialog   = $this->getHelperSet()->get('dialog');
-            $question = '<question>No unpushed commits, do you just want to converge submodules?</question>';
+            $question = '<question>There are no changes to be commited in the super repo, do you just want to commit and converge submodules?</question>';
             if (!$dialog->askConfirmation($output, $question, false)) {
                 $output->writeln('<info>Cool, nothing done. Stage files using "git add" and try again.</info>');
                 return;
@@ -54,9 +54,8 @@ class GitCommit extends Command
                 continue;
             }
 
-            $cmd    = sprintf('cd %s/%s && git status --porcelain', PIWIK_DOCUMENT_ROOT, $submodule);
-            $status = trim(shell_exec($cmd));
-            if (false !== strpos($status, '??')) {
+            $status = $this->getStatusOfSubmodule($submodule);
+            if (false !== strpos($status, '?? ')) {
                 $output->writeln(sprintf('%s has untracked changes, will ignore. Status: %s', $submodule, $status));
                 continue;
             }
@@ -70,7 +69,7 @@ class GitCommit extends Command
             $this->passthru($cmd, $output);
         }
 
-        if ($this->hasUnpushedCommits()) {
+        if ($this->hasChangesToBeCommitted()) {
             $cmd = sprintf('cd %s && git commit -m "%s"', PIWIK_DOCUMENT_ROOT, $commitMessage);
             $this->passthru($cmd, $output);
         }
@@ -84,7 +83,7 @@ class GitCommit extends Command
             $this->passthru($cmd, $output);
         }
 
-        if ($this->hasUnpushedCommits()) {
+        if ($this->hasChangesToBeCommitted()) {
             $cmd = sprintf('cd %s && git commit -m "Converged submodules"', PIWIK_DOCUMENT_ROOT);
             $this->passthru($cmd, $output);
         }
@@ -96,13 +95,23 @@ class GitCommit extends Command
         passthru($cmd);
     }
 
-    private function hasUnpushedCommits()
+    private function hasChangesToBeCommitted()
     {
-        $cmd = sprintf('cd %s && git log @{u}..',PIWIK_DOCUMENT_ROOT);
-        $hasUnpushedCommits = shell_exec($cmd);
-        $hasUnpushedCommits = trim($hasUnpushedCommits);
+        $cmd    = sprintf('cd %s && git status --porcelain', PIWIK_DOCUMENT_ROOT);
+        $result = shell_exec($cmd);
+        $result = trim($result);
 
-        return !empty($hasUnpushedCommits);
+        if (false !== strpos($result, 'M  ')) {
+            // stages
+            return true;
+        }
+
+        if (false !== strpos($result, 'MM ')) {
+            // staged and modified
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -115,5 +124,13 @@ class GitCommit extends Command
         $submodules = explode("\n", $submodules);
 
         return $submodules;
+    }
+
+    protected function getStatusOfSubmodule($submodule)
+    {
+        $cmd    = sprintf('cd %s/%s && git status --porcelain', PIWIK_DOCUMENT_ROOT, $submodule);
+        $status = trim(shell_exec($cmd));
+
+        return $status;
     }
 }
