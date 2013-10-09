@@ -15,7 +15,7 @@ use Piwik\Piwik;
 /**
  * @package Piwik_Menu
  */
-class Main extends MenuAbstract
+class MenuMain extends MenuAbstract
 {
     static private $instance = null;
 
@@ -38,7 +38,7 @@ class Main extends MenuAbstract
      */
     public function isUrlFound($url)
     {
-        $menu = Main::getInstance()->get();
+        $menu = MenuMain::getInstance()->getMenu();
 
         foreach ($menu as $subMenus) {
             foreach ($subMenus as $subMenuName => $menuUrl) {
@@ -55,7 +55,7 @@ class Main extends MenuAbstract
      *
      * @return Array
      */
-    public function get()
+    public function getMenu()
     {
         // We trigger the Event only once!
         if (!$this->menu) {
@@ -70,7 +70,7 @@ class Main extends MenuAbstract
              * ```
              * public function addMenuItems()
              * {
-             *     Piwik_AddMenu(
+             *     \Piwik\Menu\Main::getInstance()->add(
              *         'CustomMenuName',
              *         'CustomSubmenuName',
              *         array('module' => 'MyPlugin', 'action' => 'index'),
@@ -82,7 +82,7 @@ class Main extends MenuAbstract
              */
             Piwik::postEvent('Menu.Reporting.addItems');
         }
-        return parent::get();
+        return parent::getMenu();
     }
 }
 

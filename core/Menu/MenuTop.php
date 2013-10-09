@@ -15,12 +15,12 @@ use Piwik\Piwik;
 /**
  * @package Piwik_Menu
  */
-class Top extends MenuAbstract
+class MenuTop extends MenuAbstract
 {
     static private $instance = null;
 
     /**
-     * @return \Piwik\Menu\Top
+     * @return \Piwik\Menu\MenuTop
      */
     static public function getInstance()
     {
@@ -52,11 +52,11 @@ class Top extends MenuAbstract
     }
 
     /**
-     * Triggers the Menu.Top.addItems hook and returns the menu.
+     * Triggers the Menu.MenuTop.addItems hook and returns the menu.
      *
      * @return Array
      */
-    public function get()
+    public function getMenu()
     {
         if (!$this->menu) {
 
@@ -80,8 +80,8 @@ class Top extends MenuAbstract
              * }
              * ```
              */
-            Piwik::postEvent('Menu.Top.addItems');
+            Piwik::postEvent('Menu.MenuTop.addItems');
         }
-        return parent::get();
+        return parent::getMenu();
     }
 }

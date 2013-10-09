@@ -15,12 +15,12 @@ use Piwik\Piwik;
 /**
  * @package Piwik_Menu
  */
-class Admin extends MenuAbstract
+class MenuAdmin extends MenuAbstract
 {
     static private $instance = null;
 
     /**
-     * @return \Piwik\Menu\Admin
+     * @return \Piwik\Menu\MenuAdmin
      */
     static public function getInstance()
     {
@@ -31,11 +31,25 @@ class Admin extends MenuAbstract
     }
 
     /**
-     * Triggers the Menu.Admin.addItems hook and returns the menu.
+     * Adds a new AdminMenu entry.
+     *
+     * @param string $adminMenuName
+     * @param string $url
+     * @param boolean $displayedForCurrentUser
+     * @param int $order
+     * @api
+     */
+    public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
+    {
+        self::getInstance()->add('General_Settings', 'General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
+    }
+
+    /**
+     * Triggers the Menu.MenuAdmin.addItems hook and returns the admin menu.
      *
      * @return Array
      */
-    public function get()
+    public function getMenu()
     {
         if (!$this->menu) {
 
@@ -49,7 +63,7 @@ class Admin extends MenuAbstract
              * ```
              * public function addMenuItems()
              * {
-             *     Piwik_AddAdminSubMenu(
+             *     \Piwik\Menu\MenuAdmin::getInstance()->add(
              *         'MenuName',
              *         'SubmenuName',
              *         array('module' => 'MyPlugin', 'action' => 'index'),
@@ -59,9 +73,9 @@ class Admin extends MenuAbstract
              * }
              * ```
              */
-            Piwik::postEvent('Menu.Admin.addItems');
+            Piwik::postEvent('Menu.MenuAdmin.addItems');
         }
-        return parent::get();
+        return parent::getMenu();
     }
 
     /**
@@ -71,7 +85,7 @@ class Admin extends MenuAbstract
      */
     function getCurrentAdminMenuName()
     {
-        $menu = Piwik_GetAdminMenu();
+        $menu = \Piwik\Menu\MenuAdmin::getInstance();
         $currentModule = Piwik::getModule();
         $currentAction = Piwik::getAction();
         foreach ($menu as $submenu) {
