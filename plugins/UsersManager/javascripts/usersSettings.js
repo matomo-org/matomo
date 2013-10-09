@@ -24,7 +24,7 @@ function sendUserSettingsAJAX() {
     var defaultReport = $('input[name=defaultReport]:checked').val();
 
     if (defaultReport == 1) {
-        defaultReport = $('#userSettingsTable').find('.custom_select_main_link').attr('siteid');
+        defaultReport = $('#userSettingsTable').find('.custom_select_main_link').attr('data-siteid');
     }
     var postParams = {};
     postParams.alias = alias;
