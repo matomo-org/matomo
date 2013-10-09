@@ -343,7 +343,6 @@ class Url
      */
     static function getCurrentQueryStringWithParametersModified($params)
     {
-        var_dump($params);
         $urlValues = self::getArrayFromCurrentQueryString();
         foreach ($params as $key => $value) {
             $urlValues[$key] = $value;

@@ -41,7 +41,7 @@ class MenuAdmin extends MenuAbstract
      */
     public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
     {
-        self::getInstance()->add('General_Settings', 'General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
+        self::getInstance()->add('General_Settings', $adminMenuName, $url, $displayedForCurrentUser, $order);
     }
 
     /**
