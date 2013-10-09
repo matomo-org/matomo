@@ -34,4 +34,13 @@ class GitPush extends Command
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);
     }
+
+    private function hasUnpushedCommits()
+    {
+        $cmd = sprintf('cd %s && git log @{u}..',PIWIK_DOCUMENT_ROOT);
+        $hasUnpushedCommits = shell_exec($cmd);
+        $hasUnpushedCommits = trim($hasUnpushedCommits);
+
+        return !empty($hasUnpushedCommits);
+    }
 }

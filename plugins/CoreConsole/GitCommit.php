@@ -38,9 +38,16 @@ class GitCommit extends Command
             return;
         }
 
-        $cmd = sprintf("grep path .gitmodules | sed 's/.*= //'");
-        $submodules = shell_exec($cmd);
-        $submodules = explode("\n", $submodules);
+        if (!$this->hasUnpushedCommits()) {
+            $dialog   = $this->getHelperSet()->get('dialog');
+            $question = '<question>No unpushed commits, do you just want to converge submodules?</question>';
+            if (!$dialog->askConfirmation($output, $question, false)) {
+                $output->writeln('<info>Cool, nothing done. Stage files using "git add" and try again.</info>');
+                return;
+            }
+        }
+
+        $submodules = $this->getSubmodulePaths();
 
         foreach ($submodules as $submodule) {
             if (empty($submodule)) {
@@ -63,8 +70,10 @@ class GitCommit extends Command
             $this->passthru($cmd, $output);
         }
 
-        $cmd = sprintf('cd %s && git commit -m "%s"', PIWIK_DOCUMENT_ROOT, $commitMessage);
-        $this->passthru($cmd, $output);
+        if ($this->hasUnpushedCommits()) {
+            $cmd = sprintf('cd %s && git commit -m "%s"', PIWIK_DOCUMENT_ROOT, $commitMessage);
+            $this->passthru($cmd, $output);
+        }
 
         foreach ($submodules as $submodule) {
             if (empty($submodule)) {
@@ -75,13 +84,36 @@ class GitCommit extends Command
             $this->passthru($cmd, $output);
         }
 
-        $cmd = sprintf('cd %s && git commit -m "Converged submodules"', PIWIK_DOCUMENT_ROOT);
-        $this->passthru($cmd, $output);
+        if ($this->hasUnpushedCommits()) {
+            $cmd = sprintf('cd %s && git commit -m "Converged submodules"', PIWIK_DOCUMENT_ROOT);
+            $this->passthru($cmd, $output);
+        }
     }
 
     private function passthru($cmd, OutputInterface $output)
     {
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);
+    }
+
+    private function hasUnpushedCommits()
+    {
+        $cmd = sprintf('cd %s && git log @{u}..',PIWIK_DOCUMENT_ROOT);
+        $hasUnpushedCommits = shell_exec($cmd);
+        $hasUnpushedCommits = trim($hasUnpushedCommits);
+
+        return !empty($hasUnpushedCommits);
+    }
+
+    /**
+     * @return array
+     */
+    private function getSubmodulePaths()
+    {
+        $cmd        = sprintf("grep path .gitmodules | sed 's/.*= //'");
+        $submodules = shell_exec($cmd);
+        $submodules = explode("\n", $submodules);
+
+        return $submodules;
     }
 }
