@@ -14,6 +14,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Piwik;
 use Piwik\PluginDeactivatedException;
 use Piwik\PluginsManager;
 use Piwik\SettingsServer;
@@ -186,7 +187,7 @@ class Request
              * This event is triggered when authenticating the API call, only if the token_auth is found in the request.
              * In this case the current session should authenticate using this token_auth.
              */
-            Piwik_PostEvent('API.Request.authenticate', array($token_auth));
+            Piwik::postEvent('API.Request.authenticate', array($token_auth));
             Access::getInstance()->reloadAccess();
             SettingsServer::raiseMemoryLimitIfNecessary();
         }

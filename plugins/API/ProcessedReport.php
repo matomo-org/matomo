@@ -90,7 +90,7 @@ class ProcessedReport
          * multiple reports. By doing that the report will be for instance available in ScheduledReports as well as
          * in the Piwik Mobile App.
          */
-        Piwik_PostEvent('API.getReportMetadata', array(&$availableReports, $parameters));
+        Piwik::postEvent('API.getReportMetadata', array(&$availableReports, $parameters));
         foreach ($availableReports as &$availableReport) {
             if (!isset($availableReport['metrics'])) {
                 $availableReport['metrics'] = Metrics::getDefaultMetrics();
@@ -112,7 +112,7 @@ class ProcessedReport
          * This event is triggered after all available reports are collected. Plugins can add custom metrics to
          * other reports or remove reports from the list of all available reports.
          */
-        Piwik_PostEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
+        Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
         usort($availableReports, array($this, 'sort'));

@@ -12,6 +12,7 @@
 namespace Piwik\ViewDataTable;
 
 use Piwik\DataTable;
+use Piwik\Piwik;
 use Piwik\View;
 
 /**
@@ -154,7 +155,7 @@ abstract class Visualization extends View
          * This event is used to gather all available DataTable visualizations. Callbacks should add visualization
          * class names to the incoming array.
          */
-        Piwik_PostEvent(self::GET_AVAILABLE_EVENT, array(&$visualizations));
+        Piwik::postEvent(self::GET_AVAILABLE_EVENT, array(&$visualizations));
 
         $result = array();
         foreach ($visualizations as $viz) {

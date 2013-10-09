@@ -160,9 +160,9 @@ class Error
 
     public static function setErrorHandler()
     {
-        Piwik_AddAction('Log.formatFileMessage', array('\\Piwik\\Error', 'formatFileAndDBLogMessage'));
-        Piwik_AddAction('Log.formatDatabaseMessage', array('\\Piwik\\Error', 'formatFileAndDBLogMessage'));
-        Piwik_AddAction('Log.formatScreenMessage', array('\\Piwik\\Error', 'formatScreenMessage'));
+        Piwik::addAction('Log.formatFileMessage', array('\\Piwik\\Error', 'formatFileAndDBLogMessage'));
+        Piwik::addAction('Log.formatDatabaseMessage', array('\\Piwik\\Error', 'formatFileAndDBLogMessage'));
+        Piwik::addAction('Log.formatScreenMessage', array('\\Piwik\\Error', 'formatScreenMessage'));
 
         set_error_handler(array('\\Piwik\\Error', 'errorHandler'));
     }

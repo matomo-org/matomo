@@ -12,6 +12,7 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Piwik;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
@@ -75,7 +76,7 @@ class VisitExcluded
          * At every page view, this event will be called. It is useful for plugins that want to exclude specific visits
          * (ie. IP excluding, Cookie excluding). If you set `$excluded` to `true`, the visit will be excluded.
          */
-        Piwik_PostEvent('Tracker.isExcludedVisit', array(&$excluded));
+        Piwik::postEvent('Tracker.isExcludedVisit', array(&$excluded));
 
         /*
          * Following exclude operations happen after the hook.

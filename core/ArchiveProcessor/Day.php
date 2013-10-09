@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Piwik;
 
 /**
  * This class
@@ -120,6 +121,6 @@ class Day extends ArchiveProcessor
          * }
          * ```
          */
-        Piwik_PostEvent('ArchiveProcessor.Day.compute', array(&$this));
+        Piwik::postEvent('ArchiveProcessor.Day.compute', array(&$this));
     }
 }

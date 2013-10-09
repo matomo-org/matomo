@@ -300,7 +300,7 @@ class Config
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
-            Piwik_PostTestEvent('Config.createConfigSingleton', array(self::$instance));
+            Piwik::postTestEvent('Config.createConfigSingleton', array(self::$instance));
         }
 
         // check cache for merged section

@@ -165,7 +165,7 @@ class AssetManager
          * merged into one file but before the generated CSS is written to disk. It can be used to change the modify the
          * stylesheets to your needs, like replacing image paths or adding further custom stylesheets.
          */
-        Piwik_PostEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
+        Piwik::postEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
 
         $mergedContent =
             $firstLineCompileHash . "\n"
@@ -300,7 +300,7 @@ class AssetManager
          * }
          * ```
          */
-        Piwik_PostEvent(self::STYLESHEET_IMPORT_EVENT, array(&$stylesheets));
+        Piwik::postEvent(self::STYLESHEET_IMPORT_EVENT, array(&$stylesheets));
 
         $stylesheets = self::sortCssFiles($stylesheets);
 
@@ -382,7 +382,7 @@ class AssetManager
          * generated JS file is written to disk. It can be used to change the generated JavaScript to your needs,
          * like adding further scripts or storing the generated file somewhere else.
          */
-        Piwik_PostEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent));
+        Piwik::postEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent));
 
         self::writeAssetToFile($mergedContent, self::MERGED_JS_FILE);
     }
@@ -428,7 +428,7 @@ class AssetManager
          * }
          * ```
          */
-        Piwik_PostEvent(self::JAVASCRIPT_IMPORT_EVENT, array(&$jsFiles));
+        Piwik::postEvent(self::JAVASCRIPT_IMPORT_EVENT, array(&$jsFiles));
         $jsFiles = self::sortJsFiles($jsFiles);
         return $jsFiles;
     }

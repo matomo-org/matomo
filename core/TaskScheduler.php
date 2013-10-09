@@ -65,7 +65,7 @@ class TaskScheduler
          * }
          * ```
          */
-        Piwik_PostEvent(self::GET_TASKS_EVENT, array(&$tasks));
+        Piwik::postEvent(self::GET_TASKS_EVENT, array(&$tasks));
         /** @var ScheduledTask[] $tasks */
 
         // remove from timetable tasks that are not active anymore

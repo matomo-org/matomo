@@ -18,6 +18,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 
 /**
@@ -201,7 +202,7 @@ class Period extends ArchiveProcessor
          * }
          * ```
          */
-        Piwik_PostEvent('ArchiveProcessor.Period.compute', array(&$this));
+        Piwik::postEvent('ArchiveProcessor.Period.compute', array(&$this));
     }
 
     protected function aggregateCoreVisitsMetrics()

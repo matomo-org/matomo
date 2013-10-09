@@ -9,6 +9,7 @@
  * @package Piwik_Menu
  */
 namespace Piwik\Menu;
+use Piwik\Piwik;
 
 
 /**
@@ -79,7 +80,7 @@ class Top extends MenuAbstract
              * }
              * ```
              */
-            Piwik_PostEvent('Menu.Top.addItems');
+            Piwik::postEvent('Menu.Top.addItems');
         }
         return parent::get();
     }

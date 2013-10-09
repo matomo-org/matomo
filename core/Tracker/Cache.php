@@ -65,7 +65,7 @@ class Cache
          * This hook is called to get the details of a specific site depending on the id. You can use this to add any
          * custom attributes to the website.
          */
-        Piwik_PostEvent('Site.getSiteAttributes', array(&$content, $idSite));
+        Piwik::postEvent('Site.getSiteAttributes', array(&$content, $idSite));
 
         // restore original user privilege
         Piwik::setUserIsSuperUser($isSuperUser);
@@ -113,7 +113,7 @@ class Cache
          * This event is triggered to add any custom content to the Tracker cache. You may want to cache any tracker
          * data that is expensive to re-calculate on each tracking request.
          */
-        Piwik_PostEvent('Tracker.setTrackerCacheGeneral', array(&$cacheContent));
+        Piwik::postEvent('Tracker.setTrackerCacheGeneral', array(&$cacheContent));
         self::setCacheGeneral($cacheContent);
         return $cacheContent;
     }

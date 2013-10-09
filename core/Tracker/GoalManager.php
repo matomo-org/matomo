@@ -13,6 +13,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Tracker;
 
 /**
@@ -409,7 +410,7 @@ class GoalManager
          * This hook is called after recording an ecommerce goal. You can use it for instance to sync the recorded goal
          * with third party systems. `$goal` contains all available information like `items` and `revenue`.
          */
-        Piwik_PostEvent('Tracker.recordEcommerceGoal', array($goal));
+        Piwik::postEvent('Tracker.recordEcommerceGoal', array($goal));
     }
 
     /**
@@ -774,7 +775,7 @@ class GoalManager
              * This hook is called after recording a standard goal. You can use it for instance to sync the recorded
              * goal with third party systems. `$goal` contains all available information like `url` and `revenue`.
              */
-            Piwik_PostEvent('Tracker.recordStandardGoals', array($newGoal));
+            Piwik::postEvent('Tracker.recordStandardGoals', array($newGoal));
         }
     }
 

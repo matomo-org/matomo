@@ -338,7 +338,7 @@ class Controller extends Admin
                  * ```
                  * @matt this event is also triggered twice.
                  */
-                Piwik_PostEvent('Login.initSession', array($info));
+                Piwik::postEvent('Login.initSession', array($info));
             }
 
             APIUsersManager::getInstance()->setUserPreference($userLogin,

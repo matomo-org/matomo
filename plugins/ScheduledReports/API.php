@@ -415,7 +415,7 @@ class API
         /**
          * This event allows plugins to alter processed reports.
          */
-        Piwik_PostEvent(
+        Piwik::postEvent(
             self::PROCESS_REPORTS_EVENT,
             array(&$processedReports, $notificationInfo)
         );
@@ -424,7 +424,7 @@ class API
          * This event is triggered to retrieve the report renderer instance.
          */
         $reportRenderer = null;
-        Piwik_PostEvent(
+        Piwik::postEvent(
             self::GET_RENDERER_INSTANCE_EVENT,
             array(&$reportRenderer, $notificationInfo)
         );
@@ -535,7 +535,7 @@ class API
         $contents = fread($handle, filesize($outputFilename));
         fclose($handle);
 
-        Piwik_PostEvent(
+        Piwik::postEvent(
             self::SEND_REPORT_EVENT,
             array(
                  $notificationInfo = array(
@@ -587,7 +587,7 @@ class API
             self::REPORT_TYPE_INFO_KEY => $reportType
         );
 
-        Piwik_PostEvent(self::GET_REPORT_PARAMETERS_EVENT, array(&$availableParameters, $notificationInfo));
+        Piwik::postEvent(self::GET_REPORT_PARAMETERS_EVENT, array(&$availableParameters, $notificationInfo));
 
         // unset invalid parameters
         $availableParameterKeys = array_keys($availableParameters);
@@ -607,7 +607,7 @@ class API
         /**
          * This event is triggered to delegate report parameter validation.
          */
-        Piwik_PostEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $notificationInfo));
+        Piwik::postEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $notificationInfo));
 
         return Common::json_encode($parameters);
     }
@@ -719,7 +719,7 @@ class API
          * This event is used to retrieve all available reports.
          */
         $availableReportMetadata = array();
-        Piwik_PostEvent(
+        Piwik::postEvent(
             self::GET_REPORT_METADATA_EVENT,
             array(&$availableReportMetadata, $notificationInfo)
         );
@@ -733,7 +733,7 @@ class API
     static public function allowMultipleReports($reportType)
     {
         $allowMultipleReports = null;
-        Piwik_PostEvent(
+        Piwik::postEvent(
             self::ALLOW_MULTIPLE_REPORTS_EVENT,
             array(
                  &$allowMultipleReports,
@@ -751,7 +751,7 @@ class API
     static public function getReportTypes()
     {
         $reportTypes = array();
-        Piwik_PostEvent(self::GET_REPORT_TYPES_EVENT, array(&$reportTypes));
+        Piwik::postEvent(self::GET_REPORT_TYPES_EVENT, array(&$reportTypes));
 
         return $reportTypes;
     }
@@ -763,7 +763,7 @@ class API
     {
         $reportFormats = array();
 
-        Piwik_PostEvent(
+        Piwik::postEvent(
             self::GET_REPORT_FORMATS_EVENT,
             array(
                  &$reportFormats,
@@ -790,7 +790,7 @@ class API
          * This event is used to retrieve the report renderer instance.
          */
         $recipients = array();
-        Piwik_PostEvent(self::GET_REPORT_RECIPIENTS_EVENT, array(&$recipients, $notificationInfo));
+        Piwik::postEvent(self::GET_REPORT_RECIPIENTS_EVENT, array(&$recipients, $notificationInfo));
 
         return $recipients;
     }

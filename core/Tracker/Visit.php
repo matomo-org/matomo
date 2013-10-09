@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Config;
 
 use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\Tracker;
 use UserAgentParser;
 
@@ -95,7 +96,7 @@ class Visit implements VisitInterface
         /**
          * This event can be used for instance to anonymize the IP (after testing for IP exclusion).
          */
-        Piwik_PostEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
+        Piwik::postEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
 
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
         if (!empty($this->visitorCustomVariables)) {
@@ -309,7 +310,7 @@ class Visit implements VisitInterface
          * This event is triggered before saving a known visitor. Use it to change any visitor information before
          * the visitor is saved.
          */
-        Piwik_PostEvent('Tracker.knownVisitorUpdate', array(&$valuesToUpdate));
+        Piwik::postEvent('Tracker.knownVisitorUpdate', array(&$valuesToUpdate));
 
         $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentReferrerAction();
 
@@ -354,7 +355,7 @@ class Visit implements VisitInterface
          * After a known visitor is saved and updated by Piwik, this event is called. Useful for plugins that want to
          * register information about a returning visitor, or filter the existing information.
          */
-        Piwik_PostEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo));
+        Piwik::postEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo));
     }
 
     /**
@@ -476,7 +477,7 @@ class Visit implements VisitInterface
          * new information about a visitor, or filter the existing information. `$extraInfo` contains the UserAgent.
          * You can for instance change the user's location country depending on the User Agent.
          */
-        Piwik_PostEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $extraInfo));
+        Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $extraInfo));
 
         $this->request->overrideLocation($this->visitorInfo);
 

@@ -370,7 +370,7 @@ class API
          * - visitorAvatar: A URL to an image to display in the top left corner of the popup.
          * - visitorDescription: Text to be used as the tooltip of the avatar image.
          */
-        Piwik_PostEvent('Live.getExtraVisitorDetails', array(&$result));
+        Piwik::postEvent('Live.getExtraVisitorDetails', array(&$result));
 
         return $result;
     }

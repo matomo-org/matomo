@@ -402,7 +402,7 @@ class API
          * This event is triggered after a new user is created and saved in the database. `$userLogin` contains all
          * relevant user information like login name, alias, email and transformed password.
          */
-        Piwik_PostEvent('UsersManager.addUser.end', array($userLogin));
+        Piwik::postEvent('UsersManager.addUser.end', array($userLogin));
     }
 
     /**
@@ -463,7 +463,7 @@ class API
          * This event is triggered after an existing user has been updated. `$userLogin` contains the updated user
          * information like login name, alias and email.
          */
-        Piwik_PostEvent('UsersManager.updateUser.end', array($userLogin));
+        Piwik::postEvent('UsersManager.updateUser.end', array($userLogin));
     }
 
     /**
@@ -654,7 +654,7 @@ class API
          * values or settings. For instance removing all created dashboards that belong to a specific user.
          * If you store any data related to a user, you may want to clean up that information.
          */
-        Piwik_PostEvent('UsersManager.deleteUser', array($userLogin));
+        Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
     }
 
     /**

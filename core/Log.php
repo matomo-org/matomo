@@ -299,7 +299,7 @@ class Log
          * // 'myloggername' can now be used in the log_writers config option.
          * ```
          */
-        Piwik_PostEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
+        Piwik::postEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 
         $writers['file'] = array($this, 'logToFile');
         $writers['screen'] = array($this, 'logToScreen');
@@ -322,7 +322,7 @@ class Log
              * check if the object is of a certain type and if it is, set $message to the
              * string that should be logged.
              */
-            Piwik_PostEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
+            Piwik::postEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
 
         if (empty($message)) {
@@ -366,7 +366,7 @@ class Log
              * The result of this callback can be HTML so no sanitization is done on the result.
              * This means YOU MUST SANITIZE THE MESSAGE YOURSELF if you use this event.
              */
-            Piwik_PostEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
+            Piwik::postEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
 
         if (empty($message)) {
@@ -391,7 +391,7 @@ class Log
              * check if the object is of a certain type and if it is, set $message to the
              * string that should be logged.
              */
-            Piwik_PostEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
+            Piwik::postEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
 
         if (empty($message)) {

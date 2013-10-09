@@ -17,6 +17,7 @@ use Piwik\Db;
 
 use Piwik\FrontController;
 use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\WidgetsList;
 
 /**
@@ -103,7 +104,7 @@ class Provider extends \Piwik\Plugin
 
     public function postLoad()
     {
-        Piwik_AddAction('Template.footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
+        Piwik::addAction('Template.footerUserCountry', array('Piwik\Plugins\Provider\Provider', 'footerUserCountry'));
     }
 
     /**
@@ -178,7 +179,7 @@ class Provider extends \Piwik\Plugin
              * }
              * ```
              */
-            Piwik_PostEvent('Provider.getCleanHostname', array(&$cleanHostname, $hostname));
+            Piwik::postEvent('Provider.getCleanHostname', array(&$cleanHostname, $hostname));
             if ($cleanHostname !== null) {
                 return $cleanHostname;
             }

@@ -66,7 +66,7 @@ class SettingsPiwik
              * This event is triggered when the automatic archiving runs.
              * You can use it to add segments to the list of segments to pre-process during archiving.
              */
-            Piwik_PostEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
+            Piwik::postEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
 
             self::$cachedKnownSegmentsToArchive = array_unique($segmentsToProcess);
         }
@@ -82,7 +82,7 @@ class SettingsPiwik
         /**
          * @matt
          */
-        Piwik_PostEvent('Segments.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
+        Piwik::postEvent('Segments.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
         return $segments;
     }
 

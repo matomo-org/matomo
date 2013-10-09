@@ -599,7 +599,7 @@ class API
          * values or settings. For instance removing all goals that belong to a specific website. If you store any data
          * related to a website you may want to clean up that information.
          */
-        Piwik_PostEvent('SitesManager.deleteSite.end', array($idSite));
+        Piwik::postEvent('SitesManager.deleteSite.end', array($idSite));
     }
 
     /**

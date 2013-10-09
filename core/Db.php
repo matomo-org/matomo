@@ -59,7 +59,7 @@ class Db
          * datatabase settings defined in the config. The reporting database config is used in case someone accesses
          * the Piwik UI.
          */
-        Piwik_PostEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
+        Piwik::postEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
 
         $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
 

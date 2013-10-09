@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Piwik;
 
 /**
  * Purges the log_visit, log_conversion and related tables of old visit data.
@@ -230,12 +231,12 @@ class LogDataPurger
             /**
              * @ignore
              */
-            Piwik_PostEvent("LogDataPurger.ActionsToKeepInserted.olderThan");
+            Piwik::postEvent("LogDataPurger.ActionsToKeepInserted.olderThan");
         } else {
             /**
              * @ignore
              */
-            Piwik_PostEvent("LogDataPurger.ActionsToKeepInserted.newerThan");
+            Piwik::postEvent("LogDataPurger.ActionsToKeepInserted.newerThan");
         }
     }
 

@@ -59,7 +59,7 @@ class Admin extends MenuAbstract
              * }
              * ```
              */
-            Piwik_PostEvent('Menu.Admin.addItems');
+            Piwik::postEvent('Menu.Admin.addItems');
         }
         return parent::get();
     }

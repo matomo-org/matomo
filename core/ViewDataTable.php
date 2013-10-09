@@ -441,7 +441,7 @@ class ViewDataTable
              * }
              * ```
              */
-            Piwik_PostEvent('Visualization.getReportDisplayProperties', array(&self::$reportPropertiesCache));
+            Piwik::postEvent('Visualization.getReportDisplayProperties', array(&self::$reportPropertiesCache));
         }
 
         return self::$reportPropertiesCache;
@@ -1106,7 +1106,7 @@ class ViewDataTable
          * that provide new visualizations can use this event to make sure certain reports
          * are configured differently when viewed with the new visualization.
          */
-        Piwik_PostEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
+        Piwik::postEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
         $this->overrideViewProperties();
 
         try {
@@ -1299,7 +1299,7 @@ class ViewDataTable
          * )
          * ```
          */
-        Piwik_PostEvent(self::CONFIGURE_FOOTER_ICONS_EVENT, array(&$result, $viewDataTable = $this));
+        Piwik::postEvent(self::CONFIGURE_FOOTER_ICONS_EVENT, array(&$result, $viewDataTable = $this));
 
         return $result;
     }

@@ -121,7 +121,7 @@ class API
          * authentication object instead of the Piwik authentication. Make sure to implement the `Piwik\Auth`
          * interface in case you want to define your own authentication.
          */
-        Piwik_PostEvent('Request.initAuthenticationObject', array($allowCookieAuthentication = true));
+        Piwik::postEvent('Request.initAuthenticationObject', array($allowCookieAuthentication = true));
 
         $auth = \Piwik\Registry::get('auth');
         $success = Access::getInstance()->reloadAccess($auth);

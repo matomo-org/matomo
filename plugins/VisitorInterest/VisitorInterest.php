@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor;
 
 use Piwik\FrontController;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\WidgetsList;
 
 /**
@@ -115,8 +116,8 @@ class VisitorInterest extends \Piwik\Plugin
 
     function postLoad()
     {
-        Piwik_AddAction('Template.headerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'headerVisitsFrequency'));
-        Piwik_AddAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
+        Piwik::addAction('Template.headerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'headerVisitsFrequency'));
+        Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)

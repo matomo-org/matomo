@@ -46,7 +46,6 @@ class Piwik
         'range' => 5,
     );
 
-
     const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
 
@@ -81,10 +80,6 @@ class Piwik
         print($output);
         exit;
     }
-
-    /*
-     * Amounts, Percentages, Currency, Time, Math Operations, and Pretty Printing
-     */
 
     /**
      * Computes the division of i1 by i2. If either i1 or i2 are not number, or if i2 has a value of zero
@@ -645,5 +640,44 @@ class Piwik
         $className = is_string($object) ? $object : get_class($object);
         $parts = explode('\\', $className);
         return end($parts);
+    }
+
+
+    /**
+     * Post an event to the dispatcher which will notice the observers.
+     *
+     * @param string $eventName The event name.
+     * @param array $params The parameter array to forward to observer callbacks.
+     * @param bool $pending
+     * @param null $plugins
+     * @return void
+     * @api
+     */
+    public static function postEvent($eventName, $params = array(), $pending = false, $plugins = null)
+    {
+        EventDispatcher::getInstance()->postEvent($eventName, $params, $pending, $plugins);
+    }
+
+    /**
+     * Register an action to execute for a given event
+     *
+     * @param string $eventName Name of event
+     * @param callable $function Callback hook
+     * @api
+     */
+    public static function addAction($eventName, $function)
+    {
+        EventDispatcher::getInstance()->addObserver($eventName, $function);
+    }
+
+    /**
+     * Posts an event if we are currently running tests. Whether we are running tests is
+     * determined by looking for the PIWIK_TEST_MODE constant.
+     */
+    public static function postTestEvent($eventName, $params = array(), $pending = false, $plugins = null)
+    {
+        if (defined('PIWIK_TEST_MODE')) {
+            Piwik::postEvent($eventName, $params, $pending, $plugins);
+        }
     }
 }

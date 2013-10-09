@@ -6,6 +6,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\Tracker;
 
 /**
@@ -297,7 +298,7 @@ class Request
          * be higher than `0`, otherwise an exception will be triggered. By default the idSite is specified on the URL
          * parameter `idsite`.
          */
-        Piwik_PostEvent('Tracker.setSiteId', array(&$idSite, $this->params));
+        Piwik::postEvent('Tracker.setSiteId', array(&$idSite, $this->params));
         if ($idSite <= 0) {
             throw new Exception('Invalid idSite');
         }

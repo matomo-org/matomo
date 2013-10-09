@@ -130,14 +130,14 @@ class FrontController
          *
          * The `$params` array contains the following properties: `array($module, $action, $parameters, $controller)`
          */
-        Piwik_PostEvent('Request.dispatch', $params);
+        Piwik::postEvent('Request.dispatch', $params);
 
         /**
          * This event is similar to the `Request.dispatch` hook. It distinguishes the possibility to subscribe only to a
          * specific controller method instead of all controller methods. You can use it for example to modify any input
          * parameters or execute any other logic before the actual controller is called.
          */
-        Piwik_PostEvent(sprintf('Controller.%s.%s', $module, $action), array($parameters));
+        Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array($parameters));
 
         try {
             $result = call_user_func_array(array($params[3], $params[1]), $params[2]);
@@ -147,14 +147,14 @@ class FrontController
              * only to the end of a specific controller method instead of all controller methods. You can use it for
              * example to modify the response of a single controller method.
              */
-            Piwik_PostEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
+            Piwik::postEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
 
             /**
              * Generic hook that plugins can use to modify any output of any controller method. The event is triggered
              * after a controller method is executed but before the result is send to the user. The parameters
              * originally passed to the method are available as well.
              */
-            Piwik_PostEvent('Request.dispatch.end', array(&$result, $parameters));
+            Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
 
             return $result;
 
@@ -165,7 +165,7 @@ class FrontController
              * required permissions to do this. You can subscribe to this event to display a custom error message or
              * to display a custom login form in such a case.
              */
-            Piwik_PostEvent('User.isNotAuthorized', array($exception), $pending = true);
+            Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
             $message = Common::sanitizeInputValue($e->getMessage());
@@ -245,7 +245,7 @@ class FrontController
              * installed yet. The event can be used to start the installation process or to display a custom error
              * message.
              */
-            Piwik_PostEvent('Config.NoConfigurationFile', array($exception), $pending = true);
+            Piwik::postEvent('Config.NoConfigurationFile', array($exception), $pending = true);
             $exceptionToThrow = $exception;
         }
         return $exceptionToThrow;
@@ -318,7 +318,7 @@ class FrontController
                  * are missing. The event can be used to start the installation process or to display a custom error
                  * message.
                  */
-                Piwik_PostEvent('Config.badConfigurationFile', array($exception), $pending = true);
+                Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
                 throw $exception;
             }
 
@@ -329,7 +329,7 @@ class FrontController
              * This event is the first event triggered just after the platform is initialized and plugins are loaded.
              * You can use this event to do early initialization. Note: the user is not authenticated yet.
              */
-            Piwik_PostEvent('Request.dispatchCoreAndPluginUpdatesScreen');
+            Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
             PluginsManager::getInstance()->installLoadedPlugins();
 
@@ -342,7 +342,7 @@ class FrontController
              * This event is triggered before the user is authenticated. You can use it to create your own
              * authentication object which implements the `Piwik\Auth` interface, and override the default authentication logic.
              */
-            Piwik_PostEvent('Request.initAuthenticationObject');
+            Piwik::postEvent('Request.initAuthenticationObject');
             try {
                 $authAdapter = Registry::get('auth');
             } catch (Exception $e) {
@@ -368,7 +368,7 @@ class FrontController
              * the user is authenticated but before the platform is going to dispatch the actual request. You can use
              * it to check for any updates.
              */
-            Piwik_PostEvent('Updater.checkForUpdates');
+            Piwik::postEvent('Updater.checkForUpdates');
         } catch (Exception $e) {
 
             if (self::shouldRethrowException()) {

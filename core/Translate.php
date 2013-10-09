@@ -119,7 +119,7 @@ class Translate
              * it for instance to detect the users language by using a third party API such as a CMS. The language that
              * is set in the request URL is passed as an argument.
              */
-            Piwik_PostEvent('User.getLanguage', array(&$lang));
+            Piwik::postEvent('User.getLanguage', array(&$lang));
 
             self::$languageToLoad = $lang;
         }
@@ -188,7 +188,7 @@ class Translate
          * }
          * ```
          */
-        Piwik_PostEvent(self::GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT, array(&$result));
+        Piwik::postEvent(self::GET_CLIENT_SIDE_TRANSLATION_KEYS_EVENT, array(&$result));
 
         $result = array_unique($result);
 

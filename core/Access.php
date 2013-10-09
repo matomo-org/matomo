@@ -49,7 +49,7 @@ class Access
         if (self::$instance == null) {
             self::$instance = new self;
 
-            Piwik_PostTestEvent('Access.createAccessSingleton', array(self::$instance));
+            Piwik::postTestEvent('Access.createAccessSingleton', array(self::$instance));
         }
         return self::$instance;
     }
@@ -216,7 +216,7 @@ class Access
         $this->idsitesByAccess['superuser'] = $allSitesId;
         $this->login = Config::getInstance()->superuser['login'];
 
-        Piwik_PostTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
+        Piwik::postTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
 
         return true;
     }

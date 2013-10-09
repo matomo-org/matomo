@@ -28,9 +28,9 @@ class ExceptionHandler
 
     public static function setUp()
     {
-        Piwik_AddAction('Log.formatFileMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
-        Piwik_AddAction('Log.formatDatabaseMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
-        Piwik_AddAction('Log.formatScreenMessage', array('\\Piwik\\ExceptionHandler', 'formatScreenMessage'));
+        Piwik::addAction('Log.formatFileMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
+        Piwik::addAction('Log.formatDatabaseMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
+        Piwik::addAction('Log.formatScreenMessage', array('\\Piwik\\ExceptionHandler', 'formatScreenMessage'));
 
         set_exception_handler(array('\\Piwik\\ExceptionHandler', 'exceptionHandler'));
     }

@@ -115,7 +115,7 @@ class Twig
     {
         $postEventFunction = new Twig_SimpleFunction('postEvent', function ($eventName) {
             $str = '';
-            Piwik_PostEvent($eventName, array(&$str));
+            Piwik::postEvent($eventName, array(&$str));
             return $str;
         }, array('is_safe' => array('html')));
         $this->twig->addFunction($postEventFunction);

@@ -14,6 +14,7 @@ namespace Piwik\Tracker;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Tracker;
 use Piwik\UrlHelper;
 
@@ -644,7 +645,7 @@ class Action implements ActionInterface
          * This hook is called after saving (and updating) visitor information. You can use it for instance to sync the
          * recorded action with third party systems.
          */
-        Piwik_PostEvent('Tracker.recordAction', array($trackerAction = $this, $info));
+        Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $info));
     }
 
     public function getCustomVariables()

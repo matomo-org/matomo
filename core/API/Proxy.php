@@ -13,6 +13,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Piwik;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -187,14 +188,14 @@ class Proxy
              *
              * The `$fnalParameters` contains all paramteres that will be passed to the actual API method.
              */
-            Piwik_PostEvent(sprintf('API.Request.dispatch', $pluginName, $methodName), array(&$finalParameters));
+            Piwik::postEvent(sprintf('API.Request.dispatch', $pluginName, $methodName), array(&$finalParameters));
 
             /**
              * This event is similar to the `API.Request.dispatch` event. It distinguishes the possibility to subscribe
              * only to a specific API method instead of all API methods. You can use it for example to modify any input
              * parameters or to execute any other logic before the actual API method is called.
              */
-            Piwik_PostEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
+            Piwik::postEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
             // call the method
             $returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);
@@ -223,7 +224,7 @@ class Proxy
              * );
              * ```
              */
-            Piwik_PostEvent(sprintf('API.%s.%s.end', $pluginName, $methodName), $endHookParams);
+            Piwik::postEvent(sprintf('API.%s.%s.end', $pluginName, $methodName), $endHookParams);
 
             /**
              * Generic hook that plugins can use to modify any output of any API method. The event is triggered after
@@ -240,7 +241,7 @@ class Proxy
              * );
              * ```
              */
-            Piwik_PostEvent(sprintf('API.Request.dispatch.end', $pluginName, $methodName), $endHookParams);
+            Piwik::postEvent(sprintf('API.Request.dispatch.end', $pluginName, $methodName), $endHookParams);
 
             // Restore the request
             $_GET = $saveGET;

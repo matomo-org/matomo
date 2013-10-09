@@ -13,48 +13,9 @@
 namespace {
 
     use Piwik\DataTable;
-    use Piwik\EventDispatcher;
     use Piwik\Menu\Admin;
     use Piwik\Menu\Main;
     use Piwik\Menu\Top;
-
-    /**
-     * Post an event to the dispatcher which will notice the observers.
-     *
-     * @param string $eventName The event name.
-     * @param array $params The parameter array to forward to observer callbacks.
-     * @param bool $pending
-     * @param null $plugins
-     * @return void
-     * @api
-     */
-    function Piwik_PostEvent($eventName, $params = array(), $pending = false, $plugins = null)
-    {
-        EventDispatcher::getInstance()->postEvent($eventName, $params, $pending, $plugins);
-    }
-
-    /**
-     * Register an action to execute for a given event
-     *
-     * @param string $eventName Name of event
-     * @param callable $function Callback hook
-     * @api
-     */
-    function Piwik_AddAction($eventName, $function)
-    {
-        EventDispatcher::getInstance()->addObserver($eventName, $function);
-    }
-
-    /**
-     * Posts an event if we are currently running tests. Whether we are running tests is
-     * determined by looking for the PIWIK_TEST_MODE constant.
-     */
-    function Piwik_PostTestEvent($eventName, $params = array(), $pending = false, $plugins = null)
-    {
-        if (defined('PIWIK_TEST_MODE')) {
-            Piwik_PostEvent($eventName, $params, $pending, $plugins);
-        }
-    }
 
     /**
      * Returns translated string or given message if translation is not found.

@@ -69,7 +69,7 @@ class WidgetsList
              * }
              * ```
              */
-            Piwik_PostEvent('WidgetsList.addWidgets');
+            Piwik::postEvent('WidgetsList.addWidgets');
         }
     }
 

@@ -561,7 +561,7 @@ class Tracker
          * datatabase settings defined in the config. The tracker database config is used in case a new pageview/visit
          * will be tracked.
          */
-        Piwik_PostEvent('Tracker.getDatabaseConfig', array(&$configDb));
+        Piwik::postEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
         $db = Tracker::factory($configDb);
         $db->connect();
@@ -614,7 +614,7 @@ class Tracker
          * usage of your own or your extended visit object but make sure to implement the
          * `Piwik\Tracker\VisitInterface`.
          */
-        Piwik_PostEvent('Tracker.makeNewVisitObject', array(&$visit));
+        Piwik::postEvent('Tracker.makeNewVisitObject', array(&$visit));
 
         if (is_null($visit)) {
             $visit = new Visit();

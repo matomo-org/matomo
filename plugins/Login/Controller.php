@@ -184,7 +184,7 @@ class Controller extends \Piwik\Controller
          * }
          * ```
          */
-        Piwik_PostEvent('Login.initSession', array(&$info));
+        Piwik::postEvent('Login.initSession', array(&$info));
         Url::redirectToUrl($urlToRedirect);
     }
 
