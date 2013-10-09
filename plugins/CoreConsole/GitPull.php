@@ -34,5 +34,9 @@ class GitPull extends Command
 
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);
+
+        $cmd = 'git submodule foreach "(git checkout master; git pull)&"';
+        $output->writeln('Executing command: ' . $cmd);
+        passthru($cmd);
     }
 }
