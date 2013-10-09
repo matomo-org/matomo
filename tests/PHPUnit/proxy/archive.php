@@ -2,7 +2,7 @@
 define('PIWIK_MODE_ARCHIVE', true);
 define('PIWIK_ARCHIVE_NO_TRUNCATE', true);
 
-require "./includes.php";
+require realpath(dirname(__FILE__)) . "/includes.php";
 
 Piwik_TestingEnvironment::addHooks();
 
