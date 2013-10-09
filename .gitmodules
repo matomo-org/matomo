@@ -1,12 +1,12 @@
 [submodule "tests/PHPUnit/UI"]
 	path = tests/PHPUnit/UI
-	url = git@github.com:piwik/piwik-ui-tests.git
+	url = https://github.com/piwik/piwik-ui-tests.git
 [submodule "plugins/SecurityInfo"]
 	path = plugins/SecurityInfo
-	url = git@github.com:piwik/plugin-SecurityInfo.git
+	url = https://github.com/piwik/plugin-SecurityInfo.git
 [submodule "plugins/VisitorGenerator"]
 	path = plugins/VisitorGenerator
-	url = git@github.com:piwik/plugin-VisitorGenerator.git
+	url = https://github.com/piwik/plugin-VisitorGenerator
 [submodule "plugins/TreemapVisualization"]
 	path = plugins/TreemapVisualization
-	url = git@github.com:piwik/plugin-TreemapVisualization.git 
+	url = https://github.com/piwik/plugin-TreemapVisualization.git
