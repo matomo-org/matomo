@@ -42,60 +42,60 @@ class VisitorInterest extends \Piwik\Plugin
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(
-            'category'          => Piwik_Translate('General_Visitors'),
-            'name'              => Piwik_Translate('VisitorInterest_WidgetLengths'),
+            'category'          => Piwik::translate('General_Visitors'),
+            'name'              => Piwik::translate('VisitorInterest_WidgetLengths'),
             'module'            => 'VisitorInterest',
             'action'            => 'getNumberOfVisitsPerVisitDuration',
-            'dimension'         => Piwik_Translate('VisitorInterest_ColumnVisitDuration'),
+            'dimension'         => Piwik::translate('VisitorInterest_ColumnVisitDuration'),
             'metrics'           => array('nb_visits'),
             'processedMetrics'  => false,
             'constantRowsCount' => true,
-            'documentation'     => Piwik_Translate('VisitorInterest_WidgetLengthsDocumentation')
-                . '<br />' . Piwik_Translate('General_ChangeTagCloudView'),
+            'documentation'     => Piwik::translate('VisitorInterest_WidgetLengthsDocumentation')
+                . '<br />' . Piwik::translate('General_ChangeTagCloudView'),
             'order'             => 15
         );
 
         $reports[] = array(
-            'category'          => Piwik_Translate('General_Visitors'),
-            'name'              => Piwik_Translate('VisitorInterest_WidgetPages'),
+            'category'          => Piwik::translate('General_Visitors'),
+            'name'              => Piwik::translate('VisitorInterest_WidgetPages'),
             'module'            => 'VisitorInterest',
             'action'            => 'getNumberOfVisitsPerPage',
-            'dimension'         => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit'),
+            'dimension'         => Piwik::translate('VisitorInterest_ColumnPagesPerVisit'),
             'metrics'           => array('nb_visits'),
             'processedMetrics'  => false,
             'constantRowsCount' => true,
-            'documentation'     => Piwik_Translate('VisitorInterest_WidgetPagesDocumentation')
-                . '<br />' . Piwik_Translate('General_ChangeTagCloudView'),
+            'documentation'     => Piwik::translate('VisitorInterest_WidgetPagesDocumentation')
+                . '<br />' . Piwik::translate('General_ChangeTagCloudView'),
             'order'             => 20
         );
 
         $reports[] = array(
-            'category'          => Piwik_Translate('General_Visitors'),
-            'name'              => Piwik_Translate('VisitorInterest_visitsByVisitCount'),
+            'category'          => Piwik::translate('General_Visitors'),
+            'name'              => Piwik::translate('VisitorInterest_visitsByVisitCount'),
             'module'            => 'VisitorInterest',
             'action'            => 'getNumberOfVisitsByVisitCount',
-            'dimension'         => Piwik_Translate('VisitorInterest_visitsByVisitCount'),
+            'dimension'         => Piwik::translate('VisitorInterest_visitsByVisitCount'),
             'metrics'           => array(
                 'nb_visits',
-                'nb_visits_percentage' => Piwik_Translate('General_ColumnPercentageVisits'),
+                'nb_visits_percentage' => Piwik::translate('General_ColumnPercentageVisits'),
             ),
             'processedMetrics'  => false,
             'constantRowsCount' => true,
-            'documentation'     => Piwik_Translate('VisitorInterest_WidgetVisitsByNumDocumentation')
-                . '<br />' . Piwik_Translate('General_ChangeTagCloudView'),
+            'documentation'     => Piwik::translate('VisitorInterest_WidgetVisitsByNumDocumentation')
+                . '<br />' . Piwik::translate('General_ChangeTagCloudView'),
             'order'             => 25
         );
 
         $reports[] = array(
-            'category'          => Piwik_Translate('General_Visitors'),
-            'name'              => Piwik_Translate('VisitorInterest_VisitsByDaysSinceLast'),
+            'category'          => Piwik::translate('General_Visitors'),
+            'name'              => Piwik::translate('VisitorInterest_VisitsByDaysSinceLast'),
             'module'            => 'VisitorInterest',
             'action'            => 'getNumberOfVisitsByDaysSinceLast',
-            'dimension'         => Piwik_Translate('VisitorInterest_VisitsByDaysSinceLast'),
+            'dimension'         => Piwik::translate('VisitorInterest_VisitsByDaysSinceLast'),
             'metrics'           => array('nb_visits'),
             'processedMetrics'  => false,
             'constantRowsCount' => true,
-            'documentation'     => Piwik_Translate('VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation'),
+            'documentation'     => Piwik::translate('VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation'),
             'order'             => 30
         );
     }
@@ -168,7 +168,7 @@ class VisitorInterest extends \Piwik\Plugin
             'default_view_type'           => 'cloud',
             'filter_sort_column'          => 'label',
             'filter_sort_order'           => 'asc',
-            'translations'                => array('label' => Piwik_Translate('VisitorInterest_ColumnVisitDuration')),
+            'translations'                => array('label' => Piwik::translate('VisitorInterest_ColumnVisitDuration')),
             'enable_sort'                 => false,
             'show_exclude_low_population' => false,
             'show_offset_information'     => false,
@@ -190,7 +190,7 @@ class VisitorInterest extends \Piwik\Plugin
             'default_view_type'           => 'cloud',
             'filter_sort_column'          => 'label',
             'filter_sort_order'           => 'asc',
-            'translations'                => array('label' => Piwik_Translate('VisitorInterest_ColumnPagesPerVisit')),
+            'translations'                => array('label' => Piwik::translate('VisitorInterest_ColumnPagesPerVisit')),
             'enable_sort'                 => false,
             'show_exclude_low_population' => false,
             'show_offset_information'     => false,
@@ -212,7 +212,7 @@ class VisitorInterest extends \Piwik\Plugin
             'columns_to_display'          => array('label', 'nb_visits', 'nb_visits_percentage'),
             'filter_sort_column'          => 'label',
             'filter_sort_order'           => 'asc',
-            'translations'                => array('label'                => Piwik_Translate('VisitorInterest_VisitNum'),
+            'translations'                => array('label'                => Piwik::translate('VisitorInterest_VisitNum'),
                                                    'nb_visits_percentage' => Metrics::getPercentVisitColumn()),
             'show_exclude_low_population' => false,
             'show_offset_information'     => false,
@@ -231,7 +231,7 @@ class VisitorInterest extends \Piwik\Plugin
         return array(
             'filter_sort_column'          => 'label',
             'filter_sort_order'           => 'asc',
-            'translations'                => array('label' => Piwik_Translate('General_DaysSinceLastVisit')),
+            'translations'                => array('label' => Piwik::translate('General_DaysSinceLastVisit')),
             'show_exclude_low_population' => false,
             'show_offset_information'     => false,
             'show_pagination_control'     => false,

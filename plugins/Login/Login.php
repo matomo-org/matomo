@@ -118,7 +118,7 @@ class Login extends \Piwik\Plugin
         $cookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
         if (!$authResult->wasAuthenticationSuccessful()) {
             $cookie->delete();
-            throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
+            throw new Exception(Piwik::translate('Login_LoginPasswordNotCorrect'));
         }
 
         $cookie->set('login', $login);

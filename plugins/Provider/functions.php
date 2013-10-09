@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Provider;
 
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * Return hostname portion of a domain name
@@ -22,7 +23,7 @@ use Piwik\DataTable;
 function getHostnameName($in)
 {
     if (empty($in)) {
-        return Piwik_Translate('General_Unknown');
+        return Piwik::translate('General_Unknown');
     }
     if (strtolower($in) === 'ip') {
         return "IP";

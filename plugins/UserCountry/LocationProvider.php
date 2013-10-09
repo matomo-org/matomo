@@ -14,6 +14,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\IP;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tracker\Cache;
 use ReflectionClass;
@@ -341,7 +342,7 @@ abstract class LocationProvider
             && !empty($location[self::CONTINENT_CODE_KEY])
         ) {
             $continentCode = strtolower($location[self::CONTINENT_CODE_KEY]);
-            $location[self::CONTINENT_NAME_KEY] = Piwik_Translate('UserCountry_continent_' . $continentCode);
+            $location[self::CONTINENT_NAME_KEY] = Piwik::translate('UserCountry_continent_' . $continentCode);
         }
 
         // fill in country name if country code is present
@@ -349,7 +350,7 @@ abstract class LocationProvider
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
-            $location[self::COUNTRY_NAME_KEY] = Piwik_Translate('UserCountry_country_' . $countryCode);
+            $location[self::COUNTRY_NAME_KEY] = Piwik::translate('UserCountry_country_' . $countryCode);
         }
 
         // deal w/ improper latitude/longitude & round proper values
@@ -381,7 +382,7 @@ abstract class LocationProvider
     public static function prettyFormatLocation($locationInfo, $newline = "\n", $includeExtra = false)
     {
         if ($locationInfo === false) {
-            return Piwik_Translate('General_Unknown');
+            return Piwik::translate('General_Unknown');
         }
 
         // add latitude/longitude line
@@ -424,7 +425,7 @@ abstract class LocationProvider
         if ($includeExtra) {
             $lines[] = '';
 
-            $unknown = Piwik_Translate('General_Unknown');
+            $unknown = Piwik::translate('General_Unknown');
 
             $org = !empty($locationInfo[self::ORG_KEY]) ? $locationInfo[self::ORG_KEY] : $unknown;
             $lines[] = "Org: $org";

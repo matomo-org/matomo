@@ -13,6 +13,7 @@ namespace Piwik\Plugins\AnonymizeIP;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\Version;
 
 /**
@@ -28,7 +29,7 @@ class AnonymizeIP extends \Piwik\Plugin
     public function getInformation()
     {
         return array(
-            'description'     => Piwik_Translate('AnonymizeIP_PluginDescription'),
+            'description'     => Piwik::translate('AnonymizeIP_PluginDescription'),
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
             'version'         => Version::VERSION,

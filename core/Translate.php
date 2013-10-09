@@ -87,7 +87,7 @@ class Translate
     {
         $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.json';
         if (!Filesystem::isValidFilename($language) || !is_readable($path)) {
-            throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
+            throw new Exception(Piwik::translateException('General_ExceptionLanguageFileNotFound', array($language)));
         }
         $data = file_get_contents($path);
         $translations = json_decode($data, true);

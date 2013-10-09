@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\Login;
 
 use HTML_QuickForm2_DataSource_Array;
+use Piwik\Piwik;
 use Piwik\QuickForm2;
 
 /**
@@ -27,10 +28,10 @@ class FormLogin extends QuickForm2
     function init()
     {
         $this->addElement('text', 'form_login')
-            ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Username')));
+            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('General_Username')));
 
         $this->addElement('password', 'form_password')
-            ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Password')));
+            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('General_Password')));
 
         $this->addElement('hidden', 'form_nonce');
 

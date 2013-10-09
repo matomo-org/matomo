@@ -211,7 +211,7 @@ class Twig
             }
 
             try {
-                $stringTranslated = Piwik_Translate($stringToken, $aValues);
+                $stringTranslated = Piwik::translate($stringToken, $aValues);
             } catch (Exception $e) {
                 $stringTranslated = $stringToken;
             }

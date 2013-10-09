@@ -58,38 +58,38 @@ class API
                 'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://google.com'),
                 'id'   => 'pagerank'
             ),
-            Piwik_Translate('SEO_Google_IndexedPages') => array(
+            Piwik::translate('SEO_Google_IndexedPages') => array(
                 'rank' => $rank->getIndexedPagesGoogle(),
                 'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://google.com'),
                 'id'   => 'google-index',
             ),
-            Piwik_Translate('SEO_Bing_IndexedPages')   => array(
+            Piwik::translate('SEO_Bing_IndexedPages')   => array(
                 'rank' => $rank->getIndexedPagesBing(),
                 'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://bing.com'),
                 'id'   => 'bing-index',
             ),
-            Piwik_Translate('SEO_AlexaRank')           => array(
+            Piwik::translate('SEO_AlexaRank')           => array(
                 'rank' => $rank->getAlexaRank(),
                 'logo' => \Piwik\Plugins\Referrers\getSearchEngineLogoFromUrl('http://alexa.com'),
                 'id'   => 'alexa',
             ),
-            Piwik_Translate('SEO_DomainAge')           => array(
+            Piwik::translate('SEO_DomainAge')           => array(
                 'rank' => $rank->getAge(),
                 'logo' => 'plugins/SEO/images/whois.png',
                 'id'   => 'domain-age',
             ),
-            Piwik_Translate('SEO_ExternalBacklinks')   => array(
+            Piwik::translate('SEO_ExternalBacklinks')   => array(
                 'rank'         => $rank->getExternalBacklinkCount(),
                 'logo'         => 'plugins/SEO/images/majesticseo.png',
                 'logo_link'    => $linkToMajestic,
-                'logo_tooltip' => Piwik_Translate('SEO_ViewBacklinksOnMajesticSEO'),
+                'logo_tooltip' => Piwik::translate('SEO_ViewBacklinksOnMajesticSEO'),
                 'id'           => 'external-backlinks',
             ),
-            Piwik_Translate('SEO_ReferrerDomains')     => array(
+            Piwik::translate('SEO_ReferrerDomains')     => array(
                 'rank'         => $rank->getReferrerDomainCount(),
                 'logo'         => 'plugins/SEO/images/majesticseo.png',
                 'logo_link'    => $linkToMajestic,
-                'logo_tooltip' => Piwik_Translate('SEO_ViewBacklinksOnMajesticSEO'),
+                'logo_tooltip' => Piwik::translate('SEO_ViewBacklinksOnMajesticSEO'),
                 'id'           => 'referrer-domains',
             ),
         );
@@ -101,7 +101,7 @@ class API
             'id'   => 'dmoz',
         );
         if ($dmozRank['rank'] > 0) {
-            $data[Piwik_Translate('SEO_Dmoz')] = $dmozRank;
+            $data[Piwik::translate('SEO_Dmoz')] = $dmozRank;
         }
 
         return DataTable::makeFromIndexedArray($data);

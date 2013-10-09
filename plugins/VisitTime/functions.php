@@ -11,9 +11,11 @@
 
 namespace Piwik\Plugins\VisitTime;
 
+use Piwik\Piwik;
+
 function getTimeLabel($label)
 {
-    return sprintf(Piwik_Translate('VisitTime_NHour'), $label);
+    return sprintf(Piwik::translate('VisitTime_NHour'), $label);
 }
 
 /**
@@ -36,5 +38,5 @@ function dayOfWeekFromDate($dateStr)
  */
 function translateDayOfWeek($dayOfWeek)
 {
-    return Piwik_Translate('General_LongDay_' . $dayOfWeek);
+    return Piwik::translate('General_LongDay_' . $dayOfWeek);
 }

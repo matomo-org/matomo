@@ -18,50 +18,6 @@ namespace {
     use Piwik\Menu\Top;
 
     /**
-     * Returns translated string or given message if translation is not found.
-     *
-     * @param string $string Translation string index
-     * @param array|string|int $args sprintf arguments
-     * @return string
-     * @api
-     */
-    function Piwik_Translate($string, $args = array())
-    {
-        if (!is_array($args)) {
-            $args = array($args);
-        }
-
-        if (strpos($string, "_") !== false) {
-            list($plugin, $key) = explode("_", $string, 2);
-            if (isset($GLOBALS['Piwik_translations'][$plugin]) && isset($GLOBALS['Piwik_translations'][$plugin][$key])) {
-                $string = $GLOBALS['Piwik_translations'][$plugin][$key];
-            }
-        }
-        if (count($args) == 0) {
-            return $string;
-        }
-        return vsprintf($string, $args);
-    }
-
-    /**
-     * Returns translated string or given message if translation is not found.
-     * This function does not throw any exception. Use it to translate exceptions.
-     *
-     * @param string $message Translation string index
-     * @param array $args sprintf arguments
-     * @return string
-     * @api
-     */
-    function Piwik_TranslateException($message, $args = array())
-    {
-        try {
-            return Piwik_Translate($message, $args);
-        } catch (Exception $e) {
-            return $message;
-        }
-    }
-
-    /**
      * Returns the AdminMenu
      *
      * @return Array

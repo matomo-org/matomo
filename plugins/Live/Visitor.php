@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
@@ -540,7 +541,7 @@ class Visitor
         if (isset($this->details['location_provider'])) {
             return $this->details['location_provider'];
         } else {
-            return Piwik_Translate('General_Unknown');
+            return Piwik::translate('General_Unknown');
         }
     }
 

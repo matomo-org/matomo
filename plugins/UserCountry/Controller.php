@@ -387,7 +387,7 @@ class Controller extends Admin
 
             return array(
                 'to_download'       => $missingDbKey,
-                'to_download_label' => Piwik_Translate('UserCountry_DownloadingDb', $link) . '...',
+                'to_download_label' => Piwik::translate('UserCountry_DownloadingDb', $link) . '...',
             );
         }
         return false;

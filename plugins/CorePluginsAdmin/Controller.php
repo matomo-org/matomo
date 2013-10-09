@@ -78,7 +78,7 @@ class Controller extends \Piwik\Controller\Admin
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce(static::INSTALL_NONCE, $nonce)) {
-            throw new \Exception(Piwik_Translate('General_ExceptionNonceMismatch'));
+            throw new \Exception(Piwik::translate('General_ExceptionNonceMismatch'));
         }
 
         Nonce::discardNonce(static::INSTALL_NONCE);
@@ -234,13 +234,13 @@ class Controller extends \Piwik\Controller\Admin
         foreach ($plugins as $pluginName => &$plugin) {
             if (!isset($plugin['info'])) {
                 $description = '<strong><em>'
-                    . Piwik_Translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
+                    . Piwik::translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
                     . '</strong> <br/> '
-                    . Piwik_Translate('CorePluginsAdmin_PluginAskDevToUpdate')
+                    . Piwik::translate('CorePluginsAdmin_PluginAskDevToUpdate')
                     . '</em>';
                 $plugin['info'] = array(
                     'description' => $description,
-                    'version'     => Piwik_Translate('General_Unknown'),
+                    'version'     => Piwik::translate('General_Unknown'),
                     'theme'       => false,
                 );
             }
@@ -289,7 +289,7 @@ class Controller extends \Piwik\Controller\Admin
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce($nonceName, $nonce)) {
-            throw new \Exception(Piwik_Translate('General_ExceptionNonceMismatch'));
+            throw new \Exception(Piwik::translate('General_ExceptionNonceMismatch'));
         }
 
         Nonce::discardNonce($nonceName);
@@ -327,7 +327,7 @@ class Controller extends \Piwik\Controller\Admin
             $path = Filesystem::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
             $messagePermissions = Filechecks::getErrorMessageMissingPermissions($path);
 
-            $messageIntro = Piwik_Translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
+            $messageIntro = Piwik::translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
                 $pluginName);
             $exitMessage = $messageIntro . "<br/><br/>" . $messagePermissions;
             Piwik_ExitWithMessage($exitMessage, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = true);

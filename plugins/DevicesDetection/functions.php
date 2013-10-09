@@ -11,6 +11,7 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
+use Piwik\Piwik;
 use UserAgentParserEnhanced;
 
 function getBrandLogo($label)
@@ -30,7 +31,7 @@ function getBrowserFamilyFullNameExtended($label)
             return $name;
         }
     }
-    return Piwik_Translate('General_Unknown');
+    return Piwik::translate('General_Unknown');
 }
 
 function getBrowserFamilyLogoExtended($label)
@@ -50,7 +51,7 @@ function getBrowserNameExtended($label)
     if (array_key_exists($short, UserAgentParserEnhanced::$browsers)) {
         return trim(ucfirst(UserAgentParserEnhanced::$browsers[$short]) . ' ' . $ver);
     } else {
-        return Piwik_Translate('General_Unknown');
+        return Piwik::translate('General_Unknown');
     }
 }
 
@@ -69,7 +70,7 @@ function getDeviceBrandLabel($label)
     if (array_key_exists($label, UserAgentParserEnhanced::$deviceBrands)) {
         return ucfirst(UserAgentParserEnhanced::$deviceBrands[$label]);
     } else {
-        return Piwik_Translate('General_Unknown');
+        return Piwik::translate('General_Unknown');
     }
 }
 
@@ -78,7 +79,7 @@ function getDeviceTypeLabel($label)
     if (isset(UserAgentParserEnhanced::$deviceTypes[$label])) {
         return UserAgentParserEnhanced::$deviceTypes[$label];
     } else {
-        return Piwik_Translate('General_Unknown');
+        return Piwik::translate('General_Unknown');
     }
 }
 
@@ -104,7 +105,7 @@ function getDeviceTypeLogo($label)
 function getModelName($label)
 {
     if (!$label) {
-        return Piwik_Translate('General_Unknown');
+        return Piwik::translate('General_Unknown');
     }
     return $label;
 }
@@ -116,7 +117,7 @@ function getOSFamilyFullNameExtended($label)
             return $name;
         }
     }
-    return Piwik_Translate('General_Unknown');
+    return Piwik::translate('General_Unknown');
 }
 
 function getOsFamilyLogoExtended($label)
@@ -139,7 +140,7 @@ function getOsFullNameExtended($label)
             return $name;
         }
     }
-    return Piwik_Translate('General_Unknown');
+    return Piwik::translate('General_Unknown');
 }
 
 

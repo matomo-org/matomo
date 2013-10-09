@@ -16,6 +16,7 @@ use pData;
 
 use pImage;
 use Piwik\Loader;
+use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 
 require_once PIWIK_INCLUDE_PATH . "/libs/pChart2.1.3/class/pDraw.class.php";
@@ -94,7 +95,7 @@ abstract class StaticGraph
             return new $className;
         } else {
             throw new Exception(
-                Piwik_TranslateException(
+                Piwik::translateException(
                     'General_ExceptionInvalidStaticGraphType',
                     array($graphType, implode(', ', self::getAvailableStaticGraphTypes()))
                 )

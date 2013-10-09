@@ -435,7 +435,7 @@ class ViewDataTable
              * public function getReportDisplayProperties(&$properties)
              * {
              *     $properties['Provider.getProvider'] = array(
-             *         'translations' => array('label' => Piwik_Translate('Provider_ColumnProvider')),
+             *         'translations' => array('label' => Piwik::translate('Provider_ColumnProvider')),
              *         'filter_limit' => 5
              *     )
              * }
@@ -709,11 +709,11 @@ class ViewDataTable
             $elapsedSeconds = time() - $date->getTimestamp();
             $timeAgo = MetricsFormatter::getPrettyTimeFromSeconds($elapsedSeconds);
 
-            return Piwik_Translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
+            return Piwik::translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
         }
 
         $prettyDate = $date->getLocalized("%longYear%, %longMonth% %day%") . $date->toString('S');
-        return Piwik_Translate('CoreHome_ReportGeneratedOn', $prettyDate);
+        return Piwik::translate('CoreHome_ReportGeneratedOn', $prettyDate);
     }
 
     /**
@@ -1176,7 +1176,7 @@ class ViewDataTable
         if ($this->show_table) {
             $normalViewIcons['buttons'][] = array(
                 'id'    => 'table',
-                'title' => Piwik_Translate('General_DisplaySimpleTable'),
+                'title' => Piwik::translate('General_DisplaySimpleTable'),
                 'icon'  => 'plugins/Zeitgeist/images/table.png',
             );
         }
@@ -1184,7 +1184,7 @@ class ViewDataTable
         if ($this->show_table_all_columns) {
             $normalViewIcons['buttons'][] = array(
                 'id'    => 'tableAllColumns',
-                'title' => Piwik_Translate('General_DisplayTableWithMoreMetrics'),
+                'title' => Piwik::translate('General_DisplayTableWithMoreMetrics'),
                 'icon'  => 'plugins/Zeitgeist/images/table_more.png'
             );
         }
@@ -1198,7 +1198,7 @@ class ViewDataTable
 
             $normalViewIcons['buttons'][] = array(
                 'id'    => 'tableGoals',
-                'title' => Piwik_Translate('General_DisplayTableWithGoalMetrics'),
+                'title' => Piwik::translate('General_DisplayTableWithGoalMetrics'),
                 'icon'  => $icon
             );
         }
@@ -1206,16 +1206,16 @@ class ViewDataTable
         if ($this->show_ecommerce) {
             $normalViewIcons['buttons'][] = array(
                 'id'    => 'ecommerceOrder',
-                'title' => Piwik_Translate('General_EcommerceOrders'),
+                'title' => Piwik::translate('General_EcommerceOrders'),
                 'icon'  => 'plugins/Zeitgeist/images/ecommerceOrder.gif',
-                'text'  => Piwik_Translate('General_EcommerceOrders')
+                'text'  => Piwik::translate('General_EcommerceOrders')
             );
 
             $normalViewIcons['buttons'][] = array(
                 'id'    => 'ecommerceAbandonedCart',
-                'title' => Piwik_Translate('General_AbandonedCarts'),
+                'title' => Piwik::translate('General_AbandonedCarts'),
                 'icon'  => 'plugins/Zeitgeist/images/ecommerceAbandonedCart.gif',
-                'text'  => Piwik_Translate('General_AbandonedCarts')
+                'text'  => Piwik::translate('General_AbandonedCarts')
             );
         }
 
@@ -1233,7 +1233,7 @@ class ViewDataTable
             if ($this->show_bar_chart) {
                 $graphViewIcons['buttons'][] = array(
                     'id'    => 'graphVerticalBar',
-                    'title' => Piwik_Translate('General_VBarGraph'),
+                    'title' => Piwik::translate('General_VBarGraph'),
                     'icon'  => 'plugins/Zeitgeist/images/chart_bar.png'
                 );
             }
@@ -1241,7 +1241,7 @@ class ViewDataTable
             if ($this->show_pie_chart) {
                 $graphViewIcons['buttons'][] = array(
                     'id'    => 'graphPie',
-                    'title' => Piwik_Translate('General_Piechart'),
+                    'title' => Piwik::translate('General_Piechart'),
                     'icon'  => 'plugins/Zeitgeist/images/chart_pie.png'
                 );
             }
@@ -1249,7 +1249,7 @@ class ViewDataTable
             if ($this->show_tag_cloud) {
                 $graphViewIcons['buttons'][] = array(
                     'id'    => 'cloud',
-                    'title' => Piwik_Translate('General_TagCloud'),
+                    'title' => Piwik::translate('General_TagCloud'),
                     'icon'  => 'plugins/Zeitgeist/images/tagcloud.png'
                 );
             }
@@ -1261,7 +1261,7 @@ class ViewDataTable
                 foreach ($nonCoreVisualizationInfo as $format => $info) {
                     $graphViewIcons['buttons'][] = array(
                         'id'    => $format,
-                        'title' => Piwik_Translate($info['title']),
+                        'title' => Piwik::translate($info['title']),
                         'icon'  => $info['table_icon']
                     );
                 }

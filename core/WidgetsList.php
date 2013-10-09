@@ -43,10 +43,10 @@ class WidgetsList
 
         $widgets = array();
         foreach (self::$widgets as $key => $v) {
-            if (isset($widgets[Piwik_Translate($key)])) {
-                $v = array_merge($widgets[Piwik_Translate($key)], $v);
+            if (isset($widgets[Piwik::translate($key)])) {
+                $v = array_merge($widgets[Piwik::translate($key)], $v);
             }
-            $widgets[Piwik_Translate($key)] = $v;
+            $widgets[Piwik::translate($key)] = $v;
         }
         return $widgets;
     }
@@ -118,7 +118,7 @@ class WidgetsList
      */
     static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
     {
-        $widgetName = Piwik_Translate($widgetName);
+        $widgetName = Piwik::translate($widgetName);
         $widgetUniqueId = 'widget' . $controllerName . $controllerAction;
         foreach ($customParameters as $name => $value) {
             if (is_array($value)) {

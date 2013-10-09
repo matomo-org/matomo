@@ -210,7 +210,7 @@ class API
                 $availableGraphTypes = StaticGraph::getAvailableStaticGraphTypes();
                 if (!in_array($graphType, $availableGraphTypes)) {
                     throw new Exception(
-                        Piwik_TranslateException(
+                        Piwik::translateException(
                             'General_ExceptionInvalidStaticGraphType',
                             array($graphType, implode(', ', $availableGraphTypes))
                         )
@@ -247,7 +247,7 @@ class API
                 foreach ($ordinateColumns as $column) {
                     if (empty($reportColumns[$column])) {
                         throw new Exception(
-                            Piwik_Translate(
+                            Piwik::translate(
                                 'ImageGraph_ColumnOrdinateMissing',
                                 array($column, implode(',', array_keys($reportColumns)))
                             )
@@ -320,7 +320,7 @@ class API
 
                 //@review this test will need to be updated after evaluating the @review comment in API/API.php
                 if (!$processedReport) {
-                    throw new Exception(Piwik_Translate('General_NoDataForGraph'));
+                    throw new Exception(Piwik::translate('General_NoDataForGraph'));
                 }
 
                 // restoring generic filter parameters
@@ -458,7 +458,7 @@ class API
             }
 
             if (!$hasData || !$hasNonZeroValue) {
-                throw new Exception(Piwik_Translate('General_NoDataForGraph'));
+                throw new Exception(Piwik::translate('General_NoDataForGraph'));
             }
 
             //Setup the graph

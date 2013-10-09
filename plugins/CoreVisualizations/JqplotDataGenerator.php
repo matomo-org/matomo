@@ -16,6 +16,7 @@ use Piwik\Common;
 
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php';
@@ -86,7 +87,7 @@ class JqplotDataGenerator
             // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
             // different metrics
             if ($this->properties['visualization_properties']->add_total_row) {
-                $dataTable->queueFilter('AddSummaryRow', array(0, Piwik_Translate('General_Total'), null, false));
+                $dataTable->queueFilter('AddSummaryRow', array(0, Piwik::translate('General_Total'), null, false));
             }
 
             $dataTable->applyQueuedFilters();

@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Tracker\Action;
 use Zend_Db_Statement;
 
@@ -430,8 +431,8 @@ class ArchivingHelper
     static public function getUnknownActionName($type)
     {
         if (empty(self::$defaultActionNameWhenNotDefined)) {
-            self::$defaultActionNameWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageName'));
-            self::$defaultActionUrlWhenNotDefined = Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'));
+            self::$defaultActionNameWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageName'));
+            self::$defaultActionUrlWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
         }
         if ($type == Action::TYPE_ACTION_NAME) {
             return self::$defaultActionNameWhenNotDefined;

@@ -283,7 +283,7 @@ class API
     private function checkUserCanModifyOrDelete($idSite, $annotation)
     {
         if (!$annotation['canEditOrDelete']) {
-            throw new Exception(Piwik_Translate('Annotations_YouCannotModifyThisNote'));
+            throw new Exception(Piwik::translate('Annotations_YouCannotModifyThisNote'));
         }
     }
 

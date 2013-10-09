@@ -14,6 +14,7 @@ namespace Piwik\Plugins\Installation;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\QuickForm2;
 
@@ -36,32 +37,32 @@ class FormFirstWebsiteSetup extends QuickForm2
         $javascriptOnClickUrlExample = "javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';";
 
         $timezones = API::getInstance()->getTimezonesList();
-        $timezones = array_merge(array('No timezone' => Piwik_Translate('SitesManager_SelectACity')), $timezones);
+        $timezones = array_merge(array('No timezone' => Piwik::translate('SitesManager_SelectACity')), $timezones);
 
         $this->addElement('text', 'siteName')
-            ->setLabel(Piwik_Translate('Installation_SetupWebSiteName'))
-            ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_SetupWebSiteName')));
+            ->setLabel(Piwik::translate('Installation_SetupWebSiteName'))
+            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_SetupWebSiteName')));
 
         $url = $this->addElement('text', 'url')
-            ->setLabel(Piwik_Translate('Installation_SetupWebSiteURL'));
+            ->setLabel(Piwik::translate('Installation_SetupWebSiteURL'));
         $url->setAttribute('style', 'color:rgb(153, 153, 153);');
         $url->setAttribute('onfocus', $javascriptOnClickUrlExample);
         $url->setAttribute('onclick', $javascriptOnClickUrlExample);
-        $url->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_SetupWebSiteURL')));
+        $url->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_SetupWebSiteURL')));
 
         $tz = $this->addElement('select', 'timezone')
-            ->setLabel(Piwik_Translate('Installation_Timezone'))
+            ->setLabel(Piwik::translate('Installation_Timezone'))
             ->loadOptions($timezones);
-        $tz->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Installation_Timezone')));
-        $tz->addRule('checkTimezone', Piwik_Translate('General_NotValid', Piwik_Translate('Installation_Timezone')));
+        $tz->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_Timezone')));
+        $tz->addRule('checkTimezone', Piwik::translate('General_NotValid', Piwik::translate('Installation_Timezone')));
         $tz = $this->addElement('select', 'ecommerce')
-            ->setLabel(Piwik_Translate('Goals_Ecommerce'))
+            ->setLabel(Piwik::translate('Goals_Ecommerce'))
             ->loadOptions(array(
-                               0 => Piwik_Translate('SitesManager_NotAnEcommerceSite'),
-                               1 => Piwik_Translate('SitesManager_EnableEcommerce'),
+                               0 => Piwik::translate('SitesManager_NotAnEcommerceSite'),
+                               1 => Piwik::translate('SitesManager_EnableEcommerce'),
                           ));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik_Translate('General_Next') . ' »', 'class' => 'submit'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'submit'));
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(

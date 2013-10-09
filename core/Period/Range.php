@@ -14,6 +14,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Period;
+use Piwik\Piwik;
 
 /**
  * from a starting date to an ending date
@@ -54,7 +55,7 @@ class Range extends Period
         //"30 Dec 08 - 26 Feb 09"
         $dateStart = $this->getDateStart();
         $dateEnd = $this->getDateEnd();
-        $template = Piwik_Translate('CoreHome_ShortDateFormatWithYear');
+        $template = Piwik::translate('CoreHome_ShortDateFormatWithYear');
         $shortDateStart = $dateStart->getLocalized($template);
         $shortDateEnd = $dateEnd->getLocalized($template);
         $out = "$shortDateStart - $shortDateEnd";
@@ -93,7 +94,7 @@ class Range extends Period
      */
     public function getPrettyString()
     {
-        $out = Piwik_Translate('General_DateRangeFromTo', array($this->getDateStart()->toString(), $this->getDateEnd()->toString()));
+        $out = Piwik::translate('General_DateRangeFromTo', array($this->getDateStart()->toString(), $this->getDateEnd()->toString()));
         return $out;
     }
 
@@ -218,7 +219,7 @@ class Range extends Period
             }
             $endDate = Date::factory($strDateEnd, $timezone);
         } else {
-            throw new Exception(Piwik_TranslateException('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
+            throw new Exception(Piwik::translateException('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
         }
         if ($this->strPeriod != 'range') {
             $this->fillArraySubPeriods($startDate, $endDate, $this->strPeriod);

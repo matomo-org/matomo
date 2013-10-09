@@ -112,13 +112,13 @@ class Controller extends \Piwik\Controller
             $referrersReportsByDimension->addReport(
                 'Referrers_ViewAllReferrers', 'Referrers_WidgetGetAll', 'Referrers.getAll');
 
-            $byTypeCategory = Piwik_Translate('Referrers_ViewReferrersBy', Piwik_Translate('Live_GoalType'));
+            $byTypeCategory = Piwik::translate('Referrers_ViewReferrersBy', Piwik::translate('Live_GoalType'));
             $referrersReportsByDimension->addReport(
                 $byTypeCategory, 'Referrers_WidgetKeywords', 'Referrers.getKeywords');
             $referrersReportsByDimension->addReport($byTypeCategory, 'SitesManager_Sites', 'Referrers.getWebsites');
             $referrersReportsByDimension->addReport($byTypeCategory, 'Referrers_Campaigns', 'Referrers.getCampaigns');
 
-            $bySourceCategory = Piwik_Translate('Referrers_ViewReferrersBy', Piwik_Translate('General_Source'));
+            $bySourceCategory = Piwik::translate('Referrers_ViewReferrersBy', Piwik::translate('General_Source'));
             $referrersReportsByDimension->addReport($bySourceCategory, 'Referrers_Socials', 'Referrers.getSocials');
             $referrersReportsByDimension->addReport(
                 $bySourceCategory, 'Referrers_SearchEngines', 'Referrers.getSearchEngines');
@@ -205,7 +205,7 @@ class Controller extends \Piwik\Controller
     public function indexCampaigns($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('Referrers_Campaigns'),
+            Piwik::translate('Referrers_Campaigns'),
             $this->getCampaigns(true), $fetch);
     }
 
@@ -297,17 +297,17 @@ class Controller extends \Piwik\Controller
                 $typeReferrer = Common::getRequestVar('typeReferrer', false);
             }
             $label = self::getTranslatedReferrerTypeLabel($typeReferrer);
-            $total = Piwik_Translate('General_Total');
+            $total = Piwik::translate('General_Total');
             $visibleRows = array($label, $total);
             $view->request_parameters_to_modify['rows'] = $label . ',' . $total;
         }
         $view->visualization_properties->row_picker_match_rows_by = 'label';
         $view->visualization_properties->rows_to_display = $visibleRows;
 
-        $view->documentation = Piwik_Translate('Referrers_EvolutionDocumentation') . '<br />'
-            . Piwik_Translate('General_BrokenDownReportDocumentation') . '<br />'
-            . Piwik_Translate('Referrers_EvolutionDocumentationMoreInfo', '&quot;'
-                . Piwik_Translate('Referrers_DetailsByReferrerType') . '&quot;');
+        $view->documentation = Piwik::translate('Referrers_EvolutionDocumentation') . '<br />'
+            . Piwik::translate('General_BrokenDownReportDocumentation') . '<br />'
+            . Piwik::translate('Referrers_EvolutionDocumentationMoreInfo', '&quot;'
+                . Piwik::translate('Referrers_DetailsByReferrerType') . '&quot;');
 
         return $this->renderView($view, $fetch);
     }
@@ -315,7 +315,7 @@ class Controller extends \Piwik\Controller
     public function getLastDistinctSearchEnginesGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctSearchEngines");
-        $view->translations['Referrers_distinctSearchEngines'] = ucfirst(Piwik_Translate('Referrers_DistinctSearchEngines'));
+        $view->translations['Referrers_distinctSearchEngines'] = ucfirst(Piwik::translate('Referrers_DistinctSearchEngines'));
         $view->columns_to_display = array('Referrers_distinctSearchEngines');
         return $this->renderView($view, $fetch);
     }
@@ -323,7 +323,7 @@ class Controller extends \Piwik\Controller
     public function getLastDistinctKeywordsGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctKeywords");
-        $view->translations['Referrers_distinctKeywords'] = ucfirst(Piwik_Translate('Referrers_DistinctKeywords'));
+        $view->translations['Referrers_distinctKeywords'] = ucfirst(Piwik::translate('Referrers_DistinctKeywords'));
         $view->columns_to_display = array('Referrers_distinctKeywords');
         return $this->renderView($view, $fetch);
     }
@@ -331,7 +331,7 @@ class Controller extends \Piwik\Controller
     public function getLastDistinctWebsitesGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctWebsites");
-        $view->translations['Referrers_distinctWebsites'] = ucfirst(Piwik_Translate('Referrers_DistinctWebsites'));
+        $view->translations['Referrers_distinctWebsites'] = ucfirst(Piwik::translate('Referrers_DistinctWebsites'));
         $view->columns_to_display = array('Referrers_distinctWebsites');
         return $this->renderView($view, $fetch);
     }
@@ -339,7 +339,7 @@ class Controller extends \Piwik\Controller
     public function getLastDistinctCampaignsGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctCampaigns");
-        $view->translations['Referrers_distinctCampaigns'] = ucfirst(Piwik_Translate('Referrers_DistinctCampaigns'));
+        $view->translations['Referrers_distinctCampaigns'] = ucfirst(Piwik::translate('Referrers_DistinctCampaigns'));
         $view->columns_to_display = array('Referrers_distinctCampaigns');
         return $this->renderView($view, $fetch);
     }
@@ -472,7 +472,7 @@ function DisplayTopKeywords($url = "")
     public static function getTranslatedReferrerTypeLabel($typeReferrer)
     {
         $label = getReferrerTypeLabel($typeReferrer);
-        return Piwik_Translate($label);
+        return Piwik::translate($label);
     }
 
     /**
@@ -483,7 +483,7 @@ function DisplayTopKeywords($url = "")
      */
     private function getReferrerUrlSparkline($referrerType)
     {
-        $totalRow = Piwik_Translate('General_Total');
+        $totalRow = Piwik::translate('General_Total');
         return $this->getUrlSparkline(
             'getEvolutionGraph',
             array('columns'      => array('nb_visits'),

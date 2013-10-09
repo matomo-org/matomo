@@ -3,6 +3,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\FrontController;
 use Piwik\Http;
 use Piwik\Piwik;

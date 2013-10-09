@@ -201,7 +201,7 @@ class Controller extends \Piwik\Controller
         $url = Common::getRequestVar('url', '');
         $url = Common::unsanitizeInputValue($url);
 
-        $message = Piwik_Translate('Overlay_RedirectUrlError', array($url, "\n"));
+        $message = Piwik::translate('Overlay_RedirectUrlError', array($url, "\n"));
         $message = nl2br(htmlentities($message));
 
         $view = new View('@Overlay/showErrorWrongDomain');
@@ -211,11 +211,11 @@ class Controller extends \Piwik\Controller
             // TODO use $idSite to link to the correct row. This is tricky because the #rowX ids don't match
             // the site ids when sites have been deleted.
             $url = 'index.php?module=SitesManager&action=index';
-            $troubleshoot = htmlentities(Piwik_Translate('Overlay_RedirectUrlErrorAdmin'));
+            $troubleshoot = htmlentities(Piwik::translate('Overlay_RedirectUrlErrorAdmin'));
             $troubleshoot = sprintf($troubleshoot, '<a href="' . $url . '" target="_top">', '</a>');
             $view->troubleshoot = $troubleshoot;
         } else {
-            $view->troubleshoot = htmlentities(Piwik_Translate('Overlay_RedirectUrlErrorUser'));
+            $view->troubleshoot = htmlentities(Piwik::translate('Overlay_RedirectUrlErrorUser'));
         }
 
         echo $view->render();

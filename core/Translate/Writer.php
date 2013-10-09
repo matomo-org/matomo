@@ -13,6 +13,7 @@ namespace Piwik\Translate;
 
 use Exception;
 use Piwik\Filesystem;
+use Piwik\Piwik;
 use Piwik\PluginsManager;
 use Piwik\Translate\Filter\FilterAbstract;
 use Piwik\Translate\Validate\ValidateAbstract;
@@ -21,7 +22,7 @@ use Piwik\Translate\Validate\ValidateAbstract;
  * Writes clean translations to file
  *
  * @package Piwik
- * @package Piwik_Translate
+ * @package Piwik::translate
  */
 class Writer
 {
@@ -96,7 +97,7 @@ class Writer
 
             if (!in_array($pluginName, $installedPlugins)) {
 
-                throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($pluginName)));
+                throw new Exception(Piwik::translateException('General_ExceptionLanguageFileNotFound', array($pluginName)));
             }
 
             $this->pluginName = $pluginName;
@@ -111,7 +112,7 @@ class Writer
     public function setLanguage($language)
     {
         if (!preg_match('/^([a-z]{2,3}(-[a-z]{2,3})?)$/i', $language)) {
-            throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
+            throw new Exception(Piwik::translateException('General_ExceptionLanguageFileNotFound', array($language)));
         }
 
         $this->language = strtolower($language);

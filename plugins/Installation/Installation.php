@@ -67,7 +67,7 @@ class Installation extends \Piwik\Plugin
         ) {
             $controller->$step($message);
         } else {
-            Piwik::exitWithErrorMessage(Piwik_Translate('Installation_NoConfigFound'));
+            Piwik::exitWithErrorMessage(Piwik::translate('Installation_NoConfigFound'));
         }
 
         exit;

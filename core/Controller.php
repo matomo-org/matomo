@@ -472,8 +472,8 @@ abstract class Controller
             $validHost = Config::getInstance()->General['trusted_hosts'][0];
             $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 
-            $emailSubject = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
-            $emailBody = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailBody'));
+            $emailSubject = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
+            $emailBody = rawurlencode(Piwik::translate('CoreHome_InjectedHostEmailBody'));
             $superUserEmail = Piwik::getSuperUserEmail();
 
             $mailToUrl = "mailto:$superUserEmail?subject=$emailSubject&body=$emailBody";
@@ -492,14 +492,14 @@ abstract class Controller
                                                                    ))
                 . "#trustedHostsSection";
 
-            $warningStart = Piwik_Translate('CoreHome_InjectedHostWarningIntro', array(
+            $warningStart = Piwik::translate('CoreHome_InjectedHostWarningIntro', array(
                                                                                       '<strong>' . $invalidUrl . '</strong>',
                                                                                       '<strong>' . $validUrl . '</strong>'
                                                                                  )) . ' <br/>';
 
             if (Piwik::isUserIsSuperUser()) {
                 $view->invalidHostMessage = $warningStart . ' '
-                    . Piwik_Translate('CoreHome_InjectedHostSuperUserWarning', array(
+                    . Piwik::translate('CoreHome_InjectedHostSuperUserWarning', array(
                                                                                     "<a href=\"$changeTrustedHostsUrl\">",
                                                                                     $invalidHost,
                                                                                     '</a>',
@@ -509,7 +509,7 @@ abstract class Controller
                                                                                ));
             } else {
                 $view->invalidHostMessage = $warningStart . ' '
-                    . Piwik_Translate('CoreHome_InjectedHostNonSuperUserWarning', array(
+                    . Piwik::translate('CoreHome_InjectedHostNonSuperUserWarning', array(
                                                                                        "<br/><a href=\"$validUrl\">",
                                                                                        '</a>',
                                                                                        $mailLinkStart,
@@ -546,12 +546,12 @@ abstract class Controller
             throw new Exception("Period must be one of: " . implode(",", $availablePeriods));
         }
         $periodNames = array(
-            'day'   => array('singular' => Piwik_Translate('CoreHome_PeriodDay'), 'plural' => Piwik_Translate('CoreHome_PeriodDays')),
-            'week'  => array('singular' => Piwik_Translate('CoreHome_PeriodWeek'), 'plural' => Piwik_Translate('CoreHome_PeriodWeeks')),
-            'month' => array('singular' => Piwik_Translate('CoreHome_PeriodMonth'), 'plural' => Piwik_Translate('CoreHome_PeriodMonths')),
-            'year'  => array('singular' => Piwik_Translate('CoreHome_PeriodYear'), 'plural' => Piwik_Translate('CoreHome_PeriodYears')),
+            'day'   => array('singular' => Piwik::translate('CoreHome_PeriodDay'), 'plural' => Piwik::translate('CoreHome_PeriodDays')),
+            'week'  => array('singular' => Piwik::translate('CoreHome_PeriodWeek'), 'plural' => Piwik::translate('CoreHome_PeriodWeeks')),
+            'month' => array('singular' => Piwik::translate('CoreHome_PeriodMonth'), 'plural' => Piwik::translate('CoreHome_PeriodMonths')),
+            'year'  => array('singular' => Piwik::translate('CoreHome_PeriodYear'), 'plural' => Piwik::translate('CoreHome_PeriodYears')),
             // Note: plural is not used for date range
-            'range' => array('singular' => Piwik_Translate('General_DateRangeInPeriodList'), 'plural' => Piwik_Translate('General_DateRangeInPeriodList')),
+            'range' => array('singular' => Piwik::translate('General_DateRangeInPeriodList'), 'plural' => Piwik::translate('General_DateRangeInPeriodList')),
         );
 
         $found = array_search($currentPeriod, $availablePeriods);
@@ -610,8 +610,8 @@ abstract class Controller
         if (!empty($currentLogin)
             && $currentLogin != 'anonymous'
         ) {
-            $errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . Piwik::getSuperUserEmail() . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
-            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik_Translate('General_Logout') . "</a></b><br />";
+            $errorMessage = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . Piwik::getSuperUserEmail() . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
+            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
             Piwik_ExitWithMessage($errorMessage, false, true);
         }
 
@@ -701,7 +701,7 @@ abstract class Controller
     protected function checkTokenInUrl()
     {
         if (Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-            throw new NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
+            throw new NoAccessException(Piwik::translateException('General_ExceptionInvalidToken'));
         }
     }
 
@@ -771,10 +771,10 @@ abstract class Controller
             $titleEvolutionPercent = '+' . $titleEvolutionPercent;
         }
 
-        $title = Piwik_Translate('General_EvolutionSummaryGeneric', array(
-                                                                         Piwik_Translate('General_NVisits', $currentValue),
+        $title = Piwik::translate('General_EvolutionSummaryGeneric', array(
+                                                                         Piwik::translate('General_NVisits', $currentValue),
                                                                          $date,
-                                                                         Piwik_Translate('General_NVisits', $pastValue),
+                                                                         Piwik::translate('General_NVisits', $pastValue),
                                                                          $pastDate,
                                                                          $titleEvolutionPercent
                                                                     ));

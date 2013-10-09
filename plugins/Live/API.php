@@ -479,7 +479,7 @@ class API
         if ($referrerType === false
             || $referrerType == 'direct'
         ) {
-            $result = Piwik_Translate('Referrers_DirectEntry');
+            $result = Piwik::translate('Referrers_DirectEntry');
         } else if ($referrerType == 'search') {
             $result = $visit->getColumn('referrerName');
 
@@ -490,7 +490,7 @@ class API
                 $result .= ' (' . $keyword . ')';
             }
         } else if ($referrerType == 'campaign') {
-            $result = Piwik_Translate('Referrers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
+            $result = Piwik::translate('Referrers_ColumnCampaign') . ' (' . $visit->getColumn('referrerName') . ')';
         } else {
             $result = $visit->getColumn('referrerName');
         }
@@ -535,10 +535,10 @@ class API
             $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
             $dateTimeVisit = Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
             $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized('%time%');
-            $visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat'));
+            $visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
 
             $dateTimeVisitFirstAction = Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
-            $visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat'));
+            $visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
             $visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%time%');
 
             $visitorDetailsArray['actionDetails'] = array();
@@ -557,8 +557,8 @@ class API
     private function getCustomVariablePrettyKey($key)
     {
         $rename = array(
-            Action::CVAR_KEY_SEARCH_CATEGORY => Piwik_Translate('Actions_ColumnSearchCategory'),
-            Action::CVAR_KEY_SEARCH_COUNT    => Piwik_Translate('Actions_ColumnSearchResultsCount'),
+            Action::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
+            Action::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
         );
         if (isset($rename[$key])) {
             return $rename[$key];
@@ -1005,7 +1005,7 @@ class API
             }
             // Convert datetimes to the site timezone
             $dateTimeVisit = Date::factory($details['serverTimePretty'], $timezone);
-            $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat') . ' %time%');
+            $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik::translate('CoreHome_ShortDateFormat') . ' %time%');
         }
         $visitorDetailsArray['goalConversions'] = count($goalDetails);
         return $visitorDetailsArray;

@@ -578,7 +578,7 @@ class API
         }
         $nbSites = count($idSites);
         if ($nbSites == 1) {
-            throw new Exception(Piwik_TranslateException("SitesManager_ExceptionDeleteSite"));
+            throw new Exception(Piwik::translateException("SitesManager_ExceptionDeleteSite"));
         }
 
         $db = Db::get();
@@ -614,7 +614,7 @@ class API
         if (!is_array($urls)
             || count($urls) == 0
         ) {
-            throw new Exception(Piwik_TranslateException("SitesManager_ExceptionNoUrl"));
+            throw new Exception(Piwik::translateException("SitesManager_ExceptionNoUrl"));
         }
     }
 
@@ -628,13 +628,13 @@ class API
                 }
             }
         }
-        throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidTimezone', array($timezone)));
+        throw new Exception(Piwik::translateException('SitesManager_ExceptionInvalidTimezone', array($timezone)));
     }
 
     private function checkValidCurrency($currency)
     {
         if (!in_array($currency, array_keys($this->getCurrencyList()))) {
-            throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
+            throw new Exception(Piwik::translateException('SitesManager_ExceptionInvalidCurrency', array($currency, "USD, EUR, etc.")));
         }
     }
 
@@ -656,7 +656,7 @@ class API
         $ips = array_filter($ips, 'strlen');
         foreach ($ips as $ip) {
             if (!$this->isValidIp($ip)) {
-                throw new Exception(Piwik_TranslateException('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5")));
+                throw new Exception(Piwik::translateException('SitesManager_ExceptionInvalidIPFormat', array($ip, "1.2.3.4, 1.2.3.*, or 1.2.3.4/5")));
             }
         }
         $ips = implode(',', $ips);
@@ -1266,7 +1266,7 @@ class API
     private function checkName($siteName)
     {
         if (empty($siteName)) {
-            throw new Exception(Piwik_TranslateException("SitesManager_ExceptionEmptyName"));
+            throw new Exception(Piwik::translateException("SitesManager_ExceptionEmptyName"));
         }
     }
 
@@ -1302,7 +1302,7 @@ class API
     {
         foreach ($urls as $url) {
             if (!$this->isValidUrl($url)) {
-                throw new Exception(sprintf(Piwik_TranslateException("SitesManager_ExceptionInvalidUrl"), $url));
+                throw new Exception(sprintf(Piwik::translateException("SitesManager_ExceptionInvalidUrl"), $url));
             }
         }
     }

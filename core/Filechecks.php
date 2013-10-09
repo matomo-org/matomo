@@ -117,7 +117,7 @@ class Filechecks
         }
 
         if (!class_exists('\\Piwik\\Manifest')) {
-            $messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest') . " If you are deploying Piwik from Git, this message is normal.";
+            $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest') . " If you are deploying Piwik from Git, this message is normal.";
             return $messages;
         }
 
@@ -129,11 +129,11 @@ class Filechecks
             $file = PIWIK_INCLUDE_PATH . '/' . $path;
 
             if (!file_exists($file)) {
-                $messages[] = Piwik_Translate('General_ExceptionMissingFile', $file);
+                $messages[] = Piwik::translate('General_ExceptionMissingFile', $file);
             } else if (filesize($file) != $props[0]) {
                 if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
                     // files that contain binary data (e.g., images) must match the file size
-                    $messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+                    $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
                 } else {
                     // convert end-of-line characters and re-test text files
                     $content = @file_get_contents($file);
@@ -141,11 +141,11 @@ class Filechecks
                     if ((strlen($content) != $props[0])
                         || (@md5($content) !== $props[1])
                     ) {
-                        $messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
+                        $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
                     }
                 }
             } else if ($hasMd5file && (@md5_file($file) !== $props[1])) {
-                $messages[] = Piwik_Translate('General_ExceptionFileIntegrity', $file);
+                $messages[] = Piwik::translate('General_ExceptionFileIntegrity', $file);
             }
         }
 
@@ -154,7 +154,7 @@ class Filechecks
         }
 
         if (!$hasMd5file) {
-            $messages[] = Piwik_Translate('General_WarningFileIntegrityNoMd5file');
+            $messages[] = Piwik::translate('General_WarningFileIntegrityNoMd5file');
         }
 
         return $messages;

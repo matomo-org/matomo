@@ -9,6 +9,7 @@
  * @package StaticGraph
  */
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
+use Piwik\Piwik;
 
 
 /**
@@ -80,7 +81,7 @@ class HorizontalBar extends GridGraph
                 $truncatedOrdinateSeries[$column][] = $sumOfOthers[$column];
             }
 
-            $truncatedAbscissaSeries[] = Piwik_Translate('General_Others');
+            $truncatedAbscissaSeries[] = Piwik::translate('General_Others');
             $this->abscissaSeries = $truncatedAbscissaSeries;
             $this->ordinateSeries = $truncatedOrdinateSeries;
             $this->abscissaLogos = $truncatedAbscissaLogos;

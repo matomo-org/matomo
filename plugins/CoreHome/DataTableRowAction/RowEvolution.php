@@ -16,6 +16,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 use Piwik\Url;
 use Piwik\ViewDataTable;
@@ -123,12 +124,12 @@ class RowEvolution
         $view->metrics = $this->getMetricsToggles();
 
         // available metrics text
-        $metricsText = Piwik_Translate('RowEvolution_AvailableMetrics');
+        $metricsText = Piwik::translate('RowEvolution_AvailableMetrics');
         $popoverTitle = '';
         if ($this->rowLabel) {
             $icon = $this->rowIcon ? '<img src="' . $this->rowIcon . '" alt="">' : '';
             $rowLabel = str_replace('/', '<wbr>/', str_replace('&', '<wbr>&', $this->rowLabel));
-            $metricsText = sprintf(Piwik_Translate('RowEvolution_MetricsFor'), $this->dimension . ': ' . $icon . ' ' . $rowLabel);
+            $metricsText = sprintf(Piwik::translate('RowEvolution_MetricsFor'), $this->dimension . ': ' . $icon . ' ' . $rowLabel);
             $popoverTitle = $icon . ' ' . $rowLabel;
         }
 
@@ -229,7 +230,7 @@ class RowEvolution
             $min .= $unit;
             $max .= $unit;
 
-            $details = Piwik_Translate('RowEvolution_MetricBetweenText', array($min, $max));
+            $details = Piwik::translate('RowEvolution_MetricBetweenText', array($min, $max));
 
             if ($change !== false) {
                 $lowerIsBetter = Metrics::isLowerValueBetter($metric);
@@ -248,7 +249,7 @@ class RowEvolution
                     . ($changeImage ? '<img src="plugins/MultiSites/images/' . $changeImage . '.png" /> ' : '')
                     . $change . '</span>';
 
-                $details .= ', ' . Piwik_Translate('RowEvolution_MetricChangeText', $change);
+                $details .= ', ' . Piwik::translate('RowEvolution_MetricChangeText', $change);
             }
 
             $newMetric = array(

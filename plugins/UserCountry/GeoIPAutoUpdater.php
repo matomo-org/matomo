@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp\Php;
@@ -156,7 +157,7 @@ class GeoIPAutoUpdater
             $content = $unzip->listContent();
 
             if (empty($content)) {
-                throw new Exception(Piwik_Translate('UserCountry_CannotListContent',
+                throw new Exception(Piwik::translate('UserCountry_CannotListContent',
                     array("'$path'", $unzip->errorInfo())));
             }
 
@@ -169,7 +170,7 @@ class GeoIPAutoUpdater
             }
 
             if ($datFile === null) {
-                throw new Exception(Piwik_Translate('UserCountry_CannotFindGeoIPDatabaseInArchive',
+                throw new Exception(Piwik::translate('UserCountry_CannotFindGeoIPDatabaseInArchive',
                     array($dbFilename, "'$path'")));
             }
 
@@ -177,7 +178,7 @@ class GeoIPAutoUpdater
             $unzipped = $unzip->extractInString($datFile);
 
             if (empty($unzipped)) {
-                throw new Exception(Piwik_Translate('UserCountry_CannotUnzipDatFile',
+                throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
                     array("'$path'", $unzip->errorInfo())));
             }
 
@@ -190,12 +191,12 @@ class GeoIPAutoUpdater
             $success = $unzip->extract($outputPath);
 
             if ($success !== true) {
-                throw new Exception(Piwik_Translate('UserCountry_CannotUnzipDatFile',
+                throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
                     array("'$path'", $unzip->errorInfo())));
             }
         } else {
             $ext = end(explode(basename($path), '.', 2));
-            throw new Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
+            throw new Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
         }
 
         try {
@@ -226,7 +227,7 @@ class GeoIPAutoUpdater
                         " GeoIP database: %s: %s on line %s of %s.", $errno, $errstr, $errline, $errfile);
                 }
 
-                throw new Exception(Piwik_Translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
+                throw new Exception(Piwik::translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
             }
 
             // delete the existing GeoIP database (if any) and rename the downloaded file
@@ -334,7 +335,7 @@ class GeoIPAutoUpdater
             if ($period != self::SCHEDULE_PERIOD_MONTHLY
                 && $period != self::SCHEDULE_PERIOD_WEEKLY
             ) {
-                throw new Exception(Piwik_Translate(
+                throw new Exception(Piwik::translate(
                     'UserCountry_InvalidGeoIPUpdatePeriod',
                     array("'$period'", "'" . self::SCHEDULE_PERIOD_MONTHLY . "', '" . self::SCHEDULE_PERIOD_WEEKLY . "'")
                 ));
@@ -475,7 +476,7 @@ class GeoIPAutoUpdater
         if ($ext != 'tar.gz'
             && $ext != 'gz'
         ) {
-            throw new \Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
+            throw new \Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
         }
     }
 

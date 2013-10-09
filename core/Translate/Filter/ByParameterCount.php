@@ -14,7 +14,7 @@ namespace Piwik\Translate\Filter;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Translate
+ * @subpackage Piwik::translate
  */
 class ByParameterCount extends FilterAbstract
 {

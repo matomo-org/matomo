@@ -12,6 +12,7 @@ namespace Piwik\Period;
 
 
 use Piwik\Period;
+use Piwik\Piwik;
 
 /**
  * @package Piwik
@@ -33,7 +34,7 @@ class Week extends Period
         $dateStart = $this->getDateStart();
         $dateEnd = $this->getDateEnd();
 
-        $string = Piwik_Translate('CoreHome_ShortWeekFormat');
+        $string = Piwik::translate('CoreHome_ShortWeekFormat');
         $string = self::getTranslatedRange($string, $dateStart, $dateEnd);
         return $string;
     }
@@ -45,9 +46,9 @@ class Week extends Period
      */
     public function getLocalizedLongString()
     {
-        $format = Piwik_Translate('CoreHome_LongWeekFormat');
+        $format = Piwik::translate('CoreHome_LongWeekFormat');
         $string = self::getTranslatedRange($format, $this->getDateStart(), $this->getDateEnd());
-        return Piwik_Translate('CoreHome_PeriodWeek') . " " . $string;
+        return Piwik::translate('CoreHome_PeriodWeek') . " " . $string;
     }
 
     /**
@@ -73,7 +74,7 @@ class Week extends Period
      */
     public function getPrettyString()
     {
-        $out = Piwik_Translate('General_DateRangeFromTo',
+        $out = Piwik::translate('General_DateRangeFromTo',
             array($this->getDateStart()->toString(),
                   $this->getDateEnd()->toString())
         );

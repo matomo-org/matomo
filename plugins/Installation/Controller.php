@@ -635,7 +635,7 @@ class Controller extends \Piwik\Controller\Admin
         }
         if ($error) {
             \Piwik\Plugins\Login\Controller::clearSession();
-            $message = Piwik_Translate('Installation_ErrorInvalidState',
+            $message = Piwik::translate('Installation_ErrorInvalidState',
                 array('<br /><strong>',
                       '</strong>',
                       '<a href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
@@ -858,7 +858,7 @@ class Controller extends \Piwik\Controller\Admin
         $infos['integrityErrorMessages'] = array();
         if (isset($integrityInfo[1])) {
             if ($infos['integrity'] == false) {
-                $infos['integrityErrorMessages'][] = Piwik_Translate('General_FileIntegrityWarningExplanation');
+                $infos['integrityErrorMessages'][] = Piwik::translate('General_FileIntegrityWarningExplanation');
             }
             $infos['integrityErrorMessages'] = array_merge($infos['integrityErrorMessages'], array_slice($integrityInfo, 1));
         }

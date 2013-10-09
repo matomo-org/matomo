@@ -12,6 +12,7 @@ namespace Piwik\Period;
 
 use Exception;
 use Piwik\Period;
+use Piwik\Piwik;
 
 /**
  * @package Piwik
@@ -42,7 +43,7 @@ class Day extends Period
     {
         //"Mon 15 Aug"
         $date = $this->getDateStart();
-        $out = $date->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat'));
+        $out = $date->getLocalized(Piwik::translate('CoreHome_ShortDateFormat'));
         return $out;
     }
 
@@ -55,7 +56,7 @@ class Day extends Period
     {
         //"Mon 15 Aug"
         $date = $this->getDateStart();
-        $template = Piwik_Translate('CoreHome_DateFormat');
+        $template = Piwik::translate('CoreHome_DateFormat');
         $out = $date->getLocalized($template);
         return $out;
     }

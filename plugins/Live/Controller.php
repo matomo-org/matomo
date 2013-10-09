@@ -57,14 +57,14 @@ class Controller extends \Piwik\Controller
         $view->actions = MetricsFormatter::getPrettyNumber($lastNData[0]['actions']);
         $view->refreshAfterXSecs = Config::getInstance()->General['live_widget_refresh_after_seconds'];
         $view->translations = array(
-            'one_visitor' => Piwik_Translate('Live_NbVisitor'),
-            'visitors'    => Piwik_Translate('Live_NbVisitors'),
-            'one_visit'   => Piwik_Translate('General_OneVisit'),
-            'visits'      => Piwik_Translate('General_NVisits'),
-            'one_action'  => Piwik_Translate('General_OneAction'),
-            'actions'     => Piwik_Translate('VisitsSummary_NbActionsDescription'),
-            'one_minute'  => Piwik_Translate('General_OneMinute'),
-            'minutes'     => Piwik_Translate('General_NMinutes')
+            'one_visitor' => Piwik::translate('Live_NbVisitor'),
+            'visitors'    => Piwik::translate('Live_NbVisitors'),
+            'one_visit'   => Piwik::translate('General_OneVisit'),
+            'visits'      => Piwik::translate('General_NVisits'),
+            'one_action'  => Piwik::translate('General_OneAction'),
+            'actions'     => Piwik::translate('VisitsSummary_NbActionsDescription'),
+            'one_minute'  => Piwik::translate('General_OneMinute'),
+            'minutes'     => Piwik::translate('General_NMinutes')
         );
         return $this->render($view, $fetch);
     }

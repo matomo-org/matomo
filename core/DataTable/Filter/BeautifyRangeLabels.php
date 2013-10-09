@@ -11,6 +11,7 @@
 namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
+use Piwik\Piwik;
 
 /**
  * A DataTable filter that replaces range label columns with prettier,
@@ -102,7 +103,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
             } else {
                 // if no lower bound can be found, this isn't a valid range. in this case
                 // we assume its a translation key and try to translate it.
-                return Piwik_Translate(trim($value));
+                return Piwik::translate(trim($value));
             }
         }
     }

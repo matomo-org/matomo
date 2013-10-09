@@ -175,7 +175,7 @@ class API
         if ($patternType == 'exact'
             && substr($pattern, 0, 4) != 'http'
         ) {
-            throw new Exception(Piwik_TranslateException('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
+            throw new Exception(Piwik::translateException('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
         }
     }
 
@@ -249,9 +249,9 @@ class API
             'Goals_ItemsCategory' => '_pkc',
         );
         $reportToNotDefinedString = array(
-            'Goals_ItemsSku'      => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductSKU')), // Note: this should never happen
-            'Goals_ItemsName'     => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductName')),
-            'Goals_ItemsCategory' => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductCategory'))
+            'Goals_ItemsSku'      => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductSKU')), // Note: this should never happen
+            'Goals_ItemsName'     => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductName')),
+            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory'))
         );
         $notDefinedStringPretty = $reportToNotDefinedString[$recordName];
         $customVarNameToLookFor = $mapping[$recordName];
@@ -526,7 +526,7 @@ class API
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter(
-            'BeautifyRangeLabels', array(Piwik_Translate('General_OneDay'), Piwik_Translate('General_NDays')));
+            'BeautifyRangeLabels', array(Piwik::translate('General_OneDay'), Piwik::translate('General_NDays')));
 
         return $dataTable;
     }
@@ -550,7 +550,7 @@ class API
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter(
-            'BeautifyRangeLabels', array(Piwik_Translate('General_OneVisit'), Piwik_Translate('General_NVisits')));
+            'BeautifyRangeLabels', array(Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits')));
 
         return $dataTable;
     }

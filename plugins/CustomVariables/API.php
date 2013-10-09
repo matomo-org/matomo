@@ -14,6 +14,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Tracker\Action;
 
 /**
@@ -114,7 +115,7 @@ class API
         }
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', function ($label) {
             return $label == \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED
-                ? Piwik_Translate('General_NotDefined', Piwik_Translate('CustomVariables_ColumnCustomVariableValue'))
+                ? Piwik::translate('General_NotDefined', Piwik::translate('CustomVariables_ColumnCustomVariableValue'))
                 : $label;
         }));
         return $dataTable;

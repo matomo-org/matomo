@@ -171,7 +171,7 @@ class MobileMessaging extends \Piwik\Plugin
                 $reportRenderer = new Sms();
             } else {
                 $reportRenderer = new ReportRendererException(
-                    Piwik_Translate('MobileMessaging_MultiSites_Must_Be_Activated')
+                    Piwik::translate('MobileMessaging_MultiSites_Must_Be_Activated')
                 );
             }
         }
@@ -203,8 +203,8 @@ class MobileMessaging extends \Piwik\Plugin
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
 
             // 'All Websites' is one character above the limit, use 'Reports' instead
-            if ($reportSubject == Piwik_Translate('General_MultiSitesSummary')) {
-                $reportSubject = Piwik_Translate('General_Reports');
+            if ($reportSubject == Piwik::translate('General_MultiSitesSummary')) {
+                $reportSubject = Piwik::translate('General_Reports');
             }
 
             $mobileMessagingAPI = APIMobileMessaging::getInstance();

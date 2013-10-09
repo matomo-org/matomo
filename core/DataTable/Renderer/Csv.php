@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\ProxyHttp;
 
 /**
@@ -215,7 +216,7 @@ class Csv extends Renderer
                     }
                     //if a metadata and a column have the same name make sure they dont overwrite
                     if ($this->translateColumnNames) {
-                        $name = Piwik_Translate('General_Metadata') . ': ' . $name;
+                        $name = Piwik::translate('General_Metadata') . ': ' . $name;
                     } else {
                         $name = 'metadata_' . $name;
                     }
@@ -328,7 +329,7 @@ class Csv extends Renderer
      */
     protected function renderHeader()
     {
-        $fileName = 'Piwik ' . Piwik_Translate('General_Export');
+        $fileName = 'Piwik ' . Piwik::translate('General_Export');
 
         $period = Common::getRequestVar('period', false);
         $date = Common::getRequestVar('date', false);
@@ -374,7 +375,7 @@ class Csv extends Renderer
                     && is_array(reset($value))
                 ) {
                     foreach ($value as $level1Key => $level1Value) {
-                        $inner = $name == 'goals' ? Piwik_Translate('Goals_GoalX', $level1Key) : $name . ' ' . $level1Key;
+                        $inner = $name == 'goals' ? Piwik::translate('Goals_GoalX', $level1Key) : $name . ' ' . $level1Key;
                         $columnNameTemplate = '%s (' . $inner . ')';
 
                         $this->flattenColumnArray($level1Value, $csvRow, $columnNameTemplate);

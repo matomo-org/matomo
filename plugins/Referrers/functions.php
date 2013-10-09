@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\Referrers;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\UrlHelper;
 
 /**
@@ -54,7 +55,7 @@ function getSocialNetworkFromDomain($url)
     if (isset($GLOBALS['Piwik_socialUrl'][$domain])) {
         return $GLOBALS['Piwik_socialUrl'][$domain];
     } else {
-        return Piwik_Translate('General_Unknown');
+        return Piwik::translate('General_Unknown');
     }
 }
 
@@ -237,7 +238,7 @@ function getReferrerTypeLabel($label)
             $indexTranslation = 'General_Others';
             break;
     }
-    return Piwik_Translate($indexTranslation);
+    return Piwik::translate($indexTranslation);
 }
 
 /**

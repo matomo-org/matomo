@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Date;
+use Piwik\Piwik;
 use Piwik\PluginsManager;
 
 /**
@@ -44,7 +45,7 @@ class Marketplace
             $plugins = $this->client->searchForPlugins('', $query, $sort);
         }
 
-        $dateFormat = Piwik_Translate('CoreHome_ShortDateFormatWithYear');
+        $dateFormat = Piwik::translate('CoreHome_ShortDateFormatWithYear');
 
         foreach ($plugins as &$plugin) {
             $plugin['canBeUpdated'] = $this->hasPluginUpdate($plugin);

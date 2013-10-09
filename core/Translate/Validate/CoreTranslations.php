@@ -16,7 +16,7 @@ use Piwik\Common;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Translate
+ * @subpackage Piwik::translate
  */
 class CoreTranslations extends ValidateAbstract
 {

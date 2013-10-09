@@ -12,6 +12,7 @@
 namespace Piwik\Visualization;
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\View\ViewInterface;
 use Sparkline_Line;
 
@@ -114,7 +115,7 @@ class Sparkline implements ViewInterface
 
         $min = $max = $last = null;
         $i = 0;
-        $toRemove = array('%', str_replace('%s', '', Piwik_Translate('General_Seconds')));
+        $toRemove = array('%', str_replace('%s', '', Piwik::translate('General_Seconds')));
         foreach ($this->values as $value) {
             // 50% and 50s should be plotted as 50
             $value = str_replace($toRemove, '', $value);

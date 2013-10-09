@@ -62,7 +62,7 @@ abstract class ReportRenderer
             @header('Content-Type: text/html; charset=utf-8');
 
             throw new Exception(
-                Piwik_TranslateException(
+                Piwik::translateException(
                     'General_ExceptionInvalidReportRendererFormat',
                     array($name, implode(', ', self::$availableReportRenderers))
                 )
@@ -215,8 +215,8 @@ abstract class ReportRenderer
             }
 
             $reportColumns = array(
-                'label' => Piwik_Translate('General_Name'),
-                'value' => Piwik_Translate('General_Value'),
+                'label' => Piwik::translate('General_Name'),
+                'value' => Piwik::translate('General_Value'),
             );
         }
 

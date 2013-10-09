@@ -13,7 +13,7 @@ namespace Piwik\Translate\Validate;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Translate
+ * @subpackage Piwik::translate
  */
 class NoScripts extends ValidateAbstract
 {
