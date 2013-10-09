@@ -2,7 +2,7 @@
 define('PIWIK_MODE_ARCHIVE', true);
 define('PIWIK_ARCHIVE_NO_TRUNCATE', true);
 
-require_once realpath(dirname(__FILE__)) . '/tests/PHPUnit/TestingEnvironment.php';
+require_once realpath(dirname(__FILE__)) . '/../tests/PHPUnit/TestingEnvironment.php';
 Piwik_TestingEnvironment::addHooks();
 
 // include archive.php, and let 'er rip
