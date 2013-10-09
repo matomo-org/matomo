@@ -7,20 +7,12 @@
 // make sure the test environment is loaded
 use Piwik\Tracker\Cache;
 
+require "includes.php";
+
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
 ob_start();
 
-define('PIWIK_INCLUDE_PATH', '../../..');
-define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
-define('PIWIK_PRINT_ERROR_BACKTRACE', true);
-
-require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
-
-require_once realpath(dirname(__FILE__)) . '/../../../core/functions.php';
-require_once realpath(dirname(__FILE__)) . "/../../../tests/PHPUnit/TestingEnvironment.php";
 Piwik_TestingEnvironment::addHooks();
 
 \Piwik\Tracker::setTestEnvironment();
@@ -35,3 +27,4 @@ $controller->init();
 $controller->dispatch();
 
 ob_flush();
+

@@ -109,11 +109,11 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetScheduledTimeForMethod($expectedTime, $className, $methodName, $methodParameter, $timetable)
     {
-        self::stubPiwikOption($timetable);
+        \Piwik\Option::set(TaskScheduler::TIMETABLE_OPTION_STRING, $timetable);
 
         $this->assertEquals($expectedTime, TaskScheduler::getScheduledTimeForMethod($className, $methodName, $methodParameter));
 
-        self::resetPiwikOption();
+        \Piwik\Option::delete(TaskScheduler::TIMETABLE_OPTION_STRING);
     }
 
     /**
@@ -293,7 +293,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         });
 
         // stub the piwik option object to control the returned option value
-        self::stubPiwikOption(serialize($timetableBeforeTaskExecution));
+        \Piwik\Option::set(TaskScheduler::TIMETABLE_OPTION_STRING, serialize($timetableBeforeTaskExecution));
 
         // execute tasks
         $executionResults = TaskScheduler::runTasks();
@@ -314,23 +314,8 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         // restore loaded plugins & piwik options
         EventDispatcher::getInstance()->clearObservers(TaskScheduler::GET_TASKS_EVENT);
         \Piwik\PluginsManager::getInstance()->loadPlugins($plugins);
-        self::resetPiwikOption();
+
+        \Piwik\Option::delete(TaskScheduler::TIMETABLE_OPTION_STRING);
     }
 
-    private static function stubPiwikOption($timetable)
-    {
-        self::getReflectedPiwikOptionInstance()->setValue(new MockPiwikOption($timetable));
-    }
-
-    private static function resetPiwikOption()
-    {
-        self::getReflectedPiwikOptionInstance()->setValue(null);
-    }
-
-    private static function getReflectedPiwikOptionInstance()
-    {
-        $piwikOptionInstance = new ReflectionProperty('\Piwik\Option', 'instance');
-        $piwikOptionInstance->setAccessible(true);
-        return $piwikOptionInstance;
-    }
 }

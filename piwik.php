@@ -40,6 +40,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 require_once PIWIK_INCLUDE_PATH . '/core/IP.php';
 require_once PIWIK_INCLUDE_PATH . '/core/UrlHelper.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Url.php';
