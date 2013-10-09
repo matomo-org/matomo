@@ -512,7 +512,7 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeLogDataConcurrency()
     {
-        Piwik::addAction("LogDataPurger.ActionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
+        \Piwik\Piwik::addAction("LogDataPurger.ActionsToKeepInserted.olderThan", array($this, 'addReferenceToUnusedAction'));
 
         $purger = LogDataPurger::make($this->settings, true);
 

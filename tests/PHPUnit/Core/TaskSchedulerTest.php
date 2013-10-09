@@ -288,7 +288,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         \Piwik\PluginsManager::getInstance()->unloadPlugins();
         
         // make sure the get tasks event returns our configured tasks
-        Piwik::addAction(TaskScheduler::GET_TASKS_EVENT, function(&$tasks) use($configuredTasks) {
+        \Piwik\Piwik::addAction(TaskScheduler::GET_TASKS_EVENT, function(&$tasks) use($configuredTasks) {
             $tasks = $configuredTasks;
         });
 

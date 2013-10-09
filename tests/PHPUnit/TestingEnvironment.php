@@ -37,11 +37,11 @@ class Piwik_TestingEnvironment
 {
     public static function addHooks()
     {
-        Piwik::addAction('Access.createAccessSingleton', function($access) {
+        \Piwik\Piwik::addAction('Access.createAccessSingleton', function($access) {
             $access = new Piwik_MockAccess($access);
             \Piwik\Access::setSingletonInstance($access);
         });
-        Piwik::addAction('Config.createConfigSingleton', function($config) {
+        \Piwik\Piwik::addAction('Config.createConfigSingleton', function($config) {
             \Piwik\CacheFile::$invalidateOpCacheBeforeRead = true;
 
             $config->setTestEnvironment();
@@ -60,15 +60,15 @@ class Piwik_TestingEnvironment
             $config->General['session_save_handler'] = 'dbtables'; // to avoid weird session error in travis
             $config->superuser['email'] = 'hello@example.org';
         });
-        Piwik::addAction('Request.dispatch', function() {
+        \Piwik\Piwik::addAction('Request.dispatch', function() {
             \Piwik\Plugins\CoreVisualizations\Visualizations\Cloud::$debugDisableShuffle = true;
             \Piwik\Visualization\Sparkline::$enableSparklineImages = false;
             \Piwik\Plugins\ExampleUI\API::$disableRandomness = true;
         });
-        Piwik::addAction('AssetManager.getStylesheetFiles', function(&$stylesheets) {
+        \Piwik\Piwik::addAction('AssetManager.getStylesheetFiles', function(&$stylesheets) {
             $stylesheets[] = 'tests/resources/screenshot-override/override.css';
         });
-        Piwik::addAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
+        \Piwik\Piwik::addAction('AssetManager.getJavaScriptFiles', function(&$jsFiles) {
             $jsFiles[] = 'tests/resources/screenshot-override/jquery.waitforimages.js';
             $jsFiles[] = 'tests/resources/screenshot-override/override.js';
         });
