@@ -7,7 +7,7 @@
 // make sure the test environment is loaded
 use Piwik\Tracker\Cache;
 
-require "includes.php";
+require "./includes.php";
 
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking

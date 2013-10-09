@@ -9,20 +9,20 @@ use Piwik\Option;
 
 class MockPiwikOption extends Option
 {
-    private static $forcedOptionValue = false;
+    private $forcedOptionValue = false;
 
     function __construct($forcedOptionValue)
     {
-        self::$forcedOptionValue = $forcedOptionValue;
+        $this->forcedOptionValue = $forcedOptionValue;
     }
 
-    public static function get($name)
+    protected function getValue($name)
     {
-        return self::$forcedOptionValue;
+        return $this->forcedOptionValue;
     }
 
-    public static function set($name, $value, $autoLoad = 0)
+    protected function setValue($name, $value, $autoLoad = 0)
     {
-        self::$forcedOptionValue = $value;
+        $this->forcedOptionValue = $value;
     }
 }

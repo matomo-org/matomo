@@ -17,7 +17,7 @@ use Piwik\Tracker;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 
-require "includes.php";
+require "./includes.php";
 
 ob_start();
 

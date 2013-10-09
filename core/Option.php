@@ -115,7 +115,7 @@ class Option
     {
     }
 
-    private function getValue($name)
+    protected function getValue($name)
     {
         $this->autoload();
         if (isset($this->all[$name])) {
@@ -131,7 +131,7 @@ class Option
         return $value;
     }
 
-    private function setValue($name, $value, $autoLoad = 0)
+    protected function setValue($name, $value, $autoLoad = 0)
     {
         $autoLoad = (int)$autoLoad;
         Db::query('INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
@@ -141,7 +141,7 @@ class Option
         $this->all[$name] = $value;
     }
 
-    private function deleteValue($name, $value)
+    protected function deleteValue($name, $value)
     {
         $sql = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?';
         $bind[] = $name;
@@ -156,7 +156,7 @@ class Option
         $this->clearCache();
     }
 
-    private function deleteNameLike($name, $value = null)
+    protected function deleteNameLike($name, $value = null)
     {
         $sql = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind[] = $name;
@@ -176,7 +176,7 @@ class Option
      *
      * @return void
      */
-    private function autoload()
+    protected function autoload()
     {
         if ($this->loaded) {
             return;
