@@ -336,7 +336,7 @@ class Controller extends Admin
                  *     $rememberMe = $info['rememberMe'];
                  * }
                  * ```
-                 * @matt this event is also triggered twice.
+                 * @todo this event is also triggered twice.
                  */
                 Piwik::postEvent('Login.initSession', array($info));
             }

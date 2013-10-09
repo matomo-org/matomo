@@ -64,7 +64,8 @@ class SettingsPiwik
 
             /**
              * This event is triggered when the automatic archiving runs.
-             * You can use it to add segments to the list of segments to pre-process during archiving.
+             * You can use it to add Segments to the list of segments to pre-process during archiving.
+             * Segments specified in this array will be pre-processed for all websites.
              */
             Piwik::postEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
 
@@ -80,7 +81,9 @@ class SettingsPiwik
         $segments = array();
 
         /**
-         * @matt
+         * This event is triggered when the automatic archiving runs.
+         * You can use it to add Segments to the list of segments to pre-process during archiving,
+         * for this particular website ID $idSite.
          */
         Piwik::postEvent('Segments.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
         return $segments;
