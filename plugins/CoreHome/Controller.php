@@ -184,7 +184,7 @@ class Controller extends \Piwik\Controller
         if (Common::getRequestVar('widget', false)
             && Piwik::isUserIsSuperUser()
         ) {
-            $view->footerMessage = Piwik_Translate('CoreHome_OnlyForAdmin');
+            $view->footerMessage = Piwik::translate('CoreHome_OnlyForAdmin');
         }
         echo $view->render();
     }
@@ -195,8 +195,8 @@ class Controller extends \Piwik\Controller
     public function getPromoVideo()
     {
         $view = new View('@CoreHome/getPromoVideo');
-        $view->shareText = Piwik_Translate('CoreHome_SharePiwikShort');
-        $view->shareTextLong = Piwik_Translate('CoreHome_SharePiwikLong');
+        $view->shareText = Piwik::translate('CoreHome_SharePiwikShort');
+        $view->shareTextLong = Piwik::translate('CoreHome_SharePiwikLong');
         $view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';
         echo $view->render();
     }

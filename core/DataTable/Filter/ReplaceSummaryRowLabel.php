@@ -13,6 +13,7 @@ namespace Piwik\DataTable\Filter;
 use Piwik\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Manager;
+use Piwik\Piwik;
 
 /**
  *
@@ -29,7 +30,7 @@ class ReplaceSummaryRowLabel extends Filter
     {
         parent::__construct($table);
         if (is_null($newLabel)) {
-            $newLabel = Piwik_Translate('General_Others');
+            $newLabel = Piwik::translate('General_Others');
         }
         $this->newLabel = $newLabel;
     }

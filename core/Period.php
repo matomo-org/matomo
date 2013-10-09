@@ -77,7 +77,7 @@ abstract class Period
                 break;
 
             default:
-                throw new Exception(Piwik_TranslateException('General_ExceptionInvalidPeriod', array($strPeriod, self::$errorAvailablePeriods)));
+                throw new Exception(Piwik::translateException('General_ExceptionInvalidPeriod', array($strPeriod, self::$errorAvailablePeriods)));
                 break;
         }
     }

@@ -67,7 +67,7 @@ class Date
      */
     public static function factory($dateString, $timezone = null)
     {
-        $invalidDateException = new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
+        $invalidDateException = new Exception(Piwik::translateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
         if ($dateString instanceof self) {
             $dateString = $dateString->toString();
         }
@@ -528,10 +528,10 @@ class Date
         $monthOfYear = $this->toString('n');
         $patternToValue = array(
             "%day%"        => $day,
-            "%shortMonth%" => Piwik_Translate('General_ShortMonth_' . $monthOfYear),
-            "%longMonth%"  => Piwik_Translate('General_LongMonth_' . $monthOfYear),
-            "%shortDay%"   => Piwik_Translate('General_ShortDay_' . $dayOfWeek),
-            "%longDay%"    => Piwik_Translate('General_LongDay_' . $dayOfWeek),
+            "%shortMonth%" => Piwik::translate('General_ShortMonth_' . $monthOfYear),
+            "%longMonth%"  => Piwik::translate('General_LongMonth_' . $monthOfYear),
+            "%shortDay%"   => Piwik::translate('General_ShortDay_' . $dayOfWeek),
+            "%longDay%"    => Piwik::translate('General_LongDay_' . $dayOfWeek),
             "%longYear%"   => $this->toString('Y'),
             "%shortYear%"  => $this->toString('y'),
             "%time%"       => $this->toString('H:i:s')

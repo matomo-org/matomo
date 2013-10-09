@@ -79,12 +79,12 @@ class Controller extends \Piwik\Controller
 
         $url = self::getLatestZipUrl($this->newVersion);
         $steps = array(
-            array('oneClick_Download', Piwik_Translate('CoreUpdater_DownloadingUpdateFromX', $url)),
-            array('oneClick_Unpack', Piwik_Translate('CoreUpdater_UnpackingTheUpdate')),
-            array('oneClick_Verify', Piwik_Translate('CoreUpdater_VerifyingUnpackedFiles')),
-            array('oneClick_CreateConfigFileBackup', Piwik_Translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP)),
-            array('oneClick_Copy', Piwik_Translate('CoreUpdater_InstallingTheLatestVersion')),
-            array('oneClick_Finished', Piwik_Translate('CoreUpdater_PiwikUpdatedSuccessfully')),
+            array('oneClick_Download', Piwik::translate('CoreUpdater_DownloadingUpdateFromX', $url)),
+            array('oneClick_Unpack', Piwik::translate('CoreUpdater_UnpackingTheUpdate')),
+            array('oneClick_Verify', Piwik::translate('CoreUpdater_VerifyingUnpackedFiles')),
+            array('oneClick_CreateConfigFileBackup', Piwik::translate('CoreUpdater_CreatingBackupOfConfigurationFile', self::CONFIG_FILE_BACKUP)),
+            array('oneClick_Copy', Piwik::translate('CoreUpdater_InstallingTheLatestVersion')),
+            array('oneClick_Finished', Piwik::translate('CoreUpdater_PiwikUpdatedSuccessfully')),
         );
 
         $errorMessage = false;
@@ -123,7 +123,7 @@ class Controller extends \Piwik\Controller
     {
         $newVersion = UpdateCheck::isNewestVersionAvailable();
         if (!$newVersion) {
-            throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
+            throw new Exception(Piwik::translateException('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
         }
         return $newVersion;
     }
@@ -155,11 +155,11 @@ class Controller extends \Piwik\Controller
         $archive = Unzip::factory('PclZip', $this->pathPiwikZip);
 
         if (0 == ($archive_files = $archive->extract($pathExtracted))) {
-            throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
+            throw new Exception(Piwik::translateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
         }
 
         if (0 == count($archive_files)) {
-            throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveEmpty'));
+            throw new Exception(Piwik::translateException('CoreUpdater_ExceptionArchiveEmpty'));
         }
         unlink($this->pathPiwikZip);
     }
@@ -175,7 +175,7 @@ class Controller extends \Piwik\Controller
         );
         foreach ($someExpectedFiles as $file) {
             if (!is_file($this->pathRootExtractedPiwik . $file)) {
-                throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncomplete', $file));
+                throw new Exception(Piwik::translateException('CoreUpdater_ExceptionArchiveIncomplete', $file));
             }
         }
     }
@@ -306,7 +306,7 @@ class Controller extends \Piwik\Controller
 
         // handle case of existing database with no tables
         if (!DbHelper::isInstalled()) {
-            $this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Config::getInstance()->database['dbname']);
+            $this->errorMessages[] = Piwik::translate('CoreUpdater_EmptyDatabaseError', Config::getInstance()->database['dbname']);
             $this->coreError = true;
             $currentVersion = 'N/A';
         } else {
@@ -330,7 +330,7 @@ class Controller extends \Piwik\Controller
         $integrityInfo = Filechecks::getFileIntegrityInformation();
         if (isset($integrityInfo[1])) {
             if ($integrityInfo[0] == false) {
-                $this->warningMessages[] = Piwik_Translate('General_FileIntegrityWarningExplanation');
+                $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarningExplanation');
             }
             $this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
         }

@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\Login;
 
+use Piwik\Piwik;
 use Piwik\QuickForm2;
 
 /**
@@ -26,14 +27,14 @@ class FormResetPassword extends QuickForm2
     function init()
     {
         $this->addElement('text', 'form_login')
-            ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Username')));
+            ->addRule('required', Piwik::translate('General_Required', Piwik::translate('General_Username')));
 
         $password = $this->addElement('password', 'form_password');
-        $password->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Password')));
+        $password->addRule('required', Piwik::translate('General_Required', Piwik::translate('General_Password')));
 
         $passwordBis = $this->addElement('password', 'form_password_bis');
-        $passwordBis->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_PasswordRepeat')));
-        $passwordBis->addRule('eq', Piwik_Translate('Login_PasswordsDoNotMatch'), $password);
+        $passwordBis->addRule('required', Piwik::translate('General_Required', Piwik::translate('Login_PasswordRepeat')));
+        $passwordBis->addRule('eq', Piwik::translate('Login_PasswordsDoNotMatch'), $password);
 
         $this->addElement('hidden', 'form_nonce');
 

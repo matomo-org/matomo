@@ -51,7 +51,7 @@ class API
             'link'             => 'Overlay_Link'
         );
 
-        return array_map('Piwik_Translate', $translations);
+        return array_map('Piwik::translate', $translations);
     }
 
     /**

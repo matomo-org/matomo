@@ -615,7 +615,7 @@ class API
             case Common::REFERRER_TYPE_CAMPAIGN:
                 return Controller::getTranslation('fromCampaigns');
             default:
-                return Piwik_Translate('General_Others');
+                return Piwik::translate('General_Others');
         }
     }
 

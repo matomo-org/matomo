@@ -12,6 +12,7 @@ namespace Piwik\Plugins\MobileMessaging;
 
 use Exception;
 use Piwik\Loader;
+use Piwik\Piwik;
 
 /**
  * The SMSProvider abstract class is used as a base class for SMS provider implementations.
@@ -57,7 +58,7 @@ abstract class SMSProvider
             return new $className;
         } catch (Exception $e) {
             throw new Exception(
-                Piwik_TranslateException(
+                Piwik::translateException(
                     'MobileMessaging_Exception_UnknownProvider',
                     array($providerName, implode(', ', array_keys(self::$availableSMSProviders)))
                 )
@@ -95,7 +96,7 @@ abstract class SMSProvider
      */
     static public function truncate($string, $maximumNumberOfConcatenatedSMS, $appendedString = 'MobileMessaging_SMS_Content_Too_Long')
     {
-        $appendedString = Piwik_Translate($appendedString);
+        $appendedString = Piwik::translate($appendedString);
 
         $smsContentContainsUCS2Chars = self::containsUCS2Characters($string);
         $maxCharsAllowed = self::maxCharsAllowed($maximumNumberOfConcatenatedSMS, $smsContentContainsUCS2Chars);

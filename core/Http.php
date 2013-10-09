@@ -552,8 +552,8 @@ class Http
             && file_exists($outputPath)
         ) {
             throw new Exception(
-                Piwik_Translate('General_DownloadFail_FileExists', "'" . $outputPath . "'")
-                . ' ' . Piwik_Translate('General_DownloadPleaseRemoveExisting'));
+                Piwik::translate('General_DownloadFail_FileExists', "'" . $outputPath . "'")
+                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting'));
         }
 
         // if we're starting a download, get the expected file size & save as an option
@@ -578,7 +578,7 @@ class Http
 
             if ($expectedFileSize == 0) {
                 Log::info("HEAD request for '%s' failed, got following: %s", $url, print_r($expectedFileSizeResult, true));
-                throw new Exception(Piwik_Translate('General_DownloadFail_HttpRequestFail'));
+                throw new Exception(Piwik::translate('General_DownloadFail_HttpRequestFail'));
             }
 
             Option::set($downloadOption, $expectedFileSize);
@@ -594,8 +594,8 @@ class Http
         $existingSize = file_exists($outputPath) ? filesize($outputPath) : 0;
         if ($existingSize >= $expectedFileSize) {
             throw new Exception(
-                Piwik_Translate('General_DownloadFail_FileExistsContinue', "'" . $outputPath . "'")
-                . ' ' . Piwik_Translate('General_DownloadPleaseRemoveExisting'));
+                Piwik::translate('General_DownloadFail_FileExistsContinue', "'" . $outputPath . "'")
+                . ' ' . Piwik::translate('General_DownloadPleaseRemoveExisting'));
         }
 
         // download a chunk of the file
@@ -618,7 +618,7 @@ class Http
             Log::info("Failed to download range '%s-%s' of file from url '%s'. Got result: %s",
                 $byteRange[0], $byteRange[1], $url, print_r($result, true));
 
-            throw new Exception(Piwik_Translate('General_DownloadFail_HttpRequestFail'));
+            throw new Exception(Piwik::translate('General_DownloadFail_HttpRequestFail'));
         }
 
         // write chunk to file

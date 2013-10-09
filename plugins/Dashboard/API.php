@@ -70,7 +70,7 @@ class API
         $defaultLayout = $this->dashboard->getDefaultLayout();
         $defaultLayout = $this->dashboard->decodeLayout($defaultLayout);
 
-        $defaultDashboard = array('name' => Piwik_Translate('Dashboard_Dashboard'), 'layout' => $defaultLayout);
+        $defaultDashboard = array('name' => Piwik::translate('Dashboard_Dashboard'), 'layout' => $defaultLayout);
 
         $widgets = $this->getExistingWidgetsWithinDashboard($defaultDashboard);
 

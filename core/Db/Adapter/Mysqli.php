@@ -13,6 +13,7 @@ namespace Piwik\Db\Adapter;
 use Exception;
 use Piwik\Config;
 use Piwik\Db\AdapterInterface;
+use Piwik\Piwik;
 use Zend_Config;
 use Zend_Db_Adapter_Mysqli;
 
@@ -62,7 +63,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         $serverVersion = $this->getServerVersion();
         $requiredVersion = Config::getInstance()->General['minimum_mysql_version'];
         if (version_compare($serverVersion, $requiredVersion) === -1) {
-            throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
+            throw new Exception(Piwik::translateException('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
         }
     }
 
@@ -79,7 +80,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
         if (version_compare($serverVersion, '5.0.3') >= 0
             && version_compare($clientVersion, '5.0.3') < 0
         ) {
-            throw new Exception(Piwik_TranslateException('General_ExceptionIncompatibleClientServerVersions', array('MySQL', $clientVersion, $serverVersion)));
+            throw new Exception(Piwik::translateException('General_ExceptionIncompatibleClientServerVersions', array('MySQL', $clientVersion, $serverVersion)));
         }
     }
 

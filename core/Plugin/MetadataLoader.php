@@ -12,6 +12,7 @@ namespace Piwik\Plugin;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\PluginsManager;
 use Piwik\Version;
 
@@ -69,7 +70,7 @@ class MetadataLoader
     {
         $descriptionKey = $this->pluginName . '_PluginDescription';
         return array(
-            'description'      => Piwik_Translate($descriptionKey),
+            'description'      => Piwik::translate($descriptionKey),
             'homepage'         => 'http://piwik.org/',
             'author'           => 'Piwik',
             'author_homepage'  => 'http://piwik.org/',

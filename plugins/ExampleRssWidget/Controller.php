@@ -12,6 +12,7 @@
 namespace Piwik\Plugins\ExampleRssWidget;
 
 use Exception;
+use Piwik\Piwik;
 
 /**
  *
@@ -49,7 +50,7 @@ class Controller extends \Piwik\Controller
     protected function error($e)
     {
         echo '<div class="pk-emptyDataTable">'
-            . Piwik_Translate('General_ErrorRequest')
+            . Piwik::translate('General_ErrorRequest')
             . ' - ' . $e->getMessage() . '</div>';
     }
 }

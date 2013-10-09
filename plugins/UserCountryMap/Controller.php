@@ -68,16 +68,16 @@ class Controller extends \Piwik\Controller
 
         // some translations
         $view->localeJSON = Common::json_encode(array(
-                                                     'nb_visits'            => Piwik_Translate('General_NVisits'),
-                                                     'one_visit'            => Piwik_Translate('General_OneVisit'),
-                                                     'no_visit'             => Piwik_Translate('UserCountryMap_NoVisit'),
-                                                     'nb_actions'           => Piwik_Translate('VisitsSummary_NbActionsDescription'),
-                                                     'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
-                                                     'bounce_rate'          => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
-                                                     'avg_time_on_site'     => Piwik_Translate('VisitsSummary_AverageVisitDuration'),
-                                                     'and_n_others'         => Piwik_Translate('UserCountryMap_AndNOthers'),
-                                                     'no_data'              => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport'),
-                                                     'nb_uniq_visitors'     => Piwik_Translate('VisitsSummary_NbUniqueVisitors')
+                                                     'nb_visits'            => Piwik::translate('General_NVisits'),
+                                                     'one_visit'            => Piwik::translate('General_OneVisit'),
+                                                     'no_visit'             => Piwik::translate('UserCountryMap_NoVisit'),
+                                                     'nb_actions'           => Piwik::translate('VisitsSummary_NbActionsDescription'),
+                                                     'nb_actions_per_visit' => Piwik::translate('VisitsSummary_NbActionsPerVisit'),
+                                                     'bounce_rate'          => Piwik::translate('VisitsSummary_NbVisitsBounced'),
+                                                     'avg_time_on_site'     => Piwik::translate('VisitsSummary_AverageVisitDuration'),
+                                                     'and_n_others'         => Piwik::translate('UserCountryMap_AndNOthers'),
+                                                     'no_data'              => Piwik::translate('CoreHome_ThereIsNoDataForThisReport'),
+                                                     'nb_uniq_visitors'     => Piwik::translate('VisitsSummary_NbUniqueVisitors')
                                                 ));
 
         $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
@@ -143,19 +143,19 @@ class Controller extends \Piwik\Controller
 
         // some translations
         $locale = array(
-            'nb_actions'       => Piwik_Translate('VisitsSummary_NbActionsDescription'),
-            'local_time'       => Piwik_Translate('VisitTime_ColumnLocalTime'),
-            'from'             => Piwik_Translate('General_FromReferrer'),
-            'seconds'          => Piwik_Translate('UserCountryMap_Seconds'),
-            'seconds_ago'      => Piwik_Translate('UserCountryMap_SecondsAgo'),
-            'minutes'          => Piwik_Translate('UserCountryMap_Minutes'),
-            'minutes_ago'      => Piwik_Translate('UserCountryMap_MinutesAgo'),
-            'hours'            => Piwik_Translate('UserCountryMap_Hours'),
-            'hours_ago'        => Piwik_Translate('UserCountryMap_HoursAgo'),
-            'days_ago'         => Piwik_Translate('UserCountryMap_DaysAgo'),
-            'actions'          => Piwik_Translate('VisitsSummary_NbPageviewsDescription'),
-            'searches'         => Piwik_Translate('UserCountryMap_Searches'),
-            'goal_conversions' => Piwik_Translate('UserCountryMap_GoalConversions'),
+            'nb_actions'       => Piwik::translate('VisitsSummary_NbActionsDescription'),
+            'local_time'       => Piwik::translate('VisitTime_ColumnLocalTime'),
+            'from'             => Piwik::translate('General_FromReferrer'),
+            'seconds'          => Piwik::translate('UserCountryMap_Seconds'),
+            'seconds_ago'      => Piwik::translate('UserCountryMap_SecondsAgo'),
+            'minutes'          => Piwik::translate('UserCountryMap_Minutes'),
+            'minutes_ago'      => Piwik::translate('UserCountryMap_MinutesAgo'),
+            'hours'            => Piwik::translate('UserCountryMap_Hours'),
+            'hours_ago'        => Piwik::translate('UserCountryMap_HoursAgo'),
+            'days_ago'         => Piwik::translate('UserCountryMap_DaysAgo'),
+            'actions'          => Piwik::translate('VisitsSummary_NbPageviewsDescription'),
+            'searches'         => Piwik::translate('UserCountryMap_Searches'),
+            'goal_conversions' => Piwik::translate('UserCountryMap_GoalConversions'),
         );
 
         $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
@@ -217,7 +217,7 @@ class Controller extends \Piwik\Controller
     private function checkUserCountryPluginEnabled()
     {
         if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
-            throw new Exception(Piwik_Translate('General_Required', 'Plugin UserCountry'));
+            throw new Exception(Piwik::translate('General_Required', 'Plugin UserCountry'));
         }
     }
 

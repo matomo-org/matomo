@@ -9,6 +9,7 @@
  * @package Feedback
  */
 namespace Piwik\Plugins\Feedback;
+use Piwik\Piwik;
 
 
 /**
@@ -39,7 +40,7 @@ class Feedback extends \Piwik\Plugin
             true,
             $order = 20,
             $isHTML = false,
-            $tooltip = Piwik_Translate('Feedback_TopLinkTooltip')
+            $tooltip = Piwik::translate('Feedback_TopLinkTooltip')
         );
     }
 

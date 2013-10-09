@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
+use Piwik\Piwik;
 use Piwik\View;
 use Piwik\ViewDataTable;
 
@@ -21,7 +22,7 @@ class Controller extends \Piwik\Controller
     public function index($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('CustomVariables_CustomVariables'),
+            Piwik::translate('CustomVariables_CustomVariables'),
             $this->getCustomVariables(true), $fetch);
     }
 

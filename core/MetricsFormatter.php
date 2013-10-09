@@ -78,15 +78,15 @@ class MetricsFormatter
         $seconds = round($seconds, $precision);
 
         if ($years > 0) {
-            $return = sprintf(Piwik_Translate('General_YearsDays'), $years, $days);
+            $return = sprintf(Piwik::translate('General_YearsDays'), $years, $days);
         } elseif ($days > 0) {
-            $return = sprintf(Piwik_Translate('General_DaysHours'), $days, $hours);
+            $return = sprintf(Piwik::translate('General_DaysHours'), $days, $hours);
         } elseif ($hours > 0) {
-            $return = sprintf(Piwik_Translate('General_HoursMinutes'), $hours, $minutes);
+            $return = sprintf(Piwik::translate('General_HoursMinutes'), $hours, $minutes);
         } elseif ($minutes > 0) {
-            $return = sprintf(Piwik_Translate('General_MinutesSeconds'), $minutes, $seconds);
+            $return = sprintf(Piwik::translate('General_MinutesSeconds'), $minutes, $seconds);
         } else {
-            $return = sprintf(Piwik_Translate('General_Seconds'), $seconds);
+            $return = sprintf(Piwik::translate('General_Seconds'), $seconds);
         }
         if ($isHtml) {
             return str_replace(' ', '&nbsp;', $return);

@@ -169,14 +169,14 @@ class UserCountry extends \Piwik\Plugin
 
     public function addWidgets()
     {
-        $widgetContinentLabel = Piwik_Translate('UserCountry_WidgetLocation')
-            . ' (' . Piwik_Translate('UserCountry_Continent') . ')';
-        $widgetCountryLabel = Piwik_Translate('UserCountry_WidgetLocation')
-            . ' (' . Piwik_Translate('UserCountry_Country') . ')';
-        $widgetRegionLabel = Piwik_Translate('UserCountry_WidgetLocation')
-            . ' (' . Piwik_Translate('UserCountry_Region') . ')';
-        $widgetCityLabel = Piwik_Translate('UserCountry_WidgetLocation')
-            . ' (' . Piwik_Translate('UserCountry_City') . ')';
+        $widgetContinentLabel = Piwik::translate('UserCountry_WidgetLocation')
+            . ' (' . Piwik::translate('UserCountry_Continent') . ')';
+        $widgetCountryLabel = Piwik::translate('UserCountry_WidgetLocation')
+            . ' (' . Piwik::translate('UserCountry_Country') . ')';
+        $widgetRegionLabel = Piwik::translate('UserCountry_WidgetLocation')
+            . ' (' . Piwik::translate('UserCountry_Region') . ')';
+        $widgetCityLabel = Piwik::translate('UserCountry_WidgetLocation')
+            . ' (' . Piwik::translate('UserCountry_City') . ')';
 
         WidgetsList::add('General_Visitors', $widgetContinentLabel, 'UserCountry', 'getContinent');
         WidgetsList::add('General_Visitors', $widgetCountryLabel, 'UserCountry', 'getCountry');
@@ -205,7 +205,7 @@ class UserCountry extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
-            'name'           => Piwik_Translate('UserCountry_Country'),
+            'name'           => Piwik::translate('UserCountry_Country'),
             'segment'        => 'countryCode',
             'sqlSegment'     => 'log_visit.location_country',
             'acceptedValues' => 'de, us, fr, in, es, etc.',
@@ -213,7 +213,7 @@ class UserCountry extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
-            'name'           => Piwik_Translate('UserCountry_Continent'),
+            'name'           => Piwik::translate('UserCountry_Continent'),
             'segment'        => 'continentCode',
             'sqlSegment'     => 'log_visit.location_country',
             'acceptedValues' => 'eur, asi, amc, amn, ams, afr, ant, oce',
@@ -222,7 +222,7 @@ class UserCountry extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
-            'name'           => Piwik_Translate('UserCountry_Region'),
+            'name'           => Piwik::translate('UserCountry_Region'),
             'segment'        => 'regionCode',
             'sqlSegment'     => 'log_visit.location_region',
             'acceptedValues' => '01 02, OR, P8, etc.<br/>eg. region=A1;country=fr',
@@ -230,7 +230,7 @@ class UserCountry extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
-            'name'           => Piwik_Translate('UserCountry_City'),
+            'name'           => Piwik::translate('UserCountry_City'),
             'segment'        => 'city',
             'sqlSegment'     => 'log_visit.location_city',
             'acceptedValues' => 'Sydney, Sao Paolo, Rome, etc.',
@@ -238,7 +238,7 @@ class UserCountry extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
-            'name'           => Piwik_Translate('UserCountry_Latitude'),
+            'name'           => Piwik::translate('UserCountry_Latitude'),
             'segment'        => 'latitude',
             'sqlSegment'     => 'log_visit.location_latitude',
             'acceptedValues' => '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.',
@@ -246,7 +246,7 @@ class UserCountry extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
-            'name'           => Piwik_Translate('UserCountry_Longitude'),
+            'name'           => Piwik::translate('UserCountry_Longitude'),
             'segment'        => 'longitude',
             'sqlSegment'     => 'log_visit.location_longitude',
             'acceptedValues' => '-70.664, 14.326, etc.',
@@ -256,47 +256,47 @@ class UserCountry extends \Piwik\Plugin
     public function getReportMetadata(&$reports)
     {
         $metrics = array(
-            'nb_visits'        => Piwik_Translate('General_ColumnNbVisits'),
-            'nb_uniq_visitors' => Piwik_Translate('General_ColumnNbUniqVisitors'),
-            'nb_actions'       => Piwik_Translate('General_ColumnNbActions'),
+            'nb_visits'        => Piwik::translate('General_ColumnNbVisits'),
+            'nb_uniq_visitors' => Piwik::translate('General_ColumnNbUniqVisitors'),
+            'nb_actions'       => Piwik::translate('General_ColumnNbActions'),
         );
 
         $reports[] = array(
-            'category'  => Piwik_Translate('General_Visitors'),
-            'name'      => Piwik_Translate('UserCountry_Country'),
+            'category'  => Piwik::translate('General_Visitors'),
+            'name'      => Piwik::translate('UserCountry_Country'),
             'module'    => 'UserCountry',
             'action'    => 'getCountry',
-            'dimension' => Piwik_Translate('UserCountry_Country'),
+            'dimension' => Piwik::translate('UserCountry_Country'),
             'metrics'   => $metrics,
             'order'     => 5,
         );
 
         $reports[] = array(
-            'category'  => Piwik_Translate('General_Visitors'),
-            'name'      => Piwik_Translate('UserCountry_Continent'),
+            'category'  => Piwik::translate('General_Visitors'),
+            'name'      => Piwik::translate('UserCountry_Continent'),
             'module'    => 'UserCountry',
             'action'    => 'getContinent',
-            'dimension' => Piwik_Translate('UserCountry_Continent'),
+            'dimension' => Piwik::translate('UserCountry_Continent'),
             'metrics'   => $metrics,
             'order'     => 6,
         );
 
         $reports[] = array(
-            'category'  => Piwik_Translate('General_Visitors'),
-            'name'      => Piwik_Translate('UserCountry_Region'),
+            'category'  => Piwik::translate('General_Visitors'),
+            'name'      => Piwik::translate('UserCountry_Region'),
             'module'    => 'UserCountry',
             'action'    => 'getRegion',
-            'dimension' => Piwik_Translate('UserCountry_Region'),
+            'dimension' => Piwik::translate('UserCountry_Region'),
             'metrics'   => $metrics,
             'order'     => 7,
         );
 
         $reports[] = array(
-            'category'  => Piwik_Translate('General_Visitors'),
-            'name'      => Piwik_Translate('UserCountry_City'),
+            'category'  => Piwik::translate('General_Visitors'),
+            'name'      => Piwik::translate('UserCountry_City'),
             'module'    => 'UserCountry',
             'action'    => 'getCity',
-            'dimension' => Piwik_Translate('UserCountry_City'),
+            'dimension' => Piwik::translate('UserCountry_City'),
             'metrics'   => $metrics,
             'order'     => 8,
         );
@@ -305,22 +305,22 @@ class UserCountry extends \Piwik\Plugin
     public function getReportsWithGoalMetrics(&$dimensions)
     {
         $dimensions = array_merge($dimensions, array(
-                                                    array('category' => Piwik_Translate('General_Visit'),
-                                                          'name'     => Piwik_Translate('UserCountry_Country'),
+                                                    array('category' => Piwik::translate('General_Visit'),
+                                                          'name'     => Piwik::translate('UserCountry_Country'),
                                                           'module'   => 'UserCountry',
                                                           'action'   => 'getCountry',
                                                     ),
-                                                    array('category' => Piwik_Translate('General_Visit'),
-                                                          'name'     => Piwik_Translate('UserCountry_Continent'),
+                                                    array('category' => Piwik::translate('General_Visit'),
+                                                          'name'     => Piwik::translate('UserCountry_Continent'),
                                                           'module'   => 'UserCountry',
                                                           'action'   => 'getContinent',
                                                     ),
-                                                    array('category' => Piwik_Translate('General_Visit'),
-                                                          'name'     => Piwik_Translate('UserCountry_Region'),
+                                                    array('category' => Piwik::translate('General_Visit'),
+                                                          'name'     => Piwik::translate('UserCountry_Region'),
                                                           'module'   => 'UserCountry',
                                                           'action'   => 'getRegion'),
-                                                    array('category' => Piwik_Translate('General_Visit'),
-                                                          'name'     => Piwik_Translate('UserCountry_City'),
+                                                    array('category' => Piwik::translate('General_Visit'),
+                                                          'name'     => Piwik::translate('UserCountry_City'),
                                                           'module'   => 'UserCountry',
                                                           'action'   => 'getCity'),
                                                ));
@@ -375,14 +375,14 @@ class UserCountry extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_goals'                  => true,
             'filter_limit'                => 5,
-            'translations'                => array('label' => Piwik_Translate('UserCountry_Country')),
-            'documentation'               => Piwik_Translate('UserCountry_getCountryDocumentation')
+            'translations'                => array('label' => Piwik::translate('UserCountry_Country')),
+            'documentation'               => Piwik::translate('UserCountry_getCountryDocumentation')
         );
 
         if (LocationProvider::getCurrentProviderId() == DefaultProvider::ID) {
             // if we're using the default location provider, add a note explaining how it works
-            $footerMessage = Piwik_Translate("General_Note") . ': '
-                . Piwik_Translate('UserCountry_DefaultLocationProviderExplanation',
+            $footerMessage = Piwik::translate("General_Note") . ': '
+                . Piwik::translate('UserCountry_DefaultLocationProviderExplanation',
                     array('<a target="_blank" href="http://piwik.org/docs/geo-locate/">', '</a>'));
 
             $result['show_footer_message'] = $footerMessage;
@@ -400,8 +400,8 @@ class UserCountry extends \Piwik\Plugin
             'show_offset_information'     => false,
             'show_pagination_control'     => false,
             'show_limit_control'          => false,
-            'translations'                => array('label' => Piwik_Translate('UserCountry_Continent')),
-            'documentation'               => Piwik_Translate('UserCountry_getContinentDocumentation')
+            'translations'                => array('label' => Piwik::translate('UserCountry_Continent')),
+            'documentation'               => Piwik::translate('UserCountry_getContinentDocumentation')
         );
     }
 
@@ -411,8 +411,8 @@ class UserCountry extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_goals'                  => true,
             'filter_limit'                => 5,
-            'translations'                => array('label' => Piwik_Translate('UserCountry_Region')),
-            'documentation'               => Piwik_Translate('UserCountry_getRegionDocumentation') . '<br/>'
+            'translations'                => array('label' => Piwik::translate('UserCountry_Region')),
+            'documentation'               => Piwik::translate('UserCountry_getRegionDocumentation') . '<br/>'
                 . $this->getGeoIPReportDocSuffix()
         );
         $this->checkIfNoDataForGeoIpReport($result);
@@ -425,8 +425,8 @@ class UserCountry extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_goals'                  => true,
             'filter_limit'                => 5,
-            'translations'                => array('label' => Piwik_Translate('UserCountry_City')),
-            'documentation'               => Piwik_Translate('UserCountry_getCityDocumentation') . '<br/>'
+            'translations'                => array('label' => Piwik::translate('UserCountry_City')),
+            'documentation'               => Piwik::translate('UserCountry_getCityDocumentation') . '<br/>'
                 . $this->getGeoIPReportDocSuffix()
         );
         $this->checkIfNoDataForGeoIpReport($result);
@@ -435,7 +435,7 @@ class UserCountry extends \Piwik\Plugin
 
     private function getGeoIPReportDocSuffix()
     {
-        return Piwik_Translate('UserCountry_GeoIPDocumentationSuffix',
+        return Piwik::translate('UserCountry_GeoIPDocumentationSuffix',
             array('<a target="_blank" href="http://www.maxmind.com/?rId=piwik">',
                   '</a>',
                   '<a target="_blank" href="http://www.maxmind.com/en/city_accuracy?rId=piwik">',
@@ -453,20 +453,20 @@ class UserCountry extends \Piwik\Plugin
         $properties['filters'][] = function ($dataTable, $view) use ($self) {
             // if there's only one row whose label is 'Unknown', display a message saying there's no data
             if ($dataTable->getRowsCount() == 1
-                && $dataTable->getFirstRow()->getColumn('label') == Piwik_Translate('General_Unknown')
+                && $dataTable->getFirstRow()->getColumn('label') == Piwik::translate('General_Unknown')
             ) {
-                $footerMessage = Piwik_Translate('UserCountry_NoDataForGeoIPReport1');
+                $footerMessage = Piwik::translate('UserCountry_NoDataForGeoIPReport1');
 
                 // if GeoIP is working, don't display this part of the message
                 if (!$self->isGeoIPWorking()) {
                     $params = array('module' => 'UserCountry', 'action' => 'adminIndex');
-                    $footerMessage .= ' ' . Piwik_Translate('UserCountry_NoDataForGeoIPReport2',
+                    $footerMessage .= ' ' . Piwik::translate('UserCountry_NoDataForGeoIPReport2',
                             array('<a target="_blank" href="' . Url::getCurrentQueryStringWithParametersModified($params) . '">',
                                   '</a>',
                                   '<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
                                   '</a>'));
                 } else {
-                    $footerMessage .= ' ' . Piwik_Translate('UserCountry_ToGeolocateOldVisits',
+                    $footerMessage .= ' ' . Piwik::translate('UserCountry_ToGeolocateOldVisits',
                             array('<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">', '</a>'));
                 }
 

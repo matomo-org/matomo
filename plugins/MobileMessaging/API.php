@@ -130,12 +130,12 @@ class API
             $verificationCode .= mt_rand(0, 9);
         }
 
-        $smsText = Piwik_Translate(
+        $smsText = Piwik::translate(
             'MobileMessaging_VerificationText',
             array(
                  $verificationCode,
-                 Piwik_Translate('General_Settings'),
-                 Piwik_Translate('MobileMessaging_SettingsMenu')
+                 Piwik::translate('General_Settings'),
+                 Piwik::translate('MobileMessaging_SettingsMenu')
             )
         );
 

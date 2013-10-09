@@ -16,7 +16,7 @@ use Piwik\Translate;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Translate
+ * @subpackage Piwik::translate
  */
 class EncodedEntities extends FilterAbstract
 {

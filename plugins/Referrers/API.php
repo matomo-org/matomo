@@ -165,7 +165,7 @@ class API
      */
     static public function getKeywordNotDefinedString()
     {
-        return Piwik_Translate('General_NotDefined', Piwik_Translate('General_ColumnKeyword'));
+        return Piwik::translate('General_NotDefined', Piwik::translate('General_ColumnKeyword'));
     }
 
     /**

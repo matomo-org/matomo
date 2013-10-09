@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\Transitions;
 
+use Piwik\Piwik;
 use Piwik\View;
 
 /**
@@ -68,7 +69,7 @@ class Controller extends \Piwik\Controller
 
     public static function getTranslation($key)
     {
-        return Piwik_Translate(self::$metricTranslations[$key]);
+        return Piwik::translate(self::$metricTranslations[$key]);
     }
 
     /**
@@ -86,7 +87,7 @@ class Controller extends \Piwik\Controller
     {
         $translations = self::$metricTranslations + self::$jsTranslations;
         foreach ($translations as &$message) {
-            $message = Piwik_Translate($message);
+            $message = Piwik::translate($message);
         }
         return $translations;
     }

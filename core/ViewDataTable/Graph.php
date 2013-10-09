@@ -12,6 +12,7 @@ namespace Piwik\ViewDataTable;
 
 
 use Piwik\DataTable\Row;
+use Piwik\Piwik;
 
 /**
  * This is an abstract visualization that should be the base of any 'graph' visualization.
@@ -133,8 +134,8 @@ abstract class Graph extends Visualization
         parent::__construct($template);
 
         if ($view->show_goals) {
-            $view->translations['nb_conversions'] = Piwik_Translate('Goals_ColumnConversions');
-            $view->translations['revenue'] = Piwik_Translate('General_TotalRevenue');
+            $view->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');
+            $view->translations['revenue'] = Piwik::translate('General_TotalRevenue');
         }
 
         // TODO: this should not be required here. filter_limit should not be a view property, instead HtmlTable should use 'limit' or something,

@@ -566,12 +566,12 @@ class API
     private static function getReportSubjectAndReportTitle($websiteName, $reports)
     {
         // if the only report is "All websites", we don't display the site name
-        $reportTitle = Piwik_Translate('General_Website') . " " . $websiteName;
+        $reportTitle = Piwik::translate('General_Website') . " " . $websiteName;
         $reportSubject = $websiteName;
         if (count($reports) == 1
             && $reports[0] == 'MultiSites_getAll'
         ) {
-            $reportSubject = Piwik_Translate('General_MultiSitesSummary');
+            $reportSubject = Piwik::translate('General_MultiSitesSummary');
             $reportTitle = $reportSubject;
         }
 
@@ -697,7 +697,7 @@ class API
 
         if (!in_array($reportFormat, $reportFormats)) {
             throw new Exception(
-                Piwik_TranslateException(
+                Piwik::translateException(
                     'General_ExceptionInvalidReportRendererFormat',
                     array($reportFormat, implode(', ', $reportFormats))
                 )

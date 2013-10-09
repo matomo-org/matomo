@@ -53,7 +53,7 @@ class Controller extends Admin
 
         if ($idSiteSelected === 'all') {
             $usersAccessByWebsite = array();
-            $defaultReportSiteName = Piwik_Translate('UsersManager_ApplyToAllWebsites');
+            $defaultReportSiteName = Piwik::translate('UsersManager_ApplyToAllWebsites');
         } else {
             $usersAccessByWebsite = APIUsersManager::getInstance()->getUsersAccessFromSite($idSiteSelected);
             $defaultReportSiteName = Site::getNameFor($idSiteSelected);
@@ -159,15 +159,15 @@ class Controller extends Admin
 
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);
         $view->availableDefaultDates = array(
-            'today'      => Piwik_Translate('General_Today'),
-            'yesterday'  => Piwik_Translate('General_Yesterday'),
-            'previous7'  => Piwik_Translate('General_PreviousDays', 7),
-            'previous30' => Piwik_Translate('General_PreviousDays', 30),
-            'last7'      => Piwik_Translate('General_LastDays', 7),
-            'last30'     => Piwik_Translate('General_LastDays', 30),
-            'week'       => Piwik_Translate('General_CurrentWeek'),
-            'month'      => Piwik_Translate('General_CurrentMonth'),
-            'year'       => Piwik_Translate('General_CurrentYear'),
+            'today'      => Piwik::translate('General_Today'),
+            'yesterday'  => Piwik::translate('General_Yesterday'),
+            'previous7'  => Piwik::translate('General_PreviousDays', 7),
+            'previous30' => Piwik::translate('General_PreviousDays', 30),
+            'last7'      => Piwik::translate('General_LastDays', 7),
+            'last30'     => Piwik::translate('General_LastDays', 30),
+            'week'       => Piwik::translate('General_CurrentWeek'),
+            'month'      => Piwik::translate('General_CurrentMonth'),
+            'year'       => Piwik::translate('General_CurrentYear'),
         );
 
         $view->ignoreCookieSet = IgnoreCookie::isIgnoreCookieFound();
@@ -277,7 +277,7 @@ class Controller extends Admin
                 || !empty($passwordBis)
             ) {
                 if ($password != $passwordBis) {
-                    throw new Exception(Piwik_Translate('Login_PasswordsDoNotMatch'));
+                    throw new Exception(Piwik::translate('Login_PasswordsDoNotMatch'));
                 }
                 $newPassword = $password;
             }

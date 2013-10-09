@@ -109,7 +109,7 @@ class Dashboard extends \Piwik\Plugin
         foreach ($dashboards AS &$dashboard) {
 
             if (empty($dashboard['name'])) {
-                $dashboard['name'] = Piwik_Translate('Dashboard_DashboardOf', $login);
+                $dashboard['name'] = Piwik::translate('Dashboard_DashboardOf', $login);
                 if ($nameless > 1) {
                     $dashboard['name'] .= " ($nameless)";
                 }
@@ -219,7 +219,7 @@ class Dashboard extends \Piwik\Plugin
         $tooltip = false;
         try {
             $idSite = Common::getRequestVar('idSite');
-            $tooltip = Piwik_Translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
+            $tooltip = Piwik::translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
         } catch (Exception $ex) {
             // if no idSite parameter, show no tooltip
         }

@@ -253,7 +253,7 @@ class Piwik
                 Piwik::checkUserIsSuperUser();
             }
         } catch (NoAccessException $e) {
-            throw new NoAccessException(Piwik_Translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
+            throw new NoAccessException(Piwik::translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
         }
     }
 
@@ -293,7 +293,7 @@ class Piwik
     static public function checkUserIsNotAnonymous()
     {
         if (self::isUserIsAnonymous()) {
-            throw new NoAccessException(Piwik_Translate('General_YouMustBeLoggedIn'));
+            throw new NoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
         }
     }
 
@@ -568,7 +568,7 @@ class Piwik
             && $l <= $loginMaximumLength
             && (preg_match('/^[A-Za-z0-9_.@+-]*$/D', $userLogin) > 0))
         ) {
-            throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
+            throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
         }
     }
 
@@ -680,4 +680,50 @@ class Piwik
             Piwik::postEvent($eventName, $params, $pending, $plugins);
         }
     }
+
+    /**
+     * Returns translated string or given message if translation is not found.
+     *
+     * @param string $string Translation string index
+     * @param array|string|int $args sprintf arguments
+     * @return string
+     * @api
+     */
+    public static function translate($string, $args = array())
+    {
+        if (!is_array($args)) {
+            $args = array($args);
+        }
+
+        if (strpos($string, "_") !== false) {
+            list($plugin, $key) = explode("_", $string, 2);
+            if (isset($GLOBALS['Piwik_translations'][$plugin]) && isset($GLOBALS['Piwik_translations'][$plugin][$key])) {
+                $string = $GLOBALS['Piwik_translations'][$plugin][$key];
+            }
+        }
+        if (count($args) == 0) {
+            return $string;
+        }
+        return vsprintf($string, $args);
+    }
+
+
+    /**
+     * Returns translated string or given message if translation is not found.
+     * This function does not throw any exception. Use it to translate exceptions.
+     *
+     * @param string $message Translation string index
+     * @param array $args sprintf arguments
+     * @return string
+     * @api
+     */
+    public static function translateException($message, $args = array())
+    {
+        try {
+            return Piwik::translate($message, $args);
+        } catch (Exception $e) {
+            return $message;
+        }
+    }
+
 }

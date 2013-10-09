@@ -71,11 +71,11 @@ abstract class Admin extends Controller
             $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
                                                                                  'module' => 'CorePluginsAdmin', 'action' => 'plugins'
                                                                             ));
-            $view->invalidPluginsWarning = Piwik_Translate('CoreAdminHome_InvalidPluginsWarning', array(
+            $view->invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
                                                                                                        self::getPiwikVersion(),
                                                                                                        '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
                 . '<br/>'
-                . Piwik_Translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
+                . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
                                                                                       '<a href="' . $pluginsLink . '"/>',
                                                                                       '</a>'
                                                                                  ));

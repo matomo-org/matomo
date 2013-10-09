@@ -110,7 +110,7 @@ class Controller extends \Piwik\Controller
     {
         $view = new View('@Goals/getGoalReportView');
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            $goalDefinition['name'] = Piwik_Translate('Goals_Ecommerce');
+            $goalDefinition['name'] = Piwik::translate('Goals_Ecommerce');
             $goalDefinition['allow_multiple'] = true;
             $ecommerce = $view->ecommerce = true;
         } else {
@@ -260,10 +260,10 @@ class Controller extends \Piwik\Controller
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             $nameToLabel['nb_conversions'] = 'General_EcommerceOrders';
         } elseif ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
-            $nameToLabel['nb_conversions'] = Piwik_Translate('General_VisitsWith', Piwik_Translate('Goals_AbandonedCart'));
+            $nameToLabel['nb_conversions'] = Piwik::translate('General_VisitsWith', Piwik::translate('Goals_AbandonedCart'));
             $nameToLabel['conversion_rate'] = $nameToLabel['nb_conversions'];
-            $nameToLabel['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_ColumnRevenue'));
-            $nameToLabel['items'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('Goals_Products'));
+            $nameToLabel['revenue'] = Piwik::translate('Goals_LeftInCart', Piwik::translate('General_ColumnRevenue'));
+            $nameToLabel['items'] = Piwik::translate('Goals_LeftInCart', Piwik::translate('Goals_Products'));
         }
 
         $selectableColumns = array('nb_conversions', 'conversion_rate', 'revenue');
@@ -277,14 +277,14 @@ class Controller extends \Piwik\Controller
             // find the right translation for this column, eg. find 'revenue' if column is Goal_1_revenue
             foreach ($nameToLabel as $metric => $metricTranslation) {
                 if (strpos($columnName, $metric) !== false) {
-                    $columnTranslation = Piwik_Translate($metricTranslation);
+                    $columnTranslation = Piwik::translate($metricTranslation);
                     break;
                 }
             }
 
             if (!empty($idGoal) && isset($this->goals[$idGoal])) {
                 $goalName = $this->goals[$idGoal]['name'];
-                $columnTranslation = "$columnTranslation (" . Piwik_Translate('Goals_GoalX', "$goalName") . ")";
+                $columnTranslation = "$columnTranslation (" . Piwik::translate('Goals_GoalX', "$goalName") . ")";
             }
             $view->translations[$columnName] = $columnTranslation;
         }
@@ -292,7 +292,7 @@ class Controller extends \Piwik\Controller
         $view->visualization_properties->selectable_columns = $selectableColumns;
 
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
-        $view->documentation = Piwik_Translate($langString, '<br />');
+        $view->documentation = Piwik::translate($langString, '<br />');
 
         return $this->renderView($view, $fetch);
     }
@@ -440,7 +440,7 @@ class Controller extends \Piwik\Controller
 
             $allReports = Goals::getReportsWithGoalMetrics();
             foreach ($allReports as $category => $reports) {
-                $categoryText = Piwik_Translate('Goals_ViewGoalsBy', $category);
+                $categoryText = Piwik::translate('Goals_ViewGoalsBy', $category);
                 foreach ($reports as $report) {
                     $customParams['viewDataTable'] = 'tableGoals';
                     if (in_array($report['action'], array('getVisitsUntilConversion', 'getDaysToConversion'))) {

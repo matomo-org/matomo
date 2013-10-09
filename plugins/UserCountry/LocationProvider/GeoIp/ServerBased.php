@@ -13,6 +13,7 @@ namespace Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 
@@ -159,11 +160,11 @@ class ServerBased extends GeoIp
         } else // if not available return message w/ extra info
         {
             if (!function_exists('apache_get_modules')) {
-                return Piwik_Translate('General_Note') . ':&nbsp;' . Piwik_Translate('UserCountry_AssumingNonApache');
+                return Piwik::translate('General_Note') . ':&nbsp;' . Piwik::translate('UserCountry_AssumingNonApache');
             }
 
-            $message = "<strong><em>" . Piwik_Translate('General_Note') . ':&nbsp;'
-                . Piwik_Translate('UserCountry_FoundApacheModules')
+            $message = "<strong><em>" . Piwik::translate('General_Note') . ':&nbsp;'
+                . Piwik::translate('UserCountry_FoundApacheModules')
                 . "</em></strong>:<br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
             foreach (apache_get_modules() as $name) {
                 $message .= "<li>$name</li>\n";
@@ -183,7 +184,7 @@ class ServerBased extends GeoIp
         if (empty($_SERVER[self::TEST_SERVER_VAR])
             && empty($_SERVER[self::TEST_SERVER_VAR_ALT])
         ) {
-            return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", self::TEST_SERVER_VAR . ' $_SERVER');
+            return Piwik::translate("UserCountry_CannotFindGeoIPServerVar", self::TEST_SERVER_VAR . ' $_SERVER');
         }
 
         return true; // can't check for another IP
@@ -205,22 +206,22 @@ class ServerBased extends GeoIp
         if (function_exists('apache_note')) {
             $serverDesc = 'Apache';
         } else {
-            $serverDesc = Piwik_Translate('UserCountry_HttpServerModule');
+            $serverDesc = Piwik::translate('UserCountry_HttpServerModule');
         }
 
         $title = sprintf(self::TITLE, $serverDesc);
-        $desc = Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBased1', array('<strong>', '</strong>'))
+        $desc = Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased1', array('<strong>', '</strong>'))
             . '<br/><br/>'
-            . '<em>' . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn') . '</em>'
+            . '<em>' . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn') . '</em>'
             . '<br/><br/>'
-            . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
+            . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
                 array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
         $installDocs =
             '<em><a target="_blank" href="http://piwik.org/faq/how-to/#faq_165">'
-            . Piwik_Translate('UserCountry_HowToInstallApacheModule')
+            . Piwik::translate('UserCountry_HowToInstallApacheModule')
             . '</a></em><br/><em>'
             . '<a target="_blank" href="http://piwik.org/faq/how-to/#faq_166">'
-            . Piwik_Translate('UserCountry_HowToInstallNginxModule')
+            . Piwik::translate('UserCountry_HowToInstallNginxModule')
             . '</a></em>';
 
         $geoipServerVars = array();
@@ -231,9 +232,9 @@ class ServerBased extends GeoIp
         }
 
         if (empty($geoipServerVars)) {
-            $extraMessage = '<strong><em>' . Piwik_Translate('UserCountry_GeoIPNoServerVars', '$_SERVER') . '</em></strong>';
+            $extraMessage = '<strong><em>' . Piwik::translate('UserCountry_GeoIPNoServerVars', '$_SERVER') . '</em></strong>';
         } else {
-            $extraMessage = '<strong><em>' . Piwik_Translate('UserCountry_GeoIPServerVarsFound', '$_SERVER')
+            $extraMessage = '<strong><em>' . Piwik::translate('UserCountry_GeoIPServerVarsFound', '$_SERVER')
                 . ":</em></strong><br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
             foreach ($geoipServerVars as $key) {
                 $extraMessage .= '<li>' . $key . "</li>\n";

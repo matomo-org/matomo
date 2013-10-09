@@ -50,20 +50,20 @@ class Controller extends \Piwik\Controller
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
 
-        $documentation = Piwik_Translate('VisitsSummary_VisitsSummaryDocumentation') . '<br />'
-            . Piwik_Translate('General_BrokenDownReportDocumentation') . '<br /><br />'
+        $documentation = Piwik::translate('VisitsSummary_VisitsSummaryDocumentation') . '<br />'
+            . Piwik::translate('General_BrokenDownReportDocumentation') . '<br /><br />'
 
-            . '<b>' . Piwik_Translate('General_ColumnNbVisits') . ':</b> '
-            . Piwik_Translate('General_ColumnNbVisitsDocumentation') . '<br />'
+            . '<b>' . Piwik::translate('General_ColumnNbVisits') . ':</b> '
+            . Piwik::translate('General_ColumnNbVisitsDocumentation') . '<br />'
 
-            . '<b>' . Piwik_Translate('General_ColumnNbUniqVisitors') . ':</b> '
-            . Piwik_Translate('General_ColumnNbUniqVisitorsDocumentation') . '<br />'
+            . '<b>' . Piwik::translate('General_ColumnNbUniqVisitors') . ':</b> '
+            . Piwik::translate('General_ColumnNbUniqVisitorsDocumentation') . '<br />'
 
-            . '<b>' . Piwik_Translate('General_ColumnNbActions') . ':</b> '
-            . Piwik_Translate('General_ColumnNbActionsDocumentation') . '<br />'
+            . '<b>' . Piwik::translate('General_ColumnNbActions') . ':</b> '
+            . Piwik::translate('General_ColumnNbActionsDocumentation') . '<br />'
 
-            . '<b>' . Piwik_Translate('General_ColumnActionsPerVisit') . ':</b> '
-            . Piwik_Translate('General_ColumnActionsPerVisitDocumentation');
+            . '<b>' . Piwik::translate('General_ColumnActionsPerVisit') . ':</b> '
+            . Piwik::translate('General_ColumnActionsPerVisitDocumentation');
 
         $selectableColumns = array(
             // columns from VisitsSummary.get

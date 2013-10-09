@@ -117,7 +117,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         }
 
         // create empty dashboard
-        $widget = reset($allWidgets[Piwik_Translate('UserSettings_VisitorSettings')]);
+        $widget = reset($allWidgets[\Piwik\Piwik::translate('UserSettings_VisitorSettings')]);
         $dashboard = array(
             array(
                 array(

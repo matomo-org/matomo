@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Live;
 
 
 use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\WidgetsList;
 
 /**
@@ -91,13 +92,13 @@ class Live extends \Piwik\Plugin
             'show_all_views_icons'        => false,
             'show_table_all_columns'      => false,
             'show_export_as_rss_feed'     => false,
-            'documentation'               => Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')),
+            'documentation'               => Piwik::translate('Live_VisitorLogDocumentation', array('<br />', '<br />')),
             'custom_parameters'           => array(
                 // set a very high row count so that the next link in the footer of the data table is always shown
                 'totalRows'         => 10000000,
 
                 'filterEcommerce'   => Common::getRequestVar('filterEcommerce', 0, 'int'),
-                'pageUrlNotDefined' => Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'))
+                'pageUrlNotDefined' => Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'))
             ),
             'footer_icons'                => array(
                 array(
@@ -105,7 +106,7 @@ class Live extends \Piwik\Plugin
                     'buttons' => array(
                         array(
                             'id'    => 'Piwik\\Plugins\\Live\\VisitorLog',
-                            'title' => Piwik_Translate('Live_LinkVisitorLog'),
+                            'title' => Piwik::translate('Live_LinkVisitorLog'),
                             'icon'  => 'plugins/Zeitgeist/images/table.png'
                         )
                     )

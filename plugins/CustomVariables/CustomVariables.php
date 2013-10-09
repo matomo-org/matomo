@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Piwik;
 use Piwik\Tracker;
 use Piwik\WidgetsList;
 
@@ -59,23 +60,23 @@ class CustomVariables extends \Piwik\Plugin
      */
     public function getReportMetadata(&$reports)
     {
-        $documentation = Piwik_Translate('CustomVariables_CustomVariablesReportDocumentation',
+        $documentation = Piwik::translate('CustomVariables_CustomVariablesReportDocumentation',
             array('<br />', '<a href="http://piwik.org/docs/custom-variables/" target="_blank">', '</a>'));
 
-        $reports[] = array('category'              => Piwik_Translate('General_Visitors'),
-                           'name'                  => Piwik_Translate('CustomVariables_CustomVariables'),
+        $reports[] = array('category'              => Piwik::translate('General_Visitors'),
+                           'name'                  => Piwik::translate('CustomVariables_CustomVariables'),
                            'module'                => 'CustomVariables',
                            'action'                => 'getCustomVariables',
                            'actionToLoadSubTables' => 'getCustomVariablesValuesFromNameId',
-                           'dimension'             => Piwik_Translate('CustomVariables_ColumnCustomVariableName'),
+                           'dimension'             => Piwik::translate('CustomVariables_ColumnCustomVariableName'),
                            'documentation'         => $documentation,
                            'order'                 => 10);
 
-        $reports[] = array('category'         => Piwik_Translate('General_Visitors'),
-                           'name'             => Piwik_Translate('CustomVariables_CustomVariables'),
+        $reports[] = array('category'         => Piwik::translate('General_Visitors'),
+                           'name'             => Piwik::translate('CustomVariables_CustomVariables'),
                            'module'           => 'CustomVariables',
                            'action'           => 'getCustomVariablesValuesFromNameId',
-                           'dimension'        => Piwik_Translate('CustomVariables_ColumnCustomVariableValue'),
+                           'dimension'        => Piwik::translate('CustomVariables_ColumnCustomVariableValue'),
                            'documentation'    => $documentation,
                            'isSubtableReport' => true,
                            'order'            => 15);
@@ -87,32 +88,32 @@ class CustomVariables extends \Piwik\Plugin
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik_Translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                    . ' (' . Piwik_Translate('CustomVariables_ScopeVisit') . ')',
+                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
+                    . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')',
                 'segment'    => 'customVariableName' . $i,
                 'sqlSegment' => 'log_visit.custom_var_k' . $i,
             );
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik_Translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
-                    . ' (' . Piwik_Translate('CustomVariables_ScopeVisit') . ')',
+                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
+                    . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')',
                 'segment'    => 'customVariableValue' . $i,
                 'sqlSegment' => 'log_visit.custom_var_v' . $i,
             );
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik_Translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                    . ' (' . Piwik_Translate('CustomVariables_ScopePage') . ')',
+                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
+                    . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')',
                 'segment'    => 'customVariablePageName' . $i,
                 'sqlSegment' => 'log_link_visit_action.custom_var_k' . $i,
             );
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik_Translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
-                    . ' (' . Piwik_Translate('CustomVariables_ScopePage') . ')',
+                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
+                    . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')',
                 'segment'    => 'customVariablePageValue' . $i,
                 'sqlSegment' => 'log_link_visit_action.custom_var_v' . $i,
             );
@@ -124,8 +125,8 @@ class CustomVariables extends \Piwik\Plugin
      */
     public function getReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions[] = array('category' => Piwik_Translate('General_Visit'),
-                              'name'     => Piwik_Translate('CustomVariables_CustomVariables'),
+        $dimensions[] = array('category' => Piwik::translate('General_Visit'),
+                              'name'     => Piwik::translate('CustomVariables_CustomVariables'),
                               'module'   => 'CustomVariables',
                               'action'   => 'getCustomVariables',
         );
@@ -159,7 +160,7 @@ class CustomVariables extends \Piwik\Plugin
 
     private function getDisplayPropertiesForGetCustomVariables()
     {
-        $footerMessage = Piwik_Translate('CustomVariables_TrackingHelp',
+        $footerMessage = Piwik::translate('CustomVariables_TrackingHelp',
             array('<a target="_blank" href="http://piwik.org/docs/custom-variables/">', '</a>'));
 
         return array(
@@ -168,7 +169,7 @@ class CustomVariables extends \Piwik\Plugin
             'filter_sort_order'          => 'desc',
             'show_goals'                 => true,
             'subtable_controller_action' => 'getCustomVariablesValuesFromNameId',
-            'translations'               => array('label' => Piwik_Translate('CustomVariables_ColumnCustomVariableName')),
+            'translations'               => array('label' => Piwik::translate('CustomVariables_ColumnCustomVariableName')),
             'show_footer_message'        => $footerMessage
         );
     }
@@ -182,7 +183,7 @@ class CustomVariables extends \Piwik\Plugin
             'show_goals'                  => true,
             'show_search'                 => false,
             'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik_Translate('CustomVariables_ColumnCustomVariableValue'))
+            'translations'                => array('label' => Piwik::translate('CustomVariables_ColumnCustomVariableValue'))
         );
     }
 }

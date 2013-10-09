@@ -199,16 +199,16 @@ class ProcessedReport
         static $order = null;
         if (is_null($order)) {
             $order = array(
-                Piwik_Translate('General_MultiSitesSummary'),
-                Piwik_Translate('VisitsSummary_VisitsSummary'),
-                Piwik_Translate('Goals_Ecommerce'),
-                Piwik_Translate('General_Actions'),
-                Piwik_Translate('Actions_SubmenuSitesearch'),
-                Piwik_Translate('Referrers_Referrers'),
-                Piwik_Translate('Goals_Goals'),
-                Piwik_Translate('General_Visitors'),
-                Piwik_Translate('DevicesDetection_DevicesDetection'),
-                Piwik_Translate('UserSettings_VisitorSettings'),
+                Piwik::translate('General_MultiSitesSummary'),
+                Piwik::translate('VisitsSummary_VisitsSummary'),
+                Piwik::translate('Goals_Ecommerce'),
+                Piwik::translate('General_Actions'),
+                Piwik::translate('Actions_SubmenuSitesearch'),
+                Piwik::translate('Referrers_Referrers'),
+                Piwik::translate('Goals_Goals'),
+                Piwik::translate('General_Visitors'),
+                Piwik::translate('DevicesDetection_DevicesDetection'),
+                Piwik::translate('UserSettings_VisitorSettings'),
             );
         }
         return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0
@@ -223,8 +223,8 @@ class ProcessedReport
     private function addApiGetMetdata(&$availableReports)
     {
         $metadata = array(
-            'category'             => Piwik_Translate('General_API'),
-            'name'                 => Piwik_Translate('General_MainMetrics'),
+            'category'             => Piwik::translate('General_API'),
+            'name'                 => Piwik::translate('General_MainMetrics'),
             'module'               => 'API',
             'action'               => 'get',
             'metrics'              => array(),

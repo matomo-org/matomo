@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
+use Piwik\Piwik;
 use Piwik\View;
 use Piwik\ViewDataTable;
 
@@ -27,21 +28,21 @@ class Controller extends \Piwik\Controller
     public function indexPageUrls($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('General_Pages'),
+            Piwik::translate('General_Pages'),
             $this->getPageUrls(true), $fetch);
     }
 
     public function indexEntryPageUrls($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('Actions_SubmenuPagesEntry'),
+            Piwik::translate('Actions_SubmenuPagesEntry'),
             $this->getEntryPageUrls(true), $fetch);
     }
 
     public function indexExitPageUrls($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('Actions_SubmenuPagesExit'),
+            Piwik::translate('Actions_SubmenuPagesExit'),
             $this->getExitPageUrls(true), $fetch);
     }
 
@@ -64,21 +65,21 @@ class Controller extends \Piwik\Controller
     public function indexPageTitles($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('Actions_SubmenuPageTitles'),
+            Piwik::translate('Actions_SubmenuPageTitles'),
             $this->getPageTitles(true), $fetch);
     }
 
     public function indexDownloads($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('General_Downloads'),
+            Piwik::translate('General_Downloads'),
             $this->getDownloads(true), $fetch);
     }
 
     public function indexOutlinks($fetch = false)
     {
         return View::singleReport(
-            Piwik_Translate('General_Outlinks'),
+            Piwik::translate('General_Outlinks'),
             $this->getOutlinks(true), $fetch);
     }
 

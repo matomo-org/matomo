@@ -30,10 +30,10 @@ class Controller extends \Piwik\Controller
 
         $segmentsByCategory = $customVariablesSegments = array();
         foreach ($segments as $segment) {
-            if ($segment['category'] == Piwik_Translate('General_Visit')
+            if ($segment['category'] == Piwik::translate('General_Visit')
                 && $segment['type'] == 'metric'
             ) {
-                $metricsLabel = Piwik_Translate('General_Metrics');
+                $metricsLabel = Piwik::translate('General_Metrics');
                 $metricsLabel[0] = strtolower($metricsLabel[0]);
                 $segment['category'] .= ' (' . $metricsLabel . ')';
             }
@@ -58,7 +58,7 @@ class Controller extends \Piwik\Controller
     public function sortSegmentCategories($a, $b)
     {
         // Custom Variables last
-        if ($a == Piwik_Translate('CustomVariables_CustomVariables')) {
+        if ($a == Piwik::translate('CustomVariables_CustomVariables')) {
             return 1;
         }
         return 0;
@@ -88,7 +88,7 @@ class Controller extends \Piwik\Controller
         );
         $translations = array();
         foreach ($translationKeys as $key) {
-            $translations[$key] = Piwik_Translate($key);
+            $translations[$key] = Piwik::translate($key);
         }
         return $translations;
     }

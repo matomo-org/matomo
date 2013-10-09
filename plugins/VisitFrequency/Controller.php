@@ -43,9 +43,9 @@ class Controller extends \Piwik\Controller
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
 
-        $documentation = Piwik_Translate('VisitFrequency_ReturningVisitsDocumentation') . '<br />'
-            . Piwik_Translate('General_BrokenDownReportDocumentation') . '<br />'
-            . Piwik_Translate('VisitFrequency_ReturningVisitDocumentation');
+        $documentation = Piwik::translate('VisitFrequency_ReturningVisitsDocumentation') . '<br />'
+            . Piwik::translate('General_BrokenDownReportDocumentation') . '<br />'
+            . Piwik::translate('VisitFrequency_ReturningVisitDocumentation');
 
         // Note: if you edit this array, maybe edit the code below as well
         $selectableColumns = array(

@@ -54,16 +54,16 @@ class Controller extends \Piwik\Controller
                 || strpos($email, 'probe@') !== false
                 || strpos($body, '&lt;probe') !== false
             ) {
-                throw new Exception(Piwik_TranslateException('Feedback_ExceptionBodyLength', array($minimumBodyLength)));
+                throw new Exception(Piwik::translateException('Feedback_ExceptionBodyLength', array($minimumBodyLength)));
             }
             if (!Piwik::isValidEmailString($email)) {
-                throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail'));
+                throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidEmail'));
             }
             if (preg_match('/https?:/i', $body)) {
-                throw new Exception(Piwik_TranslateException('Feedback_ExceptionNoUrls'));
+                throw new Exception(Piwik::translateException('Feedback_ExceptionNoUrls'));
             }
             if (!Nonce::verifyNonce('Feedback.sendFeedback', $nonce)) {
-                throw new Exception(Piwik_TranslateException('General_ExceptionNonceMismatch'));
+                throw new Exception(Piwik::translateException('General_ExceptionNonceMismatch'));
             }
             Nonce::discardNonce('Feedback.sendFeedback');
 

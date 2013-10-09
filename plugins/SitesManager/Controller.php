@@ -177,7 +177,7 @@ class Controller extends \Piwik\Controller\Admin
         $sites = API::getInstance()->getPatternMatchSites($pattern);
         $pattern = str_replace('%', '', $pattern);
         if (!count($sites)) {
-            $results[] = array('label' => Piwik_Translate('SitesManager_NotFound') . "&nbsp;<span class='autocompleteMatched'>$pattern</span>.", 'id' => '#');
+            $results[] = array('label' => Piwik::translate('SitesManager_NotFound') . "&nbsp;<span class='autocompleteMatched'>$pattern</span>.", 'id' => '#');
         } else {
             if (strpos($pattern, '/') !== false
                 && strpos($pattern, '\\/') === false

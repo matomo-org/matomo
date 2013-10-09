@@ -120,7 +120,7 @@ class DBStats extends \Piwik\Plugin
 
         $translateSummaryLabel = function ($value) use ($valueToTranslationStr) {
             return isset($valueToTranslationStr[$value])
-                ? Piwik_Translate($valueToTranslationStr[$value])
+                ? Piwik::translate($valueToTranslationStr[$value])
                 : $value;
         };
 
@@ -148,9 +148,9 @@ class DBStats extends \Piwik\Plugin
         $this->addBaseDisplayProperties($result);
         $this->addPresentationFilters($result);
 
-        $result['title'] = Piwik_Translate('DBStats_MetricTables');
+        $result['title'] = Piwik::translate('DBStats_MetricTables');
         $result['related_reports'] = array(
-            'DBStats.getMetricDataSummaryByYear' => Piwik_Translate('DBStats_MetricDataByYear')
+            'DBStats.getMetricDataSummaryByYear' => Piwik::translate('DBStats_MetricDataByYear')
         );
 
         return $result;
@@ -162,10 +162,10 @@ class DBStats extends \Piwik\Plugin
         $this->addBaseDisplayProperties($result);
         $this->addPresentationFilters($result);
 
-        $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
-        $result['title'] = Piwik_Translate('DBStats_MetricDataByYear');
+        $result['translations']['label'] = Piwik::translate('CoreHome_PeriodYear');
+        $result['title'] = Piwik::translate('DBStats_MetricDataByYear');
         $result['related_reports'] = array(
-            'DBStats.getMetricDataSummary' => Piwik_Translate('DBStats_MetricTables')
+            'DBStats.getMetricDataSummary' => Piwik::translate('DBStats_MetricTables')
         );
 
         return $result;
@@ -177,9 +177,9 @@ class DBStats extends \Piwik\Plugin
         $this->addBaseDisplayProperties($result);
         $this->addPresentationFilters($result);
 
-        $result['title'] = Piwik_Translate('DBStats_ReportTables');
+        $result['title'] = Piwik::translate('DBStats_ReportTables');
         $result['related_reports'] = array(
-            'DBStats.getReportDataSummaryByYear' => Piwik_Translate('DBStats_ReportDataByYear')
+            'DBStats.getReportDataSummaryByYear' => Piwik::translate('DBStats_ReportDataByYear')
         );
 
         return $result;
@@ -191,10 +191,10 @@ class DBStats extends \Piwik\Plugin
         $this->addBaseDisplayProperties($result);
         $this->addPresentationFilters($result);
 
-        $result['translations']['label'] = Piwik_Translate('CoreHome_PeriodYear');
-        $result['title'] = Piwik_Translate('DBStats_ReportDataByYear');
+        $result['translations']['label'] = Piwik::translate('CoreHome_PeriodYear');
+        $result['title'] = Piwik::translate('DBStats_ReportDataByYear');
         $result['related_reports'] = array(
-            'DBStats.getReportDataSummary' => Piwik_Translate('DBStats_ReportTables')
+            'DBStats.getReportDataSummary' => Piwik::translate('DBStats_ReportTables')
         );
 
         return $result;
@@ -208,7 +208,7 @@ class DBStats extends \Piwik\Plugin
             $sizeColumns = array('estimated_size'));
 
         $result['filter_sort_order'] = 'asc';
-        $result['translations']['label'] = Piwik_Translate('General_Report');
+        $result['translations']['label'] = Piwik::translate('General_Report');
 
         // this report table has some extra columns that shouldn't be shown
         if ($viewDataTable == 'table') {
@@ -228,7 +228,7 @@ class DBStats extends \Piwik\Plugin
             $sizeColumns = array('estimated_size'));
 
         $result['filter_sort_order'] = 'asc';
-        $result['translations']['label'] = Piwik_Translate('General_Metric');
+        $result['translations']['label'] = Piwik::translate('General_Metric');
 
         $this->setIndividualSummaryFooterMessage($result);
 
@@ -261,14 +261,14 @@ class DBStats extends \Piwik\Plugin
         $properties['visualization_properties']['table']['disable_row_evolution'] = true;
         $properties['visualization_properties']['table']['highlight_summary_row'] = true;
         $properties['translations'] = array(
-            'label'          => Piwik_Translate('DBStats_Table'),
-            'year'           => Piwik_Translate('CoreHome_PeriodYear'),
-            'data_size'      => Piwik_Translate('DBStats_DataSize'),
-            'index_size'     => Piwik_Translate('DBStats_IndexSize'),
-            'total_size'     => Piwik_Translate('DBStats_TotalSize'),
-            'row_count'      => Piwik_Translate('DBStats_RowCount'),
-            'percent_total'  => '%&nbsp;' . Piwik_Translate('DBStats_DBSize'),
-            'estimated_size' => Piwik_Translate('DBStats_EstimatedSize')
+            'label'          => Piwik::translate('DBStats_Table'),
+            'year'           => Piwik::translate('CoreHome_PeriodYear'),
+            'data_size'      => Piwik::translate('DBStats_DataSize'),
+            'index_size'     => Piwik::translate('DBStats_IndexSize'),
+            'total_size'     => Piwik::translate('DBStats_TotalSize'),
+            'row_count'      => Piwik::translate('DBStats_RowCount'),
+            'percent_total'  => '%&nbsp;' . Piwik::translate('DBStats_DBSize'),
+            'estimated_size' => Piwik::translate('DBStats_EstimatedSize')
         );
     }
 
@@ -295,7 +295,7 @@ class DBStats extends \Piwik\Plugin
         if ($viewDataTable == 'table') {
             // add summary row only if displaying a table
             $properties['filters'][] = array(
-                'AddSummaryRow', array(0, Piwik_Translate('General_Total'), 'label', false), $isPriority = true);
+                'AddSummaryRow', array(0, Piwik::translate('General_Total'), 'label', false), $isPriority = true);
 
             // add percentage column if desired
             if ($addPercentColumn
@@ -326,7 +326,7 @@ class DBStats extends \Piwik\Plugin
                 $runPrettySizeFilterBeforeGeneric = true;
             } else {
                 $properties['columns_to_display'] = array('label', 'row_count');
-                $properties['y_axis_unit'] = ' ' . Piwik_Translate('General_Rows');
+                $properties['y_axis_unit'] = ' ' . Piwik::translate('General_Rows');
 
                 $properties['filter_sort_column'] = 'row_count';
                 $properties['filter_sort_order'] = 'desc';
@@ -360,7 +360,7 @@ class DBStats extends \Piwik\Plugin
     {
         $lastGenerated = self::getDateOfLastCachingRun();
         if ($lastGenerated !== false) {
-            $result['show_footer_message'] = Piwik_Translate('Mobile_LastUpdated', $lastGenerated);
+            $result['show_footer_message'] = Piwik::translate('Mobile_LastUpdated', $lastGenerated);
         }
     }
 }

@@ -236,15 +236,15 @@ class HtmlTable extends Visualization
         $view->show_exclude_low_population = true;
         $view->show_goals = true;
         $view->translations += array(
-            'nb_conversions'    => Piwik_Translate('Goals_ColumnConversions'),
-            'conversion_rate'   => Piwik_Translate('General_ColumnConversionRate'),
-            'revenue'           => Piwik_Translate('General_ColumnRevenue'),
-            'revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
+            'nb_conversions'    => Piwik::translate('Goals_ColumnConversions'),
+            'conversion_rate'   => Piwik::translate('General_ColumnConversionRate'),
+            'revenue'           => Piwik::translate('General_ColumnRevenue'),
+            'revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
         );
-        $view->metrics_documentation['nb_visits'] = Piwik_Translate('Goals_ColumnVisits');
+        $view->metrics_documentation['nb_visits'] = Piwik::translate('Goals_ColumnVisits');
 
         if (Common::getRequestVar('documentationForGoalsPage', 0, 'int') == 1) { // TODO: should not use query parameter
-            $view->documentation = Piwik_Translate('Goals_ConversionByTypeReportDocumentation',
+            $view->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
                 array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>'));
         }
 
@@ -312,23 +312,23 @@ class HtmlTable extends Visualization
         );
 
         $view->translations += array(
-            'goal_ecommerceOrder_conversion_rate'   => Piwik_Translate('Goals_ConversionRate', Piwik_Translate('Goals_EcommerceOrder')),
-            'goal_ecommerceOrder_nb_conversions'    => Piwik_Translate('General_EcommerceOrders'),
-            'goal_ecommerceOrder_revenue'           => Piwik_Translate('General_TotalRevenue'),
-            'goal_ecommerceOrder_revenue_per_visit' => Piwik_Translate('General_ColumnValuePerVisit'),
-            'goal_ecommerceOrder_avg_order_revenue' => Piwik_Translate('General_AverageOrderValue'),
-            'goal_ecommerceOrder_items'             => Piwik_Translate('General_PurchasedProducts')
+            'goal_ecommerceOrder_conversion_rate'   => Piwik::translate('Goals_ConversionRate', Piwik::translate('Goals_EcommerceOrder')),
+            'goal_ecommerceOrder_nb_conversions'    => Piwik::translate('General_EcommerceOrders'),
+            'goal_ecommerceOrder_revenue'           => Piwik::translate('General_TotalRevenue'),
+            'goal_ecommerceOrder_revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
+            'goal_ecommerceOrder_avg_order_revenue' => Piwik::translate('General_AverageOrderValue'),
+            'goal_ecommerceOrder_items'             => Piwik::translate('General_PurchasedProducts')
         );
 
-        $goalName = Piwik_Translate('General_EcommerceOrders');
+        $goalName = Piwik::translate('General_EcommerceOrders');
         $view->metrics_documentation += array(
-            'goal_ecommerceOrder_conversion_rate'   => Piwik_Translate('Goals_ColumnConversionRateDocumentation', $goalName),
-            'goal_ecommerceOrder_nb_conversions'    => Piwik_Translate('Goals_ColumnConversionsDocumentation', $goalName),
-            'goal_ecommerceOrder_revenue'           => Piwik_Translate('Goals_ColumnRevenueDocumentation', $goalName),
-            'goal_ecommerceOrder_revenue_per_visit' => Piwik_Translate('Goals_ColumnAverageOrderRevenueDocumentation', $goalName),
-            'goal_ecommerceOrder_avg_order_revenue' => Piwik_Translate('Goals_ColumnAverageOrderRevenueDocumentation', $goalName),
-            'goal_ecommerceOrder_items'             => Piwik_Translate('Goals_ColumnPurchasedProductsDocumentation', $goalName),
-            'revenue_per_visit'                     => Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', $goalName)
+            'goal_ecommerceOrder_conversion_rate'   => Piwik::translate('Goals_ColumnConversionRateDocumentation', $goalName),
+            'goal_ecommerceOrder_nb_conversions'    => Piwik::translate('Goals_ColumnConversionsDocumentation', $goalName),
+            'goal_ecommerceOrder_revenue'           => Piwik::translate('Goals_ColumnRevenueDocumentation', $goalName),
+            'goal_ecommerceOrder_revenue_per_visit' => Piwik::translate('Goals_ColumnAverageOrderRevenueDocumentation', $goalName),
+            'goal_ecommerceOrder_avg_order_revenue' => Piwik::translate('Goals_ColumnAverageOrderRevenueDocumentation', $goalName),
+            'goal_ecommerceOrder_items'             => Piwik::translate('Goals_ColumnPurchasedProductsDocumentation', $goalName),
+            'revenue_per_visit'                     => Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', $goalName)
         );
     }
 
@@ -343,14 +343,14 @@ class HtmlTable extends Visualization
             $column = "goal_{$goal['idgoal']}_conversion_rate";
 
             $view->columns_to_display[] = $column;
-            $view->translations[$column] = Piwik_Translate('Goals_ConversionRate', $goal['name']);
+            $view->translations[$column] = Piwik::translate('Goals_ConversionRate', $goal['name']);
             $view->metrics_documentation[$column]
-                = Piwik_Translate('Goals_ColumnConversionRateDocumentation', $goal['quoted_name'] ? : $goal['name']);
+                = Piwik::translate('Goals_ColumnConversionRateDocumentation', $goal['quoted_name'] ? : $goal['name']);
         }
 
         $view->columns_to_display[] = 'revenue_per_visit';
         $view->metrics_documentation['revenue_per_visit'] =
-            Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_EcommerceAndGoalsMenu'));
+            Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik::translate('Goals_EcommerceAndGoalsMenu'));
     }
 
     private function setPropertiesForGoals($view, $idSite, $idGoals)
@@ -389,20 +389,20 @@ class HtmlTable extends Visualization
             $quotedGoalName = $allGoals[$idGoal]['quoted_name'] ? : $goalName;
 
             $view->translations += array(
-                'goal_' . $idGoal . '_nb_conversions'    => Piwik_Translate('Goals_Conversions', $goalName),
-                'goal_' . $idGoal . '_conversion_rate'   => Piwik_Translate('Goals_ConversionRate', $goalName),
+                'goal_' . $idGoal . '_nb_conversions'    => Piwik::translate('Goals_Conversions', $goalName),
+                'goal_' . $idGoal . '_conversion_rate'   => Piwik::translate('Goals_ConversionRate', $goalName),
                 'goal_' . $idGoal . '_revenue'           =>
-                    Piwik_Translate('%s ' . Piwik_Translate('General_ColumnRevenue'), $goalName),
+                    Piwik::translate('%s ' . Piwik::translate('General_ColumnRevenue'), $goalName),
                 'goal_' . $idGoal . '_revenue_per_visit' =>
-                    Piwik_Translate('%s ' . Piwik_Translate('General_ColumnValuePerVisit'), $goalName),
+                    Piwik::translate('%s ' . Piwik::translate('General_ColumnValuePerVisit'), $goalName),
             );
 
             $view->metrics_documentation += array(
-                'goal_' . $idGoal . '_nb_conversions'    => Piwik_Translate('Goals_ColumnConversionsDocumentation', $quotedGoalName),
-                'goal_' . $idGoal . '_conversion_rate'   => Piwik_Translate('Goals_ColumnConversionRateDocumentation', $quotedGoalName),
-                'goal_' . $idGoal . '_revenue'           => Piwik_Translate('Goals_ColumnRevenueDocumentation', $quotedGoalName),
+                'goal_' . $idGoal . '_nb_conversions'    => Piwik::translate('Goals_ColumnConversionsDocumentation', $quotedGoalName),
+                'goal_' . $idGoal . '_conversion_rate'   => Piwik::translate('Goals_ColumnConversionRateDocumentation', $quotedGoalName),
+                'goal_' . $idGoal . '_revenue'           => Piwik::translate('Goals_ColumnRevenueDocumentation', $quotedGoalName),
                 'goal_' . $idGoal . '_revenue_per_visit' =>
-                    Piwik_Translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik_Translate('Goals_EcommerceAndGoalsMenu')),
+                    Piwik::translate('Goals_ColumnRevenuePerVisitDocumentation', Piwik::translate('Goals_EcommerceAndGoalsMenu')),
             );
         }
 
@@ -418,7 +418,7 @@ class HtmlTable extends Visualization
         if (Site::isEcommerceEnabledFor($idSite)) {
             $ecommerceGoal = array(
                 'idgoal'      => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
-                'name'        => Piwik_Translate('Goals_EcommerceOrder'),
+                'name'        => Piwik::translate('Goals_EcommerceOrder'),
                 'quoted_name' => false
             );
             $allGoals[$ecommerceGoal['idgoal']] = $ecommerceGoal;

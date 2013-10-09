@@ -131,7 +131,7 @@ class Session extends Zend_Session
             $pathToSessions = Filechecks::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/');
             $pathToSessions = SettingsPiwik::rewriteTmpPathWithHostname($pathToSessions);
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
-                Piwik_Translate('General_ExceptionUnableToStartSession'),
+                Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
                 $enableDbSessions,
                 $e->getMessage()

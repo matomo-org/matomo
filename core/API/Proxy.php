@@ -332,7 +332,7 @@ class Proxy
                     }
                 }
             } catch (Exception $e) {
-                throw new Exception(Piwik_TranslateException('General_PleaseSpecifyValue', array($name)));
+                throw new Exception(Piwik::translateException('General_PleaseSpecifyValue', array($name)));
             }
             $finalParameters[] = $requestValue;
         }
@@ -398,7 +398,7 @@ class Proxy
     private function checkMethodExists($className, $methodName)
     {
         if (!$this->isMethodAvailable($className, $methodName)) {
-            throw new Exception(Piwik_TranslateException('General_ExceptionMethodNotFound', array($methodName, $className)));
+            throw new Exception(Piwik::translateException('General_ExceptionMethodNotFound', array($methodName, $className)));
         }
     }
 

@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\UserCountry\LocationProvider;
 
 use Exception;
+use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
@@ -119,7 +120,7 @@ abstract class GeoIp extends LocationProvider
             }
 
             if (!$isResultCorrect) {
-                $unknown = Piwik_Translate('General_Unknown');
+                $unknown = Piwik::translate('General_Unknown');
 
                 $location = "'"
                     . (empty($location[self::CITY_NAME_KEY]) ? $unknown : $location[self::CITY_NAME_KEY])
@@ -134,7 +135,7 @@ abstract class GeoIp extends LocationProvider
                     . $expectedResult[self::COUNTRY_CODE_KEY] . "'";
 
                 $bind = array($testIp, $location, $expectedLocation);
-                return Piwik_Translate('UserCountry_TestIPLocatorFailed', $bind);
+                return Piwik::translate('UserCountry_TestIPLocatorFailed', $bind);
             }
 
             return true;
@@ -160,7 +161,7 @@ abstract class GeoIp extends LocationProvider
         if (isset($regionNames[$countryCode][$regionCode])) {
             return $regionNames[$countryCode][$regionCode];
         } else {
-            return Piwik_Translate('General_Unknown');
+            return Piwik::translate('General_Unknown');
         }
     }
 

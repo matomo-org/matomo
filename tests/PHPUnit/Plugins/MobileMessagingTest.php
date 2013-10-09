@@ -71,7 +71,7 @@ class MobileMessagingTest extends DatabaseTestCase
         fclose($handle);
 
         $this->assertEquals(
-            Piwik_Translate('MobileMessaging_MultiSites_Must_Be_Activated'),
+            \Piwik\Piwik::translate('MobileMessaging_MultiSites_Must_Be_Activated'),
             $contents
         );
     }

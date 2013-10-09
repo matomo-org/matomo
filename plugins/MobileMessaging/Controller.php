@@ -45,7 +45,7 @@ class Controller extends \Piwik\Controller\Admin
         $view->delegatedManagement = $mobileMessagingAPI->getDelegatedManagement();
         $view->credentialSupplied = $mobileMessagingAPI->areSMSAPICredentialProvided();
         $view->accountManagedByCurrentUser = $view->isSuperUser || $view->delegatedManagement;
-        $view->strHelpAddPhone = Piwik_Translate('MobileMessaging_Settings_PhoneNumbers_HelpAdd', array(Piwik_Translate('General_Settings'), Piwik_Translate('MobileMessaging_SettingsMenu')));
+        $view->strHelpAddPhone = Piwik::translate('MobileMessaging_Settings_PhoneNumbers_HelpAdd', array(Piwik::translate('General_Settings'), Piwik::translate('MobileMessaging_SettingsMenu')));
         if ($view->credentialSupplied && $view->accountManagedByCurrentUser) {
             $view->provider = $mobileMessagingAPI->getSMSProvider();
             $view->creditLeft = $mobileMessagingAPI->getCreditLeft();

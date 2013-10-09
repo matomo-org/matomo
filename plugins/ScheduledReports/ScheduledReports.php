@@ -123,7 +123,7 @@ class ScheduledReports extends \Piwik\Plugin
             $availableDisplayFormats = array_keys(self::getDisplayFormats());
             if (!in_array($reportFormat, $availableDisplayFormats)) {
                 throw new Exception(
-                    Piwik_TranslateException(
+                    Piwik::translateException(
                     // General_ExceptionInvalidAggregateReportsFormat should be named General_ExceptionInvalidDisplayFormat
                         'General_ExceptionInvalidAggregateReportsFormat',
                         array($reportFormat, implode(', ', $availableDisplayFormats))
@@ -170,7 +170,7 @@ class ScheduledReports extends \Piwik\Plugin
                 // removing reports from the API category and MultiSites.getOne
                 if (
                     $reportMetadata['category'] == 'API' ||
-                    $reportMetadata['category'] == Piwik_Translate('General_MultiSitesSummary') && $reportMetadata['name'] == Piwik_Translate('General_SingleWebsitesDashboard')
+                    $reportMetadata['category'] == Piwik::translate('General_MultiSitesSummary') && $reportMetadata['name'] == Piwik::translate('General_SingleWebsitesDashboard')
                 ) continue;
 
                 $filteredReportMetadata[] = $reportMetadata;
@@ -272,14 +272,14 @@ class ScheduledReports extends \Piwik\Plugin
             $additionalFiles = $notificationInfo[API::ADDITIONAL_FILES_KEY];
 
             $periods = self::getPeriodToFrequencyAsAdjective();
-            $message = Piwik_Translate('ScheduledReports_EmailHello');
-            $subject = Piwik_Translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
+            $message = Piwik::translate('ScheduledReports_EmailHello');
+            $subject = Piwik::translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
 
             $mail = new Mail();
             $mail->setSubject($subject);
             $fromEmailName = Config::getInstance()->branding['use_custom_logo']
-                ? Piwik_Translate('CoreHome_WebAnalyticsReports')
-                : Piwik_Translate('ScheduledReports_PiwikReports');
+                ? Piwik::translate('CoreHome_WebAnalyticsReports')
+                : Piwik::translate('ScheduledReports_PiwikReports');
             $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
             $attachmentName = $subject;
             $mail->setFrom($fromEmailAddress, $fromEmailName);
@@ -289,7 +289,7 @@ class ScheduledReports extends \Piwik\Plugin
             $segment = API::getSegment($report['idsegment']);
             if ($segment != null) {
                 $displaySegmentInfo = true;
-                $segmentInfo = Piwik_Translate('ScheduledReports_SegmentAppliedToReports', $segment['name']);
+                $segmentInfo = Piwik::translate('ScheduledReports_SegmentAppliedToReports', $segment['name']);
             }
 
             switch ($report['format']) {
@@ -297,7 +297,7 @@ class ScheduledReports extends \Piwik\Plugin
 
                     // Needed when using images as attachment with cid
                     $mail->setType(Zend_Mime::MULTIPART_RELATED);
-                    $message .= "<br/>" . Piwik_Translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
+                    $message .= "<br/>" . Piwik::translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
 
                     if ($displaySegmentInfo) {
                         $message .= " " . $segmentInfo;
@@ -308,7 +308,7 @@ class ScheduledReports extends \Piwik\Plugin
 
                 default:
                 case 'pdf':
-                    $message .= "\n" . Piwik_Translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
+                    $message .= "\n" . Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
 
                     if ($displaySegmentInfo) {
                         $message .= " " . $segmentInfo;
@@ -457,13 +457,13 @@ class ScheduledReports extends \Piwik\Plugin
         if (count($reportsUsingSegment) > 0) {
 
             $reportList = '';
-            $reportNameJoinText = ' ' . Piwik_Translate('General_And') . ' ';
+            $reportNameJoinText = ' ' . Piwik::translate('General_And') . ' ';
             foreach ($reportsUsingSegment as $report) {
                 $reportList .= '\'' . $report['description'] . '\'' . $reportNameJoinText;
             }
             $reportList = rtrim($reportList, $reportNameJoinText);
 
-            $errorMessage = Piwik_Translate('ScheduledReports_Segment_Deletion_Error', $reportList);
+            $errorMessage = Piwik::translate('ScheduledReports_Segment_Deletion_Error', $reportList);
             throw new Exception($errorMessage);
         }
     }
@@ -476,7 +476,7 @@ class ScheduledReports extends \Piwik\Plugin
             true,
             13,
             $isHTML = false,
-            $tooltip = Piwik_Translate(
+            $tooltip = Piwik::translate(
                 \Piwik\PluginsManager::getInstance()->isPluginActivated('MobileMessaging')
                     ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip'
             )
@@ -562,7 +562,7 @@ class ScheduledReports extends \Piwik\Plugin
             if (empty($email)) {
                 $email = false;
             } elseif (!Piwik::isValidEmailString($email)) {
-                throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
+                throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
             }
         }
         $additionalEmails = array_filter($additionalEmails);
@@ -573,12 +573,12 @@ class ScheduledReports extends \Piwik\Plugin
     {
         $displayFormats = array(
             // ScheduledReports_AggregateReportsFormat_TablesOnly should be named ScheduledReports_DisplayFormat_GraphsOnlyForKeyMetrics
-            self::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS => Piwik_Translate('ScheduledReports_AggregateReportsFormat_TablesOnly'),
+            self::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS => Piwik::translate('ScheduledReports_AggregateReportsFormat_TablesOnly'),
             // ScheduledReports_AggregateReportsFormat_GraphsOnly should be named ScheduledReports_DisplayFormat_GraphsOnly
-            self::DISPLAY_FORMAT_GRAPHS_ONLY                 => Piwik_Translate('ScheduledReports_AggregateReportsFormat_GraphsOnly'),
+            self::DISPLAY_FORMAT_GRAPHS_ONLY                 => Piwik::translate('ScheduledReports_AggregateReportsFormat_GraphsOnly'),
             // ScheduledReports_AggregateReportsFormat_TablesAndGraphs should be named ScheduledReports_DisplayFormat_TablesAndGraphs
-            self::DISPLAY_FORMAT_TABLES_AND_GRAPHS           => Piwik_Translate('ScheduledReports_AggregateReportsFormat_TablesAndGraphs'),
-            self::DISPLAY_FORMAT_TABLES_ONLY                 => Piwik_Translate('ScheduledReports_DisplayFormat_TablesOnly'),
+            self::DISPLAY_FORMAT_TABLES_AND_GRAPHS           => Piwik::translate('ScheduledReports_AggregateReportsFormat_TablesAndGraphs'),
+            self::DISPLAY_FORMAT_TABLES_ONLY                 => Piwik::translate('ScheduledReports_DisplayFormat_TablesOnly'),
         );
         return $displayFormats;
     }
@@ -590,10 +590,10 @@ class ScheduledReports extends \Piwik\Plugin
     static public function getPeriodToFrequency()
     {
         return array(
-            ScheduledTime::PERIOD_NEVER => Piwik_Translate('General_Never'),
-            ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_Daily'),
-            ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_Weekly'),
-            ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_Monthly'),
+            ScheduledTime::PERIOD_NEVER => Piwik::translate('General_Never'),
+            ScheduledTime::PERIOD_DAY   => Piwik::translate('General_Daily'),
+            ScheduledTime::PERIOD_WEEK  => Piwik::translate('General_Weekly'),
+            ScheduledTime::PERIOD_MONTH => Piwik::translate('General_Monthly'),
         );
     }
 
@@ -604,11 +604,11 @@ class ScheduledReports extends \Piwik\Plugin
     static public function getPeriodToFrequencyAsAdjective()
     {
         return array(
-            ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_DailyReport'),
-            ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_WeeklyReport'),
-            ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_MonthlyReport'),
-            ScheduledTime::PERIOD_YEAR  => Piwik_Translate('General_YearlyReport'),
-            ScheduledTime::PERIOD_RANGE => Piwik_Translate('General_RangeReports'),
+            ScheduledTime::PERIOD_DAY   => Piwik::translate('General_DailyReport'),
+            ScheduledTime::PERIOD_WEEK  => Piwik::translate('General_WeeklyReport'),
+            ScheduledTime::PERIOD_MONTH => Piwik::translate('General_MonthlyReport'),
+            ScheduledTime::PERIOD_YEAR  => Piwik::translate('General_YearlyReport'),
+            ScheduledTime::PERIOD_RANGE => Piwik::translate('General_RangeReports'),
         );
     }
 }

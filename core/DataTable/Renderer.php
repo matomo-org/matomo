@@ -209,7 +209,7 @@ abstract class Renderer
         } catch (Exception $e) {
             $availableRenderers = implode(', ', self::getRenderers());
             @header('Content-Type: text/plain; charset=utf-8');
-            throw new Exception(Piwik_TranslateException('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
+            throw new Exception(Piwik::translateException('General_ExceptionInvalidRendererFormat', array($className, $availableRenderers)));
         }
     }
 

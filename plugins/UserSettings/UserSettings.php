@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Piwik;
 use Piwik\WidgetsList;
 
 /**
@@ -192,7 +193,7 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetResolution()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations' => array('label' => Piwik_Translate('UserSettings_ColumnResolution'))
+                                                                                'translations' => array('label' => Piwik::translate('UserSettings_ColumnResolution'))
                                                                            ));
     }
 
@@ -200,15 +201,15 @@ class UserSettings extends \Piwik\Plugin
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
                                                                                 'filter_limit' => 3,
-                                                                                'translations' => array('label' => Piwik_Translate('UserSettings_ColumnConfiguration'))
+                                                                                'translations' => array('label' => Piwik::translate('UserSettings_ColumnConfiguration'))
                                                                            ));
     }
 
     private function getDisplayPropertiesForGetOS()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'    => array('label' => Piwik_Translate('UserSettings_ColumnOperatingSystem')),
-                                                                                'title'           => Piwik_Translate('UserSettings_OperatingSystems'),
+                                                                                'translations'    => array('label' => Piwik::translate('UserSettings_ColumnOperatingSystem')),
+                                                                                'title'           => Piwik::translate('UserSettings_OperatingSystems'),
                                                                                 'related_reports' => $this->getOsRelatedReports()
                                                                            ));
     }
@@ -216,8 +217,8 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetOSFamily()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'    => array('label' => Piwik_Translate('UserSettings_OperatingSystemFamily')),
-                                                                                'title'           => Piwik_Translate('UserSettings_OperatingSystemFamily'),
+                                                                                'translations'    => array('label' => Piwik::translate('UserSettings_OperatingSystemFamily')),
+                                                                                'title'           => Piwik::translate('UserSettings_OperatingSystemFamily'),
                                                                                 'related_reports' => $this->getOsRelatedReports()
                                                                            ));
     }
@@ -225,8 +226,8 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetBrowserVersion()
     {
         $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                   'translations'    => array('label' => Piwik_Translate('UserSettings_ColumnBrowserVersion')),
-                                                                                   'title'           => Piwik_Translate('UserSettings_ColumnBrowserVersion'),
+                                                                                   'translations'    => array('label' => Piwik::translate('UserSettings_ColumnBrowserVersion')),
+                                                                                   'title'           => Piwik::translate('UserSettings_ColumnBrowserVersion'),
                                                                                    'related_reports' => $this->getBrowserRelatedReports()
                                                                               ));
         $result['visualization_properties']['graph']['max_graph_elements'] = 7;
@@ -236,8 +237,8 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetBrowser()
     {
         $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                   'translations'    => array('label' => Piwik_Translate('UserSettings_ColumnBrowser')),
-                                                                                   'title'           => Piwik_Translate('UserSettings_Browsers'),
+                                                                                   'translations'    => array('label' => Piwik::translate('UserSettings_ColumnBrowser')),
+                                                                                   'title'           => Piwik::translate('UserSettings_Browsers'),
                                                                                    'related_reports' => $this->getBrowserRelatedReports()
                                                                               ));
         $result['visualization_properties']['graph']['max_graph_elements'] = 7;
@@ -247,7 +248,7 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetBrowserType()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnBrowserFamily')),
+                                                                                'translations'            => array('label' => Piwik::translate('UserSettings_ColumnBrowserFamily')),
                                                                                 'show_offset_information' => false,
                                                                                 'show_pagination_control' => false,
                                                                                 'show_limit_control'      => false,
@@ -258,11 +259,11 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetWideScreen()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')),
+                                                                                'translations'            => array('label' => Piwik::translate('UserSettings_ColumnTypeOfScreen')),
                                                                                 'show_offset_information' => false,
                                                                                 'show_pagination_control' => false,
                                                                                 'show_limit_control'      => false,
-                                                                                'title'                   => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
+                                                                                'title'                   => Piwik::translate('UserSettings_ColumnTypeOfScreen'),
                                                                                 'related_reports'         => $this->getWideScreenDeviceTypeRelatedReports()
                                                                            ));
     }
@@ -270,8 +271,8 @@ class UserSettings extends \Piwik\Plugin
     private function getDisplayPropertiesForGetMobileVsDesktop()
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'    => array('label' => Piwik_Translate('UserSettings_MobileVsDesktop')),
-                                                                                'title'           => Piwik_Translate('UserSettings_MobileVsDesktop'),
+                                                                                'translations'    => array('label' => Piwik::translate('UserSettings_MobileVsDesktop')),
+                                                                                'title'           => Piwik::translate('UserSettings_MobileVsDesktop'),
                                                                                 'related_reports' => $this->getWideScreenDeviceTypeRelatedReports()
                                                                            ));
     }
@@ -280,9 +281,9 @@ class UserSettings extends \Piwik\Plugin
     {
         return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
                                                                                 'translations'            => array(
-                                                                                    'label'                => Piwik_Translate('General_Plugin'),
+                                                                                    'label'                => Piwik::translate('General_Plugin'),
                                                                                     'nb_visits_percentage' =>
-                                                                                        str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits'))
+                                                                                        str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'))
                                                                                 ),
                                                                                 'show_offset_information' => false,
                                                                                 'show_pagination_control' => false,
@@ -293,14 +294,14 @@ class UserSettings extends \Piwik\Plugin
                                                                                 'filter_sort_column'      => 'nb_visits_percentage',
                                                                                 'filter_sort_order'       => 'desc',
                                                                                 'filter_limit'            => 10,
-                                                                                'show_footer_message'     => Piwik_Translate('UserSettings_PluginDetectionDoesNotWorkInIE'),
+                                                                                'show_footer_message'     => Piwik::translate('UserSettings_PluginDetectionDoesNotWorkInIE'),
                                                                            ));
     }
 
     private function getDisplayPropertiesForGetLanguage()
     {
         return array(
-            'translations'                => array('label' => Piwik_Translate('General_Language')),
+            'translations'                => array('label' => Piwik::translate('General_Language')),
             'filter_sort_column'          => 'nb_visits',
             'filter_sort_order'           => 'desc',
             'show_search'                 => false,
@@ -312,24 +313,24 @@ class UserSettings extends \Piwik\Plugin
     private function getWideScreenDeviceTypeRelatedReports()
     {
         return array(
-            'UserSettings.getMobileVsDesktop' => Piwik_Translate('UserSettings_MobileVsDesktop'),
-            'UserSettings.getWideScreen'      => Piwik_Translate('UserSettings_ColumnTypeOfScreen')
+            'UserSettings.getMobileVsDesktop' => Piwik::translate('UserSettings_MobileVsDesktop'),
+            'UserSettings.getWideScreen'      => Piwik::translate('UserSettings_ColumnTypeOfScreen')
         );
     }
 
     private function getBrowserRelatedReports()
     {
         return array(
-            'UserSettings.getBrowser'        => Piwik_Translate('UserSettings_Browsers'),
-            'UserSettings.getBrowserVersion' => Piwik_Translate('UserSettings_ColumnBrowserVersion')
+            'UserSettings.getBrowser'        => Piwik::translate('UserSettings_Browsers'),
+            'UserSettings.getBrowserVersion' => Piwik::translate('UserSettings_ColumnBrowserVersion')
         );
     }
 
     private function getOsRelatedReports()
     {
         return array(
-            'UserSettings.getOSFamily' => Piwik_Translate('UserSettings_OperatingSystemFamily'),
-            'UserSettings.getOS'       => Piwik_Translate('UserSettings_OperatingSystems')
+            'UserSettings.getOSFamily' => Piwik::translate('UserSettings_OperatingSystemFamily'),
+            'UserSettings.getOS'       => Piwik::translate('UserSettings_OperatingSystems')
         );
     }
 
@@ -360,16 +361,16 @@ class UserSettings extends \Piwik\Plugin
             if ($category == false) continue;
 
             $report = array(
-                'category'  => Piwik_Translate($category),
-                'name'      => Piwik_Translate($name),
+                'category'  => Piwik::translate($category),
+                'name'      => Piwik::translate($name),
                 'module'    => $apiModule,
                 'action'    => $apiAction,
-                'dimension' => Piwik_Translate($columnName),
+                'dimension' => Piwik::translate($columnName),
                 'order'     => $i++
             );
 
             $translation = $name . 'Documentation';
-            $translated = Piwik_Translate($translation, '<br />');
+            $translated = Piwik::translate($translation, '<br />');
             if ($translated != $translation) {
                 $report['documentation'] = $translated;
             }
@@ -378,7 +379,7 @@ class UserSettings extends \Piwik\Plugin
             if ($apiAction == 'getPlugin') {
                 $report['metrics'] = array(
                     'nb_visits',
-                    'nb_visits_percentage' => Piwik_Translate('General_ColumnPercentageVisits')
+                    'nb_visits_percentage' => Piwik::translate('General_ColumnPercentageVisits')
                 );
                 // There is no processedMetrics for this report
                 $report['processedMetrics'] = array();
@@ -399,7 +400,7 @@ class UserSettings extends \Piwik\Plugin
             if (empty($segment)) continue;
             $segments[] = array(
                 'type'           => 'dimension',
-                'category'       => Piwik_Translate('General_Visit'),
+                'category'       => Piwik::translate('General_Visit'),
                 'name'           => $columnName,
                 'segment'        => $segment,
                 'acceptedValues' => $acceptedValues,

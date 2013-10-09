@@ -127,7 +127,7 @@ class API
 
         // split the label and put the elements into the 'city_name', 'region', 'country',
         // 'lat' & 'long' metadata fields
-        $strUnknown = Piwik_Translate('General_Unknown');
+        $strUnknown = Piwik::translate('General_Unknown');
         $dataTable->filter('ColumnCallbackAddMetadata',
             array('label', 'city_name', __NAMESPACE__ . '\getElementFromStringArray',
                   array($separator, 0, $strUnknown)));

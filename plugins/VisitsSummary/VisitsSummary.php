@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\VisitsSummary;
 
+use Piwik\Piwik;
 use Piwik\WidgetsList;
 
 /**
@@ -37,8 +38,8 @@ class VisitsSummary extends \Piwik\Plugin
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(
-            'category'         => Piwik_Translate('VisitsSummary_VisitsSummary'),
-            'name'             => Piwik_Translate('VisitsSummary_VisitsSummary'),
+            'category'         => Piwik::translate('VisitsSummary_VisitsSummary'),
+            'name'             => Piwik::translate('VisitsSummary_VisitsSummary'),
             'module'           => 'VisitsSummary',
             'action'           => 'get',
             'metrics'          => array(
@@ -47,8 +48,8 @@ class VisitsSummary extends \Piwik\Plugin
                 'nb_actions',
                 'nb_actions_per_visit',
                 'bounce_rate',
-                'avg_time_on_site' => Piwik_Translate('General_VisitDuration'),
-                'max_actions'      => Piwik_Translate('General_ColumnMaxActions'),
+                'avg_time_on_site' => Piwik::translate('General_VisitDuration'),
+                'max_actions'      => Piwik::translate('General_ColumnMaxActions'),
 // Used to process metrics, not displayed/used directly
 //								'sum_visit_length',
 //								'nb_visits_converted',

@@ -47,12 +47,12 @@ class Provider extends \Piwik\Plugin
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(
-            'category'      => Piwik_Translate('General_Visitors'),
-            'name'          => Piwik_Translate('Provider_ColumnProvider'),
+            'category'      => Piwik::translate('General_Visitors'),
+            'name'          => Piwik::translate('Provider_ColumnProvider'),
             'module'        => 'Provider',
             'action'        => 'getProvider',
-            'dimension'     => Piwik_Translate('Provider_ColumnProvider'),
-            'documentation' => Piwik_Translate('Provider_ProviderReportDocumentation', '<br />'),
+            'dimension'     => Piwik::translate('Provider_ColumnProvider'),
+            'documentation' => Piwik::translate('Provider_ProviderReportDocumentation', '<br />'),
             'order'         => 50
         );
     }
@@ -62,7 +62,7 @@ class Provider extends \Piwik\Plugin
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
-            'name'           => Piwik_Translate('Provider_ColumnProvider'),
+            'name'           => Piwik::translate('Provider_ColumnProvider'),
             'segment'        => 'provider',
             'acceptedValues' => 'comcast.net, proxad.net, etc.',
             'sqlSegment'     => 'log_visit.location_provider'
@@ -210,7 +210,7 @@ class Provider extends \Piwik\Plugin
     static public function footerUserCountry(&$out)
     {
         $out = '<div>
-			<h2>' . Piwik_Translate('Provider_WidgetProviders') . '</h2>';
+			<h2>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
         $out .= '</div>';
     }
@@ -242,7 +242,7 @@ class Provider extends \Piwik\Plugin
     private function getDisplayPropertiesForGetProvider()
     {
         return array(
-            'translations' => array('label' => Piwik_Translate('Provider_ColumnProvider')),
+            'translations' => array('label' => Piwik::translate('Provider_ColumnProvider')),
             'filter_limit' => 5
         );
     }
