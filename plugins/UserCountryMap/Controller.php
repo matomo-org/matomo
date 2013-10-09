@@ -187,7 +187,7 @@ class Controller extends \Piwik\Controller
             'showDateTime'       => Common::getRequestVar('showDateTime', true, 'int'),
             'doNotRefreshVisits' => Common::getRequestVar('doNotRefreshVisits', false, 'int'),
             'enableAnimation'    => Common::getRequestVar('enableAnimation', true, 'int'),
-            'forceNowValue'      => Common::getRequestVar('forceNowValue', true, 'int')
+            'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int')
         );
 
         if ($fetch) {

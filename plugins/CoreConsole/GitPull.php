@@ -30,7 +30,7 @@ class GitPull extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cmd = sprintf('cd %s && git checkout master && git pull && git submodule update --init --recursive', PIWIK_DOCUMENT_ROOT);
+        $cmd = sprintf('cd %s && git checkout master && git pull && git submodule update --init --recursive --remote', PIWIK_DOCUMENT_ROOT);
 
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);

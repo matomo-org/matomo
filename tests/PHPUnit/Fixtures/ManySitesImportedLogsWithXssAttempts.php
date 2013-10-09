@@ -12,6 +12,7 @@ use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\WidgetsList;
 use Piwik\Date;
+use Piwik\Db;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 
@@ -22,6 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs
 class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik_Fixture_ManySitesImportedLogs
 {
     public $now = null;
+    public $visitorIdForDeterministicDate = null;
 
     public function __construct()
     {
@@ -32,10 +34,16 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
     {
         parent::setUp();
 
+        $this->trackVisitsForRealtimeMap(Date::factory('2012-08-11 11:22:33'), $createSeperateVisitors = false);
+
+        $this->visitorIdForDeterministicDate = bin2hex(Db::fetchOne(
+            "SELECT idvisitor FROM " . Common::prefixTable('log_visit')
+          . " WHERE idsite = 2 AND location_latitude IS NOT NULL LIMIT 1"));
+
         $this->setupDashboards();
         $this->setupXssSegment();
         $this->addAnnotations();
-        $this->trackVisitsForRealtimeMap();
+        $this->trackVisitsForRealtimeMap($this->now);
     }
 
     public function setUpWebsitesAndGoals()
@@ -146,9 +154,9 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         APIAnnotations::getInstance()->add($this->idSite, '2012-08-10', "Note 3", $starred = 1);
     }
 
-    public function trackVisitsForRealtimeMap()
+    public function trackVisitsForRealtimeMap($date, $createSeperateVisitors = true)
     {
-        $dateTime = $this->now->addHour(-1.25)->getDatetime();
+        $dateTime = $date->addHour(-1.25)->getDatetime();
         $idSite = 2;
 
         $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(-3)->getDatetime(), $defaultInit = true, $useLocal = true);
@@ -156,7 +164,12 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $t->setUrl('http://example.org/index1.htm');
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = true);
+        if ($createSeperateVisitors) {
+            $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = true);
+        } else {
+            $t->setForceVisitDateTime($dateTime);
+        }
+
         $t->setTokenAuth(self::getTokenAuth());
         $t->setUrl('http://example.org/index1.htm');
         $t->setCountry('jp');
@@ -166,7 +179,12 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $t->setLongitude(139.71);
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
-        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(0.5)->getDatetime(), $defaultInit = true, $useLocal = true);
+        if ($createSeperateVisitors) {
+            $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(0.5)->getDatetime(), $defaultInit = true, $useLocal = true);
+        } else {
+            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
+        }
+
         $t->setTokenAuth(self::getTokenAuth());
         $t->setUrl('http://example.org/index2.htm');
         $t->setCountry('ca');
@@ -176,7 +194,12 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $t->setLongitude(-73.58);
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
-        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(1)->getDatetime(), $defaultInit = true, $useLocal = true);
+        if ($createSeperateVisitors) {
+            $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(1)->getDatetime(), $defaultInit = true, $useLocal = true);
+        } else {
+            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
+        }
+
         $t->setTokenAuth(self::getTokenAuth());
         $t->setUrl('http://example.org/index3.htm');
         $t->setCountry('br');
