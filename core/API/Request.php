@@ -183,10 +183,8 @@ class Request
         if ($token_auth) {
 
             /**
-             * This event will be triggered if the token_auth is found in the $request parameter. In this case the
-             * current session will be authenticated using this token_auth. It will overwrite the previous `Auth`
-             * object.
-             * @matt
+             * This event is triggered when authenticating the API call, only if the token_auth is found in the request.
+             * In this case the current session should authenticate using this token_auth.
              */
             Piwik_PostEvent('API.Request.authenticate', array($token_auth));
             Access::getInstance()->reloadAccess();

@@ -45,7 +45,7 @@
                 <div class="tracking-option-section">
                     <input type="checkbox" id="javascript-tracking-all-subdomains"/>
                     <label for="javascript-tracking-all-subdomains">{{ 'CoreAdminHome_JSTracking_MergeSubdomains'|translate }}
-                        <span class='current-site-name'>{{ defaultReportSiteName }}</span>
+                        <span class='current-site-name'>{{ defaultReportSiteName|raw }}</span>
                     </label>
 
                     <div class="small-form-description">
@@ -67,7 +67,7 @@
                 <div class="tracking-option-section">
                     <input type="checkbox" id="javascript-tracking-all-aliases"/>
                     <label for="javascript-tracking-all-aliases">{{ 'CoreAdminHome_JSTracking_MergeAliases'|translate }}
-                        <span class='current-site-name'>{{ defaultReportSiteName }}</span>
+                        <span class='current-site-name'>{{ defaultReportSiteName|raw }}</span>
                     </label>
 
                     <div class="small-form-description">

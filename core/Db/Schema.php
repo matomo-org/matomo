@@ -130,23 +130,15 @@ class Schema
      */
     private function loadSchema()
     {
-        $schema = null;
-        /**
-         * @matt can be removed?
-         */
-        Piwik_PostEvent('Schema.loadSchema', array(&$schema));
-        if ($schema === null) {
-            $config = Config::getInstance();
-            $dbInfos = $config->database;
-            if (isset($dbInfos['schema'])) {
-                $schemaName = $dbInfos['schema'];
-            } else {
-                $schemaName = 'Myisam';
-            }
-            $className = self::getSchemaClassName($schemaName);
-            $schema = new $className();
+        $config = Config::getInstance();
+        $dbInfos = $config->database;
+        if (isset($dbInfos['schema'])) {
+            $schemaName = $dbInfos['schema'];
+        } else {
+            $schemaName = 'Myisam';
         }
-        $this->schema = $schema;
+        $className = self::getSchemaClassName($schemaName);
+        $this->schema = new $className();
     }
 
     /**

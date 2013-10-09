@@ -60,14 +60,15 @@ class SettingsPiwik
     {
         if (self::$cachedKnownSegmentsToArchive === null) {
             $segments = Config::getInstance()->Segments;
-            $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
+            $segmentsToProcess = isset($segments['Segments']) ? $segments['Segments'] : array();
 
             /**
-             * @matt
+             * This event is triggered when the automatic archiving runs.
+             * You can use it to add segments to the list of segments to pre-process during archiving.
              */
-            Piwik_PostEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$cachedResult));
+            Piwik_PostEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
 
-            self::$cachedKnownSegmentsToArchive = array_unique($cachedResult);
+            self::$cachedKnownSegmentsToArchive = array_unique($segmentsToProcess);
         }
 
         return self::$cachedKnownSegmentsToArchive;

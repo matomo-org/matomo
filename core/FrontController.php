@@ -326,9 +326,8 @@ class FrontController
             Access::getInstance();
 
             /**
-             * This event is triggered after the platform is initialized and most plugins are loaded. The user is not
-             * authenticated at this point though. You can use this event for instance to initialize your own plugin.
-             * @matt
+             * This event is the first event triggered just after the platform is initialized and plugins are loaded.
+             * You can use this event to do early initialization. Note: the user is not authenticated yet.
              */
             Piwik_PostEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
@@ -340,10 +339,8 @@ class FrontController
             }
 
             /**
-             * This event is triggered shortly before the user is authenticated. Use it to create your own
-             * authentication object instead of the Piwik authentication. Make sure to implement the `Piwik\Auth`
-             * interface in case you want to define your own authentication.
-             * @matt here we have a problem if multiple plugins listen to this event?
+             * This event is triggered before the user is authenticated. You can use it to create your own
+             * authentication object which implements the `Piwik\Auth` interface, and override the default authentication logic.
              */
             Piwik_PostEvent('Request.initAuthenticationObject');
             try {

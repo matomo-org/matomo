@@ -335,7 +335,7 @@ class Goals extends \Piwik\Plugin
         unset($goalMetrics['nb_visits_converted']);
 
         $reportsWithGoals = self::getAllReportsWithGoalMetrics();
-        
+
         foreach ($reportsWithGoals as $reportWithGoals) {
             // Select this report from the API metadata array
             // and add the Goal metrics to it
@@ -356,8 +356,8 @@ class Goals extends \Piwik\Plugin
         $reportsWithGoals = array();
 
         /*
-         * This event is triggered to define available goal segments.
-         * @matt
+         * This event is triggered by the Goals plugin to gather the list of all reports which define Goal metrics (conversions, revenue).
+         * You can use this event to add your report to the list of reports displayed in the left column of the Goals Overview report.
          */
         Piwik_PostEvent('Goals.getReportsWithGoalMetrics', array(&$reportsWithGoals));
 
@@ -384,18 +384,19 @@ class Goals extends \Piwik\Plugin
      */
     public function getActualReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions = array_merge($dimensions, array(
-                                                    array('category' => Piwik_Translate('General_Visit'),
-                                                          'name'     => Piwik_Translate('Goals_VisitsUntilConv'),
-                                                          'module'   => 'Goals',
-                                                          'action'   => 'getVisitsUntilConversion'
-                                                    ),
-                                                    array('category' => Piwik_Translate('General_Visit'),
-                                                          'name'     => Piwik_Translate('Goals_DaysToConv'),
-                                                          'module'   => 'Goals',
-                                                          'action'   => 'getDaysToConversion'
-                                                    )
-                                               ));
+        $reportWithGoalMetrics = array(
+            array('category' => Piwik_Translate('General_Visit'),
+                  'name'     => Piwik_Translate('Goals_VisitsUntilConv'),
+                  'module'   => 'Goals',
+                  'action'   => 'getVisitsUntilConversion'
+            ),
+            array('category' => Piwik_Translate('General_Visit'),
+                  'name'     => Piwik_Translate('Goals_DaysToConv'),
+                  'module'   => 'Goals',
+                  'action'   => 'getDaysToConversion'
+            )
+        );
+        $dimensions = array_merge($dimensions, $reportWithGoalMetrics);
     }
 
     public function getSegmentsMetadata(&$segments)

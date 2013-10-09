@@ -139,7 +139,7 @@
                         {% if anonymousSites is not empty %}
                             <select id="anonymousDefaultReportWebsite">
                                 {% for info in anonymousSites %}
-                                    <option value="{{ info.idsite }}" {% if anonymousDefaultReport==info.idsite %} selected="selected"{% endif %}>{{ info.name }}</option>
+                                    <option value="{{ info.idsite }}" {% if anonymousDefaultReport==info.idsite %} selected="selected"{% endif %}>{{ info.name|raw }}</option>
                                 {% endfor %}
                             </select>
                         {% endif %}

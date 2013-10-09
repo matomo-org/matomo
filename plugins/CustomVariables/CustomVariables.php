@@ -124,13 +124,11 @@ class CustomVariables extends \Piwik\Plugin
      */
     public function getReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions = array_merge($dimensions, array(
-                                                    array('category' => Piwik_Translate('General_Visit'),
-                                                          'name'     => Piwik_Translate('CustomVariables_CustomVariables'),
-                                                          'module'   => 'CustomVariables',
-                                                          'action'   => 'getCustomVariables',
-                                                    ),
-                                               ));
+        $dimensions[] = array('category' => Piwik_Translate('General_Visit'),
+                              'name'     => Piwik_Translate('CustomVariables_CustomVariables'),
+                              'module'   => 'CustomVariables',
+                              'action'   => 'getCustomVariables',
+        );
     }
 
     /**
