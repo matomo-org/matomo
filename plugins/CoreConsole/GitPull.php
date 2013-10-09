@@ -28,14 +28,30 @@ class GitPull extends Command
         $this->setDescription('Pull Piwik repo and all submodules');
     }
 
+    protected function getBranchName()
+    {
+        $cmd    = sprintf('cd %s && git rev-parse --abbrev-ref HEAD', PIWIK_DOCUMENT_ROOT);
+        $branch = shell_exec($cmd);
+
+        return trim($branch);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cmd = sprintf('cd %s && git checkout master && git pull && git submodule update --init --recursive --remote', PIWIK_DOCUMENT_ROOT);
+        if ('master' != $this->getBranchName()) {
+            $output->writeln('<info>Doing nothing because you are not on the master branch in super repo.</info>');
+            return;
+        }
 
-        $output->writeln('Executing command: ' . $cmd);
-        passthru($cmd);
+        $cmd = sprintf('cd %s && git checkout master && git pull && git submodule update --init --recursive --remote', PIWIK_DOCUMENT_ROOT);
+        $this->passthru($cmd, $output);
 
         $cmd = 'git submodule foreach "(git checkout master; git pull)&"';
+        $this->passthru($cmd, $output);
+    }
+
+    private function passthru($cmd, OutputInterface $output)
+    {
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);
     }
