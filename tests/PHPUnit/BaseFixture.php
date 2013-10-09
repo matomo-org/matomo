@@ -354,6 +354,8 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         // unzip the dump
         exec("gunzip -c \"" . $outfileName . "\" > \"$deflatedOut\"", $output, $return);
         if ($return !== 0) {
+            \Piwik\Log::info("gunzip failed with file that has following contents:");
+            \Piwik\Log::info(file_get_contents($outfile));
             throw new Exception("gunzip failed($return): " . implode("\n", $output));
         }
     }
