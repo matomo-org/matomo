@@ -30,8 +30,7 @@ class GitPush extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cmd = sprintf('cd %s && git push --recurse-submodules=check', PIWIK_DOCUMENT_ROOT);
-
+        $cmd = sprintf('cd %s && git push --recurse-submodules=on-demand', PIWIK_DOCUMENT_ROOT);
         $output->writeln('Executing command: ' . $cmd);
         passthru($cmd);
     }
