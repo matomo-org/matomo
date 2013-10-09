@@ -12,6 +12,8 @@ namespace Piwik\Controller;
 
 use Piwik\Config;
 use Piwik\Controller;
+use Piwik\Menu\MenuAdmin;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\PluginsManager;
 use Piwik\Url;
@@ -52,8 +54,8 @@ abstract class Admin extends Controller
             $view->statisticsNotRecorded = true;
         }
 
-        $view->topMenu = Piwik_GetTopMenu();
-        $view->currentAdminMenuName = \Piwik\Menu\Admin::getInstance()->getCurrentAdminMenuName();
+        $view->topMenu = MenuTop::getInstance()->getMenu();
+        $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
         $view->enableFrames = Config::getInstance()->General['enable_framed_settings'];
         if (!$view->enableFrames) {
@@ -83,7 +85,8 @@ abstract class Admin extends Controller
 
         self::checkPhpVersion($view);
 
-        $view->menu = Piwik_GetAdminMenu();
+        $adminMenu = MenuAdmin::getInstance()->getMenu();
+        $view->adminMenu = $adminMenu;
     }
 
     static protected function getPiwikVersion()

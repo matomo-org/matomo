@@ -13,6 +13,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
+use Piwik\Menu\MenuTop;
 use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\Range;
@@ -423,7 +424,7 @@ abstract class Controller
 
             $this->setBasicVariablesView($view);
 
-            $view->topMenu = Piwik_GetTopMenu();
+            $view->topMenu = MenuTop::getInstance()->getMenu();
         } catch (Exception $e) {
             Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
         }

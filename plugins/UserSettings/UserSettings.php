@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\UserSettings;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
 
@@ -428,7 +429,7 @@ class UserSettings extends \Piwik\Plugin
      */
     function addMenu()
     {
-        Piwik_AddMenu('General_Visitors', 'General_Settings', array('module' => 'UserSettings', 'action' => 'index'));
+        MenuMain::getInstance()->add('General_Visitors', 'General_Settings', array('module' => 'UserSettings', 'action' => 'index'));
     }
 
     /**

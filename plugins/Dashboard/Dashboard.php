@@ -13,6 +13,8 @@ namespace Piwik\Plugins\Dashboard;
 use Exception;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Menu\MenuMain;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\WidgetsList;
@@ -198,7 +200,7 @@ class Dashboard extends \Piwik\Plugin
 
     public function addMenus()
     {
-        Piwik_AddMenu('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => 1), true, 5);
+        MenuMain::getInstance()->add('Dashboard_Dashboard', '', array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => 1), true, 5);
 
         if (!Piwik::isUserIsAnonymous()) {
             $login = Piwik::getCurrentUserLogin();
@@ -207,7 +209,7 @@ class Dashboard extends \Piwik\Plugin
             if (count($dashboards) > 1) {
                 $pos = 0;
                 foreach ($dashboards AS $dashboard) {
-                    Piwik_AddMenu('Dashboard_Dashboard', $dashboard['name'], array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
+                    MenuMain::getInstance()->add('Dashboard_Dashboard', $dashboard['name'], array('module' => 'Dashboard', 'action' => 'embeddedIndex', 'idDashboard' => $dashboard['iddashboard']), true, $pos);
                     $pos++;
                 }
             }
@@ -225,7 +227,7 @@ class Dashboard extends \Piwik\Plugin
         }
 
         $urlParams = array('module' => 'CoreHome', 'action' => 'index');
-        Piwik_AddTopMenu('Dashboard_Dashboard', $urlParams, true, 1, $isHTML = false, $tooltip);
+        MenuTop::addEntry('Dashboard_Dashboard', $urlParams, true, 1, $isHTML = false, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)

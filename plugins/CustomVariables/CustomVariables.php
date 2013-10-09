@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Tracker;
 use Piwik\WidgetsList;
@@ -52,7 +53,7 @@ class CustomVariables extends \Piwik\Plugin
 
     public function addMenus()
     {
-        Piwik_AddMenu('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
+        MenuMain::getInstance()->add('General_Visitors', 'CustomVariables_CustomVariables', array('module' => 'CustomVariables', 'action' => 'index'), $display = true, $order = 50);
     }
 
     /**

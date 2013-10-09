@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\FrontController;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
@@ -72,7 +73,7 @@ class Controller extends \Piwik\Controller
     {
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
-        $view->menu = Piwik_GetMenu();
+        $view->menu = MenuMain::getInstance()->getMenu();
         $view->content = '';
         return $view;
     }

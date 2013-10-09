@@ -13,6 +13,7 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\Common;
 
 use Piwik\Date;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
@@ -41,7 +42,7 @@ class DBStats extends \Piwik\Plugin
 
     function addMenu()
     {
-        Piwik_AddAdminSubMenu('CoreAdminHome_MenuDiagnostic', 'DBStats_DatabaseUsage',
+        MenuAdmin::getInstance()->add('CoreAdminHome_MenuDiagnostic', 'DBStats_DatabaseUsage',
             array('module' => 'DBStats', 'action' => 'index'),
             Piwik::isUserIsSuperUser(),
             $order = 6);

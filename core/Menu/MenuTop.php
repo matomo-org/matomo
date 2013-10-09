@@ -20,7 +20,7 @@ class MenuTop extends MenuAbstract
     static private $instance = null;
 
     /**
-     * @return \Piwik\Menu\MenuTop
+     * @return MenuTop
      */
     static public function getInstance()
     {
@@ -29,6 +29,28 @@ class MenuTop extends MenuAbstract
         }
         return self::$instance;
     }
+
+
+    /**
+     * Adds a new entry to the TopMenu.
+     *
+     * @param string $topMenuName
+     * @param string $data
+     * @param boolean $displayedForCurrentUser
+     * @param int $order
+     * @param bool $isHTML
+     * @param bool|string $tooltip Tooltip to display.
+     * @api
+     */
+    public static function addEntry($topMenuName, $data, $displayedForCurrentUser = true, $order = 10, $isHTML = false, $tooltip = false)
+    {
+        if ($isHTML) {
+            MenuTop::getInstance()->addHtml($topMenuName, $data, $displayedForCurrentUser, $order, $tooltip);
+        } else {
+            MenuTop::getInstance()->add($topMenuName, null, $data, $displayedForCurrentUser, $order, $tooltip);
+        }
+    }
+
 
     /**
      * Directly adds a menu entry containing html.
@@ -52,7 +74,7 @@ class MenuTop extends MenuAbstract
     }
 
     /**
-     * Triggers the Menu.MenuTop.addItems hook and returns the menu.
+     * Triggers the Menu.Top.addItems hook and returns the menu.
      *
      * @return Array
      */
@@ -71,7 +93,7 @@ class MenuTop extends MenuAbstract
              * ```
              * public function addMenuItems()
              * {
-             *     Piwik_AddTopMenu(
+             *     MenuTop::addEntry(
              *         'TopMenuName',
              *         array('module' => 'MyPlugin', 'action' => 'index'),
              *         Piwik::isUserIsSuperUser(),
@@ -80,7 +102,7 @@ class MenuTop extends MenuAbstract
              * }
              * ```
              */
-            Piwik::postEvent('Menu.MenuTop.addItems');
+            Piwik::postEvent('Menu.Top.addItems');
         }
         return parent::getMenu();
     }

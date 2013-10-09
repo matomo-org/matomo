@@ -13,6 +13,8 @@ namespace Piwik\Plugins\UserCountry;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\IP;
+use Piwik\Menu\MenuAdmin;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -186,15 +188,15 @@ class UserCountry extends \Piwik\Plugin
 
     public function addMenu()
     {
-        Piwik_AddMenu('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
+        MenuMain::getInstance()->add('General_Visitors', 'UserCountry_SubmenuLocations', array('module' => 'UserCountry', 'action' => 'index'));
     }
 
     /**
-     * Event handler. Adds menu items to the Admin menu.
+     * Event handler. Adds menu items to the MenuAdmin menu.
      */
     public function addAdminMenu()
     {
-        Piwik_AddAdminSubMenu('General_Settings', 'UserCountry_Geolocation',
+        MenuAdmin::getInstance()->add('General_Settings', 'UserCountry_Geolocation',
             array('module' => 'UserCountry', 'action' => 'adminIndex'),
             Piwik::isUserIsSuperUser(),
             $order = 8);

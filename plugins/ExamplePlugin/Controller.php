@@ -85,7 +85,7 @@ class Controller extends \Piwik\Controller
         $out .= '<code>$this->str_date</code> = current selected date in YYYY-MM-DD format<br />';
 
         $out .= '<h3>Misc</h3>';
-        $out .= '<code>Piwik_AddMenu( $mainMenuName, $subMenuName, $url );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="https://github.com/piwik/piwik/blob/1.0/plugins/UserCountry/UserCountry.php#L76">UserCountry Plugin file</a>)<br />';
+        $out .= '<code>\Piwik\Menu\Main::getInstance()->add( $mainMenuName, $subMenuName, $url );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="https://github.com/piwik/piwik/blob/1.0/plugins/UserCountry/UserCountry.php#L76">UserCountry Plugin file</a>)<br />';
         $out .= '<code>WidgetsList::add( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array());</code> - Adds a widget that users can add in the dashboard, or export using the Widgets link at the top of the screen. See the example in the <a href="https://github.com/piwik/piwik/blob/1.0/plugins/UserCountry/UserCountry.php#L70">UserCountry Plugin file</a> or any other plugin)<br />';
         $out .= '<code>Common::prefixTable("site")</code> = <b>' . Common::prefixTable("site") . '</b><br />';
 

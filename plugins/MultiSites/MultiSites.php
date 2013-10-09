@@ -9,6 +9,7 @@
  * @package MultiSites
  */
 namespace Piwik\Plugins\MultiSites;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 
 
@@ -78,7 +79,7 @@ class MultiSites extends \Piwik\Plugin
     {
         $urlParams = array('module' => 'MultiSites', 'action' => 'index', 'segment' => false);
         $tooltip = Piwik::translate('MultiSites_TopLinkTooltip');
-        Piwik_AddTopMenu('General_MultiSitesSummary', $urlParams, true, 3, $isHTML = false, $tooltip);
+        MenuTop::addEntry('General_MultiSitesSummary', $urlParams, true, 3, $isHTML = false, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)

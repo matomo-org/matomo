@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\VisitFrequency;
 
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
 
@@ -65,6 +66,6 @@ class VisitFrequency extends \Piwik\Plugin
 
     function addMenu()
     {
-        Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency', 'action' => 'index'));
+        MenuMain::getInstance()->add('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency', 'action' => 'index'));
     }
 }

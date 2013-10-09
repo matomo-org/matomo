@@ -14,6 +14,7 @@ use Exception;
 use Piwik\ArchiveProcessor;
 
 use Piwik\Common;
+use Piwik\Menu\MenuMain;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Site;
@@ -88,7 +89,7 @@ class VisitTime extends \Piwik\Plugin
 
     function addMenu()
     {
-        Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
+        MenuMain::getInstance()->add('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
     }
 
     public function getReportsWithGoalMetrics(&$dimensions)

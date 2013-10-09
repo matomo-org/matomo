@@ -13,6 +13,7 @@ namespace Piwik\Plugins\VisitorInterest;
 use Piwik\ArchiveProcessor;
 
 use Piwik\FrontController;
+use Piwik\Menu\MenuMain;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
@@ -110,7 +111,7 @@ class VisitorInterest extends \Piwik\Plugin
 
     public function addMenu()
     {
-        Piwik_RenameMenuEntry('General_Visitors', 'VisitFrequency_SubmenuFrequency',
+        MenuMain::getInstance()->rename('General_Visitors', 'VisitFrequency_SubmenuFrequency',
             'General_Visitors', 'VisitorInterest_Engagement');
     }
 

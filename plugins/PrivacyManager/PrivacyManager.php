@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Metrics;
 
 use Piwik\Option;
@@ -97,7 +98,7 @@ class PrivacyManager extends \Piwik\Plugin
 
     function addMenu()
     {
-        Piwik_AddAdminMenu('PrivacyManager_MenuPrivacySettings',
+        MenuAdmin::addEntry('PrivacyManager_MenuPrivacySettings',
             array('module' => 'PrivacyManager', 'action' => 'privacySettings'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 7);

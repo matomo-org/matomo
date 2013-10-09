@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Live;
 
 
 use Piwik\Common;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
 
@@ -52,7 +53,7 @@ class Live extends \Piwik\Plugin
 
     public function addMenu()
     {
-        Piwik_AddMenu('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'indexVisitorLog'), true, $order = 5);
+        MenuMain::getInstance()->add('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'indexVisitorLog'), true, $order = 5);
     }
 
     public function addWidget()

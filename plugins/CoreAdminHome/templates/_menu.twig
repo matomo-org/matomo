@@ -1,7 +1,7 @@
-{% if menu|length > 1 %}
+{% if adminMenu|length > 1 %}
     <div class="Menu Menu--admin">
         <ul class="Menu-tabList">
-        {% for name,submenu in menu %}
+        {% for name,submenu in adminMenu %}
             {% if submenu._hasSubmenu %}
             <li>
                 <span>{{ name|translate }}</span>

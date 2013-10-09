@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Menu\MenuMain;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\SegmentExpression;
@@ -565,16 +566,16 @@ class Actions extends \Piwik\Plugin
 
     function addMenus()
     {
-        Piwik_AddMenu('General_Actions', '', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 15);
-        Piwik_AddMenu('General_Actions', 'General_Pages', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 1);
-        Piwik_AddMenu('General_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'indexEntryPageUrls'), true, 2);
-        Piwik_AddMenu('General_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'indexExitPageUrls'), true, 3);
-        Piwik_AddMenu('General_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'indexPageTitles'), true, 4);
-        Piwik_AddMenu('General_Actions', 'General_Outlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 6);
-        Piwik_AddMenu('General_Actions', 'General_Downloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 7);
+        MenuMain::getInstance()->add('General_Actions', '', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 15);
+        MenuMain::getInstance()->add('General_Actions', 'General_Pages', array('module' => 'Actions', 'action' => 'indexPageUrls'), true, 1);
+        MenuMain::getInstance()->add('General_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'indexEntryPageUrls'), true, 2);
+        MenuMain::getInstance()->add('General_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'indexExitPageUrls'), true, 3);
+        MenuMain::getInstance()->add('General_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'indexPageTitles'), true, 4);
+        MenuMain::getInstance()->add('General_Actions', 'General_Outlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 6);
+        MenuMain::getInstance()->add('General_Actions', 'General_Downloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 7);
 
         if ($this->isSiteSearchEnabled()) {
-            Piwik_AddMenu('General_Actions', 'Actions_SubmenuSitesearch', array('module' => 'Actions', 'action' => 'indexSiteSearch'), true, 5);
+            MenuMain::getInstance()->add('General_Actions', 'Actions_SubmenuSitesearch', array('module' => 'Actions', 'action' => 'indexSiteSearch'), true, 5);
         }
     }
 

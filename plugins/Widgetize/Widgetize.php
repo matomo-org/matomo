@@ -11,6 +11,7 @@
  */
 
 namespace Piwik\Plugins\Widgetize;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 
 /**
@@ -37,7 +38,7 @@ class Widgetize extends \Piwik\Plugin
         $tooltip = Piwik::translate('Widgetize_TopLinkTooltip');
         $urlParams = array('module' => 'Widgetize', 'action' => 'index', 'segment' => false);
 
-        Piwik_AddTopMenu('General_Widgets', $urlParams, true, 5, $isHTML = false, $tooltip);
+        MenuTop::addEntry('General_Widgets', $urlParams, true, 5, $isHTML = false, $tooltip);
     }
 
     public function getJsFiles(&$jsFiles)

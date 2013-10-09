@@ -14,6 +14,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 
 use Piwik\Db;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
@@ -458,18 +459,18 @@ class Goals extends \Piwik\Plugin
         $mainGoalMenu = $this->getGoalCategoryName($idSite);
         $site = new Site($idSite);
         if (count($goals) == 0) {
-            Piwik_AddMenu($mainGoalMenu, '', array(
+            MenuMain::getInstance()->add($mainGoalMenu, '', array(
                                                   'module' => 'Goals',
                                                   'action' => ($site->isEcommerceEnabled() ? 'ecommerceReport' : 'addNewGoal'),
                                                   'idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null)),
                 true,
                 25);
             if ($site->isEcommerceEnabled()) {
-                Piwik_AddMenu($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER), true, 1);
+                MenuMain::getInstance()->add($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER), true, 1);
             }
-            Piwik_AddMenu($mainGoalMenu, 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
+            MenuMain::getInstance()->add($mainGoalMenu, 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
         } else {
-            Piwik_AddMenu($mainGoalMenu, '', array(
+            MenuMain::getInstance()->add($mainGoalMenu, '', array(
                                                   'module' => 'Goals',
                                                   'action' => ($site->isEcommerceEnabled() ? 'ecommerceReport' : 'index'),
                                                   'idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null)),
@@ -477,11 +478,11 @@ class Goals extends \Piwik\Plugin
                 25);
 
             if ($site->isEcommerceEnabled()) {
-                Piwik_AddMenu($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER), true, 1);
+                MenuMain::getInstance()->add($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER), true, 1);
             }
-            Piwik_AddMenu($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), true, 2);
+            MenuMain::getInstance()->add($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), true, 2);
             foreach ($goals as $goal) {
-                Piwik_AddMenu($mainGoalMenu, str_replace('%', '%%', Translate::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+                MenuMain::getInstance()->add($mainGoalMenu, str_replace('%', '%%', Translate::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
             }
         }
     }

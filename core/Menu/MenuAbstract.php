@@ -36,7 +36,7 @@ abstract class MenuAbstract
      *
      * @return Array
      */
-    public function get()
+    public function getMenu()
     {
         $this->buildMenu();
         $this->applyEdits();
@@ -55,7 +55,7 @@ abstract class MenuAbstract
      * @param int $order
      * @param bool|string $tooltip Tooltip to display.
      */
-    public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50, $tooltip = false)
+    public function add($menuName, $subMenuName, $url, $displayedForCurrentUser = true, $order = 50, $tooltip = false)
     {
         if ($displayedForCurrentUser) {
             // make sure the idSite value used is numeric (hack-y fix for #3426)

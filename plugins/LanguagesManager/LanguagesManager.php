@@ -17,6 +17,7 @@ use Piwik\Config;
 use Piwik\Cookie;
 
 use Piwik\Db;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Translate;
 use Piwik\View;
@@ -54,7 +55,7 @@ class LanguagesManager extends \Piwik\Plugin
 
     public function showLanguagesSelector()
     {
-        Piwik_AddTopMenu('LanguageSelector', $this->getLanguagesSelector(), true, $order = 30, true);
+        MenuTop::addEntry('LanguageSelector', $this->getLanguagesSelector(), true, $order = 30, true);
     }
 
     /**

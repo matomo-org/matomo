@@ -38,7 +38,6 @@ session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
 require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
 
 if(!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
     define('PIWIK_PRINT_ERROR_BACKTRACE', false);

@@ -18,6 +18,7 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Filesystem;
+use Piwik\Menu\MenuTop;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -666,7 +667,7 @@ class Plugin extends \Piwik\Plugin
         $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
         $tooltip = Piwik::translate('API_TopLinkTooltip');
 
-        Piwik_AddTopMenu('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
+        MenuTop::addEntry('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
 
         $this->addTopMenuMobileApp();
     }
@@ -679,7 +680,7 @@ class Plugin extends \Piwik\Plugin
         require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
         $os = \UserAgentParser::getOperatingSystem($_SERVER['HTTP_USER_AGENT']);
         if ($os && in_array($os['id'], array('AND', 'IPD', 'IPA', 'IPH'))) {
-            Piwik_AddTopMenu('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
+            MenuTop::addEntry('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
         }
     }
 

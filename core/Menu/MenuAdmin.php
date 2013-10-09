@@ -20,7 +20,7 @@ class MenuAdmin extends MenuAbstract
     static private $instance = null;
 
     /**
-     * @return \Piwik\Menu\MenuAdmin
+     * @return MenuAdmin
      */
     static public function getInstance()
     {
@@ -63,7 +63,7 @@ class MenuAdmin extends MenuAbstract
              * ```
              * public function addMenuItems()
              * {
-             *     \Piwik\Menu\MenuAdmin::getInstance()->add(
+             *     MenuAdmin::getInstance()->add(
              *         'MenuName',
              *         'SubmenuName',
              *         array('module' => 'MyPlugin', 'action' => 'index'),
@@ -73,7 +73,7 @@ class MenuAdmin extends MenuAbstract
              * }
              * ```
              */
-            Piwik::postEvent('Menu.MenuAdmin.addItems');
+            Piwik::postEvent('Menu.Admin.addItems');
         }
         return parent::getMenu();
     }
@@ -85,7 +85,7 @@ class MenuAdmin extends MenuAbstract
      */
     function getCurrentAdminMenuName()
     {
-        $menu = \Piwik\Menu\MenuAdmin::getInstance();
+        $menu = MenuAdmin::getInstance()->getMenu();
         $currentModule = Piwik::getModule();
         $currentAction = Piwik::getAction();
         foreach ($menu as $submenu) {

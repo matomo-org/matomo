@@ -17,6 +17,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
 use UserAgentParserEnhanced;
@@ -290,7 +291,7 @@ class DevicesDetection extends \Piwik\Plugin
 
     public function addMenu()
     {
-        Piwik_AddMenu('General_Visitors', 'DevicesDetection_submenu', array('module' => 'DevicesDetection', 'action' => 'index'));
+        MenuMain::getInstance()->add('General_Visitors', 'DevicesDetection_submenu', array('module' => 'DevicesDetection', 'action' => 'index'));
     }
 
     public function getReportDisplayProperties(&$properties)

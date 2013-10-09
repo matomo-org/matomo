@@ -10,6 +10,7 @@
  */
 
 namespace Piwik\Plugins\ExampleUI;
+use Piwik\Menu\MenuMain;
 
 /**
  * @package ExampleUI
@@ -28,7 +29,7 @@ class ExampleUI extends \Piwik\Plugin
 
     function addMenus()
     {
-        Piwik_AddMenu('UI Framework', '', array('module' => 'ExampleUI', 'action' => 'dataTables'), true, 30);
+        MenuMain::getInstance()->add('UI Framework', '', array('module' => 'ExampleUI', 'action' => 'dataTables'), true, 30);
 
         $this->addSubMenu('Data tables', 'dataTables', 1);
         $this->addSubMenu('Bar graph', 'barGraph', 2);
@@ -40,6 +41,6 @@ class ExampleUI extends \Piwik\Plugin
 
     private function addSubMenu($subMenu, $action, $order)
     {
-        Piwik_AddMenu('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action), true, $order);
+        MenuMain::getInstance()->add('UI Framework', $subMenu, array('module' => 'ExampleUI', 'action' => $action), true, $order);
     }
 }

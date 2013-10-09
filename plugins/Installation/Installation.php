@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\Installation;
 
 use Piwik\Common;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Translate;
 
@@ -78,7 +79,7 @@ class Installation extends \Piwik\Plugin
      */
     public function addMenu()
     {
-        Piwik_AddAdminMenu('Installation_SystemCheck',
+        MenuAdmin::addEntry('Installation_SystemCheck',
             array('module' => 'Installation', 'action' => 'systemCheckPage'),
             $addIf = Piwik::isUserIsSuperUser(),
             $order = 15);

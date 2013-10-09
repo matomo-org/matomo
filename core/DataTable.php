@@ -1509,3 +1509,13 @@ class DataTable
         return $result;
     }
 }
+
+
+// Bridge for when serialized classes were not using namespaces yet (pre Piwik 2.0)
+class Piwik_DataTable_Row_DataTableSummary extends DataTableSummaryRow
+{
+}
+
+class Piwik_DataTable_Row extends Row
+{
+}

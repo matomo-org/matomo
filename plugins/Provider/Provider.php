@@ -17,6 +17,7 @@ use Piwik\Db;
 
 use Piwik\FrontController;
 use Piwik\IP;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\WidgetsList;
 
@@ -98,7 +99,7 @@ class Provider extends \Piwik\Plugin
 
     public function addMenu()
     {
-        Piwik_RenameMenuEntry('General_Visitors', 'UserCountry_SubmenuLocations',
+        MenuMain::getInstance()->rename('General_Visitors', 'UserCountry_SubmenuLocations',
             'General_Visitors', 'Provider_SubmenuLocationsProvider');
     }
 

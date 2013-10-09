@@ -9,6 +9,7 @@
  * @package Feedback
  */
 namespace Piwik\Plugins\Feedback;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 
 
@@ -34,7 +35,7 @@ class Feedback extends \Piwik\Plugin
 
     public function addTopMenu()
     {
-        Piwik_AddTopMenu(
+        MenuTop::addEntry(
             'General_GiveUsYourFeedback',
             array('module' => 'Feedback', 'action' => 'index', 'segment' => false),
             true,

@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Mail;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
@@ -470,7 +471,7 @@ class ScheduledReports extends \Piwik\Plugin
 
     function addTopMenu()
     {
-        Piwik_AddTopMenu(
+        MenuTop::addEntry(
             $this->getTopMenuTranslationKey(),
             array('module' => 'ScheduledReports', 'action' => 'index', 'segment' => false),
             true,
