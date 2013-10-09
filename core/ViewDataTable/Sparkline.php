@@ -108,7 +108,10 @@ class Sparkline extends ViewDataTable
         $columns = $this->viewProperties['columns_to_display'];
         $columnToPlot = false;
         if (!empty($columns)) {
-            $columnToPlot = $columns[0];
+            $columnToPlot = reset($columns);
+            if ($columnToPlot == 'label') {
+                $columnToPlot = next($columns);
+            }
         }
         $values = false;
         // a Set is returned when using the normal code path to request data from Archives, in all core plugins

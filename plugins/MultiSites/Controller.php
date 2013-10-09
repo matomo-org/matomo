@@ -226,7 +226,6 @@ class Controller extends \Piwik\Controller
             $api = "Goals.get";
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
-        $view->columns_to_display = $columns;
         return $this->renderView($view, $fetch);
     }
 }
