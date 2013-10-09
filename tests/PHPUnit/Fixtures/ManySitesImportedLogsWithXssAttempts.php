@@ -21,10 +21,17 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs
  */
 class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik_Fixture_ManySitesImportedLogs
 {
+    public $now = null;
+
+    public function __construct()
+    {
+        $this->now = Date::factory('now');
+    }
+    
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->setupDashboards();
         $this->setupXssSegment();
         $this->addAnnotations();
@@ -141,7 +148,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
 
     public function trackVisitsForRealtimeMap()
     {
-        $dateTime = Date::factory('now')->addHour(-1.25)->getDatetime();
+        $dateTime = $this->now->addHour(-1.25)->getDatetime();
         $idSite = 2;
 
         $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(-3)->getDatetime(), $defaultInit = true, $useLocal = true);

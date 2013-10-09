@@ -82,6 +82,7 @@
                 removeOldVisits = typeof config.removeOldVisits === 'undefined' ? true : config.removeOldVisits,
                 doNotRefreshVisits = typeof config.doNotRefreshVisits === 'undefined' ? false : config.doNotRefreshVisits,
                 enableAnimation = typeof config.enableAnimation === 'undefined' ? true : config.enableAnimation,
+                forceNowValue = typeof config.forceNowValue === 'undefined' ? false : +config.forceNowValue,
                 width = main.width(),
                 lastTimestamp = -1,
                 lastVisits = [],
@@ -180,7 +181,6 @@
             function age(r) {
                 var nowSecs = Math.floor(now);
                 var o = (r.lastActionTimestamp - oldest) / (nowSecs - oldest);
-                o = Math.floor(o * 100) / 100; // normalize age for testing purposes
                 return Math.min(1, Math.max(0, o));
             }
 
@@ -357,7 +357,7 @@
                     $('.realTimeMap_overlay .loading_data').hide();
 
                     // store current timestamp
-                    now = new Date().getTime() / 1000;
+                    now = forceNowValue || (new Date().getTime() / 1000);
 
                     if (firstRun) {  // if we run this the first time, we initialiize the map symbols
                         visitSymbols = map.addSymbols({

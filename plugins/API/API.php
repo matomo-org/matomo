@@ -449,6 +449,7 @@ class API
             $className = Request::getClassNameAPI($plugin);
             $params['columns'] = implode(',', $columns);
             $dataTable = Proxy::getInstance()->call($className, 'get', $params);
+            
             // make sure the table has all columns
             $array = ($dataTable instanceof DataTable\Map ? $dataTable->getDataTables() : array($dataTable));
             foreach ($array as $table) {
