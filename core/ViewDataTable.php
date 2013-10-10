@@ -1118,6 +1118,7 @@ class ViewDataTable
             $this->executeAfterDataLoadedCallbacks();
 
             $visualization->afterLoadDataTable();
+            $visualization->beforeRender();
 
         } catch (NoAccessException $e) {
             throw $e;
@@ -1136,7 +1137,7 @@ class ViewDataTable
         $view->visualization = $visualization;
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
 
-        if (!$this->dataTable === null) {
+        if (null === $this->dataTable) {
             $view->dataTable = null;
         } else {
             // TODO: this hook seems inappropriate. should be able to find data that is requested for (by site/date) and check if that

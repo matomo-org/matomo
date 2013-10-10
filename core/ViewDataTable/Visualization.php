@@ -58,6 +58,11 @@ abstract class Visualization extends View
 
     }
 
+    final public function beforeRender()
+    {
+        // our stuff goes in here
+    }
+
     /**
      * Default implementation of getDefaultPropertyValues static function.
      *
