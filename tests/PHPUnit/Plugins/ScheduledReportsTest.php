@@ -356,14 +356,11 @@ class ScheduledReportsTest extends DatabaseTestCase
         $report6['period'] = ScheduledTime::PERIOD_NEVER;
         $report6['deleted'] = 0;
 
-        $stubbedAPIScheduledReports = $this->getMock('\\Piwik\\Plugins\\ScheduledReports\\API');
+        $stubbedAPIScheduledReports = $this->getMock('\\Piwik\\Plugins\\ScheduledReports\\API', array('getReports', 'getInstance'), $arguments = array(), $mockClassName = '', $callOriginalConstructor = false);
         $stubbedAPIScheduledReports->expects($this->any())->method('getReports')->will($this->returnValue(
                 array($report1, $report2, $report3, $report4, $report5, $report6))
         );
-
-        $stubbedAPIScheduledReportsClass = new ReflectionProperty('\\Piwik\\Plugins\\ScheduledReports\\API', 'instance');
-        $stubbedAPIScheduledReportsClass->setAccessible(true);
-        $stubbedAPIScheduledReportsClass->setValue($stubbedAPIScheduledReports);
+        \Piwik\Plugins\ScheduledReports\API::setSingletonInstance($stubbedAPIScheduledReports);
 
         // initialize sites 1 and 2
         Site::$infoSites = array(
@@ -396,8 +393,8 @@ class ScheduledReportsTest extends DatabaseTestCase
         $pdfReportPlugin->getScheduledTasks($tasks);
         $this->assertEquals($expectedTasks, $tasks);
 
-        // restore API
-        $stubbedAPIScheduledReportsClass->setValue(null);
+        \Piwik\Plugins\ScheduledReports\API::unsetInstance();
+
     }
 
     /**
@@ -424,7 +421,7 @@ class ScheduledReportsTest extends DatabaseTestCase
         );
         $getReportSubjectAndReportTitle->setAccessible(true);
 
-        list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke(new APIScheduledReports(), $websiteName, $reports);
+        list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke( APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
         $this->assertEquals($expectedReportTitle, $reportTitle);
     }

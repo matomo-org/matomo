@@ -21,7 +21,7 @@ Cache::deleteTrackerCache();
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-$controller = new \Piwik\FrontController;
+$controller = \Piwik\FrontController::getInstance();
 $controller->init();
 $controller->dispatch();
 

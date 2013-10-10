@@ -34,4 +34,13 @@ class Singleton
         $class = get_called_class();
         unset(self::$instances[$class]);
     }
+
+    /**
+     * Sets the singleton instance. For testing purposes.
+     */
+    public static function setSingletonInstance($instance)
+    {
+        $class = get_called_class();
+        self::$instances[$class] = $instance;
+    }
 }
