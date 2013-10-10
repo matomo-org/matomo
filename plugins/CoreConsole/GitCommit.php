@@ -56,10 +56,19 @@ class GitCommit extends Command
 
             $status = $this->getStatusOfSubmodule($submodule);
             if (false !== strpos($status, '?? ')) {
-                $output->writeln(sprintf('%s has untracked changes, will ignore. Status: %s', $submodule, $status));
+                $output->writeln(sprintf('<error>%s has untracked files or folders. Delete or add them and try again.</error>', $submodule));
+                $output->writeln('<error>Status:</error>');
+                $output->writeln(sprintf('<comment>%s</comment>', $status));
+                return;
+            }
+        }
+
+        foreach ($submodules as $submodule) {
+            if (empty($submodule)) {
                 continue;
             }
 
+            $status = $this->getStatusOfSubmodule($submodule);
             if (empty($status)) {
                 $output->writeln(sprintf('%s has no changes, will ignore', $submodule));
                 continue;
