@@ -147,13 +147,13 @@ class HtmlTable extends Visualization
         'highlight_summary_row',
     );
 
-    /**
-     * Constructor.
-     */
-    public function __construct($view)
-    {
-        parent::__construct("@CoreVisualizations/_dataTableViz_htmlTable.twig");
+    protected $templateFile = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
 
+    /**
+     * Init.
+     */
+    public function init($view)
+    {
         if (Common::getRequestVar('idSubtable', false)
             && $view->visualization_properties->show_embedded_subtable
         ) {

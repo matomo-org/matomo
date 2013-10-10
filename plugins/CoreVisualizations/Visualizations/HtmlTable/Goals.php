@@ -25,10 +25,10 @@ class Goals extends HtmlTable
      *
      * @param \Piwik\ViewDataTable $view
      */
-    public function __construct($view)
+    public function init($view)
     {
         $view->visualization_properties->show_goals_columns = true;
 
-        parent::__construct($view);
+        parent::init($view);
     }
 }

@@ -124,14 +124,13 @@ abstract class Graph extends Visualization
     );
 
     /**
-     * Constructor.
+     * Init.
      *
      * @param \Piwik\ViewDataTable $view
-     * @param string $template
      */
-    public function __construct($view, $template)
+    public function init($view)
     {
-        parent::__construct($template);
+        parent::init($view);
 
         if ($view->show_goals) {
             $view->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');

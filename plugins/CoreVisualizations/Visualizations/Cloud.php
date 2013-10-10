@@ -44,10 +44,10 @@ class Cloud extends Visualization
     protected $wordsArray = array();
     public $truncatingLimit = 50;
 
-    public function __construct($view)
-    {
-        parent::__construct("@CoreVisualizations/_dataTableViz_tagCloud.twig");
+    protected $templateFile = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
 
+    public function init($view)
+    {
         $self = $this;
         $view->after_data_loaded_functions[] = function ($dataTable, $view) use ($self) {
             if ($dataTable->getRowsCount() == 0) {

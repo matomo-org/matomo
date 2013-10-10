@@ -21,14 +21,14 @@ class AllColumns extends HtmlTable
     const ID = 'tableAllColumns';
 
     /**
-     * Constructor.
+     * Init.
      *
      * @param \Piwik\ViewDataTable $view
      */
-    public function __construct($view)
+    public function init($view)
     {
         $view->visualization_properties->show_extra_columns = true;
 
-        parent::__construct($view);
+        parent::init($view);
     }
 }

@@ -25,13 +25,13 @@ class VisitorLog extends Visualization
         'filter_sort_order',
     );
 
-    /**
-     * Constructor.
-     */
-    public function __construct($view)
-    {
-        parent::__construct("@Live/_dataTableViz_visitorLog.twig");
+    protected $templateFile = "@Live/_dataTableViz_visitorLog.twig";
 
+    /**
+     * Init.
+     */
+    public function init($view)
+    {
         $view->datatable_js_type = 'VisitorLog';
     }
 }

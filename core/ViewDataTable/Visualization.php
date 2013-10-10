@@ -27,6 +27,20 @@ abstract class Visualization extends View
 
     const GET_AVAILABLE_EVENT = 'Visualization.addVisualizations';
 
+    protected $templateFile = '';
+
+    public function __construct($view)
+    {
+        parent::__construct($this->templateFile);
+
+        $this->init($view);
+    }
+
+    protected function init($view)
+    {
+        // do your stuff here, do not overwrite constructor
+    }
+
     /**
      * Default implementation of getDefaultPropertyValues static function.
      *

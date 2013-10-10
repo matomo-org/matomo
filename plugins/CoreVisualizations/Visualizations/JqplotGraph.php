@@ -57,14 +57,16 @@ class JqplotGraph extends Graph
 
     public static $overridableProperties = array('x_axis_step_size');
 
+    protected $templateFile = "@CoreVisualizations/_dataTableViz_jqplotGraph.twig";
+
     /**
      * Constructor.
      *
      * @param \Piwik\ViewDataTable $view
      */
-    public function __construct($view)
+    public function init($view)
     {
-        parent::__construct($view, $template = "@CoreVisualizations/_dataTableViz_jqplotGraph.twig");
+        parent::init($view);
 
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
         if ($view->filter_sort_column != 'label') {
