@@ -120,6 +120,7 @@ class BaseFormat(object):
 
 class JsonFormat(BaseFormat):
     def __init__(self, name):
+        super(JsonFormat, self).__init__(name)
         self.json = None
         self.date_format = '%Y-%m-%dT%H:%M:%S'
     
@@ -154,6 +155,7 @@ class JsonFormat(BaseFormat):
 class RegexFormat(BaseFormat):
 
     def __init__(self, name, regex, date_format=None):
+        super(RegexFormat, self).__init__(name)
         if regex is not None:
             self.regex = re.compile(regex)
         if date_format is not None:
