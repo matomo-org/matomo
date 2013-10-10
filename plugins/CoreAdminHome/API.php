@@ -27,21 +27,8 @@ use Piwik\TaskScheduler;
 /**
  * @package CoreAdminHome
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\CoreAdminHome\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Will run all scheduled tasks due to run at this time.
      *

@@ -24,7 +24,6 @@ use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -207,7 +206,7 @@ abstract class Controller
         $idSite = Common::getRequestVar('idSite');
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
-        $meta = API::getInstance()->getReportMetadata($idSite, $period, $date);
+        $meta = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite, $period, $date);
 
         $columns = array_merge($columnsToDisplay, $selectableColumns);
         $translations = array_combine($columns, $columns);
@@ -452,10 +451,10 @@ abstract class Controller
         $view->isSuperUser = Access::getInstance()->isSuperUser();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->isCustomLogo = Config::getInstance()->branding['use_custom_logo'];
-        $view->logoHeader = API::getInstance()->getHeaderLogoUrl();
-        $view->logoLarge = API::getInstance()->getLogoUrl();
-        $view->logoSVG = API::getInstance()->getSVGLogoUrl();
-        $view->hasSVGLogo = API::getInstance()->hasSVGLogo();
+        $view->logoHeader = \Piwik\Plugins\API\API::getInstance()->getHeaderLogoUrl();
+        $view->logoLarge = \Piwik\Plugins\API\API::getInstance()->getLogoUrl();
+        $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
+        $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
 
         $view->enableFrames = Config::getInstance()->General['enable_framed_pages']
             || @Config::getInstance()->General['enable_framed_logins'];

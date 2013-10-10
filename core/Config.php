@@ -42,23 +42,8 @@ use Exception;
  * @package Piwik
  * @subpackage Piwik_Config
  */
-class Config
+class Config extends Singleton
 {
-    private static $instance = null;
-
-    /**
-     * Returns the singleton Piwik_Config
-     *
-     * @return \Piwik\Config
-     * @api
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     /**
      * Contains configuration files values
@@ -298,7 +283,7 @@ class Config
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
-            Piwik::postTestEvent('Config.createConfigSingleton', array(self::$instance));
+            Piwik::postTestEvent('Config.createConfigSingleton', array( $this->getInstance() ));
         }
 
         // check cache for merged section

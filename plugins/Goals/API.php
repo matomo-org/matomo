@@ -41,21 +41,8 @@ use Piwik\Tracker\GoalManager;
  *
  * @package Goals
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\Goals\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Returns all Goals for a given website, or list of websites
      *

@@ -46,21 +46,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  *
  * @package Piwik_API
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\API\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Get Piwik version
      * @return string

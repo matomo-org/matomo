@@ -19,23 +19,8 @@ use Piwik\Piwik;
 /**
  * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-
-    static private $instance = null;
-
-    /**
-     *
-     * @return \Piwik\Plugins\DevicesDetection\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * @param string $name
      * @param int $idSite

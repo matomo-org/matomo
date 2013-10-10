@@ -35,7 +35,7 @@ use Zend_Mime;
  *
  * @package ScheduledReports
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const VALIDATE_PARAMETERS_EVENT = 'ScheduledReports.validateReportParameters';
     const GET_REPORT_PARAMETERS_EVENT = 'ScheduledReports.getReportParameters';
@@ -65,19 +65,6 @@ class API
     const ADDITIONAL_FILES_KEY = 'additionalFiles';
 
     const REPORT_TRUNCATE = 23;
-
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\ScheduledReports\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     /**
      * Creates a new report and schedules it.

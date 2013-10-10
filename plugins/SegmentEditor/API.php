@@ -22,22 +22,9 @@ use Piwik\Segment;
  *
  * @package SegmentEditor
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const DEACTIVATE_SEGMENT_EVENT = 'SegmentEditor.deactivate';
-
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\SegmentEditor\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     protected function checkSegmentValue($definition, $idSite)
     {

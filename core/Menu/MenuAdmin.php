@@ -17,19 +17,6 @@ use Piwik\Piwik;
  */
 class MenuAdmin extends MenuAbstract
 {
-    static private $instance = null;
-
-    /**
-     * @return MenuAdmin
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Adds a new AdminMenu entry.
      *

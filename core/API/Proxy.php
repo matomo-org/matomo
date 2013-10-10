@@ -14,6 +14,7 @@ namespace Piwik\API;
 use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Singleton;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -28,7 +29,7 @@ use ReflectionMethod;
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Proxy
+class Proxy extends Singleton
 {
     // array of already registered plugins names
     protected $alreadyRegistered = array();
@@ -40,30 +41,11 @@ class Proxy
     private $noDefaultValue;
 
     /**
-     * Singleton instance
-     * @var \Piwik\API\Proxy|null
-     */
-    static private $instance = null;
-
-    /**
      * protected constructor
      */
     protected function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
-    }
-
-    /**
-     * Singleton, returns instance
-     *
-     * @return \Piwik\API\Proxy
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
     }
 
     /**

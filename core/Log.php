@@ -26,7 +26,7 @@ use Piwik\Db;
  * The logging utility can be configured by manipulating the INI config options in the
  * [log] section.
  */
-class Log
+class Log extends Singleton
 {
     // log levels
     const NONE = 0;
@@ -49,35 +49,6 @@ class Log
     const FORMAT_DATABASE_MESSAGE_EVENT = 'Log.formatDatabaseMessage';
 
     const GET_AVAILABLE_WRITERS_EVENT = 'Log.getAvailableWriters';
-
-    /**
-     * The singleton Log instance.
-     *
-     * @var Log
-     */
-    private static $instance = null;
-
-    /**
-     * Returns the singleton Log instance or creates it if it doesn't exist.
-     *
-     * @return Log
-     */
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new Log();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * Unsets the singleton instance so it will be re-created the next time getInstance() is
-     * called. For testing purposes only.
-     */
-    public static function clearInstance()
-    {
-        self::$instance = null;
-    }
 
     /**
      * The current logging level. Everything of equal or greater priority will be logged.
@@ -120,7 +91,7 @@ class Log
     /**
      * Constructor.
      */
-    private function __construct()
+    protected function __construct()
     {
         $logConfig = Config::getInstance()->log;
         $this->setCurrentLogLevelFromConfig($logConfig);

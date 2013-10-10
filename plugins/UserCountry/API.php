@@ -28,18 +28,8 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  * The UserCountry API lets you access reports about your visitors' Countries and Continents.
  * @package UserCountry
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     public function getCountry($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);

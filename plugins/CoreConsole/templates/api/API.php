@@ -15,22 +15,8 @@ namespace Piwik\Plugins\PLUGINNAME;
  *
  * @package Piwik_PLUGINNAME
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\PLUGINNAME\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
-    }
-
     /**
      * Example method. Please remove if you do not need this API method.
      * You can call this API method like this:

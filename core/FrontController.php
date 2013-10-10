@@ -27,7 +27,7 @@ use Piwik\Session;
  * @package Piwik
  * @subpackage FrontController
  */
-class FrontController
+class FrontController extends Singleton
 {
     /**
      * Set to false and the Front Controller will not dispatch the request
@@ -35,8 +35,6 @@ class FrontController
      * @var bool
      */
     public static $enableDispatch = true;
-
-    private static $instance = null;
 
     protected function prepareDispatch($module, $action, $parameters)
     {
@@ -89,19 +87,6 @@ class FrontController
             throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
         }
         return array($module, $action, $parameters, $controller);
-    }
-
-    /**
-     * returns singleton
-     *
-     * @return \Piwik\FrontController
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
     }
 
     /**

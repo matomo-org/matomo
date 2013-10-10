@@ -15,22 +15,13 @@ namespace Piwik;
  *
  * @package Piwik
  */
-class Registry
+class Registry extends Singleton
 {
-    private static $instance;
     private $data;
 
-    private function __construct()
+    protected function __construct()
     {
         $this->data = array();
-    }
-
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new Registry();
-        }
-        return self::$instance;
     }
 
     public static function isRegistered($key)
@@ -46,11 +37,6 @@ class Registry
     public static function set($key, $value)
     {
         self::getInstance()->setKey($key, $value);
-    }
-
-    public static function unsetInstance()
-    {
-        self::$instance = null;
     }
 
     public function setKey($key, $value)

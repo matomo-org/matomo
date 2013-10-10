@@ -34,19 +34,8 @@ use Piwik\Tracker\Action;
 /**
  * @package Transitions
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-
-    static private $instance = null;
-
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     public function getTransitionsForPageTitle($pageTitle, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = false)
     {
         return $this->getTransitionsForAction($pageTitle, 'title', $idSite, $period, $date, $segment, $limitBeforeGrouping);

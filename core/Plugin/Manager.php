@@ -16,6 +16,7 @@ use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Plugin;
+use Piwik\Singleton;
 use Piwik\Translate;
 use Piwik\Updater;
 
@@ -27,7 +28,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
  * @package Piwik
  * @subpackage Manager
  */
-class Manager
+class Manager extends Singleton
 {
     protected $pluginsToLoad = array();
 
@@ -68,21 +69,6 @@ class Manager
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
     const TRACKER_EVENT_PREFIX = 'Tracker.';
-
-    static private $instance = null;
-
-    /**
-     * Returns the singleton Manager
-     *
-     * @return Manager
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     /**
      * Update Plugins config

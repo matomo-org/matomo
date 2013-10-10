@@ -12,11 +12,12 @@ namespace Piwik\Menu;
 
 use Piwik\Common;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Singleton;
 
 /**
  * @package Piwik_Menu
  */
-abstract class MenuAbstract
+abstract class MenuAbstract extends Singleton
 {
 
     protected $menu = null;

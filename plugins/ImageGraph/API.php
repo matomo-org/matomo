@@ -33,7 +33,7 @@ use Piwik\Translate;
  *
  * @package ImageGraph
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const FILENAME_KEY = 'filename';
     const TRUNCATE_KEY = 'truncate';
@@ -103,20 +103,6 @@ class API
     // number of row evolutions to plot when no labels are specified, can be overridden using &filter_limit
     const DEFAULT_NB_ROW_EVOLUTIONS = 5;
     const MAX_NB_ROW_LABELS = 10;
-
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\ImageGraph\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            $c = __CLASS__;
-            self::$instance = new $c();
-        }
-        return self::$instance;
-    }
 
     public function get(
         $idSite,

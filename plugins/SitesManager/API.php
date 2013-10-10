@@ -43,22 +43,9 @@ use Piwik\UrlHelper;
  * See also the documentation about <a href='http://piwik.org/docs/manage-websites/' target='_blank'>Managing Websites</a> in Piwik.
  * @package SitesManager
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
     const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,s,search,searchword,k,keyword';
-
-    /**
-     * @return \Piwik\Plugins\SitesManager\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     const OPTION_EXCLUDED_IPS_GLOBAL = 'SitesManager_ExcludedIpsGlobal';
     const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
     const OPTION_DEFAULT_CURRENCY = 'SitesManager_DefaultCurrency';
