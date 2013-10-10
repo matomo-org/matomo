@@ -290,8 +290,7 @@ function setTranslationsForLanguage() {
 
         require_once PIWIK_INCLUDE_PATH . "/libs/upgradephp/upgrade.php";
         require_once PIWIK_INCLUDE_PATH . "/core/Loader.php";
-        require_once PIWIK_INCLUDE_PATH . "/core/functions.php";
-        include_once PIWIK_INCLUDE_PATH . "/vendor/autoload.php";
+        require_once PIWIK_INCLUDE_PATH . "/vendor/autoload.php";
 
         use Piwik\Translate\Writer;
         use Piwik\Translate\Validate\NoScripts;
@@ -347,12 +346,14 @@ function updateLanguageFiles() {
 
     pluginsWithTranslations=(`showPluginsWithTranslations`);
 
-    if [ "$#" -eq 2 ]; then
-        pluginName=${2};
+    if [ "$#" -eq 1 ]; then
+        pluginName=${1};
 
         if [[ ! ${pluginsWithTranslations[@]} =~ ${pluginName} ]]; then
             echo "${pluginName} does not exist or has no own language files"; exit;
         fi;
+
+        echo "Starting to update language files for plugin ${pluginName}"
     fi
 
     mergeBranchWithMaster;
@@ -407,7 +408,7 @@ case ${COMMAND} in
     languagecodes)  showAvailableLanguageCodes;;
     pt)             showPluginsWithTranslations;;
     plugintranslations) showPluginsWithTranslations;;
-    up)             updateLanguageFiles;;
+    up)             updateLanguageFiles ${2};;
     fetch)          fetchTranslationsFromOTrance;;
     *)              showHelp
 esac
