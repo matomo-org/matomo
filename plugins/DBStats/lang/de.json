@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Dieses Plugin berichtet über die Nutzung und Auslastung der Piwik-Tabellen in der MySQL Datenbank.",
         "DatabaseUsage": "Datenbanknutzung",
-        "MainDescription": "Piwik speichert sämtliche Webanalyse-Daten in der MySQL-Datenbank. Aktuell belegter Speicherplatz %s.",
-        "LearnMore": "Um mehr darüber zu erfahren, wie Piwik Daten verarbeitet und wie Sie Piwik auf stark besuchten Webseiten einsetzen können, lesen Sie die Dokumentation unter %s.",
-        "Table": "Tabelle",
-        "RowCount": "Zeilenanzahl",
         "DataSize": "Datenmenge",
-        "IndexSize": "Indexgröße",
-        "TotalSize": "Gesamtgröße",
         "DBSize": "Datenbankgröße",
-        "ReportDataByYear": "Berichttabellen pro Jahr",
-        "MetricDataByYear": "Metriktabellen pro Jahr",
         "EstimatedSize": "Erwartete Größe",
-        "TrackerTables": "Trackertabellen",
-        "ReportTables": "Berichttabellen",
+        "IndexSize": "Indexgröße",
+        "LearnMore": "Um mehr darüber zu erfahren, wie Piwik Daten verarbeitet und wie Sie Piwik auf stark besuchten Webseiten einsetzen können, lesen Sie die Dokumentation unter %s.",
+        "MainDescription": "Piwik speichert sämtliche Webanalyse-Daten in der MySQL-Datenbank. Aktuell belegter Speicherplatz %s.",
+        "MetricDataByYear": "Metriktabellen pro Jahr",
         "MetricTables": "Metriktabellen",
-        "OtherTables": "Andere Tabellen"
+        "OtherTables": "Andere Tabellen",
+        "PluginDescription": "Dieses Plugin berichtet über die Nutzung und Auslastung der Piwik-Tabellen in der MySQL Datenbank.",
+        "ReportDataByYear": "Berichttabellen pro Jahr",
+        "ReportTables": "Berichttabellen",
+        "RowCount": "Zeilenanzahl",
+        "Table": "Tabelle",
+        "TotalSize": "Gesamtgröße",
+        "TrackerTables": "Trackertabellen"
     }
 }

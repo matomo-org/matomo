@@ -1,15 +1,38 @@
 {
+    "Actions": {
+        "ColumnSearchCategory": "Otsingu Kategooria",
+        "ColumnSearchResultsCount": "Otisngutulemuste arv",
+        "ColumnSiteSearchKeywords": "Unikaalseid Märksõnu",
+        "ColumnUniqueClicks": "Unikaalseid Klikke",
+        "ColumnUniqueDownloads": "Unikaalseid Allalaadimisi",
+        "WidgetSearchCategories": "Otsingu Kategooriad"
+    },
     "API": {
         "LoadedAPIs": "Edukalt laetud %s API-id"
     },
+    "CoreAdminHome": {
+        "Administration": "Administreerimine",
+        "LatestBetaRelease": "Kõige uuem beta versioon",
+        "LatestStableRelease": "Kõige uuem stabiilne versioon",
+        "LogoUpload": "Vali üleslaadimiseks Logo",
+        "MenuDiagnostic": "Diagnostika"
+    },
     "CoreHome": {
         "CategoryNoData": "Informatsioon puudub selles kategoorias. Proovi \"Include all population\".",
+        "CheckForUpdates": "Kontrolli uuendusi",
+        "Default": "vaikimisi",
         "PageOf": "%1$s - %2$s",
         "PeriodDay": "Päev",
+        "PeriodDays": "päeva",
         "PeriodMonth": "Kuu",
+        "PeriodMonths": "kuud",
+        "PeriodRange": "vahemik",
         "PeriodWeek": "Nädal",
+        "PeriodWeeks": "nädalat",
         "PeriodYear": "Aasta",
-        "ShowJSCode": "Näita sisestatavat javaacript koodi"
+        "PeriodYears": "aastat",
+        "ShowJSCode": "Näita sisestatavat javaacript koodi",
+        "ThereIsNoDataForThisReport": "Raporti jaoks puuduvad antud perioodis andmed."
     },
     "CorePluginsAdmin": {
         "Activate": "Aktiveeri",

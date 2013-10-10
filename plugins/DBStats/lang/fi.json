@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Tämä lisäosa raportoi MySQL-tietokannan käyttöä.",
         "DatabaseUsage": "Tietokannan käyttö",
-        "MainDescription": "Piwik tallentaa kaikki tiedot MySQL-tietokantaan. Piwikin taulut käyttävät %s.",
-        "LearnMore": "Jos haluat tietää enemmän Piwin tietojen käsittelystä ja Piwikin optimoinnista isoille verkkosivuille, voit katsoa dokumentaation %s.",
-        "Table": "Taulu",
-        "RowCount": "Rivien määrä",
         "DataSize": "Tietojen koko",
-        "IndexSize": "Indeksien koko",
-        "TotalSize": "Koko yhteensä",
         "DBSize": "Tietokannan koko",
-        "ReportDataByYear": "Raporttitaulut vuosittain",
-        "MetricDataByYear": "Metriikat vuosittain",
         "EstimatedSize": "Arvioitu koko",
-        "TrackerTables": "Seurantataulut",
-        "ReportTables": "Raporttitaulut",
+        "IndexSize": "Indeksien koko",
+        "LearnMore": "Jos haluat tietää enemmän Piwin tietojen käsittelystä ja Piwikin optimoinnista isoille verkkosivuille, voit katsoa dokumentaation %s.",
+        "MainDescription": "Piwik tallentaa kaikki tiedot MySQL-tietokantaan. Piwikin taulut käyttävät %s.",
+        "MetricDataByYear": "Metriikat vuosittain",
         "MetricTables": "Metriikkataulut",
-        "OtherTables": "Muut taulut"
+        "OtherTables": "Muut taulut",
+        "PluginDescription": "Tämä lisäosa raportoi MySQL-tietokannan käyttöä.",
+        "ReportDataByYear": "Raporttitaulut vuosittain",
+        "ReportTables": "Raporttitaulut",
+        "RowCount": "Rivien määrä",
+        "Table": "Taulu",
+        "TotalSize": "Koko yhteensä",
+        "TrackerTables": "Seurantataulut"
     }
 }

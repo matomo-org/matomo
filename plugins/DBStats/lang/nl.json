@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Deze plugin toont het MySQL database verbruik door de Piwik tabellen.",
         "DatabaseUsage": "Database gebruik",
-        "MainDescription": "Piwik slaat alle analysedata op in een MySQL database. Momenteel is de omvang van deze database %s.",
-        "LearnMore": "Voor meer informatie over de manier waarop Piwik de data verwerkt en over de werking van Piwik in combinatie met middelgrote en grote website's, zie de documentatie %s.",
-        "Table": "Tabel",
-        "RowCount": "Aantal rijen",
         "DataSize": "Data omvang",
-        "IndexSize": "Index grootte",
-        "TotalSize": "Totale grootte",
         "DBSize": "DB grootte",
-        "ReportDataByYear": "Rapport tabellen per jaar",
-        "MetricDataByYear": "Metric tabellen per jaar",
         "EstimatedSize": "Geschatte grootte",
-        "TrackerTables": "Tracker tabellen",
-        "ReportTables": "Rapport tabellen",
+        "IndexSize": "Index grootte",
+        "LearnMore": "Voor meer informatie over de manier waarop Piwik de data verwerkt en over de werking van Piwik in combinatie met middelgrote en grote website's, zie de documentatie %s.",
+        "MainDescription": "Piwik slaat alle analysedata op in een MySQL database. Momenteel is de omvang van deze database %s.",
+        "MetricDataByYear": "Metric tabellen per jaar",
         "MetricTables": "Metric tabellen",
-        "OtherTables": "Andere tabellen"
+        "OtherTables": "Andere tabellen",
+        "PluginDescription": "Deze plugin toont het MySQL database verbruik door de Piwik tabellen.",
+        "ReportDataByYear": "Rapport tabellen per jaar",
+        "ReportTables": "Rapport tabellen",
+        "RowCount": "Aantal rijen",
+        "Table": "Tabel",
+        "TotalSize": "Totale grootte",
+        "TrackerTables": "Tracker tabellen"
     }
 }
