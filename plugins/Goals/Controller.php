@@ -26,7 +26,7 @@ use Piwik\ViewDataTable;
  *
  * @package Goals
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     const CONVERSION_RATE_PRECISION = 1;
 

@@ -26,7 +26,7 @@ use Piwik\View;
  *
  * @package PrivacyManager
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
 
     const ANONYMIZE_IP_PLUGIN_NAME = "AnonymizeIP";

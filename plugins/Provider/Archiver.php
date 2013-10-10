@@ -11,9 +11,8 @@
 namespace Piwik\Plugins\Provider;
 
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
 
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const PROVIDER_RECORD_NAME = 'Provider_hostnameExt';
     const PROVIDER_FIELD = "location_provider";

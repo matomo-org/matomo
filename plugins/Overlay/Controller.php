@@ -22,7 +22,7 @@ use Piwik\ProxyHttp;
 use Piwik\Tracker\Action;
 use Piwik\View;
 
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     /** The index of the plugin */

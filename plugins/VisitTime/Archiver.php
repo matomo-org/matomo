@@ -13,9 +13,8 @@ namespace Piwik\Plugins\VisitTime;
 
 use Piwik\DataArray;
 use Piwik\Date;
-use Piwik\PluginsArchiver;
 
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const SERVER_TIME_RECORD_NAME = 'VisitTime_serverTime';
     const LOCAL_TIME_RECORD_NAME = 'VisitTime_localTime';

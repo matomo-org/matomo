@@ -18,7 +18,7 @@ use Piwik\Piwik;
  *
  * @package ExampleRssWidget
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function rssPiwik()
     {

@@ -16,9 +16,8 @@ use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\PluginsArchiver;
 
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const COUNTRY_RECORD_NAME = 'UserCountry_country';
     const REGION_RECORD_NAME = 'UserCountry_region';

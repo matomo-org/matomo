@@ -25,7 +25,7 @@ use Piwik\View;
  *
  * @package MultiSites
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     protected $orderBy = 'visits';
     protected $order = 'desc';

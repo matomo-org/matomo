@@ -91,7 +91,7 @@ class ImageGraph extends \Piwik\Plugin
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
             } else {
                 $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
-                $dateForMultiplePeriodGraph = \Piwik\Controller::getDateRangeRelativeToEndDate(
+                $dateForMultiplePeriodGraph = \Piwik\Plugin\Controller::getDateRangeRelativeToEndDate(
                     $periodForSinglePeriodGraph,
                     'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
                     $dateForSinglePeriodGraph,

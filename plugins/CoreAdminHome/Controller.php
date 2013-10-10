@@ -30,7 +30,7 @@ use Piwik\View;
  *
  * @package CoreAdminHome
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     const LOGO_HEIGHT = 300;
     const LOGO_SMALL_HEIGHT = 100;

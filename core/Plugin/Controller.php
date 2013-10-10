@@ -8,19 +8,30 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik;
+namespace Piwik\Plugin;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
+use Piwik\Date;
+use Piwik\FrontController;
 use Piwik\Menu\MenuTop;
+use Piwik\NoAccessException;
 use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Registry;
+use Piwik\SettingsPiwik;
+use Piwik\Site;
+use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable;
 

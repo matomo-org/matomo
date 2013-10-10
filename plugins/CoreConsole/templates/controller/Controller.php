@@ -16,7 +16,7 @@ use Piwik\View;
  *
  * @package PLUGINNAME
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     public function index()

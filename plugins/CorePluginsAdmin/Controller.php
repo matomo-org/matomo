@@ -23,7 +23,7 @@ use Piwik\View;
 /**
  * @package CorePluginsAdmin
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends Plugin\ControllerAdmin
 {
     const UPDATE_NONCE = 'CorePluginsAdmin.updatePlugin';
     const INSTALL_NONCE = 'CorePluginsAdmin.installPlugin';

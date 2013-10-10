@@ -19,7 +19,7 @@ use Piwik\ViewDataTable;
  *
  * @package Actions
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     //
     // Actions that render whole pages

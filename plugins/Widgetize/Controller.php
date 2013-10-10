@@ -20,7 +20,7 @@ use Piwik\WidgetsList;
  *
  * @package Widgetize
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {

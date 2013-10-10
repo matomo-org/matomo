@@ -16,7 +16,7 @@ use Piwik\ViewDataTable;
  *
  * @package Provider
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * Provider

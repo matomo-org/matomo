@@ -12,8 +12,8 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
-use Piwik\Controller;
 use Piwik\Period\Range;
+use Piwik\Plugin\Controller;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Site;

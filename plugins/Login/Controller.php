@@ -34,7 +34,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  *
  * @package Login
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * Generate hash on user info and password

@@ -15,11 +15,9 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
-use Piwik\PluginsManager;
 use Piwik\Tracker\GoalManager;
 
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
     const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';

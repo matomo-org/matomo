@@ -24,7 +24,7 @@ use Piwik\ViewDataTable;
  *
  * @package UserCountryMap
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites

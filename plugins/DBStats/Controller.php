@@ -18,7 +18,7 @@ use Piwik\ViewDataTable;
 /**
  * @package DBStats
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
      * Returns the index for this plugin. Shows every other report defined by this plugin,

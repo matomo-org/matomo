@@ -94,7 +94,7 @@ class API
     {
         $autoArchive = (int)$autoArchive;
         if ($autoArchive) {
-            $exception = new Exception("To prevent abuse, autoArchive=1 requires Super User or Admin access.");
+            $exception = new Exception("To prevent abuse, autoArchive=1 requires Super User or ControllerAdmin access.");
             if (empty($idSite)) {
                 if (!Piwik::isUserIsSuperUser()) {
                     throw $exception;

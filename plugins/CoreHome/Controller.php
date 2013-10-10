@@ -30,7 +30,7 @@ use Piwik\View;
  *
  * @package CoreHome
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     function getDefaultAction()
     {

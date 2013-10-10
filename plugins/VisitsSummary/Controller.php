@@ -24,7 +24,7 @@ use Piwik\ViewDataTable;
  *
  * @package VisitsSummary
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {

@@ -14,6 +14,7 @@ namespace Piwik;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Plugin\Controller;
 use Piwik\Session;
 
 /**

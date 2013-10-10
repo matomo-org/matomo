@@ -16,7 +16,6 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\DataTable;
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 
@@ -25,7 +24,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
  *
  * @see PluginsArchiver
  */
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const LANGUAGE_RECORD_NAME = 'UserSettings_language';
     const PLUGIN_RECORD_NAME = 'UserSettings_plugin';

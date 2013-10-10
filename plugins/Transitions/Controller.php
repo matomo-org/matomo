@@ -16,7 +16,7 @@ use Piwik\View;
 /**
  * @package Transitions
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     /**

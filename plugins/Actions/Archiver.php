@@ -15,7 +15,6 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\DataTable;
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 
@@ -24,7 +23,7 @@ use Piwik\Tracker\Action;
  *
  * @package Actions
  */
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const DOWNLOADS_RECORD_NAME = 'Actions_downloads';
     const OUTLINKS_RECORD_NAME = 'Actions_outlink';

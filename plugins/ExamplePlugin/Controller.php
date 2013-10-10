@@ -20,7 +20,7 @@ use Piwik\View;
  *
  * @package ExamplePlugin
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * Go to /piwik/?module=ExamplePlugin&action=helloWorld to execute this method

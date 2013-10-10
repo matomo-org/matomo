@@ -27,7 +27,7 @@ use Piwik\View;
  *
  * @package SitesManager
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
      * Main view showing listing of websites and settings

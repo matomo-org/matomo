@@ -16,7 +16,7 @@ use Piwik\ViewDataTable;
 /**
  * @package VisitorInterest
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {

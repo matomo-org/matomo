@@ -22,7 +22,7 @@ use Piwik\WidgetsList;
  *
  * @package Dashboard
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * @var Dashboard

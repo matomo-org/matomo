@@ -19,7 +19,7 @@ use Piwik\Url;
 /**
  * @package LanguagesManager
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * anonymous = in the session

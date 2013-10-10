@@ -8,10 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\Controller;
+namespace Piwik\Plugin;
 
 use Piwik\Config;
-use Piwik\Controller;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -27,7 +26,7 @@ use Piwik\View;
  *
  * @api
  */
-abstract class Admin extends Controller
+abstract class ControllerAdmin extends Controller
 {
     /**
      * Set the minimal variables in the view object

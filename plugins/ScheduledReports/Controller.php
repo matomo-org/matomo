@@ -21,7 +21,7 @@ use Piwik\View;
  *
  * @package ScheduledReports
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;
 

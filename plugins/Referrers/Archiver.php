@@ -15,9 +15,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataArray;
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
 
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const SEARCH_ENGINES_RECORD_NAME = 'Referrers_keywordBySearchEngine';
     const KEYWORDS_RECORD_NAME = 'Referrers_searchEngineByKeyword';

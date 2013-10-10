@@ -12,15 +12,14 @@ namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataAccess\LogAggregator;
 
+use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\Metrics;
-use Piwik\PluginsArchiver;
 use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
 
-class Archiver extends PluginsArchiver
+class Archiver extends \Piwik\Plugin\Archiver
 {
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
     const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';

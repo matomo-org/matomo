@@ -16,7 +16,7 @@ use Piwik\Plugins\API\API as APIPlugins;
 use Piwik\SettingsPiwik;
 use Piwik\View;
 
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     // Call metadata reports, and draw the default graph for each report.
     public function index()

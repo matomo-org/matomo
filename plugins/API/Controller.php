@@ -21,7 +21,7 @@ use Piwik\View;
  *
  * @package Piwik_API
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     function index()
     {

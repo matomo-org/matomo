@@ -9,14 +9,15 @@
  * @package Piwik_PluginArchiver
  */
 
-namespace Piwik;
+namespace Piwik\Plugin;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Config;
 
 /**
  * Plugins that archive metrics for websites can implement an Archiver that extends this class
  */
-abstract class PluginsArchiver
+abstract class Archiver
 {
     protected $processor;
 

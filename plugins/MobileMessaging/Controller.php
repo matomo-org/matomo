@@ -24,7 +24,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  *
  * @package MobileMessaging
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /*
      * Mobile Messaging Settings tab :

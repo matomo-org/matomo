@@ -40,7 +40,7 @@ use Zend_Db_Adapter_Exception;
  *
  * @package Installation
  */
-class Controller extends \Piwik\Controller\Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     // public so plugins can add/delete installation steps
     public $steps = array(

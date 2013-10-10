@@ -25,11 +25,6 @@ abstract class MenuAbstract
     protected $renames = array();
     protected $orderingApplied = false;
 
-    /*
-     * Can't enforce static function in 5.2.
-     */
-    //abstract static public function getInstance();
-
     /**
      * Builds the menu, applies edits, renames
      * and orders the entries.

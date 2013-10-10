@@ -48,7 +48,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
             Db::createDatabaseObject();
             DbHelper::createTables();
 
-//            \Piwik\PluginsManager::getInstance()->loadPlugins(array());
+//            \Piwik\Manager::getInstance()->loadPlugins(array());
             IntegrationTestCase::loadAllPlugins();
 
         } catch (Exception $e) {

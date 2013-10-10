@@ -20,7 +20,7 @@ use Piwik\View;
  *
  * @package Annotations
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * Controller action that returns HTML displaying annotations for a site and

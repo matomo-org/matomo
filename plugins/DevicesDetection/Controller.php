@@ -17,7 +17,7 @@ use Piwik\View;
 use Piwik\ViewDataTable;
 use UserAgentParserEnhanced;
 
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     public function index($fetch = false)
     {

@@ -25,7 +25,7 @@ use Piwik\View;
  *
  * @package Feedback
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     function index()
     {

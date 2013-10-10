@@ -12,7 +12,6 @@ namespace Piwik\Plugins\UserCountry;
 
 use Exception;
 use Piwik\Common;
-use Piwik\Controller\Admin;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Http;
 use Piwik\IP;
@@ -29,7 +28,7 @@ use Piwik\ViewDataTable;
  *
  * @package UserCountry
  */
-class Controller extends Admin
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     public function index()
     {

@@ -9,9 +9,8 @@
  * @package Piwik
  */
 
-namespace Piwik;
+namespace Piwik\Plugin;
 
-use Piwik\Plugin\MetadataLoader;
 use Piwik\Translate;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
@@ -20,9 +19,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
  * Plugin manager
  *
  * @package Piwik
- * @subpackage PluginsManager
+ * @subpackage Manager
  */
-class PluginsManager
+class Manager
 {
     protected $pluginsToLoad = array();
 
@@ -67,9 +66,9 @@ class PluginsManager
     static private $instance = null;
 
     /**
-     * Returns the singleton PluginsManager
+     * Returns the singleton Manager
      *
-     * @return PluginsManager
+     * @return Manager
      */
     static public function getInstance()
     {
@@ -873,7 +872,7 @@ class PluginsManager
 
 /**
  * @package Piwik
- * @subpackage PluginsManager
+ * @subpackage Manager
  */
 class PluginsManager_PluginException extends \Exception
 {

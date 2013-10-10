@@ -19,7 +19,7 @@ use Piwik\View;
 /**
  * @package SEO
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
     function getRank()
     {

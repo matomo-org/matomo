@@ -18,7 +18,7 @@ use Piwik\View;
 /**
  * @package SegmentEditor
  */
-class Controller extends \Piwik\Controller
+class Controller extends \Piwik\Plugin\Controller
 {
 
     public function getSelector()
