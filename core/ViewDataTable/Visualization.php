@@ -25,7 +25,6 @@ use Piwik\ViewDataTable;
  */
 abstract class Visualization extends View
 {
-
     const GET_AVAILABLE_EVENT = 'Visualization.addVisualizations';
 
     protected $templateFile = '';
@@ -40,10 +39,10 @@ abstract class Visualization extends View
         parent::__construct($this->templateFile);
 
         $this->viewDataTable = $view;
-        $this->init($view);
+        $this->init();
     }
 
-    protected function init($view)
+    protected function init()
     {
         // do your stuff here, do not overwrite constructor
     }

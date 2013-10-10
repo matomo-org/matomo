@@ -30,8 +30,8 @@ class VisitorLog extends Visualization
     /**
      * Init.
      */
-    public function init($view)
+    public function init()
     {
-        $view->datatable_js_type = 'VisitorLog';
+        $this->viewDataTable->datatable_js_type = 'VisitorLog';
     }
 }

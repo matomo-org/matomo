@@ -22,13 +22,11 @@ class AllColumns extends HtmlTable
 
     /**
      * Init.
-     *
-     * @param \Piwik\ViewDataTable $view
      */
-    public function init($view)
+    public function init()
     {
-        $view->visualization_properties->show_extra_columns = true;
+        $this->viewDataTable->visualization_properties->show_extra_columns = true;
 
-        parent::init($view);
+        parent::init();
     }
 }

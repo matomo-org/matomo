@@ -60,13 +60,13 @@ class JqplotGraph extends Graph
     protected $templateFile = "@CoreVisualizations/_dataTableViz_jqplotGraph.twig";
 
     /**
-     * Constructor.
-     *
-     * @param \Piwik\ViewDataTable $view
+     * Init.
      */
-    public function init($view)
+    public function init()
     {
-        parent::init($view);
+        $view = $this->viewDataTable;
+
+        parent::init();
 
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
         if ($view->filter_sort_column != 'label') {

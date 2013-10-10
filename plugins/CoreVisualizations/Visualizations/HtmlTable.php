@@ -152,8 +152,10 @@ class HtmlTable extends Visualization
     /**
      * Init.
      */
-    public function init($view)
+    public function init()
     {
+        $view = $this->viewDataTable;
+
         if (Common::getRequestVar('idSubtable', false)
             && $view->visualization_properties->show_embedded_subtable
         ) {
