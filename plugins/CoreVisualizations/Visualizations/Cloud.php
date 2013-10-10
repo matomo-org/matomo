@@ -46,8 +46,9 @@ class Cloud extends Visualization
 
     protected $templateFile = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
 
-    public function init($view)
+    public function init()
     {
+        $view = $this->viewDataTable;
         $self = $this;
         $view->after_data_loaded_functions[] = function ($dataTable, $view) use ($self) {
             if ($dataTable->getRowsCount() == 0) {

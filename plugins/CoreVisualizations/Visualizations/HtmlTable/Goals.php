@@ -21,14 +21,12 @@ class Goals extends HtmlTable
     const ID = 'tableGoals';
 
     /**
-     * Constructor.
-     *
-     * @param \Piwik\ViewDataTable $view
+     * Init
      */
-    public function init($view)
+    public function init()
     {
-        $view->visualization_properties->show_goals_columns = true;
+        $this->viewDataTable->visualization_properties->show_goals_columns = true;
 
-        parent::init($view);
+        parent::init();
     }
 }
