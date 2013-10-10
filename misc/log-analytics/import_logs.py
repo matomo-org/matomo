@@ -104,13 +104,10 @@ PIWIK_EXPECTED_IMAGE = base64.b64decode(
 ## Formats.
 ##
 
-class RegexFormat(object):
-
-    def __init__(self, name, regex, date_format='%d/%b/%Y:%H:%M:%S'):
+class BaseFormat(object):
+    def __init__(self, name):
         self.name = name
-        if regex is not None:
-            self.regex = re.compile(regex)
-        self.date_format = date_format
+        self.date_format = '%d/%b/%Y:%H:%M:%S'
 
     def check_format(self, file):
         line = file.readline()
@@ -118,7 +115,55 @@ class RegexFormat(object):
         return self.check_format_line(line)
 
     def check_format_line(self, line):
+        return False
+
+
+class JsonFormat(BaseFormat):
+    def __init__(self, name):
+        self.json = None
+        self.date_format = '%Y-%m-%dT%H:%M:%S'
+    
+    def check_format_line(self, line):
+        try:
+            json.loads(line)
+            return True
+        except:
+            return False
+
+    def match(self, line):
+        try:
+            self.json = json.loads(line)
+            return self
+        except:
+            self.json = None
+            return None
+
+    def group(self, key):
+        # Some ugly patchs ...
+        if key == 'generation_time_milli':
+            self.json[key] =  int(self.json[key] * 1000)
+        # Patch date format ISO 8601 
+        elif key == 'date':
+            tz = self.json[key][19:]
+            self.json['timezone'] = tz.replace(':', '')
+            self.json[key] = self.json[key][:19]
+        return self.json[key]
+
+
+
+class RegexFormat(BaseFormat):
+
+    def __init__(self, name, regex, date_format=None):
+        if regex is not None:
+            self.regex = re.compile(regex)
+        if date_format is not None:
+            self.date_format = date_format
+
+    def check_format_line(self, line):
         return re.match(self.regex, line)
+
+    def match(self,line):
+        return self.regex.match(line)
 
 
 class IisFormat(RegexFormat):
@@ -191,6 +236,7 @@ FORMATS = {
     'iis': IisFormat(),
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
     'icecast2': RegexFormat('icecast2', _ICECAST2_LOG_FORMAT),
+    'nginx_json': JsonFormat('nginx_json'),
 }
 
 
@@ -1418,7 +1464,7 @@ class Parser(object):
             if stats.count_lines_parsed.value <= config.options.skip:
                 continue
 
-            match = format.regex.match(line)
+            match = format.match(line)
             if not match:
                 invalid_line(line, 'line did not match')
                 continue
@@ -1438,34 +1484,34 @@ class Parser(object):
             try:
                 hit.query_string = match.group('query_string')
                 hit.path = hit.full_path
-            except IndexError:
+            except (KeyError, IndexError):
                 hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
 
             try:
                 hit.referrer = match.group('referrer')
-            except IndexError:
+            except (KeyError, IndexError):
                 hit.referrer = ''
             if hit.referrer == '-':
                 hit.referrer = ''
 
             try:
                 hit.user_agent = match.group('user_agent')
-            except IndexError:
+            except (KeyError, IndexError):
                 hit.user_agent = ''
 
             hit.ip = match.group('ip')
             try:
                 hit.length = int(match.group('length'))
-            except (ValueError, IndexError):
+            except (ValueError, KeyError, IndexError):
                 # Some lines or formats don't have a length (e.g. 304 redirects, IIS logs)
                 hit.length = 0
 
             try:
                 hit.generation_time_milli = int(match.group('generation_time_milli'))
-            except IndexError:
+            except (KeyError, IndexError):
                 try:
                     hit.generation_time_milli = int(match.group('generation_time_micro')) / 1000
-                except IndexError:
+                except (KeyError, IndexError):
                     hit.generation_time_milli = 0
 
             if config.options.log_hostname:
@@ -1473,7 +1519,7 @@ class Parser(object):
             else:
                 try:
                     hit.host = match.group('host').lower().strip('.')
-                except IndexError:
+                except (KeyError, IndexError):
                     # Some formats have no host.
                     pass
 
@@ -1494,7 +1540,7 @@ class Parser(object):
             # Parse timezone and substract its value from the date
             try:
                 timezone = float(match.group('timezone'))
-            except IndexError:
+            except (KeyError, IndexError):
                 timezone = 0
             except ValueError:
                 invalid_line(line, 'invalid timezone')
