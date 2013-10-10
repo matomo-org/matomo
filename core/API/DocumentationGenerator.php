@@ -14,7 +14,7 @@ use Exception;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Url;
 
 /**
@@ -31,7 +31,7 @@ class DocumentationGenerator
      */
     public function __construct()
     {
-        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $plugin) {
             try {
                 $className = Request::getClassNameAPI($plugin);

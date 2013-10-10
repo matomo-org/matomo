@@ -26,7 +26,7 @@ class Updates_1_10_1 extends Updates
     static function update()
     {
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('Overlay');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('Overlay');
         } catch (\Exception $e) {
             // pass
         }

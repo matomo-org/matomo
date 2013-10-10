@@ -86,7 +86,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function ecommerceReport()
     {
-        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables')) {
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
             throw new Exception("Ecommerce Tracking requires that the plugin Custom Variables is enabled. Please enable the plugin CustomVariables (or ask your admin).");
         }
 
@@ -304,14 +304,14 @@ class Controller extends \Piwik\Plugin\Controller
 
         $topDimensionsToLoad = array();
 
-        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
+        if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry')) {
             $topDimensionsToLoad += array(
                 'country' => 'UserCountry.getCountry',
             );
         }
 
         $keywordNotDefinedString = '';
-        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referrers')) {
+        if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Referrers')) {
             $keywordNotDefinedString = APIReferrers::getKeywordNotDefinedString();
             $topDimensionsToLoad += array(
                 'keyword' => 'Referrers.getKeywords',

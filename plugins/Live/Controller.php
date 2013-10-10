@@ -16,7 +16,7 @@ use Piwik\Config;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable;
@@ -151,7 +151,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (Common::getRequestVar('showMap', 1) == 1
             && $view->visitorData['hasLatLong']
-            && PluginsManager::getInstance()->isPluginLoaded('UserCountryMap')
+            && \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('UserCountryMap')
         ) {
             $view->userCountryMapUrl = $this->getUserCountryMapUrlForVisitorProfile();
         }
@@ -211,7 +211,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function setWidgetizedVisitorProfileUrl($view)
     {
-        if (PluginsManager::getInstance()->isPluginLoaded('Widgetize')) {
+        if (\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('Widgetize')) {
             $view->widgetizedLink = Url::getCurrentQueryStringWithParametersModified(array(
                                                                                           'module'            => 'Widgetize',
                                                                                           'action'            => 'iframe',

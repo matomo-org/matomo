@@ -17,8 +17,8 @@ class SegmentEditorTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        \Piwik\PluginsManager::getInstance()->loadPlugin('SegmentEditor');
-        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugin('SegmentEditor');
+        \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;

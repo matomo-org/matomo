@@ -403,7 +403,7 @@ class Tracker
                 Db::createDatabaseObject();
             }
 
-            $pluginsManager = PluginsManager::getInstance();
+            $pluginsManager = \Piwik\Plugin\Manager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
             $pluginsForcedNotToLoad = Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
@@ -672,9 +672,9 @@ class Tracker
             $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (count($pluginsTracker) > 0) {
                 $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
-                PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
+                \Piwik\Plugin\Manager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
-                PluginsManager::getInstance()->loadPlugins($pluginsTracker);
+                \Piwik\Plugin\Manager::getInstance()->loadPlugins($pluginsTracker);
 
                 Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
             }

@@ -11,7 +11,13 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Config;
+use Piwik\EventDispatcher;
+use Piwik\Filesystem;
+use Piwik\Option;
+use Piwik\Plugin;
 use Piwik\Translate;
+use Piwik\Updater;
 
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
@@ -669,14 +675,14 @@ class Manager
      * Install a specific plugin
      *
      * @param Plugin $plugin
-     * @throws PluginsManager_PluginException if installation fails
+     * @throws \Piwik\Plugin\Manager_PluginException if installation fails
      */
     private function installPlugin(Plugin $plugin)
     {
         try {
             $plugin->install();
         } catch (\Exception $e) {
-            throw new PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());
+            throw new \Piwik\Plugin\PluginException($plugin->getPluginName(), $e->getMessage());
         }
         Updater::recordComponentSuccessfullyUpdated($plugin->getPluginName(), $plugin->getVersion());
     }
@@ -874,7 +880,7 @@ class Manager
  * @package Piwik
  * @subpackage Manager
  */
-class PluginsManager_PluginException extends \Exception
+class PluginException extends \Exception
 {
     function __construct($pluginName, $message)
     {

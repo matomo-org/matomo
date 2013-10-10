@@ -14,7 +14,7 @@ namespace Piwik\Translate;
 use Exception;
 use Piwik\Filesystem;
 use Piwik\Piwik;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Translate\Filter\FilterAbstract;
 use Piwik\Translate\Validate\ValidateAbstract;
 
@@ -93,7 +93,7 @@ class Writer
         $this->setLanguage($language);
 
         if (!empty($pluginName)) {
-            $installedPlugins = PluginsManager::getInstance()->readPluginsDirectory();
+            $installedPlugins = \Piwik\Plugin\Manager::getInstance()->readPluginsDirectory();
 
             if (!in_array($pluginName, $installedPlugins)) {
 

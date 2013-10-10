@@ -216,7 +216,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function checkUserCountryPluginEnabled()
     {
-        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry')) {
             throw new Exception(Piwik::translate('General_Required', 'Plugin UserCountry'));
         }
     }

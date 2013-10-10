@@ -115,7 +115,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public static function isDntSupported()
     {
-        return \Piwik\PluginsManager::getInstance()->isPluginActivated('DoNotTrack');
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('DoNotTrack');
     }
 
     public function privacySettings()
@@ -225,12 +225,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserIsSuperUser();
         $anonymizeIP = array();
 
-        \Piwik\PluginsManager::getInstance()->loadPlugin(self::ANONYMIZE_IP_PLUGIN_NAME);
+        \Piwik\Plugin\Manager::getInstance()->loadPlugin(self::ANONYMIZE_IP_PLUGIN_NAME);
 
         $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
-        $anonymizeIP["enabled"] = \Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
+        $anonymizeIP["enabled"] = \Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
         $anonymizeIP["maskLength"] = Config::getInstance()->Tracker['ip_address_mask_length'];
-        $anonymizeIP["info"] = \Piwik\PluginsManager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
+        $anonymizeIP["info"] = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
 
         return $anonymizeIP;
     }
@@ -287,9 +287,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $pluginController = new \Piwik\Plugins\CorePluginsAdmin\Controller();
 
-        if ($state == 1 && !\Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
+        if ($state == 1 && !\Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
             $pluginController->activate($redirectAfter = false);
-        } elseif ($state == 0 && \Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
+        } elseif ($state == 0 && \Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
             $pluginController->deactivate($redirectAfter = false);
         } else {
             //nothing to do

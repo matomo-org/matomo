@@ -78,7 +78,7 @@ class Twig
     {
         $getJavascriptTranslations = new Twig_SimpleFunction(
             'getJavascriptTranslations',
-            array(Translate::getInstance(), 'getJavascriptTranslations')
+            array('Translate', 'getJavascriptTranslations')
         );
         $this->twig->addFunction($getJavascriptTranslations);
     }
@@ -86,7 +86,7 @@ class Twig
     protected function addFunction_isPluginLoaded()
     {
         $isPluginLoadedFunction = new Twig_SimpleFunction('isPluginLoaded', function ($pluginName) {
-            return PluginsManager::getInstance()->isPluginLoaded($pluginName);
+            return \Piwik\Plugin\Manager::getInstance()->isPluginLoaded($pluginName);
         });
         $this->twig->addFunction($isPluginLoadedFunction);
     }
@@ -145,7 +145,7 @@ class Twig
     private function getDefaultThemeLoader()
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
-                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, PluginsManager::DEFAULT_THEME)
+                                                       sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\Plugin\Manager::DEFAULT_THEME)
                                                   ));
 
         return $themeLoader;
@@ -222,7 +222,7 @@ class Twig
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
-        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $name) {
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {

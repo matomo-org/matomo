@@ -21,7 +21,7 @@ class Updates_1_6_rc1 extends Updates
     static function update()
     {
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('ImageGraph');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('ImageGraph');
         } catch (\Exception $e) {
         }
     }

@@ -26,7 +26,7 @@ class Updates_1_10_b4 extends Updates
     static function update()
     {
         try {
-            \Piwik\PluginsManager::getInstance()->activatePlugin('MobileMessaging');
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('MobileMessaging');
         } catch (\Exception $e) {
             // pass
         }

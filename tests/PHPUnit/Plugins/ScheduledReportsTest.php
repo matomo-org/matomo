@@ -29,8 +29,8 @@ class ScheduledReportsTest extends DatabaseTestCase
 
         // setup the access layer
         self::setSuperUser();
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports', 'MobileMessaging'));
-        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports', 'MobileMessaging'));
+        \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
 
@@ -203,7 +203,7 @@ class ScheduledReportsTest extends DatabaseTestCase
     public function testGetTopMenuTranslationKeyMobileMessagingInactive()
     {
         // unload MobileMessaging plugin
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('ScheduledReports'));
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('ScheduledReports'));
 
         $pdfReportPlugin = new ScheduledReports();
         $this->assertEquals(

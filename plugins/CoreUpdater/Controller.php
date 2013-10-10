@@ -371,7 +371,7 @@ class Controller extends \Piwik\Plugin\Controller
                     $this->coreError = true;
                     break;
                 } else {
-                    \Piwik\PluginsManager::getInstance()->deactivatePlugin($name);
+                    \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($name);
                     $this->deactivatedPlugins[] = $name;
                 }
             }

@@ -14,7 +14,7 @@ use Piwik\Config;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
@@ -64,10 +64,10 @@ abstract class ControllerAdmin extends Controller
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
         // for old geoip plugin warning
-        $view->usingOldGeoIPPlugin = PluginsManager::getInstance()->isPluginActivated('GeoIP');
+        $view->usingOldGeoIPPlugin = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('GeoIP');
 
         // for cannot find installed plugin warning
-        $missingPlugins = PluginsManager::getInstance()->getMissingPlugins();
+        $missingPlugins = \Piwik\Plugin\Manager::getInstance()->getMissingPlugins();
         if (!empty($missingPlugins)) {
             $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
                                                                                  'module' => 'CorePluginsAdmin', 'action' => 'plugins'

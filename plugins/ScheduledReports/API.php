@@ -817,6 +817,6 @@ class API
      */
     public static function isSegmentEditorActivated()
     {
-        return \Piwik\PluginsManager::getInstance()->isPluginActivated('SegmentEditor');
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('SegmentEditor');
     }
 }

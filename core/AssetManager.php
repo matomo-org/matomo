@@ -110,7 +110,7 @@ class AssetManager
      */
     public static function generateAssetsCacheBuster()
     {
-        $pluginList = md5(implode(",", PluginsManager::getInstance()->getLoadedPluginsName()));
+        $pluginList = md5(implode(",", \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName()));
         $cacheBuster = md5(SettingsPiwik::getSalt() . $pluginList . PHP_VERSION . Version::VERSION);
         return $cacheBuster;
     }
@@ -305,8 +305,8 @@ class AssetManager
         $stylesheets = self::sortCssFiles($stylesheets);
 
         // We look for the currently enabled theme and add CSS from the json
-        $theme = PluginsManager::getInstance()->getThemeEnabled();
-        if ($theme && $theme->getPluginName() != PluginsManager::DEFAULT_THEME) {
+        $theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
+        if ($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
             $info = $theme->getInformation();
             if (isset($info['stylesheet'])) {
                 $themeStylesheetFile = 'plugins/' . $theme->getPluginName() . '/' . $info['stylesheet'];

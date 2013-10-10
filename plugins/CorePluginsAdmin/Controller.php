@@ -16,7 +16,7 @@ use Piwik\Filesystem;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Url;
 use Piwik\View;
 
@@ -106,7 +106,7 @@ class Controller extends Plugin\ControllerAdmin
             'name'        => $pluginMetadata->name,
             'version'     => $pluginMetadata->version,
             'isTheme'     => !empty($pluginMetadata->theme),
-            'isActivated' => PluginsManager::getInstance()->isPluginActivated($pluginMetadata->name)
+            'isActivated' => \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginMetadata->name)
         );
 
         echo $view->render();
@@ -194,7 +194,7 @@ class Controller extends Plugin\ControllerAdmin
 
         $users = \Piwik\Plugins\UsersManager\API::getInstance()->getUsers();
         $view->otherUsersCount = count($users) - 1;
-        $view->themeEnabled = PluginsManager::getInstance()->getThemeEnabled()->getPluginName();
+        $view->themeEnabled = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
 
         $marketplace = new Marketplace();
         $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly);
@@ -229,7 +229,7 @@ class Controller extends Plugin\ControllerAdmin
 
     protected function getPluginsInfo($themesOnly = false)
     {
-        $plugins = PluginsManager::getInstance()->returnLoadedPluginsInfo();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
 
         foreach ($plugins as $pluginName => &$plugin) {
             if (!isset($plugin['info'])) {
@@ -271,7 +271,7 @@ class Controller extends Plugin\ControllerAdmin
     public function deactivate($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
-        \Piwik\PluginsManager::getInstance()->deactivatePlugin($pluginName);
+        \Piwik\Plugin\Manager::getInstance()->deactivatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
 
@@ -302,11 +302,11 @@ class Controller extends Plugin\ControllerAdmin
     {
         $pluginName = $this->initPluginModification(static::ACTIVATE_NONCE);
 
-        \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
+        \Piwik\Plugin\Manager::getInstance()->activatePlugin($pluginName);
 
         if ($redirectAfter) {
             $params = array('activated' => 1, 'pluginName' => $pluginName);
-            $plugin = PluginsManager::getInstance()->loadPlugin($pluginName);
+            $plugin = \Piwik\Plugin\Manager::getInstance()->loadPlugin($pluginName);
 
             $actionToRedirect = 'plugins';
             if ($plugin->isTheme()) {
@@ -321,7 +321,7 @@ class Controller extends Plugin\ControllerAdmin
     {
         $pluginName = $this->initPluginModification(static::UNINSTALL_NONCE);
 
-        $uninstalled = \Piwik\PluginsManager::getInstance()->uninstallPlugin($pluginName);
+        $uninstalled = \Piwik\Plugin\Manager::getInstance()->uninstallPlugin($pluginName);
 
         if (!$uninstalled) {
             $path = Filesystem::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';

@@ -88,7 +88,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function installAndLoadPlugins($installPlugins)
     {
-        $pluginsManager = \Piwik\PluginsManager::getInstance();
+        $pluginsManager = \Piwik\Plugin\Manager::getInstance();
         $plugins = $pluginsManager->readPluginsDirectory();
 
         $pluginsManager->loadPlugins($plugins);
@@ -100,7 +100,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function loadAllPlugins()
     {
-        $pluginsManager = \Piwik\PluginsManager::getInstance();
+        $pluginsManager = \Piwik\Plugin\Manager::getInstance();
         $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
         $pluginsToLoad[] = 'DevicesDetection';
         
@@ -110,11 +110,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function unloadAllPlugins()
     {
         try {
-            $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
+            $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
             foreach ($plugins AS $plugin) {
                 $plugin->uninstall();
             }
-            \Piwik\PluginsManager::getInstance()->unloadPlugins();
+            \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
         } catch (Exception $e) {
         }
     }
@@ -168,7 +168,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
             DbHelper::createTables();
 
-            \Piwik\PluginsManager::getInstance()->loadPlugins(array());
+            \Piwik\Plugin\Manager::getInstance()->loadPlugins(array());
         } catch (Exception $e) {
             self::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }

@@ -22,7 +22,7 @@ class Tracker_ActionTest extends DatabaseTestCase
         $config->clear();
         $config->setTestEnvironment($userFile, false);
 
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('SitesManager'));
         
         Translate::loadEnglishTranslation();
     }

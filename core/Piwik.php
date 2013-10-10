@@ -461,7 +461,7 @@ class Piwik
      */
     static public function getCurrentPlugin()
     {
-        return \Piwik\PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
+        return \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin(Piwik::getModule());
     }
 
     /**

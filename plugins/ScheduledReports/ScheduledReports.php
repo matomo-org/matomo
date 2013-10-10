@@ -221,7 +221,7 @@ class ScheduledReports extends \Piwik\Plugin
                         :
                         $displayFormat != self::DISPLAY_FORMAT_TABLES_ONLY)
                     && \Piwik\SettingsServer::isGdExtensionEnabled()
-                    && \Piwik\PluginsManager::getInstance()->isPluginActivated('ImageGraph')
+                    && \Piwik\Plugin\Manager::getInstance()->isPluginActivated('ImageGraph')
                     && !empty($metadata['imageGraphUrl']);
 
                 $processedReport['evolutionGraph'] = $evolutionGraph;
@@ -478,7 +478,7 @@ class ScheduledReports extends \Piwik\Plugin
             13,
             $isHTML = false,
             $tooltip = Piwik::translate(
-                \Piwik\PluginsManager::getInstance()->isPluginActivated('MobileMessaging')
+                \Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')
                     ? 'MobileMessaging_TopLinkTooltip' : 'ScheduledReports_TopLinkTooltip'
             )
         );
@@ -487,7 +487,7 @@ class ScheduledReports extends \Piwik\Plugin
     function getTopMenuTranslationKey()
     {
         // if MobileMessaging is not activated, display 'Email reports'
-        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('MobileMessaging'))
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging'))
             return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
 
         if (Piwik::isUserIsAnonymous()) {

@@ -643,7 +643,7 @@ class Archive
 
         $plugin = substr($report, 0, strpos($report, '_'));
         if (empty($plugin)
-            || !\Piwik\PluginsManager::getInstance()->isPluginActivated($plugin)
+            || !\Piwik\Plugin\Manager::getInstance()->isPluginActivated($plugin)
         ) {
             $pluginStr = empty($plugin) ? '' : "($plugin)";
             throw new \Exception("Error: The report '$report' was requested but it is not available "

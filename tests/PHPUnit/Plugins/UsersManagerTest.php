@@ -16,8 +16,8 @@ class UsersManagerTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        \Piwik\PluginsManager::getInstance()->loadPlugin('UsersManager');
-        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugin('UsersManager');
+        \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;

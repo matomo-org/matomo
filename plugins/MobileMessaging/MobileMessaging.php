@@ -168,7 +168,7 @@ class MobileMessaging extends \Piwik\Plugin
     public function getRendererInstance(&$reportRenderer, $info)
     {
         if (self::manageEvent($info)) {
-            if (\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites')) {
+            if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MultiSites')) {
                 $reportRenderer = new Sms();
             } else {
                 $reportRenderer = new ReportRendererException(

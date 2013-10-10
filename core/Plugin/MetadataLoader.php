@@ -13,7 +13,7 @@ namespace Piwik\Plugin;
 use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Version;
 
 /**
@@ -83,7 +83,7 @@ class MetadataLoader
 
     private function loadPluginInfoJson()
     {
-        $path = PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
+        $path = \Piwik\Plugin\Manager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
         return $this->loadJsonMetadata($path);
     }
 

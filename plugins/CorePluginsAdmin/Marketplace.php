@@ -12,7 +12,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 
 /**
  *
@@ -49,7 +49,7 @@ class Marketplace
 
         foreach ($plugins as &$plugin) {
             $plugin['canBeUpdated'] = $this->hasPluginUpdate($plugin);
-            $plugin['isInstalled'] = PluginsManager::getInstance()->isPluginLoaded($plugin['name']);
+            $plugin['isInstalled'] = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded($plugin['name']);
             $plugin['lastUpdated'] = Date::factory($plugin['lastUpdated'])->getLocalized($dateFormat);
         }
 
@@ -79,7 +79,7 @@ class Marketplace
      */
     public function getPluginsHavingUpdate($themesOnly)
     {
-        $pluginManager = PluginsManager::getInstance();
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
         $pluginManager->returnLoadedPluginsInfo();
         $loadedPlugins = $pluginManager->getLoadedPlugins();
 

@@ -619,7 +619,7 @@ class Actions extends \Piwik\Plugin
 
     static protected function isCustomVariablesPluginsEnabled()
     {
-        return \Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
     }
 
     /**

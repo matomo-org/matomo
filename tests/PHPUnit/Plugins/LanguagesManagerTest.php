@@ -8,7 +8,7 @@
 use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\API;
 use Piwik\Translate\Writer;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Translate\Validate\NoScripts;
 use Piwik\Translate\Validate\CoreTranslations;
 use Piwik\Translate\Filter\ByBaseTranslations;
@@ -32,7 +32,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
         $languages = API::getInstance()->getAvailableLanguages();
 
-        $plugins = PluginsManager::getInstance()->readPluginsDirectory();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->readPluginsDirectory();
 
         $pluginsWithTranslation = array();
 

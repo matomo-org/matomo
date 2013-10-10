@@ -29,8 +29,8 @@ class MobileMessagingTest extends DatabaseTestCase
 
         $this->idSiteAccess = APISitesManager::getInstance()->addSite("test", "http://test");
 
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging', 'MultiSites'));
-        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging', 'MultiSites'));
+        \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
     }
 
 
@@ -43,8 +43,8 @@ class MobileMessagingTest extends DatabaseTestCase
     public function testWarnUserViaSMSMultiSitesDeactivated()
     {
         // safety net
-        \Piwik\PluginsManager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging'));
-        $this->assertFalse(\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites'));
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('ScheduledReports', 'MobileMessaging'));
+        $this->assertFalse(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MultiSites'));
 
         $APIScheduledReports = APIScheduledReports::getInstance();
         $reportId = $APIScheduledReports->addReport(

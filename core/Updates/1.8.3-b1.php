@@ -50,7 +50,7 @@ class Updates_1_8_3_b1 extends Updates
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
-        if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded('ScheduledReports')) {
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('ScheduledReports')) {
             return;
         }
 

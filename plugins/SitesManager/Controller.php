@@ -73,7 +73,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->globalSearchKeywordParameters = API::getInstance()->getSearchKeywordParametersGlobal();
         $view->globalSearchCategoryParameters = API::getInstance()->getSearchCategoryParametersGlobal();
-        $view->isSearchCategoryTrackingEnabled = \Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        $view->isSearchCategoryTrackingEnabled = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
         $view->allowSiteSpecificUserAgentExclude =
             API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
 

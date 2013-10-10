@@ -282,10 +282,10 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     public function testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
     {
         // temporarily unload plugins
-        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
         $plugins = array_map(function ($p) { return $p->getPluginName(); }, $plugins);
 
-        \Piwik\PluginsManager::getInstance()->unloadPlugins();
+        \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
         
         // make sure the get tasks event returns our configured tasks
         \Piwik\Piwik::addAction(TaskScheduler::GET_TASKS_EVENT, function(&$tasks) use($configuredTasks) {
@@ -313,7 +313,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
         // restore loaded plugins & piwik options
         EventDispatcher::getInstance()->clearObservers(TaskScheduler::GET_TASKS_EVENT);
-        \Piwik\PluginsManager::getInstance()->loadPlugins($plugins);
+        \Piwik\Plugin\Manager::getInstance()->loadPlugins($plugins);
         self::resetPiwikOption();
     }
 

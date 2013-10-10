@@ -443,7 +443,7 @@ abstract class ArchiveProcessor
         if ($pluginBeingProcessed == $pluginName) {
             return true;
         }
-        if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
             return true;
         }
         return false;

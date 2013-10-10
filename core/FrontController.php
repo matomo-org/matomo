@@ -63,7 +63,7 @@ class FrontController
             throw new Exception("Invalid module name '$module'");
         }
 
-        if (!PluginsManager::getInstance()->isPluginActivated($module)) {
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
             throw new PluginDeactivatedException($module);
         }
 
@@ -297,7 +297,7 @@ class FrontController
             $this->handleMaintenanceMode();
             $this->handleSSLRedirection();
 
-            $pluginsManager = PluginsManager::getInstance();
+            $pluginsManager = \Piwik\Plugin\Manager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
 
             $pluginsManager->loadPlugins($pluginsToLoad);
@@ -332,7 +332,7 @@ class FrontController
              */
             Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
-            PluginsManager::getInstance()->installLoadedPlugins();
+            \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
             // ensure the current Piwik URL is known for later use
             if (method_exists('Piwik\SettingsPiwik', 'getPiwikUrl')) {

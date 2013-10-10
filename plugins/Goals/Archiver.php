@@ -332,7 +332,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             }
             $label = "Value not defined";
             // Product Name/Category not defined"
-            if (PluginsManager::getInstance()->isPluginActivated('CustomVariables')) {
+            if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables')) {
                 $label = \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED;
             }
         }

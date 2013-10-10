@@ -80,7 +80,7 @@ class EventDispatcher
         }
 
         if (empty($plugins)) {
-            $plugins = PluginsManager::getInstance()->getLoadedPlugins();
+            $plugins = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugins();
         }
 
         $callbacks = array();
@@ -88,7 +88,7 @@ class EventDispatcher
         // collect all callbacks to execute
         foreach ($plugins as $plugin) {
             if (is_string($plugin)) {
-                $plugin = PluginsManager::getInstance()->getLoadedPlugin($plugin);
+                $plugin = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin($plugin);
             }
 
             $hooks = $plugin->getListHooksRegistered();

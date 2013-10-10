@@ -49,7 +49,7 @@ class Translate
         self::unloadEnglishTranslation();
         self::loadEnglishTranslation();
         self::loadCoreTranslation($language);
-        PluginsManager::getInstance()->loadPluginTranslations($language);
+        \Piwik\Plugin\Manager::getInstance()->loadPluginTranslations($language);
     }
 
     /**
@@ -114,17 +114,17 @@ class Translate
     }
 
     /** Reset the cached language to load. Used in tests. */
-    static public function reset()
+    public static function reset()
     {
         self::$languageToLoad = null;
     }
 
-    public function getLanguageLoaded()
+    public static function getLanguageLoaded()
     {
         return self::$loadedLanguage;
     }
 
-    public function getLanguageDefault()
+    public static function getLanguageDefault()
     {
         return Config::getInstance()->General['default_language'];
     }
@@ -132,7 +132,7 @@ class Translate
     /**
      * Generate javascript translations array
      */
-    public function getJavascriptTranslations()
+    public static function getJavascriptTranslations()
     {
         $translations = & $GLOBALS['Piwik_translations'];
 
@@ -155,7 +155,7 @@ class Translate
      * Returns the list of client side translations by key. These translations will be outputted
      * to the translation JavaScript.
      */
-    private function getClientSideTranslationKeys()
+    private static function getClientSideTranslationKeys()
     {
         $result = array();
 

@@ -12,7 +12,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\CacheFile;
 use Piwik\Http;
-use Piwik\PluginsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Version;
 
 /**
@@ -72,7 +72,7 @@ class MarketplaceApiClient
 
         foreach ($plugins as $plugin) {
             $pluginName = $plugin->getPluginName();
-            if (!PluginsManager::getInstance()->isPluginBundledWithCore($pluginName)) {
+            if (!\Piwik\Plugin\Manager::getInstance()->isPluginBundledWithCore($pluginName)) {
                 $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion());
             }
         }

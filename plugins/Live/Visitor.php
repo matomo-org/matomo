@@ -351,7 +351,7 @@ class Visitor
     function getKeyword()
     {
         $keyword = $this->details['referer_keyword'];
-        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referrers')
+        if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Referrers')
             && $this->getReferrerType() == 'search'
         ) {
             $keyword = \Piwik\Plugins\Referrers\API::getCleanKeyword($keyword);
@@ -362,7 +362,7 @@ class Visitor
     function getReferrerUrl()
     {
         if ($this->getReferrerType() == 'search') {
-            if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referrers')
+            if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Referrers')
                 && $this->details['referer_keyword'] == APIReferrers::LABEL_KEYWORD_NOT_DEFINED
             ) {
                 return 'http://piwik.org/faq/general/#faq_144';
@@ -520,7 +520,7 @@ class Visitor
 
     function getDeviceType()
     {
-        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
+        if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('DevicesDetection')) {
             return \Piwik\Plugins\DevicesDetection\getDeviceTypeLabel($this->details['config_device_type']);
         }
         return false;

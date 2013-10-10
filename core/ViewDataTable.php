@@ -1007,7 +1007,7 @@ class ViewDataTable
             $reportYear = $reportDate->toString('Y');
             $reportMonth = $reportDate->toString('m');
 
-            if (PluginsManager::getInstance()->isPluginActivated('PrivacyManager')
+            if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('PrivacyManager')
                 && Plugins\PrivacyManager\PrivacyManager::shouldReportBePurged($reportYear, $reportMonth)
             ) {
                 return true;
@@ -1085,7 +1085,7 @@ class ViewDataTable
 
     protected function overrideViewProperties()
     {
-        if (!PluginsManager::getInstance()->isPluginActivated('Goals')) {
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = false;
         }
 
