@@ -2,6 +2,7 @@
 PIWIKPATH=$PWD/..
 GitBranchName="translationupdates"
 DOWNLOADPATH="${PIWIKPATH}/tmp/oTrance"
+pluginName=""
 
 ################################
 # Fetches package from oTrance
@@ -157,8 +158,18 @@ function createPullRequest() {
 #
 function mergeBranchWithMaster() {
 
+    cd ${PIWIKPATH};
+
     git checkout master > /dev/null 2>&1
     git pull > /dev/null 2>&1
+    git submodule init > /dev/null 2>&1
+    git submodule update > /dev/null 2>&1
+
+    if [ ${pluginName} ]; then
+        cd ${PIWIKPATH}/plugins/${pluginName}
+        git checkout master > /dev/null 2>&1
+        git pull > /dev/null 2>&1
+    fi;
 
     # check if branch exists local (assume its the correct one if so)
     git branch | grep ${GitBranchName} > /dev/null 2>&1
@@ -181,8 +192,14 @@ function mergeBranchWithMaster() {
 function commitLanguageFiles() {
 
     cd ${PIWIKPATH}
+
+    if [ ${pluginName} ]; then
+        cd plugins/${pluginName}
+    fi;
+
     git add lang/. > /dev/null 2>&1
-    git commit -m "language update refs #3430"
+
+    git commit -m "language update ${pluginName} refs #3430"
     git push
 }
 #
@@ -247,12 +264,6 @@ function setTranslationsForLanguage() {
         return 1;
     fi
 
-    if [ "$#" -eq 3 ]; then
-        pluginName=${3};
-    else
-        pluginName=""
-    fi
-
     # second parameter needs to be a already existing core language
     existingLanguages=(`showAvailableLanguageCodes`);
     if [[ ! ${existingLanguages[@]} =~ ${1} ]]; then
@@ -277,6 +288,7 @@ function setTranslationsForLanguage() {
         @ini_set("include_path", PIWIK_INCLUDE_SEARCH_PATH);
         @set_include_path(PIWIK_INCLUDE_SEARCH_PATH);
 
+        require_once PIWIK_INCLUDE_PATH . "/libs/upgradephp/upgrade.php";
         require_once PIWIK_INCLUDE_PATH . "/core/Loader.php";
         require_once PIWIK_INCLUDE_PATH . "/core/functions.php";
         include_once PIWIK_INCLUDE_PATH . "/vendor/autoload.php";
@@ -315,6 +327,10 @@ function setTranslationsForLanguage() {
             die("Failed setting translations:" . $translationWriter->getValidationMessage() . "\n");
         }
 
+        if (!$translationWriter->hasTranslations()) {
+            die("No translations available\n");
+        }
+
         $translationWriter->save();
         echo "Translations updated\n";
     ';
@@ -329,6 +345,16 @@ function setTranslationsForLanguage() {
 #
 function updateLanguageFiles() {
 
+    pluginsWithTranslations=(`showPluginsWithTranslations`);
+
+    if [ "$#" -eq 2 ]; then
+        pluginName=${2};
+
+        if [[ ! ${pluginsWithTranslations[@]} =~ ${pluginName} ]]; then
+            echo "${pluginName} does not exist or has no own language files"; exit;
+        fi;
+    fi
+
     mergeBranchWithMaster;
     fetchTranslationsFromOTrance;
 
@@ -336,8 +362,9 @@ function updateLanguageFiles() {
     availableFiles=(`ls ${DOWNLOADPATH} | grep "\.json"`);
 
     for i in "${availableFiles[@]}"; do
+        # update translation file
         if [[ ! ${existingLanguages[@]} =~ ${i:0:-5} ]]; then
-            echo "${i} does not exits";
+            echo "language ${i:0:-5} does not exits";
         else
             setTranslationsForLanguage ${i:0:-5} ${DOWNLOADPATH}/${i};
         fi;
@@ -363,8 +390,8 @@ Available Commands:
     - languagenames|ln      shows available language names
     - languagecodes|lc      shows available language codes
     - plugintranslations|pt shows all plugins that have own translation files
-    - up                    updates the language files from oTrance
-                            and creates a pull request
+    - up [PluginName]       updates the language files from oTrance and creates a pull request
+                            if [PlguinName] is provided, language files for the plugin are updated
     - fetch                 fetches translations files from oTrance to tmp/oTrance
     - help|usage            shows tihs help screen"
 }
@@ -378,8 +405,8 @@ case ${COMMAND} in
     languagenames)  showAvailableLanguageName;;
     lc)             showAvailableLanguageCodes;;
     languagecodes)  showAvailableLanguageCodes;;
-    plugintranslations) showPluginsWithTranslations;;
     pt)             showPluginsWithTranslations;;
+    plugintranslations) showPluginsWithTranslations;;
     up)             updateLanguageFiles;;
     fetch)          fetchTranslationsFromOTrance;;
     *)              showHelp
