@@ -233,9 +233,6 @@ class Archiver extends PluginsArchiver
 
     protected function archiveEcommerceItems()
     {
-        if (!$this->shouldArchiveEcommerceItems()) {
-            return false;
-        }
         $this->initItemReports();
         foreach ($this->getItemsDimensions() as $dimension) {
             $query = $this->getLogAggregator()->queryEcommerceItems($dimension);
@@ -270,17 +267,6 @@ class Archiver extends PluginsArchiver
                 $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized());
             }
         }
-    }
-
-    protected function shouldArchiveEcommerceItems()
-    {
-        // Per item doesn't support segment
-        // Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request
-        // event if it did support segment
-        if (!$this->getProcessor()->getSegment()->isEmpty()) {
-            return false;
-        }
-        return true;
     }
 
     protected function getItemsDimensions()
@@ -386,13 +372,11 @@ class Archiver extends PluginsArchiver
         /*
          * Archive Ecommerce Items
          */
-        if ($this->shouldArchiveEcommerceItems()) {
-            $dataTableToSum = $this->dimensionRecord;
-            foreach ($this->dimensionRecord as $recordName) {
-                $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
-            }
-            $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
+        $dataTableToSum = $this->dimensionRecord;
+        foreach ($this->dimensionRecord as $recordName) {
+            $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
         }
+        $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
 
         /*
          *  Archive General Goal metrics

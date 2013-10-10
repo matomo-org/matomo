@@ -214,8 +214,8 @@ class Segment
      */
     private function generateJoins($tables)
     {
-        $knownTables = array("log_visit", "log_link_visit_action", "log_conversion");
-        $visitsAvailable = $actionsAvailable = $conversionsAvailable = false;
+        $knownTables = array("log_visit", "log_link_visit_action", "log_conversion", "log_conversion_item");
+        $visitsAvailable = $actionsAvailable = $conversionsAvailable = $conversionsAvailableItem = false;
         $joinWithSubSelect = false;
         $sql = '';
 
@@ -235,6 +235,14 @@ class Segment
         if ($actionIndex > 0 && $visitIndex > 0 && $actionIndex > $visitIndex) {
             $tables[$actionIndex] = "log_visit";
             $tables[$visitIndex] = "log_link_visit_action";
+        }
+
+        $conversionsAvailableItem = array_search("log_conversion_item", $tables);
+        if ($conversionsAvailableItem > -1) {
+            $visitIndex = array_search("log_visit", $tables);
+            if ($visitIndex > -1) {
+                unset ($tables[$visitIndex]);
+            }
         }
 
         foreach ($tables as $i => $table) {
