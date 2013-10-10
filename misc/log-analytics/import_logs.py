@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# vim: et sw=4 ts=4:
 # -*- coding: utf-8 -*-
 #
 # Piwik - Open source web analytics
@@ -107,6 +108,7 @@ PIWIK_EXPECTED_IMAGE = base64.b64decode(
 class BaseFormat(object):
     def __init__(self, name):
         self.name = name
+        self.regex = None
         self.date_format = '%d/%b/%Y:%H:%M:%S'
 
     def check_format(self, file):
