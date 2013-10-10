@@ -45,41 +45,40 @@ class Cloud extends Visualization
     protected $wordsArray = array();
     public $truncatingLimit = 50;
 
-    public function init()
+    public function afterLoadDataTable()
     {
         $view = $this->viewDataTable;
-        $self = $this;
-        $view->after_data_loaded_functions[] = function ($dataTable, $view) use ($self) {
-            if ($dataTable->getRowsCount() == 0) {
-                return;
+        $dataTable = $this->viewDataTable->getDataTable();
+
+        if ($dataTable->getRowsCount() == 0) {
+            return;
+        }
+
+        $columnToDisplay = isset($view->columns_to_display[1]) ? $view->columns_to_display[1] : 'nb_visits';
+
+        $labelMetadata = array();
+        foreach ($dataTable->getRows() as $row) {
+            $logo = false;
+            if ($view->visualization_properties->display_logo_instead_of_label) {
+                $logo = $row->getMetadata('logo');
             }
 
-            $columnToDisplay = isset($view->columns_to_display[1]) ? $view->columns_to_display[1] : 'nb_visits';
+            $label = $row->getColumn('label');
 
-            $labelMetadata = array();
-            foreach ($dataTable->getRows() as $row) {
-                $logo = false;
-                if ($view->visualization_properties->display_logo_instead_of_label) {
-                    $logo = $row->getMetadata('logo');
-                }
+            $labelMetadata[$label] = array(
+                'logo' => $logo,
+                'url'  => $row->getMetadata('url'),
+            );
 
-                $label = $row->getColumn('label');
+            $this->addWord($label, $row->getColumn($columnToDisplay));
+        }
+        $cloudValues = $this->getCloudValues();
+        foreach ($cloudValues as &$value) {
+            $value['logoWidth'] = round(max(16, $value['percent']));
+        }
 
-                $labelMetadata[$label] = array(
-                    'logo' => $logo,
-                    'url'  => $row->getMetadata('url'),
-                );
-
-                $self->addWord($label, $row->getColumn($columnToDisplay));
-            }
-            $cloudValues = $self->getCloudValues();
-            foreach ($cloudValues as &$value) {
-                $value['logoWidth'] = round(max(16, $value['percent']));
-            }
-
-            $self->labelMetadata = $labelMetadata;
-            $self->cloudValues = $cloudValues;
-        };
+        $this->labelMetadata = $labelMetadata;
+        $this->cloudValues   = $cloudValues;
     }
 
     public static function getDefaultPropertyValues()
