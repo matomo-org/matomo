@@ -31,22 +31,6 @@ class GitCommit extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $commitMessage = $input->getOption('message');
-
-        if (empty($commitMessage)) {
-            $output->writeln('No message specified. Use option -m or --message.');
-            return;
-        }
-
-        if (!$this->hasChangesToBeCommitted()) {
-            $dialog   = $this->getHelperSet()->get('dialog');
-            $question = '<question>There are no changes to be commited in the super repo, do you just want to commit and converge submodules?</question>';
-            if (!$dialog->askConfirmation($output, $question, false)) {
-                $output->writeln('<info>Cool, nothing done. Stage files using "git add" and try again.</info>');
-                return;
-            }
-        }
-
         $submodules = $this->getSubmodulePaths();
 
         foreach ($submodules as $submodule) {
@@ -59,6 +43,22 @@ class GitCommit extends Command
                 $output->writeln(sprintf('<error>%s has untracked files or folders. Delete or add them and try again.</error>', $submodule));
                 $output->writeln('<error>Status:</error>');
                 $output->writeln(sprintf('<comment>%s</comment>', $status));
+                return;
+            }
+        }
+
+        $commitMessage = $input->getOption('message');
+
+        if (empty($commitMessage)) {
+            $output->writeln('No message specified. Use option -m or --message.');
+            return;
+        }
+
+        if (!$this->hasChangesToBeCommitted()) {
+            $dialog   = $this->getHelperSet()->get('dialog');
+            $question = '<question>There are no changes to be commited in the super repo, do you just want to commit and converge submodules?</question>';
+            if (!$dialog->askConfirmation($output, $question, false)) {
+                $output->writeln('<info>Cool, nothing done. Stage files using "git add" and try again.</info>');
                 return;
             }
         }
