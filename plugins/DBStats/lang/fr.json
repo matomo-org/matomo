@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Ce plugin effectue des rapports sur l'utilisation de la base de données MySQL par les tables de Piwik.",
         "DatabaseUsage": "Utilisation de la base de données",
-        "MainDescription": "Piwik stocke toutes vos donnés de statistiques web dans la base de données MySQL. En ce moment les tables de Piwik utilisent %s.",
-        "LearnMore": "Pour en apprendre plus à propos de la manière dont Piwik traite les données et sur comment faire fonctionner Piwik correctement pour les sites à moyen et fort trafic, consultez la documentation %s.",
-        "Table": "Table",
-        "RowCount": "Nombre de lignes",
         "DataSize": "Taille des données",
-        "IndexSize": "Taille de l'index",
-        "TotalSize": "Taille totale",
         "DBSize": "Taille de la BDD",
-        "ReportDataByYear": "Tables de rapports par année",
-        "MetricDataByYear": "Tables de métriques par année",
         "EstimatedSize": "Taille estimée",
-        "TrackerTables": "Tables de suivi",
-        "ReportTables": "Tables de rapport",
+        "IndexSize": "Taille de l'index",
+        "LearnMore": "Pour en apprendre plus à propos de la manière dont Piwik traite les données et sur comment faire fonctionner Piwik correctement pour les sites à moyen et fort trafic, consultez la documentation %s.",
+        "MainDescription": "Piwik stocke toutes vos donnés de statistiques web dans la base de données MySQL. En ce moment les tables de Piwik utilisent %s.",
+        "MetricDataByYear": "Tables de métriques par année",
         "MetricTables": "Tables de métriques",
-        "OtherTables": "Autres tables"
+        "OtherTables": "Autres tables",
+        "PluginDescription": "Ce plugin effectue des rapports sur l'utilisation de la base de données MySQL par les tables de Piwik.",
+        "ReportDataByYear": "Tables de rapports par année",
+        "ReportTables": "Tables de rapport",
+        "RowCount": "Nombre de lignes",
+        "Table": "Table",
+        "TotalSize": "Taille totale",
+        "TrackerTables": "Tables de suivi"
     }
 }

@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Piwik テーブルによる MySQL データベースの使用量をリポートします。",
         "DatabaseUsage": "データベースの使用量",
-        "MainDescription": "Piwik はすべてのウェブ解析データを Mysql データベースに保存します。 現在のところ、Piwik テーブルは %s を使用しています。",
-        "LearnMore": "Piwik のデータ処理方法やトラフィックの比較的高いウェブサイトで Piwik をうまく機能させる方法についての詳細は、ドキュメント %s を参照してください。",
-        "Table": "テーブル",
-        "RowCount": "行数",
         "DataSize": "データサイズ",
-        "IndexSize": "インデックスサイズ",
-        "TotalSize": "総サイズ",
         "DBSize": "DB サイズ",
-        "ReportDataByYear": "年次のリポート表",
-        "MetricDataByYear": "年次のメトリック表",
         "EstimatedSize": "推定サイズ",
-        "TrackerTables": "トラッカー表",
-        "ReportTables": "リポート表",
+        "IndexSize": "インデックスサイズ",
+        "LearnMore": "Piwik のデータ処理方法やトラフィックの比較的高いウェブサイトで Piwik をうまく機能させる方法についての詳細は、ドキュメント %s を参照してください。",
+        "MainDescription": "Piwik はすべてのウェブ解析データを Mysql データベースに保存します。 現在のところ、Piwik テーブルは %s を使用しています。",
+        "MetricDataByYear": "年次のメトリック表",
         "MetricTables": "メトリック表",
-        "OtherTables": "その他の表"
+        "OtherTables": "その他の表",
+        "PluginDescription": "Piwik テーブルによる MySQL データベースの使用量をリポートします。",
+        "ReportDataByYear": "年次のリポート表",
+        "ReportTables": "リポート表",
+        "RowCount": "行数",
+        "Table": "テーブル",
+        "TotalSize": "総サイズ",
+        "TrackerTables": "トラッカー表"
     }
 }

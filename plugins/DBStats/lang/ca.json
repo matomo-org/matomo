@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Aquesta extensió mostra l'us de la Base de dades MySQL per les taules del Piwik.",
         "DatabaseUsage": "Ús de la base de dades",
-        "MainDescription": "El Piwik desa totes les anàlisis web la base de dades MySQL. Ara per ara, les taules del Piwik fan servir %s.",
-        "LearnMore": "Per obtenir més informació sobre com el Piwik procesa la informació i com fer que el Piwik funcioni correctament en llocs amb un tràfic mitja o elevat, consulteu la següent documentació: %s.",
-        "Table": "Taula",
-        "RowCount": "Nombre de files",
         "DataSize": "Grandària de les dades",
-        "IndexSize": "Grandària del l'índex",
-        "TotalSize": "Grandària total",
         "DBSize": "Mida de la BD",
-        "ReportDataByYear": "Taules d'informes per any",
-        "MetricDataByYear": "Taules de mètriques per any.",
         "EstimatedSize": "Mida estimada",
-        "TrackerTables": "Taules de rastreig",
-        "ReportTables": "Taules d'informes",
+        "IndexSize": "Grandària del l'índex",
+        "LearnMore": "Per obtenir més informació sobre com el Piwik procesa la informació i com fer que el Piwik funcioni correctament en llocs amb un tràfic mitja o elevat, consulteu la següent documentació: %s.",
+        "MainDescription": "El Piwik desa totes les anàlisis web la base de dades MySQL. Ara per ara, les taules del Piwik fan servir %s.",
+        "MetricDataByYear": "Taules de mètriques per any.",
         "MetricTables": "Taules de mètriques",
-        "OtherTables": "Altres taules"
+        "OtherTables": "Altres taules",
+        "PluginDescription": "Aquesta extensió mostra l'us de la Base de dades MySQL per les taules del Piwik.",
+        "ReportDataByYear": "Taules d'informes per any",
+        "ReportTables": "Taules d'informes",
+        "RowCount": "Nombre de files",
+        "Table": "Taula",
+        "TotalSize": "Grandària total",
+        "TrackerTables": "Taules de rastreig"
     }
 }

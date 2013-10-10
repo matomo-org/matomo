@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Dette innstikket rapporterer bruken til Piwik av MySQL-databasen.",
         "DatabaseUsage": "Databasebruk",
-        "MainDescription": "Piwik lagrar alle dine nettstatistikkdata i MySQL-databasen. Nett no nyttar tabellane til Piwik %s.",
-        "LearnMore": "For å læra meir om korleis Piwik prosesserer data, og korleis gjera at Piwik fungerer bra for nettstader med middels og høg trafikk, sjå dokumentasjonen %s.",
-        "Table": "Tabell",
-        "RowCount": "Rad",
         "DataSize": "Datastorleik",
-        "IndexSize": "Indeksstorleik",
-        "TotalSize": "Samla storleik",
         "DBSize": "DB-storleik",
-        "ReportDataByYear": "Rapport-tabellar etter år",
-        "MetricDataByYear": "Verdi-tabellar etter år",
         "EstimatedSize": "Omlag storleik",
-        "TrackerTables": "Sporings-tabellar",
-        "ReportTables": "Rapport-tabellar",
+        "IndexSize": "Indeksstorleik",
+        "LearnMore": "For å læra meir om korleis Piwik prosesserer data, og korleis gjera at Piwik fungerer bra for nettstader med middels og høg trafikk, sjå dokumentasjonen %s.",
+        "MainDescription": "Piwik lagrar alle dine nettstatistikkdata i MySQL-databasen. Nett no nyttar tabellane til Piwik %s.",
+        "MetricDataByYear": "Verdi-tabellar etter år",
         "MetricTables": "Verdi-tabellar",
-        "OtherTables": "Andre tabellar"
+        "OtherTables": "Andre tabellar",
+        "PluginDescription": "Dette innstikket rapporterer bruken til Piwik av MySQL-databasen.",
+        "ReportDataByYear": "Rapport-tabellar etter år",
+        "ReportTables": "Rapport-tabellar",
+        "RowCount": "Rad",
+        "Table": "Tabell",
+        "TotalSize": "Samla storleik",
+        "TrackerTables": "Sporings-tabellar"
     }
 }
