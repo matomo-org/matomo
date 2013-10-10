@@ -535,6 +535,7 @@ class Properties
         'filter_excludelowpop_value',
         'filter_pattern',
         'filter_column',
+        'filter_offset'
     );
 
     /**
