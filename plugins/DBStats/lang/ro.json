@@ -1,17 +1,17 @@
 {
     "DBStats": {
         "DatabaseUsage": "Utilizare baza date",
-        "MainDescription": "Piwik stocheaza toate datele statistice in baza de date Mysql . Curent, tabela Piwik utilizeaza %s.",
-        "Table": "Tabel",
-        "RowCount": "Numărul de înregistrări",
         "DataSize": "Marime date",
-        "IndexSize": "Marime index",
-        "TotalSize": "Marime totala",
         "DBSize": "Mărimea bazei de date",
-        "ReportDataByYear": "Tabele din raport pentru anul",
         "EstimatedSize": "Mărimea anticipată",
-        "ReportTables": "Tabele din raport",
+        "IndexSize": "Marime index",
+        "MainDescription": "Piwik stocheaza toate datele statistice in baza de date Mysql . Curent, tabela Piwik utilizeaza %s.",
         "MetricTables": "Tabele Metrici",
-        "OtherTables": "Alte tablete"
+        "OtherTables": "Alte tablete",
+        "ReportDataByYear": "Tabele din raport pentru anul",
+        "ReportTables": "Tabele din raport",
+        "RowCount": "Numărul de înregistrări",
+        "Table": "Tabel",
+        "TotalSize": "Marime totala"
     }
 }

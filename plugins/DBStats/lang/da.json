@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Programudvidelsen viser MySQL-database brugen af Piwik tabeller.",
         "DatabaseUsage": "Database brug",
-        "MainDescription": "Piwik gemmer al statistik i MySQL-databasen. Lige nu bruger Piwik-tabellerne %s.",
-        "LearnMore": "Hvis du vil vide mere om, hvordan Piwik behandler data, og hvordan man kan få Piwik til arbejde godt på mellem til stærkt trafikerede hjemmesider, se dokumentationen på %s.",
-        "Table": "Tabel",
-        "RowCount": "Række antal",
         "DataSize": "Data",
-        "IndexSize": "Indeks",
-        "TotalSize": "Samlet størrelse",
         "DBSize": "DB størrelse",
-        "ReportDataByYear": "Rapport tabeller fordelt på år",
-        "MetricDataByYear": "Målings tabeller fordelt på år",
         "EstimatedSize": "Anslået størrelse",
-        "TrackerTables": "Sporings tabeller",
-        "ReportTables": "Rapport tabeller",
+        "IndexSize": "Indeks",
+        "LearnMore": "Hvis du vil vide mere om, hvordan Piwik behandler data, og hvordan man kan få Piwik til arbejde godt på mellem til stærkt trafikerede hjemmesider, se dokumentationen på %s.",
+        "MainDescription": "Piwik gemmer al statistik i MySQL-databasen. Lige nu bruger Piwik-tabellerne %s.",
+        "MetricDataByYear": "Målings tabeller fordelt på år",
         "MetricTables": "Målings tabeller",
-        "OtherTables": "Andre tabeller"
+        "OtherTables": "Andre tabeller",
+        "PluginDescription": "Programudvidelsen viser MySQL-database brugen af Piwik tabeller.",
+        "ReportDataByYear": "Rapport tabeller fordelt på år",
+        "ReportTables": "Rapport tabeller",
+        "RowCount": "Række antal",
+        "Table": "Tabel",
+        "TotalSize": "Samlet størrelse",
+        "TrackerTables": "Sporings tabeller"
     }
 }
