@@ -194,7 +194,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_REFERER'] = '';
 
         // Make sure translations are loaded to check messages in English
-        Translate::getInstance()->reloadLanguage('en');
+        Translate::reloadLanguage('en');
         API::getInstance()->setLanguageForUser('superUserLogin', 'en');
 
         // List of Modules, or Module.Method that should not be called as part of the XML output compare
@@ -242,7 +242,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         \Piwik\Registry::unsetInstance();
 
         $_GET = $_REQUEST = array();
-        Translate::getInstance()->unloadEnglishTranslation();
+        Translate::unloadEnglishTranslation();
     }
 
     public function setUp()
@@ -1062,7 +1062,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         if ($this->lastLanguage != $langId) {
             $_GET['language'] = $langId;
             Translate::reset();
-            Translate::getInstance()->reloadLanguage($langId);
+            Translate::reloadLanguage($langId);
         }
 
         $this->lastLanguage = $langId;

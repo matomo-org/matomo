@@ -117,14 +117,14 @@ class PiwikTest extends DatabaseTestCase
             $this->markTestSkipped("Will not pass on 32-bit machine.");
         }
         
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
 
         $sentenceExpected = str_replace(' ', '&nbsp;', $expected[0]);
         $numericExpected = $expected[1];
         $this->assertEquals($sentenceExpected, MetricsFormatter::getPrettyTimeFromSeconds($seconds, $sentence = true));
         $this->assertEquals($numericExpected, MetricsFormatter::getPrettyTimeFromSeconds($seconds, $sentence = false));
 
-        Translate::getInstance()->unloadEnglishTranslation();
+        Translate::unloadEnglishTranslation();
     }
 
     /**
@@ -215,7 +215,7 @@ class PiwikTest extends DatabaseTestCase
      */
     public function testGetPrettyValue($columnName, $value, $expected)
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
 
         $access = Access::getInstance();
         $access->setSuperUser(true);
@@ -227,7 +227,7 @@ class PiwikTest extends DatabaseTestCase
             MetricsFormatter::getPrettyValue($idsite, $columnName, $value, false, false)
         );
 
-        Translate::getInstance()->unloadEnglishTranslation();
+        Translate::unloadEnglishTranslation();
     }
 
     /**

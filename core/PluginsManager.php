@@ -460,7 +460,7 @@ class PluginsManager
     public function loadPluginTranslations($language = false)
     {
         if (empty($language)) {
-            $language = Translate::getInstance()->getLanguageToLoad();
+            $language = Translate::getLanguageToLoad();
         }
         $plugins = $this->getLoadedPlugins();
 
@@ -727,7 +727,7 @@ class PluginsManager
 
         if (isset($translations[$pluginName])) {
             // only merge translations of plugin - prevents overwritten strings
-            Translate::getInstance()->mergeTranslationArray(array($pluginName => $translations[$pluginName]));
+            Translate::mergeTranslationArray(array($pluginName => $translations[$pluginName]));
         }
         return true;
     }

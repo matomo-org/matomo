@@ -91,7 +91,7 @@ class LanguagesManager extends \Piwik\Plugin
             $language = self::getLanguageCodeForCurrentUser();
         }
         if (!API::getInstance()->isLanguageAvailable($language)) {
-            $language = Translate::getInstance()->getLanguageDefault();
+            $language = Translate::getLanguageDefault();
         }
     }
 
@@ -140,7 +140,7 @@ class LanguagesManager extends \Piwik\Plugin
             $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), API::getInstance()->getAvailableLanguages());
         }
         if (!API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Translate::getInstance()->getLanguageDefault();
+            $languageCode = Translate::getLanguageDefault();
         }
         return $languageCode;
     }

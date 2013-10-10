@@ -15,12 +15,12 @@ class ActionsTests extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
     }
 
     public function tearDown()
     {
-        Translate::getInstance()->unloadEnglishTranslation();
+        Translate::unloadEnglishTranslation();
     }
 
     public function getActionNameTestData()

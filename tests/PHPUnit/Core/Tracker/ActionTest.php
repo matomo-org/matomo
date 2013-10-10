@@ -24,7 +24,7 @@ class Tracker_ActionTest extends DatabaseTestCase
 
         \Piwik\PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
         
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
     }
 
     protected function setUpRootAccess()

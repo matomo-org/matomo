@@ -89,7 +89,7 @@ class AssetManager
      */
     public static function getJsAssets()
     {
-        $result = "<script type=\"text/javascript\">\n" . Translate::getInstance()->getJavascriptTranslations() . "\n</script>";
+        $result = "<script type=\"text/javascript\">\n" . Translate::getJavascriptTranslations() . "\n</script>";
 
         if (self::isMergedAssetsDisabled()) {
             // Individual includes mode

@@ -370,7 +370,7 @@ class API
     public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        Translate::getInstance()->reloadLanguage($language);
+        Translate::reloadLanguage($language);
         $reporter = new ProcessedReport();
         $metadata = $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;

@@ -364,7 +364,7 @@ class Tracker
 
             // While each plugins should ensure that necessary languages are loaded,
             // we ensure English translations at least are loaded
-            Translate::getInstance()->loadEnglishTranslation();
+            Translate::loadEnglishTranslation();
 
             $resultTasks = TaskScheduler::runTasks();
 

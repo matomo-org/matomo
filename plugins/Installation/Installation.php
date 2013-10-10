@@ -58,7 +58,7 @@ class Installation extends \Piwik\Plugin
             $message = '';
         }
 
-        Translate::getInstance()->loadCoreTranslation();
+        Translate::loadCoreTranslation();
 
         $step = Common::getRequestVar('action', 'welcome', 'string');
         $controller = $this->getInstallationController();

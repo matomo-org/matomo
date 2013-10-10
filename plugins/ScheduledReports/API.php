@@ -305,10 +305,10 @@ class API
 
         // load specified language
         if (empty($language)) {
-            $language = Translate::getInstance()->getLanguageDefault();
+            $language = Translate::getLanguageDefault();
         }
 
-        Translate::getInstance()->reloadLanguage($language);
+        Translate::reloadLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
         $report = reset($reports);

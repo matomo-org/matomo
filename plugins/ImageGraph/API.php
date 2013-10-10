@@ -155,7 +155,7 @@ class API
         $useUnicodeFont = array(
             'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
         );
-        $languageLoaded = Translate::getInstance()->getLanguageLoaded();
+        $languageLoaded = Translate::getLanguageLoaded();
         $font = self::getFontPath(self::DEFAULT_FONT);
         if (in_array($languageLoaded, $useUnicodeFont)) {
             $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);

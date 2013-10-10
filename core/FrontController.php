@@ -285,7 +285,7 @@ class FrontController
             Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
             self::assignCliParametersToRequest();
 
-            Translate::getInstance()->loadEnglishTranslation();
+            Translate::loadEnglishTranslation();
 
             $exceptionToThrow = self::createConfigObject();
 
@@ -360,7 +360,7 @@ class FrontController
             }
             SettingsServer::raiseMemoryLimitIfNecessary();
 
-            Translate::getInstance()->reloadLanguage();
+            Translate::reloadLanguage();
             $pluginsManager->postLoadPlugins();
 
             /**

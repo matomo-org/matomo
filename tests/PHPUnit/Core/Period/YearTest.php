@@ -76,7 +76,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedShortString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedShortString());
@@ -89,7 +89,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedLongString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedLongString());
@@ -102,7 +102,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        Translate::getInstance()->loadEnglishTranslation();
+        Translate::loadEnglishTranslation();
         $year = new Year(Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getPrettyString());
