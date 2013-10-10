@@ -27,6 +27,7 @@ use Piwik\ViewDataTable\Visualization;
 class Cloud extends Visualization
 {
     const ID = 'cloud';
+    const TEMPLATE_FILE = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
 
     /**
      * Whether to display the logo assocatied with a DataTable row (stored as 'logo' row metadata)
@@ -43,8 +44,6 @@ class Cloud extends Visualization
 
     protected $wordsArray = array();
     public $truncatingLimit = 50;
-
-    protected $templateFile = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
 
     public function init()
     {

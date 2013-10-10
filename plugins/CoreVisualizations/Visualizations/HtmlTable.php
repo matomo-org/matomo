@@ -31,6 +31,8 @@ class HtmlTable extends Visualization
 {
     const ID = 'table';
 
+    const TEMPLATE_FILE = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
+
     /**
      * If this property is set to true, subtables will be shown as embedded in the original table.
      * If false, subtables will be shown as whole tables between rows.
@@ -146,8 +148,6 @@ class HtmlTable extends Visualization
         'keep_summary_row',
         'highlight_summary_row',
     );
-
-    protected $templateFile = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
 
     /**
      * Init.

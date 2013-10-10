@@ -23,6 +23,7 @@ use Piwik\ViewDataTable\Graph;
 class JqplotGraph extends Graph
 {
     const ID = 'jqplot_graph';
+    const TEMPLATE_FILE = '@CoreVisualizations/_dataTableViz_jqplotGraph.twig';
 
     /**
      * The name of the JavaScript class to use as this graph's external series toggle. The class
@@ -56,8 +57,6 @@ class JqplotGraph extends Graph
     );
 
     public static $overridableProperties = array('x_axis_step_size');
-
-    protected $templateFile = "@CoreVisualizations/_dataTableViz_jqplotGraph.twig";
 
     /**
      * Init.

@@ -18,14 +18,14 @@ use Piwik\ViewDataTable\Visualization;
  */
 class VisitorLog extends Visualization
 {
+    const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
+
     static public $clientSideParameters = array(
         'filter_limit',
         'filter_offset',
         'filter_sort_column',
         'filter_sort_order',
     );
-
-    protected $templateFile = "@Live/_dataTableViz_visitorLog.twig";
 
     /**
      * Init.

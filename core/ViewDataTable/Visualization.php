@@ -26,8 +26,7 @@ use Piwik\ViewDataTable;
 abstract class Visualization extends View
 {
     const GET_AVAILABLE_EVENT = 'Visualization.addVisualizations';
-
-    protected $templateFile = '';
+    const TEMPLATE_FILE = '';
 
     /**
      * @var ViewDataTable
@@ -36,7 +35,13 @@ abstract class Visualization extends View
 
     public function __construct($view)
     {
-        parent::__construct($this->templateFile);
+        $templateFile = static::TEMPLATE_FILE;
+
+        if (empty($templateFile)) {
+            throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
+        }
+
+        parent::__construct($templateFile);
 
         $this->viewDataTable = $view;
         $this->init();
