@@ -1110,9 +1110,15 @@ class ViewDataTable
         $this->overrideViewProperties();
 
         try {
+
+            $visualization->beforeLoadDataTable();
+
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI();
             $this->executeAfterDataLoadedCallbacks();
+
+            $visualization->afterLoadDataTable();
+
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {

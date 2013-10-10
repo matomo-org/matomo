@@ -14,6 +14,7 @@ namespace Piwik\ViewDataTable;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\View;
+use Piwik\ViewDataTable;
 
 /**
  * Base class for all DataTable visualizations. Different visualizations are used to
@@ -29,16 +30,32 @@ abstract class Visualization extends View
 
     protected $templateFile = '';
 
+    /**
+     * @var ViewDataTable
+     */
+    protected $viewDataTable;
+
     public function __construct($view)
     {
         parent::__construct($this->templateFile);
 
+        $this->viewDataTable = $view;
         $this->init($view);
     }
 
     protected function init($view)
     {
         // do your stuff here, do not overwrite constructor
+    }
+
+    public function beforeLoadDataTable()
+    {
+
+    }
+
+    public function afterLoadDataTable()
+    {
+
     }
 
     /**
