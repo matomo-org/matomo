@@ -700,8 +700,7 @@ class ViewDataTable
         $requestArray = array(
             'method'                  => $this->vizRequest->apiMethodToRequestDataTable,
             'format'                  => 'original',
-            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int'),
-            'disable_queued_filters'  => Common::getRequestVar('disable_queued_filters', 1, 'int')
+            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int')
         );
 
         $toSetEventually = array(
