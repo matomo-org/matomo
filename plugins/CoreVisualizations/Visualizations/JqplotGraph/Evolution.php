@@ -45,7 +45,7 @@ class Evolution extends JqplotGraph
     {
         parent::init();
 
-        $this->calculateEvolutionDateRange($this->viewDataTable);
+        $this->calculateEvolutionDateRange();
     }
 
     public function beforeLoadDataTable(Request $request, Config $properties)
@@ -102,8 +102,9 @@ class Evolution extends JqplotGraph
      * Based on the period, date and evolution_{$period}_last_n query parameters,
      * calculates the date range this evolution chart will display data for.
      */
-    private function calculateEvolutionDateRange(&$view)
+    private function calculateEvolutionDateRange()
     {
+        $view = $this->viewDataTable;
         $period = Common::getRequestVar('period');
 
         $defaultLastN = self::getDefaultLastN($period);

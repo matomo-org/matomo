@@ -20,6 +20,8 @@ use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
 use Piwik\ViewDataTable\Visualization;
+use Piwik\Visualization\Config as VizConfig;
+use Piwik\Visualization\Request;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/AllColumns.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/Goals.php';
@@ -149,25 +151,42 @@ class HtmlTable extends Visualization
         'highlight_summary_row',
     );
 
-    /**
-     * Init.
-     */
-    public function init()
+    public function configureVisualization(VizConfig $properties)
     {
-        $view = $this->viewDataTable;
-
         if (Common::getRequestVar('idSubtable', false)
-            && $view->visualization_properties->show_embedded_subtable
+            && $properties->visualization_properties->show_embedded_subtable
         ) {
-            $view->show_visualization_only = true;
+            $properties->show_visualization_only = true;
         }
 
-        if ($view->visualization_properties->show_extra_columns) {
-            $this->setShowExtraColumnsProperties($view);
+        if ($properties->visualization_properties->show_extra_columns) {
+            $properties->show_exclude_low_population = true;
+            $properties->datatable_css_class = 'dataTableVizAllColumns';
         }
 
-        if ($view->visualization_properties->show_goals_columns) {
-            $this->setShowGoalsColumnsProperties($view);
+        if ($properties->visualization_properties->show_goals_columns) {
+            $properties->datatable_css_class = 'dataTableVizGoals';
+            $properties->show_exclude_low_population = true;
+            $properties->show_goals = true;
+
+            $properties->translations += array(
+                'nb_conversions'    => Piwik::translate('Goals_ColumnConversions'),
+                'conversion_rate'   => Piwik::translate('General_ColumnConversionRate'),
+                'revenue'           => Piwik::translate('General_ColumnRevenue'),
+                'revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
+            );
+            $properties->metrics_documentation['nb_visits'] = Piwik::translate('Goals_ColumnVisits');
+
+            if (Common::getRequestVar('documentationForGoalsPage', 0, 'int') == 1) { // TODO: should not use query parameter
+                $properties->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
+                    array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>'));
+            }
+
+            if (!$properties->visualization_properties->disable_subtable_when_show_goals) {
+                $properties->subtable_controller_action = null;
+            }
+
+            $this->setShowGoalsColumnsProperties();
         }
     }
 
@@ -200,59 +219,55 @@ class HtmlTable extends Visualization
         return $defaults;
     }
 
-    private function setShowExtraColumnsProperties($view)
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     * @param \Piwik\Visualization\Config $properties
+     * @param \Piwik\Visualization\Request $request
+     */
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, VizConfig $properties, Request $request)
     {
-        $view->filters[] = array('AddColumnsProcessedMetrics', array(), $priority = true);
+        if ($properties->visualization_properties->show_extra_columns) {
+            $dataTable->filter(function ($dataTable) use ($properties) {
+                $columnsToDisplay = array('label', 'nb_visits');
 
-        $view->filters[] = function ($dataTable, $view) {
-            $columnsToDisplay = array('label', 'nb_visits');
+                if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
+                    $columnsToDisplay[] = 'nb_uniq_visitors';
+                }
 
-            if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
-                $columnsToDisplay[] = 'nb_uniq_visitors';
-            }
+                $columnsToDisplay = array_merge(
+                    $columnsToDisplay, array('nb_actions', 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate')
+                );
 
-            $columnsToDisplay = array_merge(
-                $columnsToDisplay, array('nb_actions', 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate')
-            );
+                // only display conversion rate for the plugins that do not provide "per goal" metrics
+                // otherwise, conversion rate is meaningless as a whole (since we don't process 'cross goals' conversions)
+                if (!$properties->show_goals) {
+                    $columnsToDisplay[] = 'conversion_rate';
+                }
 
-            // only display conversion rate for the plugins that do not provide "per goal" metrics
-            // otherwise, conversion rate is meaningless as a whole (since we don't process 'cross goals' conversions)
-            if (!$view->show_goals) {
-                $columnsToDisplay[] = 'conversion_rate';
-            }
+                $properties->columns_to_display = $columnsToDisplay;
+            });
 
-            $view->columns_to_display = $columnsToDisplay;
-        };
+            $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
 
-        $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
-        $view->filters[] = array('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
-
-        $view->show_exclude_low_population = true;
-
-        $view->datatable_css_class = 'dataTableVizAllColumns';
+            $dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
+        }
     }
 
-    private function setShowGoalsColumnsProperties($view)
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     * @param \Piwik\Visualization\Config $properties
+     * @param \Piwik\Visualization\Request $request
+     */
+    public function afterAllFilteresAreApplied($dataTable, VizConfig $properties, Request $request)
     {
-        $view->datatable_css_class = 'dataTableVizGoals';
-        $view->show_exclude_low_population = true;
-        $view->show_goals = true;
-        $view->translations += array(
-            'nb_conversions'    => Piwik::translate('Goals_ColumnConversions'),
-            'conversion_rate'   => Piwik::translate('General_ColumnConversionRate'),
-            'revenue'           => Piwik::translate('General_ColumnRevenue'),
-            'revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
-        );
-        $view->metrics_documentation['nb_visits'] = Piwik::translate('Goals_ColumnVisits');
-
-        if (Common::getRequestVar('documentationForGoalsPage', 0, 'int') == 1) { // TODO: should not use query parameter
-            $view->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
-                array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>'));
+        if ($properties->visualization_properties->show_extra_columns) {
+            $dataTable->filter('AddColumnsProcessedMetrics');
         }
+    }
 
-        if (!$view->visualization_properties->disable_subtable_when_show_goals) {
-            $view->subtable_controller_action = null;
-        }
+    private function setShowGoalsColumnsProperties()
+    {
+        $view = $this->viewDataTable;
 
         // set view properties based on goal requested
         $idSite = Common::getRequestVar('idSite', null, 'int');
