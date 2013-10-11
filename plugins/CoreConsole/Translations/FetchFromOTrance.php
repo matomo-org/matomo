@@ -12,9 +12,7 @@
 namespace Piwik\Plugins\CoreConsole\Translations;
 
 use Piwik\Console\Command;
-use Piwik\Plugins\LanguagesManager\API;
 use Piwik\Unzip;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,8 +28,8 @@ class FetchFromOTrance extends Command
     {
         $this->setName('translations:fetch')
              ->setDescription('Fetches translations files from oTrance to '.self::DOWNLOADPATH)
-             ->addOption('username', 'u', InputOption::VALUE_REQUIRED, 'oTrance username')
-             ->addOption('password', 'p', InputOption::VALUE_REQUIRED, 'oTrance password');
+             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'oTrance username')
+             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'oTrance password');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -40,7 +38,7 @@ class FetchFromOTrance extends Command
 
         $dialog = $this->getHelperSet()->get('dialog');
 
-        $cookieFile = $this->getDownloadPath() . DIRECTORY_SEPARATOR . 'cookie.txt';
+        $cookieFile = self::getDownloadPath() . DIRECTORY_SEPARATOR . 'cookie.txt';
         @unlink($cookieFile);
 
         $username = $input->getOption('username');
@@ -110,9 +108,9 @@ class FetchFromOTrance extends Command
         }
 
         // download language pack
-        $packageHandle = fopen($this->getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz', 'w');
+        $packageHandle = fopen(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz', 'w');
         $curl = curl_init('http://translations.piwik.org/public/downloads/download/file/'.$downloadPackage);
-        curl_setopt($curl, CURLOPT_COOKIEFILE, $this->getDownloadPath() . DIRECTORY_SEPARATOR . 'cookie.txt');
+        curl_setopt($curl, CURLOPT_COOKIEFILE, self::getDownloadPath() . DIRECTORY_SEPARATOR . 'cookie.txt');
         curl_setopt($curl, CURLOPT_FILE, $packageHandle);
         curl_exec($curl);
         curl_close($curl);
@@ -121,13 +119,13 @@ class FetchFromOTrance extends Command
 
         $output->writeln("Extracting package...");
 
-        $unzipper = Unzip::factory('tar.gz', $this->getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz');
-        $unzipper->extract($this->getDownloadPath());
+        $unzipper = Unzip::factory('tar.gz', self::getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz');
+        $unzipper->extract(self::getDownloadPath());
 
-        @unlink($this->getDownloadPath() . DIRECTORY_SEPARATOR . 'en.php');
-        @unlink($this->getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz');
+        @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'en.php');
+        @unlink(self::getDownloadPath() . DIRECTORY_SEPARATOR . 'language_pack.tar.gz');
 
-        $filesToConvert = _glob($this->getDownloadPath() . DIRECTORY_SEPARATOR . '*.php');
+        $filesToConvert = _glob(self::getDownloadPath() . DIRECTORY_SEPARATOR . '*.php');
 
         $output->writeln("Converting downloaded php files to json");
 
@@ -145,7 +143,7 @@ class FetchFromOTrance extends Command
             }
             $translations = $nested;
             $data = json_encode($translations, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            $newFile = sprintf("%s/%s.json", $this->getDownloadPath(), $basename[0]);
+            $newFile = sprintf("%s/%s.json", self::getDownloadPath(), $basename[0]);
             file_put_contents($newFile, $data);
             @unlink($filename);
 
@@ -157,7 +155,7 @@ class FetchFromOTrance extends Command
         $output->writeln("Finished fetching new language files from oTrance");
     }
 
-    protected function getDownloadPath() {
+    public static function getDownloadPath() {
 
         return PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR . self::DOWNLOADPATH;
     }

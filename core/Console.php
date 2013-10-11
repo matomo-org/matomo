@@ -21,6 +21,8 @@ use Piwik\Plugins\CoreConsole\Translations\FetchFromOTrance;
 use Piwik\Plugins\CoreConsole\Translations\LanguageCodes;
 use Piwik\Plugins\CoreConsole\Translations\LanguageNames;
 use Piwik\Plugins\CoreConsole\Translations\PluginsWithTranslations;
+use Piwik\Plugins\CoreConsole\Translations\SetTranslations;
+use Piwik\Plugins\CoreConsole\Translations\Update;
 use Piwik\Plugins\CoreConsole\WatchLog;
 use Symfony\Component\Console\Application;
 
@@ -42,6 +44,8 @@ class Console
         $console->add(new LanguageCodes());
         $console->add(new LanguageNames());
         $console->add(new FetchFromOTrance());
+        $console->add(new SetTranslations());
+        $console->add(new Update());
 
         $console->run();
     }
