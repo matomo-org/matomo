@@ -48,63 +48,6 @@ use Piwik\Visualization\Request as VizRequest;
  *    }
  * </pre>
  *
- * @property string default_view_type
- * @property string datatable_css_class
- * @property string datatable_js_type
- * @property string show_visualization_only
- * @property array footer_icons
- * @property bool hide_annotations_view
- * @property bool show_goals
- * @property bool show_exclude_low_population
- * @property bool show_table
- * @property bool show_table_all_columns
- * @property bool show_footer
- * @property bool show_footer_icons
- * @property bool show_all_views_icons
- * @property bool show_active_view_icon
- * @property bool show_flatten_table
- * @property bool show_limit_control
- * @property bool show_bar_chart
- * @property bool show_pie_chart
- * @property bool show_tag_cloud
- * @property bool show_export_as_rss_feed
- * @property bool show_ecommerce
- * @property bool show_footer_message
- * @property bool show_export_as_image_icon
- * @property bool show_non_core_visualizations
- * @property bool show_search
- * @property bool show_related_reports
- * @property string search_recursive
- * @property string metrics_documentation
- * @property string tooltip_metadata_name
- * @property string self_url
- * @property string filter_excludelowpop
- * @property string filter_excludelowpop_value
- * @property string enable_sort
- * @property string disable_generic_filters
- * @property string disable_queued_filters
- * @property array related_reports
- * @property string title
- * @property string documentation
- * @property array request_parameters_to_modify
- * @property array columns_to_display
- * @property array custom_parameters
- * @property string translations
- * @property string filter_sort_column
- * @property string filter_sort_order
- * @property string filter_column
- * @property integer filter_limit
- * @property integer filter_offset
- * @property string filter_pattern
- * @property string export_limit
- * @property string y_axis_unit
- * @property VisualizationPropertiesProxy visualization_properties
- * @property array filters
- * @property array after_data_loaded_functions
- * @property array subtable_controller_action
- * @property string show_pagination_control
- * @property string show_offset_information
- *
  * @see \Piwik\ViewDataTable\Properties - for core DataTable display properties.
  * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
@@ -201,9 +144,9 @@ class ViewDataTable
         $this->vizRequest = new VizRequest();
         $this->vizConfig  = new VizConfig();
         $this->vizConfig->visualization_properties = new VisualizationPropertiesProxy($visualizationClass);
-        $this->vizConfig->metadata = array();
-        $this->vizConfig->translations = array();
-        $this->vizConfig->filters = array();
+        $this->vizConfig->metadata        = array();
+        $this->vizConfig->translations    = array();
+        $this->vizConfig->filters         = array();
         $this->vizConfig->related_reports = array();
         $this->vizConfig->subtable_controller_action = $currentControllerAction;
 
@@ -212,11 +155,11 @@ class ViewDataTable
 
         $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
 
-        $this->vizConfig->show_footer_icons = ($this->idSubtable == false);
+        $this->vizConfig->show_footer_icons            = ($this->idSubtable == false);
         $this->vizRequest->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
         $this->vizConfig->report_id = $currentControllerName . '.' . $currentControllerAction;
-        $this->vizConfig->self_url = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
+        $this->vizConfig->self_url  = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
 
         // the exclude low population threshold value is sometimes obtained by requesting data.
         // to avoid issuing unecessary requests when display properties are determined by metadata,
@@ -1141,9 +1084,7 @@ class ViewDataTable
 
     protected function buildView()
     {
-        /**
-         * @var Visualization
-         */
+        /** @var Visualization $visualization */
         $visualization = new $this->visualizationClass($this);
 
         /**
