@@ -11,6 +11,7 @@
 namespace Piwik\Db;
 
 use Piwik\Config;
+use Piwik\Singleton;
 
 /**
  * Schema abstraction
@@ -20,14 +21,8 @@ use Piwik\Config;
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Schema
+class Schema extends Singleton
 {
-    /**
-     * Singleton instance
-     *
-     * @var \Piwik\Db\Schema
-     */
-    static private $instance = null;
 
     /**
      * Type of database schema
@@ -36,18 +31,6 @@ class Schema
      */
     private $schema = null;
 
-    /**
-     * Returns the singleton Schema
-     *
-     * @return \Piwik\Db\Schema
-     */
-    static public function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     /**
      * Get schema class name

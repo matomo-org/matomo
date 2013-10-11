@@ -58,9 +58,6 @@ code {
 
 #topRightBar {
     float: right;
-    top: -60px;
-    right: 10px;
-    position: relative;
 }
 
 .error {

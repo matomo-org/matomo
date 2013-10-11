@@ -36,6 +36,7 @@ class Chart
         $this->axes['xaxis']['labels'] = array_values($xLabels);
 
         $ticks = array_values($xLabels);
+
         if (!$showAllTicks) {
             // unset labels so there are $xSteps number of blank ticks between labels
             foreach ($ticks as $i => &$label) {

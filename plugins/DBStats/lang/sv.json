@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Denna plugin rapporterar Piwik's användning av tabeller i MySQL databasen.",
         "DatabaseUsage": "Databasanvändning",
-        "MainDescription": "Piwik sparar all webbanalys data i MySQL databasen. För tillfället använder Piwik's tabeller %s.",
-        "LearnMore": "Om du vill veta mer om hur Piwik behandlar uppgifter och hur man gör för att Piwik ska fungera bra för medelhög och hög trafik webbplatser, kolla dokumentationen %s.",
-        "Table": "Tabell",
-        "RowCount": "Radantal",
         "DataSize": "Datastorlek",
-        "IndexSize": "Indexstorlek",
-        "TotalSize": "Total storlek",
         "DBSize": "Databasstorlek",
-        "ReportDataByYear": "Raporttabeller per år",
-        "MetricDataByYear": "Variabler per år",
         "EstimatedSize": "Uppskattad storlek",
-        "TrackerTables": "Spårningstabeller",
-        "ReportTables": "Rapporttabeller",
+        "IndexSize": "Indexstorlek",
+        "LearnMore": "Om du vill veta mer om hur Piwik behandlar uppgifter och hur man gör för att Piwik ska fungera bra för medelhög och hög trafik webbplatser, kolla dokumentationen %s.",
+        "MainDescription": "Piwik sparar all webbanalys data i MySQL databasen. För tillfället använder Piwik's tabeller %s.",
+        "MetricDataByYear": "Variabler per år",
         "MetricTables": "Variabeltabeller",
-        "OtherTables": "Övriga tabeller"
+        "OtherTables": "Övriga tabeller",
+        "PluginDescription": "Denna plugin rapporterar Piwik's användning av tabeller i MySQL databasen.",
+        "ReportDataByYear": "Raporttabeller per år",
+        "ReportTables": "Rapporttabeller",
+        "RowCount": "Radantal",
+        "Table": "Tabell",
+        "TotalSize": "Total storlek",
+        "TrackerTables": "Spårningstabeller"
     }
 }

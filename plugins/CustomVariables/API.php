@@ -22,21 +22,8 @@ use Piwik\Tracker\Action;
  *
  * @package CustomVariables
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\CustomVariables\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * @param int $idSite
      * @param string $period

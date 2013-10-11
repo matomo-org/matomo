@@ -213,7 +213,7 @@ class MobileMessagingTest extends DatabaseTestCase
      */
     public function testPhoneNumberIsSanitized()
     {
-        $mobileMessagingAPI = new APIMobileMessaging();
+        $mobileMessagingAPI = APIMobileMessaging::getInstance();
         $mobileMessagingAPI->setSMSAPICredential('StubbedProvider', '');
         $mobileMessagingAPI->addPhoneNumber('  6  76 93 26 47');
         $this->assertEquals('676932647', key($mobileMessagingAPI->getPhoneNumbers()));
@@ -246,21 +246,18 @@ class MobileMessagingTest extends DatabaseTestCase
              ),
         );
 
-        $stubbedAPIMobileMessaging = $this->getMock('\\Piwik\\Plugins\\MobileMessaging\\API');
+        $stubbedAPIMobileMessaging = $this->getMock('\\Piwik\\Plugins\\MobileMessaging\\API', array('sendSMS', 'getInstance'), $arguments = array(), $mockClassName = '', $callOriginalConstructor = false);
         $stubbedAPIMobileMessaging->expects($this->once())->method('sendSMS')->with(
             $this->equalTo($expectedReportContent, 0),
             $this->equalTo($expectedPhoneNumber, 1),
             $this->equalTo($expectedFrom, 2)
         );
 
-        $stubbedAPIMobileMessagingClass = new ReflectionProperty('\\Piwik\\Plugins\\MobileMessaging\\API', 'instance');
-        $stubbedAPIMobileMessagingClass->setAccessible(true);
-        $stubbedAPIMobileMessagingClass->setValue($stubbedAPIMobileMessaging);
+        \Piwik\Plugins\MobileMessaging\API::setSingletonInstance($stubbedAPIMobileMessaging);
 
         $mobileMessaging = new MobileMessaging();
         $mobileMessaging->sendReport($notificationInfo);
 
-        // restore API
-        $stubbedAPIMobileMessagingClass->setValue(null);
+        \Piwik\Plugins\MobileMessaging\API::unsetInstance();
     }
 }

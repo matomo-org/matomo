@@ -26,7 +26,7 @@ use Piwik\TaskScheduler;
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const METRIC_TRANSLATION_KEY = 'translation';
     const METRIC_EVOLUTION_COL_NAME_KEY = 'evolution_column_name';
@@ -62,26 +62,6 @@ class API
             self::METRIC_IS_ECOMMERCE_KEY       => false,
         )
     );
-
-    /**
-     * The singleton instance of this class.
-     */
-    static private $instance = null;
-
-    /**
-     * Returns the singleton instance of this class. The instance is created
-     * if it hasn't been already.
-     *
-     * @return \Piwik\Plugins\MultiSites\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
-    }
 
     /**
      * Returns a report displaying the total visits, actions and revenue, as

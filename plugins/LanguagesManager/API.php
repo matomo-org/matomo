@@ -28,21 +28,8 @@ use Piwik\Piwik;
  *
  * @package LanguagesManager
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\LanguagesManager\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     protected $availableLanguageNames = null;
     protected $languageNames = null;
 

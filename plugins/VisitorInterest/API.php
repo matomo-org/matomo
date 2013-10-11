@@ -21,18 +21,8 @@ use Piwik\Piwik;
  *
  * @package VisitorInterest
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     protected function getDataTable($name, $idSite, $period, $date, $segment, $column = Metrics::INDEX_NB_VISITS)
     {
         Piwik::checkUserHasViewAccess($idSite);

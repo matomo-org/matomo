@@ -17,30 +17,13 @@ use Piwik\WidgetsList;
  *
  * @package Piwik_API
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    /**
-     * @var \Piwik\Plugins\Dashboard\API
-     */
-    static private $instance = null;
-
     private $dashboard = null;
 
-    public function __construct()
+    protected function __construct()
     {
         $this->dashboard = new Dashboard();
-    }
-
-    /**
-     * @return \Piwik\Plugins\Dashboard\API
-     */
-    static public function getInstance()
-    {
-        if (null == self::$instance) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
     }
 
     /**

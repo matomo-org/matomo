@@ -67,7 +67,7 @@ dummy backtrace'
         Config::getInstance()->log['string_message_format'] = self::STRING_MESSAGE_FORMAT;
         Config::getInstance()->log['logger_file_path'] = self::getDefaultLogFileLocation();
         @unlink(self::getLogFileLocation());
-        Log::clearInstance();
+        Log::unsetInstance();
         Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = "dummy backtrace";
     }
 
@@ -75,7 +75,7 @@ dummy backtrace'
     {
         parent::tearDown();
 
-        Log::clearInstance();
+        Log::unsetInstance();
         @unlink(self::getLogFileLocation());
         Error::$debugBacktraceForTests = ExceptionHandler::$debugBacktraceForTests = null;
     }

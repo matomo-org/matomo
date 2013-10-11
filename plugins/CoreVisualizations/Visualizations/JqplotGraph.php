@@ -15,6 +15,8 @@ use Piwik\DataTable;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\View;
 use Piwik\ViewDataTable\Graph;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * DataTable visualization that displays DataTable data in a JQPlot graph.
@@ -57,29 +59,6 @@ class JqplotGraph extends Graph
     );
 
     public static $overridableProperties = array('x_axis_step_size');
-
-    /**
-     * Init.
-     */
-    public function init()
-    {
-        $view = $this->viewDataTable;
-
-        parent::init();
-
-        // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
-        if ($view->filter_sort_column != 'label') {
-            $columns = $view->columns_to_display;
-
-            $firstColumn = reset($columns);
-            if ($firstColumn == 'label') {
-                $firstColumn = next($columns);
-            }
-
-            $result['filter_sort_column'] = $firstColumn;
-            $result['filter_sort_order'] = 'desc';
-        }
-    }
 
     /**
      * Returns an array mapping property names with default values for this visualization.

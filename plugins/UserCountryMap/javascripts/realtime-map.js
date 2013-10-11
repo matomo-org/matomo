@@ -336,6 +336,7 @@
             function refreshVisits(firstRun) {
                 if (lastTimestamp != -1
                     && doNotRefreshVisits
+                    && !firstRun
                 ) {
                     return;
                 }

@@ -21,23 +21,9 @@ use Piwik\Period\Range;
  *
  * @package ExampleUI
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     public static $disableRandomness = false;
-
-    private static $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\ExampleUI\API
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
-    }
 
     public function getTemperaturesEvolution($date, $period)
     {

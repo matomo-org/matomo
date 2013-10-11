@@ -34,7 +34,7 @@ use Piwik\Tracker\Cache;
  * See also the documentation about <a href='http://piwik.org/docs/manage-users/' target='_blank'>Managing Users</a> in Piwik.
  * @package UsersManager
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';

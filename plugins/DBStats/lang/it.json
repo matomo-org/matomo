@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Questo plugin riporta l'uso di MySQL da parte delle tabelle di Piwik.",
         "DatabaseUsage": "Uso del Database",
-        "MainDescription": "Piwik sta salvando tutti i dati statistici nel Database MySQL. Attualmente, le tabelle di Piwik stanno usando %s.",
-        "LearnMore": "Per apprendere i dettagli su come Piwik processa i dati, e su come far funzionare bene Piwik per siti a medio e alto traffico, dai un'occhiata alla documentazione %s.",
-        "Table": "Tabella",
-        "RowCount": "Conteggio delle righe",
         "DataSize": "Dimensione dei dati",
-        "IndexSize": "Dimensione degli indici",
-        "TotalSize": "Dimensione totale",
         "DBSize": "Grandezza database",
-        "ReportDataByYear": "Report tabelle per anno",
-        "MetricDataByYear": "Tabelle metriche per anno",
         "EstimatedSize": "Grandezza stimata",
-        "TrackerTables": "Tracker tabelle",
-        "ReportTables": "Report tabelle",
+        "IndexSize": "Dimensione degli indici",
+        "LearnMore": "Per apprendere i dettagli su come Piwik elabora i dati, e su come far funzionare bene Piwik per siti a medio e alto traffico, dai un'occhiata alla documentazione %s.",
+        "MainDescription": "Piwik sta salvando tutti i dati statistici nel Database MySQL. Attualmente, le tabelle di Piwik stanno usando %s.",
+        "MetricDataByYear": "Tabelle metriche per anno",
         "MetricTables": "Tabelle metriche",
-        "OtherTables": "Altre tabelle"
+        "OtherTables": "Altre tabelle",
+        "PluginDescription": "Questo plugin riporta l'uso di MySQL da parte delle tabelle di Piwik.",
+        "ReportDataByYear": "Report tabelle per anno",
+        "ReportTables": "Report tabelle",
+        "RowCount": "Conteggio delle righe",
+        "Table": "Tabella",
+        "TotalSize": "Dimensione totale",
+        "TrackerTables": "Tracker tabelle"
     }
 }

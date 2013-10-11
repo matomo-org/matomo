@@ -24,21 +24,8 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
  *
  * @package SEO
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\SEO\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Returns SEO statistics for a URL.
      *

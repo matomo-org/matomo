@@ -36,21 +36,8 @@ use Piwik\Tracker\Action;
  * Note: pageName, pageUrl, outlinkUrl, downloadUrl parameters must be URL encoded before you call the API.
  * @package Actions
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\Actions\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Returns the list of metrics (pages, downloads, outlinks)
      *

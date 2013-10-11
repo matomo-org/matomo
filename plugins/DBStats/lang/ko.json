@@ -1,21 +1,21 @@
 {
     "DBStats": {
-        "PluginDescription": "Piwik 테이블의 MySQL 데이터베이스 사용량을 보고합니다.",
         "DatabaseUsage": "데이터베이스 사용량",
-        "MainDescription": "Piwik은 모든 웹 분석 데이터를 MySQL 데이터베이스에 저장하고 있습니다. 현재, Piwik 테이블은 %s 를 사용하고 있습니다.",
-        "LearnMore": "트래픽이 비교적 높은 웹 사이트에서 Piwik 데이터를 처리 방법이나 Piwik을 작동시키는 방법에 대한 자세한 내용은 %s 문서를 참조하세요.",
-        "Table": "테이블",
-        "RowCount": "행 수",
         "DataSize": "데이터 용량",
-        "IndexSize": "인덱스 용량",
-        "TotalSize": "전체 용량",
         "DBSize": "DB 용량",
-        "ReportDataByYear": "연별 보고표",
-        "MetricDataByYear": "연별 통계 표",
         "EstimatedSize": "예상 용량",
-        "TrackerTables": "추적기 표",
-        "ReportTables": "보고표",
+        "IndexSize": "인덱스 용량",
+        "LearnMore": "트래픽이 비교적 높은 웹 사이트에서 Piwik 데이터를 처리 방법이나 Piwik을 작동시키는 방법에 대한 자세한 내용은 %s 문서를 참조하세요.",
+        "MainDescription": "Piwik은 모든 웹 분석 데이터를 MySQL 데이터베이스에 저장하고 있습니다. 현재, Piwik 테이블은 %s 를 사용하고 있습니다.",
+        "MetricDataByYear": "연별 통계 표",
         "MetricTables": "통계표",
-        "OtherTables": "기타 표"
+        "OtherTables": "기타 표",
+        "PluginDescription": "Piwik 테이블의 MySQL 데이터베이스 사용량을 보고합니다.",
+        "ReportDataByYear": "연별 보고표",
+        "ReportTables": "보고표",
+        "RowCount": "행 수",
+        "Table": "테이블",
+        "TotalSize": "전체 용량",
+        "TrackerTables": "추적기 표"
     }
 }

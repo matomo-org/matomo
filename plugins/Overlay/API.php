@@ -20,23 +20,8 @@ use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\Transitions\API as APITransitions;
 use Piwik\Tracker\Action;
 
-class API
+class API extends \Piwik\Plugin\API
 {
-
-    private static $instance = null;
-
-    /**
-     * Get Singleton instance
-     * @return \Piwik\Plugins\Overlay\API
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Get translation strings
      */

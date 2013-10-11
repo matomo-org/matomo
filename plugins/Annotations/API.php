@@ -30,23 +30,8 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Annotations/AnnotationList.php';
  *
  * @package Annotations
  */
-class API
+class API extends \Piwik\Plugin\API
 {
-    static private $instance = null;
-
-    /**
-     * Returns this API's singleton instance.
-     *
-     * @return \Piwik\Plugins\Annotations\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Create a new annotation for a site.
      *

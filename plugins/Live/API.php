@@ -57,24 +57,11 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
  * See also the documentation about <a href='http://piwik.org/docs/real-time/' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
  * @package Live
  */
-class API
+class API extends \Piwik\Plugin\API
 {
     const VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE = 100;
     const VISITOR_PROFILE_MAX_VISITS_TO_SHOW = 10;
     const VISITOR_PROFILE_DATE_FORMAT = '%day% %shortMonth% %longYear%';
-
-    static private $instance = null;
-
-    /**
-     * @return \Piwik\Plugins\Live\API
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     /**
      * This will return simple counters, for a given website ID, for visits over the last N minutes

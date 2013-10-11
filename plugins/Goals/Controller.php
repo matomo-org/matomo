@@ -18,6 +18,7 @@ use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as APIReferrers;
+use Piwik\Plugins\VisitFrequency\VisitFrequency;
 use Piwik\View\ReportsByDimension;
 use Piwik\View;
 use Piwik\ViewDataTable;
@@ -139,7 +140,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
         // conversion rate for new and returning visitors
-        $segment = 'visitorType==returning,visitorType==returningCustomer';
+        $segment = \Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENTA;
         $conversionRateReturning = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
         $segment = 'visitorType==new';

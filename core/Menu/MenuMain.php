@@ -17,19 +17,6 @@ use Piwik\Piwik;
  */
 class MenuMain extends MenuAbstract
 {
-    static private $instance = null;
-
-    /**
-     * @return MenuAbstract
-     */
-    static public function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Returns if the URL was found in the menu.
      *
