@@ -227,6 +227,8 @@ class HtmlTable extends Visualization
     public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, VizConfig $properties, Request $request)
     {
         if ($properties->visualization_properties->show_extra_columns) {
+            $dataTable->filter('AddColumnsProcessedMetrics');
+            
             $dataTable->filter(function ($dataTable) use ($properties) {
                 $columnsToDisplay = array('label', 'nb_visits');
 
@@ -250,18 +252,6 @@ class HtmlTable extends Visualization
             $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
 
             $dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
-        }
-    }
-
-    /**
-     * @param DataTable|DataTable\Map $dataTable
-     * @param \Piwik\Visualization\Config $properties
-     * @param \Piwik\Visualization\Request $request
-     */
-    public function afterAllFilteresAreApplied($dataTable, VizConfig $properties, Request $request)
-    {
-        if ($properties->visualization_properties->show_extra_columns) {
-            $dataTable->filter('AddColumnsProcessedMetrics');
         }
     }
 
