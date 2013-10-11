@@ -13,6 +13,8 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * Visualization that renders HTML for a Pie graph using jqPlot.
@@ -21,9 +23,10 @@ class Pie extends JqplotGraph
 {
     const ID = 'graphPie';
 
-    public function __construct($view)
+    public function init()
     {
-        parent::__construct($view);
+        parent::init();
+
         $view->visualization_properties->show_all_ticks = true;
         $view->datatable_js_type = 'JqplotPieGraphDataTable';
 
@@ -36,6 +39,28 @@ class Pie extends JqplotGraph
             $view->columns_to_display = array($metricColumn ? : 'nb_visits');
         };
     }
+
+    public function configureVisualization(Config $properties)
+    {
+        parent::configureVisualization($properties);
+
+        $properties->visualization_properties->show_all_ticks = true;
+        $properties->datatable_js_type = 'JqplotPieGraphDataTable';
+    }
+
+    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    {
+        parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
+
+        $metricColumn = reset($properties->columns_to_display);
+
+        if ($metricColumn == 'label') {
+            $metricColumn = next($properties->columns_to_display);
+        }
+
+        $properties->columns_to_display = array($metricColumn ? : 'nb_visits');
+    }
+
 
     public static function getDefaultPropertyValues()
     {

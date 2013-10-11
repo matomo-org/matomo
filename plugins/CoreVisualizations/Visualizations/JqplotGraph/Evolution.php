@@ -45,9 +45,7 @@ class Evolution extends JqplotGraph
     {
         parent::init();
 
-        $view = $this->viewDataTable;
-
-        $this->calculateEvolutionDateRange($view);
+        $this->calculateEvolutionDateRange($this->viewDataTable);
     }
 
     public function beforeLoadDataTable(Request $request, Config $properties)

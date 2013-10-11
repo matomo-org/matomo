@@ -36,7 +36,7 @@ abstract class Visualization extends View
      */
     protected $viewDataTable;
 
-    public function __construct($view)
+    final public function __construct($view)
     {
         $templateFile = static::TEMPLATE_FILE;
 
