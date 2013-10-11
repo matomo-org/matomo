@@ -17,6 +17,7 @@ use Piwik\Plugins\CoreConsole\GitCommit;
 use Piwik\Plugins\CoreConsole\GitPull;
 use Piwik\Plugins\CoreConsole\GitPush;
 use Piwik\Plugins\CoreConsole\RunTests;
+use Piwik\Plugins\CoreConsole\Translations\FetchFromOTrance;
 use Piwik\Plugins\CoreConsole\Translations\LanguageCodes;
 use Piwik\Plugins\CoreConsole\Translations\LanguageNames;
 use Piwik\Plugins\CoreConsole\Translations\PluginsWithTranslations;
@@ -40,6 +41,7 @@ class Console
         $console->add(new PluginsWithTranslations());
         $console->add(new LanguageCodes());
         $console->add(new LanguageNames());
+        $console->add(new FetchFromOTrance());
 
         $console->run();
     }
