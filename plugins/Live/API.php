@@ -276,7 +276,7 @@ class API extends \Piwik\Plugin\API
         // sort countries/continents/search keywords by visit/action
         asort($countries);
         asort($continents);
-        asort($siteSearchKeywords);
+        arsort($siteSearchKeywords);
 
         // transform country/continents/search keywords into something that will look good in XML
         $result['countries'] = $result['continents'] = $result['searches'] = array();
