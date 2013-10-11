@@ -12,7 +12,10 @@ namespace Piwik\ViewDataTable;
 
 
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * This is an abstract visualization that should be the base of any 'graph' visualization.
@@ -123,30 +126,14 @@ abstract class Graph extends Visualization
         'show_series_picker'
     );
 
-    /**
-     * Init.
-     */
-    public function init()
+    public $selectableRows = array();
+
+    public function configureVisualization(Config $properties)
     {
-        $view = $this->viewDataTable;
-
-        parent::init();
-
-        if ($view->show_goals) {
-            $view->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');
-            $view->translations['revenue'] = Piwik::translate('General_TotalRevenue');
+        if ($properties->show_goals) {
+            $properties->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');
+            $properties->translations['revenue'] = Piwik::translate('General_TotalRevenue');
         }
-
-        // TODO: this should not be required here. filter_limit should not be a view property, instead HtmlTable should use 'limit' or something,
-        //       and manually set request_parameters_to_modify['filter_limit'] based on that. (same for filter_offset).
-        $view->request_parameters_to_modify['filter_limit'] = false;
-
-        if ($view->visualization_properties->max_graph_elements) {
-            $view->request_parameters_to_modify['filter_truncate'] = $view->visualization_properties->max_graph_elements - 1;
-        }
-
-        $this->transformSelectableColumns($view);
-        $this->transformSelectableRows($view);
     }
 
     public static function getDefaultPropertyValues()
@@ -173,51 +160,72 @@ abstract class Graph extends Visualization
     /**
      * Defaults the selectable_columns property if it has not been set and then transforms
      * it into something the SeriesPicker JavaScript class can use.
+     *
+     * @param DataTable|DataTable\Map $dataTable
+     * @param \Piwik\Visualization\Config $properties
+     * @param \Piwik\Visualization\Request $request
      */
-    private function transformSelectableColumns($view)
+    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
     {
-        $view->after_data_loaded_functions[] = function ($dataTable, $view) {
-            $selectableColumns = $view->visualization_properties->selectable_columns;
+        $properties->visualization_properties->selectable_rows = array_values($this->selectableRows);
 
-            // set default selectable columns, if none specified
-            if ($selectableColumns === false) {
-                $selectableColumns = array('nb_visits', 'nb_actions');
+        $selectableColumns = $properties->visualization_properties->selectable_columns;
 
-                if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
-                    $selectableColumns[] = 'nb_uniq_visitors';
-                }
+        // set default selectable columns, if none specified
+        if ($selectableColumns === false) {
+            $selectableColumns = array('nb_visits', 'nb_actions');
+
+            if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
+                $selectableColumns[] = 'nb_uniq_visitors';
             }
+        }
 
-            if ($view->show_goals) {
-                $goalMetrics = array('nb_conversions', 'revenue');
-                $selectableColumns = array_merge($selectableColumns, $goalMetrics);
-            }
+        if ($properties->show_goals) {
+            $goalMetrics = array('nb_conversions', 'revenue');
+            $selectableColumns = array_merge($selectableColumns, $goalMetrics);
+        }
 
-            $transformed = array();
-            foreach ($selectableColumns as $column) {
-                $transformed[] = array(
-                    'column'      => $column,
-                    'translation' => @$view->translations[$column],
-                    'displayed'   => in_array($column, $view->columns_to_display)
-                );
-            }
-            $view->visualization_properties->selectable_columns = $transformed;
-        };
+        $transformed = array();
+        foreach ($selectableColumns as $column) {
+            $transformed[] = array(
+                'column'      => $column,
+                'translation' => @$properties->translations[$column],
+                'displayed'   => in_array($column, $properties->columns_to_display)
+            );
+        }
+        $properties->visualization_properties->selectable_columns = $transformed;
     }
 
     /**
      * Determines what rows are selectable and stores them in the selectable_rows property in
      * a format the SeriesPicker JavaScript class can use.
      */
-    private function transformSelectableRows($view)
+    public function beforeLoadDataTable(Request $request, Config $properties)
     {
-        if ($view->visualization_properties->row_picker_match_rows_by === false) {
-            return;
+        // TODO: this should not be required here. filter_limit should not be a view property, instead HtmlTable should use 'limit' or something,
+        //       and manually set request_parameters_to_modify['filter_limit'] based on that. (same for filter_offset).
+        $request->request_parameters_to_modify['filter_limit'] = false;
+
+        if ($properties->visualization_properties->max_graph_elements) {
+            $request->request_parameters_to_modify['filter_truncate'] = $properties->visualization_properties->max_graph_elements - 1;
         }
 
+        if ($properties->visualization_properties->row_picker_match_rows_by === false) {
+            return;
+        }
+    }
+
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     * @param \Piwik\Visualization\Config $properties
+     * @param \Piwik\Visualization\Request $request
+     */
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    {
         // collect all selectable rows
-        $selectableRows = array();
-        $view->filters[] = function ($dataTable, $view) use (&$selectableRows) {
+        $self = $this;
+
+        $dataTable->filter(function ($dataTable) use ($self, $properties) {
             foreach ($dataTable->getRows() as $row) {
                 $rowLabel = $row->getColumn('label');
                 if ($rowLabel === false) {
@@ -226,24 +234,19 @@ abstract class Graph extends Visualization
 
                 // determine whether row is visible
                 $isVisible = true;
-                if ($view->visualization_properties->row_picker_match_rows_by == 'label') {
-                    $isVisible = in_array($rowLabel, $view->visualization_properties->rows_to_display);
+                if ($properties->visualization_properties->row_picker_match_rows_by == 'label') {
+                    $isVisible = in_array($rowLabel, $properties->visualization_properties->rows_to_display);
                 }
 
                 // build config
-                if (!isset($selectableRows[$rowLabel])) {
-                    $selectableRows[$rowLabel] = array(
+                if (!isset($self->selectableRows[$rowLabel])) {
+                    $self->selectableRows[$rowLabel] = array(
                         'label'     => $rowLabel,
                         'matcher'   => $rowLabel,
                         'displayed' => $isVisible
                     );
                 }
             }
-        };
-
-        // set selectable rows as a view property
-        $view->after_data_loaded_functions[] = function ($dataTable, $view) use (&$selectableRows) {
-            $view->visualization_properties->selectable_rows = array_values($selectableRows);
-        };
+        });
     }
 }

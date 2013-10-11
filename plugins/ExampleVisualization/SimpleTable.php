@@ -11,7 +11,10 @@
 
 namespace Piwik\Plugins\ExampleVisualization;
 
+use Piwik\DataTable;
 use Piwik\ViewDataTable\Visualization;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * Simple Visualization Example.
@@ -28,5 +31,43 @@ class SimpleTable extends Visualization
     public function init()
     {
         $this->vizTitle = 'MyAwesomeTitle';
+    }
+
+    public function configureVisualization(Config $properties)
+    {
+        // Configure how your visualization should look like, for instance you can disable search
+        // $properties->show_search = false
+    }
+
+    public function beforeLoadDataTable(Request $request, Config $properties)
+    {
+        // Here you can change the request that is sent to the API, for instance
+        // $requestProperties->filter_sort_order = 'desc';
+    }
+
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    {
+        // this hook is executed before generic filters like "filter_limit" and "filter_offset" are applied
+        // Usage:
+        // $dateTable->filter($nameOrClosure);
+    }
+
+    public function afterGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    {
+        // this hook is executed after generic filters like "filter_limit" and "filter_offset" are applied
+        // Usage:
+        // $dateTable->filter($nameOrClosure, $parameters);
+    }
+
+    /**
+     * @param DataTable|DataTable\Map      $dataTable
+     * @param \Piwik\Visualization\Config  $properties
+     * @param \Piwik\Visualization\Request $request
+     */
+    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    {
+        // this hook is executed after the data table is loaded and after all filteres are applied.
+        // format your data here that you want to pass to the view
+        // $this->myCustomViewVariable = $dataTable->getRows();
     }
 }
