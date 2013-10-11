@@ -23,6 +23,12 @@ You can get the latest Git revision at: http://github.com/piwik/piwik
 $ git clone https://github.com/piwik/piwik.git
 ```
 
+Next install Composer which will lets you download the libraries used in Piwik:
+```
+$ curl -sS https://getcomposer.org/installer | php
+$php composer.phar install
+```
+
 To execute the tests:
 
  * In your php.ini make sure you have the setting to show all errors:
@@ -101,7 +107,15 @@ Change from:
 to this:
     `UUID=83237e54-445f-8b83-180f06459d46       /       ext4    errors=remount-ro,nobarrier     0       1`
 
-Then
+### Using latest GIT version
+On ubuntu to use the latest GIT:
+
+```
+sudo add-apt-repository ppa:git-core/ppa
+sudo apt-get update
+sudo apt-get upgrade
+```
+
 ## Integration Tests
 
 Integration tests files are in `tests/PHPUnit/Integration/*Test.php`

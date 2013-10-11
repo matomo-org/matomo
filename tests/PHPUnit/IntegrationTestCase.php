@@ -312,12 +312,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         if (!Test_Piwik_BaseFixture::canImagesBeIncludedInScheduledReports()) {
             $this->markTestSkipped(
-                'Do take note that scheduled reports are not being tested with images. ' .
-                    'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
-                    'To include images in the test suite, please use a machine with the following specifications : ' .
-                    'OS = '.Test_Piwik_BaseFixture::IMAGES_GENERATED_ONLY_FOR_OS.', Minimum PHP Version = '.Test_Piwik_BaseFixture::IMAGES_GENERATED_FOR_PHP.' and GD Version = ' . Test_Piwik_BaseFixture::IMAGES_GENERATED_FOR_GD
-                    . "\n Ignore this message if you're running on your dev machine, but pay attention when it comes from the CI server."
-
+                'Scheduled reports generated during integration tests will not contain the image graphs. ' .
+                    'For tests to generate images, use a machine with the following specifications : ' .
+                    'OS = '.Test_Piwik_BaseFixture::IMAGES_GENERATED_ONLY_FOR_OS.', PHP = '.Test_Piwik_BaseFixture::IMAGES_GENERATED_FOR_PHP .
+                    ' and GD = ' . Test_Piwik_BaseFixture::IMAGES_GENERATED_FOR_GD
             );
         }
     }

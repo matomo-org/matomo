@@ -11,15 +11,22 @@
 
 namespace Piwik;
 
+/**
+ * The singleton class restricts the Instantiation of a class to one object only.
+ *
+ * @package Piwik
+ */
 class Singleton
 {
-
     protected static $instances;
 
     protected function __construct() { }
 
     final private function __clone() { }
 
+    /**
+     * @return self
+     */
     public static function getInstance() {
         $class = get_called_class();
 
@@ -29,6 +36,10 @@ class Singleton
         return self::$instances[$class];
     }
 
+    /**
+     * Used in tests only
+     * @ignore
+     */
     public static function unsetInstance()
     {
         $class = get_called_class();
@@ -37,6 +48,7 @@ class Singleton
 
     /**
      * Sets the singleton instance. For testing purposes.
+     * @ignore
      */
     public static function setSingletonInstance($instance)
     {

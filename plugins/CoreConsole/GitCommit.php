@@ -93,7 +93,7 @@ class GitCommit extends Command
         }
 
         if ($this->hasChangesToBeCommitted()) {
-            $cmd = sprintf('cd %s && git commit -m "Converged submodules"', PIWIK_DOCUMENT_ROOT);
+            $cmd = sprintf('cd %s && git commit -m "Updating submodules"', PIWIK_DOCUMENT_ROOT);
             $this->passthru($cmd, $output);
         }
     }
