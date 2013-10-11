@@ -268,8 +268,7 @@ class HtmlTable extends Visualization
         }
 
         // add goals columns
-        $view->filters[] = array(
-            'AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal), $priority = true);
+        $view->filters[] = array('AddColumnsProcessedMetricsGoal', array($ignore = true, $idGoal), $priority = true);
 
         // prettify columns
         $setRatePercent = function ($rate, $thang = false) {

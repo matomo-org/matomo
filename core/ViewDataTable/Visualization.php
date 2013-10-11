@@ -15,6 +15,8 @@ use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\View;
 use Piwik\ViewDataTable;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * Base class for all DataTable visualizations. Different visualizations are used to
@@ -29,6 +31,7 @@ abstract class Visualization extends View
     const TEMPLATE_FILE = '';
 
     /**
+     * The view data table
      * @var ViewDataTable
      */
     protected $viewDataTable;
@@ -49,22 +52,45 @@ abstract class Visualization extends View
 
     protected function init()
     {
-        // do your stuff here, do not overwrite constructor
+        // do your init stuff here, do not overwrite constructor
+        // maybe setting my view properties $this->vizTitle
     }
 
-    public function beforeLoadDataTable()
-    {
-
-    }
-
-    public function afterLoadDataTable()
-    {
-
-    }
-
-    final public function beforeRender()
+    public function configureVisualization(Config $properties)
     {
         // our stuff goes in here
+        // like $properties->showFooterColumns = true;
+    }
+
+    public function beforeLoadDataTable(Request $request, Config $properties)
+    {
+        // change request --> $requestProperties...
+        // like defining filter_column
+        // $requestProperties->filterColumn = 54;
+        // $requestProperties->setFilterColumn();
+    }
+
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    {
+
+    }
+
+    public function afterGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    {
+
+    }
+
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     * @param \Piwik\Visualization\Config $properties
+     * @param \Piwik\Visualization\Request $request
+     */
+    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    {
+        // filter and format requested data here
+        // $dataTable ...
+
+        // $this->generator = new GeneratorFoo($dataTable);
     }
 
     /**

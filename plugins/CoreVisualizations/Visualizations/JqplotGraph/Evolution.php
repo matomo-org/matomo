@@ -12,11 +12,15 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Period\Range;
 use Piwik\Plugin\Controller;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Site;
+use Piwik\ViewDataTable\Properties;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * Visualization that renders HTML for a line graph using jqPlot.
@@ -37,29 +41,45 @@ class Evolution extends JqplotGraph
 
     public static $overridableProperties = array('show_line_graph');
 
-    public function __construct($view)
+    public function init()
     {
-        parent::__construct($view);
+        parent::init();
+
+        $view = $this->viewDataTable;
+
+        $this->calculateEvolutionDateRange($view);
+    }
+
+    public function beforeLoadDataTable(Request $request, Config $properties)
+    {
+        parent::beforeLoadDataTable($request, $properties);
 
         // period will be overridden when 'range' is requested in the UI
         // but the graph will display for each day of the range.
         // Default 'range' behavior is to return the 'sum' for the range
         if (Common::getRequestVar('period', false) == 'range') {
-            $view->request_parameters_to_modify['period'] = 'day';
+            $request->request_parameters_to_modify['period'] = 'day';
         }
+    }
 
-        $this->calculateEvolutionDateRange($view);
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     * @param \Piwik\Visualization\Config $properties
+     * @param \Piwik\Visualization\Request $request
+     */
+    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    {
+        parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
 
-        // default x_axis_step_size property if not currently set
+        $view = $this->viewDataTable;
         if ($view->visualization_properties->x_axis_step_size === false) {
-            $self = $this;
-            $view->after_data_loaded_functions[] = function ($dataTable, $view) use ($self) {
-                $view->visualization_properties->x_axis_step_size =
-                    $self->getDefaultXAxisStepSize($dataTable->getRowsCount());
-            };
+            $view->visualization_properties->x_axis_step_size = $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
         }
+    }
 
-        $view->datatable_js_type = 'JqplotEvolutionGraphDataTable';
+    public function configureVisualization(Config $properties)
+    {
+        $properties->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
     public static function getDefaultPropertyValues()
