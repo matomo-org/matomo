@@ -17,6 +17,9 @@ use Piwik\Plugins\CoreConsole\GitCommit;
 use Piwik\Plugins\CoreConsole\GitPull;
 use Piwik\Plugins\CoreConsole\GitPush;
 use Piwik\Plugins\CoreConsole\RunTests;
+use Piwik\Plugins\CoreConsole\Translations\LanguageCodes;
+use Piwik\Plugins\CoreConsole\Translations\LanguageNames;
+use Piwik\Plugins\CoreConsole\Translations\PluginsWithTranslations;
 use Piwik\Plugins\CoreConsole\WatchLog;
 use Symfony\Component\Console\Application;
 
@@ -34,6 +37,9 @@ class Console
         $console->add(new GitPull());
         $console->add(new GitCommit());
         $console->add(new GitPush());
+        $console->add(new PluginsWithTranslations());
+        $console->add(new LanguageCodes());
+        $console->add(new LanguageNames());
 
         $console->run();
     }
