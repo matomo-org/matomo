@@ -21,7 +21,7 @@ use Piwik\SegmentExpression;
  */
 class API extends \Piwik\Plugin\API
 {
-    const RETURNING_VISITOR_SEGMENT = "visitorType==returning";
+    const RETURNING_VISITOR_SEGMENT = "visitorType==returning,visitorType==returningCustomer";
     const COLUMN_SUFFIX = "_returning";
 
     /**
