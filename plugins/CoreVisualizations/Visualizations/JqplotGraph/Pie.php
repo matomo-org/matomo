@@ -13,6 +13,8 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * Visualization that renders HTML for a Pie graph using jqPlot.
@@ -21,20 +23,25 @@ class Pie extends JqplotGraph
 {
     const ID = 'graphPie';
 
-    public function __construct($view)
+    public function configureVisualization(Config $properties)
     {
-        parent::__construct($view);
-        $view->visualization_properties->show_all_ticks = true;
-        $view->datatable_js_type = 'JqplotPieGraphDataTable';
+        parent::configureVisualization($properties);
 
-        // make sure only one non-label column is displayed
-        $view->after_data_loaded_functions[] = function ($dataTable) use ($view) {
-            $metricColumn = reset($view->columns_to_display);
-            if ($metricColumn == 'label') {
-                $metricColumn = next($view->columns_to_display);
-            }
-            $view->columns_to_display = array($metricColumn ? : 'nb_visits');
-        };
+        $properties->visualization_properties->show_all_ticks = true;
+        $properties->datatable_js_type = 'JqplotPieGraphDataTable';
+    }
+
+    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    {
+        parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
+
+        $metricColumn = reset($properties->columns_to_display);
+
+        if ($metricColumn == 'label') {
+            $metricColumn = next($properties->columns_to_display);
+        }
+
+        $properties->columns_to_display = array($metricColumn ? : 'nb_visits');
     }
 
     public static function getDefaultPropertyValues()

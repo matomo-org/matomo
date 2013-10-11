@@ -12,8 +12,11 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Log;
 use Piwik\View;
 use Piwik\ViewDataTable\Visualization;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * Generates a tag cloud from a given data array.
@@ -45,21 +48,24 @@ class Cloud extends Visualization
     protected $wordsArray = array();
     public $truncatingLimit = 50;
 
-    public function afterLoadDataTable()
-    {
-        $view = $this->viewDataTable;
-        $dataTable = $this->viewDataTable->getDataTable();
 
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     * @param \Piwik\Visualization\Config $properties
+     * @param \Piwik\Visualization\Request $request
+     */
+    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    {
         if ($dataTable->getRowsCount() == 0) {
             return;
         }
 
-        $columnToDisplay = isset($view->columns_to_display[1]) ? $view->columns_to_display[1] : 'nb_visits';
+        $columnToDisplay = isset($properties->columns_to_display[1]) ? $properties->columns_to_display[1] : 'nb_visits';
 
         $labelMetadata = array();
         foreach ($dataTable->getRows() as $row) {
             $logo = false;
-            if ($view->visualization_properties->display_logo_instead_of_label) {
+            if ($properties->visualization_properties->display_logo_instead_of_label) {
                 $logo = $row->getMetadata('logo');
             }
 
@@ -81,12 +87,16 @@ class Cloud extends Visualization
         $this->cloudValues   = $cloudValues;
     }
 
+    public function configureVisualization(Config $properties)
+    {
+        $properties->show_exclude_low_population = false;
+        $properties->show_offset_information     = false;
+        $properties->show_limit_control          = false;
+    }
+
     public static function getDefaultPropertyValues()
     {
         return array(
-            'show_offset_information'     => false,
-            'show_exclude_low_population' => false,
-            'show_limit_control'          => false,
             'visualization_properties'    => array(
                 'cloud' => array(
                     'display_logo_instead_of_label' => false,

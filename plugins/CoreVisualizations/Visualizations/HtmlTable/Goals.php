@@ -12,6 +12,7 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Visualization\Config;
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_goals_columns to true.
@@ -20,13 +21,10 @@ class Goals extends HtmlTable
 {
     const ID = 'tableGoals';
 
-    /**
-     * Init
-     */
-    public function init()
+    public function configureVisualization(Config $properties)
     {
-        $this->viewDataTable->visualization_properties->show_goals_columns = true;
+        $properties->visualization_properties->show_goals_columns = true;
 
-        parent::init();
+        parent::configureVisualization($properties);
     }
 }
