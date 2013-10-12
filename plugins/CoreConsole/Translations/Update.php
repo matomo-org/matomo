@@ -41,9 +41,11 @@ class Update extends Command
         $arguments = array(
             'command'    => 'translations:fetch',
             '--username' => $input->getOption('username'),
-            '--password' => $input->getOption('password'),
+            '--password' => $input->getOption('password')
         );
-        $command->run(new ArrayInput($arguments), $output);
+        $inputObject = new ArrayInput($arguments);
+        $inputObject->setInteractive($input->isInteractive());
+        $command->run($inputObject, $output);
 
         $languages = API::getInstance()->getAvailableLanguageNames();
 
@@ -57,6 +59,10 @@ class Update extends Command
         $files = _glob(FetchFromOTrance::getDownloadPath() . DIRECTORY_SEPARATOR . '*.json');
 
         $output->writeln("Starting to import new language files");
+
+        if (!$input->isInteractive()) {
+            $output->writeln("(!) Non interactive mode: New languages will be skipped");
+        }
 
         $progress = $this->getHelperSet()->get('progress');
 
@@ -75,7 +81,10 @@ class Update extends Command
                     continue; # never create a new language for plugin only
                 }
 
-                $createNewFile = $dialog->askConfirmation($output, "\nLanguage $code does not exist. Should it be added? ");
+                $createNewFile = false;
+                if ($input->isInteractive()) {
+                    $createNewFile = $dialog->askConfirmation($output, "\nLanguage $code does not exist. Should it be added? ", false);
+                }
 
                 if (!$createNewFile) {
 
@@ -91,7 +100,9 @@ class Update extends Command
                 '--file'   => $filename,
                 '--plugin' => $plugin
             );
-            $command->run(new ArrayInput($arguments), new NullOutput());
+            $inputObject = new ArrayInput($arguments);
+            $inputObject->setInteractive($input->isInteractive());
+            $command->run($inputObject, new NullOutput());
         }
 
         $progress->finish();

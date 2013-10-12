@@ -72,7 +72,11 @@ class FetchFromOTrance extends Command
         }
 
         // send request to create a new download package using the cookie file
-        $createNewPackage = $dialog->askConfirmation($output, 'Shall we create a new language pack? ');
+        $createNewPackage = true;
+        if ($input->isInteractive()) {
+            $createNewPackage = $dialog->askConfirmation($output, 'Shall we create a new language pack? ');
+        }
+
         if ($createNewPackage) {
 
             $curl = curl_init('http://translations.piwik.org/public/export/update.all');
@@ -99,7 +103,10 @@ class FetchFromOTrance extends Command
 
         $downloadPackage = array_shift($matches[0]);
 
-        $continueWithPackage = $dialog->askConfirmation($output, "Found language pack $downloadPackage. Proceed? ");
+        $continueWithPackage = true;
+        if ($input->isInteractive()) {
+            $continueWithPackage = $dialog->askConfirmation($output, "Found language pack $downloadPackage. Proceed? ");
+        }
 
         if (!$continueWithPackage) {
 
