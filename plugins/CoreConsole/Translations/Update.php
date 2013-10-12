@@ -30,7 +30,7 @@ class Update extends Command
             ->setDescription('Updates translation files')
             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'oTrance username')
             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'oTrance password')
-            ->addOption('plugin', 'l', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
+            ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
