@@ -89,4 +89,3 @@ The Piwik project uses an ever-expanding comprehensive set of thousands of unit 
  running on the hosted distributed continuous integration platform Travis-CI.
 
 Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.png?branch=master)](https://travis-ci.org/piwik/piwik)
-
