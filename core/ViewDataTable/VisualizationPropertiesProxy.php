@@ -60,7 +60,7 @@ class VisualizationPropertiesProxy
     public function &__get($name)
     {
         if ($this->visualizationClass !== null) {
-            Properties::checkValidVisualizationProperty($this->visualizationClass, $name);
+            static::checkValidVisualizationProperty($this->visualizationClass, $name);
         }
 
         return $this->visualizationProperties[$name];
@@ -77,10 +77,81 @@ class VisualizationPropertiesProxy
     public function __set($name, $value)
     {
         if ($this->visualizationClass !== null) {
-            Properties::checkValidVisualizationProperty($this->visualizationClass, $name);
+            static::checkValidVisualizationProperty($this->visualizationClass, $name);
         }
 
         return $this->visualizationProperties[$name] = $value;
+    }
+
+    /**
+     * Checks if a property is a valid visualization property for the given visualization class,
+     * and if not, throws an exception.
+     *
+     * @param string $visualizationClass
+     * @param string $name The property name.
+     * @throws \Exception
+     */
+    public static function checkValidVisualizationProperty($visualizationClass, $name)
+    {
+        if (!self::isValidVisualizationProperty($visualizationClass, $name)) {
+            throw new \Exception("Invalid Visualization display property '$name' for '$visualizationClass'.");
+        }
+    }
+    /**
+     * Returns true if $name is a valid visualization property for the given visualization class.
+     */
+    public static function isValidVisualizationProperty($visualizationClass, $name)
+    {
+        $properties = self::getVisualizationProperties($visualizationClass);
+        return isset($properties[$name]);
+    }
+
+    /**
+     * Returns the set of all valid properties for the given visualization class. The result is an
+     * array with property names as keys. Values of the array are undefined.
+     *
+     * @param string $visualizationClass
+     *
+     * @return array
+     */
+    public static function getVisualizationProperties($visualizationClass)
+    {
+        static $propertiesCache = array();
+
+        if ($visualizationClass === null) {
+            return array();
+        }
+
+        if (!isset($propertiesCache[$visualizationClass])) {
+            $properties = self::getFlippedClassConstantMap($visualizationClass);
+
+            $parentClass = get_parent_class($visualizationClass);
+            if ($parentClass != 'Piwik\\ViewDataTable\\Visualization') {
+                $properties += self::getVisualizationProperties($parentClass);
+            }
+
+            $propertiesCache[$visualizationClass] = $properties;
+        }
+
+        return $propertiesCache[$visualizationClass];
+    }
+
+    private static function getFlippedClassConstantMap($klass)
+    {
+        $klass = new \ReflectionClass($klass);
+        $constants = $klass->getConstants();
+
+        unset($constants['ID']);
+        unset($constants['FOOTER_ICON']);
+        unset($constants['FOOTER_ICON_TITLE']);
+
+        foreach ($constants as $name => $value) {
+            if (!is_string($value)) {
+                unset($constants[$name]);
+            }
+        }
+
+        return array_flip($constants);
     }
 
     /**

@@ -23,6 +23,50 @@ class Config
 {
 
     /**
+     * The list of ViewDataTable properties that are 'Client Side Properties'.
+     *
+     * @see Piwik\ViewDataTable\Visualization::getClientSideProperties
+     */
+    public static $clientSideProperties = array(
+        'show_limit_control'
+    );
+
+    /**
+     * The list of ViewDataTable properties that can be overriden by query parameters.
+     *
+     * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
+     */
+    public static $overridableProperties = array(
+        'show_goals',
+        'disable_generic_filters',
+        'disable_queued_filters',
+        'show_exclude_low_population',
+        'show_flatten_table',
+        'show_table',
+        'show_table_all_columns',
+        'show_footer',
+        'show_footer_icons',
+        'show_all_views_icons',
+        'show_active_view_icon',
+        'show_related_reports',
+        'show_limit_control',
+        'show_search',
+        'enable_sort',
+        'show_bar_chart',
+        'show_pie_chart',
+        'show_tag_cloud',
+        'show_export_as_rss_feed',
+        'show_ecommerce',
+        'search_recursive',
+        'show_export_as_image_icon',
+        'show_pagination_control',
+        'show_offset_information',
+        'hide_annotations_view',
+        'export_limit',
+        'show_non_core_visualizations'
+    );
+
+    /**
      * The default viewDataTable ID to use when determining which visualization to use.
      * This property is only valid for reports whose properties are determined by the
      * Visualization.getReportDisplayProperties event. When manually creating ViewDataTables,
@@ -321,7 +365,7 @@ class Config
      *
      * @var \Piwik\ViewDataTable\VisualizationPropertiesProxy
      */
-    public $visualization_properties;
+    public $visualization_properties = array();
 
     /**
      * CSS class to use in the output HTML div. This is added in addition to the visualization CSS
