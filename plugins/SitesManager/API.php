@@ -1185,11 +1185,15 @@ class API extends \Piwik\Plugin\API
         if (count($urls) != 0) {
             $db = Db::get();
             foreach ($urls as $url) {
-                $db->insert(Common::prefixTable("site_url"), array(
-                                                                  'idsite' => $idSite,
-                                                                  'url'    => $url
-                                                             )
-                );
+                try {
+                    $db->insert(Common::prefixTable("site_url"), array(
+                                                                      'idsite' => $idSite,
+                                                                      'url'    => $url
+                                                                 )
+                    );
+                } catch(Exception $e) {
+                    // See bug #4149
+                }
             }
         }
     }
