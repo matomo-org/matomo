@@ -74,14 +74,6 @@ class ViewDataTable
     public static $reportPropertiesCache = null;
 
     /**
-     * Array of properties that are available in the view
-     * Used to store UI properties, eg. "show_footer", "show_search", etc.
-     *
-     * @var array
-     */
-    protected $viewProperties = array();
-
-    /**
      * If the current dataTable refers to a subDataTable (eg. keywordsBySearchEngineId for id=X) this variable is set to the Id
      *
      * @var bool|int
@@ -417,8 +409,15 @@ class ViewDataTable
      */
     private function setViewProperty($name, $value)
     {
-        if (isset($this->viewProperties[$name])
-            && is_array($this->viewProperties[$name])
+        if (isset($this->vizRequest->$name)
+            && is_array($this->vizRequest->$name)
+            && is_string($value)
+        ) {
+            $value = Piwik::getArrayFromApiParameter($value);
+        }
+
+        if (isset($this->vizConfig->$name)
+            && is_array($this->vizConfig->$name)
             && is_string($value)
         ) {
             $value = Piwik::getArrayFromApiParameter($value);
@@ -783,8 +782,6 @@ class ViewDataTable
                 $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizRequest->$name);
             } else if (property_exists($this->vizConfig, $name)) {
                 $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizConfig->$name);
-            } else if (isset($this->viewProperties[$name]) && false !== $this->viewProperties[$name]) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->viewProperties[$name]);
             } else if (VisualizationPropertiesProxy::isValidVisualizationProperty($this->visualizationClass, $name)) {
                 $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizConfig->visualization_properties->$name);
             }
@@ -847,8 +844,6 @@ class ViewDataTable
                 $result[$name] = $this->convertForJson($this->vizRequest->$name);
             } else if (property_exists($this->vizConfig, $name)) {
                 $result[$name] = $this->convertForJson($this->vizConfig->$name);
-            } else if (isset($this->viewProperties[$name])) {
-                $result[$name] = $this->convertForJson($this->viewProperties[$name]);
             } else if (VisualizationPropertiesProxy::isValidVisualizationProperty($this->visualizationClass, $name)) {
                 $result[$name] = $this->convertForJson($this->vizConfig->visualization_properties->$name);
             }
@@ -888,11 +883,7 @@ class ViewDataTable
             return $this->vizConfig->$nameVar;
         }
 
-        if (!isset($this->viewProperties[$nameVar])) {
-            return false;
-        }
-
-        return $this->viewProperties[$nameVar];
+        return false;
     }
 
     /** Load documentation from the API */
@@ -1103,16 +1094,11 @@ class ViewDataTable
             $visualization->configureVisualization($this->vizConfig);
             $visualization->beforeLoadDataTable($this->vizRequest, $this->vizConfig);
 
-            $this->viewProperties = array_merge($this->viewProperties, $this->vizRequest->getProperties());
-
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI($visualization);
             $this->executeAfterDataLoadedCallbacks();
 
             $visualization->afterAllFilteresAreApplied($this->dataTable, $this->vizConfig, $this->vizRequest);
-
-            $this->viewProperties = array_merge($this->viewProperties, $this->vizRequest->getProperties());
-            $this->viewProperties = array_merge($this->viewProperties, $this->vizConfig->getProperties());
 
         } catch (NoAccessException $e) {
             throw $e;
@@ -1150,7 +1136,7 @@ class ViewDataTable
         $view->idSubtable = $this->idSubtable;
         $view->clientSideParameters = $this->getClientSideParametersToSet();
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
-        $view->properties = $this->viewProperties;
+        $view->properties = array_merge($this->vizRequest->getProperties(), $this->vizConfig->getProperties());
         $view->footerIcons = $this->vizConfig->footer_icons;
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
