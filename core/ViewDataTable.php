@@ -115,8 +115,15 @@ class ViewDataTable
      */
     protected $view = null;
 
-    protected $vizConfig = null;
-    protected $vizRequest = null;
+    /**
+     * @var null|\Piwik\Visualization\Config
+     */
+    protected $vizConfig;
+
+    /**
+     * @var null|\Piwik\Visualization\Request
+     */
+    protected $vizRequest;
 
     /**
      * Default constructor.
