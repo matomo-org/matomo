@@ -4,7 +4,7 @@
     "description": "Example for generating a simple visualization",
     "theme": false,
     "license": "GPL-3.0+",
-    "keywords": ["visualization", "example", "table"],
+    "keywords": ["SimpleTable"],
     "homepage": "http://piwik.org",
     "authors": [
         {

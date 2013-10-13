@@ -86,13 +86,13 @@ class GeneratePlugin extends GeneratePluginBase
         return false !== strpos($commandName, 'theme');
     }
 
-    private function generatePluginFolder($pluginName)
+    protected function generatePluginFolder($pluginName)
     {
         $pluginPath = $this->getPluginPath($pluginName);
         Filesystem::mkdir($pluginPath, true);
     }
 
-    private function generatePluginJson($pluginName, $version, $description, $isTheme)
+    protected function generatePluginJson($pluginName, $version, $description, $isTheme)
     {
         $pluginJson = array(
             'name'        => $pluginName,
@@ -115,7 +115,7 @@ class GeneratePlugin extends GeneratePluginBase
     /**
      * @param string $pluginName
      */
-    private function generatePluginFile($pluginName)
+    protected function generatePluginFile($pluginName)
     {
         $template = file_get_contents(__DIR__ . '/templates/PluginTemplate.php');
         $template = str_replace('PLUGINNAME', $pluginName, $template);
@@ -128,7 +128,7 @@ class GeneratePlugin extends GeneratePluginBase
      * @return array
      * @throws \RunTimeException
      */
-    private function getPluginName(InputInterface $input, OutputInterface $output)
+    protected function getPluginName(InputInterface $input, OutputInterface $output)
     {
         $self = $this;
 
@@ -170,7 +170,7 @@ class GeneratePlugin extends GeneratePluginBase
      * @return mixed
      * @throws \RunTimeException
      */
-    private function getPluginDescription(InputInterface $input, OutputInterface $output)
+    protected function getPluginDescription(InputInterface $input, OutputInterface $output)
     {
         $validate = function ($description) {
             if (empty($description)) {
