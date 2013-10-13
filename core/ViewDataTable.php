@@ -15,7 +15,6 @@ use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\API;
-use Piwik\ViewDataTable\Properties;
 use Piwik\ViewDataTable\Visualization;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik\Visualization\Config as VizConfig;
