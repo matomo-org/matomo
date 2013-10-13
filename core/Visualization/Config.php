@@ -485,7 +485,7 @@ class Config
      */
     public $show_non_core_visualizations = true;
 
-    public $metadata  = '';
+    public $metadata  = array();
     public $report_id = '';
 
     public function __construct()

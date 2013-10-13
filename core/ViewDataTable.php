@@ -150,10 +150,6 @@ class ViewDataTable
         $this->vizRequest = new VizRequest();
         $this->vizConfig  = new VizConfig();
         $this->vizConfig->visualization_properties = new VisualizationPropertiesProxy($visualizationClass);
-        $this->vizConfig->metadata        = array();
-        $this->vizConfig->translations    = array();
-        $this->vizConfig->filters         = array();
-        $this->vizConfig->related_reports = array();
         $this->vizConfig->subtable_controller_action = $currentControllerAction;
 
         $this->setDefaultProperties();
