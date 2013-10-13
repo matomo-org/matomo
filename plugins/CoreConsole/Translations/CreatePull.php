@@ -97,12 +97,20 @@ class CreatePull extends Command
         $inputObject->setInteractive($input->isInteractive());
         $command->run($inputObject, $output);
 
-        $output->writeln("Finished.");
+        $changes = shell_exec('git status --porcelain -uno');
 
-        shell_exec('git add lang/.');
+        if (empty($changes)) {
+
+            $output->writeln("Nothing changed. Everything is already up to date.");
+            shell_exec('git checkout master > /dev/null 2>&1');
+            return;
+        }
+
+        shell_exec('git add lang/. > /dev/null 2>&1');
 
         shell_exec('git commit -m "language update ${pluginName} refs #3430"');
         shell_exec('git push');
+        shell_exec('git checkout master > /dev/null 2>&1');
 
         $this->createPullRequest($input, $output);
     }
