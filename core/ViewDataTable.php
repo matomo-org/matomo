@@ -850,7 +850,7 @@ class ViewDataTable
             } else if (isset($this->viewProperties[$name])) {
                 $result[$name] = $this->convertForJson($this->viewProperties[$name]);
             } else if (VisualizationPropertiesProxy::isValidVisualizationProperty($this->visualizationClass, $name)) {
-                $result[$name] = $this->convertForJson($this->viewProperties['visualization_properties']->$name);
+                $result[$name] = $this->convertForJson($this->vizConfig->visualization_properties->$name);
             }
         }
         return $result;
