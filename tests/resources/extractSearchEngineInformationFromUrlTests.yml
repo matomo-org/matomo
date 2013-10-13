@@ -363,3 +363,31 @@
 - url: 'http://search.leonardo.it/?q=searchterm'
   engine: 'Google'
   keywords: 'searchterm'
+
+- url: 'http://image.search.yahoo.co.jp/search?ei=UTF-8&fr=top_ga1_sa&p=%EF%BD%94%EF%BD%8F+%EF%BD%88%EF%BD%85%EF%BD%81%EF%BD%92%EF%BD%94+%EF%BD%8C%EF%BD%8F%EF%BD%87%EF%BD%8F'
+  engine: 'Yahoo!'
+  keywords: 'ｔｏ ｈｅａｒｔ ｌｏｇｏ'
+
+- url: 'http://www.claro-search.com/?q=logiciels+pour+%C3%A9crire+en+japonais+avec+windows+xp&s=web&as=0&rlz=0&babsrc=SP_clro'
+  engine: 'Claro Search'
+  keywords: 'logiciels pour écrire en japonais avec windows xp'
+
+- url: 'http://search.smt.docomo.ne.jp/result?MT=%E3%83%AC%E3%82%B9%E3%82%AD%E3%83%A5%E3%83%BCme+ova&SID=s08&SPAGE=1&UNIT=11&IND=000&PAGE=2&URANK=11&TPLID=01'
+  engine: 'Google'
+  keywords: 'レスキューme ova'
+
+- url: 'http://image.search.smt.docomo.ne.jp/image_detail.php?FR=189&MT=%E3%81%B5%E3%81%9F%E3%82%8A%E3%81%AF%E3%83%97%E3%83%AA%E3%82%AD%E3%83%A5%E3%82%A2MaxHeart&RS=21&PT=000'
+  engine: 'Google'
+  keywords: 'ふたりはプリキュアmaxheart'
+
+- url: 'http://search.smartaddressbar.com/web.php?s=habillage+aikatsu'
+  engine: 'SmartAddressbar'
+  keywords: 'habillage aikatsu'
+
+- url: 'http://lemoteur.ke.voila.fr/?module=orange&bhv=images&kw=negi%20ma%20ala%20alba%20eva'
+  engine: 'Orange'
+  keywords: 'negi ma ala alba eva'
+
+- url: 'http://search.v9.com/image/?q=saeko&hl=mx&yahoo=0&pn=2&ab=default'
+  engine: 'InfoSpace'
+  keywords: 'saeko'
