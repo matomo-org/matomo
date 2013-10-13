@@ -68,7 +68,7 @@ class Sparkline extends ViewDataTable
 
         $graph->main();
 
-        $this->view = $graph;
+        return $graph;
     }
 
     /**

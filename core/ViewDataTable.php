@@ -100,14 +100,6 @@ class ViewDataTable
     protected $currentControllerName;
 
     /**
-     * This view should be an implementation of the Interface ViewInterface
-     * The $view object should be created in the main() method.
-     *
-     * @var \Piwik\View\ViewInterface
-     */
-    protected $view = null;
-
-    /**
      * @var null|\Piwik\Visualization\Config
      */
     protected $vizConfig;
@@ -1043,8 +1035,8 @@ class ViewDataTable
      */
     public function render()
     {
-        $this->buildView();
-        return $this->view->render();
+        $view = $this->buildView();
+        return $view->render();
     }
 
     /**
@@ -1140,7 +1132,7 @@ class ViewDataTable
         $view->footerIcons = $this->vizConfig->footer_icons;
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
-        $this->view = $view;
+        return $view;
     }
 
     private function executeAfterDataLoadedCallbacks()
