@@ -21,7 +21,7 @@ class VisitorLog extends Visualization
 {
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
 
-    static public $clientSideParameters = array(
+    static public $clientSideRequestParameters = array(
         'filter_limit',
         'filter_offset',
         'filter_sort_column',

@@ -114,9 +114,9 @@ abstract class Visualization extends View
      *
      * @return array
      */
-    public static function getClientSideParameters()
+    public static function getClientSideRequestParameters()
     {
-        return self::getPropertyNameListWithMetaProperty('clientSideParameters');
+        return self::getPropertyNameListWithMetaProperty('clientSideRequestParameters');
     }
 
     /**
@@ -130,9 +130,9 @@ abstract class Visualization extends View
      *
      * @return array
      */
-    public static function getClientSideProperties()
+    public static function getClientSideConfigProperties()
     {
-        return self::getPropertyNameListWithMetaProperty('clientSideProperties');
+        return self::getPropertyNameListWithMetaProperty('clientSideConfigProperties');
     }
 
     /**

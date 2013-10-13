@@ -37,7 +37,7 @@ class Evolution extends JqplotGraph
      */
     const SHOW_LINE_GRAPH = 'show_line_graph';
 
-    public static $clientSideProperties = array('show_line_graph');
+    public static $clientSideConfigProperties = array('show_line_graph');
 
     public static $overridableProperties = array('show_line_graph');
 

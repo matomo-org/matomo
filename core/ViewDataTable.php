@@ -289,7 +289,7 @@ class ViewDataTable
      *
      * @return array
      */
-    public function getClientSideProperties()
+    public function getClientSideConfigProperties()
     {
         return $this->getPropertyNameListWithMetaProperty(VizConfig::$clientSideProperties, __FUNCTION__);
     }
@@ -300,7 +300,7 @@ class ViewDataTable
      *
      * @return array
      */
-    public function getClientSideParameters()
+    public function getClientSideRequestParameters()
     {
         return $this->getPropertyNameListWithMetaProperty(VizRequest::$clientSideParameters, __FUNCTION__);
     }
@@ -773,7 +773,7 @@ class ViewDataTable
             $javascriptVariablesToSet[$name] = $requestValue;
         }
 
-        foreach ($this->getClientSideParameters() as $name) {
+        foreach ($this->getClientSideRequestParameters() as $name) {
             if (isset($javascriptVariablesToSet[$name])) {
                 continue;
             }
@@ -839,7 +839,7 @@ class ViewDataTable
     {
         // TODO
         $result = array();
-        foreach ($this->getClientSideProperties() as $name) {
+        foreach ($this->getClientSideConfigProperties() as $name) {
             if (property_exists($this->vizRequest, $name)) {
                 $result[$name] = $this->convertForJson($this->vizRequest->$name);
             } else if (property_exists($this->vizConfig, $name)) {

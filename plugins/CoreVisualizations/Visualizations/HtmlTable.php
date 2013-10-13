@@ -122,7 +122,7 @@ class HtmlTable extends Visualization
      */
     const HIGHLIGHT_SUMMARY_ROW = 'highlight_summary_row';
 
-    static public $clientSideParameters = array(
+    static public $clientSideRequestParameters = array(
         'search_recursive',
         'filter_limit',
         'filter_offset',
@@ -130,7 +130,7 @@ class HtmlTable extends Visualization
         'filter_sort_order',
     );
 
-    static public $clientSideProperties = array(
+    static public $clientSideConfigProperties = array(
         'show_extra_columns',
         'show_goals_columns',
         'disable_row_evolution',

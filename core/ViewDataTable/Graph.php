@@ -109,7 +109,7 @@ abstract class Graph extends Visualization
      */
     const DISPLAY_PERCENTAGE_IN_TOOLTIP = 'display_percentage_in_tooltip';
 
-    public static $clientSideProperties = array(
+    public static $clientSideConfigProperties = array(
         'show_series_picker',
         'allow_multi_select_series_picker',
         'selectable_columns',
@@ -117,7 +117,7 @@ abstract class Graph extends Visualization
         'display_percentage_in_tooltip'
     );
 
-    public static $clientSideParameters = array(
+    public static $clientSideRequestParameters = array(
         'columns'
     );
 
