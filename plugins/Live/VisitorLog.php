@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\View;
 use Piwik\ViewDataTable\Visualization;
+use Piwik\Visualization\Config;
 
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
@@ -28,10 +29,10 @@ class VisitorLog extends Visualization
     );
 
     /**
-     * Init.
+     * Configure visualization.
      */
-    public function init()
+    public function configureVisualization(Config $properties)
     {
-        $this->viewDataTable->datatable_js_type = 'VisitorLog';
+        $properties->datatable_js_type = 'VisitorLog';
     }
 }

@@ -41,11 +41,13 @@ class Evolution extends JqplotGraph
 
     public static $overridableProperties = array('show_line_graph');
 
-    public function init()
+    public function configureVisualization(Config $properties)
     {
-        parent::init();
-
         $this->calculateEvolutionDateRange();
+
+        parent::configureVisualization($properties);
+
+        $properties->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
     public function beforeLoadDataTable(Request $request, Config $properties)
@@ -73,11 +75,6 @@ class Evolution extends JqplotGraph
         if ($view->visualization_properties->x_axis_step_size === false) {
             $view->visualization_properties->x_axis_step_size = $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
         }
-    }
-
-    public function configureVisualization(Config $properties)
-    {
-        $properties->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
     public static function getDefaultPropertyValues()
