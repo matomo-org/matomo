@@ -142,12 +142,12 @@ class CreatePull extends Command
 
                 case 422:
                     $output->writeln("Pull request failed. Unprocessable Entity. Maybe a pull request was already created before.");
-                    break;
+                    return;
 
                 case 201:
                 case 200:
                     $output->writeln("Pull request successfully created.");
-                    break;
+                    return;
 
                 default:
                     $output->writeln("Pull request failed... Please try again");
