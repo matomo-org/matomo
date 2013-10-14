@@ -13,6 +13,7 @@ namespace Piwik;
 
 use Closure;
 use Exception;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
@@ -146,7 +147,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *
  * @api
  */
-class DataTable
+class DataTable implements DataTableInterface
 {
     /** Name for metadata that describes when a report was archived. */
     const ARCHIVED_DATE_METADATA_NAME = 'archived_date';

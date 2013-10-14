@@ -20,6 +20,36 @@ namespace Piwik\Visualization;
  */
 class Request
 {
+
+    /**
+     * The list of ViewDataTable properties that are 'Client Side Parameters'.
+     *
+     * @see Piwik\ViewDataTable\Visualization::getClientSideParameters
+     */
+    public static $clientSideParameters = array(
+        'filter_excludelowpop',
+        'filter_excludelowpop_value',
+        'filter_pattern',
+        'filter_column',
+        'filter_offset'
+    );
+
+    /**
+     * The list of ViewDataTable properties that can be overriden by query parameters.
+     *
+     * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
+     */
+    public static $overridableProperties = array(
+        'filter_sort_column',
+        'filter_sort_order',
+        'filter_limit',
+        'filter_offset',
+        'filter_pattern',
+        'filter_column',
+        'filter_excludelowpop',
+        'filter_excludelowpop_value',
+    );
+
     /**
      * Controls which column to sort the DataTable by before truncating and displaying.
      *

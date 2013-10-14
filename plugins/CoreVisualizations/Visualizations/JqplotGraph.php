@@ -53,7 +53,7 @@ class JqplotGraph extends Graph
      */
     const X_AXIS_STEP_SIZE = 'x_axis_step_size';
 
-    public static $clientSideProperties = array(
+    public static $clientSideConfigProperties = array(
         'external_series_toggle',
         'external_series_toggle_show_all'
     );

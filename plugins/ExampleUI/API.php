@@ -11,6 +11,7 @@
 namespace Piwik\Plugins\ExampleUI;
 
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Period\Range;
 
 /**
@@ -28,7 +29,10 @@ class API extends \Piwik\Plugin\API
     public function getTemperaturesEvolution($date, $period)
     {
         $temperatures = array();
+
+        $date   = Date::factory('2013-10-10', 'UTC');
         $period = new Range($period, 'last30');
+        $period->setDefaultEndDate($date);
 
         foreach ($period->getSubperiods() as $subPeriod) {
             if (self::$disableRandomness) {
