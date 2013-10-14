@@ -90,7 +90,7 @@ class PiwikTracker
         $this->requestCookie = '';
         $this->updateClientCookies = false;
         $this->clientCookieDomain = ''; 
-        $this->CookieVisitorId;
+        $this->cookieVisitorId;
         $this->createTs = false;
         $this->visitCount = false;
         $this->currentVisitTs = false;
@@ -822,7 +822,7 @@ class PiwikTracker
         if (!empty($this->forcedVisitorId)) {
             return $this->forcedVisitorId;
         } else if ($this->loadVisitorIdCookie()) {
-            return $this->CookieVisitorId;
+            return $this->cookieVisitorId;
         } else {
             return $this->visitorId;
         }
@@ -840,7 +840,7 @@ class PiwikTracker
         if ($idCookie !== false) {
             $parts = explode('.',$idCookie);
             if (strlen($parts[0]) == self::LENGTH_VISITOR_ID) {
-                $this->CookieVisitorId = $parts[0]; // provides backward compatibility since getVisitorId() didn't change any existing VisitorId value
+                $this->cookieVisitorId = $parts[0]; // provides backward compatibility since getVisitorId() didn't change any existing VisitorId value
                 $this->createTs = $parts[1];
                 $this->visitCount = $parts[2];
                 $this->currentVisitTs = $parts[3];
