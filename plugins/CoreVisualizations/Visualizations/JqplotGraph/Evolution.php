@@ -82,7 +82,6 @@ class Evolution extends JqplotGraph
         $result = parent::getDefaultPropertyValues();
         $result['show_all_views_icons'] = false;
         $result['show_table'] = false;
-        $result['show_table'] = false;
         $result['show_table_all_columns'] = false;
         $result['hide_annotations_view'] = false;
         $result['visualization_properties']['jqplot_graph']['x_axis_step_size'] = false;
