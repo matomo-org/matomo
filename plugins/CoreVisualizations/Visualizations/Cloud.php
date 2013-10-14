@@ -49,7 +49,7 @@ class Cloud extends Visualization
     protected $wordsArray = array();
     public $truncatingLimit = 50;
 
-    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied(DataTable $dataTable, Config $properties, Request $request)
     {
         if ($dataTable->getRowsCount() == 0) {
             return;
