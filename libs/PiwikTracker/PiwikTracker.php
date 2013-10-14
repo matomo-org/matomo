@@ -250,6 +250,7 @@ class PiwikTracker
     public function setNewVisitorId()
     {
         $this->visitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
+        $this->forcedVisitorId = false;
     }
 
     /**
