@@ -57,7 +57,7 @@ class Request
      *                displayed column, then the default value is 'nb_uniq_visitors'.
      *                Otherwise, it is 'nb_visits'.
      */
-    public $filter_sort_column = 'nb_visits';
+    public $filter_sort_column = false;
 
     /**
      * Controls the sort order. Either 'asc' or 'desc'.
