@@ -1146,7 +1146,7 @@ class PiwikTracker
                 $this->lastVisitTs = $this->currentVisitTs;
             }
             $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
-            setcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, '/', $this->clientCookieDomain);
+            setrawcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, '/', $this->clientCookieDomain);
         }
 
         $url = $this->getBaseUrl() .
