@@ -18,7 +18,6 @@ use Piwik\Plugin\Controller;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Site;
-use Piwik\ViewDataTable\Properties;
 use Piwik\Visualization\Config;
 use Piwik\Visualization\Request;
 
@@ -43,7 +42,7 @@ class Evolution extends JqplotGraph
 
     public function configureVisualization(Config $properties)
     {
-        $this->calculateEvolutionDateRange();
+        $this->calculateEvolutionDateRange($properties);
 
         parent::configureVisualization($properties);
 
@@ -71,9 +70,10 @@ class Evolution extends JqplotGraph
     {
         parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
 
-        $view = $this->viewDataTable;
-        if ($view->visualization_properties->x_axis_step_size === false) {
-            $view->visualization_properties->x_axis_step_size = $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
+        if ($properties->visualization_properties->x_axis_step_size === false) {
+
+            $size = $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
+            $properties->visualization_properties->x_axis_step_size = $size;
         }
     }
 
@@ -99,7 +99,7 @@ class Evolution extends JqplotGraph
      * Based on the period, date and evolution_{$period}_last_n query parameters,
      * calculates the date range this evolution chart will display data for.
      */
-    private function calculateEvolutionDateRange()
+    private function calculateEvolutionDateRange(Config $properties)
     {
         $view = $this->viewDataTable;
         $period = Common::getRequestVar('period');
@@ -108,7 +108,7 @@ class Evolution extends JqplotGraph
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ($period != 'range') { // show evolution limit if the period is not a range
-            $view->show_limit_control = true;
+            $properties->show_limit_control = true;
 
             // set the evolution_{$period}_last_n query param
             if (Range::parseDateRange($originalDate)) { // if a multiple period
@@ -118,10 +118,10 @@ class Evolution extends JqplotGraph
             } else { // if not a multiple period
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $originalDate, $defaultLastN);
                 $view->request_parameters_to_modify['date'] = $newDate;
-                $view->custom_parameters['dateUsedInGraph'] = $newDate;
+                $properties->custom_parameters['dateUsedInGraph'] = $newDate;
             }
             $lastNParamName = self::getLastNParamName($period);
-            $view->custom_parameters[$lastNParamName] = $lastN;
+            $properties->custom_parameters[$lastNParamName] = $lastN;
         }
     }
 
