@@ -89,6 +89,7 @@ class PiwikTracker
 
         $this->requestCookie = '';
         $this->updateClientCookies = false;
+		$this->clientCookiePath = '/';
         $this->clientCookieDomain = ''; 
         $this->cookieVisitorId;
         $this->currentTs = time();
@@ -375,10 +376,11 @@ class PiwikTracker
      * @param bool $create determines whether or not client cookies will be updated
      * $param string $domain sets the domain under which the cookie will be placed (primarily used to create domain wildcard cookies)
      */
-    public function setUpdateClientCookies( $create, $domain = '' )
+    public function setUpdateClientCookies( $create, $domain = '', $path = '/' )
     {
         $this->updateClientCookies = $create;
         $this->clientCookieDomain = self::domainFixup($domain);
+		$this->clientCookiePath = $path;
     }
 
     /*
@@ -403,7 +405,7 @@ class PiwikTracker
     function getCookieName($baseName) {
         // NOTE: If the cookie name is changed, we must also update the method in piwik.js with
         // the same name.
-        $hash = substr( sha1( ($this->clientCookieDomain == '' ? self::getCurrentHost() : $this->clientCookieDomain)  . '/' ), 0, 4);
+        $hash = substr( sha1( ($this->clientCookieDomain == '' ? self::getCurrentHost() : $this->clientCookieDomain)  . $this->clientCookiePath ), 0, 4);
         return '_pk_' . $baseName . '.' . $this->idSite . '.' . $hash;
     }
      
@@ -414,7 +416,7 @@ class PiwikTracker
      */
     protected function setVisitorIdCookie($visitorId, $createTs, $visitCount, $nowTs, $lastVisitTs, $lastEcommerceOrderTs = '')
     {
-        return setcookie( $this->getCookieName('id'), $visitorId . '.' . $createTs . '.' . $visitCount . '.' . $nowTs . '.' . $lastVisitTs . '.' . $lastEcommerceOrderTs, $nowTs + $this->configVisitorCookieTimeout / 1000, '/', $this->clientCookieDomain );
+        return setcookie( $this->getCookieName('id'), $visitorId . '.' . $createTs . '.' . $visitCount . '.' . $nowTs . '.' . $lastVisitTs . '.' . $lastEcommerceOrderTs, $nowTs + $this->configVisitorCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain );
     }
 
     /**
@@ -863,10 +865,10 @@ class PiwikTracker
     public function deleteCookies() 
     {
         return 
-        setcookie($this->getCookieName('id'), '', $this->currentTs - 86400, '/', $this->clientCookieDomain) && 
-        setcookie($this->getCookieName('ses'), '', $this->currentTs - 86400, '/', $this->clientCookieDomain) &&
-        setcookie($this->getCookieName('cvar'), '', $this->currentTs - 86400, '/', $this->clientCookieDomain) &&
-        setcookie($this->getCookieName('ref'), '', $this->currentTs - 86400, '/', $this->clientCookieDomain);
+        setcookie($this->getCookieName('id'), '', $this->currentTs - 86400, $this->clientCookiePath, $this->clientCookieDomain) && 
+        setcookie($this->getCookieName('ses'), '', $this->currentTs - 86400, $this->clientCookiePath, $this->clientCookieDomain) &&
+        setcookie($this->getCookieName('cvar'), '', $this->currentTs - 86400, $this->clientCookiePath, $this->clientCookieDomain) &&
+        setcookie($this->getCookieName('ref'), '', $this->currentTs - 86400, $this->clientCookiePath, $this->clientCookieDomain);
     }
     
     /**
@@ -1146,7 +1148,7 @@ class PiwikTracker
                 $this->lastVisitTs = $this->currentVisitTs;
             }
             $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
-            setrawcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, '/', $this->clientCookieDomain);
+            setrawcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain);
         }
 
         $url = $this->getBaseUrl() .
