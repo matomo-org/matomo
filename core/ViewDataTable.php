@@ -416,7 +416,6 @@ class ViewDataTable
 
         if ($name == 'translations'
             || $name == 'filters'
-            || $name == 'after_data_loaded_functions'
         ) {
             $this->vizConfig->$name = array_merge($this->vizConfig->$name, $value);
         } else if ($name == 'related_reports') { // TODO: should process after (in overrideViewProperties)
@@ -828,8 +827,8 @@ class ViewDataTable
      */
     private function getClientSidePropertiesToSet()
     {
-        // TODO
         $result = array();
+        
         foreach ($this->getClientSideConfigProperties() as $name) {
             if (property_exists($this->vizRequest, $name)) {
                 $result[$name] = $this->convertForJson($this->vizRequest->$name);
@@ -839,6 +838,7 @@ class ViewDataTable
                 $result[$name] = $this->convertForJson($this->vizConfig->visualization_properties->$name);
             }
         }
+
         return $result;
     }
 
@@ -1087,7 +1087,6 @@ class ViewDataTable
 
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI($visualization);
-            $this->executeAfterDataLoadedCallbacks();
 
             $visualization->afterAllFilteresAreApplied($this->dataTable, $this->vizConfig, $this->vizRequest);
 
@@ -1132,16 +1131,6 @@ class ViewDataTable
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
         return $view;
-    }
-
-    private function executeAfterDataLoadedCallbacks()
-    {
-        if (!empty($this->after_data_loaded_functions)) {
-// TODO it is not defined and we can remove it anyway
-            foreach ($this->after_data_loaded_functions as $callback) {
-                $callback($this->dataTable, $this);
-            }
-        }
     }
 
     private function getDefaultFooterIconsToShow()
