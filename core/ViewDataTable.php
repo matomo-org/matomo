@@ -690,7 +690,7 @@ class ViewDataTable
         $requestArray = array(
             'method'                  => $this->vizRequest->apiMethodToRequestDataTable,
             'format'                  => 'original',
-            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int')
+            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int'),
         );
 
         $toSetEventually = array(
@@ -720,7 +720,7 @@ class ViewDataTable
             $requestArray['expanded'] = 1;
         }
 
-        $requestArray = array_merge($requestArray, $this->request_parameters_to_modify);
+        $requestArray = array_merge($requestArray, $this->vizRequest->request_parameters_to_modify);
 
         if (!empty($requestArray['filter_limit'])
             && $requestArray['filter_limit'] === 0
