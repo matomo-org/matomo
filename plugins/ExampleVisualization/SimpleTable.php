@@ -43,7 +43,7 @@ class SimpleTable extends Visualization
     public function beforeLoadDataTable(Request $request, Config $properties)
     {
         // Here you can change the request that is sent to the API, for instance
-        // $requestProperties->filter_sort_order = 'desc';
+        // $properties->filter_sort_order = 'desc';
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
