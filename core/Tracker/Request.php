@@ -527,4 +527,20 @@ class Request
     {
         return count($this->params);
     }
+
+
+    const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
+
+    public function getPageGenerationTime()
+    {
+        $generationTime = $this->getParam('gt_ms');
+        if ($generationTime > 0
+            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM
+        ) {
+            return (int)$generationTime;
+        }
+        return false;
+    }
+
+
 }

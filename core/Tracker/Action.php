@@ -743,16 +743,17 @@ class Action implements ActionInterface
             $url = '';
         }
 
-        // Site search?
         if ($actionType == self::TYPE_ACTION_URL) {
+
             // Look in tracked URL for the Site Search parameters
             $siteSearch = $this->detectSiteSearch($url);
             if (!empty($siteSearch)) {
                 $actionType = self::TYPE_SITE_SEARCH;
                 list($actionName, $url) = $siteSearch;
             }
+
             // Look for performance analytics parameters
-            $this->detectPerformanceAnalyticsParameters();
+            $this->timeGeneration = $this->request->getPageGenerationTime();
         }
         $actionName = self::cleanupString($actionName);
 
@@ -916,17 +917,6 @@ class Action implements ActionInterface
         }
         $categoryName = trim(urldecode($categoryName));
         return array($url, $actionName, $categoryName, $count);
-    }
-
-    const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
-    protected function detectPerformanceAnalyticsParameters()
-    {
-        $generationTime = $this->request->getParam('gt_ms');
-        if ($generationTime > 0
-            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM
-        ) {
-            $this->timeGeneration = (int)$generationTime;
-        }
     }
 
     /**
