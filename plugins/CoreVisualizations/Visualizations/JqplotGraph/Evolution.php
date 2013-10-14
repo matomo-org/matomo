@@ -13,12 +13,12 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Period\Range;
 use Piwik\Plugin\Controller;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Site;
-use Piwik\ViewDataTable\Properties;
 use Piwik\Visualization\Config;
 use Piwik\Visualization\Request;
 
@@ -37,15 +37,17 @@ class Evolution extends JqplotGraph
      */
     const SHOW_LINE_GRAPH = 'show_line_graph';
 
-    public static $clientSideProperties = array('show_line_graph');
+    public static $clientSideConfigProperties = array('show_line_graph');
 
     public static $overridableProperties = array('show_line_graph');
 
-    public function init()
+    public function configureVisualization(Config $properties)
     {
-        parent::init();
+        $this->calculateEvolutionDateRange($properties);
 
-        $this->calculateEvolutionDateRange();
+        parent::configureVisualization($properties);
+
+        $properties->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
     public function beforeLoadDataTable(Request $request, Config $properties)
@@ -60,31 +62,21 @@ class Evolution extends JqplotGraph
         }
     }
 
-    /**
-     * @param DataTable|DataTable\Map $dataTable
-     * @param \Piwik\Visualization\Config $properties
-     * @param \Piwik\Visualization\Request $request
-     */
-    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
     {
         parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
 
-        $view = $this->viewDataTable;
-        if ($view->visualization_properties->x_axis_step_size === false) {
-            $view->visualization_properties->x_axis_step_size = $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
-        }
-    }
+        if ($properties->visualization_properties->x_axis_step_size === false) {
 
-    public function configureVisualization(Config $properties)
-    {
-        $properties->datatable_js_type = 'JqplotEvolutionGraphDataTable';
+            $size = $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
+            $properties->visualization_properties->x_axis_step_size = $size;
+        }
     }
 
     public static function getDefaultPropertyValues()
     {
         $result = parent::getDefaultPropertyValues();
         $result['show_all_views_icons'] = false;
-        $result['show_table'] = false;
         $result['show_table'] = false;
         $result['show_table_all_columns'] = false;
         $result['hide_annotations_view'] = false;
@@ -102,7 +94,7 @@ class Evolution extends JqplotGraph
      * Based on the period, date and evolution_{$period}_last_n query parameters,
      * calculates the date range this evolution chart will display data for.
      */
-    private function calculateEvolutionDateRange()
+    private function calculateEvolutionDateRange(Config $properties)
     {
         $view = $this->viewDataTable;
         $period = Common::getRequestVar('period');
@@ -111,7 +103,7 @@ class Evolution extends JqplotGraph
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ($period != 'range') { // show evolution limit if the period is not a range
-            $view->show_limit_control = true;
+            $properties->show_limit_control = true;
 
             // set the evolution_{$period}_last_n query param
             if (Range::parseDateRange($originalDate)) { // if a multiple period
@@ -121,10 +113,10 @@ class Evolution extends JqplotGraph
             } else { // if not a multiple period
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $originalDate, $defaultLastN);
                 $view->request_parameters_to_modify['date'] = $newDate;
-                $view->custom_parameters['dateUsedInGraph'] = $newDate;
+                $properties->custom_parameters['dateUsedInGraph'] = $newDate;
             }
             $lastNParamName = self::getLastNParamName($period);
-            $view->custom_parameters[$lastNParamName] = $lastN;
+            $properties->custom_parameters[$lastNParamName] = $lastN;
         }
     }
 

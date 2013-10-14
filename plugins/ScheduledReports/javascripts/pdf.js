@@ -72,6 +72,7 @@ function fadeInOutSuccessMessage(selector) {
     $(selector).fadeIn('slow', function () {
         setTimeout(function () {
             $(selector).fadeOut('slow');
+            piwikHelper.refreshAfter(0);
         }, 1000);
     });
 }

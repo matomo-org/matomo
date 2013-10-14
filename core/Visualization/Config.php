@@ -23,6 +23,50 @@ class Config
 {
 
     /**
+     * The list of ViewDataTable properties that are 'Client Side Properties'.
+     *
+     * @see Piwik\ViewDataTable\Visualization::getClientSideProperties
+     */
+    public static $clientSideProperties = array(
+        'show_limit_control'
+    );
+
+    /**
+     * The list of ViewDataTable properties that can be overriden by query parameters.
+     *
+     * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
+     */
+    public static $overridableProperties = array(
+        'show_goals',
+        'disable_generic_filters',
+        'disable_queued_filters',
+        'show_exclude_low_population',
+        'show_flatten_table',
+        'show_table',
+        'show_table_all_columns',
+        'show_footer',
+        'show_footer_icons',
+        'show_all_views_icons',
+        'show_active_view_icon',
+        'show_related_reports',
+        'show_limit_control',
+        'show_search',
+        'enable_sort',
+        'show_bar_chart',
+        'show_pie_chart',
+        'show_tag_cloud',
+        'show_export_as_rss_feed',
+        'show_ecommerce',
+        'search_recursive',
+        'show_export_as_image_icon',
+        'show_pagination_control',
+        'show_offset_information',
+        'hide_annotations_view',
+        'export_limit',
+        'show_non_core_visualizations'
+    );
+
+    /**
      * The default viewDataTable ID to use when determining which visualization to use.
      * This property is only valid for reports whose properties are determined by the
      * Visualization.getReportDisplayProperties event. When manually creating ViewDataTables,
@@ -321,7 +365,7 @@ class Config
      *
      * @var \Piwik\ViewDataTable\VisualizationPropertiesProxy
      */
-    public $visualization_properties;
+    public $visualization_properties = array();
 
     /**
      * CSS class to use in the output HTML div. This is added in addition to the visualization CSS
@@ -379,20 +423,6 @@ class Config
     public $filters = array();
 
     /**
-     * Array of callbacks that are called after the data for a ViewDataTable is successfully
-     * loaded. Each callback is invoked with the DataTable instance obtained from the API
-     * and the ViewDatable instance that loaded it.
-     *
-     * Functions can be appended to this array property when it's necessary to configure
-     * a ViewDataTable after data has been loaded. If you need to use properties that are
-     * only set after data is loaded (like 'columns_to_display'), you'll have to use this
-     * property.
-     *
-     * Default value: array()
-     */
-    public $after_data_loaded_functions = array();
-
-    /**
      * Contains the controller action to call when requesting subtables of the current report.
      *
      * Default value: The controller action used to request the report.
@@ -441,7 +471,7 @@ class Config
      */
     public $show_non_core_visualizations = true;
 
-    public $metadata  = '';
+    public $metadata  = array();
     public $report_id = '';
 
     public function __construct()
@@ -462,7 +492,6 @@ class Config
             'show_offset_information' => $this->show_offset_information,
             'show_pagination_control' => $this->show_pagination_control,
             'subtable_controller_action' => $this->subtable_controller_action,
-            'after_data_loaded_functions' => $this->after_data_loaded_functions,
             'filters' => $this->filters,
             'show_export_as_image_icon' => $this->show_export_as_image_icon,
             'y_axis_unit' => $this->y_axis_unit,

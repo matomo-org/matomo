@@ -140,7 +140,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->topDimensions = $this->getTopDimensions($idGoal);
 
         // conversion rate for new and returning visitors
-        $segment = \Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENTA;
+        $segment = \Piwik\Plugins\VisitFrequency\API::RETURNING_VISITOR_SEGMENT;
         $conversionRateReturning = API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
         $segment = 'visitorType==new';

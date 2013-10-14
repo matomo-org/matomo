@@ -68,7 +68,7 @@ class Sparkline extends ViewDataTable
 
         $graph->main();
 
-        $this->view = $graph;
+        return $graph;
     }
 
     /**
@@ -105,7 +105,7 @@ class Sparkline extends ViewDataTable
 
     protected function getValuesFromDataTable($dataTable)
     {
-        $columns = $this->viewProperties['columns_to_display'];
+        $columns = $this->vizConfig->columns_to_display;
         $columnToPlot = false;
         if (!empty($columns)) {
             $columnToPlot = reset($columns);

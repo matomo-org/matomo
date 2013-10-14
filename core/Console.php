@@ -13,10 +13,18 @@ namespace Piwik;
 use Piwik\Plugins\CoreConsole\GenerateApi;
 use Piwik\Plugins\CoreConsole\GenerateController;
 use Piwik\Plugins\CoreConsole\GeneratePlugin;
+use Piwik\Plugins\CoreConsole\GenerateVisualizationPlugin;
 use Piwik\Plugins\CoreConsole\GitCommit;
 use Piwik\Plugins\CoreConsole\GitPull;
 use Piwik\Plugins\CoreConsole\GitPush;
 use Piwik\Plugins\CoreConsole\RunTests;
+use Piwik\Plugins\CoreConsole\Translations\CreatePull;
+use Piwik\Plugins\CoreConsole\Translations\FetchFromOTrance;
+use Piwik\Plugins\CoreConsole\Translations\LanguageCodes;
+use Piwik\Plugins\CoreConsole\Translations\LanguageNames;
+use Piwik\Plugins\CoreConsole\Translations\PluginsWithTranslations;
+use Piwik\Plugins\CoreConsole\Translations\SetTranslations;
+use Piwik\Plugins\CoreConsole\Translations\Update;
 use Piwik\Plugins\CoreConsole\WatchLog;
 use Symfony\Component\Console\Application;
 
@@ -30,10 +38,18 @@ class Console
         $console->add(new GeneratePlugin());
         $console->add(new GenerateApi());
         $console->add(new GenerateController());
+        $console->add(new GenerateVisualizationPlugin());
         $console->add(new WatchLog());
         $console->add(new GitPull());
         $console->add(new GitCommit());
         $console->add(new GitPush());
+        $console->add(new PluginsWithTranslations());
+        $console->add(new LanguageCodes());
+        $console->add(new LanguageNames());
+        $console->add(new FetchFromOTrance());
+        $console->add(new SetTranslations());
+        $console->add(new Update());
+        $console->add(new CreatePull());
 
         $console->run();
     }

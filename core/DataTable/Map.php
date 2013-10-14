@@ -22,7 +22,7 @@ use Piwik\DataTable\Renderer\Console;
  *
  * @api
  */
-class Map
+class Map implements DataTableInterface
 {
     /**
      * Array containing the DataTable withing this Set
@@ -200,8 +200,9 @@ class Map
      *
      * @see DataTable::deleteColumns
      * @param array $columns
+     * @param bool $deleteRecursiveInSubtables This param is currently not used
      */
-    public function deleteColumns($columns)
+    public function deleteColumns($columns, $deleteRecursiveInSubtables = false)
     {
         foreach ($this->getDataTables() as $table) {
             $table->deleteColumns($columns);
@@ -219,12 +220,12 @@ class Map
      * Deletes the given column
      *
      * @see DataTable::deleteColumn
-     * @param string $column
+     * @param string $name
      */
-    public function deleteColumn($column)
+    public function deleteColumn($name)
     {
         foreach ($this->getDataTables() as $table) {
-            $table->deleteColumn($column);
+            $table->deleteColumn($name);
         }
     }
 

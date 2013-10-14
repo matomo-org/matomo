@@ -14,7 +14,7 @@ tmp
 tmp/*
 .cache
 .externalToolBuilders
-.idea
+.idea/*
 .metadata
 .settings
 .project
@@ -63,3 +63,12 @@ docs/
 composer.phar
 vendor/
 /.htaccess
+config/.htaccess
+core/.htaccess
+js/.htaccess
+lang/.htaccess
+libs/.htaccess
+misc/.htaccess
+misc/cron/.htaccess
+plugins/.htaccess
+

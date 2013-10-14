@@ -15,7 +15,6 @@ use Piwik\DataTable;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Plugins\API\API;
-use Piwik\ViewDataTable\Properties;
 use Piwik\ViewDataTable\Visualization;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik\Visualization\Config as VizConfig;
@@ -48,7 +47,6 @@ use Piwik\Visualization\Request as VizRequest;
  *    }
  * </pre>
  *
- * @see \Piwik\ViewDataTable\Properties - for core DataTable display properties.
  * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
  * @subpackage ViewDataTable
@@ -73,14 +71,6 @@ class ViewDataTable
      * @var array
      */
     public static $reportPropertiesCache = null;
-
-    /**
-     * Array of properties that are available in the view
-     * Used to store UI properties, eg. "show_footer", "show_search", etc.
-     *
-     * @var array
-     */
-    protected $viewProperties = array();
 
     /**
      * If the current dataTable refers to a subDataTable (eg. keywordsBySearchEngineId for id=X) this variable is set to the Id
@@ -109,15 +99,14 @@ class ViewDataTable
     protected $currentControllerName;
 
     /**
-     * This view should be an implementation of the Interface ViewInterface
-     * The $view object should be created in the main() method.
-     *
-     * @var \Piwik\View\ViewInterface
+     * @var null|\Piwik\Visualization\Config
      */
-    protected $view = null;
+    protected $vizConfig;
 
-    protected $vizConfig = null;
-    protected $vizRequest = null;
+    /**
+     * @var null|\Piwik\Visualization\Request
+     */
+    protected $vizRequest;
 
     /**
      * Default constructor.
@@ -144,10 +133,6 @@ class ViewDataTable
         $this->vizRequest = new VizRequest();
         $this->vizConfig  = new VizConfig();
         $this->vizConfig->visualization_properties = new VisualizationPropertiesProxy($visualizationClass);
-        $this->vizConfig->metadata        = array();
-        $this->vizConfig->translations    = array();
-        $this->vizConfig->filters         = array();
-        $this->vizConfig->related_reports = array();
         $this->vizConfig->subtable_controller_action = $currentControllerAction;
 
         $this->setDefaultProperties();
@@ -206,15 +191,11 @@ class ViewDataTable
      */
     public function &__get($name)
     {
-        Properties::checkValidPropertyName($name);
-
         if (property_exists($this->vizRequest, $name)) {
             return $this->vizRequest->$name;
         } elseif (property_exists($this->vizConfig, $name)) {
             return $this->vizConfig->$name;
         }
-
-        return $this->viewProperties[$name];
     }
 
     /**
@@ -228,10 +209,6 @@ class ViewDataTable
      */
     public function __set($name, $value)
     {
-        Properties::checkValidPropertyName($name);
-
-        $this->viewProperties[$name] = $value;
-
         if (property_exists($this->vizRequest, $name)) {
             return $this->vizRequest->$name = $value;
         } elseif (property_exists($this->vizConfig, $name)) {
@@ -303,9 +280,9 @@ class ViewDataTable
      *
      * @return array
      */
-    public function getClientSideProperties()
+    public function getClientSideConfigProperties()
     {
-        return $this->getPropertyNameListWithMetaProperty(Properties::$clientSideProperties, __FUNCTION__);
+        return $this->getPropertyNameListWithMetaProperty(VizConfig::$clientSideProperties, __FUNCTION__);
     }
 
     /**
@@ -314,9 +291,9 @@ class ViewDataTable
      *
      * @return array
      */
-    public function getClientSideParameters()
+    public function getClientSideRequestParameters()
     {
-        return $this->getPropertyNameListWithMetaProperty(Properties::$clientSideParameters, __FUNCTION__);
+        return $this->getPropertyNameListWithMetaProperty(VizRequest::$clientSideParameters, __FUNCTION__);
     }
 
     /**
@@ -326,7 +303,9 @@ class ViewDataTable
      */
     public function getOverridableProperties()
     {
-        return $this->getPropertyNameListWithMetaProperty(Properties::$overridableProperties, __FUNCTION__);
+        $params = array_merge(VizConfig::$overridableProperties, VizRequest::$overridableProperties);
+
+        return $this->getPropertyNameListWithMetaProperty($params, __FUNCTION__);
     }
 
     public function getCurrentControllerAction()
@@ -421,8 +400,15 @@ class ViewDataTable
      */
     private function setViewProperty($name, $value)
     {
-        if (isset($this->viewProperties[$name])
-            && is_array($this->viewProperties[$name])
+        if (isset($this->vizRequest->$name)
+            && is_array($this->vizRequest->$name)
+            && is_string($value)
+        ) {
+            $value = Piwik::getArrayFromApiParameter($value);
+        }
+
+        if (isset($this->vizConfig->$name)
+            && is_array($this->vizConfig->$name)
             && is_string($value)
         ) {
             $value = Piwik::getArrayFromApiParameter($value);
@@ -430,7 +416,6 @@ class ViewDataTable
 
         if ($name == 'translations'
             || $name == 'filters'
-            || $name == 'after_data_loaded_functions'
         ) {
             $this->vizConfig->$name = array_merge($this->vizConfig->$name, $value);
         } else if ($name == 'related_reports') { // TODO: should process after (in overrideViewProperties)
@@ -454,6 +439,11 @@ class ViewDataTable
     private function setVisualizationPropertiesFromMetadata($properties)
     {
         if ($this->visualizationClass === null) {
+            return null;
+        }
+
+        if (!is_array($properties)) {
+            Log::debug('Cannot set properties from metadata, $properties is not an array');
             return null;
         }
 
@@ -700,8 +690,7 @@ class ViewDataTable
         $requestArray = array(
             'method'                  => $this->vizRequest->apiMethodToRequestDataTable,
             'format'                  => 'original',
-            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int'),
-            'disable_queued_filters'  => Common::getRequestVar('disable_queued_filters', 1, 'int')
+            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int')
         );
 
         $toSetEventually = array(
@@ -774,7 +763,7 @@ class ViewDataTable
             $javascriptVariablesToSet[$name] = $requestValue;
         }
 
-        foreach ($this->getClientSideParameters() as $name) {
+        foreach ($this->getClientSideRequestParameters() as $name) {
             if (isset($javascriptVariablesToSet[$name])) {
                 continue;
             }
@@ -783,9 +772,7 @@ class ViewDataTable
                 $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizRequest->$name);
             } else if (property_exists($this->vizConfig, $name)) {
                 $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizConfig->$name);
-            } else if (isset($this->viewProperties[$name]) && false !== $this->viewProperties[$name]) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->viewProperties[$name]);
-            } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {
+            } else if (VisualizationPropertiesProxy::isValidVisualizationProperty($this->visualizationClass, $name)) {
                 $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizConfig->visualization_properties->$name);
             }
         }
@@ -840,19 +827,18 @@ class ViewDataTable
      */
     private function getClientSidePropertiesToSet()
     {
-        // TODO
         $result = array();
-        foreach ($this->getClientSideProperties() as $name) {
+        
+        foreach ($this->getClientSideConfigProperties() as $name) {
             if (property_exists($this->vizRequest, $name)) {
                 $result[$name] = $this->convertForJson($this->vizRequest->$name);
             } else if (property_exists($this->vizConfig, $name)) {
                 $result[$name] = $this->convertForJson($this->vizConfig->$name);
-            } else if (isset($this->viewProperties[$name])) {
-                $result[$name] = $this->convertForJson($this->viewProperties[$name]);
-            } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {
-                $result[$name] = $this->convertForJson($this->viewProperties['visualization_properties']->$name);
+            } else if (VisualizationPropertiesProxy::isValidVisualizationProperty($this->visualizationClass, $name)) {
+                $result[$name] = $this->convertForJson($this->vizConfig->visualization_properties->$name);
             }
         }
+
         return $result;
     }
 
@@ -888,11 +874,7 @@ class ViewDataTable
             return $this->vizConfig->$nameVar;
         }
 
-        if (!isset($this->viewProperties[$nameVar])) {
-            return false;
-        }
-
-        return $this->viewProperties[$nameVar];
+        return false;
     }
 
     /** Load documentation from the API */
@@ -1052,8 +1034,8 @@ class ViewDataTable
      */
     public function render()
     {
-        $this->buildView();
-        return $this->view->render();
+        $view = $this->buildView();
+        return $view->render();
     }
 
     /**
@@ -1103,16 +1085,10 @@ class ViewDataTable
             $visualization->configureVisualization($this->vizConfig);
             $visualization->beforeLoadDataTable($this->vizRequest, $this->vizConfig);
 
-            $this->viewProperties = array_merge($this->viewProperties, $this->vizRequest->getProperties());
-
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI($visualization);
-            $this->executeAfterDataLoadedCallbacks();
 
             $visualization->afterAllFilteresAreApplied($this->dataTable, $this->vizConfig, $this->vizRequest);
-
-            $this->viewProperties = array_merge($this->viewProperties, $this->vizRequest->getProperties());
-            $this->viewProperties = array_merge($this->viewProperties, $this->vizConfig->getProperties());
 
         } catch (NoAccessException $e) {
             throw $e;
@@ -1150,21 +1126,11 @@ class ViewDataTable
         $view->idSubtable = $this->idSubtable;
         $view->clientSideParameters = $this->getClientSideParametersToSet();
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
-        $view->properties = $this->viewProperties;
+        $view->properties = array_merge($this->vizRequest->getProperties(), $this->vizConfig->getProperties());
         $view->footerIcons = $this->vizConfig->footer_icons;
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
-        $this->view = $view;
-    }
-
-    private function executeAfterDataLoadedCallbacks()
-    {
-        if (!empty($this->after_data_loaded_functions)) {
-// TODO it is not defined and we can remove it anyway
-            foreach ($this->after_data_loaded_functions as $callback) {
-                $callback($this->dataTable, $this);
-            }
-        }
+        return $view;
     }
 
     private function getDefaultFooterIconsToShow()
@@ -1323,7 +1289,8 @@ class ViewDataTable
     private function setDefaultProperties()
     {
         // set core default properties
-        $this->setViewProperties(Properties::getDefaultPropertyValues());
+        $this->setViewProperties($this->vizRequest->getProperties());
+        $this->setViewProperties($this->vizConfig->getProperties());
 
         // set visualization default properties
         if ($this->visualizationClass === null) {
@@ -1347,12 +1314,7 @@ class ViewDataTable
                 $this->vizRequest->name = $this->getPropertyFromQueryParam($name, $this->vizRequest->$name);
             } elseif (property_exists($this->vizConfig, $name)) {
                 $this->vizConfig->name  = $this->getPropertyFromQueryParam($name, $this->vizConfig->$name);
-            } elseif (Properties::isCoreViewProperty($name)) {
-                $default = $this->viewProperties[$name];
-
-                $this->viewProperties[$name] = $this->getPropertyFromQueryParam($name, $default);
-
-            } else if (Properties::isValidVisualizationProperty($this->visualizationClass, $name)) {
+            } else if (VisualizationPropertiesProxy::isValidVisualizationProperty($this->visualizationClass, $name)) {
                 $default = $this->vizConfig->visualization_properties->$name;
 
                 $this->vizConfig->visualization_properties->$name = $this->getPropertyFromQueryParam($name, $default);

@@ -44,12 +44,19 @@ class GeneratePluginBase extends Command
     }
 
     /**
-     * @param string $templateName eg. 'controller' or 'api'
+     * @param string $templateNameOrPath  eg. 'controller' or 'api' or a full path like /home/...
      * @param string $pluginName
+     * @param array $replace       array(key => value) $key will be replaced by $value in all templates
      */
-    protected function copyTemplateToPlugin($templateName, $pluginName)
+    protected function copyTemplateToPlugin($templateNameOrPath, $pluginName, array $replace = array())
     {
-        $templateFolder = __DIR__ . '/templates/' . $templateName;
+        if (0 === strpos($templateNameOrPath, '/')) {
+            $templateFolder = $templateNameOrPath;
+        } else {
+            $templateFolder = __DIR__ . '/templates/' . $templateNameOrPath;
+        }
+
+        $replace['PLUGINNAME'] = $pluginName;
 
         $files = Filesystem::globr($templateFolder, '*');
 
@@ -60,7 +67,14 @@ class GeneratePluginBase extends Command
                 $this->createFolderWithinPluginIfNotExists($pluginName, $fileNamePlugin);
             } else {
                 $template = file_get_contents($file);
-                $template = str_replace('PLUGINNAME', $pluginName, $template);
+                foreach ($replace as $key => $value) {
+                    $template = str_replace($key, $value, $template);
+                }
+
+                foreach ($replace as $key => $value) {
+                    $fileNamePlugin = str_replace($key, $value, $fileNamePlugin);
+                }
+
                 $this->createFileWithinPluginIfNotExists($pluginName, $fileNamePlugin, $template);
             }
 

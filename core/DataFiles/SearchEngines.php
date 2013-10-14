@@ -242,6 +242,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Charter
         'www.charter.net'                => array('Charter', 'q', 'search/index.php?q={k}'),
 
+        // Claro Search
+        'claro-search.com'               => array('Claro Search', 'q', '?q={k}'),
+
         // Clix (Enhanced by Google)
         'pesquisa.clix.pt'               => array('Clix', 'question', 'resultado.html?in=Mundial&question={k}'),
 
@@ -437,6 +440,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         '{}.wow.com'                     => array('Google'),
         'search.leonardo.it'             => array('Google'),
         'www.optuszoo.com.au'            => array('Google'),
+        'search.smt.docomo.ne.jp'        => array('Google', 'MT'),
+        'image.search.smt.docomo.ne.jp'     => array('Google', 'MT'),
 
 
         // Google Earth
@@ -553,6 +558,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.b1.org'                  => array('InfoSpace', 'q'),
         'searchya.com'                   => array('InfoSpace', 'q'),
         'search.handycafe.com'           => array('InfoSpace', 'q'),
+        'search.v9.com'                  => array('InfoSpace', 'q'),
 
         /*
          * Other InfoSpace powered metasearches are handled in Common::extractSearchEngineInformationFromUrl()
@@ -705,6 +711,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Orange
         'busca.orange.es'                => array('Orange', 'q', 'search?q={k}'),
+        'lemoteur.ke.voila.fr'           => array('Orange', 'kw', '?kw={k}'),
 
         // Paperball
         'www.paperball.de'               => array('Paperball', 'q', 'suche/s/?q={k}'),
@@ -782,6 +789,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Skynet
         'www.skynet.be'                  => array('Skynet', 'q', 'services/recherche/google?q={k}'),
+
+        // SmartAdressbar
+        'search.smartaddressbar.com'     => array('SmartAddressbar', 's', '?s={k}'),
 
         // Snap.do
         'search.snap.do'                 => array('Snap.do', 'q', '?q={k}'),

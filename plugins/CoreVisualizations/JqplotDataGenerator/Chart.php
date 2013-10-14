@@ -14,9 +14,9 @@ use Piwik\Common;
 use Piwik\ProxyHttp;
 
 /**
- * Generates the data in the Open Flash Chart format, from the given data.
+ *
  */
-class Chart
+class Chart 
 {
     // the data kept here conforms to the jqplot data layout
     // @see http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
@@ -25,7 +25,6 @@ class Chart
     protected $axes = array();
 
     // temporary
-    public $dataTable;
     public $properties;
 
     public function setAxisXLabels($xLabels)

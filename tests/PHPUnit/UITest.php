@@ -17,6 +17,7 @@ abstract class UITest extends IntegrationTestCase
     const IMAGE_TYPE = 'png';
     const CAPTURE_PROGRAM = 'phantomjs';
     const SCREENSHOT_GROUP_SIZE = 25;
+    const DEBUG_IMAGE_MAGICK_COMPARE = false;
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
     private static $imageMagickAvailable = false;
@@ -142,6 +143,33 @@ abstract class UITest extends IntegrationTestCase
         }
         return $output;
     }
+
+    protected function compareScreenshots($testsInfo)
+    {
+        $failures = array();
+        foreach ($testsInfo as $info) {
+            list($name, $urlQuery) = $info;
+
+            // compare processed w/ expected
+            try {
+                $this->compareScreenshot($name, $urlQuery);
+            } catch (Exception $ex) {
+                $failures[] = $ex;
+            }
+        }
+
+        if (!empty($failures)) {
+            $diffViewerPath = self::getScreenshotDiffDir() . '/diffviewer.html';
+            echo "\nFailures encountered. View all diffs at:
+$diffViewerPath
+
+If processed screenshots are correct, you can copy the generated screenshots to the expected screenshot folder.
+
+*** IMPORTANT *** In your commit message, explain the cause of the difference in rendering so other Piwik developers will be aware of it.";
+
+            throw reset($failures);
+        }
+    }
     
     protected function compareScreenshot($name, $urlQuery)
     {
@@ -150,15 +178,22 @@ abstract class UITest extends IntegrationTestCase
         $processed = file_get_contents($processedPath);
         
         if (!file_exists($expectedPath)) {
-            $this->fail("expected screenshot for processed '$processedPath' is missing");
+            $this->fail("expected screenshot for '$name' test is missing.
+Generated screenshot: $processedPath");
             return;
         }
         
         $expected = file_get_contents($expectedPath);
         if ($expected != $processed) {
-            echo "\nFail: '$processedPath' for '$urlQuery'\n";
+            $diffPath = self::getScreenshotDiffPath($name);
 
-            $this->saveImageDiff($expectedPath, $processedPath, self::getScreenshotDiffPath($name));
+            echo "\nFail: generated screenshot does not match expected for '$name'.
+Url to reproduce: $urlQuery
+Generated screenshot: $processedPath
+Expected screenshot: $expectedPath
+Screenshot diff: $diffPath\n";
+
+            $this->saveImageDiff($expectedPath, $processedPath, $diffPath);
         }
         $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
     }
@@ -168,7 +203,7 @@ abstract class UITest extends IntegrationTestCase
         $cmd = "compare \"$expectedPath\" \"$processedPath\" \"$diffPath\" 2>&1";
         exec($cmd, $output, $result);
 
-        if ($result !== 0) {
+        if (self::DEBUG_IMAGE_MAGICK_COMPARE) {
             echo "Could not save image diff: " . implode("\n", $output) . "\n";
         }
     }
