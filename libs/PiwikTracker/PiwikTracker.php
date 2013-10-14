@@ -716,15 +716,10 @@ class PiwikTracker
      *
      * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      *
-     * For example, on your website if you use the Javascript tracker in some pages
-     * and the PHP tracker in other pages, you can write:
-     *      $v->setVisitorId( $v->getVisitorId() );
-     *
-     * This will set this visitor's ID to the ID found in the 1st party Piwik cookies
-     * (created earlier by the Javascript tracker).
-     *
-     * Alternatively you can set the Visitor ID based on a user attribute, for example the user email:
+     * You may set the Visitor ID based on a user attribute, for example the user email:
      *      $v->setVisitorId( substr(md5( $userEmail ), 0, 16));
+     *
+     * If not set, the visitor ID will be fetched from the 1st party cookie, or will be set to a random UUID.
      *
      * @see setTokenAuth()
      * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
@@ -1050,7 +1045,7 @@ class PiwikTracker
 
             // Only allowed for Super User, token_auth required,
             (!empty($this->ip) ? '&cip=' . $this->ip : '') .
-            (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->visitorId) .
+            (!empty($this->forcedVisitorId) ? '&cid=' . $this->forcedVisitorId : '&_id=' . $this->getVisitorId()) .
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
             ((!empty($this->token_auth) && !$this->doBulkRequests) ? '&token_auth=' . urlencode($this->token_auth) : '') .
 
