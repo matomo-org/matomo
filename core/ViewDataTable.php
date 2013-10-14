@@ -47,7 +47,6 @@ use Piwik\Visualization\Request as VizRequest;
  *    }
  * </pre>
  *
- * @see \Piwik\ViewDataTable\Properties - for core DataTable display properties.
  * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
  * @subpackage ViewDataTable

@@ -12,7 +12,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
@@ -219,12 +219,7 @@ class HtmlTable extends Visualization
         return $defaults;
     }
 
-    /**
-     * @param DataTable|DataTable\Map $dataTable
-     * @param \Piwik\Visualization\Config $properties
-     * @param \Piwik\Visualization\Request $request
-     */
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, VizConfig $properties, Request $request)
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, VizConfig $properties, Request $request)
     {
         if ($properties->visualization_properties->show_extra_columns) {
             $dataTable->filter('AddColumnsProcessedMetrics');

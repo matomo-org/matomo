@@ -13,6 +13,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Period\Range;
 use Piwik\Plugin\Controller;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
@@ -61,12 +62,7 @@ class Evolution extends JqplotGraph
         }
     }
 
-    /**
-     * @param DataTable|DataTable\Map $dataTable
-     * @param \Piwik\Visualization\Config $properties
-     * @param \Piwik\Visualization\Request $request
-     */
-    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
     {
         parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
 

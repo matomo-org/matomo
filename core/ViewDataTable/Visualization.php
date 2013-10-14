@@ -12,6 +12,7 @@
 namespace Piwik\ViewDataTable;
 
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
 use Piwik\View;
 use Piwik\ViewDataTable;
@@ -70,22 +71,17 @@ abstract class Visualization extends View
         // $requestProperties->setFilterColumn();
     }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
     {
 
     }
 
-    public function afterGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    public function afterGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
     {
 
     }
 
-    /**
-     * @param DataTable|DataTable\Map $dataTable
-     * @param \Piwik\Visualization\Config $properties
-     * @param \Piwik\Visualization\Request $request
-     */
-    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
     {
         // filter and format requested data here
         // $dataTable ...

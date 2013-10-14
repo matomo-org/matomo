@@ -11,6 +11,7 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Visualization\Config;
@@ -31,7 +32,7 @@ class Pie extends JqplotGraph
         $properties->datatable_js_type = 'JqplotPieGraphDataTable';
     }
 
-    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
     {
         parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
 

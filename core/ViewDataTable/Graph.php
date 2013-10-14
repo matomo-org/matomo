@@ -10,9 +10,9 @@
  */
 namespace Piwik\ViewDataTable;
 
-
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
 use Piwik\Visualization\Config;
 use Piwik\Visualization\Request;
@@ -160,12 +160,8 @@ abstract class Graph extends Visualization
     /**
      * Defaults the selectable_columns property if it has not been set and then transforms
      * it into something the SeriesPicker JavaScript class can use.
-     *
-     * @param DataTable|DataTable\Map $dataTable
-     * @param \Piwik\Visualization\Config $properties
-     * @param \Piwik\Visualization\Request $request
      */
-    public function afterAllFilteresAreApplied($dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
     {
         $properties->visualization_properties->selectable_rows = array_values($this->selectableRows);
 
@@ -215,12 +211,7 @@ abstract class Graph extends Visualization
         }
     }
 
-    /**
-     * @param DataTable|DataTable\Map $dataTable
-     * @param \Piwik\Visualization\Config $properties
-     * @param \Piwik\Visualization\Request $request
-     */
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
     {
         // collect all selectable rows
         $self = $this;
