@@ -423,20 +423,6 @@ class Config
     public $filters = array();
 
     /**
-     * Array of callbacks that are called after the data for a ViewDataTable is successfully
-     * loaded. Each callback is invoked with the DataTable instance obtained from the API
-     * and the ViewDatable instance that loaded it.
-     *
-     * Functions can be appended to this array property when it's necessary to configure
-     * a ViewDataTable after data has been loaded. If you need to use properties that are
-     * only set after data is loaded (like 'columns_to_display'), you'll have to use this
-     * property.
-     *
-     * Default value: array()
-     */
-    public $after_data_loaded_functions = array();
-
-    /**
      * Contains the controller action to call when requesting subtables of the current report.
      *
      * Default value: The controller action used to request the report.
@@ -506,7 +492,6 @@ class Config
             'show_offset_information' => $this->show_offset_information,
             'show_pagination_control' => $this->show_pagination_control,
             'subtable_controller_action' => $this->subtable_controller_action,
-            'after_data_loaded_functions' => $this->after_data_loaded_functions,
             'filters' => $this->filters,
             'show_export_as_image_icon' => $this->show_export_as_image_icon,
             'y_axis_unit' => $this->y_axis_unit,
