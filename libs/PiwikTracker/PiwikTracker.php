@@ -91,12 +91,12 @@ class PiwikTracker
         $this->updateClientCookies = false;
         $this->clientCookieDomain = ''; 
         $this->cookieVisitorId;
-        $this->createTs = false;
-        $this->visitCount = false;
-        $this->currentVisitTs = false;
         $this->currentTs = time();
-        $this->lastVisitTs = false;
-        $this->lastEcommerceOrderTs = false;
+        $this->createTs = $this->currentTs;
+        $this->visitCount = 1;
+        $this->currentVisitTs = $this->currentTs;
+        $this->lastVisitTs = $this->currentTs;
+        $this->lastEcommerceOrderTs = '';
         $this->idSite = $idSite;
         $this->urlReferrer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
         $this->pageCharset = self::DEFAULT_CHARSET_PARAMETER_VALUES;
@@ -853,13 +853,6 @@ class PiwikTracker
                 return true;
             }
         }
-        // If we didn't return true already, the cookie didn't exist or was invalid.
-        // Initialize default values
-        $this->createTs = $this->currentTs;
-        $this->visitCount = 1;
-        $this->currentVisitTs = $this->currentTs;
-        $this->lastVisitTs = $this->currentTs;
-        $this->lastEcommerceOrderTs = '';
         return false;
     }
     
@@ -1140,11 +1133,29 @@ class PiwikTracker
      */
     protected function getRequest($idSite)
     {
+        // Update client cookies in getRequest to parallel piwik.js logic
+        if ($this->updateClientCookies) {
+            // Initialize cookie data if it's still defaulted to false
+            if (!$this->lastVisitTs) {
+                $this->loadVisitorIdCookie();
+            }
+            $sesname = $this->getCookieName('ses');
+            if (!$this->getCookieMatchingName($sesname)) {
+                // new session (new visit)
+                $this->visitCount++;
+                $this->lastVisitTs = $this->currentVisitTs;
+            }
+            $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
+            setcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, '/', $this->clientCookieDomain);
+        }
+
         $url = $this->getBaseUrl() .
             '?idsite=' . $idSite .
             '&rec=1' .
             '&apiv=' . self::VERSION .
             '&r=' . substr(strval(mt_rand()), 2, 6) .
+
+            (!empty($this->ip) ? '&_viewts=' . $this-> : '') .
 
             // XDEBUG_SESSIONS_START and KEY are related to the PHP Debugger, this can be ignored in other languages
             (!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @urlencode($_GET['XDEBUG_SESSION_START']) : '') .
@@ -1196,21 +1207,6 @@ class PiwikTracker
         // Reset page level custom variables after this page view
         $this->pageCustomVar = false;
 
-        // Update client cookies in getRequest to parallel piwik.js logic
-        if ($this->updateClientCookies) {
-            // Initialize cookie data if it's still defaulted to false
-            if (!$this->lastVisitTs) {
-                $this->loadVisitorIdCookie();
-            }
-            $sesname = $this->getCookieName('ses');
-            if (!$this->getCookieMatchingName($sesname)) {
-                // new session (new visit)
-                $this->visitCount++;
-                $this->lastVisitTs = $this->currentVisitTs;
-            }
-            $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
-            setcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, '/', $this->clientCookieDomain);
-        }
         return $url;
     }
 
