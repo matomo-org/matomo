@@ -15,8 +15,6 @@ use Piwik\DataTable;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\View;
 use Piwik\ViewDataTable\Graph;
-use Piwik\Visualization\Config;
-use Piwik\Visualization\Request;
 
 /**
  * DataTable visualization that displays DataTable data in a JQPlot graph.

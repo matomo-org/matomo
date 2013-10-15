@@ -23,7 +23,7 @@ use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
 use Piwik\View;
 use Piwik\View\ViewInterface;
-use Piwik\Visualization\Config as VizConfig;
+use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\Visualization\Request as VizRequest;
 
 /**
@@ -90,7 +90,7 @@ abstract class ViewDataTable implements ViewInterface
     protected $currentControllerName;
 
     /**
-     * @var null|\Piwik\Visualization\Config
+     * @var null|\Piwik\ViewDataTable\Config
      */
     public $config;
 

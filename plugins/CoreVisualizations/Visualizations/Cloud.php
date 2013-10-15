@@ -15,7 +15,7 @@ use Piwik\DataTable;
 use Piwik\Log;
 use Piwik\View;
 use Piwik\Plugin\Visualization;
-use Piwik\Visualization\Config;
+use Piwik\ViewDataTable\Config;
 
 /**
  * Generates a tag cloud from a given data array.

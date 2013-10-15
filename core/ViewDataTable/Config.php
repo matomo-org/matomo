@@ -9,7 +9,7 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization;
+namespace Piwik\ViewDataTable;
 use Piwik\Metrics;
 use Piwik\Plugins\API\API;
 

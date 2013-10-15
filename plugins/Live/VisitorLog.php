@@ -12,7 +12,6 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\View;
 use Piwik\Plugin\Visualization;
-use Piwik\Visualization\Config;
 
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
