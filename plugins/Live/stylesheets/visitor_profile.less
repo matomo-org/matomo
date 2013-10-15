@@ -321,6 +321,10 @@
     border-bottom:none!important;
     padding:0 18px 0 13px;
 
+    .action-list-action-icon {
+        margin-right:4px;
+    }
+
     ol {
         > li {
             display:block;
@@ -378,19 +382,20 @@
         padding-bottom:4px;
     }
 
-    ol li ol li a {
-        display:inline-block;
-    }
-
     ol > li ol li span {
         padding-left:4px;
     }
 
-    ol > li ol li .action-list-url {
+    ol > li ol li {
+      .action-list-url {
         margin-left:4px;
         line-height:14px;
-        display:inline-block;
         font-size:13px;
+      }
+
+      > div > .action-list-url {
+        line-height:23px;
+      }
     }
 
     ol > li ol li img {
