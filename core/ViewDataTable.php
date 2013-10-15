@@ -95,7 +95,7 @@ class ViewDataTable
         $visualizations = static::getAvailableVisualizations();
 
         if (array_key_exists($type, $visualizations)) {
-            return new $visualizations[$type]($controllerAction, $apiAction, $type);
+            return new $visualizations[$type]($controllerAction, $apiAction);
         }
 
         throw new \Exception(sprintf('Visuzalization type %s not found', $type));

@@ -44,8 +44,7 @@ class Visualization extends ViewDataTable
     const CONFIGURE_VIEW_EVENT = 'Visualization.initView';
 
     final public function __construct($currentControllerAction,
-                                      $apiMethodToRequestDataTable,
-                                      $visualizationId = null)
+                                      $apiMethodToRequestDataTable)
     {
         $templateFile = static::TEMPLATE_FILE;
 
@@ -53,7 +52,7 @@ class Visualization extends ViewDataTable
             throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
         }
 
-        parent::__construct($currentControllerAction, $apiMethodToRequestDataTable, $visualizationId);
+        parent::__construct($currentControllerAction, $apiMethodToRequestDataTable);
 
         $this->init();
     }

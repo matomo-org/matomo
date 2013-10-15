@@ -108,9 +108,7 @@ abstract class ViewDataTable
     /**
      * Default constructor.
      */
-    public function __construct($currentControllerAction,
-                                $apiMethodToRequestDataTable,
-                                $visualizationId = null)
+    public function __construct($currentControllerAction, $apiMethodToRequestDataTable)
     {
         list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
 
