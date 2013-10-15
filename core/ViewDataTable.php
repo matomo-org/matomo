@@ -443,7 +443,6 @@ class ViewDataTable
         }
 
         if (!is_array($properties)) {
-            Log::debug('Cannot set properties from metadata, $properties is not an array');
             return null;
         }
 
