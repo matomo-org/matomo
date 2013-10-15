@@ -41,7 +41,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testAddReportGetReports()
     {
@@ -97,7 +96,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetReportsIdReportNotFound()
     {
@@ -111,7 +109,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetReportsInvalidPermission()
     {
@@ -130,7 +127,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testAddReportInvalidWebsite()
     {
@@ -144,7 +140,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testAddReportInvalidPeriod()
     {
@@ -160,7 +155,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testUpdateReport()
     {
@@ -179,7 +173,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testDeleteReport()
     {
@@ -198,7 +191,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyMobileMessagingInactive()
     {
@@ -214,7 +206,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyUserIsAnonymous()
     {
@@ -234,7 +225,6 @@ class ScheduledReportsTest extends DatabaseTestCase
      * even though there is no sms reports configured
      *
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyNoReportMobileAccountOK()
     {
@@ -254,7 +244,6 @@ class ScheduledReportsTest extends DatabaseTestCase
      * and no reports at all have been configured
      *
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyNoReportMobileAccountKO()
     {
@@ -270,7 +259,6 @@ class ScheduledReportsTest extends DatabaseTestCase
      * whatever the status of the mobile provider account
      *
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyOneSMSReportMobileAccountKO()
     {
@@ -299,7 +287,6 @@ class ScheduledReportsTest extends DatabaseTestCase
      * whatever the status of the mobile provider account
      *
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetTopMenuTranslationKeyNoSMSReportAccountOK()
     {
@@ -318,7 +305,6 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
      */
     public function testGetScheduledTasks()
     {
@@ -411,7 +397,7 @@ class ScheduledReportsTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group ScheduledReports
+     *
      * @dataProvider getGetReportSubjectAndReportTitleTestCases
      */
     public function testGetReportSubjectAndReportTitle($expectedReportSubject, $expectedReportTitle, $websiteName, $reports)

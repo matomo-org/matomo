@@ -17,7 +17,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitsWithCustomVariables_SegmentMatchNONE
      */
     public function testApi($api, $params)
     {

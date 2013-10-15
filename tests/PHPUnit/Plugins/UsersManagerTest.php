@@ -70,9 +70,7 @@ class UsersManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @group Plugins
-     * @group UsersManager
      */
     public function testAllSuperUserIncluded()
     {
@@ -122,7 +120,6 @@ class UsersManagerTest extends DatabaseTestCase
      * bad password => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testUpdateUserBadpasswd()
     {
@@ -164,7 +161,6 @@ class UsersManagerTest extends DatabaseTestCase
      *
      * @dataProvider getAddUserInvalidLoginData
      * @group Plugins
-     * @group UsersManager
      */
     public function testAddUserWrongLogin($userLogin, $password, $email, $alias)
     {
@@ -181,7 +177,6 @@ class UsersManagerTest extends DatabaseTestCase
      * existing login => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testAddUserExistingLogin()
     {
@@ -212,7 +207,6 @@ class UsersManagerTest extends DatabaseTestCase
      *
      * @dataProvider getWrongPasswordTestData
      * @group Plugins
-     * @group UsersManager
      */
     public function testAddUserWrongPassword($userLogin, $password, $email, $alias)
     {
@@ -242,7 +236,6 @@ class UsersManagerTest extends DatabaseTestCase
      *
      * @dataProvider getWrongEmailTestData
      * @group Plugins
-     * @group UsersManager
      */
     public function testAddUserWrongEmail($userLogin, $password, $email, $alias)
     {
@@ -259,7 +252,6 @@ class UsersManagerTest extends DatabaseTestCase
      * empty email => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testAddUserEmptyEmail()
     {
@@ -277,7 +269,6 @@ class UsersManagerTest extends DatabaseTestCase
      * empty alias => use login
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testAddUserEmptyAlias()
     {
@@ -292,7 +283,6 @@ class UsersManagerTest extends DatabaseTestCase
      * no alias => use login
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testAddUserNoAliasSpecified()
     {
@@ -307,7 +297,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal test case
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testAddUser()
     {
@@ -342,7 +331,6 @@ class UsersManagerTest extends DatabaseTestCase
      * user doesnt exist => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSeleteUserDoesntExist()
     {
@@ -361,7 +349,6 @@ class UsersManagerTest extends DatabaseTestCase
      * empty name, doesnt exists =>exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testDeleteUserEmptyUser()
     {
@@ -378,7 +365,6 @@ class UsersManagerTest extends DatabaseTestCase
      * null user,, doesnt exists => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testDeleteUserNullUser()
     {
@@ -395,7 +381,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case, user deleted
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testDeleteUser()
     {
@@ -436,7 +421,6 @@ class UsersManagerTest extends DatabaseTestCase
      * no user => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUserNoUser()
     {
@@ -455,7 +439,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function test_GetUser()
     {
@@ -481,7 +464,6 @@ class UsersManagerTest extends DatabaseTestCase
      * no user => empty array
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUsersNoUser()
     {
@@ -493,7 +475,6 @@ class UsersManagerTest extends DatabaseTestCase
      * as well as selecting specific user names, comma separated
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUsers()
     {
@@ -526,7 +507,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUsersLogin()
     {
@@ -545,7 +525,6 @@ class UsersManagerTest extends DatabaseTestCase
      * no login => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessNoLogin()
     {
@@ -563,7 +542,6 @@ class UsersManagerTest extends DatabaseTestCase
      * wrong access specified  => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessWrongAccess()
     {
@@ -583,7 +561,6 @@ class UsersManagerTest extends DatabaseTestCase
      * idsites = all => apply access to all websites with admin access
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessIdsitesIsAll()
     {
@@ -609,7 +586,6 @@ class UsersManagerTest extends DatabaseTestCase
      * idsites = all AND user is superuser=> apply access to all websites
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessIdsitesIsAllSuperuser()
     {
@@ -634,7 +610,6 @@ class UsersManagerTest extends DatabaseTestCase
      * idsites is empty => no acccess set
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessIdsitesEmpty()
     {
@@ -653,7 +628,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case, access set for only one site
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessIdsitesOneSite()
     {
@@ -671,7 +645,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case, access set for multiple sites
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessIdsitesMultipleSites()
     {
@@ -693,7 +666,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case, string idSites comma separated access set for multiple sites
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessWithIdSitesIsStringCommaSeparated()
     {
@@ -713,7 +685,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case,  set different acccess to different websites for one user
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessMultipleCallDistinctAccessSameUser()
     {
@@ -733,7 +704,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case, set different access to different websites for multiple users
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessMultipleCallDistinctAccessMultipleUser()
     {
@@ -794,7 +764,6 @@ class UsersManagerTest extends DatabaseTestCase
      * we set access for one user for one site several times and check that it is updated
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testSetUserAccessMultipleCallOverwriteSingleUserOneSite()
     {
@@ -817,7 +786,6 @@ class UsersManagerTest extends DatabaseTestCase
      * wrong user => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetSitesAccessFromUserWrongUser()
     {
@@ -834,7 +802,6 @@ class UsersManagerTest extends DatabaseTestCase
      *wrong idsite => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUsersAccessFromSiteWrongSite()
     {
@@ -850,7 +817,6 @@ class UsersManagerTest extends DatabaseTestCase
      * wrong access =>exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUsersSitesFromAccessWrongSite()
     {
@@ -867,7 +833,6 @@ class UsersManagerTest extends DatabaseTestCase
      * non existing login => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testUpdateUserWrongLogin()
     {
@@ -885,7 +850,6 @@ class UsersManagerTest extends DatabaseTestCase
      * no email no alias => keep old ones
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testUpdateUserNoEmailNoAlias()
     {
@@ -906,7 +870,6 @@ class UsersManagerTest extends DatabaseTestCase
      *no email => keep old ones
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testUpdateUserNoEmail()
     {
@@ -927,7 +890,6 @@ class UsersManagerTest extends DatabaseTestCase
      * no alias => keep old ones
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testUpdateUserNoAlias()
     {
@@ -948,7 +910,6 @@ class UsersManagerTest extends DatabaseTestCase
      * check to modify as the user
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testUpdateUserIAmTheUser()
     {
@@ -960,7 +921,6 @@ class UsersManagerTest extends DatabaseTestCase
      * check to modify as being another user => exception
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testUpdateUserIAmNotTheUser()
     {
@@ -978,7 +938,6 @@ class UsersManagerTest extends DatabaseTestCase
      * normal case, reused in other tests
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testUpdateUser()
     {
@@ -999,7 +958,6 @@ class UsersManagerTest extends DatabaseTestCase
      * test getUserByEmail invalid mail
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUserByEmailInvalidMail()
     {
@@ -1015,7 +973,6 @@ class UsersManagerTest extends DatabaseTestCase
      * test getUserByEmail
      *
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUserByEmail()
     {
@@ -1035,7 +992,6 @@ class UsersManagerTest extends DatabaseTestCase
     
     /**
      * @group Plugins
-     * @group UsersManager
      */
     public function testGetUserPreferenceDefault()
     {

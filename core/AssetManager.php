@@ -306,7 +306,7 @@ class AssetManager
 
         // We look for the currently enabled theme and add CSS from the json
         $theme = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled();
-        if ($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
+        if ($theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
             $info = $theme->getInformation();
             if (isset($info['stylesheet'])) {
                 $themeStylesheetFile = 'plugins/' . $theme->getPluginName() . '/' . $info['stylesheet'];

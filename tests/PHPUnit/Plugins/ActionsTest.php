@@ -112,7 +112,6 @@ class ActionsTests extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getActionNameTestData
      * @group        Plugins
-     * @group        Actions
      */
     public function testGetActionExplodedNames($params, $expected)
     {

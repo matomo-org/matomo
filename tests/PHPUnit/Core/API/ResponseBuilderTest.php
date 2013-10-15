@@ -13,8 +13,6 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * Two dimensions standard array
      *
      * @group Core
-     * @group API
-     * @group API_ResponseBuilder
      */
     public function testConvertMultiDimensionalStandardArrayToJson()
     {
@@ -34,8 +32,6 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * Two dimensions associative array
      *
      * @group Core
-     * @group API
-     * @group API_ResponseBuilder
      */
     public function testConvertMultiDimensionalAssociativeArrayToJson()
     {
@@ -56,8 +52,6 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      * Two dimensions mixed array
      *
      * @group Core
-     * @group API
-     * @group API_ResponseBuilder
      */
     public function testConvertMultiDimensionalMixedArrayToJson()
     {

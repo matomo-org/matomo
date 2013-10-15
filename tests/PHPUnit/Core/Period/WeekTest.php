@@ -17,8 +17,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week between 2 years
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekBetween2years()
     {
@@ -38,8 +36,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week between 2 months Week Mai 29 To Mai 31 2006
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekBetween2month()
     {
@@ -59,8 +55,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week between feb and march for leap year
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekFebLeapyear()
     {
@@ -84,8 +78,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week between feb and march for no leap year
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekFebnonLeapyear()
     {
@@ -109,8 +101,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
     /**
      * test week normal middle of the month
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testWeekMiddleofmonth()
     {
@@ -130,8 +120,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testGetLocalizedShortString()
     {
@@ -143,8 +131,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testGetLocalizedLongString()
     {
@@ -156,8 +142,6 @@ class Period_WeekTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Week
      */
     public function testGetPrettyString()
     {

@@ -54,7 +54,6 @@ class AnonymizeIPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getipv4Addresses
      * @group Plugins
-     * @group AnonymizeIP
      */
     public function testApplyIPMask($ip, $expected)
     {
@@ -78,7 +77,6 @@ class AnonymizeIPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getipv6Addresses
      * @group Plugins
-     * @group AnonymizeIP
      */
     public function testApplyIPMask6($ip, $expected)
     {

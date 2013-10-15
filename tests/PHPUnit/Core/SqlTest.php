@@ -29,7 +29,6 @@ class SqlTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testOptimize()
     {

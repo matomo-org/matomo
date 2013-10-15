@@ -42,7 +42,6 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getSimpleSegmentExpressions
      * @group Core
-     * @group SegmentExpression
      */
     public function testSegmentSqlSimpleNoOperation($expression, $expectedSql)
     {
@@ -83,7 +82,6 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getOperationSegmentExpressions
      * @group Core
-     * @group SegmentExpression
      */
     public function testSegmentSqlWithOperations($expression, $expectedSql)
     {
@@ -116,7 +114,6 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getBogusFilters
      * @group Core
-     * @group SegmentExpression
      */
     public function testBogusFiltersExpectExceptionThrown($bogus)
     {

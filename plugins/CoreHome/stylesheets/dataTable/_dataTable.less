@@ -132,7 +132,11 @@ table.dataTable span.label.highlighted {
 table.dataTable .cellSubDataTable {
   margin: 0;
   border-left: 0;
-  padding: 12px 12px 0;
+  padding: 6px 12px 6px;
+}
+
+.cellSubDataTable > .dataTable {
+    padding: 6px 0 0;
 }
 
 /* A link in a column in the DataTable */
@@ -430,4 +434,8 @@ table.dataTable span.cell-tooltip {
   > div {
     position: relative;
   }
+}
+
+td.cellSubDataTable .loadingPiwik {
+    padding:0;
 }

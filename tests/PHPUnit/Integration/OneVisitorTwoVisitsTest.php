@@ -35,7 +35,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorTwoVisits
      */
     public function testApi($api, $params)
     {
@@ -160,7 +159,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
      * Test that Archive::getBlob won't fetch extra unnecessary blobs.
      *
      * @group        Integration
-     * @group        OneVisitorTwoVisits
      */
     public function testArchiveSingleGetBlob()
     {
@@ -186,7 +184,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
      * works when building an archive query object.
      * 
      * @group        Integration
-     * @group        OneVisitorTwoVisits
      */
     public function testArchiveSitesWhenRestrictingToLogin()
     {

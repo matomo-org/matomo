@@ -18,7 +18,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testGetListAccess()
     {
@@ -29,7 +28,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testGetTokenAuthWithEmptyAccess()
     {
@@ -39,7 +37,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testGetLoginWithEmptyAccess()
     {
@@ -49,7 +46,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testIsSuperUserWithEmptyAccess()
     {
@@ -59,7 +55,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testIsSuperUserWithSuperUserAccess()
     {
@@ -70,7 +65,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testIsSuperUserWithNoSuperUserAccess()
     {
@@ -81,7 +75,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testGetSitesIdWithAtLeastViewAccessWithEmptyAccess()
     {
@@ -91,7 +84,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testGetSitesIdWithAdminAccessWithEmptyAccess()
     {
@@ -101,7 +93,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testGetSitesIdWithViewAccessWithEmptyAccess()
     {
@@ -111,7 +102,7 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserIsSuperUserWithEmptyAccess()
@@ -122,7 +113,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserIsSuperUserWithSuperUserAccess()
     {
@@ -133,7 +123,7 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasSomeAdminAccessWithEmptyAccess()
@@ -144,7 +134,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasSomeAdminAccessWithSuperUserAccess()
     {
@@ -155,7 +144,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasSomeAdminAccessWithSomeAccess()
     {
@@ -173,7 +161,7 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasSomeViewAccessWithEmptyAccess()
@@ -184,7 +172,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasSomeViewAccessWithSuperUserAccess()
     {
@@ -195,7 +182,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasSomeViewAccessWithSomeAccess()
     {
@@ -213,7 +199,7 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithEmptyAccessNoSiteIdsGiven()
@@ -224,7 +210,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasViewAccessWithSuperUserAccess()
     {
@@ -235,7 +220,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasViewAccessWithSomeAccessSuccessIdSitesAsString()
     {
@@ -253,7 +237,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasViewAccessWithSomeAccessSuccessAllSites()
     {
@@ -271,7 +254,7 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasViewAccessWithSomeAccessFailure()
@@ -290,7 +273,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasAdminAccessWithSuperUserAccess()
     {
@@ -301,7 +283,7 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
@@ -312,7 +294,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessIdSitesAsString()
     {
@@ -330,7 +311,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testCheckUserHasAdminAccessWithSomeAccessSuccessAllSites()
     {
@@ -352,7 +332,7 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @expectedException Piwik\NoAccessException
      */
     public function testCheckUserHasAdminAccessWithSomeAccessFailure()
@@ -371,7 +351,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testReloadAccessWithEmptyAuth()
     {
@@ -381,7 +360,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testReloadAccessWithEmptyAuthSuperUser()
     {
@@ -392,7 +370,6 @@ class AccessTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Access
      */
     public function testReloadAccessWithMockedAuthValid()
     {

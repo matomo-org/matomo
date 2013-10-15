@@ -81,7 +81,6 @@ class AnnotationsTest extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        Annotations
      */
     public function testApi($api, $params)
     {
@@ -90,7 +89,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testAddMultipleSitesFail()
     {
@@ -104,7 +102,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testAddInvalidDateFail()
     {
@@ -118,7 +115,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testSaveMultipleSitesFail()
     {
@@ -132,7 +128,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testSaveInvalidDateFail()
     {
@@ -146,7 +141,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testSaveInvalidNoteIdFail()
     {
@@ -160,7 +154,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testDeleteMultipleSitesFail()
     {
@@ -174,7 +167,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testDeleteInvalidNoteIdFail()
     {
@@ -188,7 +180,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testGetMultipleSitesFail()
     {
@@ -202,7 +193,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testGetInvalidNoteIdFail()
     {
@@ -216,7 +206,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testSaveSuccess()
     {
@@ -236,7 +225,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testSaveNoChangesSuccess()
     {
@@ -255,7 +243,6 @@ class AnnotationsTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        Annotations
      */
     public function testDeleteSuccess()
     {
@@ -301,7 +288,6 @@ class AnnotationsTest extends IntegrationTestCase
     /**
      * @dataProvider getPermissionsFailData
      * @group        Integration
-     * @group        Annotations
      */
     public function testMethodPermissions($hasAdminAccess, $hasViewAccess, $request, $checkException, $failMessage)
     {

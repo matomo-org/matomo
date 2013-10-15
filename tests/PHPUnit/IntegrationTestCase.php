@@ -101,9 +101,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function loadAllPlugins()
     {
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
-        $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
-        $pluginsToLoad[] = 'DevicesDetection';
-        
+        $pluginsToLoad = $pluginsManager->getAllPluginsNames();
         $pluginsManager->loadPlugins($pluginsToLoad);
     }
 

@@ -37,11 +37,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testNormal()
     {
@@ -57,11 +53,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitLessThanCountShouldReturnCountLimit()
     {
@@ -77,11 +69,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitIsCountShouldNotDeleteAnything()
     {
@@ -98,11 +86,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitGreaterThanCountShouldReturnCountUntilCount()
     {
@@ -119,11 +103,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitIsNullShouldReturnCountIsOffset()
     {
@@ -138,11 +118,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testOffsetJustBeforeSummaryRowShouldJustReturnSummaryRow()
     {
@@ -158,11 +134,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testOffsetJustBeforeSummaryRowWithBigLimitShouldJustReturnSummaryRow()
     {
@@ -178,11 +150,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testOffsetBeforeSummaryRowShouldJustReturnRowAndSummaryRow()
     {
@@ -198,11 +166,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testOffsetGreaterThanCountShouldReturnEmptyTable()
     {
@@ -216,11 +180,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testLimitIsZeroShouldReturnEmptyTable()
     {
@@ -237,9 +197,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
      * Test to filter a table with a offset, limit
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testFilterOffsetLimit()
     {
@@ -276,9 +233,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
      * Test to filter a column with a offset, limit off bound
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testFilterOffsetLimitOffbound()
     {
@@ -315,9 +269,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
      * Test to filter a column with a offset, limit 2
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testFilterOffsetLimit2()
     {
@@ -353,9 +304,6 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
      * Test to filter a column with a offset, limit 3
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Limit
      */
     public function testFilterOffsetLimit3()
     {

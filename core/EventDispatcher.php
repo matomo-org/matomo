@@ -16,6 +16,8 @@ use Piwik\Plugin;
 /**
  * This class allows code to post events from anywhere in Piwik and for
  * plugins to associate callbacks to be executed when events are posted.
+ *
+ * @method \Piwik\EventDispatcher getInstance()
  */
 class EventDispatcher extends Singleton
 {

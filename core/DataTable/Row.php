@@ -123,7 +123,6 @@ class Row
 
     /**
      * Must be called after the row was serialized and __sleep was called
-     *
      */
     public function cleanPostSerialize()
     {
@@ -492,7 +491,6 @@ class Row
     }
 
     /**
-     *
      */
     private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue)
     {

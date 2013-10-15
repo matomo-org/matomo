@@ -179,7 +179,6 @@ class API extends \Piwik\Plugin\API
      *                        login2 => array(idsite2),
      *                        ...
      *                    )
-     *
      */
     public function getUsersSitesFromAccess($access)
     {
@@ -643,7 +642,6 @@ class API extends \Piwik\Plugin\API
      * The user's access are not deleted.
      *
      * @param string $userLogin the user login.
-     *
      */
     private function deleteUserOnly($userLogin)
     {

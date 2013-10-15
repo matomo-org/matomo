@@ -24,7 +24,6 @@ class Controller extends \Piwik\Plugin\Controller
 {
     /**
      * Go to /piwik/?module=ExamplePlugin&action=helloWorld to execute this method
-     *
      */
     public function helloWorld()
     {
@@ -35,7 +34,6 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * See the result on piwik/?module=ExamplePlugin&action=exampleWidget
      * or in the dashboard > Add a new widget
-     *
      */
     public function exampleWidget()
     {
@@ -67,7 +65,6 @@ class Controller extends \Piwik\Plugin\Controller
     /**
      * This method displays a text containing an help about "How to build plugins for Piwik".
      * This help is then used on http://piwik.org/docs/plugins/functions
-     *
      */
     public function index()
     {

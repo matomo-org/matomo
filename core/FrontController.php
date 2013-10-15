@@ -26,6 +26,7 @@ use Piwik\Session;
  *
  * @package Piwik
  * @subpackage FrontController
+ * @method \Piwik\FrontController getInstance()
  */
 class FrontController extends Singleton
 {
@@ -187,7 +188,6 @@ class FrontController extends Singleton
 
     /**
      * Called at the end of the page generation
-     *
      */
     public function __destruct()
     {

@@ -16,7 +16,6 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        RowEvolution
      */
     public function testApi($api, $params)
     {

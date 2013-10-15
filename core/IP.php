@@ -368,10 +368,15 @@ class IP
      */
     public static function getNonProxyIpFromHeader($default, $proxyHeaders)
     {
-        $proxyIps = @Config::getInstance()->General['proxy_ips'];
+        $proxyIps = array();
+        $config = Config::getInstance()->General;
+        if(isset($config['proxy_ips'])) {
+            $proxyIps = $config['proxy_ips'];
+        }
         if (!is_array($proxyIps)) {
             $proxyIps = array();
         }
+
         $proxyIps[] = $default;
 
         // examine proxy headers

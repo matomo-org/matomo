@@ -51,7 +51,7 @@
 .sites_autocomplete .custom_select_ul_list li a,
 .sites_autocomplete .custom_select_all a,
 .sites_autocomplete .custom_select_main_link > span {
-  display: block;
+  display: inline-block;
   max-width: 140px;
   white-space: nowrap;
   overflow: hidden;
@@ -59,7 +59,7 @@
   padding: 0 20px 0 4px;
 }
 
-.sites_autocomplete--dropdown .custom_select_main_link:before {
+.sites_autocomplete--dropdown .custom_select_main_link[data-loading="0"]:before {
   content: " \25BC";
   position: absolute;
   right: 0;
@@ -73,7 +73,7 @@
   position: relative;
 }
 
-.sites_autocomplete .custom_select_loading {
+.sites_autocomplete .custom_select_main_link[data-loading="1"] {
   background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
 }
 
@@ -141,11 +141,13 @@
 .custom_select_block {
   height: 0;
   overflow: hidden;
+  max-width:140px;
 }
 
 .custom_select_block_show {
   height: auto;
   overflow: visible;
+  max-width:inherit;
 }
 
 .sites_selector_container {

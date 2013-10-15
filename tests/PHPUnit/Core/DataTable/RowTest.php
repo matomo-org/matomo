@@ -11,10 +11,7 @@ use Piwik\DataTable\Row;
 class RowTest extends PHPUnit_Framework_TestCase
 {
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group Row
      */
     public function testDataTableAssociatedIsNegativeWhenSubDataTableInMemory()
     {
@@ -23,10 +20,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group Row
      */
     public function testDataTableAssociatedIsNegativeWhenSubDataTableAdded()
     {
@@ -36,10 +30,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group Row
      */
     public function testDataTableAssociatedIsNegativeWhenSubDataTableSetted()
     {
@@ -49,10 +40,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group Row
      */
     public function testIdSubDataTabledIsPositiveWhenSubDataTableInMemory()
     {
@@ -63,8 +51,6 @@ class RowTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group Row
      */
     public function testDataTableAssociatedIsPositiveOnSerializedRow()
     {
@@ -81,8 +67,6 @@ class RowTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group Row
      */
     public function testDataTableAssociatedIsNegativeAfterSerialize()
     {
@@ -96,10 +80,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group Row
      */
     public function testIsSubDataTableLoadedIsTrueWhenSubDataTableInMemory()
     {
@@ -108,10 +89,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group Row
      */
     public function testIsSubDataTableLoadedIsFalseWhenSubDataTableNotInMemory()
     {

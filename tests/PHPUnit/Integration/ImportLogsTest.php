@@ -18,7 +18,6 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        ImportLogs
      */
     public function testApi($api, $params)
     {
@@ -46,7 +45,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        ImportLogs
+     *
      * 
      * NOTE: This test must be last since the new sites that get added are added in
      *       random order.

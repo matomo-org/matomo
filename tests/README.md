@@ -154,15 +154,9 @@ You can import data over several days in Piwik:
 
 5.	You can then archive the reports with:
 
-	$ php5 /home/piwik/misc/cron/archive.php --url=http://localhost/path/
+        $ php5 /home/piwik/misc/cron/archive.php --url=http://localhost/path/
 
 You should now have some interesting data to test with in November 2012!
-
-## Selenium Webdriver tests
-
-We would like to add Webdriver selenium testing for the following: installation, auto update from 1.0, initial user login.
-
-Task is tracked in: http://dev.piwik.org/trac/ticket/2935
 
 ## Scheduled Reports Tests
 

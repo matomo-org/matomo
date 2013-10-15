@@ -17,8 +17,6 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
     /**
      * test normal case
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testYearNormalcase()
     {
@@ -44,8 +42,6 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
     /**
      * test past
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testYearPastAndWrongdate()
     {
@@ -71,8 +67,6 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testGetLocalizedShortString()
     {
@@ -84,8 +78,6 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testGetLocalizedLongString()
     {
@@ -97,8 +89,6 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Period_Year
      */
     public function testGetPrettyString()
     {

@@ -15,7 +15,6 @@ class Test_Piwik_Integration_OneVisitor_LongUrlsTruncated extends IntegrationTes
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitor_LongUrlsTruncated
      */
     public function testApi($api, $params)
     {

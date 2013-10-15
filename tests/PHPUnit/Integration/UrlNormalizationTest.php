@@ -13,7 +13,6 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        UrlNormalization
      */
     public function testApi($api, $params)
     {
@@ -83,7 +82,6 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
     /**
      * @@depends     testApi
      * @group        Integration
-     * @group        UrlNormalization
      */
     public function testCheckPostConditions()
     {

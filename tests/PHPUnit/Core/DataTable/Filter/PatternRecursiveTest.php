@@ -60,9 +60,6 @@ class DataTable_Filter_PatternRecursiveTest extends PHPUnit_Framework_TestCase
      * Test to filter a column with a pattern
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_PatternRecursive
      * @dataProvider getTestData
      */
     public function testFilterPattern($test)

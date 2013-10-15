@@ -13,7 +13,6 @@ class Test_Piwik_Integration_OneVisitor_SeveralDays_ImportedInRandomOrderTest ex
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitor_SeveralDays_ImportedInRandomOrder
      */
     public function testApi($api, $params)
     {

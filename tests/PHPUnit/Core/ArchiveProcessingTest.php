@@ -81,7 +81,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * test of validity of an archive, for a month not finished
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testInitCurrentMonth()
     {
@@ -115,7 +114,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * test of validity of an archive, for a month in the past
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testInitDayInPast()
     {
@@ -133,7 +131,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * test of validity of an archive, for a non UTC date in the past
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testInitDayInPastNonUTCWebsite()
     {
@@ -151,7 +148,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * test of validity of an archive, for a non UTC month in the past
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testInitMonthInPastNonUTCWebsite()
     {
@@ -169,7 +165,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * test of validity of an archive, for today's archive
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testInitToday()
     {
@@ -207,7 +202,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * test of validity of an archive, for today's archive with european timezone
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testInitTodayEurope()
     {
@@ -254,7 +248,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * test of validity of an archive, for today's archive with toronto's timezone
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testInitTodayToronto()
     {
@@ -300,7 +293,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * Testing batch insert
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testTableInsertBatch()
     {
@@ -352,7 +344,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * Testing plain inserts
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testTableInsertBatchIterate()
     {
@@ -376,7 +367,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * Testing batch insert (BLOB)
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testTableInsertBatchBlob()
     {
@@ -409,7 +399,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * Testing plain inserts (BLOB)
      * @group Core
-     * @group ArchiveProcessor
      */
     public function testTableInsertBatchIterateBlob()
     {

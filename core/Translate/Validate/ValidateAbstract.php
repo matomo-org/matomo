@@ -25,7 +25,6 @@ abstract class ValidateAbstract
      * @param array $translations
      *
      * @return boolean
-     *
      */
     abstract public function isValid($translations);
 

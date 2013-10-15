@@ -289,7 +289,13 @@ class Url
      */
     static public function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
     {
-        $hostHeaders = @Config::getInstance()->General['proxy_host_headers'];
+        $hostHeaders = array();
+
+        $config = Config::getInstance()->General;
+        if(isset($config['proxy_host_headers'])) {
+            $hostHeaders = $config['proxy_host_headers'];
+        }
+
         if (!is_array($hostHeaders)) {
             $hostHeaders = array();
         }

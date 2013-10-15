@@ -16,7 +16,6 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitors_TwoWebsites_DifferentDays
      */
     public function testApi($api, $params)
     {

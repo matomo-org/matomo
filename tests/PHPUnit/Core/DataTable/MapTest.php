@@ -54,8 +54,6 @@ class Test_DataTable_Map extends PHPUnit_Framework_TestCase
     /**
      * Tests that Set::mergeChildren works when the DataTable\Map contains DataTables.
      * @group Core
-     * @group DataTable
-     * @group DataTable\Map
      */
     public function test_MergeChildrenDataTable()
     {
@@ -85,8 +83,6 @@ class Test_DataTable_Map extends PHPUnit_Framework_TestCase
     /**
      * Tests that Set::mergeChildren works when the DataTable\Map contains DataTable\Maps.
      * @group Core
-     * @group DataTable
-     * @group DataTable\Map
      */
     public function testMergeChildrenDataTableMap()
     {

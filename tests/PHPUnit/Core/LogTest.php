@@ -92,7 +92,7 @@ dummy backtrace'
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @dataProvider getBackendsToTest
      */
     public function testLoggingWorksWhenMessageIsString($backend)
@@ -109,7 +109,7 @@ dummy backtrace'
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @dataProvider getBackendsToTest
      */
     public function testLoggingWorksWhenMessageIsSprintfString($backend)
@@ -126,7 +126,7 @@ dummy backtrace'
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @dataProvider getBackendsToTest
      */
     public function testLoggingWorksWhenMessageIsError($backend)
@@ -145,7 +145,7 @@ dummy backtrace'
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @dataProvider getBackendsToTest
      */
     public function testLoggingWorksWhenMessageIsException($backend)
@@ -164,7 +164,7 @@ dummy backtrace'
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @dataProvider getBackendsToTest
      */
     public function testLoggingCorrectlyIdentifiesPlugin($backend)
@@ -181,7 +181,7 @@ dummy backtrace'
 
     /**
      * @group Core
-     * @group Access
+     * 
      * @dataProvider getBackendsToTest
      */
     public function testLogMessagesIgnoredWhenNotWithinLevel($backend)

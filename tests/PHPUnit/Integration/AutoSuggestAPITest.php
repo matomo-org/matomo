@@ -26,7 +26,6 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        AutoSuggestAPITest
      */
     public function testApi($api, $params)
     {
@@ -72,7 +71,6 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
      * @depends      testApi
      * @dataProvider getAnotherApiForTesting
      * @group        Integration
-     * @group        AutoSuggestAPITest
      */
     public function testAnotherApi($api, $params)
     {
@@ -115,6 +113,7 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
     }
 
     /**
+     * @group Integration
      * @depends      testAnotherApi
      */
     public function testCheckOtherTestsWereComplete()
