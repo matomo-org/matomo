@@ -78,24 +78,24 @@ class ViewDataTable
             $controllerAction = $apiAction;
         }
 
-        $defaultProperties = self::getDefaultPropertiesForReport($apiAction);
-        if (!empty($defaultProperties['default_view_type'])
+        $defaultReportProperties = self::getDefaultPropertiesForReport($apiAction);
+        if (!empty($defaultReportProperties['default_view_type'])
             && !$forceDefault
         ) {
-            $defaultType = $defaultProperties['default_view_type'];
+            $defaultType = $defaultReportProperties['default_view_type'];
         }
 
         $type = Common::getRequestVar('viewDataTable', $defaultType ? : 'table', 'string');
 
         if ($type == 'sparkline') {
             // TODO sparkline should register itself as a visualization using the event
-            return new Sparkline($controllerAction, $apiAction);
+            return new Sparkline($controllerAction, $apiAction, $defaultReportProperties);
         }
 
         $visualizations = static::getAvailableVisualizations();
 
         if (array_key_exists($type, $visualizations)) {
-            return new $visualizations[$type]($controllerAction, $apiAction);
+            return new $visualizations[$type]($controllerAction, $apiAction, $defaultReportProperties);
         }
 
         throw new \Exception(sprintf('Visuzalization type %s not found', $type));

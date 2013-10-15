@@ -108,7 +108,7 @@ abstract class ViewDataTable
     /**
      * Default constructor.
      */
-    public function __construct($currentControllerAction, $apiMethodToRequestDataTable)
+    public function __construct($currentControllerAction, $apiMethodToRequestDataTable, $defaultReportProperties)
     {
         list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
 
@@ -118,7 +118,7 @@ abstract class ViewDataTable
 
         $this->request = new \Piwik\ViewDataTable\Request($this->requestConfig);
 
-        $this->setViewProperties(static::getDefaultPropertyValues());
+        $this->setViewProperties($defaultReportProperties);
 
         $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
 
@@ -206,7 +206,6 @@ abstract class ViewDataTable
      */
     protected function setViewProperty($name, $value)
     {
-        // TODO do we still need that at all? --> refactor getDefaultProperties!
         if (isset($this->requestConfig->$name)
             && is_array($this->requestConfig->$name)
             && is_string($value)
@@ -233,6 +232,8 @@ abstract class ViewDataTable
             $this->requestConfig->$name = $value;
         } else if (property_exists($this->config, $name)) {
             $this->config->$name = $value;
+        } else if (property_exists($this, $name)) {
+            $this->$name = $value;
         } else {
             $report = $this->currentControllerName . '.' . $this->currentControllerAction;
             throw new \Exception("Invalid view property '$name' specified in view property metadata for '$report'.");
@@ -245,7 +246,6 @@ abstract class ViewDataTable
      */
     protected function setVisualizationPropertiesFromMetadata($properties)
     {
-        // TODO do we still need that at all?
         if (!is_array($properties)) {
             Log::debug('Cannot set properties from metadata, $properties is not an array');
             return null;
@@ -258,7 +258,7 @@ abstract class ViewDataTable
             }
 
             foreach ($properties[$visualizationId] as $key => $value) {
-                // TODO
+                $this->$key = $value;
             }
         }
     }
