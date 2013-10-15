@@ -22,11 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class RunTests extends Command
 {
-    protected function getTestsGroups()
-    {
-        return array('Core', 'Plugins', 'Integration');
-    }
-
     protected function configure()
     {
         $this->setName('tests:run');
@@ -39,22 +34,26 @@ class RunTests extends Command
     {
         $options = $input->getOption('options');
         $groups = $input->getArgument('group');
+
         $groups = explode(",", $groups);
         $groups = array_map('ucfirst', $groups);
         $groups = array_filter('strlen', $groups);
+
         if(empty($groups)) {
             $groups = $this->getTestsGroups();
-
-            if(\UITest::isPhantomJsAvailable()) {
-                $groups[] = 'UI';
-            }
         }
         foreach($groups as $group) {
             $params = '--group ' . $group . ' ' . $options;
             $cmd = sprintf('cd %s/tests/PHPUnit && phpunit %s', PIWIK_DOCUMENT_ROOT, $params);
-            $output->writeln('Executing command: ' . $cmd);
+            $output->writeln('Executing command: <info>' . $cmd . '</info>');
             passthru($cmd);
             $output->writeln();
         }
     }
+
+    private function getTestsGroups()
+    {
+        return array('Core', 'Plugins', 'Integration', 'UI');
+    }
+
 }
