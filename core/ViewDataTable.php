@@ -1069,20 +1069,21 @@ class ViewDataTable
         /** @var Visualization $visualization */
         $visualization = new $this->visualizationClass($this);
 
-        /**
-         * This event is called before a visualization is created. Plugins can use this event to
-         * override view properties for individual reports or visualizations.
-         *
-         * Themes can use this event to make sure reports look nice with their themes. Plugins
-         * that provide new visualizations can use this event to make sure certain reports
-         * are configured differently when viewed with the new visualization.
-         */
-        Piwik::postEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
-        $this->overrideViewProperties();
-
         try {
 
             $visualization->configureVisualization($this->vizConfig);
+
+            /**
+             * This event is called after a visualization has been configured. Plugins can use this event to
+             * override view properties for individual reports or visualizations.
+             *
+             * Themes can use this event to make sure reports look nice with their themes. Plugins
+             * that provide new visualizations can use this event to make sure certain reports
+             * are configured differently when viewed with the new visualization.
+             */
+            Piwik::postEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
+
+            $this->overrideViewProperties();
             $visualization->beforeLoadDataTable($this->vizRequest, $this->vizConfig);
 
             $this->loadDataTableFromAPI();
