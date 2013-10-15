@@ -89,9 +89,9 @@ class PiwikTracker
 
         $this->requestCookie = '';
         $this->updateClientCookies = false;
-		$this->clientCookiePath = '/';
+        $this->clientCookiePath = '/';
         $this->clientCookieDomain = ''; 
-		$this->newVisitor = 1;
+        $this->newVisitor = 1;
         $this->cookieVisitorId;
         $this->currentTs = time();
         $this->createTs = $this->currentTs;
@@ -381,7 +381,7 @@ class PiwikTracker
     {
         $this->updateClientCookies = $create;
         $this->clientCookieDomain = self::domainFixup($domain);
-		$this->clientCookiePath = $path;
+        $this->clientCookiePath = $path;
     }
 
     /*
@@ -843,7 +843,7 @@ class PiwikTracker
         if ($idCookie !== false) {
             $parts = explode('.',$idCookie);
             if (strlen($parts[0]) == self::LENGTH_VISITOR_ID) {
-				$this->newVisitor = 0;
+                $this->newVisitor = 0;
                 $this->cookieVisitorId = $parts[0]; // provides backward compatibility since getVisitorId() didn't change any existing VisitorId value
                 $this->createTs = $parts[1];
                 $this->visitCount = $parts[2];
@@ -1140,14 +1140,14 @@ class PiwikTracker
         // Update client cookies in getRequest to parallel piwik.js logic
         if ($this->updateClientCookies) {
             // If we're setting cookies, we want to make sure we've loaded prevoius cookies
-			// Initialize cookie data if it's still defaulted to false
+            // Initialize cookie data if it's still defaulted to false
             if (empty($this->lastVisitTs)) {
                 $this->loadVisitorIdCookie();
             }
-			// Set the id cookie
+            // Set the id cookie
             $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
-			
-			// Set/update the session cookie
+            
+            // Set/update the session cookie
             $sesname = $this->getCookieName('ses');
             if (!$this->getCookieMatchingName($sesname)) {
                 // new session (new visit)
@@ -1155,12 +1155,12 @@ class PiwikTracker
                 $this->lastVisitTs = $this->currentVisitTs;
             }
             setrawcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain);
-			
-			// Set the custom variable cookie if custom variables have been set
-			if (!empty($this->visitorCustomVar)) {
-				$cvarame = $this->getCookieName('cvar');
-				setcookie($cvarname, json_encode($this->visitorCustomVar), $this->currentTs + $this->configSessionCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain);
-			}
+            
+            // Set the custom variable cookie if custom variables have been set
+            if (!empty($this->visitorCustomVar)) {
+                $cvarame = $this->getCookieName('cvar');
+                setcookie($cvarname, json_encode($this->visitorCustomVar), $this->currentTs + $this->configSessionCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain);
+            }
         }
 
         $url = $this->getBaseUrl() .
@@ -1179,13 +1179,13 @@ class PiwikTracker
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
             ((!empty($this->token_auth) && !$this->doBulkRequests) ? '&token_auth=' . urlencode($this->token_auth) : '') .
 
-			// Values collected from cookie
-			'&_idts=' . $this->createTs .
-			'&_idvc=' . $this->visitCount .
-			'&_idn=' . $this->newVisitor . // currently unused
-			(!empty($this->lastVisitTs) ? '&_viewts=' . $this->lastVisitTs : '' ) . // note that piwik.js sends an empty value instead of skipping
-			(!empty($this->lastEcommerceOrderTs) ? '&_ects=' . $this->lastEcommerceOrderTs : '' ) .
-			
+            // Values collected from cookie
+            '&_idts=' . $this->createTs .
+            '&_idvc=' . $this->visitCount .
+            '&_idn=' . $this->newVisitor . // currently unused
+            (!empty($this->lastVisitTs) ? '&_viewts=' . $this->lastVisitTs : '' ) . // note that piwik.js sends an empty value instead of skipping
+            (!empty($this->lastEcommerceOrderTs) ? '&_ects=' . $this->lastEcommerceOrderTs : '' ) .
+            
             // These parameters are set by the JS, but optional when using API
             (!empty($this->plugins) ? $this->plugins : '') .
             (($this->localHour !== false && $this->localMinute !== false && $this->localSecond !== false) ? '&h=' . $this->localHour . '&m=' . $this->localMinute . '&s=' . $this->localSecond : '') .
