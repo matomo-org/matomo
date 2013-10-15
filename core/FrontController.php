@@ -26,6 +26,7 @@ use Piwik\Session;
  *
  * @package Piwik
  * @subpackage FrontController
+ * @method \Piwik\FrontController getInstance()
  */
 class FrontController extends Singleton
 {

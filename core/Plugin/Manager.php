@@ -25,6 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 /**
  * Plugin manager
  *
+ * @method \Piwik\Plugin\Manager getInstance()
  * @package Piwik
  * @subpackage Manager
  */
@@ -66,6 +67,11 @@ class Manager extends Singleton
         'DevicesDetection',
         'TreemapVisualization', // should be moved to marketplace
     );
+
+    public function getCorePluginsDisabledByDefault()
+    {
+        return $this->corePluginsDisabledByDefault;
+    }
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
     const TRACKER_EVENT_PREFIX = 'Tracker.';
@@ -399,15 +405,22 @@ class Manager extends Singleton
         $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
 
         return (!empty($pluginsBundledWithPiwik)
-            && in_array($name, $pluginsBundledWithPiwik))
-        || in_array($name, $this->corePluginsDisabledByDefault);
+                    && in_array($name, $pluginsBundledWithPiwik))
+                || in_array($name, $this->getCorePluginsDisabledByDefault());
     }
 
     protected function isPluginThirdPartyAndBogus($pluginName)
     {
         $path = $this->getPluginsDirectory() . $pluginName;
+
+        $bogusPlugins = array(
+            'PluginMarketplace' //defines a plugin.json but 1.x Piwik plugin
+        );
+
         $isBogus = !$this->isPluginBundledWithCore($pluginName)
-            && !$this->isManifestFileFound($path);
+                || !$this->isManifestFileFound($path)
+                || in_array($pluginName, $bogusPlugins);
+
         return $isBogus;
     }
 
@@ -423,6 +436,7 @@ class Manager extends Singleton
         if (is_null($pluginsToLoad)) {
             $pluginsToLoad = array();
         }
+        $pluginsToLoad = array_unique($pluginsToLoad);
         $this->pluginsToLoad = $pluginsToLoad;
         $this->reloadPlugins();
     }
@@ -462,8 +476,6 @@ class Manager extends Singleton
 
     /**
      * Execute postLoad() hook for loaded plugins
-     *
-     * @see Piwik_Plugin::postLoad()
      */
     public function postLoadPlugins()
     {

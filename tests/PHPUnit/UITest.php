@@ -218,7 +218,7 @@ Screenshot diff: $diffPath\n";
         return self::isProgramAvailable('slimerjs');
     }
 
-    private static function isPhantomJsAvailable()
+    public static function isPhantomJsAvailable()
     {
         return self::isProgramAvailable('phantomjs');
     }

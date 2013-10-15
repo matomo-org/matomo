@@ -17,7 +17,6 @@ use Piwik\Version;
 use Piwik\WidgetsList;
 
 /**
- *
  * @package UserCountryMap
  */
 class UserCountryMap extends \Piwik\Plugin
@@ -50,9 +49,6 @@ class UserCountryMap extends \Piwik\Plugin
         $out .= FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');
     }
 
-    /**
-     * @see Piwik_Plugin::getListHooksRegistered
-     */
     public function getListHooksRegistered()
     {
         $hooks = array(
