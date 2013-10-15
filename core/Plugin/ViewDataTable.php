@@ -22,6 +22,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
+use Piwik\View;
 use Piwik\Visualization\Config as VizConfig;
 use Piwik\Visualization\Request as VizRequest;
 
@@ -137,6 +138,13 @@ abstract class ViewDataTable
         }
 
         $this->overrideViewPropertiesWithQueryParams();
+    }
+
+    public function __call($method, $args)
+    {
+        if (property_exists($this, $method)) {
+            return $this->$method;
+        }
     }
 
     protected function loadDataTableFromAPI()
@@ -522,7 +530,7 @@ abstract class ViewDataTable
      */
     public function getOverridableProperties()
     {
-        return array_merge(VizConfig::$overridableProperties, VizRequest::$overridableProperties);
+        return array_merge($this->config->overridableProperties, $this->requestConfig->overridableProperties);
     }
 
     private function overrideViewPropertiesWithQueryParams()

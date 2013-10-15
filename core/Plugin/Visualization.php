@@ -27,8 +27,6 @@ use Piwik\Plugins\API\API;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
 use Piwik\View;
-use Piwik\Visualization\Config as VizConfig;
-use Piwik\Visualization\Request as VizRequest;
 
 /**
  * Base class for all DataTable visualizations. Different visualizations are used to
@@ -98,10 +96,8 @@ class Visualization extends ViewDataTable
             $view->error = $loadingError;
         }
 
-        $vizView = new View(static::TEMPLATE_FILE);
-        $vizView->assign(array_merge(get_class_vars(get_class($this)), $this->requestConfig->getProperties(), $this->config->getProperties()));
-        $vizView->dataTable = $this->dataTable;
-        $view->visualization = $vizView;
+        $view->visualization = $this;
+        $view->visualizationTemplate = static::TEMPLATE_FILE;
 
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
 
@@ -110,9 +106,7 @@ class Visualization extends ViewDataTable
         } else {
             // TODO: this hook seems inappropriate. should be able to find data that is requested for (by site/date) and check if that
             //       has data.
-            if (method_exists($this, 'isThereDataToDisplay')) {
-                $view->dataTableHasNoData = !$this->isThereDataToDisplay($this->dataTable, $this);
-            }
+            $view->dataTableHasNoData = !$this->isThereDataToDisplay();
 
             $view->dataTable = $this->dataTable;
 
@@ -129,6 +123,11 @@ class Visualization extends ViewDataTable
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
         return $view;
+    }
+
+    protected function isThereDataToDisplay()
+    {
+        return true;
     }
 
     /**
@@ -367,8 +366,6 @@ class Visualization extends ViewDataTable
                 $result[$name] = $this->convertForJson($this->requestConfig->$name);
             } else if (property_exists($this->config, $name)) {
                 $result[$name] = $this->convertForJson($this->config->$name);
-            } else if (property_exists($this, $name)) {
-                $result[$name] = $this->convertForJson($this->$name);
             }
         }
 
@@ -384,7 +381,7 @@ class Visualization extends ViewDataTable
      */
     public function getClientSideConfigProperties()
     {
-        return $this->getPropertyNameListWithMetaProperty(VizConfig::$clientSideProperties, __FUNCTION__);
+        return $this->config->clientSideProperties;
     }
 
     /**
@@ -395,7 +392,7 @@ class Visualization extends ViewDataTable
      */
     public function getClientSideRequestParameters()
     {
-        return $this->getPropertyNameListWithMetaProperty(VizRequest::$clientSideParameters, __FUNCTION__);
+        return $this->requestConfig->clientSideParameters;
     }
 
     /**

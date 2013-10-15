@@ -26,7 +26,7 @@ class Request
      *
      * @see Piwik\ViewDataTable\Visualization::getClientSideParameters
      */
-    public static $clientSideParameters = array(
+    public $clientSideParameters = array(
         'filter_excludelowpop',
         'filter_excludelowpop_value',
         'filter_pattern',
@@ -39,7 +39,7 @@ class Request
      *
      * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
      */
-    public static $overridableProperties = array(
+    public $overridableProperties = array(
         'filter_sort_column',
         'filter_sort_order',
         'filter_limit',

@@ -28,7 +28,7 @@ class Config
      *
      * @see Piwik\ViewDataTable\Visualization::getClientSideProperties
      */
-    public static $clientSideProperties = array(
+    public $clientSideProperties = array(
         'show_limit_control'
     );
 
@@ -37,7 +37,7 @@ class Config
      *
      * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
      */
-    public static $overridableProperties = array(
+    public $overridableProperties = array(
         'show_goals',
         'disable_generic_filters',
         'disable_queued_filters',
