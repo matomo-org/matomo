@@ -64,6 +64,8 @@ class Visualization extends ViewDataTable
 
     protected function buildView()
     {
+        $this->configureVisualization();
+
         /**
          * This event is called before a visualization is created. Plugins can use this event to
          * override view properties for individual reports or visualizations.
@@ -76,8 +78,6 @@ class Visualization extends ViewDataTable
         $this->overrideViewProperties();
 
         try {
-
-            $this->configureVisualization();
             $this->beforeLoadDataTable();
 
             $this->loadDataTableFromAPI();
@@ -100,7 +100,7 @@ class Visualization extends ViewDataTable
         }
 
         $vizView = new View(static::TEMPLATE_FILE);
-        // TODO
+        // TODO there used to be the Visualization class
         $vizView->assign(array_merge($this->requestConfig->getProperties(), $this->config->getProperties()));
         $view->visualization = $vizView;
 
