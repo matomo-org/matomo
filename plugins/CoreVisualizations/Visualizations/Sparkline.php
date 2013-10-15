@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\ViewDataTable;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Exception;
 use Piwik\Common;

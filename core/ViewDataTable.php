@@ -12,7 +12,6 @@ namespace Piwik;
 
 use Piwik\API\Request;
 use Piwik\Plugins\API\API;
-use Piwik\ViewDataTable\Sparkline;
 use Piwik\Plugin\Visualization;
 
 /**
@@ -70,7 +69,7 @@ class ViewDataTable
      * @param string|bool $controllerAction
      * @param bool $forceDefault
      *
-     * @return \Piwik\Plugin\ViewDataTable|\Piwik\Plugin\Visualization|\Piwik\ViewDataTable\Sparkline
+     * @return \Piwik\Plugin\ViewDataTable|\Piwik\Plugin\Visualization|\Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
      */
     static public function factory($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
     {
@@ -86,11 +85,6 @@ class ViewDataTable
         }
 
         $type = Common::getRequestVar('viewDataTable', $defaultType ? : 'table', 'string');
-
-        if ($type == 'sparkline') {
-            // TODO sparkline should register itself as a visualization using the event
-            return new Sparkline($controllerAction, $apiAction, $defaultReportProperties);
-        }
 
         $visualizations = static::getAvailableVisualizations();
 
