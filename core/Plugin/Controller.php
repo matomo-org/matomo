@@ -456,8 +456,9 @@ abstract class Controller
         $view->logoSVG = \Piwik\Plugins\API\API::getInstance()->getSVGLogoUrl();
         $view->hasSVGLogo = \Piwik\Plugins\API\API::getInstance()->hasSVGLogo();
 
-        $view->enableFrames = PiwikConfig::getInstance()->General['enable_framed_pages']
-            || @PiwikConfig::getInstance()->General['enable_framed_logins'];
+        $general = PiwikConfig::getInstance()->General;
+        $view->enableFrames = $general['enable_framed_pages']
+                || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
         if (!$view->enableFrames) {
             $view->setXFrameOptions('sameorigin');
         }

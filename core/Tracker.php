@@ -806,7 +806,8 @@ class Tracker
         self::setPluginsNotToLoad($pluginsDisabled);
 
         // we load 'DevicesDetection' in tests only (disabled by default)
-        self::setPluginsToLoad(array('DevicesDetection'));
+        $allPluginsFound = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
+        self::setPluginsToLoad( $allPluginsFound );
     }
 
     /**

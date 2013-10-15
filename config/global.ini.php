@@ -470,7 +470,7 @@ password = ; Proxy password: optional; if specified, username is mandatory
 
 [log]
 ; possible values for log: screen, database, file
-log_writers[] = file
+log_writers[] = screen
 
 ; log level, everything logged w/ this level or one of greater severity
 ; will be logged. everything else will be ignored. possible values are:

@@ -564,6 +564,26 @@ class Manager extends Singleton
 
 
     /**
+     * Returns the name of all plugins found in this Piwik instance
+     * (including those not enabled)
+     *
+     * Used in tests
+     *
+     * @return array
+     */
+    public static function getAllPluginsNames()
+    {
+        $pluginsToLoad = array_merge(
+            PiwikConfig::getInstance()->Plugins['Plugins'],
+            self::getInstance()->readPluginsDirectory(),
+            self::getInstance()->getCorePluginsDisabledByDefault()
+        );
+        $pluginsToLoad = array_values(array_unique($pluginsToLoad));
+        return $pluginsToLoad;
+    }
+
+
+    /**
      * Loads the plugin filename and instantiates the plugin with the given name, eg. UserCountry
      * Do NOT give the class name ie. UserCountry, but give the plugin name ie. UserCountry
      *

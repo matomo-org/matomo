@@ -50,7 +50,6 @@ if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
     ExceptionHandler::setUp();
 }
 
-
 if (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH) {
     $controller = FrontController::getInstance();
     $controller->init();
