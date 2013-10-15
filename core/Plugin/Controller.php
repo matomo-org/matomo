@@ -223,8 +223,11 @@ abstract class Controller
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
         $view->config->columns_to_display = $columnsToDisplay;
-        $view->config->selectable_columns =
-            array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
+
+        if (property_exists($view->config, 'selectable_columns')) {
+            $view->config->selectable_columns = array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
+        }
+
         $view->config->translations += $translations;
 
         if ($reportDocumentation) {
