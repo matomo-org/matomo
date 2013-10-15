@@ -13,7 +13,7 @@ namespace Piwik\ViewDataTable;
 use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\ViewDataTable;
+use Piwik\Plugin\ViewDataTable;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
@@ -23,15 +23,7 @@ use Piwik\ViewDataTable;
  */
 class Sparkline extends ViewDataTable
 {
-    /**
-     * Returns dataTable id for view
-     *
-     * @return string
-     */
-    public function getViewDataTableId()
-    {
-        return 'sparkline';
-    }
+    const ID = 'sparkline';
 
     /**
      * @see ViewDataTable::main()
@@ -44,7 +36,9 @@ class Sparkline extends ViewDataTable
         if ($period == 'range') {
             $_GET['period'] = 'day';
         }
+
         $this->loadDataTableFromAPI();
+
         // then revert the hack for potentially subsequent getRequestVar
         $_GET['period'] = $period;
 
@@ -105,7 +99,7 @@ class Sparkline extends ViewDataTable
 
     protected function getValuesFromDataTable($dataTable)
     {
-        $columns = $this->vizConfig->columns_to_display;
+        $columns = $this->config->columns_to_display;
         $columnToPlot = false;
         if (!empty($columns)) {
             $columnToPlot = reset($columns);

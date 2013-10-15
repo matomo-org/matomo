@@ -11,6 +11,7 @@
 
 namespace Piwik\Visualization;
 use Piwik\Metrics;
+use Piwik\Plugins\API\API;
 
 /**
  * Renders a sparkline image given a PHP data array.
@@ -474,13 +475,39 @@ class Config
     public $metadata  = array();
     public $report_id = '';
 
-    public function __construct()
+    public $controllerName;
+    public $controllerAction;
+
+    public function __construct($controllerName, $controllerAction)
     {
         $this->export_limit = \Piwik\Config::getInstance()->General['API_datatable_default_limit'];
         $this->translations = array_merge(
             Metrics::getDefaultMetrics(),
             Metrics::getDefaultProcessedMetrics()
         );
+
+        $this->controllerName   = $controllerName;
+        $this->controllerAction = $controllerAction;
+        $this->report_id        = $controllerName . '.' . $controllerAction;
+
+        $this->loadDocumentation();
+    }
+
+    /** Load documentation from the API */
+    private function loadDocumentation()
+    {
+        $this->metrics_documentation = array();
+
+        $report = API::getInstance()->getMetadata(0, $this->controllerName, $this->controllerAction);
+        $report = $report[0];
+
+        if (isset($report['metricsDocumentation'])) {
+            $this->metrics_documentation = $report['metricsDocumentation'];
+        }
+
+        if (isset($report['documentation'])) {
+            $this->documentation = $report['documentation'];
+        }
     }
 
     public function getProperties()

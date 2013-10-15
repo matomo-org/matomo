@@ -84,7 +84,7 @@ abstract class Visualization extends View
     public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
     {
         // filter and format requested data here
-        // $dataTable ...
+        // $dataTable ...f
 
         // $this->generator = new GeneratorFoo($dataTable);
     }
