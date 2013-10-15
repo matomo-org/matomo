@@ -24,7 +24,7 @@ use Piwik\Site;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
-use Piwik\Visualization\Request as VizRequest;
+use Piwik\Visualization\RequestConfig as VizRequest;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -95,7 +95,7 @@ abstract class ViewDataTable implements ViewInterface
     public $config;
 
     /**
-     * @var null|\Piwik\Visualization\Request
+     * @var null|\Piwik\Visualization\RequestConfig
      */
     public $requestConfig;
 

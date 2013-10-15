@@ -18,7 +18,7 @@ namespace Piwik\Visualization;
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Request
+class RequestConfig
 {
 
     /**

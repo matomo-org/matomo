@@ -22,7 +22,7 @@ use Piwik\Piwik;
 class Request
 {
     /**
-     * @var null|\Piwik\Visualization\Request
+     * @var null|\Piwik\Visualization\RequestConfig
      */
     public $requestConfig;
 
