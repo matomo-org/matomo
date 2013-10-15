@@ -95,7 +95,7 @@ class PiwikTracker
         $this->cookieVisitorId;
         $this->currentTs = time();
         $this->createTs = $this->currentTs;
-        $this->visitCount = 1;
+        $this->visitCount = 0;
         $this->currentVisitTs = '';
         $this->lastVisitTs = '';
         $this->lastEcommerceOrderTs = '';
