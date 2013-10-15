@@ -315,32 +315,32 @@ class Controller extends \Piwik\Plugin\Controller
     public function getLastDistinctSearchEnginesGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctSearchEngines");
-        $view->translations['Referrers_distinctSearchEngines'] = ucfirst(Piwik::translate('Referrers_DistinctSearchEngines'));
-        $view->columns_to_display = array('Referrers_distinctSearchEngines');
+        $view->config->translations['Referrers_distinctSearchEngines'] = ucfirst(Piwik::translate('Referrers_DistinctSearchEngines'));
+        $view->config->columns_to_display = array('Referrers_distinctSearchEngines');
         return $this->renderView($view, $fetch);
     }
 
     public function getLastDistinctKeywordsGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctKeywords");
-        $view->translations['Referrers_distinctKeywords'] = ucfirst(Piwik::translate('Referrers_DistinctKeywords'));
-        $view->columns_to_display = array('Referrers_distinctKeywords');
+        $view->config->translations['Referrers_distinctKeywords'] = ucfirst(Piwik::translate('Referrers_DistinctKeywords'));
+        $view->config->columns_to_display = array('Referrers_distinctKeywords');
         return $this->renderView($view, $fetch);
     }
 
     public function getLastDistinctWebsitesGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctWebsites");
-        $view->translations['Referrers_distinctWebsites'] = ucfirst(Piwik::translate('Referrers_DistinctWebsites'));
-        $view->columns_to_display = array('Referrers_distinctWebsites');
+        $view->config->translations['Referrers_distinctWebsites'] = ucfirst(Piwik::translate('Referrers_DistinctWebsites'));
+        $view->config->columns_to_display = array('Referrers_distinctWebsites');
         return $this->renderView($view, $fetch);
     }
 
     public function getLastDistinctCampaignsGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctCampaigns");
-        $view->translations['Referrers_distinctCampaigns'] = ucfirst(Piwik::translate('Referrers_DistinctCampaigns'));
-        $view->columns_to_display = array('Referrers_distinctCampaigns');
+        $view->config->translations['Referrers_distinctCampaigns'] = ucfirst(Piwik::translate('Referrers_DistinctCampaigns'));
+        $view->config->columns_to_display = array('Referrers_distinctCampaigns');
         return $this->renderView($view, $fetch);
     }
 

@@ -52,7 +52,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
             $selectableColumns = array('server1', 'server2'), 'My documentation', 'ExampleUI.getTemperaturesEvolution');
-        $view->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_column = 'label';
 
         return $this->renderView($view, $fetch);
     }

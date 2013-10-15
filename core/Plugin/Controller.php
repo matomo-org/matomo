@@ -181,7 +181,7 @@ abstract class Controller
     {
         $view = ViewDataTableBuilder::factory(
             'graphEvolution', $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
-        $view->show_goals = false;
+        $view->config->show_goals = false;
         return $view;
     }
 
