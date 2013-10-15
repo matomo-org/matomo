@@ -23,8 +23,6 @@ class Request
 
     /**
      * The list of ViewDataTable properties that are 'Client Side Parameters'.
-     *
-     * @see Piwik\ViewDataTable\Visualization::getClientSideParameters
      */
     public $clientSideParameters = array(
         'filter_excludelowpop',
@@ -36,8 +34,6 @@ class Request
 
     /**
      * The list of ViewDataTable properties that can be overriden by query parameters.
-     *
-     * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
      */
     public $overridableProperties = array(
         'filter_sort_column',
@@ -63,8 +59,6 @@ class Request
      * Controls the sort order. Either 'asc' or 'desc'.
      *
      * Default value: 'desc'
-     *
-     * @see self::SORTED_COLUMN
      */
     public $filter_sort_order = 'desc';
 
@@ -72,8 +66,6 @@ class Request
      * The number of items to truncate the data set to before rendering the DataTable view.
      *
      * Default value: false
-     *
-     * @see self::OFFSET
      */
     public $filter_limit = false;
 
@@ -81,8 +73,6 @@ class Request
      * The number of items from the start of the data set that should be ignored.
      *
      * Default value: 0
-     *
-     * @see self::LIMIT
      */
     public $filter_offset = 0;
 
@@ -107,16 +97,12 @@ class Request
     /**
      * Stores the column name to filter when filtering out rows with low values.
      *
-     * @see also self::EXCLUDE_LOW_POPULATION_VALUE
-     *
      * Default value: false
      */
     public $filter_excludelowpop = false;
 
     /**
      * Stores the value considered 'low' when filtering out rows w/ low values.
-     *
-     * @see also self::EXCLUDE_LOW_POPULATION_COLUMN
      *
      * Default value: false
      * @var \Closure|string

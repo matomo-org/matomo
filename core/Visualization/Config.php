@@ -25,8 +25,6 @@ class Config
 
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
-     *
-     * @see Piwik\ViewDataTable\Visualization::getClientSideProperties
      */
     public $clientSideProperties = array(
         'show_limit_control'
@@ -34,8 +32,6 @@ class Config
 
     /**
      * The list of ViewDataTable properties that can be overriden by query parameters.
-     *
-     * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
      */
     public $overridableProperties = array(
         'show_goals',
@@ -210,8 +206,6 @@ class Config
      * change to the clicked report and the list will change so the original report can be
      * navigated back to.
      *
-     * @see also self::TITLE. Both must be set if associating related reports.
-     *
      * Default value: array()
      */
     public $related_reports = array();
@@ -220,7 +214,7 @@ class Config
      * The report title. Used with related reports so report headings can be changed when switching
      * reports.
      *
-     * @see also self::RELATED_REPORTS. This must be set if related reports are added.
+     * This must be set if related reports are added.
      *
      * Default value: ''
      */
@@ -355,8 +349,6 @@ class Config
      * from a Related Report will go to a different URL. Can be used to load an entire page instead
      * of a single report when going back to the original report.
      *
-     * @see also self::RELATED_REPORTS
-     *
      * Default value: The URL used to request the report without generic filters.
      */
     public $self_url = '';
@@ -379,8 +371,6 @@ class Config
 
     /**
      * If true, searching through the DataTable will search through all subtables.
-     *
-     * @see also self::FILTER_PATTERN
      *
      * Default value: false
      */
@@ -429,16 +419,12 @@ class Config
      *
      * TODO: pagination/offset is only valid for HtmlTables... should only display for those visualizations.
      *
-     * @see self::SHOW_OFFSET_INFORMATION
-     *
      * Default value: true
      */
     public $show_pagination_control = true;
 
     /**
      * Controls whether offset information (ie, '5-10 of 20') is shown under the datatable.
-     *
-     * @see self::SHOW_PAGINATION_CONTROL
      *
      * Default value: true
      */
