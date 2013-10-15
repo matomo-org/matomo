@@ -673,7 +673,7 @@ class Actions extends \Piwik\Plugin
         // so users can see that they can set it to 1 (see #3365)
         $result['custom_parameters'] = array('flat' => 0);
 
-        if (ViewDataTable::shouldLoadExpanded()) {
+        if (ViewDataTable\Request::shouldLoadExpanded()) {
             $result['visualization_properties']['table']['show_expanded'] = true;
 
             $result['filters'][] = function ($dataTable) {

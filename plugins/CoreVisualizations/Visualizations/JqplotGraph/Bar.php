@@ -22,11 +22,11 @@ class Bar extends JqplotGraph
 {
     const ID = 'graphVerticalBar';
 
-    public function configureVisualization(Config $properties)
+    public function configureVisualization()
     {
-        parent::configureVisualization($properties);
+        parent::configureVisualization();
 
-        $properties->datatable_js_type = 'JqplotBarGraphDataTable';
+        $this->config->datatable_js_type = 'JqplotBarGraphDataTable';
     }
 
     public static function getDefaultPropertyValues()

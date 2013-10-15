@@ -22,7 +22,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
-use Piwik\ViewDataTable\Visualization;
 use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik\Visualization\Config as VizConfig;
 use Piwik\Visualization\Request as VizRequest;
@@ -115,6 +114,9 @@ abstract class ViewDataTable
         $this->requestConfig = new VizRequest();
         $this->config        = new VizConfig($currentControllerName, $currentControllerAction);
         $this->config->subtable_controller_action = $currentControllerAction;
+
+        // TODO remove me
+        $this->config->visualization_properties = new VisualizationPropertiesProxy(get_class($this));
 
         $this->request = new \Piwik\ViewDataTable\Request($this->requestConfig);
 
@@ -251,6 +253,7 @@ abstract class ViewDataTable
             return null;
         }
 
+        // TODO parent class should not know anything about children
         $visualizationIds = Visualization::getVisualizationIdsWithInheritance(get_class($this));
         foreach ($visualizationIds as $visualizationId) {
             if (empty($properties[$visualizationId])) {
@@ -423,7 +426,7 @@ abstract class ViewDataTable
             }
 
             if ($this->config->show_non_core_visualizations) {
-                $nonCoreVisualizations = Visualization::getNonCoreVisualizations();
+                $nonCoreVisualizations = \Piwik\ViewDataTable::getNonCoreVisualizations();
                 $nonCoreVisualizationInfo = Visualization::getVisualizationInfoFor($nonCoreVisualizations);
 
                 foreach ($nonCoreVisualizationInfo as $format => $info) {
@@ -484,6 +487,22 @@ abstract class ViewDataTable
         }
     }
 
+    /**
+     * Returns an array mapping visualization IDs with information necessary for adding the
+     * visualizations to the footer of DataTable views.
+     *
+     * @param array $visualizations An array mapping visualization IDs w/ their associated classes.
+     * @return array
+     */
+    public static function getVisualizationInfoFor($visualizations)
+    {
+        $result = array();
+        foreach ($visualizations as $vizId => $vizClass) {
+            $result[$vizId] = array('table_icon' => $vizClass::FOOTER_ICON, 'title' => $vizClass::FOOTER_ICON_TITLE);
+        }
+        return $result;
+    }
+
     public static function getDefaultPropertyValues()
     {
         return array();
@@ -501,9 +520,7 @@ abstract class ViewDataTable
      */
     public function getOverridableProperties()
     {
-        $params = array_merge(VizConfig::$overridableProperties, VizRequest::$overridableProperties);
-
-        return $this->getPropertyNameListWithMetaProperty($params, __FUNCTION__);
+        return array_merge(VizConfig::$overridableProperties, VizRequest::$overridableProperties);
     }
 
     private function overrideViewPropertiesWithQueryParams()
@@ -533,15 +550,5 @@ abstract class ViewDataTable
     {
         $type = is_numeric($defaultValue) ? 'int' : null;
         return Common::getRequestVar($name, $defaultValue, $type);
-    }
-
-    /**
-     * Helper function for getCliendSiteProperties/getClientSideParameters/etc.
-     */
-    protected function getPropertyNameListWithMetaProperty($propertyNames, $getPropertiesFunctionName)
-    {
-        $klass = get_class($this);
-        $propertyNames = array_merge($propertyNames, $klass::$getPropertiesFunctionName());
-        return $propertyNames;
     }
 }

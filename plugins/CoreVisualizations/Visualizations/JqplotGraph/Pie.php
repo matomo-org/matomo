@@ -24,25 +24,25 @@ class Pie extends JqplotGraph
 {
     const ID = 'graphPie';
 
-    public function configureVisualization(Config $properties)
+    public function configureVisualization()
     {
-        parent::configureVisualization($properties);
+        parent::configureVisualization();
 
-        $properties->visualization_properties->show_all_ticks = true;
-        $properties->datatable_js_type = 'JqplotPieGraphDataTable';
+        $this->config->visualization_properties->show_all_ticks = true;
+        $this->config->datatable_js_type = 'JqplotPieGraphDataTable';
     }
 
-    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied()
     {
-        parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
+        parent::afterAllFilteresAreApplied();
 
-        $metricColumn = reset($properties->columns_to_display);
+        $metricColumn = reset($this->config->columns_to_display);
 
         if ($metricColumn == 'label') {
-            $metricColumn = next($properties->columns_to_display);
+            $metricColumn = next($this->config->columns_to_display);
         }
 
-        $properties->columns_to_display = array($metricColumn ? : 'nb_visits');
+        $this->config->columns_to_display = array($metricColumn ? : 'nb_visits');
     }
 
     public static function getDefaultPropertyValues()

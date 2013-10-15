@@ -18,7 +18,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
-use Piwik\ViewDataTable\Visualization;
+use Piwik\Plugin\Visualization;
 use Piwik\Visualization\Config as VizConfig;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/AllColumns.php';
@@ -149,12 +149,12 @@ class HtmlTable extends Visualization
         'highlight_summary_row',
     );
 
-    public function configureVisualization(VizConfig $properties)
+    public function configureVisualization()
     {
         if (Common::getRequestVar('idSubtable', false)
-            && $properties->visualization_properties->show_embedded_subtable
+            && $this->config->visualization_properties->show_embedded_subtable
         ) {
-            $properties->show_visualization_only = true;
+            $this->config->show_visualization_only = true;
         }
     }
 

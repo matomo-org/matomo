@@ -59,11 +59,13 @@ class VisualizationPropertiesProxy
      */
     public function &__get($name)
     {
-        if ($this->visualizationClass !== null) {
-            static::checkValidVisualizationProperty($this->visualizationClass, $name);
+        if (array_key_exists($name, $this->visualizationProperties)) {
+            return $this->visualizationProperties[$name];
         }
 
-        return $this->visualizationProperties[$name];
+        $null = null;
+
+        return $null;
     }
 
     /**

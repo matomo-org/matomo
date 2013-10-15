@@ -14,6 +14,7 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Piwik;
+use Piwik\Plugin\Visualization;
 use Piwik\Visualization\Config;
 use Piwik\Visualization\Request;
 
@@ -128,11 +129,11 @@ abstract class Graph extends Visualization
 
     public $selectableRows = array();
 
-    public function configureVisualization(Config $properties)
+    public function configureVisualization()
     {
-        if ($properties->show_goals) {
-            $properties->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');
-            $properties->translations['revenue'] = Piwik::translate('General_TotalRevenue');
+        if ($this->config->show_goals) {
+            $this->config->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');
+            $this->config->translations['revenue'] = Piwik::translate('General_TotalRevenue');
         }
     }
 
@@ -161,22 +162,22 @@ abstract class Graph extends Visualization
      * Defaults the selectable_columns property if it has not been set and then transforms
      * it into something the SeriesPicker JavaScript class can use.
      */
-    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied()
     {
-        $properties->visualization_properties->selectable_rows = array_values($this->selectableRows);
+        $this->config->visualization_properties->selectable_rows = array_values($this->selectableRows);
 
-        $selectableColumns = $properties->visualization_properties->selectable_columns;
+        $selectableColumns = $this->config->visualization_properties->selectable_columns;
 
         // set default selectable columns, if none specified
         if ($selectableColumns === false) {
             $selectableColumns = array('nb_visits', 'nb_actions');
 
-            if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
+            if (in_array('nb_uniq_visitors', $this->dataTable->getColumns())) {
                 $selectableColumns[] = 'nb_uniq_visitors';
             }
         }
 
-        if ($properties->show_goals) {
+        if ($this->config->show_goals) {
             $goalMetrics = array('nb_conversions', 'revenue');
             $selectableColumns = array_merge($selectableColumns, $goalMetrics);
         }
@@ -185,38 +186,39 @@ abstract class Graph extends Visualization
         foreach ($selectableColumns as $column) {
             $transformed[] = array(
                 'column'      => $column,
-                'translation' => @$properties->translations[$column],
-                'displayed'   => in_array($column, $properties->columns_to_display)
+                'translation' => @$this->config->translations[$column],
+                'displayed'   => in_array($column, $this->config->columns_to_display)
             );
         }
-        $properties->visualization_properties->selectable_columns = $transformed;
+        $this->config->visualization_properties->selectable_columns = $transformed;
     }
 
     /**
      * Determines what rows are selectable and stores them in the selectable_rows property in
      * a format the SeriesPicker JavaScript class can use.
      */
-    public function beforeLoadDataTable(Request $request, Config $properties)
+    public function beforeLoadDataTable()
     {
         // TODO: this should not be required here. filter_limit should not be a view property, instead HtmlTable should use 'limit' or something,
         //       and manually set request_parameters_to_modify['filter_limit'] based on that. (same for filter_offset).
-        $request->request_parameters_to_modify['filter_limit'] = false;
+        $this->config->request_parameters_to_modify['filter_limit'] = false;
 
-        if ($properties->visualization_properties->max_graph_elements) {
-            $request->request_parameters_to_modify['filter_truncate'] = $properties->visualization_properties->max_graph_elements - 1;
+        if ($this->config->visualization_properties->max_graph_elements) {
+            $this->requestConfig->request_parameters_to_modify['filter_truncate'] = $this->config->visualization_properties->max_graph_elements - 1;
         }
 
-        if ($properties->visualization_properties->row_picker_match_rows_by === false) {
+        if ($this->config->visualization_properties->row_picker_match_rows_by === false) {
             return;
         }
     }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
         // collect all selectable rows
         $self = $this;
+        $properties = $this->config;
 
-        $dataTable->filter(function ($dataTable) use ($self, $properties) {
+        $this->dataTable->filter(function ($dataTable) use ($self, $properties) {
             foreach ($dataTable->getRows() as $row) {
                 $rowLabel = $row->getColumn('label');
                 if ($rowLabel === false) {

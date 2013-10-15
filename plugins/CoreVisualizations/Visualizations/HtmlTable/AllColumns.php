@@ -31,21 +31,22 @@ class AllColumns extends HtmlTable
 {
     const ID = 'tableAllColumns';
 
-    public function configureVisualization(Config $properties)
+    public function configureVisualization()
     {
-        $properties->visualization_properties->show_extra_columns = true;
+        $this->config->visualization_properties->show_extra_columns = true;
 
-        $properties->show_exclude_low_population = true;
-        $properties->datatable_css_class = 'dataTableVizAllColumns';
+        $this->config->show_exclude_low_population = true;
+        $this->config->datatable_css_class = 'dataTableVizAllColumns';
 
-        parent::configureVisualization($properties);
+        parent::configureVisualization();
     }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
-        $dataTable->filter('AddColumnsProcessedMetrics');
+        $this->dataTable->filter('AddColumnsProcessedMetrics');
+        $properties = $this->config;
 
-        $dataTable->filter(function ($dataTable) use ($properties) {
+        $this->dataTable->filter(function ($dataTable) use ($properties) {
             $columnsToDisplay = array('label', 'nb_visits');
 
             if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
@@ -67,7 +68,7 @@ class AllColumns extends HtmlTable
 
         $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
 
-        $dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
+        $this->dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
     }
 
 }

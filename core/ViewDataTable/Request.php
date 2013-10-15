@@ -53,7 +53,7 @@ class Request
     }
 
     /**
-     * @return string URL to call the API, eg. "method=Referrers.getKeywords&period=day&date=yesterday"...
+     * @return array  URL to call the API, eg. "method=Referrers.getKeywords&period=day&date=yesterday"...
      */
     public function getRequestArray()
     {
@@ -148,8 +148,8 @@ class Request
         // if filter_column_recursive & filter_pattern_recursive are supplied, and flat isn't supplied
         // we have to load all the child subtables.
         return Common::getRequestVar('filter_column_recursive', false) !== false
-        && Common::getRequestVar('filter_pattern_recursive', false) !== false
-        && Common::getRequestVar('flat', false) === false;
+                && Common::getRequestVar('filter_pattern_recursive', false) !== false
+                && Common::getRequestVar('flat', false) === false;
     }
 
 }

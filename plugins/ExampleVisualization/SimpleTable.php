@@ -13,7 +13,7 @@ namespace Piwik\Plugins\ExampleVisualization;
 
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
-use Piwik\ViewDataTable\Visualization;
+use Piwik\Plugin\Visualization;
 use Piwik\Visualization\Config;
 use Piwik\Visualization\Request;
 
@@ -34,33 +34,33 @@ class SimpleTable extends Visualization
         $this->vizTitle = 'MyAwesomeTitle';
     }
 
-    public function configureVisualization(Config $properties)
+    public function configureVisualization()
     {
         // Configure how your visualization should look like, for instance you can disable search
-        // $properties->show_search = false
+        // $this->config->show_search = false
     }
 
-    public function beforeLoadDataTable(Request $request, Config $properties)
+    public function beforeLoadDataTable()
     {
         // Here you can change the request that is sent to the API, for instance
-        // $properties->filter_sort_order = 'desc';
+        // $this->requestConfig->filter_sort_order = 'desc';
     }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
         // this hook is executed before generic filters like "filter_limit" and "filter_offset" are applied
         // Usage:
-        // $dateTable->filter($nameOrClosure);
+        // $this->dateTable->filter($nameOrClosure);
     }
 
-    public function afterGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
         // this hook is executed after generic filters like "filter_limit" and "filter_offset" are applied
         // Usage:
-        // $dateTable->filter($nameOrClosure, $parameters);
+        // $this->dateTable->filter($nameOrClosure, $parameters);
     }
 
-    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied()
     {
         // this hook is executed after the data table is loaded and after all filteres are applied.
         // format your data here that you want to pass to the view

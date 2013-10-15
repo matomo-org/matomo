@@ -41,35 +41,35 @@ class Evolution extends JqplotGraph
 
     public static $overridableProperties = array('show_line_graph');
 
-    public function configureVisualization(Config $properties)
+    public function configureVisualization()
     {
-        $this->calculateEvolutionDateRange($properties);
+        $this->calculateEvolutionDateRange();
 
-        parent::configureVisualization($properties);
+        parent::configureVisualization();
 
-        $properties->datatable_js_type = 'JqplotEvolutionGraphDataTable';
+        $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
 
-    public function beforeLoadDataTable(Request $request, Config $properties)
+    public function beforeLoadDataTable()
     {
-        parent::beforeLoadDataTable($request, $properties);
+        parent::beforeLoadDataTable();
 
         // period will be overridden when 'range' is requested in the UI
         // but the graph will display for each day of the range.
         // Default 'range' behavior is to return the 'sum' for the range
         if (Common::getRequestVar('period', false) == 'range') {
-            $request->request_parameters_to_modify['period'] = 'day';
+            $this->requestConfig->request_parameters_to_modify['period'] = 'day';
         }
     }
 
-    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied()
     {
-        parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
+        parent::afterAllFilteresAreApplied();
 
-        if ($properties->visualization_properties->x_axis_step_size === false) {
+        if ($this->config->visualization_properties->x_axis_step_size === false) {
 
-            $size = $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
-            $properties->visualization_properties->x_axis_step_size = $size;
+            $size = $this->getDefaultXAxisStepSize($this->dataTable->getRowsCount());
+            $this->config->visualization_properties->x_axis_step_size = $size;
         }
     }
 
@@ -94,16 +94,15 @@ class Evolution extends JqplotGraph
      * Based on the period, date and evolution_{$period}_last_n query parameters,
      * calculates the date range this evolution chart will display data for.
      */
-    private function calculateEvolutionDateRange(Config $properties)
+    private function calculateEvolutionDateRange()
     {
-        $view = $this->viewDataTable;
         $period = Common::getRequestVar('period');
 
         $defaultLastN = self::getDefaultLastN($period);
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ($period != 'range') { // show evolution limit if the period is not a range
-            $properties->show_limit_control = true;
+            $this->config->show_limit_control = true;
 
             // set the evolution_{$period}_last_n query param
             if (Range::parseDateRange($originalDate)) { // if a multiple period
@@ -112,11 +111,11 @@ class Evolution extends JqplotGraph
                 $lastN = count($oPeriod->getSubperiods());
             } else { // if not a multiple period
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $originalDate, $defaultLastN);
-                $view->request_parameters_to_modify['date'] = $newDate;
-                $properties->custom_parameters['dateUsedInGraph'] = $newDate;
+                $this->requestConfig->request_parameters_to_modify['date'] = $newDate;
+                $this->config->custom_parameters['dateUsedInGraph'] = $newDate;
             }
             $lastNParamName = self::getLastNParamName($period);
-            $properties->custom_parameters[$lastNParamName] = $lastN;
+            $this->config->custom_parameters[$lastNParamName] = $lastN;
         }
     }
 

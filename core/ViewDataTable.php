@@ -131,7 +131,7 @@ class ViewDataTable
                 throw new \Exception("Visualization class '$viz' does not extend Plugin/ViewDataTable");
             }
 
-            $vizId = $viz->getViewDataTableId();
+            $vizId = $viz::getViewDataTableId();
 
             if (isset($result[$vizId])) {
                 throw new \Exception("Visualization ID '$vizId' is already in use!");
@@ -140,6 +140,22 @@ class ViewDataTable
             $result[$vizId] = $viz;
         }
 
+        return $result;
+    }
+
+    /**
+     * Returns all available visualizations that are not part of the CoreVisualizations plugin.
+     *
+     * @return array Array mapping visualization IDs with their associated visualization classes.
+     */
+    public static function getNonCoreVisualizations()
+    {
+        $result = array();
+        foreach (\Piwik\ViewDataTable::getAvailableVisualizations() as $vizId => $vizClass) {
+            if (strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations') === false) {
+                $result[$vizId] = $vizClass;
+            }
+        }
         return $result;
     }
 

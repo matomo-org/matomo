@@ -11,7 +11,7 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\View;
-use Piwik\ViewDataTable\Visualization;
+use Piwik\Plugin\Visualization;
 use Piwik\Visualization\Config;
 
 /**
@@ -31,8 +31,8 @@ class VisitorLog extends Visualization
     /**
      * Configure visualization.
      */
-    public function configureVisualization(Config $properties)
+    public function configureVisualization()
     {
-        $properties->datatable_js_type = 'VisitorLog';
+        $this->config->datatable_js_type = 'VisitorLog';
     }
 }

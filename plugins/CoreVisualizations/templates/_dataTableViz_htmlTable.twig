@@ -36,7 +36,7 @@
                     {% endfor %}
                 </tr>
                 {% endif %}
-                
+
                 {# display subtable if present and showing expanded datatable #}
                 {% if properties.visualization_properties.show_expanded|default(false) and rowHasSubtable %}
                     {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {'dataTable': row.getSubtable(), 'idSubtable': row.getIdSubDataTable()} %}

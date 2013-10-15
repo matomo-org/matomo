@@ -27,7 +27,6 @@ use Piwik\Plugins\API\API;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
 use Piwik\View;
-use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik\Visualization\Config as VizConfig;
 use Piwik\Visualization\Request as VizRequest;
 
@@ -100,8 +99,8 @@ class Visualization extends ViewDataTable
         }
 
         $vizView = new View(static::TEMPLATE_FILE);
-        // TODO there used to be the Visualization class
-        $vizView->assign(array_merge($this->requestConfig->getProperties(), $this->config->getProperties()));
+        $vizView->assign(array_merge(get_class_vars(get_class($this)), $this->requestConfig->getProperties(), $this->config->getProperties()));
+        $vizView->dataTable = $this->dataTable;
         $view->visualization = $vizView;
 
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
@@ -531,7 +530,7 @@ class Visualization extends ViewDataTable
     {
         $klasses = array_merge(array($klass), array_values(class_parents($klass, $autoload = false)));
 
-        $idx = array_search('Piwik\\ViewDataTable\\Visualization', $klasses);
+        $idx = array_search('Piwik\\Plugin\\Visualization', $klasses);
         if ($idx !== false) {
             $klasses = array_slice($klasses, 0, $idx);
         }
@@ -560,58 +559,10 @@ class Visualization extends ViewDataTable
     }
 
     /**
-     * Returns all available visualizations that are not part of the CoreVisualizations plugin.
-     *
-     * @return array Array mapping visualization IDs with their associated visualization classes.
-     */
-    public static function getNonCoreVisualizations()
-    {
-        $result = array();
-        foreach (self::getAvailableVisualizations() as $vizId => $vizClass) {
-            if (strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations') === false) {
-                $result[$vizId] = $vizClass;
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Returns an array mapping visualization IDs with information necessary for adding the
-     * visualizations to the footer of DataTable views.
-     *
-     * @param array $visualizations An array mapping visualization IDs w/ their associated classes.
-     * @return array
-     */
-    public static function getVisualizationInfoFor($visualizations)
-    {
-        $result = array();
-        foreach ($visualizations as $vizId => $vizClass) {
-            $result[$vizId] = array('table_icon' => $vizClass::FOOTER_ICON, 'title' => $vizClass::FOOTER_ICON_TITLE);
-        }
-        return $result;
-    }
-
-    /**
-     * Returns the visualization class by it's viewDataTable ID.
-     *
-     * @param string $id The visualization ID.
-     * @return string The visualization class name. If $id is not a valid ID, the HtmlTable visualization
-     *                is returned.
-     */
-    public static function getClassFromId($id)
-    {
-        $visualizationClasses = self::getAvailableVisualizations();
-        if (!isset($visualizationClasses[$id])) {
-            return $visualizationClasses['table'];
-        }
-        return $visualizationClasses[$id];
-    }
-
-    /**
      * Helper function that merges the static field values of every class in this
      * classes inheritance hierarchy. Uses late-static binding.
      */
-    protected function getPropertyNameListWithMetaProperty($staticFieldName)
+    protected function getPropertyNameListWithMetaProperty($baseProperties, $staticFieldName)
     {
         if (isset(static::$$staticFieldName)) {
             $result = array();
@@ -623,10 +574,12 @@ class Visualization extends ViewDataTable
                 }
             }
 
+            $result = array_merge($baseProperties, $result);
+
             return array_unique($result);
         }
 
-        return array();
+        return $baseProperties;
     }
 
     private function getFiltersToRun()

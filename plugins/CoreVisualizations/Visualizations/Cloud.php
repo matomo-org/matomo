@@ -12,10 +12,9 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Log;
 use Piwik\View;
-use Piwik\ViewDataTable\Visualization;
+use Piwik\Plugin\Visualization;
 use Piwik\Visualization\Config;
 use Piwik\Visualization\Request;
 
@@ -49,18 +48,18 @@ class Cloud extends Visualization
     protected $wordsArray = array();
     public $truncatingLimit = 50;
 
-    public function afterAllFilteresAreApplied(DataTable $dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied()
     {
-        if ($dataTable->getRowsCount() == 0) {
+        if ($this->dataTable->getRowsCount() == 0) {
             return;
         }
 
-        $columnToDisplay = isset($properties->columns_to_display[1]) ? $properties->columns_to_display[1] : 'nb_visits';
+        $columnToDisplay = isset($this->config->columns_to_display[1]) ? $this->config->columns_to_display[1] : 'nb_visits';
 
         $labelMetadata = array();
-        foreach ($dataTable->getRows() as $row) {
+        foreach ($this->dataTable->getRows() as $row) {
             $logo = false;
-            if ($properties->visualization_properties->display_logo_instead_of_label) {
+            if ($this->config->visualization_properties->display_logo_instead_of_label) {
                 $logo = $row->getMetadata('logo');
             }
 
@@ -82,11 +81,11 @@ class Cloud extends Visualization
         $this->cloudValues   = $cloudValues;
     }
 
-    public function configureVisualization(Config $properties)
+    public function configureVisualization()
     {
-        $properties->show_exclude_low_population = false;
-        $properties->show_offset_information     = false;
-        $properties->show_limit_control          = false;
+        $this->config->show_exclude_low_population = false;
+        $this->config->show_offset_information     = false;
+        $this->config->show_limit_control          = false;
     }
 
     public static function getDefaultPropertyValues()
