@@ -1144,14 +1144,23 @@ class PiwikTracker
             if (empty($this->lastVisitTs)) {
                 $this->loadVisitorIdCookie();
             }
+			// Set the id cookie
+            $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
+			
+			// Set/update the session cookie
             $sesname = $this->getCookieName('ses');
             if (!$this->getCookieMatchingName($sesname)) {
                 // new session (new visit)
                 $this->visitCount++;
                 $this->lastVisitTs = $this->currentVisitTs;
             }
-            $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
             setrawcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain);
+			
+			// Set the custom variable cookie if custom variables have been set
+			if (!empty($this->visitorCustomVar)) {
+				$cvarame = $this->getCookieName('cvar');
+				setcookie($cvarname, json_encode($this->visitorCustomVar), $this->currentTs + $this->configSessionCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain);
+			}
         }
 
         $url = $this->getBaseUrl() .
