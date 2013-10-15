@@ -240,7 +240,7 @@ class Manager extends Singleton
             $plugin->deactivate();
         }
 
-        $this->removePluginFromPluginsConfig($pluginName, $plugins);
+        $plugins = $this->removePluginFromPluginsConfig($pluginName, $plugins);
         $this->removePluginFromTrackerConfig($pluginName);
 
         PiwikConfig::getInstance()->forceSave();
@@ -277,15 +277,15 @@ class Manager extends Singleton
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {
-            // ToDo: This fails in tracker-mode. We should log this however.
             //Piwik::log(sprintf("Unable to find the plugin '%s' in activatePlugin.", $pluginName));
             return;
         }
 
         // Only one theme enabled at a time
         $themeEnabled = $this->getThemeEnabled();
-        if ($themeEnabled && $themeEnabled->getPluginName() != self::DEFAULT_THEME) {
+        if ($themeEnabled->getPluginName() != self::DEFAULT_THEME) {
             $themeAlreadyEnabled = $themeEnabled->getPluginName();
+
             $plugin = $this->loadPlugin($pluginName);
             if ($plugin->isTheme()) {
                 $plugins = $this->deactivatePlugin($themeAlreadyEnabled, $plugins);
@@ -880,6 +880,8 @@ class Manager extends Singleton
         }
 
         $this->updatePluginsConfig($plugins);
+
+        return $plugins;
     }
 
     /**
