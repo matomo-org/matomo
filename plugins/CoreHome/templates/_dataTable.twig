@@ -1,5 +1,5 @@
 {% if properties.show_visualization_only %}
-    {% include visualization.getTemplateFile() with visualization.getTemplateVars() %}
+    {% include visualizationTemplate %}
 {%- else -%}
 
 {% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
