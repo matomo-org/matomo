@@ -19,7 +19,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group ReleaseCheckList
      */
     public function testCheckThatConfigurationValuesAreProductionValues()
     {
@@ -51,7 +50,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group ReleaseCheckList
      */
     public function testTemplatesDontContainDebug()
     {
@@ -65,7 +63,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group ReleaseCheckList
      */
     public function testCheckThatGivenPluginsAreDisabledByDefault()
     {
@@ -84,7 +81,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     /**
      * test that the profiler is disabled (mandatory on a production server)
      * @group Core
-     * @group ReleaseCheckList
      */
     public function testProfilingDisabledInProduction()
     {
@@ -94,7 +90,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group ReleaseCheckList
      */
     public function testPiwikTrackerDebugIsOff()
     {
@@ -115,7 +110,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group ReleaseCheckList
      */
     public function testEndOfLines()
     {
@@ -160,7 +154,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group ReleaseCheckList
      */
     public function testPiwikJavaScript()
     {

@@ -10,7 +10,6 @@ class Test_Piwik_Integration_Transitions extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        Transitions
      */
     public function testApi($api, $params)
     {

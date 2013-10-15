@@ -18,7 +18,6 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TrackGoals_AllowMultipleConversionsPerVisit
      */
     public function testApi($api, $params)
     {
@@ -28,7 +27,6 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
     /**
      * @depends      testApi
      * @group        Integration
-     * @group        TrackGoals_AllowMultipleConversionsPerVisit
      */
     public function testCheck()
     {

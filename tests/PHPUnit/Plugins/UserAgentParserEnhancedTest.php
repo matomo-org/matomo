@@ -5,6 +5,7 @@ require_once 'DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.p
 class UserAgentParserEnhancedTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @group Plugins
      * @dataProvider getUserAgents_asParsed
      */
     public function testParse($expected)

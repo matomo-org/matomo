@@ -11,7 +11,6 @@ class UpdaterTest extends DatabaseTestCase
 {
     /**
      * @group Core
-     * @group Updater
      */
     public function testUpdaterChecksCoreVersionAndDetectsUpdateFile()
     {
@@ -25,7 +24,6 @@ class UpdaterTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Updater
      */
     public function testUpdaterChecksGivenPluginVersionAndDetectsMultipleUpdateFileInOrder()
     {
@@ -49,7 +47,6 @@ class UpdaterTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Updater
      */
     public function testUpdaterChecksCoreAndPluginCheckThatCoreIsRanFirst()
     {

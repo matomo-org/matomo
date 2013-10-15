@@ -13,7 +13,6 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group RankingQuery
      */
     public function testBasic()
     {
@@ -54,7 +53,6 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group RankingQuery
      */
     public function testExcludeRows()
     {
@@ -92,7 +90,6 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group RankingQuery
      */
     public function testPartitionResult()
     {

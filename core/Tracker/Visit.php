@@ -773,7 +773,6 @@ class Visit implements VisitInterface
      * Note: we must restrict in the future in case we import old data after having imported new data.
      *
      * @return array( datetimeMin, datetimeMax )
-     *
      */
     protected function getWindowLookupThisVisit()
     {

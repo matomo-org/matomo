@@ -24,9 +24,6 @@ class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase
      *               a row with w child
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_Console
      */
     public function testConsole2SubLevelAnd2Different()
     {
@@ -72,9 +69,6 @@ class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase
      *  test with a row without child
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_Console
      */
     public function testConsoleSimple()
     {
@@ -95,9 +89,6 @@ class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray1()
     {
@@ -113,9 +104,6 @@ class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray2()
     {
@@ -133,9 +121,6 @@ class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray3()
     {
@@ -151,9 +136,6 @@ class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray4()
     {

@@ -21,7 +21,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitors_TwoWebsites_DifferentDays_Conversions
+     *
      */
     public function testApi($api, $params)
     {

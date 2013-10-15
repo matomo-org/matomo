@@ -62,7 +62,6 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
     /**
      * @dataProvider getArchivePhpCronOptionsToTest
      * @group        Integration
-     * @group        ImportLogs
      */
     public function testArchivePhpCron($optionGroupName, $archivePhpOptions)
     {

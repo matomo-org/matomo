@@ -19,7 +19,6 @@ class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends IntegrationTe
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitor_NoKeywordSpecified
      */
     public function testApi($api, $params)
     {

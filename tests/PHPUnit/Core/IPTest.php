@@ -58,7 +58,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getIPData
      * @group Core
-     * @group IP
      */
     public function testSanitizeIp($ip, $expected)
     {
@@ -99,7 +98,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getIPRangeData
      * @group Core
-     * @group IP
      */
     public function testSanitizeIpRange($ip, $expected)
     {
@@ -130,7 +128,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getP2NTestData
      * @group Core
-     * @group IP
      */
     public function testP2N($P, $N)
     {
@@ -166,7 +163,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group IP
+     * 
      * @dataProvider getP2NInvalidInputData
      */
     public function testP2NInvalidInput($P)
@@ -176,7 +173,6 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group IP
      */
     public function getN2PTestData()
     {
@@ -207,7 +203,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getP2NTestData
      * @group Core
-     * @group IP
      */
     public function testN2P($P, $N)
     {
@@ -217,7 +212,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getN2PTestData
      * @group Core
-     * @group IP
      */
     public function testN2PinvalidInput($N)
     {
@@ -227,7 +221,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getP2NTestData
      * @group Core
-     * @group IP
      */
     public function testPrettyPrint($P, $N)
     {
@@ -237,7 +230,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getN2PTestData
      * @group Core
-     * @group IP
      */
     public function testPrettyPrintInvalidInput($N)
     {
@@ -296,7 +288,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getIPv4Data
      * @group Core
-     * @group IP
      */
     public function testIsIPv4($ip, $bool)
     {
@@ -353,7 +344,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getLong2IPTestData
      * @group Core
-     * @group IP
      */
     public function testLong2ip($N, $P)
     {
@@ -445,7 +435,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getIPsForRangeTest
      * @group Core
-     * @group IP
      */
     public function testGetIpsForRange($range, $expected)
     {
@@ -544,7 +533,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group IP
+     * 
      * @dataProvider getIpsInRangeData
      */
     public function testIsIpInRange($range, $test)
@@ -581,7 +570,6 @@ class IPTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getIpFromHeaderTestData
      * @group Core
-     * @group IP
      */
     public function testGetIpFromHeader($description, $test)
     {
@@ -613,7 +601,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group IP
+     * 
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader($ip)
@@ -623,7 +611,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group IP
+     * 
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader2($ip)
@@ -636,7 +624,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group IP
+     * 
      * @dataProvider getIpTestData
      */
     public function testGetNonProxyIpFromHeader3($ip)
@@ -672,7 +660,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group IP
+     * 
      * @dataProvider getLastIpFromListTestData
      */
     public function testGetLastIpFromList($csv, $expected)
@@ -686,7 +674,6 @@ class IPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group IP
      */
     public function testGetHostByAddr()
     {

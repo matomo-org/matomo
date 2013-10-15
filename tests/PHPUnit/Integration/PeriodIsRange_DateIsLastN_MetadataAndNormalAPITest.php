@@ -41,7 +41,6 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        PeriodIsRange_DateIsLastN_MetadataAndNormalAPI
      */
     public function testApi($api, $params)
     {

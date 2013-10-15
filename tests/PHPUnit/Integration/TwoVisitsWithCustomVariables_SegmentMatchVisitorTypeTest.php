@@ -18,7 +18,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitsWithCustomVariables_SegmentMatchVisitorType
      */
     public function testApi($api, $params)
     {
@@ -55,7 +54,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
     /**
      * @depends      testApi
      * @group        Integration
-     * @group        TwoVisitsWithCustomVariables_SegmentMatchVisitorType
      */
     public function testCheck()
     {

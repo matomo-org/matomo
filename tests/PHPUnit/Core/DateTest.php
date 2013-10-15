@@ -14,7 +14,6 @@ class DateTest extends PHPUnit_Framework_TestCase
      * create today object check that timestamp is correct (midnight)
      *
      * @group Core
-     * @group Date
      */
     public function testToday()
     {
@@ -31,7 +30,6 @@ class DateTest extends PHPUnit_Framework_TestCase
      * create today object check that timestamp is correct (midnight)
      *
      * @group Core
-     * @group Date
      */
     public function testYesterday()
     {
@@ -41,7 +39,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testInvalidDateThrowsException()
     {
@@ -55,7 +52,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testFactoryTimezone()
     {
@@ -89,7 +85,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testSetTimezoneDayInUTC()
     {
@@ -140,7 +135,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testModifyDateWithTimezone()
     {
@@ -163,7 +157,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testGetDateStartUTCEndDuringDstTimezone()
     {
@@ -181,7 +174,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testAddHour()
     {
@@ -206,7 +198,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testAddHourLongHours()
     {
@@ -218,7 +209,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testAddPeriod()
     {
@@ -235,7 +225,6 @@ class DateTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Date
      */
     public function testSubPeriod()
     {

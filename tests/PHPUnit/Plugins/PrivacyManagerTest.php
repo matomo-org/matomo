@@ -134,7 +134,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Make sure the first time deleteLogData is run, nothing happens.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testDeleteLogDataInitialRun()
     {
@@ -152,7 +151,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Make sure the first time deleteReportData is run, nothing happens.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testDeleteReportDataInitialRun()
     {
@@ -169,7 +167,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Make sure the task is not run when its scheduled for later.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataNotTimeToRun()
     {
@@ -189,7 +186,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Make sure purging data runs when scheduled.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataNotInitialAndTimeToRun()
     {
@@ -236,7 +232,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Make sure nothing happens when deleting logs & reports are both disabled.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataBothDisabled()
     {
@@ -265,7 +260,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Test that purgeData works when there's no data.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataDeleteLogsNoData()
     {
@@ -303,7 +297,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Test that purgeData works correctly when the 'keep basic metrics' setting is set to true.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataDeleteReportsKeepBasicMetrics()
     {
@@ -360,7 +353,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Test that purgeData works correctly when the 'keep daily reports' setting is set to true.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataDeleteReportsKeepDailyReports()
     {
@@ -397,7 +389,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Test that purgeData works correctly when the 'keep weekly reports' setting is set to true.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataDeleteReportsKeepWeeklyReports()
     {
@@ -434,7 +425,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Test that purgeData works correctly when the 'keep monthly reports' setting is set to true.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataDeleteReportsKeepMonthlyReports()
     {
@@ -471,7 +461,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Test that purgeData works correctly when the 'keep yearly reports' setting is set to true.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataDeleteReportsKeepYearlyReports()
     {
@@ -508,7 +497,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Test no concurrency issues when deleting log data from log_action table.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeLogDataConcurrency()
     {
@@ -540,7 +528,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Tests that purgeData works correctly when the 'keep range reports' setting is set to true.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataDeleteReportsKeepRangeReports()
     {
@@ -577,7 +564,6 @@ class PrivacyManagerTest extends IntegrationTestCase
      * Tests that purgeData works correctly when the 'keep segment reports' setting is set to true.
      *
      * @group Plugins
-     * @group PrivacyManager
      */
     public function testPurgeDataDeleteReportsKeepSegmentsReports()
     {

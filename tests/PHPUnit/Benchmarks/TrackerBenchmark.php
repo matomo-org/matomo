@@ -65,7 +65,6 @@ class TrackerBenchmark extends BenchmarkTestCase
 
     /**
      * @group        Benchmarks
-     * @group        TrackerBenchmark
      */
     public function testTracker()
     {

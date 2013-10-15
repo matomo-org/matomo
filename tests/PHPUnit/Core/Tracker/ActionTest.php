@@ -107,8 +107,6 @@ class Tracker_ActionTest extends DatabaseTestCase
      * No excluded query parameters specified, apart from the standard "session" parameters, always excluded
      *
      * @group Core
-     * @group Tracker
-     * @group Tracker_Action
      * @dataProvider getTestUrls
      */
     public function testExcludeQueryParametersNone($url, $filteredUrl)
@@ -137,8 +135,6 @@ class Tracker_ActionTest extends DatabaseTestCase
     /**
      * Test removing hash tag
      * @group Core
-     * @group Tracker
-     * @group Tracker_Action
      * @dataProvider getTestUrlsHashtag
      */
     public function testRemoveTrailingHashtag($url, $expectedUrl)
@@ -150,8 +146,6 @@ class Tracker_ActionTest extends DatabaseTestCase
     /**
      * Testing with some website specific parameters excluded
      * @group Core
-     * @group Tracker
-     * @group Tracker_Action
      * @dataProvider getTestUrls
      */
     public function testExcludeQueryParametersSiteExcluded($url, $filteredUrl)
@@ -168,8 +162,6 @@ class Tracker_ActionTest extends DatabaseTestCase
     /**
      * Testing with some website specific and some global excluded query parameters
      * @group Core
-     * @group Tracker
-     * @group Tracker_Action
      * @dataProvider getTestUrls
      */
     public function testExcludeQueryParametersSiteAndGlobalExcluded($url, $filteredUrl)
@@ -361,8 +353,6 @@ class Tracker_ActionTest extends DatabaseTestCase
     /**
      * @dataProvider getExtractUrlData
      * @group Core
-     * @group Tracker
-     * @group Tracker_Action
      */
     public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {

@@ -28,7 +28,6 @@ class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCas
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorTwoVisits
      */
     public function testApi($api, $params)
     {

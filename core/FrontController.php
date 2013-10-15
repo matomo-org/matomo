@@ -188,7 +188,6 @@ class FrontController extends Singleton
 
     /**
      * Called at the end of the page generation
-     *
      */
     public function __destruct()
     {

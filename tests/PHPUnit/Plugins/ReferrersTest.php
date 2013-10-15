@@ -35,7 +35,7 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
      * search engine has at least one keyword
      *
      * @group Plugins
-     * @group Referrers
+     *
      * @dataProvider getSearchEngines
      */
     public function testMissingSearchEngineKeyword($url, $searchEngine)
@@ -55,7 +55,7 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
      * search engine is defined in DataFiles/SearchEngines.php but there's no favicon
      *
      * @group Plugins
-     * @group Referrers
+     *
      * @dataProvider getSearchEngines
      */
     public function testMissingSearchEngineIcons($url, $searchEngine)
@@ -78,7 +78,6 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
      * favicon exists but there's no corresponding search engine defined in DataFiles/SearchEngines.php
      *
      * @group Plugins
-     * @group Referrers
      */
     public function testObsoleteSearchEngineIcons()
     {
@@ -109,7 +108,6 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
      * get search engine host from url
      *
      * @group Plugins
-     * @group Referrers
      */
     public function testGetSearchEngineHostFromUrl()
     {
@@ -140,7 +138,7 @@ class ReferrersTest extends PHPUnit_Framework_TestCase
      * get search engine url from name and keyword
      *
      * @group Plugins
-     * @group Referrers
+     *
      * @dataProvider getSearchEngineUrlFromUrlAndKeywordTestData
      */
     public function testGetSearchEngineUrlFromUrlAndKeyword($url, $keyword, $expected)

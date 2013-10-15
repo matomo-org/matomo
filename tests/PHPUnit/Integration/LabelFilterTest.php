@@ -17,7 +17,6 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        LabelFilter
      */
     public function testApi($api, $params)
     {

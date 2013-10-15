@@ -17,8 +17,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range 1
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeToday()
     {
@@ -36,8 +34,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeTodayUtcPlus12()
     {
@@ -57,8 +53,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range 2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRange2days()
     {
@@ -78,8 +72,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range 3
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRange5days()
     {
@@ -99,8 +91,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range 4
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangePrevious3days()
     {
@@ -120,8 +110,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeComma1()
     {
@@ -141,8 +129,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeComma2()
     {
@@ -172,8 +158,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeWeekcomma1()
     {
@@ -219,8 +203,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeYearcomma1()
     {
@@ -264,8 +246,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range date1,date2
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeMonthcomma1()
     {
@@ -347,8 +327,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range WEEK
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeWeek()
     {
@@ -372,8 +350,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range WEEK last1
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeWeekLast1()
     {
@@ -386,8 +362,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range MONTH
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeMonth()
     {
@@ -410,8 +384,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range MONTH last1
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeMonthLast1()
     {
@@ -424,8 +396,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range PREVIOUS MONTH
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangePreviousmonth()
     {
@@ -450,8 +420,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range YEAR
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeYear()
     {
@@ -474,8 +442,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     // test range YEAR last1
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testRangeYearLast1()
     {
@@ -487,8 +453,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeWeekInsideEndingToday()
     {
@@ -522,8 +486,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeWeekInsideEndingYesterday()
     {
@@ -562,8 +524,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeOnlyDaysLessThanOneWeek()
     {
@@ -580,8 +540,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeOneWeekOnly()
     {
@@ -604,8 +562,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeStartsWithWeek()
     {
@@ -630,8 +586,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeEndsWithWeek()
     {
@@ -666,8 +620,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeContainsMonthAndWeek()
     {
@@ -733,8 +685,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeContainsSeveralMonthsAndWeeksStartingWithMonth()
     {
@@ -849,8 +799,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeOneMonthOnly()
     {
@@ -895,8 +843,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function test_CustomRange_startsWithWeek_EndsWithMonth()
     {
@@ -952,8 +898,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeBeforeIsAfterYearRight()
     {
@@ -971,8 +915,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangeLastN()
     {
@@ -990,8 +932,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangePreviousN()
     {
@@ -1008,8 +948,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testCustomRangePreviousNEndToday()
     {
@@ -1025,8 +963,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testInvalidRangeThrows()
     {
@@ -1041,8 +977,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testGetLocalizedShortString()
     {
@@ -1054,8 +988,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testGetLocalizedLongString()
     {
@@ -1067,8 +999,6 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
      */
     public function testGetPrettyString()
     {
@@ -1091,8 +1021,8 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
-     * @group Range
+     * 
+     * 
      * @dataProvider getDataForLastNLimitsTest
      */
     public function testLastNLimits($period, $lastN, $expectedLastN)

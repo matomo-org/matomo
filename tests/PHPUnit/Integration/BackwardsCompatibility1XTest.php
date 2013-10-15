@@ -21,7 +21,6 @@ class Test_Piwik_Integration_BackwardsCompatibility1XTest extends IntegrationTes
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorTwoVisits
      */
     public function testApi($api, $params)
     {

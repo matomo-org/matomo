@@ -270,7 +270,6 @@ class DataTable implements DataTableInterface
 
     /**
      * Builds the DataTable, registers itself to the manager
-     *
      */
     public function __construct()
     {

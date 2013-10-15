@@ -12,11 +12,7 @@ use Piwik\DataTable\Row;
 class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase
 {
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_AddSummaryRow
      */
     public function testOffsetIsCountSummaryRowShouldBeTheRow()
     {
@@ -28,11 +24,7 @@ class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_AddSummaryRow
      */
     public function testOffsetIsLessThanCountSummaryRowShouldBeTheSum()
     {
@@ -47,11 +39,7 @@ class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_AddSummaryRow
      */
     public function testOffsetIsMoreThanCountShouldNotAddSummaryRow()
     {
@@ -63,11 +51,7 @@ class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_AddSummaryRow
      */
     public function testWhenThereIsAlreadyASummaryRowShouldReplaceTheSummaryRow()
     {
@@ -82,11 +66,7 @@ class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_AddSummaryRow
      */
     public function testSumTablesWithSummaryRowShouldSumTheSummaryRow()
     {
@@ -112,11 +92,7 @@ class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_AddSummaryRow
      */
     public function testAddOneTableWithSummaryRow()
     {
@@ -143,11 +119,7 @@ class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_AddSummaryRow
      */
     public function testWhenRowsInRandomOrderButSortSpecifiedShouldComputeSummaryRowAfterSort()
     {

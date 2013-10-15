@@ -36,8 +36,6 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests invalid call to setHour on Monthly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Monthly
      */
     public function testSetHourScheduledTimeMonthlyNegative()
     {
@@ -53,8 +51,6 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests invalid call to setHour on Monthly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Monthly
      */
     public function testSetHourScheduledTimMonthlyOver24()
     {
@@ -70,8 +66,6 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests invalid call to setDay on Monthly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Monthly
      */
     public function testSetDayScheduledTimeMonthlyDay0()
     {
@@ -87,8 +81,6 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests invalid call to setDay on Monthly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Monthly
      */
     public function testSetDayScheduledTimeMonthlyOver31()
     {
@@ -104,8 +96,6 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests getRescheduledTime on Monthly with unspecified hour and unspecified day
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Monthly
      */
     public function testGetRescheduledTimeMonthlyUnspecifiedHourUnspecifiedDay()
     {
@@ -148,8 +138,8 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests getRescheduledTime on Monthly with unspecified hour and specified day
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Monthly
+     *
+     * _Monthly
      *
      * @dataProvider getSpecifiedDayData
      */
@@ -223,8 +213,6 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Monthly
      */
     public function testMonthlyDayOfWeek()
     {
@@ -241,8 +229,8 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Monthly
+     *
+     * _Monthly
      *
      * @dataProvider getInvalidDayOfWeekData
      */

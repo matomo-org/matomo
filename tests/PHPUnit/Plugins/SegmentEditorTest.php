@@ -33,6 +33,9 @@ class SegmentEditorTest extends DatabaseTestCase
         APISitesManager::getInstance()->addSite('test', 'http://example.org');
     }
 
+    /**
+     * @group Plugins
+     */
     public function testAddInvalidSegment_ShouldThrow()
     {
         try {
@@ -47,6 +50,9 @@ class SegmentEditorTest extends DatabaseTestCase
         }
     }
 
+    /**
+     * @group Plugins
+     */
     public function test_AddAndGet_SimpleSegment()
     {
         $name = 'name';
@@ -70,6 +76,9 @@ class SegmentEditorTest extends DatabaseTestCase
         $this->assertEquals($segment, $expected);
     }
 
+    /**
+     * @group Plugins
+     */
     public function test_AddAndGet_AnotherSegment()
     {
         $name = 'name';
@@ -111,6 +120,9 @@ class SegmentEditorTest extends DatabaseTestCase
         $this->assertEquals($segments, array());
     }
 
+    /**
+     * @group Plugins
+     */
     public function test_UpdateSegment()
     {
         $name = 'name"';
@@ -152,6 +164,9 @@ class SegmentEditorTest extends DatabaseTestCase
         $this->assertEquals($newSegment['name'], $nameSegment1);
     }
 
+    /**
+     * @group Plugins
+     */
     public function test_deleteSegment()
     {
         $idSegment1 = API::getInstance()->add('name 1', 'searches==0', $idSite = 1, $autoArchive = 1, $enabledAllUsers = 1);

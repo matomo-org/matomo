@@ -110,7 +110,6 @@ class ByParameterCountTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getFilterTestData
      * @group Core
-     * @group Translate
      */
     public function testFilter($translations, $baseTranslations, $expected, $filteredData)
     {

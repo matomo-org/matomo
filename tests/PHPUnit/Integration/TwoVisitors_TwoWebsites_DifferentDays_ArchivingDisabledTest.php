@@ -16,7 +16,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisa
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled
+     * 
      */
     public function testApi($api, $params)
     {

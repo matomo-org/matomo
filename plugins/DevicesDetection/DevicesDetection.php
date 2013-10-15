@@ -106,7 +106,6 @@ class DevicesDetection extends \Piwik\Plugin
      * Also used to define Widgets, and Segment(s)
      *
      * @return array Category, Report Name, API Module, API action, Translated column name, & optional segment info
-     *
      */
     protected function getRawMetadataReports()
     {

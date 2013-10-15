@@ -24,8 +24,6 @@ class ScheduledTime_HourlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests forbidden call to setHour on Hourly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Hourly
      */
     public function testSetHourScheduledTimeHourly()
     {
@@ -41,8 +39,6 @@ class ScheduledTime_HourlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests forbidden call to setDay on Hourly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Hourly
      */
     public function testSetDayScheduledTimeHourly()
     {
@@ -58,8 +54,6 @@ class ScheduledTime_HourlyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests getRescheduledTime on Hourly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Hourly
      */
     public function testGetRescheduledTimeHourly()
     {

@@ -26,7 +26,6 @@ class SitesManagerTest extends DatabaseTestCase
      * empty name -> exception
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteEmptyName()
     {
@@ -57,7 +56,6 @@ class SitesManagerTest extends DatabaseTestCase
      *
      * @dataProvider getInvalidUrlData
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteWrongUrls($url)
     {
@@ -73,7 +71,6 @@ class SitesManagerTest extends DatabaseTestCase
      * Test with valid IPs
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteExcludedIpsAndtimezoneAndCurrencyAndExcludedQueryParametersValid()
     {
@@ -122,7 +119,6 @@ class SitesManagerTest extends DatabaseTestCase
      *
      * @dataProvider getInvalidIPsData
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteExcludedIpsNotValid($ip)
     {
@@ -139,7 +135,6 @@ class SitesManagerTest extends DatabaseTestCase
      * one url -> one main_url and nothing inserted as alias urls
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteOneUrl()
     {
@@ -160,7 +155,6 @@ class SitesManagerTest extends DatabaseTestCase
      * several urls -> one main_url and others as alias urls
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteSeveralUrls()
     {
@@ -180,7 +174,6 @@ class SitesManagerTest extends DatabaseTestCase
      * strange name
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteStrangeName()
     {
@@ -217,7 +210,6 @@ class SitesManagerTest extends DatabaseTestCase
      * no duplicate -> all the urls are saved
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteUrlsnoDuplicate()
     {
@@ -258,7 +250,6 @@ class SitesManagerTest extends DatabaseTestCase
      * duplicate -> don't save the already existing URLs
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteUrlsDuplicate()
     {
@@ -285,7 +276,6 @@ class SitesManagerTest extends DatabaseTestCase
      * case empty array => nothing happens
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteUrlsNoUrlsToAdd1()
     {
@@ -312,7 +302,6 @@ class SitesManagerTest extends DatabaseTestCase
      * case array only duplicate => nothing happens
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteUrlsNoUrlsToAdd2()
     {
@@ -339,7 +328,6 @@ class SitesManagerTest extends DatabaseTestCase
      * wrong format urls => exception
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteUrlsWrongUrlsFormat3()
     {
@@ -357,7 +345,6 @@ class SitesManagerTest extends DatabaseTestCase
      * wrong idsite => no exception because simply no access to this resource
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteUrlsWrongIdSite1()
     {
@@ -374,7 +361,6 @@ class SitesManagerTest extends DatabaseTestCase
      * wrong idsite => exception
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSiteUrlsWrongIdSite2()
     {
@@ -391,7 +377,6 @@ class SitesManagerTest extends DatabaseTestCase
      * no Id -> empty array
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetAllSitesIdNoId()
     {
@@ -403,7 +388,6 @@ class SitesManagerTest extends DatabaseTestCase
      * several Id -> normal array
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetAllSitesIdSeveralId()
     {
@@ -424,7 +408,6 @@ class SitesManagerTest extends DatabaseTestCase
      * wrong id => exception
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSiteFromIdWrongId1()
     {
@@ -440,7 +423,6 @@ class SitesManagerTest extends DatabaseTestCase
      * wrong id => exception
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSiteFromIdWrongId2()
     {
@@ -456,7 +438,6 @@ class SitesManagerTest extends DatabaseTestCase
      * wrong id : no access => exception
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSiteFromIdWrongId3()
     {
@@ -479,7 +460,6 @@ class SitesManagerTest extends DatabaseTestCase
      * normal case
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSiteFromIdNormalId()
     {
@@ -497,7 +477,6 @@ class SitesManagerTest extends DatabaseTestCase
      * there is no admin site available -> array()
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesWithAdminAccessNoResult()
     {
@@ -511,7 +490,6 @@ class SitesManagerTest extends DatabaseTestCase
      * normal case, admin and view and noaccess website => return only admin
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesWithAdminAccess()
     {
@@ -538,7 +516,6 @@ class SitesManagerTest extends DatabaseTestCase
      * there is no admin site available -> array()
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesWithViewAccessNoResult()
     {
@@ -553,7 +530,6 @@ class SitesManagerTest extends DatabaseTestCase
      * normal case, admin and view and noaccess website => return only admin
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesWithViewAccess()
     {
@@ -580,7 +556,6 @@ class SitesManagerTest extends DatabaseTestCase
      * there is no admin site available -> array()
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesWithAtLeastViewAccessNoResult()
     {
@@ -595,7 +570,6 @@ class SitesManagerTest extends DatabaseTestCase
      * normal case, admin and view and noaccess website => return only admin
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesWithAtLeastViewAccess()
     {
@@ -622,7 +596,6 @@ class SitesManagerTest extends DatabaseTestCase
      * no urls for this site => array()
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSiteUrlsFromIdNoUrls()
     {
@@ -636,7 +609,6 @@ class SitesManagerTest extends DatabaseTestCase
      * normal case
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSiteUrlsFromIdManyUrls()
     {
@@ -662,7 +634,6 @@ class SitesManagerTest extends DatabaseTestCase
      * wrongId => exception
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSiteUrlsFromIdWrongId()
     {
@@ -680,7 +651,6 @@ class SitesManagerTest extends DatabaseTestCase
      * one url => no change to alias urls
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testUpdateSiteOneUrl()
     {
@@ -725,7 +695,6 @@ class SitesManagerTest extends DatabaseTestCase
      * strange name and NO URL => name ok, main_url not updated
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testUpdateSiteStrangeNameNoUrl()
     {
@@ -746,7 +715,6 @@ class SitesManagerTest extends DatabaseTestCase
      * also test the update of group field
      *
      * @group Plugins
-     * @group SitesManager
      */
     public function testUpdateSiteSeveralUrlsAndGroup()
     {
@@ -794,9 +762,7 @@ class SitesManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesGroups()
     {
@@ -822,7 +788,6 @@ class SitesManagerTest extends DatabaseTestCase
      *
      * @dataProvider getInvalidTimezoneData
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSitesInvalidTimezone($timezone)
     {
@@ -836,9 +801,7 @@ class SitesManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @group Plugins
-     * @group SitesManager
      */
     public function testAddSitesInvalidCurrency()
     {
@@ -853,9 +816,7 @@ class SitesManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @group Plugins
-     * @group SitesManager
      */
     public function testSetDefaultTimezoneAndCurrencyAndExcludedQueryParametersAndExcludedIps()
     {
@@ -924,9 +885,7 @@ class SitesManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesIdFromSiteUrlSuperUser()
     {
@@ -948,9 +907,7 @@ class SitesManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesIdFromSiteUrlUser()
     {
@@ -1008,9 +965,7 @@ class SitesManagerTest extends DatabaseTestCase
     }
 
     /**
-     *
      * @group Plugins
-     * @group SitesManager
      */
     public function testGetSitesFromTimezones()
     {

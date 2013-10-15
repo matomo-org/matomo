@@ -60,7 +60,6 @@ class Test_Piwik_Integration_CsvExport extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        CsvExport
      */
     public function testApi($api, $params)
     {

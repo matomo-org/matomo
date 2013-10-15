@@ -14,8 +14,6 @@ class WidgetsListTest extends DatabaseTestCase
 {
     /**
      * @group Core
-     * @group PluginsFunctions
-     * @group WidgetsList
      */
     public function testGet()
     {
@@ -62,8 +60,6 @@ class WidgetsListTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group PluginsFunctions
-     * @group WidgetsList
      */
     public function testGetWithGoals()
     {
@@ -99,8 +95,6 @@ class WidgetsListTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group PluginsFunctions
-     * @group WidgetsList
      */
     public function testGetWithGoalsAndEcommerce()
     {

@@ -18,7 +18,6 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        NoVisit
      */
     public function testApi($api, $params)
     {

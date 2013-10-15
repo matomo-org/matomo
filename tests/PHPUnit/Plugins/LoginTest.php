@@ -39,7 +39,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureNoLoginNoTokenAuth()
     {
@@ -51,7 +50,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureEmptyLoginNoTokenAuth()
     {
@@ -64,7 +62,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureNonExistentUser()
     {
@@ -77,7 +74,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureAnonymousNotExisting()
     {
@@ -91,7 +87,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureAnonymousNotExistentEmptyLogin()
     {
@@ -105,7 +100,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureAnonymousNotExistentEmptyLoginWithTokenAuth()
     {
@@ -119,7 +113,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureAnonymousNotExistentWithLoginAndTokenAuth()
     {
@@ -133,7 +126,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureAnonymousWithLogin()
     {
@@ -149,7 +141,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureAnonymousEmptyLoginWithTokenAuth()
     {
@@ -165,7 +156,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureAnonymousLoginTokenAuthMissmatch()
     {
@@ -181,7 +171,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateSuccessAnonymousWithTokenAuth()
     {
@@ -197,7 +186,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateSuccessAnonymous()
     {
@@ -225,7 +213,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureUserEmptyTokenAuth()
     {
@@ -241,7 +228,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureUserInvalidTokenAuth()
     {
@@ -257,7 +243,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureUserInvalidTokenAuth2()
     {
@@ -273,7 +258,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureUserEmptyLogin()
     {
@@ -289,7 +273,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureUserLoginTokenAuthMissmatch()
     {
@@ -305,7 +288,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureUserLoginTokenAuthMissmatch2()
     {
@@ -321,7 +303,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureUserLoginTokenAuthMissmatch3()
     {
@@ -337,7 +318,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateSuccessUserTokenAuth()
     {
@@ -353,7 +333,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateSuccessUserLoginAndTokenAuth()
     {
@@ -369,7 +348,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateSuccessLoginAndHashedTokenAuth()
     {
@@ -386,7 +364,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureSuperUserEmptyTokenAuth()
     {
@@ -404,7 +381,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureSuperUserInvalidTokenAuth()
     {
@@ -422,7 +398,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureSuperUserInvalidTokenAuth2()
     {
@@ -440,7 +415,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureSuperUserEmptyLogin()
     {
@@ -458,7 +432,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateFailureSuperUserLoginTokenAuthMissmatch()
     {
@@ -476,7 +449,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateSuccessSuperUserTokenAuth()
     {
@@ -494,7 +466,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateSuccessSuperLoginAndTokenAuth()
     {
@@ -512,7 +483,6 @@ class LoginTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group Login
      */
     public function testAuthenticateSuccessSuperUserLoginAndHashedTokenAuth()
     {
