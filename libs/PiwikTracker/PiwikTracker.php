@@ -92,7 +92,7 @@ class PiwikTracker
         $this->clientCookiePath = '/';
         $this->clientCookieDomain = ''; 
         $this->newVisitor = 1;
-        $this->cookieVisitorId;
+        $this->cookieVisitorId = '';
         $this->currentTs = time();
         $this->createTs = $this->currentTs;
         $this->visitCount = 0;
