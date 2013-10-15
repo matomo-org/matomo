@@ -260,6 +260,7 @@ abstract class ViewDataTable
 
         // TODO parent class should not know anything about children
         $visualizationIds = Visualization::getVisualizationIdsWithInheritance(get_class($this));
+
         foreach ($visualizationIds as $visualizationId) {
             if (empty($properties[$visualizationId])) {
                 continue;

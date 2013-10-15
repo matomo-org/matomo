@@ -454,7 +454,7 @@ class Visualization extends ViewDataTable
         $javascriptVariablesToSet['module'] = $this->currentControllerName;
         $javascriptVariablesToSet['action'] = $this->currentControllerAction;
         if (!isset($javascriptVariablesToSet['viewDataTable'])) {
-            $javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
+            $javascriptVariablesToSet['viewDataTable'] = static::getViewDataTableId();
         }
 
         if ($this->dataTable &&
