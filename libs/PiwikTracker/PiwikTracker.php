@@ -1160,12 +1160,6 @@ class PiwikTracker
             '&apiv=' . self::VERSION .
             '&r=' . substr(strval(mt_rand()), 2, 6) .
 
-			// Values collected from cookie
-			'&_idts=' . $this->createTs .
-			'&_idvc=' . $this->visitCount .
-			(!empty($this->lastVisitTs) ? '&_viewts=' . $this->lastVisitTs : '' ) . // note that piwik.js sends an empty value instead of skipping
-			(!empty($this->lastEcommerceOrderTs) ? '&_ects=' . $this->lastEcommerceOrderTs : '' ) .
-			
             // XDEBUG_SESSIONS_START and KEY are related to the PHP Debugger, this can be ignored in other languages
             (!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @urlencode($_GET['XDEBUG_SESSION_START']) : '') .
             (!empty($_GET['KEY']) ? '&KEY=' . @urlencode($_GET['KEY']) : '') .
@@ -1176,6 +1170,13 @@ class PiwikTracker
             (!empty($this->forcedDatetime) ? '&cdt=' . urlencode($this->forcedDatetime) : '') .
             ((!empty($this->token_auth) && !$this->doBulkRequests) ? '&token_auth=' . urlencode($this->token_auth) : '') .
 
+			// Values collected from cookie
+			'&_idts=' . $this->createTs .
+			'&_idvc=' . $this->visitCount .
+			'&_idn=' . $this->newVisitor . // currently unused
+			(!empty($this->lastVisitTs) ? '&_viewts=' . $this->lastVisitTs : '' ) . // note that piwik.js sends an empty value instead of skipping
+			(!empty($this->lastEcommerceOrderTs) ? '&_ects=' . $this->lastEcommerceOrderTs : '' ) .
+			
             // These parameters are set by the JS, but optional when using API
             (!empty($this->plugins) ? $this->plugins : '') .
             (($this->localHour !== false && $this->localMinute !== false && $this->localSecond !== false) ? '&h=' . $this->localHour . '&m=' . $this->localMinute . '&s=' . $this->localSecond : '') .
