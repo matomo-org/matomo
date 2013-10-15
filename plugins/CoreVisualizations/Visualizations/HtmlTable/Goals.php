@@ -13,14 +13,12 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Visualization\Config;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\MetricsFormatter;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
-use Piwik\ViewDataTable\Visualization;
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_goals_columns to true.
@@ -31,7 +29,7 @@ class Goals extends HtmlTable
 
     public function configureVisualization()
     {
-        $this->config->visualization_properties->show_goals_columns = true;
+        $this->config->show_goals_columns = true;
 
         $this->config->datatable_css_class = 'dataTableVizGoals';
         $this->config->show_exclude_low_population = true;
@@ -50,7 +48,7 @@ class Goals extends HtmlTable
                 array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>'));
         }
 
-        if (!$this->config->visualization_properties->disable_subtable_when_show_goals) {
+        if (!$this->config->disable_subtable_when_show_goals) {
             $this->config->subtable_controller_action = null;
         }
 

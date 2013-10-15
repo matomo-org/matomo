@@ -16,7 +16,6 @@ use Piwik\Log;
 use Piwik\View;
 use Piwik\Plugin\Visualization;
 use Piwik\Visualization\Config;
-use Piwik\Visualization\Request;
 
 /**
  * Generates a tag cloud from a given data array.
@@ -32,14 +31,6 @@ class Cloud extends Visualization
     const ID = 'cloud';
     const TEMPLATE_FILE = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
 
-    /**
-     * Whether to display the logo assocatied with a DataTable row (stored as 'logo' row metadata)
-     * instead of the label in Tag Clouds.
-     *
-     * Default value: false
-     */
-    const DISPLAY_LOGO_INSTEAD_OF_LABEL = 'display_logo_instead_of_label';
-
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
 
@@ -47,6 +38,18 @@ class Cloud extends Visualization
 
     protected $wordsArray = array();
     public $truncatingLimit = 50;
+
+    public function getDefaultConfig()
+    {
+        return new Cloud\Config();
+    }
+
+    public function configureVisualization()
+    {
+        $this->config->show_exclude_low_population = false;
+        $this->config->show_offset_information     = false;
+        $this->config->show_limit_control          = false;
+    }
 
     public function afterAllFilteresAreApplied()
     {
@@ -59,7 +62,7 @@ class Cloud extends Visualization
         $labelMetadata = array();
         foreach ($this->dataTable->getRows() as $row) {
             $logo = false;
-            if ($this->config->visualization_properties->display_logo_instead_of_label) {
+            if ($this->config->display_logo_instead_of_label) {
                 $logo = $row->getMetadata('logo');
             }
 
@@ -79,24 +82,6 @@ class Cloud extends Visualization
 
         $this->labelMetadata = $labelMetadata;
         $this->cloudValues   = $cloudValues;
-    }
-
-    public function configureVisualization()
-    {
-        $this->config->show_exclude_low_population = false;
-        $this->config->show_offset_information     = false;
-        $this->config->show_limit_control          = false;
-    }
-
-    public static function getDefaultPropertyValues()
-    {
-        return array(
-            'visualization_properties'    => array(
-                'cloud' => array(
-                    'display_logo_instead_of_label' => false,
-                )
-            )
-        );
     }
 
     /**

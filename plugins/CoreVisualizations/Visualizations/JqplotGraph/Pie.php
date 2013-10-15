@@ -11,11 +11,8 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
-use Piwik\Visualization\Config;
-use Piwik\Visualization\Request;
 
 /**
  * Visualization that renders HTML for a Pie graph using jqPlot.
@@ -28,7 +25,7 @@ class Pie extends JqplotGraph
     {
         parent::configureVisualization();
 
-        $this->config->visualization_properties->show_all_ticks = true;
+        $this->config->show_all_ticks = true;
         $this->config->datatable_js_type = 'JqplotPieGraphDataTable';
     }
 
@@ -45,12 +42,13 @@ class Pie extends JqplotGraph
         $this->config->columns_to_display = array($metricColumn ? : 'nb_visits');
     }
 
-    public static function getDefaultPropertyValues()
+    public function getDefaultConfig()
     {
-        $result = parent::getDefaultPropertyValues();
-        $result['visualization_properties']['graph']['max_graph_elements'] = 6;
-        $result['visualization_properties']['graph']['allow_multi_select_series_picker'] = false;
-        return $result;
+        $config = new Config();
+        $config->max_graph_elements = 6;
+        $config->allow_multi_select_series_picker = false;
+
+        return $config;
     }
 
     protected function makeDataGenerator($properties)

@@ -22,7 +22,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
-use Piwik\ViewDataTable\VisualizationPropertiesProxy;
 use Piwik\Visualization\Config as VizConfig;
 use Piwik\Visualization\Request as VizRequest;
 
@@ -111,12 +110,10 @@ abstract class ViewDataTable
     {
         list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
 
-        $this->requestConfig = new VizRequest();
-        $this->config        = new VizConfig($currentControllerName, $currentControllerAction);
+        $this->requestConfig = $this->getDefaultRequestConfig();
+        $this->config        = $this->getDefaultConfig();
         $this->config->subtable_controller_action = $currentControllerAction;
-
-        // TODO remove me
-        $this->config->visualization_properties = new VisualizationPropertiesProxy(get_class($this));
+        $this->config->setController($currentControllerName, $currentControllerAction);
 
         $this->request = new \Piwik\ViewDataTable\Request($this->requestConfig);
 
@@ -503,9 +500,14 @@ abstract class ViewDataTable
         return $result;
     }
 
-    public static function getDefaultPropertyValues()
+    public function getDefaultConfig()
     {
-        return array();
+        return new VizConfig();
+    }
+
+    public function getDefaultRequestConfig()
+    {
+        return new VizRequest();
     }
 
     protected function convertForJson($value)

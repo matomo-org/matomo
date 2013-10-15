@@ -222,13 +222,13 @@ abstract class Controller
 
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
-        $view->columns_to_display = $columnsToDisplay;
-        $view->visualization_properties->selectable_columns =
-            array_merge($view->visualization_properties->selectable_columns ? : array(), $selectableColumns);
-        $view->translations += $translations;
+        $view->config->columns_to_display = $columnsToDisplay;
+        $view->config->selectable_columns =
+            array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
+        $view->config->translations += $translations;
 
         if ($reportDocumentation) {
-            $view->documentation = $reportDocumentation;
+            $view->config->documentation = $reportDocumentation;
         }
 
         return $view;

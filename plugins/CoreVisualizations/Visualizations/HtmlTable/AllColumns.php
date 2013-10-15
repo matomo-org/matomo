@@ -11,9 +11,7 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Visualization\Config;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\MetricsFormatter;
@@ -21,8 +19,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
-use Piwik\ViewDataTable\Visualization;
-use Piwik\Visualization\Request;
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_extra_columns to true.
@@ -33,7 +29,7 @@ class AllColumns extends HtmlTable
 
     public function configureVisualization()
     {
-        $this->config->visualization_properties->show_extra_columns = true;
+        $this->config->show_extra_columns = true;
 
         $this->config->show_exclude_low_population = true;
         $this->config->datatable_css_class = 'dataTableVizAllColumns';

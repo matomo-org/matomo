@@ -255,7 +255,7 @@ class Controller extends \Piwik\Plugin\Controller
             $idGoal = Common::getRequestVar('idGoal', false, 'string');
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
-        $view->request_parameters_to_modify['idGoal'] = $idGoal;
+        $view->requestConfig->request_parameters_to_modify['idGoal'] = $idGoal;
 
         $nameToLabel = $this->goalColumnNameToLabel;
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
@@ -287,13 +287,13 @@ class Controller extends \Piwik\Plugin\Controller
                 $goalName = $this->goals[$idGoal]['name'];
                 $columnTranslation = "$columnTranslation (" . Piwik::translate('Goals_GoalX', "$goalName") . ")";
             }
-            $view->translations[$columnName] = $columnTranslation;
+            $view->config->translations[$columnName] = $columnTranslation;
         }
-        $view->columns_to_display = $columns;
-        $view->visualization_properties->selectable_columns = $selectableColumns;
+        $view->config->columns_to_display = $columns;
+        $view->config->selectable_columns = $selectableColumns;
 
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
-        $view->documentation = Piwik::translate($langString, '<br />');
+        $view->config->documentation = Piwik::translate($langString, '<br />');
 
         return $this->renderView($view, $fetch);
     }

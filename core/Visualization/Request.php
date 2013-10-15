@@ -137,17 +137,6 @@ class Request
 
     public function getProperties()
     {
-        return array(
-            'filter_excludelowpop_value' => $this->filter_excludelowpop_value,
-            'filter_excludelowpop' => $this->filter_excludelowpop,
-            'filter_column' => $this->filter_column,
-            'filter_pattern' => $this->filter_pattern,
-            'filter_offset' => $this->filter_offset,
-            'filter_limit' => $this->filter_limit,
-            'filter_sort_order' => $this->filter_sort_order,
-            'filter_sort_column' => $this->filter_sort_column,
-            'request_parameters_to_modify' => $this->request_parameters_to_modify,
-            'apiMethodToRequestDataTable' => $this->apiMethodToRequestDataTable
-        );
+        return get_object_vars($this);
     }
 }

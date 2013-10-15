@@ -194,21 +194,21 @@ class RowEvolution
         $view->setDataTable($this->dataTable);
 
         if (!empty($this->graphMetrics)) { // In row Evolution popover, this is empty
-            $view->columns_to_display = array_keys($metrics ? : $this->graphMetrics);
+            $view->config->columns_to_display = array_keys($metrics ? : $this->graphMetrics);
         }
 
-        $view->show_goals = false;
-        $view->show_all_views_icons = false;
-        $view->show_active_view_icon = false;
-        $view->show_related_reports = false;
-        $view->visualization_properties->show_series_picker = false;
+        $view->config->show_goals = false;
+        $view->config->show_all_views_icons = false;
+        $view->config->show_active_view_icon = false;
+        $view->config->show_related_reports = false;
+        $view->config->show_series_picker = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
-            $view->translations[$metric] = $metadata['name'];
+            $view->config->translations[$metric] = $metadata['name'];
         }
 
-        $view->visualization_properties->external_series_toggle = 'RowEvolutionSeriesToggle';
-        $view->visualization_properties->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
+        $view->config->external_series_toggle = 'RowEvolutionSeriesToggle';
+        $view->config->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
 
         return $view;
     }

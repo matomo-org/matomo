@@ -30,8 +30,8 @@ class Chart
 
     public function setAxisXLabels($xLabels)
     {
-        $xSteps = $this->properties['visualization_properties']->x_axis_step_size;
-        $showAllTicks = $this->properties['visualization_properties']->show_all_ticks;
+        $xSteps = $this->properties['x_axis_step_size'];
+        $showAllTicks = $this->properties['show_all_ticks'];
 
         $this->axes['xaxis']['labels'] = array_values($xLabels);
 

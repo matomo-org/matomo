@@ -13,14 +13,11 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Period\Range;
 use Piwik\Plugin\Controller;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Site;
-use Piwik\Visualization\Config;
-use Piwik\Visualization\Request;
 
 /**
  * Visualization that renders HTML for a line graph using jqPlot.
@@ -29,13 +26,6 @@ class Evolution extends JqplotGraph
 {
     const ID = 'graphEvolution';
     const SERIES_COLOR_COUNT = 8;
-
-    /**
-     * Whether to show a line graph or a bar graph.
-     *
-     * Default value: true
-     */
-    const SHOW_LINE_GRAPH = 'show_line_graph';
 
     public static $clientSideConfigProperties = array('show_line_graph');
 
@@ -66,23 +56,16 @@ class Evolution extends JqplotGraph
     {
         parent::afterAllFilteresAreApplied();
 
-        if ($this->config->visualization_properties->x_axis_step_size === false) {
+        if ($this->config->x_axis_step_size === false) {
 
             $size = $this->getDefaultXAxisStepSize($this->dataTable->getRowsCount());
-            $this->config->visualization_properties->x_axis_step_size = $size;
+            $this->config->x_axis_step_size = $size;
         }
     }
 
-    public static function getDefaultPropertyValues()
+    public  function getDefaultConfig()
     {
-        $result = parent::getDefaultPropertyValues();
-        $result['show_all_views_icons'] = false;
-        $result['show_table'] = false;
-        $result['show_table_all_columns'] = false;
-        $result['hide_annotations_view'] = false;
-        $result['visualization_properties']['jqplot_graph']['x_axis_step_size'] = false;
-        $result['visualization_properties']['graphEvolution']['show_line_graph'] = true;
-        return $result;
+        return new Evolution\Config();
     }
 
     protected function makeDataGenerator($properties)

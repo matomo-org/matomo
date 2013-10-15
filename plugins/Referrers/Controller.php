@@ -265,7 +265,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referrers.getReferrerType');
 
-        $view->visualization_properties->add_total_row = true;
+        $view->config->add_total_row = true;
 
         // configure displayed columns
         if (empty($columns)) {
@@ -273,7 +273,7 @@ class Controller extends \Piwik\Plugin\Controller
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
         $columns = !is_array($columns) ? array($columns) : $columns;
-        $view->columns_to_display = $columns;
+        $view->config->columns_to_display = $columns;
 
         // configure selectable columns
         if (Common::getRequestVar('period', false) == 'day') {
@@ -281,7 +281,7 @@ class Controller extends \Piwik\Plugin\Controller
         } else {
             $selectable = array('nb_visits', 'nb_actions');
         }
-        $view->visualization_properties->selectable_columns = $selectable;
+        $view->config->selectable_columns = $selectable;
 
         // configure displayed rows
         $visibleRows = Common::getRequestVar('rows', false);
@@ -290,7 +290,7 @@ class Controller extends \Piwik\Plugin\Controller
             $visibleRows = Piwik::getArrayFromApiParameter($visibleRows);
 
             // typeReferrer is redundant if rows are defined, so make sure it's not used
-            $view->custom_parameters['typeReferrer'] = false;
+            $view->config->custom_parameters['typeReferrer'] = false;
         } else {
             // use $typeReferrer as default
             if ($typeReferrer === false) {
@@ -299,12 +299,12 @@ class Controller extends \Piwik\Plugin\Controller
             $label = self::getTranslatedReferrerTypeLabel($typeReferrer);
             $total = Piwik::translate('General_Total');
             $visibleRows = array($label, $total);
-            $view->request_parameters_to_modify['rows'] = $label . ',' . $total;
+            $view->requestConfig->request_parameters_to_modify['rows'] = $label . ',' . $total;
         }
-        $view->visualization_properties->row_picker_match_rows_by = 'label';
-        $view->visualization_properties->rows_to_display = $visibleRows;
+        $view->config->row_picker_match_rows_by = 'label';
+        $view->config->rows_to_display = $visibleRows;
 
-        $view->documentation = Piwik::translate('Referrers_EvolutionDocumentation') . '<br />'
+        $view->config->documentation = Piwik::translate('Referrers_EvolutionDocumentation') . '<br />'
             . Piwik::translate('General_BrokenDownReportDocumentation') . '<br />'
             . Piwik::translate('Referrers_EvolutionDocumentationMoreInfo', '&quot;'
                 . Piwik::translate('Referrers_DetailsByReferrerType') . '&quot;');

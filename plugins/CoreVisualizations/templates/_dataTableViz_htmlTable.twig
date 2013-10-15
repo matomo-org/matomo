@@ -1,6 +1,6 @@
-{%- set subtablesAreDisabled = properties.visualization_properties.show_goals_columns|default(false)
-                           and properties.visualization_properties.disable_subtable_when_show_goals|default(false) -%}
-{%- set showingEmbeddedSubtable = properties.visualization_properties.show_embedded_subtable is not empty
+{%- set subtablesAreDisabled = properties.show_goals_columns|default(false)
+                           and properties.disable_subtable_when_show_goals|default(false) -%}
+{%- set showingEmbeddedSubtable = properties.show_embedded_subtable is not empty
                               and idSubtable|default(false) -%}
 {% if error is defined %}
     {{ error.message }}
@@ -18,13 +18,13 @@
         {% else %}
             {%- for rowId, row in dataTable.getRows() -%}
                 {%- set rowHasSubtable = not subtablesAreDisabled and row.getIdSubDataTable() and properties.subtable_controller_action is not null -%}
-                {%- set shouldHighlightRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') and properties.visualization_properties.highlight_summary_row -%}
+                {%- set shouldHighlightRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') and properties.highlight_summary_row -%}
 
                 {# display this row if it doesn't have a subtable or if we don't replace the row with the subtable #}
                 {%- set showRow = subtablesAreDisabled
                                or not rowHasSubtable
-                               or not properties.visualization_properties.show_expanded|default(false)
-                               or not properties.visualization_properties.replace_row_with_subtable|default(false) -%}
+                               or not properties.show_expanded|default(false)
+                               or not properties.replace_row_with_subtable|default(false) -%}
 
                 {% if showRow %}
                 <tr {% if rowHasSubtable %}id="{{ row.getIdSubDataTable() }}"{% endif %}
@@ -38,7 +38,7 @@
                 {% endif %}
 
                 {# display subtable if present and showing expanded datatable #}
-                {% if properties.visualization_properties.show_expanded|default(false) and rowHasSubtable %}
+                {% if properties.show_expanded|default(false) and rowHasSubtable %}
                     {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {'dataTable': row.getSubtable(), 'idSubtable': row.getIdSubDataTable()} %}
                 {% endif %}
             {%- endfor -%}

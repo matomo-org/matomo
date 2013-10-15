@@ -20,24 +20,16 @@ class CustomDataTable
     {
         $view = ViewDataTable::factory('table', $apiAction, $controllerAction);
 
-        $view->translations['value'] = $value;
-        $view->translations['label'] = $label;
-        $view->filter_sort_column = 'label';
-        $view->filter_sort_order = 'asc';
-        $view->filter_limit = 24;
-        $view->y_axis_unit = '°C'; // useful if the user requests the bar graph
-        $view->show_exclude_low_population = false;
-        $view->show_table_all_columns = false;
-        $view->visualization_properties->setForVisualization(
-            'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable',
-            'disable_row_evolution',
-            true
-        );
-        $view->visualization_properties->setForVisualization(
-            'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph',
-            'max_graph_elements',
-            24
-        );
+        $view->config->translations['value'] = $value;
+        $view->config->translations['label'] = $label;
+        $view->requestConfig->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_order = 'asc';
+        $view->requestConfig->filter_limit = 24;
+        $view->config->y_axis_unit = '°C'; // useful if the user requests the bar graph
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_table_all_columns = false;
+        $view->config->disable_row_evolution = true;
+        $view->config->max_graph_elements = 24;
 
         return $view->render();
     }

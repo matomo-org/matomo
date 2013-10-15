@@ -362,13 +362,6 @@ class Config
     public $self_url = '';
 
     /**
-     * Special property that holds the properties for DataTable Visualizations.
-     *
-     * @var \Piwik\ViewDataTable\VisualizationPropertiesProxy
-     */
-    public $visualization_properties = array();
-
-    /**
      * CSS class to use in the output HTML div. This is added in addition to the visualization CSS
      * class.
      *
@@ -478,14 +471,17 @@ class Config
     public $controllerName;
     public $controllerAction;
 
-    public function __construct($controllerName, $controllerAction)
+    public function __construct()
     {
         $this->export_limit = \Piwik\Config::getInstance()->General['API_datatable_default_limit'];
         $this->translations = array_merge(
             Metrics::getDefaultMetrics(),
             Metrics::getDefaultProcessedMetrics()
         );
+    }
 
+    public function setController($controllerName, $controllerAction)
+    {
         $this->controllerName   = $controllerName;
         $this->controllerAction = $controllerAction;
         $this->report_id        = $controllerName . '.' . $controllerAction;
@@ -512,55 +508,6 @@ class Config
 
     public function getProperties()
     {
-        return array(
-            'show_non_core_visualizations' => $this->show_non_core_visualizations,
-            'export_limit' => $this->export_limit,
-            'hide_annotations_view' => $this->hide_annotations_view,
-            'show_offset_information' => $this->show_offset_information,
-            'show_pagination_control' => $this->show_pagination_control,
-            'subtable_controller_action' => $this->subtable_controller_action,
-            'filters' => $this->filters,
-            'show_export_as_image_icon' => $this->show_export_as_image_icon,
-            'y_axis_unit' => $this->y_axis_unit,
-            'search_recursive' => $this->search_recursive,
-            'datatable_js_type' => $this->datatable_js_type,
-            'datatable_css_class' => $this->datatable_css_class,
-            'visualization_properties' => $this->visualization_properties,
-            'self_url' => $this->self_url,
-            'tooltip_metadata_name' => $this->tooltip_metadata_name,
-            'metrics_documentation' => $this->metrics_documentation,
-            'show_footer_message' => $this->show_footer_message,
-            'show_ecommerce' => $this->show_ecommerce,
-            'show_export_as_rss_feed' => $this->show_export_as_rss_feed,
-            'show_tag_cloud' => $this->show_tag_cloud,
-            'show_pie_chart' => $this->show_pie_chart,
-            'show_bar_chart' => $this->show_bar_chart,
-            'enable_sort' => $this->enable_sort,
-            'show_search' => $this->show_search,
-            'show_limit_control' => $this->show_limit_control,
-            'disable_queued_filters' => $this->disable_queued_filters,
-            'disable_generic_filters' => $this->disable_generic_filters,
-            'custom_parameters' => $this->custom_parameters,
-            'documentation' => $this->documentation,
-            'show_related_reports' => $this->show_related_reports,
-            'title' => $this->title,
-            'related_reports' => $this->related_reports,
-            'show_active_view_icon' => $this->show_active_view_icon,
-            'show_all_views_icons' => $this->show_all_views_icons,
-            'columns_to_display' => $this->columns_to_display,
-            'show_footer_icons' => $this->show_footer_icons,
-            'show_footer' => $this->show_footer,
-            'show_table_all_columns' => $this->show_table_all_columns,
-            'show_table' => $this->show_table,
-            'show_flatten_table' => $this->show_flatten_table,
-            'show_exclude_low_population' => $this->show_exclude_low_population,
-            'translations' => $this->translations,
-            'show_goals' => $this->show_goals,
-            'show_visualization_only' => $this->show_visualization_only,
-            'footer_icons' => $this->footer_icons,
-            'default_view_type' => $this->default_view_type,
-            'metadata' => $this->metadata,
-            'report_id' => $this->report_id
-        );
+        return get_object_vars($this);
     }
 }
