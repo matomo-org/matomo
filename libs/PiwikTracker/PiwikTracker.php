@@ -91,12 +91,13 @@ class PiwikTracker
         $this->updateClientCookies = false;
 		$this->clientCookiePath = '/';
         $this->clientCookieDomain = ''; 
+		$this->newVisitor = 1;
         $this->cookieVisitorId;
         $this->currentTs = time();
         $this->createTs = $this->currentTs;
         $this->visitCount = 1;
-        $this->currentVisitTs = $this->currentTs;
-        $this->lastVisitTs = $this->currentTs;
+        $this->currentVisitTs = '';
+        $this->lastVisitTs = '';
         $this->lastEcommerceOrderTs = '';
         $this->idSite = $idSite;
         $this->urlReferrer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
@@ -842,6 +843,7 @@ class PiwikTracker
         if ($idCookie !== false) {
             $parts = explode('.',$idCookie);
             if (strlen($parts[0]) == self::LENGTH_VISITOR_ID) {
+				$this->newVisitor = 0;
                 $this->cookieVisitorId = $parts[0]; // provides backward compatibility since getVisitorId() didn't change any existing VisitorId value
                 $this->createTs = $parts[1];
                 $this->visitCount = $parts[2];
@@ -1137,8 +1139,9 @@ class PiwikTracker
     {
         // Update client cookies in getRequest to parallel piwik.js logic
         if ($this->updateClientCookies) {
-            // Initialize cookie data if it's still defaulted to false
-            if (!$this->lastVisitTs) {
+            // If we're setting cookies, we want to make sure we've loaded prevoius cookies
+			// Initialize cookie data if it's still defaulted to false
+            if (empty($this->lastVisitTs)) {
                 $this->loadVisitorIdCookie();
             }
             $sesname = $this->getCookieName('ses');
@@ -1157,8 +1160,12 @@ class PiwikTracker
             '&apiv=' . self::VERSION .
             '&r=' . substr(strval(mt_rand()), 2, 6) .
 
-            (!empty($this->ip) ? '&_viewts=' . $this-> : '') .
-
+			// Values collected from cookie
+			'&_idts=' . $this->createTs .
+			'&_idvc=' . $this->visitCount .
+			(!empty($this->lastVisitTs) ? '&_viewts=' . $this->lastVisitTs : '' ) . // note that piwik.js sends an empty value instead of skipping
+			(!empty($this->lastEcommerceOrderTs) ? '&_ects=' . $this->lastEcommerceOrderTs : '' ) .
+			
             // XDEBUG_SESSIONS_START and KEY are related to the PHP Debugger, this can be ignored in other languages
             (!empty($_GET['XDEBUG_SESSION_START']) ? '&XDEBUG_SESSION_START=' . @urlencode($_GET['XDEBUG_SESSION_START']) : '') .
             (!empty($_GET['KEY']) ? '&KEY=' . @urlencode($_GET['KEY']) : '') .
