@@ -20,6 +20,8 @@ use Piwik\Plugin\Visualization;
  * This class defines certain visualization properties that are specific to all graph types.
  * Derived visualizations can decide for themselves whether they should support individual
  * properties.
+ *
+ * @property Graph\Config $config
  */
 abstract class Graph extends Visualization
 {

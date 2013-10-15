@@ -23,6 +23,8 @@ use Piwik\Visualization\Config;
  *
  * Inspired from Derek Harvey (www.derekharvey.co.uk)
  *
+ * @property Cloud\Config $config
+ *
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
@@ -33,9 +35,9 @@ class Cloud extends Visualization
 
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
+    public $truncatingLimit = 50;
 
     protected $wordsArray = array();
-    public $truncatingLimit = 50;
 
     public function getDefaultConfig()
     {

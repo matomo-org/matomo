@@ -21,6 +21,8 @@ use Piwik\Site;
 
 /**
  * Visualization that renders HTML for a line graph using jqPlot.
+ *
+ * @property Evolution\Config $config
  */
 class Evolution extends JqplotGraph
 {

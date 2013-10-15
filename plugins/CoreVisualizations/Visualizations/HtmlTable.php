@@ -25,6 +25,8 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Ht
 
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
+ *
+ * @property HtmlTable\Config $config
  */
 class HtmlTable extends Visualization
 {

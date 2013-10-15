@@ -21,6 +21,8 @@ use Piwik\Visualization\Request;
 /**
  * DataTable visualization that displays DataTable data in a JQPlot graph.
  * TODO: should merge all this logic w/ jqplotdatagenerator & 'Chart' visualizations.
+ *
+ * @property JqplotGraph\Config $config
  */
 class JqplotGraph extends Graph
 {
