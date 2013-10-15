@@ -43,7 +43,7 @@ class Request
         'filter_pattern',
         'filter_column',
         'filter_excludelowpop',
-        'filter_excludelowpop_value',
+        'filter_excludelowpop_value'
     );
 
     /**

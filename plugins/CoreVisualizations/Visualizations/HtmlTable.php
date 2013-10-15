@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
-use Piwik\Config as PiwikConfig;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
@@ -40,23 +39,7 @@ class HtmlTable extends Visualization
 
     public function getDefaultRequestConfig()
     {
-        $config = new \Piwik\Visualization\Request();
-        $config->filter_limit = PiwikConfig::getInstance()->General['datatable_default_limit'];
-
-        if (Common::getRequestVar('enable_filter_excludelowpop', false) == '1') {
-            $config->filter_excludelowpop       = 'nb_visits';
-            $config->filter_excludelowpop_value = null;
-        }
-
-        $config->addPropertiesThatShouldBeAvailableClientSide(array(
-            'search_recursive',
-            'filter_limit',
-            'filter_offset',
-            'filter_sort_column',
-            'filter_sort_order',
-        ));
-
-        return $config;
+        return new HtmlTable\RequestConfig();
     }
 
     public function configureVisualization()

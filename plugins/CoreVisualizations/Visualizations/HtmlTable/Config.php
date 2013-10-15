@@ -45,16 +45,12 @@ class Config extends VisualizationConfig
     /**
      * Controls whether any DataTable Row Action icons are shown. If true, no icons are shown.
      *
-     * @see also self::DISABLE_ROW_EVOLUTION
-     *
      * Default value: false
      */
     public $disable_row_actions = false;
 
     /**
      * Controls whether the row evolution DataTable Row Action icon is shown or not.
-     *
-     * @see also self::DISABLE_ROW_ACTIONS
      *
      * Default value: false
      */
@@ -81,25 +77,12 @@ class Config extends VisualizationConfig
      * If true, subtables will not be loaded when rows are clicked, but only if the
      * 'show_goals_columns' property is also true.
      *
-     * @see also self::SHOW_GOALS_COLUMNS
-     *
      * Default value: false
      */
     public $disable_subtable_when_show_goals = false;
 
     /**
-     * Controls whether the summary row is displayed on every page of the datatable view or not.
-     * If false, the summary row will be treated as the last row of the dataset and will only visible
-     * when viewing the last rows.
-     *
-     * Default value: false
-     */
-    public $keep_summary_row = false;
-
-    /**
      * If true, the summary row will be colored differently than all other DataTable rows.
-     *
-     * @see also self::KEEP_SUMMARY_ROW
      *
      * Default value: false
      */
