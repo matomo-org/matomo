@@ -56,7 +56,7 @@ abstract class Graph extends Visualization
      */
     public function afterAllFilteresAreApplied()
     {
-        $this->selectable_rows = array_values($this->selectableRows);
+        $this->config->selectable_rows = array_values($this->selectableRows);
 
         $selectableColumns = $this->config->selectable_columns;
 

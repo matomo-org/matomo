@@ -40,6 +40,8 @@ class Visualization extends ViewDataTable
     const TEMPLATE_FILE = '';
     const CONFIGURE_VIEW_EVENT = 'Visualization.initView';
 
+    private $templateVars = array();
+
     final public function __construct($currentControllerAction, $apiMethodToRequestDataTable, $defaultReportProperties)
     {
         $templateFile = static::TEMPLATE_FILE;
@@ -96,6 +98,7 @@ class Visualization extends ViewDataTable
             $view->error = $loadingError;
         }
 
+        $view->assign($this->templateVars);
         $view->visualization = $this;
         $view->visualizationTemplate = static::TEMPLATE_FILE;
 
@@ -123,6 +126,17 @@ class Visualization extends ViewDataTable
         $view->isWidget = Common::getRequestVar('widget', 0, 'int');
 
         return $view;
+    }
+
+    public function assignTemplateVar($vars, $value = null)
+    {
+        if (is_string($vars)) {
+            $this->templateVars[$vars] = $value;
+        } elseif (is_array($vars)) {
+            foreach ($vars as $key => $value) {
+                $this->templateVars[$key] = $value;
+            }
+        }
     }
 
     protected function isThereDataToDisplay()

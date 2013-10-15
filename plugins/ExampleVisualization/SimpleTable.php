@@ -31,7 +31,7 @@ class SimpleTable extends Visualization
      */
     public function init()
     {
-        $this->vizTitle = 'MyAwesomeTitle';
+        $this->assignTemplateVar('vizTitle', 'MyAwesomeTitle');
     }
 
     public function configureVisualization()

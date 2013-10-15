@@ -21,7 +21,6 @@ use Piwik\Piwik;
 
 class Request
 {
-
     /**
      * @var null|\Piwik\Visualization\Request
      */
@@ -145,6 +144,8 @@ class Request
      */
     public static function shouldLoadExpanded()
     {
+        // TODO this is not the right class for this
+
         // if filter_column_recursive & filter_pattern_recursive are supplied, and flat isn't supplied
         // we have to load all the child subtables.
         return Common::getRequestVar('filter_column_recursive', false) !== false

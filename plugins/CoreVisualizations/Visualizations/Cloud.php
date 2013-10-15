@@ -58,8 +58,8 @@ class Cloud extends Visualization
         }
 
         $columnToDisplay = isset($this->config->columns_to_display[1]) ? $this->config->columns_to_display[1] : 'nb_visits';
+        $labelMetadata   = array();
 
-        $labelMetadata = array();
         foreach ($this->dataTable->getRows() as $row) {
             $logo = false;
             if ($this->config->display_logo_instead_of_label) {
@@ -75,13 +75,14 @@ class Cloud extends Visualization
 
             $this->addWord($label, $row->getColumn($columnToDisplay));
         }
+
         $cloudValues = $this->getCloudValues();
         foreach ($cloudValues as &$value) {
             $value['logoWidth'] = round(max(16, $value['percent']));
         }
 
-        $this->labelMetadata = $labelMetadata;
-        $this->cloudValues   = $cloudValues;
+        $this->assignTemplateVar('labelMetadata', $labelMetadata);
+        $this->assignTemplateVar('cloudValues', $cloudValues);
     }
 
     /**
