@@ -9,7 +9,7 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization;
+namespace Piwik\ViewDataTable;
 
 use Piwik\Common;
 use Piwik\Piwik;

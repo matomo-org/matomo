@@ -12,7 +12,7 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 use Piwik\Common;
-use Piwik\Visualization\RequestConfig as VisualizationRequestConfig;
+use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
 use Piwik\Config as PiwikConfig;
 
 /**

@@ -9,7 +9,7 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization;
+namespace Piwik\ViewDataTable;
 
 /**
  * Renders a sparkline image given a PHP data array.
