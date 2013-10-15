@@ -12,8 +12,6 @@ var Piwik_Overlay = (function () {
 
     var idSite, period, date;
 
-    var errorTimeout = false;
-
     var iframeSrcBase;
     var iframeDomain = '';
     var iframeCurrentPage = '';
@@ -75,6 +73,10 @@ var Piwik_Overlay = (function () {
                 }
             }
         );
+        ajaxRequest.setErrorCallback(function () {
+            hideLoading();
+            $errorNotLoading.show();
+        });
         ajaxRequest.setFormat('html');
         ajaxRequest.send(false);
     }
@@ -97,23 +99,10 @@ var Piwik_Overlay = (function () {
         $transitionsLink.hide();
 
         $errorNotLoading.hide();
-
-        // Start a timeout that shows an error when nothing is loaded
-        if (errorTimeout) {
-            window.clearTimeout(errorTimeout);
-        }
-        errorTimeout = window.setTimeout(function () {
-            hideLoading();
-            $errorNotLoading.show();
-        }, 9000);
     }
 
     /** Hide the loading message */
     function hideLoading() {
-        if (errorTimeout) {
-            window.clearTimeout(errorTimeout);
-            errorTimeout = false;
-        }
         $loading.hide();
         $fullScreenLink.show();
     }
