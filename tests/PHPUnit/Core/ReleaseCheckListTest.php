@@ -33,7 +33,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->_checkEqual(array('Tracker' => 'trust_visitors_cookies'), '0');
         // logging messages are disabled
         $this->_checkEqual(array('log' => 'log_level'), 'WARN');
-        $this->_checkEqual(array('log' => 'log_writers'), array('file'));
+        $this->_checkEqual(array('log' => 'log_writers'), array('screen'));
         $this->_checkEqual(array('log' => 'logger_api_call'), null);
     }
 
