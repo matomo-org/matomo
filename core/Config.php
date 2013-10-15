@@ -41,7 +41,7 @@ use Exception;
  *
  * @package Piwik
  * @subpackage Piwik_Config
- * @method \Piwik\Config getInstance()
+ * @static \Piwik\Config getInstance()
  *
  */
 class Config extends Singleton
