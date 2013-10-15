@@ -21,6 +21,15 @@ class Pie extends JqplotGraph
 {
     const ID = 'graphPie';
 
+    public function getDefaultConfig()
+    {
+        $config = new Config();
+        $config->max_graph_elements = 6;
+        $config->allow_multi_select_series_picker = false;
+
+        return $config;
+    }
+
     public function configureVisualization()
     {
         parent::configureVisualization();
@@ -40,15 +49,6 @@ class Pie extends JqplotGraph
         }
 
         $this->config->columns_to_display = array($metricColumn ? : 'nb_visits');
-    }
-
-    public function getDefaultConfig()
-    {
-        $config = new Config();
-        $config->max_graph_elements = 6;
-        $config->allow_multi_select_series_picker = false;
-
-        return $config;
     }
 
     protected function makeDataGenerator($properties)

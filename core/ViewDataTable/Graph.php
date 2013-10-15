@@ -50,45 +50,6 @@ abstract class Graph extends Visualization
         }
     }
 
-    /**
-     * Defaults the selectable_columns property if it has not been set and then transforms
-     * it into something the SeriesPicker JavaScript class can use.
-     */
-    public function afterAllFilteresAreApplied()
-    {
-        $this->config->selectable_rows = array_values($this->selectableRows);
-
-        $selectableColumns = $this->config->selectable_columns;
-
-        // set default selectable columns, if none specified
-        if ($selectableColumns === false) {
-            $selectableColumns = array('nb_visits', 'nb_actions');
-
-            if (in_array('nb_uniq_visitors', $this->dataTable->getColumns())) {
-                $selectableColumns[] = 'nb_uniq_visitors';
-            }
-        }
-
-        if ($this->config->show_goals) {
-            $goalMetrics = array('nb_conversions', 'revenue');
-            $selectableColumns = array_merge($selectableColumns, $goalMetrics);
-        }
-
-        $transformed = array();
-        foreach ($selectableColumns as $column) {
-            $transformed[] = array(
-                'column'      => $column,
-                'translation' => @$this->config->translations[$column],
-                'displayed'   => in_array($column, $this->config->columns_to_display)
-            );
-        }
-        $this->config->selectable_columns = $transformed;
-    }
-
-    /**
-     * Determines what rows are selectable and stores them in the selectable_rows property in
-     * a format the SeriesPicker JavaScript class can use.
-     */
     public function beforeLoadDataTable()
     {
         // TODO: this should not be required here. filter_limit should not be a view property, instead HtmlTable should use 'limit' or something,
@@ -137,5 +98,40 @@ abstract class Graph extends Visualization
                 }
             }
         });
+    }
+
+    /**
+     * Defaults the selectable_columns property if it has not been set and then transforms
+     * it into something the SeriesPicker JavaScript class can use.
+     */
+    public function afterAllFilteresAreApplied()
+    {
+        $this->config->selectable_rows = array_values($this->selectableRows);
+
+        $selectableColumns = $this->config->selectable_columns;
+
+        // set default selectable columns, if none specified
+        if ($selectableColumns === false) {
+            $selectableColumns = array('nb_visits', 'nb_actions');
+
+            if (in_array('nb_uniq_visitors', $this->dataTable->getColumns())) {
+                $selectableColumns[] = 'nb_uniq_visitors';
+            }
+        }
+
+        if ($this->config->show_goals) {
+            $goalMetrics = array('nb_conversions', 'revenue');
+            $selectableColumns = array_merge($selectableColumns, $goalMetrics);
+        }
+
+        $transformed = array();
+        foreach ($selectableColumns as $column) {
+            $transformed[] = array(
+                'column'      => $column,
+                'translation' => @$this->config->translations[$column],
+                'displayed'   => in_array($column, $this->config->columns_to_display)
+            );
+        }
+        $this->config->selectable_columns = $transformed;
     }
 }
