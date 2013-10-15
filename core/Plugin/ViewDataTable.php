@@ -23,6 +23,7 @@ use Piwik\Plugins\API\API;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
 use Piwik\View;
+use Piwik\View\ViewInterface;
 use Piwik\Visualization\Config as VizConfig;
 use Piwik\Visualization\Request as VizRequest;
 
@@ -59,7 +60,7 @@ use Piwik\Visualization\Request as VizRequest;
  *
  * @api
  */
-abstract class ViewDataTable
+abstract class ViewDataTable implements ViewInterface
 {
     const CONFIGURE_FOOTER_ICONS_EVENT = 'Visualization.configureFooterIcons';
 
