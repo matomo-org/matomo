@@ -12,10 +12,7 @@
 namespace Piwik\Plugins\ExampleVisualization;
 
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Plugin\Visualization;
-use Piwik\Visualization\Config;
-use Piwik\Visualization\Request;
 
 /**
  * SimpleTable Visualization.
