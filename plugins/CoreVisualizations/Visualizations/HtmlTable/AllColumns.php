@@ -61,10 +61,12 @@ class AllColumns extends HtmlTable
 
             $properties->columns_to_display = $columnsToDisplay;
         });
+    }
 
+    public function afterGenericFiltersAreAppliedToLoadedDataTable()
+    {
         $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
 
         $this->dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
     }
-
 }
