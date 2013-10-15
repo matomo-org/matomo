@@ -266,7 +266,13 @@ abstract class ViewDataTable
             }
 
             foreach ($properties[$visualizationId] as $key => $value) {
-                $this->$key = $value;
+                if (property_exists($this->requestConfig, $key)) {
+                    $this->requestConfig->$key = $value;
+                } elseif (property_exists($this->config, $key)) {
+                    $this->config->$key = $value;
+                } else {
+                    $this->$key = $value;
+                }
             }
         }
     }
