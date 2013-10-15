@@ -25,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 /**
  * Plugin manager
  *
- * @method \Piwik\Plugin\Manager getInstance()
+ * @static \Piwik\Plugin\Manager getInstance()
  * @package Piwik
  * @subpackage Manager
  */
