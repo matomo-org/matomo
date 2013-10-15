@@ -558,7 +558,7 @@ abstract class ViewDataTable
         // handle special 'columns' query parameter
         $columns = Common::getRequestVar('columns', false);
         if ($columns !== false) {
-            $this->columns_to_display = Piwik::getArrayFromApiParameter($columns);
+            $this->config->columns_to_display = Piwik::getArrayFromApiParameter($columns);
             array_unshift($this->config->columns_to_display, 'label');
         }
     }
