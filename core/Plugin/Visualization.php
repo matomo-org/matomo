@@ -23,7 +23,6 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\API\API;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
 use Piwik\View;
