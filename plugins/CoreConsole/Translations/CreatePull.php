@@ -11,7 +11,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Translations;
 
-use Piwik\Console\Command;
+use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class CreatePull extends Command
+class CreatePull extends ConsoleCommand
 {
     protected function configure()
     {

@@ -427,7 +427,8 @@
         "OverlayRowActionTooltipTitle": "Open Page Overlay",
         "OverlayRowActionTooltip": "See analytics data directly on your website (opens new tab)",
         "XComparedToY": "%1$s compared to %2$s",
-        "JsTrackingTag": "JavaScript Tracking Code"
+        "JsTrackingTag": "JavaScript Tracking Code",
+        "ViewDocumentationFor": "View documentation for %1$s"
     },
     "Actions": {
         "PluginDescription": "Reports about the page views, the outlinks and downloads. Outlinks and Downloads tracking is automatic! You can also track your internal website's Search Engine.",

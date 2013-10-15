@@ -78,12 +78,12 @@ $(function () {
                         // autocomplete.js allows item names to be HTML, so we have to entity the site name in PHP.
                         // to avoid double encoding, we decode before setting text.
                         // note: use of $.html() would not be future-proof.
-                        var name = piwikHelper.htmlDecode(ui.item.name);
+                        ui.item.name = piwikHelper.htmlDecode(ui.item.name);
 
                         // set attributes of selected site display (what shows in the box)
                         $('.custom_select_main_link', selector)
                             .attr('data-siteid', ui.item.id)
-                            .html($('<span/>').text(name));
+                            .html($('<span/>').text(ui.item.name));
 
                         // hide the dropdown
                         $('.custom_select_block', selector).removeClass('custom_select_block_show');

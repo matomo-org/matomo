@@ -12,13 +12,13 @@
 namespace Piwik\Plugins\CoreConsole;
 
 
-use Piwik\Console\Command;
 use Piwik\Filesystem;
+use Piwik\Plugin\ConsoleCommand;
 
 /**
  * @package CoreConsole
  */
-class GeneratePluginBase extends Command
+class GeneratePluginBase extends ConsoleCommand
 {
     public function getPluginPath($pluginName)
     {

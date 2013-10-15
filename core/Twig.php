@@ -65,6 +65,7 @@ class Twig
         $this->addFilter_money();
         $this->addFilter_truncate();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
+        $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();

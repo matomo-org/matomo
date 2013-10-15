@@ -11,16 +11,16 @@
 
 namespace Piwik\Plugins\CoreConsole\Translations;
 
-use Piwik\Console\Command;
-use Piwik\Translate\Writer;
-use Piwik\Translate\Validate\NoScripts;
-use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\LanguagesManager\API;
 use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
 use Piwik\Translate\Filter\EmptyTranslations;
 use Piwik\Translate\Filter\EncodedEntities;
 use Piwik\Translate\Filter\UnnecassaryWhitespaces;
-use Piwik\Plugins\LanguagesManager\API;
+use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Translate\Validate\NoScripts;
+use Piwik\Translate\Writer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,7 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class SetTranslations extends Command
+class SetTranslations extends ConsoleCommand
 {
     protected function configure()
     {
