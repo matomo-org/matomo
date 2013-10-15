@@ -35,6 +35,9 @@ class Config extends JqplotGraphConfig
         $this->hide_annotations_view  = false;
         $this->x_axis_step_size       = false;
         $this->show_line_graph        = true;
+
+        $this->addPropertiesThatShouldBeAvailableClientSide(array('show_line_graph'));
+        $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('show_line_graph'));
     }
 
 }

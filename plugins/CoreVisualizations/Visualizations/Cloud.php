@@ -34,8 +34,6 @@ class Cloud extends Visualization
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
 
-    public static $overridableProperties = array('display_logo_instead_of_label');
-
     protected $wordsArray = array();
     public $truncatingLimit = 50;
 

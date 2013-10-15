@@ -139,4 +139,19 @@ class Request
     {
         return get_object_vars($this);
     }
+
+    public function addPropertiesThatShouldBeAvailableClientSide(array $propertyNames)
+    {
+        foreach ($propertyNames as $propertyName) {
+            $this->clientSideParameters[] = $propertyName;
+        }
+    }
+
+    public function addPropertiesThatCanBeOverwrittenByQueryParams(array $propertyNames)
+    {
+        foreach ($propertyNames as $propertyName) {
+            $this->overridableProperties[] = $propertyName;
+        }
+    }
+
 }

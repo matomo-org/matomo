@@ -27,4 +27,11 @@ class Config extends VisualizationConfig
      */
     public $display_logo_instead_of_label = false;
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('display_logo_instead_of_label'));
+    }
+
 }

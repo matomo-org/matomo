@@ -506,6 +506,20 @@ class Config
         }
     }
 
+    public function addPropertiesThatShouldBeAvailableClientSide(array $propertyNames)
+    {
+        foreach ($propertyNames as $propertyName) {
+            $this->clientSideProperties[] = $propertyName;
+        }
+    }
+
+    public function addPropertiesThatCanBeOverwrittenByQueryParams(array $propertyNames)
+    {
+        foreach ($propertyNames as $propertyName) {
+            $this->overridableProperties[] = $propertyName;
+        }
+    }
+
     public function getProperties()
     {
         return get_object_vars($this);

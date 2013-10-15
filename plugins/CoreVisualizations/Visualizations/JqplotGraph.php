@@ -27,13 +27,6 @@ class JqplotGraph extends Graph
     const ID = 'jqplot_graph';
     const TEMPLATE_FILE = '@CoreVisualizations/_dataTableViz_jqplotGraph.twig';
 
-    public static $clientSideConfigProperties = array(
-        'external_series_toggle',
-        'external_series_toggle_show_all'
-    );
-
-    public static $overridableProperties = array('x_axis_step_size');
-
     public function getDefaultConfig()
     {
         return new JqplotGraph\Config();

@@ -106,6 +106,19 @@ class Config extends VisualizationConfig
         parent::__construct();
 
         $this->show_limit_control = false;
+
+        $this->addPropertiesThatShouldBeAvailableClientSide(array(
+            'show_series_picker',
+            'allow_multi_select_series_picker',
+            'selectable_columns',
+            'selectable_rows',
+            'display_percentage_in_tooltip'
+        ));
+
+        $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
+            'show_all_ticks',
+            'show_series_picker'
+        ));
     }
 
 }

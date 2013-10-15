@@ -29,50 +29,11 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Ht
 class HtmlTable extends Visualization
 {
     const ID = 'table';
-
     const TEMPLATE_FILE = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
-
-    static public $clientSideRequestParameters = array(
-        'search_recursive',
-        'filter_limit',
-        'filter_offset',
-        'filter_sort_column',
-        'filter_sort_order',
-    );
-
-    static public $clientSideConfigProperties = array(
-        'show_extra_columns',
-        'show_goals_columns',
-        'disable_row_evolution',
-        'disable_row_actions',
-        'enable_sort',
-        'keep_summary_row',
-        'subtable_controller_action',
-    );
-
-    public static $overridableProperties = array(
-        'show_expanded',
-        'disable_row_actions',
-        'disable_row_evolution',
-        'show_extra_columns',
-        'show_goals_columns',
-        'disable_subtable_when_show_goals',
-        'keep_summary_row',
-        'highlight_summary_row',
-    );
 
     public function getDefaultConfig()
     {
         return new HtmlTable\Config();
-    }
-
-    public function configureVisualization()
-    {
-        if (Common::getRequestVar('idSubtable', false)
-            && $this->config->show_embedded_subtable
-        ) {
-            $this->config->show_visualization_only = true;
-        }
     }
 
     public function getDefaultRequestConfig()
@@ -85,7 +46,24 @@ class HtmlTable extends Visualization
             $config->filter_excludelowpop_value = null;
         }
 
+        $config->addPropertiesThatShouldBeAvailableClientSide(array(
+            'search_recursive',
+            'filter_limit',
+            'filter_offset',
+            'filter_sort_column',
+            'filter_sort_order',
+        ));
+
         return $config;
+    }
+
+    public function configureVisualization()
+    {
+        if (Common::getRequestVar('idSubtable', false)
+            && $this->config->show_embedded_subtable
+        ) {
+            $this->config->show_visualization_only = true;
+        }
     }
 
 }

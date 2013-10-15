@@ -111,6 +111,27 @@ class Config extends VisualizationConfig
 
         $this->enable_sort       = true;
         $this->datatable_js_type = 'DataTable';
+
+        $this->addPropertiesThatShouldBeAvailableClientSide(array(
+            'show_extra_columns',
+            'show_goals_columns',
+            'disable_row_evolution',
+            'disable_row_actions',
+            'enable_sort',
+            'keep_summary_row',
+            'subtable_controller_action',
+        ));
+
+        $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
+            'show_expanded',
+            'disable_row_actions',
+            'disable_row_evolution',
+            'show_extra_columns',
+            'show_goals_columns',
+            'disable_subtable_when_show_goals',
+            'keep_summary_row',
+            'highlight_summary_row',
+        ));
     }
 
 }

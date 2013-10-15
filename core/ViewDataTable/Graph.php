@@ -25,24 +25,20 @@ abstract class Graph extends Visualization
 {
     const ID = 'graph';
 
-    public static $clientSideConfigProperties = array(
-        'show_series_picker',
-        'allow_multi_select_series_picker',
-        'selectable_columns',
-        'selectable_rows',
-        'display_percentage_in_tooltip'
-    );
-
-    public static $clientSideRequestParameters = array(
-        'columns'
-    );
-
-    public static $overridableProperties = array(
-        'show_all_ticks',
-        'show_series_picker'
-    );
-
     public $selectableRows = array();
+
+    public function getDefaultConfig()
+    {
+        return new Graph\Config();
+    }
+
+    public function getDefaultRequestConfig()
+    {
+        $config = parent::getDefaultRequestConfig();
+        $config->addPropertiesThatShouldBeAvailableClientSide(array('columns'));
+
+        return $config;
+    }
 
     public function configureVisualization()
     {
@@ -50,11 +46,6 @@ abstract class Graph extends Visualization
             $this->config->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');
             $this->config->translations['revenue'] = Piwik::translate('General_TotalRevenue');
         }
-    }
-
-    public function getDefaultConfig()
-    {
-        return new Graph\Config();
     }
 
     /**

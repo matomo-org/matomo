@@ -27,9 +27,10 @@ class Evolution extends JqplotGraph
     const ID = 'graphEvolution';
     const SERIES_COLOR_COUNT = 8;
 
-    public static $clientSideConfigProperties = array('show_line_graph');
-
-    public static $overridableProperties = array('show_line_graph');
+    public  function getDefaultConfig()
+    {
+        return new Evolution\Config();
+    }
 
     public function configureVisualization()
     {
@@ -61,11 +62,6 @@ class Evolution extends JqplotGraph
             $size = $this->getDefaultXAxisStepSize($this->dataTable->getRowsCount());
             $this->config->x_axis_step_size = $size;
         }
-    }
-
-    public  function getDefaultConfig()
-    {
-        return new Evolution\Config();
     }
 
     protected function makeDataGenerator($properties)
