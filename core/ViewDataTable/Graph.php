@@ -98,14 +98,18 @@ abstract class Graph extends Visualization
         if ($this->config->max_graph_elements) {
             $this->requestConfig->request_parameters_to_modify['filter_truncate'] = $this->config->max_graph_elements - 1;
         }
+    }
 
+    /**
+     * Determines what rows are selectable and stores them in the selectable_rows property in
+     * a format the SeriesPicker JavaScript class can use.
+     */
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
+    {
         if ($this->config->row_picker_match_rows_by === false) {
             return;
         }
-    }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
-    {
         // collect all selectable rows
         $self = $this;
         $properties = $this->config;
