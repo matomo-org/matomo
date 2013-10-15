@@ -74,7 +74,7 @@ class Log extends Singleton
      *
      * @var string
      */
-    private $logMessageFormat = "%tag%[%datetime%] %message%";
+    private $logMessageFormat = "%level% %tag%[%datetime%] %message%";
 
     /**
      * If we're logging to a file, this is the path to the file to log to.
