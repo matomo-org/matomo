@@ -103,10 +103,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $pluginsManager = \Piwik\Plugin\Manager::getInstance();
 
         $pluginsToLoad = array_merge(
+                Config::getInstance()->Plugins['Plugins'],
                 $pluginsManager->readPluginsDirectory(),
-                $pluginsManager->getCorePluginsDisabledByDefault(),
-                Config::getInstance()->Plugins['Plugins']
+                $pluginsManager->getCorePluginsDisabledByDefault()
         );
+        $pluginsToLoad = array_values(array_unique($pluginsToLoad));
         $pluginsManager->loadPlugins($pluginsToLoad);
     }
 

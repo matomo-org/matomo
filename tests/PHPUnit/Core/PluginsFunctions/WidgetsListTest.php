@@ -34,8 +34,6 @@ class WidgetsListTest extends DatabaseTestCase
         $widgets = WidgetsList::get();
         WidgetsList::_reset();
 
-        // number of main categories
-        $this->assertEquals(12, count($widgets));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -52,6 +50,10 @@ class WidgetsListTest extends DatabaseTestCase
             'DevicesDetection_DevicesDetection' => 7,
             'ExamplePlugin_exampleWidgets' => 3
         );
+
+        // number of main categories
+        $this->assertEquals(count($numberOfWidgets), count($widgets));
+
         foreach ($numberOfWidgets AS $category => $widgetCount) {
             $this->assertEquals($widgetCount, count($widgets[$category]), sprintf("Widget: %s", $category));
         }

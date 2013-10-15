@@ -411,17 +411,21 @@ class Manager extends Singleton
 
     protected function isPluginThirdPartyAndBogus($pluginName)
     {
-        $path = $this->getPluginsDirectory() . $pluginName;
-
+        if($this->isPluginBundledWithCore($pluginName)) {
+            return false;
+        }
         $bogusPlugins = array(
             'PluginMarketplace' //defines a plugin.json but 1.x Piwik plugin
         );
+        if(in_array($pluginName, $bogusPlugins)) {
+           return true;
+        }
 
-        $isBogus = !$this->isPluginBundledWithCore($pluginName)
-                || !$this->isManifestFileFound($path)
-                || in_array($pluginName, $bogusPlugins);
-
-        return $isBogus;
+        $path = $this->getPluginsDirectory() . $pluginName;
+        if(!$this->isManifestFileFound($path)) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -529,11 +533,11 @@ class Manager extends Singleton
      */
     private function reloadPlugins()
     {
-        $this->pluginsToLoad = array_unique($this->pluginsToLoad);
-
         if ($this->doLoadAlwaysActivatedPlugins) {
             $this->pluginsToLoad = array_merge($this->pluginsToLoad, $this->pluginToAlwaysActivate);
         }
+
+        $this->pluginsToLoad = array_unique($this->pluginsToLoad);
 
         foreach ($this->pluginsToLoad as $pluginName) {
             if (!$this->isPluginLoaded($pluginName)
