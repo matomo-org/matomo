@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -233,10 +234,17 @@ class Controller extends Plugin\ControllerAdmin
 
         foreach ($plugins as $pluginName => &$plugin) {
             if (!isset($plugin['info'])) {
+
+                $suffix = Piwik::translate('CorePluginsAdmin_PluginAskDevToUpdate');
+                // If the plugin has been renamed, we do not show message to ask user to update plugin
+                if($pluginName != Request::renameModule($pluginName)) {
+                    $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
+                }
+
                 $description = '<strong><em>'
                     . Piwik::translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
-                    . '</strong> <br/> '
-                    . Piwik::translate('CorePluginsAdmin_PluginAskDevToUpdate')
+                    . '</strong><br/>'
+                    . $suffix
                     . '</em>';
                 $plugin['info'] = array(
                     'description' => $description,
@@ -330,6 +338,7 @@ class Controller extends Plugin\ControllerAdmin
             $messageIntro = Piwik::translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
                 $pluginName);
             $exitMessage = $messageIntro . "<br/><br/>" . $messagePermissions;
+            $exitMessage .= "<br> Or manually delete this directory (using FTP or SSH access)";
             Piwik_ExitWithMessage($exitMessage, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = true);
         }
 
