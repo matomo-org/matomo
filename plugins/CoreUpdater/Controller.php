@@ -250,6 +250,10 @@ class Controller extends \Piwik\Plugin\Controller
         if (function_exists('apc_clear_cache')) {
             apc_clear_cache(); // clear the system (aka 'opcode') cache
         }
+
+        if (function_exists('opcache_reset')) {
+            opcache_reset(); // reset the opcode cache (php 5.5.0+)
+        }
     }
 
     private function oneClick_Finished()
