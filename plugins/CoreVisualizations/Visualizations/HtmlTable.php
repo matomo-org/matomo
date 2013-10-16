@@ -181,7 +181,7 @@ class HtmlTable extends Visualization
 
         if (Common::getRequestVar('enable_filter_excludelowpop', false) == '1') {
             $defaults['filter_excludelowpop'] = 'nb_visits';
-            $defaults['filter_excludelowpop_value'] = null;
+            $defaults['filter_excludelowpop_value'] = false;
         }
 
         return $defaults;
