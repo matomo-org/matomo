@@ -75,7 +75,6 @@
         },
 
         _bindEvents: function () {
-            this.setYTicks();
             JqplotGraphDataTablePrototype._bindEvents.call(this);
 
             var self = this;
@@ -124,6 +123,11 @@
 
         _destroyDataPointTooltip: function () {
             // do nothing, tooltips are destroyed in the jqplotMouseLeave event
+        },
+
+        render: function () {
+            this.setYTicks();
+            JqplotGraphDataTablePrototype.render.call(this);
         }
     });
 
