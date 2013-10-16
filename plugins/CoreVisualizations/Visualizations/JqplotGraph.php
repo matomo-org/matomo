@@ -34,6 +34,7 @@ abstract class JqplotGraph extends Graph
     public function getGraphData($dataTable, $properties)
     {
         $dataGenerator = $this->makeDataGenerator($properties);
+
         return $dataGenerator->generate($dataTable);
     }
 

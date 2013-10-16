@@ -45,8 +45,8 @@ class HtmlTable extends Visualization
     public function configureVisualization()
     {
         if (Common::getRequestVar('idSubtable', false)
-            && $this->config->show_embedded_subtable
-        ) {
+            && $this->config->show_embedded_subtable) {
+
             $this->config->show_visualization_only = true;
         }
     }

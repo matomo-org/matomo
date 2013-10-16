@@ -73,19 +73,21 @@ abstract class Graph extends Visualization
 
         // collect all selectable rows
         $self = $this;
-        $properties = $this->config;
 
-        $this->dataTable->filter(function ($dataTable) use ($self, $properties) {
+        $this->dataTable->filter(function ($dataTable) use ($self) {
+            /** @var DataTable $dataTable */
+
             foreach ($dataTable->getRows() as $row) {
                 $rowLabel = $row->getColumn('label');
-                if ($rowLabel === false) {
+
+                if (false === $rowLabel) {
                     continue;
                 }
 
                 // determine whether row is visible
                 $isVisible = true;
-                if ($properties->row_picker_match_rows_by == 'label') {
-                    $isVisible = in_array($rowLabel, $properties->rows_to_display);
+                if ('label' == $self->config->row_picker_match_rows_by) {
+                    $isVisible = in_array($rowLabel, $self->config->rows_to_display);
                 }
 
                 // build config
@@ -111,7 +113,7 @@ abstract class Graph extends Visualization
         $selectableColumns = $this->config->selectable_columns;
 
         // set default selectable columns, if none specified
-        if ($selectableColumns === false) {
+        if (false === $selectableColumns) {
             $selectableColumns = array('nb_visits', 'nb_actions');
 
             if (in_array('nb_uniq_visitors', $this->dataTable->getColumns())) {
@@ -120,7 +122,7 @@ abstract class Graph extends Visualization
         }
 
         if ($this->config->show_goals) {
-            $goalMetrics = array('nb_conversions', 'revenue');
+            $goalMetrics       = array('nb_conversions', 'revenue');
             $selectableColumns = array_merge($selectableColumns, $goalMetrics);
         }
 
@@ -132,6 +134,7 @@ abstract class Graph extends Visualization
                 'displayed'   => in_array($column, $this->config->columns_to_display)
             );
         }
+
         $this->config->selectable_columns = $transformed;
     }
 }

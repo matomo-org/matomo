@@ -29,11 +29,10 @@ class Goals extends HtmlTable
 
     public function configureVisualization()
     {
-        $this->config->show_goals_columns = true;
-
+        $this->config->show_goals = true;
+        $this->config->show_goals_columns  = true;
         $this->config->datatable_css_class = 'dataTableVizGoals';
         $this->config->show_exclude_low_population = true;
-        $this->config->show_goals = true;
 
         $this->config->translations += array(
             'nb_conversions'    => Piwik::translate('Goals_ColumnConversions'),
@@ -41,9 +40,11 @@ class Goals extends HtmlTable
             'revenue'           => Piwik::translate('General_ColumnRevenue'),
             'revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
         );
+
         $this->config->metrics_documentation['nb_visits'] = Piwik::translate('Goals_ColumnVisits');
 
-        if (Common::getRequestVar('documentationForGoalsPage', 0, 'int') == 1) { // TODO: should not use query parameter
+        if (1 == Common::getRequestVar('documentationForGoalsPage', 0, 'int')) {
+            // TODO: should not use query parameter
             $this->config->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
                 array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>'));
         }
@@ -62,11 +63,12 @@ class Goals extends HtmlTable
         // set view properties based on goal requested
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $idGoal = Common::getRequestVar('idGoal', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
-        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+
+        if (Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER == $idGoal) {
             $this->setPropertiesForEcommerceView();
-        } else if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE) {
+        } else if (AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE == $idGoal) {
             $this->setPropertiesForGoals($idSite, 'all');
-        } else if ($idGoal == AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW) {
+        } else if (AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW == $idGoal) {
             $this->setPropertiesForGoalsOverview($idSite);
         } else {
             $this->setPropertiesForGoals($idSite, array($idGoal));
@@ -79,8 +81,9 @@ class Goals extends HtmlTable
         $setRatePercent = function ($rate, $thang = false) {
             return $rate == 0 ? "0%" : $rate;
         };
+
         foreach ($this->config->columns_to_display as $columnName) {
-            if (strpos($columnName, 'conversion_rate') !== false) {
+            if (false !== strpos($columnName, 'conversion_rate')) {
                 $this->config->filters[] = array('ColumnCallbackReplace', array($columnName, $setRatePercent));
             }
         }
@@ -99,6 +102,7 @@ class Goals extends HtmlTable
         $identityFunction = function ($value) {
             return $value;
         };
+
         foreach ($this->config->columns_to_display as $columnName) {
             if (!$this->isRevenueColumn($columnName)) {
                 $this->config->filters[] = array('ColumnCallbackReplace', array($columnName, $identityFunction));
@@ -146,12 +150,12 @@ class Goals extends HtmlTable
         $this->config->columns_to_display = array('label', 'nb_visits');
 
         foreach ($allGoals as $goal) {
-            $column = "goal_{$goal['idgoal']}_conversion_rate";
+            $column        = "goal_{$goal['idgoal']}_conversion_rate";
+            $documentation = Piwik::translate('Goals_ColumnConversionRateDocumentation', $goal['quoted_name'] ? : $goal['name']);
 
-            $this->config->columns_to_display[] = $column;
+            $this->config->columns_to_display[]  = $column;
             $this->config->translations[$column] = Piwik::translate('Goals_ConversionRate', $goal['name']);
-            $this->config->metrics_documentation[$column]
-                = Piwik::translate('Goals_ColumnConversionRateDocumentation', $goal['quoted_name'] ? : $goal['name']);
+            $this->config->metrics_documentation[$column] = $documentation;
         }
 
         $this->config->columns_to_display[] = 'revenue_per_visit';
@@ -163,12 +167,12 @@ class Goals extends HtmlTable
     {
         $allGoals = $this->getGoals($idSite);
 
-        if ($idGoals == 'all') {
+        if ('all' == $idGoals) {
             $idGoals = array_keys($allGoals);
         } else {
             // only sort by a goal's conversions if not showing all goals (for FULL_REPORT)
             $this->requestConfig->filter_sort_column = 'goal_' . reset($idGoals) . '_nb_conversions';
-            $this->requestConfig->filter_sort_order = 'desc';
+            $this->requestConfig->filter_sort_order  = 'desc';
         }
 
         $this->config->columns_to_display = array('label', 'nb_visits');
@@ -184,8 +188,7 @@ class Goals extends HtmlTable
         // ie, goal_0_nb_conversions, goal_1_nb_conversions, etc.)
         foreach ($goalColumnTemplates as $idx => $columnTemplate) {
             foreach ($idGoals as $idGoal) {
-                $column = sprintf($columnTemplate, $idGoal);
-                $this->config->columns_to_display[] = $column;
+                $this->config->columns_to_display[] = sprintf($columnTemplate, $idGoal);
             }
         }
 
@@ -232,6 +235,7 @@ class Goals extends HtmlTable
 
         // add the site's goals (and escape all goal names)
         $siteGoals = APIGoals::getInstance()->getGoals($idSite);
+
         foreach ($siteGoals as &$goal) {
             $goal['name'] = Common::sanitizeInputValue($goal['name']);
 

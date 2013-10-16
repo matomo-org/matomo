@@ -103,25 +103,19 @@ class Cloud extends Visualization
     public function getCloudValues()
     {
         $this->shuffleCloud();
-        $return = array();
+
         if (empty($this->wordsArray)) {
             return array();
         }
-        $maxValue = max($this->wordsArray);
-        foreach ($this->wordsArray as $word => $popularity) {
-            $wordTruncated = $word;
-            if (Common::mb_strlen($word) > $this->truncatingLimit) {
-                $wordTruncated = Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
-            }
 
-            // case hideFutureHoursWhenToday=1 shows hours with no visits
-            if ($maxValue == 0) {
-                $percent = 0;
-            } else {
-                $percent = ($popularity / $maxValue) * 100;
-            }
-            // CSS style value
-            $sizeRange = $this->getClassFromPercent($percent);
+        $return   = array();
+        $maxValue = max($this->wordsArray);
+
+        foreach ($this->wordsArray as $word => $popularity) {
+
+            $wordTruncated = $this->truncateWordIfNeeded($word);
+            $percent       = $this->getPercentage($popularity, $maxValue);
+            $sizeRange     = $this->getClassFromPercent($percent);
 
             $return[$word] = array(
                 'word'          => $word,
@@ -131,6 +125,7 @@ class Cloud extends Visualization
                 'percent'       => $percent,
             );
         }
+
         return $return;
     }
 
@@ -148,10 +143,14 @@ class Cloud extends Visualization
         shuffle($keys);
 
         if (count($keys) && is_array($keys)) {
+
             $tmpArray = $this->wordsArray;
+
             $this->wordsArray = array();
-            foreach ($keys as $key => $value)
+            foreach ($keys as $key => $value) {
                 $this->wordsArray[$value] = $tmpArray[$value];
+            }
+
         }
     }
 
@@ -171,5 +170,30 @@ class Cloud extends Visualization
             }
         }
         return 0;
+    }
+
+    /**
+     * @param $word
+     * @return string
+     */
+    private function truncateWordIfNeeded($word)
+    {
+        if (Common::mb_strlen($word) > $this->truncatingLimit) {
+            return Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
+        }
+
+        return $word;
+    }
+
+    private function getPercentage($popularity, $maxValue)
+    {
+        // case hideFutureHoursWhenToday=1 shows hours with no visits
+        if ($maxValue == 0) {
+            return 0;
+        }
+
+        $percent = ($popularity / $maxValue) * 100;
+
+        return $percent;
     }
 }

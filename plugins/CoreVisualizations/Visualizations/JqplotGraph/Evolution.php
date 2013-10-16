@@ -59,10 +59,10 @@ class Evolution extends JqplotGraph
     {
         parent::afterAllFilteresAreApplied();
 
-        if ($this->config->x_axis_step_size === false) {
+        if (false === $this->config->x_axis_step_size) {
+            $rowCount = $this->dataTable->getRowsCount();
 
-            $size = $this->getDefaultXAxisStepSize($this->dataTable->getRowsCount());
-            $this->config->x_axis_step_size = $size;
+            $this->config->x_axis_step_size = $this->getDefaultXAxisStepSize($rowCount);
         }
     }
 
@@ -82,19 +82,25 @@ class Evolution extends JqplotGraph
         $defaultLastN = self::getDefaultLastN($period);
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
-        if ($period != 'range') { // show evolution limit if the period is not a range
+        if ('range' != $period) { // show evolution limit if the period is not a range
             $this->config->show_limit_control = true;
 
             // set the evolution_{$period}_last_n query param
-            if (Range::parseDateRange($originalDate)) { // if a multiple period
+            if (Range::parseDateRange($originalDate)) {
+                // if a multiple period
+
                 // overwrite last_n param using the date range
                 $oPeriod = new Range($period, $originalDate);
-                $lastN = count($oPeriod->getSubperiods());
-            } else { // if not a multiple period
+                $lastN   = count($oPeriod->getSubperiods());
+
+            } else {
+
+                // if not a multiple period
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $originalDate, $defaultLastN);
                 $this->requestConfig->request_parameters_to_modify['date'] = $newDate;
                 $this->config->custom_parameters['dateUsedInGraph'] = $newDate;
             }
+
             $lastNParamName = self::getLastNParamName($period);
             $this->config->custom_parameters[$lastNParamName] = $lastN;
         }
@@ -168,6 +174,7 @@ class Evolution extends JqplotGraph
         }
 
         $periodLabel = Common::getRequestVar('period');
+
         switch ($periodLabel) {
             case 'day':
             case 'range':
@@ -188,6 +195,7 @@ class Evolution extends JqplotGraph
         }
 
         $paddedCount = $countGraphElements + 2; // pad count so last label won't be cut off
+
         return ceil($paddedCount / $steps);
     }
 }
