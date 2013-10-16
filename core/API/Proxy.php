@@ -270,7 +270,7 @@ class Proxy extends Singleton
         $namespacedApiClassName = "\\Piwik\\Plugins\\$pluginName\\API";
         $api = $namespacedApiClassName::getInstance();
 
-        return !method_exists($api, $apiAction);
+        return method_exists($api, $apiAction);
     }
 
     public function buildApiActionName($pluginName, $apiAction)
