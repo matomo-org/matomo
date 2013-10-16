@@ -191,16 +191,15 @@ class Manager extends Singleton
      */
     public function uninstallPlugin($pluginName)
     {
-        if ($this->isPluginActivated($pluginName)) {
+        if ($this->isPluginLoaded($pluginName)) {
             throw new \Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
         }
-        if (!$this->isPluginInFilesystem($pluginName)) {
-            throw new \Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
-        }
-
         $this->returnLoadedPluginsInfo();
-        $plugin = $this->getLoadedPlugin($pluginName);
-        $plugin->uninstall();
+        try {
+            $plugin = $this->getLoadedPlugin($pluginName);
+            $plugin->uninstall();
+        } catch(\Exception $e) {
+        }
         Option::delete('version_' . $pluginName);
 
         $this->removePluginFromPluginsConfig($pluginName);

@@ -81,10 +81,14 @@ class CorePluginsAdmin extends \Piwik\Plugin
             array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
             Piwik::isUserIsSuperUser(),
             $order = 3);
+
+        // Not in beta 1
+/*
         MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuExtend',
             array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
             !Piwik::isUserIsAnonymous(),
             $order = 5);
+*/
     }
 
     public function getJsFiles(&$jsFiles)

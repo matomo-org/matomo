@@ -152,7 +152,7 @@ class Updater
      * Update the named component
      *
      * @param string $componentName 'core', or plugin name
-     * @throws \Exception|Updater_UpdateErrorException
+     * @throws \Exception|UpdaterErrorException
      * @return array of warning strings if applicable
      */
     public function update($componentName)
@@ -169,7 +169,7 @@ class Updater
                 }
 
                 self::recordComponentSuccessfullyUpdated($componentName, $fileVersion);
-            } catch (Updater_UpdateErrorException $e) {
+            } catch (UpdaterErrorException $e) {
                 throw $e;
             } catch (\Exception $e) {
                 $warningMessages[] = $e->getMessage();
@@ -286,7 +286,7 @@ class Updater
      *
      * @param string $file Update script filename
      * @param array $sqlarray An array of SQL queries to be executed
-     * @throws Updater_UpdateErrorException
+     * @throws UpdaterErrorException
      */
     static function updateDatabase($file, $sqlarray)
     {
@@ -298,7 +298,7 @@ class Updater
                     || !Db::get()->isErrNo($e, $ignoreError)
                 ) {
                     $message = $file . ":\nError trying to execute the query '" . $update . "'.\nThe error was: " . $e->getMessage();
-                    throw new Updater_UpdateErrorException($message);
+                    throw new UpdaterErrorException($message);
                 }
             }
         }
@@ -311,6 +311,6 @@ class Updater
  * @package Piwik
  * @subpackage Updater
  */
-class Updater_UpdateErrorException extends \Exception
+class UpdaterErrorException extends \Exception
 {
 }

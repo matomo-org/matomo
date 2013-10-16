@@ -27,7 +27,7 @@ use Piwik\SettingsServer;
 use Piwik\Unzip;
 use Piwik\UpdateCheck;
 use Piwik\Updater;
-use Piwik\Updater_UpdateErrorException;
+use Piwik\UpdaterErrorException;
 use Piwik\Version;
 use Piwik\View;
 use Piwik\View\OneClickDone;
@@ -117,6 +117,18 @@ class Controller extends \Piwik\Plugin\Controller
         $view->coreError = Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
         echo $view->render();
+    }
+
+    protected function redirectToDashboardWhenNoError($updater)
+    {
+        if (count($updater->getSqlQueriesToExecute()) == 1
+            && !$this->coreError
+            && empty($this->warningMessages)
+            && empty($this->errorMessages)
+            && empty($this->deactivatedPlugins)
+        ) {
+            Piwik::redirectToModule('CoreHome');
+        }
     }
 
     private function checkNewVersionIsAvailableOrDie()
@@ -238,6 +250,10 @@ class Controller extends \Piwik\Plugin\Controller
         if (function_exists('apc_clear_cache')) {
             apc_clear_cache(); // clear the system (aka 'opcode') cache
         }
+
+        if (function_exists('opcache_reset')) {
+            opcache_reset(); // reset the opcode cache (php 5.5.0+)
+        }
     }
 
     private function oneClick_Finished()
@@ -269,7 +285,6 @@ class Controller extends \Piwik\Plugin\Controller
         $viewWelcome = new View($welcomeTemplate);
         $viewDone = new View($doneTemplate);
 
-        $sqlQueries = $updater->getSqlQueriesToExecute();
         if (Common::isPhpCliMode()) {
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
             echo $viewWelcome->render();
@@ -283,12 +298,11 @@ class Controller extends \Piwik\Plugin\Controller
                 $this->warningMessages = array();
                 $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
 
-                if (count($sqlQueries) == 1 && !$this->coreError) {
-                    Piwik::redirectToModule('CoreHome');
-                }
+                $this->redirectToDashboardWhenNoError($updater);
+
                 echo $viewDone->render();
             } else {
-                $viewWelcome->queries = $sqlQueries;
+                $viewWelcome->queries = $updater->getSqlQueriesToExecute();
                 $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
                 $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
                 echo $viewWelcome->render();
@@ -365,7 +379,7 @@ class Controller extends \Piwik\Plugin\Controller
         foreach ($componentsWithUpdateFile as $name => $filenames) {
             try {
                 $this->warningMessages = array_merge($this->warningMessages, $updater->update($name));
-            } catch (Updater_UpdateErrorException $e) {
+            } catch (UpdaterErrorException $e) {
                 $this->errorMessages[] = $e->getMessage();
                 if ($name == 'core') {
                     $this->coreError = true;

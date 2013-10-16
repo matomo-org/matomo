@@ -968,6 +968,7 @@ class Actions extends \Piwik\Plugin
                 'Actions.getPageTitles'       => Piwik::translate('Actions_SubmenuPageTitles'),
                 "Actions.$entryPageUrlAction" => Piwik::translate('Actions_SubmenuPagesEntry')
             ),
+            'filter_sort_column' => 'entry_nb_visits'
         );
 
         $this->addPageDisplayProperties($result);

@@ -95,7 +95,7 @@ Try again.
     // Now testing if the webserver is running
     $piwikServerUrl = Test_Piwik_BaseFixture::getRootUrl();
     try {
-        $fetched = Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
+        $fetched = Http::sendHttpRequest($piwikServerUrl, $timeout = 15);
     } catch (Exception $e) {
         $fetched = "ERROR fetching: " . $e->getMessage();
     }

@@ -55,17 +55,7 @@ class Updates_2_0_a13 extends Updates
 
         Updater::updateDatabase(__FILE__, self::getSql());
 
-        // Deleting old plugins
-        $obsoleteDirectories = array(
-            PIWIK_INCLUDE_PATH . '/plugins/Referers',
-            PIWIK_INCLUDE_PATH . '/plugins/PDFReports',
-        );
-        foreach ($obsoleteDirectories as $dir) {
-            if (file_exists($dir)) {
-                Filesystem::unlinkRecursive($dir, true);
-            }
-        }
-
+        // old plugins deleted in 2.0-a17 update file
 
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Referrers');

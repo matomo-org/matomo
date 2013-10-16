@@ -109,6 +109,25 @@ class Request
     }
 
     /**
+     * For backward compatibility: Piwik API still works if module=Referers,
+     * we rewrite to correct renamed plugin: Referrers
+     *
+     * @param $module
+     * @return string
+     */
+    public static function renameModule($module)
+    {
+        $moduleToRedirect = array(
+            'Referers'   => 'Referrers',
+            'PDFReports' => 'ScheduledReports',
+        );
+        if (isset($moduleToRedirect[$module])) {
+            return $moduleToRedirect[$module];
+        }
+        return $module;
+    }
+
+    /**
      * Make sure that the request contains no logical errors
      */
     private function sanitizeRequest()
@@ -146,6 +165,8 @@ class Request
             $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
+
+            $module = $this->renameModule($module);
 
             if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
                 throw new PluginDeactivatedException($module);

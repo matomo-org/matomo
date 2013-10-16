@@ -37,59 +37,6 @@ class FrontController extends Singleton
      */
     public static $enableDispatch = true;
 
-    protected function prepareDispatch($module, $action, $parameters)
-    {
-        if (is_null($module)) {
-            $defaultModule = 'CoreHome';
-            $module = Common::getRequestVar('module', $defaultModule, 'string');
-        }
-
-        if (is_null($action)) {
-            $action = Common::getRequestVar('action', false);
-        }
-
-        if (!Session::isFileBasedSessions()
-            && ($module !== 'API' || ($action && $action !== 'index'))
-        ) {
-            Session::start();
-        }
-
-        if (is_null($parameters)) {
-            $parameters = array();
-        }
-
-        if (!ctype_alnum($module)) {
-            throw new Exception("Invalid module name '$module'");
-        }
-
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
-            throw new PluginDeactivatedException($module);
-        }
-
-        $controllerClassName = $this->getClassNameController($module);
-
-        // FrontController's autoloader
-        if (!class_exists($controllerClassName, false)) {
-            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
-            if (!is_readable($moduleController)) {
-                throw new Exception("Module controller $moduleController not found!");
-            }
-            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
-        }
-
-        $class = $this->getClassNameController($module);
-        /** @var $controller Controller */
-        $controller = new $class;
-        if ($action === false) {
-            $action = $controller->getDefaultAction();
-        }
-
-        if (!is_callable(array($controller, $action))) {
-            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
-        }
-        return array($module, $action, $parameters, $controller);
-    }
-
     /**
      * Dispatches the request to the right plugin and executes the requested action on the plugin controller.
      *
@@ -297,7 +244,7 @@ class FrontController extends Singleton
             } catch (Exception $exception) {
                 if (self::shouldRethrowException()) {
                     throw $exception;
-        }
+                }
 
                 /**
                  * This event is triggered in case a config file is not in the correct format or in case required values
@@ -364,6 +311,61 @@ class FrontController extends Singleton
             $debugTrace = $e->getTraceAsString();
             Piwik_ExitWithMessage($e->getMessage(), $debugTrace, true);
         }
+    }
+
+    protected function prepareDispatch($module, $action, $parameters)
+    {
+        if (is_null($module)) {
+            $defaultModule = 'CoreHome';
+            $module = Common::getRequestVar('module', $defaultModule, 'string');
+        }
+
+        if (is_null($action)) {
+            $action = Common::getRequestVar('action', false);
+        }
+
+        if (!Session::isFileBasedSessions()
+            && ($module !== 'API' || ($action && $action !== 'index'))
+        ) {
+            Session::start();
+        }
+
+        if (is_null($parameters)) {
+            $parameters = array();
+        }
+
+        if (!ctype_alnum($module)) {
+            throw new Exception("Invalid module name '$module'");
+        }
+
+        $module = Request::renameModule($module);
+
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
+            throw new PluginDeactivatedException($module);
+        }
+
+        $controllerClassName = $this->getClassNameController($module);
+
+        // FrontController's autoloader
+        if (!class_exists($controllerClassName, false)) {
+            $moduleController = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/Controller.php';
+            if (!is_readable($moduleController)) {
+                throw new Exception("Module controller $moduleController not found!");
+            }
+            require_once $moduleController; // prefixed by PIWIK_INCLUDE_PATH
+        }
+
+        $class = $this->getClassNameController($module);
+        /** @var $controller Controller */
+        $controller = new $class;
+        if ($action === false) {
+            $action = $controller->getDefaultAction();
+        }
+
+        if (!is_callable(array($controller, $action))) {
+            throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");
+        }
+        return array($module, $action, $parameters, $controller);
     }
 
     protected function handleMaintenanceMode()
