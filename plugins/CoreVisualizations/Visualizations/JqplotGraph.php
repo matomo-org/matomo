@@ -21,7 +21,7 @@ use Piwik\View;
  *
  * @property JqplotGraph\Config $config
  */
-class JqplotGraph extends Graph
+abstract class JqplotGraph extends Graph
 {
     const ID = 'jqplot_graph';
     const TEMPLATE_FILE = '@CoreVisualizations/_dataTableViz_jqplotGraph.twig';
@@ -36,6 +36,12 @@ class JqplotGraph extends Graph
         $dataGenerator = $this->makeDataGenerator($properties);
         return $dataGenerator->generate($dataTable);
     }
+
+    /**
+     * @param $properties
+     * @return JqplotDataGenerator
+     */
+    abstract protected function makeDataGenerator($properties);
 }
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph/Bar.php';
