@@ -495,8 +495,8 @@ class Visualization extends ViewDataTable
         foreach ($this->config->filters as $filterInfo) {
             if ($filterInfo instanceof \Closure) {
                 $nameOrClosure = $filterInfo;
-                $parameters = array();
-                $priority = false;
+                $parameters    = array();
+                $priority      = false;
             } else {
                 @list($nameOrClosure, $parameters, $priority) = $filterInfo;
             }
