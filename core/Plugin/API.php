@@ -15,4 +15,5 @@ use Piwik\Singleton;
 
 abstract class API extends Singleton
 {
+
 }

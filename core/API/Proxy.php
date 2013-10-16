@@ -28,7 +28,7 @@ use ReflectionMethod;
  *
  * @package Piwik
  * @subpackage Piwik_API
- * @method \Piwik\API\Proxy getInstance()
+ * @static \Piwik\API\Proxy getInstance()
  */
 class Proxy extends Singleton
 {
@@ -263,6 +263,19 @@ class Proxy extends Singleton
     public function getModuleNameFromClassName($className)
     {
         return str_replace(array('\\Piwik\\Plugins\\', '\\API'), '', $className);
+    }
+
+    public function isExistingApiAction($pluginName, $apiAction)
+    {
+        $namespacedApiClassName = "\\Piwik\\Plugins\\$pluginName\\API";
+        $api = $namespacedApiClassName::getInstance();
+
+        return !method_exists($api, $apiAction);
+    }
+
+    public function buildApiActionName($pluginName, $apiAction)
+    {
+        return sprintf("%s.%s", $pluginName, $apiAction);
     }
 
     /**

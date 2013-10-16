@@ -10,6 +10,7 @@
  */
 namespace Piwik;
 
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Plugins\API\API;
 use Piwik\Plugin\Visualization;
@@ -55,7 +56,7 @@ class ViewDataTable
      *
      * @var array
      */
-    public static $reportPropertiesCache = null;
+    private static $reportPropertiesCache = null;
 
     /**
      * Returns a Piwik_ViewDataTable_* object.
@@ -69,18 +70,19 @@ class ViewDataTable
      * @param string|bool $controllerAction
      * @param bool $forceDefault
      *
+     * @throws \Exception
      * @return \Piwik\Plugin\ViewDataTable|\Piwik\Plugin\Visualization|\Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
      */
-    static public function factory($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
+    public static function factory($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
     {
-        if ($controllerAction === false) {
+        if (false === $controllerAction) {
             $controllerAction = $apiAction;
         }
 
         $defaultReportProperties = self::getDefaultPropertiesForReport($apiAction);
-        if (!empty($defaultReportProperties['default_view_type'])
-            && !$forceDefault
-        ) {
+
+        if (!$forceDefault
+            && !empty($defaultReportProperties['default_view_type'])) {
             $defaultType = $defaultReportProperties['default_view_type'];
         }
 
@@ -105,7 +107,7 @@ class ViewDataTable
      */
     public static function getAvailableVisualizations()
     {
-        /** @var \Piwik\Plugin\ViewDataTable[] $visualizations */
+        /** @var string[] $visualizations */
         $visualizations = array();
 
         /**
@@ -145,11 +147,13 @@ class ViewDataTable
     public static function getNonCoreVisualizations()
     {
         $result = array();
-        foreach (\Piwik\ViewDataTable::getAvailableVisualizations() as $vizId => $vizClass) {
-            if (strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations') === false) {
+
+        foreach (static::getAvailableVisualizations() as $vizId => $vizClass) {
+            if (false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')) {
                 $result[$vizId] = $vizClass;
             }
         }
+
         return $result;
     }
 
@@ -162,17 +166,19 @@ class ViewDataTable
      * @throws \Exception
      * @return string|null See $fetch.
      */
-    static public function renderReport($pluginName, $apiAction, $fetch = true)
+    public static function renderReport($pluginName, $apiAction, $fetch = true)
     {
-        $namespacedApiClassName = "\\Piwik\\Plugins\\$pluginName\\API";
-        $api = $namespacedApiClassName::getInstance();
+        /** @var Proxy $apiProxy */
+        $apiProxy = Proxy::getInstance();
 
-        if (!method_exists($api, $apiAction)) {
-            throw new \Exception("$namespacedApiClassName Invalid action name '$apiAction' for '$pluginName' plugin.");
+        if (!$apiProxy->isExistingApiAction($pluginName, $apiAction)) {
+            throw new \Exception("Invalid action name '$apiAction' for '$pluginName' plugin.");
         }
 
-        $view = static::factory(null, $pluginName . '.' . $apiAction);
-        $rendered = $view->render();
+        $apiAction = $apiProxy->buildApiActionName($pluginName, $apiAction);
+
+        $view      = static::factory(null, $apiAction);
+        $rendered  = $view->render();
 
         if ($fetch) {
             return $rendered;
