@@ -30,7 +30,6 @@ class AllColumns extends HtmlTable
     public function configureVisualization()
     {
         $this->config->show_extra_columns = true;
-
         $this->config->show_exclude_low_population = true;
         $this->config->datatable_css_class = 'dataTableVizAllColumns';
 
