@@ -185,6 +185,7 @@ abstract class ViewDataTable implements ViewInterface
         if (is_null($this->dataTable)) {
             throw new \Exception("The DataTable object has not yet been created");
         }
+
         return $this->dataTable;
     }
 
@@ -532,21 +533,19 @@ abstract class ViewDataTable implements ViewInterface
     private function overrideViewPropertiesWithQueryParams()
     {
         $properties = $this->getOverridableProperties();
+
         foreach ($properties as $name) {
             if (property_exists($this->requestConfig, $name)) {
                 $this->requestConfig->name = $this->getPropertyFromQueryParam($name, $this->requestConfig->$name);
             } elseif (property_exists($this->config, $name)) {
                 $this->config->name  = $this->getPropertyFromQueryParam($name, $this->config->$name);
-            } else if (property_exists($this, $name)) {
-                $default = $this->$name;
-
-                $this->$name = $this->getPropertyFromQueryParam($name, $default);
             }
         }
 
         // handle special 'columns' query parameter
         $columns = Common::getRequestVar('columns', false);
-        if ($columns !== false) {
+
+        if (false !== $columns) {
             $this->config->columns_to_display = Piwik::getArrayFromApiParameter($columns);
             array_unshift($this->config->columns_to_display, 'label');
         }
