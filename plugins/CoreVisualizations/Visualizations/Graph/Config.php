@@ -9,7 +9,7 @@
  * @package CoreVisualizations
  */
 
-namespace Piwik\ViewDataTable\Graph;
+namespace Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 
 use Piwik\ViewDataTable\Config as VisualizationConfig;
 
