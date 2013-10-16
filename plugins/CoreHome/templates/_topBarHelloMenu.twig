@@ -6,7 +6,7 @@
             <strong>{{ userLogin }}</strong>
         {% endif %}
     {% endset %}
-    <span class="topBarElem">{{ 'General_HelloUser'|translate(helloAlias)|raw }}</span>
+    <span class="topBarElem">{{ 'General_HelloUser'|translate(helloAlias|trim)|raw }}</span>
     {% if userLogin != 'anonymous' %}
         |
         {% if isAdminLayout is defined %}
