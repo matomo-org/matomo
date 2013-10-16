@@ -4,7 +4,7 @@
     <table class="dataTable">
         <thead>
             <tr>
-                {% for name,value in dataTable.getFirstRow.getColumns %}
+                {% for name in properties.columns_to_display %}
                     {% if name in properties.translations|keys %}
                         <th>{{ properties.translations[name]|translate }}</th>
                     {% else %}
@@ -16,8 +16,8 @@
         <tbody>
             {% for tableRow in dataTable.getRows %}
             <tr>
-                {% for column in tableRow.getColumns %}
-                    <td>{{ column|truncate(50)|raw }}</td>
+                {% for column in properties.columns_to_display %}
+                    <td>{{ tableRow.getColumn(column)|default('-')|truncate(50)|raw }}</td>
                 {% endfor %}
             </tr>
             {% endfor %}
