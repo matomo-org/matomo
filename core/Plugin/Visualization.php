@@ -445,12 +445,18 @@ class Visualization extends ViewDataTable
                 continue;
             }
 
+            $valueToConvert = false;
+
             if (property_exists($this->requestConfig, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->requestConfig->$name);
+                $valueToConvert = $this->requestConfig->$name;
             } else if (property_exists($this->config, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->config->$name);
+                $valueToConvert = $this->config->$name;
             } else if (property_exists($this, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->$name);
+                $valueToConvert = $this->$name;
+            }
+
+            if (false !== $valueToConvert) {
+                $javascriptVariablesToSet[$name] = $this->convertForJson($valueToConvert);
             }
         }
 
