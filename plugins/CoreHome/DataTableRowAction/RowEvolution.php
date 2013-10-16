@@ -202,6 +202,7 @@ class RowEvolution
         $view->config->show_active_view_icon = false;
         $view->config->show_related_reports = false;
         $view->config->show_series_picker = false;
+        $view->config->show_footer_message = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
             $view->config->translations[$metric] = $metadata['name'];
