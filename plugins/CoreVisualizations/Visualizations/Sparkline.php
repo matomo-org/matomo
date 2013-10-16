@@ -75,14 +75,19 @@ class Sparkline extends ViewDataTable
     protected function getValuesFromDataTableMap($dataTableMap, $columnToPlot)
     {
         $dataTableMap->applyQueuedFilters();
+
         $values = array();
+
         foreach ($dataTableMap->getDataTables() as $table) {
+
             if ($table->getRowsCount() > 1) {
                 throw new Exception("Expecting only one row per DataTable");
             }
-            $value = 0;
+
+            $value   = 0;
             $onlyRow = $table->getFirstRow();
-            if ($onlyRow !== false) {
+
+            if (false !== $onlyRow) {
                 if (!empty($columnToPlot)) {
                     $value = $onlyRow->getColumn($columnToPlot);
                 } // if not specified, we load by default the first column found
@@ -92,29 +97,36 @@ class Sparkline extends ViewDataTable
                     $value = current($columns);
                 }
             }
+
             $values[] = $value;
         }
+
         return $values;
     }
 
     protected function getValuesFromDataTable($dataTable)
     {
         $columns = $this->config->columns_to_display;
+
         $columnToPlot = false;
+
         if (!empty($columns)) {
             $columnToPlot = reset($columns);
             if ($columnToPlot == 'label') {
                 $columnToPlot = next($columns);
             }
         }
-        $values = false;
+
         // a Set is returned when using the normal code path to request data from Archives, in all core plugins
         // however plugins can also return simple datatable, hence why the sparkline can accept both data types
         if ($this->dataTable instanceof DataTable\Map) {
             $values = $this->getValuesFromDataTableMap($dataTable, $columnToPlot);
         } elseif ($this->dataTable instanceof DataTable) {
             $values = $this->dataTable->getColumn($columnToPlot);
+        } else {
+            $values = false;
         }
+
         return $values;
     }
 }
