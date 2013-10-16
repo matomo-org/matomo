@@ -124,14 +124,55 @@ class Piwik
      * @param string $piwikUrl http://path/to/piwik/directory/
      * @return string
      */
-    static public function getJavascriptCode($idSite, $piwikUrl)
+    static public function getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains = false, $prependDomain = false, $hideAlias = false)
     {
-        $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/templates/javascriptCode.tpl");
+		$jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
         $piwikUrl = @$matches[2];
         $jsCode = str_replace('{$idSite}', $idSite, $jsCode);
         $jsCode = str_replace('{$piwikUrl}', Common::sanitizeInputValue($piwikUrl), $jsCode);
+		$subdomainText = '';
+		$prependText = '';
+		$aliasText = '';
+		if ($prependDomain) {
+			$prependText = PHP_EOL . '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);';
+		}
+        if ($mergeSubdomains || $hideAlias) {
+			// Both flags need the main_url
+			$site = Db::get()->fetchRow("SELECT main_url
+								FROM " . Common::prefixTable("site") . "
+								WHERE idsite = ?", Common::sanitizeInputValue($idSite));
+			$referrerParsed = parse_url($site['main_url']);
+			// If we don't have a valid main_url, the flags cannot be processed successfully
+			// We could throw an exception, but this code will instead degrade gracefully
+			if (empty($referrerParsed['host'])) {
+				$mergeSubdomains = false;
+				$subdomainText = '/* Site must have a valid URL to track visitors across subdomains */';
+				$hideAlias = false;
+				$aliasText = PHP_EOL . '/* Site must have a valid URL to hide clicks known to alias site */';
+			}
+		}
+        if ($mergeSubdomains) {
+			$subdomainText = PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $referrerParsed['host'] . '"]);';
+		}
+		if ($hideAlias) {
+			$urls = '["*.' . $referrerParsed['host']; // We know this value is good else $hideAlias would be false from above
+			$alias = Db::get()->fetchAll("SELECT url
+								FROM " . Common::prefixTable("site_url") . "
+								WHERE idsite = ?", Common::sanitizeInputValue($idSite));
+			foreach ($alias as $alia) {
+				$referrerParsed = parse_url($alia['url']);
+				if (!empty($referrerParsed['host'])) {
+					$urls .= '","*.'.$referrerParsed['host'];
+				}
+			}
+			$urls .= '"]';
+			$aliasText = PHP_EOL . '  _paq.push(["setDomains", '.$urls.']);';
+		}
+		$jsCode = str_replace(PHP_EOL . '{$mergeSubdomains}', $subdomainText, $jsCode);
+		$jsCode = str_replace(PHP_EOL . '{$prependDomain}', $prependText, $jsCode);
+		$jsCode = str_replace(PHP_EOL . '{$hideAlias}', $aliasText, $jsCode);
         return $jsCode;
     }
 
