@@ -94,6 +94,10 @@ class ViewDataTable
             return new $visualizations[$type]($controllerAction, $apiAction, $defaultReportProperties);
         }
 
+        if (class_exists($type)) {
+            return new $type($controllerAction, $apiAction, $defaultReportProperties);
+        }
+
         throw new \Exception(sprintf('Visuzalization type %s not found', $type));
     }
 

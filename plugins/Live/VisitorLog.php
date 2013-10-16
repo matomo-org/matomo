@@ -18,6 +18,7 @@ use Piwik\Plugin\Visualization;
  */
 class VisitorLog extends Visualization
 {
+    const ID = 'Piwik\Plugins\Live\VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
 
     static public $clientSideRequestParameters = array(
