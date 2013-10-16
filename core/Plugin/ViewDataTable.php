@@ -340,18 +340,7 @@ abstract class ViewDataTable implements ViewInterface
 
     abstract protected function buildView();
 
-    protected function overrideViewProperties()
-    {
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals')) {
-            $this->config->show_goals = false;
-        }
-
-        if (empty($this->config->footer_icons)) {
-            $this->config->footer_icons = $this->getDefaultFooterIconsToShow();
-        }
-    }
-
-    private function getDefaultFooterIconsToShow()
+    protected function getDefaultFooterIconsToShow()
     {
         $result = array();
 
@@ -513,11 +502,6 @@ abstract class ViewDataTable implements ViewInterface
         }
 
         return $result;
-    }
-
-    protected function convertForJson($value)
-    {
-        return is_bool($value) ? (int)$value : $value;
     }
 
     /**

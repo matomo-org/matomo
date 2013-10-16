@@ -12,6 +12,7 @@
 namespace Piwik\ViewDataTable;
 use Piwik\Common;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 
 /**
@@ -558,4 +559,5 @@ class Config
 
         $this->columns_to_display = array_filter($columnsToDisplay);
     }
+
 }

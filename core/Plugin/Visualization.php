@@ -73,7 +73,8 @@ class Visualization extends ViewDataTable
          * are configured differently when viewed with the new visualization.
          */
         Piwik::postEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
-        $this->overrideViewProperties();
+
+        $this->overrideSomeConfigPropertiesIfNeeded();
 
         try {
             $this->beforeLoadDataTable();
@@ -98,9 +99,8 @@ class Visualization extends ViewDataTable
         }
 
         $view->assign($this->templateVars);
-        $view->visualization = $this;
+        $view->visualization         = $this;
         $view->visualizationTemplate = static::TEMPLATE_FILE;
-
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
 
         if (null === $this->dataTable) {
@@ -109,15 +109,15 @@ class Visualization extends ViewDataTable
             // TODO: this hook seems inappropriate. should be able to find data that is requested for (by site/date) and check if that
             //       has data.
             $view->dataTableHasNoData = !$this->isThereDataToDisplay();
-
-            $view->dataTable = $this->dataTable;
+            $view->dataTable          = $this->dataTable;
 
             // if it's likely that the report data for this data table has been purged,
             // set whether we should display a message to that effect.
             $view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
-            $view->deleteReportsOlderThan = Option::get('delete_reports_older_than');
+            $view->deleteReportsOlderThan         = Option::get('delete_reports_older_than');
         }
-        $view->idSubtable = $this->idSubtable;
+
+        $view->idSubtable  = $this->idSubtable;
         $view->clientSideParameters = $this->getClientSideParametersToSet();
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
         $view->properties  = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());
@@ -125,6 +125,17 @@ class Visualization extends ViewDataTable
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
 
         return $view;
+    }
+
+    private function overrideSomeConfigPropertiesIfNeeded()
+    {
+        if (empty($this->config->footer_icons)) {
+            $this->config->footer_icons = $this->getDefaultFooterIconsToShow();
+        }
+
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals')) {
+            $this->config->show_goals = false;
+        }
     }
 
     public function assignTemplateVar($vars, $value = null)
@@ -266,28 +277,33 @@ class Visualization extends ViewDataTable
         $strPeriod = Common::getRequestVar('period', false);
         $strDate   = Common::getRequestVar('date', false);
 
-        if ($strPeriod !== false
-            && $strDate !== false
+        if (false !== $strPeriod
+            && false !== $strDate
             && (is_null($this->dataTable)
                 || (!empty($this->dataTable) && $this->dataTable->getRowsCount() == 0))
         ) {
             // if range, only look at the first date
             if ($strPeriod == 'range') {
+
                 $idSite = Common::getRequestVar('idSite', '');
+
                 if (intval($idSite) != 0) {
-                    $site = new Site($idSite);
+                    $site     = new Site($idSite);
                     $timezone = $site->getTimezone();
                 } else {
                     $timezone = 'UTC';
                 }
 
-                $period = new Range('range', $strDate, $timezone);
+                $period     = new Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
-            } // if a multiple period, this function is irrelevant
-            else if (Period::isMultiplePeriod($strDate, $strPeriod)) {
+
+            } elseif (Period::isMultiplePeriod($strDate, $strPeriod)) {
+
+                // if a multiple period, this function is irrelevant
                 return false;
-            } // otherwise, use the date as given
-            else {
+
+            }  else {
+                // otherwise, use the date as given
                 $reportDate = Date::factory($strDate);
             }
 
@@ -316,13 +332,18 @@ class Visualization extends ViewDataTable
 
         foreach ($this->config->clientSideProperties as $name) {
             if (property_exists($this->requestConfig, $name)) {
-                $result[$name] = $this->convertForJson($this->requestConfig->$name);
+                $result[$name] = $this->getIntIfValueIsBool($this->requestConfig->$name);
             } else if (property_exists($this->config, $name)) {
-                $result[$name] = $this->convertForJson($this->config->$name);
+                $result[$name] = $this->getIntIfValueIsBool($this->config->$name);
             }
         }
 
         return $result;
+    }
+
+    private function getIntIfValueIsBool($value)
+    {
+        return is_bool($value) ? (int)$value : $value;
     }
 
     /**
@@ -371,7 +392,7 @@ class Visualization extends ViewDataTable
             }
 
             if (false !== $valueToConvert) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($valueToConvert);
+                $javascriptVariablesToSet[$name] = $this->getIntIfValueIsBool($valueToConvert);
             }
         }
 
@@ -449,9 +470,26 @@ class Visualization extends ViewDataTable
         // $this->generator = new GeneratorFoo($dataTable);
     }
 
+    /**
+     * Second, generic filters (Sort, Limit, Replace Column Names, etc.)
+     */
+    private function applyGenericFilters()
+    {
+        $requestArray = $this->request->getRequestArray();
+        $request      = \Piwik\API\Request::getRequestArrayFromString($requestArray);
+
+        if (false === $this->config->enable_sort) {
+            $request['filter_sort_column'] = '';
+            $request['filter_sort_order']  = '';
+        }
+
+        $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
+        $genericFilter->filter($this->dataTable);
+    }
+
     private function getFiltersToRun()
     {
-        $priorityFilters = array();
+        $priorityFilters     = array();
         $presentationFilters = array();
 
         foreach ($this->config->filters as $filterInfo) {
@@ -476,22 +514,4 @@ class Visualization extends ViewDataTable
 
         return array($priorityFilters, $presentationFilters);
     }
-
-    /**
-     * Second, generic filters (Sort, Limit, Replace Column Names, etc.)
-     */
-    private function applyGenericFilters()
-    {
-        $requestArray = $this->request->getRequestArray();
-        $request      = \Piwik\API\Request::getRequestArrayFromString($requestArray);
-
-        if (false === $this->config->enable_sort) {
-            $request['filter_sort_column'] = '';
-            $request['filter_sort_order']  = '';
-        }
-
-        $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
-        $genericFilter->filter($this->dataTable);
-    }
-
 }

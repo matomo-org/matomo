@@ -683,7 +683,7 @@ class Actions extends \Piwik\Plugin
 
         $result['filters'][] = function ($dataTable, $view) {
             if ($view->getViewDataTableId() == 'table') {
-                $view->datatable_css_class = 'dataTableActions';
+                $view->config->datatable_css_class = 'dataTableActions';
             }
         };
 
