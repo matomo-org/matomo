@@ -300,7 +300,7 @@
             }
 
             // create selectable rows list
-            if (this.selectableRows) {
+            if ($.isArray(this.selectableRows) && this.selectableRows.length) {
                 // "records to plot" subheadline
                 var header = $('<p/>').addClass('headline').addClass('recordsToPlot').html(this.lang.recordsToPlot);
                 popover.append(header);
