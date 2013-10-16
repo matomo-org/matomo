@@ -767,12 +767,17 @@ class ViewDataTable
                 continue;
             }
 
+            $valueToConvert = false;
             if (property_exists($this->vizRequest, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizRequest->$name);
+                $valueToConvert = $this->vizRequest->$name;
             } else if (property_exists($this->vizConfig, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizConfig->$name);
+                $valueToConvert = $this->vizConfig->$name;
             } else if (VisualizationPropertiesProxy::isValidVisualizationProperty($this->visualizationClass, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizConfig->visualization_properties->$name);
+                $valueToConvert = $this->vizConfig->visualization_properties->$name;
+            }
+
+            if (false !== $valueToConvert) {
+                $javascriptVariablesToSet[$name] = $this->convertForJson($valueToConvert);
             }
         }
 
