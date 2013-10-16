@@ -70,6 +70,8 @@ PageRenderer.prototype = {
                         && window.piwik.ajaxRequestFinished
                     ) {
                         window.piwik.ajaxRequestFinished();
+                    } else {
+                        console.log("__AJAX_DONE__");
                     }
                 });
             }
