@@ -25,6 +25,7 @@ class CustomDataTable
         $view->requestConfig->filter_sort_column = 'label';
         $view->requestConfig->filter_sort_order = 'asc';
         $view->requestConfig->filter_limit = 24;
+        $view->config->columns_to_display = array('label', 'value');
         $view->config->y_axis_unit = '°C'; // useful if the user requests the bar graph
         $view->config->show_exclude_low_population = false;
         $view->config->show_table_all_columns = false;
