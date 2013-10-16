@@ -152,4 +152,18 @@ class RequestConfig
         $this->filter_sort_order = 'desc';
     }
 
+    public function getApiModuleToRequest()
+    {
+        list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
+
+        return $module;
+    }
+
+    public function getApiMethodToRequest()
+    {
+        list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
+
+        return $method;
+    }
+
 }

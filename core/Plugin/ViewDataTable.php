@@ -174,6 +174,13 @@ abstract class ViewDataTable implements ViewInterface
        return $id;
     }
 
+    public function isViewDataTableType($viewDataTableId)
+    {
+        $myId = static::getViewDataTableId();
+
+        return $myId == $viewDataTableId;
+    }
+
     /**
      * Returns the DataTable loaded from the API
      *
