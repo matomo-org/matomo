@@ -120,9 +120,9 @@ class Visualization extends ViewDataTable
         $view->idSubtable = $this->idSubtable;
         $view->clientSideParameters = $this->getClientSideParametersToSet();
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
-        $view->properties = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());
+        $view->properties  = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());
         $view->footerIcons = $this->config->footer_icons;
-        $view->isWidget = Common::getRequestVar('widget', 0, 'int');
+        $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
 
         return $view;
     }
@@ -152,42 +152,21 @@ class Visualization extends ViewDataTable
     private function postDataTableLoadedFromAPI()
     {
         $columns = $this->dataTable->getColumns();
-        $haveNbVisits = in_array('nb_visits', $columns);
-        $haveNbUniqVisitors = in_array('nb_uniq_visitors', $columns);
+        $hasNbVisits       = in_array('nb_visits', $columns);
+        $hasNbUniqVisitors = in_array('nb_uniq_visitors', $columns);
 
         // default columns_to_display to label, nb_uniq_visitors/nb_visits if those columns exist in the
         // dataset. otherwise, default to all columns in dataset.
         if (empty($this->config->columns_to_display)) {
-            if ($haveNbVisits
-                || $haveNbUniqVisitors
-            ) {
-                $columnsToDisplay = array('label');
-
-                // if unique visitors data is available, show it, otherwise just visits
-                if ($haveNbUniqVisitors) {
-                    $columnsToDisplay[] = 'nb_uniq_visitors';
-                } else {
-                    $columnsToDisplay[] = 'nb_visits';
-                }
-            } else {
-                $columnsToDisplay = $columns;
-            }
-
-            $this->config->columns_to_display = array_filter($columnsToDisplay);
+            $this->config->setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors);
         }
 
-        $this->removeEmptyColumnsFromDisplay();
+        if (!empty($this->dataTable)) {
+            $this->removeEmptyColumnsFromDisplay();
+        }
 
-        // default sort order to visits/visitors data
         if (empty($this->requestConfig->filter_sort_column)) {
-            if ($haveNbUniqVisitors
-                && in_array('nb_uniq_visitors', $this->config->columns_to_display)
-            ) {
-                $this->requestConfig->filter_sort_column = 'nb_uniq_visitors';
-            } else {
-                $this->requestConfig->filter_sort_column = 'nb_visits';
-            }
-            $this->requestConfig->filter_sort_order = 'desc';
+            $this->requestConfig->setDefaultSort($this->config->columns_to_display, $hasNbUniqVisitors);
         }
 
         // deal w/ table metadata
@@ -195,8 +174,7 @@ class Visualization extends ViewDataTable
             $this->config->metadata = $this->dataTable->getAllTableMetadata();
 
             if (isset($this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                $this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME] =
-                    $this->makePrettyArchivedOnText();
+                $this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME] = $this->makePrettyArchivedOnText();
             }
         }
 
@@ -209,17 +187,8 @@ class Visualization extends ViewDataTable
 
         $this->beforeGenericFiltersAreAppliedToLoadedDataTable();
 
-        if (!$this->areGenericFiltersDisabled()) {
-            // Second, generic filters (Sort, Limit, Replace Column Names, etc.)
-            $requestArray = $this->request->getRequestArray();
-            $request = \Piwik\API\Request::getRequestArrayFromString($requestArray);
-
-            if ($this->config->enable_sort === false) {
-                $request['filter_sort_column'] = $request['filter_sort_order'] = '';
-            }
-
-            $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
-            $genericFilter->filter($this->dataTable);
+        if (!$this->config->areGenericFiltersDisabled()) {
+            $this->applyGenericFilters();
         }
 
         // queue other filters so they can be applied later if queued filters are disabled
@@ -229,8 +198,7 @@ class Visualization extends ViewDataTable
 
         // Finally, apply datatable filters that were queued (should be 'presentation' filters that
         // do not affect the number of rows)
-        if (!$this->areQueuedFiltersDisabled()) {
-
+        if (!$this->config->areQueuedFiltersDisabled()) {
             $this->dataTable->applyQueuedFilters();
         }
 
@@ -241,14 +209,12 @@ class Visualization extends ViewDataTable
 
     private function removeEmptyColumnsFromDisplay()
     {
-        if (empty($this->dataTable)) {
-            return;
-        }
         if ($this->dataTable instanceof DataTable\Map) {
             $emptyColumns = $this->dataTable->getMetadataIntersectArray(DataTable::EMPTY_COLUMNS_METADATA_NAME);
         } else {
             $emptyColumns = $this->dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
         }
+
         if (is_array($emptyColumns)) {
             foreach ($emptyColumns as $emptyColumn) {
                 $key = array_search($emptyColumn, $this->config->columns_to_display);
@@ -256,38 +222,9 @@ class Visualization extends ViewDataTable
                     unset($this->config->columns_to_display[$key]);
                 }
             }
+
             $this->config->columns_to_display = array_values($this->config->columns_to_display);
         }
-    }
-
-    /**
-     * Returns true if generic filters have been disabled, false if otherwise.
-     *
-     * @return bool
-     */
-    private function areGenericFiltersDisabled()
-    {
-        // if disable_generic_filters query param is set to '1', generic filters are disabled
-        if (Common::getRequestVar('disable_generic_filters', '0', 'string') == 1) {
-            return true;
-        }
-
-        if (isset($this->config->disable_generic_filters) && true === $this->config->disable_generic_filters
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns true if queued filters have been disabled, false if otherwise.
-     *
-     * @return bool
-     */
-    private function areQueuedFiltersDisabled()
-    {
-        return isset($this->config->disable_queued_filters) && $this->config->disable_queued_filters;
     }
 
     /**
@@ -298,16 +235,19 @@ class Visualization extends ViewDataTable
     private function makePrettyArchivedOnText()
     {
         $dateText = $this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME];
-        $date = Date::factory($dateText);
-        $today = mktime(0, 0, 0);
+        $date     = Date::factory($dateText);
+        $today    = mktime(0, 0, 0);
+
         if ($date->getTimestamp() > $today) {
+
             $elapsedSeconds = time() - $date->getTimestamp();
-            $timeAgo = MetricsFormatter::getPrettyTimeFromSeconds($elapsedSeconds);
+            $timeAgo        = MetricsFormatter::getPrettyTimeFromSeconds($elapsedSeconds);
 
             return Piwik::translate('CoreHome_ReportGeneratedXAgo', $timeAgo);
         }
 
         $prettyDate = $date->getLocalized("%longYear%, %longMonth% %day%") . $date->toString('S');
+
         return Piwik::translate('CoreHome_ReportGeneratedOn', $prettyDate);
     }
 
@@ -324,7 +264,7 @@ class Visualization extends ViewDataTable
     public function hasReportBeenPurged()
     {
         $strPeriod = Common::getRequestVar('period', false);
-        $strDate = Common::getRequestVar('date', false);
+        $strDate   = Common::getRequestVar('date', false);
 
         if ($strPeriod !== false
             && $strDate !== false
@@ -374,7 +314,7 @@ class Visualization extends ViewDataTable
     {
         $result = array();
 
-        foreach ($this->getClientSideConfigProperties() as $name) {
+        foreach ($this->config->clientSideProperties as $name) {
             if (property_exists($this->requestConfig, $name)) {
                 $result[$name] = $this->convertForJson($this->requestConfig->$name);
             } else if (property_exists($this->config, $name)) {
@@ -383,29 +323,6 @@ class Visualization extends ViewDataTable
         }
 
         return $result;
-    }
-
-    /**
-     * Returns the list of view properties that should be sent with the HTML response
-     * as JSON. These properties are visible to the UI JavaScript, but are not passed
-     * with every request.
-     *
-     * @return array
-     */
-    public function getClientSideConfigProperties()
-    {
-        return $this->config->clientSideProperties;
-    }
-
-    /**
-     * Returns the list of view properties that should be sent with the HTML response
-     * and resent by the UI JavaScript in every subsequent AJAX request.
-     *
-     * @return array
-     */
-    public function getClientSideRequestParameters()
-    {
-        return $this->requestConfig->clientSideParameters;
     }
 
     /**
@@ -440,7 +357,7 @@ class Visualization extends ViewDataTable
             $javascriptVariablesToSet[$name] = $requestValue;
         }
 
-        foreach ($this->getClientSideRequestParameters() as $name) {
+        foreach ($this->requestConfig->clientSideParameters as $name) {
             if (isset($javascriptVariablesToSet[$name])) {
                 continue;
             }
@@ -451,8 +368,6 @@ class Visualization extends ViewDataTable
                 $valueToConvert = $this->requestConfig->$name;
             } else if (property_exists($this->config, $name)) {
                 $valueToConvert = $this->config->$name;
-            } else if (property_exists($this, $name)) {
-                $valueToConvert = $this->$name;
             }
 
             if (false !== $valueToConvert) {
@@ -560,6 +475,23 @@ class Visualization extends ViewDataTable
         }
 
         return array($priorityFilters, $presentationFilters);
+    }
+
+    /**
+     * Second, generic filters (Sort, Limit, Replace Column Names, etc.)
+     */
+    private function applyGenericFilters()
+    {
+        $requestArray = $this->request->getRequestArray();
+        $request      = \Piwik\API\Request::getRequestArrayFromString($requestArray);
+
+        if (false === $this->config->enable_sort) {
+            $request['filter_sort_column'] = '';
+            $request['filter_sort_order']  = '';
+        }
+
+        $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
+        $genericFilter->filter($this->dataTable);
     }
 
 }
