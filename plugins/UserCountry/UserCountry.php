@@ -472,7 +472,7 @@ class UserCountry extends \Piwik\Plugin
                             array('<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">', '</a>'));
                 }
 
-                $view->show_footer_message = $footerMessage;
+                $view->config->show_footer_message = $footerMessage;
             }
         };
     }
