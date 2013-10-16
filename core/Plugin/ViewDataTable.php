@@ -62,6 +62,7 @@ use \Piwik\ViewDataTable\Request as ViewDataTableRequest;
  */
 abstract class ViewDataTable implements ViewInterface
 {
+    const ID = '';
     const CONFIGURE_FOOTER_ICONS_EVENT = 'Visualization.configureFooterIcons';
 
     /**
@@ -129,11 +130,14 @@ abstract class ViewDataTable implements ViewInterface
         $this->overrideViewPropertiesWithQueryParams();
     }
 
-    public function __call($method, $args)
+    public function getDefaultConfig()
     {
-        if (property_exists($this, $method)) {
-            return $this->$method;
-        }
+        return new VizConfig();
+    }
+
+    public function getDefaultRequestConfig()
+    {
+        return new VizRequest();
     }
 
     protected function loadDataTableFromAPI()
@@ -155,15 +159,19 @@ abstract class ViewDataTable implements ViewInterface
      * Returns the viewDataTable ID for this DataTable visualization. Derived classes
      * should declare a const ID field with the viewDataTable ID.
      *
+     * @throws \Exception
      * @return string
      */
     public static function getViewDataTableId()
     {
-        if (defined('static::ID')) {
-            return static::ID;
-        } else {
-            return get_called_class();
+        $id = static::ID;
+
+        if (empty($id)) {
+            $message = sprintf('ViewDataTable %s does not define an ID. Set the ID constant to fix this issue', get_called_class());
+            throw new \Exception($message);
         }
+
+       return $id;
     }
 
     /**
@@ -279,7 +287,10 @@ abstract class ViewDataTable implements ViewInterface
 
         $result = array();
         foreach ($klasses as $klass) {
-            $result[] = $klass::getViewDataTableId();
+            if ('Piwik\\Plugin\\ViewDataTable' != $klass
+                && 'Piwik\\Plugin\\Visualization' != $klass) {
+                $result[] = $klass::getViewDataTableId();
+            }
         }
 
         return $result;
@@ -431,8 +442,8 @@ abstract class ViewDataTable implements ViewInterface
             }
 
             if ($this->config->show_non_core_visualizations) {
-                $nonCoreVisualizations = \Piwik\ViewDataTable::getNonCoreVisualizations();
-                $nonCoreVisualizationInfo = Visualization::getVisualizationInfoFor($nonCoreVisualizations);
+                $nonCoreVisualizations    = \Piwik\ViewDataTable::getNonCoreVisualizations();
+                $nonCoreVisualizationInfo = static::getVisualizationInfoFor($nonCoreVisualizations);
 
                 foreach ($nonCoreVisualizationInfo as $format => $info) {
                     $graphViewIcons['buttons'][] = array(
@@ -495,20 +506,12 @@ abstract class ViewDataTable implements ViewInterface
     public static function getVisualizationInfoFor($visualizations)
     {
         $result = array();
+
         foreach ($visualizations as $vizId => $vizClass) {
             $result[$vizId] = array('table_icon' => $vizClass::FOOTER_ICON, 'title' => $vizClass::FOOTER_ICON_TITLE);
         }
+
         return $result;
-    }
-
-    public function getDefaultConfig()
-    {
-        return new VizConfig();
-    }
-
-    public function getDefaultRequestConfig()
-    {
-        return new VizRequest();
     }
 
     protected function convertForJson($value)

@@ -19,6 +19,7 @@ use Piwik\Plugin\Visualization;
  */
 class SimpleTable extends Visualization
 {
+    const ID = 'simpleTable';
     const TEMPLATE_FILE     = '@ExampleVisualization/simpleTable.twig';
     const FOOTER_ICON_TITLE = 'Simple Table';
     const FOOTER_ICON       = 'plugins/ExampleVisualization/images/table.png';
