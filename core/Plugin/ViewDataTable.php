@@ -25,6 +25,7 @@ use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
+use \Piwik\ViewDataTable\Request as ViewDataTableRequest;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -78,54 +79,42 @@ abstract class ViewDataTable implements ViewInterface
     protected $dataTable = null;
 
     /**
-     * @see init()
-     * @var string
-     */
-    protected $currentControllerAction;
-
-    /**
-     * @see init()
-     * @var string
-     */
-    protected $currentControllerName;
-
-    /**
-     * @var null|\Piwik\ViewDataTable\Config
+     * @var \Piwik\ViewDataTable\Config
      */
     public $config;
 
     /**
-     * @var null|\Piwik\ViewDataTable\RequestConfig
+     * @var \Piwik\ViewDataTable\RequestConfig
      */
     public $requestConfig;
 
     /**
-     * @var \Piwik\ViewDataTable\Request
+     * @var ViewDataTableRequest
      */
     protected $request;
 
     /**
      * Default constructor.
      */
-    public function __construct($currentControllerAction, $apiMethodToRequestDataTable, $defaultReportProperties)
+    public function __construct($controllerAction, $apiMethodToRequestDataTable, $defaultReportProperties)
     {
-        list($currentControllerName, $currentControllerAction) = explode('.', $currentControllerAction);
+        list($controllerName, $controllerAction) = explode('.', $controllerAction);
 
         $this->requestConfig = $this->getDefaultRequestConfig();
         $this->config        = $this->getDefaultConfig();
-        $this->config->subtable_controller_action = $currentControllerAction;
-        $this->config->setController($currentControllerName, $currentControllerAction);
+        $this->config->subtable_controller_action = $controllerAction;
+        $this->config->setController($controllerName, $controllerAction);
 
-        $this->request = new \Piwik\ViewDataTable\Request($this->requestConfig);
+        $this->request = new ViewDataTableRequest($this->requestConfig);
 
         $this->setViewProperties($defaultReportProperties);
 
         $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
 
-        $this->config->show_footer_icons = ($this->idSubtable == false);
-        $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
+        $this->config->show_footer_icons = (false == $this->idSubtable);
+        $this->config->self_url          = Request::getBaseReportUrl($controllerName, $controllerAction);
 
-        $this->config->self_url = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
+        $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
         // the exclude low population threshold value is sometimes obtained by requesting data.
         // to avoid issuing unecessary requests when display properties are determined by metadata,
@@ -203,6 +192,13 @@ abstract class ViewDataTable implements ViewInterface
         $this->dataTable = $dataTable;
     }
 
+    private function setViewProperties($values)
+    {
+        foreach ($values as $name => $value) {
+            $this->setViewProperty($name, $value);
+        }
+    }
+
     /**
      * Sets a view property by name. This function handles special view properties
      * like 'translations' & 'related_reports' that store arrays.
@@ -239,10 +235,8 @@ abstract class ViewDataTable implements ViewInterface
             $this->requestConfig->$name = $value;
         } else if (property_exists($this->config, $name)) {
             $this->config->$name = $value;
-        } else if (property_exists($this, $name)) {
-            $this->$name = $value;
         } else {
-            $report = $this->currentControllerName . '.' . $this->currentControllerAction;
+            $report = $this->config->controllerName . '.' . $this->config->controllerAction;
             throw new \Exception("Invalid view property '$name' specified in view property metadata for '$report'.");
         }
     }
@@ -259,23 +253,36 @@ abstract class ViewDataTable implements ViewInterface
         }
 
         // TODO parent class should not know anything about children
-        $visualizationIds = Visualization::getVisualizationIdsWithInheritance(get_class($this));
+        $visualizationIds = static::getIdsWithInheritance(get_class($this));
 
         foreach ($visualizationIds as $visualizationId) {
             if (empty($properties[$visualizationId])) {
                 continue;
             }
 
-            foreach ($properties[$visualizationId] as $key => $value) {
-                if (property_exists($this->requestConfig, $key)) {
-                    $this->requestConfig->$key = $value;
-                } elseif (property_exists($this->config, $key)) {
-                    $this->config->$key = $value;
-                } else {
-                    $this->$key = $value;
-                }
-            }
+            $this->setViewProperties($properties[$visualizationId]);
         }
+    }
+
+    /**
+     * Returns the viewDataTable IDs of a visualization's class lineage.
+     *
+     * @see self::getVisualizationClassLineage
+     *
+     * @param string $klass The visualization class.
+     *
+     * @return array
+     */
+    public static function getIdsWithInheritance($klass)
+    {
+        $klasses = Common::getClassLineage($klass);
+
+        $result = array();
+        foreach ($klasses as $klass) {
+            $result[] = $klass::getViewDataTableId();
+        }
+
+        return $result;
     }
 
     /**
@@ -291,11 +298,12 @@ abstract class ViewDataTable implements ViewInterface
     private function addRelatedReport($module, $action, $title, $queryParams = array())
     {
         // don't add the related report if it references this report
-        if ($this->currentControllerName == $module && $this->currentControllerAction == $action) {
+        if ($this->config->controllerName == $module && $this->config->controllerAction == $action) {
             return;
         }
 
-        $url = $this->getBaseReportUrl($module, $action, $queryParams);
+        $url = Request::getBaseReportUrl($module, $action, $queryParams);
+
         $this->config->related_reports[$url] = $title;
     }
 
@@ -305,20 +313,6 @@ abstract class ViewDataTable implements ViewInterface
             list($module, $action) = explode('.', $report);
             $this->addRelatedReport($module, $action, $title);
         }
-    }
-
-    /**
-     * Returns URL for this report w/o any filter parameters.
-     *
-     * @param string $module
-     * @param string $action
-     * @param array $queryParams
-     * @return string
-     */
-    private function getBaseReportUrl($module, $action, $queryParams = array())
-    {
-        $params = array_merge($queryParams, array('module' => $module, 'action' => $action));
-        return Request::getCurrentUrlWithoutGenericFilters($params);
     }
 
     /**
@@ -332,6 +326,7 @@ abstract class ViewDataTable implements ViewInterface
         return $view->render();
     }
 
+    abstract protected function buildView();
 
     protected function overrideViewProperties()
     {
@@ -343,8 +338,6 @@ abstract class ViewDataTable implements ViewInterface
             $this->config->footer_icons = $this->getDefaultFooterIconsToShow();
         }
     }
-
-    abstract protected function buildView();
 
     private function getDefaultFooterIconsToShow()
     {
@@ -490,13 +483,6 @@ abstract class ViewDataTable implements ViewInterface
     public function getDefaultDataTableCssClass()
     {
         return 'dataTableViz' . Piwik::getUnnamespacedClassName(get_class($this));
-    }
-
-    private function setViewProperties($values)
-    {
-        foreach ($values as $name => $value) {
-            $this->setViewProperty($name, $value);
-        }
     }
 
     /**

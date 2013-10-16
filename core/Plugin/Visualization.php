@@ -41,7 +41,7 @@ class Visualization extends ViewDataTable
 
     private $templateVars = array();
 
-    final public function __construct($currentControllerAction, $apiMethodToRequestDataTable, $defaultReportProperties)
+    final public function __construct($controllerAction, $apiMethodToRequestDataTable, $defaultReportProperties)
     {
         $templateFile = static::TEMPLATE_FILE;
 
@@ -49,7 +49,7 @@ class Visualization extends ViewDataTable
             throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
         }
 
-        parent::__construct($currentControllerAction, $apiMethodToRequestDataTable, $defaultReportProperties);
+        parent::__construct($controllerAction, $apiMethodToRequestDataTable, $defaultReportProperties);
 
         $this->init();
     }
@@ -532,70 +532,6 @@ class Visualization extends ViewDataTable
         // $dataTable ...
 
         // $this->generator = new GeneratorFoo($dataTable);
-    }
-
-    /**
-     * Returns the list of parents for a Visualization class excluding the
-     * Visualization class and above.
-     *
-     * @param string $klass The class name of the Visualization.
-     * @return Visualization[]  The list of parent classes in order from highest
-     *                                   ancestor to the descended class.
-     */
-    public static function getVisualizationClassLineage($klass)
-    {
-        $klasses = array_merge(array($klass), array_values(class_parents($klass, $autoload = false)));
-
-        $idx = array_search('Piwik\\Plugin\\Visualization', $klasses);
-        if ($idx !== false) {
-            $klasses = array_slice($klasses, 0, $idx);
-        }
-
-        return array_reverse($klasses);
-    }
-
-    /**
-     * Returns the viewDataTable IDs of a visualization's class lineage.
-     *
-     * @see self::getVisualizationClassLineage
-     *
-     * @param string $klass The visualization class.
-     *
-     * @return array
-     */
-    public static function getVisualizationIdsWithInheritance($klass)
-    {
-        $klasses = self::getVisualizationClassLineage($klass);
-
-        $result = array();
-        foreach ($klasses as $klass) {
-            $result[] = $klass::getViewDataTableId();
-        }
-        return $result;
-    }
-
-    /**
-     * Helper function that merges the static field values of every class in this
-     * classes inheritance hierarchy. Uses late-static binding.
-     */
-    protected function getPropertyNameListWithMetaProperty($baseProperties, $staticFieldName)
-    {
-        if (isset(static::$$staticFieldName)) {
-            $result = array();
-
-            $lineage = static::getVisualizationClassLineage(get_called_class());
-            foreach ($lineage as $klass) {
-                if (isset($klass::$$staticFieldName)) {
-                    $result = array_merge($result, $klass::$$staticFieldName);
-                }
-            }
-
-            $result = array_merge($baseProperties, $result);
-
-            return array_unique($result);
-        }
-
-        return $baseProperties;
     }
 
     private function getFiltersToRun()
