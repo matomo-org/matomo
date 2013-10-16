@@ -36,7 +36,7 @@ class RequestConfig extends VisualizationRequestConfig
 
         if (Common::getRequestVar('enable_filter_excludelowpop', false) == '1') {
             $this->filter_excludelowpop       = 'nb_visits';
-            $this->filter_excludelowpop_value = null;
+            $this->filter_excludelowpop_value = false;
         }
 
         $this->addPropertiesThatShouldBeAvailableClientSide(array(
