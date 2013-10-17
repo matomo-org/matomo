@@ -328,7 +328,7 @@ overlay_disable_framed_mode = 0
 
 ; By setting this option to 0, you can disable the Piwik marketplace. This is useful to prevent giving the Super user
 ; the access to disk and install custom PHP code (Piwik plugins).
-enable_marketplace = 1
+enable_marketplace = 0
 
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
