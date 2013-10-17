@@ -29,7 +29,7 @@
  * @version 2012-10-08
  * @link http://www.JSON.org/js.html
  ************************************************************/
-/*jslint evil: true, regexp: false, bitwise: true */
+/*jslint evil: true, regexp: false, bitwise: true*/
 /*global JSON2:true */
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
@@ -427,7 +427,8 @@ if (typeof JSON2 !== 'object') {
     addListener, enableLinkTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch,
-    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate
+    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
+    deleteCookies
  */
 /*global _paq:true */
 /*members push */
@@ -483,7 +484,7 @@ if (typeof Piwik !== 'object') {
             asyncTracker,
 
             /* iterator */
-            i,
+            iterator,
 
             /* local Piwik */
             Piwik;
@@ -783,16 +784,16 @@ if (typeof Piwik !== 'object') {
                 },
 
                 cvt_hex = function (val) {
-                    var str = '',
+                    var strout = '',
                         i,
                         v;
 
                     for (i = 7; i >= 0; i--) {
                         v = (val >>> (i * 4)) & 0x0f;
-                        str += v.toString(16);
+                        strout += v.toString(16);
                     }
 
-                    return str;
+                    return strout;
                 },
 
                 blockstart,
@@ -1278,11 +1279,13 @@ if (typeof Piwik !== 'object') {
 
                 baseUrl = purify(baseUrl);
 
-                if ((i = baseUrl.indexOf('?')) >= 0) {
+                i = baseUrl.indexOf('?');
+                if (i >= 0) {
                     baseUrl = baseUrl.slice(0, i);
                 }
 
-                if ((i = baseUrl.lastIndexOf('/')) !== baseUrl.length - 1) {
+                i = baseUrl.lastIndexOf('/');
+                if (i !== baseUrl.length - 1) {
                     baseUrl = baseUrl.slice(0, i + 1);
                 }
 
@@ -1327,7 +1330,9 @@ if (typeof Piwik !== 'object') {
             function getImage(request) {
                 var image = new Image(1, 1);
 
-                image.onload = function () { };
+                image.onload = function () {
+                    iterator = 0; // To avoid JSLint warning of empty block
+                };
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
@@ -1534,7 +1539,7 @@ if (typeof Piwik !== 'object') {
                         if (isObject(cookie)) {
                             return cookie;
                         }
-                    } catch (err) {
+                    } catch (ignore) {
                         // Pre 1.3, this cookie was not JSON encoded
                     }
                 }
@@ -1882,17 +1887,17 @@ if (typeof Piwik !== 'object') {
                     // periodic check for activity
                     lastActivityTime = now.getTime();
                     setTimeout(function heartBeat() {
-                        var now = new Date(),
-                            request;
+                        var requestPing;
+                        now = new Date();
 
                         // there was activity during the heart beat period;
                         // on average, this is going to overstate the visitDuration by configHeartBeatTimer/2
                         if ((lastActivityTime + configHeartBeatTimer) > now.getTime()) {
                             // send ping if minimum visit time has elapsed
                             if (configMinimumVisitTime < now.getTime()) {
-                                request = getRequest('ping=1', customData, 'ping');
+                                requestPing = getRequest('ping=1', customData, 'ping');
 
-                                sendRequest(request, configTrackerPause);
+                                sendRequest(requestPing, configTrackerPause);
                             }
 
                             // resume heart beat
@@ -2045,10 +2050,16 @@ if (typeof Piwik !== 'object') {
                     tag,
                     linkType;
 
-                while ((parentElement = sourceElement.parentNode) !== null &&
-                        isDefined(parentElement) && // buggy IE5.5
-                        ((tag = sourceElement.tagName.toUpperCase()) !== 'A' && tag !== 'AREA')) {
+                parentElement = sourceElement.parentNode;
+                while (parentElement !== null &&
+                        /* buggy IE5.5 */
+                        isDefined(parentElement)) {
+                    tag = sourceElement.tagName.toUpperCase();
+                    if (tag === 'A' || tag === 'AREA') {
+                        break;
+                    }
                     sourceElement = parentElement;
+                    parentElement = sourceElement.parentNode;
                 }
 
                 if (isDefined(sourceElement.href)) {
@@ -2213,7 +2224,7 @@ if (typeof Piwik !== 'object') {
                     } else if (isString(userHook)) {
                         try {
                             eval('hookObj =' + userHook);
-                        } catch (e) { }
+                        } catch (ignore) { }
                     }
 
                     registeredHooks[hookName] = hookObj;
@@ -2674,10 +2685,9 @@ if (typeof Piwik !== 'object') {
 
                 /**
                  * One off cookies clearing. Useful to call this when you know for sure a new visitor is using the same browser,
-                 * it maybe help to "reset" tracking cookies to prevent data reuse for different users.
-                 *
+                 * it maybe helps to "reset" tracking cookies to prevent data reuse for different users.
                  */
-                deleteCookies: function() {
+                deleteCookies: function () {
                     deleteCookies();
                 },
 
@@ -2749,7 +2759,7 @@ if (typeof Piwik !== 'object') {
                  * 
                  * @param int generationTime
                  */
-                setGenerationTimeMs: function(generationTime) {
+                setGenerationTimeMs: function (generationTime) {
                     configPerformanceGenerationTime = parseInt(generationTime, 10);
                 },
 
@@ -2973,18 +2983,18 @@ if (typeof Piwik !== 'object') {
         asyncTracker = new Tracker();
 
         // find the call to setTrackerUrl or setSiteid (if any) and call them first
-        for (i = 0; i < _paq.length; i++) {
-            if (_paq[i][0] === 'setTrackerUrl'
-                    || _paq[i][0] === 'setSiteId') {
-                apply(_paq[i]);
-                delete _paq[i];
+        for (iterator = 0; iterator < _paq.length; iterator++) {
+            if (_paq[iterator][0] === 'setTrackerUrl'
+                    || _paq[iterator][0] === 'setSiteId') {
+                apply(_paq[iterator]);
+                delete _paq[iterator];
             }
         }
 
         // apply the queue of actions
-        for (i = 0; i < _paq.length; i++) {
-            if (_paq[i]) {
-                apply(_paq[i]);
+        for (iterator = 0; iterator < _paq.length; iterator++) {
+            if (_paq[iterator]) {
+                apply(_paq[iterator]);
             }
         }
 
@@ -3064,7 +3074,7 @@ if (typeof piwik_log !== 'function') {
         function getOption(optionName) {
             try {
                 return eval('piwik_' + optionName);
-            } catch (e) { }
+            } catch (ignore) { }
 
             return; // undefined
         }
