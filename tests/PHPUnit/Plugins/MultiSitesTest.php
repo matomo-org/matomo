@@ -33,7 +33,6 @@ class MultiSitesTest extends DatabaseTestCase
      * This is necessary otherwise ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
      *
      * @group Plugins
-     * @group MultiSites
      */
     public function testWhenNoDataGetOneReturnsRow()
     {

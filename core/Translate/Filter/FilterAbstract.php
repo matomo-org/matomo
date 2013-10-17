@@ -25,7 +25,6 @@ abstract class FilterAbstract
      * @param array $translations
      *
      * @return array   filtered translations
-     *
      */
     abstract public function filter($translations);
 

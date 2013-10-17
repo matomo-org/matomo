@@ -15,7 +15,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
-     * @group Unzip
      */
     public function testRelativePath()
     {
@@ -61,7 +60,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testRelativePathAttack()
     {
@@ -93,7 +91,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testAbsolutePathAttack()
     {
@@ -119,7 +116,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testUnzipErrorInfo()
     {
@@ -133,7 +129,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testUnzipEmptyFile()
     {
@@ -148,7 +143,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testUnzipNotExistingFile()
     {
@@ -165,7 +159,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testUnzipInvalidFile2()
     {
@@ -182,7 +175,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testGzipFile()
     {
@@ -199,7 +191,6 @@ class UnzipTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Unzip
      */
     public function testTarGzFile()
     {

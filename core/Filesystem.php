@@ -68,7 +68,6 @@ class Filesystem
      *
      * @param string $filename
      * @return bool
-     *
      */
     public static function isValidFilename($filename)
     {

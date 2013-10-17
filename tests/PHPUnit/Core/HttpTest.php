@@ -23,7 +23,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Http
+     * 
      * @dataProvider getMethodsToTest
      */
     public function testFetchRemoteFile($method)
@@ -35,7 +35,6 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Http
      */
     public function testFetchApiLatestVersion()
     {
@@ -47,7 +46,6 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Http
      */
     public function testFetchLatestZip()
     {
@@ -59,7 +57,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Http
+     * 
      * @dataProvider getMethodsToTest
      */
     public function testCustomByteRange($method)
@@ -88,7 +86,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Http
+     * 
      * @dataProvider getMethodsToTest
      */
     public function testHEADOperation($method)

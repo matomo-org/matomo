@@ -400,17 +400,21 @@ class API extends \Piwik\Plugin\API
         );
 
         /**
-         * This event allows plugins to alter processed reports.
+         * This event is triggered when generating the content of scheduled reports.
+         *
+         * If needed, use it to alter the content of reports.
          */
         Piwik::postEvent(
             self::PROCESS_REPORTS_EVENT,
             array(&$processedReports, $notificationInfo)
         );
 
-        /**
-         * This event is triggered to retrieve the report renderer instance.
-         */
         $reportRenderer = null;
+
+        /**
+         * Use this event to provide the [Report Renderer](https://github.com/piwik/piwik/blob/master/core/ReportRenderer.php)
+         * to use when generating the scheduled report content.
+         */
         Piwik::postEvent(
             self::GET_RENDERER_INSTANCE_EVENT,
             array(&$reportRenderer, $notificationInfo)
@@ -522,6 +526,11 @@ class API extends \Piwik\Plugin\API
         $contents = fread($handle, filesize($outputFilename));
         fclose($handle);
 
+        /**
+         * This event is triggered when sending scheduled reports.
+         *
+         * Use it to provide the code that will send the report.
+         */
         Piwik::postEvent(
             self::SEND_REPORT_EVENT,
             array(
@@ -574,6 +583,13 @@ class API extends \Piwik\Plugin\API
             self::REPORT_TYPE_INFO_KEY => $reportType
         );
 
+        /**
+         * This event is triggered when
+         * - generating the scheduled report creation/modification form
+         * - validating the creation or the modification of a scheduled report
+         *
+         * If needed, use it to specify a list of custom parameters for the scheduled reports.
+         */
         Piwik::postEvent(self::GET_REPORT_PARAMETERS_EVENT, array(&$availableParameters, $notificationInfo));
 
         // unset invalid parameters
@@ -592,7 +608,11 @@ class API extends \Piwik\Plugin\API
         }
 
         /**
-         * This event is triggered to delegate report parameter validation.
+         * This event is triggered when
+         * - validating the creation or the modification of a scheduled report
+         * - generating the content of scheduled reports with custom parameters provided as URL parameters
+         *
+         * Use it to validate custom parameters defined with [ScheduledReports.getReportParameters](#ScheduledReports.getReportParameters).
          */
         Piwik::postEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $notificationInfo));
 
@@ -702,10 +722,15 @@ class API extends \Piwik\Plugin\API
             self::ID_SITE_INFO_KEY     => $idSite,
         );
 
-        /**
-         * This event is used to retrieve all available reports.
-         */
         $availableReportMetadata = array();
+
+        /**
+         * This event is triggered when
+         * - generating the scheduled report creation/modification form
+         * - validating the creation or the modification of a scheduled report
+         *
+         * Use it to specify the list of supported Piwik reports (Referers, Country, ..).
+         */
         Piwik::postEvent(
             self::GET_REPORT_METADATA_EVENT,
             array(&$availableReportMetadata, $notificationInfo)
@@ -720,6 +745,14 @@ class API extends \Piwik\Plugin\API
     static public function allowMultipleReports($reportType)
     {
         $allowMultipleReports = null;
+
+        /**
+         * This event is triggered when
+         * - generating the scheduled report creation/modification form
+         * - validating the creation or the modification of a scheduled report
+         *
+         * Use it to specify whether your scheduled reports can contain more than one kind of Piwik report.
+         */
         Piwik::postEvent(
             self::ALLOW_MULTIPLE_REPORTS_EVENT,
             array(
@@ -738,6 +771,14 @@ class API extends \Piwik\Plugin\API
     static public function getReportTypes()
     {
         $reportTypes = array();
+
+        /**
+         * This event is triggered when
+         * - generating the scheduled report creation/modification form
+         * - validating the creation or the modification of a scheduled report
+         *
+         * Use it to add a new type of report (e-mail, mobile, FTP, ..).
+         */
         Piwik::postEvent(self::GET_REPORT_TYPES_EVENT, array(&$reportTypes));
 
         return $reportTypes;
@@ -750,6 +791,13 @@ class API extends \Piwik\Plugin\API
     {
         $reportFormats = array();
 
+        /**
+         * This event is triggered when
+         * - generating the scheduled report creation/modification form
+         * - validating the creation or the modification of a scheduled report
+         *
+         * Use it to specify which report format(s) are supported (HTML, PDF, SMS, ..).
+         */
         Piwik::postEvent(
             self::GET_REPORT_FORMATS_EVENT,
             array(
@@ -773,10 +821,13 @@ class API extends \Piwik\Plugin\API
             self::REPORT_KEY           => $report,
         );
 
-        /**
-         * This event is used to retrieve the report renderer instance.
-         */
         $recipients = array();
+
+        /**
+         * This event is triggered when generating the scheduled report modification form.
+         *
+         * Use it to specify the list of recipients.
+         */
         Piwik::postEvent(self::GET_REPORT_RECIPIENTS_EVENT, array(&$recipients, $notificationInfo));
 
         return $recipients;

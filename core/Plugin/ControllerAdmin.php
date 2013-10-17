@@ -10,7 +10,7 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Config;
+use Piwik\Config as PiwikConfig;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
@@ -43,12 +43,12 @@ abstract class ControllerAdmin extends Controller
 
     static public function displayWarningIfConfigFileNotWritable(View $view)
     {
-        $view->configFileNotWritable = !Config::getInstance()->isFileWritable();
+        $view->configFileNotWritable = !PiwikConfig::getInstance()->isFileWritable();
     }
 
     static public function setBasicVariablesAdminView(View $view)
     {
-        $statsEnabled = Config::getInstance()->Tracker['record_statistics'];
+        $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
         if ($statsEnabled == "0") {
             $view->statisticsNotRecorded = true;
         }
@@ -56,7 +56,7 @@ abstract class ControllerAdmin extends Controller
         $view->topMenu = MenuTop::getInstance()->getMenu();
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
-        $view->enableFrames = Config::getInstance()->General['enable_framed_settings'];
+        $view->enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
         if (!$view->enableFrames) {
             $view->setXFrameOptions('sameorigin');
         }

@@ -13,9 +13,6 @@ class DataTable_Filter_TruncateTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Truncate
      */
     public function testUnrelatedDataTableNotFiltered()
     {
@@ -39,11 +36,7 @@ class DataTable_Filter_TruncateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Truncate
      */
     public function testForInfiniteRecursion()
     {

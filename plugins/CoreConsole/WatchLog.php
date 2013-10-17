@@ -11,14 +11,14 @@
 
 namespace Piwik\Plugins\CoreConsole;
 
-use Piwik\Console\Command;
+use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package CoreConsole
  */
-class WatchLog extends Command
+class WatchLog extends ConsoleCommand
 {
     protected function configure()
     {

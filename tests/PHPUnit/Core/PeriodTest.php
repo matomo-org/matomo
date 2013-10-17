@@ -16,7 +16,6 @@ class PeriodTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
-     * @group Period
      */
     public function testGetId()
     {
@@ -32,7 +31,6 @@ class PeriodTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
      */
     public function testGetLabel()
     {
@@ -56,7 +54,6 @@ class PeriodTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
      */
     public function testFactoryDay()
     {
@@ -66,7 +63,6 @@ class PeriodTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
      */
     public function testFactoryMonth()
     {
@@ -76,7 +72,6 @@ class PeriodTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
      */
     public function testFactoryWeek()
     {
@@ -86,7 +81,6 @@ class PeriodTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
      */
     public function testFactoryYear()
     {
@@ -96,7 +90,6 @@ class PeriodTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Period
      */
     public function testFactoryInvalid()
     {

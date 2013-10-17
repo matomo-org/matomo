@@ -41,8 +41,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getUrls
      * @group Core
-     * @group Common
-     * @group isLookLikeUrl
      */
     public function testIsUrl($url, $isValid)
     {
@@ -128,8 +126,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getInputValues
      * @group Core
-     * @group Common
-     * @group sanitizeInputValues
      */
     public function testSanitizeInputValues($input, $output)
     {
@@ -147,8 +143,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * emptyvarname => exception
      * @group Core
-     * @group Common
-     * @group getRequestVar
      */
     public function testGetRequestVarEmptyVarName()
     {
@@ -164,8 +158,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * nodefault Notype Novalue => exception
      * @group Core
-     * @group Common
-     * @group getRequestVar
      */
     public function testGetRequestVarNoDefaultNoTypeNoValue()
     {
@@ -180,8 +172,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * nodefault Notype WithValue => value
      * @group Core
-     * @group Common
-     * @group getRequestVar
      */
     public function testGetRequestVarNoDefaultNoTypeWithValue()
     {
@@ -193,8 +183,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * nodefault Withtype WithValue => exception cos type not matching
      * @group Core
-     * @group Common
-     * @group getRequestVar
      */
     public function testGetRequestVarNoDefaultWithTypeWithValue()
     {
@@ -210,8 +198,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * nodefault Withtype WithValue => exception cos type not matching
      * @group Core
-     * @group Common
-     * @group getRequestVar
      */
     public function testGetRequestVarNoDefaultWithTypeWithValue2()
     {
@@ -264,8 +250,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getRequestVarValues
      * @group Core
-     * @group Common
-     * @group getRequestVar
      */
     public function testGetRequestVar($varValue, $default, $type, $expected)
     {
@@ -337,8 +321,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getQueryStrings
      * @group Core
-     * @group Common
-     * @group getParameterFromQueryString
      */
     public function testGetParameterFromQueryString($queryString, $parameter, $expected)
     {
@@ -347,8 +329,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Common
-     * @group getPathAndQueryFromUrl
      */
     public function testGetPathAndQueryFromUrl()
     {
@@ -357,8 +337,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Common
-     * @group getArrayFromQueryString
      */
     public function testGetArrayFromQueryString()
     {
@@ -376,8 +354,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Common
-     * @group isValidFilename
      */
     public function testIsValidFilenameValidValues()
     {
@@ -394,8 +370,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Common
-     * @group isValidFilename
      */
     public function testIsValidFilenameNotValidValues()
     {
@@ -454,8 +428,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getBrowserLanguageData
      * @group Core
-     * @group Common
-     * @group getBrowserLanguage
      */
     public function testGetBrowserLanguage($useragent, $browserLanguage)
     {
@@ -488,8 +460,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getCountryCodeTestData
      * @group Core
-     * @group Common
-     * @group extractCountryCodeFromBrowserLanguage
      */
     public function testExtractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $expected)
     {
@@ -516,8 +486,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getCountryCodeTestDataInfer
      * @group Core
-     * @group Common
-     * @group extractCountryCodeFromBrowserLanguage
      */
     public function testExtractCountryCodeFromBrowserLanguageInfer($browserLanguage, $validCountries, $expected, $expectedInfer)
     {
@@ -557,8 +525,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getLanguageDataToExtract
      * @group Core
-     * @group Common
-     * @group extractLanguageCodeFromBrowserLanguage
      */
     public function testExtractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages, $expected)
     {
@@ -567,7 +533,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group Common
      */
     public function testSearchEnginesDefinedCorrectly()
     {
@@ -614,8 +579,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getSearchEngineUrls
      * @group Core
-     * @group Common
-     * @group extractSearchEngineInformationFromUrl
      */
     public function testExtractSearchEngineInformationFromUrl($url, $engine, $keywords)
     {
@@ -653,8 +616,6 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getLossyUrls
      * @group Core
-     * @group Common
-     * @group getLossyUrl
      */
     public function testGetLossyUrl($input, $expected)
     {

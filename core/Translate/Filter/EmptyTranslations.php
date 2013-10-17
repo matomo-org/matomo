@@ -24,7 +24,6 @@ class EmptyTranslations extends FilterAbstract
      * @param array $translations
      *
      * @return array   filtered translations
-     *
      */
     public function filter($translations)
     {

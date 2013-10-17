@@ -11,7 +11,6 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @group Core
-     * @group AssetManager
      */
     public function testPrioritySort()
     {

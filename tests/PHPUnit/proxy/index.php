@@ -22,6 +22,10 @@ define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
 $controller = \Piwik\FrontController::getInstance();
+
+// Load all plugins that are found so UI tests are really testing real world use case
+\Piwik\Config::getInstance()->Plugins['Plugins'] = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
+
 $controller->init();
 $controller->dispatch();
 

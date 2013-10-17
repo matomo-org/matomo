@@ -28,6 +28,7 @@ use ReflectionMethod;
  *
  * @package Piwik
  * @subpackage Piwik_API
+ * @method \Piwik\API\Proxy getInstance()
  */
 class Proxy extends Singleton
 {

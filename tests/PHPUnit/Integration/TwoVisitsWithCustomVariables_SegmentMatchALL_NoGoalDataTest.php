@@ -13,7 +13,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData
      */
     public function testApi($api, $params)
     {

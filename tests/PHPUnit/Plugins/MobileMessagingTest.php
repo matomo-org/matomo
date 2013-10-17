@@ -38,7 +38,6 @@ class MobileMessagingTest extends DatabaseTestCase
      * When the MultiSites plugin is not activated, the SMS content should invite the user to activate it back
      *
      * @group Plugins
-     * @group MobileMessaging
      */
     public function testWarnUserViaSMSMultiSitesDeactivated()
     {
@@ -160,7 +159,7 @@ class MobileMessagingTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group MobileMessaging
+     *
      * @dataProvider getTruncateTestCases
      */
     public function testTruncate($expected, $stringToTruncate, $maximumNumberOfConcatenatedSMS, $appendedString)
@@ -187,7 +186,7 @@ class MobileMessagingTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group MobileMessaging
+     *
      * @dataProvider getContainsUCS2CharactersTestCases
      */
     public function testContainsUCS2Characters($expected, $stringToTest)
@@ -200,7 +199,6 @@ class MobileMessagingTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group MobileMessaging
      */
     public function testSanitizePhoneNumber()
     {
@@ -209,7 +207,6 @@ class MobileMessagingTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group MobileMessaging
      */
     public function testPhoneNumberIsSanitized()
     {
@@ -232,7 +229,7 @@ class MobileMessagingTest extends DatabaseTestCase
 
     /**
      * @group Plugins
-     * @group MobileMessaging
+     *
      * @dataProvider getSendReportTestCases
      */
     public function testSendReport($expectedReportContent, $expectedPhoneNumber, $expectedFrom, $reportContent, $phoneNumber, $reportSubject)

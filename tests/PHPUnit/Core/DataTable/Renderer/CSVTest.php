@@ -93,9 +93,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVTest1()
     {
@@ -114,9 +111,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVTest2()
     {
@@ -131,9 +125,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVTest3()
     {
@@ -148,26 +139,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
-     */
-    public function testCSVTest4()
-    {
-        $dataTable = $this->_getDataTableEmpty();
-        $render = new Csv();
-        $render->setTable($dataTable);
-        $render->convertToUnicode = false;
-        $expected = 'No data available';
-        $rendered = $render->render();
-        $this->assertEquals($expected, $rendered);
-    }
-
-    /**
-     * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVTest5()
     {
@@ -182,9 +153,20 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
+     */
+    public function testCSVTest4()
+    {
+        $dataTable = $this->_getDataTableEmpty();
+        $render = new Csv();
+        $render->setTable($dataTable);
+        $render->convertToUnicode = false;
+        $expected = 'No data available';
+        $rendered = $render->render();
+        $this->assertEquals($expected, $rendered);
+    }
+
+    /**
+     * @group Core
      */
     public function testCSVTest6()
     {
@@ -201,7 +183,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
      * DATA OF DATATABLE_ARRAY
      * -------------------------
      */
-
     protected function _getDataTableMapTest()
     {
         $array1 = array(
@@ -306,9 +287,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVMapTest1()
     {
@@ -328,9 +306,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVMapTest2()
     {
@@ -346,9 +321,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVMapTest3()
     {
@@ -363,9 +335,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVMapisMadeOfMapTest1()
     {
@@ -385,9 +354,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVMapIsMadeOfMapTest2()
     {
@@ -403,9 +369,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_CSV
      */
     public function testCSVMapIsMadeOfMapTest3()
     {
@@ -420,9 +383,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray1()
     {
@@ -438,9 +398,6 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray2()
     {
@@ -458,9 +415,6 @@ c';
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray3()
     {
@@ -477,9 +431,6 @@ b,d,f,g';
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_XML
      */
     public function testRenderArray4()
     {

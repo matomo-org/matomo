@@ -25,6 +25,8 @@ use Piwik\Db;
  *
  * The logging utility can be configured by manipulating the INI config options in the
  * [log] section.
+ *
+ * @method \Piwik\Log getInstance()
  */
 class Log extends Singleton
 {
@@ -72,7 +74,7 @@ class Log extends Singleton
      *
      * @var string
      */
-    private $logMessageFormat = "%tag%[%datetime%] %message%";
+    private $logMessageFormat = "%level% %tag%[%datetime%] %message%";
 
     /**
      * If we're logging to a file, this is the path to the file to log to.

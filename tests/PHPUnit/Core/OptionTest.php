@@ -15,7 +15,6 @@ class OptionTest extends DatabaseTestCase
 {
     /**
      * @group Core
-     * @group Option
      */
     public function testGet()
     {
@@ -37,7 +36,6 @@ class OptionTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Option
      */
     public function testGetOption()
     {
@@ -59,7 +57,6 @@ class OptionTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Option
      */
     public function testSet()
     {
@@ -73,7 +70,6 @@ class OptionTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Option
      */
     public function testSetOption()
     {
@@ -87,7 +83,6 @@ class OptionTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Option
      */
     public function testDelete()
     {
@@ -123,7 +118,6 @@ class OptionTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Option
      */
     public function testDeleteLike()
     {

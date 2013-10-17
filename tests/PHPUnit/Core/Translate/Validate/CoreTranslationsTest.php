@@ -34,7 +34,6 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getFilterTestDataValid
      * @group Core
-     * @group Translate
      */
     public function testFilterValid($translations)
     {
@@ -129,7 +128,6 @@ class CoreTranslationsTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getFilterTestDataInvalid
      * @group Core
-     * @group Translate
      */
     public function testFilterInvalid($translations, $msg)
     {

@@ -18,9 +18,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 {
     /**
-     *
      * @group Plugins
-     * @group UserCountry
      */
     public function testGetFlagFromCode()
     {
@@ -29,9 +27,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
     }
 
     /**
-     *
      * @group Plugins
-     * @group UserCountry
      */
     public function testGetFlagFromInvalidCode()
     {
@@ -40,9 +36,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
     }
 
     /**
-     *
      * @group Plugins
-     * @group UserCountry
      */
     public function testFlagsAndContinents()
     {
@@ -79,7 +73,6 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
      * Test that redundant checks work.
      * 
      * @group Plugins
-     * @group UserCountry
      */
     public function testGeoIpUpdaterRedundantChecks()
     {
@@ -106,7 +99,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 
     /**
      * @group Plugins
-     * @group UserCountry
+     *
      * @dataProvider getInvalidGeoIpUrlsToTest
      */
     public function testGeoIpDownloadInvalidUrl($url)

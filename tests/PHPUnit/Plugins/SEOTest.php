@@ -38,7 +38,6 @@ class SEOTest extends PHPUnit_Framework_TestCase
      * tell us when the API is broken
      *
      * @group Plugins
-     * @group SEO
      */
     public function test_API()
     {

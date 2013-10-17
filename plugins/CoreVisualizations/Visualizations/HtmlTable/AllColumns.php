@@ -64,10 +64,11 @@ class AllColumns extends HtmlTable
 
             $properties->columns_to_display = $columnsToDisplay;
         });
-
-        $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
-
-        $dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
     }
 
+    public function afterGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
+    {
+        $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
+        $dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
+    }
 }

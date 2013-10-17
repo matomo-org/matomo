@@ -27,7 +27,6 @@ class NonceTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getAcceptableOriginsTestData
      * @group Core
-     * @group Nonce
      */
     public function test_getAcceptableOrigins($host, $expected)
     {

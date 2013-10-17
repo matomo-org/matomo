@@ -17,7 +17,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        EcommerceOrderWithItems
+     * *
      */
     public function testImagesIncludedInTests()
     {
@@ -27,7 +27,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        EcommerceOrderWithItems
+     * *
      */
     public function testApi($api, $params)
     {

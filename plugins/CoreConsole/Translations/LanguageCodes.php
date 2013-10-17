@@ -11,7 +11,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Translations;
 
-use Piwik\Console\Command;
+use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class LanguageCodes extends Command
+class LanguageCodes extends ConsoleCommand
 {
     protected function configure()
     {

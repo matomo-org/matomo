@@ -201,6 +201,7 @@ class RowEvolution
         $view->show_all_views_icons = false;
         $view->show_active_view_icon = false;
         $view->show_related_reports = false;
+        $view->show_footer_message = false;
         $view->visualization_properties->show_series_picker = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {

@@ -24,7 +24,6 @@ class NoScripts extends ValidateAbstract
      * @param array $translations
      *
      * @return boolean
-     *
      */
     public function isValid($translations)
     {

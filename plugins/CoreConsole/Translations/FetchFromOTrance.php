@@ -11,7 +11,7 @@
 
 namespace Piwik\Plugins\CoreConsole\Translations;
 
-use Piwik\Console\Command;
+use Piwik\Plugin\ConsoleCommand;
 use Piwik\Unzip;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class FetchFromOTrance extends Command
+class FetchFromOTrance extends ConsoleCommand
 {
     const DOWNLOADPATH = 'tmp/oTrance';
 

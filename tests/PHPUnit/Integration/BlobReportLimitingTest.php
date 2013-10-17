@@ -87,7 +87,6 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        BlobReportLimiting
      */
     public function testApi($api, $params)
     {
@@ -96,7 +95,6 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 
     /**
      * @group        Integration
-     * @group        BlobReportLimiting
      */
     public function testApiWithRankingQuery()
     {
@@ -119,7 +117,6 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
     
     /**
      * @group        Integration
-     * @group        BlobReportLimiting
      */
     public function testApiWithRankingQueryDisabled()
     {

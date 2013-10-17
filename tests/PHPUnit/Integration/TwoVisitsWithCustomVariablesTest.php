@@ -42,7 +42,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        TwoVisitsWithCustomVariables
      */
     public function testApi($api, $params)
     {

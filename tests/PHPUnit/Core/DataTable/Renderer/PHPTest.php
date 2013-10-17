@@ -93,9 +93,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPTest1()
     {
@@ -160,9 +157,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPTest2()
     {
@@ -182,9 +176,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPTest3()
     {
@@ -197,9 +188,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPTest4()
     {
@@ -212,9 +200,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPTest5()
     {
@@ -227,9 +212,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPTest6()
     {
@@ -351,9 +333,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPMapTest1()
     {
@@ -408,9 +387,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPMapTest2()
     {
@@ -438,9 +414,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPMapTest3()
     {
@@ -459,9 +432,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPMapIsMadeOfMapTest1()
     {
@@ -518,9 +488,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPMapIsMadeOfMapTest2()
     {
@@ -549,9 +516,6 @@ class DataTable_Renderer_PHPTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group DataTable
-     * @group DataTable_Renderer
-     * @group DataTable_Renderer_PHP
      */
     public function testPHPMapIsMadeOfMapTest3()
     {

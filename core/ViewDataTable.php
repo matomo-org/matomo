@@ -443,7 +443,6 @@ class ViewDataTable
         }
 
         if (!is_array($properties)) {
-            Log::debug('Cannot set properties from metadata, $properties is not an array');
             return null;
         }
 
@@ -690,7 +689,7 @@ class ViewDataTable
         $requestArray = array(
             'method'                  => $this->vizRequest->apiMethodToRequestDataTable,
             'format'                  => 'original',
-            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int')
+            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int'),
         );
 
         $toSetEventually = array(
@@ -720,7 +719,7 @@ class ViewDataTable
             $requestArray['expanded'] = 1;
         }
 
-        $requestArray = array_merge($requestArray, $this->request_parameters_to_modify);
+        $requestArray = array_merge($requestArray, $this->vizRequest->request_parameters_to_modify);
 
         if (!empty($requestArray['filter_limit'])
             && $requestArray['filter_limit'] === 0
@@ -768,12 +767,17 @@ class ViewDataTable
                 continue;
             }
 
+            $valueToConvert = false;
             if (property_exists($this->vizRequest, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizRequest->$name);
+                $valueToConvert = $this->vizRequest->$name;
             } else if (property_exists($this->vizConfig, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizConfig->$name);
+                $valueToConvert = $this->vizConfig->$name;
             } else if (VisualizationPropertiesProxy::isValidVisualizationProperty($this->visualizationClass, $name)) {
-                $javascriptVariablesToSet[$name] = $this->convertForJson($this->vizConfig->visualization_properties->$name);
+                $valueToConvert = $this->vizConfig->visualization_properties->$name;
+            }
+
+            if (false !== $valueToConvert) {
+                $javascriptVariablesToSet[$name] = $this->convertForJson($valueToConvert);
             }
         }
 
@@ -1069,20 +1073,21 @@ class ViewDataTable
         /** @var Visualization $visualization */
         $visualization = new $this->visualizationClass($this);
 
-        /**
-         * This event is called before a visualization is created. Plugins can use this event to
-         * override view properties for individual reports or visualizations.
-         *
-         * Themes can use this event to make sure reports look nice with their themes. Plugins
-         * that provide new visualizations can use this event to make sure certain reports
-         * are configured differently when viewed with the new visualization.
-         */
-        Piwik::postEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
-        $this->overrideViewProperties();
-
         try {
 
             $visualization->configureVisualization($this->vizConfig);
+
+            /**
+             * This event is called after a visualization has been configured. Plugins can use this event to
+             * override view properties for individual reports or visualizations.
+             *
+             * Themes can use this event to make sure reports look nice with their themes. Plugins
+             * that provide new visualizations can use this event to make sure certain reports
+             * are configured differently when viewed with the new visualization.
+             */
+            Piwik::postEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
+
+            $this->overrideViewProperties();
             $visualization->beforeLoadDataTable($this->vizRequest, $this->vizConfig);
 
             $this->loadDataTableFromAPI();

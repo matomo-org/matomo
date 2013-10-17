@@ -62,7 +62,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test all languages
      *
      * @group Plugins
-     * @group LanguagesManager
+     *
      * @dataProvider getTestDataForLanguageFiles
      */
     function testGetTranslationsForLanguages($language, $plugin)
@@ -103,7 +103,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test language when it's not defined
      *
      * @group Plugins
-     * @group LanguagesManager
+     *
      * @expectedException Exception
      */
     function testWriterInvalidPlugin()
@@ -115,7 +115,6 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test language when it's not defined
      *
      * @group Plugins
-     * @group LanguagesManager
      */
     function testGetTranslationsForLanguagesNot()
     {
@@ -126,7 +125,6 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test English short name for language
      *
      * @group Plugins
-     * @group LanguagesManager
      */
     function testGetLanguageNamesInEnglish()
     {
@@ -164,7 +162,6 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      * test format of DataFile/Languages.php
      *
      * @group Plugins
-     * @group LanguagesManager
      */
     function testGetLanguagesList()
     {

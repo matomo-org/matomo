@@ -34,7 +34,7 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
+     * 
      * @dataProvider getValidNumeric
      */
     public function testIsNumericValid($toTest)
@@ -58,7 +58,7 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
+     * 
      * @dataProvider getInvalidNumeric
      */
     public function testIsNumericNotValid($toTest)
@@ -68,7 +68,6 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
      */
     public function testSecureDiv()
     {
@@ -108,7 +107,7 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
+     * 
      * @dataProvider getPrettyTimeFromSecondsData
      */
     public function testGetPrettyTimeFromSeconds($seconds, $expected)
@@ -154,7 +153,7 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
+     * 
      * @dataProvider getInvalidLoginStringData
      */
     public function testCheckInvalidLoginString($toTest)
@@ -185,7 +184,7 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
+     * 
      * @dataProvider getValidLoginStringData
      */
     public function testCheckValidLoginString($toTest)
@@ -210,7 +209,7 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
+     * 
      * @dataProvider getGetPrettyValueTestCases
      */
     public function testGetPrettyValue($columnName, $value, $expected)
@@ -247,7 +246,7 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
+     * 
      * @dataProvider getIsAssociativeArrayTestCases
      */
     public function testIsAssociativeArray($array, $expected)
@@ -257,7 +256,6 @@ class PiwikTest extends DatabaseTestCase
 
     /**
      * @group Core
-     * @group Piwik
      */
     public function testCheckIfFileSystemIsNFSOnNonNFS()
     {

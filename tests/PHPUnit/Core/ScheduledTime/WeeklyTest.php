@@ -30,8 +30,6 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests invalid call to setHour on Weekly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Weekly
      */
     public function testSetHourScheduledTimeWeeklyNegative()
     {
@@ -47,8 +45,6 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests invalid call to setHour on Weekly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Weekly
      */
     public function testSetHourScheduledTimeWeeklyOver24()
     {
@@ -64,8 +60,6 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests invalid call to setDay on Weekly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Weekly
      */
     public function testSetDayScheduledTimeWeeklyDay0()
     {
@@ -81,8 +75,6 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests invalid call to setDay on Weekly
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Weekly
      */
     public function testSetDayScheduledTimeWeeklyOver7()
     {
@@ -98,8 +90,6 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests getRescheduledTime on Weekly with unspecified hour and unspecified day
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Weekly
      */
     public function testGetRescheduledTimeWeeklyUnspecifiedHourUnspecifiedDay()
     {
@@ -124,8 +114,6 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests getRescheduledTime on Weekly with specified hour and unspecified day
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Weekly
      */
     public function testGetRescheduledTimeWeeklySpecifiedHourUnspecifiedDay()
     {
@@ -151,8 +139,6 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     /**
      * Tests getRescheduledTime on Weekly with unspecified hour and specified day
      * @group Core
-     * @group ScheduledTime
-     * @group ScheduledTime_Weekly
      */
     public function testGetRescheduledTimeWeeklyUnspecifiedHourSpecifiedDay()
     {

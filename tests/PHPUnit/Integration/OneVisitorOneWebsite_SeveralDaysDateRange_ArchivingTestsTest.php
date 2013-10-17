@@ -25,7 +25,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
-     * @group        OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests
+     * *
      */
     public function testApi($api, $params)
     {
@@ -64,7 +64,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
     /**
      * @depends      testApi
      * @group        Integration
-     * @group        OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests
+     * *
      */
     public function testCheck()
     {

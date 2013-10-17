@@ -995,7 +995,6 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getUserAgents
      * @group Plugins
-     * @group UserSettings
      */
     public function testGetBrowser($userAgent, $expected)
     {
@@ -1021,7 +1020,6 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getUserAgents
      * @group Plugins
-     * @group UserSettings
      */
     public function testGetOperatingSystem($userAgent, $expected)
     {

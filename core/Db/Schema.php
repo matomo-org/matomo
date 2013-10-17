@@ -20,6 +20,7 @@ use Piwik\Singleton;
  *
  * @package Piwik
  * @subpackage Piwik_Db
+ * @method \Piwik\Db\Schema getInstance()
  */
 class Schema extends Singleton
 {

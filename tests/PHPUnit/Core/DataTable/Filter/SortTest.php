@@ -12,11 +12,7 @@ use Piwik\DataTable\Row;
 class DataTable_Filter_SortTest extends PHPUnit_Framework_TestCase
 {
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Sort
      */
     public function testNormalSortDescending()
     {
@@ -33,11 +29,7 @@ class DataTable_Filter_SortTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Sort
      */
     public function testNormalSortAscending()
     {
@@ -54,11 +46,7 @@ class DataTable_Filter_SortTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Sort
      */
     public function testMissingColumnValuesShouldAppearLastAfterSortAsc()
     {
@@ -78,11 +66,7 @@ class DataTable_Filter_SortTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Sort
      */
     public function testMissingColumnValuesShouldAppearLastAfterSortDesc()
     {
@@ -103,9 +87,6 @@ class DataTable_Filter_SortTest extends PHPUnit_Framework_TestCase
      * Test to sort by label
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Sort
      */
     public function testFilterSortString()
     {
@@ -148,9 +129,6 @@ class DataTable_Filter_SortTest extends PHPUnit_Framework_TestCase
      * Test to sort by visit
      *
      * @group Core
-     * @group DataTable
-     * @group DataTable_Filter
-     * @group DataTable_Filter_Sort
      */
     public function testFilterSortNumeric()
     {

@@ -47,7 +47,6 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
      * @dataProvider getTimetableFromOptionValueTestCases
      */
     public function testGetTimetableFromOptionValue($expectedTimetable, $option)
@@ -75,7 +74,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
+     * 
      * @dataProvider taskHasBeenScheduledOnceTestCases
      */
     public function testTaskHasBeenScheduledOnce($expectedDecision, $taskName, $timetable)
@@ -104,7 +103,6 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
      * @dataProvider getScheduledTimeForMethodTestCases
      */
     public function testGetScheduledTimeForMethod($expectedTime, $className, $methodName, $methodParameter, $timetable)
@@ -138,7 +136,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
+     * 
      * @dataProvider taskShouldBeExecutedTestCases
      */
     public function testTaskShouldBeExecuted($expectedDecision, $taskName, $timetable)
@@ -165,7 +163,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
+     * 
      * @dataProvider executeTaskTestCases
      */
     public function testExecuteTask($methodName, $parameterValue)
@@ -184,6 +182,8 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group Core
+     *
      * Dataprovider for testRunTasks
      */
     public function testRunTasksTestCases()
@@ -276,7 +276,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group Core
-     * @group TaskScheduler
+     * 
      * @dataProvider testRunTasksTestCases
      */
     public function testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)

@@ -11,7 +11,7 @@
 
 namespace Piwik\Plugins\CoreConsole;
 
-use Piwik\Console\Command;
+use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,12 +20,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class RunTests extends Command
+class RunTests extends ConsoleCommand
 {
     protected function configure()
     {
         $this->setName('tests:run');
-        $this->setDescription('Run Piwik PHPUnit tests');
+        $this->setDescription('Run Piwik PHPUnit tests one group after the other');
         $this->addArgument('group', InputArgument::OPTIONAL, 'Run only a specific test group. Separate multiple groups by comma, for instance core,integration', '');
         $this->addOption('options', 'o', InputOption::VALUE_OPTIONAL, 'All options will be forwarded to phpunit', '');
     }
@@ -33,17 +33,27 @@ class RunTests extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $options = $input->getOption('options');
-        $group = $input->getArgument('group');
+        $groups = $input->getArgument('group');
 
-        if (!empty($group)) {
-            $groups = explode(',', $group);
-            $groups = array_map('ucfirst', $groups);
-            $options = '--group ' . implode(',', $groups) . ' ' . $options;
+        $groups = explode(",", $groups);
+        $groups = array_map('ucfirst', $groups);
+        $groups = array_filter('strlen', $groups);
+
+        if(empty($groups)) {
+            $groups = $this->getTestsGroups();
         }
-
-        $cmd = sprintf('cd %s/tests/PHPUnit && phpunit %s', PIWIK_DOCUMENT_ROOT, $options);
-
-        $output->writeln('Executing command: ' . $cmd);
-        passthru($cmd);
+        foreach($groups as $group) {
+            $params = '--group ' . $group . ' ' . $options;
+            $cmd = sprintf('cd %s/tests/PHPUnit && phpunit %s', PIWIK_DOCUMENT_ROOT, $params);
+            $output->writeln('Executing command: <info>' . $cmd . '</info>');
+            passthru($cmd);
+            $output->writeln();
+        }
     }
+
+    private function getTestsGroups()
+    {
+        return array('Core', 'Plugins', 'Integration', 'UI');
+    }
+
 }
