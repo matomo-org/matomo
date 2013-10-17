@@ -66,7 +66,13 @@ PageRenderer.prototype = {
         setTimeout(function () {
             if (url == self.url) {
                 self.webpage.evaluate(function () {
-                    window.piwik.ajaxRequestFinished();
+                    if (window.piwik
+                        && window.piwik.ajaxRequestFinished
+                    ) {
+                        window.piwik.ajaxRequestFinished();
+                    } else {
+                        console.log("__AJAX_DONE__");
+                    }
                 });
             }
         }, 5000);
@@ -89,7 +95,6 @@ PageRenderer.prototype = {
         var self = this;
         this.webpage.onError = function (message) {
             console.log("Webpage error: " + message);
-            app.exit(1);
         };
 
         this.webpage.onConsoleMessage = function (message) {

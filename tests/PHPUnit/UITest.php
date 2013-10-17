@@ -17,7 +17,7 @@ abstract class UITest extends IntegrationTestCase
     const IMAGE_TYPE = 'png';
     const CAPTURE_PROGRAM = 'phantomjs';
     const SCREENSHOT_GROUP_SIZE = 25;
-    const DEBUG_IMAGE_MAGICK_COMPARE = false;
+    const DEBUG_IMAGE_MAGICK_COMPARE = true;
     
     private static $recursiveProxyLinkNames = array('libs', 'plugins', 'tests');
     private static $imageMagickAvailable = false;
@@ -207,7 +207,9 @@ Screenshot diff: $diffPath\n";
         $cmd = "compare \"$expectedPath\" \"$processedPath\" \"$diffPath\" 2>&1";
         exec($cmd, $output, $result);
 
-        if (self::DEBUG_IMAGE_MAGICK_COMPARE) {
+        if (self::DEBUG_IMAGE_MAGICK_COMPARE
+            && $result !== 0
+        ) {
             echo "Could not save image diff: " . implode("\n", $output) . "\n";
         }
     }
