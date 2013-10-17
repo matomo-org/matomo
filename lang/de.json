@@ -914,7 +914,7 @@
     },
     "Installation": {
         "CommunityNewsletter": "Senden Sie mir per E-Mail Community-Aktualisierungen (neue Plugins, neue Funktionen usw.)",
-        "ConfigurationHelp": "Ihre Konfigurationsdatei enthält Fehler. Sie können entweder die config\/config.php löschen und neu installieren, oder die Einstellung zur Datenbankverbindung korrigieren.",
+        "ConfigurationHelp": "Ihre Konfigurationsdatei enthält Fehler. Sie können entweder die config\/config.ini.php löschen und neu installieren, oder die Einstellung zur Datenbankverbindung korrigieren.",
         "ConfirmDeleteExistingTables": "Wollen Sie wirklich die Tabellen: %s aus der Datenbank löschen? WARNUNG: DATEN AUS DIESEN TABELLEN KÖNNEN NICHT WIEDERHERGESTELLT WERDEN!",
         "Congratulations": "Glückwunsch",
         "CongratulationsHelp": "<p>Glückwunsch! Piwik ist nun installiert.<\/p><p>Stellen Sie sicher, dass der JavaScript-Code auf Ihrer Webseite eingefügt wurde und warten Sie auf die ersten Besucher.<\/p>",
