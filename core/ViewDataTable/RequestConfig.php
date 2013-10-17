@@ -121,6 +121,13 @@ class RequestConfig
 
     public $apiMethodToRequestDataTable = '';
 
+    /**
+     * If the current dataTable refers to a subDataTable (eg. keywordsBySearchEngineId for id=X) this variable is set to the Id
+     *
+     * @var bool|int
+     */
+    public $idSubtable = false;
+
     public function getProperties()
     {
         return get_object_vars($this);

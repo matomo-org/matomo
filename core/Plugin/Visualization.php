@@ -104,7 +104,7 @@ class Visualization extends ViewDataTable
             $view->deleteReportsOlderThan         = Option::get('delete_reports_older_than');
         }
 
-        $view->idSubtable  = $this->idSubtable;
+        $view->idSubtable  = $this->requestConfig->idSubtable;
         $view->clientSideParameters = $this->getClientSideParametersToSet();
         $view->clientSideProperties = $this->getClientSidePropertiesToSet();
         $view->properties  = array_merge($this->requestConfig->getProperties(), $this->config->getProperties());

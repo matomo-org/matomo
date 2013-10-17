@@ -66,13 +66,6 @@ abstract class ViewDataTable implements ViewInterface
     const CONFIGURE_FOOTER_ICONS_EVENT = 'Visualization.configureFooterIcons';
 
     /**
-     * If the current dataTable refers to a subDataTable (eg. keywordsBySearchEngineId for id=X) this variable is set to the Id
-     *
-     * @var bool|int
-     */
-    protected $idSubtable = false;
-
-    /**
      * DataTable loaded from the API for this ViewDataTable.
      *
      * @var DataTable
@@ -110,9 +103,9 @@ abstract class ViewDataTable implements ViewInterface
 
         $this->setViewProperties($defaultReportProperties);
 
-        $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
+        $this->requestConfig->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
 
-        $this->config->show_footer_icons = (false == $this->idSubtable);
+        $this->config->show_footer_icons = (false == $this->requestConfig->idSubtable);
         $this->config->self_url          = Request::getBaseReportUrl($controllerName, $controllerAction);
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
