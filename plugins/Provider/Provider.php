@@ -19,6 +19,7 @@ use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\WidgetsList;
 
 /**
@@ -33,14 +34,14 @@ class Provider extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'Tracker.newVisitorInformation'            => 'logProviderInfo',
-            'WidgetsList.addWidgets'                   => 'addWidget',
-            'Menu.Reporting.addItems'                  => 'addMenu',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'ArchiveProcessor.Day.compute'    => 'archiveDay',
+            'ArchiveProcessor.Period.compute' => 'archivePeriod',
+            'Tracker.newVisitorInformation'   => 'logProviderInfo',
+            'WidgetsList.addWidgets'          => 'addWidget',
+            'Menu.Reporting.addItems'         => 'addMenu',
+            'API.getReportMetadata'           => 'getReportMetadata',
+            'API.getSegmentsMetadata'         => 'getSegmentsMetadata',
+            'ViewDataTable.configure'         => 'configureViewDataTable',
         );
         return $hooks;
     }
@@ -235,16 +236,18 @@ class Provider extends \Piwik\Plugin
         }
     }
 
-    public function getReportDisplayProperties(&$properties)
+    public function configureViewDataTable(ViewDataTable $view)
     {
-        $properties['Provider.getProvider'] = $this->getDisplayPropertiesForGetProvider();
+        switch ($view->requestConfig->apiMethodToRequestDataTable) {
+            case 'Provider.getProvider':
+                $this->configureViewForGetProvider($view);
+                break;
+        }
     }
 
-    private function getDisplayPropertiesForGetProvider()
+    private function configureViewForGetProvider(ViewDataTable $view)
     {
-        return array(
-            'translations' => array('label' => Piwik::translate('Provider_ColumnProvider')),
-            'filter_limit' => 5
-        );
+        $view->requestConfig->filter_limit = 5;
+        $view->config->addTranslation('label', Piwik::translate('Provider_ColumnProvider'));
     }
 }

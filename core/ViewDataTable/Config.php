@@ -552,8 +552,10 @@ class Config
         $this->columns_to_display = array_filter($columnsToDisplay);
     }
 
-    private function addRelatedReport($module, $action, $title, $queryParams = array())
+    public function addRelatedReport($relatedReport, $title, $queryParams = array())
     {
+        list($module, $action) = explode('.', $relatedReport);
+
         // don't add the related report if it references this report
         if ($this->controllerName == $module && $this->controllerAction == $action) {
             return;
@@ -567,8 +569,19 @@ class Config
     public function addRelatedReports($relatedReports)
     {
         foreach ($relatedReports as $report => $title) {
-            list($module, $action) = explode('.', $report);
-            $this->addRelatedReport($module, $action, $title);
+            $this->addRelatedReport($report, $title);
+        }
+    }
+
+    public function addTranslation($key, $translation)
+    {
+        $this->translations[$key] = $translation;
+    }
+
+    public function addTranslations($translations)
+    {
+        foreach ($translations as $key => $translation) {
+            $this->addTranslation($key, $translation);
         }
     }
 

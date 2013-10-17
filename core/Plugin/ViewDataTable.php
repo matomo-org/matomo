@@ -24,8 +24,8 @@ use Piwik\Site;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
+use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
-use \Piwik\ViewDataTable\Request as ViewDataTableRequest;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -90,7 +90,7 @@ abstract class ViewDataTable implements ViewInterface
     /**
      * Default constructor.
      */
-    public function __construct($controllerAction, $apiMethodToRequestDataTable, $defaultReportProperties)
+    public function __construct($controllerAction, $apiMethodToRequestDataTable)
     {
         list($controllerName, $controllerAction) = explode('.', $controllerAction);
 
@@ -101,14 +101,29 @@ abstract class ViewDataTable implements ViewInterface
 
         $this->request = new ViewDataTableRequest($this->requestConfig);
 
-        $this->setViewProperties($defaultReportProperties);
-
         $this->requestConfig->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
-
-        $this->config->show_footer_icons = (false == $this->requestConfig->idSubtable);
         $this->config->self_url          = Request::getBaseReportUrl($controllerName, $controllerAction);
 
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
+
+        /**
+         * This event is triggered to gather the report display properties for each available report. If you define
+         * your own report, you want to subscribe to this event to define how your report shall be displayed in the
+         * Piwik UI.
+         *
+         * public function configureViewDataTable(ViewDataTable $view)
+         * {
+         *     switch ($view->requestConfig->apiMethodToRequestDataTable) {
+         *         case 'VisitTime.getVisitInformationPerServerTime':
+         *             $view->config->enable_sort = true;
+         *             $view->requestConfig->filter_limit = 10;
+         *             break;
+         *     }
+         * }
+         */
+        Piwik::postEvent('ViewDataTable.configure', array($this));
+
+        $this->config->show_footer_icons = (false == $this->requestConfig->idSubtable);
 
         // the exclude low population threshold value is sometimes obtained by requesting data.
         // to avoid issuing unecessary requests when display properties are determined by metadata,
@@ -167,9 +182,9 @@ abstract class ViewDataTable implements ViewInterface
 
     public function isViewDataTableId($viewDataTableId)
     {
-        $myId = static::getViewDataTableId();
+        $myIds = static::getIdsWithInheritance(get_called_class());
 
-        return $myId == $viewDataTableId;
+        return in_array($viewDataTableId, $myIds);
     }
 
     /**
@@ -197,78 +212,6 @@ abstract class ViewDataTable implements ViewInterface
     public function setDataTable($dataTable)
     {
         $this->dataTable = $dataTable;
-    }
-
-    private function setViewProperties($values)
-    {
-        foreach ($values as $name => $value) {
-            $this->setViewProperty($name, $value);
-        }
-    }
-
-    /**
-     * Sets a view property by name. This function handles special view properties
-     * like 'translations' & 'related_reports' that store arrays.
-     *
-     * @param string $name
-     * @param mixed $value For array properties, $value can be a comma separated string.
-     * @throws \Exception
-     */
-    protected function setViewProperty($name, $value)
-    {
-        if (isset($this->requestConfig->$name)
-            && is_array($this->requestConfig->$name)
-            && is_string($value)
-        ) {
-            $value = Piwik::getArrayFromApiParameter($value);
-        }
-
-        if (isset($this->config->$name)
-            && is_array($this->config->$name)
-            && is_string($value)
-        ) {
-            $value = Piwik::getArrayFromApiParameter($value);
-        }
-
-        if ($name == 'translations'
-            || $name == 'filters'
-        ) {
-            $this->config->$name = array_merge($this->config->$name, $value);
-        } else if ($name == 'related_reports') { // TODO: should process after (in overrideViewProperties)
-            $this->config->addRelatedReports($value);
-        } else if ($name == 'visualization_properties') {
-            $this->setVisualizationPropertiesFromMetadata($value);
-        } elseif (property_exists($this->requestConfig, $name)) {
-            $this->requestConfig->$name = $value;
-        } else if (property_exists($this->config, $name)) {
-            $this->config->$name = $value;
-        } else {
-            $report = $this->config->controllerName . '.' . $this->config->controllerAction;
-            throw new \Exception("Invalid view property '$name' specified in view property metadata for '$report'.");
-        }
-    }
-
-    /**
-     * Sets visualization properties using data in a visualization's default property values
-     * array.
-     */
-    protected function setVisualizationPropertiesFromMetadata($properties)
-    {
-        if (!is_array($properties)) {
-            Log::debug('Cannot set properties from metadata, $properties is not an array');
-            return null;
-        }
-
-        // TODO parent class should not know anything about children
-        $visualizationIds = static::getIdsWithInheritance(get_class($this));
-
-        foreach ($visualizationIds as $visualizationId) {
-            if (empty($properties[$visualizationId])) {
-                continue;
-            }
-
-            $this->setViewProperties($properties[$visualizationId]);
-        }
     }
 
     /**

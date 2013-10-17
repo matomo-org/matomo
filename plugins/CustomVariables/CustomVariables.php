@@ -13,6 +13,7 @@ namespace Piwik\Plugins\CustomVariables;
 use Piwik\ArchiveProcessor;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Tracker;
 use Piwik\WidgetsList;
 
@@ -34,14 +35,14 @@ class CustomVariables extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.Reporting.addItems'                  => 'addMenus',
-            'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'ArchiveProcessor.Day.compute'    => 'archiveDay',
+            'ArchiveProcessor.Period.compute' => 'archivePeriod',
+            'WidgetsList.addWidgets'          => 'addWidgets',
+            'Menu.Reporting.addItems'         => 'addMenus',
+            'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'           => 'getReportMetadata',
+            'API.getSegmentsMetadata'         => 'getSegmentsMetadata',
+            'ViewDataTable.configure'         => 'configureViewDataTable',
         );
         return $hooks;
     }
@@ -152,39 +153,40 @@ class CustomVariables extends \Piwik\Plugin
         }
     }
 
-    public function getReportDisplayProperties(&$properties)
+    public function configureViewDataTable(ViewDataTable $view)
     {
-        $properties['CustomVariables.getCustomVariables'] = $this->getDisplayPropertiesForGetCustomVariables();
-        $properties['CustomVariables.getCustomVariablesValuesFromNameId'] =
-            $this->getDisplayPropertiesForGetCustomVariablesValuesFromNameId();
+        switch ($view->requestConfig->apiMethodToRequestDataTable) {
+            case 'CustomVariables.getCustomVariables':
+                $this->configureViewForGetCustomVariables($view);
+                break;
+            case 'CustomVariables.getCustomVariablesValuesFromNameId':
+                $this->configureViewForGetCustomVariablesValuesFromNameId($view);
+                break;
+        }
     }
 
-    private function getDisplayPropertiesForGetCustomVariables()
+    private function configureViewForGetCustomVariables(ViewDataTable $view)
     {
         $footerMessage = Piwik::translate('CustomVariables_TrackingHelp',
             array('<a target="_blank" href="http://piwik.org/docs/custom-variables/">', '</a>'));
 
-        return array(
-            'columns_to_display'         => array('label', 'nb_actions', 'nb_visits'),
-            'filter_sort_column'         => 'nb_actions',
-            'filter_sort_order'          => 'desc',
-            'show_goals'                 => true,
-            'subtable_controller_action' => 'getCustomVariablesValuesFromNameId',
-            'translations'               => array('label' => Piwik::translate('CustomVariables_ColumnCustomVariableName')),
-            'show_footer_message'        => $footerMessage
-        );
+        $view->config->columns_to_display = array('label', 'nb_actions', 'nb_visits');
+        $view->config->show_goals = true;
+        $view->config->subtable_controller_action = 'getCustomVariablesValuesFromNameId';
+        $view->config->show_footer_message = $footerMessage;
+        $view->config->addTranslation('label', Piwik::translate('CustomVariables_ColumnCustomVariableName'));
+        $view->requestConfig->filter_sort_column = 'nb_actions';
+        $view->requestConfig->filter_sort_order  = 'desc';
     }
 
-    private function getDisplayPropertiesForGetCustomVariablesValuesFromNameId()
+    private function configureViewForGetCustomVariablesValuesFromNameId(ViewDataTable $view)
     {
-        return array(
-            'columns_to_display'          => array('label', 'nb_actions', 'nb_visits'),
-            'filter_sort_column'          => 'nb_actions',
-            'filter_sort_order'           => 'desc',
-            'show_goals'                  => true,
-            'show_search'                 => false,
-            'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik::translate('CustomVariables_ColumnCustomVariableValue'))
-        );
+        $view->config->columns_to_display = array('label', 'nb_actions', 'nb_visits');
+        $view->config->show_goals  = true;
+        $view->config->show_search = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('CustomVariables_ColumnCustomVariableValue'));
+        $view->requestConfig->filter_sort_column = 'nb_actions';
+        $view->requestConfig->filter_sort_order  = 'desc';
     }
 }

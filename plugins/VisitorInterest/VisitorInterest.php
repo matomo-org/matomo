@@ -16,7 +16,9 @@ use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\WidgetsList;
 
 /**
@@ -36,7 +38,7 @@ class VisitorInterest extends \Piwik\Plugin
             'WidgetsList.addWidgets'                     => 'addWidgets',
             'Menu.Reporting.addItems'                    => 'addMenu',
             'API.getReportMetadata'                      => 'getReportMetadata',
-            'Visualization.getReportDisplayProperties'   => 'getReportDisplayProperties',
+            'ViewDataTable.configure'                    => 'configureViewDataTable',
             'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
         return $hooks;
@@ -159,95 +161,99 @@ class VisitorInterest extends \Piwik\Plugin
         $defaultViewTypes['VisitorInterest.getNumberOfVisitsPerPage']          = Cloud::ID;
     }
 
-    public function getReportDisplayProperties(&$properties)
+    public function configureViewDataTable(ViewDataTable $view)
     {
-        $properties['VisitorInterest.getNumberOfVisitsPerVisitDuration'] =
-            $this->getDisplayPropertiesForGetNumberOfVisitsPerVisitDuration();
-        $properties['VisitorInterest.getNumberOfVisitsPerPage'] =
-            $this->getDisplayPropertiesForGetNumberOfVisitsPerPage();
-        $properties['VisitorInterest.getNumberOfVisitsByVisitCount'] =
-            $this->getDisplayPropertiesForGetNumberOfVisitsByVisitCount();
-        $properties['VisitorInterest.getNumberOfVisitsByDaysSinceLast'] =
-            $this->getDisplayPropertiesForGetNumberOfVisitsByDaysSinceLast();
+        switch ($view->requestConfig->apiMethodToRequestDataTable) {
+            case 'VisitorInterest.getNumberOfVisitsPerVisitDuration':
+                $this->configureViewForGetNumberOfVisitsPerVisitDuration($view);
+                break;
+            case 'VisitorInterest.getNumberOfVisitsPerPage':
+                $this->configureViewForGetNumberOfVisitsPerPage($view);
+                break;
+            case 'VisitorInterest.getNumberOfVisitsByVisitCount':
+                $this->configureViewForGetNumberOfVisitsByVisitCount($view);
+                break;
+            case 'VisitorInterest.getNumberOfVisitsByDaysSinceLast':
+                $this->configureViewForGetNumberOfVisitsByDaysSinceLast($view);
+                break;
+        }
     }
 
-    private function getDisplayPropertiesForGetNumberOfVisitsPerVisitDuration()
+    private function configureViewForGetNumberOfVisitsPerVisitDuration(ViewDataTable $view)
     {
-        return array(
-            'filter_sort_column'          => 'label',
-            'filter_sort_order'           => 'asc',
-            'translations'                => array('label' => Piwik::translate('VisitorInterest_ColumnVisitDuration')),
-            'enable_sort'                 => false,
-            'show_exclude_low_population' => false,
-            'show_offset_information'     => false,
-            'show_pagination_control'     => false,
-            'show_limit_control'          => false,
-            'show_search'                 => false,
-            'show_table_all_columns'      => false,
-            'visualization_properties'    => array(
-                'graph' => array(
-                    'max_graph_elements' => 10
-                )
-            )
-        );
+        $view->requestConfig->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_order  = 'asc';
+
+        $view->config->addTranslation('label', Piwik::translate('VisitorInterest_ColumnVisitDuration'));
+        $view->config->enable_sort = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
+        $view->config->show_search             = false;
+        $view->config->show_table_all_columns  = false;
+
+        if ($view->isViewDataTableId(Graph::ID)) {
+            $view->config->max_graph_elements = 10;
+        }
     }
 
-    private function getDisplayPropertiesForGetNumberOfVisitsPerPage()
+    private function configureViewForGetNumberOfVisitsPerPage(ViewDataTable $view)
     {
-        return array(
-            'filter_sort_column'          => 'label',
-            'filter_sort_order'           => 'asc',
-            'translations'                => array('label' => Piwik::translate('VisitorInterest_ColumnPagesPerVisit')),
-            'enable_sort'                 => false,
-            'show_exclude_low_population' => false,
-            'show_offset_information'     => false,
-            'show_pagination_control'     => false,
-            'show_limit_control'          => false,
-            'show_search'                 => false,
-            'show_table_all_columns'      => false,
-            'visualization_properties'    => array(
-                'graph' => array(
-                    'max_graph_elements' => 10
-                )
-            )
-        );
+        $view->requestConfig->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_order  = 'asc';
+
+        $view->config->addTranslation('label', Piwik::translate('VisitorInterest_ColumnVisitDuration'));
+        $view->config->enable_sort = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
+        $view->config->show_search             = false;
+        $view->config->show_table_all_columns  = false;
+
+        if ($view->isViewDataTableId(Graph::ID)) {
+            $view->config->max_graph_elements = 10;
+        }
     }
 
-    private function getDisplayPropertiesForGetNumberOfVisitsByVisitCount()
+    private function configureViewForGetNumberOfVisitsByVisitCount(ViewDataTable $view)
     {
-        return array(
-            'columns_to_display'          => array('label', 'nb_visits', 'nb_visits_percentage'),
-            'filter_sort_column'          => 'label',
-            'filter_sort_order'           => 'asc',
-            'translations'                => array('label'                => Piwik::translate('VisitorInterest_VisitNum'),
-                                                   'nb_visits_percentage' => Metrics::getPercentVisitColumn()),
-            'show_exclude_low_population' => false,
-            'show_offset_information'     => false,
-            'show_pagination_control'     => false,
-            'show_limit_control'          => false,
-            'filter_limit'                => 15,
-            'show_search'                 => false,
-            'enable_sort'                 => false,
-            'show_table_all_columns'      => false,
-            'show_all_views_icons'        => false,
+        $view->requestConfig->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_order  = 'asc';
+        $view->requestConfig->filter_limit = 15;
+
+        $view->config->addTranslations(array(
+            'label'                => Piwik::translate('VisitorInterest_VisitNum'),
+            'nb_visits_percentage' => Metrics::getPercentVisitColumn())
         );
+
+        $view->config->columns_to_display = array('label', 'nb_visits', 'nb_visits_percentage');
+        $view->config->show_exclude_low_population = false;
+
+        $view->config->enable_sort = false;
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
+        $view->config->show_search             = false;
+        $view->config->show_table_all_columns  = false;
+        $view->config->show_all_views_icons    = false;
     }
 
-    private function getDisplayPropertiesForGetNumberOfVisitsByDaysSinceLast()
+    private function configureViewForGetNumberOfVisitsByDaysSinceLast(ViewDataTable $view)
     {
-        return array(
-            'filter_sort_column'          => 'label',
-            'filter_sort_order'           => 'asc',
-            'translations'                => array('label' => Piwik::translate('General_DaysSinceLastVisit')),
-            'show_exclude_low_population' => false,
-            'show_offset_information'     => false,
-            'show_pagination_control'     => false,
-            'show_limit_control'          => false,
-            'show_all_views_icons'        => false,
-            'filter_limit'                => 15,
-            'show_search'                 => false,
-            'enable_sort'                 => false,
-            'show_table_all_columns'      => false
-        );
+        $view->requestConfig->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_order  = 'asc';
+        $view->requestConfig->filter_limit = 15;
+
+        $view->config->show_search = false;
+        $view->config->enable_sort = false;
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
+        $view->config->show_all_views_icons    = false;
+        $view->config->show_table_all_columns  = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('General_DaysSinceLastVisit'));
     }
 }

@@ -37,11 +37,10 @@ use Piwik\View;
 class Visualization extends ViewDataTable
 {
     const TEMPLATE_FILE = '';
-    const SPECIFIC_PROPERTIES = 'visualization_properties';
 
     private $templateVars = array();
 
-    final public function __construct($controllerAction, $apiMethodToRequestDataTable, $defaultReportProperties)
+    final public function __construct($controllerAction, $apiMethodToRequestDataTable)
     {
         $templateFile = static::TEMPLATE_FILE;
 
@@ -49,7 +48,7 @@ class Visualization extends ViewDataTable
             throw new \Exception('You have not defined a constant named TEMPLATE_FILE in your visualization class.');
         }
 
-        parent::__construct($controllerAction, $apiMethodToRequestDataTable, $defaultReportProperties);
+        parent::__construct($controllerAction, $apiMethodToRequestDataTable);
     }
 
     protected function init()

@@ -13,6 +13,9 @@ namespace Piwik\Plugins\UserSettings;
 use Piwik\ArchiveProcessor;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\WidgetsList;
 
@@ -172,7 +175,7 @@ class UserSettings extends \Piwik\Plugin
             'Menu.Reporting.addItems'                    => 'addMenu',
             'API.getReportMetadata'                      => 'getReportMetadata',
             'API.getSegmentsMetadata'                    => 'getSegmentsMetadata',
-            'Visualization.getReportDisplayProperties'   => 'getReportDisplayProperties',
+            'ViewDataTable.configure'                    => 'configureViewDataTable',
             'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
         return $hooks;
@@ -183,138 +186,168 @@ class UserSettings extends \Piwik\Plugin
         $defaultViewTypes['UserSettings.getBrowserType'] = Pie::ID;
     }
 
-    public function getReportDisplayProperties(&$properties)
+    public function configureViewDataTable(ViewDataTable $view)
     {
-        $properties['UserSettings.getResolution'] = $this->getDisplayPropertiesForGetResolution();
-        $properties['UserSettings.getConfiguration'] = $this->getDisplayPropertiesForGetConfiguration();
-        $properties['UserSettings.getOS'] = $this->getDisplayPropertiesForGetOS();
-        $properties['UserSettings.getOSFamily'] = $this->getDisplayPropertiesForGetOSFamily();
-        $properties['UserSettings.getBrowserVersion'] = $this->getDisplayPropertiesForGetBrowserVersion();
-        $properties['UserSettings.getBrowser'] = $this->getDisplayPropertiesForGetBrowser();
-        $properties['UserSettings.getBrowserType'] = $this->getDisplayPropertiesForGetBrowserType();
-        $properties['UserSettings.getWideScreen'] = $this->getDisplayPropertiesForGetWideScreen();
-        $properties['UserSettings.getMobileVsDesktop'] = $this->getDisplayPropertiesForGetMobileVsDesktop();
-        $properties['UserSettings.getPlugin'] = $this->getDisplayPropertiesForGetPlugin();
-        $properties['UserSettings.getLanguage'] = $this->getDisplayPropertiesForGetLanguage();
+        switch ($view->requestConfig->apiMethodToRequestDataTable) {
+            case 'UserSettings.getResolution':
+                $this->configureViewForGetResolution($view);
+                break;
+            case 'UserSettings.getConfiguration':
+                $this->configureViewForGetConfiguration($view);
+                break;
+            case 'UserSettings.getOS':
+                $this->configureViewForGetOS($view);
+                break;
+            case 'UserSettings.getOSFamily':
+                $this->configureViewForGetOSFamily($view);
+                break;
+            case 'UserSettings.getBrowserVersion':
+                $this->configureViewForGetBrowserVersion($view);
+                break;
+            case 'UserSettings.getBrowser':
+                $this->configureViewForGetBrowser($view);
+                break;
+            case 'UserSettings.getBrowserType':
+                $this->configureViewForGetBrowserType($view);
+                break;
+            case 'UserSettings.getWideScreen':
+                $this->configureViewForGetWideScreen($view);
+                break;
+            case 'UserSettings.getMobileVsDesktop':
+                $this->configureViewForGetMobileVsDesktop($view);
+                break;
+            case 'UserSettings.getPlugin':
+                $this->configureViewForGetPlugin($view);
+                break;
+            case 'UserSettings.getLanguage':
+                $this->configureViewForGetLanguage($view);
+                break;
+        }
     }
 
-    private function getDisplayPropertiesForGetResolution()
+    private function configureViewForGetResolution(ViewDataTable $view)
     {
-        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations' => array('label' => Piwik::translate('UserSettings_ColumnResolution'))
-                                                                           ));
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnResolution'));
     }
 
-    private function getDisplayPropertiesForGetConfiguration()
+    private function configureViewForGetConfiguration(ViewDataTable $view)
     {
-        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'filter_limit' => 3,
-                                                                                'translations' => array('label' => Piwik::translate('UserSettings_ColumnConfiguration'))
-                                                                           ));
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnConfiguration'));
+
+        $view->requestConfig->filter_limit = 3;
     }
 
-    private function getDisplayPropertiesForGetOS()
+    private function configureViewForGetOS(ViewDataTable $view)
     {
-        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'    => array('label' => Piwik::translate('UserSettings_ColumnOperatingSystem')),
-                                                                                'title'           => Piwik::translate('UserSettings_OperatingSystems'),
-                                                                                'related_reports' => $this->getOsRelatedReports()
-                                                                           ));
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->title = Piwik::translate('UserSettings_OperatingSystems');
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnOperatingSystem'));
+        $view->config->addRelatedReports($this->getOsRelatedReports());
     }
 
-    private function getDisplayPropertiesForGetOSFamily()
+    private function configureViewForGetOSFamily(ViewDataTable $view)
     {
-        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'    => array('label' => Piwik::translate('UserSettings_OperatingSystemFamily')),
-                                                                                'title'           => Piwik::translate('UserSettings_OperatingSystemFamily'),
-                                                                                'related_reports' => $this->getOsRelatedReports()
-                                                                           ));
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->title = Piwik::translate('UserSettings_OperatingSystemFamily');
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_OperatingSystemFamily'));
+        $view->config->addRelatedReports($this->getOsRelatedReports());
     }
 
-    private function getDisplayPropertiesForGetBrowserVersion()
+    private function configureViewForGetBrowserVersion(ViewDataTable $view)
     {
-        $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                   'translations'    => array('label' => Piwik::translate('UserSettings_ColumnBrowserVersion')),
-                                                                                   'title'           => Piwik::translate('UserSettings_ColumnBrowserVersion'),
-                                                                                   'related_reports' => $this->getBrowserRelatedReports()
-                                                                              ));
-        $result['visualization_properties']['graph']['max_graph_elements'] = 7;
-        return $result;
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->title = Piwik::translate('UserSettings_ColumnBrowserVersion');
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnBrowserVersion'));
+        $view->config->addRelatedReports($this->getBrowserRelatedReports());
+
+        if ($view->isViewDataTableId(Graph::ID)) {
+            $view->config->max_graph_elements = 7;
+        }
     }
 
-    private function getDisplayPropertiesForGetBrowser()
+    private function configureViewForGetBrowser(ViewDataTable $view)
     {
-        $result = array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                   'translations'    => array('label' => Piwik::translate('UserSettings_ColumnBrowser')),
-                                                                                   'title'           => Piwik::translate('UserSettings_Browsers'),
-                                                                                   'related_reports' => $this->getBrowserRelatedReports()
-                                                                              ));
-        $result['visualization_properties']['graph']['max_graph_elements'] = 7;
-        return $result;
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->title = Piwik::translate('UserSettings_Browsers');
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnBrowser'));
+        $view->config->addRelatedReports($this->getBrowserRelatedReports());
+
+        if ($view->isViewDataTableId(Graph::ID)) {
+            $view->config->max_graph_elements = 7;
+        }
     }
 
-    private function getDisplayPropertiesForGetBrowserType()
+    private function configureViewForGetBrowserType(ViewDataTable $view)
     {
-        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'            => array('label' => Piwik::translate('UserSettings_ColumnBrowserFamily')),
-                                                                                'show_offset_information' => false,
-                                                                                'show_pagination_control' => false,
-                                                                                'show_limit_control'      => false
-                                                                           ));
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnBrowserFamily'));
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
     }
 
-    private function getDisplayPropertiesForGetWideScreen()
+    private function configureViewForGetWideScreen(ViewDataTable $view)
     {
-        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'            => array('label' => Piwik::translate('UserSettings_ColumnTypeOfScreen')),
-                                                                                'show_offset_information' => false,
-                                                                                'show_pagination_control' => false,
-                                                                                'show_limit_control'      => false,
-                                                                                'title'                   => Piwik::translate('UserSettings_ColumnTypeOfScreen'),
-                                                                                'related_reports'         => $this->getWideScreenDeviceTypeRelatedReports()
-                                                                           ));
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->title = Piwik::translate('UserSettings_ColumnTypeOfScreen');
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_ColumnTypeOfScreen'));
+        $view->config->addRelatedReports($this->getWideScreenDeviceTypeRelatedReports());
     }
 
-    private function getDisplayPropertiesForGetMobileVsDesktop()
+    private function configureViewForGetMobileVsDesktop(ViewDataTable $view)
     {
-        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'    => array('label' => Piwik::translate('UserSettings_MobileVsDesktop')),
-                                                                                'title'           => Piwik::translate('UserSettings_MobileVsDesktop'),
-                                                                                'related_reports' => $this->getWideScreenDeviceTypeRelatedReports()
-                                                                           ));
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->title = Piwik::translate('UserSettings_MobileVsDesktop');
+        $view->config->addTranslation('label', Piwik::translate('UserSettings_MobileVsDesktop'));
+        $view->config->addRelatedReports($this->getWideScreenDeviceTypeRelatedReports());
     }
 
-    private function getDisplayPropertiesForGetPlugin()
+    private function configureViewForGetPlugin(ViewDataTable $view)
     {
-        return array_merge($this->getBasicUserSettingsDisplayProperties(), array(
-                                                                                'translations'            => array(
-                                                                                    'label'                => Piwik::translate('General_Plugin'),
-                                                                                    'nb_visits_percentage' =>
-                                                                                        str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'))
-                                                                                ),
-                                                                                'show_offset_information' => false,
-                                                                                'show_pagination_control' => false,
-                                                                                'show_limit_control'      => false,
-                                                                                'show_all_views_icons'    => false,
-                                                                                'show_table_all_columns'  => false,
-                                                                                'columns_to_display'      => array('label', 'nb_visits_percentage', 'nb_visits'),
-                                                                                'filter_sort_column'      => 'nb_visits_percentage',
-                                                                                'filter_sort_order'       => 'desc',
-                                                                                'filter_limit'            => 10,
-                                                                                'show_footer_message'     => Piwik::translate('UserSettings_PluginDetectionDoesNotWorkInIE'),
-                                                                           ));
+        $this->getBasicUserSettingsDisplayProperties($view);
+
+        $view->config->addTranslations(array(
+            'label'                => Piwik::translate('General_Plugin'),
+            'nb_visits_percentage' =>
+            str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'))
+        ));
+
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
+        $view->config->show_all_views_icons    = false;
+        $view->config->show_table_all_columns  = false;
+        $view->config->columns_to_display  = array('label', 'nb_visits_percentage', 'nb_visits');
+        $view->config->show_footer_message = Piwik::translate('UserSettings_PluginDetectionDoesNotWorkInIE');
+
+        $view->requestConfig->filter_sort_column = 'nb_visits_percentage';
+        $view->requestConfig->filter_sort_order  = 'desc';
+        $view->requestConfig->filter_limit       = 10;
     }
 
-    private function getDisplayPropertiesForGetLanguage()
+    private function configureViewForGetLanguage(ViewDataTable $view)
     {
-        return array(
-            'translations'                => array('label' => Piwik::translate('General_Language')),
-            'filter_sort_column'          => 'nb_visits',
-            'filter_sort_order'           => 'desc',
-            'show_search'                 => false,
-            'columns_to_display'          => array('label', 'nb_visits'),
-            'show_exclude_low_population' => false,
-        );
+        $view->config->show_search = false;
+        $view->config->columns_to_display = array('label', 'nb_visits');
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('General_Language'));
+
+        $view->requestConfig->filter_sort_column = 'nb_visits';
+        $view->requestConfig->filter_sort_order  = 'desc';
     }
 
     private function getWideScreenDeviceTypeRelatedReports()
@@ -341,18 +374,16 @@ class UserSettings extends \Piwik\Plugin
         );
     }
 
-    private function getBasicUserSettingsDisplayProperties()
+    private function getBasicUserSettingsDisplayProperties(ViewDataTable $view)
     {
-        return array(
-            'show_search'                 => false,
-            'show_exclude_low_population' => false,
-            'filter_limit'                => 5,
-            'visualization_properties'    => array(
-                'graph' => array(
-                    'max_graph_elements' => 5
-                )
-            )
-        );
+        $view->config->show_search = false;
+        $view->config->show_exclude_low_population = false;
+
+        $view->requestConfig->filter_limit = 5;
+
+        if ($view->isViewDataTableId(Graph::ID)) {
+            $view->config->max_graph_elements = 5;
+        }
     }
 
     /**

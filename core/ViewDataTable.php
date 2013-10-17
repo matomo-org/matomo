@@ -52,18 +52,11 @@ class ViewDataTable
 {
 
     /**
-     * Cache for getAllReportDisplayProperties result.
-     *
-     * @var array
-     */
-    private static $reportPropertiesCache = null;
-
-    /**
      * Cache for getDefaultViewTypeForReports result.
      *
      * @var array
      */
-    private static $defaultViewType = null;
+    private static $defaultViewTypes = null;
 
     /**
      * Returns a Piwik_ViewDataTable_* object.
@@ -86,8 +79,7 @@ class ViewDataTable
             $controllerAction = $apiAction;
         }
 
-        $defaultViewType         = self::getDefaultViewTypeForReport($apiAction);
-        $defaultReportProperties = static::getDefaultPropertiesForReport($apiAction);
+        $defaultViewType = self::getDefaultViewTypeForReport($apiAction);
 
         if (!$forceDefault && !empty($defaultViewType)) {
             $defaultType = $defaultViewType;
@@ -98,11 +90,11 @@ class ViewDataTable
         $visualizations = static::getAvailableVisualizations();
 
         if (array_key_exists($type, $visualizations)) {
-            return new $visualizations[$type]($controllerAction, $apiAction, $defaultReportProperties);
+            return new $visualizations[$type]($controllerAction, $apiAction);
         }
 
         if (class_exists($type)) {
-            return new $type($controllerAction, $apiAction, $defaultReportProperties);
+            return new $type($controllerAction, $apiAction);
         }
 
         throw new \Exception(sprintf('Visuzalization type %s not found', $type));
@@ -115,6 +107,7 @@ class ViewDataTable
      * @return array Array mapping visualization IDs with their associated visualization classes.
      * @throws \Exception If a visualization class does not exist or if a duplicate visualization ID
      *                   is found.
+     * @return array
      */
     public static function getAvailableVisualizations()
     {
@@ -200,29 +193,12 @@ class ViewDataTable
     }
 
     /**
-     * Returns the defaut view properties for a report, if any.
-     *
-     * Plugins can associate callbacks with the Visualization.getReportDisplayProperties
-     * event to set the default properties of reports.
-     *
-     * @param string $apiAction
-     * @return array
-     */
-    private static function getDefaultPropertiesForReport($apiAction)
-    {
-        $reportDisplayProperties = self::getAllReportDisplayProperties();
-        return isset($reportDisplayProperties[$apiAction]) ? $reportDisplayProperties[$apiAction] : array();
-    }
-
-    /**
      * Returns the default viewDataTable ID to use when determining which visualization to use.
-     *
-     * @param string $apiAction
      */
     private static function getDefaultViewTypeForReport($apiAction)
     {
         $defaultViewTypes = self::getDefaultViewTypeForReports();
-        return isset($defaultViewTypes[$apiAction]) ? $defaultViewTypes[$apiAction] : array();
+        return isset($defaultViewTypes[$apiAction]) ? $defaultViewTypes[$apiAction] : false;
     }
 
     /**
@@ -231,8 +207,8 @@ class ViewDataTable
      */
     private static function getDefaultViewTypeForReports()
     {
-        if (null === self::$defaultViewType) {
-            self::$defaultViewType = array();
+        if (null === self::$defaultViewTypes) {
+            self::$defaultViewTypes = array();
             /**
              * This event is triggered to gather the default view types for each available report. By default a table
              * is used. If you define your own report, you may want to subscribe to this event to define another
@@ -249,40 +225,9 @@ class ViewDataTable
              * }
              * ```
              */
-            Piwik::postEvent('Visualization.getDefaultViewTypeForReports', array(&self::$defaultViewType));
+            Piwik::postEvent('Visualization.getDefaultViewTypeForReports', array(&self::$defaultViewTypes));
         }
 
-        return self::$defaultViewType;
-    }
-
-    /**
-     * Returns the list of display properties for all available reports.
-     *
-     * @return array
-     */
-    private static function getAllReportDisplayProperties()
-    {
-        if (null === self::$reportPropertiesCache) {
-            self::$reportPropertiesCache = array();
-            /**
-             * This event is triggered to gather the report display properties for each available report. If you define
-             * your own report, you want to subscribe to this event to define how your report shall be displayed in the
-             * Piwik UI.
-             *
-             * Example:
-             * ```
-             * public function getReportDisplayProperties(&$properties)
-             * {
-             *     $properties['Provider.getProvider'] = array(
-             *         'translations' => array('label' => Piwik::translate('Provider_ColumnProvider')),
-             *         'filter_limit' => 5
-             *     )
-             * }
-             * ```
-             */
-            Piwik::postEvent('Visualization.getReportDisplayProperties', array(&self::$reportPropertiesCache));
-        }
-
-        return self::$reportPropertiesCache;
+        return self::$defaultViewTypes;
     }
 }
