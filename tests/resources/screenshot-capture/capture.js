@@ -66,7 +66,13 @@ PageRenderer.prototype = {
         setTimeout(function () {
             if (url == self.url) {
                 self.webpage.evaluate(function () {
-                    window.piwik.ajaxRequestFinished();
+                    if (window.piwik
+                        && window.piwik.ajaxRequestFinished
+                    ) {
+                        window.piwik.ajaxRequestFinished();
+                    } else {
+                        console.log("__AJAX_DONE__");
+                    }
                 });
             }
         }, 5000);
