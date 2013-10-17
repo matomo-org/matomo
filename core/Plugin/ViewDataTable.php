@@ -94,8 +94,8 @@ abstract class ViewDataTable implements ViewInterface
     {
         list($controllerName, $controllerAction) = explode('.', $controllerAction);
 
-        $this->requestConfig = $this->getDefaultRequestConfig();
-        $this->config        = $this->getDefaultConfig();
+        $this->requestConfig = static::getDefaultRequestConfig();
+        $this->config        = static::getDefaultConfig();
         $this->config->subtable_controller_action = $controllerAction;
         $this->config->setController($controllerName, $controllerAction);
 
@@ -123,12 +123,12 @@ abstract class ViewDataTable implements ViewInterface
         $this->overrideViewPropertiesWithQueryParams();
     }
 
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         return new VizConfig();
     }
 
-    public function getDefaultRequestConfig()
+    public static function getDefaultRequestConfig()
     {
         return new VizRequest();
     }

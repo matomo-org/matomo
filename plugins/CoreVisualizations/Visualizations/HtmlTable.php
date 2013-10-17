@@ -29,12 +29,12 @@ class HtmlTable extends Visualization
     const ID = 'table';
     const TEMPLATE_FILE = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
 
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         return new HtmlTable\Config();
     }
 
-    public function getDefaultRequestConfig()
+    public static function getDefaultRequestConfig()
     {
         return new HtmlTable\RequestConfig();
     }

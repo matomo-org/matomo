@@ -39,7 +39,7 @@ class Cloud extends Visualization
 
     protected $wordsArray = array();
 
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         return new Cloud\Config();
     }

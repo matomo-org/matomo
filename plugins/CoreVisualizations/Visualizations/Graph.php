@@ -29,12 +29,12 @@ abstract class Graph extends Visualization
 
     public $selectableRows = array();
 
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         return new Graph\Config();
     }
 
-    public function getDefaultRequestConfig()
+    public static function getDefaultRequestConfig()
     {
         $config = parent::getDefaultRequestConfig();
         $config->addPropertiesThatShouldBeAvailableClientSide(array('columns'));

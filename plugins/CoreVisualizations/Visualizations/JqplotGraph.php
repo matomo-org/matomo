@@ -26,7 +26,7 @@ abstract class JqplotGraph extends Graph
     const ID = 'jqplot_graph';
     const TEMPLATE_FILE = '@CoreVisualizations/_dataTableViz_jqplotGraph.twig';
 
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         return new JqplotGraph\Config();
     }

@@ -29,7 +29,7 @@ class Evolution extends JqplotGraph
     const ID = 'graphEvolution';
     const SERIES_COLOR_COUNT = 8;
 
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         return new Evolution\Config();
     }

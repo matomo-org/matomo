@@ -21,7 +21,7 @@ class Pie extends JqplotGraph
 {
     const ID = 'graphPie';
 
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         $config = new Config();
         $config->max_graph_elements = 6;

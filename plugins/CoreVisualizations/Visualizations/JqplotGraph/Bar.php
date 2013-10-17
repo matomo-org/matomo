@@ -28,7 +28,7 @@ class Bar extends JqplotGraph
         $this->config->datatable_js_type = 'JqplotBarGraphDataTable';
     }
 
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         $config = new Config();
         $config->max_graph_elements = 6;
