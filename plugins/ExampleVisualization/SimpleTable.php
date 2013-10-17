@@ -24,14 +24,6 @@ class SimpleTable extends Visualization
     const FOOTER_ICON_TITLE = 'Simple Table';
     const FOOTER_ICON       = 'plugins/ExampleVisualization/images/table.png';
 
-    /**
-     * You do not have to implement the init method. It is just an example how to assign view variables.
-     */
-    public function init()
-    {
-        $this->assignTemplateVar('vizTitle', 'MyAwesomeTitle');
-    }
-
     public function configureVisualization()
     {
         // Configure how your visualization should look like, for instance you can disable search
@@ -62,6 +54,7 @@ class SimpleTable extends Visualization
     {
         // this hook is executed after the data table is loaded and after all filteres are applied.
         // format your data here that you want to pass to the view
-        // $this->myCustomViewVariable = $dataTable->getRows();
+
+        $this->assignTemplateVar('vizTitle', 'MyAwesomeTitle');
     }
 }
