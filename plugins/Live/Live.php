@@ -81,7 +81,7 @@ class Live extends \Piwik\Plugin
     private function getDisplayPropertiesForGetLastVisitsDetails()
     {
         return array(
-            'default_view_type'           => 'Piwik\\Plugins\\Live\\VisitorLog',
+            'default_view_type'           => VisitorLog::ID,
             'disable_generic_filters'     => true,
             'enable_sort'                 => false,
             'filter_sort_column'          => 'idVisit',
