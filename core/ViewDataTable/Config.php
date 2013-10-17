@@ -454,6 +454,7 @@ class Config
      */
     public $show_non_core_visualizations = true;
 
+    public $report_last_updated_message = false;
     public $metadata  = array();
     public $report_id = '';
 

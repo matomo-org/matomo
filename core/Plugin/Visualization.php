@@ -62,6 +62,7 @@ class Visualization extends ViewDataTable
         $this->overrideSomeConfigPropertiesIfNeeded();
 
         try {
+
             $this->beforeLoadDataTable();
 
             $this->loadDataTableFromAPI();
@@ -171,7 +172,7 @@ class Visualization extends ViewDataTable
             $this->config->metadata = $this->dataTable->getAllTableMetadata();
 
             if (isset($this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                $this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME] = $this->makePrettyArchivedOnText();
+                $this->config->report_last_updated_message = $this->makePrettyArchivedOnText();
             }
         }
     }
