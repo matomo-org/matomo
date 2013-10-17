@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Piwik\Config;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
@@ -82,13 +83,19 @@ class CorePluginsAdmin extends \Piwik\Plugin
             Piwik::isUserIsSuperUser(),
             $order = 3);
 
-        // Not in beta 1
-/*
-        MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuExtend',
-            array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
-            !Piwik::isUserIsAnonymous(),
-            $order = 5);
-*/
+        if (static::isMarketplaceEnabled()) {
+
+            MenuAdmin::getInstance()->add('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuExtend',
+                array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
+                !Piwik::isUserIsAnonymous(),
+                $order = 5);
+
+        }
+    }
+
+    public static function isMarketplaceEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_marketplace'];
     }
 
     public function getJsFiles(&$jsFiles)

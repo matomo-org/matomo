@@ -16,7 +16,7 @@ use Piwik\Singleton;
 
 /**
  * @package Piwik_Menu
- * @method \Piwik\Menu\MenuAbstract getInstance()
+ * @static \Piwik\Menu\MenuAbstract getInstance()
  */
 abstract class MenuAbstract extends Singleton
 {

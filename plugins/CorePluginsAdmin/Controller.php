@@ -37,6 +37,8 @@ class Controller extends Plugin\ControllerAdmin
 
     private function createUpdateOrInstallView($template, $nonceName)
     {
+        static::dieIfMarketplaceIsDisabled();
+
         $pluginName = $this->initPluginModification($nonceName);
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
@@ -115,6 +117,8 @@ class Controller extends Plugin\ControllerAdmin
 
     public function pluginDetails()
     {
+        static::dieIfMarketplaceIsDisabled();
+
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
         $view = $this->configureView('@CorePluginsAdmin/pluginDetails');
@@ -129,8 +133,17 @@ class Controller extends Plugin\ControllerAdmin
         echo $view->render();
     }
 
+    private function dieIfMarketplaceIsDisabled()
+    {
+        if (!CorePluginsAdmin::isMarketplaceEnabled()) {
+            throw new \Exception('The Marketplace is disabled. Enable the Marketplace by changing the config entry "enable_marketplace" to 1.');
+        }
+    }
+
     private function createBrowsePluginsOrThemesView($template, $themesOnly)
     {
+        static::dieIfMarketplaceIsDisabled();
+
         $query = Common::getRequestVar('query', '', 'string', $_POST);
         $sort = Common::getRequestVar('sort', $this->defaultSortMethod, 'string');
 
@@ -166,6 +179,8 @@ class Controller extends Plugin\ControllerAdmin
 
     function extend()
     {
+        static::dieIfMarketplaceIsDisabled();
+
         $view = $this->configureView('@CorePluginsAdmin/extend');
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->isSuperUser = Piwik::isUserIsSuperUser();
@@ -197,8 +212,12 @@ class Controller extends Plugin\ControllerAdmin
         $view->otherUsersCount = count($users) - 1;
         $view->themeEnabled = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
 
-        $marketplace = new Marketplace();
-        $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly);
+        if (CorePluginsAdmin::isMarketplaceEnabled()) {
+            $marketplace = new Marketplace();
+            $view->pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly);
+        } else {
+            $view->pluginsHavingUpdate = array();
+        }
 
         return $view;
     }
