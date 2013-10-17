@@ -19,9 +19,6 @@ use Piwik\Site;
 use Piwik\View;
 use Piwik\Plugin\Visualization;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/AllColumns.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable/Goals.php';
-
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
  *

@@ -9,7 +9,7 @@
  * @package CoreVisualizations
  */
 
-namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+namespace Piwik\Plugins\Goals\Visualizations;
 
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;

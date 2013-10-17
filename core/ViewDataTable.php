@@ -153,7 +153,8 @@ class ViewDataTable
         $result = array();
 
         foreach (static::getAvailableVisualizations() as $vizId => $vizClass) {
-            if (false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')) {
+            if (false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
+                && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')) {
                 $result[$vizId] = $vizClass;
             }
         }

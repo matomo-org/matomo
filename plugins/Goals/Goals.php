@@ -100,9 +100,15 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'              => 'deleteSiteGoals',
             'Goals.getReportsWithGoalMetrics'          => 'getActualReportsWithGoalMetrics',
             'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
-            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
+            'Visualization.addVisualizations'          => 'getAvailableDataTableVisualizations'
         );
         return $hooks;
+    }
+
+    public function getAvailableDataTableVisualizations(&$visualizations)
+    {
+        $visualizations[] = 'Piwik\\Plugins\\Goals\\Visualizations\\Goals';
     }
 
     /**
