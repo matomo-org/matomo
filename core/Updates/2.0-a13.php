@@ -43,7 +43,7 @@ class Updates_2_0_a13 extends Updates
         // Rename Referrers widgets in custom dashboards
         $sql['UPDATE `' . Common::prefixTable('user_dashboard') . '` SET `layout`=REPLACE(`layout`, \'Referer\', \'Referrer\') WHERE `layout` LIKE \'%Referer%\''] = $errorCodeTableNotFound;
 
-        $sql['UPDATE `' . Common::prefixTable('option') . '` SET `option_name` = \'version_ScheduledReports\' WHERE `option_name` = \'version_PDFReports\' '] = false;
+        $sql['UPDATE `' . Common::prefixTable('option') . '` SET `option_name` = \'version_ScheduledReports\' WHERE `option_name` = \'version_PDFReports\' '] = '1062'; // http://forum.piwik.org/read.php?2,106895
 
         return $sql;
     }
