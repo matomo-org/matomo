@@ -10,6 +10,7 @@
  */
 
 namespace Piwik\ViewDataTable;
+use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -558,6 +559,26 @@ class Config
         }
 
         $this->columns_to_display = array_filter($columnsToDisplay);
+    }
+
+    private function addRelatedReport($module, $action, $title, $queryParams = array())
+    {
+        // don't add the related report if it references this report
+        if ($this->controllerName == $module && $this->controllerAction == $action) {
+            return;
+        }
+
+        $url = ApiRequest::getBaseReportUrl($module, $action, $queryParams);
+
+        $this->related_reports[$url] = $title;
+    }
+
+    public function addRelatedReports($relatedReports)
+    {
+        foreach ($relatedReports as $report => $title) {
+            list($module, $action) = explode('.', $report);
+            $this->addRelatedReport($module, $action, $title);
+        }
     }
 
 }

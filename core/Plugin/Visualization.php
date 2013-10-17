@@ -37,7 +37,7 @@ use Piwik\View;
 class Visualization extends ViewDataTable
 {
     const TEMPLATE_FILE = '';
-    const CONFIGURE_VIEW_EVENT = 'Visualization.initView';
+    const SPECIFIC_PROPERTIES = 'visualization_properties';
 
     private $templateVars = array();
 
@@ -50,29 +50,16 @@ class Visualization extends ViewDataTable
         }
 
         parent::__construct($controllerAction, $apiMethodToRequestDataTable, $defaultReportProperties);
-
-        $this->init();
     }
 
     protected function init()
     {
         // do your init stuff here, do not overwrite constructor
-        // maybe setting my view properties $this->vizTitle
     }
 
     protected function buildView()
     {
         $this->configureVisualization();
-
-        /**
-         * This event is called before a visualization is created. Plugins can use this event to
-         * override view properties for individual reports or visualizations.
-         *
-         * Themes can use this event to make sure reports look nice with their themes. Plugins
-         * that provide new visualizations can use this event to make sure certain reports
-         * are configured differently when viewed with the new visualization.
-         */
-        Piwik::postEvent(self::CONFIGURE_VIEW_EVENT, array($viewDataTable = $this));
 
         $this->overrideSomeConfigPropertiesIfNeeded();
 
@@ -81,6 +68,7 @@ class Visualization extends ViewDataTable
 
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI();
+            $this->applyFilters();
 
             $this->afterAllFilteresAreApplied();
 
@@ -106,8 +94,6 @@ class Visualization extends ViewDataTable
         if (null === $this->dataTable) {
             $view->dataTable = null;
         } else {
-            // TODO: this hook seems inappropriate. should be able to find data that is requested for (by site/date) and check if that
-            //       has data.
             $view->dataTableHasNoData = !$this->isThereDataToDisplay();
             $view->dataTable          = $this->dataTable;
 
@@ -188,7 +174,10 @@ class Visualization extends ViewDataTable
                 $this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME] = $this->makePrettyArchivedOnText();
             }
         }
+    }
 
+    private function applyFilters()
+    {
         list($priorityFilters, $otherFilters) = $this->getFiltersToRun();
 
         // First, filters that delete rows
@@ -202,6 +191,8 @@ class Visualization extends ViewDataTable
             $this->applyGenericFilters();
         }
 
+        $this->afterGenericFiltersAreAppliedToLoadedDataTable();
+
         // queue other filters so they can be applied later if queued filters are disabled
         foreach ($otherFilters as $filter) {
             $this->dataTable->queueFilter($filter[0], $filter[1]);
@@ -212,10 +203,6 @@ class Visualization extends ViewDataTable
         if (!$this->config->areQueuedFiltersDisabled()) {
             $this->dataTable->applyQueuedFilters();
         }
-
-        $this->afterGenericFiltersAreAppliedToLoadedDataTable();
-
-        return true;
     }
 
     private function removeEmptyColumnsFromDisplay()
@@ -272,52 +259,13 @@ class Visualization extends ViewDataTable
      * - The date of this report must be older than the delete_reports_older_than config option.
      * @return bool
      */
-    public function hasReportBeenPurged()
+    private function hasReportBeenPurged()
     {
-        $strPeriod = Common::getRequestVar('period', false);
-        $strDate   = Common::getRequestVar('date', false);
-
-        if (false !== $strPeriod
-            && false !== $strDate
-            && (is_null($this->dataTable)
-                || (!empty($this->dataTable) && $this->dataTable->getRowsCount() == 0))
-        ) {
-            // if range, only look at the first date
-            if ($strPeriod == 'range') {
-
-                $idSite = Common::getRequestVar('idSite', '');
-
-                if (intval($idSite) != 0) {
-                    $site     = new Site($idSite);
-                    $timezone = $site->getTimezone();
-                } else {
-                    $timezone = 'UTC';
-                }
-
-                $period     = new Range('range', $strDate, $timezone);
-                $reportDate = $period->getDateStart();
-
-            } elseif (Period::isMultiplePeriod($strDate, $strPeriod)) {
-
-                // if a multiple period, this function is irrelevant
-                return false;
-
-            }  else {
-                // otherwise, use the date as given
-                $reportDate = Date::factory($strDate);
-            }
-
-            $reportYear = $reportDate->toString('Y');
-            $reportMonth = $reportDate->toString('m');
-
-            if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('PrivacyManager')
-                && PrivacyManager::shouldReportBePurged($reportYear, $reportMonth)
-            ) {
-                return true;
-            }
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('PrivacyManager')) {
+            return false;
         }
 
-        return false;
+        return PrivacyManager::hasReportBeenPurged($this->dataTable);
     }
 
     /**

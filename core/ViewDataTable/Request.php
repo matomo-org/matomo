@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\MetricsFormatter;
+use Piwik\Period;
 use Piwik\Piwik;
 
 class Request

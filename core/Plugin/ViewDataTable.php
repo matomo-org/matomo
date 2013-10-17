@@ -148,9 +148,7 @@ abstract class ViewDataTable implements ViewInterface
             return $this->dataTable;
         }
 
-        $request = new \Piwik\ViewDataTable\Request($this->requestConfig);
-
-        $this->dataTable = $request->loadDataTableFromAPI();
+        $this->dataTable = $this->request->loadDataTableFromAPI();
 
         return $this->dataTable;
     }
@@ -174,7 +172,7 @@ abstract class ViewDataTable implements ViewInterface
        return $id;
     }
 
-    public function isViewDataTableType($viewDataTableId)
+    public function isViewDataTableId($viewDataTableId)
     {
         $myId = static::getViewDataTableId();
 
@@ -244,7 +242,7 @@ abstract class ViewDataTable implements ViewInterface
         ) {
             $this->config->$name = array_merge($this->config->$name, $value);
         } else if ($name == 'related_reports') { // TODO: should process after (in overrideViewProperties)
-            $this->addRelatedReports($value);
+            $this->config->addRelatedReports($value);
         } else if ($name == 'visualization_properties') {
             $this->setVisualizationPropertiesFromMetadata($value);
         } elseif (property_exists($this->requestConfig, $name)) {
@@ -312,26 +310,6 @@ abstract class ViewDataTable implements ViewInterface
     protected function checkStandardDataTable()
     {
         Piwik::checkObjectTypeIs($this->dataTable, array('\Piwik\DataTable'));
-    }
-
-    private function addRelatedReport($module, $action, $title, $queryParams = array())
-    {
-        // don't add the related report if it references this report
-        if ($this->config->controllerName == $module && $this->config->controllerAction == $action) {
-            return;
-        }
-
-        $url = Request::getBaseReportUrl($module, $action, $queryParams);
-
-        $this->config->related_reports[$url] = $title;
-    }
-
-    private function addRelatedReports($relatedReports)
-    {
-        foreach ($relatedReports as $report => $title) {
-            list($module, $action) = explode('.', $report);
-            $this->addRelatedReport($module, $action, $title);
-        }
     }
 
     /**
