@@ -59,6 +59,13 @@ class ViewDataTable
     private static $reportPropertiesCache = null;
 
     /**
+     * Cache for getDefaultViewTypeForReports result.
+     *
+     * @var array
+     */
+    private static $defaultViewType = null;
+
+    /**
      * Returns a Piwik_ViewDataTable_* object.
      * By default it will return a ViewDataTable_Html
      * If there is a viewDataTable parameter in the URL, a ViewDataTable of this 'viewDataTable' type will be returned.
@@ -79,11 +86,11 @@ class ViewDataTable
             $controllerAction = $apiAction;
         }
 
-        $defaultReportProperties = self::getDefaultPropertiesForReport($apiAction);
+        $defaultViewType         = self::getDefaultViewTypeForReport($apiAction);
+        $defaultReportProperties = static::getDefaultPropertiesForReport($apiAction);
 
-        if (!$forceDefault
-            && !empty($defaultReportProperties['default_view_type'])) {
-            $defaultType = $defaultReportProperties['default_view_type'];
+        if (!$forceDefault && !empty($defaultViewType)) {
+            $defaultType = $defaultViewType;
         }
 
         $type = Common::getRequestVar('viewDataTable', $defaultType ? : 'table', 'string');
@@ -205,6 +212,47 @@ class ViewDataTable
     {
         $reportDisplayProperties = self::getAllReportDisplayProperties();
         return isset($reportDisplayProperties[$apiAction]) ? $reportDisplayProperties[$apiAction] : array();
+    }
+
+    /**
+     * Returns the default viewDataTable ID to use when determining which visualization to use.
+     *
+     * @param string $apiAction
+     */
+    private static function getDefaultViewTypeForReport($apiAction)
+    {
+        $defaultViewTypes = self::getDefaultViewTypeForReports();
+        return isset($defaultViewTypes[$apiAction]) ? $defaultViewTypes[$apiAction] : array();
+    }
+
+    /**
+     * Returns a list of default viewDataTables ID to use when determining which visualization to use for multiple
+     * reports.
+     */
+    private static function getDefaultViewTypeForReports()
+    {
+        if (null === self::$defaultViewType) {
+            self::$defaultViewType = array();
+            /**
+             * This event is triggered to gather the default view types for each available report. By default a table
+             * is used. If you define your own report, you may want to subscribe to this event to define another
+             * Visualization that should be used by default to display your report. For instance a Pie, a Bar or a
+             * Cloud.
+             *
+             * Example:
+             * ```
+             * public function getDefaultViewTypeForReports(&$defaultViewTypes)
+             * {
+             *     $defaultViewTypes['Referrers.getSocials']       = HtmlTable::ID;
+             *     $defaultViewTypes['Referrers.getUrlsForSocial'] = Pie::ID;
+             *     )
+             * }
+             * ```
+             */
+            Piwik::postEvent('Visualization.getDefaultViewTypeForReports', array(&self::$defaultViewType));
+        }
+
+        return self::$defaultViewType;
     }
 
     /**

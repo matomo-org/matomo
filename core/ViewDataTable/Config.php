@@ -67,16 +67,6 @@ class Config
     );
 
     /**
-     * The default viewDataTable ID to use when determining which visualization to use.
-     * This property is only valid for reports whose properties are determined by the
-     * Visualization.getReportDisplayProperties event. When manually creating ViewDataTables,
-     * setting this property will have no effect.
-     *
-     * Default value: 'table'
-     */
-    public $default_view_type = 'table';
-
-    /**
      * Controls what footer icons are displayed on the bottom left of the DataTable view.
      * The value of this property must be an array of footer icon groups. Footer icon groups
      * have set of properties, including an array of arrays describing footer icons. See

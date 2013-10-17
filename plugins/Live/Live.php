@@ -29,12 +29,13 @@ class Live extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'          => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'WidgetsList.addWidgets'                   => 'addWidget',
-            'Menu.Reporting.addItems'                  => 'addMenu',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
-            'Translate.getClientSideTranslationKeys'   => 'getClientSideTranslationKeys',
+            'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
+            'WidgetsList.addWidgets'                     => 'addWidget',
+            'Menu.Reporting.addItems'                    => 'addMenu',
+            'Visualization.getReportDisplayProperties'   => 'getReportDisplayProperties',
+            'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
+            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
     }
 
@@ -78,10 +79,14 @@ class Live extends \Piwik\Plugin
         $properties['Live.getLastVisitsDetails'] = $this->getDisplayPropertiesForGetLastVisitsDetails();
     }
 
+    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    {
+        $defaultViewTypes['Live.getLastVisitsDetails'] = VisitorLog::ID;
+    }
+
     private function getDisplayPropertiesForGetLastVisitsDetails()
     {
         return array(
-            'default_view_type'           => VisitorLog::ID,
             'disable_generic_filters'     => true,
             'enable_sort'                 => false,
             'filter_sort_column'          => 'idVisit',

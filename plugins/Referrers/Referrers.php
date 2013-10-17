@@ -14,6 +14,8 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\SettingsPiwik;
 use Piwik\WidgetsList;
 
@@ -33,14 +35,15 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.Reporting.addItems'                  => 'addMenus',
-            'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'ArchiveProcessor.Day.compute'               => 'archiveDay',
+            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
+            'WidgetsList.addWidgets'                     => 'addWidgets',
+            'Menu.Reporting.addItems'                    => 'addMenus',
+            'Goals.getReportsWithGoalMetrics'            => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'                      => 'getReportMetadata',
+            'API.getSegmentsMetadata'                    => 'getSegmentsMetadata',
+            'Visualization.getReportDisplayProperties'   => 'getReportDisplayProperties',
+            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
         return $hooks;
     }
@@ -295,6 +298,12 @@ class Referrers extends \Piwik\Plugin
         }
     }
 
+    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    {
+        $defaultViewTypes['Referrers.getReferrerType'] = AllColumns::ID;
+        $defaultViewTypes['Referrers.getSocials']      = Pie::ID;
+    }
+
     public function getReportDisplayProperties(&$properties)
     {
         $properties['Referrers.getReferrerType'] = $this->getDisplayPropertiesForGetReferrerType();
@@ -330,7 +339,6 @@ class Referrers extends \Piwik\Plugin
         }
 
         return array(
-            'default_view_type'           => 'tableAllColumns',
             'show_search'                 => false,
             'show_offset_information'     => false,
             'show_pagination_control'     => false,
@@ -436,7 +444,6 @@ class Referrers extends \Piwik\Plugin
     private function getDisplayPropertiesForGetSocials()
     {
         $result = array(
-            'default_view_type'           => 'graphPie',
             'subtable_controller_action'  => 'getUrlsForSocial',
             'show_exclude_low_population' => false,
             'filter_limit'                => 10,

@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Menu\MenuMain;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
 use Piwik\Site;
 use Piwik\WidgetsList;
 
@@ -32,14 +33,15 @@ class VisitTime extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.Reporting.addItems'                  => 'addMenu',
-            'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'ArchiveProcessor.Day.compute'               => 'archiveDay',
+            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
+            'WidgetsList.addWidgets'                     => 'addWidgets',
+            'Menu.Reporting.addItems'                    => 'addMenu',
+            'Goals.getReportsWithGoalMetrics'            => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'                      => 'getReportMetadata',
+            'API.getSegmentsMetadata'                    => 'getSegmentsMetadata',
+            'Visualization.getReportDisplayProperties'   => 'getReportDisplayProperties',
+            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
         return $hooks;
     }
@@ -122,6 +124,13 @@ class VisitTime extends \Piwik\Plugin
         );
     }
 
+    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    {
+        $defaultViewTypes['VisitTime.getVisitInformationPerServerTime'] = Bar::ID;
+        $defaultViewTypes['VisitTime.getVisitInformationPerLocalTime']  = Bar::ID;
+        $defaultViewTypes['VisitTime.getByDayOfWeek']                   = Bar::ID;
+    }
+
     public function getReportDisplayProperties(&$properties)
     {
         $commonProperties = array(
@@ -131,8 +140,7 @@ class VisitTime extends \Piwik\Plugin
             'show_exclude_low_population' => false,
             'show_offset_information'     => false,
             'show_pagination_control'     => false,
-            'show_limit_control'          => false,
-            'default_view_type'           => 'graphVerticalBar'
+            'show_limit_control'          => false
         );
 
         $properties['VisitTime.getVisitInformationPerServerTime'] = array_merge($commonProperties, array(

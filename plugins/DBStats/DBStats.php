@@ -16,6 +16,8 @@ use Piwik\Date;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Weekly;
 
@@ -33,10 +35,11 @@ class DBStats extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'          => 'getStylesheetFiles',
-            'Menu.Admin.addItems'                      => 'addMenu',
-            'TaskScheduler.getScheduledTasks'          => 'getScheduledTasks',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
+            'Menu.Admin.addItems'                        => 'addMenu',
+            'TaskScheduler.getScheduledTasks'            => 'getScheduledTasks',
+            'Visualization.getReportDisplayProperties'   => 'getReportDisplayProperties',
+            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
     }
 
@@ -88,24 +91,45 @@ class DBStats extends \Piwik\Plugin
         return Option::get(self::TIME_OF_LAST_TASK_RUN_OPTION);
     }
 
-    public function getReportDisplayProperties(&$properties)
+    public function getDefaultViewTypeForReports(&$defaultViewTypes)
     {
-        $properties['DBStats.getDatabaseUsageSummary'] = $this->getDisplayPropertiesForGetDatabaseUsageSummary();
-        $properties['DBStats.getTrackerDataSummary'] = $this->getDisplayPropertiesForGetTrackerDataSummary();
-        $properties['DBStats.getMetricDataSummary'] = $this->getDisplayPropertiesForGetMetricDataSummary();
-        $properties['DBStats.getMetricDataSummaryByYear'] = $this->getDisplayPropertiesForGetMetricDataSummaryByYear();
-        $properties['DBStats.getReportDataSummary'] = $this->getDisplayPropertiesForGetReportDataSummary();
-        $properties['DBStats.getReportDataSummaryByYear'] = $this->getDisplayPropertiesForGetReportDataSummaryByYear();
-        $properties['DBStats.getIndividualReportsSummary'] = $this->getDisplayPropertiesForGetIndividualReportsSummary();
-        $properties['DBStats.getIndividualMetricsSummary'] = $this->getDisplayPropertiesForGetIndividualMetricsSummary();
-        $properties['DBStats.getAdminDataSummary'] = $this->getDisplayPropertiesForGetAdminDataSummary();
+        $defaultViewTypes['DBStats.getDatabaseUsageSummary']     = Pie::ID;
+        $defaultViewTypes['DBStats.getTrackerDataSummary']       = HtmlTable::ID;
+        $defaultViewTypes['DBStats.getMetricDataSummary']        = HtmlTable::ID;
+        $defaultViewTypes['DBStats.getMetricDataSummaryByYear']  = HtmlTable::ID;
+        $defaultViewTypes['DBStats.getReportDataSummary']        = HtmlTable::ID;
+        $defaultViewTypes['DBStats.getReportDataSummaryByYear']  = HtmlTable::ID;
+        $defaultViewTypes['DBStats.getIndividualReportsSummary'] = HtmlTable::ID;
+        $defaultViewTypes['DBStats.getIndividualMetricsSummary'] = HtmlTable::ID;
+        $defaultViewTypes['DBStats.getAdminDataSummary']         = HtmlTable::ID;
     }
 
-    private function getDisplayPropertiesForGetDatabaseUsageSummary()
+    public function getReportDisplayProperties(&$properties)
     {
-        $result = array('default_view_type' => 'graphPie');
+        $properties['DBStats.getDatabaseUsageSummary'] = $this->getDisplayPropertiesForGetDatabaseUsageSummary('DBStats.getDatabaseUsageSummary');
+        $properties['DBStats.getTrackerDataSummary'] = $this->getDisplayPropertiesForGetTrackerDataSummary('DBStats.getTrackerDataSummary');
+        $properties['DBStats.getMetricDataSummary'] = $this->getDisplayPropertiesForGetMetricDataSummary('DBStats.getMetricDataSummary');
+        $properties['DBStats.getMetricDataSummaryByYear'] = $this->getDisplayPropertiesForGetMetricDataSummaryByYear('DBStats.getMetricDataSummaryByYear');
+        $properties['DBStats.getReportDataSummary'] = $this->getDisplayPropertiesForGetReportDataSummary('DBStats.getReportDataSummary');
+        $properties['DBStats.getReportDataSummaryByYear'] = $this->getDisplayPropertiesForGetReportDataSummaryByYear('DBStats.getReportDataSummaryByYear');
+        $properties['DBStats.getIndividualReportsSummary'] = $this->getDisplayPropertiesForGetIndividualReportsSummary('DBStats.getIndividualReportsSummary');
+        $properties['DBStats.getIndividualMetricsSummary'] = $this->getDisplayPropertiesForGetIndividualMetricsSummary('DBStats.getIndividualMetricsSummary');
+        $properties['DBStats.getAdminDataSummary'] = $this->getDisplayPropertiesForGetAdminDataSummary('DBStats.getAdminDataSummary');
+    }
+
+    private function getDefaultViewTypeForApiAction($apiAction)
+    {
+        $defaultTypes = array();
+        $this->getDefaultViewTypeForReports($defaultTypes);
+
+        return $defaultTypes[$apiAction];
+    }
+
+    private function getDisplayPropertiesForGetDatabaseUsageSummary($apiAction)
+    {
+        $result = array();
         $this->addBaseDisplayProperties($result);
-        $this->addPresentationFilters($result, $addTotalSizeColumn = true, $addPercentColumn = true);
+        $this->addPresentationFilters($result, $apiAction, $addTotalSizeColumn = true, $addPercentColumn = true);
 
         $result['show_offset_information'] = false;
         $result['show_pagination_control'] = false;
@@ -130,11 +154,11 @@ class DBStats extends \Piwik\Plugin
         return $result;
     }
 
-    private function getDisplayPropertiesForGetTrackerDataSummary()
+    private function getDisplayPropertiesForGetTrackerDataSummary($apiAction)
     {
         $result = array();
         $this->addBaseDisplayProperties($result);
-        $this->addPresentationFilters($result);
+        $this->addPresentationFilters($result, $apiAction);
 
         $result['filter_sort_order'] = 'asc';
         $result['show_offset_information'] = false;
@@ -143,11 +167,11 @@ class DBStats extends \Piwik\Plugin
         return $result;
     }
 
-    private function getDisplayPropertiesForGetMetricDataSummary()
+    private function getDisplayPropertiesForGetMetricDataSummary($apiAction)
     {
         $result = array();
         $this->addBaseDisplayProperties($result);
-        $this->addPresentationFilters($result);
+        $this->addPresentationFilters($result, $apiAction);
 
         $result['title'] = Piwik::translate('DBStats_MetricTables');
         $result['related_reports'] = array(
@@ -157,11 +181,11 @@ class DBStats extends \Piwik\Plugin
         return $result;
     }
 
-    private function getDisplayPropertiesForGetMetricDataSummaryByYear()
+    private function getDisplayPropertiesForGetMetricDataSummaryByYear($apiAction)
     {
         $result = array();
         $this->addBaseDisplayProperties($result);
-        $this->addPresentationFilters($result);
+        $this->addPresentationFilters($result, $apiAction);
 
         $result['translations']['label'] = Piwik::translate('CoreHome_PeriodYear');
         $result['title'] = Piwik::translate('DBStats_MetricDataByYear');
@@ -172,11 +196,11 @@ class DBStats extends \Piwik\Plugin
         return $result;
     }
 
-    private function getDisplayPropertiesForGetReportDataSummary()
+    private function getDisplayPropertiesForGetReportDataSummary($apiAction)
     {
         $result = array();
         $this->addBaseDisplayProperties($result);
-        $this->addPresentationFilters($result);
+        $this->addPresentationFilters($result, $apiAction);
 
         $result['title'] = Piwik::translate('DBStats_ReportTables');
         $result['related_reports'] = array(
@@ -186,11 +210,11 @@ class DBStats extends \Piwik\Plugin
         return $result;
     }
 
-    private function getDisplayPropertiesForGetReportDataSummaryByYear()
+    private function getDisplayPropertiesForGetReportDataSummaryByYear($apiAction)
     {
         $result = array();
         $this->addBaseDisplayProperties($result);
-        $this->addPresentationFilters($result);
+        $this->addPresentationFilters($result, $apiAction);
 
         $result['translations']['label'] = Piwik::translate('CoreHome_PeriodYear');
         $result['title'] = Piwik::translate('DBStats_ReportDataByYear');
@@ -201,11 +225,11 @@ class DBStats extends \Piwik\Plugin
         return $result;
     }
 
-    private function getDisplayPropertiesForGetIndividualReportsSummary()
+    private function getDisplayPropertiesForGetIndividualReportsSummary($apiAction)
     {
         $result = array();
         $this->addBaseDisplayProperties($result);
-        $viewDataTable = $this->addPresentationFilters($result, $addTotalSizeColumn = false, $addPercentColumn = false,
+        $viewDataTable = $this->addPresentationFilters($result, $apiAction, $addTotalSizeColumn = false, $addPercentColumn = false,
             $sizeColumns = array('estimated_size'));
 
         $result['filter_sort_order'] = 'asc';
@@ -221,11 +245,11 @@ class DBStats extends \Piwik\Plugin
         return $result;
     }
 
-    private function getDisplayPropertiesForGetIndividualMetricsSummary()
+    private function getDisplayPropertiesForGetIndividualMetricsSummary($apiAction)
     {
         $result = array();
         $this->addBaseDisplayProperties($result);
-        $this->addPresentationFilters($result, $addTotalSizeColumn = false, $addPercentColumn = false,
+        $this->addPresentationFilters($result, $apiAction, $addTotalSizeColumn = false, $addPercentColumn = false,
             $sizeColumns = array('estimated_size'));
 
         $result['filter_sort_order'] = 'asc';
@@ -236,11 +260,11 @@ class DBStats extends \Piwik\Plugin
         return $result;
     }
 
-    private function getDisplayPropertiesForGetAdminDataSummary()
+    private function getDisplayPropertiesForGetAdminDataSummary($apiAction)
     {
         $result = array();
         $this->addBaseDisplayProperties($result);
-        $this->addPresentationFilters($result);
+        $this->addPresentationFilters($result, $apiAction);
 
         $result['filter_sort_order'] = 'asc';
         $result['show_offset_information'] = false;
@@ -273,7 +297,7 @@ class DBStats extends \Piwik\Plugin
         );
     }
 
-    private function addPresentationFilters(&$properties, $addTotalSizeColumn = true, $addPercentColumn = false,
+    private function addPresentationFilters(&$properties, $apiAction, $addTotalSizeColumn = true, $addPercentColumn = false,
                                             $sizeColumns = array('data_size', 'index_size'))
     {
         // add total_size column
@@ -290,8 +314,9 @@ class DBStats extends \Piwik\Plugin
 
         $runPrettySizeFilterBeforeGeneric = false;
 
-        $viewDataTable = empty($properties['default_view_type']) ? 'table' : $properties['default_view_type'];
-        $viewDataTable = Common::getRequestVar('viewDataTable', $viewDataTable);
+        $defaultViewType = $this->getDefaultViewTypeForApiAction($apiAction);
+        $viewDataTable   = empty($defaultViewType) ? 'table' : $defaultViewType;
+        $viewDataTable   = Common::getRequestVar('viewDataTable', $viewDataTable);
 
         if ($viewDataTable == 'table') {
             // add summary row only if displaying a table

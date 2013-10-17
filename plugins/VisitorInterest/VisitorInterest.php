@@ -16,6 +16,7 @@ use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\WidgetsList;
 
 /**
@@ -30,12 +31,13 @@ class VisitorInterest extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.Reporting.addItems'                  => 'addMenu',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'ArchiveProcessor.Day.compute'               => 'archiveDay',
+            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
+            'WidgetsList.addWidgets'                     => 'addWidgets',
+            'Menu.Reporting.addItems'                    => 'addMenu',
+            'API.getReportMetadata'                      => 'getReportMetadata',
+            'Visualization.getReportDisplayProperties'   => 'getReportDisplayProperties',
+            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
         return $hooks;
     }
@@ -151,6 +153,12 @@ class VisitorInterest extends \Piwik\Plugin
         $out .= '</div>';
     }
 
+    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    {
+        $defaultViewTypes['VisitorInterest.getNumberOfVisitsPerVisitDuration'] = Cloud::ID;
+        $defaultViewTypes['VisitorInterest.getNumberOfVisitsPerPage']          = Cloud::ID;
+    }
+
     public function getReportDisplayProperties(&$properties)
     {
         $properties['VisitorInterest.getNumberOfVisitsPerVisitDuration'] =
@@ -166,7 +174,6 @@ class VisitorInterest extends \Piwik\Plugin
     private function getDisplayPropertiesForGetNumberOfVisitsPerVisitDuration()
     {
         return array(
-            'default_view_type'           => 'cloud',
             'filter_sort_column'          => 'label',
             'filter_sort_order'           => 'asc',
             'translations'                => array('label' => Piwik::translate('VisitorInterest_ColumnVisitDuration')),
@@ -188,7 +195,6 @@ class VisitorInterest extends \Piwik\Plugin
     private function getDisplayPropertiesForGetNumberOfVisitsPerPage()
     {
         return array(
-            'default_view_type'           => 'cloud',
             'filter_sort_column'          => 'label',
             'filter_sort_order'           => 'asc',
             'translations'                => array('label' => Piwik::translate('VisitorInterest_ColumnPagesPerVisit')),

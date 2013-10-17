@@ -13,6 +13,7 @@ namespace Piwik\Plugins\UserSettings;
 use Piwik\ArchiveProcessor;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\WidgetsList;
 
 /**
@@ -165,15 +166,21 @@ class UserSettings extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.Reporting.addItems'                  => 'addMenu',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'ArchiveProcessor.Day.compute'               => 'archiveDay',
+            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
+            'WidgetsList.addWidgets'                     => 'addWidgets',
+            'Menu.Reporting.addItems'                    => 'addMenu',
+            'API.getReportMetadata'                      => 'getReportMetadata',
+            'API.getSegmentsMetadata'                    => 'getSegmentsMetadata',
+            'Visualization.getReportDisplayProperties'   => 'getReportDisplayProperties',
+            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
         return $hooks;
+    }
+
+    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    {
+        $defaultViewTypes['UserSettings.getBrowserType'] = Pie::ID;
     }
 
     public function getReportDisplayProperties(&$properties)
@@ -252,8 +259,7 @@ class UserSettings extends \Piwik\Plugin
                                                                                 'translations'            => array('label' => Piwik::translate('UserSettings_ColumnBrowserFamily')),
                                                                                 'show_offset_information' => false,
                                                                                 'show_pagination_control' => false,
-                                                                                'show_limit_control'      => false,
-                                                                                'default_view_type'       => 'graphPie',
+                                                                                'show_limit_control'      => false
                                                                            ));
     }
 
