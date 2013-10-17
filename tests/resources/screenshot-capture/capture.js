@@ -95,7 +95,6 @@ PageRenderer.prototype = {
         var self = this;
         this.webpage.onError = function (message) {
             console.log("Webpage error: " + message);
-            app.exit(1);
         };
 
         this.webpage.onConsoleMessage = function (message) {
