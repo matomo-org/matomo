@@ -178,7 +178,7 @@ class Visualization extends ViewDataTable
 
     private function applyFilters()
     {
-        list($priorityFilters, $otherFilters) = $this->getFiltersToRun();
+        list($priorityFilters, $otherFilters) = $this->config->getFiltersToRun();
 
         // First, filters that delete rows
         foreach ($priorityFilters as $filter) {
@@ -433,33 +433,5 @@ class Visualization extends ViewDataTable
 
         $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
         $genericFilter->filter($this->dataTable);
-    }
-
-    private function getFiltersToRun()
-    {
-        $priorityFilters     = array();
-        $presentationFilters = array();
-
-        foreach ($this->config->filters as $filterInfo) {
-            if ($filterInfo instanceof \Closure) {
-                $nameOrClosure = $filterInfo;
-                $parameters    = array();
-                $priority      = false;
-            } else {
-                @list($nameOrClosure, $parameters, $priority) = $filterInfo;
-            }
-
-            if ($nameOrClosure instanceof \Closure) {
-                $parameters[] = $this;
-            }
-
-            if ($priority) {
-                $priorityFilters[] = array($nameOrClosure, $parameters);
-            } else {
-                $presentationFilters[] = array($nameOrClosure, $parameters);
-            }
-        }
-
-        return array($priorityFilters, $presentationFilters);
     }
 }

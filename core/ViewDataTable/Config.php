@@ -552,6 +552,30 @@ class Config
         $this->columns_to_display = array_filter($columnsToDisplay);
     }
 
+    public function getFiltersToRun()
+    {
+        $priorityFilters     = array();
+        $presentationFilters = array();
+
+        foreach ($this->filters as $filterInfo) {
+            if ($filterInfo instanceof \Closure) {
+                $nameOrClosure = $filterInfo;
+                $parameters    = array();
+                $priority      = false;
+            } else {
+                @list($nameOrClosure, $parameters, $priority) = $filterInfo;
+            }
+
+            if ($priority) {
+                $priorityFilters[] = array($nameOrClosure, $parameters);
+            } else {
+                $presentationFilters[] = array($nameOrClosure, $parameters);
+            }
+        }
+
+        return array($priorityFilters, $presentationFilters);
+    }
+
     public function addRelatedReport($relatedReport, $title, $queryParams = array())
     {
         list($module, $action) = explode('.', $relatedReport);
