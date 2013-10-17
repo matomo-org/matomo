@@ -31,7 +31,7 @@ class VisitorLog extends Visualization
     /**
      * Configure visualization.
      */
-    public function configureVisualization()
+    public function beforeRender()
     {
         $this->config->datatable_js_type = 'VisitorLog';
     }

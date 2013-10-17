@@ -44,7 +44,7 @@ class Cloud extends Visualization
         return new Cloud\Config();
     }
 
-    public function configureVisualization()
+    public function beforeRender()
     {
         $this->config->show_exclude_low_population = false;
         $this->config->show_offset_information     = false;

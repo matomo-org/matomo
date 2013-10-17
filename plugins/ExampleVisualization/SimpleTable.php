@@ -24,7 +24,7 @@ class SimpleTable extends Visualization
     const FOOTER_ICON_TITLE = 'Simple Table';
     const FOOTER_ICON       = 'plugins/ExampleVisualization/images/table.png';
 
-    public function configureVisualization()
+    public function beforeRender()
     {
         // Configure how your visualization should look like, for instance you can disable search
         // $this->config->show_search = false

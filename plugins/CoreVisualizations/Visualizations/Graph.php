@@ -42,7 +42,7 @@ abstract class Graph extends Visualization
         return $config;
     }
 
-    public function configureVisualization()
+    public function beforeRender()
     {
         if ($this->config->show_goals) {
             $this->config->translations['nb_conversions'] = Piwik::translate('Goals_ColumnConversions');

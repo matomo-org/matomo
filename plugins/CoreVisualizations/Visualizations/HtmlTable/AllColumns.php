@@ -27,13 +27,13 @@ class AllColumns extends HtmlTable
 {
     const ID = 'tableAllColumns';
 
-    public function configureVisualization()
+    public function beforeRender()
     {
         $this->config->show_extra_columns  = true;
         $this->config->datatable_css_class = 'dataTableVizAllColumns';
         $this->config->show_exclude_low_population = true;
 
-        parent::configureVisualization();
+        parent::beforeRender();
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()

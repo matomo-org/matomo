@@ -59,8 +59,6 @@ class Visualization extends ViewDataTable
 
     protected function buildView()
     {
-        $this->configureVisualization();
-
         $this->overrideSomeConfigPropertiesIfNeeded();
 
         try {
@@ -71,6 +69,8 @@ class Visualization extends ViewDataTable
             $this->applyFilters();
 
             $this->afterAllFilteresAreApplied();
+
+            $this->beforeRender();
 
         } catch (NoAccessException $e) {
             throw $e;
@@ -386,7 +386,7 @@ class Visualization extends ViewDataTable
         return $javascriptVariablesToSet;
     }
 
-    public function configureVisualization()
+    public function beforeRender()
     {
         // our stuff goes in here
         // like $properties->showFooterColumns = true;

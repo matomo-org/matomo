@@ -27,7 +27,7 @@ class Goals extends HtmlTable
 {
     const ID = 'tableGoals';
 
-    public function configureVisualization()
+    public function beforeRender()
     {
         $this->config->show_goals = true;
         $this->config->show_goals_columns  = true;
@@ -55,7 +55,7 @@ class Goals extends HtmlTable
 
         $this->setShowGoalsColumnsProperties();
 
-        parent::configureVisualization();
+        parent::beforeRender();
     }
 
     private function setShowGoalsColumnsProperties()

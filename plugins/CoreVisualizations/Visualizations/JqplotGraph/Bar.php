@@ -21,9 +21,9 @@ class Bar extends JqplotGraph
 {
     const ID = 'graphVerticalBar';
 
-    public function configureVisualization()
+    public function beforeRender()
     {
-        parent::configureVisualization();
+        parent::beforeRender();
 
         $this->config->datatable_js_type = 'JqplotBarGraphDataTable';
     }

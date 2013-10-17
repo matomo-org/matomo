@@ -42,7 +42,7 @@ class HtmlTable extends Visualization
         return new HtmlTable\RequestConfig();
     }
 
-    public function configureVisualization()
+    public function beforeRender()
     {
         if (Common::getRequestVar('idSubtable', false)
             && $this->config->show_embedded_subtable) {

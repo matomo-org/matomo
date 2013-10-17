@@ -30,9 +30,9 @@ class Pie extends JqplotGraph
         return $config;
     }
 
-    public function configureVisualization()
+    public function beforeRender()
     {
-        parent::configureVisualization();
+        parent::beforeRender();
 
         $this->config->show_all_ticks = true;
         $this->config->datatable_js_type = 'JqplotPieGraphDataTable';

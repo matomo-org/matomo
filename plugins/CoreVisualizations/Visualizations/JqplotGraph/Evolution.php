@@ -34,11 +34,11 @@ class Evolution extends JqplotGraph
         return new Evolution\Config();
     }
 
-    public function configureVisualization()
+    public function beforeRender()
     {
         $this->calculateEvolutionDateRange();
 
-        parent::configureVisualization();
+        parent::beforeRender();
 
         $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
     }
