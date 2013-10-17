@@ -18,15 +18,18 @@ use Piwik\Plugin\Visualization;
  */
 class VisitorLog extends Visualization
 {
-    const ID = 'Piwik\Plugins\Live\VisitorLog';
+    const ID = 'Piwik\\Plugins\\Live\\VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
 
-    static public $clientSideRequestParameters = array(
-        'filter_limit',
-        'filter_offset',
-        'filter_sort_column',
-        'filter_sort_order',
-    );
+    public function beforeLoadDataTable()
+    {
+        $this->requestConfig->addPropertiesThatShouldBeAvailableClientSide(array(
+            'filter_limit',
+            'filter_offset',
+            'filter_sort_column',
+            'filter_sort_order',
+        ));
+    }
 
     /**
      * Configure visualization.
