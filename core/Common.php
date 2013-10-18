@@ -16,28 +16,21 @@ use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 
 /**
- * Static class providing functions used by both the CORE of Piwik and the visitor Tracking engine.
+ * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.
  *
  * This is the only external class loaded by the /piwik.php file.
- * This class should contain only the functions that are used in
- * both the CORE and the piwik.php statistics logging engine.
  *
  * @package Piwik
  */
 class Common
 {
-    /**
-     * Const used to map the referrer type to an integer in the log_visit table
-     */
+    // constants used to map the referrer type to an integer in the log_visit table
     const REFERRER_TYPE_DIRECT_ENTRY = 1;
     const REFERRER_TYPE_SEARCH_ENGINE = 2;
     const REFERRER_TYPE_WEBSITE = 3;
     const REFERRER_TYPE_CAMPAIGN = 6;
 
-    /**
-     * Flag used with htmlspecialchar
-     * See php.net/htmlspecialchars
-     */
+    // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
     const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
 
 

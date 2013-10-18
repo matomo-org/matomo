@@ -14,39 +14,36 @@ namespace Piwik;
 use Exception;
 
 /**
- * For general performance (and specifically, the Tracker), we use deferred (lazy) initialization
- * and cache sections.  We also avoid any dependency on Zend Framework's Zend_Config.
+ * Singleton that provides read & write access to Piwik's INI configuration.
+ * 
+ * This class reads and writes to the `config/config.ini.php` file. If config
+ * options are missing from that file, this class will look for their default
+ * values in `config/global.ini.php`.
+ * 
+ * ### Examples
+ * 
+ * **Getting a value:**
  *
- * We use a parse_ini_file() wrapper to parse the configuration files, in case php's built-in
- * function is disabled.
+ *     // read the minimum_memory_limit option under the [General] section
+ *     $minValue = Config::getInstance()->General['minimum_memory_limit'];
  *
- * Example reading a value from the configuration:
+ * **Setting a value:**
  *
- *     $minValue = Piwik_Config::getInstance()->General['minimum_memory_limit'];
- *
- * will read the value minimum_memory_limit under the [General] section of the config file.
- *
- * Example setting a section in the configuration:
- *
- *    $brandingConfig = array(
- *        'use_custom_logo' => 1,
- *    );
- *    Piwik_Config::getInstance()->branding = $brandingConfig;
- *
- * Example setting an option within a section in the configuration:
- *
- *    $brandingConfig = Piwik_Config::getInstance()->branding;
- *    $brandingConfig['use_custom_logo'] = 1;
- *    Piwik_Config::getInstance()->branding = $brandingConfig;
- *
+ *     // set the minimum_memory_limit option
+ *     Config::getInstance()->General['minimum_memory_limit'] = 256;
+ *     Config::getInstance()->forceSave();
+ * 
+ * **Setting an entire section:**
+ * 
+ *     Config::getInstance()->MySection = array('myoption' => 1);
+ *     Config::getInstance()->forceSave();
+ * 
  * @package Piwik
  * @subpackage Piwik_Config
  * @static \Piwik\Config getInstance()
- *
  */
 class Config extends Singleton
 {
-
     /**
      * Contains configuration files values
      *
@@ -270,12 +267,12 @@ class Config extends Singleton
     }
 
     /**
-     * Magic get methods catching calls to $config->var_name
-     * Returns the value if found in the configuration
+     * Returns a configuration value or section by name.
      *
-     * @param string $name
-     * @return string|array The value requested, returned by reference
-     * @throws Exception if the value requested not found in both files
+     * @param string $name The value or section name.
+     * @return string|array The requested value requested. Returned by reference.
+     * @throws Exception If the value requested not found in either `config.ini.php` or
+     *                   `global.ini.php`.
      * @api
      */
     public function &__get($name)
@@ -323,9 +320,9 @@ class Config extends Singleton
     }
 
     /**
-     * Set value
+     * Sets a configuration value or section.
      *
-     * @param string $name This corresponds to the section name
+     * @param string $name This section name or value name to set.
      * @param mixed $value
      * @api
      */
@@ -500,7 +497,8 @@ class Config extends Singleton
     }
 
     /**
-     * Force save
+     * Writes the current configuration to `config.ini.php`.
+     * 
      * @api
      */
     public function forceSave()
