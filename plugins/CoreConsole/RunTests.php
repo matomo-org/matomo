@@ -37,7 +37,7 @@ class RunTests extends ConsoleCommand
 
         $groups = explode(",", $groups);
         $groups = array_map('ucfirst', $groups);
-        $groups = array_filter('strlen', $groups);
+        $groups = array_filter($groups, 'strlen');
 
         if(empty($groups)) {
             $groups = $this->getTestsGroups();
