@@ -18,7 +18,6 @@ use Exception;
  * It is for example used by the Tracker process to cache various settings and websites attributes in tmp/cache/tracker/*
  *
  * @package Piwik
- * @api
  */
 class CacheFile
 {

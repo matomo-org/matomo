@@ -114,7 +114,7 @@ class IP
         if (($ip = @inet_pton($ipRangeString)) === false)
             return false;
 
-        $maxbits = Common::strlen($ip) * 8;
+        $maxbits = strlen($ip) * 8;
         if (!isset($bits))
             $bits = $maxbits;
 
@@ -207,17 +207,17 @@ class IP
     public static function long2ip($ip)
     {
         // IPv4
-        if (Common::strlen($ip) == 4) {
+        if (strlen($ip) == 4) {
             return self::N2P($ip);
         }
 
         // IPv6 - transitional address?
-        if (Common::strlen($ip) == 16) {
+        if (strlen($ip) == 16) {
             if (substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff", 0, 12) === 0
                 || substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 0, 12) === 0
             ) {
                 // remap 128-bit IPv4-mapped and IPv4-compat addresses
-                return self::N2P(Common::substr($ip, 12));
+                return self::N2P(substr($ip, 12));
             }
         }
 
@@ -275,7 +275,7 @@ class IP
             return false;
         }
 
-        $lowLen = Common::strlen($low);
+        $lowLen = strlen($low);
         $i = $lowLen - 1;
         $bits = $lowLen * 8 - $bits;
 
@@ -304,7 +304,7 @@ class IP
      */
     public static function isIpInRange($ip, $ipRanges)
     {
-        $ipLen = Common::strlen($ip);
+        $ipLen = strlen($ip);
         if (empty($ip) || empty($ipRanges) || ($ipLen != 4 && $ipLen != 16)) {
             return false;
         }
@@ -324,7 +324,7 @@ class IP
 
             $low = $range[0];
             $high = $range[1];
-            if (Common::strlen($low) != $ipLen) {
+            if (strlen($low) != $ipLen) {
                 continue;
             }
 

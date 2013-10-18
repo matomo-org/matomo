@@ -62,7 +62,6 @@ class Piwik_Test_Fixture_SqlDump
         $password = Config::getInstance()->database['password'];
         $dbName = Config::getInstance()->database['dbname'];
         Config::getInstance()->database['tables_prefix'] = $this->tablesPrefix;
-        Common::$cachedTablePrefix = null;
 
         $cmd = "mysql -u \"$user\" \"--password=$password\" $dbName < \"" . $deflatedDumpPath . "\" 2>&1";
         exec($cmd, $output, $return);

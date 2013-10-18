@@ -198,7 +198,7 @@ class Url
         }
 
         // Only punctuation we allow is '[', ']', ':', '.' and '-'
-        $hostLength = Common::strlen($host);
+        $hostLength = strlen($host);
         if ($hostLength !== strcspn($host, '`~!@#$%^&*()_+={}\\|;"\'<>,?/ ')) {
             return false;
         }

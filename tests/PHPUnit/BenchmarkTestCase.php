@@ -49,7 +49,6 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
         try {
             if (isset(self::$fixture->tablesPrefix)) {
                 Config::getInstance()->database['tables_prefix'] = self::$fixture->tablesPrefix;
-                Common::$cachedTablePrefix = null;
             }
 
             Db::query("USE " . $dbName);

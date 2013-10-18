@@ -18,9 +18,9 @@ use Piwik\Period\Range;
 
 /**
  * The **Archive** class is used to query archive data.
- * @see Segment
- * You can use **Archive** instances to get archive data for one or more sites and
- * for one or more periods. A Segment can also be used 
+ * 
+ * You can use **Archive** instances to get archive data for one or more sites,
+ * for one or more periods and on optional segment.
  * 
  * If archive data is not found, this class will initiate the archiving process. [1](#footnote-1)
  * 
