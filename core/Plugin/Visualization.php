@@ -438,6 +438,7 @@ class Visualization extends ViewDataTable
 
     private function logMessageIfRequestPropertiesHaveChanged(array $requestPropertiesBefore)
     {
+        return;
         $requestProperties = $this->requestConfig->getProperties();
 
         $diff = array_diff_assoc($requestProperties, $requestPropertiesBefore);
