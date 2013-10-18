@@ -461,4 +461,21 @@ abstract class ViewDataTable implements ViewInterface
         $type = is_numeric($defaultValue) ? 'int' : null;
         return Common::getRequestVar($name, $defaultValue, $type);
     }
+
+    public function isRequestingSingleDataTable()
+    {
+        $requestArray = $this->request->getRequestArray() + $_GET + $_POST;
+        $date   = Common::getRequestVar('date', null, 'string', $requestArray);
+        $period = Common::getRequestVar('period', null, 'string', $requestArray);
+        $idSite = Common::getRequestVar('idSite', null, 'string', $requestArray);
+
+        if (Period::isMultiplePeriod($date, $period)
+            || strpos($idSite, ',') !== false
+            || $idSite == 'all'
+        ) {
+            return false;
+        }
+
+        return true;
+    }
 }
