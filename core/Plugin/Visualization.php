@@ -66,11 +66,14 @@ class Visualization extends ViewDataTable
 
             $this->loadDataTableFromAPI();
             $this->postDataTableLoadedFromAPI();
+
+            $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
+
             $this->applyFilters();
-
             $this->afterAllFilteresAreApplied();
-
             $this->beforeRender();
+
+            $this->logMessageIfRequestPropertiesHaveChanged($requestPropertiesAfterLoadDataTable);
 
         } catch (NoAccessException $e) {
             throw $e;
@@ -431,5 +434,30 @@ class Visualization extends ViewDataTable
 
         $genericFilter = new \Piwik\API\DataTableGenericFilter($request);
         $genericFilter->filter($this->dataTable);
+    }
+
+    private function logMessageIfRequestPropertiesHaveChanged(array $requestPropertiesBefore)
+    {
+        $requestProperties = $this->requestConfig->getProperties();
+
+        $diff = array_diff_assoc($requestProperties, $requestPropertiesBefore);
+
+        if (empty($diff)) {
+            return;
+        }
+
+        $details = array(
+            'changedProperties' => $diff,
+            'apiMethod'         => $this->requestConfig->apiMethodToRequestDataTable,
+            'controller'        => $this->config->controllerName . '.' . $this->config->controllerAction,
+            'viewDataTable'     => static::getViewDataTableId()
+        );
+
+        $message = 'Some ViewDataTable::requestConfig properties have changed after requesting the data table. '
+                 . 'That means the changed values had probably no effect. For instance in beforeRender() hook. '
+                 . 'Probably a bug? Details:'
+                 . print_r($details, 1);
+
+        Log::warning($message);
     }
 }
