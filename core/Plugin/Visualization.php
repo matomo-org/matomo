@@ -388,16 +388,14 @@ class Visualization extends ViewDataTable
 
     public function beforeRender()
     {
-        // our stuff goes in here
-        // like $properties->showFooterColumns = true;
+        // make sure config properties have a specific value because it can be changed by a report or by request params
+        // like $this->config->showFooterColumns = true;
     }
 
     public function beforeLoadDataTable()
     {
-        // change request --> $requestProperties...
-        // like defining filter_column
-        // $requestProperties->filterColumn = 54;
-        // $requestProperties->setFilterColumn();
+        // change request
+        // like defining $this->requestConfig->filter_column
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()

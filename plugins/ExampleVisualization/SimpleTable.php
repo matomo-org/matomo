@@ -24,12 +24,6 @@ class SimpleTable extends Visualization
     const FOOTER_ICON_TITLE = 'Simple Table';
     const FOOTER_ICON       = 'plugins/ExampleVisualization/images/table.png';
 
-    public function beforeRender()
-    {
-        // Configure how your visualization should look like, for instance you can disable search
-        // $this->config->show_search = false
-    }
-
     public function beforeLoadDataTable()
     {
         // Here you can change the request that is sent to the API, for instance
@@ -57,4 +51,13 @@ class SimpleTable extends Visualization
 
         $this->assignTemplateVar('vizTitle', 'MyAwesomeTitle');
     }
+
+    public function beforeRender()
+    {
+        // Configure how your visualization should look like, for instance you can disable search
+        // By defining the config properties shortly before rendering you make sure the config properties have a certain
+        // value because they could be changed by a report or by request parameters ($_GET / $_POST) before.
+        // $this->config->show_search = false
+    }
+
 }
