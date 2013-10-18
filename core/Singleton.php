@@ -24,9 +24,6 @@ class Singleton
 
     final private function __clone() { }
 
-    /**
-     * @return self
-     */
     public static function getInstance() {
         $class = get_called_class();
 

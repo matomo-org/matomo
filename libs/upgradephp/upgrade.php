@@ -46,8 +46,6 @@ use Piwik\SettingsServer;
  * - some listed here might have appeared earlier or in release candidates
  *
  * @emulated
- *    json_encode
- *    json_decode
  *    error_get_last
  *    preg_last_error
  *    lchown
