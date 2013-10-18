@@ -141,7 +141,6 @@ abstract class UITest extends IntegrationTestCase
             || strpos($output, "ERROR") !== false
         ) {
             echo self::CAPTURE_PROGRAM . " failed: " . $output . "\n\ncommand used: $cmd\n";
-            throw new Exception("phantomjs failed");
         }
         return $output;
     }
@@ -159,23 +158,16 @@ abstract class UITest extends IntegrationTestCase
                 $failures[] = $ex;
             }
         }
-
-        if (!empty($failures)) {
-            $diffViewerPath = self::getScreenshotDiffDir() . '/diffviewer.html';
-            echo "\nFailures encountered. View all diffs at:
-$diffViewerPath
-
-If processed screenshots are correct, you can copy the generated screenshots to the expected screenshot folder.
-
-*** IMPORTANT *** In your commit message, explain the cause of the difference in rendering so other Piwik developers will be aware of it.";
-
-            throw reset($failures);
-        }
     }
     
     protected function compareScreenshot($name, $urlQuery)
     {
         list($processedPath, $expectedPath) = self::getProcessedAndExpectedScreenshotPaths($name);
+
+        if (!file_exists($processedPath)) {
+            $this->fail("failed to generate screenshot for '$name'.");
+            return;
+        }
 
         $processed = file_get_contents($processedPath);
         
@@ -199,6 +191,7 @@ Screenshot diff: $diffPath\n";
 
             $this->saveImageDiff($expectedPath, $processedPath, $diffPath);
         }
+
         $this->assertTrue($expected == $processed, "screenshot compare failed for '$processedPath'");
     }
 
@@ -301,6 +294,16 @@ Screenshot diff: $diffPath\n";
 
     private static function outputDiffViewerHtmlFile()
     {
+        if (!empty(self::$failureScreenshotNames)) {
+            $diffViewerPath = self::getScreenshotDiffDir() . '/diffviewer.html';
+            echo "\nFailures encountered. View all diffs at:
+$diffViewerPath
+
+If processed screenshots are correct, you can copy the generated screenshots to the expected screenshot folder.
+
+*** IMPORTANT *** In your commit message, explain the cause of the difference in rendering so other Piwik developers will be aware of it.";
+        }
+
         list($processedDir, $expectedDir) = self::getProcessedAndExpectedDirs();
         $diffDir = self::getScreenshotDiffDir();
 

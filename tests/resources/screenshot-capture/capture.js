@@ -93,8 +93,15 @@ PageRenderer.prototype = {
 
     _setupWebpageEvents: function () {
         var self = this;
-        this.webpage.onError = function (message) {
-            console.log("Webpage error: " + message);
+        this.webpage.onError = function (message, trace) {
+            var msgStack = ['Webpage error: ' + msg];
+            if (trace && trace.length) {
+                msgStack.push('trace:');
+                trace.forEach(function(t) {
+                    msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function + '")' : ''));
+                });
+            }
+            console.log(msgStack.join('\n'));
         };
 
         this.webpage.onConsoleMessage = function (message) {
