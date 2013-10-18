@@ -694,9 +694,18 @@ class Actions extends \Piwik\Plugin
     {
         $view->config->datatable_js_type      = 'ActionsDataTable';
         $view->config->search_recursive       = true;
-        $view->config->show_all_views_icons   = false;
         $view->config->show_table_all_columns = false;
         $view->requestConfig->filter_limit    = self::ACTIONS_REPORT_ROWS_DISPLAY;
+
+        if ($view->isRequestingSingleDataTable()) {
+            // make sure Treemap is shown on actions reports
+            $view->config->show_all_views_icons = true;
+            $view->config->show_bar_chart = false;
+            $view->config->show_pie_chart = false;
+            $view->config->show_tag_cloud = false;
+        } else {
+            $view->config->show_all_views_icons = false;
+        }
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->show_embedded_subtable = true;
