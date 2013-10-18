@@ -9,7 +9,7 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization;
+namespace Piwik\ViewDataTable;
 
 /**
  * Renders a sparkline image given a PHP data array.
@@ -18,15 +18,13 @@ namespace Piwik\Visualization;
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Request
+class RequestConfig
 {
 
     /**
      * The list of ViewDataTable properties that are 'Client Side Parameters'.
-     *
-     * @see Piwik\ViewDataTable\Visualization::getClientSideParameters
      */
-    public static $clientSideParameters = array(
+    public $clientSideParameters = array(
         'filter_excludelowpop',
         'filter_excludelowpop_value',
         'filter_pattern',
@@ -36,10 +34,8 @@ class Request
 
     /**
      * The list of ViewDataTable properties that can be overriden by query parameters.
-     *
-     * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
      */
-    public static $overridableProperties = array(
+    public $overridableProperties = array(
         'filter_sort_column',
         'filter_sort_order',
         'filter_limit',
@@ -47,7 +43,7 @@ class Request
         'filter_pattern',
         'filter_column',
         'filter_excludelowpop',
-        'filter_excludelowpop_value',
+        'filter_excludelowpop_value'
     );
 
     /**
@@ -63,8 +59,6 @@ class Request
      * Controls the sort order. Either 'asc' or 'desc'.
      *
      * Default value: 'desc'
-     *
-     * @see self::SORTED_COLUMN
      */
     public $filter_sort_order = 'desc';
 
@@ -72,8 +66,6 @@ class Request
      * The number of items to truncate the data set to before rendering the DataTable view.
      *
      * Default value: false
-     *
-     * @see self::OFFSET
      */
     public $filter_limit = false;
 
@@ -81,8 +73,6 @@ class Request
      * The number of items from the start of the data set that should be ignored.
      *
      * Default value: 0
-     *
-     * @see self::LIMIT
      */
     public $filter_offset = 0;
 
@@ -107,16 +97,12 @@ class Request
     /**
      * Stores the column name to filter when filtering out rows with low values.
      *
-     * @see also self::EXCLUDE_LOW_POPULATION_VALUE
-     *
      * Default value: false
      */
     public $filter_excludelowpop = false;
 
     /**
      * Stores the value considered 'low' when filtering out rows w/ low values.
-     *
-     * @see also self::EXCLUDE_LOW_POPULATION_COLUMN
      *
      * Default value: false
      * @var \Closure|string
@@ -135,19 +121,56 @@ class Request
 
     public $apiMethodToRequestDataTable = '';
 
+    /**
+     * If the current dataTable refers to a subDataTable (eg. keywordsBySearchEngineId for id=X) this variable is set to the Id
+     *
+     * @var bool|int
+     */
+    public $idSubtable = false;
+
     public function getProperties()
     {
-        return array(
-            'filter_excludelowpop_value' => $this->filter_excludelowpop_value,
-            'filter_excludelowpop' => $this->filter_excludelowpop,
-            'filter_column' => $this->filter_column,
-            'filter_pattern' => $this->filter_pattern,
-            'filter_offset' => $this->filter_offset,
-            'filter_limit' => $this->filter_limit,
-            'filter_sort_order' => $this->filter_sort_order,
-            'filter_sort_column' => $this->filter_sort_column,
-            'request_parameters_to_modify' => $this->request_parameters_to_modify,
-            'apiMethodToRequestDataTable' => $this->apiMethodToRequestDataTable
-        );
+        return get_object_vars($this);
     }
+
+    public function addPropertiesThatShouldBeAvailableClientSide(array $propertyNames)
+    {
+        foreach ($propertyNames as $propertyName) {
+            $this->clientSideParameters[] = $propertyName;
+        }
+    }
+
+    public function addPropertiesThatCanBeOverwrittenByQueryParams(array $propertyNames)
+    {
+        foreach ($propertyNames as $propertyName) {
+            $this->overridableProperties[] = $propertyName;
+        }
+    }
+
+    public function setDefaultSort($columnsToDisplay, $hasNbUniqVisitors)
+    {
+        // default sort order to visits/visitors data
+        if ($hasNbUniqVisitors && in_array('nb_uniq_visitors', $columnsToDisplay)) {
+            $this->filter_sort_column = 'nb_uniq_visitors';
+        } else {
+            $this->filter_sort_column = 'nb_visits';
+        }
+
+        $this->filter_sort_order = 'desc';
+    }
+
+    public function getApiModuleToRequest()
+    {
+        list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
+
+        return $module;
+    }
+
+    public function getApiMethodToRequest()
+    {
+        list($module, $method) = explode('.', $this->apiMethodToRequestDataTable);
+
+        return $method;
+    }
+
 }

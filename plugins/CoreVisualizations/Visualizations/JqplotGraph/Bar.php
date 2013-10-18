@@ -13,7 +13,6 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
-use Piwik\Visualization\Config;
 
 /**
  * Visualization that renders HTML for a Bar graph using jqPlot.
@@ -22,18 +21,19 @@ class Bar extends JqplotGraph
 {
     const ID = 'graphVerticalBar';
 
-    public function configureVisualization(Config $properties)
+    public function beforeRender()
     {
-        parent::configureVisualization($properties);
+        parent::beforeRender();
 
-        $properties->datatable_js_type = 'JqplotBarGraphDataTable';
+        $this->config->datatable_js_type = 'JqplotBarGraphDataTable';
     }
 
-    public static function getDefaultPropertyValues()
+    public static function getDefaultConfig()
     {
-        $result = parent::getDefaultPropertyValues();
-        $result['visualization_properties']['graph']['max_graph_elements'] = 6;
-        return $result;
+        $config = new Config();
+        $config->max_graph_elements = 6;
+
+        return $config;
     }
 
     protected function makeDataGenerator($properties)

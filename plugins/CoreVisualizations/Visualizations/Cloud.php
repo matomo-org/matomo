@@ -12,18 +12,18 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Log;
 use Piwik\View;
-use Piwik\ViewDataTable\Visualization;
-use Piwik\Visualization\Config;
-use Piwik\Visualization\Request;
+use Piwik\Plugin\Visualization;
+use Piwik\ViewDataTable\Config;
 
 /**
  * Generates a tag cloud from a given data array.
  * The generated tag cloud can be in PHP format, or in HTML.
  *
  * Inspired from Derek Harvey (www.derekharvey.co.uk)
+ *
+ * @property Cloud\Config $config
  *
  * @package Piwik
  * @subpackage Piwik_Visualization
@@ -33,34 +33,36 @@ class Cloud extends Visualization
     const ID = 'cloud';
     const TEMPLATE_FILE = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
 
-    /**
-     * Whether to display the logo assocatied with a DataTable row (stored as 'logo' row metadata)
-     * instead of the label in Tag Clouds.
-     *
-     * Default value: false
-     */
-    const DISPLAY_LOGO_INSTEAD_OF_LABEL = 'display_logo_instead_of_label';
-
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
-
-    public static $overridableProperties = array('display_logo_instead_of_label');
-
-    protected $wordsArray = array();
     public $truncatingLimit = 50;
 
-    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
+    protected $wordsArray = array();
+
+    public static function getDefaultConfig()
     {
-        if ($dataTable->getRowsCount() == 0) {
+        return new Cloud\Config();
+    }
+
+    public function beforeRender()
+    {
+        $this->config->show_exclude_low_population = false;
+        $this->config->show_offset_information     = false;
+        $this->config->show_limit_control          = false;
+    }
+
+    public function afterAllFilteresAreApplied()
+    {
+        if ($this->dataTable->getRowsCount() == 0) {
             return;
         }
 
-        $columnToDisplay = isset($properties->columns_to_display[1]) ? $properties->columns_to_display[1] : 'nb_visits';
+        $columnToDisplay = isset($this->config->columns_to_display[1]) ? $this->config->columns_to_display[1] : 'nb_visits';
+        $labelMetadata   = array();
 
-        $labelMetadata = array();
-        foreach ($dataTable->getRows() as $row) {
+        foreach ($this->dataTable->getRows() as $row) {
             $logo = false;
-            if ($properties->visualization_properties->display_logo_instead_of_label) {
+            if ($this->config->display_logo_instead_of_label) {
                 $logo = $row->getMetadata('logo');
             }
 
@@ -73,31 +75,14 @@ class Cloud extends Visualization
 
             $this->addWord($label, $row->getColumn($columnToDisplay));
         }
+
         $cloudValues = $this->getCloudValues();
         foreach ($cloudValues as &$value) {
             $value['logoWidth'] = round(max(16, $value['percent']));
         }
 
-        $this->labelMetadata = $labelMetadata;
-        $this->cloudValues   = $cloudValues;
-    }
-
-    public function configureVisualization(Config $properties)
-    {
-        $properties->show_exclude_low_population = false;
-        $properties->show_offset_information     = false;
-        $properties->show_limit_control          = false;
-    }
-
-    public static function getDefaultPropertyValues()
-    {
-        return array(
-            'visualization_properties'    => array(
-                'cloud' => array(
-                    'display_logo_instead_of_label' => false,
-                )
-            )
-        );
+        $this->assignTemplateVar('labelMetadata', $labelMetadata);
+        $this->assignTemplateVar('cloudValues', $cloudValues);
     }
 
     /**
@@ -118,25 +103,19 @@ class Cloud extends Visualization
     public function getCloudValues()
     {
         $this->shuffleCloud();
-        $return = array();
+
         if (empty($this->wordsArray)) {
             return array();
         }
-        $maxValue = max($this->wordsArray);
-        foreach ($this->wordsArray as $word => $popularity) {
-            $wordTruncated = $word;
-            if (Common::mb_strlen($word) > $this->truncatingLimit) {
-                $wordTruncated = Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
-            }
 
-            // case hideFutureHoursWhenToday=1 shows hours with no visits
-            if ($maxValue == 0) {
-                $percent = 0;
-            } else {
-                $percent = ($popularity / $maxValue) * 100;
-            }
-            // CSS style value
-            $sizeRange = $this->getClassFromPercent($percent);
+        $return   = array();
+        $maxValue = max($this->wordsArray);
+
+        foreach ($this->wordsArray as $word => $popularity) {
+
+            $wordTruncated = $this->truncateWordIfNeeded($word);
+            $percent       = $this->getPercentage($popularity, $maxValue);
+            $sizeRange     = $this->getClassFromPercent($percent);
 
             $return[$word] = array(
                 'word'          => $word,
@@ -146,6 +125,7 @@ class Cloud extends Visualization
                 'percent'       => $percent,
             );
         }
+
         return $return;
     }
 
@@ -163,10 +143,14 @@ class Cloud extends Visualization
         shuffle($keys);
 
         if (count($keys) && is_array($keys)) {
+
             $tmpArray = $this->wordsArray;
+
             $this->wordsArray = array();
-            foreach ($keys as $key => $value)
+            foreach ($keys as $key => $value) {
                 $this->wordsArray[$value] = $tmpArray[$value];
+            }
+
         }
     }
 
@@ -186,5 +170,30 @@ class Cloud extends Visualization
             }
         }
         return 0;
+    }
+
+    /**
+     * @param $word
+     * @return string
+     */
+    private function truncateWordIfNeeded($word)
+    {
+        if (Common::mb_strlen($word) > $this->truncatingLimit) {
+            return Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
+        }
+
+        return $word;
+    }
+
+    private function getPercentage($popularity, $maxValue)
+    {
+        // case hideFutureHoursWhenToday=1 shows hours with no visits
+        if ($maxValue == 0) {
+            return 0;
+        }
+
+        $percent = ($popularity / $maxValue) * 100;
+
+        return $percent;
     }
 }

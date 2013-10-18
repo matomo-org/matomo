@@ -52,7 +52,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
             $selectableColumns = array('server1', 'server2'), 'My documentation', 'ExampleUI.getTemperaturesEvolution');
-        $view->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_column = 'label';
 
         return $this->renderView($view, $fetch);
     }
@@ -62,11 +62,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view = ViewDataTable::factory(
             'graphVerticalBar', 'ExampleUI.getTemperatures', $controllerAction = 'ExampleUI.barGraph');
 
-        $view->y_axis_unit = '°C';
-        $view->show_footer = false;
-        $view->translations['value'] = "Temperature";
-        $view->visualization_properties->selectable_columns = array("value");
-        $view->visualization_properties->max_graph_elements = 24;
+        $view->config->y_axis_unit = '°C';
+        $view->config->show_footer = false;
+        $view->config->translations['value'] = "Temperature";
+        $view->config->selectable_columns = array("value");
+        $view->config->max_graph_elements = 24;
 
         echo $view->render();
     }
@@ -76,11 +76,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view = ViewDataTable::factory(
             'graphPie', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.pieGraph');
 
-        $view->columns_to_display = array('value');
-        $view->translations['value'] = "times the diameter of Earth";
-        $view->show_footer_icons = false;
-        $view->visualization_properties->selectable_columns = array("value");
-        $view->visualization_properties->max_graph_elements = 10;
+        $view->config->columns_to_display = array('value');
+        $view->config->translations['value'] = "times the diameter of Earth";
+        $view->config->show_footer_icons = false;
+        $view->config->selectable_columns = array("value");
+        $view->config->max_graph_elements = 10;
 
         echo $view->render();
     }
@@ -103,9 +103,9 @@ class Controller extends \Piwik\Plugin\Controller
         $view = ViewDataTable::factory(
             'cloud', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.echoSimpleTagClouds');
 
-        $view->columns_to_display = array('label', 'value');
-        $view->translations['value'] = "times the diameter of Earth";
-        $view->show_footer = false;
+        $view->config->columns_to_display = array('label', 'value');
+        $view->config->translations['value'] = "times the diameter of Earth";
+        $view->config->show_footer = false;
 
         echo $view->render();
     }
@@ -115,13 +115,9 @@ class Controller extends \Piwik\Plugin\Controller
         $view = ViewDataTable::factory(
             'cloud', 'ExampleUI.getPlanetRatiosWithLogos', $controllerAction = 'ExampleUI.echoAdvancedTagClouds');
 
-        $view->visualization_properties->setForVisualization(
-            'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\Cloud',
-            'display_logo_instead_of_label',
-            true
-        );
-        $view->columns_to_display = array('label', 'value');
-        $view->translations['value'] = "times the diameter of Earth";
+        $view->config->display_logo_instead_of_label = true;
+        $view->config->columns_to_display = array('label', 'value');
+        $view->config->translations['value'] = "times the diameter of Earth";
 
         echo $view->render();
     }
@@ -142,7 +138,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $serverRequested = Common::getRequestVar('server', false);
         if (false !== $serverRequested) {
-            $view->columns_to_display = array($serverRequested);
+            $view->config->columns_to_display = array($serverRequested);
         }
 
         echo $view->render();

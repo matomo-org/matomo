@@ -264,6 +264,21 @@ class Request
     }
 
     /**
+     * Returns URL for this report w/o any filter parameters.
+     *
+     * @param string $module
+     * @param string $action
+     * @param array $queryParams
+     *
+     * @return string
+     */
+    public static function getBaseReportUrl($module, $action, $queryParams = array())
+    {
+        $params = array_merge($queryParams, array('module' => $module, 'action' => $action));
+        return Request::getCurrentUrlWithoutGenericFilters($params);
+    }
+
+    /**
      * Returns the current URL without generic filter query parameters.
      *
      * @param array $params Query parameter values to override in the new URL.

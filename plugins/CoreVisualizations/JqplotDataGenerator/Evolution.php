@@ -47,7 +47,7 @@ class Evolution extends JqplotDataGenerator
         $units = $this->getUnitsForColumnsToDisplay();
 
         // if rows to display are not specified, default to all rows (TODO: perhaps this should be done elsewhere?)
-        $rowsToDisplay = $this->properties['visualization_properties']->rows_to_display
+        $rowsToDisplay = $this->properties['rows_to_display']
             ? : array_unique($dataTable->getColumn('label'))
                 ? : array(false) // make sure that a series is plotted even if there is no data
         ;

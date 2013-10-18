@@ -14,6 +14,10 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\SettingsPiwik;
 use Piwik\WidgetsList;
 
@@ -33,14 +37,15 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'             => 'archiveDay',
-            'ArchiveProcessor.Period.compute'          => 'archivePeriod',
-            'WidgetsList.addWidgets'                   => 'addWidgets',
-            'Menu.Reporting.addItems'                  => 'addMenus',
-            'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                    => 'getReportMetadata',
-            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
-            'Visualization.getReportDisplayProperties' => 'getReportDisplayProperties',
+            'ArchiveProcessor.Day.compute'               => 'archiveDay',
+            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
+            'WidgetsList.addWidgets'                     => 'addWidgets',
+            'Menu.Reporting.addItems'                    => 'addMenus',
+            'Goals.getReportsWithGoalMetrics'            => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'                      => 'getReportMetadata',
+            'API.getSegmentsMetadata'                    => 'getSegmentsMetadata',
+            'ViewDataTable.configure'                    => 'configureViewDataTable',
+            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
         );
         return $hooks;
     }
@@ -295,26 +300,59 @@ class Referrers extends \Piwik\Plugin
         }
     }
 
-    public function getReportDisplayProperties(&$properties)
+    public function getDefaultViewTypeForReports(&$defaultViewTypes)
     {
-        $properties['Referrers.getReferrerType'] = $this->getDisplayPropertiesForGetReferrerType();
-        $properties['Referrers.getAll'] = $this->getDisplayPropertiesForGetAll();
-        $properties['Referrers.getKeywords'] = $this->getDisplayPropertiesForGetKeywords();
-        $properties['Referrers.getSearchEnginesFromKeywordId'] = $this->getDisplayPropertiesForGetSearchEnginesFromKeywordId();
-        $properties['Referrers.getSearchEngines'] = $this->getDisplayPropertiesForGetSearchEngines();
-        $properties['Referrers.getKeywordsFromSearchEngineId'] = $this->getDisplayPropertiesForGetKeywordsFromSearchEngineId();
-        $properties['Referrers.getWebsites'] = $this->getDisplayPropertiesForGetWebsites();
-        $properties['Referrers.getSocials'] = $this->getDisplayPropertiesForGetSocials();
-        $properties['Referrers.getUrlsForSocial'] = $this->getDisplayPropertiesForGetUrlsForSocial();
-        $properties['Referrers.getCampaigns'] = $this->getDisplayPropertiesForGetCampaigns();
-        $properties['Referrers.getKeywordsFromCampaignId'] = $this->getDisplayPropertiesForGetKeywordsFromCampaignId();
-        $properties['Referrers.getUrlsFromWebsiteId'] = $this->getDisplayPropertiesForGetUrlsFromWebsiteId();
+        $defaultViewTypes['Referrers.getReferrerType'] = AllColumns::ID;
+        $defaultViewTypes['Referrers.getSocials']      = Pie::ID;
     }
 
-    private function getDisplayPropertiesForGetReferrerType()
+    public function configureViewDataTable(ViewDataTable $view)
     {
-        $idSubtable = Common::getRequestVar('idSubtable', false);
+        switch ($view->requestConfig->apiMethodToRequestDataTable) {
+            case 'Referrers.getReferrerType':
+                $this->configureViewForGetReferrerType($view);
+                break;
+            case 'Referrers.getAll':
+                $this->configureViewForGetAll($view);
+                break;
+            case 'Referrers.getKeywords':
+                $this->configureViewForGetKeywords($view);
+                break;
+            case 'Referrers.getSearchEnginesFromKeywordId':
+                $this->configureViewForGetSearchEnginesFromKeywordId($view);
+                break;
+            case 'Referrers.getSearchEngines':
+                $this->configureViewForGetSearchEngines($view);
+                break;
+            case 'Referrers.getKeywordsFromSearchEngineId':
+                $this->configureViewForGetKeywordsFromSearchEngineId($view);
+                break;
+            case 'Referrers.getWebsites':
+                $this->configureViewForGetWebsites($view);
+                break;
+            case 'Referrers.getSocials':
+                $this->configureViewForGetSocials($view);
+                break;
+            case 'Referrers.getUrlsForSocial':
+                $this->configureViewForGetUrlsForSocial($view);
+                break;
+            case 'Referrers.getCampaigns':
+                $this->configureViewForGetCampaigns($view);
+                break;
+            case 'Referrers.getKeywordsFromCampaignId':
+                $this->configureViewForGetKeywordsFromCampaignId($view);
+                break;
+            case 'Referrers.getUrlsFromWebsiteId':
+                $this->configureViewForGetUrlsFromWebsiteId($view);
+                break;
+        }
+    }
+
+    private function configureViewForGetReferrerType(ViewDataTable $view)
+    {
+        $idSubtable       = Common::getRequestVar('idSubtable', false);
         $labelColumnTitle = Piwik::translate('Referrers_Type');
+
         switch ($idSubtable) {
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 $labelColumnTitle = Piwik::translate('Referrers_ColumnSearchEngine');
@@ -329,182 +367,154 @@ class Referrers extends \Piwik\Plugin
                 break;
         }
 
-        return array(
-            'default_view_type'           => 'tableAllColumns',
-            'show_search'                 => false,
-            'show_offset_information'     => false,
-            'show_pagination_control'     => false,
-            'show_limit_control'          => false,
-            'show_exclude_low_population' => false,
-            'show_goals'                  => true,
-            'filter_limit'                => 10,
-            'translations'                => array('label' => $labelColumnTitle),
-            'visualization_properties'    => array(
-                'table' => array(
-                    'disable_subtable_when_show_goals' => true,
-                )
-            ),
-        );
+        $view->config->show_search = false;
+        $view->config->show_goals  = true;
+        $view->config->show_offset_information = false;
+        $view->config->show_pagination_control = false;
+        $view->config->show_limit_control      = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', $labelColumnTitle);
+
+        $view->requestConfig->filter_limit = 10;
+
+        if ($view->isViewDataTableId(HtmlTable::ID)) {
+            $view->config->disable_subtable_when_show_goals = true;
+        }
     }
 
-    private function getDisplayPropertiesForGetAll()
+    private function configureViewForGetAll(ViewDataTable $view)
     {
         $setGetAllHtmlPrefix = array($this, 'setGetAllHtmlPrefix');
-        return array(
-            'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik::translate('Referrers_Referrer')),
-            'show_goals'                  => true,
-            'filter_limit'                => 20,
-            'visualization_properties'    => array(
-                'table' => array(
-                    'disable_row_actions' => true
-                )
-            ),
-            'filters'                     => array(
-                array('MetadataCallbackAddMetadata', array('referer_type', 'html_label_prefix', $setGetAllHtmlPrefix))
-            )
-        );
+
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_goals = true;
+        $view->config->addTranslation('label', Piwik::translate('Referrers_Referrer'));
+
+        $view->requestConfig->filter_limit = 20;
+
+        if ($view->isViewDataTableId(HtmlTable::ID)) {
+            $view->config->disable_row_actions = true;
+        }
+
+        $view->config->filters[] = array('MetadataCallbackAddMetadata', array('referer_type', 'html_label_prefix', $setGetAllHtmlPrefix));
     }
 
-    private function getDisplayPropertiesForGetKeywords()
+    private function configureViewForGetKeywords(ViewDataTable $view)
     {
-        return array(
-            'subtable_controller_action'  => 'getSearchEnginesFromKeywordId',
-            'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik::translate('General_ColumnKeyword')),
-            'show_goals'                  => true,
-            'filter_limit'                => 25,
-            'visualization_properties'    => array(
-                'table' => array(
-                    'disable_subtable_when_show_goals' => true,
-                )
-            ),
-        );
+        $view->config->subtable_controller_action  = 'getSearchEnginesFromKeywordId';
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('General_ColumnKeyword'));
+        $view->config->show_goals = true;
+
+        $view->requestConfig->filter_limit = 25;
+
+        if ($view->isViewDataTableId(HtmlTable::ID)) {
+            $view->config->disable_subtable_when_show_goals = true;
+        }
     }
 
-    private function getDisplayPropertiesForGetSearchEnginesFromKeywordId()
+    private function configureViewForGetSearchEnginesFromKeywordId(ViewDataTable $view)
     {
-        return array(
-            'show_search'                 => false,
-            'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik::translate('Referrers_ColumnSearchEngine'))
-        );
+        $view->config->show_search = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnSearchEngine'));
     }
 
-    private function getDisplayPropertiesForGetSearchEngines()
+    private function configureViewForGetSearchEngines(ViewDataTable $view)
     {
-        return array(
-            'subtable_controller_action'  => 'getKeywordsFromSearchEngineId',
-            'show_search'                 => false,
-            'show_exclude_low_population' => false,
-            'show_goals'                  => true,
-            'filter_limit'                => 25,
-            'translations'                => array('label' => Piwik::translate('Referrers_ColumnSearchEngine')),
-            'visualization_properties'    => array(
-                'table' => array(
-                    'disable_subtable_when_show_goals' => true,
-                )
-            ),
-        );
+        $view->config->subtable_controller_action  = 'getKeywordsFromSearchEngineId';
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_search = false;
+        $view->config->show_goals  = true;
+        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnSearchEngine'));
+
+        $view->requestConfig->filter_limit = 25;
+
+        if ($view->isViewDataTableId(HtmlTable::ID)) {
+            $view->config->disable_subtable_when_show_goals = true;
+        }
     }
 
-    private function getDisplayPropertiesForGetKeywordsFromSearchEngineId()
+    private function configureViewForGetKeywordsFromSearchEngineId(ViewDataTable $view)
     {
-        return array(
-            'show_search'                 => false,
-            'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik::translate('General_ColumnKeyword'))
-        );
+        $view->config->show_search = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('General_ColumnKeyword'));
     }
 
-    private function getDisplayPropertiesForGetWebsites()
+    private function configureViewForGetWebsites(ViewDataTable $view)
     {
-        return array(
-            'subtable_controller_action'  => 'getUrlsFromWebsiteId',
-            'show_exclude_low_population' => false,
-            'show_goals'                  => true,
-            'filter_limit'                => 25,
-            'translations'                => array('label' => Piwik::translate('Referrers_ColumnWebsite')),
-            'visualization_properties'    => array(
-                'table' => array(
-                    'disable_subtable_when_show_goals' => true,
-                )
-            ),
-        );
+        $view->config->subtable_controller_action  = 'getUrlsFromWebsiteId';
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_goals = true;
+        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnWebsite'));
+
+        $view->requestConfig->filter_limit = 25;
+
+        if ($view->isViewDataTableId(HtmlTable::ID)) {
+            $view->config->disable_subtable_when_show_goals = true;
+        }
     }
 
-    private function getDisplayPropertiesForGetSocials()
+    private function configureViewForGetSocials(ViewDataTable $view)
     {
-        $result = array(
-            'default_view_type'           => 'graphPie',
-            'subtable_controller_action'  => 'getUrlsForSocial',
-            'show_exclude_low_population' => false,
-            'filter_limit'                => 10,
-            'show_goals'                  => true,
-            'translations'                => array('label' => Piwik::translate('Referrers_ColumnSocial')),
-            'visualization_properties'    => array(
-                'table' => array(
-                    'disable_subtable_when_show_goals' => true,
-                )
-            ),
-        );
+        $view->config->subtable_controller_action  = 'getUrlsForSocial';
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_goals = true;
+        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnSocial'));
+
+        $view->requestConfig->filter_limit = 10;
+
+        if ($view->isViewDataTableId(HtmlTable::ID)) {
+            $view->config->disable_subtable_when_show_goals = true;
+        }
 
         $widget = Common::getRequestVar('widget', false);
         if (empty($widget)) {
-            $result['show_footer_message'] = Piwik::translate('Referrers_SocialFooterMessage');
+            $view->config->show_footer_message = Piwik::translate('Referrers_SocialFooterMessage');
         }
-
-        return $result;
     }
 
-    private function getDisplayPropertiesForGetUrlsForSocial()
+    private function configureViewForGetUrlsForSocial(ViewDataTable $view)
     {
-        return array(
-            'show_exclude_low_population' => false,
-            'filter_limit'                => 10,
-            'show_goals'                  => true,
-            'translations'                => array('label' => Piwik::translate('Referrers_ColumnWebsitePage'))
-        );
+        $view->config->show_goals = true;
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnWebsitePage'));
+
+        $view->requestConfig->filter_limit = 10;
     }
 
-    private function getDisplayPropertiesForGetCampaigns()
+    private function configureViewForGetCampaigns(ViewDataTable $view)
     {
-        $result = array(
-            'subtable_controller_action'  => 'getKeywordsFromCampaignId',
-            'show_exclude_low_population' => false,
-            'show_goals'                  => true,
-            'filter_limit'                => 25,
-            'translations'                => array('label' => Piwik::translate('Referrers_ColumnCampaign')),
-        );
+        $view->config->show_goals = true;
+        $view->config->subtable_controller_action  = 'getKeywordsFromCampaignId';
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnCampaign'));
+
+        $view->requestConfig->filter_limit = 25;
 
         if (Common::getRequestVar('viewDataTable', false) != 'graphEvolution') {
-            $result['show_footer_message'] = Piwik::translate('Referrers_CampaignFooterHelp',
+            $view->config->show_footer_message = Piwik::translate('Referrers_CampaignFooterHelp',
                 array('<a target="_blank" href="http://piwik.org/docs/tracking-campaigns/">',
                       '</a> - <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/url-builder/">',
                       '</a>')
             );
         }
-
-        return $result;
     }
 
-    private function getDisplayPropertiesForGetKeywordsFromCampaignId()
+    private function configureViewForGetKeywordsFromCampaignId(ViewDataTable $view)
     {
-        return array(
-            'show_search'                 => false,
-            'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik::translate('General_ColumnKeyword'))
-        );
+        $view->config->show_search = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->addTranslation('label', Piwik::translate('General_ColumnKeyword'));
     }
 
-    private function getDisplayPropertiesForGetUrlsFromWebsiteId()
+    private function configureViewForGetUrlsFromWebsiteId(ViewDataTable $view)
     {
-        return array(
-            'show_search'                 => false,
-            'show_exclude_low_population' => false,
-            'translations'                => array('label' => Piwik::translate('Referrers_ColumnWebsitePage')),
-            'tooltip_metadata_name'       => 'url'
-        );
+        $view->config->show_search = false;
+        $view->config->show_exclude_low_population = false;
+        $view->config->tooltip_metadata_name       = 'url';
+        $view->config->addTranslation('label', Piwik::translate('Referrers_ColumnWebsitePage'));
     }
 
     /**

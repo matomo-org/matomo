@@ -597,6 +597,19 @@ class Common
         return json_decode($json, $assoc);
     }
 
+    /**
+     * Returns the list of parent classes for the given class.
+     *
+     * @param  string    $klass   A class name.
+     * @return string[]  The list of parent classes in order from highest ancestor to the descended class.
+     */
+    public static function getClassLineage($klass)
+    {
+        $klasses = array_merge(array($klass), array_values(class_parents($klass, $autoload = false)));
+
+        return array_reverse($klasses);
+    }
+
     /*
      * DataFiles
      */

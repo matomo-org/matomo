@@ -9,8 +9,12 @@
  * @package Piwik
  */
 
-namespace Piwik\Visualization;
+namespace Piwik\ViewDataTable;
+use Piwik\API\Request as ApiRequest;
+use Piwik\Common;
 use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik\Plugins\API\API;
 
 /**
  * Renders a sparkline image given a PHP data array.
@@ -24,19 +28,15 @@ class Config
 
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
-     *
-     * @see Piwik\ViewDataTable\Visualization::getClientSideProperties
      */
-    public static $clientSideProperties = array(
+    public $clientSideProperties = array(
         'show_limit_control'
     );
 
     /**
      * The list of ViewDataTable properties that can be overriden by query parameters.
-     *
-     * @see Piwik\ViewDataTable\Visualization::getOverridableProperties
      */
-    public static $overridableProperties = array(
+    public $overridableProperties = array(
         'show_goals',
         'disable_generic_filters',
         'disable_queued_filters',
@@ -65,16 +65,6 @@ class Config
         'export_limit',
         'show_non_core_visualizations'
     );
-
-    /**
-     * The default viewDataTable ID to use when determining which visualization to use.
-     * This property is only valid for reports whose properties are determined by the
-     * Visualization.getReportDisplayProperties event. When manually creating ViewDataTables,
-     * setting this property will have no effect.
-     *
-     * Default value: 'table'
-     */
-    public $default_view_type = 'table';
 
     /**
      * Controls what footer icons are displayed on the bottom left of the DataTable view.
@@ -209,8 +199,6 @@ class Config
      * change to the clicked report and the list will change so the original report can be
      * navigated back to.
      *
-     * @see also self::TITLE. Both must be set if associating related reports.
-     *
      * Default value: array()
      */
     public $related_reports = array();
@@ -219,7 +207,7 @@ class Config
      * The report title. Used with related reports so report headings can be changed when switching
      * reports.
      *
-     * @see also self::RELATED_REPORTS. This must be set if related reports are added.
+     * This must be set if related reports are added.
      *
      * Default value: ''
      */
@@ -354,18 +342,9 @@ class Config
      * from a Related Report will go to a different URL. Can be used to load an entire page instead
      * of a single report when going back to the original report.
      *
-     * @see also self::RELATED_REPORTS
-     *
      * Default value: The URL used to request the report without generic filters.
      */
     public $self_url = '';
-
-    /**
-     * Special property that holds the properties for DataTable Visualizations.
-     *
-     * @var \Piwik\ViewDataTable\VisualizationPropertiesProxy
-     */
-    public $visualization_properties = array();
 
     /**
      * CSS class to use in the output HTML div. This is added in addition to the visualization CSS
@@ -385,8 +364,6 @@ class Config
 
     /**
      * If true, searching through the DataTable will search through all subtables.
-     *
-     * @see also self::FILTER_PATTERN
      *
      * Default value: false
      */
@@ -435,16 +412,12 @@ class Config
      *
      * TODO: pagination/offset is only valid for HtmlTables... should only display for those visualizations.
      *
-     * @see self::SHOW_OFFSET_INFORMATION
-     *
      * Default value: true
      */
     public $show_pagination_control = true;
 
     /**
      * Controls whether offset information (ie, '5-10 of 20') is shown under the datatable.
-     *
-     * @see self::SHOW_PAGINATION_CONTROL
      *
      * Default value: true
      */
@@ -471,8 +444,12 @@ class Config
      */
     public $show_non_core_visualizations = true;
 
+    public $report_last_updated_message = false;
     public $metadata  = array();
     public $report_id = '';
+
+    public $controllerName;
+    public $controllerAction;
 
     public function __construct()
     {
@@ -483,57 +460,153 @@ class Config
         );
     }
 
+    public function setController($controllerName, $controllerAction)
+    {
+        $this->controllerName   = $controllerName;
+        $this->controllerAction = $controllerAction;
+        $this->report_id        = $controllerName . '.' . $controllerAction;
+
+        $this->loadDocumentation();
+    }
+
+    /** Load documentation from the API */
+    private function loadDocumentation()
+    {
+        $this->metrics_documentation = array();
+
+        $report = API::getInstance()->getMetadata(0, $this->controllerName, $this->controllerAction);
+        $report = $report[0];
+
+        if (isset($report['metricsDocumentation'])) {
+            $this->metrics_documentation = $report['metricsDocumentation'];
+        }
+
+        if (isset($report['documentation'])) {
+            $this->documentation = $report['documentation'];
+        }
+    }
+
+    public function addPropertiesThatShouldBeAvailableClientSide(array $propertyNames)
+    {
+        foreach ($propertyNames as $propertyName) {
+            $this->clientSideProperties[] = $propertyName;
+        }
+    }
+
+    public function addPropertiesThatCanBeOverwrittenByQueryParams(array $propertyNames)
+    {
+        foreach ($propertyNames as $propertyName) {
+            $this->overridableProperties[] = $propertyName;
+        }
+    }
+
     public function getProperties()
     {
-        return array(
-            'show_non_core_visualizations' => $this->show_non_core_visualizations,
-            'export_limit' => $this->export_limit,
-            'hide_annotations_view' => $this->hide_annotations_view,
-            'show_offset_information' => $this->show_offset_information,
-            'show_pagination_control' => $this->show_pagination_control,
-            'subtable_controller_action' => $this->subtable_controller_action,
-            'filters' => $this->filters,
-            'show_export_as_image_icon' => $this->show_export_as_image_icon,
-            'y_axis_unit' => $this->y_axis_unit,
-            'search_recursive' => $this->search_recursive,
-            'datatable_js_type' => $this->datatable_js_type,
-            'datatable_css_class' => $this->datatable_css_class,
-            'visualization_properties' => $this->visualization_properties,
-            'self_url' => $this->self_url,
-            'tooltip_metadata_name' => $this->tooltip_metadata_name,
-            'metrics_documentation' => $this->metrics_documentation,
-            'show_footer_message' => $this->show_footer_message,
-            'show_ecommerce' => $this->show_ecommerce,
-            'show_export_as_rss_feed' => $this->show_export_as_rss_feed,
-            'show_tag_cloud' => $this->show_tag_cloud,
-            'show_pie_chart' => $this->show_pie_chart,
-            'show_bar_chart' => $this->show_bar_chart,
-            'enable_sort' => $this->enable_sort,
-            'show_search' => $this->show_search,
-            'show_limit_control' => $this->show_limit_control,
-            'disable_queued_filters' => $this->disable_queued_filters,
-            'disable_generic_filters' => $this->disable_generic_filters,
-            'custom_parameters' => $this->custom_parameters,
-            'documentation' => $this->documentation,
-            'show_related_reports' => $this->show_related_reports,
-            'title' => $this->title,
-            'related_reports' => $this->related_reports,
-            'show_active_view_icon' => $this->show_active_view_icon,
-            'show_all_views_icons' => $this->show_all_views_icons,
-            'columns_to_display' => $this->columns_to_display,
-            'show_footer_icons' => $this->show_footer_icons,
-            'show_footer' => $this->show_footer,
-            'show_table_all_columns' => $this->show_table_all_columns,
-            'show_table' => $this->show_table,
-            'show_flatten_table' => $this->show_flatten_table,
-            'show_exclude_low_population' => $this->show_exclude_low_population,
-            'translations' => $this->translations,
-            'show_goals' => $this->show_goals,
-            'show_visualization_only' => $this->show_visualization_only,
-            'footer_icons' => $this->footer_icons,
-            'default_view_type' => $this->default_view_type,
-            'metadata' => $this->metadata,
-            'report_id' => $this->report_id
-        );
+        return get_object_vars($this);
     }
+
+    /**
+     * Returns true if queued filters have been disabled, false if otherwise.
+     *
+     * @return bool
+     */
+    public function areQueuedFiltersDisabled()
+    {
+        return isset($this->disable_queued_filters) && $this->disable_queued_filters;
+    }
+
+    /**
+     * Returns true if generic filters have been disabled, false if otherwise.
+     *
+     * @return bool
+     */
+    public function areGenericFiltersDisabled()
+    {
+        // if disable_generic_filters query param is set to '1', generic filters are disabled
+        if (Common::getRequestVar('disable_generic_filters', '0', 'string') == 1) {
+            return true;
+        }
+
+        if (isset($this->disable_generic_filters) && true === $this->disable_generic_filters) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors)
+    {
+        if ($hasNbVisits || $hasNbUniqVisitors) {
+            $columnsToDisplay = array('label');
+
+            // if unique visitors data is available, show it, otherwise just visits
+            if ($hasNbUniqVisitors) {
+                $columnsToDisplay[] = 'nb_uniq_visitors';
+            } else {
+                $columnsToDisplay[] = 'nb_visits';
+            }
+        } else {
+            $columnsToDisplay = $columns;
+        }
+
+        $this->columns_to_display = array_filter($columnsToDisplay);
+    }
+
+    public function getFiltersToRun()
+    {
+        $priorityFilters     = array();
+        $presentationFilters = array();
+
+        foreach ($this->filters as $filterInfo) {
+            if ($filterInfo instanceof \Closure) {
+                $nameOrClosure = $filterInfo;
+                $parameters    = array();
+                $priority      = false;
+            } else {
+                @list($nameOrClosure, $parameters, $priority) = $filterInfo;
+            }
+
+            if ($priority) {
+                $priorityFilters[] = array($nameOrClosure, $parameters);
+            } else {
+                $presentationFilters[] = array($nameOrClosure, $parameters);
+            }
+        }
+
+        return array($priorityFilters, $presentationFilters);
+    }
+
+    public function addRelatedReport($relatedReport, $title, $queryParams = array())
+    {
+        list($module, $action) = explode('.', $relatedReport);
+
+        // don't add the related report if it references this report
+        if ($this->controllerName == $module && $this->controllerAction == $action) {
+            return;
+        }
+
+        $url = ApiRequest::getBaseReportUrl($module, $action, $queryParams);
+
+        $this->related_reports[$url] = $title;
+    }
+
+    public function addRelatedReports($relatedReports)
+    {
+        foreach ($relatedReports as $report => $title) {
+            $this->addRelatedReport($report, $title);
+        }
+    }
+
+    public function addTranslation($key, $translation)
+    {
+        $this->translations[$key] = $translation;
+    }
+
+    public function addTranslations($translations)
+    {
+        foreach ($translations as $key => $translation) {
+            $this->addTranslation($key, $translation);
+        }
+    }
+
 }

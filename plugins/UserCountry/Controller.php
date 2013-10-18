@@ -365,7 +365,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function getLastDistinctCountriesGraph($fetch = false)
     {
         $view = $this->getLastUnitGraph('UserCountry', __FUNCTION__, "UserCountry.getNumberOfDistinctCountries");
-        $view->columns_to_display = array('UserCountry_distinctCountries');
+        $view->config->columns_to_display = array('UserCountry_distinctCountries');
         return $this->renderView($view, $fetch);
     }
 

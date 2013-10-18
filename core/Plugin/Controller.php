@@ -32,7 +32,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable as ViewDataTableBuilder;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
@@ -179,9 +179,9 @@ abstract class Controller
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
-        $view = ViewDataTable::factory(
+        $view = ViewDataTableBuilder::factory(
             'graphEvolution', $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
-        $view->show_goals = false;
+        $view->config->show_goals = false;
         return $view;
     }
 
@@ -222,13 +222,16 @@ abstract class Controller
 
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
-        $view->columns_to_display = $columnsToDisplay;
-        $view->visualization_properties->selectable_columns =
-            array_merge($view->visualization_properties->selectable_columns ? : array(), $selectableColumns);
-        $view->translations += $translations;
+        $view->config->columns_to_display = $columnsToDisplay;
+
+        if (property_exists($view->config, 'selectable_columns')) {
+            $view->config->selectable_columns = array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
+        }
+
+        $view->config->translations += $translations;
 
         if ($reportDocumentation) {
-            $view->documentation = $reportDocumentation;
+            $view->config->documentation = $reportDocumentation;
         }
 
         return $view;

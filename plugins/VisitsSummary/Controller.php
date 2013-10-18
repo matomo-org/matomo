@@ -91,6 +91,7 @@ class Controller extends \Piwik\Plugin\Controller
             $selectableColumns[] = 'nb_searches';
             $selectableColumns[] = 'nb_keywords';
         }
+
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
             $selectableColumns, $documentation);
 

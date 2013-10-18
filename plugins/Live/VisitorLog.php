@@ -11,28 +11,31 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\View;
-use Piwik\ViewDataTable\Visualization;
-use Piwik\Visualization\Config;
+use Piwik\Plugin\Visualization;
 
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
  */
 class VisitorLog extends Visualization
 {
+    const ID = 'Piwik\\Plugins\\Live\\VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
 
-    static public $clientSideRequestParameters = array(
-        'filter_limit',
-        'filter_offset',
-        'filter_sort_column',
-        'filter_sort_order',
-    );
+    public function beforeLoadDataTable()
+    {
+        $this->requestConfig->addPropertiesThatShouldBeAvailableClientSide(array(
+            'filter_limit',
+            'filter_offset',
+            'filter_sort_column',
+            'filter_sort_order',
+        ));
+    }
 
     /**
      * Configure visualization.
      */
-    public function configureVisualization(Config $properties)
+    public function beforeRender()
     {
-        $properties->datatable_js_type = 'VisitorLog';
+        $this->config->datatable_js_type = 'VisitorLog';
     }
 }

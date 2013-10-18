@@ -11,9 +11,7 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Visualization\Config;
 use Piwik\Common;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\MetricsFormatter;
@@ -21,8 +19,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
-use Piwik\ViewDataTable\Visualization;
-use Piwik\Visualization\Request;
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_extra_columns to true.
@@ -31,21 +27,22 @@ class AllColumns extends HtmlTable
 {
     const ID = 'tableAllColumns';
 
-    public function configureVisualization(Config $properties)
+    public function beforeRender()
     {
-        $properties->visualization_properties->show_extra_columns = true;
+        $this->config->show_extra_columns  = true;
+        $this->config->datatable_css_class = 'dataTableVizAllColumns';
+        $this->config->show_exclude_low_population = true;
 
-        $properties->show_exclude_low_population = true;
-        $properties->datatable_css_class = 'dataTableVizAllColumns';
-
-        parent::configureVisualization($properties);
+        parent::beforeRender();
     }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
-        $dataTable->filter('AddColumnsProcessedMetrics');
+        $this->dataTable->filter('AddColumnsProcessedMetrics');
 
-        $dataTable->filter(function ($dataTable) use ($properties) {
+        $properties = $this->config;
+
+        $this->dataTable->filter(function ($dataTable) use ($properties) {
             $columnsToDisplay = array('label', 'nb_visits');
 
             if (in_array('nb_uniq_visitors', $dataTable->getColumns())) {
@@ -66,9 +63,10 @@ class AllColumns extends HtmlTable
         });
     }
 
-    public function afterGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
         $prettifyTime = array('\Piwik\MetricsFormatter', 'getPrettyTimeFromSeconds');
-        $dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
+
+        $this->dataTable->filter('ColumnCallbackReplace', array('avg_time_on_site', $prettifyTime));
     }
 }

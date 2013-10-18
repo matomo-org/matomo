@@ -192,7 +192,7 @@ class Controller extends Plugin\ControllerAdmin
     {
         Piwik::checkUserIsSuperUser();
 
-        $activated = Common::getRequestVar('activated', false, 'integer', $_GET);
+        $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
         $pluginName = Common::getRequestVar('pluginName', '', 'string');
 
         $view = $this->configureView('@CorePluginsAdmin/' . $template);

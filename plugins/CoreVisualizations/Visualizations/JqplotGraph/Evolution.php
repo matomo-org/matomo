@@ -13,76 +13,57 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\DataTable\DataTableInterface;
 use Piwik\Period\Range;
 use Piwik\Plugin\Controller;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 use Piwik\Site;
-use Piwik\Visualization\Config;
-use Piwik\Visualization\Request;
 
 /**
  * Visualization that renders HTML for a line graph using jqPlot.
+ *
+ * @property Evolution\Config $config
  */
 class Evolution extends JqplotGraph
 {
     const ID = 'graphEvolution';
     const SERIES_COLOR_COUNT = 8;
 
-    /**
-     * Whether to show a line graph or a bar graph.
-     *
-     * Default value: true
-     */
-    const SHOW_LINE_GRAPH = 'show_line_graph';
-
-    public static $clientSideConfigProperties = array('show_line_graph');
-
-    public static $overridableProperties = array('show_line_graph');
-
-    public function configureVisualization(Config $properties)
+    public static function getDefaultConfig()
     {
-        $this->calculateEvolutionDateRange($properties);
-
-        parent::configureVisualization($properties);
-
-        $properties->datatable_js_type = 'JqplotEvolutionGraphDataTable';
+        return new Evolution\Config();
     }
 
-    public function beforeLoadDataTable(Request $request, Config $properties)
+    public function beforeRender()
     {
-        parent::beforeLoadDataTable($request, $properties);
+        parent::beforeRender();
+
+        $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
+    }
+
+    public function beforeLoadDataTable()
+    {
+        $this->calculateEvolutionDateRange();
+
+        parent::beforeLoadDataTable();
 
         // period will be overridden when 'range' is requested in the UI
         // but the graph will display for each day of the range.
         // Default 'range' behavior is to return the 'sum' for the range
         if (Common::getRequestVar('period', false) == 'range') {
-            $request->request_parameters_to_modify['period'] = 'day';
+            $this->requestConfig->request_parameters_to_modify['period'] = 'day';
         }
     }
 
-    public function afterAllFilteresAreApplied(DataTableInterface $dataTable, Config $properties, Request $request)
+    public function afterAllFilteresAreApplied()
     {
-        parent::afterAllFilteresAreApplied($dataTable, $properties, $request);
+        parent::afterAllFilteresAreApplied();
 
-        if ($properties->visualization_properties->x_axis_step_size === false) {
+        if (false === $this->config->x_axis_step_size) {
+            $rowCount = $this->dataTable->getRowsCount();
 
-            $size = $this->getDefaultXAxisStepSize($dataTable->getRowsCount());
-            $properties->visualization_properties->x_axis_step_size = $size;
+            $this->config->x_axis_step_size = $this->getDefaultXAxisStepSize($rowCount);
         }
-    }
-
-    public static function getDefaultPropertyValues()
-    {
-        $result = parent::getDefaultPropertyValues();
-        $result['show_all_views_icons'] = false;
-        $result['show_table'] = false;
-        $result['show_table_all_columns'] = false;
-        $result['hide_annotations_view'] = false;
-        $result['visualization_properties']['jqplot_graph']['x_axis_step_size'] = false;
-        $result['visualization_properties']['graphEvolution']['show_line_graph'] = true;
-        return $result;
     }
 
     protected function makeDataGenerator($properties)
@@ -94,29 +75,34 @@ class Evolution extends JqplotGraph
      * Based on the period, date and evolution_{$period}_last_n query parameters,
      * calculates the date range this evolution chart will display data for.
      */
-    private function calculateEvolutionDateRange(Config $properties)
+    private function calculateEvolutionDateRange()
     {
-        $view = $this->viewDataTable;
         $period = Common::getRequestVar('period');
 
         $defaultLastN = self::getDefaultLastN($period);
         $originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
-        if ($period != 'range') { // show evolution limit if the period is not a range
-            $properties->show_limit_control = true;
+        if ('range' != $period) { // show evolution limit if the period is not a range
+            $this->config->show_limit_control = true;
 
             // set the evolution_{$period}_last_n query param
-            if (Range::parseDateRange($originalDate)) { // if a multiple period
+            if (Range::parseDateRange($originalDate)) {
+                // if a multiple period
+
                 // overwrite last_n param using the date range
                 $oPeriod = new Range($period, $originalDate);
-                $lastN = count($oPeriod->getSubperiods());
-            } else { // if not a multiple period
+                $lastN   = count($oPeriod->getSubperiods());
+
+            } else {
+
+                // if not a multiple period
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $originalDate, $defaultLastN);
-                $view->request_parameters_to_modify['date'] = $newDate;
-                $properties->custom_parameters['dateUsedInGraph'] = $newDate;
+                $this->requestConfig->request_parameters_to_modify['date'] = $newDate;
+                $this->config->custom_parameters['dateUsedInGraph'] = $newDate;
             }
+
             $lastNParamName = self::getLastNParamName($period);
-            $properties->custom_parameters[$lastNParamName] = $lastN;
+            $this->config->custom_parameters[$lastNParamName] = $lastN;
         }
     }
 
@@ -188,6 +174,7 @@ class Evolution extends JqplotGraph
         }
 
         $periodLabel = Common::getRequestVar('period');
+
         switch ($periodLabel) {
             case 'day':
             case 'range':
@@ -208,6 +195,7 @@ class Evolution extends JqplotGraph
         }
 
         $paddedCount = $countGraphElements + 2; // pad count so last label won't be cut off
+
         return ceil($paddedCount / $steps);
     }
 }
