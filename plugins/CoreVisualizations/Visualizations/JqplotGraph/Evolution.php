@@ -36,8 +36,6 @@ class Evolution extends JqplotGraph
 
     public function beforeRender()
     {
-        $this->calculateEvolutionDateRange();
-
         parent::beforeRender();
 
         $this->config->datatable_js_type = 'JqplotEvolutionGraphDataTable';
@@ -45,6 +43,8 @@ class Evolution extends JqplotGraph
 
     public function beforeLoadDataTable()
     {
+        $this->calculateEvolutionDateRange();
+
         parent::beforeLoadDataTable();
 
         // period will be overridden when 'range' is requested in the UI
