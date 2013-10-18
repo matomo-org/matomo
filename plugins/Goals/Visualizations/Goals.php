@@ -27,6 +27,17 @@ class Goals extends HtmlTable
 {
     const ID = 'tableGoals';
 
+    public function beforeLoadDataTable()
+    {
+        parent::beforeLoadDataTable();
+
+        if (!$this->config->disable_subtable_when_show_goals) {
+            $this->config->subtable_controller_action = null;
+        }
+
+        $this->setShowGoalsColumnsProperties();
+    }
+
     public function beforeRender()
     {
         $this->config->show_goals = true;
@@ -48,12 +59,6 @@ class Goals extends HtmlTable
             $this->config->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
                 array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>'));
         }
-
-        if (!$this->config->disable_subtable_when_show_goals) {
-            $this->config->subtable_controller_action = null;
-        }
-
-        $this->setShowGoalsColumnsProperties();
 
         parent::beforeRender();
     }
