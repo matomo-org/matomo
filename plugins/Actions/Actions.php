@@ -692,11 +692,11 @@ class Actions extends \Piwik\Plugin
 
     private function addBaseDisplayProperties(ViewDataTable $view)
     {
-        $view->config->datatable_js_type = 'ActionsDataTable';
-        $view->config->search_recursive = true;
-        $view->config->show_all_views_icons = false;
+        $view->config->datatable_js_type      = 'ActionsDataTable';
+        $view->config->search_recursive       = true;
+        $view->config->show_all_views_icons   = false;
         $view->config->show_table_all_columns = false;
-        $view->requestConfig->filter_limit = self::ACTIONS_REPORT_ROWS_DISPLAY;
+        $view->requestConfig->filter_limit    = self::ACTIONS_REPORT_ROWS_DISPLAY;
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->show_embedded_subtable = true;
