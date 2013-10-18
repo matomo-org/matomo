@@ -262,7 +262,7 @@
             if (this._inPopover()) {
                 broadcast.propagateNewPopoverParameter('visitorProfile', idVisitor);
             } else if (this._inWidget()) {
-                this.$element.closest('[widgetid]').dashboardWidget('reload', false, true, {idVisitor: idVisitor});
+                this.$element.closest('[widgetid]').dashboardWidget('reload', false, true, {visitorId: idVisitor});
             }
         },
 

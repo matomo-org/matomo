@@ -17,9 +17,12 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Range;
 
 /**
- * The **Archive** class is used to query archive data for a set of sites, a set of
- * periods and a segment. If archive data is not found, this class will initiate the
- * archiving process. [1]
+ * The **Archive** class is used to query archive data.
+ * @see Segment
+ * You can use **Archive** instances to get archive data for one or more sites and
+ * for one or more periods. A Segment can also be used 
+ * 
+ * If archive data is not found, this class will initiate the archiving process. [1](#footnote-1)
  * 
  * **Archive** instances must be created using the [build](#build) factory method;
  * they cannot be constructed.
@@ -27,7 +30,7 @@ use Piwik\Period\Range;
  * You can search for metrics (such as `nb_visits`) using the [getNumeric](#getNumeric) and
  * [getDataTableFromNumeric](#getDataTableFromNumeric) methods. You can search for
  * reports using the [getBlob](#getBlob), [getDataTable](#getDataTable) and
- * [getDataTableExpanded](#getDataTableExpanded).
+ * [getDataTableExpanded](#getDataTableExpanded) methods.
  * 
  * If you're creating an API that returns report data, you may want to use the
  * [getDataTableFromArchive](#getDataTableFromArchive) helper function.
@@ -94,6 +97,7 @@ use Piwik\Period\Range;
  *     $archive = Archive::build($idSite = 1, $period = 'range', $date = '2013-03-15,2013-03-20');
  *     $dataTable = $archive->getDataTableFromNumeric(array('nb_visits', 'nb_actions'));
  * 
+ * <a name="footnote-1"></a>
  * [1]: The archiving process will not be launched if browser archiving is disabled
  *      and the current request came from a browser (and not the archive.php cron
  *      script).
