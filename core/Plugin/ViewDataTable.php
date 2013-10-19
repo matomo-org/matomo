@@ -168,7 +168,7 @@ abstract class ViewDataTable implements ViewInterface
      * @throws \Exception
      * @return string
      */
-    protected static function getViewDataTableId()
+    public static function getViewDataTableId()
     {
         $id = static::ID;
 
