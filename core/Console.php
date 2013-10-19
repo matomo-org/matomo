@@ -10,6 +10,7 @@
  */
 namespace Piwik;
 
+use Piwik\Plugins\CoreConsole\CodeCoverage;
 use Piwik\Plugins\CoreConsole\GenerateApi;
 use Piwik\Plugins\CoreConsole\GenerateController;
 use Piwik\Plugins\CoreConsole\GeneratePlugin;
@@ -50,6 +51,7 @@ class Console
         $console->add(new SetTranslations());
         $console->add(new Update());
         $console->add(new CreatePull());
+        $console->add(new CodeCoverage());
 
         $console->run();
     }
