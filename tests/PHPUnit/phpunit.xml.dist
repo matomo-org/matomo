@@ -44,15 +44,4 @@
   </testsuite>
 </testsuites>
 
-<!--
-Request: code coverage, see ticket #4224
--->
-
-<filter>
-  <whitelist addUncoveredFilesFromWhitelist="true">
-    <directory suffix=".php">../../core</directory>
-    <directory suffix=".php">../../plugins</directory>
-  </whitelist>
-</filter>
-
 </phpunit>

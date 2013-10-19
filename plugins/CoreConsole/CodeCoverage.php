@@ -87,7 +87,7 @@ class CodeCoverage extends ConsoleCommand
 
         shell_exec(sprintf('rm -rf %s/tests/results/coverage/*', PIWIK_DOCUMENT_ROOT));
 
-        passthru(sprintf('cd %1$s && %2$s --merge --html tests/results/coverage/ --whitelist ./core/ --whitelist ./plugins/ %1$s/tests/results/logs/', PIWIK_DOCUMENT_ROOT, $command));
+        passthru(sprintf('cd %1$s && %2$s --merge --html tests/results/coverage/ --whitelist ./core/ --whitelist ./plugins/ --add-uncovered %1$s/tests/results/logs/', PIWIK_DOCUMENT_ROOT, $command));
     }
 
 }
