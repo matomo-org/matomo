@@ -485,7 +485,7 @@ class DataTable implements DataTableInterface
                     $this->addRow($row);
                 }
             } else {
-                $rowFound->sumRow($row, $copyMeta = true, $this->columnAggregationOperations);
+                $rowFound->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
 
                 // if the row to add has a subtable whereas the current row doesn't
                 // we simply add it (cloning the subtable)
@@ -494,7 +494,7 @@ class DataTable implements DataTableInterface
                 if (($idSubTable = $row->getIdSubDataTable()) !== null) {
                     $subTable = Manager::getInstance()->getTable($idSubTable);
                     $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
-                        = $this->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME];
+                        = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
                     $rowFound->sumSubtable($subTable);
                 }
             }
@@ -644,7 +644,8 @@ class DataTable implements DataTableInterface
                 $columns = array('label' => self::LABEL_SUMMARY_ROW) + $row->getColumns();
                 $this->addSummaryRow(new Row(array(Row::COLUMNS => $columns)));
             } else {
-                $this->summaryRow->sumRow($row, $enableCopyMetadata = false, $this->columnAggregationOperations);
+                $this->summaryRow->sumRow(
+                    $row, $enableCopyMetadata = false, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
             }
             return $this->summaryRow;
         }
@@ -762,7 +763,7 @@ class DataTable implements DataTableInterface
         foreach ($this->getRows() as $row) {
             $columns = $row->getColumns();
             foreach ($columns as $column => $value) {
-                if (strpos($column, $name) === 0) {
+                if (strpos($column, $namePrefix) === 0) {
                     $columnValues[] = $row->getColumn($column);
                 }
             }
@@ -1437,7 +1438,7 @@ class DataTable implements DataTableInterface
                     $table = new DataTable();
                     $table->setMaximumAllowedRows($maxSubtableRows);
                     $table->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
-                        = $this->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME];
+                        = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
                     $next->setSubtable($table);
                     // Summary row, has no metadata
                     $next->deleteMetadata();
@@ -1480,7 +1481,7 @@ class DataTable implements DataTableInterface
                         if ($existing === false) {
                             $result->addSummaryRow($copy);
                         } else {
-                            $existing->sumRow($copy, $copyMeta = true, $this->columnAggregationOperations);
+                            $existing->sumRow($copy, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
                         }
                     } else {
                         if ($labelColumn !== false) {

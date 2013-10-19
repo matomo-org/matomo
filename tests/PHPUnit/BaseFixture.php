@@ -383,7 +383,6 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
         // run the command
         exec($cmd, $output, $result);
-        echo "OUTPUT: ".implode("\n", $output);
         if ($result !== 0) {
             throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
         }

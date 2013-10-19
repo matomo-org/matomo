@@ -87,7 +87,7 @@ class GroupBy extends Filter
             } else {
                 // if we have already encountered this group by value, we add this row to the
                 // row that will be kept, and mark this one for deletion
-                $groupByRows[$groupByValue]->sumRow($row, $copyMeta = true, $table->metadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME]);
+                $groupByRows[$groupByValue]->sumRow($row, $copyMeta = true, $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
                 $nonGroupByRowIds[] = $rowId;
             }
         }

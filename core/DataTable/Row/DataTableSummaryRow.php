@@ -59,7 +59,7 @@ class DataTableSummaryRow extends Row
     private function sumTable($table)
     {
         foreach ($table->getRows() as $row) {
-            $this->sumRow($row, $enableCopyMetadata = false, $table->metadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME]);
+            $this->sumRow($row, $enableCopyMetadata = false, $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
         }
     }
 }
