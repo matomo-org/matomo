@@ -287,7 +287,8 @@ class Row
             $thisSubTable = new DataTable();
             $this->addSubtable($thisSubTable);
         }
-        $thisSubTable->setColumnAggregationOperations($subTable->getColumnAggregationOperations());
+        $thisSubTable->metadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME]
+            = $subTable->metadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME];
         $thisSubTable->addDataTable($subTable);
     }
 

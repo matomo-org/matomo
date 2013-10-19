@@ -175,7 +175,7 @@ class Visualization extends ViewDataTable
 
         // deal w/ table metadata
         if ($this->dataTable instanceof DataTable) {
-            $this->config->metadata = $this->dataTable->getAllTableMetadata();
+            $this->config->metadata = $this->dataTable->metadata;
 
             if (isset($this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
                 $this->config->report_last_updated_message = $this->makePrettyArchivedOnText();
@@ -372,7 +372,8 @@ class Visualization extends ViewDataTable
             !($this->dataTable instanceof DataTable\Map)
             && empty($javascriptVariablesToSet['totalRows'])
         ) {
-            $javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
+            $javascriptVariablesToSet['totalRows'] =
+                $this->dataTable->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME) ?: $this->dataTable->getRowsCount();
         }
 
         $deleteFromJavascriptVariables = array(

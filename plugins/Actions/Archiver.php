@@ -166,7 +166,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                 || $type == Action::TYPE_ACTION_NAME
             ) {
                 // for page urls and page titles, performance metrics exist and have to be aggregated correctly
-                $dataTable->setColumnAggregationOperations(self::$actionColumnAggregationOperations);
+                $dataTable->metadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME] = self::$actionColumnAggregationOperations;
             }
 
             $this->actionsTablesByType[$type] = $dataTable;

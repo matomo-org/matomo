@@ -49,7 +49,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, $table->getRowsCount());
         $this->assertEquals(2, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(4, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -65,7 +65,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(7, $table->getRowsCount());
         $this->assertEquals(2, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(8, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -76,13 +76,13 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $offset = 0;
         $limit = 10;
         $table = $this->getDataTableCount10();
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(10, $table->getRowsCount());
         $this->assertEquals(0, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -93,13 +93,13 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $offset = 5;
         $limit = 20;
         $table = $this->getDataTableCount10();
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(5, $table->getRowsCount());
         $this->assertEquals(5, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -114,7 +114,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(9, $table->getRowsCount());
         $this->assertEquals(1, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -130,7 +130,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $table->getRowsCount());
         $this->assertEquals(9, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -146,7 +146,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $table->getRowsCount());
         $this->assertEquals(9, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -162,7 +162,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, $table->getRowsCount());
         $this->assertEquals(8, $table->getFirstRow()->getColumn('idRow'));
         $this->assertEquals(9, $table->getLastRow()->getColumn('idRow'));
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -176,7 +176,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(0, $table->getRowsCount());
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
@@ -190,7 +190,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(0, $table->getRowsCount());
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME]);
     }
 
     /**
