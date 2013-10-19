@@ -168,7 +168,7 @@ abstract class ViewDataTable implements ViewInterface
      * @throws \Exception
      * @return string
      */
-    public static function getViewDataTableId()
+    protected static function getViewDataTableId()
     {
         $id = static::ID;
 
@@ -223,7 +223,7 @@ abstract class ViewDataTable implements ViewInterface
      *
      * @return array
      */
-    public static function getIdsWithInheritance($klass)
+    protected static function getIdsWithInheritance($klass)
     {
         $klasses = Common::getClassLineage($klass);
 
@@ -402,7 +402,7 @@ abstract class ViewDataTable implements ViewInterface
         return $result;
     }
 
-    public function getDefaultDataTableCssClass()
+    protected function getDefaultDataTableCssClass()
     {
         return 'dataTableViz' . Piwik::getUnnamespacedClassName(get_class($this));
     }
@@ -414,7 +414,7 @@ abstract class ViewDataTable implements ViewInterface
      * @param array $visualizations An array mapping visualization IDs w/ their associated classes.
      * @return array
      */
-    public static function getVisualizationInfoFor($visualizations)
+    protected static function getVisualizationInfoFor($visualizations)
     {
         $result = array();
 
@@ -430,7 +430,7 @@ abstract class ViewDataTable implements ViewInterface
      *
      * @return array
      */
-    public function getOverridableProperties()
+    protected function getOverridableProperties()
     {
         return array_merge($this->config->overridableProperties, $this->requestConfig->overridableProperties);
     }
