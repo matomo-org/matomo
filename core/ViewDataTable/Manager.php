@@ -37,9 +37,11 @@ class Manager
 
         $result = array();
         foreach ($klasses as $klass) {
-            if ('Piwik\\Plugin\\ViewDataTable' != $klass
-                && 'Piwik\\Plugin\\Visualization' != $klass) {
+            try {
                 $result[] = $klass::getViewDataTableId();
+            } catch (\Exception $e) {
+                // in case $klass did not define an id: eg Plugin\ViewDataTable
+                continue;
             }
         }
 
