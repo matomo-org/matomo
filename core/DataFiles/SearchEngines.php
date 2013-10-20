@@ -725,6 +725,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Plazoo
         'www.plazoo.com'                 => array('Plazoo', 'q'),
 
+        // PlusNetwork
+        'plusnetwork.com'                => array('PlusNetwork', 'q', '?q={k}'),
+
         // Poisk.Ru
         'poisk.ru'                       => array('Poisk.Ru', 'text', 'cgi-bin/poisk?text={k}', 'windows-1251'),
 
@@ -819,6 +822,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Suchnase
         'www.suchnase.de'                => array('Suchnase', 'q'),
+
+        // Surf Canyon
+        'surfcanyon.com'                 => array('Surf Canyon', 'q'),
 
         // talimba
         'www.talimba.com'                => array('talimba', 'search', 'index.php?page=search/web&search={k}'),
