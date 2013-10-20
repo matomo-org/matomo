@@ -184,6 +184,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.ask.com'                 => array('Ask'),
         '{}.search.ask.com'              => array('Ask'),
         'avira-int.ask.com'              => array('Ask'),
+        'searchqu.com'                   => array('Ask'),
 
         // Atlas
         'searchatlas.centrum.cz'         => array('Atlas', 'q', '?q={k}'),
@@ -212,6 +213,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         '{}.bing.com'                    => array('Bing'),
         'msnbc.msn.com'                  => array('Bing'),
         'dizionario.it.msn.com'          => array('Bing'),
+        'enciclopedia.it.msn.com'        => array('Bing'),
 
         // Bing Cache
         'cc.bingj.com'                   => array('Bing'),
@@ -489,6 +491,10 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Google Video
         'video.google.com'               => array('Google Video', 'q', 'search?q={k}&tbm=vid'),
+
+        // Google Scholar
+        'scholar.google.com'             => array('Google Scholar', 'q', 'scholar?q={k}'),
+        'scholar.google.{}'              => array('Google Scholar'),
 
         // Google Wireless Transcoder
         // - does not appear to execute JavaScript
