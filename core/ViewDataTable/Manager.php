@@ -47,6 +47,24 @@ class Manager
     }
 
     /**
+     * Returns an array mapping viewDataTable IDs with information necessary for adding the
+     * viewDataTables to the footer of DataTable views.
+     *
+     * @param array $viewDataTables An array mapping viewDataTable IDs w/ their associated classes.
+     * @return array
+     */
+    public static function getViewDataTableInfoFor($viewDataTables)
+    {
+        $result = array();
+
+        foreach ($viewDataTables as $vizId => $vizClass) {
+            $result[$vizId] = array('table_icon' => $vizClass::FOOTER_ICON, 'title' => $vizClass::FOOTER_ICON_TITLE);
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns all registered visualization classes. Uses the 'Visualization.getAvailable'
      * event to retrieve visualizations.
      *

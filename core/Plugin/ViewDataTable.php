@@ -24,7 +24,6 @@ use Piwik\Site;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
-use Piwik\ViewDataTable\Manager;
 use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
 use \Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -184,7 +183,7 @@ abstract class ViewDataTable implements ViewInterface
 
     public function isViewDataTableId($viewDataTableId)
     {
-        $myIds = Manager::getIdsWithInheritance(get_called_class());
+        $myIds = ViewDataTableManager::getIdsWithInheritance(get_called_class());
 
         return in_array($viewDataTableId, $myIds);
     }
@@ -332,7 +331,7 @@ abstract class ViewDataTable implements ViewInterface
 
             if ($this->config->show_non_core_visualizations) {
                 $nonCoreVisualizations    = ViewDataTableManager::getNonCoreViewDataTables();
-                $nonCoreVisualizationInfo = static::getVisualizationInfoFor($nonCoreVisualizations);
+                $nonCoreVisualizationInfo = ViewDataTableManager::getViewDataTableInfoFor($nonCoreVisualizations);
 
                 foreach ($nonCoreVisualizationInfo as $format => $info) {
                     $graphViewIcons['buttons'][] = array(
@@ -383,24 +382,6 @@ abstract class ViewDataTable implements ViewInterface
     protected function getDefaultDataTableCssClass()
     {
         return 'dataTableViz' . Piwik::getUnnamespacedClassName(get_class($this));
-    }
-
-    /**
-     * Returns an array mapping visualization IDs with information necessary for adding the
-     * visualizations to the footer of DataTable views.
-     *
-     * @param array $visualizations An array mapping visualization IDs w/ their associated classes.
-     * @return array
-     */
-    protected static function getVisualizationInfoFor($visualizations)
-    {
-        $result = array();
-
-        foreach ($visualizations as $vizId => $vizClass) {
-            $result[$vizId] = array('table_icon' => $vizClass::FOOTER_ICON, 'title' => $vizClass::FOOTER_ICON_TITLE);
-        }
-
-        return $result;
     }
 
     /**
