@@ -13,19 +13,68 @@ namespace Piwik;
 use Piwik\Db;
 
 /**
- * Logging utility.
- *
+ * Logging utility class.
+ * 
+ * Log entries are made with a message and log level. The logging utility will tag each
+ * log entry with the name of the plugin that's doing the logging. If no plugin is found,
+ * the name of the current class is used.
+ * 
  * You can log messages using one of the public static functions (eg, 'error', 'warning',
- * 'info', etc.).
+ * 'info', etc.). Messages logged with the **error** level will **always** be logged to
+ * the screen, regardless of whether the [log] log_writer config option includes the
+ * screen writer.
  *
  * Currently, Piwik supports the following logging backends:
  * - logging to the screen
  * - logging to a file
  * - logging to a database
  *
+ * ### Logging configuration
+ * 
  * The logging utility can be configured by manipulating the INI config options in the
  * [log] section.
- *
+ * 
+ * The following configuration options can be set:
+ * 
+ * - `log_writers[]`: This is an array of log writer IDs. The three log writers provided
+ *                    by Piwik core are **file**, **screen** and **database**. You can
+ *                    get more by installing plugins. The default value is **screen**.
+ * - `log_level`: The current log level. Can be **ERROR**, **WARN**, **INFO**, **DEBUG**,
+ *                or **VERBOSE**. Log entries made with a log level that is as or more
+ *                severe than the current log level will be outputted. Others will be
+ *                ignored. The default level is **WARN**.
+ * - `log_only_when_cli`: 0 or 1. If 1, logging is only enabled when Piwik is executed
+ *                        in the command line (for example, by the archive.php cron
+ *                        script). Default: 0.
+ * - `log_only_when_debug_parameter`: 0 or 1. If 1, logging is only enabled when the
+ *                                    `debug` query parameter is 1. Default: 0.
+ * - `logger_file_path`: For the file log writer, specifies the path to the log file
+ *                       to log to or a path to a directory to store logs in. If a
+ *                       directory, the file name is piwik.log. Can be relative to
+ *                       Piwik's root dir or an absolute path. Defaults to **tmp/logs**.
+ * 
+ * ### Custom message formatting
+ * 
+ * If you'd like to format log messages differently for different backends, you can use
+ * one of the `'Log.format...Message'` events. These events are fired when an object is
+ * logged. You can create your own custom class containing the information to log and
+ * listen to this event.
+ * 
+ * ### Custom log writers
+ * 
+ * New logging backends can be added via the `'Log.getAvailableWriters'` event. A log
+ * writer is just a callback that accepts log entry information (such as the message,
+ * level, etc.), so any backend could conceivably be used (including existing PSR3
+ * backends).
+ * 
+ * ### Examples
+ * 
+ * **Basic logging**
+ * 
+ *     Log::error("This log message will end up on the screen and in a file.")
+ *     Log::verbose("This log message uses %s params, but %s will only be called if the"
+ *                . " configured log level includes %s.", "sprintf", "sprintf", "verbose");
+ * 
  * @method \Piwik\Log getInstance()
  */
 class Log extends Singleton
