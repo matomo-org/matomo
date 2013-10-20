@@ -26,6 +26,7 @@ use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
 use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
+use \Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -353,7 +354,7 @@ abstract class ViewDataTable implements ViewInterface
             }
 
             if ($this->config->show_non_core_visualizations) {
-                $nonCoreVisualizations    = \Piwik\ViewDataTable::getNonCoreViewDataTables();
+                $nonCoreVisualizations    = ViewDataTableManager::getNonCoreViewDataTables();
                 $nonCoreVisualizationInfo = static::getVisualizationInfoFor($nonCoreVisualizations);
 
                 foreach ($nonCoreVisualizationInfo as $format => $info) {

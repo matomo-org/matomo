@@ -14,7 +14,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 use UserAgentParserEnhanced;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -33,37 +33,37 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getType($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrand($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getModel($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getOsFamilies($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getOsVersions($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowserFamilies($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowserVersions($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**

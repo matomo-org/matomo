@@ -102,7 +102,7 @@ class Goals extends \Piwik\Plugin
             'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Visualization.addVisualizations'        => 'getAvailableDataTableVisualizations'
+            'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations'
         );
         return $hooks;
     }

@@ -11,7 +11,7 @@
 namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  * @package VisitorInterest
@@ -30,12 +30,12 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getNumberOfVisitsPerVisitDuration($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getNumberOfVisitsPerPage($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -47,7 +47,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getNumberOfVisitsByVisitCount($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -59,6 +59,6 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getNumberOfVisitsByDaysSinceLast($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }

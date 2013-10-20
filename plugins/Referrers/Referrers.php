@@ -37,15 +37,15 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'              => 'archiveDay',
-            'ArchiveProcessor.Period.compute'           => 'archivePeriod',
-            'WidgetsList.addWidgets'                    => 'addWidgets',
-            'Menu.Reporting.addItems'                   => 'addMenus',
-            'Goals.getReportsWithGoalMetrics'           => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                     => 'getReportMetadata',
-            'API.getSegmentsMetadata'                   => 'getSegmentsMetadata',
-            'ViewDataTable.configure'                   => 'configureViewDataTable',
-            'Visualization.getDefaultTypeViewDataTable' => 'getDefaultTypeViewDataTable'
+            'ArchiveProcessor.Day.compute'    => 'archiveDay',
+            'ArchiveProcessor.Period.compute' => 'archivePeriod',
+            'WidgetsList.addWidgets'          => 'addWidgets',
+            'Menu.Reporting.addItems'         => 'addMenus',
+            'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'           => 'getReportMetadata',
+            'API.getSegmentsMetadata'         => 'getSegmentsMetadata',
+            'ViewDataTable.configure'         => 'configureViewDataTable',
+            'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable'
         );
         return $hooks;
     }

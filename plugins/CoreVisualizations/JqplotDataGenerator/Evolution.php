@@ -17,7 +17,7 @@ use Piwik\DataTable\Row;
 use Piwik\Menu\MenuMain;
 use Piwik\Plugins\CoreVisualizations\JqplotDataGenerator;
 use Piwik\Url;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.

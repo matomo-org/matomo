@@ -37,11 +37,11 @@ class DBStats extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
-            'Menu.Admin.addItems'                       => 'addMenu',
-            'TaskScheduler.getScheduledTasks'           => 'getScheduledTasks',
-            'ViewDataTable.configure'                   => 'configureViewDataTable',
-            'Visualization.getDefaultTypeViewDataTable' => 'getDefaultTypeViewDataTable'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Menu.Admin.addItems'             => 'addMenu',
+            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+            'ViewDataTable.configure'         => 'configureViewDataTable',
+            'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable'
         );
     }
 

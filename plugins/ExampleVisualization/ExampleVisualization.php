@@ -23,7 +23,7 @@ class ExampleVisualization extends Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Visualization.addVisualizations' => 'getAvailableVisualizations'
+            'ViewDataTable.addViewDataTable' => 'getAvailableVisualizations'
         );
     }
 
