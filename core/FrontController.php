@@ -18,9 +18,36 @@ use Piwik\Plugin\Controller;
 use Piwik\Session;
 
 /**
- * Front controller.
- * This is the class hit in the first place.
- * It dispatches the request to the right controller.
+ * This singleton dispatches requests to the appropriate plugin Controller.
+ * 
+ * Piwik uses this class for all requests that go through index.php. Plugins can
+ * use it to call controller actions of other plugins.
+ * 
+ * ### Examples
+ * 
+ * **Forwarding controller requests**
+ * 
+ *     public function myConfiguredRealtimeMap()
+ *     {
+ *         $_GET['changeVisitAlpha'] = false;
+ *         $_GET['removeOldVisits'] = false;
+ *         $_GET['showFooterMessage'] = false;
+ *         FrontController::getInstance()->dispatch('UserCountryMap', 'realtimeMap');
+ *     }
+ * 
+ * **Using other plugin controller actions**
+ * 
+ *     public function myPopupWithRealtimeMap()
+ *     {
+ *         $_GET['changeVisitAlpha'] = false;
+ *         $_GET['removeOldVisits'] = false;
+ *         $_GET['showFooterMessage'] = false;
+ *         $realtimeMap = FrontController::getInstance()->fetchDispatch('UserCountryMap', 'realtimeMap');
+ *         
+ *         $view = new View('@MyPlugin/myPopupWithRealtimeMap.twig');
+ *         $view->realtimeMap = $realtimeMap;
+ *         echo $realtimeMap->render();
+ *     }
  *
  * For a detailed explanation, see the documentation on http://piwik.org/docs/plugins/framework-overview
  *
@@ -38,15 +65,19 @@ class FrontController extends Singleton
     public static $enableDispatch = true;
 
     /**
-     * Dispatches the request to the right plugin and executes the requested action on the plugin controller.
+     * Executes the requested plugin controller action.
+     * 
+     * See also [fetchDispatch](#fetchDispatch).
+     * 
+     * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist,
+     *                                                     there is not enough permission, etc.
      *
-     * @throws Exception|\Piwik\PluginDeactivatedException in case the plugin doesn't exist, the action doesn't exist, there is not enough permission, etc.
-     *
-     * @param string $module
-     * @param string $action
-     * @param array $parameters
-     * @return void|mixed  The returned value of the calls, often nothing as the module print but don't return data
-     * @see fetchDispatch()
+     * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
+     * @param string $action The controller action name, eg, `'realtimeMap'`.
+     * @param array $parameters Array of parameters to pass to the controller action method.
+     * @return void|mixed The returned value of the call. Often nothing as most controller actions echo, but do not
+     *                    return data.
+     * @api
      */
     public function dispatch($module = null, $action = null, $parameters = null)
     {
@@ -113,18 +144,21 @@ class FrontController extends Singleton
     }
 
     /**
-     * Often plugins controller display stuff using echo/print.
-     * Using this function instead of dispatch() returns the output string form the actions calls.
-     *
-     * @param string $controllerName
-     * @param string $actionName
-     * @param array $parameters
-     * @return string
+     * Executes the requested plugin controller action and returns the data the action echos.
+     * 
+     * Note: If the plugin controller returns something, the return value is returned instead
+     * of whatever is in the output buffer.
+     * 
+     * @param string $module The name of the plugin whose controller to execute, eg, `'UserCountryMap'`.
+     * @param string $action The controller action name, eg, `'realtimeMap'`.
+     * @param array $parameters Array of parameters to pass to the controller action method.
+     * @return string The `echo`'d data or the return value of the controller action.
+     * @api
      */
-    public function fetchDispatch($controllerName = null, $actionName = null, $parameters = null)
+    public function fetchDispatch($module = null, $actionName = null, $parameters = null)
     {
         ob_start();
-        $output = $this->dispatch($controllerName, $actionName, $parameters);
+        $output = $this->dispatch($module, $actionName, $parameters);
         // if nothing returned we try to load something that was printed on the screen
         if (empty($output)) {
             $output = ob_get_contents();
@@ -426,7 +460,6 @@ class FrontController extends Singleton
         }
     }
 }
-
 
 /**
  * Exception thrown when the requested plugin is not activated in the config file
