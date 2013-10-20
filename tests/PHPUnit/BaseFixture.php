@@ -141,6 +141,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         $t->setForceVisitDateTime($dateTime);
 
         if ($defaultInit) {
+            $t->setTokenAuth(self::getTokenAuth());
             $t->setIp('156.5.3.2');
 
             // Optional tracking

@@ -177,7 +177,7 @@ class RankingQuery
     /**
      * This method can be used to get multiple groups in one go. For example, one might query
      * the top following pages, outlinks and downloads in one go by using log_action.type as
-     * the partition column and [TYPE_ACTION_URL, TYPE_OUTLINK, TYPE_DOWNLOAD] as the possible
+     * the partition column and [TYPE_PAGE_URL, TYPE_OUTLINK, TYPE_DOWNLOAD] as the possible
      * values.
      * When this method has been used, generate() returns as array that contains one array
      * per group of data.

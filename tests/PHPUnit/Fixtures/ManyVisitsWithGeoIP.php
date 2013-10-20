@@ -82,8 +82,8 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal);
         if ($doBulk) {
             $t->enableBulkTracking();
-            $t->setTokenAuth(self::getTokenAuth());
         }
+        $t->setTokenAuth(self::getTokenAuth());
         for ($i = 0; $i != $visitorCount; ++$i) {
             $t->setVisitorId( substr(md5($i + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
             if ($setIp) {

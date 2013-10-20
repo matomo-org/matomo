@@ -1,8 +1,9 @@
 <?php
-use Piwik\Config;
 use Piwik\Access;
+use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\Translate;
 
@@ -116,7 +117,7 @@ class Tracker_ActionTest extends DatabaseTestCase
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = '', $excludedQueryParameters = '', $timezone = null, $currency = null,
             $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
-        $this->assertEquals($filteredUrl[0], Action::excludeQueryParametersFromUrl($url, $idSite));
+        $this->assertEquals($filteredUrl[0], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
     public function getTestUrlsHashtag()
@@ -139,7 +140,7 @@ class Tracker_ActionTest extends DatabaseTestCase
      */
     public function testRemoveTrailingHashtag($url, $expectedUrl)
     {
-        $this->assertEquals(Action::reconstructNormalizedUrl($url, Action::$urlPrefixMap['http://']), $expectedUrl);
+        $this->assertEquals(PageUrl::reconstructNormalizedUrl($url, PageUrl::$urlPrefixMap['http://']), $expectedUrl);
     }
 
 
@@ -156,7 +157,7 @@ class Tracker_ActionTest extends DatabaseTestCase
             $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
             $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
             $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
-        $this->assertEquals($filteredUrl[1], Action::excludeQueryParametersFromUrl($url, $idSite));
+        $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
     /**
@@ -175,7 +176,7 @@ class Tracker_ActionTest extends DatabaseTestCase
             $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
             $group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
         API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
-        $this->assertEquals($filteredUrl[1], Action::excludeQueryParametersFromUrl($url, $idSite));
+        $this->assertEquals($filteredUrl[1], PageUrl::excludeQueryParametersFromUrl($url, $idSite));
     }
 
 
@@ -241,71 +242,71 @@ class Tracker_ActionTest extends DatabaseTestCase
                 'request'  => array('url' => 'http://example.org/'),
                 'expected' => array('name' => null,
                                     'url'  => 'http://example.org/',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             array(
                 'request'  => array('url' => 'http://example.org/', 'action_name' => 'Example.org Website'),
                 'expected' => array('name' => 'Example.org Website',
                                     'url'  => 'http://example.org/',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             array(
                 'request'  => array('url' => 'http://example.org/CATEGORY/'),
                 'expected' => array('name' => null,
                                     'url'  => 'http://example.org/CATEGORY/',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             array(
                 'request'  => array('url' => 'http://example.org/CATEGORY/TEST', 'action_name' => 'Example.org / Category / test /'),
                 'expected' => array('name' => 'Example.org/Category/test',
                                     'url'  => 'http://example.org/CATEGORY/TEST',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             array(
                 'request'  => array('url' => 'http://example.org/?2,123'),
                 'expected' => array('name' => null,
                                     'url'  => 'http://example.org/?2,123',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
 
             // empty request
             array(
                 'request'  => array(),
                 'expected' => array('name' => null, 'url' => '',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             array(
                 'request'  => array('name' => null, 'url' => "\n"),
                 'expected' => array('name' => null, 'url' => '',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             array(
                 'request'  => array('url'         => 'http://example.org/category/',
                                     'action_name' => 'custom name with/one delimiter/two delimiters/'),
                 'expected' => array('name' => 'custom name with/one delimiter/two delimiters',
                                     'url'  => 'http://example.org/category/',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             array(
                 'request'  => array('url'         => 'http://example.org/category/',
                                     'action_name' => 'http://custom action name look like url/'),
                 'expected' => array('name' => 'http:/custom action name look like url',
                                     'url'  => 'http://example.org/category/',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             // testing: delete tab, trimmed, not strtolowered
             array(
                 'request'  => array('url' => "http://example.org/category/test///test  wOw      "),
                 'expected' => array('name' => null,
                                     'url'  => 'http://example.org/category/test///test  wOw',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             // testing: inclusion of zero values in action name
             array(
                 'request'  => array('url' => "http://example.org/category/1/0/t/test"),
                 'expected' => array('name' => null,
                                     'url'  => 'http://example.org/category/1/0/t/test',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             // testing: action name ("Test &hellip;") - expect decoding of some html entities
             array(
@@ -313,7 +314,7 @@ class Tracker_ActionTest extends DatabaseTestCase
                                     'action_name' => "Test &hellip;"),
                 'expected' => array('name' => 'Test …',
                                     'url'  => 'http://example.org/ACTION/URL',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             // testing: action name ("Special &amp; chars") - expect no conversion of html special chars
             array(
@@ -321,7 +322,7 @@ class Tracker_ActionTest extends DatabaseTestCase
                                     'action_name' => "Special &amp; chars"),
                 'expected' => array('name' => 'Special &amp; chars',
                                     'url'  => 'http://example.org/ACTION/URL',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             // testing: action name ("Tést") - handle wide character
             array(
@@ -329,7 +330,7 @@ class Tracker_ActionTest extends DatabaseTestCase
                                     'action_name' => "Tést"),
                 'expected' => array('name' => 'Tést',
                                     'url'  => 'http://example.org/ACTION/URL',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             // testing: action name ("Tést") - handle UTF-8 byte sequence
             array(
@@ -337,7 +338,7 @@ class Tracker_ActionTest extends DatabaseTestCase
                                     'action_name' => "T\xc3\xa9st"),
                 'expected' => array('name' => 'Tést',
                                     'url'  => 'http://example.org/ACTION/URL',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
             // testing: action name ("Tést") - invalid UTF-8 (e.g., ISO-8859-1) is not handled
             array(
@@ -345,7 +346,7 @@ class Tracker_ActionTest extends DatabaseTestCase
                                     'action_name' => "T\xe9st"),
                 'expected' => array('name' => version_compare(PHP_VERSION, '5.2.5') === -1 ? 'T\xe9st' : 'Tést',
                                     'url'  => 'http://example.org/ACTION/URL',
-                                    'type' => Action::TYPE_ACTION_URL),
+                                    'type' => Action::TYPE_PAGE_URL),
             ),
         );
     }

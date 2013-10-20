@@ -12,11 +12,14 @@ namespace Piwik\Plugins\Actions;
 
 use PDOStatement;
 use Piwik\Config;
+use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 use Zend_Db_Statement;
 
 /**
@@ -26,13 +29,12 @@ use Zend_Db_Statement;
  *
  * @package Actions
  */
-
 class ArchivingHelper
 {
     const OTHERS_ROW_KEY = '';
 
     /**
-     * FIXME See FIXME related to this function at Archiver::archiveDay.
+     * Ideally this should use the DataArray object instead of custom data structure
      *
      * @param Zend_Db_Statement|PDOStatement $query
      * @param string|bool $fieldQueried
@@ -44,7 +46,7 @@ class ArchivingHelper
         $rowsProcessed = 0;
         while ($row = $query->fetch()) {
             if (empty($row['idaction'])) {
-                $row['type'] = ($fieldQueried == 'idaction_url' ? Action::TYPE_ACTION_URL : Action::TYPE_ACTION_NAME);
+                $row['type'] = ($fieldQueried == 'idaction_url' ? Action::TYPE_PAGE_URL : Action::TYPE_PAGE_TITLE);
                 // This will be replaced with 'X not defined' later
                 $row['name'] = '';
                 // Yes, this is kind of a hack, so we don't mix 'page url not defined' with 'page title not defined' etc.
@@ -59,13 +61,13 @@ class ArchivingHelper
             // eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
             $url = '';
             if ($row['type'] == Action::TYPE_SITE_SEARCH
-                || $row['type'] == Action::TYPE_ACTION_NAME
+                || $row['type'] == Action::TYPE_PAGE_TITLE
             ) {
                 $url = null;
             } elseif (!empty($row['name'])
                 && $row['name'] != DataTable::LABEL_SUMMARY_ROW
             ) {
-                $url = Action::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
+                $url = PageUrl::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
             }
 
             if (isset($row['name'])
@@ -121,8 +123,8 @@ class ArchivingHelper
                 }
             }
 
-            if ($row['type'] != Action::TYPE_ACTION_URL
-                && $row['type'] != Action::TYPE_ACTION_NAME
+            if ($row['type'] != Action::TYPE_PAGE_URL
+                && $row['type'] != Action::TYPE_PAGE_TITLE
             ) {
                 // only keep performance metrics when they're used (i.e. for URLs and page titles)
                 if (array_key_exists(Metrics::INDEX_PAGE_SUM_TIME_GENERATION, $row)) {
@@ -172,6 +174,91 @@ class ArchivingHelper
         // just to make sure php copies the last $actionRow in the $parentTable array
         $actionRow =& $actionsTablesByType;
         return $rowsProcessed;
+    }
+
+    public static function removeEmptyColumns($dataTable)
+    {
+        // Delete all columns that have a value of zero
+        $dataTable->filter('ColumnDelete', array(
+                                                $columnsToRemove = array(Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS),
+                                                $columnsToKeep = array(),
+                                                $deleteIfZeroOnly = true
+                                           ));
+    }
+
+    /**
+     * For rows which have subtables (eg. directories with sub pages),
+     * deletes columns which don't make sense when all values of sub pages are summed.
+     *
+     * @param $dataTable DataTable
+     */
+    public static function deleteInvalidSummedColumnsFromDataTable($dataTable)
+    {
+        foreach ($dataTable->getRows() as $id => $row) {
+            if (($idSubtable = $row->getIdSubDataTable()) !== null
+                || $id === DataTable::ID_SUMMARY_ROW
+            ) {
+                if ($idSubtable !== null) {
+                    $subtable = Manager::getInstance()->getTable($idSubtable);
+                    self::deleteInvalidSummedColumnsFromDataTable($subtable);
+                }
+
+                if ($row instanceof DataTableSummaryRow) {
+                    $row->recalculate();
+                }
+
+                foreach (Archiver::$invalidSummedColumnNameToDeleteFromDayArchive as $name) {
+                    $row->deleteColumn($name);
+                }
+            }
+        }
+
+        // And this as well
+        ArchivingHelper::removeEmptyColumns($dataTable);
+    }
+
+    /**
+     * Returns the limit to use with RankingQuery for this plugin.
+     *
+     * @return int
+     */
+    public static function getRankingQueryLimit()
+    {
+        $configGeneral = Config::getInstance()->General;
+        $configLimit = $configGeneral['archiving_ranking_query_row_limit'];
+        $limit = $configLimit == 0 ? 0 : max(
+            $configLimit,
+            $configGeneral['datatable_archiving_maximum_rows_actions'],
+            $configGeneral['datatable_archiving_maximum_rows_subtable_actions']
+        );
+
+        // FIXME: This is a quick fix for #3482. The actual cause of the bug is that
+        // the site search & performance metrics additions to
+        // ArchivingHelper::updateActionsTableWithRowQuery expect every
+        // row to have 'type' data, but not all of the SQL queries that are run w/o
+        // ranking query join on the log_action table and thus do not select the
+        // log_action.type column.
+        //
+        // NOTES: Archiving logic can be generalized as follows:
+        // 0) Do SQL query over log_link_visit_action & join on log_action to select
+        //    some metrics (like visits, hits, etc.)
+        // 1) For each row, cache the action row & metrics. (This is done by
+        //    updateActionsTableWithRowQuery for result set rows that have
+        //    name & type columns.)
+        // 2) Do other SQL queries for metrics we can't put in the first query (like
+        //    entry visits, exit vists, etc.) w/o joining log_action.
+        // 3) For each row, find the cached row by idaction & add the new metrics to
+        //    it. (This is done by updateActionsTableWithRowQuery for result set rows
+        //    that DO NOT have name & type columns.)
+        //
+        // The site search & performance metrics additions expect a 'type' all the time
+        // which breaks the original pre-rankingquery logic. Ranking query requires a
+        // join, so the bug is only seen when ranking query is disabled.
+        if ($limit === 0) {
+            $limit = 100000;
+        }
+        return $limit;
+
     }
 
     /**
@@ -306,7 +393,7 @@ class ArchivingHelper
      *
      * @param string $name action name
      * @param int $type action type
-     * @param int $urlPrefix url prefix (only used for TYPE_ACTION_URL)
+     * @param int $urlPrefix url prefix (only used for TYPE_PAGE_URL)
      * @return array of exploded elements from $name
      */
     static public function getActionExplodedNames($name, $type, $urlPrefix = null)
@@ -354,14 +441,14 @@ class ArchivingHelper
             }
         }
 
-        if ($type == Action::TYPE_ACTION_NAME) {
+        if ($type == Action::TYPE_PAGE_TITLE) {
             $categoryDelimiter = self::$actionTitleCategoryDelimiter;
         } else {
             $categoryDelimiter = self::$actionUrlCategoryDelimiter;
         }
 
         if ($isUrl) {
-            $urlFragment = Action::processUrlFragment($urlFragment);
+            $urlFragment = PageUrl::processUrlFragment($urlFragment);
             if (!empty($urlFragment)) {
                 $name .= '#' . $urlFragment;
             }
@@ -389,7 +476,7 @@ class ArchivingHelper
         // we are careful to prefix the page URL / name with some value
         // so that if a page has the same name as a category
         // we don't merge both entries
-        if ($type != Action::TYPE_ACTION_NAME) {
+        if ($type != Action::TYPE_PAGE_TITLE) {
             $lastPageName = '/' . $lastPageName;
         } else {
             $lastPageName = ' ' . $lastPageName;
@@ -434,7 +521,7 @@ class ArchivingHelper
             self::$defaultActionNameWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageName'));
             self::$defaultActionUrlWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
         }
-        if ($type == Action::TYPE_ACTION_NAME) {
+        if ($type == Action::TYPE_PAGE_TITLE) {
             return self::$defaultActionNameWhenNotDefined;
         }
         return self::$defaultActionUrlWhenNotDefined;

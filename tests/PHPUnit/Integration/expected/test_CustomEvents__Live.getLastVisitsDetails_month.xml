@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>2</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		<visitorId>71d675ee7ed7fe75</visitorId>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<searches>0</searches>
+		<actions>4</actions>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>14</pageId>
+				
+				<timeSpent>1320</timeSpent>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>15</pageId>
+				
+				<timeSpent>1320</timeSpent>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>16</pageId>
+				
+				<timeSpent>120</timeSpent>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>17</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName1>Visit Scope Custom var</customVariableName1>
+				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
+			</row>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
+		
+		
+		
+		<visitDuration>2761</visitDuration>
+		<visitDurationPretty>46 min 1s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		<visitorId>71d675ee7ed7fe75</visitorId>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<searches>0</searches>
+		<actions>13</actions>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>1</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>2</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>3</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>4</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>30</timeSpent>
+				<timeSpentPretty>30s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>5</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>30</timeSpent>
+				<timeSpentPretty>30s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>6</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>1</timeSpent>
+				<timeSpentPretty>1s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>7</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>1499</timeSpent>
+				<timeSpentPretty>24 min 59s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>8</pageId>
+				
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>9</pageId>
+				
+				<timeSpent>120</timeSpent>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>10</pageId>
+				
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>11</pageId>
+				
+				<timeSpent>120</timeSpent>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>12</pageId>
+				
+				<timeSpent>1320</timeSpent>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>13</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName1>Visit Scope Custom var</customVariableName1>
+				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
+			</row>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
+		
+		
+		
+		<visitDuration>3541</visitDuration>
+		<visitDurationPretty>59 min 1s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>4</idVisit>
+		<visitIp>111.1.1.1</visitIp>
+		<visitorId>3e5bba0b9eea4018</visitorId>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<searches>0</searches>
+		<actions>4</actions>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>31</pageId>
+				
+				<timeSpent>1320</timeSpent>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>32</pageId>
+				
+				<timeSpent>1320</timeSpent>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>33</pageId>
+				
+				<timeSpent>120</timeSpent>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>34</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName1>Visit Scope Custom var</customVariableName1>
+				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
+			</row>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
+		
+		
+		
+		<visitDuration>2761</visitDuration>
+		<visitDurationPretty>46 min 1s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>director</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/director.gif</pluginIcon>
+				<pluginName>director</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>3</idVisit>
+		<visitIp>111.1.1.1</visitIp>
+		<visitorId>3e5bba0b9eea4018</visitorId>
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<searches>0</searches>
+		<actions>13</actions>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>18</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>19</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>20</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>21</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>30</timeSpent>
+				<timeSpentPretty>30s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>22</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>30</timeSpent>
+				<timeSpentPretty>30s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>23</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>1</timeSpent>
+				<timeSpentPretty>1s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/webradio</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				<pageId>24</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
+						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<timeSpent>1499</timeSpent>
+				<timeSpentPretty>24 min 59s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>25</pageId>
+				
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>26</pageId>
+				
+				<timeSpent>120</timeSpent>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>27</pageId>
+				
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>28</pageId>
+				
+				<timeSpent>120</timeSpent>
+				<timeSpentPretty>2 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>29</pageId>
+				
+				<timeSpent>1320</timeSpent>
+				<timeSpentPretty>22 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/movies</url>
+				<pageTitle />
+				<pageIdAction>2</pageIdAction>
+				<pageId>30</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName1>Visit Scope Custom var</customVariableName1>
+				<customVariableValue1>should not appear in events report Bis</customVariableValue1>
+			</row>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
+		
+		
+		
+		<visitDuration>3541</visitDuration>
+		<visitDurationPretty>59 min 1s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>director</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/director.gif</pluginIcon>
+				<pluginName>director</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+</result>

@@ -433,7 +433,7 @@ class Visit implements VisitInterface
             'visit_exit_idaction_url'   => (int)$idActionUrl,
             'visit_exit_idaction_name'  => (int)$idActionName,
             'visit_total_actions'       => in_array($actionType,
-                    array(Action::TYPE_ACTION_URL,
+                    array(Action::TYPE_PAGE_URL,
                           Action::TYPE_DOWNLOAD,
                           Action::TYPE_OUTLINK,
                           Action::TYPE_SITE_SEARCH))

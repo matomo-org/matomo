@@ -165,7 +165,7 @@ class Actions extends \Piwik\Plugin
     {
         $actionType = $this->guessActionTypeFromSegment($segmentName);
 
-        if ($actionType == Action::TYPE_ACTION_URL) {
+        if ($actionType == Action::TYPE_PAGE_URL) {
             // for urls trim protocol and www because it is not recorded in the db
             $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
@@ -632,10 +632,10 @@ class Actions extends \Piwik\Plugin
     protected function guessActionTypeFromSegment($segmentName)
     {
         if (stripos($segmentName, 'pageurl') !== false) {
-            $actionType = Action::TYPE_ACTION_URL;
+            $actionType = Action::TYPE_PAGE_URL;
             return $actionType;
         } elseif (stripos($segmentName, 'pagetitle') !== false) {
-            $actionType = Action::TYPE_ACTION_NAME;
+            $actionType = Action::TYPE_PAGE_TITLE;
             return $actionType;
         } elseif (stripos($segmentName, 'sitesearch') !== false) {
             $actionType = Action::TYPE_SITE_SEARCH;

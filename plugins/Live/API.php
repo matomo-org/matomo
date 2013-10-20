@@ -28,8 +28,8 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tracker\Action;
-use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
+use Piwik\Tracker;
 
 /**
  * @see plugins/Live/Visitor.php
@@ -841,7 +841,7 @@ class API extends \Piwik\Plugin\API
             }
 
             // Reconstruct url from prefix
-            $actionDetail['url'] = Action::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
+            $actionDetail['url'] = Tracker\PageUrl::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
             unset($actionDetail['url_prefix']);
 
             // Set the time spent for this action (which is the timeSpentRef of the next action)

@@ -38,7 +38,6 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
     private function trackVisits()
     {
         $tracker = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $tracker->setTokenAuth(self::getTokenAuth());
         $tracker->enableBulkTracking();
         
         $tracker->setIp('156.5.3.1');

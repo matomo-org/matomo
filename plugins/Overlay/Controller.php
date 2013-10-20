@@ -20,6 +20,7 @@ use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -57,12 +58,12 @@ class Controller extends \Piwik\Plugin\Controller
         $currentUrl = Common::getRequestVar('currentUrl');
         $currentUrl = Common::unsanitizeInputValue($currentUrl);
 
-        $normalizedCurrentUrl = Action::excludeQueryParametersFromUrl($currentUrl, $idSite);
+        $normalizedCurrentUrl = PageUrl::excludeQueryParametersFromUrl($currentUrl, $idSite);
         $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
 
         // load the appropriate row of the page urls report using the label filter
         ArchivingHelper::reloadConfig();
-        $path = ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_ACTION_URL);
+        $path = ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_PAGE_URL);
         $path = array_map('urlencode', $path);
         $label = implode('>', $path);
         $request = new Request(

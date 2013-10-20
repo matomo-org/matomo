@@ -74,7 +74,7 @@ class Referrer
             $referrerUrl = '';
         }
 
-        $currentUrl = Action::cleanupUrl($currentUrl);
+        $currentUrl = PageUrl::cleanupUrl($currentUrl);
 
         $this->referrerUrl = $referrerUrl;
         $this->referrerUrlParse = @parse_url($this->referrerUrl);

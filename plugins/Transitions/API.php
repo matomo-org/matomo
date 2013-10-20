@@ -30,6 +30,7 @@ use Piwik\Segment;
 use Piwik\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 
 /**
  * @package Transitions
@@ -153,7 +154,7 @@ class API extends \Piwik\Plugin\API
 
                 if ($id < 0) {
                     $unknown = ArchivingHelper::getUnknownActionName(
-                        Action::TYPE_ACTION_NAME);
+                        Action::TYPE_PAGE_TITLE);
 
                     if (trim($actionName) == trim($unknown)) {
                         $id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
@@ -233,7 +234,7 @@ class API extends \Piwik\Plugin\API
         $isTitle = ($actionType == 'title');
         if (!$isTitle) {
             // specific setup for page urls
-            $types[Action::TYPE_ACTION_URL] = 'followingPages';
+            $types[Action::TYPE_PAGE_URL] = 'followingPages';
             $dimension = 'IF( idaction_url IS NULL, idaction_name, idaction_url )';
             // site search referrers are logged with url=NULL
             // when we find one, we have to join on name
@@ -241,7 +242,7 @@ class API extends \Piwik\Plugin\API
             $selects = array('log_action.name', 'log_action.url_prefix', 'log_action.type');
         } else {
             // specific setup for page titles:
-            $types[Action::TYPE_ACTION_NAME] = 'followingPages';
+            $types[Action::TYPE_PAGE_TITLE] = 'followingPages';
             // join log_action on name and url and pick depending on url type
             // the table joined on url is log_action1
             $joinLogActionColumn = array('idaction_url', 'idaction_name');
@@ -250,7 +251,7 @@ class API extends \Piwik\Plugin\API
 					' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.idaction
 					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_ACTION_URL . ' THEN log_action2.idaction
+					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.idaction
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.idaction
 				END
@@ -260,7 +261,7 @@ class API extends \Piwik\Plugin\API
 					' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.name
 					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_ACTION_URL . ' THEN log_action2.name
+					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.name
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.name
 				END AS `name`',
@@ -268,7 +269,7 @@ class API extends \Piwik\Plugin\API
                     ' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.type
 					' /* following page view: use page title */ . '
-					WHEN log_action1.type = ' . Action::TYPE_ACTION_URL . ' THEN log_action2.type
+					WHEN log_action1.type = ' . Action::TYPE_PAGE_URL . ' THEN log_action2.type
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.type
 				END AS `type`',
@@ -415,12 +416,12 @@ class API extends \Piwik\Plugin\API
         $rankingQuery->partitionResultIntoMultipleGroups('action_partition', array(0, 1, 2));
 
         $type = $this->getColumnTypeSuffix($actionType);
-        $mainActionType = Action::TYPE_ACTION_URL;
+        $mainActionType = Action::TYPE_PAGE_URL;
         $dimension = 'idaction_url_ref';
         $isTitle = $actionType == 'title';
 
         if ($isTitle) {
-            $mainActionType = Action::TYPE_ACTION_NAME;
+            $mainActionType = Action::TYPE_PAGE_TITLE;
             $dimension = 'idaction_name_ref';
         }
 
@@ -504,13 +505,13 @@ class API extends \Piwik\Plugin\API
             $label = $pageRecord['name'];
             if (empty($label)) {
                 $label = ArchivingHelper::getUnknownActionName(
-                    Action::TYPE_ACTION_NAME);
+                    Action::TYPE_PAGE_TITLE);
             }
             return $label;
         } else if ($this->returnNormalizedUrls) {
             return $pageRecord['name'];
         } else {
-            return Action::reconstructNormalizedUrl(
+            return PageUrl::reconstructNormalizedUrl(
                 $pageRecord['name'], $pageRecord['url_prefix']);
         }
     }

@@ -79,6 +79,7 @@ class PiwikTracker
         $this->plugins = false;
         $this->visitorCustomVar = false;
         $this->pageCustomVar = false;
+        $this->eventCustomVar = false;
         $this->customData = false;
         $this->forcedDatetime = false;
         $this->token_auth = false;
@@ -185,7 +186,7 @@ class PiwikTracker
      * @param int $id Custom variable slot ID from 1-5
      * @param string $name Custom variable name
      * @param string $value Custom variable value
-     * @param string $scope Custom variable scope. Possible values: visit, page
+     * @param string $scope Custom variable scope. Possible values: visit, page, event
      * @throws Exception
      */
     public function setCustomVariable($id, $name, $value, $scope = 'visit')
@@ -195,6 +196,8 @@ class PiwikTracker
         }
         if ($scope == 'page') {
             $this->pageCustomVar[$id] = array($name, $value);
+        } elseif($scope == 'event') {
+            $this->eventCustomVar[$id] = array($name, $value);
         } elseif ($scope == 'visit') {
             $this->visitorCustomVar[$id] = array($name, $value);
         } else {
@@ -203,13 +206,12 @@ class PiwikTracker
     }
 
     /**
-     * Returns the currently assigned Custom Variable stored in a first party cookie.
+     * Returns the currently assigned Custom Variable.
      *
-     * This function will only work if the user is initiating the current request, and his cookies
-     * can be read by PHP from the $_COOKIE array.
+     * If scope is 'visit', it will attempt to read the value set in the first party cookie created by Piwik Tracker ($_COOKIE array).
      *
      * @param int $id Custom Variable integer index to fetch from cookie. Should be a value from 1 to 5
-     * @param string $scope Custom variable scope. Possible values: visit, page
+     * @param string $scope Custom variable scope. Possible values: visit, page, event
      *
      * @throws Exception
      * @return mixed An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue ) or false
@@ -219,6 +221,8 @@ class PiwikTracker
     {
         if ($scope == 'page') {
             return isset($this->pageCustomVar[$id]) ? $this->pageCustomVar[$id] : false;
+        } elseif ($scope == 'event') {
+            return  isset($this->eventCustomVar[$id]) ? $this->eventCustomVar[$id] : false;
         } else if ($scope != 'visit') {
             throw new Exception("Invalid 'scope' parameter value");
         }
@@ -362,6 +366,18 @@ class PiwikTracker
     public function doTrackPageView($documentTitle)
     {
         $url = $this->getUrlTrackPageView($documentTitle);
+        return $this->sendRequest($url);
+    }
+
+    /**
+     * Tracks a page view
+     *
+     * @param string $documentTitle Page title as it will appear in the Actions > Page titles report
+     * @return mixed Response string or true if using bulk requests.
+     */
+    public function doTrackEvent($category, $action, $name = false, $value = false)
+    {
+        $url = $this->getUrlTrackEvent($category, $action, $name, $value);
         return $this->sendRequest($url);
     }
 
@@ -626,6 +642,38 @@ class PiwikTracker
         $url = $this->getRequest($this->idSite);
         if (strlen($documentTitle) > 0) {
             $url .= '&action_name=' . urlencode($documentTitle);
+        }
+        return $url;
+    }
+
+    /**
+     * Builds URL to track a custom event.
+     *
+     * @see doTrackEvent()
+     * @param string $category (optional) The Event Category (Videos, Music, Games...)
+     * @param string $action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
+     * @param string $name The Event's object Name (a particular Movie name, or Song name, or File name...)
+     * @param float $value The Event's value
+     * @return string URL to piwik.php with all parameters set to track the pageview
+     */
+    public function getUrlTrackEvent($category, $action, $name = false, $value = false)
+    {
+        $url = $this->getRequest($this->idSite);
+        if(strlen($category) == 0) {
+            throw new Exception("You must specify an Event Category name (Music, Videos, Games...).");
+        }
+        if(strlen($action) == 0) {
+            throw new Exception("You must specify an Event action (click, view, add...).");
+        }
+
+        $url .= '&e_c=' . urlencode($category);
+        $url .= '&e_a=' . urlencode($action);
+
+        if(strlen($name) > 0) {
+            $url .= '&e_n=' . urlencode($name);
+        }
+        if(strlen($value) > 0) {
+            $url .= '&e_v=' . $value;
         }
         return $url;
     }
@@ -1061,6 +1109,7 @@ class PiwikTracker
             (!empty($this->customData) ? '&data=' . $this->customData : '') .
             (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '') .
             (!empty($this->pageCustomVar) ? '&cvar=' . urlencode(json_encode($this->pageCustomVar)) : '') .
+            (!empty($this->eventCustomVar) ? '&e_cvar=' . urlencode(json_encode($this->eventCustomVar)) : '') .
             (!empty($this->generationTime) ? '&gt_ms=' . ((int)$this->generationTime) : '') .
 
             // URL parameters
@@ -1089,6 +1138,7 @@ class PiwikTracker
             $this->DEBUG_APPEND_URL;
         // Reset page level custom variables after this page view
         $this->pageCustomVar = false;
+        $this->eventCustomVar = false;
 
         return $url;
     }
