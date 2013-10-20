@@ -169,19 +169,19 @@ class UserSettings extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'               => 'archiveDay',
-            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
-            'WidgetsList.addWidgets'                     => 'addWidgets',
-            'Menu.Reporting.addItems'                    => 'addMenu',
-            'API.getReportMetadata'                      => 'getReportMetadata',
-            'API.getSegmentsMetadata'                    => 'getSegmentsMetadata',
-            'ViewDataTable.configure'                    => 'configureViewDataTable',
-            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
+            'ArchiveProcessor.Day.compute'              => 'archiveDay',
+            'ArchiveProcessor.Period.compute'           => 'archivePeriod',
+            'WidgetsList.addWidgets'                    => 'addWidgets',
+            'Menu.Reporting.addItems'                   => 'addMenu',
+            'API.getReportMetadata'                     => 'getReportMetadata',
+            'API.getSegmentsMetadata'                   => 'getSegmentsMetadata',
+            'ViewDataTable.configure'                   => 'configureViewDataTable',
+            'Visualization.getDefaultTypeViewDataTable' => 'getDefaultTypeViewDataTable'
         );
         return $hooks;
     }
 
-    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    public function getDefaultTypeViewDataTable(&$defaultViewTypes)
     {
         $defaultViewTypes['UserSettings.getBrowserType'] = Pie::ID;
     }

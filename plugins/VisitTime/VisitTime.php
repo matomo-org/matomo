@@ -35,15 +35,15 @@ class VisitTime extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'               => 'archiveDay',
-            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
-            'WidgetsList.addWidgets'                     => 'addWidgets',
-            'Menu.Reporting.addItems'                    => 'addMenu',
-            'Goals.getReportsWithGoalMetrics'            => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                      => 'getReportMetadata',
-            'API.getSegmentsMetadata'                    => 'getSegmentsMetadata',
-            'ViewDataTable.configure'                    => 'configureViewDataTable',
-            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
+            'ArchiveProcessor.Day.compute'              => 'archiveDay',
+            'ArchiveProcessor.Period.compute'           => 'archivePeriod',
+            'WidgetsList.addWidgets'                    => 'addWidgets',
+            'Menu.Reporting.addItems'                   => 'addMenu',
+            'Goals.getReportsWithGoalMetrics'           => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'                     => 'getReportMetadata',
+            'API.getSegmentsMetadata'                   => 'getSegmentsMetadata',
+            'ViewDataTable.configure'                   => 'configureViewDataTable',
+            'Visualization.getDefaultTypeViewDataTable' => 'getDefaultTypeViewDataTable'
         );
         return $hooks;
     }
@@ -126,7 +126,7 @@ class VisitTime extends \Piwik\Plugin
         );
     }
 
-    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    public function getDefaultTypeViewDataTable(&$defaultViewTypes)
     {
         $defaultViewTypes['VisitTime.getVisitInformationPerServerTime'] = Bar::ID;
         $defaultViewTypes['VisitTime.getVisitInformationPerLocalTime']  = Bar::ID;

@@ -31,13 +31,13 @@ class Live extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
-            'WidgetsList.addWidgets'                     => 'addWidget',
-            'Menu.Reporting.addItems'                    => 'addMenu',
-            'ViewDataTable.configure'                    => 'configureViewDataTable',
-            'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
-            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
+            'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
+            'WidgetsList.addWidgets'                    => 'addWidget',
+            'Menu.Reporting.addItems'                   => 'addMenu',
+            'ViewDataTable.configure'                   => 'configureViewDataTable',
+            'Translate.getClientSideTranslationKeys'    => 'getClientSideTranslationKeys',
+            'Visualization.getDefaultTypeViewDataTable' => 'getDefaultTypeViewDataTable'
         );
     }
 
@@ -85,7 +85,7 @@ class Live extends \Piwik\Plugin
         }
     }
 
-    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    public function getDefaultTypeViewDataTable(&$defaultViewTypes)
     {
         $defaultViewTypes['Live.getLastVisitsDetails'] = VisitorLog::ID;
     }

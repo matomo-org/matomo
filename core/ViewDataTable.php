@@ -52,7 +52,7 @@ class ViewDataTable
 {
 
     /**
-     * Cache for getDefaultViewTypeForReports result.
+     * Cache for getDefaultTypeViewDataTable result.
      *
      * @var array
      */
@@ -197,7 +197,7 @@ class ViewDataTable
      */
     private static function getDefaultViewTypeForReport($apiAction)
     {
-        $defaultViewTypes = self::getDefaultViewTypeForReports();
+        $defaultViewTypes = self::getDefaultTypeViewDataTable();
         return isset($defaultViewTypes[$apiAction]) ? $defaultViewTypes[$apiAction] : false;
     }
 
@@ -205,7 +205,7 @@ class ViewDataTable
      * Returns a list of default viewDataTables ID to use when determining which visualization to use for multiple
      * reports.
      */
-    private static function getDefaultViewTypeForReports()
+    private static function getDefaultTypeViewDataTable()
     {
         if (null === self::$defaultViewTypes) {
             self::$defaultViewTypes = array();
@@ -217,7 +217,7 @@ class ViewDataTable
              *
              * Example:
              * ```
-             * public function getDefaultViewTypeForReports(&$defaultViewTypes)
+             * public function getDefaultTypeViewDataTable(&$defaultViewTypes)
              * {
              *     $defaultViewTypes['Referrers.getSocials']       = HtmlTable::ID;
              *     $defaultViewTypes['Referrers.getUrlsForSocial'] = Pie::ID;
@@ -225,7 +225,7 @@ class ViewDataTable
              * }
              * ```
              */
-            Piwik::postEvent('Visualization.getDefaultViewTypeForReports', array(&self::$defaultViewTypes));
+            Piwik::postEvent('Visualization.getDefaultTypeViewDataTable', array(&self::$defaultViewTypes));
         }
 
         return self::$defaultViewTypes;
