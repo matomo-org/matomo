@@ -13,6 +13,11 @@ namespace Piwik\ViewDataTable;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Bar;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
+use Piwik\Plugins\Goals\Visualizations\Goals;
 
 /**
  * ViewDataTable Manager.
@@ -139,17 +144,17 @@ class Manager
 
         if ($view->config->show_table) {
             $normalViewIcons['buttons'][] = array(
-                'id'    => 'table',
-                'title' => Piwik::translate('General_DisplaySimpleTable'),
-                'icon'  => 'plugins/Zeitgeist/images/table.png',
+                'id'    => HtmlTable::ID,
+                'title' => Piwik::translate(HtmlTable::FOOTER_ICON_TITLE),
+                'icon'  => HtmlTable::FOOTER_ICON,
             );
         }
 
         if ($view->config->show_table_all_columns) {
             $normalViewIcons['buttons'][] = array(
-                'id'    => 'tableAllColumns',
-                'title' => Piwik::translate('General_DisplayTableWithMoreMetrics'),
-                'icon'  => 'plugins/Zeitgeist/images/table_more.png'
+                'id'    => HtmlTable\AllColumns::ID,
+                'title' => Piwik::translate(HtmlTable\AllColumns::FOOTER_ICON_TITLE),
+                'icon'  => HtmlTable\AllColumns::FOOTER_ICON
             );
         }
 
@@ -157,12 +162,12 @@ class Manager
             if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
                 $icon = 'plugins/Zeitgeist/images/ecommerceOrder.gif';
             } else {
-                $icon = 'plugins/Zeitgeist/images/goal.png';
+                $icon = Goals::FOOTER_ICON;
             }
 
             $normalViewIcons['buttons'][] = array(
-                'id'    => 'tableGoals',
-                'title' => Piwik::translate('General_DisplayTableWithGoalMetrics'),
+                'id'    => Goals::ID,
+                'title' => Piwik::translate(Goals::FOOTER_ICON_TITLE),
                 'icon'  => $icon
             );
         }
@@ -196,25 +201,25 @@ class Manager
         if ($view->config->show_all_views_icons) {
             if ($view->config->show_bar_chart) {
                 $graphViewIcons['buttons'][] = array(
-                    'id'    => 'graphVerticalBar',
-                    'title' => Piwik::translate('General_VBarGraph'),
-                    'icon'  => 'plugins/Zeitgeist/images/chart_bar.png'
+                    'id'    => Bar::ID,
+                    'title' => Piwik::translate(Bar::FOOTER_ICON_TITLE),
+                    'icon'  => Bar::FOOTER_ICON
                 );
             }
 
             if ($view->config->show_pie_chart) {
                 $graphViewIcons['buttons'][] = array(
-                    'id'    => 'graphPie',
-                    'title' => Piwik::translate('General_Piechart'),
-                    'icon'  => 'plugins/Zeitgeist/images/chart_pie.png'
+                    'id'    => Pie::ID,
+                    'title' => Piwik::translate(Pie::FOOTER_ICON_TITLE),
+                    'icon'  => Pie::FOOTER_ICON
                 );
             }
 
             if ($view->config->show_tag_cloud) {
                 $graphViewIcons['buttons'][] = array(
-                    'id'    => 'cloud',
-                    'title' => Piwik::translate('General_TagCloud'),
-                    'icon'  => 'plugins/Zeitgeist/images/tagcloud.png'
+                    'id'    => Cloud::ID,
+                    'title' => Piwik::translate(Cloud::FOOTER_ICON_TITLE),
+                    'icon'  => Cloud::FOOTER_ICON
                 );
             }
 

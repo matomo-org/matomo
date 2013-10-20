@@ -27,7 +27,9 @@ use Piwik\Plugin\Visualization;
 class HtmlTable extends Visualization
 {
     const ID = 'table';
-    const TEMPLATE_FILE = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
+    const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_htmlTable.twig";
+    const FOOTER_ICON       = 'plugins/Zeitgeist/images/table.png';
+    const FOOTER_ICON_TITLE = 'General_DisplaySimpleTable';
 
     public static function getDefaultConfig()
     {

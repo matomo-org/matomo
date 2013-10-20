@@ -26,6 +26,8 @@ use Piwik\View;
 class AllColumns extends HtmlTable
 {
     const ID = 'tableAllColumns';
+    const FOOTER_ICON       = 'plugins/Zeitgeist/images/table_more.png';
+    const FOOTER_ICON_TITLE = 'General_DisplayTableWithMoreMetrics';
 
     public function beforeRender()
     {

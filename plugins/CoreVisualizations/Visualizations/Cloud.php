@@ -30,7 +30,9 @@ use Piwik\Plugin\Visualization;
 class Cloud extends Visualization
 {
     const ID = 'cloud';
-    const TEMPLATE_FILE = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
+    const TEMPLATE_FILE     = "@CoreVisualizations/_dataTableViz_tagCloud.twig";
+    const FOOTER_ICON       = 'plugins/Zeitgeist/images/tagcloud.png';
+    const FOOTER_ICON_TITLE = 'General_TagCloud';
 
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
