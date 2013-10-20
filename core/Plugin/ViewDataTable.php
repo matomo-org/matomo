@@ -64,7 +64,6 @@ use \Piwik\ViewDataTable\Manager as ViewDataTableManager;
 abstract class ViewDataTable implements ViewInterface
 {
     const ID = '';
-    const CONFIGURE_FOOTER_ICONS_EVENT = 'Visualization.configureFooterIcons';
 
     /**
      * DataTable loaded from the API for this ViewDataTable.
@@ -374,7 +373,7 @@ abstract class ViewDataTable implements ViewInterface
          * )
          * ```
          */
-        Piwik::postEvent(self::CONFIGURE_FOOTER_ICONS_EVENT, array(&$result, $viewDataTable = $this));
+        Piwik::postEvent('ViewDataTable.configureFooterIcons', array(&$result, $viewDataTable = $this));
 
         return $result;
     }
