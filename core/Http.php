@@ -17,14 +17,14 @@ use Exception;
  * Used to check for the latest Piwik version and download updates.
  *
  * @package Piwik
- * @api
  */
 class Http
 {
     /**
-     * Get "best" available transport method for sendHttpRequest() calls.
-     *
-     * @return string
+     * Returns the "best" available transport method for [sendHttpRequest()](#sendHttpRequest) calls.
+     * 
+     * @return string Either `'curl'`, `'fopen'` or `'socket'`.
+     * @api
      */
     public static function getTransportMethod()
     {
@@ -52,23 +52,30 @@ class Http
     }
 
     /**
-     * Sends http request ensuring the request will fail before $timeout seconds
-     * If no $destinationPath is specified, the trimmed response (without header) is returned as a string.
-     * If a $destinationPath is specified, the response (without header) is saved to a file.
+     * Sends an HTTP request using best available transport method.
      *
-     * @param string $aUrl
-     * @param int $timeout
-     * @param string $userAgent
-     * @param string $destinationPath
-     * @param int $followDepth
-     * @param bool $acceptLanguage
-     * @param array|bool $byteRange For Range: header. Should be two element array of bytes, eg, array(0, 1024)
-     *                                    Doesn't work w/ fopen method.
-     * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
-     * @param string $httpMethod The HTTP method to use. Defaults to 'GET'.
-     *
-     * @throws Exception
-     * @return bool  true (or string) on success; false on HTTP response error code (1xx or 4xx)
+     * @param string $aUrl The target URL.
+     * @param int $timeout The number of seconds to wait before aborting the HTTP request.
+     * @param string|null $userAgent The user agent to use.
+     * @param string|null $destinationPath If supplied, the HTTP response will be saved to the file specified by
+     *                                     this path.
+     * @param int|null $followDepth Internal redirect count. Should always pass `null` for this parameter.
+     * @param bool $acceptLanguage The value to use for the `'Accept-Language'` HTTP request header.
+     * @param array|bool $byteRange For `Range:` header. Should be two element array of bytes, eg, `array(0, 1024)`
+     *                              Doesn't work w/ `fopen` transport method.
+     * @param bool $getExtendedInfo If true returns the status code, headers & response, if false just the response.
+     * @param string $httpMethod The HTTP method to use. Defaults to `'GET'`.
+     * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
+     *                   if there are more than 5 redirects or if the request times out.
+     * @return bool|string If `$destinationPath` is not specified the HTTP response is returned on success. `false`
+     *                     is returned on failure.
+     *                     If `$getExtendedInfo` is `true` and `$destinationPath` is not specified an array with
+     *                     the following information is returned on success:
+     *                       - status => the HTTP status code
+     *                       - headers => the HTTP headers
+     *                       - data => the HTTP response data
+     *                     `false` is still returned on failure.
+     * @api
      */
     public static function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0, $acceptLanguage = false, $byteRange = false, $getExtendedInfo = false, $httpMethod = 'GET')
     {
@@ -101,7 +108,7 @@ class Http
      * @param array|bool $byteRange For Range: header. Should be two element array of bytes, eg, array(0, 1024)
      *                                                  Doesn't work w/ fopen method.
      * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
-     * @param string $httpMethod The HTTP method to use. Defaults to 'GET'.
+     * @param string $httpMethod The HTTP method to use. Defaults to `'GET'`.
      *
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
@@ -533,17 +540,58 @@ class Http
     /**
      * Downloads the next chunk of a specific file. The next chunk's byte range
      * is determined by the existing file's size and the expected file size, which
-     * is stored in the piwik_option table before starting a download.
-     * Note this function uses the Range HTTP header to accomplish downloading in
+     * is stored in the piwik_option table before starting a download. The expected
+     * file size is obtained through a `HEAD` HTTP request.
+     * 
+     * Note: this function uses the `Range` HTTP header to accomplish downloading in
      * parts.
+     * 
+     * The proper use of this function is to call it once per request. The browser
+     * should continue to send requests to Piwik which will in turn call this method
+     * until the file has completely downloaded. In this way, the user can be informed
+     * of a download's progress.
+     * 
+     * **Example Usage**
+     * 
+     *     ```
+     *     // browser JavaScript
+     *     var downloadFile = function (isStart) {
+     *         var ajax = new ajaxHelper();
+     *         ajax.addParams({
+     *             module: 'MyPlugin',
+     *             action: 'myAction',
+     *             isStart: isStart ? 1 : 0
+     *         }, 'post');
+     *         ajax.setCallback(function (response) {
+     *             var progress = response.progress
+     *             // ...update progress...
      *
+     *             downloadFile(false);
+     *         });
+     *         ajax.send();
+     *     }
+     * 
+     *     downloadFile(true);
+     *     ```
+     * 
+     *     ```
+     *     // PHP controller action
+     *     public function myAction()
+     *     {
+     *         $outputPath = PIWIK_INCLUDE_PATH . '/tmp/averybigfile.zip';
+     *         $isStart = Common::getRequestVar('isStart', 1, 'int');
+     *         Http::downloadChunk("http://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
+     *     }
+     *     ```
+     * 
      * @param string $url The url to download from.
      * @param string $outputPath The path to the file to save/append to.
      * @param bool $isContinuation True if this is the continuation of a download,
-     *                               or if we're starting a fresh one.
-     *
-     * @throws Exception
+     *                             or if we're starting a fresh one.
+     * @throws Exception if the file already exists and we're starting a new download,
+     *                   if we're trying to continue a download that never started
      * @return array
+     * @api
      */
     public static function downloadChunk($url, $outputPath, $isContinuation)
     {
@@ -652,20 +700,22 @@ class Http
     }
 
     /**
-     * Fetch the file at $url in the destination $destinationPath
+     * Fetches a file located at `$url` and saves it to `$destinationPath`.
      *
-     * @param string $url
-     * @param string $destinationPath
-     * @param int $tries
-     * @param int $timeout
-     * @throws Exception
-     * @return bool  true on success, throws Exception on failure
+     * @param string $url The URL of the file to download.
+     * @param string $destinationPath The path to download the file to.
+     * @param int $tries (deprecated)
+     * @param int $timeout The amount of seconds to wait before aborting the HTTP request.
+     * @throws Exception if the response cannot be saved to `$destinationPath`, if the HTTP response cannot be sent,
+     *                   if there are more than 5 redirects or if the request times out.
+     * @return bool true on success, throws Exception on failure
+     * @api
      */
     public static function fetchRemoteFile($url, $destinationPath = null, $tries = 0, $timeout = 10)
     {
         @ignore_user_abort(true);
         SettingsServer::setMaxExecutionTime(0);
-        return self::sendHttpRequest($url, $timeout, 'Update', $destinationPath, $tries);
+        return self::sendHttpRequest($url, $timeout, 'Update', $destinationPath);
     }
 
     /**
