@@ -35,7 +35,7 @@ class PageUrl
 
     /**
      * Given the Input URL, will exclude all query parameters set for this site
-     * Note: Site Search parameters are excluded in detectSiteSearch()
+     * Note: Site Search parameters are excluded in isSiteSearchDetected()
      * @static
      * @param $originalUrl
      * @param $idSite

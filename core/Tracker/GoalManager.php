@@ -630,20 +630,28 @@ class GoalManager
             $actionsToLookupAllItems = array_merge($actionsToLookupAllItems, $actionsToLookup);
         }
 
-        $actionsLookedUp = Action::loadActionId($actionsToLookupAllItems);
+        // add prefixId = false expected by loadActionId()
+        foreach($actionsToLookupAllItems as &$actionToLookup) {
+            $actionToLookup[] = false;
+        }
+
+        $actionsLookedUp = TableActionIds::loadActionId($actionsToLookupAllItems);
+
+        // id action is returned as the last element of the array
+        $keyIdAction = 3;
 
         // Replace SKU, name & category by their ID action
         foreach ($cleanedItems as $index => &$item) {
             // SKU
-            $item[0] = $actionsLookedUp[$index * $columnsInEachRow + 0][2];
+            $item[0] = $actionsLookedUp[$index * $columnsInEachRow + 0][$keyIdAction];
             // Name
-            $item[1] = $actionsLookedUp[$index * $columnsInEachRow + 1][2];
+            $item[1] = $actionsLookedUp[$index * $columnsInEachRow + 1][$keyIdAction];
             // Categories
-            $item[2] = $actionsLookedUp[$index * $columnsInEachRow + 2][2];
-            $item[3] = $actionsLookedUp[$index * $columnsInEachRow + 3][2];
-            $item[4] = $actionsLookedUp[$index * $columnsInEachRow + 4][2];
-            $item[5] = $actionsLookedUp[$index * $columnsInEachRow + 5][2];
-            $item[6] = $actionsLookedUp[$index * $columnsInEachRow + 6][2];
+            $item[2] = $actionsLookedUp[$index * $columnsInEachRow + 2][$keyIdAction];
+            $item[3] = $actionsLookedUp[$index * $columnsInEachRow + 3][$keyIdAction];
+            $item[4] = $actionsLookedUp[$index * $columnsInEachRow + 4][$keyIdAction];
+            $item[5] = $actionsLookedUp[$index * $columnsInEachRow + 5][$keyIdAction];
+            $item[6] = $actionsLookedUp[$index * $columnsInEachRow + 6][$keyIdAction];
         }
         return $cleanedItems;
     }

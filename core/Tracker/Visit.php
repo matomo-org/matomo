@@ -11,10 +11,8 @@
 
 namespace Piwik\Tracker;
 
-use Exception;
 use Piwik\Common;
 use Piwik\Config;
-
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Tracker;
@@ -107,7 +105,6 @@ class Visit implements VisitInterface
         $this->goalManager = new GoalManager($this->request);
 
         $visitIsConverted = false;
-        $idActionUrl = $idActionName = $actionType = false;
         $action = null;
 
         $requestIsManualGoalConversion = ($this->goalManager->idGoal > 0);
@@ -131,27 +128,14 @@ class Visit implements VisitInterface
             }
         } // normal page view, potentially triggering a URL matching goal
         else {
-            $action = $this->newAction();
+            $action = Action::make($this->request);
 
-            if ($this->detectActionIsOutlinkOnAliasHost($action)) {
-                Common::printDebug("INFO: The outlink URL host is one of the known host for this website. ");
-            }
-            if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-                $type = Action::getActionTypeName($action->getActionType());
-                Common::printDebug("Action is a $type,
-                    Action name =  " . $action->getActionName() . ",
-                    Action URL = " . $action->getActionUrl());
-            }
+            $action->writeDebugInfo();
+
             $someGoalsConverted = $this->goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
             $visitIsConverted = $someGoalsConverted;
 
             $action->loadIdActionNameAndUrl();
-            $idActionUrl = $action->getIdActionUrl();
-            if ($idActionUrl !== null) {
-                $idActionUrl = (int)$idActionUrl;
-            }
-            $idActionName = (int)$action->getIdActionName();
-            $actionType = $action->getActionType();
         }
 
         // the visitor and session
@@ -175,7 +159,7 @@ class Visit implements VisitInterface
             $idReferrerActionUrl = $this->visitorInfo['visit_exit_idaction_url'];
             $idReferrerActionName = $this->visitorInfo['visit_exit_idaction_name'];
             try {
-                $this->handleKnownVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted);
+                $this->handleKnownVisit($action, $visitIsConverted);
                 if (!is_null($action)) {
                     $action->record($this->visitorInfo['idvisit'],
                         $this->visitorInfo['idvisitor'],
@@ -211,7 +195,7 @@ class Visit implements VisitInterface
         if (!$this->isVisitorKnown()
             || !$isLastActionInTheSameVisit
         ) {
-            $this->handleNewVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted);
+            $this->handleNewVisit($action, $visitIsConverted);
             if (!is_null($action)) {
                 $action->record($this->visitorInfo['idvisit'], $this->visitorInfo['idvisitor'], 0, 0, 0);
             }
@@ -246,32 +230,40 @@ class Visit implements VisitInterface
      *
      * Tracker.knownVisitorInformation is triggered after saving the new visit data
      * Even data is an array with updated information about the visit
-     * @param $idActionUrl
-     * @param $idActionName
-     * @param $actionType
+     * @param $action
      * @param $visitIsConverted
      * @throws VisitorNotFoundInDb
      */
-    protected function handleKnownVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted)
+    protected function handleKnownVisit($action, $visitIsConverted)
     {
         // gather information that needs to be updated
         $valuesToUpdate = array();
         $incrementActions = false;
         $sqlActionUpdate = '';
 
-        if (!empty($idActionName)) {
-            $valuesToUpdate['visit_exit_idaction_name'] = (int)$idActionName;
-        }
-        if ($idActionUrl !== false) {
-            $valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
-            $incrementActions = true;
-        }
-        if ($actionType == Action::TYPE_SITE_SEARCH) {
-            $sqlActionUpdate .= "visit_total_searches = visit_total_searches + 1, ";
-            $incrementActions = true;
-        }
-        if ($incrementActions) {
-            $sqlActionUpdate .= "visit_total_actions = visit_total_actions + 1, ";
+        if($action) {
+            $idActionUrl = $action->getIdActionUrl();
+            $idActionName = $action->getIdActionName();
+            $actionType = $action->getActionType();
+
+            if (!empty($idActionName)) {
+                $valuesToUpdate['visit_exit_idaction_name'] = $idActionName;
+            }
+            if (!empty($idActionUrl)) {
+                $valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
+                $incrementActions = true;
+            }
+            if ($actionType == Action::TYPE_SITE_SEARCH) {
+                $sqlActionUpdate .= "visit_total_searches = visit_total_searches + 1, ";
+                $incrementActions = true;
+            } else if ($actionType == Action::TYPE_EVENT) {
+                $sqlActionUpdate .= "visit_total_event = visit_total_event + 1, ";
+                $incrementActions = true;
+            }
+
+            if ($incrementActions) {
+                $sqlActionUpdate .= "visit_total_actions = visit_total_actions + 1, ";
+            }
         }
         Common::printDebug("Visit is known (IP = " . IP::N2P($this->getVisitorIp()) . ")");
 
@@ -378,13 +370,19 @@ class Visit implements VisitInterface
      * 1) Insert the new action
      *
      * 2) Insert the visit information
-     * @param $idActionUrl
-     * @param $idActionName
-     * @param $actionType
+     *
+     * @param $action
      * @param $visitIsConverted
      */
-    protected function handleNewVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted)
+    protected function handleNewVisit($action, $visitIsConverted)
     {
+        $actionType = $idActionName = $idActionUrl = false;
+        if($action) {
+            $idActionUrl = $action->getIdActionUrl();
+            $idActionName = $action->getIdActionName();
+            $actionType = $action->getActionType();
+        }
+
         Common::printDebug("New Visit (IP = " . IP::N2P($this->getVisitorIp()) . ")");
 
         $daysSinceFirstVisit = $this->request->getDaysSinceFirstVisit();
@@ -436,9 +434,11 @@ class Visit implements VisitInterface
                     array(Action::TYPE_PAGE_URL,
                           Action::TYPE_DOWNLOAD,
                           Action::TYPE_OUTLINK,
-                          Action::TYPE_SITE_SEARCH))
+                          Action::TYPE_SITE_SEARCH,
+                          Action::TYPE_EVENT))
                     ? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
             'visit_total_searches'      => $actionType == Action::TYPE_SITE_SEARCH ? 1 : 0,
+            'visit_total_searches'      => $actionType == Action::TYPE_EVENT ? 1 : 0,
             'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
             'visit_goal_converted'      => $visitIsConverted ? 1 : 0,
             'visit_goal_buyer'          => $this->goalManager->getBuyerType(),
@@ -893,38 +893,6 @@ class Visit implements VisitInterface
     }
 
     /**
-     * Returns an object able to handle the current action
-     * Plugins can return an override Action that for example, does not record the action in the DB
-     *
-     * @throws Exception
-     * @return Action child or fake but with same public interface
-     */
-    protected function newAction()
-    {
-        $action = new Action($this->request);
-        return $action;
-    }
-
-    /**
-     * Detect whether action is an outlink given host aliases
-     *
-     * @param ActionInterface $action
-     * @return bool true if the outlink the visitor clicked on points to one of the known hosts for this website
-     */
-    protected function detectActionIsOutlinkOnAliasHost(ActionInterface $action)
-    {
-        if ($action->getActionType() != ActionInterface::TYPE_OUTLINK) {
-            return false;
-        }
-        $decodedActionUrl = $action->getActionUrl();
-        $actionUrlParsed = @parse_url($decodedActionUrl);
-        if (!isset($actionUrlParsed['host'])) {
-            return false;
-        }
-        return Tracker\Visit::isHostKnownAliasHost($actionUrlParsed['host'], $this->request->getIdSite());
-    }
-
-    /**
      * Returns a 64-bit hash of all the configuration settings
      * @param $os
      * @param $browserName
@@ -979,4 +947,5 @@ class Visit implements VisitInterface
         }
         return false;
     }
+
 }

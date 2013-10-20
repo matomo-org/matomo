@@ -34,7 +34,6 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
     {
         $uselocal = false;
         $vis = self::getTracker($this->idSite, $this->dateTime, $useDefault = true, $uselocal);
-        $this->moveTimeForward($vis);
 
         $this->trackMusicPlaying($vis);
         $this->trackMusicRatings($vis);

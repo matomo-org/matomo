@@ -13,14 +13,15 @@ namespace Piwik\Plugins\Actions;
 use Exception;
 use Piwik\Archive;
 use Piwik\Common;
+
 use Piwik\DataTable;
-
 use Piwik\Date;
-use Piwik\Metrics;
 
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\ActionSiteSearch;
 use Piwik\Tracker\PageUrl;
 
 /**
@@ -336,7 +337,7 @@ class API extends \Piwik\Plugin\API
         Actions::checkCustomVariablesPluginEnabled();
         $customVariables = APICustomVariables::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
 
-        $customVarNameToLookFor = Action::CVAR_KEY_SEARCH_CATEGORY;
+        $customVarNameToLookFor = ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY;
 
         $dataTable = new DataTable();
         // Handle case where date=last30&period=day

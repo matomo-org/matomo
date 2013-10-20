@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\ActionSiteSearch;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
@@ -133,20 +134,20 @@ class Archiver extends \Piwik\Plugin\Archiver
 				count(distinct log_link_visit_action.idvisitor) as `" . Metrics::INDEX_NB_UNIQ_VISITORS . "`,
 				count(*) as `" . Metrics::INDEX_PAGE_NB_HITS . "`,
 				sum(
-					case when " . Action::DB_COLUMN_TIME_GENERATION . " is null
+					case when " . Action::DB_COLUMN_CUSTOM_FLOAT . " is null
 						then 0
-						else " . Action::DB_COLUMN_TIME_GENERATION . "
+						else " . Action::DB_COLUMN_CUSTOM_FLOAT . "
 					end
 				) / 1000 as `" . Metrics::INDEX_PAGE_SUM_TIME_GENERATION . "`,
 				sum(
-					case when " . Action::DB_COLUMN_TIME_GENERATION . " is null
+					case when " . Action::DB_COLUMN_CUSTOM_FLOAT . " is null
 						then 0
 						else 1
 					end
 				) as `" . Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION . "`,
-				min(" . Action::DB_COLUMN_TIME_GENERATION . ") / 1000
+				min(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") / 1000
 				    as `" . Metrics::INDEX_PAGE_MIN_TIME_GENERATION . "`,
-				max(" . Action::DB_COLUMN_TIME_GENERATION . ") / 1000
+				max(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") / 1000
                     as `" . Metrics::INDEX_PAGE_MAX_TIME_GENERATION . "`
 				";
 
@@ -189,8 +190,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         // 2) For each page view, count number of times the referrer page was a Site Search
         if ($this->isSiteSearchEnabled()) {
             $selectFlagNoResultKeywords = ",
-				CASE WHEN (MAX(log_link_visit_action.custom_var_v" . Action::CVAR_INDEX_SEARCH_COUNT . ") = 0
-				    AND log_link_visit_action.custom_var_k" . Action::CVAR_INDEX_SEARCH_COUNT . " = '" . Action::CVAR_KEY_SEARCH_COUNT . "')
+				CASE WHEN (MAX(log_link_visit_action.custom_var_v" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . ") = 0
+				    AND log_link_visit_action.custom_var_k" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . " = '" . ActionSiteSearch::CVAR_KEY_SEARCH_COUNT . "')
 				THEN 1 ELSE 0 END
 				    AS `" . Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
 
