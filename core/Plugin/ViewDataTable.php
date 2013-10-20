@@ -353,7 +353,7 @@ abstract class ViewDataTable implements ViewInterface
             }
 
             if ($this->config->show_non_core_visualizations) {
-                $nonCoreVisualizations    = \Piwik\ViewDataTable::getNonCoreVisualizations();
+                $nonCoreVisualizations    = \Piwik\ViewDataTable::getNonCoreViewDataTables();
                 $nonCoreVisualizationInfo = static::getVisualizationInfoFor($nonCoreVisualizations);
 
                 foreach ($nonCoreVisualizationInfo as $format => $info) {

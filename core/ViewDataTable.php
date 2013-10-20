@@ -148,7 +148,7 @@ class ViewDataTable
      *
      * @return array Array mapping visualization IDs with their associated visualization classes.
      */
-    public static function getNonCoreVisualizations()
+    public static function getNonCoreViewDataTables()
     {
         $result = array();
 
