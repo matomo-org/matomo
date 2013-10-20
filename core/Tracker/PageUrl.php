@@ -321,7 +321,7 @@ class PageUrl
 
         if (!UrlHelper::isLookLikeUrl($url)) {
             Common::printDebug("WARNING: URL looks invalid and is discarded");
-            $url = '';
+            $url = false;
             return $url;
         }
         return $url;

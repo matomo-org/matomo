@@ -54,6 +54,8 @@ class ActionSiteSearch extends Action
         }
         $this->setActionName($actionName);
         $this->setActionUrl($url);
+
+        return true;
     }
 
     // FIXMEA replace by getNameAndType

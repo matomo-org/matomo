@@ -307,7 +307,7 @@ class Action implements ActionInterface
     protected function getUrlAndType()
     {
         $url = $this->getActionUrl();
-        if (!is_null($url)) {
+        if (!empty($url)) {
             // normalize urls by stripping protocol and www
             $url = PageUrl::normalizeUrl($url);
             return array($url['url'], Tracker\Action::TYPE_PAGE_URL, $url['prefixId']);

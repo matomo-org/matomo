@@ -95,7 +95,8 @@ class TableActionIds
             $actionId = Tracker::getDatabase()->lastInsertId();
             Common::printDebug("Recorded a new action (" . Action::getTypeAsString($type) . ") in the lookup table: " . $name . " (idaction = " . $actionId . ")");
 
-            $actionNamesAndTypes[$actionToInsert][] = $actionId;
+            $keyIdAction = 3;
+            $actionNamesAndTypes[$actionToInsert][$keyIdAction] = $actionId;
         }
         return $actionNamesAndTypes;
     }
