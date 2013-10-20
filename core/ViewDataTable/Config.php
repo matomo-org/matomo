@@ -62,8 +62,7 @@ class Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'export_limit',
-        'show_non_core_visualizations'
+        'export_limit'
     );
 
     /**
@@ -436,13 +435,6 @@ class Config
      * Default value: The value of the 'API_datatable_default_limit' config option.
      */
     public $export_limit = '';
-
-    /**
-     * Controls whether non-Core DataTable visualizations are shown or not.
-     *
-     * Default value: true
-     */
-    public $show_non_core_visualizations = true;
 
     public $report_last_updated_message = false;
     public $metadata  = array();

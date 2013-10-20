@@ -180,12 +180,10 @@ class Manager
                 $graphViewIcons['buttons'][] = static::getFooterIconFor(Cloud::ID);
             }
 
-            if ($view->config->show_non_core_visualizations) {
-                $nonCoreVisualizations = static::getNonCoreViewDataTables();
+            $nonCoreVisualizations = static::getNonCoreViewDataTables();
 
-                foreach ($nonCoreVisualizations as $id => $klass) {
-                    $graphViewIcons['buttons'][] = static::getFooterIconFor($id);
-                }
+            foreach ($nonCoreVisualizations as $id => $klass) {
+                $graphViewIcons['buttons'][] = static::getFooterIconFor($id);
             }
         }
 
