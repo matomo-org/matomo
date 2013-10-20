@@ -823,6 +823,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Suchnase
         'www.suchnase.de'                => array('Suchnase', 'q'),
 
+        // Surf Canyon
+        'surfcanyon.com'                 => array('Surf Canyon', 'q'),
+
         // talimba
         'www.talimba.com'                => array('talimba', 'search', 'index.php?page=search/web&search={k}'),
 
