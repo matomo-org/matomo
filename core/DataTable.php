@@ -44,7 +44,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * regarding all the data, such as the site or period that the data is for. _Row metadata_
  * is information regarding that row, such as a browser logo or website URL.
  * 
- * Finally, DataTables all contain a special _summary_ row.
+ * Finally, DataTables all contain a special _summary_ row. This row, if it exists, is
+ * always at the end of the DataTable.
  * 
  * ### Populating DataTables
  * 
