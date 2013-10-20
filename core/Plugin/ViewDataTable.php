@@ -24,6 +24,7 @@ use Piwik\Site;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
+use Piwik\ViewDataTable\Manager;
 use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
 use \Piwik\ViewDataTable\Manager as ViewDataTableManager;
@@ -183,7 +184,7 @@ abstract class ViewDataTable implements ViewInterface
 
     public function isViewDataTableId($viewDataTableId)
     {
-        $myIds = static::getIdsWithInheritance(get_called_class());
+        $myIds = Manager::getIdsWithInheritance(get_called_class());
 
         return in_array($viewDataTableId, $myIds);
     }
@@ -213,30 +214,6 @@ abstract class ViewDataTable implements ViewInterface
     public function setDataTable($dataTable)
     {
         $this->dataTable = $dataTable;
-    }
-
-    /**
-     * Returns the viewDataTable IDs of a visualization's class lineage.
-     *
-     * @see self::getVisualizationClassLineage
-     *
-     * @param string $klass The visualization class.
-     *
-     * @return array
-     */
-    protected static function getIdsWithInheritance($klass)
-    {
-        $klasses = Common::getClassLineage($klass);
-
-        $result = array();
-        foreach ($klasses as $klass) {
-            if ('Piwik\\Plugin\\ViewDataTable' != $klass
-                && 'Piwik\\Plugin\\Visualization' != $klass) {
-                $result[] = $klass::getViewDataTableId();
-            }
-        }
-
-        return $result;
     }
 
     /**
