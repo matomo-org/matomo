@@ -55,24 +55,6 @@ class Manager
     }
 
     /**
-     * Returns an array mapping viewDataTable IDs with information necessary for adding the
-     * viewDataTables to the footer of DataTable views.
-     *
-     * @param array $viewDataTables An array mapping viewDataTable IDs w/ their associated classes.
-     * @return array
-     */
-    public static function getViewDataTableInfoFor($viewDataTables)
-    {
-        $result = array();
-
-        foreach ($viewDataTables as $vizId => $vizClass) {
-            $result[$vizId] = array('table_icon' => $vizClass::FOOTER_ICON, 'title' => $vizClass::FOOTER_ICON_TITLE);
-        }
-
-        return $result;
-    }
-
-    /**
      * Returns all registered visualization classes. Uses the 'Visualization.getAvailable'
      * event to retrieve visualizations.
      *
@@ -143,33 +125,20 @@ class Manager
         );
 
         if ($view->config->show_table) {
-            $normalViewIcons['buttons'][] = array(
-                'id'    => HtmlTable::ID,
-                'title' => Piwik::translate(HtmlTable::FOOTER_ICON_TITLE),
-                'icon'  => HtmlTable::FOOTER_ICON,
-            );
+            $normalViewIcons['buttons'][] = static::getFooterIconFor(HtmlTable::ID);
         }
 
         if ($view->config->show_table_all_columns) {
-            $normalViewIcons['buttons'][] = array(
-                'id'    => HtmlTable\AllColumns::ID,
-                'title' => Piwik::translate(HtmlTable\AllColumns::FOOTER_ICON_TITLE),
-                'icon'  => HtmlTable\AllColumns::FOOTER_ICON
-            );
+            $normalViewIcons['buttons'][] = static::getFooterIconFor(HtmlTable\AllColumns::ID);
         }
 
         if ($view->config->show_goals) {
+            $goalButton = static::getFooterIconFor(Goals::ID);
             if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
-                $icon = 'plugins/Zeitgeist/images/ecommerceOrder.gif';
-            } else {
-                $icon = Goals::FOOTER_ICON;
+                $goalButton['icon'] = 'plugins/Zeitgeist/images/ecommerceOrder.gif';
             }
 
-            $normalViewIcons['buttons'][] = array(
-                'id'    => Goals::ID,
-                'title' => Piwik::translate(Goals::FOOTER_ICON_TITLE),
-                'icon'  => $icon
-            );
+            $normalViewIcons['buttons'][] = $goalButton;
         }
 
         if ($view->config->show_ecommerce) {
@@ -200,39 +169,22 @@ class Manager
 
         if ($view->config->show_all_views_icons) {
             if ($view->config->show_bar_chart) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => Bar::ID,
-                    'title' => Piwik::translate(Bar::FOOTER_ICON_TITLE),
-                    'icon'  => Bar::FOOTER_ICON
-                );
+                $graphViewIcons['buttons'][] = static::getFooterIconFor(Bar::ID);
             }
 
             if ($view->config->show_pie_chart) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => Pie::ID,
-                    'title' => Piwik::translate(Pie::FOOTER_ICON_TITLE),
-                    'icon'  => Pie::FOOTER_ICON
-                );
+                $graphViewIcons['buttons'][] = static::getFooterIconFor(Pie::ID);
             }
 
             if ($view->config->show_tag_cloud) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => Cloud::ID,
-                    'title' => Piwik::translate(Cloud::FOOTER_ICON_TITLE),
-                    'icon'  => Cloud::FOOTER_ICON
-                );
+                $graphViewIcons['buttons'][] = static::getFooterIconFor(Cloud::ID);
             }
 
             if ($view->config->show_non_core_visualizations) {
-                $nonCoreVisualizations    = static::getNonCoreViewDataTables();
-                $nonCoreVisualizationInfo = static::getViewDataTableInfoFor($nonCoreVisualizations);
+                $nonCoreVisualizations = static::getNonCoreViewDataTables();
 
-                foreach ($nonCoreVisualizationInfo as $format => $info) {
-                    $graphViewIcons['buttons'][] = array(
-                        'id'    => $format,
-                        'title' => Piwik::translate($info['title']),
-                        'icon'  => $info['table_icon']
-                    );
+                foreach ($nonCoreVisualizations as $id => $klass) {
+                    $graphViewIcons['buttons'][] = static::getFooterIconFor($id);
                 }
             }
         }
@@ -240,5 +192,25 @@ class Manager
         if (!empty($graphViewIcons['buttons'])) {
             $result[] = $graphViewIcons;
         }
+    }
+
+    /**
+     * Returns an array with information necessary for adding the viewDataTable to the footer.
+     *
+     * @param string $viewDataTableId
+     *
+     * @return array
+     */
+    private static function getFooterIconFor($viewDataTableId)
+    {
+        $tables = static::getAvailableViewDataTables();
+
+        $klass = $tables[$viewDataTableId];
+
+        return array(
+            'id'    => $klass::getViewDataTableId(),
+            'title' => Piwik::translate($klass::FOOTER_ICON_TITLE),
+            'icon'  => $klass::FOOTER_ICON,
+        );
     }
 }
