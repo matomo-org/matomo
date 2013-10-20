@@ -14,7 +14,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Log;
 use Piwik\MetricsFormatter;
 use Piwik\Period;
 use Piwik\Period\Range;
@@ -24,9 +23,9 @@ use Piwik\Site;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
-use \Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -241,110 +240,7 @@ abstract class ViewDataTable implements ViewInterface
     {
         $result = array();
 
-        // add normal view icons (eg, normal table, all columns, goals)
-        $normalViewIcons = array(
-            'class'   => 'tableAllColumnsSwitch',
-            'buttons' => array(),
-        );
-
-        if ($this->config->show_table) {
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'table',
-                'title' => Piwik::translate('General_DisplaySimpleTable'),
-                'icon'  => 'plugins/Zeitgeist/images/table.png',
-            );
-        }
-
-        if ($this->config->show_table_all_columns) {
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'tableAllColumns',
-                'title' => Piwik::translate('General_DisplayTableWithMoreMetrics'),
-                'icon'  => 'plugins/Zeitgeist/images/table_more.png'
-            );
-        }
-
-        if ($this->config->show_goals) {
-            if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
-                $icon = 'plugins/Zeitgeist/images/ecommerceOrder.gif';
-            } else {
-                $icon = 'plugins/Zeitgeist/images/goal.png';
-            }
-
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'tableGoals',
-                'title' => Piwik::translate('General_DisplayTableWithGoalMetrics'),
-                'icon'  => $icon
-            );
-        }
-
-        if ($this->config->show_ecommerce) {
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'ecommerceOrder',
-                'title' => Piwik::translate('General_EcommerceOrders'),
-                'icon'  => 'plugins/Zeitgeist/images/ecommerceOrder.gif',
-                'text'  => Piwik::translate('General_EcommerceOrders')
-            );
-
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'ecommerceAbandonedCart',
-                'title' => Piwik::translate('General_AbandonedCarts'),
-                'icon'  => 'plugins/Zeitgeist/images/ecommerceAbandonedCart.gif',
-                'text'  => Piwik::translate('General_AbandonedCarts')
-            );
-        }
-
-        if (!empty($normalViewIcons['buttons'])) {
-            $result[] = $normalViewIcons;
-        }
-
-        // add graph views
-        $graphViewIcons = array(
-            'class'   => 'tableGraphViews tableGraphCollapsed',
-            'buttons' => array(),
-        );
-
-        if ($this->config->show_all_views_icons) {
-            if ($this->config->show_bar_chart) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => 'graphVerticalBar',
-                    'title' => Piwik::translate('General_VBarGraph'),
-                    'icon'  => 'plugins/Zeitgeist/images/chart_bar.png'
-                );
-            }
-
-            if ($this->config->show_pie_chart) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => 'graphPie',
-                    'title' => Piwik::translate('General_Piechart'),
-                    'icon'  => 'plugins/Zeitgeist/images/chart_pie.png'
-                );
-            }
-
-            if ($this->config->show_tag_cloud) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => 'cloud',
-                    'title' => Piwik::translate('General_TagCloud'),
-                    'icon'  => 'plugins/Zeitgeist/images/tagcloud.png'
-                );
-            }
-
-            if ($this->config->show_non_core_visualizations) {
-                $nonCoreVisualizations    = ViewDataTableManager::getNonCoreViewDataTables();
-                $nonCoreVisualizationInfo = ViewDataTableManager::getViewDataTableInfoFor($nonCoreVisualizations);
-
-                foreach ($nonCoreVisualizationInfo as $format => $info) {
-                    $graphViewIcons['buttons'][] = array(
-                        'id'    => $format,
-                        'title' => Piwik::translate($info['title']),
-                        'icon'  => $info['table_icon']
-                    );
-                }
-            }
-        }
-
-        if (!empty($graphViewIcons['buttons'])) {
-            $result[] = $graphViewIcons;
-        }
+        ViewDataTableManager::configureFooterIcons($result, $this);
 
         /**
          * This event is called when determining the default set of footer icons to display
