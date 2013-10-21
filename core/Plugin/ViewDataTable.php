@@ -242,35 +242,6 @@ abstract class ViewDataTable implements ViewInterface
 
         ViewDataTableManager::configureFooterIcons($result, $this);
 
-        /**
-         * This event is called when determining the default set of footer icons to display
-         * below a report.
-         *
-         * Plugins can use this event to modify the default set of footer icons. You can
-         * add new icons or remove existing ones.
-         *
-         * $result must have the following format:
-         *
-         * ```
-         * array(
-         *     array( // footer icon group 1
-         *         'class' => 'footerIconGroup1CssClass',
-         *         'buttons' => array(
-         *             'id' => 'myid',
-         *             'title' => 'My Tooltip',
-         *             'icon' => 'path/to/my/icon.png'
-         *         )
-         *     ),
-         *     array( // footer icon group 2
-         *         'class' => 'footerIconGroup2CssClass',
-         *         'buttons' => array(...)
-         *     ),
-         *     ...
-         * )
-         * ```
-         */
-        Piwik::postEvent('ViewDataTable.configureFooterIcons', array(&$result, $viewDataTable = $this));
-
         return $result;
     }
 
