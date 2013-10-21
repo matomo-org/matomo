@@ -716,7 +716,7 @@ class Actions extends \Piwik\Plugin
         // so users can see that they can set it to 1 (see #3365)
         $view->config->custom_parameters = array('flat' => 0);
 
-        if (ViewDataTableRequest::shouldLoadExpanded()) {
+        if (Request::shouldLoadExpanded()) {
 
             if ($view->isViewDataTableId(HtmlTable::ID)) {
                 $view->config->show_expanded = true;

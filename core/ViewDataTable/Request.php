@@ -90,7 +90,7 @@ class Request
             $requestArray['segment'] = $segment;
         }
 
-        if (self::shouldLoadExpanded()) {
+        if (ApiRequest::shouldLoadExpanded()) {
             $requestArray['expanded'] = 1;
         }
 
@@ -135,23 +135,6 @@ class Request
         }
 
         return false;
-    }
-
-    /**
-     * Returns whether the DataTable result will have to be expanded for the
-     * current request before rendering.
-     *
-     * @return bool
-     */
-    public static function shouldLoadExpanded()
-    {
-        // TODO this is not the right class for this
-
-        // if filter_column_recursive & filter_pattern_recursive are supplied, and flat isn't supplied
-        // we have to load all the child subtables.
-        return Common::getRequestVar('filter_column_recursive', false) !== false
-                && Common::getRequestVar('filter_pattern_recursive', false) !== false
-                && Common::getRequestVar('flat', false) === false;
     }
 
 }
