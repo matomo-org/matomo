@@ -249,7 +249,7 @@ class Visit implements VisitInterface
             if (!empty($idActionName)) {
                 $valuesToUpdate['visit_exit_idaction_name'] = $idActionName;
             }
-            if (!empty($idActionUrl)) {
+            if ($idActionUrl !== false) {
                 $valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
                 $incrementActions = true;
             }
