@@ -31,13 +31,17 @@ class GenerateApi extends GeneratePluginBase
     {
         $pluginName = $this->getPluginName($input, $output);
 
-        $this->copyTemplateToPlugin('api', $pluginName);
+        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePluginTemplate';
+        $replace        = array('ExamplePluginTemplate' => $pluginName);
+        $whitelistFiles = array('/API.php');
+
+        $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
         $this->writeSuccessMessage($output, array(
-                                                 sprintf('API.php for %s generated.', $pluginName),
-                                                 'You can now start adding API methods',
-                                                 'Enjoy!'
-                                            ));
+             sprintf('API.php for %s generated.', $pluginName),
+             'You can now start adding API methods',
+             'Enjoy!'
+        ));
     }
 
     /**

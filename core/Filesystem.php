@@ -14,9 +14,9 @@ use Exception;
 use Piwik\Tracker\Cache;
 
 /**
- * Class Filesystem
+ * Contains helper functions that involve the filesystem.
+ * 
  * @package Piwik
- * @api
  */
 class Filesystem
 {
@@ -90,10 +90,14 @@ class Filesystem
     }
 
     /**
-     * Create directory if permitted
+     * Attempts to create a new directory. All errors are silenced.
+     * 
+     * Note: This function does not create directories recursively.
      *
-     * @param string $path
-     * @param bool $denyAccess
+     * @param string $path The path of the directory to create.
+     * @param bool $denyAccess Whether to deny browser access to this new folder by
+     *                         creating a .htaccess file.
+     * @api
      */
     public static function mkdir($path, $denyAccess = true)
     {
@@ -165,13 +169,14 @@ class Filesystem
     }
 
     /**
-     * Recursively find pathnames that match a pattern
-     * @see glob()
+     * Recursively find pathnames that match a pattern.
+     * See [glob](#http://php.net/manual/en/function.glob.php) for more info.
      *
-     * @param string $sDir directory
-     * @param string $sPattern pattern
-     * @param int $nFlags glob() flags
-     * @return array
+     * @param string $sDir directory The directory to glob in.
+     * @param string $sPattern pattern The pattern to match paths against.
+     * @param int $nFlags `glob()` flags. See [http://php.net/manual/en/function.glob.php](#http://php.net/manual/en/function.glob.php).
+     * @return array The list of paths that match the pattern.
+     * @api
      */
     public static function globr($sDir, $sPattern, $nFlags = null)
     {
@@ -192,11 +197,12 @@ class Filesystem
     }
 
     /**
-     * Recursively delete a directory
+     * Recursively deletes a directory.
      *
-     * @param string $dir Directory name
-     * @param boolean $deleteRootToo Delete specified top-level directory as well
-     * @param \Closure|false $beforeUnlink A closure to execute before unlinking.
+     * @param string $dir Path of the directory to delete.
+     * @param boolean $deleteRootToo Whether to delete `$dir` or just its contents.
+     * @param \Closure|false $beforeUnlink An optional closure to execute on a file path before unlinking.
+     * @api
      */
     public static function unlinkRecursive($dir, $deleteRootToo, \Closure $beforeUnlink = null)
     {
@@ -225,13 +231,15 @@ class Filesystem
     }
 
     /**
-     * Copy individual file from $source to $target.
+     * Copies a file from `$source` to `$dest`.
      *
-     * @param string $source eg. './tmp/latest/index.php'
-     * @param string $dest eg. './index.php'
-     * @param bool $excludePhp
-     * @throws Exception
+     * @param string $source A path to a file, eg. './tmp/latest/index.php'. The file must exist.
+     * @param string $dest A path to a file, eg. './index.php'. The file does not have to exist.
+     * @param bool $excludePhp Whether to avoid copying files if the file is related to PHP
+     *                         (includes .php, .tpl, .twig files).
+     * @throws Exception If the file cannot be copied.
      * @return bool
+     * @api
      */
     public static function copy($source, $dest, $excludePhp = false)
     {
@@ -256,11 +264,14 @@ class Filesystem
     }
 
     /**
-     * Copy recursively from $source to $target.
-     *
-     * @param string $source eg. './tmp/latest'
-     * @param string $target eg. '.'
-     * @param bool $excludePhp
+     * Copies the contents of a directory recursively from `$source` to `$target`.
+     * 
+     * @param string $source A directory or file to copy, eg. './tmp/latest'.
+     * @param string $target A directory to copy to, eg. '.'.
+     * @param bool $excludePhp Whether to avoid copying files if the file is related to PHP
+     *                         (includes .php, .tpl, .twig files).
+     * @throws Exception If a file cannot be copied.
+     * @api
      */
     public static function copyRecursive($source, $target, $excludePhp = false)
     {

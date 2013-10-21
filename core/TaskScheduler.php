@@ -17,15 +17,17 @@ use Exception;
 define('DEBUG_FORCE_SCHEDULED_TASKS', false);
 
 /**
- * TaskScheduler is the class used to manage the execution of periodicaly planned task.
- *
- * It performs the following actions :
- *    - Identifies tasks of Piwik
- *  - Runs tasks
- *
+ * Manages scheduled task execution.
+ * 
+ * A scheduled task is a callback that should be executed every so often (such as daily,
+ * weekly, monthly, etc.). They are registered with **TaskScheduler** through the
+ * [TaskScheduler.getScheduledTasks](#) event.
+ * 
+ * Tasks executed when the cron archive.php script is executed,
+ * 
  * @package Piwik
+ * @api
  */
-
 class TaskScheduler
 {
     const GET_TASKS_EVENT = "TaskScheduler.getScheduledTasks";
@@ -33,10 +35,16 @@ class TaskScheduler
     static private $running = false;
 
     /**
-     * runTasks collects tasks defined within piwik plugins, runs them if they are scheduled and reschedules
-     * the tasks that have been executed.
+     * Executes tasks that are scheduled to run, then reschedules them.
      *
-     * @return array
+     * @return array An array describing the results of scheduled task execution. Each element
+     *               in the array will have the following format:
+     *               ```
+     *               array(
+     *                   'task' => 'task name',
+     *                   'output' => '... task output ...'
+     *               )
+     *               ```
      */
     static public function runTasks()
     {
@@ -111,22 +119,27 @@ class TaskScheduler
         return $executionResults;
     }
 
+    /**
+     * Returns true if the TaskScheduler is currently running a scheduled task.
+     * 
+     * @return bool
+     */
     static public function isTaskBeingExecuted()
     {
         return self::$running;
     }
 
     /**
-     * return the next task schedule for a given class and method name
+     * Return the next scheduled time given the class and method names of a scheduled task.
      *
-     * @param string $className
-     * @param string $methodName
-     * @param string $methodParameter
-     * @return mixed int|bool the next schedule in miliseconds, false if task has never been run
+     * @param string $className The name of the class that contains the scheduled task method.
+     * @param string $methodName The name of the scheduled task method.
+     * @param string|null $methodParameter Optional method parameter.
+     * @return mixed int|bool The time in miliseconds when the scheduled task will be executed
+     *                        next or false if it is not scheduled to run.
      */
     static public function getScheduledTimeForMethod($className, $methodName, $methodParameter = null)
     {
-
         // get the array where rescheduled timetables are stored
         $timetable = self::getTimetableFromOptionTable();
 

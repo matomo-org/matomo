@@ -13,15 +13,15 @@ namespace Piwik;
 use Piwik\Tracker\GoalManager;
 
 /**
- * Class MetricsFormatter
+ * Contains helper function that format numerical values in different ways.
+ * 
  * @package Piwik
- *
  * @api
  */
 class MetricsFormatter
 {
     /**
-     * Gets a prettified string representation of a number. The result will have
+     * Returns a prettified string representation of a number. The result will have
      * thousands separators and a decimal point specific to the current locale.
      *
      * @param number $value
@@ -29,21 +29,26 @@ class MetricsFormatter
      */
     public static function getPrettyNumber($value)
     {
-        $locale = localeconv();
+        static $decimalPoint = null;
+        static $thousandsSeparator = null;
 
-        $decimalPoint = $locale['decimal_point'];
-        $thousandsSeparator = $locale['thousands_sep'];
+        if ($decimalPoint === null) {
+            $locale = localeconv();
+
+            $decimalPoint = $locale['decimal_point'];
+            $thousandsSeparator = $locale['thousands_sep'];
+        }
 
         return number_format($value, 0, $decimalPoint, $thousandsSeparator);
     }
 
     /**
-     * Pretty format a time
+     * Returns a prettified time value (in seconds).
      *
-     * @param int $numberOfSeconds
-     * @param bool $displayTimeAsSentence If set to true, will output "5min 17s", if false "00:05:17"
-     * @param bool $isHtml
-     * @param bool $round to the full seconds
+     * @param int $numberOfSeconds The number of seconds.
+     * @param bool $displayTimeAsSentence If set to true, will output `"5min 17s"`, if false `"00:05:17"`.
+     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
+     * @param bool $round Whether to round to the nearest second or not.
      * @return string
      */
     public static function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $isHtml = true, $round = false)
@@ -95,12 +100,12 @@ class MetricsFormatter
     }
 
     /**
-     * Pretty format a memory size value
+     * Returns a prettified memory size value.
      *
-     * @param number $size size in bytes
+     * @param number $size The size in bytes.
      * @param string $unit The specific unit to use, if any. If null, the unit is determined by $size.
      * @param int $precision The precision to use when rounding.
-     * @return string
+     * @return string eg, `'128 M'` or `'256 K'`.
      */
     public static function getPrettySizeFromBytes($size, $unit = null, $precision = 1)
     {
@@ -120,19 +125,19 @@ class MetricsFormatter
     }
 
     /**
-     * Pretty format monetary value for a site
+     * Returns a pretty formated monetary value using the currency associated with a site.
      *
-     * @param int|string $value
-     * @param int $idSite
-     * @param bool $htmlAllowed
+     * @param int|string $value The monetary value to format.
+     * @param int $idSite The ID of the site whose currency will be used.
+     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
      * @return string
      */
-    public static function getPrettyMoney($value, $idSite, $htmlAllowed = true)
+    public static function getPrettyMoney($value, $idSite, $isHtml = true)
     {
         $currencyBefore = MetricsFormatter::getCurrencySymbol($idSite);
 
         $space = ' ';
-        if ($htmlAllowed) {
+        if ($isHtml) {
             $space = '&nbsp;';
         }
 
@@ -160,14 +165,15 @@ class MetricsFormatter
     }
 
     /**
-     * For the given value, based on the column name, will apply: pretty time, pretty money
-     * @param int $idSite
-     * @param string $columnName
-     * @param mixed $value
-     * @param bool $htmlAllowed
+     * Prettifies a metric value based on the column name.
+     * 
+     * @param int $idSite The ID of the site the metric is for (used if the column value is an amount of money).
+     * @param string $columnName The metric name.
+     * @param mixed $value The metric value.
+     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
      * @return string
      */
-    public static function getPrettyValue($idSite, $columnName, $value, $htmlAllowed)
+    public static function getPrettyValue($idSite, $columnName, $value, $isHtml)
     {
         // Display time in human readable
         if (strpos($columnName, 'time') !== false) {
@@ -177,7 +183,7 @@ class MetricsFormatter
         }
         // Add revenue symbol to revenues
         if (strpos($columnName, 'revenue') !== false && strpos($columnName, 'evolution') === false) {
-            return self::getPrettyMoney($value, $idSite, $htmlAllowed);
+            return self::getPrettyMoney($value, $idSite, $isHtml);
         }
         // Add % symbol to rates
         if (strpos($columnName, '_rate') !== false) {
@@ -189,10 +195,10 @@ class MetricsFormatter
     }
 
     /**
-     * Get currency symbol for a site
+     * Returns the currency symbol for a site.
      *
-     * @param int $idSite
-     * @return string
+     * @param int $idSite The ID of the site to return the currency symbol for.
+     * @return string eg, `'$'`.
      */
     public static function getCurrencySymbol($idSite)
     {
@@ -202,14 +208,14 @@ class MetricsFormatter
         if (isset($symbols[$currency])) {
             return $symbols[$currency][0];
         }
-
         return '';
     }
 
     /**
-     * Returns a list of currency symbols
+     * Returns the list of all known currency symbols.
      *
-     * @return array  array( currencyCode => symbol, ... )
+     * @return array An array mapping currency codes to their respective currency symbols
+     *               and a description, eg, `array('USD' => array('$', 'US dollar'))`.
      */
     public static function getCurrencyList()
     {

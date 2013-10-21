@@ -18,11 +18,68 @@ use Piwik\Plugin\MetadataLoader;
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
 
 /**
- * Abstract class to define a Plugin.
- * Any plugin has to at least implement the abstract methods of this class.
+ * Base class of all Plugin Descriptor classes.
+ * 
+ * Any plugin that wants to add event observers to one of Piwik's [hooks](#), 
+ * or has special installation/uninstallation logic must implement this class.
+ * Plugins that can specify everything they need to in the _plugin.json_ files,
+ * such as themes, don't need to implement this class.
  *
+ * The name of the implementation of this class should be the same name as the
+ * plugin they are a part of (eg, `class UserCountry extends Plugin`).
+ * 
+ * ### Plugin Metadata
+ * 
+ * In addition to providing a place for plugins to install/uninstall themselves
+ * and add event observers, this class is also responsible for loading metadata
+ * found in the plugin.json file.
+ * 
+ * The plugin.json file must exist in the root directory of a plugin. It can
+ * contain the following information:
+ * 
+ * - **description**: An internationalized string description of what the plugin
+ *                    does.
+ * - **homepage**: The URL to the plugin's website.
+ * - **author**: Author name.
+ * - **author_homepage**: The URL to the author's website.
+ * - **license**: The license the code uses (eg, GPL, MIT, etc.).
+ * - **license_homepage**: URL to website describing the license used.
+ * - **version**: The plugin version (eg, 1.0.1).
+ * - **theme**: `true` or `false`. If `true`, the plugin will be treated as a theme.
+ * 
+ * ### Examples
+ * 
+ * **How to extend**
+ * 
+ *     use Piwik\Common;
+ *     use Piwik\Plugin;
+ *     use Piwik\Db;
+ * 
+ *     class MyPlugin extends Plugin
+ *     {
+ *         public function getListHooksRegistered()
+ *         {
+ *             return array(
+ *                 'API.getReportMetadata' => 'myPluginFunction',
+ *                 'Another.event'         => array(
+ *                                                'function' => 'myOtherPluginFunction',
+ *                                                'after'    => true // execute after callbacks w/o ordering
+ *                                            )
+ *             );
+ *         }
+ * 
+ *         public function install()
+ *         {
+ *             Db::exec("CREATE TABLE " . Common::prefixTable('mytable') . "...");
+ *         }
+ * 
+ *         public function uninstall()
+ *         {
+ *             Db::exec("DROP TABLE IF EXISTS " . Common::prefixTable('mytable'));
+ *         }
+ *     }
+ * 
  * @package Piwik
- *
  * @api
  */
 class Plugin
@@ -45,9 +102,9 @@ class Plugin
      * Constructor.
      *
      * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
-     *                                to last part of the class name.
-     *
-     * @throws \Exception
+     *                                to the last part of the class name.
+     * @throws \Exception If plugin metadata is defined in both the getInformation() method
+     *                    and the plugin.json file.
      */
     public function __construct($pluginName = false)
     {
@@ -93,6 +150,7 @@ class Plugin
      * - 'theme' => bool                // Whether this plugin is a theme (a theme is a plugin, but a plugin is not necessarily a theme)
      *
      * @return array
+     * @deprecated
      */
     public function getInformation()
     {
@@ -100,7 +158,7 @@ class Plugin
     }
 
     /**
-     * Returns the list of hooks registered with the methods names
+     * Returns a list of hooks with associated event observers.
      *
      * @return array eg, array(
      *                       'API.getReportMetadata' => 'myPluginFunction',
@@ -120,8 +178,8 @@ class Plugin
     }
 
     /**
-     * Executed after loading plugin and registering translations
-     * Useful for code that uses translated strings from the plugin.
+     * This method is executed after a plugin is loaded and translations are registered.
+     * Useful for initialization code that uses translated strings from the plugin.
      */
     public function postLoad()
     {
@@ -129,10 +187,13 @@ class Plugin
     }
 
     /**
-     * Install the plugin
+     * Installs the plugin. Derived classes should implement this class if the plugin
+     * needs to:
      * - create tables
      * - update existing tables
      * - etc.
+     * 
+     * @throws Exception if installation of fails for some reason.
      */
     public function install()
     {
@@ -140,7 +201,13 @@ class Plugin
     }
 
     /**
-     * Remove the created resources during the install
+     * Uninstalls the plugins. Derived classes should implement this class if the changes
+     * made in [install](#install) should be undone during uninstallation.
+     * 
+     * In most cases, if you have an [install](#install) method, you should provide 
+     * an [uninstall](#uninstall) method.
+     * 
+     * @throws Exception if uninstallation of fails for some reason.
      */
     public function uninstall()
     {
@@ -148,7 +215,7 @@ class Plugin
     }
 
     /**
-     * Executed every time the plugin is enabled
+     * Executed every time the plugin is enabled.
      */
     public function activate()
     {
@@ -156,7 +223,7 @@ class Plugin
     }
 
     /**
-     * Executed every time the plugin is disabled
+     * Executed every time the plugin is disabled.
      */
     public function deactivate()
     {
@@ -164,7 +231,7 @@ class Plugin
     }
 
     /**
-     * Returns the plugin version number
+     * Returns the plugin version number.
      *
      * @return string
      */
@@ -175,7 +242,7 @@ class Plugin
     }
 
     /**
-     * Whether this plugin is a theme
+     * Returns true if this plugin is a theme, false if otherwise.
      *
      * @return bool
      */
@@ -186,8 +253,8 @@ class Plugin
     }
 
     /**
-     * Returns the plugin's base class name without the "Piwik_" prefix,
-     * e.g., "UserCountry" when the plugin class is "UserCountry"
+     * Returns the plugin's base class name without the namespace,
+     * e.g., "UserCountry" when the plugin class is "Piwik\Plugins\UserCountry\UserCountry".
      *
      * @return string
      */

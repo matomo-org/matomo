@@ -46,9 +46,11 @@ class GeneratePluginBase extends ConsoleCommand
     /**
      * @param string $templateNameOrPath  eg. 'controller' or 'api' or a full path like /home/...
      * @param string $pluginName
-     * @param array $replace       array(key => value) $key will be replaced by $value in all templates
+     * @param array $replace         array(key => value) $key will be replaced by $value in all templates
+     * @param array $whitelistFiles  If not empty, only given files/directories will be copied.
+     *                               For instance array('/Controller.php', '/templates', '/templates/index.twig')
      */
-    protected function copyTemplateToPlugin($templateNameOrPath, $pluginName, array $replace = array())
+    protected function copyTemplateToPlugin($templateNameOrPath, $pluginName, array $replace = array(), $whitelistFiles = array())
     {
         if (0 === strpos($templateNameOrPath, '/')) {
             $templateFolder = $templateNameOrPath;
@@ -62,6 +64,10 @@ class GeneratePluginBase extends ConsoleCommand
 
         foreach ($files as $file) {
             $fileNamePlugin = str_replace($templateFolder, '', $file);
+
+            if (!empty($whitelistFiles) && !in_array($fileNamePlugin, $whitelistFiles)) {
+                continue;
+            }
 
             if (is_dir($file)) {
                 $this->createFolderWithinPluginIfNotExists($pluginName, $fileNamePlugin);

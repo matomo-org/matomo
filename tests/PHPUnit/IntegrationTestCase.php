@@ -727,7 +727,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $response = preg_replace('/\(D:[0-9]{14}/', '(D:19700101000000', $response);
         $response = preg_replace('/\/ID \[ <.*> ]/', '', $response);
 
-        file_put_contents($processedFilePath, $response);
+        if (empty($compareAgainst)) {
+            file_put_contents($processedFilePath, $response);
+        }
 
         $expected = $this->loadExpectedFile($expectedFilePath);
         if (empty($expected)) {
@@ -800,11 +802,17 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath");
             }
 
-            if (trim($response) == trim($expected)) {
+            if (trim($response) == trim($expected)
+                && empty($compareAgainst)
+            ) {
                 file_put_contents($processedFilePath, $response);
             }
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
+
+            if (!empty($compareAgainst)) {
+                file_put_contents($processedFilePath, $response);
+            }
         }
     }
 

@@ -14,13 +14,18 @@ namespace Piwik;
 require_once PIWIK_INCLUDE_PATH . "/core/Piwik.php";
 
 /**
- * This class holds the various mappings we use to internally store and manipulate metrics.
+ * This class contains metadata regarding core metrics and contains several
+ * related helper functions.
+ * 
+ * Of note are the `INDEX_...` constants. In the database, metric column names
+ * are stored in DataTable rows are stored as integers to save space. The integer
+ * values used are determined by these constants.
  *
  * @api
  */
 class Metrics
 {
-    /**
+    /*
      * When saving DataTables in the DB, we replace all columns name with these IDs. This saves many bytes,
      * eg. INDEX_NB_UNIQ_VISITORS is an integer: 4 bytes, but 'nb_uniq_visitors' is 16 bytes at least
      */
@@ -75,6 +80,7 @@ class Metrics
     const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
+
     static public $mappingFromIdToName = array(
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
         Metrics::INDEX_NB_VISITS                             => 'nb_visits',
@@ -115,6 +121,7 @@ class Metrics
         Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED           => 'price_viewed',
         Metrics::INDEX_ECOMMERCE_ORDERS                      => 'orders',
     );
+
     static public $mappingFromIdToNameGoal = array(
         Metrics::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',
         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 'nb_visits_converted',
@@ -125,6 +132,7 @@ class Metrics
         Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 'revenue_discount',
         Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
     );
+
     static public $mappingFromNameToId = array(
         'nb_uniq_visitors'           => Metrics::INDEX_NB_UNIQ_VISITORS,
         'nb_visits'                  => Metrics::INDEX_NB_VISITS,
@@ -138,6 +146,7 @@ class Metrics
         'goals'                      => Metrics::INDEX_GOALS,
         'sum_daily_nb_uniq_visitors' => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
     );
+    
     static protected $metricsAggregatedFromLogs = array(
         Metrics::INDEX_NB_UNIQ_VISITORS,
         Metrics::INDEX_NB_VISITS,

@@ -45,7 +45,7 @@ class Limit extends Filter
      */
     public function filter($table)
     {
-        $table->setRowsCountBeforeLimitFilter();
+        $table->metadata[DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME] = $table->getRowsCount();
 
         if ($this->keepSummaryRow) {
             $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);

@@ -219,7 +219,7 @@ class API extends \Piwik\Plugin\API
 
             // When Truncate filter is applied, it will call AddSummaryRow which tries to sum all rows.
             // We tell the object to skip the column nb_visits_percentage when aggregating (since it's not correct to sum % values)
-            $table->setColumnAggregationOperation('nb_visits_percentage', 'skip');
+            $table->metadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME]['nb_visits_percentage'] = 'skip';
 
             // The filter must be applied now so that the new column can
             // be sorted by the generic filters (applied right after this loop exits)

@@ -13,10 +13,9 @@ namespace Piwik;
 use Exception;
 
 /**
- * Class SettingsPiwik
+ * Contains helper methods that can be used to get common Piwik settings.
+ * 
  * @package Piwik
- *
- * @api
  */
 class SettingsPiwik
 {
@@ -52,11 +51,12 @@ class SettingsPiwik
     public static $cachedKnownSegmentsToArchive = null;
 
     /**
-     * Segments to pre-process
+     * Returns the list of stored segments to pre-process for all sites when executing cron archiving.
      *
-     * @return string
+     * @return array The list of stored segments that apply to all sites.
+     * @api
      */
-    static public function getKnownSegmentsToArchive()
+    public static function getKnownSegmentsToArchive()
     {
         if (self::$cachedKnownSegmentsToArchive === null) {
             $segments = Config::getInstance()->Segments;
@@ -75,7 +75,13 @@ class SettingsPiwik
         return self::$cachedKnownSegmentsToArchive;
     }
 
-
+    /**
+     * Returns the list of stored segments to pre-process for an individual site when executing
+     * cron archiving.
+     * 
+     * @param int $idSite The ID of the site to get stored segments for.
+     * @return string The list of stored segments that apply to the requested site.
+     */
     public static function getKnownSegmentsToArchiveForSite($idSite)
     {
         $segments = array();
@@ -110,12 +116,10 @@ class SettingsPiwik
     static public $piwikUrlCache = null;
 
     /**
-     * Returns the cached the Piwik URL, eg. http://demo.piwik.org/ or http://example.org/piwik/
-     * If not found, then tries to cache it and returns the value.
-     *
-     * If the Piwik URL changes (eg. Piwik moved to new server), the value will automatically be refreshed in the cache.
+     * Returns the URL to this Piwik instance, eg. http://demo.piwik.org/ or http://example.org/piwik/.
      *
      * @return string
+     * @api
      */
     public static function getPiwikUrl()
     {
@@ -149,9 +153,10 @@ class SettingsPiwik
     }
 
     /**
-     * Returns true if Segmentation is allowed for this user
+     * Returns true if segmentation is allowed for this user, false if otherwise.
      *
      * @return bool
+     * @api
      */
     public static function isSegmentationEnabled()
     {
@@ -160,12 +165,15 @@ class SettingsPiwik
     }
 
     /**
-     * Should we process and display Unique Visitors?
-     * -> Always process for day/week/month periods
-     * For Year and Range, only process if it was enabled in the config file,
+     * Returns true if unique visitors should be processed for the given period type.
+     * 
+     * Unique visitor processing is controlled by the **[General] enable_processing_unique_visitors_...**
+     * INI config options. By default, day/week/month periods always process unique visitors and
+     * year/range are not.
      *
-     * @param string $periodLabel Period label (e.g., 'day')
+     * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
      * @return bool
+     * @api
      */
     public static function isUniqueVisitorsEnabled($periodLabel)
     {

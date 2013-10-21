@@ -15,8 +15,23 @@ use Piwik\Db\Adapter;
 use Piwik\Tracker;
 
 /**
- * SQL wrapper
- *
+ * Helper class that contains SQL related helper functions.
+ * 
+ * Plugins should use this class to execute SQL against the database.
+ * 
+ * ### Examples
+ * 
+ * **Basic Usage**
+ * 
+ *     $rows = Db::fetchAll("SELECT col1, col2 FROM mytable WHERE thing = ?", array('thingvalue'));
+ *     foreach ($rows as $row) {
+ *         doSomething($row['col1'], $row['col2']);
+ *     }
+ * 
+ *     $value = Db::fetchOne("SELECT MAX(col1) FROM mytable");
+ * 
+ *     Db::query("DELETE FROM mytable WHERE id < ?", array(23));
+ * 
  * @package PluginsFunctions
  * @api
  */
@@ -25,11 +40,11 @@ class Db
     private static $connection = null;
 
     /**
-     * Returns the database adapter to use
+     * Returns the database connection and creates it if it hasn't been already.
      *
      * @return \Piwik\Tracker\Db|\Piwik\Db\AdapterInterface|\Piwik\Db
      */
-    static public function get()
+    public static function get()
     {
         if (!empty($GLOBALS['PIWIK_TRACKER_MODE'])) {
             return Tracker::getDatabase();
@@ -43,8 +58,12 @@ class Db
     }
 
     /**
-     * Create database object and connect to database
-     * @param array|null $dbInfos
+     * Create the database object and connects to the database.
+     * 
+     * Shouldn't be called directly, use [get](#get).
+     * 
+     * @param array|null $dbInfos Connection parameters in an array. Defaults to the `[database]`
+     *                            INI config section.
      */
     public static function createDatabaseObject($dbInfos = null)
     {
@@ -70,12 +89,12 @@ class Db
     }
 
     /**
-     * Executes an unprepared SQL query on the DB.  Recommended for DDL statements, e.g., CREATE/DROP/ALTER.
-     * The return result is DBMS-specific. For MySQLI, it returns the number of rows affected.  For PDO, it returns the Zend_Db_Statement object
-     * If you want to fetch data from the DB you should use the function Db::fetchAll()
+     * Executes an unprepared SQL query. Recommended for DDL statements like CREATE,
+     * DROP and ALTER. The return value is DBMS-specific. For MySQLI, it returns the
+     * number of rows affected. For PDO, it returns the `Zend_Db_Statement` object.
      *
-     * @param string $sql SQL Query
-     * @throws \Exception
+     * @param string $sql The SQL query.
+     * @throws \Exception If there is an error in the SQL.
      * @return integer|\Zend_Db_Statement
      */
     static public function exec($sql)
@@ -97,14 +116,14 @@ class Db
     }
 
     /**
-     * Executes a SQL query on the DB and returns the Zend_Db_Statement object
-     * If you want to fetch data from the DB you should use the function Db::fetchAll()
+     * Executes an SQL query and returns the Zend_Db_Statement object.
+     * If you want to fetch data from the DB you should use one of the fetch... functions.
      *
-     * See also http://framework.zend.com/manual/en/zend.db.statement.html
+     * See also [http://framework.zend.com/manual/en/zend.db.statement.html](http://framework.zend.com/manual/en/zend.db.statement.html).
      *
-     * @param string $sql SQL Query
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     * @throws \Exception
+     * @param string $sql The SQL query.
+     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return \Zend_Db_Statement
      */
     static public function query($sql, $parameters = array())
@@ -118,11 +137,11 @@ class Db
     }
 
     /**
-     * Executes the SQL Query and fetches all the rows from the database query
+     * Executes the SQL query and fetches all the rows from the result set.
      *
-     * @param string $sql SQL Query
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     * @throws \Exception
+     * @param string $sql The SQL query.
+     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return array (one row in the array per row fetched in the DB)
      */
     static public function fetchAll($sql, $parameters = array())
@@ -136,12 +155,12 @@ class Db
     }
 
     /**
-     * Fetches first row of result from the database query
+     * Executes an SQL query and fetches the first row of the result.
      *
-     * @param string $sql SQL Query
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql The SQL query.
+     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return array
-     * @throws \Exception
      */
     static public function fetchRow($sql, $parameters = array())
     {
@@ -154,12 +173,12 @@ class Db
     }
 
     /**
-     * Fetches first column of first row of result from the database query
+     * Executes an SQL query and fetches the first column of the first row of result set.
      *
-     * @param string $sql SQL Query
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql The SQL query.
+     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
      * @return string
-     * @throws \Exception
      */
     static public function fetchOne($sql, $parameters = array())
     {
@@ -172,12 +191,17 @@ class Db
     }
 
     /**
-     * Fetches result from the database query as an array of associative arrays.
+     * Executes an SQL query and returns the entire result set indexed by the first
+     * selected field.
      *
-     * @param string $sql SQL query
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     * @return array
-     * @throws \Exception
+     * @param string $sql The SQL query.
+     * @param array $parameters Parameters to bind in the query, eg, `array(param1 => value1, param2 => value2)`.
+     * @throws \Exception If there is a problem with the SQL or bind parameters.
+     * @return array eg,
+     *               ```
+     *               array('col1value1' => array('col2' => '...', 'col3' => ...),
+     *                     'col1value2' => array('col2' => '...', 'col3' => ...))
+     *               ```
      */
     static public function fetchAssoc($sql, $parameters = array())
     {
@@ -190,21 +214,30 @@ class Db
     }
 
     /**
-     * Deletes all desired rows in a table, while using a limit. This function will execute a
-     * DELETE query until there are no more rows to delete.
-     *
-     * @param string $table The name of the table to delete from. Must be prefixed.
+     * Deletes all desired rows in a table, while using a limit. This function will execute many
+     * DELETE queries until there are no more rows to delete.
+     * 
+     * Use this function when you need to delete many thousands of rows from a table without
+     * locking the table for too long.
+     * 
+     * **Example**
+     * 
+     *     $idVisit = // ...
+     *     Db::deleteAllRows(Common::prefixTable('log_visit'), "WHERE idvisit <= ?", "idvisit ASC", 100000, array($idVisit));
+     * 
+     * @param string $table The name of the table to delete from. Must be prefixed (see [Common::prefixTable](#)).
      * @param string $where The where clause of the query. Must include the WHERE keyword.
-     * @param $orderBy
+     * @param $orderBy The column to order by and the order by direction, eg, `idvisit ASC`.
      * @param int $maxRowsPerQuery The maximum number of rows to delete per DELETE query.
      * @param array $parameters Parameters to bind in the query.
-     * @return int  The total number of rows deleted.
+     * @return int The total number of rows deleted.
      */
     static public function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
     {
+        $orderByClause = $orderBy ? "ORDER BY $orderBy" : "";
         $sql = "DELETE FROM $table
                 $where
-                ORDER BY $orderBy ASC
+                $orderByClause
                 LIMIT " . (int)$maxRowsPerQuery;
 
         // delete rows w/ a limit
@@ -219,7 +252,11 @@ class Db
     }
 
     /**
-     * Runs an OPTIMIZE TABLE query on the supplied table or tables. The table names must be prefixed.
+     * Runs an OPTIMIZE TABLE query on the supplied table or tables. The table names must be prefixed
+     * (see [Common::prefixTable](#)).
+     * 
+     * Tables will only be optimized if the `[General] enable_sql_optimize_queries` config option is
+     * set to **1**.
      *
      * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
      * @return \Zend_Db_Statement
@@ -257,7 +294,7 @@ class Db
     }
 
     /**
-     * Drops the supplied table or tables. The table names must be prefixed.
+     * Drops the supplied table or tables. The table names must be prefixed (see [Common::prefixTable](#)).
      *
      * @param string|array $tables The name of the table to drop or an array of table names to drop.
      * @return \Zend_Db_Statement
@@ -272,8 +309,11 @@ class Db
     }
 
     /**
-     * Locks the supplied table or tables. The table names must be prefixed.
-     *
+     * Locks the supplied table or tables. The table names must be prefixed (see [Common::prefixTable](#)).
+     * 
+     * **NOTE:** Piwik does not require the LOCK TABLES privilege to be available. Piwik
+     * should still work in case it is not granted.
+     * 
      * @param string|array $tablesToRead The table or tables to obtain 'read' locks on.
      * @param string|array $tablesToWrite The table or tables to obtain 'write' locks on.
      * @return \Zend_Db_Statement
@@ -301,6 +341,9 @@ class Db
     /**
      * Releases all table locks.
      *
+     * **NOTE:** Piwik does not require the LOCK TABLES privilege to be available. Piwik
+     * should still work in case it is not granted.
+     * 
      * @return \Zend_Db_Statement
      */
     static public function unlockAllTables()
@@ -310,20 +353,39 @@ class Db
 
     /**
      * Performs a SELECT on a table one chunk at a time and returns the first
-     * fetched value.
+     * successfully fetched value.
+     * 
+     * In other words, if running a SELECT on one chunk of the table doesn't
+     * return a value, we move on to the next chunk and we keep moving until
+     * the SELECT returns a value.
      *
      * This function will break up a SELECT into several smaller SELECTs and
      * should be used when performing a SELECT that can take a long time to finish.
      * Using several smaller SELECTs will ensure that the table will not be locked
      * for too long.
+     * 
+     * **Example**
+     * 
+     *     // find the most recent visit that is older than a certain date 
+     *     $dateStart = // ...
+     *     $sql = "SELECT idvisit
+     *           FROM $logVisit
+     *          WHERE '$dateStart' > visit_last_action_time
+     *            AND idvisit <= ?
+     *            AND idvisit > ?
+     *       ORDER BY idvisit DESC
+     *          LIMIT 1";
+     *
+     *     // since visits
+     *     return Db::segmentedFetchFirst($sql, $maxIdVisit, 0, -self::$selectSegmentSize);
      *
      * @param string $sql The SQL to perform. The last two conditions of the WHERE
-     *                         expression must be as follows: 'id >= ? AND id < ?' where
-     *                         'id' is the int id of the table.
+     *                    expression must be as follows: 'id >= ? AND id < ?' where
+     *                    'id' is the int id of the table.
      * @param int $first The minimum ID to loop from.
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in each smaller SELECT.
-     * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
      *
      * @return string
      */
@@ -345,22 +407,20 @@ class Db
     /**
      * Performs a SELECT on a table one chunk at a time and returns an array
      * of every fetched value.
-     *
+     * 
      * This function will break up a SELECT into several smaller SELECTs and
-     * should be used when performing a SELECT that can take a long time to finish.
-     * Using several smaller SELECTs will ensure that the table will not be locked
-     * for too long.
-     *
+     * accumulate the result. It should be used when performing a SELECT that can
+     * take a long time to finish. Using several smaller SELECTs will ensure that
+     * the table will not be locked for too long.
      *
      * @param string $sql The SQL to perform. The last two conditions of the WHERE
-     *                         expression must be as follows: 'id >= ? AND id < ?' where
-     *                         'id' is the int id of the table.
+     *                    expression must be as follows: 'id >= ? AND id < ?' where
+     *                    'id' is the int id of the table.
      * @param int $first The minimum ID to loop from.
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in each smaller SELECT.
-     * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     *
-     * @return array
+     * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
+     * @return array An array of primitive values.
      */
     static public function segmentedFetchOne($sql, $first, $last, $step, $params = array())
     {
@@ -381,15 +441,20 @@ class Db
      * Performs a SELECT on a table one chunk at a time and returns an array
      * of every fetched row.
      *
+     * This function will break up a SELECT into several smaller SELECTs and
+     * accumulate the result. It should be used when performing a SELECT that can
+     * take a long time to finish. Using several smaller SELECTs will ensure that
+     * the table will not be locked for too long.
+     * 
      * @param string $sql The SQL to perform. The last two conditions of the WHERE
-     *                       expression must be as follows: 'id >= ? AND id < ?' where
-     *                      'id' is the int id of the table.
+     *                    expression must be as follows: 'id >= ? AND id < ?' where
+     *                    'id' is the int id of the table.
      * @param int $first The minimum ID to loop from.
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in each smaller SELECT.
      * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     *
-     * @return array
+     * @return array An array of rows that includes the result set of every executed
+     *               query.
      */
     static public function segmentedFetchAll($sql, $first, $last, $step, $params = array())
     {
@@ -410,16 +475,14 @@ class Db
 
     /**
      * Performs a non-SELECT query on a table one chunk at a time.
-     *
+     * 
      * @param string $sql The SQL to perform. The last two conditions of the WHERE
-     *                       expression must be as follows: 'id >= ? AND id < ?' where
-     *                      'id' is the int id of the table.
+     *                    expression must be as follows: 'id >= ? AND id < ?' where
+     *                    'id' is the int id of the table.
      * @param int $first The minimum ID to loop from.
      * @param int $last The maximum ID to loop to.
      * @param int $step The maximum number of rows to scan in each smaller query.
-     * @param array $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
-     *
-     * @return array
+     * @param array $params Parameters to bind in the query, `array(param1 => value1, param2 => value2)`
      */
     static public function segmentedQuery($sql, $first, $last, $step, $params = array())
     {
@@ -442,7 +505,7 @@ class Db
      *
      * @param string $lockName The lock name.
      * @param int $maxRetries The max number of times to retry.
-     * @return bool true if the lock was obtained, false if otherwise.
+     * @return bool `true` if the lock was obtained, `false` if otherwise.
      */
     static public function getDbLock($lockName, $maxRetries = 30)
     {
@@ -469,7 +532,7 @@ class Db
      * Releases a named lock.
      *
      * @param string $lockName The lock name.
-     * @return bool true if the lock was released, false if otherwise.
+     * @return bool `true` if the lock was released, `false` if otherwise.
      */
     static public function releaseDbLock($lockName)
     {

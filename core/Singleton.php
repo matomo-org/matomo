@@ -12,9 +12,12 @@
 namespace Piwik;
 
 /**
- * The singleton class restricts the Instantiation of a class to one object only.
+ * The singleton class restricts the instantiation of a class to one object only.
+ * 
+ * All plugin APIs are singletons and thus extend this class.
  *
  * @package Piwik
+ * @api
  */
 class Singleton
 {
@@ -24,6 +27,12 @@ class Singleton
 
     final private function __clone() { }
 
+    /**
+     * Returns the singleton instance for the derived class. If the singleton instance
+     * has not been created, this method will create it.
+     * 
+     * @return Singleton
+     */
     public static function getInstance() {
         $class = get_called_class();
 

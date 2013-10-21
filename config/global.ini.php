@@ -489,9 +489,8 @@ log_only_when_cli = 0
 ; NOTE: log_only_when_cli will also be checked for
 log_only_when_debug_parameter = 0
 
-; if configured to log in files, log files will be created in this path
-; eg. if the value is tmp/logs files will be created in /path/to/piwik/tmp/logs/
-logger_file_path = tmp/logs
+; if configured to log in a file, log entries will be made to this file
+logger_file_path = tmp/logs/piwik.log
 
 [Plugins]
 Plugins[] = CorePluginsAdmin

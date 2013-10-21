@@ -61,7 +61,7 @@ class Visualization extends ViewDataTable
 
             $this->beforeLoadDataTable();
 
-            $this->loadDataTableFromAPI();
+            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1));
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
@@ -372,7 +372,8 @@ class Visualization extends ViewDataTable
             !($this->dataTable instanceof DataTable\Map)
             && empty($javascriptVariablesToSet['totalRows'])
         ) {
-            $javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
+            $javascriptVariablesToSet['totalRows'] =
+                $this->dataTable->getMetadata(DataTable::TOTAL_ROWS_BEFORE_LIMIT_METADATA_NAME) ?: $this->dataTable->getRowsCount();
         }
 
         $deleteFromJavascriptVariables = array(

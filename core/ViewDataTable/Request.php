@@ -38,10 +38,14 @@ class Request
      * It builds the API request string and uses Request to call the API.
      * The requested DataTable object is stored in $this->dataTable.
      */
-    public function loadDataTableFromAPI()
+    public function loadDataTableFromAPI($fixedRequestParams = array())
     {
         // we build the request (URL) to call the API
         $requestArray = $this->getRequestArray();
+
+        foreach ($fixedRequestParams as $key => $value) {
+            $requestArray[$key] = $value;
+        }
 
         // we make the request to the API
         $request = new ApiRequest($requestArray);
@@ -62,9 +66,8 @@ class Request
         // - we request the method to call to get this specific DataTable
         // - the format = original specifies that we want to get the original DataTable structure itself, not rendered
         $requestArray = array(
-            'method'                  => $this->requestConfig->apiMethodToRequestDataTable,
-            'format'                  => 'original',
-            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int')
+            'method' => $this->requestConfig->apiMethodToRequestDataTable,
+            'format' => 'original'
         );
 
         $toSetEventually = array(

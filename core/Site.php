@@ -15,7 +15,19 @@ use Exception;
 use Piwik\Plugins\SitesManager\API;
 
 /**
- *
+ * Provides access to individual site data (such as name, URL, etc.).
+ * 
+ * ### Examples
+ * 
+ * **Basic usage**
+ * 
+ *     $site = new Site($idSite);
+ *     $name = $site->getName();
+ * 
+ * **Without allocation**
+ * 
+ *     $name = Site::getNameFor($idSite);
+ * 
  * @package Piwik
  * @api
  */
@@ -32,9 +44,11 @@ class Site
     public static $infoSites = array();
 
     /**
-     * @param int $idsite
+     * Constructor.
+     * 
+     * @param int $idsite The ID of the site we want data for.
      */
-    function __construct($idsite)
+    public function __construct($idsite)
     {
         $this->id = (int)$idsite;
         if (!isset(self::$infoSites[$this->id])) {
@@ -43,10 +57,14 @@ class Site
     }
 
     /**
-     * Sets the cached Site data with an array that associates site IDs with
+     * Sets the cached site data with an array that associates site IDs with
      * individual site data.
      *
-     * @param array $sites The array of sites data. Indexed by site ID.
+     * @param array $sites The array of sites data. Indexed by site ID. eg,
+     *                     ```
+     *                     array('1' => array('name' => 'Site 1', ...),
+     *                           '2' => array('name' => 'Site 2', ...))`
+     *                     ```
      */
     public static function setSites($sites)
     {
@@ -55,8 +73,14 @@ class Site
 
     /**
      * Sets the cached Site data with a non-associated array of site data.
-     *
-     * @param array $sites The array of sites data.
+     * 
+     * @param array $sites The array of sites data. eg,
+     *                     ```
+     *                     array(
+     *                         array('idsite' => '1', 'name' => 'Site 1', ...),
+     *                         array('idsite' => '2', 'name' => 'Site 2', ...),
+     *                     )
+     *                     ```
      */
     public static function setSitesFromArray($sites)
     {
@@ -68,9 +92,13 @@ class Site
     }
 
     /**
+     * Returns a string representation of the site this instance references.
+     * 
+     * Useful for debugging.
+     * 
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return "site id=" . $this->getId() . ",
 				 name=" . $this->getName() . ",
@@ -82,38 +110,42 @@ class Site
     }
 
     /**
-     * Returns the name of the site
+     * Returns the name of the site.
      *
      * @return string
+     * @throws Exception if data for the site cannot be found.
      */
-    function getName()
+    public function getName()
     {
         return $this->get('name');
     }
 
     /**
-     * Returns the main url of the site
+     * Returns the main url of the site.
      *
      * @return string
+     * @throws Exception if data for the site cannot be found.
      */
-    function getMainUrl()
+    public function getMainUrl()
     {
         return $this->get('main_url');
     }
 
     /**
-     * Returns the id of the site
+     * Returns the id of the site.
      *
      * @return int
+     * @throws Exception if data for the site cannot be found.
      */
-    function getId()
+    public function getId()
     {
         return $this->id;
     }
 
     /**
-     * Returns a site property
-     * @param string $name property to return
+     * Returns a site property by name.
+     * 
+     * @param string $name Name of the property to return (eg, `'main_url'` or `'name'`).
      * @return mixed
      * @throws Exception
      */
@@ -126,92 +158,111 @@ class Site
     }
 
     /**
-     * Returns the creation date of the site
+     * Returns the creation date of the site.
      *
      * @return Date
+     * @throws Exception if data for the site cannot be found.
      */
-    function getCreationDate()
+    public function getCreationDate()
     {
         $date = $this->get('ts_created');
         return Date::factory($date);
     }
 
     /**
-     * Returns the timezone of the size
+     * Returns the timezone of the size.
      *
      * @return string
+     * @throws Exception if data for the site cannot be found.
      */
-    function getTimezone()
+    public function getTimezone()
     {
         return $this->get('timezone');
     }
 
     /**
-     * Returns the currency of the site
+     * Returns the currency of the site.
      *
      * @return string
+     * @throws Exception if data for the site cannot be found.
      */
-    function getCurrency()
+    public function getCurrency()
     {
         return $this->get('currency');
     }
 
     /**
-     * Returns the excluded ips of the site
+     * Returns the excluded ips of the site.
      *
      * @return string
+     * @throws Exception if data for the site cannot be found.
      */
-    function getExcludedIps()
+    public function getExcludedIps()
     {
         return $this->get('excluded_ips');
     }
 
     /**
-     * Returns the excluded query parameters of the site
+     * Returns the excluded query parameters of the site.
      *
      * @return string
+     * @throws Exception if data for the site cannot be found.
      */
-    function getExcludedQueryParameters()
+    public function getExcludedQueryParameters()
     {
         return $this->get('excluded_parameters');
     }
 
     /**
-     * Returns whether ecommerce id enabled for the site
+     * Returns whether ecommerce is enabled for the site.
      *
      * @return bool
+     * @throws Exception if data for the site cannot be found.
      */
-    function isEcommerceEnabled()
+    public function isEcommerceEnabled()
     {
         return $this->get('ecommerce') == 1;
     }
 
-    function getSearchKeywordParameters()
+    /**
+     * Returns the site search keyword query parameters for the site.
+     * 
+     * @return string
+     * @throws Exception if data for the site cannot be found.
+     */
+    public function getSearchKeywordParameters()
     {
         return $this->get('sitesearch_keyword_parameters');
     }
 
-    function getSearchCategoryParameters()
+    /**
+     * Returns the site search category query parameters for the site.
+     * 
+     * @return string
+     * @throws Exception if data for the site cannot be found.
+     */
+    public function getSearchCategoryParameters()
     {
         return $this->get('sitesearch_category_parameters');
     }
 
     /**
-     * Returns whether Site Search Tracking is enabled for the site
+     * Returns whether Site Search Tracking is enabled for the site.
      *
      * @return bool
+     * @throws Exception if data for the site cannot be found.
      */
-    function isSiteSearchEnabled()
+    public function isSiteSearchEnabled()
     {
         return $this->get('sitesearch') == 1;
     }
 
     /**
-     * Checks the given string for valid site ids and returns them as an array
+     * Checks the given string for valid site ids and returns them as an array.
      *
-     * @param string $ids comma separated idSite list
+     * @param string $ids Comma separated idSite list, eg, `'1,2,3,4'`.
      * @param bool|string $_restrictSitesToLogin Used only when running as a scheduled task.
-     * @return array of valid integer
+     * @return array An array of valid, unique integers.
      */
     static public function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)
     {
@@ -236,7 +287,9 @@ class Site
     }
 
     /**
-     * Clears the site cache
+     * Clears the site data cache.
+     * 
+     * See also [setSites](#setSites) and [setSitesFromArray](#setSitesFromArray).
      */
     static public function clearCache()
     {

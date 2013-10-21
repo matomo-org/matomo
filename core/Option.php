@@ -11,20 +11,38 @@
 namespace Piwik;
 
 /**
- * Option provides a very simple mechanism to save/retrieve key-values pair
- * from the database (persistent key-value datastore).
- *
- * This is useful to save Piwik-wide preferences, configuration values.
+ * Convenient key-value storage for user specified options and temporary
+ * data that needs to be persisted beyond one request.
+ * 
+ * ### Examples
+ * 
+ * **Setting and getting options**
+ * 
+ *     $optionValue = Option::get('MyPlugin.MyOptionName');
+ *     if ($optionValue === false) {
+ *         // if not set, set it
+ *         Option::set('MyPlugin.MyOptionName', 'my option value');
+ *     }
+ * 
+ * **Storing user specific options**
+ * 
+ *     $userName = // ...
+ *     Option::set('MyPlugin.MyOptionName.' . $userName, 'my option value');
+ * 
+ * **Clearing user specific options**
+ * 
+ *     Option::deleteLike('MyPlugin.MyOptionName.%');
  *
  * @package Piwik
+ * @api
  */
 class Option
 {
     /**
-     * Returns the option value for the requested option $name, fetching from database, if not in cache.
-     *
-     * @param string $name Key
-     * @return string|bool  Value or false, if not found
+     * Returns the option value for the requested option `$name`.
+     * 
+     * @param string $name The option name.
+     * @return string|bool The value or false, if not found.
      */
     public static function get($name)
     {
@@ -32,11 +50,12 @@ class Option
     }
 
     /**
-     * Sets the option value in the database and cache
+     * Sets an option value by name.
      *
-     * @param string $name
-     * @param string $value
-     * @param int $autoLoad if set to 1, this option value will be automatically loaded; should be set to 1 for options that will always be used in the Piwik request.
+     * @param string $name The option name.
+     * @param string $value The value to set the option to.
+     * @param int $autoLoad If set to 1, this option value will be automatically loaded when Piwik is initialzed;
+     *                      should be set to 1 for options that will be used in every Piwik request.
      */
     public static function set($name, $value, $autoload = 0)
     {
@@ -44,10 +63,10 @@ class Option
     }
 
     /**
-     * Delete key-value pair from database and reload cache.
+     * Deletes an option.
      *
-     * @param string $name Key to match exactly
-     * @param string $value Optional value
+     * @param string $name Option name to match exactly.
+     * @param string $value If supplied the option will be deleted only if its value matches this value.
      */
     public static function delete($name, $value = null)
     {
@@ -55,22 +74,23 @@ class Option
     }
 
     /**
-     * Delete key-value pair(s) from database and reload cache.
-     * The supplied pattern should use '%' as wildcards, and literal '_' should be escaped.
+     * Deletes all options that match the supplied pattern.
      *
-     * @param string $name Pattern of key to match.
-     * @param string $value Optional value
+     * @param string $namePattern Pattern of key to match. `'%'` characters should be used as wildcards, and literal
+     *                            `'_'` characters should be escaped.
+     * @param string $value If supplied options will be deleted only if their value matches this value.
      */
-    public static function deleteLike($name, $value = null)
+    public static function deleteLike($namePattern, $value = null)
     {
-        return self::getInstance()->deleteNameLike($name, $value);
+        return self::getInstance()->deleteNameLike($namePattern, $value);
     }
 
     /**
-     * Clears the cache
-     * Used in unit tests to reset the state of the object between tests
+     * Clears the option value cache and forces a reload from the Database.
+     * Used in unit tests to reset the state of the object between tests.
      *
      * @return void
+     * @ignore
      */
     public static function clearCache()
     {
@@ -191,5 +211,4 @@ class Option
 
         $this->loaded = true;
     }
-
 }

@@ -6,22 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package Piwik_PLUGINNAME
+ * @package Piwik_ExamplePluginTemplate
  */
-namespace Piwik\Plugins\PLUGINNAME;
+namespace Piwik\Plugins\ExamplePluginTemplate;
 
 /**
- * API for plugin PLUGINNAME
+ * API for plugin ExamplePluginTemplate
  *
- * @package Piwik_PLUGINNAME
+ * @package Piwik_ExamplePluginTemplate
  */
 class API extends \Piwik\Plugin\API
 {
     /**
      * Example method. Please remove if you do not need this API method.
      * You can call this API method like this:
-     * /index.php?module=API&method=PLUGINNAME.getAnswerToLife
-     * /index.php?module=API&method=PLUGINNAME.getAnswerToLife?truth=0
+     * /index.php?module=API&method=ExamplePluginTemplate.getAnswerToLife
+     * /index.php?module=API&method=ExamplePluginTemplate.getAnswerToLife?truth=0
      *
      * @param  bool $truth
      *
