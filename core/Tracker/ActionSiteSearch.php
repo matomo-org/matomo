@@ -45,7 +45,7 @@ class ActionSiteSearch extends Action
     {
         return array(
             'idaction_name' => array($this->getActionName(), ActionInterface::TYPE_SITE_SEARCH),
-            'idaction_url' => $this->getUrlAndType()
+            'idaction_url' => $this->getUrlAndType(),
         );
     }
 
@@ -72,7 +72,7 @@ class ActionSiteSearch extends Action
             return false;
         }
 
-        list($actionName,$url, $category, $count) = $siteSearch;
+        list($actionName, $url, $category, $count) = $siteSearch;
 
         if (!empty($category)) {
             $this->searchCategory = trim($category);
@@ -111,7 +111,7 @@ class ActionSiteSearch extends Action
 
     protected function detectSiteSearchFromUrl($website, $parsedUrl)
     {
-        $doRemoveSearchParametersFromUrl = false;
+        $doRemoveSearchParametersFromUrl = true;
         $separator = '&';
         $count = $actionName = $categoryName = false;
 
