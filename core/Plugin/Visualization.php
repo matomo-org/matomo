@@ -23,6 +23,7 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
 use Piwik\View;
@@ -119,7 +120,7 @@ class Visualization extends ViewDataTable
     private function overrideSomeConfigPropertiesIfNeeded()
     {
         if (empty($this->config->footer_icons)) {
-            $this->config->footer_icons = $this->getDefaultFooterIconsToShow();
+            $this->config->footer_icons = ViewDataTableManager::configureFooterIcons($this);
         }
 
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals')) {

@@ -116,8 +116,10 @@ class Manager
         return $result;
     }
 
-    public static function configureFooterIcons(&$result, ViewDataTable $view)
+    public static function configureFooterIcons(ViewDataTable $view)
     {
+        $result = array();
+
         // add normal view icons (eg, normal table, all columns, goals)
         $normalViewIcons = array(
             'class'   => 'tableAllColumnsSwitch',
@@ -192,6 +194,8 @@ class Manager
         if (!empty($graphViewIcons['buttons'])) {
             $result[] = $graphViewIcons;
         }
+
+        return $result;
     }
 
     /**

@@ -236,15 +236,6 @@ abstract class ViewDataTable implements ViewInterface
 
     abstract protected function buildView();
 
-    protected function getDefaultFooterIconsToShow()
-    {
-        $result = array();
-
-        ViewDataTableManager::configureFooterIcons($result, $this);
-
-        return $result;
-    }
-
     protected function getDefaultDataTableCssClass()
     {
         return 'dataTableViz' . Piwik::getUnnamespacedClassName(get_class($this));
