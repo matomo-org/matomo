@@ -167,7 +167,7 @@ class Manager
             'buttons' => array(),
         );
 
-        if ($view->config->show_all_views_icons) {
+        if ($view->config->show_graph_views_icons) {
             if ($view->config->show_bar_chart) {
                 $graphViewIcons['buttons'][] = static::getFooterIconFor(Bar::ID);
             }
@@ -179,10 +179,12 @@ class Manager
             if ($view->config->show_tag_cloud) {
                 $graphViewIcons['buttons'][] = static::getFooterIconFor(Cloud::ID);
             }
+        }
 
-            $nonCoreVisualizations = static::getNonCoreViewDataTables();
+        $nonCoreVisualizations = static::getNonCoreViewDataTables();
 
-            foreach ($nonCoreVisualizations as $id => $klass) {
+        foreach ($nonCoreVisualizations as $id => $klass) {
+            if ($klass::canDisplayViewDataTable($view)) {
                 $graphViewIcons['buttons'][] = static::getFooterIconFor($id);
             }
         }

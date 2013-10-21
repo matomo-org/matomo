@@ -179,12 +179,11 @@ class Config
     public $columns_to_display = array();
 
     /**
-     * Controls whether the footer icons that change the ViewDataTable type of a view are shown
-     * or not.
+     * Controls whether the graph footer icons are shown or not.
      *
      * Default value: true
      */
-    public $show_all_views_icons = true;
+    public $show_graph_views_icons = true;
 
     /**
      * Controls whether to display a tiny upside-down caret over the currently active view icon.
