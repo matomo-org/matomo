@@ -17,8 +17,7 @@ use Piwik\Piwik;
 use Piwik\Tracker;
 
 /**
- * Handles an action (page view, download or outlink) by the visitor.
- * Parses the action name and URL from the request array, then records the action in the log table.
+ *
  *
  * @package Piwik
  * @subpackage Tracker
@@ -27,7 +26,12 @@ class Action implements ActionInterface
 {
     const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
 
-    static public function make(Request $request)
+    /**
+     *
+     * @param Request $request
+     * @return ActionClickUrl|ActionPageview|ActionSiteSearch
+     */
+    static public function factory(Request $request)
     {
         $downloadUrl = $request->getParam('download');
         if (!empty($downloadUrl)) {
@@ -54,8 +58,8 @@ class Action implements ActionInterface
     protected $request;
 
     private $idLinkVisitAction;
-    private $idActionName = false;
-    private $idActionUrl = false;
+
+    protected $actionIdsCached = array();
 
     private $actionName;
     private $actionType;
@@ -66,7 +70,6 @@ class Action implements ActionInterface
         $this->actionType = $type;
         $this->request = $request;
     }
-
 
     /**
      * Returns URL of the page currently being tracked, or the file being downloaded, or the outlink being clicked
@@ -88,25 +91,23 @@ class Action implements ActionInterface
         return $this->actionType;
     }
 
-    protected function getActionNameType()
-    {
-        return ActionInterface::TYPE_PAGE_TITLE;
-    }
-
     public function getIdActionUrl()
     {
-        $idUrl = $this->idActionUrl;
+        $idUrl = $this->actionIdsCached['idaction_url'];
         // note; idaction_url = 0 is displayed as "Page URL Not Defined"
         return (int)$idUrl;
     }
 
     public function getIdActionName()
     {
-        return $this->idActionName;
+        if(!isset($this->actionIdsCached['idaction_name'])) {
+            return false;
+        }
+        return $this->actionIdsCached['idaction_name'];
     }
 
     // custom_float column
-    public function getActionCustomValue()
+    public function getCustomFloatValue()
     {
         return false;
     }
@@ -154,6 +155,36 @@ class Action implements ActionInterface
         $this->actionUrl = $url;
     }
 
+    public function getCustomVariables()
+    {
+        $customVariables = $this->request->getCustomVariables($scope = 'page');
+        return $customVariables;
+    }
+
+    protected function getActionsToLookup()
+    {
+        return array(
+            'idaction_name' => $this->getNameAndType(),
+            'idaction_url' => $this->getUrlAndType()
+        );
+    }
+
+    protected function getNameAndType()
+    {
+        return array($this->getActionName(), ActionInterface::TYPE_PAGE_TITLE, $prefix = false);
+    }
+
+    protected function getUrlAndType()
+    {
+        $url = $this->getActionUrl();
+        if (!empty($url)) {
+            // normalize urls by stripping protocol and www
+            $url = PageUrl::normalizeUrl($url);
+            return array($url['url'], Tracker\Action::TYPE_PAGE_URL, $url['prefixId']);
+        }
+        return false;
+    }
+
     public static function getTypeAsString($type)
     {
         $class = new \ReflectionClass("\\Piwik\\Tracker\\ActionInterface");
@@ -175,37 +206,20 @@ class Action implements ActionInterface
      * The methods takes care of creating a new record(s) in the action table if the existing
      * action name and action url doesn't exist yet.
      */
-    function loadIdActionNameAndUrl()
+    public function loadIdsFromLogActionTable()
     {
-        if ($this->idActionUrl !== false
-            && $this->idActionName !== false
-        ) {
-            return;
-        }
-        $actions = array();
+        $actions = $this->getActionsToLookup();
+        $actions = array_filter($actions, 'count');
 
-        $actionNameAndType = $this->getNameAndType();
-        if($actionNameAndType) {
-            $actions[] = $actionNameAndType;
+        if(empty($actions)
+            || !empty($this->actionIdsCached)) {
+            return false;
         }
 
-        $actionUrlAndType = $this->getUrlAndType();
-        if($actionUrlAndType) {
-            $actions[] = $actionUrlAndType;
+        $loadedActionIds = TableLogAction::loadIdsAction($actions);
 
-        }
-
-        $loadedActionIds = TableActionIds::loadActionId($actions);
-
-        foreach ($loadedActionIds as $loadedActionId) {
-            var_dump($loadedActionId);
-            list($name, $type, $prefixId, $actionId) = $loadedActionId;
-            if ($type == $this->getActionNameType()) {
-                $this->idActionName = $actionId;
-            } else {
-                $this->idActionUrl = $actionId;
-            }
-        }
+        $this->actionIdsCached = $loadedActionIds;
+        return $this->actionIdsCached;
     }
 
     /**
@@ -220,7 +234,7 @@ class Action implements ActionInterface
      */
     public function record($idVisit, $visitorIdCookie, $idReferrerActionUrl, $idReferrerActionName, $timeSpentReferrerAction)
     {
-        $this->loadIdActionNameAndUrl();
+        $this->loadIdsFromLogActionTable();
 
         $idActionName = in_array($this->getActionType(), array(Tracker\Action::TYPE_PAGE_TITLE,
                                                                Tracker\Action::TYPE_PAGE_URL,
@@ -241,7 +255,7 @@ class Action implements ActionInterface
             'time_spent_ref_action' => $timeSpentReferrerAction
         );
 
-        $customValue = $this->getActionCustomValue();
+        $customValue = $this->getCustomFloatValue();
         if (!empty($customValue)) {
             $insert[self::DB_COLUMN_CUSTOM_FLOAT] = $customValue;
         }
@@ -280,6 +294,7 @@ class Action implements ActionInterface
             'idReferrerActionName'    => $idReferrerActionName,
             'timeSpentReferrerAction' => $timeSpentReferrerAction,
         );
+        Common::printDebug("Inserted new action:");
         Common::printDebug($insertWithoutNulls);
 
         /**
@@ -289,31 +304,6 @@ class Action implements ActionInterface
         Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $info));
     }
 
-    public function getCustomVariables()
-    {
-        $customVariables = $this->request->getCustomVariables($scope = 'page');
-        return $customVariables;
-    }
-
-    protected function getNameAndType()
-    {
-        $nameType = $this->getActionNameType();
-        if (!is_null($nameType)) {
-            return array($this->getActionName(), $nameType, $prefix = false);
-        }
-        return false;
-    }
-
-    protected function getUrlAndType()
-    {
-        $url = $this->getActionUrl();
-        if (!empty($url)) {
-            // normalize urls by stripping protocol and www
-            $url = PageUrl::normalizeUrl($url);
-            return array($url['url'], Tracker\Action::TYPE_PAGE_URL, $url['prefixId']);
-        }
-        return false;
-    }
 }
 
 

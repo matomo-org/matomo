@@ -22,7 +22,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\TableActionIds;
+use Piwik\Tracker\TableLogAction;
 use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\WidgetsList;
 
@@ -177,7 +177,7 @@ class Actions extends \Piwik\Plugin
         if ($matchType == SegmentExpression::MATCH_EQUAL
             || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
-            $sql = TableActionIds::getSqlSelectActionId();
+            $sql = TableLogAction::getSqlSelectActionId();
             $bind = array($valueToMatch, $valueToMatch, $actionType);
             $idAction = Db::fetchOne($sql, $bind);
             // if the action is not found, we hack -100 to ensure it tries to match against an integer

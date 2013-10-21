@@ -191,7 +191,7 @@ class Tracker
         if (isset($jsonData['requests'])) {
             $this->requests = $jsonData['requests'];
         }
-        $tokenAuth = Common::getRequestVar('token_auth', false, null, $jsonData);
+        $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $jsonData);
         if (empty($tokenAuth)) {
             throw new Exception("token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
         }
@@ -244,6 +244,9 @@ class Tracker
         $this->initOutputBuffer();
 
         if (!empty($this->requests)) {
+            // Request needs the Db to authenticate (if cache files not available)
+            self::connectDatabaseIfNotConnected();
+
             foreach ($this->requests as $params) {
                 $request = new Request($params, $tokenAuth);
                 $isAuthenticated = $request->isAuthenticated();
@@ -252,7 +255,6 @@ class Tracker
                 try {
                     if ($this->isVisitValid()) {
 
-                        self::connectDatabaseIfNotConnected();
 
                         $visit = $this->getNewVisitObject();
                         $request->setForcedVisitorId(self::$forcedVisitorId);

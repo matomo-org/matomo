@@ -180,8 +180,11 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function checkBulkTrackingResponse($response) {
         $data = json_decode($response, true);
-        if (!is_array($data)) {
-            echo "Bulk tracking response is not an array: " . var_export($data, true) . "\n";
+        if (!is_array($data) || empty($response)) {
+            throw new Exception("Bulk tracking response (".$response.") is not an array: " . var_export($data, true) . "\n");
+        }
+        if(!isset($data['status'])) {
+            throw new Exception("Returned data didn't have a status: " . var_export($data,true));
         }
         self::assertArrayHasKey('status', $data);
         self::assertEquals('success', $data['status']);

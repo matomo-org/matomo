@@ -15,6 +15,11 @@ use Piwik\Tracker;
 
 use Piwik\Config;
 
+/**
+ * This class represents a page view, tracking URL, page title and generation time.
+ *
+ * @package Piwik\Tracker
+ */
 class ActionPageview extends Action
 {
     protected $timeGeneration = false;
@@ -32,7 +37,7 @@ class ActionPageview extends Action
         $this->timeGeneration = $this->request->getPageGenerationTime();
     }
 
-    function getActionCustomValue()
+    function getCustomFloatValue()
     {
         return $this->request->getPageGenerationTime();
     }

@@ -16,14 +16,24 @@ use Piwik\Config;
 use Piwik\Tracker;
 use Piwik\UrlHelper;
 
+/**
+ * This class represents a search on the site.
+ * - Its name is the search keyword
+ * - by default the URL is not recorded (since it's not used)
+ * - tracks site search result count and site search category as custom variables
+ *
+ * @package Piwik\Tracker
+ */
 class ActionSiteSearch extends Action
 {
+    private $searchCategory = false;
+    private $searchCount = false;
+
     const CVAR_KEY_SEARCH_CATEGORY = '_pk_scat';
     const CVAR_KEY_SEARCH_COUNT = '_pk_scount';
     const CVAR_INDEX_SEARCH_CATEGORY = '4';
     const CVAR_INDEX_SEARCH_COUNT = '5';
-    private $searchCategory = false;
-    private $searchCount = false;
+
 
     function __construct($url, Request $request)
     {
@@ -31,7 +41,25 @@ class ActionSiteSearch extends Action
         $this->originalUrl = $url;
     }
 
-    function getActionCustomValue()
+    protected function getActionsToLookup()
+    {
+        return array(
+            'idaction_name' => array($this->getActionName(), ActionInterface::TYPE_SITE_SEARCH, $prefix = false),
+            'idaction_url' => $this->getUrlAndType()
+        );
+    }
+
+    public function getIdActionUrl()
+    {
+        // Site Search, by default, will not track URL. We do not want URL to appear as "Page URL not defined"
+        // so we specifically set it to NULL in the table (the archiving query does IS NOT NULL)
+        if (empty(Config::getInstance()->Tracker['action_sitesearch_record_url'])) {
+            return null;
+        }
+        return parent::getIdActionUrl();
+    }
+
+    public function getCustomFloatValue()
     {
         return $this->request->getPageGenerationTime();
     }
@@ -58,21 +86,6 @@ class ActionSiteSearch extends Action
         return true;
     }
 
-    // FIXMEA replace by getNameAndType
-    protected function getActionNameType()
-    {
-        return ActionInterface::TYPE_SITE_SEARCH;
-    }
-
-    public function getIdActionUrl()
-    {
-        // Site Search, by default, will not track URL. We do not want URL to appear as "Page URL not defined"
-        // so we specifically set it to NULL in the table (the archiving query does IS NOT NULL)
-        if (empty(Config::getInstance()->Tracker['action_sitesearch_record_url'])) {
-            return null;
-        }
-        return parent::getIdActionUrl();
-    }
 
     public function getCustomVariables()
     {
@@ -94,11 +107,6 @@ class ActionSiteSearch extends Action
             $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_COUNT] = (int)$this->searchCount;
         }
         return $customVariables;
-    }
-
-    public function isSiteSearchDetected($originalUrl)
-    {
-        return true;
     }
 
     protected function detectSiteSearchFromUrl($website, $parsedUrl)

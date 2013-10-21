@@ -4,6 +4,7 @@ use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
+use Piwik\Tracker\TableLogAction;
 use Piwik\Tracker\Request;
 use Piwik\Translate;
 
@@ -26,6 +27,8 @@ class Tracker_ActionTest extends DatabaseTestCase
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('SitesManager'));
         
         Translate::loadEnglishTranslation();
+
+        \Piwik\Tracker::connectDatabaseIfNotConnected();
     }
 
     protected function setUpRootAccess()
@@ -190,10 +193,10 @@ class Tracker_ActionTest extends DatabaseTestCase
                                     'url'  => 'http://example.org',
                                     'type' => Action::TYPE_OUTLINK),
             ),
-            // outlinks with custom name
+            // outlinks with custom name -> no custom name
             array(
                 'request'  => array('link' => 'http://example.org', 'action_name' => 'Example.org'),
-                'expected' => array('name' => 'Example.org',
+                'expected' => array('name' => null,
                                     'url'  => 'http://example.org',
                                     'type' => Action::TYPE_OUTLINK),
             ),
@@ -205,10 +208,10 @@ class Tracker_ActionTest extends DatabaseTestCase
                                     'type' => Action::TYPE_OUTLINK),
             ),
 
-            // trim the custom name
+            // no custom name
             array(
                 'request'  => array('link' => '    http://example.org/Category/Test/      ', 'action_name' => '  Example dot org '),
-                'expected' => array('name' => 'Example dot org',
+                'expected' => array('name' => null,
                                     'url'  => 'http://example.org/Category/Test/',
                                     'type' => Action::TYPE_OUTLINK),
             ),
@@ -221,10 +224,10 @@ class Tracker_ActionTest extends DatabaseTestCase
                                     'type' => Action::TYPE_DOWNLOAD),
             ),
 
-            // downloads with custom name
+            // downloads with custom name -> no custom name
             array(
                 'request'  => array('download' => 'http://example.org/*$test.zip', 'action_name' => 'Download test.zip'),
-                'expected' => array('name' => 'Download test.zip',
+                'expected' => array('name' => null,
                                     'url'  => 'http://example.org/*$test.zip',
                                     'type' => Action::TYPE_DOWNLOAD),
             ),
@@ -361,16 +364,15 @@ class Tracker_ActionTest extends DatabaseTestCase
         $idSite = API::getInstance()->addSite("site1", array('http://example.org'));
         $request['idsite'] = $idSite;
         $request = new Request($request);
-        $action = new Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest($request);
 
-        $this->assertEquals($action->public_extractUrlAndActionNameFromRequest(), $expected);
-    }
-}
+        $action = Action::factory($request);
 
-class Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest extends Action
-{
-    public function public_extractUrlAndActionNameFromRequest()
-    {
-        return $this->extractUrlAndActionNameFromRequest();
+        $processed = array(
+          'name' => $action->getActionName(),
+          'url' => $action->getActionUrl(),
+          'type' => $action->getActionType(),
+        );
+
+        $this->assertEquals($processed, $expected);
     }
 }

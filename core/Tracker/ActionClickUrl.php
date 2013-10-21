@@ -27,9 +27,15 @@ class ActionClickUrl extends Action
         $this->setActionUrl($url);
     }
 
-    function getActionNameType()
+    protected function getActionsToLookup()
     {
-        return null;
+        $actions = parent::getActionsToLookup();
+        // set the right type
+        $actions['idaction_url'][1] = $this->getActionType();
+
+        return array(
+            'idaction_url' => $actions['idaction_url']
+        );
     }
 
     function writeDebugInfo()

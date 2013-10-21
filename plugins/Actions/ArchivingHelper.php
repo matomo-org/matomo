@@ -65,8 +65,7 @@ class ArchivingHelper
             ) {
                 $url = null;
             } elseif (!empty($row['name'])
-                && $row['name'] != DataTable::LABEL_SUMMARY_ROW
-            ) {
+                        && $row['name'] != DataTable::LABEL_SUMMARY_ROW) {
                 $url = PageUrl::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
             }
 
@@ -389,7 +388,7 @@ class ArchivingHelper
      *  we explode link http://piwik.org/some/path into an array( 'some', 'path' );
      *
      * for action names:
-     *   we explode name 'Piwik / Category 1 / Category 2' into an array('\Piwik\Piwik', 'Category 1', 'Category 2');
+     *   we explode name 'Piwik / Category 1 / Category 2' into an array('Piwik', 'Category 1', 'Category 2');
      *
      * @param string $name action name
      * @param int $type action type
@@ -403,69 +402,10 @@ class ArchivingHelper
             return array($name);
         }
 
-        $matches = array();
-        $isUrl = false;
         $name = str_replace("\n", "", $name);
 
-        $urlRegexAfterDomain = '([^/]+)[/]?([^#]*)[#]?(.*)';
-        if ($urlPrefix === null) {
-            // match url with protocol (used for outlinks / downloads)
-            $urlRegex = '@^http[s]?://' . $urlRegexAfterDomain . '$@i';
-        } else {
-            // the name is a url that does not contain protocol and www anymore
-            // we know that normalization has been done on db level because $urlPrefix is set
-            $urlRegex = '@^' . $urlRegexAfterDomain . '$@i';
-        }
-
-        preg_match($urlRegex, $name, $matches);
-        if (count($matches)) {
-            $isUrl = true;
-            $urlHost = $matches[1];
-            $urlPath = $matches[2];
-            $urlFragment = $matches[3];
-        }
-
-        if ($type == Action::TYPE_DOWNLOAD
-            || $type == Action::TYPE_OUTLINK
-        ) {
-            if ($isUrl) {
-                return array(trim($urlHost), '/' . trim($urlPath));
-            }
-        }
-
-        if ($isUrl) {
-            $name = $urlPath;
-
-            if ($name === '' || substr($name, -1) == '/') {
-                $name .= self::$defaultActionName;
-            }
-        }
-
-        if ($type == Action::TYPE_PAGE_TITLE) {
-            $categoryDelimiter = self::$actionTitleCategoryDelimiter;
-        } else {
-            $categoryDelimiter = self::$actionUrlCategoryDelimiter;
-        }
-
-        if ($isUrl) {
-            $urlFragment = PageUrl::processUrlFragment($urlFragment);
-            if (!empty($urlFragment)) {
-                $name .= '#' . $urlFragment;
-            }
-        }
-
-        if (empty($categoryDelimiter)) {
-            return array(trim($name));
-        }
-
-        $split = explode($categoryDelimiter, $name, self::getSubCategoryLevelLimit());
-
-        // trim every category and remove empty categories
-        $split = array_map('trim', $split);
-        $split = array_filter($split, 'strlen');
-
-        // forces array key to start at 0
-        $split = array_values($split);
+        $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);
+        $split = self::splitNameByDelimiter($name, $type);
 
         if (empty($split)) {
             $defaultName = self::getUnknownActionName($type);
@@ -596,5 +536,73 @@ class ArchivingHelper
                             Row::COLUMNS =>
                                 array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
                        ));
+    }
+
+    protected static function splitNameByDelimiter($name, $type)
+    {
+        if(is_array($name)) {
+            return $name;
+        }
+        if ($type == Action::TYPE_PAGE_TITLE) {
+            $categoryDelimiter = self::$actionTitleCategoryDelimiter;
+        } else {
+            $categoryDelimiter = self::$actionUrlCategoryDelimiter;
+        }
+
+        if (empty($categoryDelimiter)) {
+            return array(trim($name));
+        }
+
+        $split = explode($categoryDelimiter, $name, self::getSubCategoryLevelLimit());
+
+        // trim every category and remove empty categories
+        $split = array_map('trim', $split);
+        $split = array_filter($split, 'strlen');
+
+        // forces array key to start at 0
+        $split = array_values($split);
+
+        return $split;
+    }
+
+    protected static function parseNameFromPageUrl($name, $type, $urlPrefix)
+    {
+        if($type == Action::TYPE_PAGE_TITLE) {
+            return $name;
+        }
+        $urlRegexAfterDomain = '([^/]+)[/]?([^#]*)[#]?(.*)';
+        if ($urlPrefix === null) {
+            // match url with protocol (used for outlinks / downloads)
+            $urlRegex = '@^http[s]?://' . $urlRegexAfterDomain . '$@i';
+        } else {
+            // the name is a url that does not contain protocol and www anymore
+            // we know that normalization has been done on db level because $urlPrefix is set
+            $urlRegex = '@^' . $urlRegexAfterDomain . '$@i';
+        }
+
+        $matches = array();
+        preg_match($urlRegex, $name, $matches);
+        if (!count($matches)) {
+            return $name;
+        }
+        $urlHost = $matches[1];
+        $urlPath = $matches[2];
+        $urlFragment = $matches[3];
+
+        if (in_array($type, array(Action::TYPE_DOWNLOAD, Action::TYPE_OUTLINK))) {
+            return array(trim($urlHost), trim($urlPath));
+        }
+
+        $name = $urlPath;
+        if ($name === '' || substr($name, -1) == '/') {
+            $name .= self::$defaultActionName;
+        }
+
+        $urlFragment = PageUrl::processUrlFragment($urlFragment);
+        if (!empty($urlFragment)) {
+            $name .= '#' . $urlFragment;
+        }
+
+        return $name;
     }
 }

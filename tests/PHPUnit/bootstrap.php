@@ -1,8 +1,8 @@
 <?php
 // Note to devs: In Phpstorm I had to manually set these here as PHPUnit is not init properly.
 // Uncomment and set manually the path to Piwik if you get the WARNING message in your IDE.
-//$_SERVER['REQUEST_URI'] = '/piwik-master/index.php';
-//$_SERVER['HTTP_HOST'] = 'localhost';
+$_SERVER['REQUEST_URI'] = '/piwik-master/index.php';
+$_SERVER['HTTP_HOST'] = 'localhost';
 
 use Piwik\Http;
 

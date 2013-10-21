@@ -128,14 +128,14 @@ class Visit implements VisitInterface
             }
         } // normal page view, potentially triggering a URL matching goal
         else {
-            $action = Action::make($this->request);
+            $action = Action::factory($this->request);
 
             $action->writeDebugInfo();
 
             $someGoalsConverted = $this->goalManager->detectGoalsMatchingUrl($this->request->getIdSite(), $action);
             $visitIsConverted = $someGoalsConverted;
 
-            $action->loadIdActionNameAndUrl();
+            $action->loadIdsFromLogActionTable();
         }
 
         // the visitor and session
