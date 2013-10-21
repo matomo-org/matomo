@@ -149,7 +149,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *     $serializedData = $dataTable->getSerialized($maxRowsInTable, $maxRowsInSubtable = $maxRowsInTable,
  *                                                 $columnToSortBy = Metrics::INDEX_NB_VISITS);
  *     
- *     $serializedDataTable = $serializedData['0'];
+ *     $serializedDataTable = $serializedData[0];
  *     $serailizedSubTable = $serializedData[$idSubtable];
  * 
  * **Filtering for an API method**
@@ -1359,6 +1359,16 @@ class DataTable implements DataTableInterface
     public function setMetadata($name, $value)
     {
         $this->metadata[$name] = $value;
+    }
+
+    /**
+     * Returns all table metadata.
+     *
+     * @return array
+     */
+    public function getAllTableMetadata()
+    {
+        return $this->metadata;
     }
 
     /**

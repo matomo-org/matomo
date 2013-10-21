@@ -175,7 +175,7 @@ class Visualization extends ViewDataTable
 
         // deal w/ table metadata
         if ($this->dataTable instanceof DataTable) {
-            $this->config->metadata = $this->dataTable->metadata;
+            $this->config->metadata = $this->dataTable->getAllTableMetadata();
 
             if (isset($this->config->metadata[DataTable::ARCHIVED_DATE_METADATA_NAME])) {
                 $this->config->report_last_updated_message = $this->makePrettyArchivedOnText();
