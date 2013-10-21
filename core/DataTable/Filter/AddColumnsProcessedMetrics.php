@@ -31,6 +31,7 @@ use Piwik\Metrics;
  * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class AddColumnsProcessedMetrics extends Filter
 {

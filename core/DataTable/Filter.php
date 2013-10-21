@@ -31,6 +31,7 @@ use Piwik\DataTable\Row;
  * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 abstract class Filter
 {
