@@ -11,7 +11,13 @@
 namespace Piwik;
 
 /**
+ * Manages the global list of reports that can be displayed as dashboard widgets.
+ * 
+ * Reports are added as dashboard widgets through the [WidgetsList.addWidgets](#)
+ * event. Plugins should call [add](#add) in event observers for this event.
+ * 
  * @package PluginsFunctions
+ * @api
  */
 class WidgetsList
 {
@@ -30,10 +36,21 @@ class WidgetsList
     static protected $hookCalled = false;
 
     /**
-     * Returns all available widgets
-     * The event WidgetsList.addWidgets is used to create the list
+     * Returns all available widgets.
      *
-     * @return array
+     * @return array Maps widget categories with an array of widget information, eg,
+     *               ```
+     *               array(
+     *                   'Visitors' => array(
+     *                       array(...),
+     *                       array(...)
+     *                   ),
+     *                   'Visits' => array(
+     *                       array(...),
+     *                       array(...)
+     *                   ),
+     *               )
+     *               ```
      */
     static public function get()
     {
@@ -108,13 +125,14 @@ class WidgetsList
     }
 
     /**
-     * Adds an widget to the list
+     * Adds a report to the list of dashboard widgets.
      *
-     * @param string $widgetCategory
-     * @param string $widgetName
-     * @param string $controllerName
-     * @param string $controllerAction
-     * @param array $customParameters
+     * @param string $widgetCategory The widget category. This can be a translation token.
+     * @param string $widgetName The name of the widget. This can be a translation token.
+     * @param string $controllerName The report's controller name (same as the plugin name).
+     * @param string $controllerAction The report's controller action method name.
+     * @param array $customParameters Extra query parameters that should be sent while getting
+     *                                this report.
      */
     static public function add($widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array())
     {
@@ -137,7 +155,14 @@ class WidgetsList
         );
     }
 
-
+    /**
+     * Removes one more widgets from the widget list.
+     * 
+     * @param string $widgetCategory The widget category. Can be a translation token.
+     * @param string|false $widgetName The name of the widget to remove. Cannot be a 
+     *                                 translation token. If not supplied, entire category
+     *                                 will be removed.
+     */
     static public function remove($widgetCategory, $widgetName = false)
     {
         if (empty($widgetName)) {
@@ -153,10 +178,11 @@ class WidgetsList
     }
 
     /**
-     * Checks if the widget with the given parameters exists in der widget list
+     * Returns true if the widget with the given parameters exists in the widget list,
+     * false if otherwise.
      *
-     * @param string $controllerName
-     * @param string $controllerAction
+     * @param string $controllerName The controller name of the widget's report.
+     * @param string $controllerAction The controller action of the widget's report.
      * @return bool
      */
     static public function isDefined($controllerName, $controllerAction)
@@ -177,6 +203,7 @@ class WidgetsList
     /**
      * Method to reset the widget list
      * For testing only
+     * @ignore
      */
     public static function _reset()
     {
@@ -184,6 +211,3 @@ class WidgetsList
         self::$hookCalled = false;
     }
 }
-
-
-
