@@ -439,10 +439,10 @@ class Visualization extends ViewDataTable
 
     private function logMessageIfRequestPropertiesHaveChanged(array $requestPropertiesBefore)
     {
-        return;
         $requestProperties = $this->requestConfig->getProperties();
 
-        $diff = array_diff_assoc($requestProperties, $requestPropertiesBefore);
+        $diff = array_diff_assoc($this->makeSureArrayContainsOnlyStrings($requestProperties),
+                                 $this->makeSureArrayContainsOnlyStrings($requestPropertiesBefore));
 
         if (empty($diff)) {
             return;
@@ -461,5 +461,16 @@ class Visualization extends ViewDataTable
                  . print_r($details, 1);
 
         Log::warning($message);
+    }
+
+    private function makeSureArrayContainsOnlyStrings($array)
+    {
+        $result = array();
+
+        foreach ($array as $key => $value) {
+            $result[$key] = json_encode($value);
+        }
+
+        return $result;
     }
 }
