@@ -36,7 +36,7 @@ class TableLogAction
 
     /**
      * This function will find the idaction from the lookup table piwik_log_action,
-     * given an Action name and type.
+     * given an Action name, type, and an optional URL Prefix.
      *
      * This is used to record Page URLs, Page Titles, Ecommerce items SKUs, item names, item categories
      *
@@ -46,6 +46,12 @@ class TableLogAction
      */
     public static function loadIdsAction($actionsNameAndType)
     {
+        // Add url prefix if not set
+        foreach($actionsNameAndType as &$action) {
+            if(count($action) == 2) {
+                $action[] = null;
+            }
+        }
         $actionIds = self::queryIdsAction($actionsNameAndType);
 
         list($queriedIds, $fieldNamesToInsert) = self::processIdsToInsert($actionsNameAndType, $actionIds);

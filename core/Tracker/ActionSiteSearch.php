@@ -44,7 +44,7 @@ class ActionSiteSearch extends Action
     protected function getActionsToLookup()
     {
         return array(
-            'idaction_name' => array($this->getActionName(), ActionInterface::TYPE_SITE_SEARCH, $prefix = false),
+            'idaction_name' => array($this->getActionName(), ActionInterface::TYPE_SITE_SEARCH),
             'idaction_url' => $this->getUrlAndType()
         );
     }

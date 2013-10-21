@@ -36,9 +36,9 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
 
     private function setUpWebsitesAndGoals()
     {
-        // tests run in UTC, the Tracker in UTC
         $ecommerce = $this->allowConversions ? 1 : 0;
 
+        // tests run in UTC, the Tracker in UTC
         self::createWebsite($this->dateTime, $ecommerce, "Site 1");
         self::createWebsite($this->dateTime, 0, "Site 2");
 

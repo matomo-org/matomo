@@ -171,7 +171,7 @@ class Action implements ActionInterface
 
     protected function getNameAndType()
     {
-        return array($this->getActionName(), ActionInterface::TYPE_PAGE_TITLE, $prefix = false);
+        return array($this->getActionName(), ActionInterface::TYPE_PAGE_TITLE);
     }
 
     protected function getUrlAndType()

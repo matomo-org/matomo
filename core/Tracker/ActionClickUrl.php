@@ -29,12 +29,9 @@ class ActionClickUrl extends Action
 
     protected function getActionsToLookup()
     {
-        $actions = parent::getActionsToLookup();
-        // set the right type
-        $actions['idaction_url'][1] = $this->getActionType();
-
         return array(
-            'idaction_url' => $actions['idaction_url']
+            // Note: we do not normalize download/oulink URL
+            'idaction_url' => array($this->getActionUrl(), $this->getActionType())
         );
     }
 

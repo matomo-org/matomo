@@ -630,11 +630,6 @@ class GoalManager
             $actionsToLookupAllItems = array_merge($actionsToLookupAllItems, $actionsToLookup);
         }
 
-        // add prefixId = false expected by loadIdsFromLogActionTable()
-        foreach($actionsToLookupAllItems as &$actionToLookup) {
-            $actionToLookup[] = false;
-        }
-
         $actionsLookedUp = TableLogAction::loadIdsAction($actionsToLookupAllItems);
 
         // Replace SKU, name & category by their ID action
