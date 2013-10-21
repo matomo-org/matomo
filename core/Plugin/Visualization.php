@@ -23,16 +23,18 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Site;
 use Piwik\View;
 
 /**
- * Base class for all DataTable visualizations. Different visualizations are used to
- * handle different values of the viewDataTable query parameter. Each one will display
- * DataTable data in a different way.
+ * Base class for all DataTable visualizations. A Visualization is a special kind of ViewDataTable that comes with some
+ * handy hooks. Different visualizations are used to handle different values of the viewDataTable query parameter.
+ * Each one will display DataTable data in a different way.
  *
  * TODO: must be more in depth
+ * @api
  */
 class Visualization extends ViewDataTable
 {
@@ -49,11 +51,6 @@ class Visualization extends ViewDataTable
         }
 
         parent::__construct($controllerAction, $apiMethodToRequestDataTable);
-    }
-
-    protected function init()
-    {
-        // do your init stuff here, do not overwrite constructor
     }
 
     protected function buildView()
@@ -119,7 +116,7 @@ class Visualization extends ViewDataTable
     private function overrideSomeConfigPropertiesIfNeeded()
     {
         if (empty($this->config->footer_icons)) {
-            $this->config->footer_icons = $this->getDefaultFooterIconsToShow();
+            $this->config->footer_icons = ViewDataTableManager::configureFooterIcons($this);
         }
 
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Goals')) {
@@ -127,6 +124,13 @@ class Visualization extends ViewDataTable
         }
     }
 
+    /**
+     * Assigns a template variable. All assigned variables are available in the twig view template afterwards. You can
+     * assign either one variable by setting $vars and $value or an array of key/value pairs.
+     *
+     * @param array|string $vars
+     * @param mixed  $value
+     */
     public function assignTemplateVar($vars, $value = null)
     {
         if (is_string($vars)) {
@@ -389,34 +393,44 @@ class Visualization extends ViewDataTable
         return $javascriptVariablesToSet;
     }
 
-    public function beforeRender()
-    {
-        // make sure config properties have a specific value because it can be changed by a report or by request params
-        // like $this->config->showFooterColumns = true;
-    }
-
+    /**
+     * Hook that is intended to change the request config that is sent to the API.
+     */
     public function beforeLoadDataTable()
     {
-        // change request
-        // like defining $this->requestConfig->filter_column
     }
 
+    /**
+     * Hook that is executed before generic filters like "filter_limit" and "filter_offset" are applied
+     */
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
     {
 
     }
 
+    /**
+     * This hook is executed after generic filters like "filter_limit" and "filter_offset" are applied
+     */
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
 
     }
 
+    /**
+     * This hook is executed after the data table is loaded and after all filteres are applied.
+     * Format the data that you want to pass to the view here.
+     */
     public function afterAllFilteresAreApplied()
     {
-        // filter and format requested data here
-        // $dataTable ...
+    }
 
-        // $this->generator = new GeneratorFoo($dataTable);
+    /**
+     * Hook to make sure config properties have a specific value because the default config can be changed by a
+     * report or by request ($_GET and $_POST) params.
+     */
+    public function beforeRender()
+    {
+        // eg $this->config->showFooterColumns = true;
     }
 
     /**
@@ -438,10 +452,10 @@ class Visualization extends ViewDataTable
 
     private function logMessageIfRequestPropertiesHaveChanged(array $requestPropertiesBefore)
     {
-        return;
         $requestProperties = $this->requestConfig->getProperties();
 
-        $diff = array_diff_assoc($requestProperties, $requestPropertiesBefore);
+        $diff = array_diff_assoc($this->makeSureArrayContainsOnlyStrings($requestProperties),
+                                 $this->makeSureArrayContainsOnlyStrings($requestPropertiesBefore));
 
         if (empty($diff)) {
             return;
@@ -460,5 +474,16 @@ class Visualization extends ViewDataTable
                  . print_r($details, 1);
 
         Log::warning($message);
+    }
+
+    private function makeSureArrayContainsOnlyStrings($array)
+    {
+        $result = array();
+
+        foreach ($array as $key => $value) {
+            $result[$key] = json_encode($value);
+        }
+
+        return $result;
     }
 }

@@ -707,7 +707,7 @@ class Actions extends \Piwik\Plugin
         $view->config->search_recursive       = true;
         $view->config->show_table_all_columns = false;
         $view->requestConfig->filter_limit    = self::ACTIONS_REPORT_ROWS_DISPLAY;
-        $view->config->show_all_views_icons   = false;
+        $view->config->show_all_views_icons = false;
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->show_embedded_subtable = true;
@@ -717,7 +717,7 @@ class Actions extends \Piwik\Plugin
         // so users can see that they can set it to 1 (see #3365)
         $view->config->custom_parameters = array('flat' => 0);
 
-        if (ViewDataTableRequest::shouldLoadExpanded()) {
+        if (Request::shouldLoadExpanded()) {
 
             if ($view->isViewDataTableId(HtmlTable::ID)) {
                 $view->config->show_expanded = true;

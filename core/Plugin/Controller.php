@@ -32,7 +32,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\ViewDataTable as ViewDataTableBuilder;
+use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
@@ -179,7 +179,7 @@ abstract class Controller
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
-        $view = ViewDataTableBuilder::factory(
+        $view = ViewDataTableFactory::build(
             'graphEvolution', $apiMethod, $currentModuleName . '.' . $currentControllerAction, $forceDefault = true);
         $view->config->show_goals = false;
         return $view;

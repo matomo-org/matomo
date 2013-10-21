@@ -11,7 +11,7 @@
 namespace Piwik\Plugins\VisitTime;
 
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  *
@@ -29,16 +29,16 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getVisitInformationPerServerTime($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getVisitInformationPerLocalTime($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getByDayOfWeek($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }

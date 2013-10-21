@@ -19,7 +19,7 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 use Piwik\Url;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  * ROW EVOLUTION
@@ -184,12 +184,12 @@ class RowEvolution
      * Do as much as possible from outside the controller.
      * @param string|bool $graphType
      * @param array|bool $metrics
-     * @return ViewDataTable
+     * @return Factory
      */
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = ViewDataTable::factory($graphType ? : $this->graphType, $this->apiMethod,
+        $view = Factory::build($graphType ? : $this->graphType, $this->apiMethod,
             $controllerAction = 'CoreHome.getRowEvolutionGraph', $forceDefault = true);
         $view->setDataTable($this->dataTable);
 
@@ -198,7 +198,7 @@ class RowEvolution
         }
 
         $view->config->show_goals = false;
-        $view->config->show_all_views_icons  = false;
+        $view->config->show_all_views_icons = false;
         $view->config->show_active_view_icon = false;
         $view->config->show_related_reports  = false;
         $view->config->show_series_picker    = false;

@@ -12,13 +12,13 @@
 namespace Piwik\Plugins\ExampleUI;
 
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 class CustomDataTable
 {
     public function render($value, $label, $apiAction, $controllerAction)
     {
-        $view = ViewDataTable::factory('table', $apiAction, $controllerAction);
+        $view = Factory::build('table', $apiAction, $controllerAction);
 
         $view->config->translations['value'] = $value;
         $view->config->translations['label'] = $label;

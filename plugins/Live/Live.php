@@ -31,13 +31,13 @@ class Live extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
-            'WidgetsList.addWidgets'                     => 'addWidget',
-            'Menu.Reporting.addItems'                    => 'addMenu',
-            'ViewDataTable.configure'                    => 'configureViewDataTable',
-            'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
-            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
+            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'WidgetsList.addWidgets'                 => 'addWidget',
+            'Menu.Reporting.addItems'                => 'addMenu',
+            'ViewDataTable.configure'                => 'configureViewDataTable',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'ViewDataTable.getDefaultType'           => 'getDefaultTypeViewDataTable'
         );
     }
 
@@ -85,7 +85,7 @@ class Live extends \Piwik\Plugin
         }
     }
 
-    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    public function getDefaultTypeViewDataTable(&$defaultViewTypes)
     {
         $defaultViewTypes['Live.getLastVisitsDetails'] = VisitorLog::ID;
     }
@@ -97,7 +97,7 @@ class Live extends \Piwik\Plugin
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
         $view->config->show_offset_information     = false;
-        $view->config->show_all_views_icons        = false;
+        $view->config->show_all_views_icons      = false;
         $view->config->show_table_all_columns      = false;
         $view->config->show_export_as_rss_feed     = false;
 

@@ -102,7 +102,7 @@ class Goals extends \Piwik\Plugin
             'Goals.getReportsWithGoalMetrics'        => 'getActualReportsWithGoalMetrics',
             'ViewDataTable.configure'                => 'configureViewDataTable',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Visualization.addVisualizations'        => 'getAvailableDataTableVisualizations'
+            'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations'
         );
         return $hooks;
     }
@@ -569,7 +569,7 @@ class Goals extends \Piwik\Plugin
         $view->config->columns_to_display      = array('label', 'nb_conversions');
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
-        $view->config->show_all_views_icons    = false;
+        $view->config->show_all_views_icons  = false;
 
         $view->requestConfig->filter_sort_column = 'label';
         $view->requestConfig->filter_sort_order  = 'asc';
@@ -586,7 +586,7 @@ class Goals extends \Piwik\Plugin
         $view->config->show_search = false;
         $view->config->show_exclude_low_population = false;
         $view->config->show_table_all_columns  = false;
-        $view->config->show_all_views_icons    = false;
+        $view->config->show_all_views_icons  = false;
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
         $view->config->columns_to_display      = array('label', 'nb_conversions');
@@ -611,7 +611,7 @@ class Goals extends \Piwik\Plugin
 
         $view->config->show_ecommerce = true;
         $view->config->show_table     = false;
-        $view->config->show_all_views_icons        = false;
+        $view->config->show_all_views_icons      = false;
         $view->config->show_exclude_low_population = false;
         $view->config->show_table_all_columns      = false;
         $view->config->addTranslation('label', $label);

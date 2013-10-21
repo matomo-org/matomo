@@ -14,7 +14,6 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Log;
 use Piwik\MetricsFormatter;
 use Piwik\Period;
 use Piwik\Period\Range;
@@ -24,21 +23,17 @@ use Piwik\Site;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Config as VizConfig;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
- * The main() method will create an object implementing ViewInterface
- * You can customize the dataTable using the disable* methods.
  *
- * You can also customize the dataTable rendering using row metadata:
- * - 'html_label_prefix': If this metadata is present on a row, it's contents will be prepended
- *                        the label in the HTML output.
- * - 'html_label_suffix': If this metadata is present on a row, it's contents will be appended
- *                        after the label in the HTML output.
+ * You can build your own ViewDataTable by extending this class and implementing the buildView() method which defines
+ * which data should be loaded and which view should be rendered.
  *
- * Example:
+ * Example usage:
  * In the Controller of the plugin VisitorInterest
  * <pre>
  *    function getNumberOfVisitsPerVisitDuration( $fetch = false)
@@ -63,7 +58,6 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
 abstract class ViewDataTable implements ViewInterface
 {
     const ID = '';
-    const CONFIGURE_FOOTER_ICONS_EVENT = 'Visualization.configureFooterIcons';
 
     /**
      * DataTable loaded from the API for this ViewDataTable.
@@ -88,7 +82,8 @@ abstract class ViewDataTable implements ViewInterface
     protected $request;
 
     /**
-     * Default constructor.
+     * Constructor. Initializes the default config, requestConfig and the request itself. After configuring some
+     * mandatory properties reports can modify the view by listening to the hook 'ViewDataTable.configure'.
      */
     public function __construct($controllerAction, $apiMethodToRequestDataTable)
     {
@@ -138,11 +133,23 @@ abstract class ViewDataTable implements ViewInterface
         $this->overrideViewPropertiesWithQueryParams();
     }
 
+    /**
+     * Returns the default config. Custom viewDataTables can change the default config to their needs by either
+     * modifying this config or creating an own Config class that extends the default Config.
+     *
+     * @return \Piwik\ViewDataTable\Config
+     */
     public static function getDefaultConfig()
     {
         return new VizConfig();
     }
 
+    /**
+     * Returns the default request config. Custom viewDataTables can change the default config to their needs by either
+     * modifying this config or creating an own RequestConfig class that extends the default RequestConfig.
+     *
+     * @return \Piwik\ViewDataTable\RequestConfig
+     */
     public static function getDefaultRequestConfig()
     {
         return new VizRequest();
@@ -162,8 +169,8 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Returns the viewDataTable ID for this DataTable visualization. Derived classes
-     * should declare a const ID field with the viewDataTable ID.
+     * Returns the viewDataTable ID for this DataTable visualization. Derived classes  should declare a const ID field
+     * with the viewDataTable ID.
      *
      * @throws \Exception
      * @return string
@@ -180,9 +187,16 @@ abstract class ViewDataTable implements ViewInterface
        return $id;
     }
 
+    /**
+     * Detects whether the viewDataTable or one of its ancestors has the given id.
+     *
+     * @param  string $viewDataTableId
+     *
+     * @return bool
+     */
     public function isViewDataTableId($viewDataTableId)
     {
-        $myIds = static::getIdsWithInheritance(get_called_class());
+        $myIds = ViewDataTableManager::getIdsWithInheritance(get_called_class());
 
         return in_array($viewDataTableId, $myIds);
     }
@@ -215,30 +229,6 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Returns the viewDataTable IDs of a visualization's class lineage.
-     *
-     * @see self::getVisualizationClassLineage
-     *
-     * @param string $klass The visualization class.
-     *
-     * @return array
-     */
-    protected static function getIdsWithInheritance($klass)
-    {
-        $klasses = Common::getClassLineage($klass);
-
-        $result = array();
-        foreach ($klasses as $klass) {
-            if ('Piwik\\Plugin\\ViewDataTable' != $klass
-                && 'Piwik\\Plugin\\Visualization' != $klass) {
-                $result[] = $klass::getViewDataTableId();
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Checks that the API returned a normal DataTable (as opposed to DataTable\Map)
      * @throws \Exception
      * @return void
@@ -249,7 +239,7 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Convenience function. Calls main() & renders the view that gets built.
+     * Requests all needed data and renders the view.
      *
      * @return string The result of rendering.
      */
@@ -261,168 +251,9 @@ abstract class ViewDataTable implements ViewInterface
 
     abstract protected function buildView();
 
-    protected function getDefaultFooterIconsToShow()
-    {
-        $result = array();
-
-        // add normal view icons (eg, normal table, all columns, goals)
-        $normalViewIcons = array(
-            'class'   => 'tableAllColumnsSwitch',
-            'buttons' => array(),
-        );
-
-        if ($this->config->show_table) {
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'table',
-                'title' => Piwik::translate('General_DisplaySimpleTable'),
-                'icon'  => 'plugins/Zeitgeist/images/table.png',
-            );
-        }
-
-        if ($this->config->show_table_all_columns) {
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'tableAllColumns',
-                'title' => Piwik::translate('General_DisplayTableWithMoreMetrics'),
-                'icon'  => 'plugins/Zeitgeist/images/table_more.png'
-            );
-        }
-
-        if ($this->config->show_goals) {
-            if (Common::getRequestVar('idGoal', false) == 'ecommerceOrder') {
-                $icon = 'plugins/Zeitgeist/images/ecommerceOrder.gif';
-            } else {
-                $icon = 'plugins/Zeitgeist/images/goal.png';
-            }
-
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'tableGoals',
-                'title' => Piwik::translate('General_DisplayTableWithGoalMetrics'),
-                'icon'  => $icon
-            );
-        }
-
-        if ($this->config->show_ecommerce) {
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'ecommerceOrder',
-                'title' => Piwik::translate('General_EcommerceOrders'),
-                'icon'  => 'plugins/Zeitgeist/images/ecommerceOrder.gif',
-                'text'  => Piwik::translate('General_EcommerceOrders')
-            );
-
-            $normalViewIcons['buttons'][] = array(
-                'id'    => 'ecommerceAbandonedCart',
-                'title' => Piwik::translate('General_AbandonedCarts'),
-                'icon'  => 'plugins/Zeitgeist/images/ecommerceAbandonedCart.gif',
-                'text'  => Piwik::translate('General_AbandonedCarts')
-            );
-        }
-
-        if (!empty($normalViewIcons['buttons'])) {
-            $result[] = $normalViewIcons;
-        }
-
-        // add graph views
-        $graphViewIcons = array(
-            'class'   => 'tableGraphViews tableGraphCollapsed',
-            'buttons' => array(),
-        );
-
-        if ($this->config->show_all_views_icons) {
-            if ($this->config->show_bar_chart) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => 'graphVerticalBar',
-                    'title' => Piwik::translate('General_VBarGraph'),
-                    'icon'  => 'plugins/Zeitgeist/images/chart_bar.png'
-                );
-            }
-
-            if ($this->config->show_pie_chart) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => 'graphPie',
-                    'title' => Piwik::translate('General_Piechart'),
-                    'icon'  => 'plugins/Zeitgeist/images/chart_pie.png'
-                );
-            }
-
-            if ($this->config->show_tag_cloud) {
-                $graphViewIcons['buttons'][] = array(
-                    'id'    => 'cloud',
-                    'title' => Piwik::translate('General_TagCloud'),
-                    'icon'  => 'plugins/Zeitgeist/images/tagcloud.png'
-                );
-            }
-
-            if ($this->config->show_non_core_visualizations) {
-                $nonCoreVisualizations    = \Piwik\ViewDataTable::getNonCoreVisualizations();
-                $nonCoreVisualizationInfo = static::getVisualizationInfoFor($nonCoreVisualizations);
-
-                foreach ($nonCoreVisualizationInfo as $format => $info) {
-                    $graphViewIcons['buttons'][] = array(
-                        'id'    => $format,
-                        'title' => Piwik::translate($info['title']),
-                        'icon'  => $info['table_icon']
-                    );
-                }
-            }
-        }
-
-        if (!empty($graphViewIcons['buttons'])) {
-            $result[] = $graphViewIcons;
-        }
-
-        /**
-         * This event is called when determining the default set of footer icons to display
-         * below a report.
-         *
-         * Plugins can use this event to modify the default set of footer icons. You can
-         * add new icons or remove existing ones.
-         *
-         * $result must have the following format:
-         *
-         * ```
-         * array(
-         *     array( // footer icon group 1
-         *         'class' => 'footerIconGroup1CssClass',
-         *         'buttons' => array(
-         *             'id' => 'myid',
-         *             'title' => 'My Tooltip',
-         *             'icon' => 'path/to/my/icon.png'
-         *         )
-         *     ),
-         *     array( // footer icon group 2
-         *         'class' => 'footerIconGroup2CssClass',
-         *         'buttons' => array(...)
-         *     ),
-         *     ...
-         * )
-         * ```
-         */
-        Piwik::postEvent(self::CONFIGURE_FOOTER_ICONS_EVENT, array(&$result, $viewDataTable = $this));
-
-        return $result;
-    }
-
     protected function getDefaultDataTableCssClass()
     {
         return 'dataTableViz' . Piwik::getUnnamespacedClassName(get_class($this));
-    }
-
-    /**
-     * Returns an array mapping visualization IDs with information necessary for adding the
-     * visualizations to the footer of DataTable views.
-     *
-     * @param array $visualizations An array mapping visualization IDs w/ their associated classes.
-     * @return array
-     */
-    protected static function getVisualizationInfoFor($visualizations)
-    {
-        $result = array();
-
-        foreach ($visualizations as $vizId => $vizClass) {
-            $result[$vizId] = array('table_icon' => $vizClass::FOOTER_ICON, 'title' => $vizClass::FOOTER_ICON_TITLE);
-        }
-
-        return $result;
     }
 
     /**
@@ -462,6 +293,11 @@ abstract class ViewDataTable implements ViewInterface
         return Common::getRequestVar($name, $defaultValue, $type);
     }
 
+    /**
+     * Determine if the view data table requests a single data table or not.
+     *
+     * @return bool
+     */
     public function isRequestingSingleDataTable()
     {
         $requestArray = $this->request->getRequestArray() + $_GET + $_POST;
@@ -477,5 +313,18 @@ abstract class ViewDataTable implements ViewInterface
         }
 
         return true;
+    }
+
+    /**
+     * Here you can define whether your visualization can display a specific data table or not. For instance you may
+     * only display your visualization in case a single data table is requested. If the method returns true, the footer
+     * icon will be displayed.
+     *
+     * @param  ViewDataTable $view
+     * @return bool
+     */
+    public static function canDisplayViewDataTable(ViewDataTable $view)
+    {
+        return $view->config->show_all_views_icons;
     }
 }

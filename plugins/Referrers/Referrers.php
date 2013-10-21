@@ -37,15 +37,15 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'               => 'archiveDay',
-            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
-            'WidgetsList.addWidgets'                     => 'addWidgets',
-            'Menu.Reporting.addItems'                    => 'addMenus',
-            'Goals.getReportsWithGoalMetrics'            => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'                      => 'getReportMetadata',
-            'API.getSegmentsMetadata'                    => 'getSegmentsMetadata',
-            'ViewDataTable.configure'                    => 'configureViewDataTable',
-            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
+            'ArchiveProcessor.Day.compute'    => 'archiveDay',
+            'ArchiveProcessor.Period.compute' => 'archivePeriod',
+            'WidgetsList.addWidgets'          => 'addWidgets',
+            'Menu.Reporting.addItems'         => 'addMenus',
+            'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'           => 'getReportMetadata',
+            'API.getSegmentsMetadata'         => 'getSegmentsMetadata',
+            'ViewDataTable.configure'         => 'configureViewDataTable',
+            'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable'
         );
         return $hooks;
     }
@@ -300,7 +300,7 @@ class Referrers extends \Piwik\Plugin
         }
     }
 
-    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    public function getDefaultTypeViewDataTable(&$defaultViewTypes)
     {
         $defaultViewTypes['Referrers.getReferrerType'] = AllColumns::ID;
         $defaultViewTypes['Referrers.getSocials']      = Pie::ID;

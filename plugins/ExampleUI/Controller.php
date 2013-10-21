@@ -13,7 +13,7 @@ namespace Piwik\Plugins\ExampleUI;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  * @package ExampleUI
@@ -59,7 +59,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function barGraph()
     {
-        $view = ViewDataTable::factory(
+        $view = Factory::build(
             'graphVerticalBar', 'ExampleUI.getTemperatures', $controllerAction = 'ExampleUI.barGraph');
 
         $view->config->y_axis_unit = '°C';
@@ -73,7 +73,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function pieGraph()
     {
-        $view = ViewDataTable::factory(
+        $view = Factory::build(
             'graphPie', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.pieGraph');
 
         $view->config->columns_to_display = array('value');
@@ -100,7 +100,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function echoSimpleTagClouds()
     {
-        $view = ViewDataTable::factory(
+        $view = Factory::build(
             'cloud', 'ExampleUI.getPlanetRatios', $controllerAction = 'ExampleUI.echoSimpleTagClouds');
 
         $view->config->columns_to_display = array('label', 'value');
@@ -112,7 +112,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function echoAdvancedTagClouds()
     {
-        $view = ViewDataTable::factory(
+        $view = Factory::build(
             'cloud', 'ExampleUI.getPlanetRatiosWithLogos', $controllerAction = 'ExampleUI.echoAdvancedTagClouds');
 
         $view->config->display_logo_instead_of_label = true;
@@ -133,7 +133,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function generateSparkline()
     {
-        $view = ViewDataTable::factory(
+        $view = Factory::build(
             'sparkline', 'ExampleUI.getTemperaturesEvolution', $controllerAction = 'ExampleUI.generateSparkline');
 
         $serverRequested = Common::getRequestVar('server', false);

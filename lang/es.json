@@ -115,6 +115,7 @@
         "ImportingServerLogs": "Importando los Registros del Servidor",
         "ImportingServerLogsDesc": "Una alternativa para el seguimiento de los visitantes a través del navegador (ya sea a través de JavaScript o un enlace de imagen) es importar continuamente los registros del servidor. Aprenda más acerca de %1$sServer archivo de registro Analytics%2$s.",
         "InvalidPluginsWarning": "Los siguientes complementos no son compatibles con %1$s y podrían no ser cargados: %2$s.",
+        "InvalidPluginsYouCanUninstall": "Puedes actualizar o desinstalar estos complementos en la página %1$sGestionar Complementos%2$s.",
         "JavaScriptTracking": "Seguimiento con JavaScript",
         "JSTracking_CampaignKwdParam": "Parámetro Keyword Campaña",
         "JSTracking_CampaignNameParam": "Parámetro Nombre de Campaña",

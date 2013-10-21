@@ -62,8 +62,7 @@ class Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'export_limit',
-        'show_non_core_visualizations'
+        'export_limit'
     );
 
     /**
@@ -180,8 +179,7 @@ class Config
     public $columns_to_display = array();
 
     /**
-     * Controls whether the footer icons that change the ViewDataTable type of a view are shown
-     * or not.
+     * Controls whether graph and non core viewDataTable footer icons are shown or not.
      *
      * Default value: true
      */
@@ -436,13 +434,6 @@ class Config
      * Default value: The value of the 'API_datatable_default_limit' config option.
      */
     public $export_limit = '';
-
-    /**
-     * Controls whether non-Core DataTable visualizations are shown or not.
-     *
-     * Default value: true
-     */
-    public $show_non_core_visualizations = true;
 
     public $report_last_updated_message = false;
     public $metadata  = array();

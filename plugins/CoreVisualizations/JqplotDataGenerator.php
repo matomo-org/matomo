@@ -65,7 +65,7 @@ class JqplotDataGenerator
      * @param array $properties
      * @param string $graphType
      *
-     * @internal param \Piwik\ViewDataTable\Visualization\ $visualization
+     * @internal param \Piwik\Plugin\ViewDataTable $visualization
      */
     public function __construct($properties, $graphType)
     {

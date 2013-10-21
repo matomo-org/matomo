@@ -8,51 +8,42 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik;
+namespace Piwik\ViewDataTable;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugin\Visualization;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
- * The main() method will create an object implementing ViewInterface
+ * The build() method will create an object implementing ViewInterface
  * You can customize the dataTable using the disable* methods.
- *
- * You can also customize the dataTable rendering using row metadata:
- * - 'html_label_prefix': If this metadata is present on a row, it's contents will be prepended
- *                        the label in the HTML output.
- * - 'html_label_suffix': If this metadata is present on a row, it's contents will be appended
- *                        after the label in the HTML output.
  *
  * Example:
  * In the Controller of the plugin VisitorInterest
  * <pre>
- *    function getNumberOfVisitsPerVisitDuration( $fetch = false)
+ *  function getNumberOfVisitsPerVisitDuration( $fetch = false)
  *  {
- *        $view = ViewDataTable::factory( 'cloud' );
- *        $view->init( $this->pluginName,  __FUNCTION__, 'VisitorInterest.getNumberOfVisitsPerVisitDuration' );
- *        $view->setColumnsToDisplay( array('label','nb_visits') );
- *        $view->disableSort();
- *        $view->disableExcludeLowPopulation();
- *        $view->disableOffsetInformation();
- *
- *        return $this->renderView($view, $fetch);
- *    }
+ *      $view = ViewDataTable/Factory::build( 'cloud', 'VisitorInterest.getNumberOfVisitsPerVisitDuration' );
+ *      $view->config->show_search = true;
+ *      $view->render();
+ *  }
  * </pre>
  *
- * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
+ * @see build() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
  * @subpackage ViewDataTable
  *
  * @api
  */
-class ViewDataTable
+class Factory
 {
 
     /**
-     * Cache for getDefaultViewTypeForReports result.
+     * Cache for getDefaultTypeViewDataTable result.
      *
      * @var array
      */
@@ -73,7 +64,7 @@ class ViewDataTable
      * @throws \Exception
      * @return \Piwik\Plugin\ViewDataTable|\Piwik\Plugin\Visualization|\Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
      */
-    public static function factory($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
+    public static function build($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
     {
         if (false === $controllerAction) {
             $controllerAction = $apiAction;
@@ -87,7 +78,7 @@ class ViewDataTable
 
         $type = Common::getRequestVar('viewDataTable', $defaultType ? : 'table', 'string');
 
-        $visualizations = static::getAvailableVisualizations();
+        $visualizations = Manager::getAvailableViewDataTables();
 
         if (array_key_exists($type, $visualizations)) {
             return new $visualizations[$type]($controllerAction, $apiAction);
@@ -98,68 +89,6 @@ class ViewDataTable
         }
 
         throw new \Exception(sprintf('Visuzalization type %s not found', $type));
-    }
-
-    /**
-     * Returns all registered visualization classes. Uses the 'Visualization.getAvailable'
-     * event to retrieve visualizations.
-     *
-     * @return array Array mapping visualization IDs with their associated visualization classes.
-     * @throws \Exception If a visualization class does not exist or if a duplicate visualization ID
-     *                   is found.
-     * @return array
-     */
-    public static function getAvailableVisualizations()
-    {
-        /** @var string[] $visualizations */
-        $visualizations = array();
-
-        /**
-         * This event is used to gather all available DataTable visualizations. Callbacks should add visualization
-         * class names to the incoming array.
-         */
-        Piwik::postEvent('Visualization.addVisualizations', array(&$visualizations));
-
-        $result = array();
-
-        foreach ($visualizations as $viz) {
-            if (!class_exists($viz)) {
-                throw new \Exception("Invalid visualization class '$viz' found in Visualization.getAvailableVisualizations.");
-            }
-
-            if (!is_subclass_of($viz, '\\Piwik\\Plugin\\ViewDataTable')) {
-                throw new \Exception("Visualization class '$viz' does not extend Plugin/ViewDataTable");
-            }
-
-            $vizId = $viz::getViewDataTableId();
-
-            if (isset($result[$vizId])) {
-                throw new \Exception("Visualization ID '$vizId' is already in use!");
-            }
-
-            $result[$vizId] = $viz;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Returns all available visualizations that are not part of the CoreVisualizations plugin.
-     *
-     * @return array Array mapping visualization IDs with their associated visualization classes.
-     */
-    public static function getNonCoreVisualizations()
-    {
-        $result = array();
-
-        foreach (static::getAvailableVisualizations() as $vizId => $vizClass) {
-            if (false === strpos($vizClass, 'Piwik\\Plugins\\CoreVisualizations')
-                && false === strpos($vizClass, 'Piwik\\Plugins\\Goals\\Visualizations\\Goals')) {
-                $result[$vizId] = $vizClass;
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -182,7 +111,7 @@ class ViewDataTable
 
         $apiAction = $apiProxy->buildApiActionName($pluginName, $apiAction);
 
-        $view      = static::factory(null, $apiAction);
+        $view      = static::build(null, $apiAction);
         $rendered  = $view->render();
 
         if ($fetch) {
@@ -197,7 +126,7 @@ class ViewDataTable
      */
     private static function getDefaultViewTypeForReport($apiAction)
     {
-        $defaultViewTypes = self::getDefaultViewTypeForReports();
+        $defaultViewTypes = self::getDefaultTypeViewDataTable();
         return isset($defaultViewTypes[$apiAction]) ? $defaultViewTypes[$apiAction] : false;
     }
 
@@ -205,7 +134,7 @@ class ViewDataTable
      * Returns a list of default viewDataTables ID to use when determining which visualization to use for multiple
      * reports.
      */
-    private static function getDefaultViewTypeForReports()
+    private static function getDefaultTypeViewDataTable()
     {
         if (null === self::$defaultViewTypes) {
             self::$defaultViewTypes = array();
@@ -217,7 +146,7 @@ class ViewDataTable
              *
              * Example:
              * ```
-             * public function getDefaultViewTypeForReports(&$defaultViewTypes)
+             * public function getDefaultTypeViewDataTable(&$defaultViewTypes)
              * {
              *     $defaultViewTypes['Referrers.getSocials']       = HtmlTable::ID;
              *     $defaultViewTypes['Referrers.getUrlsForSocial'] = Pie::ID;
@@ -225,7 +154,7 @@ class ViewDataTable
              * }
              * ```
              */
-            Piwik::postEvent('Visualization.getDefaultViewTypeForReports', array(&self::$defaultViewTypes));
+            Piwik::postEvent('ViewDataTable.getDefaultType', array(&self::$defaultViewTypes));
         }
 
         return self::$defaultViewTypes;

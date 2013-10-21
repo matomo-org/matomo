@@ -33,13 +33,13 @@ class VisitorInterest extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'               => 'archiveDay',
-            'ArchiveProcessor.Period.compute'            => 'archivePeriod',
-            'WidgetsList.addWidgets'                     => 'addWidgets',
-            'Menu.Reporting.addItems'                    => 'addMenu',
-            'API.getReportMetadata'                      => 'getReportMetadata',
-            'ViewDataTable.configure'                    => 'configureViewDataTable',
-            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
+            'ArchiveProcessor.Day.compute'     => 'archiveDay',
+            'ArchiveProcessor.Period.compute'  => 'archivePeriod',
+            'WidgetsList.addWidgets'           => 'addWidgets',
+            'Menu.Reporting.addItems'          => 'addMenu',
+            'API.getReportMetadata'            => 'getReportMetadata',
+            'ViewDataTable.configure'          => 'configureViewDataTable',
+            'ViewDataTable.getDefaultType'     => 'getDefaultTypeViewDataTable'
         );
         return $hooks;
     }
@@ -155,7 +155,7 @@ class VisitorInterest extends \Piwik\Plugin
         $out .= '</div>';
     }
 
-    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    public function getDefaultTypeViewDataTable(&$defaultViewTypes)
     {
         $defaultViewTypes['VisitorInterest.getNumberOfVisitsPerVisitDuration'] = Cloud::ID;
         $defaultViewTypes['VisitorInterest.getNumberOfVisitsPerPage']          = Cloud::ID;

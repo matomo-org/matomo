@@ -12,7 +12,7 @@ namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Piwik;
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  * @package CustomVariables
@@ -28,12 +28,12 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getCustomVariables($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getCustomVariablesValuesFromNameId($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 }
 

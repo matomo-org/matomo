@@ -30,7 +30,7 @@ class CoreVisualizations extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'Visualization.addVisualizations'        => 'getAvailableDataTableVisualizations',
+            'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }

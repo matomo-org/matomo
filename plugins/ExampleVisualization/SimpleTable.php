@@ -12,6 +12,7 @@
 namespace Piwik\Plugins\ExampleVisualization;
 
 use Piwik\DataTable;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
 
 /**
@@ -60,4 +61,13 @@ class SimpleTable extends Visualization
         // $this->config->show_search = false
     }
 
+    public static function canDisplayViewDataTable(ViewDataTable $view)
+    {
+        // You usually do not need to implement this method. Here you can define whether your visualization can display
+        // a specific data table or not. For instance you may only display your visualization in case a single data
+        // table is requested. Example:
+        // return $view->isRequestingSingleDataTable();
+
+        return parent::canDisplayViewDataTable($view);
+    }
 }

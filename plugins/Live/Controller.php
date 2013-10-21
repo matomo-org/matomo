@@ -19,7 +19,7 @@ use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugin\Manager;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\ViewDataTable;
+use Piwik\ViewDataTable\Factory;
 
 /**
  * @package Live
@@ -96,7 +96,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getLastVisitsDetails($fetch = false)
     {
-        return ViewDataTable::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**

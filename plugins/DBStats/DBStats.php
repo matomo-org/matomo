@@ -37,11 +37,11 @@ class DBStats extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
-            'Menu.Admin.addItems'                        => 'addMenu',
-            'TaskScheduler.getScheduledTasks'            => 'getScheduledTasks',
-            'ViewDataTable.configure'                    => 'configureViewDataTable',
-            'Visualization.getDefaultViewTypeForReports' => 'getDefaultViewTypeForReports'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Menu.Admin.addItems'             => 'addMenu',
+            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+            'ViewDataTable.configure'         => 'configureViewDataTable',
+            'ViewDataTable.getDefaultType'    => 'getDefaultTypeViewDataTable'
         );
     }
 
@@ -93,7 +93,7 @@ class DBStats extends \Piwik\Plugin
         return Option::get(self::TIME_OF_LAST_TASK_RUN_OPTION);
     }
 
-    public function getDefaultViewTypeForReports(&$defaultViewTypes)
+    public function getDefaultTypeViewDataTable(&$defaultViewTypes)
     {
         $defaultViewTypes['DBStats.getDatabaseUsageSummary']     = Pie::ID;
         $defaultViewTypes['DBStats.getTrackerDataSummary']       = HtmlTable::ID;
