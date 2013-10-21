@@ -25,12 +25,22 @@ class Controller extends \Piwik\Plugin\Controller
         $controllerAction = $this->pluginName . '.' . __FUNCTION__;
         $apiAction = 'ExampleUI.getTemperatures';
 
-        /**
-         * this is an example how you can make a custom visualization reusable.
-         */
-        $table = new CustomDataTable();
+        $view = Factory::build('table', $apiAction, $controllerAction);
 
-        echo $table->render('Temperature in °C', 'Hour of day', $apiAction, $controllerAction);
+        $view->config->translations['value'] = 'Temperature in °C';
+        $view->config->translations['label'] = 'Hour of day';
+        $view->requestConfig->filter_sort_column = 'label';
+        $view->requestConfig->filter_sort_order = 'asc';
+        $view->requestConfig->filter_limit = 24;
+        $view->config->columns_to_display  = array('label', 'value');
+        $view->config->y_axis_unit = '°C'; // useful if the user requests the bar graph
+        $view->config->show_exclude_low_population = false;
+        $view->config->show_table_all_columns = false;
+        $view->config->disable_row_evolution  = true;
+        $view->config->max_graph_elements = 24;
+        $view->config->metrics_documentation = array('value' => 'Documentation for temperature metric');
+
+        echo $view->render();
     }
 
     public function evolutionGraph()

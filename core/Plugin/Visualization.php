@@ -61,7 +61,7 @@ class Visualization extends ViewDataTable
 
             $this->beforeLoadDataTable();
 
-            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1));
+            $this->loadDataTableFromAPI(array('disable_generic_filters' => 1, 'disable_queued_filters' => 1));
             $this->postDataTableLoadedFromAPI();
 
             $requestPropertiesAfterLoadDataTable = $this->requestConfig->getProperties();
@@ -194,7 +194,7 @@ class Visualization extends ViewDataTable
 
         $this->beforeGenericFiltersAreAppliedToLoadedDataTable();
 
-        if (!$this->config->areGenericFiltersDisabled()) {
+        if (!$this->requestConfig->areGenericFiltersDisabled()) {
             $this->applyGenericFilters();
         }
 
@@ -207,7 +207,7 @@ class Visualization extends ViewDataTable
 
         // Finally, apply datatable filters that were queued (should be 'presentation' filters that
         // do not affect the number of rows)
-        if (!$this->config->areQueuedFiltersDisabled()) {
+        if (!$this->requestConfig->areQueuedFiltersDisabled()) {
             $this->dataTable->applyQueuedFilters();
         }
     }
