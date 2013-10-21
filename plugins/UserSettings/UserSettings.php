@@ -329,7 +329,7 @@ class UserSettings extends \Piwik\Plugin
         $view->config->show_offset_information = false;
         $view->config->show_pagination_control = false;
         $view->config->show_limit_control      = false;
-        $view->config->show_graph_views_icons    = false;
+        $view->config->show_all_views_icons    = false;
         $view->config->show_table_all_columns  = false;
         $view->config->columns_to_display  = array('label', 'nb_visits_percentage', 'nb_visits');
         $view->config->show_footer_message = Piwik::translate('UserSettings_PluginDetectionDoesNotWorkInIE');

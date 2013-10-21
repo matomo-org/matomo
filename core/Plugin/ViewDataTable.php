@@ -297,6 +297,6 @@ abstract class ViewDataTable implements ViewInterface
 
     public static function canDisplayViewDataTable(ViewDataTable $view)
     {
-        return $view->config->show_graph_views_icons;
+        return $view->config->show_all_views_icons;
     }
 }

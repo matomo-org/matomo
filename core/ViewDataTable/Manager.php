@@ -169,7 +169,7 @@ class Manager
             'buttons' => array(),
         );
 
-        if ($view->config->show_graph_views_icons) {
+        if ($view->config->show_all_views_icons) {
             if ($view->config->show_bar_chart) {
                 $graphViewIcons['buttons'][] = static::getFooterIconFor(Bar::ID);
             }

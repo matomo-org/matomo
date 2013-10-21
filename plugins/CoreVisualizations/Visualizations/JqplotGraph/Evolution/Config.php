@@ -29,7 +29,7 @@ class Config extends JqplotGraphConfig
     {
         parent::__construct();
 
-        $this->show_graph_views_icons = false;
+        $this->show_all_views_icons = false;
         $this->show_table             = false;
         $this->show_table_all_columns = false;
         $this->hide_annotations_view  = false;
