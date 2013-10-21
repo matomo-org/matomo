@@ -11,21 +11,23 @@
 namespace Piwik;
 
 /**
- * Class UrlHelper
+ * Contains less commonly needed URL helper methods.
+ * 
  * @package Piwik
- *
- * @api
  */
 class UrlHelper
 {
     /**
-     * Returns a Query string,
-     * Given an array of input parameters, and an array of parameter names to exclude
+     * Converts an array of query parameter name/value mappings into a query string.
+     * Parameters that are in `$parametersToExclude` will not appear in the result
+     * query string.
      *
      * @static
-     * @param $queryParameters
-     * @param $parametersToExclude
-     * @return string
+     * @param $queryParameters Array of query parameters, eg, `array('site' => '0', 'date' => '2012-01-01')`.
+     * @param $parametersToExclude Array of query parameter names that shouldn't be
+     *                             in the result query string, eg, `array('date', 'period')`.
+     * @return string A query string, eg, `"?site=0"`.
+     * @api
      */
     public static function getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude)
     {
@@ -108,10 +110,14 @@ class UrlHelper
     }
 
     /**
-     * Builds a URL from the result of parse_url function
+     * Returns a URL created from the result of the [parse_url](http://php.net/manual/en/function.parse-url.php)
+     * function.
+     * 
      * Copied from the PHP comments at http://php.net/parse_url
-     * @param array $parsed
-     * @return bool|string
+     * 
+     * @param array $parsed Result of [parse_url](http://php.net/manual/en/function.parse-url.php).
+     * @return false|string The URL or `false` if `$parsed` isn't an array.
+     * @api
      */
     public static function getParseUrlReverse($parsed)
     {
@@ -136,10 +142,11 @@ class UrlHelper
     }
 
     /**
-     * Returns an URL query string in an array format
+     * Returns a URL query string as an array.
      *
-     * @param string $urlQuery
-     * @return array  array( param1=> value1, param2=>value2)
+     * @param string $urlQuery The query string.
+     * @return array eg, `array('param1' => 'value1', 'param2' => 'value2')`
+     * @api
      */
     public static function getArrayFromQueryString($urlQuery)
     {
@@ -195,11 +202,12 @@ class UrlHelper
     }
 
     /**
-     * Returns the value of a GET parameter $parameter in an URL query $urlQuery
+     * Returns the value of a single query parameter from the supplied query string.
      *
-     * @param string $urlQuery result of parse_url()['query'] and htmlentitied (& is &amp;) eg. module=test&amp;action=toto or ?page=test
-     * @param string $parameter
-     * @return string|bool  Parameter value if found (can be the empty string!), null if not found
+     * @param string $urlQuery The query string.
+     * @param string $parameter The query parameter name to return.
+     * @return string|null Parameter value if found (can be the empty string!), null if not found.
+     * @api
      */
     public static function getParameterFromQueryString($urlQuery, $parameter)
     {
@@ -211,11 +219,11 @@ class UrlHelper
     }
 
     /**
-     * Returns the path and query part from a URL.
-     * Eg. http://piwik.org/test/index.php?module=CoreHome will return /test/index.php?module=CoreHome
+     * Returns the path and query string of a URL.
      *
-     * @param string $url either http://piwik.org/test or /
-     * @return string
+     * @param string $url
+     * @return string eg, `/test/index.php?module=CoreHome` if `$url` is `http://piwik.org/test/index.php?module=CoreHome`.
+     * @api
      */
     public static function getPathAndQueryFromUrl($url)
     {
