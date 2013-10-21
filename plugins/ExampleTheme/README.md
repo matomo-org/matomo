@@ -1,8 +1,8 @@
-# Piwik PLUGINNAME Plugin
+# Piwik ExampleTheme Theme
 
 ## Description
 
-Add your plugin description here.
+Add your theme description here.
 
 ## FAQ
 
@@ -16,3 +16,6 @@ Here goes the changelog text.
 ## Support
 
 Please direct any feedback to ...
+
+
+

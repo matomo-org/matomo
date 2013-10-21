@@ -31,13 +31,17 @@ class GenerateController extends GeneratePluginBase
     {
         $pluginName = $this->getPluginName($input, $output);
 
-        $this->copyTemplateToPlugin('controller', $pluginName);
+        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePluginTemplate';
+        $replace        = array('ExamplePluginTemplate' => $pluginName);
+        $whitelistFiles = array('/Controller.php', '/templates', '/templates/index.twig');
+
+        $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
         $this->writeSuccessMessage($output, array(
-                                                 sprintf('Controller for %s generated.', $pluginName),
-                                                 'You can now start adding Controller actions',
-                                                 'Enjoy!'
-                                            ));
+             sprintf('Controller for %s generated.', $pluginName),
+             'You can now start adding Controller actions',
+             'Enjoy!'
+        ));
     }
 
     /**

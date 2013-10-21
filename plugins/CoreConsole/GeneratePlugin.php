@@ -36,26 +36,49 @@ class GeneratePlugin extends GeneratePluginBase
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $isTheme = $this->isTheme($input);
-        $pluginName = $this->getPluginName($input, $output);
-        $description = $this->getPluginDescription($input, $output);
-        $version = $this->getPluginVersion($input, $output);
+        $isTheme          = $this->isTheme($input);
+        $pluginName       = $this->getPluginName($input, $output);
+        $description      = $this->getPluginDescription($input, $output);
+        $version          = $this->getPluginVersion($input, $output);
         $createFullPlugin = !$isTheme && $this->getCreateFullPlugin($input, $output);
 
         $this->generatePluginFolder($pluginName);
-        $this->generatePluginJson($pluginName, $version, $description, $isTheme);
 
         if ($isTheme) {
-            $this->copyTemplateToPlugin('theme', $pluginName);
+            $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExampleTheme';
+            $replace       = array(
+                'ExampleTheme'       => $pluginName,
+                'ExampleDescription' => $description,
+                '0.1.0'              => $version
+            );
+            $whitelistFiles = array();
+
         } else {
-            $this->copyTemplateToPlugin('plugin', $pluginName);
-            $this->generatePluginFile($pluginName);
+
+            $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePluginTemplate';
+            $replace       = array(
+                'ExamplePluginTemplate' => $pluginName,
+                'ExampleDescription'    => $description,
+                '0.1.0'                 => $version
+            );
+            $whitelistFiles = array(
+                '/ExamplePluginTemplate.php',
+                '/plugin.json',
+                '/README.md',
+                '/screenshots',
+                '/screenshots/.gitkeep',
+                '/javascripts',
+                '/javascripts/plugin.js',
+            );
+
         }
 
+        $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
+
         $this->writeSuccessMessage($output, array(
-                                                 sprintf('%s %s %s generated.', $isTheme ? 'Theme' : 'Plugin', $pluginName, $version),
-                                                 'Enjoy!'
-                                            ));
+             sprintf('%s %s %s generated.', $isTheme ? 'Theme' : 'Plugin', $pluginName, $version),
+             'Enjoy!'
+        ));
 
         if ($createFullPlugin) {
             $this->executePluginCommand($output, 'generate:api', $pluginName);
@@ -90,36 +113,6 @@ class GeneratePlugin extends GeneratePluginBase
     {
         $pluginPath = $this->getPluginPath($pluginName);
         Filesystem::mkdir($pluginPath, true);
-    }
-
-    protected function generatePluginJson($pluginName, $version, $description, $isTheme)
-    {
-        $pluginJson = array(
-            'name'        => $pluginName,
-            'version'     => $version,
-            'description' => $description,
-            'theme'       => $isTheme
-        );
-
-        if ($isTheme) {
-            $pluginJson['stylesheet'] = 'stylesheets/theme.less';
-        }
-
-        $content = json_encode($pluginJson);
-        $content = str_replace('",', "\",\n ", $content);
-        $this->createFileWithinPluginIfNotExists($pluginName, '/plugin.json', $content);
-
-        return $pluginJson;
-    }
-
-    /**
-     * @param string $pluginName
-     */
-    protected function generatePluginFile($pluginName)
-    {
-        $template = file_get_contents(__DIR__ . '/templates/PluginTemplate.php');
-        $template = str_replace('PLUGINNAME', $pluginName, $template);
-        $this->createFileWithinPluginIfNotExists($pluginName, '/' . $pluginName . '.php', $template);
     }
 
     /**
