@@ -192,3 +192,68 @@ Apache LogFormat "%h %l %u %t \"%r\" %>s %b %D"
 
 Note: the group <generation_time_milli> is also available if your server logs generation time in milliseconds rather than microseconds.
 
+
+## Setup Nginx to directly imports in Piwik via syslog
+
+With the syslog patch from http://wiki.nginx.org/3rdPartyModules which is compiled in dotdeb's release, you can log to syslog and imports them live to Piwik.
+Path: Nginx -> syslog -> (syslog central server) -> this script -> piwik
+
+You can use any log format that this script can handle, like Apache Combined, and Json format which needs less processing.
+
+
+### Setup Nginx logs
+
+```
+http { 
+...
+log_format  piwik                   '{"ip": "$remote_addr",'
+                                    '"host": "$host",'
+                                    '"path": "$request_uri",'
+                                    '"status": "$status",'
+                                    '"referrer": "$http_referer",'
+                                    '"user_agent": "$http_user_agent",'
+                                    '"length": $bytes_sent,'
+                                    '"generation_time_milli": $request_time,'
+                                    '"date": "$time_iso8601"}';
+...
+	server {
+	...
+	access_log syslog:info piwik;
+	...
+	}
+}
+```
+
+# Setup syslog-ng
+
+This is the config for the central server if any. If not, you can also use this config on the same server as Nginx.
+
+```
+options {
+    stats_freq(600); stats_level(1);
+    log_fifo_size(1280000);
+    log_msg_size(8192);
+};
+source s_nginx { udp(); };
+destination d_piwik {
+    program("/usr/local/piwik/piwik.sh" template("$MSG\n"));
+};
+log { source(s_nginx); filter(f_info); destination(d_piwik); };
+```
+
+# piwik.sh
+
+Just needed to configure the best params for import_logs.py :
+```
+#!/bin/sh
+
+exec python /path/to/misc/log-analytics/import_logs.py \
+ --url=http://localhost/ --token-auth=<your_auth_token> \
+ --idsite=1 --recorders=4 --enable-http-errors --enable-http-redirects --enable-static --enable-bots \
+ --log-format-name=nginx_json -
+```
+
+
+And that's all !
+
+
