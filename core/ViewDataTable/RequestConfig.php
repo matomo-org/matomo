@@ -10,6 +10,7 @@
  */
 
 namespace Piwik\ViewDataTable;
+use Piwik\Common;
 
 /**
  * Renders a sparkline image given a PHP data array.
@@ -43,7 +44,9 @@ class RequestConfig
         'filter_pattern',
         'filter_column',
         'filter_excludelowpop',
-        'filter_excludelowpop_value'
+        'filter_excludelowpop_value',
+        'disable_generic_filters',
+        'disable_queued_filters'
     );
 
     /**
@@ -119,6 +122,24 @@ class RequestConfig
      */
     public $request_parameters_to_modify = array();
 
+    /**
+     * Whether to run generic filters on the DataTable before rendering or not.
+     *
+     * @see Piwik_API_DataTableGenericFilter
+     *
+     * Default value: false
+     */
+    public $disable_generic_filters = false;
+
+    /**
+     * Whether to run ViewDataTable's list of queued filters or not.
+     *
+     * NOTE: Priority queued filters are always run.
+     *
+     * Default value: false
+     */
+    public $disable_queued_filters = false;
+
     public $apiMethodToRequestDataTable = '';
 
     /**
@@ -157,6 +178,35 @@ class RequestConfig
         }
 
         $this->filter_sort_order = 'desc';
+    }
+
+    /**
+     * Returns true if queued filters have been disabled, false if otherwise.
+     *
+     * @return bool
+     */
+    public function areQueuedFiltersDisabled()
+    {
+        return isset($this->disable_queued_filters) && $this->disable_queued_filters;
+    }
+
+    /**
+     * Returns true if generic filters have been disabled, false if otherwise.
+     *
+     * @return bool
+     */
+    public function areGenericFiltersDisabled()
+    {
+        // if disable_generic_filters query param is set to '1', generic filters are disabled
+        if (Common::getRequestVar('disable_generic_filters', '0', 'string') == 1) {
+            return true;
+        }
+
+        if (isset($this->disable_generic_filters) && true === $this->disable_generic_filters) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getApiModuleToRequest()
