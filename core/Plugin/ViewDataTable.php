@@ -29,16 +29,11 @@ use Piwik\ViewDataTable\RequestConfig as VizRequest;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
- * The main() method will create an object implementing ViewInterface
- * You can customize the dataTable using the disable* methods.
  *
- * You can also customize the dataTable rendering using row metadata:
- * - 'html_label_prefix': If this metadata is present on a row, it's contents will be prepended
- *                        the label in the HTML output.
- * - 'html_label_suffix': If this metadata is present on a row, it's contents will be appended
- *                        after the label in the HTML output.
+ * You can build your own ViewDataTable by extending this class and implementing the buildView() method which defines
+ * which data should be loaded and which view should be rendered.
  *
- * Example:
+ * Example usage:
  * In the Controller of the plugin VisitorInterest
  * <pre>
  *    function getNumberOfVisitsPerVisitDuration( $fetch = false)
@@ -87,7 +82,8 @@ abstract class ViewDataTable implements ViewInterface
     protected $request;
 
     /**
-     * Default constructor.
+     * Constructor. Initializes the default config, requestConfig and the request itself. After configuring some
+     * mandatory properties reports can modify the view by listening to the hook 'ViewDataTable.configure'.
      */
     public function __construct($controllerAction, $apiMethodToRequestDataTable)
     {
@@ -137,11 +133,23 @@ abstract class ViewDataTable implements ViewInterface
         $this->overrideViewPropertiesWithQueryParams();
     }
 
+    /**
+     * Returns the default config. Custom viewDataTables can change the default config to their needs by either
+     * modifying this config or creating an own Config class that extends the default Config.
+     *
+     * @return \Piwik\ViewDataTable\Config
+     */
     public static function getDefaultConfig()
     {
         return new VizConfig();
     }
 
+    /**
+     * Returns the default request config. Custom viewDataTables can change the default config to their needs by either
+     * modifying this config or creating an own RequestConfig class that extends the default RequestConfig.
+     *
+     * @return \Piwik\ViewDataTable\RequestConfig
+     */
     public static function getDefaultRequestConfig()
     {
         return new VizRequest();
@@ -161,8 +169,8 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Returns the viewDataTable ID for this DataTable visualization. Derived classes
-     * should declare a const ID field with the viewDataTable ID.
+     * Returns the viewDataTable ID for this DataTable visualization. Derived classes  should declare a const ID field
+     * with the viewDataTable ID.
      *
      * @throws \Exception
      * @return string
@@ -179,6 +187,13 @@ abstract class ViewDataTable implements ViewInterface
        return $id;
     }
 
+    /**
+     * Detects whether the viewDataTable or one of its ancestors has the given id.
+     *
+     * @param  string $viewDataTableId
+     *
+     * @return bool
+     */
     public function isViewDataTableId($viewDataTableId)
     {
         $myIds = ViewDataTableManager::getIdsWithInheritance(get_called_class());
@@ -224,7 +239,7 @@ abstract class ViewDataTable implements ViewInterface
     }
 
     /**
-     * Convenience function. Calls main() & renders the view that gets built.
+     * Requests all needed data and renders the view.
      *
      * @return string The result of rendering.
      */
@@ -278,6 +293,11 @@ abstract class ViewDataTable implements ViewInterface
         return Common::getRequestVar($name, $defaultValue, $type);
     }
 
+    /**
+     * Determine if the view data table requests a single data table or not.
+     *
+     * @return bool
+     */
     public function isRequestingSingleDataTable()
     {
         $requestArray = $this->request->getRequestArray() + $_GET + $_POST;
@@ -295,6 +315,14 @@ abstract class ViewDataTable implements ViewInterface
         return true;
     }
 
+    /**
+     * Here you can define whether your visualization can display a specific data table or not. For instance you may
+     * only display your visualization in case a single data table is requested. If the method returns true, the footer
+     * icon will be displayed.
+     *
+     * @param  ViewDataTable $view
+     * @return bool
+     */
     public static function canDisplayViewDataTable(ViewDataTable $view)
     {
         return $view->config->show_all_views_icons;

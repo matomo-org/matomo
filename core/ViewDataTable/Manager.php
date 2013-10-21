@@ -116,6 +116,29 @@ class Manager
         return $result;
     }
 
+    /**
+     * This method determines the default set of footer icons to display below a report.
+     *
+     * $result has the following format:
+     *
+     * ```
+     * array(
+     *     array( // footer icon group 1
+     *         'class' => 'footerIconGroup1CssClass',
+     *         'buttons' => array(
+     *             'id' => 'myid',
+     *             'title' => 'My Tooltip',
+     *             'icon' => 'path/to/my/icon.png'
+     *         )
+     *     ),
+     *     array( // footer icon group 2
+     *         'class' => 'footerIconGroup2CssClass',
+     *         'buttons' => array(...)
+     *     ),
+     *     ...
+     * )
+     * ```
+     */
     public static function configureFooterIcons(ViewDataTable $view)
     {
         $result = array();
