@@ -38,6 +38,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->show_table_all_columns = false;
         $view->config->disable_row_evolution  = true;
         $view->config->max_graph_elements = 24;
+        $view->config->metrics_documentation = array('value' => 'Documentation for temperature metric');
 
         echo $view->render();
     }
