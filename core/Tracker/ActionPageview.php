@@ -26,7 +26,7 @@ class ActionPageview extends Action
 
     function __construct($url, Request $request)
     {
-        parent::__construct(ActionInterface::TYPE_PAGE_URL, $request);
+        parent::__construct(Action::TYPE_PAGE_URL, $request);
 
         $this->setActionUrl($url);
 

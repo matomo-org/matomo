@@ -47,12 +47,12 @@ class ActionClickUrl extends Action
     /**
      * Detect whether action is an outlink given host aliases
      *
-     * @param ActionInterface $action
+     * @param Action $action
      * @return bool true if the outlink the visitor clicked on points to one of the known hosts for this website
      */
-    public static function detectActionIsOutlinkOnAliasHost(ActionInterface $action, $idSite)
+    public static function detectActionIsOutlinkOnAliasHost(Action $action, $idSite)
     {
-        if ($action->getActionType() != ActionInterface::TYPE_OUTLINK) {
+        if ($action->getActionType() != Action::TYPE_OUTLINK) {
             return false;
         }
         $decodedActionUrl = $action->getActionUrl();

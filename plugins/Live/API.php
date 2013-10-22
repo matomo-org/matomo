@@ -973,11 +973,11 @@ class API extends \Piwik\Plugin\API
                 case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
                     $details['icon'] = 'plugins/Zeitgeist/images/' . $details['type'] . '.gif';
                     break;
-                case Tracker\ActionInterface::TYPE_DOWNLOAD:
+                case Action::TYPE_DOWNLOAD:
                     $details['type'] = 'download';
                     $details['icon'] = 'plugins/Zeitgeist/images/download.png';
                     break;
-                case Tracker\ActionInterface::TYPE_OUTLINK:
+                case Action::TYPE_OUTLINK:
                     $details['type'] = 'outlink';
                     $details['icon'] = 'plugins/Zeitgeist/images/link.gif';
                     break;

@@ -251,6 +251,12 @@ class Request
             'ec_dt'        => array(false, 'float'),
             'ec_items'     => array('', 'string'),
 
+            // Events
+            'e_c'          => array(false, 'string'),
+            'e_a'          => array(false, 'string'),
+            'e_n'          => array(false, 'string'),
+            'e_v'          => array(false, 'float'),
+
             // some visitor attributes can be overwritten
             'cip'          => array(false, 'string'),
             'cdt'          => array(false, 'string'),

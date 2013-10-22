@@ -37,14 +37,14 @@ class ActionSiteSearch extends Action
 
     function __construct($url, Request $request)
     {
-        parent::__construct(ActionInterface::TYPE_SITE_SEARCH, $request);
+        parent::__construct(Action::TYPE_SITE_SEARCH, $request);
         $this->originalUrl = $url;
     }
 
     protected function getActionsToLookup()
     {
         return array(
-            'idaction_name' => array($this->getActionName(), ActionInterface::TYPE_SITE_SEARCH),
+            'idaction_name' => array($this->getActionName(), Action::TYPE_SITE_SEARCH),
             'idaction_url' => $this->getUrlAndType(),
         );
     }

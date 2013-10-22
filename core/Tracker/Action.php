@@ -22,11 +22,30 @@ use Piwik\Tracker;
  * @package Piwik
  * @subpackage Tracker
  */
-class Action implements ActionInterface
+abstract class Action
 {
+
+    //FIXMEA lookup uses and check Events compat
+    const TYPE_PAGE_URL = 1;
+    const TYPE_OUTLINK = 2;
+    const TYPE_DOWNLOAD = 3;
+    const TYPE_PAGE_TITLE = 4;
+    const TYPE_ECOMMERCE_ITEM_SKU = 5;
+    const TYPE_ECOMMERCE_ITEM_NAME = 6;
+    const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
+    const TYPE_SITE_SEARCH = 8;
+
+    //FIXMEA lookup uses and check Events compat
+    const TYPE_EVENT = 11; // Same as TYPE_EVENT_ACTION
+    const TYPE_EVENT_CATEGORY = 10;
+    const TYPE_EVENT_ACTION = 11;
+    const TYPE_EVENT_NAME = 12;
+
+
     const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
 
     /**
+     * Makes the correct Action object based on the request.
      *
      * @param Request $request
      * @return ActionClickUrl|ActionPageview|ActionSiteSearch
@@ -44,6 +63,12 @@ class Action implements ActionInterface
         }
 
         $url = $request->getParam('url');
+
+        $eventCategory = $request->getParam('e_c');
+        $eventAction = $request->getParam('e_a');
+        if(strlen($eventCategory) > 0 && strlen($eventAction) > 0 ) {
+            return new ActionEvent($eventCategory, $eventAction, $url, $request);
+        }
 
         $action = new ActionSiteSearch($url, $request);
         if ($action->isSearchDetected()) {
@@ -91,47 +116,16 @@ class Action implements ActionInterface
         return $this->actionType;
     }
 
-    public function getIdActionUrl()
+    public function getCustomVariables()
     {
-        $idUrl = $this->actionIdsCached['idaction_url'];
-        // note; idaction_url = 0 is displayed as "Page URL Not Defined"
-        return (int)$idUrl;
-    }
-
-    public function getIdActionName()
-    {
-        if(!isset($this->actionIdsCached['idaction_name'])) {
-            return false;
-        }
-        return $this->actionIdsCached['idaction_name'];
+        $customVariables = $this->request->getCustomVariables($scope = 'page');
+        return $customVariables;
     }
 
     // custom_float column
     public function getCustomFloatValue()
     {
         return false;
-    }
-
-
-
-    /**
-     * Returns the ID of the newly created record in the log_link_visit_action table
-     *
-     * @return int
-     */
-    public function getIdLinkVisitAction()
-    {
-        return $this->idLinkVisitAction;
-    }
-
-    public function writeDebugInfo()
-    {
-        if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-            $type = self::getTypeAsString($this->getActionType());
-            Common::printDebug("Action is a $type,
-                    Action name =  " . $this->getActionName() . ",
-                    Action URL = " . $this->getActionUrl());
-        }
     }
 
 
@@ -155,12 +149,6 @@ class Action implements ActionInterface
         $this->actionUrl = $url;
     }
 
-    public function getCustomVariables()
-    {
-        $customVariables = $this->request->getCustomVariables($scope = 'page');
-        return $customVariables;
-    }
-
     protected function getActionsToLookup()
     {
         return array(
@@ -171,7 +159,7 @@ class Action implements ActionInterface
 
     protected function getNameAndType()
     {
-        return array($this->getActionName(), ActionInterface::TYPE_PAGE_TITLE);
+        return array($this->getActionName(), Action::TYPE_PAGE_TITLE);
     }
 
     protected function getUrlAndType()
@@ -185,9 +173,44 @@ class Action implements ActionInterface
         return false;
     }
 
+    public function getIdActionUrl()
+    {
+        $idUrl = $this->actionIdsCached['idaction_url'];
+        // note; idaction_url = 0 is displayed as "Page URL Not Defined"
+        return (int)$idUrl;
+    }
+
+    public function getIdActionName()
+    {
+        if(!isset($this->actionIdsCached['idaction_name'])) {
+            return false;
+        }
+        return $this->actionIdsCached['idaction_name'];
+    }
+
+    /**
+     * Returns the ID of the newly created record in the log_link_visit_action table
+     *
+     * @return int
+     */
+    public function getIdLinkVisitAction()
+    {
+        return $this->idLinkVisitAction;
+    }
+
+    public function writeDebugInfo()
+    {
+        if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
+            $type = self::getTypeAsString($this->getActionType());
+            Common::printDebug("Action is a $type,
+                    Action name =  " . $this->getActionName() . ",
+                    Action URL = " . $this->getActionUrl());
+        }
+    }
+
     public static function getTypeAsString($type)
     {
-        $class = new \ReflectionClass("\\Piwik\\Tracker\\ActionInterface");
+        $class = new \ReflectionClass("\\Piwik\\Tracker\\Action");
         $constants = $class->getConstants();
 
         $typeId = array_search($type, $constants);
@@ -208,12 +231,14 @@ class Action implements ActionInterface
      */
     public function loadIdsFromLogActionTable()
     {
+        if(!empty($this->actionIdsCached)) {
+            return;
+        }
         $actions = $this->getActionsToLookup();
         $actions = array_filter($actions, 'count');
 
-        if(empty($actions)
-            || !empty($this->actionIdsCached)) {
-            return false;
+        if(empty($actions)) {
+            return;
         }
 
         $loadedActionIds = TableLogAction::loadIdsAction($actions);
@@ -305,45 +330,3 @@ class Action implements ActionInterface
     }
 
 }
-
-
-/**
- * Interface of the Action object.
- * New Action classes can be defined in plugins and used instead of the default one.
- *
- * @package Piwik
- * @subpackage Tracker
- */
-interface ActionInterface
-{
-    //FIXMEA lookup uses and check Events compat
-    const TYPE_PAGE_URL = 1;
-    const TYPE_OUTLINK = 2;
-    const TYPE_DOWNLOAD = 3;
-    const TYPE_PAGE_TITLE = 4;
-    const TYPE_ECOMMERCE_ITEM_SKU = 5;
-    const TYPE_ECOMMERCE_ITEM_NAME = 6;
-    const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
-    const TYPE_SITE_SEARCH = 8;
-
-    //FIXMEA lookup uses and check Events compat
-    const TYPE_EVENT = 11; // Same as TYPE_EVENT_ACTION
-    const TYPE_EVENT_CATEGORY = 10;
-    const TYPE_EVENT_ACTION = 11;
-    const TYPE_EVENT_NAME = 12;
-
-    public function getActionUrl();
-
-    public function getActionName();
-
-    public function getActionType();
-
-    public function record($idVisit, $visitorIdCookie, $idReferrerActionUrl, $idReferrerActionName, $timeSpentReferrerAction);
-
-    public function getIdActionUrl();
-
-    public function getIdActionName();
-
-    public function getIdLinkVisitAction();
-}
-
