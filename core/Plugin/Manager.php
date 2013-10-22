@@ -11,6 +11,7 @@
 
 namespace Piwik\Plugin;
 
+use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
@@ -742,11 +743,9 @@ class Manager extends Singleton
         $defaultEnglishLangPath = sprintf($path, 'en');
 
         if (file_exists($defaultLangPath)) {
-            $data = file_get_contents($defaultLangPath);
-            $translations = json_decode($data, true);
+            $translations = $this->getTranslationsFromFile($defaultLangPath);
         } elseif (file_exists($defaultEnglishLangPath)) {
-            $data = file_get_contents($defaultEnglishLangPath);
-            $translations = json_decode($data, true);
+            $translations = $this->getTranslationsFromFile($defaultEnglishLangPath);
         } else {
             return false;
         }
@@ -896,6 +895,27 @@ class Manager extends Singleton
                 $this->updatePluginsTrackerConfig($pluginsTracker);
             }
         }
+    }
+
+    /**
+     * @param  string $pathToTranslationFile
+     * @throws \Exception
+     * @return mixed
+     */
+    private function getTranslationsFromFile($pathToTranslationFile)
+    {
+        $data         = file_get_contents($pathToTranslationFile);
+        $translations = json_decode($data, true);
+
+        if (is_null($translations) && Common::hasJsonErrorOccurred()) {
+            $jsonError = Common::getLastJsonError();
+
+            $message = sprintf('Not able to load translation file %s: %s', $pathToTranslationFile, $jsonError);
+
+            throw new \Exception($message);
+        }
+
+        return $translations;
     }
 }
 

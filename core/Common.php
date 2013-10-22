@@ -585,6 +585,41 @@ class Common
     }
 
     /**
+     * Detects whether an error occurred during the last json encode/decode.
+     * @return bool
+     */
+    public static function hasJsonErrorOccurred()
+    {
+        return json_last_error() != JSON_ERROR_NONE;
+    }
+
+    /**
+     * Returns a human readable error message in case an error occcurred during the last json encode/decode.
+     * Returns an empty string in case there was no error.
+     *
+     * @return string
+     */
+    public static function getLastJsonError()
+    {
+        switch (json_last_error()) {
+            case JSON_ERROR_NONE:
+                return '';
+            case JSON_ERROR_DEPTH:
+                return 'Maximum stack depth exceeded';
+            case JSON_ERROR_STATE_MISMATCH:
+                return 'Underflow or the modes mismatch';
+            case JSON_ERROR_CTRL_CHAR:
+                return 'Unexpected control character found';
+            case JSON_ERROR_SYNTAX:
+                return 'Syntax error, malformed JSON';
+            case JSON_ERROR_UTF8:
+                return 'Malformed UTF-8 characters, possibly incorrectly encoded';
+        }
+
+        return 'Unknown error';
+    }
+
+    /**
      * Returns the list of parent classes for the given class.
      *
      * @param  string    $klass   A class name.
