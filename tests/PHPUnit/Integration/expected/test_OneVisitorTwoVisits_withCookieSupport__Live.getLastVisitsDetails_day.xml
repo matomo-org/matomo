@@ -214,7 +214,7 @@
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at homepage after site search...</pageTitle>
-				<pageIdAction>9</pageIdAction>
+				<pageIdAction>10</pageIdAction>
 				<pageId>8</pageId>
 				
 				<generationTime>0.02s</generationTime>
