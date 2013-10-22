@@ -4,7 +4,7 @@
 		<idSite>1</idSite>
 		<idVisit>2</idVisit>
 		<visitIp>156.5.3.2</visitIp>
-		<visitorId>71d675ee7ed7fe75</visitorId>
+		
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -136,7 +136,7 @@
 		<idSite>1</idSite>
 		<idVisit>1</idVisit>
 		<visitIp>156.5.3.2</visitIp>
-		<visitorId>71d675ee7ed7fe75</visitorId>
+		
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -409,7 +409,7 @@
 		<idSite>1</idSite>
 		<idVisit>4</idVisit>
 		<visitIp>111.1.1.1</visitIp>
-		<visitorId>3e5bba0b9eea4018</visitorId>
+		
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
@@ -537,7 +537,7 @@
 		<idSite>1</idSite>
 		<idVisit>3</idVisit>
 		<visitIp>111.1.1.1</visitIp>
-		<visitorId>3e5bba0b9eea4018</visitorId>
+		
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
