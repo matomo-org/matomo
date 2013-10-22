@@ -211,12 +211,14 @@ abstract class Action
 
     public function writeDebugInfo()
     {
-        if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-            $type = self::getTypeAsString($this->getActionType());
-            Common::printDebug("Action is a $type,
-                    Action name =  " . $this->getActionName() . ",
-                    Action URL = " . $this->getActionUrl());
+        if (!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG']) {
+            return false;
         }
+        $type = self::getTypeAsString($this->getActionType());
+        Common::printDebug("Action is a $type,
+                Action name =  " . $this->getActionName() . ",
+                Action URL = " . $this->getActionUrl());
+        return true;
     }
 
     public static function getTypeAsString($type)

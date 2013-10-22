@@ -11,6 +11,7 @@
 
 namespace Piwik\Tracker;
 
+use Piwik\Common;
 use Piwik\Tracker;
 use Piwik\Config;
 
@@ -27,7 +28,6 @@ class ActionEvent extends Action
         $this->setActionUrl($url);
         $this->eventCategory = $eventCategory;
         $this->eventAction = $eventAction;
-
         $this->eventName = $request->getParam('e_n');
         $this->eventValue = $request->getParam('e_v');
     }
@@ -65,6 +65,18 @@ class ActionEvent extends Action
     public function getIdActionNameForEntryAndExitIds()
     {
         return false;
+    }
+
+    public function writeDebugInfo()
+    {
+        $write = parent::writeDebugInfo();
+        if($write) {
+            Common::printDebug("Event Category = " . $this->eventCategory . ",
+                Event Action = " .  $this->eventAction . ",
+                Event Name =  " . $this->eventName . ",
+                Event Value = " . $this->getCustomFloatValue());
+        }
+        return $write;
     }
 
 }
