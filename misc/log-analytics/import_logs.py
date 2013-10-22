@@ -880,7 +880,7 @@ class Piwik(object):
         try:
             return json.loads(res)
         except ValueError:
-            truncate_after = 300
+            truncate_after = 700
             raise urllib2.URLError('Piwik returned an invalid response: ' + res[:truncate_after])
 
 
@@ -897,7 +897,7 @@ class Piwik(object):
                     if on_failure is not None:
                         error_message = on_failure(response, kwargs.get('data'))
                     else:
-                        truncate_after = 300
+                        truncate_after = 700
                         truncated_response = (response[:truncate_after] + '..') if len(response) > truncate_after else response
                         error_message = "didn't receive the expected response. Response was %s " % truncated_response
 

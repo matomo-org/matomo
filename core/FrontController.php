@@ -94,7 +94,7 @@ class FrontController extends Singleton
          *
          * The `$params` array contains the following properties: `array($module, $action, $parameters, $controller)`
          */
-        Piwik::postEvent('Request.dispatch', $module, $action, $parameters);
+        Piwik::postEvent('Request.dispatch', array($module, $action, $parameters));
 
         /**
          * This event is similar to the `Request.dispatch` hook. It distinguishes the possibility to subscribe only to a
