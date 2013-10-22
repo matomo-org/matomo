@@ -1099,10 +1099,12 @@ class DataTable implements DataTableInterface
             throw new Exception("Maximum recursion level of " . self::$maximumDepthLevelAllowed . " reached. Maybe you have set a DataTable\Row with an associated DataTable belonging already to one of its parent tables?");
         }
         if (!is_null($maximumRowsInDataTable)) {
-            $this->filter('AddSummaryRow',
+            $this->filter('Truncate',
                 array($maximumRowsInDataTable - 1,
                       DataTable::LABEL_SUMMARY_ROW,
-                      $columnToSortByBeforeTruncation)
+                      $columnToSortByBeforeTruncation,
+                      $deleteRows = true,
+                      $filterRecursive = false)
             );
         }
 
