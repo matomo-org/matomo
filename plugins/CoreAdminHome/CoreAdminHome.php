@@ -18,6 +18,7 @@ use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;
+use Piwik\Settings\Manager as SettingsManager;
 
 /**
  *
@@ -77,6 +78,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
         $jsFiles[] = "plugins/CoreAdminHome/javascripts/generalSettings.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
+        $jsFiles[] = "plugins/CoreAdminHome/javascripts/pluginSettings.js";
     }
 
     function addMenu()
@@ -92,6 +94,14 @@ class CoreAdminHome extends \Piwik\Plugin
             array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator'),
             Piwik::isUserHasSomeAdminAccess(),
             $order = 4);
+
+        if (SettingsManager::hasPluginSettingsForCurrentUser()) {
+            MenuAdmin::getInstance()->add('General_Settings', 'General_Plugins',
+                array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
+                Piwik::isUserHasSomeAdminAccess(),
+                $order = 7);
+        }
+
     }
 
     function purgeOutdatedArchives()
