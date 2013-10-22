@@ -183,6 +183,7 @@ class UserAgentParserEnhanced
         'Windows 3.1'          => 'W31',
         'Windows 7'            => 'WI7',
         'Windows 8'            => 'WI8',
+        'Windows 8.1'          => 'WI8.1',
         'Windows 95'           => 'W95',
         'Windows 98'           => 'W98',
         'Windows CE'           => 'WCE',
