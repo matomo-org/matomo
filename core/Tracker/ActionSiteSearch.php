@@ -45,7 +45,6 @@ class ActionSiteSearch extends Action
     {
         return array(
             'idaction_name' => array($this->getActionName(), Action::TYPE_SITE_SEARCH),
-            'idaction_url' => $this->getUrlAndType(),
         );
     }
 
@@ -53,10 +52,7 @@ class ActionSiteSearch extends Action
     {
         // Site Search, by default, will not track URL. We do not want URL to appear as "Page URL not defined"
         // so we specifically set it to NULL in the table (the archiving query does IS NOT NULL)
-        if (empty(Config::getInstance()->Tracker['action_sitesearch_record_url'])) {
-            return null;
-        }
-        return parent::getIdActionUrl();
+        return null;
     }
 
     public function getCustomFloatValue()
@@ -197,7 +193,6 @@ class ActionSiteSearch extends Action
         }
 
         $actionName = $url = $categoryName = $count = false;
-        $doTrackUrlForSiteSearch = !empty(Config::getInstance()->Tracker['action_sitesearch_record_url']);
 
         $originalUrl = PageUrl::cleanupUrl($originalUrl);
 
@@ -205,9 +200,6 @@ class ActionSiteSearch extends Action
         $searchKwd = $this->request->getParam('search');
         if (!empty($searchKwd)) {
             $actionName = $searchKwd;
-            if ($doTrackUrlForSiteSearch) {
-                $url = $originalUrl;
-            }
             $isCategoryName = $this->request->getParam('search_cat');
             if (!empty($isCategoryName)) {
                 $categoryName = $isCategoryName;

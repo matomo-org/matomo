@@ -180,6 +180,17 @@ abstract class Action
         return (int)$idUrl;
     }
 
+
+    public function getIdActionUrlForEntryAndExitIds()
+    {
+        return $this->getIdActionUrl();
+    }
+
+    public function getIdActionNameForEntryAndExitIds()
+    {
+        return $this->getIdActionName();
+    }
+
     public function getIdActionName()
     {
         if(!isset($this->actionIdsCached['idaction_name'])) {
@@ -294,9 +305,9 @@ abstract class Action
 
         $insert = array_merge($insert, $customVariables);
 
-        $fields = implode(", ", array_keys($insertWithoutNulls));
-        $bind = array_values($insertWithoutNulls);
-        $values = Common::getSqlStringFieldsArray($insertWithoutNulls);
+        $fields = implode(", ", array_keys($insert));
+        $bind = array_values($insert);
+        $values = Common::getSqlStringFieldsArray($insert);
 
         $sql = "INSERT INTO " . Common::prefixTable('log_link_visit_action') . " ($fields) VALUES ($values)";
         Tracker::getDatabase()->query($sql, $bind);
@@ -312,7 +323,7 @@ abstract class Action
             'timeSpentReferrerAction' => $timeSpentReferrerAction,
         );
         Common::printDebug("Inserted new action:");
-        Common::printDebug($insertWithoutNulls);
+        Common::printDebug($insert);
 
         /**
          * This hook is called after saving (and updating) visitor information. You can use it for instance to sync the
