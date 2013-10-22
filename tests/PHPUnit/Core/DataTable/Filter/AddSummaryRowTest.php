@@ -11,6 +11,10 @@ use Piwik\DataTable\Row;
 
 class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @group AddSummaryRow
+     * @group Core
+     */
     public function testAddSummaryRow()
     {
         $dataTable = $this->getDataTableCount5();
