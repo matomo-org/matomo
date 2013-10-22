@@ -85,8 +85,7 @@ class FrontController extends Singleton
             return;
         }
 
-        // list($module, $action, $parameters, $controller)
-        $params = $this->prepareDispatch($module, $action, $parameters);
+        list($module, $action, $parameters, $controller) = $this->prepareDispatch($module, $action, $parameters);
 
         /**
          * Generic hook that plugins can use to modify any input to the function, or even change the plugin being
@@ -95,7 +94,7 @@ class FrontController extends Singleton
          *
          * The `$params` array contains the following properties: `array($module, $action, $parameters, $controller)`
          */
-        Piwik::postEvent('Request.dispatch', $params);
+        Piwik::postEvent('Request.dispatch', array($module, $action, $parameters));
 
         /**
          * This event is similar to the `Request.dispatch` hook. It distinguishes the possibility to subscribe only to a
@@ -105,7 +104,7 @@ class FrontController extends Singleton
         Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array($parameters));
 
         try {
-            $result = call_user_func_array(array($params[3], $params[1]), $params[2]);
+            $result = call_user_func_array(array($controller, $action), $parameters);
 
             /**
              * This event is similar to the `Request.dispatch.end` hook. It distinguishes the possibility to subscribe

@@ -53,6 +53,8 @@ class Evolution extends JqplotGraph
         if (Common::getRequestVar('period', false) == 'range') {
             $this->requestConfig->request_parameters_to_modify['period'] = 'day';
         }
+
+        $this->config->custom_parameters['columns'] = $this->config->columns_to_display;
     }
 
     public function afterAllFilteresAreApplied()

@@ -263,6 +263,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'SegmentEditor',
         'UserCountry.getLocationFromIP',
         'Dashboard',
+        'ExamplePluginTemplate'
     );
 
     const DEFAULT_USER_PASSWORD = 'nopass';

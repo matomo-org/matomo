@@ -11,19 +11,24 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Menu\MenuTop;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Settings\Manager as SettingsManager;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
@@ -86,6 +91,55 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
         echo $view->render();
+    }
+
+    public function pluginSettings()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $view = new View('@CoreAdminHome/pluginSettings');
+
+        $view->pluginSettings = SettingsManager::getAllPluginSettings();
+        $this->setBasicVariablesView($view);
+
+        echo $view->render();
+    }
+
+    public function setPluginSettings()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Json::sendHeaderJSON();
+
+        $updateSettings = Common::getRequestVar('settings', null, 'json');
+        $pluginSettings = SettingsManager::getAllPluginSettings();
+
+        try {
+
+            foreach ($updateSettings as $pluginName => $serializedSetting) {
+                $unserializedSettings = UrlHelper::getArrayFromQueryString($serializedSetting);
+
+                if (!array_key_exists($pluginName, $pluginSettings)) {
+                    // this plugin is not using settings, skip it
+                    continue;
+                }
+
+                $pluginSetting = $pluginSettings[$pluginName];
+
+                foreach ($unserializedSettings as $key => $value) {
+                    $pluginSetting->setSettingValue($key, $value);
+                }
+            }
+
+            foreach ($pluginSettings as $pluginSetting) {
+                $pluginSetting->save();
+            }
+
+        } catch (Exception $e) {
+            echo json_encode(array('result' => 'error', 'message' => $e->getMessage()));
+            return;
+        }
+
+        echo json_encode(array('result' => 'success'));
     }
 
     public function setGeneralSettings()

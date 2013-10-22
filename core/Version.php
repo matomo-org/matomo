@@ -21,7 +21,7 @@ namespace Piwik;
 final class Version
 {
     /**
-     * Current Piwik version
+     * The current Piwik version.
      * @var string
      */
     const VERSION = '2.0-b2';

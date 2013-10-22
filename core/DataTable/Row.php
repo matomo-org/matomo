@@ -15,20 +15,10 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 
 /**
- * A DataTable is composed of rows.
- *
- * A row is composed of:
- * - columns often at least a 'label' column containing the description
- *        of the row, and some numeric values ('nb_visits', etc.)
- * - metadata: other information never to be shown as 'columns'
- * - idSubtable: a row can be linked to a SubTable
- *
- * IMPORTANT: Make sure that the column named 'label' contains at least one non-numeric character.
- *            Otherwise the method addDataTable() or sumRow() would fail because they would consider
- *            the 'label' as being a numeric column to sum.
- *
- * PERFORMANCE: Do *not* add new fields except if necessary in this object. New fields will be
- *              serialized and recorded in the DB millions of times. This object size is critical and must be under control.
+ * This is what a [DataTable](#) is composed of.
+ * 
+ * DataTable rows contain columns, metadata and a subtable ID. Columns and metadata
+ * are stored as an array of name => value mappings.
  *
  * @package Piwik
  * @subpackage DataTable
@@ -56,8 +46,10 @@ class Row
      *
      * @var array
      * @see constructor for more information
+     * @ignore
      */
     public $c = array();
+
     private $subtableIdWasNegativeBeforeSerialize = false;
 
     // @see sumRow - implementation detail
@@ -68,22 +60,20 @@ class Row
     const DATATABLE_ASSOCIATED = 3;
 
     /**
-     * Efficient load of the Row structure from a well structured php array
+     * Constructor.
      *
-     * @param array $row The row array has the structure
-     *                     array(
-     *                           Row::COLUMNS => array(
-     *                                                                 'label' => 'Piwik',
-     *                                                                 'column1' => 42,
-     *                                                                 'visits' => 657,
-     *                                                                 'time_spent' => 155744,
-     *                                                                 ),
-     *                            Row::METADATA => array(
-     *                                                                  'logo' => 'test.png'
-     *                                                                  ),
-     *                            Row::DATATABLE_ASSOCIATED => #DataTable object
-     *                                                                         (but in the row only the ID will be stored)
-     *                           )
+     * @param array $row An array with the following structure:
+     *                   ```
+     *                   array(
+     *                       Row::COLUMNS => array('label' => 'Piwik',
+     *                                             'column1' => 42,
+     *                                             'visits' => 657,
+     *                                             'time_spent' => 155744),
+     *                       Row::METADATA => array('logo' => 'test.png'),
+     *                       Row::DATATABLE_ASSOCIATED => $subtable // DataTable object
+     *                                                              // (but in the row only the ID will be stored)
+     *                   )
+     *                   ```
      */
     public function __construct($row = array())
     {
@@ -109,6 +99,7 @@ class Row
      * we must prior to serialize() call, make sure the ID is saved as positive integer
      *
      * Only serialize the "c" member
+     * @ignore
      */
     public function __sleep()
     {
@@ -122,7 +113,8 @@ class Row
     }
 
     /**
-     * Must be called after the row was serialized and __sleep was called
+     * Must be called after the row was serialized and __sleep was called.
+     * @ignore
      */
     public function cleanPostSerialize()
     {
@@ -134,6 +126,7 @@ class Row
 
     /**
      * When destroyed, a row destroys its associated subTable if there is one
+     * @ignore
      */
     public function __destruct()
     {
@@ -144,9 +137,10 @@ class Row
     }
 
     /**
-     * Applies a basic rendering to the Row and returns the output
+     * Applies a basic rendering to the Row and returns the output.
      *
-     * @return string characterizing the row. Example: - 1 ['label' => 'piwik', 'nb_uniq_visitors' => 1685, 'nb_visits' => 1861, 'nb_actions' => 2271, 'max_actions' => 13, 'sum_visit_length' => 920131, 'bounce_count' => 1599] [] [idsubtable = 1375]
+     * @return string describing the row. Example:
+     *                "- 1 ['label' => 'piwik', 'nb_uniq_visitors' => 1685, 'nb_visits' => 1861] [] [idsubtable = 1375]"
      */
     public function __toString()
     {
@@ -169,10 +163,10 @@ class Row
     }
 
     /**
-     * Deletes the given column
+     * Deletes the given column.
      *
-     * @param string $name Column name
-     * @return bool  True on success, false if the column didn't exist
+     * @param string $name The column name.
+     * @return bool True on success, false if the column does not exist.
      */
     public function deleteColumn($name)
     {
@@ -184,10 +178,10 @@ class Row
     }
 
     /**
-     * Renames the given column
+     * Renames a column.
      *
-     * @param string $oldName
-     * @param string $newName
+     * @param string $oldName The current name of the column.
+     * @param string $newName The new name of the column.
      */
     public function renameColumn($oldName, $newName)
     {
@@ -199,10 +193,10 @@ class Row
     }
 
     /**
-     * Returns the given column
+     * Returns a column by name.
      *
-     * @param string $name Column name
-     * @return mixed|bool  The column value or false if it doesn't exist
+     * @param string $name The column name.
+     * @return mixed|false  The column value or false if it doesn't exist.
      */
     public function getColumn($name)
     {
@@ -213,10 +207,9 @@ class Row
     }
 
     /**
-     * Returns the array of all metadata,
-     * or the specified metadata
+     * Returns the array of all metadata, or one requested metadata value.
      *
-     * @param string $name Metadata name
+     * @param string|null $name The name of the metadata to return or null to return all metadata.
      * @return mixed
      */
     public function getMetadata($name = null)
@@ -231,13 +224,16 @@ class Row
     }
 
     /**
-     * Returns the array containing all the columns
+     * Returns the array containing all the columns.
      *
-     * @return array  Example: array(
-     *                              'column1'   => VALUE,
-     *                              'label'     => 'www.php.net'
-     *                              'nb_visits' => 15894,
-     *                              )
+     * @return array  Example:
+     *                ```
+     *                array(
+     *                    'column1'   => VALUE,
+     *                    'label'     => 'www.php.net'
+     *                    'nb_visits' => 15894,
+     *                )
+     *                ```
      */
     public function getColumns()
     {
@@ -259,9 +255,9 @@ class Row
     }
 
     /**
-     * Returns the associated subtable, if one exists.
+     * Returns the associated subtable, if one exists. Returns `false` if none exists.
      *
-     * @return DataTable|bool    false if no subtable loaded
+     * @return DataTable|bool
      */
     public function getSubtable()
     {
@@ -272,12 +268,12 @@ class Row
     }
 
     /**
-     * Sums a DataTable to this row subDataTable.
-     * If this row doesn't have a SubDataTable yet, we create a new one.
-     * Then we add the values of the given DataTable to this row's DataTable.
-     *
-     * @param DataTable $subTable Table to sum to this row's subDatatable
-     * @see DataTable::addDataTable() for the algorithm used for the sum
+     * Sums a DataTable to this row's subtable. If this row has no subtable a new
+     * one is created.
+     * 
+     * See [DataTable::addDataTable()](#) to learn how DataTables are summed.
+     * 
+     * @param DataTable $subTable Table to sum to this row's subtab.e.
      */
     public function sumSubtable(DataTable $subTable)
     {
@@ -293,12 +289,11 @@ class Row
     }
 
     /**
-     * Set a DataTable to be associated to this row.
-     * If the row already has a DataTable associated to it, throws an Exception.
+     * Attaches a subtable to this row.
      *
-     * @param DataTable $subTable DataTable to associate to this row
-     * @return DataTable Returns $subTable.
-     * @throws Exception
+     * @param DataTable $subTable DataTable to associate to this row.
+     * @return DataTable Returns `$subTable`.
+     * @throws Exception if a subtable already exists for this row.
      */
     public function addSubtable(DataTable $subTable)
     {
@@ -309,11 +304,11 @@ class Row
     }
 
     /**
-     * Set a DataTable to this row. If there is already
-     * a DataTable associated, it is simply overwritten.
+     * Attaches a subtable to this row, overwriting the existing subtable,
+     * if any.
      *
-     * @param DataTable $subTable DataTable to associate to this row
-     * @return DataTable Returns $subTable.
+     * @param DataTable $subTable DataTable to associate to this row.
+     * @return DataTable Returns `$subTable`.
      */
     public function setSubtable(DataTable $subTable)
     {
@@ -324,8 +319,7 @@ class Row
     }
 
     /**
-     * Returns true if the subtable is currently loaded in memory via DataTable_Manager
-     *
+     * Returns true if the subtable is currently loaded in memory via [DataTable\Manager](#).
      *
      * @return bool
      */
@@ -338,7 +332,7 @@ class Row
     }
 
     /**
-     * Remove the sub table reference
+     * Removes the subtable reference.
      */
     public function removeSubtable()
     {
@@ -348,10 +342,7 @@ class Row
     /**
      * Set all the columns at once. Overwrites previously set columns.
      *
-     * @param array  array(
-     *                    'label'       => 'www.php.net'
-     *                    'nb_visits'   => 15894,
-     *                    )
+     * @param array eg, `array('label' => 'www.php.net', 'nb_visits' => 15894)`
      */
     public function setColumns($columns)
     {
@@ -359,10 +350,10 @@ class Row
     }
 
     /**
-     * Set the value $value to the column called $name.
+     * Set the value `$value` to the column called `$name`.
      *
-     * @param string $name name of the column to set
-     * @param mixed $value value of the column to set
+     * @param string $name name of the column to set.
+     * @param mixed $value value of the column to set.
      */
     public function setColumn($name, $value)
     {
@@ -370,10 +361,10 @@ class Row
     }
 
     /**
-     * Set the value $value to the metadata called $name.
+     * Set the value `$value` to the metadata called `$name`.
      *
-     * @param string $name name of the metadata to set
-     * @param mixed $value value of the metadata to set
+     * @param string $name name of the metadata to set.
+     * @param mixed $value value of the metadata to set.
      */
     public function setMetadata($name, $value)
     {
@@ -381,10 +372,10 @@ class Row
     }
 
     /**
-     * Deletes the given metadata
+     * Deletes one metadata value or all metadata values.
      *
-     * @param bool|string $name Meta column name (omit to delete entire metadata)
-     * @return bool  True on success, false if the column didn't exist
+     * @param bool|string $name Metadata name (omit to delete entire metadata).
+     * @return bool true on success, false if the column didn't exist
      */
     public function deleteMetadata($name = false)
     {
@@ -400,27 +391,25 @@ class Row
     }
 
     /**
-     * Add a new column to the row. If the column already exists, throws an exception
+     * Add a new column to the row. If the column already exists, throws an exception.
      *
-     * @param string $name name of the column to add
-     * @param mixed $value value of the column to set
-     * @throws Exception
+     * @param string $name name of the column to add.
+     * @param mixed $value value of the column to set.
+     * @throws Exception if the column already exists.
      */
     public function addColumn($name, $value)
     {
         if (isset($this->c[self::COLUMNS][$name])) {
-//			debug_print_backtrace();
             throw new Exception("Column $name already in the array!");
         }
         $this->c[self::COLUMNS][$name] = $value;
     }
 
     /**
-     * Add columns to the row
+     * Add many columns to this row.
      *
-     * @param array $columns Name/Value pairs, e.g., array( name => value , ...)
-     *
-     * @throws Exception
+     * @param array $columns Name/Value pairs, e.g., `array('name' => $value , ...)`
+     * @throws Exception if any column name does not exist.
      * @return void
      */
     public function addColumns($columns)
@@ -438,11 +427,11 @@ class Row
     }
 
     /**
-     * Add a new metadata to the row. If the column already exists, throws an exception.
+     * Add a new metadata to the row. If the metadata already exists, throws an exception.
      *
-     * @param string $name name of the metadata to add
-     * @param mixed $value value of the metadata to set
-     * @throws Exception
+     * @param string $name name of the metadata to add.
+     * @param mixed $value value of the metadata to set.
+     * @throws Exception if the metadata already exists.
      */
     public function addMetadata($name, $value)
     {
@@ -453,18 +442,17 @@ class Row
     }
 
     /**
-     * Sums the given $row columns values to the existing row' columns values.
-     * It will sum only the int or float values of $row.
-     * It will not sum the column 'label' even if it has a numeric value.
-     * If a given column doesn't exist in $this then it is added with the value of $row.
-     * If the column already exists in $this then we have
-     *         this.columns[idThisCol] += $row.columns[idThisCol]
+     * Sums the given `$rowToSum` columns values to the existing row column values.
+     * Only the int or float values will be summed. Label columns will be ignored
+     * even if they have a numeric value.
+     * 
+     * Columns in `$rowToSum` that don't exist in `$this` are added to `$this`.
      *
-     * @param \Piwik\DataTable\Row $rowToSum
-     * @param bool $enableCopyMetadata
+     * @param \Piwik\DataTable\Row $rowToSum The row to sum to this row.
+     * @param bool $enableCopyMetadata Whether metadata should be copied or not.
      * @param array $aggregationOperations for columns that should not be summed, determine which
-     *                                                    aggregation should be used (min, max).
-     *                                                    format: column name => function name
+     *                                     aggregation should be used (min, max). format:
+     *                                     `array('column name' => 'function name')`
      */
     public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
@@ -520,6 +508,8 @@ class Row
     }
 
     /**
+     * Sums the metadata in `$rowToSum` with the metadata in `$this` row.
+     * 
      * @param Row $rowToSum
      */
     public function sumRowMetadata($rowToSum)
@@ -540,6 +530,12 @@ class Row
         }
     }
 
+    /**
+     * Returns true if this row is the summary row, false if otherwise. This function
+     * depends on the label of the row, and so, is not 100% accurate.
+     * 
+     * @return bool
+     */
     public function isSummaryRow()
     {
         return $this->getColumn('label') === DataTable::LABEL_SUMMARY_ROW;
@@ -597,6 +593,7 @@ class Row
      * @param mixed $elem1
      * @param mixed $elem2
      * @return bool
+     * @ignore
      */
     static public function compareElements($elem1, $elem2)
     {
@@ -616,11 +613,12 @@ class Row
     }
 
     /**
-     * Helper function to test if two rows are equal.
+     * Helper function that tests if two rows are equal.
      *
-     * Two rows are equal
-     * - if they have exactly the same columns / metadata
-     * - if they have a subDataTable associated, then we check that both of them are the same.
+     * Two rows are equal if:
+     * 
+     * - they have exactly the same columns / metadata
+     * - they have a subDataTable associated, then we check that both of them are the same.
      *
      * @param \Piwik\DataTable\Row $row1 first to compare
      * @param \Piwik\DataTable\Row $row2 second to compare

@@ -24,8 +24,72 @@ if (!defined('PIWIK_USER_PATH')) {
 }
 
 /**
- * View class to render the user interface
+ * Encapsulates and manages a [Twig](http://twig.sensiolabs.org/) template.
  *
+ * View lets you set properties that will be passed on to a Twig template.
+ * View will also set several properties that will be available in all Twig
+ * templates, including:
+ * 
+ * - **currentModule**: The value of the 'module' query parameter.
+ * - **currentAction**: The value of the 'action' query parameter.
+ * - **userLogin**: The current user login name.
+ * - **sites**: List of site data for every site the current user has at least
+ *              view access for.
+ * - **url**: The current URL (sanitized).
+ * - **token_auth**: The current user's token auth.
+ * - **userHasSomeAdminAccess**: True if the user has admin access to at least
+ *                               one site, false if otherwise.
+ * - **userIsSuperUser**: True if the user is the superuser, false if otherwise.
+ * - **latest_version_available**: The latest version of Piwik available.
+ * - **isWidget**: The value of the 'widget' query parameter.
+ * - **show_autocompleter**: Whether the site selector should be shown or not.
+ * - **loginModule**: The name of the currently used authentication module.
+ * - **userAlias**: The alias of the current user.
+ * 
+ * ### Twig
+ * 
+ * Twig templates must exist in the **templates** folder in a plugin's root
+ * folder.
+ * 
+ * The following filters are available to twig templates:
+ * 
+ * - **translate**: Outputs internationalized text using a translation token, eg,
+ *                  `{{ 'General_Date'|translate }}`. sprintf parameters can be passed
+ *                  to the filter.
+ * - **urlRewriteWithParameters**: Modifies the current query string with the given
+ *                                 set of parameters, eg,
+ *                                 ```
+ *                                 {{ {'module':'MyPlugin', 'action':'index'} | urlRewriteWithParameters }}
+ *                                 ```
+ * - **sumTime**: Pretty formats an number of seconds.
+ * - **money**: Formats a numerical value as a monetary value using the currency
+ *              of the supplied site (second arg is site ID).
+ *              eg, `{{ 23|money(site.idsite)|raw }}
+ * - **truncate**: Truncates the text to certain length (determined by first arg.)
+ *                 eg, `{{ myReallyLongText|truncate(80) }}`
+ * - **implode**: Calls `implode`.
+ * - **ucwords**: Calls `ucwords`.
+ * 
+ * The following functions are available to twig templates:
+ * 
+ * - **linkTo**: Modifies the current query string with the given set of parameters,
+ *               eg `{{ linkTo({'module':'MyPlugin', 'action':'index'}) }}`.
+ * - **sparkline**: Outputs a sparkline image HTML element using the sparkline image
+ *                  src link. eg, `{{ sparkline(sparklineUrl) }}`.
+ * - **postEvent**: Posts an event that allows event observers to add text to a string
+ *                  which is outputted in the template, eg, `{{ postEvent('MyPlugin.event') }}`
+ * - **isPluginLoaded**: Returns true if the supplied plugin is loaded, false if otherwise.
+ *                       `{% if isPluginLoaded('Goals') %}...{% endif %}`
+ * 
+ * ### Examples
+ * 
+ * **Basic usage**
+ * 
+ *     $view = new View("@MyPlugin/myView");
+ *     $view->property1 = "a view property";
+ *     $view->property2 = "another view property";
+ *     echo $view->render();
+ * 
  * @package Piwik
  *
  * @api
@@ -43,6 +107,13 @@ class View implements ViewInterface
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
 
+    /**
+     * Constructor.
+     * 
+     * @param string $templateFile The template file to load. Must be in the following format:
+     *                             `"@MyPlugin/templateFileName"`. Note the absence of .twig
+     *                             from the end of the name.
+     */
     public function __construct($templateFile)
     {
         $templateExt = '.twig';
@@ -79,7 +150,7 @@ class View implements ViewInterface
 
     /**
      * Directly assigns a variable to the view script.
-     * VAR names may not be prefixed with '_'.
+     * Variable names may not be prefixed with '_'.
      *
      * @param string $key The variable name.
      * @param mixed $val The variable value.
@@ -91,7 +162,7 @@ class View implements ViewInterface
 
     /**
      * Retrieves an assigned variable.
-     * VAR names may not be prefixed with '_'.
+     * Variable names may not be prefixed with '_'.
      *
      * @param string $key The variable name.
      * @return mixed The variable value.
@@ -101,16 +172,17 @@ class View implements ViewInterface
         return $this->templateVars[$key];
     }
 
-    public function initializeTwig()
+    private function initializeTwig()
     {
         $piwikTwig = new Twig();
         $this->twig = $piwikTwig->getTwigEnvironment();
     }
 
     /**
-     * Renders the current view.
+     * Renders the current view. Also sends the stored 'Content-Type' HTML header.
+     * See [setContentType](#setContentType).
      *
-     * @return string Generated template
+     * @return string Generated template.
      */
     public function render()
     {
@@ -195,9 +267,9 @@ class View implements ViewInterface
     }
 
     /**
-     * Set Content-Type field in HTTP response.
-     * Since PHP 5.1.2, header() protects against header injection attacks.
-     *
+     * Set stored value used in the Content-Type HTTP header field. The header is
+     * set just before rendering.
+     * 
      * @param string $contentType
      */
     public function setContentType($contentType)
@@ -206,7 +278,11 @@ class View implements ViewInterface
     }
 
     /**
-     * Set X-Frame-Options field in the HTTP response.
+     * Set X-Frame-Options field in the HTTP response. The header is set just
+     * before rendering.
+     * 
+     * Note: setting this allows you to make sure the View **cannot** be
+     * embedded in iframes. Learn more [here](https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options).
      *
      * @param string $option ('deny' or 'sameorigin')
      */
@@ -224,6 +300,7 @@ class View implements ViewInterface
      * Add form to view
      *
      * @param QuickForm2 $form
+     * @ignore
      */
     public function addForm(QuickForm2 $form)
     {
@@ -238,6 +315,7 @@ class View implements ViewInterface
      * ToDo: This is ugly.
      * @param string|array $var
      * @param mixed $value
+     * @ignore
      */
     public function assign($var, $value = null)
     {
@@ -252,6 +330,7 @@ class View implements ViewInterface
 
     /**
      * Clear compiled Smarty templates
+     * @ignore
      */
     static public function clearCompiledTemplates()
     {
@@ -260,12 +339,12 @@ class View implements ViewInterface
     }
 
     /**
-     * Render the single report template
+     * Creates a View for and then renders the single report template.
      *
-     * @param string $title Report title
-     * @param string $reportHtml Report body
-     * @param bool $fetch If true, return report contents as a string; else echo to screen
-     * @return string Report contents if $fetch == true
+     * @param string $title The report title.
+     * @param string $reportHtml The report body HTML.
+     * @param bool $fetch If true, return report contents as a string; otherwise echo to screen.
+     * @return string|void The report contents if `$fetch` is true.
      */
     static public function singleReport($title, $reportHtml, $fetch = false)
     {

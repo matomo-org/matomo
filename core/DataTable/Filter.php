@@ -15,18 +15,23 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
- * A filter is applied instantly to a given DataTable and can
+ * A filter is set of logic that manipulates a DataTable. Existing filters do things like,
+ * 
  * - remove rows
- * - change columns values (lowercase the strings, truncate, etc.)
+ * - change column values (change string to lowercase, truncate, etc.)
  * - add/remove columns or metadata (compute percentage values, add an 'icon' metadata based on the label, etc.)
- * - add/remove/edit sub DataTable associated to some rows
- * - whatever you can imagine
+ * - add/remove/edit subtable associated with rows
+ * - etc.
  *
- * The concept is very simple: the filter is given the DataTable
- * and can do whatever is necessary on the data (in the filter() method).
- *
+ * Filters are called with a DataTable instance and extra parameters that are specified
+ * in [DataTable::filter()](#) and [DataTable::queueFilter()](#).
+ * 
+ * To see examples of Filters look at the existing ones in the Piwik\DataTable\Filter
+ * namespace.
+ * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 abstract class Filter
 {
@@ -36,38 +41,37 @@ abstract class Filter
     protected $enableRecursive = false;
 
     /**
-     * @throws Exception
+     * Constructor.
+     * 
      * @param DataTable $table
      */
-    public function __construct($table)
+    public function __construct(DataTable $table)
     {
-        if (!($table instanceof DataTable)) {
-            throw new Exception("The filter accepts only a DataTable object.");
-        }
+        // empty
     }
 
     /**
-     * Filters the given data table
+     * Filters the supplied DataTable.
      *
      * @param DataTable $table
      */
     abstract public function filter($table);
 
     /**
-     * Enables/Disables the recursive mode
+     * Enables/Disables recursive filtering. Whether this property is actually used
+     * is up to the derived Filter class.
      *
-     * @param bool $bool
+     * @param bool $enable
      */
-    public function enableRecursive($bool)
+    public function enableRecursive($enable)
     {
-        $this->enableRecursive = (bool)$bool;
+        $this->enableRecursive = (bool)$enable;
     }
 
     /**
-     * Filters a subtable
+     * Filters a row's subtable, if one exists and is loaded in memory.
      *
-     * @param Row $row
-     * @return mixed
+     * @param Row $row The row whose subtable should be filter.
      */
     public function filterSubTable(Row $row)
     {

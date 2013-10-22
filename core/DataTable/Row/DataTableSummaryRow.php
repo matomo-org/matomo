@@ -15,12 +15,14 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
- * This class creates a row from a given DataTable.
- * The row contains
- * - for each numeric column, the returned "summary" column is the sum of all the subRows
- * - for every other column, it is ignored and will not be in the "summary row"
+ * A special row whose column values are the aggregate of the row's subtable.
+ * 
+ * This class creates sets its own columns to the sum of each row in the row's subtable.
+ * 
+ * Non-numeric columns are bypassed during summation and do not appear in this
+ * rows columns.
  *
- * @see \DataTable\Row::sumRow() for more information on the algorithm
+ * See [DataTable\Row::sumRow()](#) for more information on the algorithm.
  *
  * @package Piwik
  * @subpackage DataTable
@@ -28,9 +30,14 @@ use Piwik\DataTable\Row;
 class DataTableSummaryRow extends Row
 {
     /**
-     * @param DataTable $subTable
+     * Constructor.
+     * 
+     * @param DataTable|null $subTable The subtable of this row. This parameter is mostly for
+     *                                 convenience. If set, its rows will be summed to this one,
+     *                                 but it will not be set as this row's subtable (so
+     *                                 getSubtable() will return false).
      */
-    function __construct($subTable = null)
+    public function __construct($subTable = null)
     {
         parent::__construct();
 
@@ -40,7 +47,7 @@ class DataTableSummaryRow extends Row
     }
 
     /**
-     * Reset this row to an empty one and sum the associated subTable again.
+     * Reset this row to an empty one and sums the associated subtable again.
      */
     public function recalculate()
     {
