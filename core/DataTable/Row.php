@@ -466,7 +466,7 @@ class Row
      *                                                    aggregation should be used (min, max).
      *                                                    format: column name => function name
      */
-    public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = null)
+    public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = false)
     {
         foreach ($rowToSum->getColumns() as $columnToSumName => $columnToSumValue) {
             if (!isset(self::$unsummableColumns[$columnToSumName])) // make sure we can add this column

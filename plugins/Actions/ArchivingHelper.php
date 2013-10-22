@@ -405,6 +405,11 @@ class ArchivingHelper
         $name = str_replace("\n", "", $name);
 
         $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);
+
+        // outlinks and downloads
+        if(is_array($name)) {
+            return $name;
+        }
         $split = self::splitNameByDelimiter($name, $type);
 
         if (empty($split)) {
@@ -567,9 +572,6 @@ class ArchivingHelper
 
     protected static function parseNameFromPageUrl($name, $type, $urlPrefix)
     {
-        if($type == Action::TYPE_PAGE_TITLE) {
-            return $name;
-        }
         $urlRegexAfterDomain = '([^/]+)[/]?([^#]*)[#]?(.*)';
         if ($urlPrefix === null) {
             // match url with protocol (used for outlinks / downloads)
@@ -590,7 +592,7 @@ class ArchivingHelper
         $urlFragment = $matches[3];
 
         if (in_array($type, array(Action::TYPE_DOWNLOAD, Action::TYPE_OUTLINK))) {
-            return array(trim($urlHost), trim($urlPath));
+            return array(trim($urlHost), '/' . trim($urlPath));
         }
 
         $name = $urlPath;

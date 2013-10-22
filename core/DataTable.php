@@ -315,9 +315,6 @@ class DataTable implements DataTableInterface
     {
         // registers this instance to the manager
         $this->currentId = Manager::getInstance()->addTable($this);
-
-        // initialize some metadata
-        $this->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME] = array();
     }
 
     /**
