@@ -16,15 +16,30 @@ use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 
 /**
- *
+ * Replaces the label of the summary row with a supplied label.
+ * 
+ * This filter is only used to prettify the summary row label and so it should
+ * always be queued on a DataTable.
+ * 
+ * This filter always recurses. In other words, this filter will apply itself to
+ * all subtables in the given DataTable's hierarchy.
+ * 
+ * **Basic example**
+ * 
+ *     $dataTable->queueFilter('ReplaceSummaryRowLabel', array(Piwik::translate('General_Others')));
+ * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class ReplaceSummaryRowLabel extends Filter
 {
     /**
-     * @param DataTable $table
-     * @param string|null $newLabel new label for summary row
+     * Constructor.
+     * 
+     * @param DataTable $table The table that will eventually be filtered.
+     * @param string|null $newLabel The new label for summary row. If null, defaults to
+     *                              `Piwik::translate('General_Others')`.
      */
     public function __construct($table, $newLabel = null)
     {
@@ -36,7 +51,7 @@ class ReplaceSummaryRowLabel extends Filter
     }
 
     /**
-     * Updates the summary row label
+     * See [ReplaceSummaryRowLabel](#).
      *
      * @param DataTable $table
      */
