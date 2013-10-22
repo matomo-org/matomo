@@ -1,0 +1,62 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+
+    {% import 'macros.twig' as piwik %}
+    {% import 'ajaxMacros.twig' as ajax %}
+
+    <h2>{{ 'CoreAdminHome_PluginSettings'|translate }}</h2>
+
+    {{ ajax.errorDiv('ajaxErrorPluginSettings') }}
+    {{ ajax.loadingDiv('ajaxLoadingPluginSettings') }}
+
+    <input type="submit" value="{{ 'General_Save'|translate }}" class="pluginsSettingsSubmit submit"/>
+
+    {% for plugin, settings in pluginSettings %}
+
+        <h3 id="{{ plugin }}">{{ plugin }}</h3>
+
+        <table class="adminTable" style='width:620px;' id="pluginSettings" data-pluginname="{{ plugin }}">
+
+        {% for setting in settings.getSettingsForCurrentUser %}
+            <tr>
+                <td style='width:400px'>
+                    {{ setting.title }}
+                    <br />
+                    <span class='form-description'>
+                        {{ setting.description }}
+                    </span>
+
+                </td>
+                <td style='width:220px'>
+                    <fieldset>
+                        <label>
+                            <input type="{{ setting.field }}"
+                                   name="{{ setting.name }}"
+                                   {% for attr, val in setting.fieldAttributes %}
+                                       {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
+                                   {% endfor %}
+                                   value="{{ settings.getSettingValue(setting.name)|e('html_attr') }}"
+                            >
+
+                            {% if setting.defaultValue %}
+                                <br/>
+                                <span class='form-description'>
+                                    {{ 'General_Default'|translate }} {{ setting.defaultValue }}
+                                </span>
+                            {% endif %}
+
+                        </label>
+                    </fieldset>
+                </td>
+            </tr>
+
+        {% endfor %}
+
+        </table>
+    {% endfor %}
+
+
+    <input type="submit" value="{{ 'General_Save'|translate }}" class="pluginsSettingsSubmit submit"/>
+
+{% endblock %}
