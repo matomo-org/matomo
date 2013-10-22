@@ -93,7 +93,7 @@ class DataTable_Filter_LimitTest extends PHPUnit_Framework_TestCase
         $offset = 5;
         $limit = 20;
         $table = $this->getDataTableCount10();
-        $this->assertEquals(10, $table->getRowsCountBeforeLimitFilter());
+        $this->assertEquals(10, $table->getRowsCount());
         $filter = new Limit($table, $offset, $limit);
         $filter->filter($table);
         $this->assertEquals(5, $table->getRowsCount());
