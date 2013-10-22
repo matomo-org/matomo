@@ -12,11 +12,11 @@
 
     <input type="submit" value="{{ 'General_Save'|translate }}" class="pluginsSettingsSubmit submit"/>
 
-    {% for plugin, settings in pluginSettings %}
+    {% for pluginName, settings in pluginSettings %}
 
-        <h3 id="{{ plugin }}">{{ plugin }}</h3>
+        <h3 id="{{ pluginName|e('html_attr') }}">{{ pluginName }}</h3>
 
-        <table class="adminTable" style='width:620px;' id="pluginSettings" data-pluginname="{{ plugin }}">
+        <table class="adminTable" style='width:620px;' id="pluginSettings" data-pluginname="{{ pluginName }}">
 
         {% for setting in settings.getSettingsForCurrentUser %}
             {% set settingValue = settings.getSettingValue(setting.name) %}
@@ -37,23 +37,23 @@
                                     {% for attr, val in setting.fieldAttributes %}
                                         {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
                                     {% endfor %}
-                                    name="{{ setting.name }}" {% if setting.field == 'multiselect' %}multiple{% endif %}>
+                                    name="{{ setting.name|e('html_attr') }}"
+                                    {% if setting.field == 'multiselect' %}multiple{% endif %}>
 
                                     {% for key, value in setting.selectOptions %}
                                         <option value='{{ key }}'
-                                                {% if settingValue==key %} selected='selected' {% endif %}
-                                                >
+                                                {% if settingValue==key %} selected='selected' {% endif %}>
                                             {{ value }}
                                         </option>
                                     {% endfor %}
-                                
+
                                 </select>
                             {% elseif setting.field == 'textarea' %}
                                 <textarea
                                     {% for attr, val in setting.fieldAttributes %}
                                         {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
                                     {% endfor %}
-                                    name="{{ setting.name }}"
+                                    name="{{ setting.name|e('html_attr') }}"
                                     >
                                     {{ settingValue }}
                                 </textarea>
@@ -63,8 +63,8 @@
                                        {% for attr, val in setting.fieldAttributes %}
                                            {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
                                        {% endfor %}
-                                       type="{{ setting.field }}"
-                                       name="{{ setting.name }}"
+                                       type="{{ setting.field|e('html_attr') }}"
+                                       name="{{ setting.name|e('html_attr') }}"
                                        value="{{ settingValue|e('html_attr') }}"
                                 >
 
