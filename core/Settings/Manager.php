@@ -30,14 +30,15 @@ class Manager
     {
         if (empty(static::$settings)) {
 
-            $pluginSettings = array();
-            // TODO: document hook and think about better name
-
-            Piwik::postEvent('Plugin.addSettings', array(&$pluginSettings));
-
             $settings = array();
-            foreach ($pluginSettings as $pluginName => $pluginSetting) {
-                $settings[$pluginName] = new $pluginSetting($pluginName);
+
+            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
+            foreach ($pluginNames as $pluginName) {
+                $klassName = 'Piwik\\Plugins\\' . $pluginName . '\\Settings';
+
+                if (class_exists($klassName) && is_subclass_of($klassName, 'Piwik\\Plugin\\Settings')) {
+                    $settings[$pluginName] = new $klassName($pluginName);
+                }
             }
 
             static::$settings = $settings;
@@ -62,4 +63,5 @@ class Manager
 
         return false;
     }
+
 }
