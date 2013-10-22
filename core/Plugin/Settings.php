@@ -159,7 +159,8 @@ class Settings
         $setting = $this->getSetting($name);
 
         if (empty($setting)) {
-            throw new \Exception('This setting does not exist');
+            // TODO escape $name? or is it automatically escaped?
+            throw new \Exception(sprintf('The setting %s does not exist', $name));
         }
 
         if (!$setting['displayedForCurrentUser']) {

@@ -30,10 +30,10 @@ class Manager
     {
         if (empty(static::$settings)) {
 
-            $pluginSettings = array('Login' => 'Piwik\\Plugins\\Login\\Settings');
+            $pluginSettings = array();
             // TODO: document hook and think about better name
 
-            Piwik::postEvent('Plugin.addSettings', $pluginSettings);
+            Piwik::postEvent('Plugin.addSettings', array(&$pluginSettings));
 
             $settings = array();
             foreach ($pluginSettings as $pluginName => $pluginSetting) {

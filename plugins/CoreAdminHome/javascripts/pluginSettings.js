@@ -22,7 +22,7 @@ $(document).ready(function () {
             module: 'CoreAdminHome',
             action: 'setPluginSettings'
         }, 'GET');
-        ajaxHandler.addParams({settings: JSON.stringify(getSettings())}, 'POST');
+        ajaxHandler.addParams({settings: getSettings()}, 'POST');
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement(getLoadingElement());
         ajaxHandler.setErrorElement(getErrorElement());
@@ -39,7 +39,7 @@ $(document).ready(function () {
             $pluginSection = $(pluginSection);
 
             var pluginName = $pluginSection.attr('data-pluginname');
-            var serialized = $('input, textarea, select', $pluginSection ).serialize();
+            var serialized = $('input, textarea, select', $pluginSection ).serializeArray();
 
             values[pluginName] = serialized;
         });

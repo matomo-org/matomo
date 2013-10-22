@@ -110,13 +110,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserIsNotAnonymous();
         Json::sendHeaderJSON();
 
-        $updateSettings = Common::getRequestVar('settings', null, 'json');
+        $changedPluginSettings = Common::getRequestVar('settings', null, 'array');
         $pluginSettings = SettingsManager::getAllPluginSettings();
 
         try {
 
-            foreach ($updateSettings as $pluginName => $serializedSetting) {
-                $unserializedSettings = UrlHelper::getArrayFromQueryString($serializedSetting);
+            foreach ($changedPluginSettings as $pluginName => $changedPluginSetting) {
 
                 if (!array_key_exists($pluginName, $pluginSettings)) {
                     // this plugin is not using settings, skip it
@@ -125,8 +124,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 $pluginSetting = $pluginSettings[$pluginName];
 
-                foreach ($unserializedSettings as $key => $value) {
-                    $pluginSetting->setSettingValue($key, $value);
+                foreach ($changedPluginSetting as $changedSetting) {
+                    $pluginSetting->setSettingValue($changedSetting['name'], $changedSetting['value']);
                 }
             }
 
