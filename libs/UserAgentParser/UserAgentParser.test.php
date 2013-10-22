@@ -28,6 +28,7 @@ $testUserAgent = array(
     'firefox 3.5 alpha on win7'           => 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1b4pre) Gecko/20090420 Shiretoko/3.5b4pre (.NET CLR 3.5.30729)',
     'firefox nightly build'               => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:2.0a1pre) Gecko/2008060602 Minefield/4.0a1pre',
     'thunderbird 14.0 with lightning 1.6' => 'Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20120713 Thunderbird/14.0 Lightning/1.6',
+    'Windows 8'                           => 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko',
 );
 echo "Test with another user agent: ";
 foreach ($testUserAgent as $name => $userAgent) {

@@ -264,6 +264,9 @@
 - regex: 'IEMobile[ /](\d+\.\d+)'
   name: IE Mobile
   version: '$1'
+- regex: 'IE[ /](\d+\.\d+)'
+  name: Internet Explorer
+  version: '$1'
 - regex: 'MSIE.*Trident/4.0'
   name: Internet Explorer
   version: 8.0
