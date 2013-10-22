@@ -19,7 +19,11 @@
         <table class="adminTable" style='width:620px;' id="pluginSettings" data-pluginname="{{ pluginName }}">
 
         {% for setting in settings.getSettingsForCurrentUser %}
-            {% set settingValue = settings.getSettingValue(setting.name) %}
+            {% if setting.isUserSetting %}
+                {% set settingValue = settings.getPerUserSettingValue(setting.name) %}
+            {% else %}
+                {% set settingValue = settings.getSystemSettingValue(setting.name) %}
+            {% endif %}
             <tr>
                 <td style='width:400px'>
                     {{ setting.title }}
@@ -40,7 +44,7 @@
                                     name="{{ setting.name|e('html_attr') }}"
                                     {% if setting.field == 'multiselect' %}multiple{% endif %}>
 
-                                    {% for key, value in setting.selectOptions %}
+                                    {% for key, value in setting.fieldOptions %}
                                         <option value='{{ key }}'
                                                 {% if settingValue==key %} selected='selected' {% endif %}>
                                             {{ value }}
@@ -63,6 +67,12 @@
                                        {% for attr, val in setting.fieldAttributes %}
                                            {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
                                        {% endfor %}
+                                        {% if setting.field == 'checkbox' %}
+                                            value="1"
+                                        {% endif %}
+                                       {% if setting.field == 'checkbox' and settingValue %}
+                                           checked="checked"
+                                       {% endif %}
                                        type="{{ setting.field|e('html_attr') }}"
                                        name="{{ setting.name|e('html_attr') }}"
                                        value="{{ settingValue|e('html_attr') }}"
@@ -85,6 +95,9 @@
         {% endfor %}
 
         </table>
+
+        <hr style="background-color: #DADADA;height: 1px;border: 0px;"/>
+
     {% endfor %}
 
 

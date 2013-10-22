@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 
@@ -23,7 +24,6 @@ class Settings
 
     const FIELD_TEXT     = 'text';
     const FIELD_TEXTAREA = 'textarea';
-    const FIELD_RADIO    = 'radio';
     const FIELD_CHECKBOX = 'checkbox';
     const FIELD_PASSWORD = 'password';
     const FIELD_MULTI_SELECT   = 'multiselect';
@@ -47,7 +47,7 @@ class Settings
         $this->defaultTypes = array(
             static::FIELD_TEXT     => static::TYPE_STRING,
             static::FIELD_TEXTAREA => static::TYPE_STRING,
-            static::FIELD_RADIO    => static::TYPE_STRING,
+            static::FIELD_PASSWORD => static::TYPE_STRING,
             static::FIELD_CHECKBOX => static::TYPE_BOOL,
             static::FIELD_MULTI_SELECT  => static::TYPE_ARRAY,
             static::FIELD_SINGLE_SELECT => static::TYPE_STRING,
@@ -62,13 +62,15 @@ class Settings
         $this->defaultOptions = array(
             'type'         => static::TYPE_STRING,
             'field'        => static::FIELD_TEXT,
-            'displayedForCurrentUser' => Piwik::isUserHasSomeAdminAccess(),
+            'displayedForCurrentUser' => false,
             'fieldAttributes' => array(),
-            'selectOptions' => array(),
-            'description'  => null,
-            'inlineHelp'   => null,
-            'filter'       => null,
-            'validate'     => null,
+            'fieldOptions'    => array(),
+            'description'     => null,
+            'inlineHelp'      => null,
+            'filter'          => null,
+            'validate'        => null,
+            'isUserSetting'   => false,
+            'isSystemSetting' => false
         );
 
         $this->init();
@@ -79,19 +81,22 @@ class Settings
     {
     }
 
-    protected function addSetting($name, $title, array $options = array())
+    protected function addPerUserSetting($name, $title, array $options = array())
     {
-        if (array_key_exists('field', $options) && !array_key_exists('type', $options)) {
-            $options['type']  = $this->defaultTypes[$options['field']];
-        } elseif (array_key_exists('type', $options) && !array_key_exists('field', $options)) {
-            $options['field'] = $this->defaultFields[$options['type']];
-        }
+        $options['displayedForCurrentUser'] = !Piwik::isUserIsAnonymous();
+        $options['isUserSetting']  = true;
 
-        $setting          = array_merge($this->defaultOptions, $options);
-        $setting['name']  = $name;
-        $setting['title'] = $title;
+        $userSettingName = $this->buildUserSettingName($name);
 
-        $this->settings[] = $setting;
+        $this->addSetting($name, $userSettingName, $title, $options);
+    }
+
+    protected function addSystemSetting($name, $title, array $options = array())
+    {
+        $options['displayedForCurrentUser'] = Piwik::isUserHasSomeAdminAccess();
+        $options['isSystemSetting'] = true;
+
+        $this->addSetting($name, $name, $title, $options);
     }
 
     public function getSettingsForCurrentUser()
@@ -101,10 +106,48 @@ class Settings
         }));
     }
 
-    public function getSettingValue($name)
+    public function getPerUserSettingValue($name, $userLogin = null)
     {
-        $this->checkIsValidSetting($name);
+        $name = $this->buildUserSettingName($name, $userLogin);
+        $this->checkIsValidUserSetting($name);
 
+        return $this->getSettingValue($name);
+    }
+
+    public function getSystemSettingValue($name)
+    {
+        $this->checkIsValidSystemSetting($name);
+
+        return $this->getSettingValue($name);
+    }
+
+    public function setPerUserSettingValue($name, $value, $userLogin = null)
+    {
+        $name = $this->buildUserSettingName($name, $userLogin);
+        $this->checkIsValidUserSetting($name);
+
+        $this->setSettingValue($name, $value);
+    }
+
+    public function setSystemSettingValue($name, $value)
+    {
+        $this->checkIsValidSystemSetting($name);
+
+        $this->setSettingValue($name, $value);
+    }
+
+    public function save()
+    {
+        Option::set($this->getOptionKey(), serialize($this->settingsValues));
+    }
+
+    public function removeAllPluginSettings()
+    {
+        Option::delete($this->getOptionKey());
+    }
+
+    private function getSettingValue($name)
+    {
         if (!array_key_exists($name, $this->settingsValues)) {
             $setting = $this->getSetting($name);
 
@@ -114,7 +157,7 @@ class Settings
         return $this->settingsValues[$name];
     }
 
-    public function setSettingValue($name, $value)
+    private function setSettingValue($name, $value)
     {
         $this->checkIsValidSetting($name);
         $setting = $this->getSetting($name);
@@ -132,14 +175,34 @@ class Settings
         $this->settingsValues[$name] = $value;
     }
 
-    public function save()
+    private function addSetting($unmodifiedName, $name, $title, array $options)
     {
-        Option::set($this->getOptionKey(), serialize($this->settingsValues));
-    }
+        if (!ctype_alnum($unmodifiedName)) {
+            // TODO escape name?
+            $msg = sprintf('The setting name %s is not valid. Only alpha and numerical characters are allowed', $unmodifiedName);
+            throw new \Exception($msg);
+        }
 
-    public function removeAllPluginSettings()
-    {
-        Option::delete($this->getOptionKey());
+        if (array_key_exists('field', $options) && !array_key_exists('type', $options)) {
+            $options['type']  = $this->defaultTypes[$options['field']];
+        } elseif (array_key_exists('type', $options) && !array_key_exists('field', $options)) {
+            $options['field'] = $this->defaultFields[$options['type']];
+        }
+
+        if (!array_key_exists('validate', $options) && array_key_exists('fieldOptions', $options)) {
+            $options['validate'] = function ($value) use ($options, $title) {
+                if (!array_key_exists($value, $options['fieldOptions'])) {
+                    throw new \Exception(sprintf('The selected value for field "%s" is not allowed.', $title));
+                }
+            };
+        }
+
+        $setting          = array_merge($this->defaultOptions, $options);
+        $setting['name']  = $name;
+        $setting['title'] = $title;
+        $setting['unmodifiedName'] = $unmodifiedName;
+
+        $this->settings[] = $setting;
     }
 
     private function getOptionKey()
@@ -156,6 +219,28 @@ class Settings
         }
     }
 
+    private function checkIsValidUserSetting($name)
+    {
+        $this->checkIsValidSetting($name);
+
+        $setting = $this->getSetting($name);
+
+        if (!$setting['isUserSetting']) {
+            throw new \Exception(sprintf('The setting %s is not a user setting', $name));
+        }
+    }
+
+    private function checkIsValidSystemSetting($name)
+    {
+        $this->checkIsValidSetting($name);
+
+        $setting = $this->getSetting($name);
+
+        if (!$setting['isSystemSetting']) {
+            throw new \Exception(sprintf('The setting %s is not a system setting', $name));
+        }
+    }
+
     private function checkIsValidSetting($name)
     {
         $setting = $this->getSetting($name);
@@ -166,7 +251,7 @@ class Settings
         }
 
         if (!$setting['displayedForCurrentUser']) {
-            throw new \Exception('You are not allowed to change the value of this setting');
+            throw new \Exception(sprintf('You are not allowed to change the value of the setting %s', $name));
         }
     }
 
@@ -182,6 +267,30 @@ class Settings
                 return $setting;
             }
         }
+    }
+
+    /**
+     * @param $name
+     * @param null $userLogin  if null, the current user login will be used.
+     * @return string
+     */
+    private function buildUserSettingName($name, $userLogin = null)
+    {
+        if (is_null($userLogin)) {
+            $userLogin = Piwik::getCurrentUserLogin();
+        }
+
+        // the asterisk tag is indeed important here and better than an underscore. Imagine a plugin has the settings
+        // "api_password" and "api". A user having the login "_password" could otherwise under circumstances change the
+        // setting for "api" although he is not allowed to. It is not so important at the moment because only alNum is
+        // currently allowed as a name this might change in the future.
+        $appendix = '#' . $userLogin . '#';
+
+        if (Common::stringEndsWith($name, $appendix)) {
+            return $name;
+        }
+
+        return $name . $appendix;
     }
 
 }
