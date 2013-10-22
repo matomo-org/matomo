@@ -19,8 +19,16 @@ use Piwik\DataTable\Filter;
  *
  * NOTE: This filter should never be queued, it must be applied directly on a DataTable.
  *
+ * **Basic usage example**
+ * 
+ *     // group URLs by host
+ *     $dataTable->filter('GroupBy', array('label', function ($labelUrl) {
+ *         return parse_url($labelUrl, PHP_URL_HOST);
+ *     }));
+ * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class GroupBy extends Filter
 {
@@ -46,8 +54,10 @@ class GroupBy extends Filter
      *
      * @param DataTable $table The DataTable to filter.
      * @param string $groupByColumn The column name to reduce.
-     * @param mixed $reduceFunction The reduce function. This must alter the $groupByColumn in some way.
-     * @param array $parameters Extra parameters to supply to the reduce function.
+     * @param callable $reduceFunction The reduce function. This must alter the `$groupByColumn`
+     *                                 columng in some way.
+     * @param array $parameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
+     *                          instead.
      */
     public function __construct($table, $groupByColumn, $reduceFunction, $parameters = array())
     {
@@ -59,7 +69,7 @@ class GroupBy extends Filter
     }
 
     /**
-     * Applies the reduce function to each row and merges rows w/ the same reduce result.
+     * See [GroupBy](#).
      *
      * @param DataTable $table
      */

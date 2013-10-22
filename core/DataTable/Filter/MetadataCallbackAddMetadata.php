@@ -14,15 +14,17 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 
 /**
- * Add a new metadata to the table based on the value resulting
- * from a callback function with the parameter being another metadata value
+ * Executes a callback for each row of a DataTable and adds the result to the
+ * row as a metadata value. Only metadata values are passed to the callback.
  *
- * For example for the searchEngine we have a "metadata" information that gives
- * the URL of the search engine. We use this URL to add a new "metadata" that gives
- * the path of the logo for this search engine URL (which has the format URL.png).
+ * **Basic usage example**
+ * 
+ *     // add a logo metadata based on the url metadata
+ *     $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', 'Piwik\Plugins\MyPlugin\getLogoFromUrl'));
  *
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class MetadataCallbackAddMetadata extends Filter
 {
@@ -32,11 +34,15 @@ class MetadataCallbackAddMetadata extends Filter
     private $applyToSummaryRow;
 
     /**
-     * @param DataTable $table
-     * @param string|array $metadataToRead
-     * @param string $metadataToAdd
-     * @param callback $functionToApply
-     * @param bool $applyToSummaryRow
+     * Constructor.
+     * 
+     * @param DataTable $table The DataTable that will eventually be filtered.
+     * @param string|array $metadataToRead The metadata to read from each row and pass to the callback.
+     * @param string $metadataToAdd The name of the metadata to add.
+     * @param callable $functionToApply The callback to execute for each row. The result will be
+     *                                  added as metadata with the name `$metadataToAdd`.
+     * @param bool $applyToSummaryRow True if the callback should be applied to the summary row, false
+     *                                if otherwise.
      */
     public function __construct($table, $metadataToRead, $metadataToAdd, $functionToApply,
                                 $applyToSummaryRow = true)
@@ -54,6 +60,8 @@ class MetadataCallbackAddMetadata extends Filter
     }
 
     /**
+     * See [MetadataCallbackAddMetadata](#).
+     * 
      * @param DataTable $table
      */
     public function filter($table)

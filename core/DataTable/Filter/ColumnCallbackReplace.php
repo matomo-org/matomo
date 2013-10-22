@@ -15,9 +15,22 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 /**
- * Replace a column value with a new value resulting
- * from the function called with the column's value
- *
+ * Replaces one or more column values in each row of a DataTable with the results
+ * of a callback.
+ * 
+ * **Basic usage example**
+ * 
+ *     $truncateString = function ($value, $truncateLength) {
+ *         if (strlen($value) > $truncateLength) {
+ *             return substr(0, $truncateLength);
+ *         } else {
+ *             return $value;
+ *         }
+ *     };
+ *     
+ *     // label, url and truncate_length are columns in $dataTable
+ *     $dataTable->filter('ColumnCallbackReplace', array('label', 'url'), $truncateString, null, array('truncate_length'));
+ * 
  * @package Piwik
  * @subpackage DataTable
  */
@@ -29,11 +42,17 @@ class ColumnCallbackReplace extends Filter
     private $extraColumnParameters;
 
     /**
-     * @param DataTable $table
-     * @param array|string $columnsToFilter
-     * @param callback $functionToApply
-     * @param array|null $functionParameters
-     * @param array $extraColumnParameters
+     * Constructor.
+     * 
+     * @param DataTable $table The DataTable to filter.
+     * @param array|string $columnsToFilter The columns whose values should be passed to the callback
+     *                                      and then replaced with the callback's result.
+     * @param callable $functionToApply The function to execute. Must take the column value as a parameter
+     *                                  and return a value that will be used to replace the original.
+     * @param array|null $functionParameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
+     *                                       instead.
+     * @param array $extraColumnParameters Extra column values that should be passed to the callback, but
+     *                                     shouldn't be replaced.
      */
     public function __construct($table, $columnsToFilter, $functionToApply, $functionParameters = null,
                                 $extraColumnParameters = array())
@@ -51,7 +70,7 @@ class ColumnCallbackReplace extends Filter
     }
 
     /**
-     * Filters the given data table
+     * See [ColumnCallbackReplace](#).
      *
      * @param DataTable $table
      */

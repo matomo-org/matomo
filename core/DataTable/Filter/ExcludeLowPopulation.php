@@ -14,14 +14,26 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 
 /**
- * Delete all rows that have a $columnToFilter value less than the $minimumValue
- *
- * For example we delete from the countries report table all countries that have less than 3 visits.
- * It is very useful to exclude noise from the reports.
- * You can obviously apply this filter on a percentaged column, eg. remove all countries with the column 'percent_visits' less than 0.05
+ * Deletes all rows for which a specific column has a value that is lower than
+ * specific minimum threshold value.
+ * 
+ * **Basic usage examples**
+ * 
+ *     // remove all countries from UserCountry.getCountry that have less than 3 visits
+ *     $dataTable = // ... get a DataTable whose queued filters have been run ...
+ *     $dataTable->filter('ExcludeLowPopulation', array('nb_visits', 3));
+ * 
+ *     // remove all countries from UserCountry.getCountry whose percent of total visits is less than 5%
+ *     $dataTable = // ... get a DataTable whose queued filters have been run ...
+ *     $dataTable->filter('ExcludeLowPopulation', array('nb_visits', false, 0.05));
+ * 
+ *     // remove all countries from UserCountry.getCountry whose bounce rate is less than 10%
+ *     $dataTable = // ... get a DataTable that has a numerical bounce_rate column ...
+ *     $dataTable->filter('ExcludeLowPopulation', array('bounce_rate', 0.10));
  *
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class ExcludeLowPopulation extends Filter
 {
@@ -36,12 +48,17 @@ class ExcludeLowPopulation extends Filter
     private $minimumValue;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param DataTable $table
-     * @param string $columnToFilter column to filter
-     * @param number|\Closure $minimumValue minimum value
-     * @param bool $minimumPercentageThreshold
+     * @param DataTable $table The DataTable that will be filtered eventually.
+     * @param string $columnToFilter The name of the column whose value will determine whether
+     *                               row is deleted or not.
+     * @param number|false $minimumValue The minimum column value. Rows with column values <
+     *                                   this number will be deleted. If false, 
+     *                                   `$minimumPercentageThreshold` is used.
+     * @param bool|float $minimumPercentageThreshold If supplied, column values must be a greater
+     *                                               percentage of the sum of all column values than
+     *                                               this value.
      */
     public function __construct($table, $columnToFilter, $minimumValue, $minimumPercentageThreshold = false)
     {
@@ -61,7 +78,7 @@ class ExcludeLowPopulation extends Filter
     }
 
     /**
-     * Executes filter and removes all rows below the defined minimum
+     * See [ExcludeLowPopulation](#).
      *
      * @param DataTable $table
      */
