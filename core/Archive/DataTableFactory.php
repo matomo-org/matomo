@@ -205,7 +205,7 @@ class DataTableFactory
         }
 
         // set table metadata
-        $table->metadata = DataCollection::getDataRowMetadata($blobRow);
+        $table->setMetadataValues(DataCollection::getDataRowMetadata($blobRow));
 
         if ($this->expandDataTable) {
             $table->enableRecursiveFilters();
@@ -231,7 +231,7 @@ class DataTableFactory
 
         foreach ($blobRow as $name => $blob) {
             $newTable = DataTable::fromSerializedArray($blob);
-            $newTable->metadata = $tableMetadata;
+            $newTable->setAllTableMetadata($tableMetadata);
 
             $table->addTable($newTable, $name);
         }
@@ -287,7 +287,7 @@ class DataTableFactory
             $table = new DataTable\Simple();
 
             if (!empty($data)) {
-                $table->metadata = DataCollection::getDataRowMetadata($data);
+                $table->setAllTableMetadata(DataCollection::getDataRowMetadata($data));
 
                 DataCollection::removeMetadataFromDataRow($data);
 
@@ -383,8 +383,8 @@ class DataTableFactory
     {
         $periods = $this->periods;
         $table->filter(function ($table) use ($periods) {
-            $table->metadata['site'] = new Site($table->metadata['site']);
-            $table->metadata['period'] = $periods[$table->metadata['period']];
+            $table->setMetadata('site', new Site($table->getMetadata('site')));
+            $table->setMetadata('period', $periods[$table->getMetadata('period')]);
         });
     }
 

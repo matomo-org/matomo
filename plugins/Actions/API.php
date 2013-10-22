@@ -347,10 +347,12 @@ class API extends \Piwik\Plugin\API
             $dataTables = $dataTable->getDataTables();
             foreach ($customVariableDatatables as $key => $customVariableTableForDate) {
                 // we do not enter the IF, in the case idSite=1,3 AND period=day&date=datefrom,dateto,
-                if (isset($customVariableTableForDate->metadata['period'])) {
+                if ($customVariableTableForDate instanceof DataTable
+                    && $customVariableTableForDate->getMetadata('period')
+                ) {
                     $row = $customVariableTableForDate->getRowFromLabel($customVarNameToLookFor);
                     if ($row) {
-                        $dateRewrite = $customVariableTableForDate->metadata['period']->getDateStart()->toString();
+                        $dateRewrite = $customVariableTableForDate->getMetadata('period')->getDateStart()->toString();
                         $idSubtable = $row->getIdSubDataTable();
                         $categories = APICustomVariables::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
                         $dataTable->addTable($categories, $key);
@@ -443,7 +445,7 @@ class API extends \Piwik\Plugin\API
             if ($row === false) {
                 // not found
                 $result = new DataTable;
-                $result->metadata = $table->metadata;
+                $result->setAllTableMetadata($table->getAllTableMetadata());
                 return $result;
             }
 
@@ -451,7 +453,7 @@ class API extends \Piwik\Plugin\API
             if (count($searchTree) == 0) {
                 $result = new DataTable();
                 $result->addRow($row);
-                $result->metadata = $table->metadata;
+                $result->setAllTableMetadata($table->getAllTableMetadata());
                 return $result;
             }
 

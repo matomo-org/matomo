@@ -43,6 +43,11 @@ use Piwik\Tracker\GoalManager;
  * 
  * Note: This filter must be called before [ReplaceColumnNames](#) is called.
  * 
+ * **Basic usage example**
+ * 
+ *     $dataTable->filter('AddColumnsProcessedMetricsGoal',
+ *         array($enable = true, $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
+ * 
  * @package Piwik
  * @subpackage DataTable
  * @api

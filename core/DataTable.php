@@ -38,7 +38,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * Every row has an ID. The ID is either the index of the row or [ID_SUMMARY_ROW](#ID_SUMMARY_ROW).
  * 
  * DataTables are hierarchical data structures. Each row can also contain an additional
- * nested sub-DataTable.
+ * nested sub-DataTable (commonly referred to as a 'subtable').
  * 
  * Both DataTables and DataTable rows can hold **metadata**. _DataTable metadata_ is information
  * regarding all the data, such as the site or period that the data is for. _Row metadata_
@@ -298,7 +298,7 @@ class DataTable implements DataTableInterface
      *
      * @var array
      */
-    public $metadata = array();
+    private $metadata = array();
 
     /**
      * Maximum number of rows allowed in this datatable (including the summary row).
@@ -1366,6 +1366,28 @@ class DataTable implements DataTableInterface
     public function getAllTableMetadata()
     {
         return $this->metadata;
+    }
+
+    /**
+     * Sets several metadata values by name.
+     * 
+     * @param array $values Array mapping metadata names with metadata values.
+     */
+    public function setMetadataValues($values)
+    {
+        foreach ($values as $name => $value) {
+            $this->metadata[$name] = $value;
+        }
+    }
+
+    /**
+     * Sets metadata erasing existing values.
+     * 
+     * @param array $values Array mapping metadata names with metadata values.
+     */
+    public function setAllTableMetadata($metadata)
+    {
+        $this->metadata = $metadata;
     }
 
     /**

@@ -308,7 +308,7 @@ class Map implements DataTableInterface
                 foreach ($subDataTableMap->getDataTables() as $innerLabel => $subTable) {
                     if (!isset($result->array[$innerLabel])) {
                         $dataTable = new DataTable();
-                        $dataTable->metadata = $subTable->metadata;
+                        $dataTable->setMetadataValues($subTable->getAllTableMetadata());
 
                         $result->addTable($dataTable, $innerLabel);
                     }
