@@ -13,6 +13,7 @@ namespace Piwik\DataTable\Filter;
 use Piwik\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Manager;
+use Piwik\DataTable\Row;
 
 /**
  * @package Piwik
@@ -47,14 +48,12 @@ class Truncate extends Filter
     public function filter($table)
     {
         $this->addSummaryRow($table);
-        $table->filter('ReplaceSummaryRowLabel');
+        $table->queueFilter('ReplaceSummaryRowLabel');
 
         if ($this->filterRecursive) {
             foreach ($table->getRows() as $row) {
                 if ($row->isSubtableLoaded()) {
-                    $idSubTable = $row->getIdSubDataTable();
-                    $subTable = Manager::getInstance()->getTable($idSubTable);
-                    $subTable->filter('Truncate', array($this->truncateAfter));
+                    $this->filter($row->getSubtable());
                 }
             }
         }
@@ -65,14 +64,14 @@ class Truncate extends Filter
         $table->filter('Sort',
             array($this->columnToSortByBeforeTruncating, 'desc'));
 
-        if ($table->getRowsCount() <= $this->startRowToSummarize + 1) {
+        if ($table->getRowsCount() <= $this->truncateAfter + 1) {
             return;
         }
 
         $rows = $table->getRows();
         $count = $table->getRowsCount();
         $newRow = new Row();
-        for ($i = $this->startRowToSummarize; $i < $count; $i++) {
+        for ($i = $this->truncateAfter; $i < $count; $i++) {
             if (!isset($rows[$i])) {
                 // case when the last row is a summary row, it is not indexed by $cout but by DataTable::ID_SUMMARY_ROW
                 $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
@@ -88,7 +87,7 @@ class Truncate extends Filter
 
         $newRow->setColumns(array('label' => $this->labelSummaryRow) + $newRow->getColumns());
         if ($this->deleteRows) {
-            $table->filter('Limit', array(0, $this->startRowToSummarize));
+            $table->filter('Limit', array(0, $this->truncateAfter));
         }
         $table->addSummaryRow($newRow);
         unset($rows);

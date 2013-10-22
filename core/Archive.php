@@ -17,7 +17,8 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Range;
 
 /**
- * The **Archive** class is used to query archive data.
+ * The **Archive** class is used to query cached analytics statistics
+ * (termed "archive data").
  * 
  * You can use **Archive** instances to get archive data for one or more sites,
  * for one or more periods and one optional segment.
@@ -34,6 +35,8 @@ use Piwik\Period\Range;
  * 
  * If you're creating an API that returns report data, you may want to use the
  * [getDataTableFromArchive](#getDataTableFromArchive) helper function.
+ * 
+ * Learn more about _archiving_ [here](#).
  * 
  * ### Limitations
  * 

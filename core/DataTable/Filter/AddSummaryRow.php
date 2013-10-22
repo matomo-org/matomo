@@ -12,7 +12,7 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable\Filter;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
+use Piwik\DataTable\Row\DataTableSummaryRow;
 
 /**
  * Add a new row to the table containing a summary
