@@ -53,8 +53,6 @@ class DataTableSummaryRow extends Row
     {
         $id = $this->getIdSubDataTable();
         if ($id !== null) {
-            $this->setColumns(array());
-
             $subTable = Manager::getInstance()->getTable($id);
             $this->sumTable($subTable);
         }
