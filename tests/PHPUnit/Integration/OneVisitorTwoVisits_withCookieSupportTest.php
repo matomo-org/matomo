@@ -21,7 +21,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Integ
      */
     public function testApi($api, $params)
     {
-
         //var_dump(\Piwik\Db::get()->fetchAll('select * from piwiktests_log_action' ));
         $this->runApiTests($api, $params);
 

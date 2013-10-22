@@ -230,7 +230,7 @@ class Visit implements VisitInterface
      *
      * Tracker.knownVisitorInformation is triggered after saving the new visit data
      * Even data is an array with updated information about the visit
-     * @param $action
+     * @param Action $action
      * @param $visitIsConverted
      * @throws VisitorNotFoundInDb
      */
@@ -242,11 +242,11 @@ class Visit implements VisitInterface
         $sqlActionUpdate = '';
 
         if($action) {
-            $idActionUrl = $action->getIdActionUrl();
-            $idActionName = $action->getIdActionName();
+            $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
+            $idActionName = $action->getIdActionNameForEntryAndExitIds();
             $actionType = $action->getActionType();
 
-            if (!empty($idActionName)) {
+            if ($idActionName !== false) {
                 $valuesToUpdate['visit_exit_idaction_name'] = $idActionName;
             }
             if ($idActionUrl !== false) {
@@ -257,7 +257,7 @@ class Visit implements VisitInterface
                 $sqlActionUpdate .= "visit_total_searches = visit_total_searches + 1, ";
                 $incrementActions = true;
             } else if ($actionType == Action::TYPE_EVENT) {
-                $sqlActionUpdate .= "visit_total_event = visit_total_event + 1, ";
+                $sqlActionUpdate .= "visit_total_events = visit_total_events + 1, ";
                 $incrementActions = true;
             }
 
@@ -371,15 +371,15 @@ class Visit implements VisitInterface
      *
      * 2) Insert the visit information
      *
-     * @param $action
-     * @param $visitIsConverted
+     * @param Action $action
+     * @param bool $visitIsConverted
      */
     protected function handleNewVisit($action, $visitIsConverted)
     {
         $actionType = $idActionName = $idActionUrl = false;
         if($action) {
-            $idActionUrl = $action->getIdActionUrl();
-            $idActionName = $action->getIdActionName();
+            $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
+            $idActionName = $action->getIdActionNameForEntryAndExitIds();
             $actionType = $action->getActionType();
         }
 
@@ -438,7 +438,7 @@ class Visit implements VisitInterface
                           Action::TYPE_EVENT))
                     ? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
             'visit_total_searches'      => $actionType == Action::TYPE_SITE_SEARCH ? 1 : 0,
-            'visit_total_searches'      => $actionType == Action::TYPE_EVENT ? 1 : 0,
+            'visit_total_events'        => $actionType == Action::TYPE_EVENT ? 1 : 0,
             'visit_total_time'          => self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
             'visit_goal_converted'      => $visitIsConverted ? 1 : 0,
             'visit_goal_buyer'          => $this->goalManager->getBuyerType(),

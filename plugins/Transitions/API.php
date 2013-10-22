@@ -408,8 +408,7 @@ class API extends \Piwik\Plugin\API
                     END AS `action_partition`'
         );
 
-        $where = '
-			log_link_visit_action.idaction_' . $type . ' = ' . intval($idaction);
+        $where = ' log_link_visit_action.idaction_' . $type . ' = ' . intval($idaction);
 
         if ($dimension == 'idaction_url_ref') {
             // site search referrers are logged with url_ref=NULL

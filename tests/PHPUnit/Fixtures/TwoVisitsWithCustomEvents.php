@@ -47,6 +47,7 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
         $this->trackMusicPlaying($vis2);
         $this->trackMusicRatings($vis2);
         $this->trackMovieWatchingIncludingInterval($vis2);
+
     }
 
     private function moveTimeForward(PiwikTracker $vis, $minutes)
@@ -58,6 +59,7 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
     protected function trackMusicPlaying(PiwikTracker $vis)
     {
         $vis->setUrl('http://example.org/webradio');
+        self::checkResponse($vis->doTrackPageView('Welcome!'));
 
         $this->moveTimeForward($vis, 1);
         $this->setMusicEventCustomVar($vis);
@@ -91,9 +93,12 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
 
     protected function trackMovieWatchingIncludingInterval(PiwikTracker $vis)
     {
-        $vis->setUrl('http://example.org/movies');
-
+        // First a pageview so the time on page is tracked properly
         $this->moveTimeForward($vis, 30);
+        $vis->setUrl('http://example.org/movies');
+        self::checkResponse($vis->doTrackPageView('Movie Theater'));
+
+        $this->moveTimeForward($vis, 31);
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'playTrailer', 'Princess Mononoke (もののけ姫)'));
         $this->moveTimeForward($vis, 33);

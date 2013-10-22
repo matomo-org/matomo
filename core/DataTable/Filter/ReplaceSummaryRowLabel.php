@@ -43,6 +43,7 @@ class ReplaceSummaryRowLabel extends Filter
     public function filter($table)
     {
         $rows = $table->getRows();
+
         foreach ($rows as $row) {
             if ($row->getColumn('label') == DataTable::LABEL_SUMMARY_ROW) {
                 $row->setColumn('label', $this->newLabel);

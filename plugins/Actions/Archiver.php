@@ -162,7 +162,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         $where = "log_link_visit_action.server_time >= ?
 				AND log_link_visit_action.server_time <= ?
 				AND log_link_visit_action.idsite = ?
-				AND log_link_visit_action.%s IS NOT NULL";
+				AND log_link_visit_action.%s IS NOT NULL
+				AND log_link_visit_action.idaction_event_category IS NULL";
 
         $groupBy = "log_action.idaction";
         $orderBy = "`" . Metrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
@@ -374,7 +375,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 				AND log_link_visit_action.server_time <= ?
 		 		AND log_link_visit_action.idsite = ?
 		 		AND log_link_visit_action.time_spent_ref_action > 0
-		 		AND log_link_visit_action.%s > 0";
+		 		AND log_link_visit_action.%s > 0
+		 		AND log_link_visit_action.idaction_event_category IS NULL";
 
         $groupBy = "log_link_visit_action.%s, idaction";
 

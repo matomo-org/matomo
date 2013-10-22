@@ -294,14 +294,6 @@ abstract class Action
 
         $insert = array_merge($insert, $customVariables);
 
-        // Mysqli apparently does not like NULL inserts?
-        $insertWithoutNulls = array();
-        foreach ($insert as $column => $value) {
-            if (!is_null($value) || $column == 'idaction_url_ref') {
-                $insertWithoutNulls[$column] = $value;
-            }
-        }
-
         $fields = implode(", ", array_keys($insertWithoutNulls));
         $bind = array_values($insertWithoutNulls);
         $values = Common::getSqlStringFieldsArray($insertWithoutNulls);
