@@ -16,39 +16,61 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
 
 /**
+ * Truncates a DataTable by merging all rows after a certain index into a new summary
+ * row.
+ * 
+ * The [ReplaceSummaryRow](#) filter will be queued after the table is truncated.
+ * 
+ * ### Examples
+ * 
+ * **Basic usage**
+ * 
+ *     $dataTable->filter('Truncate', array($truncateAfter = 500));
+ * 
+ * **Using a custom summary row label**
+ * 
+ *     $dataTable->filter('Truncate', array($truncateAfter = 500, $summaryRowLabel = Piwik::translate('General_Total')));
+ * 
  * @package Piwik
  * @subpackage DataTable
  */
 class Truncate extends Filter
 {
     /**
-     * @param DataTable $table
-     * @param int $truncateAfter
+     * Constructor.
+     * 
+     * @param DataTable $table The table that will be filtered eventually.
+     * @param int $truncateAfter The row index to truncate at. All rows passed this index will
+     *                           be removed.
+     * @param string $labelSummaryRow The label to use for the summary row. Defaults to
+     *                                `Piwik::translate('General_Others')`.
+     * @param string $columnToSortByBeforeTruncating The column to sort by before truncation, eg,
+     *                                               `'nb_visits'`.
+     * @param bool $filterRecursive If true executes this filter on all subtables descending from
+     *                              `$table`.
      */
     public function __construct($table,
                                 $truncateAfter,
-                                $labelSummaryRow = DataTable::LABEL_SUMMARY_ROW,
+                                $labelSummaryRow = null,
                                 $columnToSortByBeforeTruncating = null,
-                                $deleteRows = true,
                                 $filterRecursive = true)
     {
         parent::__construct($table);
         $this->truncateAfter = $truncateAfter;
         $this->labelSummaryRow = $labelSummaryRow;
         $this->columnToSortByBeforeTruncating = $columnToSortByBeforeTruncating;
-        $this->deleteRows = $deleteRows;
         $this->filterRecursive = $filterRecursive;
     }
 
     /**
-     * Truncates the table after X rows and adds a summary row
+     * Executes the filter, see [Truncate](#).
      *
      * @param DataTable $table
      */
     public function filter($table)
     {
         $this->addSummaryRow($table);
-        $table->queueFilter('ReplaceSummaryRowLabel');
+        $table->queueFilter('ReplaceSummaryRowLabel', array($this->labelSummaryRow));
 
         if ($this->filterRecursive) {
             foreach ($table->getRows() as $row) {
@@ -61,8 +83,7 @@ class Truncate extends Filter
 
     public function addSummaryRow($table)
     {
-        $table->filter('Sort',
-            array($this->columnToSortByBeforeTruncating, 'desc'));
+        $table->filter('Sort', array($this->columnToSortByBeforeTruncating, 'desc'));
 
         if ($table->getRowsCount() <= $this->truncateAfter + 1) {
             return;
@@ -85,10 +106,7 @@ class Truncate extends Filter
             }
         }
 
-        $newRow->setColumns(array('label' => $this->labelSummaryRow) + $newRow->getColumns());
-        if ($this->deleteRows) {
-            $table->filter('Limit', array(0, $this->truncateAfter));
-        }
+        $table->filter('Limit', array(0, $this->truncateAfter));
         $table->addSummaryRow($newRow);
         unset($rows);
     }

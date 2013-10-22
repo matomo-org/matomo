@@ -1103,7 +1103,6 @@ class DataTable implements DataTableInterface
                 array($maximumRowsInDataTable - 1,
                       DataTable::LABEL_SUMMARY_ROW,
                       $columnToSortByBeforeTruncation,
-                      $deleteRows = true,
                       $filterRecursive = false)
             );
         }

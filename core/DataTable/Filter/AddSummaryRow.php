@@ -15,31 +15,26 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 
 /**
- * Add a new row to the table containing a summary
- * of the rows from StartRowToSummarize to EndRowToSummarize.
- * It then deletes the rows from StartRowToSummarize to EndRowToSummarize.
- * The new row created has a label = 'other'
+ * Add a summary row row to the table that is the sum of all other table
+ * rows.
  *
- * This filter is useful to build a more compact view of a table,
- * keeping the first records unchanged.
- *
- * For example we use this for the pie chart, to build the last pie part
- * which is the sum of all the remaining data after the top 5 data.
- * This row is assigned a label of 'Others'.
- *
+ * **Basic usage example**
+ * 
+ *     $dataTable->filter('AddSummaryRow');
+ * 
+ *     // use a human readable label for the summary row (instead of '-1')
+ *     $dataTable->filter('AddSummaryRow', array($labelSummaryRow = Piwik_Translate('General_Total')));
+ * 
  * @package Piwik
  * @subpackage DataTable
  */
 class AddSummaryRow extends Filter
 {
     /**
-     * Creates a new filter and set all required parameters
+     * Constructor.
      *
-     * @param DataTable $table
-     * @param int $startRowToSummarize
-     * @param int $labelSummaryRow
-     * @param null $columnToSortByBeforeTruncating
-     * @param bool $deleteRows
+     * @param DataTable $table The table that will be filtered.
+     * @param int $labelSummaryRow The value of the label column for the new row.
      */
     public function __construct($table, $labelSummaryRow = DataTable::LABEL_SUMMARY_ROW)
     {
@@ -48,7 +43,7 @@ class AddSummaryRow extends Filter
     }
 
     /**
-     * Adds a summary row to the given data table
+     * Executes the filter. See [AddSummaryRow](#).
      *
      * @param DataTable $table
      */
