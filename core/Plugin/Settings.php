@@ -22,9 +22,10 @@ class Settings
     const TYPE_ARRAY  = 'array';
 
     const FIELD_TEXT     = 'text';
-    const FIELD_TEXTBOX  = 'textbox';
+    const FIELD_TEXTAREA = 'textarea';
     const FIELD_RADIO    = 'radio';
     const FIELD_CHECKBOX = 'checkbox';
+    const FIELD_PASSWORD = 'password';
     const FIELD_MULTI_SELECT   = 'multiselect';
     const FIELD_SINGLE_SELECT  = 'select';
 
@@ -45,7 +46,7 @@ class Settings
 
         $this->defaultTypes = array(
             static::FIELD_TEXT     => static::TYPE_STRING,
-            static::FIELD_TEXTBOX  => static::TYPE_STRING,
+            static::FIELD_TEXTAREA => static::TYPE_STRING,
             static::FIELD_RADIO    => static::TYPE_STRING,
             static::FIELD_CHECKBOX => static::TYPE_BOOL,
             static::FIELD_MULTI_SELECT  => static::TYPE_ARRAY,
@@ -63,6 +64,7 @@ class Settings
             'field'        => static::FIELD_TEXT,
             'displayedForCurrentUser' => Piwik::isUserHasSomeAdminAccess(),
             'fieldAttributes' => array(),
+            'selectOptions' => array(),
             'description'  => null,
             'inlineHelp'   => null,
             'filter'       => null,
