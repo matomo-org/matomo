@@ -14,6 +14,7 @@ use Piwik\DataTable\Filter;
 use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
+use Piwik\Piwik;
 
 /**
  * Truncates a DataTable by merging all rows after a certain index into a new summary
