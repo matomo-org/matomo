@@ -14,14 +14,16 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 
 /**
- * Add a new 'metadata' column to the table based on the value resulting
- * from a callback function with the parameter being another column's (or several columns') value(s)
- *
- * For example from the "label" column we can to create an "icon" 'metadata' column
- * with the icon URI built from the label (LINUX => UserSettings/icons/linux.png)
- *
+ * Executes a callback for each row of a DataTable and adds the result as a new
+ * metadata column.
+ * 
+ * **Basic usage example**
+ * 
+ *     $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik\Plugins\MyPlugin\getLogoFromLabel'));
+ * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class ColumnCallbackAddMetadata extends Filter
 {
@@ -32,12 +34,15 @@ class ColumnCallbackAddMetadata extends Filter
     private $applyToSummaryRow;
 
     /**
-     * @param DataTable $table
-     * @param string|array $columnsToRead
-     * @param string $metadataToAdd
-     * @param string $functionToApply
-     * @param array $functionParameters
-     * @param bool $applyToSummaryRow
+     * Constructor.
+     * 
+     * @param DataTable $table The DataTable instance that will be filtered.
+     * @param string|array $columnsToRead The columns to read from each row and pass on to the callback.
+     * @param string $metadataToAdd The name of the metadata field that will be added to each row.
+     * @param callable $functionToApply The callback to apply for each row.
+     * @param array $functionParameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
+     *                                  instead.
+     * @param bool $applyToSummaryRow Whether the callback should be applied to the summary row or not.
      */
     public function __construct($table, $columnsToRead, $metadataToAdd, $functionToApply = null,
                                 $functionParameters = null, $applyToSummaryRow = true)
@@ -56,7 +61,7 @@ class ColumnCallbackAddMetadata extends Filter
     }
 
     /**
-     * Filters the given data table
+     * See [ColumnCallbackAddMetadata](#).
      *
      * @param DataTable $table
      */

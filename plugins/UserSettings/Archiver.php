@@ -95,7 +95,9 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         $metrics = $this->getProcessor()->getMetricsForDimension(self::RESOLUTION_DIMENSION);
         $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
-        $table->filter('ColumnCallbackDeleteRow', array('label', __NAMESPACE__ . '\keepStrlenGreater'));
+        $table->filter('ColumnCallbackDeleteRow', array('label', function ($value) {
+            return strlen($value) <= 5;
+        }));
         $this->insertTable(self::RESOLUTION_RECORD_NAME, $table);
         return $table;
     }

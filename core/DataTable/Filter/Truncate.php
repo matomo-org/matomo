@@ -17,7 +17,7 @@ use Piwik\DataTable\Row;
 
 /**
  * Truncates a DataTable by merging all rows after a certain index into a new summary
- * row.
+ * row, unless the count of rows is less than the index.
  * 
  * The [ReplaceSummaryRow](#) filter will be queued after the table is truncated.
  * 
@@ -33,6 +33,7 @@ use Piwik\DataTable\Row;
  * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class Truncate extends Filter
 {

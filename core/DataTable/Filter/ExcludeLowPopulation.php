@@ -68,10 +68,10 @@ class ExcludeLowPopulation extends Filter
     public function filter($table)
     {
         $minimumValue = $this->minimumValue;
-        $isValueHighPopulation = function ($value) use ($minimumValue) {
-            return $value >= $minimumValue;
+        $isValueLowPopulation = function ($value) use ($minimumValue) {
+            return $value < $minimumValue;
         };
 
-        $table->filter('ColumnCallbackDeleteRow', array($this->columnToFilter, $isValueHighPopulation));
+        $table->filter('ColumnCallbackDeleteRow', array($this->columnToFilter, $isValueLowPopulation));
     }
 }

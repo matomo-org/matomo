@@ -206,11 +206,6 @@ function getDeviceTypeImg($oldOSImage, $osFamilyLabel)
     }
 }
 
-function keepStrlenGreater($value)
-{
-    return strlen($value) > 5;
-}
-
 function getScreenTypeFromResolution($resolution)
 {
     if ($resolution === Request::UNKNOWN_RESOLUTION) {

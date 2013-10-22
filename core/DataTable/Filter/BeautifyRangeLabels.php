@@ -27,8 +27,17 @@ use Piwik\Piwik;
  * one unit (ie '1-1') and another format string when the range specifies
  * more than one unit (ie '2-2', '3-5' or '6+').
  *
- * This filter can also be extended to beautify ranges differently based
- * on the range values.
+ * This filter can be extended to vary exactly how ranges are prettified based
+ * on the range values found in the DataTable. To see an example of this,
+ * take a look at the [BeautifyTimeRangeLabels](#) filter.
+ * 
+ * **Basic usage example**
+ * 
+ *     $dataTable->queueFilter('BeautifyRangeLabels', array("1 visit", "%s visits"));
+ * 
+ * @package Piwik
+ * @subpackage DataTable
+ * @api
  */
 class BeautifyRangeLabels extends ColumnCallbackReplace
 {
@@ -50,10 +59,10 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
      *
      * @param DataTable $table The DataTable that will be filtered.
      * @param string $labelSingular The string to use when the range being beautified
-     *                                         is equal to '1-1 units'.
+     *                              is equal to '1-1 units', eg `"1 visit"`.
      * @param string $labelPlural The string to use when the range being beautified
-     *                                         references more than one unit. This must be a format
-     *                                         string that takes one string parameter.
+     *                            references more than one unit. This must be a format
+     *                            string that takes one string parameter, eg, `"%s visits"`.
      */
     public function __construct($table, $labelSingular, $labelPlural)
     {
@@ -64,7 +73,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
     }
 
     /**
-     * Beautifies a range label and returns the pretty result.
+     * Beautifies a range label and returns the pretty result. See [BeautifyRangeLabels](#).
      *
      * @param string $value The range string. This must be in either a '$min-$max' format
      *                        a '$min+' format.

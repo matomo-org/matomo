@@ -27,6 +27,7 @@ use Piwik\DataTable\Row\DataTableSummaryRow;
  * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class AddSummaryRow extends Filter
 {

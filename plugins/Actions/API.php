@@ -169,7 +169,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('ColumnCallbackDeleteRow', array(
                                                            'nb_hits_following_search',
                                                            function ($value) {
-                                                               return $value > 0;
+                                                               return $value <= 0;
                                                            }
                                                       ));
     }
@@ -311,7 +311,7 @@ class API extends \Piwik\Plugin\API
             array(
                  Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
                  function ($value) {
-                     return $value >= 1;
+                     return $value < 1;
                  }
             ));
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
@@ -537,7 +537,7 @@ class API extends \Piwik\Plugin\API
      */
     private function filterNonEntryActions($dataTable)
     {
-        $dataTable->filter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'));
+        $dataTable->filter('ColumnCallbackDeleteRow', array('entry_nb_visits', function ($visits) { return !strlen($visits); }));
     }
 
     /**
@@ -547,7 +547,6 @@ class API extends \Piwik\Plugin\API
      */
     private function filterNonExitActions($dataTable)
     {
-        $dataTable->filter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'));
+        $dataTable->filter('ColumnCallbackDeleteRow', array('exit_nb_visits', function ($visits) { return !strlen($visits); }));
     }
 }
-

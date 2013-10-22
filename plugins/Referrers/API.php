@@ -319,7 +319,7 @@ class API extends \Piwik\Plugin\API
 
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
-        $dataTable->filter('ColumnCallbackDeleteRow', array('label', __NAMESPACE__ . '\isSocialUrl'));
+        $dataTable->filter('ColumnCallbackDeleteRow', array('label', function ($url) { return !isSocialUrl($url); }));
 
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\cleanSocialUrl'));
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getSocialNetworkFromDomain'));
@@ -366,7 +366,12 @@ class API extends \Piwik\Plugin\API
         }
 
         // filter out everything but social network indicated by $idSubtable
-        $dataTable->filter('ColumnCallbackDeleteRow', array('label', __NAMESPACE__ . '\isSocialUrl', array($social)));
+        $dataTable->filter(
+            'ColumnCallbackDeleteRow',
+            array('label',
+                  function ($url) use ($social) { return !isSocialUrl($url, $social); }
+            )
+        );
 
         // merge the datatable's subtables which contain the individual URLs
         $dataTable = $dataTable->mergeSubtables();
