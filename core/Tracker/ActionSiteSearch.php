@@ -161,7 +161,9 @@ class ActionSiteSearch extends Action
             // @see excludeQueryParametersFromUrl()
             // Excluded the detected parameters from the URL
             $parametersToExclude = array($categoryParameterRaw, $keywordParameterRaw);
-            $parsedUrl['query'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
+            if(isset($parsedUrl['query'])) {
+                $parsedUrl['query'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
+            }
             if(isset($parsedUrl['fragment'])) {
                 $parsedUrl['fragment'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
             }
