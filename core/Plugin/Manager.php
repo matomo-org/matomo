@@ -207,6 +207,7 @@ class Manager extends Singleton
         $this->removePluginFromPluginsInstalledConfig($pluginName);
         $this->removePluginFromTrackerConfig($pluginName);
         PiwikConfig::getInstance()->forceSave();
+        \Piwik\Settings\Manager::cleanupPluginSettings($pluginName);
 
         Filesystem::deleteAllCacheOnUpdate();
 

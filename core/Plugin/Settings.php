@@ -146,6 +146,23 @@ class Settings
         Option::delete($this->getOptionKey());
     }
 
+    public function removeAllSettingsForUser($userLogin)
+    {
+        foreach ($this->settingsValues as $name => $value) {
+            $setting = $this->getSetting($name);
+
+            if (!$setting['isUserSetting']) {
+                continue;
+            }
+
+            if ($name == $this->buildUserSettingName($name, $userLogin)) {
+                unset($this->settingsValues[$name]);
+            }
+        }
+
+        $this->save();
+    }
+
     private function getSettingValue($name)
     {
         if (!array_key_exists($name, $this->settingsValues)) {

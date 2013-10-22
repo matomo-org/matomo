@@ -36,7 +36,13 @@ class CoreAdminHome extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Menu.Admin.addItems'             => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
+            'UsersManager.deleteUser'         => 'cleanupUser'
         );
+    }
+
+    public function cleanupUser($userLogin)
+    {
+        SettingsManager::cleanupUserSettings($userLogin);
     }
 
     public function getScheduledTasks(&$tasks)
