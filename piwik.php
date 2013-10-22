@@ -59,6 +59,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/PageUrl.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/TableLogAction.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Action.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionClickUrl.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionEvent.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionPageview.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/ActionSiteSearch.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';

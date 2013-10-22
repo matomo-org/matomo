@@ -43,9 +43,9 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<label>/movies</label>
-				<nb_visits>4</nb_visits>
-				<nb_hits>20</nb_hits>
-				<avg_time_on_page>00:38:00</avg_time_on_page>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
 				<avg_time_generation>0s</avg_time_generation>
@@ -53,8 +53,8 @@
 			<row>
 				<label>/webradio</label>
 				<nb_visits>2</nb_visits>
-				<nb_hits>14</nb_hits>
-				<avg_time_on_page>00:29:00</avg_time_on_page>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:24:59</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<avg_time_generation>0s</avg_time_generation>

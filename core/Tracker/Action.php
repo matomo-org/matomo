@@ -291,20 +291,22 @@ abstract class Action
             'time_spent_ref_action' => $timeSpentReferrerAction
         );
 
+        foreach($this->actionIdsCached as $field => $idAction) {
+            $insert[$field] = $idAction;
+        }
+
         $customValue = $this->getCustomFloatValue();
         if (!empty($customValue)) {
             $insert[self::DB_COLUMN_CUSTOM_FLOAT] = $customValue;
         }
 
         $customVariables = $this->getCustomVariables();
-
         if (!empty($customVariables)) {
             Common::printDebug("Page level Custom Variables: ");
             Common::printDebug($customVariables);
         }
 
         $insert = array_merge($insert, $customVariables);
-
         $fields = implode(", ", array_keys($insert));
         $bind = array_values($insert);
         $values = Common::getSqlStringFieldsArray($insert);
