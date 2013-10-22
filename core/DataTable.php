@@ -94,12 +94,12 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * Filters that sort rows or manipulate the number of rows should be applied right away.
  * Non-essential, presentation filters should be queued.
  * 
- * See also:
+ * ### Learn more
  * 
- * - ArchiveProcessor &mdash; to learn how DataTables are persisted.
- * - DataTable\Renderer &mdash; to learn how DataTable data is exported to XML, JSON, etc.
- * - DataTable\Filter &mdash; to see all core Filters.
- * - DataTable\Manager &mdash; to learn how DataTables are loaded.
+ * - **ArchiveProcessor** &mdash; to learn how DataTables are persisted.
+ * - **DataTable\Renderer** &mdash; to learn how DataTable data is exported to XML, JSON, etc.
+ * - **DataTable\Filter** &mdash; to see all core Filters.
+ * - **DataTable\Manager** &mdash; to learn how DataTables are loaded.
  * 
  * ### Examples
  * 

@@ -36,6 +36,8 @@ use Piwik\Period\Range;
  * If you're creating an API that returns report data, you may want to use the
  * [getDataTableFromArchive](#getDataTableFromArchive) helper function.
  * 
+ * ### Learn more
+ * 
  * Learn more about _archiving_ [here](#).
  * 
  * ### Limitations
