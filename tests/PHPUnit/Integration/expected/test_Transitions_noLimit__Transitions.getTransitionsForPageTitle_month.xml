@@ -34,8 +34,8 @@
 		</row>
 	</previousSiteSearches>
 	<pageMetrics>
-		<loops>6</loops>
-		<pageviews>19</pageviews>
+		<loops>7</loops>
+		<pageviews>20</pageviews>
 		<entries>3</entries>
 		<exits>-3</exits>
 	</pageMetrics>
@@ -69,7 +69,7 @@
 	</followingSiteSearches>
 	<outlinks>
 		<row>
-			<label>https://anothersite.com/to/outlink/page.html</label>
+			<label>http://www.anothersite.com/to/outlink/page.html</label>
 			<referrals>1</referrals>
 		</row>
 		<row>
@@ -77,21 +77,21 @@
 			<referrals>1</referrals>
 		</row>
 		<row>
-			<label>https://anothersite.com/to/another/outlink.html</label>
+			<label>http://anothersite.com/to/another/outlink.html</label>
 			<referrals>1</referrals>
 		</row>
 	</outlinks>
 	<downloads>
 		<row>
-			<label>http://example.org/downloads/29.tar.gz</label>
+			<label>http://example.org/downloads/33.tar.gz</label>
 			<referrals>1</referrals>
 		</row>
 		<row>
-			<label>https://example.org/downloads/31.tar.gz</label>
+			<label>https://example.org/downloads/35.tar.gz</label>
 			<referrals>1</referrals>
 		</row>
 		<row>
-			<label>http://www.example.org/downloads/38.tar.gz</label>
+			<label>https://example.org/downloads/43.tar.gz</label>
 			<referrals>1</referrals>
 		</row>
 	</downloads>

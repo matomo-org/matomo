@@ -356,6 +356,10 @@ class ArchivingHelper
         /* @var DataTable $currentTable */
         $currentTable =& $actionsTablesByType[$actionType];
 
+        if(is_null($currentTable)) {
+            throw new \Exception("Action table for type '$actionType' was not found during Actions archiving.");
+        }
+
         // check for ranking query cut-off
         if ($actionName == DataTable::LABEL_SUMMARY_ROW) {
             $summaryRow = $currentTable->getRowFromId(DataTable::ID_SUMMARY_ROW);

@@ -70,6 +70,9 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
         $visitor->setUrl('http://example.org/index.htm?random=PAGEVIEW, NOT SEARCH&mykwd=&IS_FOLLOWING_SEARCH ONCE');
         self::checkResponse($visitor->doTrackPageView('This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE'));
 
+        $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.24)->getDatetime());
+        self::checkResponse($visitor->doTrackEvent("Event CAT", "Event ACTION", "Event NAME", $count = 3.33));
+
         $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.25)->getDatetime());
         $visitor->setUrl('http://example.org/index.htm?standard=query&but=also#hash&q=' . urlencode('Search 1'));
         self::checkResponse($visitor->doTrackPageView('Site Search results - URL Fragment'));
@@ -112,6 +115,9 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
 
         $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(24.42)->getDatetime());
         self::checkResponse($visitor->doTrackSiteSearch("Keyword - Tracking API", "Category", $count = 5));
+
+        $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(24.425)->getDatetime());
+        self::checkResponse($visitor->doTrackEvent("Event CAT", "Event ACTION", "Event NAME", $count));
 
         $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(24.43)->getDatetime());
         self::checkResponse($visitor->doTrackSiteSearch("No Result Keyword!", "Bad No Result Category :(", $count = 0));
