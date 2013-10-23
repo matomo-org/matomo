@@ -31,13 +31,14 @@ class Settings
 
     // what about stuff like date etc?
 
-    protected $defaultTypes   = array();
-    protected $defaultFields  = array();
-    protected $defaultOptions = array();
+    private $defaultTypes   = array();
+    private $defaultFields  = array();
+    private $defaultOptions = array();
 
-    protected $settings       = array();
-    protected $settingsValues = array();
+    private $settings       = array();
+    private $settingsValues = array();
 
+    private $introduction;
     private $pluginName;
 
     public function __construct($pluginName)
@@ -65,6 +66,7 @@ class Settings
             'displayedForCurrentUser' => false,
             'fieldAttributes' => array(),
             'fieldOptions'    => array(),
+            'introduction'    => null,
             'description'     => null,
             'inlineHelp'      => null,
             'filter'          => null,
@@ -79,6 +81,11 @@ class Settings
 
     protected function init()
     {
+    }
+
+    protected function addIntroduction($introduction)
+    {
+        $this->introduction = $introduction;
     }
 
     protected function addPerUserSetting($name, $title, array $options = array())
@@ -97,6 +104,11 @@ class Settings
         $options['isSystemSetting'] = true;
 
         $this->addSetting($name, $name, $title, $options);
+    }
+
+    public function getIntroduction()
+    {
+        return $this->introduction;
     }
 
     public function getSettingsForCurrentUser()

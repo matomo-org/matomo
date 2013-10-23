@@ -16,7 +16,13 @@
 
         <h3 id="{{ pluginName|e('html_attr') }}">{{ pluginName }}</h3>
 
-        <table class="adminTable" style='width:620px;' id="pluginSettings" data-pluginname="{{ pluginName }}">
+        {% if settings.getIntroduction %}
+            <p class="pluginIntroduction">
+                {{ settings.getIntroduction }}
+            </p>
+        {% endif %}
+
+        <table class="adminTable" style='width:820px;' id="pluginSettings" data-pluginname="{{ pluginName }}">
 
         {% for setting in settings.getSettingsForCurrentUser %}
             {% if setting.isUserSetting %}
@@ -24,6 +30,17 @@
             {% else %}
                 {% set settingValue = settings.getSystemSettingValue(setting.name) %}
             {% endif %}
+
+            {% if setting.introduction %}
+            <tr>
+                <td colspan="3">
+                    <p class="settingIntroduction">
+                        {{ setting.introduction }}
+                    </p>
+                </td>
+            </tr>
+            {% endif %}
+
             <tr>
                 <td style='width:400px'>
                     {{ setting.title }}
@@ -89,6 +106,16 @@
 
                         </label>
                     </fieldset>
+                </td>
+                <td style="width:200px">
+                    {% if setting.inlineHelp %}
+                        <div class="ui-widget">
+                            <div class="ui-inline-help ui-state-highlight ui-corner-all">
+                                <span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em;"></span>
+                                {{ setting.inlineHelp }}
+                            </div>
+                        </div>
+                    {% endif %}
                 </td>
             </tr>
 
