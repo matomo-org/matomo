@@ -17,7 +17,15 @@ use Piwik\Period;
 use Piwik\Piwik;
 
 /**
- * from a starting date to an ending date
+ * Arbitrary date range representation.
+ * 
+ * This class represents a period that contains a list of consecutive days as subperiods
+ * It is created when the **period** query parameter is set to **range** and is used
+ * to calculate the subperiods of multiple period requests (eg, when period=day and
+ * date=2007-07-24,2013-11-15).
+ * 
+ * The range period differs from other periods mainly in that since it is arbitrary,
+ * range periods are not archived by the archive.php cron script.
  *
  * @package Piwik
  * @subpackage Period
@@ -28,10 +36,14 @@ class Range extends Period
     protected $label = 'range';
 
     /**
-     * @param string $strPeriod
-     * @param string $strDate
-     * @param string $timezone
-     * @param bool|Date $today
+     * Constructor.
+     * 
+     * @param string $strPeriod The type of period each subperiod is. Either `'day'`, `'week'`,
+     *                          `'month'` or `'year'`.
+     * @param string $strDate The date range, eg, `'2007-07-24,2013-11-15'`.
+     * @param string $timezone The timezone to use, eg, `'UTC'`.
+     * @param bool|Date $today The date to use as _today_. Defaults to `Date::factory('today', $timzeone)`.
+     * @api
      */
     public function __construct($strPeriod, $strDate, $timezone = 'UTC', $today = false)
     {
@@ -46,7 +58,7 @@ class Range extends Period
     }
 
     /**
-     * Returns the current period as a localized short string
+     * Returns the current period as a localized short string.
      *
      * @return string
      */
@@ -63,7 +75,7 @@ class Range extends Period
     }
 
     /**
-     * Returns the current period as a localized long string
+     * Returns the current period as a localized long string.
      *
      * @return string
      */
@@ -96,39 +108,6 @@ class Range extends Period
     {
         $out = Piwik::translate('General_DateRangeFromTo', array($this->getDateStart()->toString(), $this->getDateEnd()->toString()));
         return $out;
-    }
-
-    /**
-     *
-     * @param string $period
-     * @param Date $date
-     * @param int $n
-     * @throws Exception
-     * @return Date
-     */
-    static public function removePeriod($period, Date $date, $n)
-    {
-        switch ($period) {
-            case 'day':
-                $startDate = $date->subDay($n);
-                break;
-
-            case 'week':
-                $startDate = $date->subDay($n * 7);
-                break;
-
-            case 'month':
-                $startDate = $date->subMonth($n);
-                break;
-
-            case 'year':
-                $startDate = $date->subMonth(12 * $n);
-                break;
-            default:
-                throw new Exception('The period parameter is invalid');
-                break;
-        }
-        return $startDate;
     }
 
     protected function getMaxN($lastN)
@@ -192,7 +171,7 @@ class Range extends Period
             if ($lastOrPrevious == 'last') {
                 $endDate = $defaultEndDate;
             } elseif ($lastOrPrevious == 'previous') {
-                $endDate = self::removePeriod($period, $defaultEndDate, 1);
+                $endDate = $defaultEndDate->addPeriod(-1, $period);
             }
 
             $lastN = $this->getMaxN($lastN);
@@ -201,7 +180,7 @@ class Range extends Period
             $lastN--;
             $lastN = abs($lastN);
 
-            $startDate = self::removePeriod($period, $endDate, $lastN);
+            $startDate = $endDate->addPeriod(-$lastN, $period);
         } elseif ($dateRange = Range::parseDateRange($this->strDate)) {
             $strDateStart = $dateRange[1];
             $strDateEnd = $dateRange[2];
@@ -341,7 +320,7 @@ class Range extends Period
         // set end date to start of end period since we're comparing against start date.
         $endDate = $endSubperiod->getDateStart();
         while ($endDate->isLater($startDate)) {
-            $endDate = self::removePeriod($period, $endDate, 1);
+            $endDate = $endDate->addPeriod(-1, $period);
             $subPeriod = Period::factory($period, $endDate);
             $arrayPeriods[] = $subPeriod;
         }
@@ -359,6 +338,7 @@ class Range extends Period
      *
      * @return array An array with two elements, a string for the date before $date and
      *               a Period instance for the period before $date.
+     * @api
      */
     public static function getLastDate($date = false, $period = false)
     {
@@ -378,12 +358,12 @@ class Range extends Period
             {
                 $rangePeriod = new Range($period, $date);
 
-                $lastStartDate = Range::removePeriod($period, $rangePeriod->getDateStart(), $n = 1);
-                $lastEndDate = Range::removePeriod($period, $rangePeriod->getDateEnd(), $n = 1);
+                $lastStartDate = $rangePeriod->getDateStart()->addPeriod(-1, $period);
+                $lastEndDate = $rangePeriod->getDateEnd()->addPeriod(-1, $period);
 
                 $strLastDate = "$lastStartDate,$lastEndDate";
             } else {
-                $lastPeriod = Range::removePeriod($period, Date::factory($date), $n = 1);
+                $lastPeriod = Date::factory($date)->addPeriod(-1, $period);
                 $strLastDate = $lastPeriod->toString();
             }
         }

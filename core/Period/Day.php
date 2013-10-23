@@ -17,7 +17,6 @@ use Piwik\Piwik;
 /**
  * @package Piwik
  * @subpackage Period
- * @api
  */
 class Day extends Period
 {

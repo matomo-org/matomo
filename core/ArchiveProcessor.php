@@ -505,6 +505,7 @@ abstract class ArchiveProcessor
                 $clean[] = array($newName, $value);
             }
             $this->archiveWriter->insertBulkRecords($clean);
+            return;
         }
 
         $values = $this->compress($values);
