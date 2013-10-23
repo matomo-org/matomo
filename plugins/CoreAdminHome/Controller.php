@@ -101,7 +101,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view = new View('@CoreAdminHome/pluginSettings');
 
-        $settings = SettingsManager::getAllPluginSettings();
+        $settings = SettingsManager::getPluginSettingsForCurrentUser();
         ksort($settings);
         $view->pluginSettings = $settings;
         $view->nonce = Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE);

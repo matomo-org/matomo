@@ -41,7 +41,7 @@
 
 {% endmacro %}
 
-{% macro tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, isTheme) %}
+{% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme) %}
 
 <div id="confirmUninstallPlugin" class="ui-confirm">
 
@@ -72,6 +72,11 @@
                             {% endif %}
                             {{ name }}
                             {% if plugin.info.homepage is defined %}</a>{% endif %}
+
+                        {% if name in pluginNamesHavingSettings %}
+                            <br /><br />
+                            <a href="{{ linkTo({'module':'CoreAdminHome', 'action': 'pluginSettings'}) }}#{{ name|e('html_attr') }}" class="settingsLink">{{ 'General_Settings'|translate }}</a>
+                        {% endif %}
                     </td>
                     <td class="vers">{{ plugin.info.version }}</td>
                     <td class="desc">

@@ -26,7 +26,7 @@ class Manager
      * named `Settings` that extends `Piwik\Plugin\Settings` in order to be considered as a plugin setting. Otherwise
      * the settings for a plugin won't be available.
      *
-     * @return \Piwik\Plugin\Settings[]
+     * @return \Piwik\Plugin\Settings[]   An array containing array([pluginName] => [setting instance]).
      */
     public static function getAllPluginSettings()
     {
@@ -60,22 +60,35 @@ class Manager
     }
 
     /**
+     * Gets all plugins settings that have at least one settings a user is allowed to change.
+     *
+     * @return \Piwik\Plugin\Settings[]   An array containing array([pluginName] => [setting instance]).
+     */
+    public static function getPluginSettingsForCurrentUser()
+    {
+        $settings = static::getAllPluginSettings();
+
+        $settingsForUser = array();
+        foreach ($settings as $pluginName => $setting) {
+            $forUser = $setting->getSettingsForCurrentUser();
+            if (!empty($forUser)) {
+                $settingsForUser[$pluginName] = $setting;
+            }
+        }
+
+        return $settingsForUser;
+    }
+
+    /**
      * Detects whether there are plugin settings available that the current user can change.
      *
      * @return bool
      */
     public static function hasPluginSettingsForCurrentUser()
     {
-        $settings = static::getAllPluginSettings();
+        $settings = static::getPluginSettingsForCurrentUser();
 
-        foreach ($settings as $setting) {
-            $forUser = $setting->getSettingsForCurrentUser();
-            if (!empty($forUser)) {
-                return true;
-            }
-        }
-
-        return false;
+        return !empty($settings);
     }
 
     /**

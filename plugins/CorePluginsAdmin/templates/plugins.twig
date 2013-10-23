@@ -6,7 +6,11 @@
 <div style="max-width:980px;">
 
     {% if activatedPluginName %}
-        <div id="feedback-success"><strong>Well done!</strong> You have successfully activated plugin {{ activatedPluginName }}</div>
+        <div id="feedback-success"><strong>Well done!</strong> You have successfully activated plugin {{ activatedPluginName }}.
+            {% if activatedPluginName in pluginNamesHavingSettings %}
+                You can change <a href="{{ linkTo({'module':'CoreAdminHome', 'action': 'pluginSettings'}) }}#{{ activatedPluginName|e('html_attr') }}">settings</a> for this plugin now.
+            {% endif %}
+        </div>
     {% endif %}
 
     {% if pluginsHavingUpdate|length %}
@@ -21,7 +25,7 @@
 
     <p>{{ 'CorePluginsAdmin_MainDescription'|translate }}</p>
 
-    {{ plugins.tablePlugins(pluginsInfo, activateNonce, deactivateNonce, uninstallNonce, false) }}
+    {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, false) }}
 
 </div>
 {% endblock %}
