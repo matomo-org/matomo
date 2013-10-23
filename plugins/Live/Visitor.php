@@ -59,6 +59,7 @@ class Visitor
             'visitEcommerceStatusIcon'    => $this->getVisitEcommerceStatusIcon(),
 
             'searches'                    => $this->getNumberOfSearches(),
+            'events'                      => $this->getNumberOfEvents(),
             'actions'                     => $this->getNumberOfActions(),
             // => false are placeholders to be filled in API later
             'actionDetails'               => false,
@@ -194,6 +195,11 @@ class Visitor
     function getNumberOfActions()
     {
         return $this->details['visit_total_actions'];
+    }
+
+    function getNumberOfEvents()
+    {
+        return $this->details['visit_total_events'];
     }
 
     function getNumberOfSearches()

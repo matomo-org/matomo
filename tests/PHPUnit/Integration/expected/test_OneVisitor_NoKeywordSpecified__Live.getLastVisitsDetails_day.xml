@@ -12,6 +12,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -19,8 +20,8 @@
 				<url>http://example.org/this%20is%20cool!</url>
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
-				<pageId>2</pageId>
 				
+				<pageId>2</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -107,6 +108,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -114,8 +116,8 @@
 				<url>http://example.org/this%20is%20cool!</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>1</pageId>
 				
+				<pageId>1</pageId>
 				<icon />
 			</row>
 			<row>

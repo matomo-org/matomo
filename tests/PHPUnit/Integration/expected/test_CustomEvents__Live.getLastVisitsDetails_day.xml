@@ -12,50 +12,59 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>4</events>
 		<actions>4</actions>
 		<actionDetails>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>16</pageId>
-				
+				<eventCategory>Movie</eventCategory>
+				<eventAction>play50%</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>17</pageId>
-				
+				<eventCategory>Movie</eventCategory>
+				<eventAction>play75%</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>18</pageId>
 				
+				<pageId>18</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playEnd</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>19</pageId>
 				
-				<generationTime>0.01s</generationTime>
-				<icon />
+				<pageId>19</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>rating</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<eventValue>9.66</eventValue>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -145,6 +154,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>13</events>
 		<actions>15</actions>
 		<actionDetails>
 			<row>
@@ -152,207 +162,233 @@
 				<url>http://example.org/webradio</url>
 				<pageTitle>Welcome!</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>1</pageId>
-				
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>2</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>play</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>3</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>play25%</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>4</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>play50%</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>5</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>play75%</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>6</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>playEnd</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>7</pageId>
 				
+				<pageId>7</pageId>
+				<eventCategory>Music</eventCategory>
+				<eventAction>rating</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
+				<eventValue>9</eventValue>
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
-				<generationTime>0.009s</generationTime>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>8</pageId>
 				
+				<pageId>8</pageId>
+				<eventCategory>Music</eventCategory>
+				<eventAction>rating</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
+				<eventValue>10</eventValue>
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
-				<generationTime>0.01s</generationTime>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/movies</url>
 				<pageTitle>Movie Theater</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>9</pageId>
-				
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Princess Mononoke (もののけ姫)</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>10</pageId>
-				
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playTrailer</eventAction>
+				<eventName>Princess Mononoke (もののけ姫)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Ponyo (崖の上のポニョ)</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>11</pageId>
-				
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playTrailer</eventAction>
+				<eventName>Ponyo (崖の上のポニョ)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>12</pageId>
 				
+				<pageId>12</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playTrailer</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>13</pageId>
 				
+				<pageId>13</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>clickBuyNow</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>14</pageId>
 				
+				<pageId>14</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playStart</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>15</pageId>
 				
-				<icon />
+				<pageId>15</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>play25%</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -442,50 +478,59 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>4</events>
 		<actions>4</actions>
 		<actionDetails>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>35</pageId>
-				
+				<eventCategory>Movie</eventCategory>
+				<eventAction>play50%</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>36</pageId>
-				
+				<eventCategory>Movie</eventCategory>
+				<eventAction>play75%</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>37</pageId>
 				
+				<pageId>37</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playEnd</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>38</pageId>
 				
-				<generationTime>0.01s</generationTime>
-				<icon />
+				<pageId>38</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>rating</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<eventValue>9.66</eventValue>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -571,6 +616,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>13</events>
 		<actions>15</actions>
 		<actionDetails>
 			<row>
@@ -578,207 +624,233 @@
 				<url>http://example.org/webradio</url>
 				<pageTitle>Welcome!</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>20</pageId>
-				
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>21</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>play</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>22</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>play25%</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>23</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>play50%</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>24</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>play75%</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<pageId>25</pageId>
-				
+				<eventCategory>Music</eventCategory>
+				<eventAction>playEnd</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
 				<timeSpent>30</timeSpent>
 				<timeSpentPretty>30s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>26</pageId>
 				
+				<pageId>26</pageId>
+				<eventCategory>Music</eventCategory>
+				<eventAction>rating</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
+				<eventValue>9</eventValue>
 				<timeSpent>1</timeSpent>
 				<timeSpentPretty>1s</timeSpentPretty>
-				<generationTime>0.009s</generationTime>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/webradio</url>
-				<pageTitle>La fiancée de l&amp;#039;eau</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>27</pageId>
 				
+				<pageId>27</pageId>
+				<eventCategory>Music</eventCategory>
+				<eventAction>rating</eventAction>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
+				<eventName>La fiancée de l&amp;#039;eau</eventName>
+				<eventValue>10</eventValue>
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
-				<generationTime>0.01s</generationTime>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/movies</url>
 				<pageTitle>Movie Theater</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>28</pageId>
-				
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Princess Mononoke (もののけ姫)</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>29</pageId>
-				
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playTrailer</eventAction>
+				<eventName>Princess Mononoke (もののけ姫)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Ponyo (崖の上のポニョ)</pageTitle>
 				<pageIdAction>12</pageIdAction>
+				
 				<pageId>30</pageId>
-				
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playTrailer</eventAction>
+				<eventName>Ponyo (崖の上のポニョ)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>31</pageId>
 				
+				<pageId>31</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playTrailer</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>32</pageId>
 				
+				<pageId>32</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>clickBuyNow</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>33</pageId>
 				
+				<pageId>33</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>playStart</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon />
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 			<row>
-				<type>action</type>
+				<type>event</type>
 				<url>http://example.org/movies</url>
-				<pageTitle>Spirited Away (千と千尋の神隠し)</pageTitle>
 				<pageIdAction>12</pageIdAction>
-				<pageId>34</pageId>
 				
-				<icon />
+				<pageId>34</pageId>
+				<eventCategory>Movie</eventCategory>
+				<eventAction>play25%</eventAction>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<icon>plugins/Zeitgeist/images/event.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>

@@ -12,6 +12,7 @@
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
+		<events>0</events>
 		<actions>3</actions>
 		<actionDetails>
 			<row>
@@ -19,8 +20,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>11</pageId>
 				
+				<pageId>11</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -48,8 +49,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>12</pageId>
 				
+				<pageId>12</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -77,8 +78,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>13</pageId>
 				
+				<pageId>13</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -97,7 +98,7 @@
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2510</revenue>
+				<revenue>2510.11</revenue>
 				<items>4</items>
 				
 				<itemDetails>
@@ -221,6 +222,7 @@
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
+		<events>0</events>
 		<actions>6</actions>
 		<actionDetails>
 			<row>
@@ -228,8 +230,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>5</pageId>
 				
+				<pageId>5</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
@@ -245,8 +247,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at Electronics &amp; Cameras page again</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>6</pageId>
 				
+				<pageId>6</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
@@ -262,8 +264,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Looking at product page</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>7</pageId>
 				
+				<pageId>7</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -289,7 +291,7 @@
 			<row>
 				<type>ecommerceOrder</type>
 				<orderId>937nsjusu 3894</orderId>
-				<revenue>1111</revenue>
+				<revenue>1111.11</revenue>
 				<revenueSubTotal>1000</revenueSubTotal>
 				<revenueTax>111</revenueTax>
 				<revenueShipping>0.11</revenueShipping>
@@ -347,8 +349,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>8</pageId>
 				
+				<pageId>8</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -376,8 +378,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>9</pageId>
 				
+				<pageId>9</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -405,8 +407,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>10</pageId>
 				
+				<pageId>10</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -425,7 +427,7 @@
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
-				<revenue>2510</revenue>
+				<revenue>2510.11</revenue>
 				<items>4</items>
 				
 				<itemDetails>
@@ -549,6 +551,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>4</actions>
 		<actionDetails>
 			<row>
@@ -566,8 +569,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>1</pageId>
 				
+				<pageId>1</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -595,8 +598,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Another Product page</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>2</pageId>
 				
+				<pageId>2</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -624,8 +627,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Another Product page with no category</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>3</pageId>
 				
+				<pageId>3</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -649,8 +652,8 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Another Product page with multiple categories</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>4</pageId>
 				
+				<pageId>4</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>

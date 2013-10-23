@@ -12,6 +12,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -29,8 +30,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>44</pageId>
 				
+				<pageId>44</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -61,8 +62,8 @@
 		<regionCode>CA</regionCode>
 		<city>not a city</city>
 		<location>not a city, California, United States</location>
-		<latitude>1</latitude>
-		<longitude>2</longitude>
+		<latitude>1.000000</latitude>
+		<longitude>2.000000</longitude>
 		<provider>Unknown</provider>
 		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
@@ -117,6 +118,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
+		<events>0</events>
 		<actions>2</actions>
 		<actionDetails>
 			<row>
@@ -124,8 +126,8 @@
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<pageId>22</pageId>
 				
+				<pageId>22</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -144,8 +146,8 @@
 				<type>search</type>
 				<url />
 				<pageIdAction />
-				<pageId>23</pageId>
 				
+				<pageId>23</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -257,6 +259,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -274,8 +277,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>21</pageId>
 				
+				<pageId>21</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -380,6 +383,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -387,8 +391,8 @@
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<pageId>20</pageId>
 				
+				<pageId>20</pageId>
 				<icon />
 			</row>
 			<row>
@@ -503,6 +507,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -520,8 +525,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>19</pageId>
 				
+				<pageId>19</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -626,6 +631,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
+		<events>0</events>
 		<actions>2</actions>
 		<actionDetails>
 			<row>
@@ -633,8 +639,8 @@
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<pageId>17</pageId>
 				
+				<pageId>17</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -653,8 +659,8 @@
 				<type>search</type>
 				<url />
 				<pageIdAction />
-				<pageId>18</pageId>
 				
+				<pageId>18</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
@@ -766,6 +772,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -783,8 +790,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>16</pageId>
 				
+				<pageId>16</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -889,6 +896,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -896,8 +904,8 @@
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<pageId>15</pageId>
 				
+				<pageId>15</pageId>
 				<icon />
 			</row>
 			<row>
@@ -1012,6 +1020,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -1029,8 +1038,8 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>14</pageId>
 				
+				<pageId>14</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -1135,6 +1144,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
+		<events>0</events>
 		<actions>2</actions>
 		<actionDetails>
 			<row>
@@ -1142,8 +1152,8 @@
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<pageId>12</pageId>
 				
+				<pageId>12</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -1162,8 +1172,8 @@
 				<type>search</type>
 				<url />
 				<pageIdAction />
-				<pageId>13</pageId>
 				
+				<pageId>13</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
