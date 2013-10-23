@@ -11,6 +11,8 @@
 
 namespace Piwik\Settings;
 
+use Piwik\Plugin\Manager as PluginManager;
+
 /**
  * Settings manager.
  *
@@ -22,9 +24,9 @@ class Manager
     private static $settings = array();
 
     /**
-     * Returns all available plugin settings. A plugin has to specify a file named `settings.php` containing a class
-     * named `Settings` that extends `Piwik\Plugin\Settings` in order to be considered as a plugin setting. Otherwise
-     * the settings for a plugin won't be available.
+     * Returns all available plugin settings, even settings for inactive plugins. A plugin has to specify a file named
+     * `settings.php` containing a class named `Settings` that extends `Piwik\Plugin\Settings` in order to be
+     * considered as a plugin setting. Otherwise the settings for a plugin won't be available.
      *
      * @return \Piwik\Plugin\Settings[]   An array containing array([pluginName] => [setting instance]).
      */
@@ -34,7 +36,7 @@ class Manager
 
             $settings = array();
 
-            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
+            $pluginNames = PluginManager::getInstance()->getLoadedPluginsName();
             foreach ($pluginNames as $pluginName) {
                 $settings[$pluginName] = self::getPluginSettingsClass($pluginName);
             }
@@ -43,6 +45,11 @@ class Manager
         }
 
         return static::$settings;
+    }
+
+    private static function isActivatedPlugin($pluginName)
+    {
+        return PluginManager::getInstance()->isPluginActivated($pluginName);
     }
 
     /**
@@ -60,7 +67,8 @@ class Manager
     }
 
     /**
-     * Gets all plugins settings that have at least one settings a user is allowed to change.
+     * Gets all plugins settings that have at least one settings a user is allowed to change. Only the settings for
+     * activated plugins are returned.
      *
      * @return \Piwik\Plugin\Settings[]   An array containing array([pluginName] => [setting instance]).
      */
@@ -70,6 +78,10 @@ class Manager
 
         $settingsForUser = array();
         foreach ($settings as $pluginName => $setting) {
+            if (!static::isActivatedPlugin($pluginName)) {
+                continue;
+            }
+
             $forUser = $setting->getSettingsForCurrentUser();
             if (!empty($forUser)) {
                 $settingsForUser[$pluginName] = $setting;
@@ -80,7 +92,7 @@ class Manager
     }
 
     /**
-     * Detects whether there are plugin settings available that the current user can change.
+     * Detects whether there are settings for activated plugins available that the current user can change.
      *
      * @return bool
      */

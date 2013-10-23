@@ -103,7 +103,7 @@ class Controller extends Plugin\ControllerAdmin
         $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
 
         $pluginInstaller = new PluginInstaller('uploaded');
-        $pluginMetadata = $pluginInstaller->installOrUpdatePluginFromFile($file);
+        $pluginMetadata  = $pluginInstaller->installOrUpdatePluginFromFile($file);
 
         $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
         $view->plugin = array(

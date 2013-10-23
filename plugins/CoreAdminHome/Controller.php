@@ -128,7 +128,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
 
-        $pluginsSettings = SettingsManager::getAllPluginSettings();
+        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
 
         try {
 
