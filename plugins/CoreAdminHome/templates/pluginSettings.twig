@@ -88,7 +88,7 @@
 
                             {% endif %}
 
-                            {% if setting.defaultValue %}
+                            {% if setting.defaultValue and setting.field != 'checkbox' %}
                                 <br/>
                                 <span class='form-description'>
                                     {{ 'General_Default'|translate }} {{ setting.defaultValue }}
