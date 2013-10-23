@@ -15,7 +15,7 @@ namespace Piwik\Settings;
  * Settings manager
  *
  * @package Piwik
- * @subpackage Manager
+ * @subpackage Settings
  */
 class Manager
 {

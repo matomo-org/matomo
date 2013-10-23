@@ -19,6 +19,7 @@ use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;
 use Piwik\Settings\Manager as SettingsManager;
+use Piwik\Settings\UserSetting;
 
 /**
  *
@@ -42,7 +43,7 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function cleanupUser($userLogin)
     {
-        SettingsManager::cleanupUserSettings($userLogin);
+        UserSetting::removeAllUserSettingsForUser($userLogin);
     }
 
     public function getScheduledTasks(&$tasks)

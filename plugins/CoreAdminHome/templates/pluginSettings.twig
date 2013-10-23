@@ -5,16 +5,11 @@
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
 
-    <h2>{{ 'CoreAdminHome_PluginSettings'|translate }}</h2>
-
-    {{ ajax.errorDiv('ajaxErrorPluginSettings') }}
-    {{ ajax.loadingDiv('ajaxLoadingPluginSettings') }}
-
-    <input type="submit" value="{{ 'General_Save'|translate }}" class="pluginsSettingsSubmit submit"/>
+    <input type="hidden" name="setpluginsettingsnonce" value="{{ nonce }}">
 
     {% for pluginName, settings in pluginSettings %}
 
-        <h3 id="{{ pluginName|e('html_attr') }}">{{ pluginName }}</h3>
+        <h2 id="{{ pluginName|e('html_attr') }}">{{ pluginName }}</h2>
 
         {% if settings.getIntroduction %}
             <p class="pluginIntroduction">
@@ -25,11 +20,7 @@
         <table class="adminTable" style='width:820px;' id="pluginSettings" data-pluginname="{{ pluginName }}">
 
         {% for setting in settings.getSettingsForCurrentUser %}
-            {% if setting.isUserSetting %}
-                {% set settingValue = settings.getPerUserSettingValue(setting.name) %}
-            {% else %}
-                {% set settingValue = settings.getSystemSettingValue(setting.name) %}
-            {% endif %}
+            {% set settingValue = settings.getSettingValue(setting) %}
 
             {% if setting.introduction %}
             <tr>
@@ -58,7 +49,7 @@
                                     {% for attr, val in setting.fieldAttributes %}
                                         {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
                                     {% endfor %}
-                                    name="{{ setting.name|e('html_attr') }}"
+                                    name="{{ setting.getKey|e('html_attr') }}"
                                     {% if setting.field == 'multiselect' %}multiple{% endif %}>
 
                                     {% for key, value in setting.fieldOptions %}
@@ -74,7 +65,7 @@
                                     {% for attr, val in setting.fieldAttributes %}
                                         {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
                                     {% endfor %}
-                                    name="{{ setting.name|e('html_attr') }}"
+                                    name="{{ setting.getKey|e('html_attr') }}"
                                     >
                                     {{ settingValue }}
                                 </textarea>
@@ -91,7 +82,7 @@
                                            checked="checked"
                                        {% endif %}
                                        type="{{ setting.field|e('html_attr') }}"
-                                       name="{{ setting.name|e('html_attr') }}"
+                                       name="{{ setting.getKey|e('html_attr') }}"
                                        value="{{ settingValue|e('html_attr') }}"
                                 >
 
@@ -123,10 +114,12 @@
 
         </table>
 
-        <hr style="background-color: #DADADA;height: 1px;border: 0px;"/>
-
     {% endfor %}
 
+    <hr style="background-color: #DADADA;height: 1px;border: 0px;"/>
+
+    {{ ajax.errorDiv('ajaxErrorPluginSettings') }}
+    {{ ajax.loadingDiv('ajaxLoadingPluginSettings') }}
 
     <input type="submit" value="{{ 'General_Save'|translate }}" class="pluginsSettingsSubmit submit"/>
 
