@@ -193,9 +193,9 @@ class VisitorInterest extends \Piwik\Plugin
         $view->config->show_search             = false;
         $view->config->show_table_all_columns  = false;
         $view->config->columns_to_display      = array('label', 'nb_visits');
-        $view->config->show_series_picker      = false;
 
         if ($view->isViewDataTableId(Graph::ID)) {
+            $view->config->show_series_picker = false;
             $view->config->selectable_columns = array();
             $view->config->max_graph_elements = 10;
         }
@@ -215,9 +215,9 @@ class VisitorInterest extends \Piwik\Plugin
         $view->config->show_search             = false;
         $view->config->show_table_all_columns  = false;
         $view->config->columns_to_display      = array('label', 'nb_visits');
-        $view->config->show_series_picker      = false;
 
         if ($view->isViewDataTableId(Graph::ID)) {
+            $view->config->show_series_picker = false;
             $view->config->selectable_columns = array();
             $view->config->max_graph_elements = 10;
         }
