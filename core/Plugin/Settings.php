@@ -163,11 +163,12 @@ class Settings
         foreach ($this->settingsValues as $name => $value) {
             $setting = $this->getSetting($name);
 
-            if (!$setting['isUserSetting']) {
+            if (!empty($setting) && $setting['isSystemSetting']) {
                 continue;
             }
 
-            if ($name == $this->buildUserSettingName($name, $userLogin)) {
+            $findName = $this->buildUserSettingName($name, $userLogin);
+            if ($name == $findName) {
                 unset($this->settingsValues[$name]);
             }
         }
