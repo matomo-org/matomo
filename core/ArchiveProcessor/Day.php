@@ -17,7 +17,9 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 
 /**
- * This class
+ * Initiates the archiving process for **day** periods via the [ArchiveProcessor.Day.compute](#)
+ * event.
+ * 
  * @package Piwik
  * @subpackage ArchiveProcessor
  *
@@ -26,7 +28,8 @@ use Piwik\Piwik;
 class Day extends ArchiveProcessor
 {
     /**
-     * Converts the given array to a datatable
+     * Converts array to a datatable
+     * 
      * @param DataArray $array
      * @return \Piwik\DataTable
      */

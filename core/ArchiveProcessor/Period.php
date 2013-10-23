@@ -22,12 +22,43 @@ use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 
 /**
- * This class provides generic methods to archive data for a period (week / month / year).
- * The archiving for a period is done by aggregating "sub periods" contained within this period.
- * For example to process a week's data, we sum each day's data.
+ * Initiates the archiving process for all non-day periods via the [ArchiveProcessor.Period.compute](#)
+ * event.
+ * 
+ * Period archiving differs from archiving day periods in that log tables are not aggregated.
+ * Instead the data from periods within the non-day period are aggregated. For example, if the data
+ * for a month is being archived, this ArchiveProcessor will select the aggregated data for each
+ * day in the month and add them together. This is much faster than running aggregation queries over
+ * the entire set of visits.
+ * 
+ * If data has not been archived for the subperiods, archiving will be launched for those subperiods.
  *
- * Public methods can be called by the plugins that hook on the event 'ArchiveProcessor.Period.compute'
- *
+ * ### Examples
+ * 
+ * **Archiving metric data**
+ * 
+ *     // function in an Archiver descendent
+ *     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+ *     {
+ *         $archiveProcessor->aggregateNumericMetrics('myFancyMetric', 'sum');
+ *         $archiveProcessor->aggregateNumericMetrics('myOtherFancyMetric', 'max');
+ *     }
+ * 
+ * **Archiving report data**
+ * 
+ *     // function in an Archiver descendent
+ *     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+ *     {
+ *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
+ * 
+ *         $archiveProcessor->aggregateDataTableReports(
+ *             'MyPlugin_myFancyReport',
+ *             $maxRowsInTable,
+ *             $maxRowsInSubtable = $maxRowsInTable,
+ *             $columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS,
+ *         );
+ *     }
+ * 
  * @package Piwik
  * @subpackage ArchiveProcessor
  *
@@ -50,32 +81,29 @@ class Period extends ArchiveProcessor
     protected $archiver = null;
 
     /**
-     * This method will compute the sum of DataTables over the period for the given fields $recordNames.
-     * The resulting DataTable will be then added to queue of data to be recorded in the database.
-     * It will usually be called in a plugin that listens to the hook 'ArchiveProcessor.Period.compute'
+     * Sums records for every subperiod of the current period and inserts the result as the record
+     * for this period.
+     * 
+     * DataTables are summed recursively so subtables will be summed as well.
      *
-     * For example if $recordNames = 'UserCountry_country' the method will select all UserCountry_country DataTable for the period
-     * (eg. the 31 dataTable of the last month), sum them, then record it in the DB
-     *
-     *
-     * This method works on recursive dataTable. For example for the 'Actions' it will select all subtables of all dataTable of all the sub periods
-     *  and get the sum.
-     *
-     * It returns an array that gives information about the "final" DataTable. The array gives for every field name, the number of rows in the
-     *  final DataTable (ie. the number of distinct LABEL over the period) (eg. the number of distinct keywords over the last month)
-     *
-     * @param string|array $recordNames Field name(s) of DataTable to select so we can get the sum
-     * @param int $maximumRowsInDataTableLevelZero Max row count of parent datatable to archive
-     * @param int $maximumRowsInSubDataTable Max row count of children datatable(s) to archive
-     * @param string $columnToSortByBeforeTruncation Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count)
-     * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow()
-     * @param array $invalidSummedColumnNameToRenamedName (current_column_name => new_column_name) for columns that must change names when summed
-     *                                                             (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
-     *
-     * @return array  array (
-     *                    nameTable1 => number of rows,
-     *                nameTable2 => number of rows,
-     *                )
+     * @param string|array $recordNames Name(s) of the report we are aggregating, eg, `'Referrers_type'`.
+     * @param int $maximumRowsInDataTableLevelZero Maximum number of rows allowed in the top level DataTable.
+     * @param int $maximumRowsInSubDataTable Maximum number of rows allowed in each subtable.
+     * @param string $columnToSortByBeforeTruncation The name of the column to sort by before truncating a DataTable.
+     * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow().
+     * @param array $invalidSummedColumnNameToRenamedName For columns that must change names when summed because they
+     *                                                    cannot be summed, eg,
+     *                                                    `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
+     * @return array Returns the row counts of each aggregated report before truncation, eg,
+     *               ```
+     *               array(
+     *                   'report1' => array('level0' => $report1->getRowsCount,
+     *                                      'recursive' => $report1->getRowsCountRecursive()),
+     *                   'report2' => array('level0' => $report2->getRowsCount,
+     *                                      'recursive' => $report2->getRowsCountRecursive()),
+     *                   ...
+     *               )
+     *               ```
      */
     public function aggregateDataTableReports($recordNames,
                                               $maximumRowsInDataTableLevelZero = null,
@@ -107,16 +135,21 @@ class Period extends ArchiveProcessor
     }
 
     /**
-     * Given a list of records names, the method will fetch all their values over the period, and aggregate them.
+     * Aggregates metrics for every subperiod of the current period and inserts the result
+     * as the metric for this period.
      *
-     * For example $columns = array('nb_visits', 'sum_time_visit')
-     *  it will sum all values of nb_visits for the period (eg. get number of visits for the month by summing the visits of every day)
-     *
-     * The aggregate metrics are then stored in the Archive and the values are returned.
-     *
-     * @param array|string $columns Array of strings or string containing the field names to select
-     * @param bool|string $operationToApply Available operations = sum, max, min. If false, the operation will be guessed from the column name (guesses from column names min_ and max_)
-     * @return array
+     * @param array|string $columns Array of metric names to aggregate.
+     * @param bool|string $operationToApply The operation to apply to the metric. Either `'sum'`, `'max'` or `'min'`.
+     * @return array|int Returns the array of aggregate values. If only one metric was aggregated,
+     *                   the aggregate value will be returned as is, not in an array.
+     *                   For example, if `array('nb_visits', 'nb_hits')` is supplied for `$columns`,
+     *                   ```
+     *                   array(
+     *                       'nb_visits' => 3040,
+     *                       'nb_hits' => 405
+     *                   )
+     *                   ```
+     *                   is returned.
      */
     public function aggregateNumericMetrics($columns, $operationToApply = false)
     {

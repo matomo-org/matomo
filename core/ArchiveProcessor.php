@@ -62,7 +62,7 @@ use Piwik\Period;
  * **Inserting serialized DataTables**
  * 
  *     // function in an Archiver descendent
- *     public function archiveDay(ArchiveProcessor\Period $archiveProcessor)
+ *     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
  *     {
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
  * 
