@@ -386,9 +386,9 @@ class ProcessedReport
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
                 list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
-                $enhancedSimpleDataTable->metadata = $simpleDataTable->metadata;
+                $enhancedSimpleDataTable->setAllTableMetadata($simpleDataTable->getAllTableMetadata());
 
-                $period = $simpleDataTable->metadata['period']->getLocalizedLongString();
+                $period = $simpleDataTable->getMetadata('period')->getLocalizedLongString();
                 $newReport->addTable($enhancedSimpleDataTable, $period);
                 $rowsMetadata->addTable($rowMetadata, $period);
             }

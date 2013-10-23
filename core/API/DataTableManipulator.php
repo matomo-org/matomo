@@ -119,7 +119,7 @@ abstract class DataTableManipulator
 
         $request['idSubtable'] = $idSubTable;
         if ($dataTable) {
-            $period = $dataTable->metadata['period'];
+            $period = $dataTable->getMetadata('period');
             if ($period instanceof Range) {
                 $request['date'] = $period->getDateStart() . ',' . $period->getDateEnd();
             } else {

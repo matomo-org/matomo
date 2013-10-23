@@ -164,7 +164,7 @@ class Period extends ArchiveProcessor
     {
         $table = new DataTable();
         if (!empty($columnAggregationOperations)) {
-            $table->metadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME] = $columnAggregationOperations;
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOperations);
         }
 
         $data = $this->archiver->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);

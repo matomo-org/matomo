@@ -282,7 +282,10 @@
 - regex: 'MSIE (\d+\.\d+)'
   name: Internet Explorer
   version: '$1'
-  
+- regex: 'IE[ /](\d+\.\d+)'
+  name: Internet Explorer
+  version: '$1'
+
 #Iron
 - regex: 'Iron/(\d+\.\d+)'
   name: Iron

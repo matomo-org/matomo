@@ -171,7 +171,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('ColumnCallbackDeleteRow', array(
                                                            'nb_hits_following_search',
                                                            function ($value) {
-                                                               return $value > 0;
+                                                               return $value <= 0;
                                                            }
                                                       ));
     }
@@ -313,7 +313,7 @@ class API extends \Piwik\Plugin\API
             array(
                  Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
                  function ($value) {
-                     return $value >= 1;
+                     return $value < 1;
                  }
             ));
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
@@ -349,10 +349,12 @@ class API extends \Piwik\Plugin\API
             $dataTables = $dataTable->getDataTables();
             foreach ($customVariableDatatables as $key => $customVariableTableForDate) {
                 // we do not enter the IF, in the case idSite=1,3 AND period=day&date=datefrom,dateto,
-                if (isset($customVariableTableForDate->metadata['period'])) {
+                if ($customVariableTableForDate instanceof DataTable
+                    && $customVariableTableForDate->getMetadata('period')
+                ) {
                     $row = $customVariableTableForDate->getRowFromLabel($customVarNameToLookFor);
                     if ($row) {
-                        $dateRewrite = $customVariableTableForDate->metadata['period']->getDateStart()->toString();
+                        $dateRewrite = $customVariableTableForDate->getMetadata('period')->getDateStart()->toString();
                         $idSubtable = $row->getIdSubDataTable();
                         $categories = APICustomVariables::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
                         $dataTable->addTable($categories, $key);
@@ -445,7 +447,7 @@ class API extends \Piwik\Plugin\API
             if ($row === false) {
                 // not found
                 $result = new DataTable;
-                $result->metadata = $table->metadata;
+                $result->setAllTableMetadata($table->getAllTableMetadata());
                 return $result;
             }
 
@@ -453,7 +455,7 @@ class API extends \Piwik\Plugin\API
             if (count($searchTree) == 0) {
                 $result = new DataTable();
                 $result->addRow($row);
-                $result->metadata = $table->metadata;
+                $result->setAllTableMetadata($table->getAllTableMetadata());
                 return $result;
             }
 
@@ -537,7 +539,7 @@ class API extends \Piwik\Plugin\API
      */
     private function filterNonEntryActions($dataTable)
     {
-        $dataTable->filter('ColumnCallbackDeleteRow', array('entry_nb_visits', 'strlen'));
+        $dataTable->filter('ColumnCallbackDeleteRow', array('entry_nb_visits', function ($visits) { return !strlen($visits); }));
     }
 
     /**
@@ -547,7 +549,6 @@ class API extends \Piwik\Plugin\API
      */
     private function filterNonExitActions($dataTable)
     {
-        $dataTable->filter('ColumnCallbackDeleteRow', array('exit_nb_visits', 'strlen'));
+        $dataTable->filter('ColumnCallbackDeleteRow', array('exit_nb_visits', function ($visits) { return !strlen($visits); }));
     }
 }
-

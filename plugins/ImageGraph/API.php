@@ -438,7 +438,7 @@ class API extends \Piwik\Plugin\API
                         }
                     }
 
-                    $rowId = $periodsData[$i]->metadata['period']->getLocalizedShortString();
+                    $rowId = $periodsData[$i]->getMetadata('period')->getLocalizedShortString();
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowId);
                 }
             }

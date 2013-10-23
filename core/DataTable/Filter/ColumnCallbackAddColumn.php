@@ -15,9 +15,18 @@ use Piwik\DataTable\Filter;
 
 /**
  * Adds a new column to every row of a DataTable based on the result of callback.
+ * 
+ * **Basic usage example**
+ * 
+ *     $callback = function ($visits, $timeSpent) {
+ *         return round($timeSpent / $visits, 2);
+ *     };
+ *     
+ *     $dataTable->filter('ColumnCallbackAddColumn', array(array('nb_visits', 'sum_time_spent'), 'avg_time_on_site', $callback));
  *
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class ColumnCallbackAddColumn extends Filter
 {
@@ -48,8 +57,10 @@ class ColumnCallbackAddColumn extends Filter
      * @param DataTable $table The DataTable that will be filtered.
      * @param array|string $columns The names of the columns to pass to the callback.
      * @param string $columnToAdd The name of the column to add.
-     * @param mixed $functionToApply The callback to apply to each row of a DataTable.
-     * @param array $functionParameters Extra parameters to pass to $functionToApply.
+     * @param callable $functionToApply The callback to apply to each row of a DataTable. The columns
+     *                                  specified in `$columns` are passed to this callback.
+     * @param array $functionParameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
+     *                                  instead.
      */
     public function __construct($table, $columns, $columnToAdd, $functionToApply, $functionParameters = array())
     {
@@ -66,8 +77,7 @@ class ColumnCallbackAddColumn extends Filter
     }
 
     /**
-     * Executes a callback on every row of the supplied table and adds the result of
-     * the callback as a new column to each row.
+     * See [ColumnCallbackAddColumn](#).
      *
      * @param DataTable $table The table to filter.
      */

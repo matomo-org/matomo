@@ -99,7 +99,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view = new View('@CoreAdminHome/pluginSettings');
 
+        // TODO sort plugin settings by plugin name
+        // TODO add nonce
         $view->pluginSettings = SettingsManager::getAllPluginSettings();
+
         $this->setBasicVariablesView($view);
 
         echo $view->render();
@@ -110,24 +113,25 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserIsNotAnonymous();
         Json::sendHeaderJSON();
 
-        $updateSettings = Common::getRequestVar('settings', null, 'json');
         $pluginSettings = SettingsManager::getAllPluginSettings();
 
         try {
 
-            foreach ($updateSettings as $pluginName => $serializedSetting) {
-                $unserializedSettings = UrlHelper::getArrayFromQueryString($serializedSetting);
+            foreach ($pluginSettings as $pluginName => $pluginSetting) {
 
-                if (!array_key_exists($pluginName, $pluginSettings)) {
-                    // this plugin is not using settings, skip it
-                    continue;
+                $displayedSettings = $pluginSetting->getSettingsForCurrentUser();
+
+                foreach ($displayedSettings as $displayedSetting) {
+
+                    $changedSetting = $this->findSettingValueFromRequest($pluginName, $displayedSetting['name']);
+
+                    if ($changedSetting && $displayedSetting['isUserSetting']) {
+                        $pluginSetting->setPerUserSettingValue($changedSetting['name'], $changedSetting['value']);
+                    } elseif ($changedSetting && $displayedSetting['isSystemSetting']) {
+                        $pluginSetting->setSystemSettingValue($changedSetting['name'], $changedSetting['value']);
+                    }
                 }
 
-                $pluginSetting = $pluginSettings[$pluginName];
-
-                foreach ($unserializedSettings as $key => $value) {
-                    $pluginSetting->setSettingValue($key, $value);
-                }
             }
 
             foreach ($pluginSettings as $pluginSetting) {
@@ -140,6 +144,25 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         echo json_encode(array('result' => 'success'));
+    }
+
+    private function findSettingValueFromRequest($pluginName, $settingName)
+    {
+        $changedPluginSettings = Common::getRequestVar('settings', null, 'array');
+        foreach ($changedPluginSettings as $settingsPluginName => $settings) {
+
+            if ($settingsPluginName !== $pluginName) {
+                // this plugin is not using settings, skip it
+                continue;
+            }
+
+            foreach ($settings as $setting) {
+                if ($setting['name'] == $settingName) {
+                    return $setting;
+                }
+            }
+        }
+
     }
 
     public function setGeneralSettings()

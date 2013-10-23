@@ -11,8 +11,6 @@
 
 namespace Piwik\Settings;
 
-use Piwik\Piwik;
-
 /**
  * Settings manager
  *
@@ -30,20 +28,33 @@ class Manager
     {
         if (empty(static::$settings)) {
 
-            $pluginSettings = array('Login' => 'Piwik\\Plugins\\Login\\Settings');
-            // TODO: document hook and think about better name
-
-            Piwik::postEvent('Plugin.addSettings', $pluginSettings);
-
             $settings = array();
-            foreach ($pluginSettings as $pluginName => $pluginSetting) {
-                $settings[$pluginName] = new $pluginSetting($pluginName);
+
+            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
+            foreach ($pluginNames as $pluginName) {
+                $settings[$pluginName] = self::getPluginSettingsClass($pluginName);
             }
 
-            static::$settings = $settings;
+            static::$settings = array_filter($settings);
         }
 
         return static::$settings;
+    }
+
+    public static function cleanupPluginSettings($pluginName)
+    {
+        $settings = self::getPluginSettingsClass($pluginName);
+
+        if (!empty($settings)) {
+            $settings->removeAllPluginSettings();
+        }
+    }
+
+    public static function cleanupUserSettings($userLogin)
+    {
+        foreach (static::getAllPluginSettings() as $setting) {
+            $setting->removeAllSettingsForUser($userLogin);
+        }
     }
 
     /**
@@ -62,4 +73,18 @@ class Manager
 
         return false;
     }
+
+    /**
+     * @param $pluginName
+     * @return \Piwik\Plugin\Settings|null
+     */
+    private static function getPluginSettingsClass($pluginName)
+    {
+        $klassName = 'Piwik\\Plugins\\' . $pluginName . '\\Settings';
+
+        if (class_exists($klassName) && is_subclass_of($klassName, 'Piwik\\Plugin\\Settings')) {
+            return new $klassName($pluginName);
+        }
+    }
+
 }

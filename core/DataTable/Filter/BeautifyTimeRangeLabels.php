@@ -13,12 +13,20 @@ namespace Piwik\DataTable\Filter;
 use Piwik\DataTable;
 
 /**
- * A DataTable filter replaces range labels that are in seconds with
+ * A DataTable filter that replaces range labels whose values are in seconds with
  * prettier, human-friendlier versions.
  *
- * This filter customizes the behavior of the BeautifyRangeLabels filter
- * so range values that span values that are less than one minute are
- * displayed in seconds but other ranges are displayed in minutes.
+ * This filter customizes the behavior of the [BeautifyRangeLabels](#) filter
+ * so range values that are less than one minute are displayed in seconds but
+ * other ranges are displayed in minutes.
+ * 
+ * **Basic usage**
+ * 
+ *     $dataTable->filter('BeautifyTimeRangeLabels', array("%1$s-%2$s min", "1 min", "%s min"));
+ * 
+ * @package Piwik
+ * @subpackage DataTable
+ * @api
  */
 class BeautifyTimeRangeLabels extends BeautifyRangeLabels
 {
@@ -36,13 +44,13 @@ class BeautifyTimeRangeLabels extends BeautifyRangeLabels
      *
      * @param DataTable $table The DataTable this filter will run over.
      * @param string $labelSecondsPlural A string to use when beautifying range labels
-     *                                                whose lower bound is between 0 and 60. Must be
-     *                                                a format string that takes two numeric params.
+     *                                   whose lower bound is between 0 and 60. Must be
+     *                                   a format string that takes two numeric params.
      * @param string $labelMinutesSingular A string to use when replacing a range that
-     *                                                equals 60-60 (or 1 minute - 1 minute).
+     *                                     equals 60-60 (or 1 minute - 1 minute).
      * @param string $labelMinutesPlural A string to use when replacing a range that
-     *                                                spans multiple minutes. This must be a
-     *                                                format string that takes one string parameter.
+     *                                   spans multiple minutes. This must be a
+     *                                   format string that takes one string parameter.
      */
     public function __construct($table, $labelSecondsPlural, $labelMinutesSingular, $labelMinutesPlural)
     {

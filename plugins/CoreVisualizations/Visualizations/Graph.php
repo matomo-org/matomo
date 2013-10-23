@@ -124,6 +124,10 @@ abstract class Graph extends Visualization
         if ($this->config->show_goals) {
             $goalMetrics       = array('nb_conversions', 'revenue');
             $selectableColumns = array_merge($selectableColumns, $goalMetrics);
+            $this->config->addTranslations(array(
+                'nb_conversions' => Piwik::translate('Goals_ColumnConversions'),
+                'revenue'        => Piwik::translate('General_TotalRevenue')
+            ));
         }
 
         $transformed = array();

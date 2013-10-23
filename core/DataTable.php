@@ -38,7 +38,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * Every row has an ID. The ID is either the index of the row or [ID_SUMMARY_ROW](#ID_SUMMARY_ROW).
  * 
  * DataTables are hierarchical data structures. Each row can also contain an additional
- * nested sub-DataTable.
+ * nested sub-DataTable (commonly referred to as a 'subtable').
  * 
  * Both DataTables and DataTable rows can hold **metadata**. _DataTable metadata_ is information
  * regarding all the data, such as the site or period that the data is for. _Row metadata_
@@ -94,12 +94,12 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * Filters that sort rows or manipulate the number of rows should be applied right away.
  * Non-essential, presentation filters should be queued.
  * 
- * See also:
+ * ### Learn more
  * 
- * - ArchiveProcessor &mdash; to learn how DataTables are persisted.
- * - DataTable\Renderer &mdash; to learn how DataTable data is exported to XML, JSON, etc.
- * - DataTable\Filter &mdash; to see all core Filters.
- * - DataTable\Manager &mdash; to learn how DataTables are loaded.
+ * - **ArchiveProcessor** &mdash; to learn how DataTables are persisted.
+ * - **DataTable\Renderer** &mdash; to learn how DataTable data is exported to XML, JSON, etc.
+ * - **DataTable\Filter** &mdash; to see all core Filters.
+ * - **DataTable\Manager** &mdash; to learn how DataTables are loaded.
  * 
  * ### Examples
  * 
@@ -298,7 +298,7 @@ class DataTable implements DataTableInterface
      *
      * @var array
      */
-    public $metadata = array();
+    private $metadata = array();
 
     /**
      * Maximum number of rows allowed in this datatable (including the summary row).
@@ -1099,10 +1099,11 @@ class DataTable implements DataTableInterface
             throw new Exception("Maximum recursion level of " . self::$maximumDepthLevelAllowed . " reached. Maybe you have set a DataTable\Row with an associated DataTable belonging already to one of its parent tables?");
         }
         if (!is_null($maximumRowsInDataTable)) {
-            $this->filter('AddSummaryRow',
+            $this->filter('Truncate',
                 array($maximumRowsInDataTable - 1,
                       DataTable::LABEL_SUMMARY_ROW,
-                      $columnToSortByBeforeTruncation)
+                      $columnToSortByBeforeTruncation,
+                      $filterRecursive = false)
             );
         }
 
@@ -1366,6 +1367,28 @@ class DataTable implements DataTableInterface
     public function getAllTableMetadata()
     {
         return $this->metadata;
+    }
+
+    /**
+     * Sets several metadata values by name.
+     * 
+     * @param array $values Array mapping metadata names with metadata values.
+     */
+    public function setMetadataValues($values)
+    {
+        foreach ($values as $name => $value) {
+            $this->metadata[$name] = $value;
+        }
+    }
+
+    /**
+     * Sets metadata erasing existing values.
+     * 
+     * @param array $values Array mapping metadata names with metadata values.
+     */
+    public function setAllTableMetadata($metadata)
+    {
+        $this->metadata = $metadata;
     }
 
     /**

@@ -29,6 +29,10 @@ use Piwik\Metrics;
  * 
  * Note: This filter must be called before [ReplaceColumnNames](#) is called.
  * 
+ * **Basic usage example**
+ * 
+ *     $dataTable->filter('AddColumnsProcessedMetrics');
+ * 
  * @package Piwik
  * @subpackage DataTable
  * @api

@@ -253,8 +253,10 @@ class API extends \Piwik\Plugin\API
 
                 // we do not enter the IF
                 // if case idSite=1,3 AND period=day&date=datefrom,dateto,
-                if (isset($customVariableTableForDate->metadata['period'])) {
-                    $dateRewrite = $customVariableTableForDate->metadata['period']->getDateStart()->toString();
+                if ($customVariableTableForDate instanceof DataTable
+                    && $customVariableTableForDate->getMetadata('period')
+                ) {
+                    $dateRewrite = $customVariableTableForDate->getMetadata('period')->getDateStart()->toString();
                     $row = $customVariableTableForDate->getRowFromLabel($customVarNameToLookFor);
                     if ($row) {
                         $idSubtable = $row->getIdSubDataTable();

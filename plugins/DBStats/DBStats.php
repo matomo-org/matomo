@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
@@ -312,8 +313,7 @@ class DBStats extends \Piwik\Plugin
         if ($view->isViewDataTableId(HtmlTable::ID)) {
 
             // add summary row only if displaying a table
-            $view->config->filters[] = array(
-                'AddSummaryRow', array(0, Piwik::translate('General_Total'), 'label', false), $isPriority = true);
+            $dataTable->queueFilter('AddSummaryRow', Piwik::translate('General_Total'));
 
             // add percentage column if desired
             if ($addPercentColumn

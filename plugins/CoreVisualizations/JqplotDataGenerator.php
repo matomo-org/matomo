@@ -87,7 +87,7 @@ class JqplotDataGenerator
             // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
             // different metrics
             if ($this->properties['add_total_row']) {
-                $dataTable->queueFilter('AddSummaryRow', array(0, Piwik::translate('General_Total'), null, false));
+                $dataTable->queueFilter('AddSummaryRow', Piwik::translate('General_Total'));
             }
 
             $dataTable->applyQueuedFilters();
