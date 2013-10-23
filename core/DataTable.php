@@ -723,7 +723,7 @@ class DataTable implements DataTableInterface
     /**
      * Returns the array of Rows.
      *
-     * @return array
+     * @return Row[]
      */
     public function getRows()
     {

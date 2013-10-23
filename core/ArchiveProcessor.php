@@ -20,8 +20,19 @@ use Piwik\Db;
 use Piwik\Period;
 
 /**
- * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
+ * Used to insert numeric and blob archive data.
  *
+ * During the Archiving process a descendant of this class is used by plugins
+ * to cache aggregated analytics statistics.
+ * 
+ * ArchiveProcessors are passed to plugins via the [ArchiveProcessor.Day.compute](#)
+ * and [ArchiveProcessor.Period.compute](#) events. Plugins should then the object
+ * to aggregate data and cache that data.
+ * 
+ * ### Examples
+ * 
+ * TODO
+ * 
  * @package Piwik
  * @subpackage ArchiveProcessor
  */
