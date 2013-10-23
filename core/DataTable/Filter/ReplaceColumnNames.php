@@ -18,30 +18,44 @@ use Piwik\Piwik;
 use Piwik\Tracker\GoalManager;
 
 /**
- * This filter replaces column names using a mapping table that maps from the old name to the new name.
- *
- * Why this filter?
- * For saving bytes in the database, you can change all the columns labels by an integer value.
- * Exemple instead of saving 10000 rows with the column name 'nb_uniq_visitors' which would cost a lot of memory,
- * we map it to the integer 1 before saving in the DB.
- * After selecting the DataTable from the DB though, you need to restore back the real names so that
- * it shows nicely in the report (XML for example).
- *
- * You can specify the mapping array to apply in the constructor.
- *
+ * Replaces column names in each row of a table using an array that maps old column
+ * names new ones.
+ * 
+ * If no mapping is provided, this column will use one that maps index metric names
+ * (which are integers) with their string column names. In the database, reports are
+ * stored with integer metric names because it results in blobs that take up less space.
+ * When loading the reports, the column names must be replaced, which is handled by this
+ * class. (See [Metrics](#) for more information about integer metric names.)
+ * 
+ * **Basic example**
+ * 
+ *     // filter use in a plugin's API method
+ *     public function getMyReport($idSite, $period, $date, $segment = false, $expanded = false)
+ *     {
+ *         $dataTable = Archive::getDataTableFromArchive('MyPlugin_MyReport', $idSite, $period, $date, $segment, $expanded);
+ *         $dataTable->queueFilter('ReplaceColumnNames');
+ *         return $dataTable;
+ *     }
+ * 
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class ReplaceColumnNames extends Filter
 {
     protected $mappingToApply;
 
     /**
-     * @param DataTable $table Table
-     * @param array $mappingToApply Mapping to apply. Must have the format
-     *                                           array( OLD_COLUMN_NAME => NEW_COLUMN NAME,
-     *                                                  OLD_COLUMN_NAME2 => NEW_COLUMN NAME2,
-     *                                                 )
+     * Constructor.
+     * 
+     * @param DataTable $table The table that will be eventually filtered.
+     * @param array|null $mappingToApply The name mapping to apply. Must map old column names
+     *                                   with new ones, eg,
+     *                                   ```
+     *                                   array('OLD_COLUMN_NAME' => 'NEW_COLUMN NAME',
+     *                                         'OLD_COLUMN_NAME2' => 'NEW_COLUMN NAME2')
+     *                                   ```
+     *                                   If null, [Metrics::$mappingFromIdToName](#) is used.
      */
     public function __construct($table, $mappingToApply = null)
     {
@@ -53,7 +67,7 @@ class ReplaceColumnNames extends Filter
     }
 
     /**
-     * Executes the filter and renames the defined columns
+     * See [ReplaceColumnNames](#).
      *
      * @param DataTable $table
      */

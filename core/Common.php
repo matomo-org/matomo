@@ -619,6 +619,17 @@ class Common
         return 'Unknown error';
     }
 
+    public static function stringEndsWith($haystack, $needle)
+    {
+        if ('' === $needle) {
+            return true;
+        }
+
+        $lastCharacters = substr($haystack, -strlen($needle));
+
+        return $lastCharacters === $needle;
+    }
+
     /**
      * Returns the list of parent classes for the given class.
      *

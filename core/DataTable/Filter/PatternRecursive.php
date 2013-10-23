@@ -16,15 +16,17 @@ use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 
 /**
- * Delete all rows for which
- * - the given $columnToFilter do not contain the $patternToSearch
- * - AND all the subTables associated to this row do not contain the $patternToSearch
- *
- * This filter is to be used on columns containing strings.
- * Example: from the pages viewed report, keep only the rows that contain "piwik" or for which a subpage contains "piwik".
+ * Deletes rows for which a specific column in both the row and all subtables that
+ * descend from the row do not match a supplied regex pattern.
+ * 
+ * **Example**
+ * 
+ *     // only display index pageviews in Actions.getPageUrls
+ *     $dataTable->filter('PatternRecursive', array('label', 'index'));
  *
  * @package Piwik
  * @subpackage DataTable
+ * @api
  */
 class PatternRecursive extends Filter
 {
@@ -33,9 +35,11 @@ class PatternRecursive extends Filter
     private $patternToSearchQuoted;
 
     /**
-     * @param DataTable $table
-     * @param string $columnToFilter
-     * @param string $patternToSearch
+     * Constructor.
+     * 
+     * @param DataTable $table The table to eventually filter.
+     * @param string $columnToFilter The column to match with the `$patternToSearch` pattern.
+     * @param string $patternToSearch The regex pattern to use.
      */
     public function __construct($table, $columnToFilter, $patternToSearch)
     {
@@ -47,8 +51,10 @@ class PatternRecursive extends Filter
     }
 
     /**
+     * See [PatternRecursive](#).
+     * 
      * @param DataTable $table
-     * @return int
+     * @return int The number of deleted rows.
      */
     public function filter($table)
     {

@@ -14,6 +14,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter;
 
 /**
+ * Sanitizes DataTable labels as an extra precaution. Called internally by Piwik.
+ * 
  * @package Piwik
  * @subpackage DataTable
  */

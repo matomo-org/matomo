@@ -39,7 +39,14 @@ $(document).ready(function () {
             $pluginSection = $(pluginSection);
 
             var pluginName = $pluginSection.attr('data-pluginname');
-            var serialized = $('input, textarea, select', $pluginSection ).serializeArray();
+            var serialized = $('input, textarea, select', $pluginSection).serializeArray();
+
+            // by default, values of unchecked checkboxes are not send
+            var $uncheckedNodes = $('input[type=checkbox]:not(:checked)', $pluginSection);
+            $uncheckedNodes.each(function (index, uncheckedNode) {
+                var name = $(uncheckedNode).attr('name');
+                serialized.push({name: name, value: 0});
+            });
 
             values[pluginName] = serialized;
         });
