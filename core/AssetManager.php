@@ -110,8 +110,9 @@ class AssetManager
      */
     public static function generateAssetsCacheBuster()
     {
+        $currentGitHash = @file_get_contents(PIWIK_INCLUDE_PATH . '/.git/refs/heads/master');
         $pluginList = md5(implode(",", \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName()));
-        $cacheBuster = md5(SettingsPiwik::getSalt() . $pluginList . PHP_VERSION . Version::VERSION);
+        $cacheBuster = md5(SettingsPiwik::getSalt() . $pluginList . PHP_VERSION . Version::VERSION . trim($currentGitHash));
         return $cacheBuster;
     }
 
@@ -145,13 +146,9 @@ class AssetManager
         if ($mergedCssAlreadyGenerated
             && !$isDevelopingPiwik
         ) {
-            $pathMerged = self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
-            $f = fopen($pathMerged, 'r');
-            $firstLine = fgets($f);
-            fclose($f);
-            if (!empty($firstLine)
-                && trim($firstLine) == trim($firstLineCompileHash)
-            ) {
+            $mergedFile = self::MERGED_CSS_FILE;
+            $cacheIsValid = self::isFirstLineMatching($mergedFile, $firstLineCompileHash);
+            if($cacheIsValid) {
                 return;
             }
             // Some CSS file in the merge, has changed since last merged asset was generated
@@ -358,21 +355,16 @@ class AssetManager
      */
     private static function generateMergedJsFile()
     {
-        $mergedContent = "";
+        $mergedContent = self::getFirstLineOfMergedJs();
 
-        // Loop through each js file
         $files = self::getJsFiles();
         foreach ($files as $file) {
-
             self::validateJsFile($file);
-
             $fileLocation = self::getAbsoluteLocation($file);
             $content = file_get_contents($fileLocation);
-
             if (!self::isMinifiedJs($content)) {
                 $content = JSMin::minify($content);
             }
-
             $mergedContent = $mergedContent . PHP_EOL . $content;
         }
         $mergedContent = str_replace("\n", "\r\n", $mergedContent);
@@ -502,6 +494,11 @@ class AssetManager
     {
         $isGenerated = self::isGenerated(self::MERGED_JS_FILE);
 
+        // Make sure the merged JS is re-generated if there are new commits
+        if($isGenerated) {
+            $expectedFirstLine = self::getFirstLineOfMergedJs();
+            $isGenerated = self::isFirstLineMatching(self::MERGED_JS_FILE, $expectedFirstLine);
+        }
         if (!$isGenerated) {
             self::generateMergedJsFile();
         }
@@ -650,5 +647,32 @@ class AssetManager
             $newFiles = array_merge($newFiles, preg_grep('~^' . $filePattern . '~', $files));
         }
         return array_keys(array_flip($newFiles));
+    }
+
+    /**
+     * @param $mergedFile
+     * @param $firstLineCompileHash
+     * @return bool
+     */
+    private static function isFirstLineMatching($mergedFile, $firstLineCompileHash)
+    {
+        $pathMerged = self::getAbsoluteMergedFileLocation($mergedFile);
+        $f = fopen($pathMerged, 'r');
+        $firstLine = fgets($f);
+        fclose($f);
+        if (!empty($firstLine)
+            && trim($firstLine) == trim($firstLineCompileHash)
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return string
+     */
+    private static function getFirstLineOfMergedJs()
+    {
+        return "/* Piwik Javascript - cb=" . self::generateAssetsCacheBuster() . "*/\n";
     }
 }
