@@ -2,7 +2,8 @@
 
 if [ `phpunit --group __nogroup__ | grep "No tests executed" | wc -l` -ne 1 ]
 then
-    echo "There are some tests functions which do not have a @group set. Please add the @group phpdoc comment to these tests:"
+    echo "=====> There are some tests functions which do not have a @group set. "
+    echo "       Please add the @group phpdoc comment to the following tests: <====="
     phpunit --group __nogroup__ --testdox
     exit 1
 else
