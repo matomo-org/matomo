@@ -14,15 +14,23 @@ use Piwik\Common;
 use Piwik\Piwik;
 
 /**
- * Per User Setting.
+ * Per user setting. Each user will be able to change this setting but each user can set a different value. That means
+ * a changed value does not effect any other users.
  *
  * @package Piwik
  * @subpackage Settings
+ *
+ * @api
  */
 class UserSetting extends Setting
 {
     private $userLogin = null;
 
+    /**
+     * @param string $name
+     * @param string $title
+     * @param null|string $userLogin  Defaults to the current user login.
+     */
     public function __construct($name, $title, $userLogin = null)
     {
         parent::__construct($name, $title);
@@ -30,13 +38,6 @@ class UserSetting extends Setting
         $this->setUserLogin($userLogin);
 
         $this->displayedForCurrentUser = !Piwik::isUserIsAnonymous();
-    }
-
-    public function hasKey($key, $userLogin = null)
-    {
-        $thisKey = $this->buildUserSettingName($key, $userLogin);
-
-        return ($key == $thisKey);
     }
 
     private function buildUserSettingName($name, $userLogin = null)
@@ -58,14 +59,31 @@ class UserSetting extends Setting
         return $name . $appendix;
     }
 
+    /**
+     * Sets (overwrites) the userLogin.
+     *
+     * @param $userLogin
+     */
     public function setUserLogin($userLogin)
     {
         $this->userLogin = $userLogin;
         $this->key       = $this->buildUserSettingName($this->name, $userLogin);
     }
 
+    /**
+     * Remove all stored settings of the given userLogin. This is important to cleanup all settings for a user once he
+     * is deleted. Otherwise a user could register with the same name afterwards and see the previous user's settings.
+     *
+     * @param string $userLogin
+     *
+     * @throws \Exception In case the userLogin is empty.
+     */
     public static function removeAllUserSettingsForUser($userLogin)
     {
+        if (empty($userLogin)) {
+            throw new \Exception('No userLogin specified');
+        }
+
         $pluginsSettings = Manager::getAllPluginSettings();
 
         foreach ($pluginsSettings as $pluginSettings) {

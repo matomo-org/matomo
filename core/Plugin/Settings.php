@@ -51,9 +51,15 @@ class Settings
 
     protected function init()
     {
+        // define your settings here
     }
 
-    protected function addIntroduction($introduction)
+    /**
+     * Sets (overwrites) the plugin settings introduction.
+     *
+     * @param string $introduction
+     */
+    protected function setIntroduction($introduction)
     {
         $this->introduction = $introduction;
     }
@@ -64,6 +70,9 @@ class Settings
     }
 
     /**
+     * Returns only settings that can be displayed for current user. For instance a regular user won't see get
+     * any settings that require super user permissions.
+     *
      * @return Setting[]
      */
     public function getSettingsForCurrentUser()
@@ -74,6 +83,8 @@ class Settings
     }
 
     /**
+     * Get all available settings without checking any permissions.
+     *
      * @return Setting[]
      */
     public function getSettings()
@@ -81,25 +92,32 @@ class Settings
         return $this->settings;
     }
 
+    /**
+     * Saves (persists) the current setting values in the database.
+     */
     public function save()
     {
         Option::set($this->getOptionKey(), serialize($this->settingsValues));
     }
 
+    /**
+     * Removes all settings for this plugin. Useful for instance while uninstalling the plugin.
+     */
     public function removeAllPluginSettings()
     {
         Option::delete($this->getOptionKey());
     }
 
-    public function removeValue(Setting $setting)
-    {
-        $key = $setting->getKey();
-
-        if (array_key_exists($key, $this->settingsValues)) {
-            unset($this->settingsValues[$key]);
-        }
-    }
-
+    /**
+     * Gets the current value for this setting. If no value is specified, the default value will be returned.
+     *
+     * @param Setting $setting
+     *
+     * @return mixed
+     *
+     * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
+     *                    of this setting.
+     */
     public function getSettingValue(Setting $setting)
     {
         $this->checkIsValidSetting($setting->getName());
@@ -112,6 +130,17 @@ class Settings
         return $setting->defaultValue;
     }
 
+    /**
+     * Sets (overwrites) the value for the given setting. Make sure to call `save()` afterwards, otherwise the change
+     * has no effect. Before the value is saved a possibly define `validate` closure and `filter` closure will be
+     * called. Alternatively the value will be casted to the specfied setting type.
+     *
+     * @param Setting $setting
+     * @param string $value
+     *
+     * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
+     *                    of this setting.
+     */
     public function setSettingValue(Setting $setting, $value)
     {
         $this->checkIsValidSetting($setting->getName());
@@ -127,6 +156,21 @@ class Settings
         }
 
         $this->settingsValues[$setting->getKey()] = $value;
+    }
+
+    /**
+     * Removes the value for the given setting. Make sure to call `save()` afterwards, otherwise the removal has no
+     * effect.
+     *
+     * @param Setting $setting
+     */
+    public function removeValue(Setting $setting)
+    {
+        $key = $setting->getKey();
+
+        if (array_key_exists($key, $this->settingsValues)) {
+            unset($this->settingsValues[$key]);
+        }
     }
 
     protected function addSetting(Setting $setting)

@@ -14,10 +14,13 @@ namespace Piwik\Settings;
 use Piwik\Piwik;
 
 /**
- * System Setting.
+ * System wide setting. Only the super user can change this kind of settings and the value of the setting effects all
+ * users.
  *
  * @package Piwik
  * @subpackage Settings
+ *
+ * @api
  */
 class SystemSetting extends Setting
 {
@@ -25,7 +28,7 @@ class SystemSetting extends Setting
     {
         parent::__construct($name, $title);
 
-        $this->displayedForCurrentUser = !Piwik::isUserIsAnonymous();
+        $this->displayedForCurrentUser = Piwik::isUserIsSuperUser();
     }
 
 }
