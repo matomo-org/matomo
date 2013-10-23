@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
      * @param string $piwikUrl
      * @return string The Javascript tag ready to be included on the HTML pages
      */
-    public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $prependDomain = false, $hideAlias = false)
+    public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false, $mergeAliasUrls = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -74,7 +74,7 @@ class API extends \Piwik\Plugin\API
         }
         $piwikUrl = Common::sanitizeInputValues($piwikUrl);
 
-        $htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains, $prependDomain, $hideAlias);
+        $htmlEncoded = Piwik::getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain, $mergeAliasUrls);
         $htmlEncoded = str_replace(array('<br>', '<br />', '<br/>'), '', $htmlEncoded);
         return $htmlEncoded;
     }
