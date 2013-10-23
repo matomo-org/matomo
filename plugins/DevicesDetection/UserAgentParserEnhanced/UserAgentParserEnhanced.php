@@ -227,6 +227,7 @@ class UserAgentParserEnhanced
     );
     public static $browserFamilies = array(
         'Android Browser'    => array('AN'),
+        'ANTGalio'           => array('AG'),
         'BlackBerry Browser' => array('BB'),
         'Chrome'             => array('CH', 'CM', 'CI', 'CF', 'CR', 'RM'),
         'Firefox'            => array('FF', 'FE', 'SX', 'FB', 'PX', 'MB'),
@@ -239,6 +240,7 @@ class UserAgentParserEnhanced
     );
     public static $browsers = array(
         'AB' => 'ABrowse',
+        'AG' => 'ANTGalio',
         'AM' => 'Amaya',
         'AN' => 'Android Browser',
         'AR' => 'Arora',
