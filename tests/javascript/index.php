@@ -843,7 +843,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(81);
+		expect(85);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -1004,6 +1004,8 @@ if ($sqlite) {
 		tracker.setCustomVariable(2, "cookiename2PAGE", "cookievalue2PAGE", "page");
 		deepEqual( tracker.getCustomVariable(2, "page"), ["cookiename2PAGE", "cookievalue2PAGE"], "setCustomVariable(cvarExists), getCustomVariable()" );
 		deepEqual( tracker.getCustomVariable(2, 3), ["cookiename2PAGE", "cookievalue2PAGE"], "GA compability - setCustomVariable(cvarExists), getCustomVariable()" );
+		tracker.setCustomVariable(2, "cookiename2EVENT", "cookievalue2EVENT", "event");
+		deepEqual( tracker.getCustomVariable(2, "event"), ["cookiename2EVENT", "cookievalue2EVENT"], "CustomVariable and event scope" );
 
 		tracker.trackPageView("SaveCustomVariableCookie");
 
@@ -1011,6 +1013,12 @@ if ($sqlite) {
 		tracker.trackSiteSearch("No result keyword éà", "Search cat", 0);
 		tracker.trackSiteSearch("Keyword with 10 results", false, 10);
 		tracker.trackSiteSearch("search Keyword");
+
+        // Testing Custom events
+        tracker.setCustomVariable(1, "cvarEventName", "cvarEventValue", "event");
+        tracker.trackEvent("Event Category", "Event Action");
+        tracker.trackEvent("Event Category2", "Event Action2", "Event Name2");
+        tracker.trackEvent("Event Category3", "Event Action3", "Event Name3", 3.333);
 
 		//Ecommerce views
 		tracker.setEcommerceView( "", false, ["CATEGORY1","CATEGORY2"] );
@@ -1077,12 +1085,13 @@ if ($sqlite) {
 			tracker3.trackPageView("DoNotTrack");
 		}
 
+
 		stop();
 		setTimeout(function() {
 			xhr.open("GET", "piwik.php?requests=" + getToken(), false);
 			xhr.send(null);
 			results = xhr.responseText;
-			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "25", "count tracking events" );
+			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "28", "count tracking events" );
 
 			// tracking requests
 			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );
@@ -1124,9 +1133,14 @@ if ($sqlite) {
 			ok( /search=Keyword%20with%2010%20results&search_count=10&idsite=1/.test(results), "site search, no cat, 10 results ");
 			ok( /search=search%20Keyword&idsite=1/.test(results), "site search, no cat, no results count ");
 
+			// Test events
+			ok( /(e_c=Event%20Category&e_a=Event%20Action&idsite=1).*(&e_cvar=%7B%221%22%3A%5B%22cvarEventName%22%2C%22cvarEventValue%22%5D%2C%222%22%3A%5B%22cookiename2EVENT%22%2C%22cookievalue2EVENT%22%5D%7D)/.test(results), "event Category + Action + Custom Variable");
+			ok( /e_c=Event%20Category2&e_a=Event%20Action2&e_n=Event%20Name2&idsite=1/.test(results), "event Category + Action + Name");
+			ok( /e_c=Event%20Category3&e_a=Event%20Action3&e_n=Event%20Name3&e_v=3.333&idsite=1/.test(results), "event Category + Action + Name + Value");
+
 			// ecommerce view
 			ok( /(EcommerceView).*(&cvar=%7B%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%7D)/.test(results)
-			|| /(EcommerceView).*(&cvar=%7B%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%7D)/.test(results), "ecommerce view");
+			 || /(EcommerceView).*(&cvar=%7B%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%7D)/.test(results), "ecommerce view");
 
 			// ecommerce view multiple categories
 			ok( /(MultipleCategories).*(&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22%5B%5C%22CATEGORY1%5C%22%2C%5C%22CATEGORY2%5C%22%5D%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKUMultiple%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22%22%5D%7D)/.test(results)

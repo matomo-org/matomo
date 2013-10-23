@@ -370,9 +370,12 @@ class PiwikTracker
     }
 
     /**
-     * Tracks a page view
+     * Tracks an event
      *
-     * @param string $documentTitle Page title as it will appear in the Actions > Page titles report
+     * @param string $category The Event Category (Videos, Music, Games...)
+     * @param string $action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
+     * @param string $name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+     * @param float $value (optional) The Event's value
      * @return mixed Response string or true if using bulk requests.
      */
     public function doTrackEvent($category, $action, $name = false, $value = false)
@@ -650,10 +653,10 @@ class PiwikTracker
      * Builds URL to track a custom event.
      *
      * @see doTrackEvent()
-     * @param string $category (optional) The Event Category (Videos, Music, Games...)
+     * @param string $category The Event Category (Videos, Music, Games...)
      * @param string $action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
-     * @param string $name The Event's object Name (a particular Movie name, or Song name, or File name...)
-     * @param float $value The Event's value
+     * @param string $name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+     * @param float $value (optional) The Event's value
      * @return string URL to piwik.php with all parameters set to track the pageview
      */
     public function getUrlTrackEvent($category, $action, $name = false, $value = false)
