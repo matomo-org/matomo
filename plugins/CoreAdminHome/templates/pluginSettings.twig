@@ -5,6 +5,13 @@
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
 
+    <p>
+        Here you can change the settings for the following 3rd party plugins:
+        {% for pluginName, settings in pluginSettings %}
+            <a href="#{{ pluginName|e('html_attr') }}">{{ pluginName }}</a>{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+
     <input type="hidden" name="setpluginsettingsnonce" value="{{ nonce }}">
 
     {% for pluginName, settings in pluginSettings %}
