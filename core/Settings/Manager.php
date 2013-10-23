@@ -12,16 +12,20 @@
 namespace Piwik\Settings;
 
 /**
- * Settings manager
+ * Settings manager.
  *
  * @package Piwik
- * @subpackage Manager
+ * @subpackage Settings
  */
 class Manager
 {
     private static $settings = array();
 
     /**
+     * Returns all available plugin settings. A plugin has to specify a file named `settings.php` containing a class
+     * named `Settings` that extends `Piwik\Plugin\Settings` in order to be considered as a plugin setting. Otherwise
+     * the settings for a plugin won't be available.
+     *
      * @return \Piwik\Plugin\Settings[]
      */
     public static function getAllPluginSettings()
@@ -41,6 +45,11 @@ class Manager
         return static::$settings;
     }
 
+    /**
+     * Removes all settings made for a specific plugin. Useful while uninstalling a plugin.
+     *
+     * @param string $pluginName
+     */
     public static function cleanupPluginSettings($pluginName)
     {
         $settings = self::getPluginSettingsClass($pluginName);
@@ -50,14 +59,9 @@ class Manager
         }
     }
 
-    public static function cleanupUserSettings($userLogin)
-    {
-        foreach (static::getAllPluginSettings() as $setting) {
-            $setting->removeAllSettingsForUser($userLogin);
-        }
-    }
-
     /**
+     * Detects whether there are plugin settings available that the current user can change.
+     *
      * @return bool
      */
     public static function hasPluginSettingsForCurrentUser()
@@ -75,7 +79,10 @@ class Manager
     }
 
     /**
-     * @param $pluginName
+     * Tries to find a settings class for the specified plugin name. Returns null in case the plugin does not specify
+     * any settings, an instance of the settings class otherwise.
+     *
+     * @param string $pluginName
      * @return \Piwik\Plugin\Settings|null
      */
     private static function getPluginSettingsClass($pluginName)

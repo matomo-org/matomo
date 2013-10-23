@@ -1,7 +1,7 @@
 <thead>
    <tr>
        {% for column in properties.columns_to_display %}
-           <th class="sortable {% if loop.first %}first{% elseif loop.last %}last{% endif %}" id="{{ column }}">
+           <th class="{% if properties.enable_sort %}sortable{% endif %} {% if loop.first %}first{% elseif loop.last %}last{% endif %}" id="{{ column }}">
                {% if properties.metrics_documentation[column]|default is not empty %}
                    <div class="columnDocumentation">
                        <div class="columnDocumentationTitle">

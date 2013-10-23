@@ -20,8 +20,61 @@ use Piwik\Db;
 use Piwik\Period;
 
 /**
- * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
+ * Used to insert numeric and blob archive data.
  *
+ * During the Archiving process a descendant of this class is used by plugins
+ * to cache aggregated analytics statistics.
+ * 
+ * When the [Archive](#) class is used to query for archive data and that archive
+ * data is found to be absent, the archiving process is launched. An ArchiveProcessor
+ * instance is created based on the period type and the archiving logic of every
+ * active plugin is executed through the [ArchiveProcessor.Day.compute](#) and
+ * [ArchiveProcessor.Period.compute](#) events.
+ * 
+ * Plugins receive ArchiveProcessor instances in those events and use them to
+ * aggregate data for the requested site, period and segment. The aggregate
+ * data is then persisted, again using the ArchiveProcessor instance.
+ * 
+ * ### Limitations
+ * 
+ * - It is currently only possible to aggregate statistics for one site and period
+ * at a time. The archive.php cron script does, however, issue asynchronous HTTP
+ * requests that initiate archiving, so statistics can be calculated in parallel.
+ * 
+ * ### See also
+ * 
+ * - **[Archiver](#)** - to learn how plugins should implement their own analytics
+ *                       aggregation logic.
+ * - **[LogAggregator](#)** - to learn how plugins can perform data aggregation
+ *                            across Piwik's log tables.
+ * 
+ * ### Examples
+ * 
+ * **Inserting numeric data**
+ * 
+ *     // function in an Archiver descendent
+ *     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+ *     {
+ *         $myFancyMetric = // ... calculate the metric value ...
+ *         $archiveProcessor->insertNumericRecord('MyPlugin_myFancyMetric', $myFancyMetric);
+ *     }
+ * 
+ * **Inserting serialized DataTables**
+ * 
+ *     // function in an Archiver descendent
+ *     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+ *     {
+ *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
+ * 
+ *         $myDataTable = // ... use LogAggregator to generate a report about some log data ...
+ *     
+ *         $dataTable = // ... build by aggregating visits ...
+ *         $serializedData = $dataTable->getSerialized($maxRowsInTable, $maxRowsInSubtable = $maxRowsInTable,
+ *                                                     $columnToSortBy = Metrics::INDEX_NB_VISITS);
+ *         
+ *         $archiveProcessor->insertBlobRecords('MyPlugin_myFancyReport', $serializedData);
+ *     }
+ * 
  * @package Piwik
  * @subpackage ArchiveProcessor
  */
@@ -110,7 +163,11 @@ abstract class ArchiveProcessor
     }
 
     /**
+     * Returns a [LogAggregator](#) instance for the site, period and segment this
+     * ArchiveProcessor will insert archive data for.
+     * 
      * @return LogAggregator
+     * @api
      */
     public function getLogAggregator()
     {
@@ -122,15 +179,21 @@ abstract class ArchiveProcessor
     }
 
     /**
+     * Returns the period we computing statistics for.
+     * 
      * @return Period
+     * @api
      */
-    protected function getPeriod()
+    public function getPeriod()
     {
         return $this->period;
     }
 
     /**
+     * Returns the site we are computing statistics for.
+     * 
      * @return Site
+     * @api
      */
     public function getSite()
     {
@@ -138,7 +201,10 @@ abstract class ArchiveProcessor
     }
 
     /**
+     * The Segment used to limit the set of visits that are being aggregated.
+     * 
      * @return Segment
+     * @api
      */
     public function getSegment()
     {
@@ -150,6 +216,17 @@ abstract class ArchiveProcessor
         return $this->convertedVisitsMetricCached;
     }
 
+    /**
+     * Caches multiple numeric records in the archive for this processor's site, period
+     * and segment.
+     * 
+     * @param array $numericRecords A name-value mapping of numeric values that should be
+     *                              archived, eg,
+     *                              ```
+     *                              array('Referrers_distinctKeywords' => 23, 'Referrers_distinctCampaigns' => 234)
+     *                              ```
+     * @api
+     */
     public function insertNumericRecords($numericRecords)
     {
         foreach ($numericRecords as $name => $value) {
@@ -157,10 +234,20 @@ abstract class ArchiveProcessor
         }
     }
 
+    /**
+     * Caches a single numeric record in the archive for this processor's site, period and
+     * segment.
+     * 
+     * Numeric values are not inserted if they equal 0.
+     * 
+     * @param string $name The name of the numeric value, eg, `'Referrers_distinctKeywords'`.
+     * @param numeric $value The numeric value.
+     * @api
+     */
     public function insertNumericRecord($name, $value)
     {
         $value = round($value, 2);
-        return $this->archiveWriter->insertRecord($name, $value);
+        $this->archiveWriter->insertRecord($name, $value);
     }
 
     public function preProcessArchive($requestedPlugin, $enforceProcessCoreMetricsOnly = false)
@@ -305,11 +392,9 @@ abstract class ArchiveProcessor
     }
 
     /**
-     * Returns the minimum archive processed datetime to look at
+     * Returns the minimum archive processed datetime to look at. Only public for tests.
      *
      * @return int|bool  Datetime timestamp, or false if must look at any archive available
-     *
-     * @public for tests
      */
     public function getMinTimeArchiveProcessed()
     {
@@ -391,9 +476,16 @@ abstract class ArchiveProcessor
     }
 
     /**
-     * @param string $name
-     * @param string|array $values
-     * @return bool|array
+     * Caches one or more blob records in the archive for this processor's site, period
+     * and segment.
+     * 
+     * @param string $name The name of the record, eg, 'Referrers_type'.
+     * @param string|array $values A blob string or an array of blob strings. If an array
+     *                             is used, the first element in the array will be inserted
+     *                             with the `$name` name. The others will be inserted with
+     *                             `$name . '_' . $index` as the record name (where $index is
+     *                             the index of the blob record in `$values`).
+     * @api
      */
     public function insertBlobRecord($name, $values)
     {
@@ -412,12 +504,12 @@ abstract class ArchiveProcessor
                 $value = $this->compress($value);
                 $clean[] = array($newName, $value);
             }
-            return $this->archiveWriter->insertBulkRecords($clean);
+            $this->archiveWriter->insertBulkRecords($clean);
+            return;
         }
 
         $values = $this->compress($values);
         $this->archiveWriter->insertRecord($name, $values);
-        return array($name => $values);
     }
 
     protected function compress($data)

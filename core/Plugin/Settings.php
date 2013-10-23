@@ -13,6 +13,9 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Settings\Setting;
+use Piwik\Settings\SystemSetting;
+use Piwik\Settings\UserSetting;
 
 class Settings
 {
@@ -29,49 +32,18 @@ class Settings
     const FIELD_MULTI_SELECT   = 'multiselect';
     const FIELD_SINGLE_SELECT  = 'select';
 
-    // what about stuff like date etc?
+    /**
+     * @var Settings[]
+     */
+    private $settings       = array();
+    private $settingsValues = array();
 
-    protected $defaultTypes   = array();
-    protected $defaultFields  = array();
-    protected $defaultOptions = array();
-
-    protected $settings       = array();
-    protected $settingsValues = array();
-
+    private $introduction;
     private $pluginName;
 
     public function __construct($pluginName)
     {
         $this->pluginName = $pluginName;
-
-        $this->defaultTypes = array(
-            static::FIELD_TEXT     => static::TYPE_STRING,
-            static::FIELD_TEXTAREA => static::TYPE_STRING,
-            static::FIELD_PASSWORD => static::TYPE_STRING,
-            static::FIELD_CHECKBOX => static::TYPE_BOOL,
-            static::FIELD_MULTI_SELECT  => static::TYPE_ARRAY,
-            static::FIELD_SINGLE_SELECT => static::TYPE_STRING,
-        );
-        $this->defaultFields = array(
-            static::TYPE_INT    => static::FIELD_TEXT,
-            static::TYPE_FLOAT  => static::FIELD_TEXT,
-            static::TYPE_STRING => static::FIELD_TEXT,
-            static::TYPE_BOOL   => static::FIELD_CHECKBOX,
-            static::TYPE_ARRAY  => static::FIELD_MULTI_SELECT,
-        );
-        $this->defaultOptions = array(
-            'type'         => static::TYPE_STRING,
-            'field'        => static::FIELD_TEXT,
-            'displayedForCurrentUser' => false,
-            'fieldAttributes' => array(),
-            'fieldOptions'    => array(),
-            'description'     => null,
-            'inlineHelp'      => null,
-            'filter'          => null,
-            'validate'        => null,
-            'isUserSetting'   => false,
-            'isSystemSetting' => false
-        );
 
         $this->init();
         $this->loadSettings();
@@ -79,147 +51,150 @@ class Settings
 
     protected function init()
     {
+        // define your settings here
     }
 
-    protected function addPerUserSetting($name, $title, array $options = array())
+    /**
+     * Sets (overwrites) the plugin settings introduction.
+     *
+     * @param string $introduction
+     */
+    protected function setIntroduction($introduction)
     {
-        $options['displayedForCurrentUser'] = !Piwik::isUserIsAnonymous();
-        $options['isUserSetting']  = true;
-
-        $userSettingName = $this->buildUserSettingName($name);
-
-        $this->addSetting($name, $userSettingName, $title, $options);
+        $this->introduction = $introduction;
     }
 
-    protected function addSystemSetting($name, $title, array $options = array())
+    public function getIntroduction()
     {
-        $options['displayedForCurrentUser'] = Piwik::isUserHasSomeAdminAccess();
-        $options['isSystemSetting'] = true;
-
-        $this->addSetting($name, $name, $title, $options);
+        return $this->introduction;
     }
 
+    /**
+     * Returns only settings that can be displayed for current user. For instance a regular user won't see get
+     * any settings that require super user permissions.
+     *
+     * @return Setting[]
+     */
     public function getSettingsForCurrentUser()
     {
-        return array_values(array_filter($this->getSettings(), function ($setting) {
-            return $setting['displayedForCurrentUser'];
+        return array_values(array_filter($this->getSettings(), function (Setting $setting) {
+            return $setting->canBeDisplayedForCurrentUser();
         }));
     }
 
-    public function getPerUserSettingValue($name, $userLogin = null)
+    /**
+     * Get all available settings without checking any permissions.
+     *
+     * @return Setting[]
+     */
+    public function getSettings()
     {
-        $name = $this->buildUserSettingName($name, $userLogin);
-        $this->checkIsValidUserSetting($name);
-
-        return $this->getSettingValue($name);
+        return $this->settings;
     }
 
-    public function getSystemSettingValue($name)
-    {
-        $this->checkIsValidSystemSetting($name);
-
-        return $this->getSettingValue($name);
-    }
-
-    public function setPerUserSettingValue($name, $value, $userLogin = null)
-    {
-        $name = $this->buildUserSettingName($name, $userLogin);
-        $this->checkIsValidUserSetting($name);
-
-        $this->setSettingValue($name, $value);
-    }
-
-    public function setSystemSettingValue($name, $value)
-    {
-        $this->checkIsValidSystemSetting($name);
-
-        $this->setSettingValue($name, $value);
-    }
-
+    /**
+     * Saves (persists) the current setting values in the database.
+     */
     public function save()
     {
         Option::set($this->getOptionKey(), serialize($this->settingsValues));
     }
 
+    /**
+     * Removes all settings for this plugin. Useful for instance while uninstalling the plugin.
+     */
     public function removeAllPluginSettings()
     {
         Option::delete($this->getOptionKey());
     }
 
-    public function removeAllSettingsForUser($userLogin)
+    /**
+     * Gets the current value for this setting. If no value is specified, the default value will be returned.
+     *
+     * @param Setting $setting
+     *
+     * @return mixed
+     *
+     * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
+     *                    of this setting.
+     */
+    public function getSettingValue(Setting $setting)
     {
-        foreach ($this->settingsValues as $name => $value) {
-            $setting = $this->getSetting($name);
+        $this->checkIsValidSetting($setting->getName());
 
-            if (!$setting['isUserSetting']) {
-                continue;
-            }
+        if (array_key_exists($setting->getKey(), $this->settingsValues)) {
 
-            if ($name == $this->buildUserSettingName($name, $userLogin)) {
-                unset($this->settingsValues[$name]);
-            }
+            return $this->settingsValues[$setting->getKey()];
         }
 
-        $this->save();
+        return $setting->defaultValue;
     }
 
-    private function getSettingValue($name)
+    /**
+     * Sets (overwrites) the value for the given setting. Make sure to call `save()` afterwards, otherwise the change
+     * has no effect. Before the value is saved a possibly define `validate` closure and `filter` closure will be
+     * called. Alternatively the value will be casted to the specfied setting type.
+     *
+     * @param Setting $setting
+     * @param string $value
+     *
+     * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
+     *                    of this setting.
+     */
+    public function setSettingValue(Setting $setting, $value)
     {
-        if (!array_key_exists($name, $this->settingsValues)) {
-            $setting = $this->getSetting($name);
+        $this->checkIsValidSetting($setting->getName());
 
-            return $setting['defaultValue'];
+        if ($setting->validate && $setting->validate instanceof \Closure) {
+            call_user_func($setting->validate, $value, $setting);
         }
 
-        return $this->settingsValues[$name];
-    }
-
-    private function setSettingValue($name, $value)
-    {
-        $this->checkIsValidSetting($name);
-        $setting = $this->getSetting($name);
-
-        if ($setting['validate'] && $setting['validate'] instanceof \Closure) {
-            call_user_func($setting['validate'], $value, $setting);
-        }
-
-        if ($setting['filter'] && $setting['filter'] instanceof \Closure) {
-            $value = call_user_func($setting['filter'], $value, $setting);
+        if ($setting->filter && $setting->filter instanceof \Closure) {
+            $value = call_user_func($setting->filter, $value, $setting);
         } else {
-            settype($value, $setting['type']);
+            settype($value, $setting->type);
         }
 
-        $this->settingsValues[$name] = $value;
+        $this->settingsValues[$setting->getKey()] = $value;
     }
 
-    private function addSetting($unmodifiedName, $name, $title, array $options)
+    /**
+     * Removes the value for the given setting. Make sure to call `save()` afterwards, otherwise the removal has no
+     * effect.
+     *
+     * @param Setting $setting
+     */
+    public function removeValue(Setting $setting)
     {
-        if (!ctype_alnum($unmodifiedName)) {
-            // TODO escape name?
-            $msg = sprintf('The setting name %s is not valid. Only alpha and numerical characters are allowed', $unmodifiedName);
-            throw new \Exception($msg);
+        $key = $setting->getKey();
+
+        if (array_key_exists($key, $this->settingsValues)) {
+            unset($this->settingsValues[$key]);
+        }
+    }
+
+    protected function addSetting(Setting $setting)
+    {
+        if (array_key_exists($setting->getName(), $this->settings)) {
+            throw new \Exception(sprintf('A setting with name %s does already exist', $setting->getName()));
         }
 
-        if (array_key_exists('field', $options) && !array_key_exists('type', $options)) {
-            $options['type']  = $this->defaultTypes[$options['field']];
-        } elseif (array_key_exists('type', $options) && !array_key_exists('field', $options)) {
-            $options['field'] = $this->defaultFields[$options['type']];
+        if (!is_null($setting->field) && is_null($setting->type)) {
+            $setting->type = $setting->getDefaultType($setting->field);
+        } elseif (!is_null($setting->type) && is_null($setting->field)) {
+            $setting->field = $setting->getDefaultField($setting->type);
         }
 
-        if (!array_key_exists('validate', $options) && array_key_exists('fieldOptions', $options)) {
-            $options['validate'] = function ($value) use ($options, $title) {
-                if (!array_key_exists($value, $options['fieldOptions'])) {
-                    throw new \Exception(sprintf('The selected value for field "%s" is not allowed.', $title));
+        if (is_null($setting->validate) && !is_null($setting->fieldOptions)) {
+            $pluginName = $this->pluginName;
+            $setting->validate = function ($value) use ($setting, $pluginName) {
+                if (!array_key_exists($value, $setting->fieldOptions)) {
+                    throw new \Exception(sprintf('The selected value for field "%s" and plugin "%s" is not allowed.', $setting->getTitle(), $pluginName));
                 }
             };
         }
 
-        $setting          = array_merge($this->defaultOptions, $options);
-        $setting['name']  = $name;
-        $setting['title'] = $title;
-        $setting['unmodifiedName'] = $unmodifiedName;
-
-        $this->settings[] = $setting;
+        $this->settings[$setting->getName()] = $setting;
     }
 
     private function getOptionKey()
@@ -236,28 +211,6 @@ class Settings
         }
     }
 
-    private function checkIsValidUserSetting($name)
-    {
-        $this->checkIsValidSetting($name);
-
-        $setting = $this->getSetting($name);
-
-        if (!$setting['isUserSetting']) {
-            throw new \Exception(sprintf('The setting %s is not a user setting', $name));
-        }
-    }
-
-    private function checkIsValidSystemSetting($name)
-    {
-        $this->checkIsValidSetting($name);
-
-        $setting = $this->getSetting($name);
-
-        if (!$setting['isSystemSetting']) {
-            throw new \Exception(sprintf('The setting %s is not a system setting', $name));
-        }
-    }
-
     private function checkIsValidSetting($name)
     {
         $setting = $this->getSetting($name);
@@ -267,47 +220,20 @@ class Settings
             throw new \Exception(sprintf('The setting %s does not exist', $name));
         }
 
-        if (!$setting['displayedForCurrentUser']) {
+        if (!$setting->canBeDisplayedForCurrentUser()) {
             throw new \Exception(sprintf('You are not allowed to change the value of the setting %s', $name));
         }
     }
 
-    private function getSettings()
-    {
-        return $this->settings;
-    }
-
+    /**
+     * @param  $name
+     * @return Setting|null
+     */
     private function getSetting($name)
     {
-        foreach ($this->settings as $setting) {
-            if ($name == $setting['name']) {
-                return $setting;
-            }
+        if (array_key_exists($name, $this->settings)) {
+            return $this->settings[$name];
         }
-    }
-
-    /**
-     * @param $name
-     * @param null $userLogin  if null, the current user login will be used.
-     * @return string
-     */
-    private function buildUserSettingName($name, $userLogin = null)
-    {
-        if (is_null($userLogin)) {
-            $userLogin = Piwik::getCurrentUserLogin();
-        }
-
-        // the asterisk tag is indeed important here and better than an underscore. Imagine a plugin has the settings
-        // "api_password" and "api". A user having the login "_password" could otherwise under circumstances change the
-        // setting for "api" although he is not allowed to. It is not so important at the moment because only alNum is
-        // currently allowed as a name this might change in the future.
-        $appendix = '#' . $userLogin . '#';
-
-        if (Common::stringEndsWith($name, $appendix)) {
-            return $name;
-        }
-
-        return $name . $appendix;
     }
 
 }

@@ -16,7 +16,6 @@ use Piwik\Piwik;
 /**
  * @package Piwik
  * @subpackage Period
- * @api
  */
 class Month extends Period
 {

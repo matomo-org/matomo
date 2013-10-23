@@ -115,7 +115,7 @@ class Map implements DataTableInterface
     /**
      * Returns the array of DataTables contained by this class.
      *
-     * @return array
+     * @return DataTable[]|Map[]
      */
     public function getDataTables()
     {
@@ -211,11 +211,14 @@ class Map implements DataTableInterface
         }
     }
 
+    /**
+     * Deletes a table from the array of DataTables.
+     * 
+     * @param string $id The label associated with DataTable.
+     */
     public function deleteRow($id)
     {
-        /*foreach ($this->getDataTables() as $table) {
-            $table->deleteRow($id);
-        }*/
+        unset($this->array[$id]);
     }
 
     /**

@@ -13,6 +13,24 @@ use Piwik\Piwik;
 
 
 /**
+ * Contains menu entries for the Top menu (the menu at the very top of the page).
+ * Plugins can subscribe to the [Menu.Top.addItems](#) event to add new pages to
+ * the top menu.
+ * 
+ * **Example**
+ * 
+ *     // add a new page in an observer to Menu.Admin.addItems
+ *     public function addTopMenuItem()
+ *     {
+ *         MenuTop::getInstance()->add(
+ *             'MyPlugin_MyTranslatedMenuCategory',
+ *             'MyPlugin_MyTranslatedMenuName',
+ *             array('module' => 'MyPlugin', 'action' => 'index'),
+ *             Piwik::isUserHasSomeAdminAccess(),
+ *             $order = 2
+ *         );
+ *     }
+ * 
  * @package Piwik_Menu
  */
 class MenuTop extends MenuAbstract
@@ -20,20 +38,23 @@ class MenuTop extends MenuAbstract
     /**
      * Adds a new entry to the TopMenu.
      *
-     * @param string $topMenuName
-     * @param string $data
-     * @param boolean $displayedForCurrentUser
-     * @param int $order
-     * @param bool $isHTML
-     * @param bool|string $tooltip Tooltip to display.
+     * @param string $topMenuName The menu item name. Can be a translation token.
+     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
+     *                          that can be used to build the URL. If `$isHTML` is true, this can be a string with
+     *                          HTML that is simply embedded.
+     * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
+     *                                         current user. If false, the entry will not be added.
+     * @param int $order The order hint.
+     * @param bool $isHTML Whether `$url` is an HTML string or a URL that will be rendered as a link.
+     * @param bool|string $tooltip Optional tooltip to display.
      * @api
      */
-    public static function addEntry($topMenuName, $data, $displayedForCurrentUser = true, $order = 10, $isHTML = false, $tooltip = false)
+    public static function addEntry($topMenuName, $url, $displayedForCurrentUser = true, $order = 10, $isHTML = false, $tooltip = false)
     {
         if ($isHTML) {
-            MenuTop::getInstance()->addHtml($topMenuName, $data, $displayedForCurrentUser, $order, $tooltip);
+            MenuTop::getInstance()->addHtml($topMenuName, $url, $displayedForCurrentUser, $order, $tooltip);
         } else {
-            MenuTop::getInstance()->add($topMenuName, null, $data, $displayedForCurrentUser, $order, $tooltip);
+            MenuTop::getInstance()->add($topMenuName, null, $url, $displayedForCurrentUser, $order, $tooltip);
         }
     }
 

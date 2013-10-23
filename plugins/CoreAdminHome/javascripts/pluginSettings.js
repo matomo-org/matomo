@@ -17,10 +17,18 @@ $(document).ready(function () {
 
     function updatePluginSettings()
     {
+        var $nonce = $('[name="setpluginsettingsnonce"]');
+        var nonceValue = '';
+
+        if ($nonce) {
+            nonceValue = $nonce.val();
+        }
+
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams({
             module: 'CoreAdminHome',
-            action: 'setPluginSettings'
+            action: 'setPluginSettings',
+            nonce: nonceValue
         }, 'GET');
         ajaxHandler.addParams({settings: getSettings()}, 'POST');
         ajaxHandler.redirectOnSuccess();
