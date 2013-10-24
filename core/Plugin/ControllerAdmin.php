@@ -20,8 +20,10 @@ use Piwik\Version;
 use Piwik\View;
 
 /**
- * Parent class of all plugins Controllers with admin functions
- *
+ * Base class of plugin controllers that provide administrative functionality.
+ * 
+ * See [Controller](#) to learn more about Piwik controllers.
+ * 
  * @package Piwik
  *
  * @api
@@ -29,10 +31,11 @@ use Piwik\View;
 abstract class ControllerAdmin extends Controller
 {
     /**
-     * Set the minimal variables in the view object
-     * Extended by some admin view specific variables
+     * Calls [Controller::setBasicVariablesView](#) and [setBasicVariablesAdminView](#setBasicVariablesAdminView)
+     * using the supplied view.
      *
      * @param View $view
+     * @api
      */
     protected function setBasicVariablesView($view)
     {
@@ -46,6 +49,29 @@ abstract class ControllerAdmin extends Controller
         $view->configFileNotWritable = !PiwikConfig::getInstance()->isFileWritable();
     }
 
+    /**
+     * Assigns a set of variables to a view that would be useful to an Admin controller.
+     * 
+     * Assigns the following variables:
+     * 
+     * - **statisticsNotRecorded** - Set to true if the `[Tracker] record_statistics` INI
+     *                               config is `0`. If not `0`, this variable will not be defined.
+     * - **topMenu** - The result of `MenuTop::getInstance()->getMenu()`.
+     * - **currentAdminMenuName** - The currently selected admin menu name.
+     * - **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
+     *                    true, [View::setXFrameOptions](#) is called on the view.
+     * - **isSuperUser** - Whether the current user is a superuser or not.
+     * - **usingOldGeoIPPlugin** - Whether this Piwik install is currently using the old GeoIP
+     *                             plugin or not.
+     * - **invalidPluginsWarning** - Set if some of the plugins to load (determined by INI configuration)
+     *                               are invalid or missing.
+     * - **phpVersion** - The current PHP version.
+     * - **phpIsNewEnough** - Whether the current PHP version is new enough to run Piwik.
+     * - **adminMenu** - The result of `MenuAdmin::getInstance()->getMenu()`.
+     * 
+     * @param View $view
+     * @api
+     */
     static public function setBasicVariablesAdminView(View $view)
     {
         $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
@@ -92,7 +118,6 @@ abstract class ControllerAdmin extends Controller
     {
         return "Piwik " . Version::VERSION;
     }
-
 
     /**
      * Check if the current PHP version is >= 5.3. If not, a warning is displayed
