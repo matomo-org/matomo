@@ -71,6 +71,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/menu.less";
         $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
+        $stylesheets[] = "plugins/CoreAdminHome/stylesheets/pluginSettings.less";
     }
 
     public function getJsFiles(&$jsFiles)
