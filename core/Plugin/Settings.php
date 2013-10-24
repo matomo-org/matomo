@@ -208,15 +208,18 @@ class Settings
         if (is_null($setting->validate) && !is_null($setting->fieldOptions)) {
             $pluginName = $this->pluginName;
             $setting->validate = function ($value) use ($setting, $pluginName) {
+
+                $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed', array($setting->title, $pluginName));
+
                 if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
                     foreach ($value as $val) {
                         if (!array_key_exists($val, $setting->fieldOptions)) {
-                            throw new \Exception(sprintf('The selected value for field "%s" in plugin "%s" is not allowed.', $setting->title, $pluginName));
+                            throw new \Exception($errorMsg);
                         }
                     }
                 } else {
                     if (!array_key_exists($value, $setting->fieldOptions)) {
-                        throw new \Exception(sprintf('The selected value for field "%s" in plugin "%s" is not allowed.', $setting->title, $pluginName));
+                        throw new \Exception($errorMsg);
                     }
                 }
             };
@@ -248,7 +251,8 @@ class Settings
         }
 
         if (!$setting->canBeDisplayedForCurrentUser()) {
-            throw new \Exception(sprintf('You are not allowed to change the value of the setting %s', $name));
+            $errorMsg = Piwik::translate('PluginSettingChangeNotAllowed', array($name, $this->pluginName));
+            throw new \Exception($errorMsg);
         }
     }
 
