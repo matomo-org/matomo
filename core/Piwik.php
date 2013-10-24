@@ -140,22 +140,20 @@ class Piwik
             $prependText = PHP_EOL . '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);';
         }
         if ($mergeSubdomains || $mergeAliasUrls) {
-            // Both flags need url data
+            // Both flags need URL data
             $site_urls = APISitesManager::getInstance()->getSiteUrlsFromId( $idSite );
+            // We need to parse_url to isolate hosts
+            $site_hosts = array ();
+            foreach ($site_urls as $site_url) {
+                $referrerParsed = parse_url($site_url);
+                array_push($site_hosts, $referrerParsed['host']);
+            }
         }
         if ($mergeSubdomains) {
-            // We need to parse_url so we can exclude paths
-            $referrerParsed = parse_url($site_urls[0]);
-            $subdomainText = PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $referrerParsed['host'] . '"]);';
+            $subdomainText = PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $site_hosts[0] . '"]);';
         }
         if ($mergeAliasUrls) {
-            $urls = '["*.';
-            foreach ($site_urls as $site_url) {
-                // We need to parse_url so we can exclude paths
-                $referrerParsed = parse_url($site_url);
-                $urls .= '","*.'.$referrerParsed['host'];
-            }
-            $urls .= '"]';
+            $urls = '["*.'.implode('","*.',$site_hosts).'"]';
             $aliasText = PHP_EOL . '  _paq.push(["setDomains", '.$urls.']);';
         }
         $jsCode = str_replace(PHP_EOL . '{$mergeSubdomains}', $subdomainText, $jsCode);
