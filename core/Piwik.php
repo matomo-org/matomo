@@ -152,7 +152,7 @@ class Piwik
             $urls = '["*.';
             foreach ($site_urls as $site_url) {
                 // We need to parse_url so we can exclude paths
-                $referrerParsed = parse_url($alia['url']);
+                $referrerParsed = parse_url($site_url);
                 $urls .= '","*.'.$referrerParsed['host'];
             }
             $urls .= '"]';
