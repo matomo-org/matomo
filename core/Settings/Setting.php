@@ -128,26 +128,14 @@ abstract class Setting
     protected $name;
     protected $displayedForCurrentUser = false;
 
-    public function canBeDisplayedForCurrentUser()
-    {
-        return $this->displayedForCurrentUser;
-    }
-
     /**
      * Creates a new setting.
      *
      * @param string $name    The name of the setting, only alnum characters are allowed. For instance `refreshInterval`
      * @param string $title   The title of the setting which will be visible to the user. For instance `Refresh Interval`
-     *
-     * @throws \Exception     In case the name contains invalid characters.
      */
     public function __construct($name, $title)
     {
-        if (!ctype_alnum($name)) {
-            $msg = sprintf('The setting name %s is not valid. Only alpha and numerical characters are allowed', $name);
-            throw new \Exception($msg);
-        }
-
         $this->key   = $name;
         $this->name  = $name;
         $this->title = $title;
@@ -156,6 +144,11 @@ abstract class Setting
     public function getName()
     {
         return $this->name;
+    }
+
+    public function canBeDisplayedForCurrentUser()
+    {
+        return $this->displayedForCurrentUser;
     }
 
     /**

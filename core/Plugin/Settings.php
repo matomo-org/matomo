@@ -33,9 +33,17 @@ class Settings
     const FIELD_SINGLE_SELECT  = 'select';
 
     /**
+     * An array containing all available settings: Array ( [setting-name] => [setting] )
+     *
      * @var Settings[]
      */
     private $settings       = array();
+
+    /**
+     * Array containing all plugin settings values: Array( [setting-key] => [setting-value] ).
+     *
+     * @var array
+     */
     private $settingsValues = array();
 
     private $introduction;
@@ -51,7 +59,7 @@ class Settings
 
     protected function init()
     {
-        // define your settings here
+        // Define your settings and introduction here.
     }
 
     /**
@@ -164,7 +172,7 @@ class Settings
      *
      * @param Setting $setting
      */
-    public function removeValue(Setting $setting)
+    public function removeSettingValue(Setting $setting)
     {
         $key = $setting->getKey();
 
@@ -173,10 +181,22 @@ class Settings
         }
     }
 
+    /**
+     * Adds a new setting.
+     *
+     * @param Setting $setting
+     * @throws \Exception       In case a setting having the same name already exists.
+     *                          In case the name contains non-alnum characters.
+     */
     protected function addSetting(Setting $setting)
     {
+        if (!ctype_alnum($setting->getName())) {
+            $msg = sprintf('The setting name "%s" in plugin "%s" is not valid. Only alpha and numerical characters are allowed', $setting->getName(), $this->pluginName);
+            throw new \Exception($msg);
+        }
+
         if (array_key_exists($setting->getName(), $this->settings)) {
-            throw new \Exception(sprintf('A setting with name %s does already exist', $setting->getName()));
+            throw new \Exception(sprintf('A setting with name "%s" does already exist for plugin "%s"', $setting->getName(), $this->pluginName));
         }
 
         if (!is_null($setting->field) && is_null($setting->type)) {
@@ -188,8 +208,16 @@ class Settings
         if (is_null($setting->validate) && !is_null($setting->fieldOptions)) {
             $pluginName = $this->pluginName;
             $setting->validate = function ($value) use ($setting, $pluginName) {
-                if (!array_key_exists($value, $setting->fieldOptions)) {
-                    throw new \Exception(sprintf('The selected value for field "%s" and plugin "%s" is not allowed.', $setting->getTitle(), $pluginName));
+                if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
+                    foreach ($value as $val) {
+                        if (!array_key_exists($val, $setting->fieldOptions)) {
+                            throw new \Exception(sprintf('The selected value for field "%s" in plugin "%s" is not allowed.', $setting->title, $pluginName));
+                        }
+                    }
+                } else {
+                    if (!array_key_exists($value, $setting->fieldOptions)) {
+                        throw new \Exception(sprintf('The selected value for field "%s" in plugin "%s" is not allowed.', $setting->title, $pluginName));
+                    }
                 }
             };
         }
@@ -216,7 +244,6 @@ class Settings
         $setting = $this->getSetting($name);
 
         if (empty($setting)) {
-            // TODO escape $name? or is it automatically escaped?
             throw new \Exception(sprintf('The setting %s does not exist', $name));
         }
 

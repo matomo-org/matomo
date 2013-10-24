@@ -99,12 +99,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new View('@CoreAdminHome/pluginSettings');
-
         $settings = SettingsManager::getPluginSettingsForCurrentUser();
         ksort($settings);
+
+        $view = new View('@CoreAdminHome/pluginSettings');
         $view->pluginSettings = $settings;
-        $view->nonce = Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE);
+        $view->nonce          = Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE);
 
         $this->setBasicVariablesView($view);
 
@@ -152,6 +152,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
         } catch (Exception $e) {
+            // TODO escape message
             echo json_encode(array('result' => 'error', 'message' => $e->getMessage()));
             return;
         }
