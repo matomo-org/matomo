@@ -23,7 +23,7 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  * weekly, monthly, etc.). They are registered with **TaskScheduler** through the
  * [TaskScheduler.getScheduledTasks](#) event.
  * 
- * Tasks executed when the cron archive.php script is executed,
+ * Tasks are executed when the cron archive.php script is executed.
  * 
  * @package Piwik
  * @api
