@@ -977,7 +977,7 @@ class PiwikTracker
      * from the request and write updated cookies in the response (using setrawcookie).
      * This can be disabled by calling this function.
      */
-    public function disableCookies()
+    public function disableCookiesSupport()
     {
         $this->configCookiesDisabled = true;
     }

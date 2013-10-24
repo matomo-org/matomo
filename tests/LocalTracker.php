@@ -73,7 +73,7 @@ class Piwik_LocalTracker extends PiwikTracker
 
         // set cookie
         $oldCookie = $_COOKIE;
-        parse_str(parse_url($this->requestCookie, PHP_URL_QUERY), $_COOKIE);
+//        parse_str(parse_url($this->requestCookie, PHP_URL_QUERY), $_COOKIE);
 
         // do tracking and capture output
         ob_start();
