@@ -125,19 +125,19 @@ class Piwik
      * @param string $piwikUrl http://path/to/piwik/directory/
      * @return string
      */
-    static public function getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false, $mergeAliasUrls = false)
+    static public function getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false, $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false, $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false, $doNotTrack = false)
     {
+		// changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
         $piwikUrl = @$matches[2];
         $jsCode = str_replace('{$idSite}', $idSite, $jsCode);
         $jsCode = str_replace('{$piwikUrl}', Common::sanitizeInputValue($piwikUrl), $jsCode);
-        $subdomainText = '';
-        $prependText = '';
-        $aliasText = '';
+		// Build optional parameters to be added to text
+        $options = '';
         if ($groupPageTitlesByDomain) {
-            $prependText = PHP_EOL . '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);';
+            $options .= PHP_EOL . '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . PHP_EOL;
         }
         if ($mergeSubdomains || $mergeAliasUrls) {
             // Both flags need URL data
@@ -150,15 +150,36 @@ class Piwik
             }
         }
         if ($mergeSubdomains) {
-            $subdomainText = PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $site_hosts[0] . '"]);';
+            $options .= PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $site_hosts[0] . '"]);' . PHP_EOL;
         }
         if ($mergeAliasUrls) {
             $urls = '["*.'.implode('","*.',$site_hosts).'"]';
-            $aliasText = PHP_EOL . '  _paq.push(["setDomains", '.$urls.']);';
+            $options .= '  _paq.push(["setDomains", '.$urls.']);' . PHP_EOL;
         }
-        $jsCode = str_replace(PHP_EOL . '{$mergeSubdomains}', $subdomainText, $jsCode);
-        $jsCode = str_replace(PHP_EOL . '{$groupPageTitlesByDomain}', $prependText, $jsCode);
-        $jsCode = str_replace(PHP_EOL . '{$mergeAliasUrls}', $aliasText, $jsCode);
+		if ($visitorCustomVariables) {
+			$options .=  '// you can set up to 5 custom variables for each visitor' . PHP_EOL;
+			$index = 0;
+			foreach ($visitorCustomVariables as $visitorCustomVariable) {
+				$options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$visitorCustomVariable[0].'", "'.$visitorCustomVariable[1].'", "visitor"]);' . PHP_EOL;
+			}
+		}
+		if ($pageCustomVariables) {
+			$options .=  '  // you can set up to 5 custom variables for each action (page view, download, click, site search)' . PHP_EOL;
+			$index = 0;
+			foreach ($pageCustomVariables as $pageCustomVariable) {
+				$options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$pageCustomVariable[0].'", "'.$pageCustomVariable[1].'", "page"]);' . PHP_EOL;
+			}
+		}
+		if ($customCampaignNameQueryParam) {
+			$options .=  '  _paq.push(["setCampaignNameKey", "'.$customCampaignNameQueryParam.'"]);' . PHP_EOL;
+		}
+		if ($customCampaignKeywordParam) {
+			$options .=  '  _paq.push(["setCampaignKeywordKey", "'.$customCampaignKeywordParam.'"]);' . PHP_EOL;
+		}
+		if ($doNotTrack) {
+			$options .= '  _paq.push(["setDoNotTrack", true]);' . PHP_EOL;
+		}
+        $jsCode = str_replace('{$options}'.PHP_EOL, $options, $jsCode);
         return $jsCode;
     }
 

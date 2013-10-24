@@ -1,9 +1,7 @@
 <!-- Piwik -->
 <script type="text/javascript"> 
   var _paq = _paq || [];
-{$groupPageTitlesByDomain}
-{$mergeSubdomains}
-{$mergeAliasUrls}
+{$options}
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
