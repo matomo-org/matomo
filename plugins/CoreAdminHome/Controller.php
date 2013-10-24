@@ -126,8 +126,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return;
         }
 
-        Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
-
         $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
 
         try {
@@ -156,7 +154,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             echo json_encode(array('result' => 'error', 'message' => $e->getMessage()));
             return;
         }
-
+        
+        Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
         echo json_encode(array('result' => 'success'));
     }
 
