@@ -63,9 +63,15 @@ class UserSetting extends Setting
      * Sets (overwrites) the userLogin.
      *
      * @param $userLogin
+     *
+     * @throws \Exception In case you set a userLogin that is not your userLogin and you are not the superUser.
      */
     public function setUserLogin($userLogin)
     {
+        if (!empty($userLogin) && !Piwik::isUserIsSuperUserOrTheUser($userLogin)) {
+            throw new \Exception('You do not have the permission to read the settings of a different user');
+        }
+
         $this->userLogin = $userLogin;
         $this->key       = $this->buildUserSettingName($this->name, $userLogin);
     }

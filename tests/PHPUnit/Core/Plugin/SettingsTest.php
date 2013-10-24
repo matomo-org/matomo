@@ -547,6 +547,31 @@ class SettingsTest extends DatabaseTestCase
         $this->assertSettingHasValue($user, null);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage You do not have the permission to read the settings of a different user
+     */
+    public function test_userSetting_shouldThrowException_IfSomeoneTriesToReadSettingsFromAnotherUserAndIsNotSuperuser()
+    {
+        $this->setUser();
+
+        $this->buildUserSetting('myname', 'mytitle', 'myRandomName');
+    }
+
+    public function test_userSetting_shouldBeAbleToSetLoginAndChangeValues_IfUserIsSuperUser()
+    {
+        $this->setSuperUser();
+
+        $setting = $this->buildUserSetting('myname', 'mytitle', 'myRandomName');
+        $this->settings->addSetting($setting);
+
+        $this->settings->setSettingValue($setting, 5);
+        $this->assertSettingHasValue($setting, 5);
+
+        $this->settings->removeSettingValue($setting);
+        $this->assertSettingHasValue($setting, null);
+    }
+
     private function buildUserSetting($name, $title, $userLogin = null)
     {
         return new \Piwik\Settings\UserSetting($name, $title, $userLogin);
