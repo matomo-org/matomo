@@ -141,19 +141,19 @@ class Piwik
         }
         if ($mergeSubdomains || $mergeAliasUrls) {
             // Both flags need url data
-			$site_urls = API::getInstance()->getSiteUrlsFromId( $idSite );
+            $site_urls = APISitesManager::getInstance()->getSiteUrlsFromId( $idSite );
         }
         if ($mergeSubdomains) {
-			// We need to parse_url so we can exclude paths
+            // We need to parse_url so we can exclude paths
             $referrerParsed = parse_url($site_urls[0]);
             $subdomainText = PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $referrerParsed['host'] . '"]);';
         }
         if ($mergeAliasUrls) {
             $urls = '["*.';
             foreach ($site_urls as $site_url) {
-				// We need to parse_url so we can exclude paths
+                // We need to parse_url so we can exclude paths
                 $referrerParsed = parse_url($alia['url']);
-				$urls .= '","*.'.$referrerParsed['host'];
+                $urls .= '","*.'.$referrerParsed['host'];
             }
             $urls .= '"]';
             $aliasText = PHP_EOL . '  _paq.push(["setDomains", '.$urls.']);';
