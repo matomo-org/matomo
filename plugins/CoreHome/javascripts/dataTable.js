@@ -401,14 +401,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             );
         }
 
-        if (self.param.filter_sort_column != '') {
+        if (self.param.filter_sort_column) {
             // are we in a subdatatable?
             var currentIsSubDataTable = $(domElem).parent().hasClass('cellSubDataTable');
             var imageSortSrc = getSortImageSrc();
             var imageSortWidth = 16;
             var imageSortHeight = 16;
 
-            var sortOrder = self.param.filter_sort_order;
+            var sortOrder = self.param.filter_sort_order || 'desc';
             var ImageSortClass = sortOrder.charAt(0).toUpperCase() + sortOrder.substr(1);
 
             // we change the style of the column currently used as sort column
