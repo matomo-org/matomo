@@ -37,7 +37,7 @@ class UserSetting extends Setting
 
         $this->setUserLogin($userLogin);
 
-        $this->displayedForCurrentUser = !Piwik::isUserIsAnonymous();
+        $this->displayedForCurrentUser = !Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess();
     }
 
     private function buildUserSettingName($name, $userLogin = null)
@@ -94,7 +94,7 @@ class UserSetting extends Setting
 
                 if ($setting instanceof UserSetting) {
                     $setting->setUserLogin($userLogin);
-                    $pluginSettings->removeValue($setting);
+                    $pluginSettings->removeSettingValue($setting);
                 }
 
             }
