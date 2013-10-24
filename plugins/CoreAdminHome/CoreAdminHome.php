@@ -102,12 +102,10 @@ class CoreAdminHome extends \Piwik\Plugin
             Piwik::isUserHasSomeAdminAccess(),
             $order = 4);
 
-        if (SettingsManager::hasPluginSettingsForCurrentUser()) {
-            MenuAdmin::getInstance()->add('General_Settings', 'General_Plugins',
-                array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
-                Piwik::isUserHasSomeAdminAccess(),
-                $order = 7);
-        }
+        MenuAdmin::getInstance()->add('General_Settings', 'General_Plugins',
+            array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
+            SettingsManager::hasPluginSettingsForCurrentUser(),
+            $order = 7);
 
     }
 
