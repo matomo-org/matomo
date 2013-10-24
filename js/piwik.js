@@ -1933,6 +1933,14 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
+             * Log other signals (e.g. events)
+             */
+            function logGeneral(customData) {
+                var request = getRequest(customData, 'general');
+                sendRequest(request, configTrackerPause);
+            }
+
+            /*
              * Browser prefix
              */
             function prefixPropertyName(prefix, propertyName) {
@@ -2943,6 +2951,16 @@ if (typeof Piwik !== 'object') {
                  */
                 trackEcommerceCartUpdate: function (grandTotal) {
                     logEcommerceCartUpdate(grandTotal);
+                },
+
+                /**
+                 * Tracks everything that is not directly tracked by Piwik. E.g. piwik.js is not fired when a scroll happens, calling this function allows us to us the
+                 * getRequest method without rewriting it in an external js file.
+                 *
+                 * @param string customData data that will be added to the final request
+                 */
+                generalTracker: function(customData) {
+                    logGeneral(customData);
                 }
 
             };
