@@ -2953,6 +2953,12 @@ if (typeof Piwik !== 'object') {
                     logEcommerceCartUpdate(grandTotal);
                 },
 
+                /**
+                 * Tracks everything that is not directly tracked by Piwik. E.g. piwik.js is not fired when a scroll happens, calling this function allows us to us the
+                 * getRequest method without rewriting it in an external js file.
+                 *
+                 * @param string customData data that will be added to the final request
+                 */
                 generalTracker: function(customData) {
                     logGeneral(customData);
                 }
