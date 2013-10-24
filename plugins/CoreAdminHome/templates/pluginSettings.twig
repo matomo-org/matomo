@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<div id="pluginsSettings">
     {% import 'macros.twig' as piwik %}
     {% import 'ajaxMacros.twig' as ajax %}
 
@@ -24,7 +25,7 @@
             </p>
         {% endif %}
 
-        <table class="adminTable" style='width:820px;' id="pluginSettings" data-pluginname="{{ pluginName|e('html_attr') }}">
+        <table class="adminTable" id="pluginSettings" data-pluginname="{{ pluginName|e('html_attr') }}">
 
         {% for setting in settings.getSettingsForCurrentUser %}
             {% set settingValue = settings.getSettingValue(setting) %}
@@ -40,15 +41,15 @@
             {% endif %}
 
             <tr>
-                <td style='width:400px'>
-                    {{ setting.title }}
+                <td class="columnTitle">
+                    <span class="title">{{ setting.title }}</span>
                     <br />
                     <span class='form-description'>
                         {{ setting.description }}
                     </span>
 
                 </td>
-                <td style='width:220px'>
+                <td class="columnField">
                     <fieldset>
                         <label>
                             {% if setting.field == 'select' or setting.field == 'multiselect' %}
@@ -114,7 +115,7 @@
                         </label>
                     </fieldset>
                 </td>
-                <td style="width:200px">
+                <td class="columnHelp">
                     {% if setting.inlineHelp %}
                         <div class="ui-widget">
                             <div class="ui-inline-help ui-state-highlight ui-corner-all">
@@ -132,11 +133,12 @@
 
     {% endfor %}
 
-    <hr style="background-color: #DADADA;height: 1px;border: 0px;"/>
+    <hr class="submitSeparator"/>
 
     {{ ajax.errorDiv('ajaxErrorPluginSettings') }}
     {{ ajax.loadingDiv('ajaxLoadingPluginSettings') }}
 
     <input type="submit" value="{{ 'General_Save'|translate }}" class="pluginsSettingsSubmit submit"/>
 
+</div>
 {% endblock %}
