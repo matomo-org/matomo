@@ -29,15 +29,15 @@ class Settings
     const FIELD_TEXTAREA = 'textarea';
     const FIELD_CHECKBOX = 'checkbox';
     const FIELD_PASSWORD = 'password';
-    const FIELD_MULTI_SELECT   = 'multiselect';
-    const FIELD_SINGLE_SELECT  = 'select';
+    const FIELD_MULTI_SELECT  = 'multiselect';
+    const FIELD_SINGLE_SELECT = 'select';
 
     /**
      * An array containing all available settings: Array ( [setting-name] => [setting] )
      *
      * @var Settings[]
      */
-    private $settings       = array();
+    private $settings = array();
 
     /**
      * Array containing all plugin settings values: Array( [setting-key] => [setting-value] ).
