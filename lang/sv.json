@@ -1076,7 +1076,7 @@
         "ShowAll": "Visa alla",
         "ShowLess": "Visa mindre",
         "StaticGraph": "Översiktsgraf",
-        "TopXVisitedWebsites": "Mest %s besökta webbplatser",
+        "TopVisitedWebsites": "Mest besökta webbplatser",
         "TryIt": "Prova!",
         "UseSearchBarHint": "Endast de första %s webbplatserna visas här. Använd sökfältet för att komma åt dina andra webbplatser.",
         "VerifyAccount": "Verifierar konto",

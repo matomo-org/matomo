@@ -1153,7 +1153,7 @@
         "ShowAll": "Vis alle",
         "ShowLess": "Vis mindre",
         "StaticGraph": "Overbliksdiagram",
-        "TopXVisitedWebsites": "Top %s besøgte websteder",
+        "TopVisitedWebsites": "Top besøgte websteder",
         "TryIt": "Prøv!",
         "UseSearchBarHint": "Kun de første %s hjemmesider er vist her. Brug søgefeltet til at få adgang til de andre hjemmesider.",
         "VerifyAccount": "Bekræftelse af konto",

@@ -1047,7 +1047,7 @@
         "ShowAll": "همه را نشان بده",
         "ShowLess": "نشان دادن کمتر",
         "StaticGraph": "نمودار عمومی",
-        "TopXVisitedWebsites": "بهترین %s بازدیدهای سایت",
+        "TopVisitedWebsites": "بهترین بازدیدهای سایت",
         "TryIt": "سعی کنید.",
         "VerifyAccount": "بررسی حساب",
         "VerifyLoginData": "مطمئن شوید که نام کاربری و رمزعبورتان صحیح می باشد.",
