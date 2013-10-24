@@ -81,7 +81,6 @@ class PiwikTracker
         $this->localSecond = false;
         $this->hasCookies = false;
         $this->plugins = false;
-        $this->visitorCustomVar = $this->getCustomVariablesFromCookie();
         $this->pageCustomVar = false;
         $this->customData = false;
         $this->forcedDatetime = false;
@@ -131,6 +130,8 @@ class PiwikTracker
         $this->requestTimeout = 600;
         $this->doBulkRequests = false;
         $this->storedTrackingActions = array();
+
+        $this->visitorCustomVar = $this->getCustomVariablesFromCookie();
     }
 
     /**
