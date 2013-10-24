@@ -1345,7 +1345,9 @@ class PiwikTracker
     protected function setCookie($cookieName, $cookieValue, $cookieTTL)
     {
         $cookieExpire = $this->createTs + $cookieTTL;
-        setrawcookie($this->getCookieName($cookieName), $cookieValue, $cookieExpire, $this->configCookiePath, $this->configCookieDomain);
+        if(!headers_sent()) {
+            setrawcookie($this->getCookieName($cookieName), $cookieValue, $cookieExpire, $this->configCookiePath, $this->configCookieDomain);
+        }
     }
 
     /**
