@@ -841,7 +841,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                     var url = $(this).attr('href') + '&token_auth=' + piwik.token_auth;
 
                     var limit = $('.limitSelection>div>span', domElem).text();
-                    url += '&filter_limit=' + (limit || $(this).attr('filter_limit'));
+                    if (!limit || 'undefined' === limit) {
+                        limit = $(this).attr('filter_limit');
+                    }
+                    url += '&filter_limit=' + limit;
 
                     return url;
                 })
