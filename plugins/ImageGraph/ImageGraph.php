@@ -15,7 +15,7 @@ use Piwik\Config;
 use Piwik\Period;
 use Piwik\Site;
 use Piwik\Url;
-use Piwik\Date\Range;
+use Piwik\Period\Range;
 
 class ImageGraph extends \Piwik\Plugin
 {
