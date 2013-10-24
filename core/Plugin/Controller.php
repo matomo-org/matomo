@@ -322,7 +322,7 @@ abstract class Controller
         if (is_null($this->site)) {
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
-        $paramDate = Range::getDateRangeRelativeToEndDate($period, $range, $endDate, $this->site);
+        $paramDate = Range::getRelativeToEndDate($period, $range, $endDate, $this->site);
 
         $params = array_merge($paramsToSet, array('date' => $paramDate));
         return $params;
