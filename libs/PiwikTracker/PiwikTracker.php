@@ -61,6 +61,11 @@ class PiwikTracker
     const DEFAULT_CHARSET_PARAMETER_VALUES = 'utf-8';
 
     /**
+     * See piwik.js
+     */
+    const FIRST_PARTY_COOKIES_PREFIX = '_pk_';
+
+    /**
      * Builds a PiwikTracker object, used to track visits, pages and Goal conversions
      * for a specific website, by using the Piwik Tracking API.
      *
@@ -70,7 +75,6 @@ class PiwikTracker
      */
     function __construct($idSite, $apiUrl = '')
     {
-        $this->cookieSupport = true;
         $this->userAgent = false;
         $this->localHour = false;
         $this->localMinute = false;
@@ -87,18 +91,6 @@ class PiwikTracker
         $this->ecommerceItems = array();
         $this->generationTime = false;
 
-        $this->requestCookie = '';
-        $this->updateClientCookies = false;
-        $this->clientCookiePath = '/';
-        $this->clientCookieDomain = ''; 
-        $this->newVisitor = 1;
-        $this->cookieVisitorId = '';
-        $this->currentTs = time();
-        $this->createTs = $this->currentTs;
-        $this->visitCount = 0;
-        $this->currentVisitTs = '';
-        $this->lastVisitTs = '';
-        $this->lastEcommerceOrderTs = '';
         $this->idSite = $idSite;
         $this->urlReferrer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
         $this->pageCharset = self::DEFAULT_CHARSET_PARAMETER_VALUES;
@@ -109,15 +101,32 @@ class PiwikTracker
         if (!empty($apiUrl)) {
             self::$URL = $apiUrl;
         }
+
+        // Life of the visitor cookie (in sec)
+        $this->configVisitorCookieTimeout = 63072000; // 2 years
+        // Life of the session cookie (in sec)
+        $this->configSessionCookieTimeout = 1800; // 30 minutes
+        // Life of the session cookie (in sec)
+        $this->configReferralCookieTimeout = 15768000; // 6 months
+
+        // Visitor Ids in order
+        $this->forcedVisitorId = false;
+        $this->cookieVisitorId = false;
+        $this->randomVisitorId = false;
+
         $this->setNewVisitorId();
 
-        // Life of the visitor cookie (in milliseconds)
-        $this->configVisitorCookieTimeout = 63072000000; // 2 years
-        // Life of the session cookie (in milliseconds)
-        $this->configSessionCookieTimeout = 1800000; // 30 minutes
-        // Life of the referral cookie (in milliseconds)
-        $this->configReferralCookieTimeout = 15768000000; // 6 months
-        
+        $this->configCookiesDisabled = true;
+        $this->configCookiePath = '/';
+        $this->configCookieDomain = '';
+
+        $this->currentTs = time();
+        $this->createTs = $this->currentTs;
+        $this->visitCount = false;
+        $this->currentVisitTs = false;
+        $this->lastVisitTs = false;
+        $this->lastEcommerceOrderTs = false;
+
         // Allow debug while blocking the request
         $this->requestTimeout = 600;
         $this->doBulkRequests = false;
@@ -182,6 +191,9 @@ class PiwikTracker
      *
      * This must be a JSON encoded string that would typically be fetched from the JS API:
      * piwikTracker.getAttributionInfo() and that you have JSON encoded via JSON2.stringify()
+     *
+     * If you call enableCookies() then these referral attribution values will be set
+     * to the 'ref' first party cookie storing referral information.
      *
      * @param string $jsonEncoded JSON encoded array containing Attribution info
      * @throws Exception
@@ -267,8 +279,9 @@ class PiwikTracker
      */
     public function setNewVisitorId()
     {
-        $this->visitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
+        $this->randomVisitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
         $this->forcedVisitorId = false;
+        $this->cookieVisitorId = false;
     }
 
     /**
@@ -374,23 +387,24 @@ class PiwikTracker
     /**
      * Enable Cookie Creation - this will cause a first party VisitorId cookie to be set when the VisitorId is set or reset
      *
-     * @param bool $create determines whether or not client cookies will be updated
-     * $param string $domain sets the domain under which the cookie will be placed (primarily used to create domain wildcard cookies)
+     * @param string $domain (optional) Set first-party cookie domain. Accepted values: example.com, *.example.com (same as .example.com) or subdomain.example.com
+     * @param string $path (optional) Set first-party cookie path
      */
-    public function setUpdateClientCookies( $create, $domain = '', $path = '/' )
+    public function enableCookies( $domain = '', $path = '/' )
     {
-        $this->updateClientCookies = $create;
-        $this->clientCookieDomain = self::domainFixup($domain);
-        $this->clientCookiePath = $path;
+        $this->configCookiesDisabled = false;
+        $this->configCookieDomain = self::domainFixup($domain);
+        $this->configCookiePath = $path;
     }
 
-    /*
+    /**
      * Fix-up domain
      */
-    static protected function domainFixup($domain) {
-        $dl = strlen($domain);
+    static protected function domainFixup($domain)
+    {
+        $dl = strlen($domain) - 1;
         // remove trailing '.'
-        if ($domain{--$dl} === '.') {
+        if ($domain{$dl} === '.') {
             $domain = substr($domain, 0, $dl);
         }
         // remove leading '*'
@@ -403,21 +417,10 @@ class PiwikTracker
     /**
      * Get cookie name with prefix and domain hash
      */
-    function getCookieName($baseName) {
-        // NOTE: If the cookie name is changed, we must also update the method in piwik.js with
-        // the same name.
-        $hash = substr( sha1( ($this->clientCookieDomain == '' ? self::getCurrentHost() : $this->clientCookieDomain)  . $this->clientCookiePath ), 0, 4);
-        return '_pk_' . $baseName . '.' . $this->idSite . '.' . $hash;
-    }
-     
-    /**
-     * Sets a first party cookie.  This is useful when using the PHP Tracking API along with the Javascript Tracking API.
-     *
-     * @return bool
-     */
-    protected function setVisitorIdCookie($visitorId, $createTs, $visitCount, $nowTs, $lastVisitTs, $lastEcommerceOrderTs = '')
-    {
-        return setcookie( $this->getCookieName('id'), $visitorId . '.' . $createTs . '.' . $visitCount . '.' . $nowTs . '.' . $lastVisitTs . '.' . $lastEcommerceOrderTs, $nowTs + $this->configVisitorCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain );
+    protected function getCookieName($cookieName) {
+        // NOTE: If the cookie name is changed, we must also update the method in piwik.js with the same name.
+        $hash = substr( sha1( ($this->configCookieDomain == '' ? self::getCurrentHost() : $this->configCookieDomain)  . $this->configCookiePath ), 0, 4);
+        return self::FIRST_PARTY_COOKIES_PREFIX . $cookieName . '.' . $this->idSite . '.' . $hash;
     }
 
     /**
@@ -437,8 +440,8 @@ class PiwikTracker
      * These are used to populate reports in Actions > Site Search.
      *
      * @param string $keyword Searched query on the site
-     * @param string $category Optional, Search engine category if applicable
-     * @param bool|int $countResults results displayed on the search result page. Used to track "zero result" keywords.
+     * @param string $category (optional) Search engine category if applicable
+     * @param bool|int $countResults (optional) results displayed on the search result page. Used to track "zero result" keywords.
      *
      * @return mixed Response or true if using bulk requests.
      */
@@ -827,7 +830,7 @@ class PiwikTracker
         } else if ($this->loadVisitorIdCookie()) {
             return $this->cookieVisitorId;
         } else {
-            return $this->visitorId;
+            return $this->randomVisitorId;
         }
     }
 
@@ -840,37 +843,32 @@ class PiwikTracker
     {
         $idCookieName = $this->getCookieName('id');
         $idCookie = $this->getCookieMatchingName($idCookieName);
-        if ($idCookie !== false) {
-            $parts = explode('.',$idCookie);
-            if (strlen($parts[0]) == self::LENGTH_VISITOR_ID) {
-                $this->newVisitor = 0;
-                $this->cookieVisitorId = $parts[0]; // provides backward compatibility since getVisitorId() didn't change any existing VisitorId value
-                $this->createTs = $parts[1];
-                $this->visitCount = $parts[2];
-                $this->currentVisitTs = $parts[3];
-                $this->lastVisitTs = $parts[4];
-                if (count($parts)>5) {
-                    $this->lastEcommerceOrderTs = $parts[5];
-                } else {
-                    $this->lastEcommerceOrderTs = '';
-                }
-                return true;
-            }
+        if ($idCookie === false) {
+            return false;
         }
-        return false;
+        $parts = explode('.', $idCookie);
+        if (strlen($parts[0]) != self::LENGTH_VISITOR_ID) {
+            return false;
+        }
+        $this->cookieVisitorId = $parts[0]; // provides backward compatibility since getVisitorId() didn't change any existing VisitorId value
+        $this->createTs = $parts[1];
+        $this->visitCount = $parts[2];
+        $this->currentVisitTs = $parts[3];
+        $this->lastVisitTs = $parts[4];
+        $this->lastEcommerceOrderTs = $parts[5];
+        return true;
     }
     
     /**
-     * Deletes all cookies from client
-     * 
+     * Deletes all first party cookies from the client
      */
     public function deleteCookies() 
     {
-        return 
-        setcookie($this->getCookieName('id'), '', $this->currentTs - 86400, $this->clientCookiePath, $this->clientCookieDomain) && 
-        setcookie($this->getCookieName('ses'), '', $this->currentTs - 86400, $this->clientCookiePath, $this->clientCookieDomain) &&
-        setcookie($this->getCookieName('cvar'), '', $this->currentTs - 86400, $this->clientCookiePath, $this->clientCookieDomain) &&
-        setcookie($this->getCookieName('ref'), '', $this->currentTs - 86400, $this->clientCookiePath, $this->clientCookieDomain);
+        $expire = $this->currentTs - 86400;
+        $cookies = array('id', 'ses', 'cvar', 'ref');
+        foreach($cookies as $cookie) {
+            $this->setCookie($cookie, '', $expire);
+        }
     }
     
     /**
@@ -885,6 +883,9 @@ class PiwikTracker
      */
     public function getAttributionInfo()
     {
+        if(!empty($this->attributionInfo)) {
+            return $this->attributionInfo;
+        }
         $attributionCookieName = $this->getCookieName('ref');
         return $this->getCookieMatchingName($attributionCookieName);
     }
@@ -978,13 +979,13 @@ class PiwikTracker
     }
 
     /**
-     * By default, PiwikTracker will read third party cookies
-     * from the response and sets them in the next request.
+     * By default, PiwikTracker will read first party cookies
+     * from the request and write updated cookies in the response (using setrawcookie).
      * This can be disabled by calling this function.
      */
-    public function disableCookieSupport()
+    public function disableCookies()
     {
-        $this->cookieSupport = false;
+        $this->configCookiesDisabled = true;
     }
 
     /**
@@ -1026,9 +1027,6 @@ class PiwikTracker
             return true;
         }
 
-        if (!$this->cookieSupport) {
-            $this->requestCookie = '';
-        }
         if (function_exists('curl_init')) {
             $options = array(
                 CURLOPT_URL            => $url,
@@ -1037,8 +1035,7 @@ class PiwikTracker
                 CURLOPT_TIMEOUT        => $this->requestTimeout,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HTTPHEADER     => array(
-                    'Accept-Language: ' . $this->acceptLanguage,
-                    'Cookie: ' . $this->requestCookie,
+                    'Accept-Language: ' . $this->acceptLanguage
                 ));
 
             switch ($method) {
@@ -1061,7 +1058,7 @@ class PiwikTracker
             ob_start();
             $response = @curl_exec($ch);
             ob_end_clean();
-            $header = $content = '';
+            $content = '';
             if (!empty($response)) {
                 list($header, $content) = explode("\r\n\r\n", $response, $limitCount = 2);
             }
@@ -1070,8 +1067,7 @@ class PiwikTracker
                 'http' => array(
                     'method'     => $method,
                     'user_agent' => $this->userAgent,
-                    'header'     => "Accept-Language: " . $this->acceptLanguage . "\r\n" .
-                        "Cookie: " . $this->requestCookie . "\r\n",
+                    'header'     => "Accept-Language: " . $this->acceptLanguage . "\r\n",
                     'timeout'    => $this->requestTimeout, // PHP 5.2.1
                 )
             );
@@ -1081,27 +1077,10 @@ class PiwikTracker
                 $stream_options['http']['header'] .= "Content-Type: application/json \r\n";
                 $stream_options['http']['content'] = $data;
             }
-
             $ctx = stream_context_create($stream_options);
             $response = file_get_contents($url, 0, $ctx);
-            $header = implode("\r\n", $http_response_header);
             $content = $response;
         }
-        // The cookie in the response will be set in the next request
-        preg_match_all('/^Set-Cookie: (.*?);/m', $header, $cookie);
-        if (!empty($cookie[1])) {
-            // in case several cookies returned, we keep only the latest one (ie. XDEBUG puts its cookie first in the list)
-            if (is_array($cookie[1])) {
-                $cookie = end($cookie[1]);
-            } else {
-                $cookie = $cookie[1];
-            }
-            // XDEBUG is a PHP Debugger
-            if (strpos($cookie, 'XDEBUG') === false) {
-                $this->requestCookie = $cookie;
-            }
-        }
-
         return $content;
     }
 
@@ -1137,31 +1116,7 @@ class PiwikTracker
      */
     protected function getRequest($idSite)
     {
-        // Update client cookies in getRequest to parallel piwik.js logic
-        if ($this->updateClientCookies) {
-            // If we're setting cookies, we want to make sure we've loaded prevoius cookies
-            // Initialize cookie data if it's still defaulted to false
-            if (empty($this->lastVisitTs)) {
-                $this->loadVisitorIdCookie();
-            }
-            // Set the id cookie
-            $this->setVisitorIdCookie($this->getVisitorId(), $this->createTs, $this->visitCount, $this->currentTs, $this->lastVisitTs, $this->lastEcommerceOrderTs); 
-            
-            // Set/update the session cookie
-            $sesname = $this->getCookieName('ses');
-            if (!$this->getCookieMatchingName($sesname)) {
-                // new session (new visit)
-                $this->visitCount++;
-                $this->lastVisitTs = $this->currentVisitTs;
-            }
-            setrawcookie($sesname, '*', $this->currentTs + $this->configSessionCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain);
-            
-            // Set the custom variable cookie if custom variables have been set
-            if (!empty($this->visitorCustomVar)) {
-                $cvarame = $this->getCookieName('cvar');
-                setcookie($cvarname, json_encode($this->visitorCustomVar), $this->currentTs + $this->configSessionCookieTimeout / 1000, $this->clientCookiePath, $this->clientCookieDomain);
-            }
-        }
+        $this->setFirstPartyCookies();
 
         $url = $this->getBaseUrl() .
             '?idsite=' . $idSite .
@@ -1182,8 +1137,7 @@ class PiwikTracker
             // Values collected from cookie
             '&_idts=' . $this->createTs .
             '&_idvc=' . $this->visitCount .
-            '&_idn=' . $this->newVisitor . // currently unused
-            (!empty($this->lastVisitTs) ? '&_viewts=' . $this->lastVisitTs : '' ) . // note that piwik.js sends an empty value instead of skipping
+            (!empty($this->lastVisitTs) ? '&_viewts=' . $this->lastVisitTs : '' ) .
             (!empty($this->lastEcommerceOrderTs) ? '&_ects=' . $this->lastEcommerceOrderTs : '' ) .
             
             // These parameters are set by the JS, but optional when using API
@@ -1239,6 +1193,9 @@ class PiwikTracker
      */
     protected function getCookieMatchingName($name)
     {
+        if($this->configCookiesDisabled) {
+            return false;
+        }
         // Piwik cookie names use dots separators in piwik.js,
         // but PHP Replaces . with _ http://www.php.net/manual/en/language.variables.predefined.php#72571
         $name = str_replace('.', '_', $name);
@@ -1341,6 +1298,58 @@ class PiwikTracker
             . self::getCurrentHost()
             . self::getCurrentScriptName()
             . self::getCurrentQueryString();
+    }
+
+    /**
+     * Sets the first party cookies as would the piwik.js
+     * All cookies are supported: 'id' and 'ses' and 'ref' and 'cvar' cookies.
+     */
+    protected function setFirstPartyCookies()
+    {
+        if ($this->configCookiesDisabled) {
+            return;
+        }
+
+        if (empty($this->cookieVisitorId)) {
+            $this->loadVisitorIdCookie();
+        }
+
+        // Set the 'ses' cookie
+        $sesname = $this->getCookieName('ses');
+        if (!$this->getCookieMatchingName($sesname)) {
+            // new session (new visit)
+            $this->visitCount++;
+            $this->lastVisitTs = $this->currentVisitTs;
+
+            // Set the 'ref' cookie
+            $attributionInfo = $this->getAttributionInfo();
+            if(!empty($attributionInfo)) {
+                $this->setCookie('ref', json_encode($attributionInfo), $this->configReferralCookieTimeout);
+            }
+        }
+        $this->setCookie($sesname, '*', $this->configSessionCookieTimeout);
+
+        // Set the 'id' cookie
+        $cookieValue = $this->getVisitorId() . '.' . $this->createTs . '.' . $this->visitCount . '.' . $this->currentTs . '.' . $this->lastVisitTs . '.' . $this->lastEcommerceOrderTs;
+        $this->setCookie('id', $cookieValue, $this->configVisitorCookieTimeout);
+
+        // Set the 'cvar' cookie
+
+    }
+
+    /**
+     * Sets a first party cookie to the client to improve dual JS-PHP tracking.
+     *
+     * This replicates the piwik.js tracker algorithms for consistency and better accuracy.
+     *
+     * @param $cookieName
+     * @param $cookieValue
+     * @param $cookieTTL
+     */
+    protected function setCookie($cookieName, $cookieValue, $cookieTTL)
+    {
+        $cookieExpire = $this->createTs + $cookieTTL;
+        setrawcookie($this->getCookieName($cookieName), $cookieValue, $cookieExpire, $this->configCookiePath, $this->configCookieDomain);
     }
 }
 
