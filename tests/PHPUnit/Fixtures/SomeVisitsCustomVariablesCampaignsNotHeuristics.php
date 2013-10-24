@@ -50,22 +50,8 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
         $visitorId = $t->getVisitorId();
         self::assertTrue(strlen($visitorId) == 16);
 
-        // test setting/getting the first party cookie via the PHP Tracking Client 
-        $_COOKIE['_pk_id_1_1fff'] = 'ca0afe7b6b692ff5.1302307497.1.1302307497.1302307497';
-        $_COOKIE['_pk_ref_1_1fff'] = '["YEAH","RIGHT!",1302307497,"http://referrer.example.org/page/sub?query=test&test2=test3"]';
-        $_COOKIE['_pk_cvar_1_1fff'] = '{"1":["VAR 1 set, var 2 not set","yes"],"3":["var 3 set","yes!!!!"]}';
-        self::assertEquals('ca0afe7b6b692ff5', $t->getVisitorId());
-        self::assertEquals($t->getAttributionInfo(), $_COOKIE['_pk_ref_1_1fff']);
-        self::assertEquals(array("VAR 1 set, var 2 not set", "yes"), $t->getCustomVariable(1));
-        self::assertFalse($t->getCustomVariable(2));
-        self::assertEquals(array("var 3 set", "yes!!!!"), $t->getCustomVariable(3));
-        self::assertFalse($t->getCustomVariable(4));
-        self::assertFalse($t->getCustomVariable(5));
-        self::assertFalse($t->getCustomVariable(6));
-        self::assertFalse($t->getCustomVariable(-1));
-        unset($_COOKIE['_pk_id_1_1fff']);
-        unset($_COOKIE['_pk_ref_1_1fff']);
-        unset($_COOKIE['_pk_cvar_1_1fff']);
+        $this->testFirstPartyCookies($t);
+
 
         // Create a new Tracker object, with different attributes
         $t2 = self::getTracker($idSite, $dateTime, $defaultInit = false);
@@ -116,5 +102,34 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
         $t4->setUrlReferrer($adwordsUrl);
         $t4->setUrl('http://example.org/index.html?utm_campaign=Adwords campaign');
         self::checkResponse($t4->doTrackPageView('second page'));
+    }
+
+    /**
+     * Test setting/getting the first party cookie via the PHP Tracking Client
+     * @param $t
+     */
+    private function testFirstPartyCookies(PiwikTracker $t)
+    {
+        $viewts = '1302307497';
+        $uuid = 'ca0afe7b6b692ff5';
+        $_COOKIE['_pk_id_1_1fff'] = $uuid . '.1302307497.1.' . $viewts . '.1302307497';
+        $_COOKIE['_pk_ref_1_1fff'] = '["YEAH","RIGHT!",1302307497,"http://referrer.example.org/page/sub?query=test&test2=test3"]';
+        $_COOKIE['_pk_cvar_1_1fff'] = '{"1":["VAR 1 set, var 2 not set","yes"],"3":["var 3 set","yes!!!!"]}';
+
+        // test loading 'id' cookie
+        self::assertContains("_viewts=" . $viewts, $t->getUrlTrackPageView());
+        self::assertEquals($uuid, $t->getVisitorId());
+        self::assertEquals($t->getAttributionInfo(), $_COOKIE['_pk_ref_1_1fff']);
+        self::assertEquals(array("VAR 1 set, var 2 not set", "yes"), $t->getCustomVariable(1));
+        self::assertFalse($t->getCustomVariable(2));
+        self::assertEquals(array("var 3 set", "yes!!!!"), $t->getCustomVariable(3));
+        self::assertFalse($t->getCustomVariable(4));
+        self::assertFalse($t->getCustomVariable(5));
+        self::assertFalse($t->getCustomVariable(6));
+        self::assertFalse($t->getCustomVariable(-1));
+
+        unset($_COOKIE['_pk_id_1_1fff']);
+        unset($_COOKIE['_pk_ref_1_1fff']);
+        unset($_COOKIE['_pk_cvar_1_1fff']);
     }
 }

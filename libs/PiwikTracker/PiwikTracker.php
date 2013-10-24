@@ -115,7 +115,7 @@ class PiwikTracker
 
         $this->setNewVisitorId();
 
-        $this->configCookiesDisabled = true;
+        $this->configCookiesDisabled = false;
         $this->configCookiePath = '/';
         $this->configCookieDomain = '';
 
