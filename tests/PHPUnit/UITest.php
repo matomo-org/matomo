@@ -312,8 +312,8 @@ If processed screenshots are correct, you can copy the generated screenshots to 
             $name = static::getOutputPrefix() . '_' . $name;
             $file = $name . '.png';
 
-            $diffFileOrError = $diffDir . '/' . $file;
-            if (!is_file($diffFileOrError)) {
+            $diffFileOrError = $file;
+            if (!is_file($diffDir . '/' . $file)) {
                 $diffFileOrError = false;
             }
 
