@@ -116,6 +116,7 @@ class Settings
         Piwik::checkUserIsSuperUser();
 
         Option::delete($this->getOptionKey());
+        $this->settingsValues = array();
     }
 
     /**

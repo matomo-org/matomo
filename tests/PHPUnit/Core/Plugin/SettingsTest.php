@@ -490,9 +490,66 @@ class SettingsTest extends DatabaseTestCase
         $this->assertEquals('myname#superUserLogin#', $user->getKey());
     }
 
-    private function buildUserSetting($name, $title)
+    public function test_userSetting_shouldGenerateDifferentKey_ForDifferentUsers()
     {
-        return new \Piwik\Settings\UserSetting($name, $title);
+        $this->setSuperUser();
+
+        $user1 = $this->buildUserSetting('myname', 'mytitle', 'user1');
+        $user2 = $this->buildUserSetting('myname', 'mytitle', '_user2_');
+        $user3 = $this->buildUserSetting('myname', 'mytitle');
+
+        $this->assertEquals('myname#user1#', $user1->getKey());
+        $this->assertEquals('myname#_user2_#', $user2->getKey());
+        $this->assertEquals('myname#superUserLogin#', $user3->getKey());
+    }
+
+    public function test_userSetting_shouldSaveValuesPerUser()
+    {
+        $this->setSuperUser();
+        $user1Login = 'user1';
+        $user2Login = '_user2_';
+        $user3Login = null; // current loggged in user
+
+        $user = $this->buildUserSetting('myuser', 'mytitle', $user1Login);
+
+        $this->settings->addSetting($user);
+
+        $this->settings->setSettingValue($user, '111');
+        $user->setUserLogin($user2Login);
+        $this->settings->setSettingValue($user, '222');
+        $user->setUserLogin($user3Login);
+        $this->settings->setSettingValue($user, '333');
+
+        $user->setUserLogin($user1Login);
+        $this->assertSettingHasValue($user, '111');
+        $user->setUserLogin($user2Login);
+        $this->assertSettingHasValue($user, '222');
+        $user->setUserLogin($user3Login);
+        $this->assertSettingHasValue($user, '333');
+
+        $user->setUserLogin($user2Login);
+        $this->settings->removeSettingValue($user);
+
+        $user->setUserLogin($user1Login);
+        $this->assertSettingHasValue($user, '111');
+        $user->setUserLogin($user2Login);
+        $this->assertSettingHasValue($user, null);
+        $user->setUserLogin($user3Login);
+        $this->assertSettingHasValue($user, '333');
+
+        $this->settings->removeAllPluginSettings();
+
+        $user->setUserLogin($user1Login);
+        $this->assertSettingHasValue($user, null);
+        $user->setUserLogin($user2Login);
+        $this->assertSettingHasValue($user, null);
+        $user->setUserLogin($user3Login);
+        $this->assertSettingHasValue($user, null);
+    }
+
+    private function buildUserSetting($name, $title, $userLogin = null)
+    {
+        return new \Piwik\Settings\UserSetting($name, $title, $userLogin);
     }
 
     private function buildSystemSetting($name, $title)
