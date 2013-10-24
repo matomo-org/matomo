@@ -1933,6 +1933,14 @@ if (typeof Piwik !== 'object') {
             }
 
             /*
+             * Log other signals (e.g. events)
+             */
+            function logGeneral(customData) {
+                var request = getRequest(customData, 'general');
+                sendRequest(request, configTrackerPause);
+            }
+
+            /*
              * Browser prefix
              */
             function prefixPropertyName(prefix, propertyName) {
@@ -2943,6 +2951,10 @@ if (typeof Piwik !== 'object') {
                  */
                 trackEcommerceCartUpdate: function (grandTotal) {
                     logEcommerceCartUpdate(grandTotal);
+                },
+
+                generalTracker: function(customData) {
+                    logGeneral(customData);
                 }
 
             };
