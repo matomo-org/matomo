@@ -115,7 +115,7 @@ class PiwikTracker
 
         $this->setNewVisitorId();
 
-        $this->configCookiesDisabled = true;
+        $this->configCookiesDisabled = false;
         $this->configCookiePath = '/';
         $this->configCookieDomain = '';
 
@@ -850,7 +850,9 @@ class PiwikTracker
         $this->visitCount = $parts[2];
         $this->currentVisitTs = $parts[3];
         $this->lastVisitTs = $parts[4];
-        $this->lastEcommerceOrderTs = $parts[5];
+        if(isset($parts[5])) {
+            $this->lastEcommerceOrderTs = $parts[5];
+        }
         return true;
     }
     
@@ -977,7 +979,7 @@ class PiwikTracker
      * from the request and write updated cookies in the response (using setrawcookie).
      * This can be disabled by calling this function.
      */
-    public function disableCookiesSupport()
+    public function disableCookieSupport()
     {
         $this->configCookiesDisabled = true;
     }
@@ -1345,7 +1347,9 @@ class PiwikTracker
     protected function setCookie($cookieName, $cookieValue, $cookieTTL)
     {
         $cookieExpire = $this->createTs + $cookieTTL;
-        setrawcookie($this->getCookieName($cookieName), $cookieValue, $cookieExpire, $this->configCookiePath, $this->configCookieDomain);
+        if(!headers_sent()) {
+            setrawcookie($this->getCookieName($cookieName), $cookieValue, $cookieExpire, $this->configCookiePath, $this->configCookieDomain);
+        }
     }
 
     /**
