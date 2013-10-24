@@ -15,7 +15,8 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * BaseClass for console commands.
+ * The base class for console commands.
+ * 
  * @package Piwik_Console
  */
 class ConsoleCommand extends SymfonyCommand
