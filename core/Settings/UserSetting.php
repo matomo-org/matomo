@@ -40,6 +40,11 @@ class UserSetting extends Setting
         $this->displayedForCurrentUser = !Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess();
     }
 
+    public function getOrder()
+    {
+        return 60;
+    }
+
     private function buildUserSettingName($name, $userLogin = null)
     {
         if (empty($userLogin)) {

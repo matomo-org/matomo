@@ -85,9 +85,29 @@ class Settings
      */
     public function getSettingsForCurrentUser()
     {
-        return array_filter($this->getSettings(), function (Setting $setting) {
+        $settings = array_filter($this->getSettings(), function (Setting $setting) {
             return $setting->canBeDisplayedForCurrentUser();
         });
+
+        uasort($settings, function ($setting1, $setting2) use ($settings) {
+            if ($setting1->getOrder() == $setting2->getOrder()) {
+                // preserve order for settings having same order
+                foreach ($settings as $setting) {
+                    if ($setting1 === $setting) {
+                        return -1;
+                    }
+                    if ($setting2 === $setting) {
+                        return 1;
+                    }
+                }
+
+                return 0;
+            }
+
+            return $setting1->getOrder() > $setting2->getOrder() ? -1 : 1;
+        });
+
+        return $settings;
     }
 
     /**

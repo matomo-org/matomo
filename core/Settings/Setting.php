@@ -161,4 +161,12 @@ abstract class Setting
         return $this->key;
     }
 
+    /**
+     * Determine the order for displaying. The lower the order, the earlier the setting will be displayed.
+     * @return int
+     */
+    public function getOrder()
+    {
+        return 100;
+    }
 }

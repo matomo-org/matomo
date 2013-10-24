@@ -386,17 +386,18 @@ class SettingsTest extends DatabaseTestCase
         $this->assertCount(5, $this->settings->getSettings());
     }
 
-    public function test_getSettingsForCurrentUser_shouldReturnAllSettingsIfEnoughPermissions()
+    public function test_getSettingsForCurrentUser_shouldReturnAllSettingsIfEnoughPermissionsAndSortThemBySettingOrder()
     {
         $this->setSuperUser();
 
         $this->addSystemSetting('mysystemsetting1', 'mytitle1');
         $this->addSystemSetting('mysystemsetting2', 'mytitle2');
+        $this->addUserSetting('myusersetting2', 'mytitle6');
         $this->addSystemSetting('mysystemsetting3', 'mytitle3');
         $this->addSystemSetting('mysystemsetting4', 'mytitle4');
         $this->addUserSetting('myusersetting1', 'mytitle5');
 
-        $expected = array('mysystemsetting1', 'mysystemsetting2', 'mysystemsetting3', 'mysystemsetting4', 'myusersetting1');
+        $expected = array('myusersetting2', 'myusersetting1', 'mysystemsetting1', 'mysystemsetting2', 'mysystemsetting3', 'mysystemsetting4');
         $this->assertEquals($expected, array_keys($this->settings->getSettingsForCurrentUser()));
     }
 
