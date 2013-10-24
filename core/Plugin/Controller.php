@@ -32,49 +32,78 @@ use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 
 /**
- * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
- * It defines some helper functions controllers can use.
+ * Base class of all plugin Controllers.
+ * 
+ * Plugins that wish to add display HTML should create a Controller that either
+ * extends from this class or from [ControllerAdmin](#). Every public method in
+ * the controller will be exposed as a controller action.
+ * 
+ * Learn more about Piwik's MVC system [here](#).
+ * 
+ * ### Examples
+ * 
+ * **Defining a controller**
+ * 
+ *     class Controller extends \Piwik\Plugin\Controller
+ *     {
+ *         public function index()
+ *         {
+ *             $view = new View("@MyPlugin/index.twig");
+ *             // ... setup view ...
+ *             echo $view->render();
+ *         }
+ *     }
+ * 
+ * **Linking to a controller action**
  *
+ *     <a href="?module=MyPlugin&action=index&idSite=1&period=day&date=2013-10-10">Link</a>
+ * 
  * @package Piwik
  * @api
  */
 abstract class Controller
 {
     /**
-     * Plugin name, eg. Referrers
+     * The plugin name, eg. `'Referrers'`.
+     * 
      * @var string
      */
     protected $pluginName;
 
     /**
-     * Date string
+     * The value of the `'date'` query parameter.
      *
      * @var string
      */
     protected $strDate;
 
     /**
-     * Date object or null if the requested date is a range
+     * The Date object created with ($strDate)[#strDate] or null if the requested date is a range.
      *
      * @var Date|null
      */
     protected $date;
 
     /**
+     * The value of the `'idSite'` query parameter.
+     * 
      * @var int
      */
     protected $idSite;
 
     /**
+     * The Site object created with ($idSite)[#idSite].
+     * 
      * @var Site
      */
     protected $site = null;
 
     /**
-     * Builds the controller object, reads the date from the request, extracts plugin name from
+     * Constructor.
      */
     public function __construct()
     {
@@ -99,16 +128,16 @@ abstract class Controller
     }
 
     /**
-     * Helper method to convert "today" or "yesterday" to the default timezone specified.
-     * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone
+     * Helper method that converts "today" or "yesterday" to the specified timezone.
+     * If the date is absolute, ie. YYYY-MM-DD, it will not be converted to the timezone.
      *
      * @param string $date today, yesterday, YYYY-MM-DD
-     * @param string $defaultTimezone default timezone to use
+     * @param string $timezone default timezone to use
      * @return Date
      */
-    protected function getDateParameterInTimezone($date, $defaultTimezone)
+    protected function getDateParameterInTimezone($date, $timezone)
     {
-        $timezone = null;
+        $timezoneToUse = null;
         // if the requested date is not YYYY-MM-DD, we need to ensure
         //  it is relative to the website's timezone
         if (in_array($date, array('today', 'yesterday'))) {
@@ -120,28 +149,28 @@ abstract class Controller
             } elseif ($date == 'yesterday') {
                 $date = 'yesterdaySameTime';
             }
-            $timezone = $defaultTimezone;
+            $timezoneToUse = $timezone;
         }
-        return Date::factory($date, $timezone);
+        return Date::factory($date, $timezoneToUse);
     }
 
     /**
      * Sets the date to be used by all other methods in the controller.
-     * If the date has to be modified, it should be called just after the controller construct
+     * If the date has to be modified, this method should be called just after
+     * construction.
      *
-     * @param Date $date
+     * @param Date $date The new Date.
      * @return void
      */
     protected function setDate(Date $date)
     {
         $this->date = $date;
-        $strDate = $this->date->toString();
-        $this->strDate = $strDate;
+        $this->strDate = $date->toString();
     }
 
     /**
      * Returns the name of the default method that will be called
-     * when visiting: index.php?module=PluginName without the action parameter
+     * when visiting: index.php?module=PluginName without the action parameter.
      *
      * @return string
      */
@@ -151,15 +180,14 @@ abstract class Controller
     }
 
     /**
-     * Given an Object implementing ViewInterface, we either:
-     * - echo the output of the rendering if fetch = false
-     * - returns the output of the rendering if fetch = true
+     * A helper method that renders a view either to the screen or to a string.
      *
-     * @param ViewDataTable $view view object to use
-     * @param bool $fetch indicates whether to output or return the content
+     * @param ViewInterface $view The view to render.
+     * @param bool $fetch If true, the result is returned as a string. If false,
+     *                    the rendered string is echo'd to the screen.
      * @return string|void
      */
-    protected function renderView(ViewDataTable $view, $fetch = false)
+    protected function renderView(ViewInterface $view, $fetch = false)
     {
         $rendered = $view->render();
         if ($fetch) {
@@ -169,12 +197,14 @@ abstract class Controller
     }
 
     /**
-     * Returns a ViewDataTable object of an Evolution graph
+     * Returns a ViewDataTable object that will render a jqPlot evolution graph
      * for the last30 days/weeks/etc. of the current period, relative to the current date.
      *
-     * @param string $currentModuleName
-     * @param string $currentControllerAction
-     * @param string $apiMethod
+     * @param string $currentModuleName The name of the current plugin.
+     * @param string $currentControllerAction The name of the action that renders the desired
+     *                                        report.
+     * @param string $apiMethod The API method that the ViewDataTable will use to get
+     *                          graph data.
      * @return ViewDataTable
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
@@ -199,8 +229,9 @@ abstract class Controller
      *                                (by default, this is API.get but it can be changed for custom stuff)
      * @return ViewDataTable
      */
-    protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
-                                                     $columnsToDisplay, $selectableColumns = array(), $reportDocumentation = false, $apiMethod = 'API.get')
+    protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction, $columnsToDisplay,
+                                                     $selectableColumns = array(), $reportDocumentation = false,
+                                                     $apiMethod = 'API.get')
     {
         // load translations from meta data
         $idSite = Common::getRequestVar('idSite');

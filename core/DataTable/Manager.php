@@ -23,7 +23,7 @@ use Piwik\Singleton;
  *
  * @package Piwik
  * @subpackage DataTable
- * @method \Piwik\DataTable\Manager getInstance()
+ * @method static \Piwik\DataTable\Manager getInstance()
  */
 class Manager extends Singleton
 {

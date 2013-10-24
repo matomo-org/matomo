@@ -40,7 +40,7 @@ use Piwik\Tracker\GoalManager;
  * See also the documentation about <a href='http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>Tracking Goals</a> in Piwik.
  *
  * @package Goals
- * @method \Piwik\Plugins\Goals\API getInstance()
+ * @method static \Piwik\Plugins\Goals\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

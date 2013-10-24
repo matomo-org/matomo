@@ -65,7 +65,7 @@ abstract class Graph extends Visualization
      * Determines what rows are selectable and stores them in the selectable_rows property in
      * a format the SeriesPicker JavaScript class can use.
      */
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
+    public function determineWhichRowsAreSelectable()
     {
         if ($this->config->row_picker_match_rows_by === false) {
             return;
@@ -108,6 +108,8 @@ abstract class Graph extends Visualization
      */
     public function afterAllFilteresAreApplied()
     {
+        $this->determineWhichRowsAreSelectable();
+
         $this->config->selectable_rows = array_values($this->selectableRows);
 
         $selectableColumns = $this->config->selectable_columns;

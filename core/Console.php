@@ -14,6 +14,7 @@ use Piwik\Plugins\CoreConsole\CodeCoverage;
 use Piwik\Plugins\CoreConsole\GenerateApi;
 use Piwik\Plugins\CoreConsole\GenerateController;
 use Piwik\Plugins\CoreConsole\GeneratePlugin;
+use Piwik\Plugins\CoreConsole\GenerateSettings;
 use Piwik\Plugins\CoreConsole\GenerateVisualizationPlugin;
 use Piwik\Plugins\CoreConsole\GitCommit;
 use Piwik\Plugins\CoreConsole\GitPull;
@@ -38,6 +39,7 @@ class Console
         $console->add(new RunTests());
         $console->add(new GeneratePlugin());
         $console->add(new GenerateApi());
+        $console->add(new GenerateSettings());
         $console->add(new GenerateController());
         $console->add(new GenerateVisualizationPlugin());
         $console->add(new WatchLog());

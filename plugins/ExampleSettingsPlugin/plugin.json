@@ -1,0 +1,6 @@
+{
+ "name": "ExampleSettingsPlugin",
+ "version": "0.1.0",
+ "description": "Plugin to demonstrate how to define and how to access plugin settings",
+ "theme": false
+}

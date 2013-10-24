@@ -11,18 +11,24 @@
 
 namespace Piwik\Settings;
 
+use Piwik\Plugin\Manager as PluginManager;
+
 /**
- * Settings manager
+ * Settings manager.
  *
  * @package Piwik
- * @subpackage Manager
+ * @subpackage Settings
  */
 class Manager
 {
     private static $settings = array();
 
     /**
-     * @return \Piwik\Plugin\Settings[]
+     * Returns all available plugin settings, even settings for inactive plugins. A plugin has to specify a file named
+     * `settings.php` containing a class named `Settings` that extends `Piwik\Plugin\Settings` in order to be
+     * considered as a plugin setting. Otherwise the settings for a plugin won't be available.
+     *
+     * @return \Piwik\Plugin\Settings[]   An array containing array([pluginName] => [setting instance]).
      */
     public static function getAllPluginSettings()
     {
@@ -30,7 +36,7 @@ class Manager
 
             $settings = array();
 
-            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
+            $pluginNames = PluginManager::getInstance()->getLoadedPluginsName();
             foreach ($pluginNames as $pluginName) {
                 $settings[$pluginName] = self::getPluginSettingsClass($pluginName);
             }
@@ -41,6 +47,16 @@ class Manager
         return static::$settings;
     }
 
+    private static function isActivatedPlugin($pluginName)
+    {
+        return PluginManager::getInstance()->isPluginActivated($pluginName);
+    }
+
+    /**
+     * Removes all settings made for a specific plugin. Useful while uninstalling a plugin.
+     *
+     * @param string $pluginName
+     */
     public static function cleanupPluginSettings($pluginName)
     {
         $settings = self::getPluginSettingsClass($pluginName);
@@ -50,32 +66,48 @@ class Manager
         }
     }
 
-    public static function cleanupUserSettings($userLogin)
+    /**
+     * Gets all plugins settings that have at least one settings a user is allowed to change. Only the settings for
+     * activated plugins are returned.
+     *
+     * @return \Piwik\Plugin\Settings[]   An array containing array([pluginName] => [setting instance]).
+     */
+    public static function getPluginSettingsForCurrentUser()
     {
-        foreach (static::getAllPluginSettings() as $setting) {
-            $setting->removeAllSettingsForUser($userLogin);
+        $settings = static::getAllPluginSettings();
+
+        $settingsForUser = array();
+        foreach ($settings as $pluginName => $setting) {
+            if (!static::isActivatedPlugin($pluginName)) {
+                continue;
+            }
+
+            $forUser = $setting->getSettingsForCurrentUser();
+            if (!empty($forUser)) {
+                $settingsForUser[$pluginName] = $setting;
+            }
         }
+
+        return $settingsForUser;
     }
 
     /**
+     * Detects whether there are settings for activated plugins available that the current user can change.
+     *
      * @return bool
      */
     public static function hasPluginSettingsForCurrentUser()
     {
-        $settings = static::getAllPluginSettings();
+        $settings = static::getPluginSettingsForCurrentUser();
 
-        foreach ($settings as $setting) {
-            $forUser = $setting->getSettingsForCurrentUser();
-            if (!empty($forUser)) {
-                return true;
-            }
-        }
-
-        return false;
+        return !empty($settings);
     }
 
     /**
-     * @param $pluginName
+     * Tries to find a settings class for the specified plugin name. Returns null in case the plugin does not specify
+     * any settings, an instance of the settings class otherwise.
+     *
+     * @param string $pluginName
      * @return \Piwik\Plugin\Settings|null
      */
     private static function getPluginSettingsClass($pluginName)

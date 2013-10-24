@@ -17,10 +17,18 @@ $(document).ready(function () {
 
     function updatePluginSettings()
     {
+        var $nonce = $('[name="setpluginsettingsnonce"]');
+        var nonceValue = '';
+
+        if ($nonce) {
+            nonceValue = $nonce.val();
+        }
+
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams({
             module: 'CoreAdminHome',
-            action: 'setPluginSettings'
+            action: 'setPluginSettings',
+            nonce: nonceValue
         }, 'GET');
         ajaxHandler.addParams({settings: getSettings()}, 'POST');
         ajaxHandler.redirectOnSuccess();
@@ -39,7 +47,14 @@ $(document).ready(function () {
             $pluginSection = $(pluginSection);
 
             var pluginName = $pluginSection.attr('data-pluginname');
-            var serialized = $('input, textarea, select', $pluginSection).serializeArray();
+            var serialized = $('input, textarea, select:not([multiple])', $pluginSection).serializeArray();
+
+            // by default, it does not generate an array
+            var $multiSelects = $('select[multiple]', $pluginSection);
+            $multiSelects.each(function (index, multiSelect) {
+                var name = $(multiSelect).attr('name');
+                serialized.push({name: name, value: $(multiSelect).val()});
+            });
 
             // by default, values of unchecked checkboxes are not send
             var $uncheckedNodes = $('input[type=checkbox]:not(:checked)', $pluginSection);

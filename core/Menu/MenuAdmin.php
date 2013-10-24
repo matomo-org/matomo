@@ -13,17 +13,36 @@ namespace Piwik\Menu;
 use Piwik\Piwik;
 
 /**
+ * Contains menu entries for the Admin menu. Plugins can subscribe to the 
+ * [Menu.Admin.addItems](#) event to add new pages to the admin menu.
+ * 
+ * **Example**
+ * 
+ *     // add a new page in an observer to Menu.Admin.addItems
+ *     public function addAdminMenuItem()
+ *     {
+ *         MenuAdmin::getInstance()->add(
+ *             'MyPlugin_MyTranslatedAdminMenuCategory',
+ *             'MyPlugin_MyTranslatedAdminPageName',
+ *             array('module' => 'MyPlugin', 'action' => 'index'),
+ *             Piwik::isUserHasSomeAdminAccess(),
+ *             $order = 2
+ *         );
+ *     }
+ * 
  * @package Piwik_Menu
  */
 class MenuAdmin extends MenuAbstract
 {
     /**
-     * Adds a new AdminMenu entry.
+     * Adds a new AdminMenu entry under the 'Settings' category.
      *
-     * @param string $adminMenuName
-     * @param string $url
-     * @param boolean $displayedForCurrentUser
-     * @param int $order
+     * @param string $adminMenuName The name of the admin menu entry. Can be a translation token.
+     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
+     *                          that can be used to build the URL.
+     * @param boolean $displayedForCurrentUser Whether this menu entry should be displayed for the
+     *                                         current user. If false, the entry will not be added.
+     * @param int $order The order hint.
      * @api
      */
     public static function addEntry($adminMenuName, $url, $displayedForCurrentUser = true, $order = 20)
@@ -70,7 +89,7 @@ class MenuAdmin extends MenuAbstract
      *
      * @return boolean
      */
-    function getCurrentAdminMenuName()
+    public function getCurrentAdminMenuName()
     {
         $menu = MenuAdmin::getInstance()->getMenu();
         $currentModule = Piwik::getModule();
@@ -88,4 +107,3 @@ class MenuAdmin extends MenuAbstract
         return false;
     }
 }
-

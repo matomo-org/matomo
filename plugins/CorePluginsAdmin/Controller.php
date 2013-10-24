@@ -18,6 +18,7 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
+use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Url;
 use Piwik\View;
 
@@ -102,7 +103,7 @@ class Controller extends Plugin\ControllerAdmin
         $view = $this->configureView('@CorePluginsAdmin/uploadPlugin');
 
         $pluginInstaller = new PluginInstaller('uploaded');
-        $pluginMetadata = $pluginInstaller->installOrUpdatePluginFromFile($file);
+        $pluginMetadata  = $pluginInstaller->installOrUpdatePluginFromFile($file);
 
         $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
         $view->plugin = array(
@@ -211,6 +212,8 @@ class Controller extends Plugin\ControllerAdmin
         $users = \Piwik\Plugins\UsersManager\API::getInstance()->getUsers();
         $view->otherUsersCount = count($users) - 1;
         $view->themeEnabled = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
+
+        $view->pluginNamesHavingSettings = array_keys(SettingsManager::getPluginSettingsForCurrentUser());
 
         if (CorePluginsAdmin::isMarketplaceEnabled()) {
             $marketplace = new Marketplace();

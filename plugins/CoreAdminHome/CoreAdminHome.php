@@ -19,6 +19,7 @@ use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;
 use Piwik\Settings\Manager as SettingsManager;
+use Piwik\Settings\UserSetting;
 
 /**
  *
@@ -42,7 +43,7 @@ class CoreAdminHome extends \Piwik\Plugin
 
     public function cleanupUser($userLogin)
     {
-        SettingsManager::cleanupUserSettings($userLogin);
+        UserSetting::removeAllUserSettingsForUser($userLogin);
     }
 
     public function getScheduledTasks(&$tasks)
@@ -70,6 +71,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/menu.less";
         $stylesheets[] = "plugins/Zeitgeist/stylesheets/base.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
+        $stylesheets[] = "plugins/CoreAdminHome/stylesheets/pluginSettings.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -101,12 +103,10 @@ class CoreAdminHome extends \Piwik\Plugin
             Piwik::isUserHasSomeAdminAccess(),
             $order = 4);
 
-        if (SettingsManager::hasPluginSettingsForCurrentUser()) {
-            MenuAdmin::getInstance()->add('General_Settings', 'General_Plugins',
-                array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
-                Piwik::isUserHasSomeAdminAccess(),
-                $order = 7);
-        }
+        MenuAdmin::getInstance()->add('General_Settings', 'General_Plugins',
+            array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
+            SettingsManager::hasPluginSettingsForCurrentUser(),
+            $order = 7);
 
     }
 

@@ -40,6 +40,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     const LOGO_HEIGHT = 300;
     const LOGO_SMALL_HEIGHT = 100;
 
+    const SET_PLUGIN_SETTINGS_NONCE = 'CoreAdminHome.setPluginSettings';
+
     public function index()
     {
         $this->redirectToIndex('UsersManager', 'userSettings');
@@ -97,11 +99,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new View('@CoreAdminHome/pluginSettings');
+        $settings = SettingsManager::getPluginSettingsForCurrentUser();
+        ksort($settings);
 
-        // TODO sort plugin settings by plugin name
-        // TODO add nonce
-        $view->pluginSettings = SettingsManager::getAllPluginSettings();
+        $view = new View('@CoreAdminHome/pluginSettings');
+        $view->pluginSettings = $settings;
+        $view->nonce          = Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE);
 
         $this->setBasicVariablesView($view);
 
@@ -113,56 +116,64 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserIsNotAnonymous();
         Json::sendHeaderJSON();
 
-        $pluginSettings = SettingsManager::getAllPluginSettings();
+        $nonce = Common::getRequestVar('nonce', null, 'string');
+
+        if (!Nonce::verifyNonce(static::SET_PLUGIN_SETTINGS_NONCE, $nonce)) {
+            echo json_encode(array(
+                'result' => 'error',
+                'message' => Piwik::translate('General_ExceptionNonceMismatch')
+            ));
+            return;
+        }
+
+        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
 
         try {
 
-            foreach ($pluginSettings as $pluginName => $pluginSetting) {
+            foreach ($pluginsSettings as $pluginName => $pluginSetting) {
 
                 $displayedSettings = $pluginSetting->getSettingsForCurrentUser();
 
                 foreach ($displayedSettings as $displayedSetting) {
 
-                    $changedSetting = $this->findSettingValueFromRequest($pluginName, $displayedSetting['name']);
+                    $value = $this->findSettingValueFromRequest($pluginName, $displayedSetting->getKey());
 
-                    if ($changedSetting && $displayedSetting['isUserSetting']) {
-                        $pluginSetting->setPerUserSettingValue($changedSetting['name'], $changedSetting['value']);
-                    } elseif ($changedSetting && $displayedSetting['isSystemSetting']) {
-                        $pluginSetting->setSystemSettingValue($changedSetting['name'], $changedSetting['value']);
+                    if (!is_null($value)) {
+                        $pluginSetting->setSettingValue($displayedSetting, $value);
                     }
                 }
 
             }
 
-            foreach ($pluginSettings as $pluginSetting) {
+            foreach ($pluginsSettings as $pluginSetting) {
                 $pluginSetting->save();
             }
 
         } catch (Exception $e) {
+            // TODO escape message
             echo json_encode(array('result' => 'error', 'message' => $e->getMessage()));
             return;
         }
-
+        
+        Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
         echo json_encode(array('result' => 'success'));
     }
 
-    private function findSettingValueFromRequest($pluginName, $settingName)
+    private function findSettingValueFromRequest($pluginName, $settingKey)
     {
         $changedPluginSettings = Common::getRequestVar('settings', null, 'array');
-        foreach ($changedPluginSettings as $settingsPluginName => $settings) {
 
-            if ($settingsPluginName !== $pluginName) {
-                // this plugin is not using settings, skip it
-                continue;
-            }
-
-            foreach ($settings as $setting) {
-                if ($setting['name'] == $settingName) {
-                    return $setting;
-                }
-            }
+        if (!array_key_exists($pluginName, $changedPluginSettings)) {
+            return;
         }
 
+        $settings = $changedPluginSettings[$pluginName];
+
+        foreach ($settings as $setting) {
+            if ($setting['name'] == $settingKey) {
+                return $setting['value'];
+            }
+        }
     }
 
     public function setGeneralSettings()

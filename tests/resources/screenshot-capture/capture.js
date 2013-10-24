@@ -94,7 +94,7 @@ PageRenderer.prototype = {
     _setupWebpageEvents: function () {
         var self = this;
         this.webpage.onError = function (message, trace) {
-            var msgStack = ['Webpage error: ' + msg];
+            var msgStack = ['Webpage error: ' + message];
             if (trace && trace.length) {
                 msgStack.push('trace:');
                 trace.forEach(function(t) {

@@ -75,7 +75,7 @@ use Piwik\Db;
  *     Log::verbose("This log message uses %s params, but %s will only be called if the"
  *                . " configured log level includes %s.", "sprintf", "sprintf", "verbose");
  * 
- * @method \Piwik\Log getInstance()
+ * @method static \Piwik\Log getInstance()
  */
 class Log extends Singleton
 {
