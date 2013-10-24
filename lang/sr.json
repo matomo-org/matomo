@@ -1153,7 +1153,7 @@
         "ShowAll": "Prikaži sve",
         "ShowLess": "Prikaži manje",
         "StaticGraph": "Grafikon sa pregledom",
-        "TopXVisitedWebsites": "%s najposećenijih sajtova",
+        "TopVisitedWebsites": "najposećenijih sajtova",
         "TryIt": "Probajte!",
         "UseSearchBarHint": "Prikazano je samo prvih %s sajtova. Molimo vas da upotrebite polje za pretragu kako biste pristupili ostalim sajtovima.",
         "VerifyAccount": "Provera naloga",

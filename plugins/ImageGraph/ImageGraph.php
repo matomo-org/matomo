@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Period;
 use Piwik\Site;
 use Piwik\Url;
+use Piwik\Period\Range;
 
 class ImageGraph extends \Piwik\Plugin
 {
@@ -91,7 +92,7 @@ class ImageGraph extends \Piwik\Plugin
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
             } else {
                 $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
-                $dateForMultiplePeriodGraph = \Piwik\Plugin\Controller::getDateRangeRelativeToEndDate(
+                $dateForMultiplePeriodGraph = Range::getRelativeToEndDate(
                     $periodForSinglePeriodGraph,
                     'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
                     $dateForSinglePeriodGraph,

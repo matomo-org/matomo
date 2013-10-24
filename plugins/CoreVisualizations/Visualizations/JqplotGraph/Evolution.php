@@ -130,7 +130,7 @@ class Evolution extends JqplotGraph
 
         $site = new Site(Common::getRequestVar('idSite'));
 
-        $dateRange = Controller::getDateRangeRelativeToEndDate($period, 'last' . $lastN, $endDate, $site);
+        $dateRange = Range::getRelativeToEndDate($period, 'last' . $lastN, $endDate, $site);
 
         return array($dateRange, $lastN);
     }

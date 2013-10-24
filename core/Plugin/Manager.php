@@ -24,7 +24,7 @@ use Piwik\Updater;
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
 /**
- * Plugin manager
+ * The singleton that manages plugin loading/unloading and installation/uninstallation.
  *
  * @static \Piwik\Plugin\Manager getInstance()
  * @package Piwik
@@ -136,10 +136,11 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns true if plugin has been activated
+     * Returns true if a plugin has been activated.
      *
-     * @param string $name Name of plugin
+     * @param string $name Name of plugin, eg, `'Actions'`.
      * @return bool
+     * @api
      */
     public function isPluginActivated($name)
     {
@@ -148,10 +149,11 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns true if plugin is loaded (in memory)
+     * Returns true if plugin is loaded (in memory).
      *
-     * @param string $name Name of plugin
+     * @param string $name Name of plugin, eg, `'Acions'`.
      * @return bool
+     * @api
      */
     public function isPluginLoaded($name)
     {
@@ -324,11 +326,12 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns the name of the non default theme currently enabled.
+     * Returns the non default theme currently enabled.
      *
-     * If Zeitgeist is enabled, returns false (nb: Zeitgeist cannot be disabled)
+     * If Zeitgeist is enabled, returns false (Zeitgeist cannot be disabled).
      *
      * @return Plugin
+     * @api
      */
     public function getThemeEnabled()
     {
@@ -350,9 +353,19 @@ class Manager extends Singleton
     }
 
     /**
-     * Loads in memory the Plugins specified in the config.ini.php file
+     * Returns info regarding all plugins. Loads plugins that can be loaded.
      *
-     * @return array
+     * @return array An array that maps plugin names with arrays of plugin info. Plugin
+     *               info arrays will contain the following entries:
+     *               - **activated**: Whether the plugin is activated.
+     *               - **alwaysActivated**: Whether the plugin should always be activated,
+     *                                      or not.
+     *               - **uninstallable**: Whether the plugin is uninstallable or not.
+     *               - **invalid**: If the plugin is invalid, this property will be set to true.
+     *                              If the plugin is not invalid, this property will not exist.
+     *               - **info**: If the plugin was loaded, will hold the plugin information.
+     *                           See [Plugin::getInformation](#).
+     * @api
      */
     public function returnLoadedPluginsInfo()
     {
@@ -399,6 +412,12 @@ class Manager extends Singleton
         return file_exists($path . "/" . MetadataLoader::PLUGIN_JSON_FILENAME);
     }
 
+    /**
+     * Returns true if the plugin is bundled with core or false if it is third party.
+     * 
+     * @param string $name The name of the plugin, eg, `'Actions'`.
+     * @return bool
+     */
     public function isPluginBundledWithCore($name)
     {
         // Reading the plugins from the global.ini.php config file
@@ -501,10 +520,12 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns an array of key,value with the following format: array(
-     *        'UserCountry' => Plugin $pluginObject,
-     *        'UserSettings' => Plugin $pluginObject,
-     *    );
+     * Returns an array mapping loaded plugin names with their plugin objects, eg,
+     * 
+     *     array(
+     *         'UserCountry' => Plugin $pluginObject,
+     *         'UserSettings' => Plugin $pluginObject,
+     *     );
      *
      * @return Plugin[]
      */
@@ -514,10 +535,10 @@ class Manager extends Singleton
     }
 
     /**
-     * Returns the given Plugin object
+     * Returns a Plugin object by name.
      *
-     * @param string $name
-     * @throws \Exception
+     * @param string $name The name of the plugin, eg, `'Actions'`.
+     * @throws \Exception If the plugin has not been loaded.
      * @return Plugin
      */
     public function getLoadedPlugin($name)
@@ -759,9 +780,10 @@ class Manager extends Singleton
     }
 
     /**
-     * Return names of installed plugins
+     * Return list of names of installed plugins.
      *
      * @return array
+     * @api
      */
     public function getInstalledPluginsName()
     {
@@ -774,6 +796,7 @@ class Manager extends Singleton
      * files cannot be found.
      *
      * @return array
+     * @api
      */
     public function getMissingPlugins()
     {
@@ -935,4 +958,3 @@ class PluginException extends \Exception
 				PluginsInstalled[] = $pluginName");
     }
 }
-
