@@ -850,7 +850,9 @@ class PiwikTracker
         $this->visitCount = $parts[2];
         $this->currentVisitTs = $parts[3];
         $this->lastVisitTs = $parts[4];
-        $this->lastEcommerceOrderTs = $parts[5];
+        if(isset($parts[5])) {
+            $this->lastEcommerceOrderTs = $parts[5];
+        }
         return true;
     }
     
