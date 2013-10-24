@@ -81,7 +81,7 @@ class PiwikTracker
         $this->localSecond = false;
         $this->hasCookies = false;
         $this->plugins = false;
-        $this->visitorCustomVar = false;
+        $this->visitorCustomVar = $this->getCustomVariablesFromCookie();
         $this->pageCustomVar = false;
         $this->customData = false;
         $this->forcedDatetime = false;
@@ -255,15 +255,10 @@ class PiwikTracker
         if (!empty($this->visitorCustomVar[$id])) {
             return $this->visitorCustomVar[$id];
         }
-        $customVariablesCookie = $this->getCookieName('cvar');
-        $cookie = $this->getCookieMatchingName($customVariablesCookie);
-        if (!$cookie) {
-            return false;
-        }
+        $cookieDecoded = $this->getCustomVariablesFromCookie();
         if (!is_int($id)) {
             throw new Exception("Parameter to getCustomVariable should be an integer");
         }
-        $cookieDecoded = json_decode($cookie, $assoc = true);
         if (!is_array($cookieDecoded)
             || !isset($cookieDecoded[$id])
             || !is_array($cookieDecoded[$id])
@@ -841,8 +836,7 @@ class PiwikTracker
      */
     protected function loadVisitorIdCookie() 
     {
-        $idCookieName = $this->getCookieName('id');
-        $idCookie = $this->getCookieMatchingName($idCookieName);
+        $idCookie = $this->getCookieMatchingName('id');
         if ($idCookie === false) {
             return false;
         }
@@ -886,8 +880,7 @@ class PiwikTracker
         if(!empty($this->attributionInfo)) {
             return $this->attributionInfo;
         }
-        $attributionCookieName = $this->getCookieName('ref');
-        return $this->getCookieMatchingName($attributionCookieName);
+        return $this->getCookieMatchingName('ref');
     }
 
     /**
@@ -1196,6 +1189,8 @@ class PiwikTracker
         if($this->configCookiesDisabled) {
             return false;
         }
+        $name = $this->getCookieName($name);
+
         // Piwik cookie names use dots separators in piwik.js,
         // but PHP Replaces . with _ http://www.php.net/manual/en/language.variables.predefined.php#72571
         $name = str_replace('.', '_', $name);
@@ -1315,8 +1310,7 @@ class PiwikTracker
         }
 
         // Set the 'ses' cookie
-        $sesname = $this->getCookieName('ses');
-        if (!$this->getCookieMatchingName($sesname)) {
+        if (!$this->getCookieMatchingName('ses')) {
             // new session (new visit)
             $this->visitCount++;
             $this->lastVisitTs = $this->currentVisitTs;
@@ -1324,16 +1318,17 @@ class PiwikTracker
             // Set the 'ref' cookie
             $attributionInfo = $this->getAttributionInfo();
             if(!empty($attributionInfo)) {
-                $this->setCookie('ref', json_encode($attributionInfo), $this->configReferralCookieTimeout);
+                $this->setCookie('ref', $attributionInfo, $this->configReferralCookieTimeout);
             }
         }
-        $this->setCookie($sesname, '*', $this->configSessionCookieTimeout);
+        $this->setCookie('ses', '*', $this->configSessionCookieTimeout);
 
         // Set the 'id' cookie
         $cookieValue = $this->getVisitorId() . '.' . $this->createTs . '.' . $this->visitCount . '.' . $this->currentTs . '.' . $this->lastVisitTs . '.' . $this->lastEcommerceOrderTs;
         $this->setCookie('id', $cookieValue, $this->configVisitorCookieTimeout);
 
         // Set the 'cvar' cookie
+        $this->setCookie('cvar', json_encode($this->visitorCustomVar), $this->configSessionCookieTimeout);
 
     }
 
@@ -1350,6 +1345,18 @@ class PiwikTracker
     {
         $cookieExpire = $this->createTs + $cookieTTL;
         setrawcookie($this->getCookieName($cookieName), $cookieValue, $cookieExpire, $this->configCookiePath, $this->configCookieDomain);
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    protected function getCustomVariablesFromCookie()
+    {
+        $cookie = $this->getCookieMatchingName('cvar');
+        if (!$cookie) {
+            return false;
+        }
+        return json_decode($cookie, $assoc = true);
     }
 }
 
