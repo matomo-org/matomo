@@ -6,7 +6,7 @@
     {% import 'ajaxMacros.twig' as ajax %}
 
     <p>
-        Here you can change the settings for the following 3rd party plugins:
+        {{ 'CoreAdminHome_PluginSettingsIntro'|translate }}
         {% for pluginName, settings in pluginSettings %}
             <a href="#{{ pluginName|e('html_attr') }}">{{ pluginName }}</a>{% if not loop.last %}, {% endif %}
         {% endfor %}
