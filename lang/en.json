@@ -1197,7 +1197,7 @@
         "SearchWebsite": "Search websites",
         "UseSearchBarHint": "Only the first %s websites are displayed here. Please use the search bar to access your other websites.",
         "RequestTimedOutShort": "Network Timeout Error",
-        "TopXVisitedWebsites": "Top %s visited websites",
+        "TopVisitedWebsites": "Top visited websites",
         "TryIt": "Try It!",
         "YouAreOffline": "Sorry, you are currently offline"
     },
