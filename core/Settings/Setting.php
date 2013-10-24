@@ -27,14 +27,14 @@ abstract class Setting
      *
      * @var string
      */
-    public $type = Settings::TYPE_STRING;
+    public $type = null;
 
     /**
      * Defines which field type should be displayed on the setting page.
      *
      * @var string
      */
-    public $field = Settings::FIELD_TEXT;
+    public $field = null;
 
     /**
      * An array of field attributes that will be added as HTML attributes to the HTML form field.
@@ -161,30 +161,4 @@ abstract class Setting
         return $this->key;
     }
 
-    public function getDefaultType($field)
-    {
-        $defaultTypes = array(
-            Settings::FIELD_TEXT          => Settings::TYPE_STRING,
-            Settings::FIELD_TEXTAREA      => Settings::TYPE_STRING,
-            Settings::FIELD_PASSWORD      => Settings::TYPE_STRING,
-            Settings::FIELD_CHECKBOX      => Settings::TYPE_BOOL,
-            Settings::FIELD_MULTI_SELECT  => Settings::TYPE_ARRAY,
-            Settings::FIELD_SINGLE_SELECT => Settings::TYPE_STRING,
-        );
-
-        return $defaultTypes[$field];
-    }
-
-    public function getDefaultField($type)
-    {
-        $defaultFields = array(
-            Settings::TYPE_INT    => Settings::FIELD_TEXT,
-            Settings::TYPE_FLOAT  => Settings::FIELD_TEXT,
-            Settings::TYPE_STRING => Settings::FIELD_TEXT,
-            Settings::TYPE_BOOL   => Settings::FIELD_CHECKBOX,
-            Settings::TYPE_ARRAY  => Settings::FIELD_MULTI_SELECT,
-        );
-
-        return $defaultFields[$type];
-    }
 }

@@ -85,9 +85,9 @@ class Settings
      */
     public function getSettingsForCurrentUser()
     {
-        return array_values(array_filter($this->getSettings(), function (Setting $setting) {
+        return array_filter($this->getSettings(), function (Setting $setting) {
             return $setting->canBeDisplayedForCurrentUser();
-        }));
+        });
     }
 
     /**
@@ -113,6 +113,8 @@ class Settings
      */
     public function removeAllPluginSettings()
     {
+        Piwik::checkUserIsSuperUser();
+
         Option::delete($this->getOptionKey());
     }
 
@@ -159,7 +161,7 @@ class Settings
 
         if ($setting->filter && $setting->filter instanceof \Closure) {
             $value = call_user_func($setting->filter, $value, $setting);
-        } else {
+        } elseif (isset($setting->type)) {
             settype($value, $setting->type);
         }
 
@@ -174,6 +176,8 @@ class Settings
      */
     public function removeSettingValue(Setting $setting)
     {
+        $this->checkHasEnoughPermission($setting);
+
         $key = $setting->getKey();
 
         if (array_key_exists($key, $this->settingsValues)) {
@@ -200,9 +204,12 @@ class Settings
         }
 
         if (!is_null($setting->field) && is_null($setting->type)) {
-            $setting->type = $setting->getDefaultType($setting->field);
+            $setting->type = $this->getDefaultType($setting->field);
         } elseif (!is_null($setting->type) && is_null($setting->field)) {
-            $setting->field = $setting->getDefaultField($setting->type);
+            $setting->field = $this->getDefaultField($setting->type);
+        } elseif (is_null($setting->field) && is_null($setting->type)) {
+            $setting->type  = static::TYPE_STRING;
+            $setting->field = static::FIELD_TEXT;
         }
 
         if (is_null($setting->validate) && !is_null($setting->fieldOptions)) {
@@ -250,10 +257,7 @@ class Settings
             throw new \Exception(sprintf('The setting %s does not exist', $name));
         }
 
-        if (!$setting->canBeDisplayedForCurrentUser()) {
-            $errorMsg = Piwik::translate('PluginSettingChangeNotAllowed', array($name, $this->pluginName));
-            throw new \Exception($errorMsg);
-        }
+        $this->checkHasEnoughPermission($setting);
     }
 
     /**
@@ -267,4 +271,42 @@ class Settings
         }
     }
 
+    private function getDefaultType($field)
+    {
+        $defaultTypes = array(
+            static::FIELD_TEXT          => static::TYPE_STRING,
+            static::FIELD_TEXTAREA      => static::TYPE_STRING,
+            static::FIELD_PASSWORD      => static::TYPE_STRING,
+            static::FIELD_CHECKBOX      => static::TYPE_BOOL,
+            static::FIELD_MULTI_SELECT  => static::TYPE_ARRAY,
+            static::FIELD_SINGLE_SELECT => static::TYPE_STRING,
+        );
+
+        return $defaultTypes[$field];
+    }
+
+    private function getDefaultField($type)
+    {
+        $defaultFields = array(
+            static::TYPE_INT    => static::FIELD_TEXT,
+            static::TYPE_FLOAT  => static::FIELD_TEXT,
+            static::TYPE_STRING => static::FIELD_TEXT,
+            static::TYPE_BOOL   => static::FIELD_CHECKBOX,
+            static::TYPE_ARRAY  => static::FIELD_MULTI_SELECT,
+        );
+
+        return $defaultFields[$type];
+    }
+
+    /**
+     * @param $setting
+     * @throws \Exception
+     */
+    private function checkHasEnoughPermission(Setting $setting)
+    {
+        if (!$setting->canBeDisplayedForCurrentUser()) {
+            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingChangeNotAllowed', array($setting->getName(), $this->pluginName));
+            throw new \Exception($errorMsg);
+        }
+    }
 }
