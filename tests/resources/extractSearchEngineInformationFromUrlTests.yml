@@ -7,6 +7,11 @@
 # @category Piwik_Plugins
 ###############
 
+# empty url
+- url: ''
+  engine: false
+  keywords: false
+
 # normal case
 - url: 'http://uk.search.yahoo.com/search?p=piwik&ei=UTF-8&fr=moz2'
   engine: 'Yahoo!'
@@ -162,6 +167,11 @@
   engine: 'Google'
   keywords: 'piwik security'
 
+# Google Video
+- url: 'https://www.google.com/search?tbm=vid&hl=de&source=hp&biw=1920&bih=1099&q=piwik&gbv=2&oq=piwik&gs_l=video-hp.3..0l5.2388.2959.0.3120.5.4.0.1.1.0.72.230.4.4.0....0...1ac.1.24.video-hp..0.5.243.6qReggj7ElY'
+  engine: 'Google Video'
+  keywords: 'piwik'
+
 # Bing (subdomains)
 - url: 'http://ca.bing.com/search?q=piwik+web+analytics&go=&form=QBLH&filt=all&qs=n&sk='
   engine: 'Bing'
@@ -245,6 +255,10 @@
 
 - url: 'http://us.nc.yhs.search.yahoo.com/if?p=piwik&partnerid=yhs-if-timewarner&fr=yhs-if-timewarner&ei=UTF-8&YST_b=7&vm=p'
   engine: 'Yahoo!'
+  keywords: 'piwik'
+
+- url: 'http://de.images.search.yahoo.com/search/images;_ylt=A0PDode7bWpSCSIAgtM0CQx.?p=piwik&ei=utf-8&iscqry=&fr=sfp'
+  engine: 'Yahoo! Images'
   keywords: 'piwik'
 
 # Babylon
