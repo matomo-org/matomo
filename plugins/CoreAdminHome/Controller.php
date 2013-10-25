@@ -160,18 +160,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         try {
 
             foreach ($pluginsSettings as $pluginName => $pluginSetting) {
+                foreach ($pluginSetting->getSettingsForCurrentUser() as $setting) {
 
-                $displayedSettings = $pluginSetting->getSettingsForCurrentUser();
-
-                foreach ($displayedSettings as $displayedSetting) {
-
-                    $value = $this->findSettingValueFromRequest($pluginName, $displayedSetting->getKey());
+                    $value = $this->findSettingValueFromRequest($pluginName, $setting->getKey());
 
                     if (!is_null($value)) {
-                        $pluginSetting->setSettingValue($displayedSetting, $value);
+                        $setting->setValue($value);
                     }
                 }
-
             }
 
             foreach ($pluginsSettings as $pluginSetting) {

@@ -88,6 +88,7 @@ abstract class Settings implements StorageInterface
         });
 
         uasort($settings, function ($setting1, $setting2) use ($settings) {
+            /** @var Setting $setting1 */ /** @var Setting $setting2 */
             if ($setting1->getOrder() == $setting2->getOrder()) {
                 // preserve order for settings having same order
                 foreach ($settings as $setting) {
@@ -222,34 +223,8 @@ abstract class Settings implements StorageInterface
             throw new \Exception(sprintf('A setting with name "%s" does already exist for plugin "%s"', $setting->getName(), $this->pluginName));
         }
 
-        if (!is_null($setting->field) && is_null($setting->type)) {
-            $setting->type = $this->getDefaultType($setting->field);
-        } elseif (!is_null($setting->type) && is_null($setting->field)) {
-            $setting->field = $this->getDefaultField($setting->type);
-        } elseif (is_null($setting->field) && is_null($setting->type)) {
-            $setting->type  = static::TYPE_STRING;
-            $setting->field = static::FIELD_TEXT;
-        }
-
-        if (is_null($setting->validate) && !is_null($setting->fieldOptions)) {
-            $pluginName = $this->pluginName;
-            $setting->validate = function ($value) use ($setting, $pluginName) {
-
-                $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed', array($setting->title, $pluginName));
-
-                if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
-                    foreach ($value as $val) {
-                        if (!array_key_exists($val, $setting->fieldOptions)) {
-                            throw new \Exception($errorMsg);
-                        }
-                    }
-                } else {
-                    if (!array_key_exists($value, $setting->fieldOptions)) {
-                        throw new \Exception($errorMsg);
-                    }
-                }
-            };
-        }
+        $this->setDefaultTypeAndFieldIfNeeded($setting);
+        $this->addValidatorIfNeeded($setting);
 
         $setting->setStorage($this);
 
@@ -329,5 +304,44 @@ abstract class Settings implements StorageInterface
             $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingChangeNotAllowed', array($setting->getName(), $this->pluginName));
             throw new \Exception($errorMsg);
         }
+    }
+
+    private function setDefaultTypeAndFieldIfNeeded(Setting $setting)
+    {
+        if (!is_null($setting->field) && is_null($setting->type)) {
+            $setting->type = $this->getDefaultType($setting->field);
+        } elseif (!is_null($setting->type) && is_null($setting->field)) {
+            $setting->field = $this->getDefaultField($setting->type);
+        } elseif (is_null($setting->field) && is_null($setting->type)) {
+            $setting->type = static::TYPE_STRING;
+            $setting->field = static::FIELD_TEXT;
+        }
+    }
+
+    private function addValidatorIfNeeded(Setting $setting)
+    {
+        if (!is_null($setting->validate) || is_null($setting->fieldOptions)) {
+            return;
+        }
+
+        $pluginName = $this->pluginName;
+
+        $setting->validate = function ($value) use ($setting, $pluginName) {
+
+            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed',
+                                         array($setting->title, $pluginName));
+
+            if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
+                foreach ($value as $val) {
+                    if (!array_key_exists($val, $setting->fieldOptions)) {
+                        throw new \Exception($errorMsg);
+                    }
+                }
+            } else {
+                if (!array_key_exists($value, $setting->fieldOptions)) {
+                    throw new \Exception($errorMsg);
+                }
+            }
+        };
     }
 }
