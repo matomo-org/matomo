@@ -28,10 +28,11 @@ Arguments:
 	--force-all-periods[=seconds]
 			Limits archiving to websites with some traffic in the last [seconds] seconds.
 			For example --force-all-periods=86400 will archive websites that had visits in the last 24 hours.
-			If [seconds] is not specified, all websites will visits in the last 604800 seconds (7 days) will be archived.
+			If [seconds] is not specified, all websites will visits in the last ". CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE
+            . " seconds (" . round(CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE/86400) ." days) will be archived.
 	--force-timeout-for-periods=[seconds]
 			The current week/ current month/ current year will be processed at most every [seconds].
-			If not specified, defaults to 3600.
+			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
 	--accept-invalid-ssl-certificate
 			It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!
 			It can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1
@@ -115,8 +116,8 @@ class CronArchive
     // Show only first N characters from Piwik API output in case of errors
     const TRUNCATE_ERROR_MESSAGE_SUMMARY = 400;
 
-    // archiving  will be triggered on all websites with traffic in the last $shouldArchiveAllPeriodsSince seconds
-    private $shouldArchiveAllPeriodsSince;
+    // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
+    private $shouldArchiveOnlySitesWithTrafficSince;
 
     // By default, we only process the current week/month/year at most once an hour
     private $processPeriodsMaximumEverySeconds;
@@ -129,8 +130,8 @@ class CronArchive
     private $visits = 0;
     private $requests = 0;
     private $output = '';
-    private $shouldResetState = false;
-    private $shouldArchiveAllWebsites = false;
+    private $archiveAndRespectTTL = true;
+    private $shouldArchiveAllSites = false;
     private $acceptInvalidSSLCertificate = false;
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
@@ -213,7 +214,7 @@ class CronArchive
             $timerWebsite = new Timer;
 
             $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
-            if (!$this->shouldResetState) {
+            if ($this->archiveAndRespectTTL) {
                 $lastTimestampWebsiteProcessedPeriods = Option::get($this->lastRunKey($idsite, "periods"));
                 $lastTimestampWebsiteProcessedDay = Option::get($this->lastRunKey($idsite, "day"));
             }
@@ -231,7 +232,6 @@ class CronArchive
                 // 2) OR always if script never executed for this website before
                 $shouldArchivePeriods = true;
             }
-
 
             // (*) If the website is archived because it is a new day in its timezone
             // We make sure all periods are archived, even if there is 0 visit today
@@ -270,7 +270,7 @@ class CronArchive
             $processDaysSince = ($websiteIsOldDataInvalidate
                 // when --force-all-websites option,
                 // also forces to archive last52 days to be safe
-                || $this->shouldArchiveAllWebsites)
+                || $this->shouldArchiveAllSites)
                 ? false
                 : $lastTimestampWebsiteProcessedDay;
 
@@ -308,7 +308,7 @@ class CronArchive
             $visitsAllDays = array_sum($response);
             if ($visitsAllDays == 0
                 && !$shouldArchivePeriods
-                && $this->shouldArchiveAllWebsites
+                && $this->shouldArchiveAllSites
             ) {
                 $this->log("Skipped website id $idsite, no visits in the last " . count($response) . " days, " . $timerWebsite->__toString());
                 $skipped++;
@@ -345,7 +345,7 @@ class CronArchive
             $archivedPeriodsArchivesWebsite++;
 
             $requestsWebsite = $this->requests - $requestsBefore;
-            $debug = $this->shouldArchiveAllWebsites ? ", last days = $visitsAllDays visits" : "";
+            $debug = $this->shouldArchiveAllSites ? ", last days = $visitsAllDays visits" : "";
             Log::info("Archived website id = $idsite, today = $visitsToday visits"
                 . $debug . ", $requestsWebsite API requests, "
                 . $timerWebsite->__toString()
@@ -363,7 +363,7 @@ class CronArchive
         $totalWebsites = count($this->allWebsites);
         $skipped = $totalWebsites - $websitesWithVisitsSinceLastRun;
         $this->log("Archived today's reports for $websitesWithVisitsSinceLastRun websites");
-        $this->log("Archived week/month/year for $archivedPeriodsArchivesWebsite websites. ");
+        $this->log("Archived week/month/year for $archivedPeriodsArchivesWebsite websites");
         $this->log("Skipped $skipped websites: no new visit since the last script execution");
         $this->log("Skipped $skippedDayArchivesWebsites websites day archiving: existing daily reports are less than {$this->todayArchiveTimeToLive} seconds old");
         $this->log("Skipped $skippedPeriodsArchivesWebsite websites week/month/year archiving: existing periods reports are less than {$this->processPeriodsMaximumEverySeconds} seconds old");
@@ -507,7 +507,9 @@ class CronArchive
     private function logSection($title = "")
     {
         $this->log("---------------------------");
-        $this->log($title);
+        if(!empty($title)) {
+            $this->log($title);
+        }
     }
 
     /**
@@ -676,24 +678,31 @@ class CronArchive
         $this->todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
         $this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
         $this->processPeriodsMaximumEverySeconds = $this->getDelayBetweenPeriodsArchives();
-        $this->shouldArchiveAllWebsites = $this->isShouldArchiveAllWebsites();
-
-        $shouldArchiveAllPeriodsSince = $this->isParameterSet("force-all-periods", $valuePossible = true);
-        $this->shouldArchiveAllPeriodsSince = $this->getArchiveSitesWithTrafficSince($shouldArchiveAllPeriodsSince);
-
-        $this->shouldResetState = (bool)$this->shouldArchiveAllPeriodsSince;
-
+        $this->shouldArchiveAllSites = $this->isShouldArchiveAllSites();
+        $this->shouldArchiveOnlySitesWithTrafficSince = $this->isShouldArchiveAllSitesWithTrafficSince();
         $this->lastSuccessRunTimestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
-        if ($this->shouldResetState) {
-            $this->lastSuccessRunTimestamp = false;
-        }
 
+        if($this->shouldArchiveOnlySitesWithTrafficSince === false) {
+            // force-all-periods is not set here
+            if (!empty($this->lastSuccessRunTimestamp)) {
+                // there was a previous successful run
+                $this->shouldArchiveOnlySitesWithTrafficSince = time() - $this->lastSuccessRunTimestamp;
+            }
+        }  else {
+            // force-all-periods is set here
+            $this->archiveAndRespectTTL = false;
+
+            if($this->shouldArchiveOnlySitesWithTrafficSince === true) {
+                // force-all-periods without value
+                $this->shouldArchiveOnlySitesWithTrafficSince = self::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
+            }
+        }
     }
 
     // Fetching websites to process
     private function initWebsitesToProcess()
     {
-        if ($this->shouldArchiveAllWebsites) {
+        if ($this->shouldArchiveAllSites) {
             $this->log("Will process all " . count($this->allWebsites) . " websites");
             return $this->allWebsites;
         }
@@ -728,7 +737,8 @@ class CronArchive
             if (!$piwikUrl
                 || !\Piwik\UrlHelper::isLookLikeUrl($piwikUrl)
             ) {
-                $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ ", $backtrace = false);
+                $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ "
+                                . "\n--help for more information", $backtrace = false);
             }
             // ensure there is a trailing slash
             if ($piwikUrl[strlen($piwikUrl) - 1] != '/') {
@@ -831,9 +841,12 @@ class CronArchive
     private function addWebsiteIdsWithVisitsSinceLastRun($timestampLastRun)
     {
         $sitesIdWithVisits = APISitesManager::getInstance()->getSitesIdWithVisits($timestampLastRun);
+        if(empty($sitesIdWithVisits)) {
+            return array();
+        }
         $websiteIds = !empty($sitesIdWithVisits) ? ", IDs: " . implode(", ", $sitesIdWithVisits) : "";
         $prettySeconds = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds( time() - $timestampLastRun, true, false);
-        $this->log("Will process " . count($websiteIds) . " websites with new visits since "
+        $this->log("Will process " . count($sitesIdWithVisits) . " websites with new visits since "
             . $prettySeconds
             . " "
             . $websiteIds);
@@ -913,6 +926,7 @@ class CronArchive
             . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
         $this->log("- Reports for the current week/month/year will be refreshed at most every "
             . $this->processPeriodsMaximumEverySeconds . " seconds.");
+
         // Try and not request older data we know is already archived
         if ($this->lastSuccessRunTimestamp !== false) {
             $dateLast = time() - $this->lastSuccessRunTimestamp;
@@ -923,11 +937,10 @@ class CronArchive
     /**
      * @return bool
      */
-    private function isShouldArchiveAllWebsites()
+    private function isShouldArchiveAllSites()
     {
         $forceAll = $this->isParameterSet("force-all-websites");
         if ($forceAll) {
-            $this->log("--force-all-websites was detected: the script will archive all websites and all periods sequentially");
             return true;
         }
         return false;
@@ -960,28 +973,28 @@ class CronArchive
      */
     private function getTimestampLastRun()
     {
-        if (!empty($this->lastSuccessRunTimestamp)) {
-            return $this->lastSuccessRunTimestamp;
-        }
         $this->log("- we will process websites with visits in the last "
-            . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($this->shouldArchiveAllPeriodsSince, true, false)
+            . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($this->shouldArchiveOnlySitesWithTrafficSince, true, false)
         );
-        return time() - $this->shouldArchiveAllPeriodsSince;
+        return time() - $this->shouldArchiveOnlySitesWithTrafficSince;
     }
 
     /**
      * @param $shouldArchiveAllPeriodsSince
      * @return int
      */
-    private function getArchiveSitesWithTrafficSince($shouldArchiveAllPeriodsSince)
+    private function isShouldArchiveAllSitesWithTrafficSince()
     {
-        if ( !$this->shouldArchiveAllWebsites
-            && is_numeric($shouldArchiveAllPeriodsSince)
+        $shouldArchiveAllPeriodsSince = $this->isParameterSet("force-all-periods", $valuePossible = true);
+        if(empty($shouldArchiveAllPeriodsSince)) {
+            return false;
+        }
+        if ( is_numeric($shouldArchiveAllPeriodsSince)
             && $shouldArchiveAllPeriodsSince > 1
         ) {
             return (int)$shouldArchiveAllPeriodsSince;
         }
-        return self::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
+        return true;
     }
 
     public function runScheduledTasks()
@@ -995,6 +1008,7 @@ class CronArchive
         }
         $this->log($tasksOutput);
         $this->log("done");
+        $this->logSection("");
     }
 }
 
