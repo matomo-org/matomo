@@ -687,6 +687,9 @@ class CronArchive
             if (!empty($this->lastSuccessRunTimestamp)) {
                 // there was a previous successful run
                 $this->shouldArchiveOnlySitesWithTrafficSince = time() - $this->lastSuccessRunTimestamp;
+            } else {
+                // First time we run the script
+                $this->shouldArchiveOnlySitesWithTrafficSince = self::ARCHIVE_SITES_WITH_TRAFFIC_SINCE;
             }
         }  else {
             // force-all-periods is set here
@@ -703,7 +706,7 @@ class CronArchive
     private function initWebsitesToProcess()
     {
         if ($this->shouldArchiveAllSites) {
-            $this->log("Will process all " . count($this->allWebsites) . " websites");
+            $this->log("- Will process all " . count($this->allWebsites) . " websites");
             return $this->allWebsites;
         }
 
@@ -827,7 +830,7 @@ class CronArchive
 
         if (count($this->idSitesInvalidatedOldReports) > 0) {
             $ids = ", IDs: " . implode(", ", $this->idSitesInvalidatedOldReports);
-            $this->log("Will process " . count($this->idSitesInvalidatedOldReports)
+            $this->log("- Will process " . count($this->idSitesInvalidatedOldReports)
                 . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
                 . $ids);
         }
@@ -846,7 +849,7 @@ class CronArchive
         }
         $websiteIds = !empty($sitesIdWithVisits) ? ", IDs: " . implode(", ", $sitesIdWithVisits) : "";
         $prettySeconds = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds( time() - $timestampLastRun, true, false);
-        $this->log("Will process " . count($sitesIdWithVisits) . " websites with new visits since "
+        $this->log("- Will process " . count($sitesIdWithVisits) . " websites with new visits since "
             . $prettySeconds
             . " "
             . $websiteIds);
@@ -885,7 +888,7 @@ class CronArchive
         $this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
         if (count($websiteDayHasFinishedSinceLastRun) > 0) {
             $ids = !empty($websiteDayHasFinishedSinceLastRun) ? ", IDs: " . implode(", ", $websiteDayHasFinishedSinceLastRun) : "";
-            $this->log("Will process " . count($websiteDayHasFinishedSinceLastRun)
+            $this->log("- Will process " . count($websiteDayHasFinishedSinceLastRun)
                 . " other websites because the last time they were archived was on a different day (in the website's timezone) "
                 . $ids);
         }
@@ -973,7 +976,7 @@ class CronArchive
      */
     private function getTimestampLastRun()
     {
-        $this->log("- we will process websites with visits in the last "
+        $this->log("- Will process websites with visits in the last "
             . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($this->shouldArchiveOnlySitesWithTrafficSince, true, false)
         );
         return time() - $this->shouldArchiveOnlySitesWithTrafficSince;
