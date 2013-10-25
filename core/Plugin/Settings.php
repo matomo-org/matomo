@@ -10,14 +10,18 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Settings\Setting;
-use Piwik\Settings\SystemSetting;
-use Piwik\Settings\UserSetting;
+use Piwik\Settings\StorageInterface;
 
-class Settings
+/**
+ * Settings class that plugins can extend in order to create settings for their plugins.
+ *
+ * @package Piwik\Plugin
+ * @api
+ */
+abstract class Settings implements StorageInterface
 {
     const TYPE_INT    = 'integer';
     const TYPE_FLOAT  = 'float';
@@ -57,10 +61,10 @@ class Settings
         $this->loadSettings();
     }
 
-    protected function init()
-    {
-        // Define your settings and introduction here.
-    }
+    /**
+     * Define your settings and introduction here.
+     */
+    abstract protected function init();
 
     /**
      * Sets (overwrites) the plugin settings introduction.
@@ -85,9 +89,30 @@ class Settings
      */
     public function getSettingsForCurrentUser()
     {
-        return array_values(array_filter($this->getSettings(), function (Setting $setting) {
+        $settings = array_filter($this->getSettings(), function (Setting $setting) {
             return $setting->canBeDisplayedForCurrentUser();
-        }));
+        });
+
+        uasort($settings, function ($setting1, $setting2) use ($settings) {
+            /** @var Setting $setting1 */ /** @var Setting $setting2 */
+            if ($setting1->getOrder() == $setting2->getOrder()) {
+                // preserve order for settings having same order
+                foreach ($settings as $setting) {
+                    if ($setting1 === $setting) {
+                        return -1;
+                    }
+                    if ($setting2 === $setting) {
+                        return 1;
+                    }
+                }
+
+                return 0;
+            }
+
+            return $setting1->getOrder() > $setting2->getOrder() ? -1 : 1;
+        });
+
+        return $settings;
     }
 
     /**
@@ -113,7 +138,10 @@ class Settings
      */
     public function removeAllPluginSettings()
     {
+        Piwik::checkUserIsSuperUser();
+
         Option::delete($this->getOptionKey());
+        $this->settingsValues = array();
     }
 
     /**
@@ -159,7 +187,7 @@ class Settings
 
         if ($setting->filter && $setting->filter instanceof \Closure) {
             $value = call_user_func($setting->filter, $value, $setting);
-        } else {
+        } elseif (isset($setting->type)) {
             settype($value, $setting->type);
         }
 
@@ -174,6 +202,8 @@ class Settings
      */
     public function removeSettingValue(Setting $setting)
     {
+        $this->checkHasEnoughPermission($setting);
+
         $key = $setting->getKey();
 
         if (array_key_exists($key, $this->settingsValues)) {
@@ -199,31 +229,10 @@ class Settings
             throw new \Exception(sprintf('A setting with name "%s" does already exist for plugin "%s"', $setting->getName(), $this->pluginName));
         }
 
-        if (!is_null($setting->field) && is_null($setting->type)) {
-            $setting->type = $setting->getDefaultType($setting->field);
-        } elseif (!is_null($setting->type) && is_null($setting->field)) {
-            $setting->field = $setting->getDefaultField($setting->type);
-        }
+        $this->setDefaultTypeAndFieldIfNeeded($setting);
+        $this->addValidatorIfNeeded($setting);
 
-        if (is_null($setting->validate) && !is_null($setting->fieldOptions)) {
-            $pluginName = $this->pluginName;
-            $setting->validate = function ($value) use ($setting, $pluginName) {
-
-                $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed', array($setting->title, $pluginName));
-
-                if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
-                    foreach ($value as $val) {
-                        if (!array_key_exists($val, $setting->fieldOptions)) {
-                            throw new \Exception($errorMsg);
-                        }
-                    }
-                } else {
-                    if (!array_key_exists($value, $setting->fieldOptions)) {
-                        throw new \Exception($errorMsg);
-                    }
-                }
-            };
-        }
+        $setting->setStorage($this);
 
         $this->settings[$setting->getName()] = $setting;
     }
@@ -250,10 +259,7 @@ class Settings
             throw new \Exception(sprintf('The setting %s does not exist', $name));
         }
 
-        if (!$setting->canBeDisplayedForCurrentUser()) {
-            $errorMsg = Piwik::translate('PluginSettingChangeNotAllowed', array($name, $this->pluginName));
-            throw new \Exception($errorMsg);
-        }
+        $this->checkHasEnoughPermission($setting);
     }
 
     /**
@@ -267,4 +273,81 @@ class Settings
         }
     }
 
+    private function getDefaultType($field)
+    {
+        $defaultTypes = array(
+            static::FIELD_TEXT          => static::TYPE_STRING,
+            static::FIELD_TEXTAREA      => static::TYPE_STRING,
+            static::FIELD_PASSWORD      => static::TYPE_STRING,
+            static::FIELD_CHECKBOX      => static::TYPE_BOOL,
+            static::FIELD_MULTI_SELECT  => static::TYPE_ARRAY,
+            static::FIELD_SINGLE_SELECT => static::TYPE_STRING,
+        );
+
+        return $defaultTypes[$field];
+    }
+
+    private function getDefaultField($type)
+    {
+        $defaultFields = array(
+            static::TYPE_INT    => static::FIELD_TEXT,
+            static::TYPE_FLOAT  => static::FIELD_TEXT,
+            static::TYPE_STRING => static::FIELD_TEXT,
+            static::TYPE_BOOL   => static::FIELD_CHECKBOX,
+            static::TYPE_ARRAY  => static::FIELD_MULTI_SELECT,
+        );
+
+        return $defaultFields[$type];
+    }
+
+    /**
+     * @param $setting
+     * @throws \Exception
+     */
+    private function checkHasEnoughPermission(Setting $setting)
+    {
+        if (!$setting->canBeDisplayedForCurrentUser()) {
+            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingChangeNotAllowed', array($setting->getName(), $this->pluginName));
+            throw new \Exception($errorMsg);
+        }
+    }
+
+    private function setDefaultTypeAndFieldIfNeeded(Setting $setting)
+    {
+        if (!is_null($setting->field) && is_null($setting->type)) {
+            $setting->type = $this->getDefaultType($setting->field);
+        } elseif (!is_null($setting->type) && is_null($setting->field)) {
+            $setting->field = $this->getDefaultField($setting->type);
+        } elseif (is_null($setting->field) && is_null($setting->type)) {
+            $setting->type = static::TYPE_STRING;
+            $setting->field = static::FIELD_TEXT;
+        }
+    }
+
+    private function addValidatorIfNeeded(Setting $setting)
+    {
+        if (!is_null($setting->validate) || is_null($setting->fieldOptions)) {
+            return;
+        }
+
+        $pluginName = $this->pluginName;
+
+        $setting->validate = function ($value) use ($setting, $pluginName) {
+
+            $errorMsg = Piwik::translate('CoreAdminHome_PluginSettingsValueNotAllowed',
+                                         array($setting->title, $pluginName));
+
+            if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
+                foreach ($value as $val) {
+                    if (!array_key_exists($val, $setting->fieldOptions)) {
+                        throw new \Exception($errorMsg);
+                    }
+                }
+            } else {
+                if (!array_key_exists($value, $setting->fieldOptions)) {
+                    throw new \Exception($errorMsg);
+                }
+            }
+        };
+    }
 }

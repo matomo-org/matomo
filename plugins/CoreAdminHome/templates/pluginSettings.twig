@@ -27,17 +27,25 @@
 
         <table class="adminTable" id="pluginSettings" data-pluginname="{{ pluginName|e('html_attr') }}">
 
-        {% for setting in settings.getSettingsForCurrentUser %}
-            {% set settingValue = settings.getSettingValue(setting) %}
+        {% for name, setting in settings.getSettingsForCurrentUser %}
+            {% set settingValue = setting.getValue %}
+
+            {% if pluginName in firstSuperUserSettingNames|keys and name == firstSuperUserSettingNames[pluginName] %}
+                <tr>
+                    <td colspan="3">
+                        <h3 class="superUserSettings">{{ 'MobileMessaging_Settings_SuperAdmin'|translate }}</h3>
+                    </td>
+                </tr>
+            {% endif %}
 
             {% if setting.introduction %}
-            <tr>
-                <td colspan="3">
-                    <p class="settingIntroduction">
-                        {{ setting.introduction }}
-                    </p>
-                </td>
-            </tr>
+                <tr>
+                    <td colspan="3">
+                        <p class="settingIntroduction">
+                            {{ setting.introduction }}
+                        </p>
+                    </td>
+                </tr>
             {% endif %}
 
             <tr>

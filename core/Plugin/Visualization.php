@@ -351,16 +351,6 @@ class Visualization extends ViewDataTable
             }
         }
 
-        if ($this->dataTable instanceof DataTable) {
-            // we override the filter_sort_column with the column used for sorting,
-            // which can be different from the one specified (eg. if the column doesn't exist)
-            $javascriptVariablesToSet['filter_sort_column'] = $this->dataTable->getSortedByColumnName();
-            // datatable can return "2" but we want to write "nb_visits" in the js
-            if (isset(Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']])) {
-                $javascriptVariablesToSet['filter_sort_column'] = Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']];
-            }
-        }
-
         $javascriptVariablesToSet['module'] = $this->config->controllerName;
         $javascriptVariablesToSet['action'] = $this->config->controllerAction;
         if (!isset($javascriptVariablesToSet['viewDataTable'])) {

@@ -370,4 +370,24 @@ class Range extends Period
 
         return array($strLastDate, $lastPeriod);
     }
+
+    /**
+     * Returns a date ragne string given a period type, end date and number of periods
+     * the range spans over.
+     * 
+     * @param string $period The sub period type, `'day'`, `'week'`, `'month'` and `'year'`.
+     * @param int $lastN The number of periods of type `$period` that the result range should
+     *                   span.
+     * @param string $endDate The desired end date of the range.
+     * @param Site $site The site whose timezone should be used.
+     * @return string The date range string, eg, `'2012-01-02,2013-01-02'`.
+     * @api
+     */
+    public static function getRelativeToEndDate($period, $lastN, $endDate, $site)
+    {
+        $last30Relative = new Range($period, $lastN, $site->getTimezone());
+        $last30Relative->setDefaultEndDate(Date::factory($endDate));
+        $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
+        return $date;
+    }
 }

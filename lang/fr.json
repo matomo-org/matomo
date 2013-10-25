@@ -1128,7 +1128,7 @@
         "ShowAll": "Afficher tout",
         "ShowLess": "Afficher moins",
         "StaticGraph": "Graphique d'apperçu",
-        "TopXVisitedWebsites": "Les %s sites les plus visités",
+        "TopVisitedWebsites": "Les sites les plus visités",
         "TryIt": "Essayez le !",
         "UseSearchBarHint": "Seuls les %s premiers sites Internet sont affichés ici. Veuillez utiliser la barre de recherche pour accéder aux autres sites Internet.",
         "VerifyAccount": "Vérification du compte",

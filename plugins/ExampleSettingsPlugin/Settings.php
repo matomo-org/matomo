@@ -10,136 +10,135 @@
  */
 namespace Piwik\Plugins\ExampleSettingsPlugin;
 
-use Piwik\Piwik;
-use Piwik\Plugin\Settings as PluginSettings;
 use Piwik\Settings\SystemSetting;
 use Piwik\Settings\UserSetting;
 
 /**
- * Settings
+ * Defines Settings for ExampleSettingsPlugin.
+ *
+ * Usage like this:
+ * $settings = new Settings('ExampleSettingsPlugin');
+ * $settings->autoRefresh->getValue();
+ * $settings->metric->getValue();
  *
  * @package ExampleSettingsPlugin
  */
-class Settings extends PluginSettings
+class Settings extends \Piwik\Plugin\Settings
 {
+    /** @var UserSetting */
+    public $autoRefresh;
+
+    /** @var UserSetting */
+    public $refreshInterval;
+
+    /** @var SystemSetting */
+    public $metric;
+
+    /** @var SystemSetting */
+    public $browsers;
+
+    /** @var SystemSetting */
+    public $description;
+
+    /** @var SystemSetting */
+    public $password;
+
     protected function init()
     {
         $this->setIntroduction('Here you can specify the settings for this plugin.');
 
         // User setting --> checkbox converted to bool
-        $this->addSetting($this->getAutoRefreshSetting());
+        $this->createAutoRefreshSetting();
 
         // User setting --> textbox converted to int defining a validator and filter
-        $this->addSetting($this->getRefreshIntervalSetting());
+        $this->createRefreshIntervalSetting();
 
         // System setting --> allows selection of a single value
-        $this->addSetting($this->getMetricSetting());
+        $this->createMetricSetting();
 
         // System setting --> allows selection of multiple values
-        $this->addSetting($this->getBrowsersSetting());
+        $this->createBrowsersSetting();
 
         // System setting --> textarea
-         $this->addSetting($this->getDescriptionSetting());
+         $this->createDescriptionSetting();
 
         // System setting --> textarea
-         $this->addSetting($this->getPasswordSetting());
+         $this->createPasswordSetting();
     }
 
-    public function isAutoRefreshEnabled()
+    private function createAutoRefreshSetting()
     {
-        return $this->getSettingValue($this->getAutoRefreshSetting());
+        $this->autoRefresh        = new UserSetting('autoRefresh', 'Auto refresh');
+        $this->autoRefresh->type  = static::TYPE_BOOL;
+        $this->autoRefresh->field = static::FIELD_CHECKBOX;
+        $this->autoRefresh->description  = 'If enabled, the value will be automatically refreshed depending on the specified interval';
+        $this->autoRefresh->defaultValue = false;
+
+        $this->addSetting($this->autoRefresh);
     }
 
-    public function getRefreshInterval()
+    private function createRefreshIntervalSetting()
     {
-        return $this->getSettingValue($this->getRefreshIntervalSetting());
-    }
-
-    public function getMetric()
-    {
-        return $this->getSettingValue($this->getMetricSetting());
-    }
-
-    private function getAutoRefreshSetting()
-    {
-        $autoRefresh        = new UserSetting('autoRefresh', 'Auto refresh');
-        $autoRefresh->type  = static::TYPE_BOOL;
-        $autoRefresh->field = static::FIELD_CHECKBOX;
-        $autoRefresh->description  = 'If enabled, the value will be automatically refreshed depending on the specified interval';
-        $autoRefresh->defaultValue = false;
-
-        return $autoRefresh;
-    }
-
-    private function getRefreshIntervalSetting()
-    {
-        $refreshInterval        = new UserSetting('refreshInterval', 'Refresh Interval');
-        $refreshInterval->type  = static::TYPE_INT;
-        $refreshInterval->field = static::FIELD_TEXT;
-        $refreshInterval->fieldAttributes = array('size' => 3);
-        $refreshInterval->description     = 'Defines how often the value should be updated';
-        $refreshInterval->inlineHelp      = 'Enter a number which is >= 15';
-        $refreshInterval->defaultValue    = '30';
-        $refreshInterval->validate = function ($value, $setting) {
+        $this->refreshInterval        = new UserSetting('refreshInterval', 'Refresh Interval');
+        $this->refreshInterval->type  = static::TYPE_INT;
+        $this->refreshInterval->field = static::FIELD_TEXT;
+        $this->refreshInterval->fieldAttributes = array('size' => 3);
+        $this->refreshInterval->description     = 'Defines how often the value should be updated';
+        $this->refreshInterval->inlineHelp      = 'Enter a number which is >= 15';
+        $this->refreshInterval->defaultValue    = '30';
+        $this->refreshInterval->validate = function ($value, $setting) {
             if ($value < 15) {
                 throw new \Exception('Value is invalid');
             }
         };
-        $refreshInterval->filter = function ($value, $setting) {
-            if ($value > 30) {
-                $value = 30;
-            }
 
-            return $value;
-        };
-
-        return $refreshInterval;
+        $this->addSetting($this->refreshInterval);
     }
 
-    private function getMetricSetting()
+    private function createMetricSetting()
     {
-        $metric        = new SystemSetting('metric', 'Metric to display');
-        $metric->type  = static::TYPE_STRING;
-        $metric->field = static::FIELD_SINGLE_SELECT;
-        $metric->fieldOptions = array('nb_visits' => 'Visits', 'nb_actions' => 'Actions', 'visitors' => 'Visitors');
-        $metric->introduction = 'Only super users can change the following settings:';
-        $metric->description  = 'Choose the metric that should be displayed in the browser tab';
-        $metric->defaultValue = 'nb_visits';
+        $this->metric        = new SystemSetting('metric', 'Metric to display');
+        $this->metric->type  = static::TYPE_STRING;
+        $this->metric->field = static::FIELD_SINGLE_SELECT;
+        $this->metric->fieldOptions = array('nb_visits' => 'Visits', 'nb_actions' => 'Actions', 'visitors' => 'Visitors');
+        $this->metric->introduction = 'Only super users can change the following settings:';
+        $this->metric->description  = 'Choose the metric that should be displayed in the browser tab';
+        $this->metric->defaultValue = 'nb_visits';
 
-        return $metric;
+        $this->addSetting($this->metric);
     }
 
-    private function getBrowsersSetting()
+    private function createBrowsersSetting()
     {
-        $browsers        = new SystemSetting('browsers', 'Supported Browsers');
-        $browsers->type  = static::TYPE_ARRAY;
-        $browsers->field = static::FIELD_MULTI_SELECT;
-        $browsers->fieldOptions = array('firefox' => 'Firefox', 'chromium' => 'Chromium', 'safari' => 'safari');
-        $browsers->description  = 'The value will be only displayed in the following browsers';
-        $browsers->defaultValue = array('firefox', 'chromium', 'safari');
+        $this->browsers        = new SystemSetting('browsers', 'Supported Browsers');
+        $this->browsers->type  = static::TYPE_ARRAY;
+        $this->browsers->field = static::FIELD_MULTI_SELECT;
+        $this->browsers->fieldOptions = array('firefox' => 'Firefox', 'chromium' => 'Chromium', 'safari' => 'safari');
+        $this->browsers->description  = 'The value will be only displayed in the following browsers';
+        $this->browsers->defaultValue = array('firefox', 'chromium', 'safari');
 
-        return $browsers;
+        $this->addSetting($this->browsers);
     }
 
-    private function getDescriptionSetting()
+    private function createDescriptionSetting()
     {
-        $description        = new SystemSetting('description', 'Description for value');
-        $description->field = static::FIELD_TEXTAREA;
-        $description->description  = 'This description will be displayed next to the value';
-        $description->defaultValue = "This is the value: \nAnother line";
+        $this->description        = new SystemSetting('description', 'Description for value');
+        $this->description->field = static::FIELD_TEXTAREA;
+        $this->description->description  = 'This description will be displayed next to the value';
+        $this->description->defaultValue = "This is the value: \nAnother line";
 
-        return $description;
+        $this->addSetting($this->description);
     }
 
-    private function getPasswordSetting()
+    private function createPasswordSetting()
     {
-        $description        = new SystemSetting('password', 'API password');
-        $description->field = static::FIELD_PASSWORD;
-        $description->description = 'Password for the 3rd API where we fetch the value';
-        $description->filter = function ($value) {
+        $this->password        = new SystemSetting('password', 'API password');
+        $this->password->field = static::FIELD_PASSWORD;
+        $this->password->description = 'Password for the 3rd API where we fetch the value';
+        $this->password->filter = function ($value) {
             return sha1($value . 'salt');
         };
 
-        return $description;
+        $this->addSetting($this->password);
     }
 }

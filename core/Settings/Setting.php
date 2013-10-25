@@ -10,9 +10,6 @@
  */
 
 namespace Piwik\Settings;
-use Piwik\Common;
-use Piwik\Piwik;
-use Piwik\Plugin\Settings;
 
 /**
  * Base setting class. Extend this class to define your own type of setting.
@@ -27,14 +24,14 @@ abstract class Setting
      *
      * @var string
      */
-    public $type = Settings::TYPE_STRING;
+    public $type = null;
 
     /**
      * Defines which field type should be displayed on the setting page.
      *
      * @var string
      */
-    public $field = Settings::FIELD_TEXT;
+    public $field = null;
 
     /**
      * An array of field attributes that will be added as HTML attributes to the HTML form field.
@@ -129,6 +126,11 @@ abstract class Setting
     protected $displayedForCurrentUser = false;
 
     /**
+     * @var StorageInterface
+     */
+    private $storage;
+
+    /**
      * Creates a new setting.
      *
      * @param string $name    The name of the setting, only alnum characters are allowed. For instance `refreshInterval`
@@ -151,6 +153,27 @@ abstract class Setting
         return $this->displayedForCurrentUser;
     }
 
+    public function setStorage(StorageInterface $storage)
+    {
+        $this->storage = $storage;
+    }
+
+    /**
+     * @see StorageInterface::getSettingValue
+     */
+    public function getValue()
+    {
+        return $this->storage->getSettingValue($this);
+    }
+
+    /**
+     * @see StorageInterface::setSettingValue
+     */
+    public function setValue($value)
+    {
+        return $this->storage->setSettingValue($this, $value);
+    }
+
     /**
      * Returns the key under which property name the setting will be stored.
      *
@@ -161,30 +184,12 @@ abstract class Setting
         return $this->key;
     }
 
-    public function getDefaultType($field)
+    /**
+     * Determine the order for displaying. The lower the order, the earlier the setting will be displayed.
+     * @return int
+     */
+    public function getOrder()
     {
-        $defaultTypes = array(
-            Settings::FIELD_TEXT          => Settings::TYPE_STRING,
-            Settings::FIELD_TEXTAREA      => Settings::TYPE_STRING,
-            Settings::FIELD_PASSWORD      => Settings::TYPE_STRING,
-            Settings::FIELD_CHECKBOX      => Settings::TYPE_BOOL,
-            Settings::FIELD_MULTI_SELECT  => Settings::TYPE_ARRAY,
-            Settings::FIELD_SINGLE_SELECT => Settings::TYPE_STRING,
-        );
-
-        return $defaultTypes[$field];
-    }
-
-    public function getDefaultField($type)
-    {
-        $defaultFields = array(
-            Settings::TYPE_INT    => Settings::FIELD_TEXT,
-            Settings::TYPE_FLOAT  => Settings::FIELD_TEXT,
-            Settings::TYPE_STRING => Settings::FIELD_TEXT,
-            Settings::TYPE_BOOL   => Settings::FIELD_CHECKBOX,
-            Settings::TYPE_ARRAY  => Settings::FIELD_MULTI_SELECT,
-        );
-
-        return $defaultFields[$type];
+        return 100;
     }
 }

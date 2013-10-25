@@ -31,4 +31,8 @@ class SystemSetting extends Setting
         $this->displayedForCurrentUser = Piwik::isUserIsSuperUser();
     }
 
+    public function getOrder()
+    {
+        return 30;
+    }
 }

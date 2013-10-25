@@ -63,7 +63,6 @@ use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
  *     <a href="?module=MyPlugin&action=index&idSite=1&period=day&date=2013-10-10">Link</a>
  * 
  * @package Piwik
- * @api
  */
 abstract class Controller
 {
@@ -71,6 +70,7 @@ abstract class Controller
      * The plugin name, eg. `'Referrers'`.
      * 
      * @var string
+     * @api
      */
     protected $pluginName;
 
@@ -78,6 +78,7 @@ abstract class Controller
      * The value of the `'date'` query parameter.
      *
      * @var string
+     * @api
      */
     protected $strDate;
 
@@ -85,6 +86,7 @@ abstract class Controller
      * The Date object created with ($strDate)[#strDate] or null if the requested date is a range.
      *
      * @var Date|null
+     * @api
      */
     protected $date;
 
@@ -92,6 +94,7 @@ abstract class Controller
      * The value of the `'idSite'` query parameter.
      * 
      * @var int
+     * @api
      */
     protected $idSite;
 
@@ -99,11 +102,13 @@ abstract class Controller
      * The Site object created with ($idSite)[#idSite].
      * 
      * @var Site
+     * @api
      */
     protected $site = null;
 
     /**
      * Constructor.
+     * @api
      */
     public function __construct()
     {
@@ -134,6 +139,7 @@ abstract class Controller
      * @param string $date today, yesterday, YYYY-MM-DD
      * @param string $timezone default timezone to use
      * @return Date
+     * @api
      */
     protected function getDateParameterInTimezone($date, $timezone)
     {
@@ -161,6 +167,7 @@ abstract class Controller
      *
      * @param Date $date The new Date.
      * @return void
+     * @api
      */
     protected function setDate(Date $date)
     {
@@ -173,6 +180,7 @@ abstract class Controller
      * when visiting: index.php?module=PluginName without the action parameter.
      *
      * @return string
+     * @api
      */
     public function getDefaultAction()
     {
@@ -186,6 +194,7 @@ abstract class Controller
      * @param bool $fetch If true, the result is returned as a string. If false,
      *                    the rendered string is echo'd to the screen.
      * @return string|void
+     * @api
      */
     protected function renderView(ViewInterface $view, $fetch = false)
     {
@@ -206,6 +215,7 @@ abstract class Controller
      * @param string $apiMethod The API method that the ViewDataTable will use to get
      *                          graph data.
      * @return ViewDataTable
+     * @api
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
@@ -216,20 +226,23 @@ abstract class Controller
     }
 
     /**
-     * This method is similar to self::getLastUnitGraph. It works with API.get to combine metrics
-     * of different *.get reports. The returned ViewDataTable is configured with column
-     * translations and selectable metrics.
+     * Same as [getLastUnitGraph](#getLastUnitGraph), but will set some properties of the ViewDataTable
+     * object based on the arguments supplied.
      *
-     * @param string $currentModuleName
-     * @param string $currentControllerAction
-     * @param array $columnsToDisplay
-     * @param array $selectableColumns
-     * @param bool|string $reportDocumentation
-     * @param string $apiMethod The method to request the report from
-     *                                (by default, this is API.get but it can be changed for custom stuff)
+     * @param string $currentModuleName The name of the current plugin.
+     * @param string $currentControllerAction The name of the action that renders the desired
+     *                                        report.
+     * @param array $columnsToDisplay The value to use for the ViewDataTable's columns_to_display config
+     *                                property.
+     * @param array $selectableColumns The value to use for the ViewDataTable's selectable_columns config
+     *                                 property.
+     * @param bool|string $reportDocumentation The value to use for the ViewDataTable's documentation config
+     *                                         property.
+     * @param string $apiMethod The API method that the ViewDataTable will use to get graph data.
      * @return ViewDataTable
+     * @api
      */
-    protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction, $columnsToDisplay,
+    protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction, $columnsToDisplay = false,
                                                      $selectableColumns = array(), $reportDocumentation = false,
                                                      $apiMethod = 'API.get')
     {
@@ -253,7 +266,9 @@ abstract class Controller
 
         // initialize the graph and load the data
         $view = $this->getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod);
-        $view->config->columns_to_display = $columnsToDisplay;
+        if ($columnsToDisplay !== false) {
+            $view->config->columns_to_display = $columnsToDisplay;
+        }
 
         if (property_exists($view->config, 'selectable_columns')) {
             $view->config->selectable_columns = array_merge($view->config->selectable_columns ? : array(), $selectableColumns);
@@ -307,28 +322,10 @@ abstract class Controller
         if (is_null($this->site)) {
             throw new NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
-        $paramDate = self::getDateRangeRelativeToEndDate($period, $range, $endDate, $this->site);
+        $paramDate = Range::getRelativeToEndDate($period, $range, $endDate, $this->site);
 
         $params = array_merge($paramsToSet, array('date' => $paramDate));
         return $params;
-    }
-
-    /**
-     * Given for example, $period = month, $lastN = 'last6', $endDate = '2011-07-01',
-     * It will return the $date = '2011-01-01,2011-07-01' which is useful to draw graphs for the last N periods
-     *
-     * @param string $period
-     * @param string $lastN
-     * @param string $endDate
-     * @param Site $site
-     * @return string
-     */
-    public static function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site)
-    {
-        $last30Relative = new Range($period, $lastN, $site->getTimezone());
-        $last30Relative->setDefaultEndDate(Date::factory($endDate));
-        $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
-        return $date;
     }
 
     /**
@@ -351,14 +348,19 @@ abstract class Controller
     }
 
     /**
-     * Returns the current URL to use in a img src=X to display a sparkline.
-     * $action must be the name of a Controller method that requests data using the ViewDataTable::factory
-     * It will automatically build a sparkline by setting the viewDataTable=sparkline parameter in the URL.
-     * It will also computes automatically the 'date' for the 'last30' days/weeks/etc.
+     * Returns a URL to a sparkline image for a report served by the current plugin.
+     * 
+     * The result of this URL should be used with the [sparkline()](#) twig function.
+     * 
+     * The current site ID and period will be used.
+     * 
+     * See [Sparkline](#) for more information about the Sparkline visualization.
      *
-     * @param string $action Method name of the controller to call in the img src
-     * @param array $customParameters Array of name => value of parameters to set in the generated GET url
-     * @return string The generated URL
+     * @param string $action Method name of the controller that serves the report.
+     * @param array $customParameters The array of query parameter name/value pairs that
+     *                                should be set in result URL.
+     * @return string The generated URL.
+     * @api
      */
     protected function getUrlSparkline($action, $customParameters = array())
     {
@@ -379,11 +381,11 @@ abstract class Controller
     }
 
     /**
-     * Sets the first date available in the calendar
+     * Sets the first date available in the calendar.
      *
-     * @param Date $minDate
-     * @param View $view
-     * @return void
+     * @param Date $minDate The min date.
+     * @param View $view The view that contains the period selector.
+     * @api
      */
     protected function setMinDateView(Date $minDate, $view)
     {
@@ -393,11 +395,12 @@ abstract class Controller
     }
 
     /**
-     * Sets "today" in the calendar. Today does not always mean "UTC" today, eg. for websites in UTC+12.
+     * Sets the last date available in the calendar. Usually this just the "today" date
+     * for a site (which can depend on the timezone of a site).
      *
-     * @param Date $maxDate
-     * @param View $view
-     * @return void
+     * @param Date $maxDate The max date.
+     * @param View $view The view that contains the period selector.
+     * @api
      */
     protected function setMaxDateView(Date $maxDate, $view)
     {
@@ -407,13 +410,30 @@ abstract class Controller
     }
 
     /**
-     * Sets general variables to the view that are used by
-     * various templates and Javascript.
-     * If any error happens, displays the login screen
-     *
+     * Assigns variables to [View](#) instances that display an entire page.
+     * 
+     * The following variables assigned:
+     * 
+     * **date** - The value of the **date** query parameter.
+     * **idSite** - The value of the **idSite** query parameter.
+     * **rawDate** - The value of the **date** query parameter.
+     * **prettyDate** - A pretty string description of the current period.
+     * **siteName** - The current site's name.
+     * **siteMainUrl** - The URL of the current site.
+     * **startDate** - The start date of the current period. A [Date](#) instance.
+     * **endDate** - The end date of the current period. A [Date](#) instance.
+     * **language** - The current language's language code.
+     * **config_action_url_category_delimiter** - The value of the `[General] action_url_category_delimiter`
+     *                                            INI config option.
+     * **topMenu** - The result of `MenuTop::getInstance()->getMenu()`.
+     * 
+     * As well as the variables set by [setPeriodVariablesView](#setPeriodVariablesView).
+     * 
+     * Will exit on error.
+     * 
      * @param View $view
-     * @throws Exception
      * @return void
+     * @api
      */
     protected function setGeneralVariablesView($view)
     {
@@ -475,9 +495,27 @@ abstract class Controller
     }
 
     /**
-     * Set the minimal variables in the view object
+     * Assigns a set of generally useful variables to a [View](#) instance.
+     * 
+     * The following variables assigned:
+     * 
+     * **debugTrackVisitsInsidePiwikUI** - The value of the `[Debug] track_visits_inside_piwik_ui`
+     *                                     INI config option.
+     * **isSuperUser** - True if the current user is the super user, false if otherwise.
+     * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
+     *                          false if otherwise.
+     * **isCustomLogo** - The value of the `[branding] use_custom_logo` INI config option.
+     * **logoHeader** - The header logo URL to use.
+     * **logoLarge** - The large logo URL to use.
+     * **logoSVG** - The SVG logo URL to use.
+     * **hasSVGLogo** - True if there is a SVG logo, false if otherwise.
+     * **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
+     *                    true, [View::setXFrameOptions](#) is called on the view.
+     * 
+     * Also calls [setHostValidationVariablesView](#setHostValidationVariablesView).
      *
      * @param View $view
+     * @api
      */
     protected function setBasicVariablesView($view)
     {
@@ -503,11 +541,14 @@ abstract class Controller
     /**
      * Checks if the current host is valid and sets variables on the given view, including:
      *
-     * isValidHost - true if host is valid, false if otherwise
-     * invalidHostMessage - message to display if host is invalid (only set if host is invalid)
-     * invalidHost - the invalid hostname (only set if host is invalid)
-     * mailLinkStart - the open tag of a link to email the super user of this problem (only set
-     *                 if host is invalid)
+     * - **isValidHost** - true if host is valid, false if otherwise
+     * - **invalidHostMessage** - message to display if host is invalid (only set if host is invalid)
+     * - **invalidHost** - the invalid hostname (only set if host is invalid)
+     * - **mailLinkStart** - the open tag of a link to email the super user of this problem (only set
+     *                       if host is invalid)
+     *
+     * @param View $view
+     * @api
      */
     public static function setHostValidationVariablesView($view)
     {
@@ -573,11 +614,17 @@ abstract class Controller
     }
 
     /**
-     * Sets general period variables (available periods, current period, period labels) used by templates
+     * Sets general period variables on a view, including:
+     * 
+     * - **displayUniqueVisitors** - Whether unique visitors should be displayed for the current
+     *                               period.
+     * - **period** - The value of the **period** query parameter.
+     * - **otherPeriods** - `array('day', 'week', 'month', 'year', 'range')`
+     * - **periodsNames** - List of available periods mapped to their singular and plural translations.
      *
      * @param View $view
-     * @throws Exception
-     * @return void
+     * @throws Exception if the current period is invalid.
+     * @api
      */
     public static function setPeriodVariablesView($view)
     {
@@ -610,17 +657,21 @@ abstract class Controller
     }
 
     /**
-     * Helper method used to redirect the current http request to another module/action
-     * If specified, will also redirect to a given website, period and /or date
+     * Helper method used to redirect the current http request to another module/action.
+     * If specified, will also change the idSite, date and/or period query parameters.
+     * 
+     * This function will exit immediately after executing.
      *
-     * @param string $moduleToRedirect Module, eg. "MultiSites"
-     * @param string $actionToRedirect Action, eg. "index"
-     * @param string $websiteId Website ID, eg. 1
-     * @param string $defaultPeriod Default period, eg. "day"
-     * @param string $defaultDate Default date, eg. "today"
-     * @param array $parameters Parameters to append to url
+     * @param string $moduleToRedirect The plugin to redirect to, eg. `"MultiSites"`.
+     * @param string $actionToRedirect Action, eg. `"index"`.
+     * @param int|null $websiteId The new idSite query parameter, eg, `1`.
+     * @param string|null $defaultPeriod The new period query parameter, eg, `'day'`.
+     * @param string|null $defaultDate The new date query parameter, eg, `'today'`.
+     * @param array $parameters Other query parameters to append to the URL.
+     * @api
      */
-    public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null, $parameters = array())
+    public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null,
+                                    $defaultDate = null, $parameters = array())
     {
         if (is_null($websiteId)) {
             $websiteId = $this->getDefaultWebsiteId();
@@ -666,9 +717,10 @@ abstract class Controller
     }
 
     /**
-     * Returns default website id that Piwik should load
+     * Returns default site ID that Piwik should load.
      *
      * @return bool|int
+     * @api
      */
     protected function getDefaultWebsiteId()
     {
@@ -692,9 +744,10 @@ abstract class Controller
     }
 
     /**
-     * Returns default date for Piwik reports
+     * Returns default date for Piwik reports.
      *
-     * @return string  today, 2010-01-01, etc.
+     * @return string `'today'`, `'2010-01-01'`, etc.
+     * @api
      */
     protected function getDefaultDate()
     {
@@ -713,9 +766,10 @@ abstract class Controller
     }
 
     /**
-     * Returns default date for Piwik reports
+     * Returns default period type for Piwik reports.
      *
-     * @return string  today, 2010-01-01, etc.
+     * @return string `'day'`, `'week'`, `'month'`, `'year'` or `'range'`
+     * @api
      */
     protected function getDefaultPeriod()
     {
@@ -735,14 +789,17 @@ abstract class Controller
     }
 
     /**
-     * Checks that the specified token matches the current logged in user token.
-     * Note: this protection against CSRF should be limited to controller
+     * Checks that the token_auth in the URl matches the current logged in user's token_auth.
+     * 
+     * This is a protection against CSRF should be used in controller
      * actions that are either invoked via AJAX or redirect to a page
-     * within the site.  The token should never appear in the browser's
-     * address bar.
+     * within the site. It should be used in all controller actions that modify
+     * Piwik or user settings.
+     * 
+     * **The token_auth should never appear in the browser's address bar.**
      *
-     * @throws \Piwik\NoAccessException  if token doesn't match
-     * @return void
+     * @throws \Piwik\NoAccessException If the token doesn't match.
+     * @api
      */
     protected function checkTokenInUrl()
     {
@@ -752,10 +809,11 @@ abstract class Controller
     }
 
     /**
-     * Returns pretty date for use in period selector widget.
+     * Returns a prettified date string for use in period selector widget.
      *
-     * @param Period $period
+     * @param Period $period The period to return a pretty string for.
      * @return string
+     * @api
      */
     public static function getCalendarPrettyDate($period)
     {
@@ -791,6 +849,7 @@ abstract class Controller
      * @param string $pastDate The date of past value.
      * @param int $pastValue The value in the past to calculate evolution from.
      * @return string|bool The HTML or false if the evolution is 0 and the current value is 0.
+     * @api
      */
     protected function getEvolutionHtml($date, $currentValue, $pastDate, $pastValue)
     {
