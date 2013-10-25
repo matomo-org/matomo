@@ -8,6 +8,7 @@
 
 use Piwik\Access;
 use Piwik\Plugin\Settings as PluginSettings;
+use Piwik\Settings\Setting;
 
 class TestablePluginSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
 
@@ -16,7 +17,7 @@ class TestablePluginSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Settin
 
     }
 
-    public function addSetting($setting)
+    public function addSetting(Setting $setting)
     {
         parent::addSetting($setting);
     }
