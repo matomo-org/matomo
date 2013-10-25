@@ -99,16 +99,45 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $settings = SettingsManager::getPluginSettingsForCurrentUser();
-        ksort($settings);
+        $settings = $this->getPluginSettings();
 
         $view = new View('@CoreAdminHome/pluginSettings');
-        $view->pluginSettings = $settings;
         $view->nonce          = Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE);
+        $view->pluginSettings = $settings;
+        $view->firstSuperUserSettingNames = $this->getFirstSuperUserSettingNames($settings);
 
         $this->setBasicVariablesView($view);
 
         echo $view->render();
+    }
+
+    private function getPluginSettings()
+    {
+        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
+
+        ksort($pluginsSettings);
+
+        return $pluginsSettings;
+    }
+
+    /**
+     * @param \Piwik\Plugin\Settings[] $pluginsSettings
+     * @return array   array([pluginName] => [])
+     */
+    private function getFirstSuperUserSettingNames($pluginsSettings)
+    {
+        $names = array();
+        foreach ($pluginsSettings as $pluginName => $pluginSettings) {
+
+            foreach ($pluginSettings->getSettingsForCurrentUser() as $setting) {
+                if ($setting instanceof \Piwik\Settings\SystemSetting) {
+                    $names[$pluginName] = $setting->getName();
+                    break;
+                }
+            }
+        }
+
+        return $names;
     }
 
     public function setPluginSettings()
