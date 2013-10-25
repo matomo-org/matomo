@@ -392,7 +392,7 @@ class CronArchive
         if (empty($segments)) {
             return array();
         }
-        $this->log("- Will pre-process " . count($this->segments) . " Segments for each website and each period: " . implode(", ", $this->segments));
+        $this->log("- Will pre-process " . count($segments) . " Segments for each website and each period: " . implode(", ", $segments));
         return $segments;
     }
 
