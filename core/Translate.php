@@ -101,9 +101,25 @@ class Translate
             $lang = Common::getRequestVar('language', '', 'string');
 
             /**
-             * This event is triggered to identify the language code, such as 'en', for the current user. You can use
-             * it for instance to detect the users language by using a third party API such as a CMS. The language that
-             * is set in the request URL is passed as an argument.
+             * Triggered when the current user's language is requested.
+             * 
+             * By default the current language is determined by the **language** query
+             * parameter. Plugins can override this logic by subscribing to this event.
+             * 
+             * **Example**
+             * 
+             *     public function getLanguage(&$lang)
+             *     {
+             *         $client = new My3rdPartyAPIClient();
+             *         $thirdPartyLang = $client->getLanguageForUser(Piwik::getCurrentUserLogin());
+             * 
+             *         if (!empty($thirdPartyLang)) {
+             *             $lang = $thirdPartyLang;
+             *         }
+             *     }
+             * 
+             * @param string &$lang The language that should be used for the user. Will be
+             *                      initialized to the value of the **language** query parameter.
              */
             Piwik::postEvent('User.getLanguage', array(&$lang));
 
@@ -160,19 +176,20 @@ class Translate
         $result = array();
 
         /**
-         * This event is called before generating the JavaScript code that allows other JavaScript
-         * to access Piwik i18n strings. Plugins should handle this event to specify which translations
-         * should be available to JavaScript code.
+         * Triggered before generating the JavaScript code that allows i18n strings to be used
+         * in the browser. Plugins should subscribe to this event to specify which translations
+         * should be available in JavaScript code.
          *
          * Event handlers should add whole translation keys, ie, keys that include the plugin name.
-         * For example:
+         * 
+         * **Example**
          *
-         * ```
-         * public function getClientSideTranslationKeys(&$result)
-         * {
-         *     $result[] = "MyPlugin_MyTranslation";
-         * }
-         * ```
+         *     public function getClientSideTranslationKeys(&$result)
+         *     {
+         *         $result[] = "MyPlugin_MyTranslation";
+         *     }
+         * 
+         * @param array &$result The whole list of client side translation keys.
          */
         Piwik::postEvent('Translate.getClientSideTranslationKeys', array(&$result));
 

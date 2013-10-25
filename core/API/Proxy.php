@@ -151,7 +151,7 @@ class Proxy extends Singleton
             $this->registerClass($className);
 
             // instanciate the object
-            $object = call_user_func(array($className, "getInstance"));
+            $object = $className::getInstance();
 
             // check method exists
             $this->checkMethodExists($className, $methodName);
@@ -166,17 +166,30 @@ class Proxy extends Singleton
             $pluginName = $this->getModuleNameFromClassName($className);
 
             /**
-             * Generic hook that plugins can use to modify any input to any API method. You could also use this to build
-             * an enhanced permission system. The event is triggered shortly before any API method is executed.
-             *
-             * The `$fnalParameters` contains all paramteres that will be passed to the actual API method.
+             * Triggered before an API request is dispatched.
+             * 
+             * This event can be used to modify the input that is passed to every API method or just
+             * one.
+             * 
+             * @param array &$finalParameters List of parameters that will be passed to the API method.
              */
             Piwik::postEvent(sprintf('API.Request.dispatch', $pluginName, $methodName), array(&$finalParameters));
 
             /**
-             * This event is similar to the `API.Request.dispatch` event. It distinguishes the possibility to subscribe
-             * only to a specific API method instead of all API methods. You can use it for example to modify any input
-             * parameters or to execute any other logic before the actual API method is called.
+             * This event exists for convenience and is triggered directly after the [API.Request.dispatch](#)
+             * event is triggered.
+             * 
+             * It can be used to modify the input that is passed to a single API method. This is also
+             * possible with the [API.Request.dispatch](#) event, however that event requires event handlers
+             * check if the plugin name and method name are correct before modifying the parameters.
+             * 
+             * **Example**
+             * 
+             *     Piwik::addAction('API.Actions.getPageUrls', function (&$parameters) {
+             *         // ...
+             *     });
+             * 
+             * @param array &$finalParameters List of parameters that will be passed to the API method.
              */
             Piwik::postEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
@@ -192,37 +205,47 @@ class Proxy extends Singleton
             );
 
             /**
-             * This event is similar to the `API.Request.dispatch.end` event. It distinguishes the possibility to
-             * subscribe only to the end of a specific API method instead of all API methods. You can use it for example
-             * to modify the response. The passed parameters contains the returned value as well as some additional
-             * meta information:
+             * This event exists for convenience and is triggered immediately before the
+             * [API.Request.dispatch.end](#) event.
+             * 
+             * It can be used to modify the output of a single API method. This is also possible with
+             * the [API.Request.dispatch.end](#) event, however that event requires event handlers
+             * check if the plugin name and method name are correct before modifying the output.
              *
-             * ```
-             * function (
-             *     &$returnedValue,
-             *     array('className'  => $className,
-             *           'module'     => $pluginName,
-             *           'action'     => $methodName,
-             *           'parameters' => $finalParameters)
-             * );
-             * ```
+             * @param mixed &$returnedValue The value returned from the API method. This will not be
+             *                              a rendered string, but an actual object. For example, it
+             *                              could be a [DataTable](#).
+             * @param array $extraInfo An array holding information regarding the API request. Will
+             *                         contain the following data:
+             * 
+             *                         - **className**: The name of the namespace-d class name of the
+             *                                          API instance that's being called.
+             *                         - **module**: The name of the plugin the API request was
+             *                                       dispatched to.
+             *                         - **action**: The name of the API method that was executed.
+             *                         - **parameters**: The array of parameters passed to the API
+             *                                           method.
              */
             Piwik::postEvent(sprintf('API.%s.%s.end', $pluginName, $methodName), $endHookParams);
 
             /**
-             * Generic hook that plugins can use to modify any output of any API method. The event is triggered after
-             * any API method is executed but before the result is send to the user. The parameters originally
-             * passed to the controller are available as well:
-             *
-             * ```
-             * function (
-             *     &$returnedValue,
-             *     array('className'  => $className,
-             *           'module'     => $pluginName,
-             *           'action'     => $methodName,
-             *           'parameters' => $finalParameters)
-             * );
-             * ```
+             * Triggered directly after an API request is dispatched.
+             * 
+             * This event can be used to modify the output of any API method.
+             * 
+             * @param mixed &$returnedValue The value returned from the API method. This will not be
+             *                              a rendered string, but an actual object. For example, it
+             *                              could be a [DataTable](#).
+             * @param array $extraInfo An array holding information regarding the API request. Will
+             *                         contain the following data:
+             * 
+             *                         - **className**: The name of the namespace-d class name of the
+             *                                          API instance that's being called.
+             *                         - **module**: The name of the plugin the API request was
+             *                                       dispatched to.
+             *                         - **action**: The name of the API method that was executed.
+             *                         - **parameters**: The array of parameters passed to the API
+             *                                           method.
              */
             Piwik::postEvent(sprintf('API.Request.dispatch.end', $pluginName, $methodName), $endHookParams);
 

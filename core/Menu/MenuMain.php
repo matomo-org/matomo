@@ -66,24 +66,25 @@ class MenuMain extends MenuAbstract
         if (!$this->menu) {
 
             /**
-             * This event is triggered to collect all available reporting menu items. Subscribe to this event if you
-             * want to add one or more items to the Piwik reporting menu. Just define the name of your menu item as
-             * well as a controller and an action that should be executed once a user selects your menu item. It is
-             * also possible to display the item only for users having a specific role.
+             * Triggered when collecting all available reporting menu items. Subscribe to this event if you
+             * want to add one or more items to the Piwik reporting menu.
+             * 
+             * Menu items should be added via the [Menu::add](#) method.
              *
-             * Example:
-             * ```
-             * public function addMenuItems()
-             * {
-             *     \Piwik\Menu\Main::getInstance()->add(
-             *         'CustomMenuName',
-             *         'CustomSubmenuName',
-             *         array('module' => 'MyPlugin', 'action' => 'index'),
-             *         Piwik::isUserIsSuperUser(),
-             *         $order = 6
-             *     );
-             * }
-             * ```
+             * **Example**
+             * 
+             *     use Piwik\Menu\Main;
+             * 
+             *     public function addMenuItems()
+             *     {
+             *         Main::getInstance()->add(
+             *             'CustomMenuName',
+             *             'CustomSubmenuName',
+             *             array('module' => 'MyPlugin', 'action' => 'index'),
+             *             $showOnlyIf = Piwik::isUserIsSuperUser(),
+             *             $order = 6
+             *         );
+             *     }
              */
             Piwik::postEvent('Menu.Reporting.addItems');
         }

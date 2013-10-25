@@ -49,7 +49,7 @@ use Piwik\Session;
  *         echo $realtimeMap->render();
  *     }
  *
- * For a detailed explanation, see the documentation on http://piwik.org/docs/plugins/framework-overview
+ * For a detailed explanation, see the documentation [here](http://piwik.org/docs/plugins/framework-overview).
  *
  * @package Piwik
  * @subpackage FrontController
@@ -88,35 +88,52 @@ class FrontController extends Singleton
         list($module, $action, $parameters, $controller) = $this->prepareDispatch($module, $action, $parameters);
 
         /**
-         * Generic hook that plugins can use to modify any input to the function, or even change the plugin being
-         * called. You could also use this to build an enhanced permission system. The event is triggered before every
-         * call to a controller method.
-         *
-         * The `$params` array contains the following properties: `array($module, $action, $parameters, $controller)`
+         * Triggered directly before controller actions are dispatched.
+         * 
+         * This event can be used to modify the parameters passed to one or more controller actions
+         * and can be used to change the plugin and action that is being dispatched to.
+         * 
+         * @param string &$module The name of the plugin being dispatched to.
+         * @param string &$action The name of the controller method being dispatched to.
+         * @param array &$parameters The arguments passed to the controller action.
          */
-        Piwik::postEvent('Request.dispatch', array($module, $action, $parameters));
+        Piwik::postEvent('Request.dispatch', array(&$module, &$action, &$parameters));
 
         /**
-         * This event is similar to the `Request.dispatch` hook. It distinguishes the possibility to subscribe only to a
-         * specific controller method instead of all controller methods. You can use it for example to modify any input
-         * parameters or execute any other logic before the actual controller is called.
+         * This event exists for convenience and is triggered directly after the [Request.dispatch](#)
+         * event is triggered.
+         * 
+         * It can be used to do the same things as the [Request.dispatch](#) event, but for one controller
+         * action only. Using this event will result in a little less code than [Request.dispatch](#).
+         * 
+         * @param array &$parameters The arguments passed to the controller action.
          */
-        Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array($parameters));
+        Piwik::postEvent(sprintf('Controller.%s.%s', $module, $action), array(&$parameters));
 
         try {
             $result = call_user_func_array(array($controller, $action), $parameters);
 
             /**
-             * This event is similar to the `Request.dispatch.end` hook. It distinguishes the possibility to subscribe
-             * only to the end of a specific controller method instead of all controller methods. You can use it for
-             * example to modify the response of a single controller method.
+             * This event exists for convenience and is triggered immediately before the
+             * [Request.dispatch.end](#) event is triggered.
+             * 
+             * It can be used to do the same things as the [Request.dispatch.end](#) event, but for one
+             * controller action only. Using this event will result in a little less code than
+             * [Request.dispatch.end](#).
+             * 
+             * @param mixed &$result The result of the controller action.
+             * @param array $parameters The arguments passed to the controller action.
              */
             Piwik::postEvent(sprintf('Controller.%s.%s.end', $module, $action), array(&$result, $parameters));
 
             /**
-             * Generic hook that plugins can use to modify any output of any controller method. The event is triggered
-             * after a controller method is executed but before the result is send to the user. The parameters
-             * originally passed to the method are available as well.
+             * Triggered after a controller action is successfully called.
+             * 
+             * This event can be used to modify controller action output (if there was any) before
+             * the output is returned.
+             * 
+             * @param mixed &$result The result of the controller action.
+             * @param array $parameters The arguments passed to the controller action.
              */
             Piwik::postEvent('Request.dispatch.end', array(&$result, $parameters));
 
@@ -125,9 +142,12 @@ class FrontController extends Singleton
         } catch (NoAccessException $exception) {
 
             /**
-             * This event is triggered in case the user wants to access anything in the Piwik UI but has not the
-             * required permissions to do this. You can subscribe to this event to display a custom error message or
-             * to display a custom login form in such a case.
+             * Triggered when a user with insufficient access permissions tries to view some resource.
+             * 
+             * This event can be used to customize the error that occurs when a user is denied access
+             * (for example, displaying an error message, redirecting to a page other than login, etc.).
+             * 
+             * @param NoAccessException $exception The exception that was caught.
              */
             Piwik::postEvent('User.isNotAuthorized', array($exception), $pending = true);
         } catch (Exception $e) {
@@ -207,9 +227,11 @@ class FrontController extends Singleton
         } catch (Exception $exception) {
 
             /**
-             * This event is triggered in case no configuration file is available. This usually means Piwik is not
-             * installed yet. The event can be used to start the installation process or to display a custom error
-             * message.
+             * Triggered when the configuration file cannot be found or read. This usually
+             * means Piwik is not installed yet. This event can be used to start the
+             * installation process or to display a custom error message.
+             * 
+             * @param Exception $exception The exception that was thrown by `Config::getInstance()`.
              */
             Piwik::postEvent('Config.NoConfigurationFile', array($exception), $pending = true);
             $exceptionToThrow = $exception;
@@ -280,9 +302,12 @@ class FrontController extends Singleton
                 }
 
                 /**
-                 * This event is triggered in case a config file is not in the correct format or in case required values
-                 * are missing. The event can be used to start the installation process or to display a custom error
-                 * message.
+                 * Triggered if the INI config file has the incorrect format or if certain required configuration
+                 * options are absent. This event can be used to start the installation process or to display a
+                 * custom error message.
+                 * 
+                 * @param $exception Exception The exception thrown from creating and testing the database
+                 *                             connection.
                  */
                 Piwik::postEvent('Config.badConfigurationFile', array($exception), $pending = true);
                 throw $exception;
@@ -292,8 +317,9 @@ class FrontController extends Singleton
             Access::getInstance();
 
             /**
-             * This event is the first event triggered just after the platform is initialized and plugins are loaded.
-             * You can use this event to do early initialization. Note: the user is not authenticated yet.
+             * Triggered just after the platform is initialized and plugins are loaded.
+             * This event can be used to do early initialization. Note: At this point the user
+             * is not authenticated yet.
              */
             Piwik::postEvent('Request.dispatchCoreAndPluginUpdatesScreen');
 
@@ -305,8 +331,9 @@ class FrontController extends Singleton
             }
 
             /**
-             * This event is triggered before the user is authenticated. You can use it to create your own
-             * authentication object which implements the `Piwik\Auth` interface, and override the default authentication logic.
+             * Triggered before the user is authenticated. You can use it to create your own
+             * authentication object which implements the [Piwik\Auth](#) interface and overrides
+             * the default authentication logic.
              */
             Piwik::postEvent('Request.initAuthenticationObject');
             try {
@@ -330,9 +357,10 @@ class FrontController extends Singleton
             $pluginsManager->postLoadPlugins();
 
             /**
-             * This event is triggered to check for updates. It is triggered after the platform is initialized and after
-             * the user is authenticated but before the platform is going to dispatch the actual request. You can use
-             * it to check for any updates.
+             * Triggered after the platform is initialized and after the user has been authenticated, but
+             * before the platform dispatched the request.
+             * 
+             * Piwik uses this event to check for updates to Piwik.
              */
             Piwik::postEvent('Updater.checkForUpdates');
         } catch (Exception $e) {

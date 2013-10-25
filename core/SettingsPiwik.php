@@ -63,9 +63,25 @@ class SettingsPiwik
             $segmentsToProcess = isset($segments['Segments']) ? $segments['Segments'] : array();
 
             /**
-             * This event is triggered when the automatic archiving runs.
-             * You can use it to add Segments to the list of segments to pre-process during archiving.
-             * Segments specified in this array will be pre-processed for all websites.
+             * Triggered during the cron archiving process to collect segments that
+             * should be pre-processed for all websites. The archiving process will be launched
+             * for each of these segments when archiving data for each site.
+             * 
+             * This event can be used to add segments to be pre-processed. This can be provide
+             * enhanced performance if your plugin depends on data from a specific segment.
+             * 
+             * Note: If you just want to add a segment that is managed by the user, you should use the
+             * SegmentEditor API.
+             * 
+             * @param array &$segmentsToProcess List of segment definitions, eg,
+             *                                  ```
+             *                                  array(
+             *                                      'browserCode=ff;resolution=800x600',
+             *                                      'country=JP;city=Tokyo'
+             *                                  )
+             *                                  ```
+             *                                  Add segments to process to this array in your event
+             *                                  handler.
              */
             Piwik::postEvent('Segments.getKnownSegmentsToArchiveAllSites', array(&$segmentsToProcess));
 
@@ -87,9 +103,26 @@ class SettingsPiwik
         $segments = array();
 
         /**
-         * This event is triggered when the automatic archiving runs.
-         * You can use it to add Segments to the list of segments to pre-process during archiving,
-         * for this particular website ID $idSite.
+         * Triggered during the cron archiving process to collect segments that
+         * should be pre-processed for one specific site. The archiving process will be launched
+         * for each of these segments when archiving data for that one site.
+         * 
+         * This event can be used to add segments to be pre-processed. This can be provide
+         * enhanced performance if your plugin depends on data from a specific segment.
+         * 
+         * Note: If you just want to add a segment that is managed by the user, you should use the
+         * SegmentEditor API.
+         * 
+         * @param array &$segmentsToProcess List of segment definitions, eg,
+         *                                  ```
+         *                                  array(
+         *                                      'browserCode=ff;resolution=800x600',
+         *                                      'country=JP;city=Tokyo'
+         *                                  )
+         *                                  ```
+         *                                  Add segments to process to this array in your event
+         *                                  handler.
+         * @param int $idSite The ID of the site to get segments for.
          */
         Piwik::postEvent('Segments.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
         return $segments;

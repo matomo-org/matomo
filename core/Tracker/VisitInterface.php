@@ -14,6 +14,7 @@ namespace Piwik\Tracker;
 /**
  * @package Piwik
  * @subpackage Tracker
+ * @api
  */
 interface VisitInterface
 {

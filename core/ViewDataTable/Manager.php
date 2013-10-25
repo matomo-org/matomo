@@ -69,8 +69,19 @@ class Manager
         $visualizations = array();
 
         /**
-         * This event is used to gather all available DataTable visualizations. Callbacks should add visualization
-         * class names to the incoming array.
+         * Triggered when gathering all available DataTable visualizations.
+         * 
+         * Plugins that want to expose new DataTable visualizations should subscribe to
+         * this event and add visualization class names to the incoming array.
+         * 
+         * **Example**
+         * 
+         *     public function addViewDataTable(&$visualizations)
+         *     {
+         *         $visualizations[] = 'Piwik\\Plugins\\MyPlugin\\MyVisualization';
+         *     }
+         * 
+         * @param array &$visualizations The array of all available visualizations.
          */
         Piwik::postEvent('ViewDataTable.addViewDataTable', array(&$visualizations));
 

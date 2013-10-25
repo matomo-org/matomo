@@ -239,8 +239,14 @@ class Request
         if ($token_auth) {
 
             /**
-             * This event is triggered when authenticating the API call, only if the token_auth is found in the request.
-             * In this case the current session should authenticate using this token_auth.
+             * Triggered when authenticating an API request. Only triggered if the **token_auth**
+             * query parameter is found in the request.
+             * 
+             * Plugins that provide authentication capabilities should subscribe to this event
+             * and make sure the authentication object (the object returned by `Registry::get('auth')`)
+             * is setup to use `$token_auth` when its `authenticate()` method is executed.
+             * 
+             * @param string $token_auth The value of the **token_auth** query parameter.
              */
             Piwik::postEvent('API.Request.authenticate', array($token_auth));
             Access::getInstance()->reloadAccess();

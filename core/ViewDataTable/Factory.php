@@ -11,7 +11,6 @@
 namespace Piwik\ViewDataTable;
 
 use Piwik\API\Proxy;
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
@@ -139,20 +138,20 @@ class Factory
         if (null === self::$defaultViewTypes) {
             self::$defaultViewTypes = array();
             /**
-             * This event is triggered to gather the default view types for each available report. By default a table
-             * is used. If you define your own report, you may want to subscribe to this event to define another
-             * Visualization that should be used by default to display your report. For instance a Pie, a Bar or a
-             * Cloud.
+             * Triggered when gathering the default view types for all available reports. By default the HtmlTable
+             * visualization is used. If you define your own report, you may want to subscribe to this event to
+             * make sure another Visualization is used (for example, a pie graph, bar graph, or something else).
              *
-             * Example:
+             * **Example**
              * ```
              * public function getDefaultTypeViewDataTable(&$defaultViewTypes)
              * {
              *     $defaultViewTypes['Referrers.getSocials']       = HtmlTable::ID;
              *     $defaultViewTypes['Referrers.getUrlsForSocial'] = Pie::ID;
-             *     )
              * }
              * ```
+             * 
+             * @param array &$defaultViewTypes The array mapping report IDs with visualization IDs.
              */
             Piwik::postEvent('ViewDataTable.getDefaultType', array(&self::$defaultViewTypes));
         }

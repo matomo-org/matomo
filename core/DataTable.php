@@ -99,7 +99,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * - **ArchiveProcessor** &mdash; to learn how DataTables are persisted.
  * - **DataTable\Renderer** &mdash; to learn how DataTable data is exported to XML, JSON, etc.
  * - **DataTable\Filter** &mdash; to see all core Filters.
- * - **DataTable\Manager** &mdash; to learn how DataTables are loaded.
  * 
  * ### Examples
  * 
@@ -1405,8 +1404,8 @@ class DataTable implements DataTableInterface
 
     /**
      * Traverses a DataTable tree using an array of labels and returns the row
-     * it finds or false if it cannot find one, and the number of segments of
-     * the path successfully walked.
+     * it finds or false if it cannot find one. The number of path segments that
+     * were successfully walked is also returned.
      * 
      * If $missingRowColumns is supplied, the specified path is created. When
      * a subtable is encountered w/o the queried label, a new row is created

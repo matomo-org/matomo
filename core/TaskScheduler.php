@@ -55,11 +55,14 @@ class TaskScheduler
         $tasks = array();
 
         /**
-         * This event can be used to register any tasks that you may want to schedule on a regular basis. For instance
-         * hourly, daily, weekly or monthly. It is comparable to a cronjob. The registered method will be executed
-         * depending on the interval that you specify. See `Piwik\ScheduledTask` for more information.
+         * Triggered when the TaskScheduler runs scheduled tasks. Collects all the tasks that
+         * will be run.
+         * 
+         * Subscribe to this event to schedule code execution on an hourly, daily, weekly or monthly
+         * basis.
          *
-         * Example:
+         * **Example**
+         * 
          * ```
          * public function getScheduledTasks(&$tasks)
          * {
@@ -72,6 +75,8 @@ class TaskScheduler
          *     );
          * }
          * ```
+         * 
+         * @param ScheduledTask[] &$tasks List of tasks to run periodically.
          */
         Piwik::postEvent(self::GET_TASKS_EVENT, array(&$tasks));
         /** @var ScheduledTask[] $tasks */

@@ -60,24 +60,25 @@ class MenuAdmin extends MenuAbstract
         if (!$this->menu) {
 
             /**
-             * This event is triggered to collect all available admin menu items. Subscribe to this event if you want
-             * to add one or more items to the Piwik admin menu. Just define the name of your menu item as well as a
-             * controller and an action that should be executed once a user selects your menu item. It is also possible
-             * to display the item only for users having a specific role.
+             * Triggered when collecting all available admin menu items. Subscribe to this event if you want
+             * to add one or more items to the Piwik admin menu.
              *
-             * Example:
-             * ```
-             * public function addMenuItems()
-             * {
-             *     MenuAdmin::getInstance()->add(
-             *         'MenuName',
-             *         'SubmenuName',
-             *         array('module' => 'MyPlugin', 'action' => 'index'),
-             *         Piwik::isUserIsSuperUser(),
-             *         $order = 6
-             *     );
-             * }
-             * ```
+             * Menu items should be added via the [Menu::add](#) method.
+             *
+             * **Example**
+             * 
+             *     use Piwik\Menu\MenuAdmin;
+             * 
+             *     public function addMenuItems()
+             *     {
+             *         MenuAdmin::getInstance()->add(
+             *             'MenuName',
+             *             'SubmenuName',
+             *             array('module' => 'MyPlugin', 'action' => 'index'),
+             *             $showOnlyIf = Piwik::isUserIsSuperUser(),
+             *             $order = 6
+             *         );
+             *     }
              */
             Piwik::postEvent('Menu.Admin.addItems');
         }

@@ -93,7 +93,12 @@ class Visit implements VisitInterface
         }
 
         /**
-         * This event can be used for instance to anonymize the IP (after testing for IP exclusion).
+         * Triggered after the IP address of the visitor is determined.
+         * 
+         * Event subscribers can modify the IP address before it is persisted, for example,
+         * to anonymize it.
+         * 
+         * @param string $ip
          */
         Piwik::postEvent('Tracker.setVisitorIp', array(&$this->visitorInfo['location_ip']));
 
@@ -306,8 +311,13 @@ class Visit implements VisitInterface
         $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
 
         /**
-         * This event is triggered before saving a known visitor. Use it to change any visitor information before
-         * the visitor is saved.
+         * Triggered before logging the visit from a known visitor.
+         * 
+         * Event subscribers may modify the visitor information before it is saved.
+         * 
+         * TODO: describe exactly what information can be added to $visitInfo
+         * 
+         * @param array $visitInfo The array of visit information.
          */
         Piwik::postEvent('Tracker.knownVisitorUpdate', array(&$valuesToUpdate));
 
@@ -351,8 +361,11 @@ class Visit implements VisitInterface
         }
 
         /**
-         * After a known visitor is saved and updated by Piwik, this event is called. Useful for plugins that want to
-         * register information about a returning visitor, or filter the existing information.
+         * Triggered after a visit from a known visitor is successfully logged.
+         * 
+         * TODO: Describe what information is available in $visit
+         * 
+         * @param array $visit Information about the visit.
          */
         Piwik::postEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo));
     }
@@ -472,9 +485,21 @@ class Visit implements VisitInterface
         );
 
         /**
-         * Before a new visitor is saved by Piwik, this event is called. Useful for plugins that want to register
-         * new information about a visitor, or filter the existing information. `$extraInfo` contains the UserAgent.
-         * You can for instance change the user's location country depending on the User Agent.
+         * Triggered before a visit from a new visitor is logged.
+         * 
+         * This event can be used to determine and set new visit information before the visit is
+         * logged. The UserCountry plugin, for example, uses this event to inject location information
+         * into the visit log table.
+         * 
+         * TODO: list exactly what information is available in $visitInfo
+         * 
+         * @param array $visitInfo Information regarding the visit. This is information that
+         *                         persisted to the database.
+         * @param array $extraInfo Extra information about the visit. This information will not
+         *                         be persisted. Includes the following data:
+         * 
+         *                         - **UserAgent**: The whole User-Agent of the tracking request (or
+         *                                          the value of the **ua** query parameter).
          */
         Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $extraInfo));
 

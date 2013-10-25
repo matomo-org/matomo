@@ -158,9 +158,12 @@ class AssetManager
         $mergedContent = $less->compile($mergedContent);
 
         /**
-         * This event is triggered after the less stylesheets are compiled to CSS and after the CSS is minified and
-         * merged into one file but before the generated CSS is written to disk. It can be used to change the modify the
-         * stylesheets to your needs, like replacing image paths or adding further custom stylesheets.
+         * Triggered after all less stylesheets are compiled to CSS, minified and merged into
+         * one file, but before the generated CSS is written to disk.
+         * 
+         * This event can be used to modify merged CSS.
+         * 
+         * @param string &$mergedContent The merged an minified CSS.
          */
         Piwik::postEvent('AssetManager.filterMergedStylesheets', array(&$mergedContent));
 
@@ -283,19 +286,28 @@ class AssetManager
         $stylesheets = array();
 
         /**
-         * This event is triggered to gather a list of all stylesheets (CSS and LESS). Use this event to add your own
-         * stylesheets. Note: In case you are in development you may enable the config setting `disable_merged_assets`.
-         * Otherwise your custom stylesheets won't be loaded. It is best practice to place stylesheets within a
-         * `stylesheets` folder.
+         * Triggered when gathering the list of all stylesheets (CSS and LESS) needed by
+         * Piwik and its plugins.
+         * 
+         * Plugins that have stylesheets should use this event to make those stylesheets
+         * load.
+         * 
+         * Stylesheets should be placed within a **stylesheets** subfolder in your plugin's
+         * root directory.
+         * 
+         * Note: In case you are developing your plugin you may enable the config setting
+         * `[Debug] disable_merged_assets`. Otherwise your custom stylesheets won't be
+         * reloaded immediately after a change.
          *
-         * Example:
-         * ```
-         * public function getStylesheetFiles(&$stylesheets)
-         * {
-         *     $stylesheets[] = "plugins/MyPlugin/stylesheets/myfile.less";
-         *     $stylesheets[] = "plugins/MyPlugin/stylesheets/myfile.css";
-         * }
-         * ```
+         * **Example**
+         * 
+         *     public function getStylesheetFiles(&$stylesheets)
+         *     {
+         *         $stylesheets[] = "plugins/MyPlugin/stylesheets/myfile.less";
+         *         $stylesheets[] = "plugins/MyPlugin/stylesheets/myotherfile.css";
+         *     }
+         * 
+         * @param string[] &$stylesheets The list of stylesheet paths.
          */
         Piwik::postEvent(self::STYLESHEET_IMPORT_EVENT, array(&$stylesheets));
 
@@ -370,9 +382,13 @@ class AssetManager
         $mergedContent = str_replace("\n", "\r\n", $mergedContent);
 
         /**
-         * This event is triggered after the JavaScript files are minified and merged to a single file but before the
-         * generated JS file is written to disk. It can be used to change the generated JavaScript to your needs,
-         * like adding further scripts or storing the generated file somewhere else.
+         * Triggered after all JavaScript files Piwik uses are minified and merged into a
+         * single file, but before the merged JavaScript is written to disk.
+         * 
+         * Plugins can use this event to modify merged JavaScript or do something else
+         * with it.
+         * 
+         * @param string &$mergedContent The minified and merged JavaScript.
          */
         Piwik::postEvent('AssetManager.filterMergedJavaScripts', array(&$mergedContent));
 
@@ -406,19 +422,28 @@ class AssetManager
         $jsFiles = array();
 
         /**
-         * This event is triggered to gather a list of all JavaScript files. Use this event to add your own JavaScript
-         * files. Note: In case you are in development you may enable the config setting `disable_merged_assets`.
-         * Otherwise your custom JavaScript won't be loaded. It is best practice to place all your JavaScript files
-         * within a `javascripts` folder.
+         * Triggered when gathering the list of all JavaScript files needed by Piwik
+         * and its plugins.
+         * 
+         * Plugins that have their own JavaScript should use this event to make those
+         * files load in the browser.
+         * 
+         * JavaScript files should be placed within a **javascripts** subfolder in your
+         * plugin's root directory.
+         * 
+         * Note: In case you are developing your plugin you may enable the config setting
+         * `[Debug] disable_merged_assets`. Otherwise your JavaScript won't be reloaded
+         * immediately after a change.
          *
-         * Example:
-         * ```
-         * public function getJsFiles(&jsFiles)
-         * {
-         *     jsFiles[] = "plugins/MyPlugin/javascripts/myfile.js";
-         *     jsFiles[] = "plugins/MyPlugin/javascripts/anotherone.js";
-         * }
-         * ```
+         * **Example**
+         * 
+         *     public function getJsFiles(&jsFiles)
+         *     {
+         *         jsFiles[] = "plugins/MyPlugin/javascripts/myfile.js";
+         *         jsFiles[] = "plugins/MyPlugin/javascripts/anotherone.js";
+         *     }
+         * 
+         * @param string[] $jsFiles The JavaScript files to load.
          */
         Piwik::postEvent(self::JAVASCRIPT_IMPORT_EVENT, array(&$jsFiles));
         $jsFiles = self::sortJsFiles($jsFiles);
