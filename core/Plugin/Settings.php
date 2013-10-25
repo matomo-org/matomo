@@ -15,6 +15,12 @@ use Piwik\Piwik;
 use Piwik\Settings\Setting;
 use Piwik\Settings\StorageInterface;
 
+/**
+ * Settings class that plugins can extend in order to create settings for their plugins.
+ *
+ * @package Piwik\Plugin
+ * @api
+ */
 abstract class Settings implements StorageInterface
 {
     const TYPE_INT    = 'integer';
