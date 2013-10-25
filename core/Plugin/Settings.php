@@ -10,14 +10,12 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Settings\Setting;
-use Piwik\Settings\SystemSetting;
-use Piwik\Settings\UserSetting;
+use Piwik\Settings\StorageInterface;
 
-class Settings
+abstract class Settings implements StorageInterface
 {
     const TYPE_INT    = 'integer';
     const TYPE_FLOAT  = 'float';
@@ -57,10 +55,10 @@ class Settings
         $this->loadSettings();
     }
 
-    protected function init()
-    {
-        // Define your settings and introduction here.
-    }
+    /**
+     * Define your settings and introduction here.
+     */
+    abstract protected function init();
 
     /**
      * Sets (overwrites) the plugin settings introduction.
@@ -252,6 +250,8 @@ class Settings
                 }
             };
         }
+
+        $setting->setStorage($this);
 
         $this->settings[$setting->getName()] = $setting;
     }

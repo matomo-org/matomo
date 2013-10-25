@@ -109,6 +109,22 @@ class SettingsTest extends DatabaseTestCase
         $this->assertEquals(array('myname' => $setting), $this->settings->getSettings());
     }
 
+    public function test_addSetting_shouldPassTheStorage_ToTheSetting()
+    {
+        $this->setSuperUser();
+
+        $setting = $this->buildUserSetting('myname', 'mytitle', 'myRandomName');
+        $this->settings->addSetting($setting);
+
+        $this->settings->setSettingValue($setting, 5);
+        $this->assertSettingHasValue($setting, 5);
+
+        $this->assertEquals($setting->getValue(), 5);
+
+        $this->settings->setSettingValue($setting, 'test3434');
+        $this->assertEquals($setting->getValue(), 'test3434');
+    }
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage The setting myname2 does not exist

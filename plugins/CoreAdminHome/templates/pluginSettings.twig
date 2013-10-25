@@ -28,7 +28,7 @@
         <table class="adminTable" id="pluginSettings" data-pluginname="{{ pluginName|e('html_attr') }}">
 
         {% for name, setting in settings.getSettingsForCurrentUser %}
-            {% set settingValue = settings.getSettingValue(setting) %}
+            {% set settingValue = setting.getValue %}
 
             {% if pluginName in firstSuperUserSettingNames|keys and name == firstSuperUserSettingNames[pluginName] %}
                 <tr>

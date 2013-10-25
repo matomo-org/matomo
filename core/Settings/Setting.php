@@ -129,6 +129,11 @@ abstract class Setting
     protected $displayedForCurrentUser = false;
 
     /**
+     * @var StorageInterface
+     */
+    private $storage;
+
+    /**
      * Creates a new setting.
      *
      * @param string $name    The name of the setting, only alnum characters are allowed. For instance `refreshInterval`
@@ -149,6 +154,21 @@ abstract class Setting
     public function canBeDisplayedForCurrentUser()
     {
         return $this->displayedForCurrentUser;
+    }
+
+    public function setStorage(StorageInterface $storage)
+    {
+        $this->storage = $storage;
+    }
+
+    /**
+     * Gets the value or if no value is defined the default value of the setting.
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->storage->getSettingValue($this);
     }
 
     /**
