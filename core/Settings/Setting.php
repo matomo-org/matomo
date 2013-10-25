@@ -10,9 +10,6 @@
  */
 
 namespace Piwik\Settings;
-use Piwik\Common;
-use Piwik\Piwik;
-use Piwik\Plugin\Settings;
 
 /**
  * Base setting class. Extend this class to define your own type of setting.
@@ -162,13 +159,19 @@ abstract class Setting
     }
 
     /**
-     * Gets the value or if no value is defined the default value of the setting.
-     *
-     * @return mixed
+     * @see StorageInterface::getSettingValue
      */
     public function getValue()
     {
         return $this->storage->getSettingValue($this);
+    }
+
+    /**
+     * @see StorageInterface::setSettingValue
+     */
+    public function setValue($value)
+    {
+        return $this->storage->setSettingValue($this, $value);
     }
 
     /**
