@@ -313,7 +313,7 @@ class DBStats extends \Piwik\Plugin
         if ($view->isViewDataTableId(HtmlTable::ID)) {
 
             // add summary row only if displaying a table
-            $dataTable->queueFilter('AddSummaryRow', Piwik::translate('General_Total'));
+            $view->config->filters[] = array('AddSummaryRow', Piwik::translate('General_Total'));
 
             // add percentage column if desired
             if ($addPercentColumn
