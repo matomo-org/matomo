@@ -7,7 +7,7 @@ use Piwik\UrlHelper;
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class Core_CommonTest extends PHPUnit_Framework_TestCase
+class Core_UrlHelperTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Dataprovider for testIsUrl
