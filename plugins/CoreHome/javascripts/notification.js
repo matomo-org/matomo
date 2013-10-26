@@ -13,7 +13,7 @@
     };
 
     Notification.prototype.notify = function (title, message, options) {
-        var template = '<div class="alert alert-' + options.context + ' ">' + options.type + '</div>';
+        var template = '<div class="notification notification-' + options.context + ' ">' + options.type + '</div>';
         $(template).appendTo('#notificationContainer');
     };
 
