@@ -24,7 +24,6 @@
 
         <div id="root">
             {% include "@CoreHome/_topScreen.twig" %}
-            {% include "@CoreHome/_notifications.twig" %}
 
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.requestErrorDiv }}
@@ -36,6 +35,7 @@
 
                 <div id="content" class="admin">
 
+                    {% include "@CoreHome/_notifications.twig" %}
                     {% include "@CoreHome/_headerMessage.twig" %}
 
                     {% if configFileNotWritable is defined and configFileNotWritable%}
