@@ -35,7 +35,6 @@ class Notification
 
     public $title;
     public $message;
-    public $icon;
     public $flags;
     public $type     = self::TYPE_TOAST;
     public $context  = self::CONTEXT_INFO;
