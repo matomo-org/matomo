@@ -22,6 +22,11 @@
             options = {};
         }
 
+        if ('persistent' == options.type && options.noclear) {
+            // otherwise it is never possible to dismiss the notification
+            options.noclear = false;
+        }
+
         var template = '<div class="notification';
 
         if (options.context) {
@@ -37,7 +42,6 @@
         template += '>';
 
         if (!options.noclear) {
-
             template += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
         }
 
@@ -50,12 +54,16 @@
 
         var notificationNode = $(template).appendTo('#notificationContainer');
 
-        if (!options.noclear) {
-            addCloseEvent(notificationNode);
+        if ('persistent' == options.type) {
+            addPersistentEvent(notificationNode);
         }
 
         if ('toast' == options.type) {
             addToastEvent(notificationNode);
+        }
+
+        if (!options.noclear) {
+            addCloseEvent(notificationNode);
         }
     };
 
@@ -66,6 +74,7 @@
         setTimeout(function () {
             notificationNode.fadeOut( 'slow', function() {
                 notificationNode.remove();
+                notificationNode = null;
             });
         }, 15 * 1000);
     }
@@ -75,6 +84,18 @@
             if (event.delegateTarget) {
                 $(event.delegateTarget).remove();
             }
+        });
+    };
+
+    function addPersistentEvent(notificationNode) {
+        $(notificationNode).on('click', '.close', function (event) {
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams({
+                module: 'CoreHome',
+                action: 'markNotificationAsRead'
+            }, 'GET');
+            ajaxHandler.addParams({notificationId: $(notificationNode).data('id')}, 'POST');
+            ajaxHandler.send(true);
         });
     };
 

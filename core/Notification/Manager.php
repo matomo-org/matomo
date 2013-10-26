@@ -33,7 +33,9 @@ class Manager
         $session = static::getSession();
         $session->$id = $notification;
 
-        $session->setExpirationHops(1, $id);
+        if (Notification::TYPE_PERSISTENT != $notification->type) {
+            $session->setExpirationHops(1, $id);
+        }
     }
 
     public static function getAllNotificationsToDisplay()
