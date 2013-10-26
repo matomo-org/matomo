@@ -49,10 +49,26 @@
         template += '</div>';
 
         var notificationNode = $(template).appendTo('#notificationContainer');
-        addCloseEvent(notificationNode);
+
+        if (!options.noclear) {
+            addCloseEvent(notificationNode);
+        }
+
+        if ('toast' == options.type) {
+            addToastEvent(notificationNode);
+        }
     };
 
     exports.Notification = Notification;
+
+    function addToastEvent(notificationNode)
+    {
+        setTimeout(function () {
+            notificationNode.fadeOut( 'slow', function() {
+                notificationNode.remove();
+            });
+        }, 15 * 1000);
+    }
 
     function addCloseEvent(notificationNode) {
         $(notificationNode).on('click', '.close', function (event) {
