@@ -193,6 +193,8 @@ class Manager
             );
         }
 
+        $normalViewIcons['buttons'] = array_filter($normalViewIcons['buttons']);
+
         if (!empty($normalViewIcons['buttons'])) {
             $result[] = $normalViewIcons;
         }
@@ -225,6 +227,8 @@ class Manager
             }
         }
 
+        $graphViewIcons['buttons'] = array_filter($graphViewIcons['buttons']);
+
         if (!empty($graphViewIcons['buttons'])) {
             $result[] = $graphViewIcons;
         }
@@ -242,6 +246,10 @@ class Manager
     private static function getFooterIconFor($viewDataTableId)
     {
         $tables = static::getAvailableViewDataTables();
+
+        if (!array_key_exists($viewDataTableId, $tables)) {
+            return;
+        }
 
         $klass = $tables[$viewDataTableId];
 
