@@ -11,6 +11,15 @@
 namespace Piwik;
 
 /**
+ * Notification class.
+ *
+ * Example:
+ * ```
+ * $notification = new \Piwik\Notification('My Error Message');
+ * $notification->context = Notification::CONTEXT_ERROR;
+ * \Piwik\Notification\Manager::notify('pluginname_id', $notification);
+ * ```
+ *
  * @package Piwik
  * @subpackage Notification
  * @api
