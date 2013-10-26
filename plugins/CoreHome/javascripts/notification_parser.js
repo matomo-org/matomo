@@ -16,8 +16,10 @@ $(document).ready((function ($, require) {
             $notificationNode = $(notificationNode);
             var attributes = $notificationNode.data();
 
-            var notification = new UI.Notification();
-            notification.show(attributes.message, attributes);
+            if (attributes.message) {
+                var notification = new UI.Notification();
+                notification.show(attributes.message, attributes);
+            }
         });
 
     }

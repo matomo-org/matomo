@@ -14,10 +14,27 @@
 
     Notification.prototype.show = function (message, options) {
         if (!message) {
-            return;
+            throw new Error('No message given, cannot display notification');
+        }
+        if (options && !$.isPlainObject(options)) {
+            throw new Error('Options has the wrong format, cannot display notification');
+        } else if (!options) {
+            options = {};
         }
 
-        var template = '<div class="notification notification-' + options.context + ' ">';
+        var template = '<div class="notification';
+
+        if (options.context) {
+            template += ' notification-' + options.context;
+        }
+
+        template += '"';
+
+        if (options.id) {
+            template += ' data-id="' + options.id + '"';
+        }
+
+        template += '>';
 
         if (!options.noclear) {
 
@@ -29,11 +46,20 @@
         }
 
         template += message;
-
         template += '</div>';
-        $(template).appendTo('#notificationContainer');
+
+        var notificationNode = $(template).appendTo('#notificationContainer');
+        addCloseEvent(notificationNode);
     };
 
     exports.Notification = Notification;
+
+    function addCloseEvent(notificationNode) {
+        $(notificationNode).on('click', '.close', function (event) {
+            if (event.delegateTarget) {
+                $(event.delegateTarget).remove();
+            }
+        });
+    };
 
 })(jQuery, require);

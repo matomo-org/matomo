@@ -90,7 +90,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/promo.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/notificationparser.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
