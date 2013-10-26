@@ -32,11 +32,11 @@ class Notification
     const FLAG_PERSISTENT = 4;
     const FLAG_TRANSIENT  = 8;
 
-    public $context;
     public $title;
     public $message;
     public $icon;
-    public $flags;
-    public $priority;
+    public $context  = self::CONTEXT_INFO;
+    public $flags    = self::FLAG_PERSISTENT;
+    public $priority = self::PRIORITY_LOW;
 
 }
