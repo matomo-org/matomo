@@ -34,6 +34,7 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
+use Piwik\Notification\Manager as NotificationManager;
 
 /**
  * Base class of all plugin Controllers.
@@ -488,7 +489,8 @@ abstract class Controller
 
             $this->setBasicVariablesView($view);
 
-            $view->topMenu = MenuTop::getInstance()->getMenu();
+            $view->topMenu       = MenuTop::getInstance()->getMenu();
+            $view->notifications = NotificationManager::getAllNotificationsToDisplay();
         } catch (Exception $e) {
             Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
         }

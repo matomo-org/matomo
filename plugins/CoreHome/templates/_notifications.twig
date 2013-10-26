@@ -1,0 +1,11 @@
+<div style="display:hidden">
+    {% for notificationId, notification in notifications %}
+        <div data-id="{{ notificationId }}"
+             data-notification="{{ notification.type }}"
+             data-title="{{ notification.title }}"
+             data-message="{{ notification.message }}"
+             data-noclear="{{ notification.hasNoClear }}"
+             data-context="{{ notification.context }}"
+             data-priority="{{ notification.priority }}"></div>
+    {% endfor %}
+</div>

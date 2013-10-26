@@ -28,15 +28,26 @@ class Notification
     const PRIORITY_MAX    = 1;
 
     const FLAG_NO_CLEAR   = 1;
-    const FLAG_TOAST      = 2;
-    const FLAG_PERSISTENT = 4;
-    const FLAG_TRANSIENT  = 8;
+
+    const TYPE_TOAST      = 'toast';
+    const TYPE_PERSISTENT = 'persistent';
+    const TYPE_TRANSIENT  = 'transient';
 
     public $title;
     public $message;
     public $icon;
+    public $flags;
+    public $type     = self::TYPE_TOAST;
     public $context  = self::CONTEXT_INFO;
-    public $flags    = self::FLAG_PERSISTENT;
     public $priority = self::PRIORITY_LOW;
+
+    public function hasNoClear()
+    {
+        if ($this->flags & self::FLAG_NO_CLEAR) {
+            return 1;
+        }
+
+        return 0;
+    }
 
 }

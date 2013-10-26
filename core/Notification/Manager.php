@@ -36,7 +36,7 @@ class Manager
         $session->setExpirationHops(1, $id);
     }
 
-    public static function getAll()
+    public static function getAllNotificationsToDisplay()
     {
         $session = static::getSession();
         return $session->getIterator();

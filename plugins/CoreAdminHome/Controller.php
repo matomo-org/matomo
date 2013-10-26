@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
-use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -21,14 +20,12 @@ use Piwik\Menu\MenuTop;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Settings\Manager as SettingsManager;
-use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
-use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
