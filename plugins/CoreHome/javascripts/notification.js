@@ -52,49 +52,56 @@
         template += message;
         template += '</div>';
 
-        var notificationNode = $(template).appendTo('#notificationContainer');
+        var $notificationNode = $(template).appendTo('#notificationContainer');
 
         if ('persistent' == options.type) {
-            addPersistentEvent(notificationNode);
+            addPersistentEvent($notificationNode);
         }
 
         if ('toast' == options.type) {
-            addToastEvent(notificationNode);
+            addToastEvent($notificationNode);
         }
 
         if (!options.noclear) {
-            addCloseEvent(notificationNode);
+            addCloseEvent($notificationNode);
         }
     };
 
     exports.Notification = Notification;
 
-    function addToastEvent(notificationNode)
+    function addToastEvent($notificationNode)
     {
         setTimeout(function () {
-            notificationNode.fadeOut( 'slow', function() {
-                notificationNode.remove();
-                notificationNode = null;
+            $notificationNode.fadeOut( 'slow', function() {
+                $notificationNode.remove();
+                $notificationNode = null;
             });
         }, 15 * 1000);
     }
 
-    function addCloseEvent(notificationNode) {
-        $(notificationNode).on('click', '.close', function (event) {
-            if (event.delegateTarget) {
+    function addCloseEvent($notificationNode) {
+        $notificationNode.on('click', '.close', function (event) {
+            if (event && event.delegateTarget) {
                 $(event.delegateTarget).remove();
             }
         });
     };
 
-    function addPersistentEvent(notificationNode) {
-        $(notificationNode).on('click', '.close', function (event) {
+    function addPersistentEvent($notificationNode) {
+
+        var notificationId = $notificationNode.data('id');
+
+        if (!notificationId) {
+            return;
+        }
+
+        $notificationNode.on('click', '.close', function (event) {
             var ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams({
                 module: 'CoreHome',
                 action: 'markNotificationAsRead'
             }, 'GET');
-            ajaxHandler.addParams({notificationId: $(notificationNode).data('id')}, 'POST');
+            ajaxHandler.addParams({notificationId: notificationId}, 'POST');
             ajaxHandler.send(true);
         });
     };
