@@ -36,7 +36,7 @@ class Notification
     public $title;
     public $message;
     public $flags;
-    public $type     = self::TYPE_TOAST;
+    public $type     = self::TYPE_TRANSIENT;
     public $context  = self::CONTEXT_INFO;
     public $priority = self::PRIORITY_LOW;
 
