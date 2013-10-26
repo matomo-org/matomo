@@ -17,6 +17,25 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+    public function test_icoFilesIconsShouldBeInPngFormat()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
+        $errors = array();
+        foreach ($files as $file) {
+            if(false !== @imagecreatefrompng($file)) {
+                $errors[] = $file;
+            }
+        }
+        if(!empty($errors)) {
+            $msg ='';
+            foreach($errors as $file) {
+                $msg .= " convert png:$file $file \n";
+            }
+            $this->fail("imagecreatefrompng failed for following icons (--> Convert them to valid PNG .ico files with following command: \n\n" . $msg);
+        }
+
+    }
+
     /**
      * @group Core
      */
