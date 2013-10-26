@@ -23,9 +23,11 @@ class Manager
     private static $session = null;
 
     /**
-     * Post a notification to be shown in the status bar. If a notification with the same id has already been posted by your application and has not yet been canceled, it will be replaced by the updated information.
+     * Post a notification to be shown in the status bar. If a notification with the same id has already been posted
+     * by your application and has not yet been canceled, it will be replaced by the updated information.
      *
-     * @param string       $id   A unique identifier for this notification. Id must be a string and may contain only word characters (AlNum + underscore)
+     * @param string       $id   A unique identifier for this notification. Id must be a string and may contain only
+     *                           word characters (AlNum + underscore)
      * @param Notification $notification
      */
     public static function notify($id, Notification $notification)
@@ -57,7 +59,7 @@ class Manager
     }
 
     /**
-     * Cancel a previously registered notification.
+     * Cancel a previously registered (or persistent) notification.
      * @param $id
      */
     public static function cancel($id)
