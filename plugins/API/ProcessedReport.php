@@ -86,9 +86,27 @@ class ProcessedReport
         $availableReports = array();
 
         /**
-         * This event is triggered to get all available reports. Your plugin can use this event to add one or
-         * multiple reports. By doing that the report will be for instance available in ScheduledReports as well as
-         * in the Piwik Mobile App.
+         * Triggered when gathering the metadata for all available reports.
+         * 
+         * Plugins that define new reports should use this event to make them available in via
+         * the metadata API. By doing so, the report will become available in scheduled reports
+         * as well as in the Piwik Mobile App. In fact, any third party app that uses the metadata
+         * API will automatically have access to the new report.
+         * 
+         * TODO: list all information that is required in $availableReports.
+         * 
+         * @param string &$availableReports The list of available reports. Append to this list
+         *                                  to make a report available.
+         * @param array $parameters Contains the values of the sites and period we are
+         *                          getting reports for. Some report depend on this data.
+         *                          For example, Goals reports depend on the site IDs being
+         *                          request. Contains the following information:
+         * 
+         *                          - **idSites**: The array of site IDs we are getting reports for.
+         *                          - **period**: The period type, eg, `'day'`, `'week'`, `'month'`,
+         *                                        `'year'`, `'range'`.
+         *                          - **date**: A string date within the period or a date range, eg,
+         *                                      `'2013-01-01'` or `'2012-01-01,2013-01-01'`.
          */
         Piwik::postEvent('API.getReportMetadata', array(&$availableReports, $parameters));
         foreach ($availableReports as &$availableReport) {
@@ -109,8 +127,23 @@ class ProcessedReport
         }
 
         /**
-         * This event is triggered after all available reports are collected. Plugins can add custom metrics to
-         * other reports or remove reports from the list of all available reports.
+         * Triggered after all available reports are collected.
+         * 
+         * This event can be used to modify the report metadata of reports in other plugins. You
+         * could, for example, add custom metrics to every report or remove reports from the list
+         * of available reports.
+         * 
+         * @param array &$availableReports List of all report metadata.
+         * @param array $parameters Contains the values of the sites and period we are
+         *                          getting reports for. Some report depend on this data.
+         *                          For example, Goals reports depend on the site IDs being
+         *                          request. Contains the following information:
+         * 
+         *                          - **idSites**: The array of site IDs we are getting reports for.
+         *                          - **period**: The period type, eg, `'day'`, `'week'`, `'month'`,
+         *                                        `'year'`, `'range'`.
+         *                          - **date**: A string date within the period or a date range, eg,
+         *                                      `'2013-01-01'` or `'2012-01-01,2013-01-01'`.
          */
         Piwik::postEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 

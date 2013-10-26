@@ -167,11 +167,13 @@ class Provider extends \Piwik\Plugin
             $cleanHostname = null;
 
             /**
-             * This event is triggered to get a clean hostname depending on a given hostname. For instance it is used
-             * to return `site.co.jp` in `fvae.VARG.ceaga.site.co.jp`. Use this event to customize the way a hostname
-             * is cleaned.
+             * Triggered when prettifying a hostname string. depending on a given hostname.
+             * 
+             * This event can be used to customize the way a hostname is displayed in the 
+             * Providers report.
              *
-             * Example:
+             * **Example**
+             * 
              * ```
              * public function getCleanHostname(&$cleanHostname, $hostname)
              * {

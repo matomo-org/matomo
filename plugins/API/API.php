@@ -84,8 +84,50 @@ class API extends \Piwik\Plugin\API
         $segments = array();
 
         /**
-         * This event is triggered to get all available segments. Your plugin can use this event to add one or
-         * multiple new segments.
+         * Triggered when gathering all available segments.
+         * 
+         * This event can be used to make new segments available.
+         * 
+         * **Example**
+         * 
+         *     public function getSegmentsMetadata(&$segments, $idSites)
+         *     {
+         *         $segments[] = array(
+         *             'type'           => 'dimension',
+         *            'category'       => Piwik::translate('General_Visit'),
+         *             'name'           => 'General_VisitorIP',
+         *             'segment'        => 'visitIp',
+         *             'acceptedValues' => '13.54.122.1, etc.',
+         *             'sqlSegment'     => 'log_visit.location_ip',
+         *             'sqlFilter'      => array('Piwik\IP', 'P2N'),
+         *             'permission'     => $isAuthenticatedWithViewAccess,
+         *         );
+         *     }
+         * 
+         * @param array &$segments The list of available segments. Append to this list to add
+         *                         new segments. Each element in this list must contain the
+         *                         following information:
+         *                         
+         *                         - **type**: Either `'metric'` or `'dimension'`. `'metric'` means
+         *                                     the value is a numeric and `'dimension'` means it is
+         *                                     a string. Also, `'metric'` values will be displayed
+         *                                     **Visit (metrics)** in the Segment Editor.
+         *                         - **category**: The segment category name. This can be an existing
+         *                                         segment category visible in the segment editor.
+         *                         - **name**: The pretty name of the segment.
+         *                         - **segment**: The segment name, eg, `'visitIp'` or `'searches'`.
+         *                         - **acceptedValues**: A string describing one or two exacmple values, eg
+         *                                               `'13.54.122.1, etc.'`.
+         *                         - **sqlSegment**: The table column this segment will segment by.
+         *                                           For example, `'log_visit.location_ip'` for the
+         *                                           **visitIp** segment.
+         *                         - **sqlFilter**: A PHP callback to apply to segment values before
+         *                                          they are used in SQL.
+         *                         - **permission**: True if the current user has view access to this
+         *                                           segment, false if otherwise.
+         * @param array $idSites The list of site IDs we're getting the available segments
+         *                       for. Some segments (such as Goal segments) depend on the
+         *                       site.
          */
         Piwik::postEvent('API.getSegmentsMetadata', array(&$segments, $idSites));
 

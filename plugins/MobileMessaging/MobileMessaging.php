@@ -107,9 +107,9 @@ class MobileMessaging extends \Piwik\Plugin
         $stylesheets[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
     }
 
-    public function validateReportParameters(&$parameters, $info)
+    public function validateReportParameters(&$parameters, $reportType)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             // phone number validation
             $availablePhoneNumbers = APIMobileMessaging::getInstance()->getActivatedPhoneNumbers();
 
@@ -126,11 +126,9 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    public function getReportMetadata(&$availableReportMetadata, $notificationInfo)
+    public function getReportMetadata(&$availableReportMetadata, $reportType, $idSite)
     {
-        if (self::manageEvent($notificationInfo)) {
-            $idSite = $notificationInfo[APIScheduledReports::ID_SITE_INFO_KEY];
-
+        if (self::manageEvent($reportType)) {
             foreach (self::$availableReports as $availableReport) {
                 $reportMetadata = APIPlugins::getInstance()->getMetadata(
                     $idSite,
@@ -151,23 +149,23 @@ class MobileMessaging extends \Piwik\Plugin
         $reportTypes = array_merge($reportTypes, self::$managedReportTypes);
     }
 
-    public function getReportFormats(&$reportFormats, $info)
+    public function getReportFormats(&$reportFormats, $reportType)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             $reportFormats = array_merge($reportFormats, self::$managedReportFormats);
         }
     }
 
-    public function getReportParameters(&$availableParameters, $info)
+    public function getReportParameters(&$availableParameters, $reportType)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             $availableParameters = self::$availableParameters;
         }
     }
 
-    public function getRendererInstance(&$reportRenderer, $info)
+    public function getRendererInstance(&$reportRenderer, $reportType, $outputType, $report)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             if (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MultiSites')) {
                 $reportRenderer = new Sms();
             } else {
@@ -178,28 +176,24 @@ class MobileMessaging extends \Piwik\Plugin
         }
     }
 
-    public function allowMultipleReports(&$allowMultipleReports, $info)
+    public function allowMultipleReports(&$allowMultipleReports, $reportType)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             $allowMultipleReports = false;
         }
     }
 
-    public function getReportRecipients(&$recipients, $notificationInfo)
+    public function getReportRecipients(&$recipients, $reportType, $report)
     {
-        if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[APIScheduledReports::REPORT_KEY];
+        if (self::manageEvent($reportType)) {
             $recipients = $report['parameters'][self::PHONE_NUMBERS_PARAMETER];
         }
     }
 
-    public function sendReport($notificationInfo)
+    public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
+                               $additionalFiles)
     {
-        if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[APIScheduledReports::REPORT_KEY];
-            $contents = $notificationInfo[APIScheduledReports::REPORT_CONTENT_KEY];
-            $reportSubject = $notificationInfo[APIScheduledReports::REPORT_SUBJECT_KEY];
-
+        if (self::manageEvent($reportType)) {
             $parameters = $report['parameters'];
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
 
@@ -231,9 +225,9 @@ class MobileMessaging extends \Piwik\Plugin
         $out .= $view->render();
     }
 
-    private static function manageEvent($notificationInfo)
+    private static function manageEvent($reportType)
     {
-        return in_array($notificationInfo[APIScheduledReports::REPORT_TYPE_INFO_KEY], array_keys(self::$managedReportTypes));
+        return in_array($reportType, array_keys(self::$managedReportTypes));
     }
 
     function install()

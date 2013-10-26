@@ -172,8 +172,10 @@ class Proxy extends Singleton
              * one.
              * 
              * @param array &$finalParameters List of parameters that will be passed to the API method.
+             * @param string $pluginName The name of the plugin being dispatched to.
+             * @param string $methodName The name of the API method that will be called.
              */
-            Piwik::postEvent(sprintf('API.Request.dispatch', $pluginName, $methodName), array(&$finalParameters));
+            Piwik::postEvent('API.Request.dispatch', array(&$finalParameters, $pluginName, $methodName));
 
             /**
              * This event exists for convenience and is triggered directly after the [API.Request.dispatch](#)

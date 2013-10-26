@@ -399,8 +399,9 @@ class API extends \Piwik\Plugin\API
         Cache::deleteTrackerCache();
 
         /**
-         * This event is triggered after a new user is created and saved in the database. `$userLogin` contains all
-         * relevant user information like login name, alias, email and transformed password.
+         * Triggered after a new user is created.
+         * 
+         * @param string $userLogin The new user's login handle.
          */
         Piwik::postEvent('UsersManager.addUser.end', array($userLogin));
     }
@@ -460,8 +461,9 @@ class API extends \Piwik\Plugin\API
         Cache::deleteTrackerCache();
 
         /**
-         * This event is triggered after an existing user has been updated. `$userLogin` contains the updated user
-         * information like login name, alias and email.
+         * Triggered after an existing user has been updated.
+         * 
+         * @param string $userLogin The user's login handle.
          */
         Piwik::postEvent('UsersManager.updateUser.end', array($userLogin));
     }
@@ -649,9 +651,12 @@ class API extends \Piwik\Plugin\API
         $db->query("DELETE FROM " . Common::prefixTable("user") . " WHERE login = ?", $userLogin);
 
         /**
-         * This event is triggered after a user has been deleted. Plugins can use this event to remove user specific
-         * values or settings. For instance removing all created dashboards that belong to a specific user.
-         * If you store any data related to a user, you may want to clean up that information.
+         * Triggered after a user has been deleted.
+         * 
+         * This event should be used to clean up any data that is related to the user that was
+         * deleted. For example, the Dashboard plugin uses this event to remove the user's dashboards.
+         * 
+         * @param string $userLogin The login handle of the deleted user.
          */
         Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
     }
