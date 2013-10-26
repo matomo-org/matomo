@@ -17,7 +17,7 @@ $(document).ready((function ($, require) {
             var attributes = $notificationNode.data();
 
             var notification = new UI.Notification();
-            notification.notify(attributes.title, attributes.message, attributes);
+            notification.show(attributes.message, attributes);
         });
 
     }

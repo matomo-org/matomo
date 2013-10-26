@@ -4,7 +4,7 @@
   float: none;
 
   padding: 8px 35px 8px 14px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
   background-color: #fcf8e3;
   border: 1px solid #fbeed5;
@@ -20,6 +20,24 @@
     top: -2px;
     right: -21px;
     line-height: 20px;
+  }
+
+  button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+  }
+  .close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
   }
 
   &.notification-success {

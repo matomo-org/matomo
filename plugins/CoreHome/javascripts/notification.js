@@ -12,8 +12,25 @@
     var Notification = function () {
     };
 
-    Notification.prototype.notify = function (title, message, options) {
-        var template = '<div class="notification notification-' + options.context + ' ">' + options.type + '</div>';
+    Notification.prototype.show = function (message, options) {
+        if (!message) {
+            return;
+        }
+
+        var template = '<div class="notification notification-' + options.context + ' ">';
+
+        if (!options.noclear) {
+
+            template += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+        }
+
+        if (options.title) {
+            template += '<strong>Warning!</strong> ';
+        }
+
+        template += message;
+
+        template += '</div>';
         $(template).appendTo('#notificationContainer');
     };
 
