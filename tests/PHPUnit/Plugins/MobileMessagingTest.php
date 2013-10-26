@@ -242,6 +242,9 @@ class MobileMessagingTest extends DatabaseTestCase
                  'parameters' => array(MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
              ),
         );
+        $report = array(
+            'parameters' => array(MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
+        );
 
         $stubbedAPIMobileMessaging = $this->getMock('\\Piwik\\Plugins\\MobileMessaging\\API', array('sendSMS', 'getInstance'), $arguments = array(), $mockClassName = '', $callOriginalConstructor = false);
         $stubbedAPIMobileMessaging->expects($this->once())->method('sendSMS')->with(
@@ -253,7 +256,7 @@ class MobileMessagingTest extends DatabaseTestCase
         \Piwik\Plugins\MobileMessaging\API::setSingletonInstance($stubbedAPIMobileMessaging);
 
         $mobileMessaging = new MobileMessaging();
-        $mobileMessaging->sendReport($notificationInfo);
+        $mobileMessaging->sendReport(MobileMessaging::MOBILE_TYPE, $report, $reportContent, null, null, $reportSubject, null, null);
 
         \Piwik\Plugins\MobileMessaging\API::unsetInstance();
     }

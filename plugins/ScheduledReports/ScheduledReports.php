@@ -436,7 +436,7 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
-    public function segmentDeactivation(&$idSegment)
+    public function segmentDeactivation($idSegment)
     {
         $reportsUsingSegment = API::getInstance()->getReports(false, false, false, false, $idSegment);
 
