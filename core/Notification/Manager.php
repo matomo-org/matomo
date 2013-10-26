@@ -39,7 +39,17 @@ class Manager
     public static function getAllNotificationsToDisplay()
     {
         $session = static::getSession();
-        return $session->getIterator();
+        $notifications = $session->getIterator();
+
+        $notifications->uasort(function ($n1, $n2) {
+            if ($n1->priority == $n2->priority) {
+                return 0;
+            }
+
+            return $n1->priority > $n2->priority;
+        });
+
+        return $notifications;
     }
 
     /**
