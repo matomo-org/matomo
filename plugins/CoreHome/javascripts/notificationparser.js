@@ -5,14 +5,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-$(document).ready(function () {
-    var $notificationNodes = $('[data-role="notification"]');
+$(document).ready((function ($, require) {
+    return function () {
 
-    $notificationNodes.each(function (index, notificationNode) {
-        $notificationNode = $(notificationNode);
-        var attributes = $notificationNode.data();
+        var UI = require('piwik/UI');
 
-        // Notification.notify(attributes.title, attributes.message, attributes);
-    });
+        var $notificationNodes = $('[data-role="notification"]');
 
-});
+        $notificationNodes.each(function (index, notificationNode) {
+            $notificationNode = $(notificationNode);
+            var attributes = $notificationNode.data();
+
+            var notification = new UI.Notification();
+            notification.notify(attributes.title, attributes.message, attributes);
+        });
+
+    }
+
+})(jQuery, require));

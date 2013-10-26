@@ -12,8 +12,9 @@
     var Notification = function () {
     };
 
-    Notification.notify = function (title, message, options) {
-        // render dom node
+    Notification.prototype.notify = function (title, message, options) {
+        var template = '<div class="alert alert-' + options.context + ' ">' + options.type + '</div>';
+        $(template).appendTo('#notificationContainer');
     };
 
     exports.Notification = Notification;
