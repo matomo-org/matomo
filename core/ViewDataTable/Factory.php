@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugin\Visualization;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -75,7 +76,7 @@ class Factory
             $defaultType = $defaultViewType;
         }
 
-        $type = Common::getRequestVar('viewDataTable', $defaultType ? : 'table', 'string');
+        $type = Common::getRequestVar('viewDataTable', $defaultType ? : HtmlTable::ID, 'string');
 
         $visualizations = Manager::getAvailableViewDataTables();
 
@@ -87,7 +88,15 @@ class Factory
             return new $type($controllerAction, $apiAction);
         }
 
-        throw new \Exception(sprintf('Visuzalization type %s not found', $type));
+        if (array_key_exists($defaultType, $visualizations)) {
+            return new $visualizations[$defaultType]($controllerAction, $apiAction);
+        }
+
+        if (array_key_exists(HtmlTable::ID, $visualizations)) {
+            return new $visualizations[HtmlTable::ID]($controllerAction, $apiAction);
+        }
+
+        throw new \Exception('No visualization found to render ViewDataTable');
     }
 
     /**
