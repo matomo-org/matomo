@@ -184,9 +184,7 @@ abstract class Period
      */
     public function getDateStart()
     {
-        if (!$this->subperiodsProcessed) {
-            $this->generate();
-        }
+        $this->generate();
         if (count($this->subperiods) == 0) {
             return $this->getDate();
         }
@@ -207,9 +205,7 @@ abstract class Period
      */
     public function getDateEnd()
     {
-        if (!$this->subperiodsProcessed) {
-            $this->generate();
-        }
+        $this->generate();
         if (count($this->subperiods) == 0) {
             return $this->getDate();
         }
@@ -263,9 +259,7 @@ abstract class Period
      */
     public function getNumberOfSubperiods()
     {
-        if (!$this->subperiodsProcessed) {
-            $this->generate();
-        }
+        $this->generate();
         return count($this->subperiods);
     }
 
@@ -277,9 +271,7 @@ abstract class Period
      */
     public function getSubperiods()
     {
-        if (!$this->subperiodsProcessed) {
-            $this->generate();
-        }
+        $this->generate();
         return $this->subperiods;
     }
 
@@ -303,9 +295,7 @@ abstract class Period
      */
     public function toString($format = "Y-m-d")
     {
-        if (!$this->subperiodsProcessed) {
-            $this->generate();
-        }
+        $this->generate();
         $dateString = array();
         foreach ($this->subperiods as $period) {
             $dateString[] = $period->toString($format);
@@ -325,9 +315,7 @@ abstract class Period
 
     public function get($part = null)
     {
-        if (!$this->subperiodsProcessed) {
-            $this->generate();
-        }
+        $this->generate();
         return $this->date->toString($part);
     }
 

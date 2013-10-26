@@ -81,9 +81,7 @@ class Year extends Period
      */
     function toString($format = 'ignored')
     {
-        if (!$this->subperiodsProcessed) {
-            $this->generate();
-        }
+        $this->generate();
         $stringMonth = array();
         foreach ($this->subperiods as $month) {
             $stringMonth[] = $month->get("Y") . "-" . $month->get("m") . "-01";
