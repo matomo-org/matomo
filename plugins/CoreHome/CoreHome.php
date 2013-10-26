@@ -88,6 +88,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/promo.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/notificationparser.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
