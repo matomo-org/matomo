@@ -25,11 +25,13 @@ class Manager
     /**
      * Post a notification to be shown in the status bar. If a notification with the same id has already been posted by your application and has not yet been canceled, it will be replaced by the updated information.
      *
-     * @param string       $id   A unique identifier for this notification
+     * @param string       $id   A unique identifier for this notification. Id must be a string and may contain only word characters (AlNum + underscore)
      * @param Notification $notification
      */
     public static function notify($id, Notification $notification)
     {
+        self::checkId($id);
+
         $session = static::getSession();
         $session->$id = $notification;
 
@@ -60,6 +62,8 @@ class Manager
      */
     public static function cancel($id)
     {
+        self::checkId($id);
+
         $session = static::getSession();
         unset($session->$id);
     }
@@ -74,5 +78,20 @@ class Manager
         }
 
         return static::$session;
+    }
+
+    /**
+     * @param $id
+     * @throws \Exception
+     */
+    private static function checkId($id)
+    {
+        if (empty($id)) {
+            throw new \Exception('Notification ID is empty.');
+        }
+
+        if (!is_string($id) || !preg_match('/^(\w)*$/', $id)) {
+            throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
+        }
     }
 }
