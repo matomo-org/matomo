@@ -584,9 +584,13 @@ class API extends \Piwik\Plugin\API
         Cache::deleteCacheWebsiteAttributes($idSite);
 
         /**
-         * This event is triggered after a site has been deleted. Plugins can use this event to remove site specific
-         * values or settings. For instance removing all goals that belong to a specific website. If you store any data
-         * related to a website you may want to clean up that information.
+         * Triggered after a site has been deleted.
+         * 
+         * Plugins can use this event to remove site specific values or settings, such as removing all
+         * goals that belong to a specific website. If you store any data related to a website you
+         * should clean up that information here.
+         * 
+         * @param int $idSite The ID of the site being deleted.
          */
         Piwik::postEvent('SitesManager.deleteSite.end', array($idSite));
     }

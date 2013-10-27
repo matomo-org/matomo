@@ -310,16 +310,17 @@ class Log extends Singleton
          *
          * Logging writers must be associated by name in the array passed to event handlers.
          *
-         * Example handler:
-         * ```
-         * function (&$writers) {
-         *     $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
-         *         ...
+         * ***Example**
+         * 
+         *     function (&$writers) {
+         *         $writers['myloggername'] = function ($level, $tag, $datetime, $message) {
+         *             // ...
+         *         };
          *     }
-         * }
          *
-         * // 'myloggername' can now be used in the log_writers config option.
-         * ```
+         *     // 'myloggername' can now be used in the log_writers config option.
+         * 
+         * @param $
          */
         Piwik::postEvent(self::GET_AVAILABLE_WRITERS_EVENT, array(&$writers));
 
@@ -340,9 +341,14 @@ class Log extends Singleton
              * This event is called when trying to log an object to a file. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
-             * The $message parameter is the object that is being logged. Event handlers should
-             * check if the object is of a certain type and if it is, set $message to the
-             * string that should be logged.
+             * @param mixed &$message The object that is being logged. Event handlers should
+             *                        check if the object is of a certain type and if it is,
+             *                        set $message to the string that should be logged.
+             * @param int $level The log level used with this log entry.
+             * @param string $tag The current plugin that started logging (or if no plugin,
+             *                    the current class).
+             * @param string $datetime Datetime of the logging call.
+             * @param Log $logger The Log singleton.
              */
             Piwik::postEvent(self::FORMAT_FILE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
@@ -384,12 +390,17 @@ class Log extends Singleton
              * This event is called when trying to log an object to the screen. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
-             * The $message parameter is the object that is being logged. Event handlers should
-             * check if the object is of a certain type and if it is, set $message to the
-             * string that should be logged.
-             *
              * The result of this callback can be HTML so no sanitization is done on the result.
              * This means YOU MUST SANITIZE THE MESSAGE YOURSELF if you use this event.
+             *
+             * @param mixed &$message The object that is being logged. Event handlers should
+             *                        check if the object is of a certain type and if it is,
+             *                        set $message to the string that should be logged.
+             * @param int $level The log level used with this log entry.
+             * @param string $tag The current plugin that started logging (or if no plugin,
+             *                    the current class).
+             * @param string $datetime Datetime of the logging call.
+             * @param Log $logger The Log singleton.
              */
             Piwik::postEvent(self::FORMAT_SCREEN_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }
@@ -412,9 +423,14 @@ class Log extends Singleton
              * This event is called when trying to log an object to a database table. Plugins can use
              * this event to convert objects to strings before they are logged.
              *
-             * The $message parameter is the object that is being logged. Event handlers should
-             * check if the object is of a certain type and if it is, set $message to the
-             * string that should be logged.
+             * @param mixed &$message The object that is being logged. Event handlers should
+             *                        check if the object is of a certain type and if it is,
+             *                        set $message to the string that should be logged.
+             * @param int $level The log level used with this log entry.
+             * @param string $tag The current plugin that started logging (or if no plugin,
+             *                    the current class).
+             * @param string $datetime Datetime of the logging call.
+             * @param Log $logger The Log singleton.
              */
             Piwik::postEvent(self::FORMAT_DATABASE_MESSAGE_EVENT, array(&$message, $level, $tag, $datetime, $logger));
         }

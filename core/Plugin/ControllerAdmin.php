@@ -14,7 +14,7 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
@@ -80,6 +80,7 @@ abstract class ControllerAdmin extends Controller
         }
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
+        $view->notifications = NotificationManager::getAllNotificationsToDisplay();
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
         $view->enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];

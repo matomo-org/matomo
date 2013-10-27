@@ -74,9 +74,21 @@ class Db
         }
 
         /**
-         * This event is triggered before a connection to the database is established. Use it to dynamically change the
-         * datatabase settings defined in the config. The reporting database config is used in case someone accesses
-         * the Piwik UI.
+         * Triggered before a connection to the database is established.
+         * 
+         * This event can be used to dynamically change the settings used to connect to the
+         * database.
+         * 
+         * @param array $dbInfos Reference to an array containing database connection info,
+         *                       including:
+         *                       - **host**: The host name or IP address to the MySQL database.
+         *                       - **username**: The username to use when connecting to the
+         *                                       database.
+         *                       - **password**: The password to use when connecting to the
+         *                                       database.
+         *                       - **dbname**: The name of the Piwik MySQL database.
+         *                       - **port**: The MySQL database port to use.
+         *                       - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
          */
         Piwik::postEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
 

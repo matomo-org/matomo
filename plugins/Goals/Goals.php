@@ -363,9 +363,16 @@ class Goals extends \Piwik\Plugin
     {
         $reportsWithGoals = array();
 
-        /*
-         * This event is triggered by the Goals plugin to gather the list of all reports which define Goal metrics (conversions, revenue).
-         * You can use this event to add your report to the list of reports displayed in the left column of the Goals Overview report.
+        /**
+         * Triggered when gathering all reports that contain Goal metrics. The list of reports
+         * will be displayed on the left column of the bottom of the Goals Overview page and
+         * each individual Goal page.
+         * 
+         * If plugins define reports that contain Goal metrics (such as conversions or revenue),
+         * they can use this event to make sure their reports can be loaded on the relevant
+         * Goals pages.
+         * 
+         * @param array &$reportsWithGoals The list of reports that have Goal metrics.
          */
         Piwik::postEvent('Goals.getReportsWithGoalMetrics', array(&$reportsWithGoals));
 

@@ -523,9 +523,21 @@ class Tracker
         }
 
         /**
-         * This event is triggered before a connection to the database is established. Use it to dynamically change the
-         * datatabase settings defined in the config. The tracker database config is used in case a new pageview/visit
-         * will be tracked.
+         * Triggered before a connection to the database is established in the Tracker.
+         * 
+         * This event can be used to dynamically change the settings used to connect to the
+         * database.
+         * 
+         * @param array $dbInfos Reference to an array containing database connection info,
+         *                       including:
+         *                       - **host**: The host name or IP address to the MySQL database.
+         *                       - **username**: The username to use when connecting to the
+         *                                       database.
+         *                       - **password**: The password to use when connecting to the
+         *                                       database.
+         *                       - **dbname**: The name of the Piwik MySQL database.
+         *                       - **port**: The MySQL database port to use.
+         *                       - **adapter**: either `'PDO_MYSQL'` or `'MYSQLI'`
          */
         Piwik::postEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
@@ -576,9 +588,13 @@ class Tracker
         $visit = null;
 
         /**
-         * This event is triggered once a new `Piwik\Tracker\Visit` object is requested. Use this event to force the
-         * usage of your own or your extended visit object but make sure to implement the
-         * `Piwik\Tracker\VisitInterface`.
+         * Triggered before a new `Piwik\Tracker\Visit` object is created. Subscribers to this
+         * event can force the use of a custom visit object that extends from
+         * [Piwik\Tracker\VisitInterface](#).
+         * 
+         * @param Piwik\Tracker\VisitInterface &$visit Initialized to null, but can be set to
+         *                                             a created Visit object. If it isn't
+         *                                             modified Piwik uses the default class.
          */
         Piwik::postEvent('Tracker.makeNewVisitObject', array(&$visit));
 

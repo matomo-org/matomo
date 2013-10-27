@@ -330,8 +330,22 @@ abstract class Action
         Common::printDebug($insert);
 
         /**
-         * This hook is called after saving (and updating) visitor information. You can use it for instance to sync the
-         * recorded action with third party systems.
+         * Triggered after successfully logging an action for a visit.
+         * 
+         * 
+         * @param Action $trackerAction The Action tracker instance.
+         * @param array $info An array describing the current visit action. Includes the
+         *                    following information:
+         *                    - **idSite**: The ID of the site that we are tracking.
+         *                    - **idLinkVisitAction**: The ID of the row that was inserted into the
+         *                                             log_link_visit_action table.
+         *                    - **idVisit**: The visit ID.
+         *                    - **idReferrerActionUrl**: The ID referencing the row in the log_action table
+         *                                               that holds the URL of the visitor's last action.
+         *                    - **idReferrerActionName**: The ID referencing the row in the log_action table
+         *                                                that holds the name of the visitor's last action.
+         *                    - **timeSpentReferrerAction**: The number of seconds since the visitor's last
+         *                                                   action.
          */
         Piwik::postEvent('Tracker.recordAction', array($trackerAction = $this, $info));
     }

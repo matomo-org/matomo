@@ -102,19 +102,25 @@ abstract class ViewDataTable implements ViewInterface
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
         /**
-         * This event is triggered to gather the report display properties for each available report. If you define
-         * your own report, you want to subscribe to this event to define how your report shall be displayed in the
-         * Piwik UI.
+         * Triggered during [ViewDataTable](#) is constructed. Subscribers should customize
+         * the view based on the report that it is displaying.
+         * 
+         * Plugins that define their own reports must subscribe to this event in order to
+         * customize how the Piwik UI will display and navigate the report.
+         * 
+         * **Example**
          *
-         * public function configureViewDataTable(ViewDataTable $view)
-         * {
-         *     switch ($view->requestConfig->apiMethodToRequestDataTable) {
-         *         case 'VisitTime.getVisitInformationPerServerTime':
-         *             $view->config->enable_sort = true;
-         *             $view->requestConfig->filter_limit = 10;
-         *             break;
+         *     public function configureViewDataTable(ViewDataTable $view)
+         *     {
+         *         switch ($view->requestConfig->apiMethodToRequestDataTable) {
+         *             case 'VisitTime.getVisitInformationPerServerTime':
+         *                 $view->config->enable_sort = true;
+         *                 $view->requestConfig->filter_limit = 10;
+         *                 break;
+         *         }
          *     }
-         * }
+         * 
+         * @param ViewDataTable $view The instance to configure.
          */
         Piwik::postEvent('ViewDataTable.configure', array($this));
 

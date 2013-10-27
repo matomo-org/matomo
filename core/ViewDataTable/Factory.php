@@ -11,11 +11,11 @@
 namespace Piwik\ViewDataTable;
 
 use Piwik\API\Proxy;
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugin\Visualization;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -76,7 +76,7 @@ class Factory
             $defaultType = $defaultViewType;
         }
 
-        $type = Common::getRequestVar('viewDataTable', $defaultType ? : 'table', 'string');
+        $type = Common::getRequestVar('viewDataTable', $defaultType ? : HtmlTable::ID, 'string');
 
         $visualizations = Manager::getAvailableViewDataTables();
 
@@ -88,7 +88,15 @@ class Factory
             return new $type($controllerAction, $apiAction);
         }
 
-        throw new \Exception(sprintf('Visuzalization type %s not found', $type));
+        if (array_key_exists($defaultType, $visualizations)) {
+            return new $visualizations[$defaultType]($controllerAction, $apiAction);
+        }
+
+        if (array_key_exists(HtmlTable::ID, $visualizations)) {
+            return new $visualizations[HtmlTable::ID]($controllerAction, $apiAction);
+        }
+
+        throw new \Exception('No visualization found to render ViewDataTable');
     }
 
     /**
@@ -139,20 +147,20 @@ class Factory
         if (null === self::$defaultViewTypes) {
             self::$defaultViewTypes = array();
             /**
-             * This event is triggered to gather the default view types for each available report. By default a table
-             * is used. If you define your own report, you may want to subscribe to this event to define another
-             * Visualization that should be used by default to display your report. For instance a Pie, a Bar or a
-             * Cloud.
+             * Triggered when gathering the default view types for all available reports. By default the HtmlTable
+             * visualization is used. If you define your own report, you may want to subscribe to this event to
+             * make sure another Visualization is used (for example, a pie graph, bar graph, or something else).
              *
-             * Example:
+             * **Example**
              * ```
              * public function getDefaultTypeViewDataTable(&$defaultViewTypes)
              * {
              *     $defaultViewTypes['Referrers.getSocials']       = HtmlTable::ID;
              *     $defaultViewTypes['Referrers.getUrlsForSocial'] = Pie::ID;
-             *     )
              * }
              * ```
+             * 
+             * @param array &$defaultViewTypes The array mapping report IDs with visualization IDs.
              */
             Piwik::postEvent('ViewDataTable.getDefaultType', array(&self::$defaultViewTypes));
         }

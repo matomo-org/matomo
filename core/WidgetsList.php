@@ -74,11 +74,14 @@ class WidgetsList
             self::$hookCalled = true;
 
             /**
-             * This event is triggered to collect all available widgets. Subscribe to this event if you want to create
-             * one or more custom widgets. Just define the name of your widgets as well as a controller and an action
-             * that should be executed once your widget is requested.
+             * Triggered once when the widget list is first requested. Collects all available widgets.
+             * 
+             * Subscribe to this event to make your plugin's reports or other controller actions available
+             * as dashboard widgets. Event handlers should call the WidgetsList::add method for each
+             * new dashboard widget.
              *
-             * Example:
+             * **Example**
+             * 
              * ```
              * public function addWidgets()
              * {

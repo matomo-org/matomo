@@ -221,19 +221,27 @@ class Period extends ArchiveProcessor
     protected function compute()
     {
         /**
-         * This event is triggered when the archiver wants to compute a new archive. Use this event to archive your
-         * custom report data if needed.
-         *
-         * Example:
-         * ```
-         * public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
-         * {
-         *     $archiving = new Archiver($archiveProcessor);
-         *     if ($archiving->shouldArchive()) {
-         *         $archiving->archivePeriod();
+         * Triggered when the archiving process is initiated for a non-day period.
+         * 
+         * Plugins that compute analytics data should subscribe to this event. The
+         * actual archiving logic, however, should not be in the event handler, but
+         * in a class that descends from [Archiver](#).
+         * 
+         * To learn more about non-day period archiving, see the [ArchiveProcessor\Period](#)
+         * class.
+         * 
+         * **Example**
+         * 
+         *     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+         *     {
+         *         $archiving = new MyArchiver($archiveProcessor);
+         *         if ($archiving->shouldArchive()) {
+         *             $archiving->archivePeriod();
+         *         }
          *     }
-         * }
-         * ```
+         * 
+         * @param Piwik\ArchiveProcessor\Period $archiveProcessor
+         *                                          The ArchiveProcessor that triggered the event.
          */
         Piwik::postEvent('ArchiveProcessor.Period.compute', array(&$this));
     }

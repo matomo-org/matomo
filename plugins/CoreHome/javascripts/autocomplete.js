@@ -6,15 +6,18 @@
  */
 
 function switchSite(id, name, showAjaxLoading, idCanBeAll) {
+    var $mainLink = $('.custom_select_main_link').attr('data-loading', 1);
+
     if (id == 'all'
-        && !idCanBeAll) {
+        && !idCanBeAll
+    ) {
         broadcast.propagateNewPage('module=MultiSites&action=index');
     }
     else {
         $('.sites_autocomplete input').val(id);
-        $('.custom_select_main_link > span')
-            .text(name)
-            .attr('data-loading', 1);
+        $mainLink
+            .find('span')
+            .text(name);
         broadcast.propagateNewPage('segment=&idSite=' + id, showAjaxLoading);
     }
     return false;

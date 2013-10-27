@@ -117,9 +117,9 @@ class ScheduledReports extends \Piwik\Plugin
         $jsFiles[] = "plugins/ScheduledReports/javascripts/pdf.js";
     }
 
-    public function validateReportParameters(&$parameters, $info)
+    public function validateReportParameters(&$parameters, $reportType)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             $reportFormat = $parameters[self::DISPLAY_FORMAT_PARAMETER];
             $availableDisplayFormats = array_keys(self::getDisplayFormats());
             if (!in_array($reportFormat, $availableDisplayFormats)) {
@@ -159,11 +159,9 @@ class ScheduledReports extends \Piwik\Plugin
         return $value == 'true' || $value == 1 || $value == '1' || $value === true;
     }
 
-    public function getReportMetadata(&$reportMetadata, $notificationInfo)
+    public function getReportMetadata(&$reportMetadata, $reportType, $idSite)
     {
-        if (self::manageEvent($notificationInfo)) {
-            $idSite = $notificationInfo[API::ID_SITE_INFO_KEY];
-
+        if (self::manageEvent($reportType)) {
             $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
 
             $filteredReportMetadata = array();
@@ -186,25 +184,23 @@ class ScheduledReports extends \Piwik\Plugin
         $reportTypes = array_merge($reportTypes, self::$managedReportTypes);
     }
 
-    public function getReportFormats(&$reportFormats, $info)
+    public function getReportFormats(&$reportFormats, $reportType)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             $reportFormats = self::$managedReportFormats;
         }
     }
 
-    public function getReportParameters(&$availableParameters, $info)
+    public function getReportParameters(&$availableParameters, $reportType)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             $availableParameters = self::$availableParameters;
         }
     }
 
-    public function processReports(&$processedReports, $notificationInfo)
+    public function processReports(&$processedReports, $reportType, $outputType, $report)
     {
-        if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[API::REPORT_KEY];
-
+        if (self::manageEvent($reportType)) {
             $displayFormat = $report['parameters'][self::DISPLAY_FORMAT_PARAMETER];
             $evolutionGraph = $report['parameters'][self::EVOLUTION_GRAPH_PARAMETER];
 
@@ -241,11 +237,10 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
-    public function getRendererInstance(&$reportRenderer, $notificationInfo)
+    public function getRendererInstance(&$reportRenderer, $reportType, $outputType, $report)
     {
-        if (self::manageEvent($notificationInfo)) {
-            $reportFormat = $notificationInfo[API::REPORT_KEY]['format'];
-            $outputType = $notificationInfo[API::OUTPUT_TYPE_INFO_KEY];
+        if (self::manageEvent($reportType)) {
+            $reportFormat = $report['format'];
 
             $reportRenderer = ReportRenderer::factory($reportFormat);
 
@@ -255,23 +250,17 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
-    public function allowMultipleReports(&$allowMultipleReports, $info)
+    public function allowMultipleReports(&$allowMultipleReports, $reportType)
     {
-        if (self::manageEvent($info)) {
+        if (self::manageEvent($reportType)) {
             $allowMultipleReports = true;
         }
     }
 
-    public function sendReport($notificationInfo)
+    public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
+                               $additionalFiles)
     {
-        if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[API::REPORT_KEY];
-            $reportTitle = $notificationInfo[API::REPORT_TITLE_KEY];
-            $prettyDate = $notificationInfo[API::PRETTY_DATE_KEY];
-            $contents = $notificationInfo[API::REPORT_CONTENT_KEY];
-            $filename = $notificationInfo[API::FILENAME_KEY];
-            $additionalFiles = $notificationInfo[API::ADDITIONAL_FILES_KEY];
-
+        if (self::manageEvent($reportType)) {
             $periods = self::getPeriodToFrequencyAsAdjective();
             $message = Piwik::translate('ScheduledReports_EmailHello');
             $subject = Piwik::translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
@@ -385,10 +374,9 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
-    public function getReportRecipients(&$recipients, $notificationInfo)
+    public function getReportRecipients(&$recipients, $reportType, $report)
     {
-        if (self::manageEvent($notificationInfo)) {
-            $report = $notificationInfo[API::REPORT_KEY];
+        if (self::manageEvent($reportType)) {
             $parameters = $report['parameters'];
             $eMailMe = $parameters[self::EMAIL_ME_PARAMETER];
 
@@ -416,12 +404,9 @@ class ScheduledReports extends \Piwik\Plugin
         $out .= $view->render();
     }
 
-    private static function manageEvent($info)
+    private static function manageEvent($reportType)
     {
-        return in_array(
-            $info[API::REPORT_TYPE_INFO_KEY],
-            array_keys(self::$managedReportTypes)
-        );
+        return in_array($reportType, array_keys(self::$managedReportTypes));
     }
 
     public function getScheduledTasks(&$tasks)
@@ -451,7 +436,7 @@ class ScheduledReports extends \Piwik\Plugin
         }
     }
 
-    public function segmentDeactivation(&$idSegment)
+    public function segmentDeactivation($idSegment)
     {
         $reportsUsingSegment = API::getInstance()->getReports(false, false, false, false, $idSegment);
 

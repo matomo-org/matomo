@@ -102,9 +102,23 @@ class API extends \Piwik\Plugin\API
     private function authenticate($idSite)
     {
         /**
-         * This event is triggered shortly before the user is authenticated. Use it to create your own
-         * authentication object instead of the Piwik authentication. Make sure to implement the `Piwik\Auth`
-         * interface in case you want to define your own authentication.
+         * Triggered shortly before the user is authenticated.
+         * 
+         * This event can be used by plugins that provide their own authentication mechanism
+         * to make that mechanism available. Subscribers should set the `'auth'` object in
+         * the [Piwik\Registry](#) to an object that implements the [Auth](#) interface.
+         * 
+         * **Example**
+         * 
+         *     use Piwik\Registry;
+         * 
+         *     public function initAuthenticationObject($allowCookieAuthentication)
+         *     {
+         *         Registry::set('auth', new LDAPAuth($allowCookieAuthentication));
+         *     }
+         * 
+         * @param bool $allowCookieAuthentication Whether authentication based on $_COOKIE values should
+         *                                        be allowed.
          */
         Piwik::postEvent('Request.initAuthenticationObject', array($allowCookieAuthentication = true));
 

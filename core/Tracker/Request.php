@@ -17,8 +17,8 @@ use Piwik\Tracker;
  *
  * @category Piwik
  * @package Piwik
+ * @api
  */
-
 class Request
 {
     /**
@@ -300,13 +300,20 @@ class Request
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
-         * This event allows a plugin to set/change the idsite in the tracking request. Note: A modified idSite has to
-         * be higher than `0`, otherwise an exception will be triggered. By default the idSite is specified on the URL
-         * parameter `idsite`.
+         * Triggered when obtaining the ID of the site that is currently being tracked.
+         * 
+         * This event can be used to modify the site ID from what is specified by the **idsite**
+         * query parameter.
+         * 
+         * @param int &$idSite Initialized to the value of the **idsite** query parameter. If a
+         *                     subscriber sets this variable, the value it uses must be greater
+         *                     than 0.
+         * @param array $params The entire array of request parameters passed with this tracking
+         *                      request.
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
         if ($idSite <= 0) {
-            throw new Exception('Invalid idSite');
+            throw new Exception('Invalid idSite: \'' . $idSite . '\'');
         }
         return $idSite;
     }
@@ -546,6 +553,4 @@ class Request
         }
         return false;
     }
-
-
 }

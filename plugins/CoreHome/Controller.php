@@ -25,6 +25,7 @@ use Piwik\Site;
 use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Notification\Manager as NotificationManager;
 
 /**
  *
@@ -67,6 +68,12 @@ class Controller extends \Piwik\Plugin\Controller
         $view = $this->getDefaultIndexView();
         $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
         echo $view->render();
+    }
+
+    public function markNotificationAsRead()
+    {
+        $notificationId = Common::getRequestVar('notificationId');
+        NotificationManager::cancel($notificationId);
     }
 
     protected function getDefaultIndexView()
