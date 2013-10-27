@@ -52,7 +52,9 @@
         template += message;
         template += '</div>';
 
-        var $notificationNode = $(template).appendTo('#notificationContainer');
+        var $notificationNode = $(template).appendTo('#notificationContainer').hide();
+        $('#notificationContainer').append($notificationNode);
+        $notificationNode.fadeIn(1000);
 
         if ('persistent' == options.type) {
             addPersistentEvent($notificationNode);
