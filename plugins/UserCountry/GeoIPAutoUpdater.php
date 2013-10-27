@@ -477,6 +477,7 @@ class GeoIPAutoUpdater
     {
         if ($ext != 'tar.gz'
             && $ext != 'gz'
+            && $ext != 'dat.gz'
         ) {
             throw new \Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
         }

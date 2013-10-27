@@ -12,6 +12,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -19,8 +20,8 @@
 				<url>http://test.com</url>
 				<pageTitle />
 				<pageIdAction>6</pageIdAction>
-				<pageId>5</pageId>
 				
+				<pageId>5</pageId>
 				<icon>plugins/Zeitgeist/images/link.gif</icon>
 			</row>
 		</actionDetails>
@@ -115,6 +116,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -132,8 +134,8 @@
 				<url>http://example.org/homepage</url>
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>4</pageId>
 				
+				<pageId>4</pageId>
 				<icon />
 			</row>
 		</actionDetails>
@@ -228,6 +230,7 @@
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
+		<events>0</events>
 		<actions>3</actions>
 		<actionDetails>
 			<row>
@@ -245,8 +248,8 @@
 				<url>http://example.org/homepage</url>
 				<pageTitle>Homepage</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>1</pageId>
 				
+				<pageId>1</pageId>
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<icon />
@@ -266,8 +269,8 @@
 				<url>http://example.org/user/profile</url>
 				<pageTitle>Profile page for user *_)%</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<pageId>3</pageId>
 				
+				<pageId>3</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Language</customVariablePageName1>
@@ -289,8 +292,8 @@
 				<url>http://example.org/user/profile</url>
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>4</pageIdAction>
-				<pageId>2</pageId>
 				
+				<pageId>2</pageId>
 				<customVariables>
 					<row>
 						<customVariablePageName4>Status user</customVariablePageName4>

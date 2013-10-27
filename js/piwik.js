@@ -426,7 +426,7 @@ if (typeof JSON2 !== 'object') {
     doNotTrack, setDoNotTrack, msDoNotTrack,
     addListener, enableLinkTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, trackSiteSearch,
+    trackGoal, trackLink, trackPageView, trackSiteSearch, trackEvent,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookies
  */
@@ -1173,6 +1173,9 @@ if (typeof Piwik !== 'object') {
                 // Custom Variables, scope "page"
                 customVariablesPage = {},
 
+                // Custom Variables, scope "event"
+                customVariablesEvent = {},
+
                 // Custom Variables names and values are each truncated before being sent in the request or recorded in the cookie
                 customVariableMaximumLength = 200,
 
@@ -1714,12 +1717,6 @@ if (typeof Piwik !== 'object') {
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '');
 
-                // Custom Variables, scope "page"
-                var customVariablesPageStringified = JSON2.stringify(customVariablesPage);
-
-                if (customVariablesPageStringified.length > 2) {
-                    request += '&cvar=' + encodeWrapper(customVariablesPageStringified);
-                }
 
                 // browser features
                 for (i in browserFeatures) {
@@ -1735,14 +1732,21 @@ if (typeof Piwik !== 'object') {
                     request += '&data=' + encodeWrapper(JSON2.stringify(configCustomData));
                 }
 
+                // Custom Variables, scope "page"
+                function appendCustomVariablesToRequest(customVariables, parameterName) {
+                    var customVariablesStringified = JSON2.stringify(customVariables);
+                    if (customVariablesStringified.length > 2) {
+                        return '&' + parameterName + '=' + encodeWrapper(customVariablesStringified);
+                    }
+                    return '';
+                }
+
+                request += appendCustomVariablesToRequest(customVariablesPage, 'cvar');
+                request += appendCustomVariablesToRequest(customVariablesEvent, 'e_cvar');
+
                 // Custom Variables, scope "visit"
                 if (customVariables) {
-                    var customVariablesStringified = JSON2.stringify(customVariables);
-
-                    // Don't sent empty custom variables {}
-                    if (customVariablesStringified.length > 2) {
-                        request += '&_cvar=' + encodeWrapper(customVariablesStringified);
-                    }
+                    request += appendCustomVariablesToRequest(customVariables, '_cvar');
 
                     // Don't save deleted custom variables in the cookie
                     for (i in customVariablesCopy) {
@@ -1757,11 +1761,13 @@ if (typeof Piwik !== 'object') {
                 }
 
                 // performance tracking
-                if (configPerformanceTrackingEnabled && configPerformanceGenerationTime) {
-                    request += '&gt_ms=' + configPerformanceGenerationTime;
-                } else if (configPerformanceTrackingEnabled && performanceAlias && performanceAlias.timing
-                        && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                    request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+                if (configPerformanceTrackingEnabled) {
+                    if (configPerformanceGenerationTime) {
+                        request += '&gt_ms=' + configPerformanceGenerationTime;
+                    } else if (performanceAlias && performanceAlias.timing
+                            && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
+                        request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+                    }
                 }
 
                 // update cookies
@@ -1906,6 +1912,26 @@ if (typeof Piwik !== 'object') {
                         // else heart beat cancelled due to inactivity
                     }, configHeartBeatTimer);
                 }
+            }
+
+            /*
+             * Log the event
+             */
+            function logEvent(category, action, name, value, customData) {
+                // Category and Action are required parameters
+                if (String(category).length === 0 || String(action).length === 0) {
+                    return false;
+                }
+                var request = getRequest(
+                        'e_c=' + encodeWrapper(category)
+                            + '&e_a=' + encodeWrapper(action)
+                            + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
+                            + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : ''),
+                        customData,
+                        'event'
+                    );
+
+                sendRequest(request, configTrackerPause);
             }
 
             /*
@@ -2402,7 +2428,8 @@ if (typeof Piwik !== 'object') {
                  * @param string value
                  * @param string scope Scope of Custom Variable:
                  *                     - "visit" will store the name/value in the visit and will persist it in the cookie for the duration of the visit,
-                 *                     - "page" will store the name/value in the page view.
+                 *                     - "page" will store the name/value in the next page view tracked.
+                 *                     - "event" will store the name/value in the next event tracked.
                  */
                 setCustomVariable: function (index, name, value, scope) {
                     var toRecord;
@@ -2420,6 +2447,8 @@ if (typeof Piwik !== 'object') {
                             customVariables[index] = toRecord;
                         } else if (scope === 'page' || scope === 3) { /* GA compatibility/misuse */
                             customVariablesPage[index] = toRecord;
+                        } else if (scope === 'event') { /* GA does not have 'event' scope but we do */
+                            customVariablesEvent[index] = toRecord;
                         }
                     }
                 },
@@ -2428,7 +2457,7 @@ if (typeof Piwik !== 'object') {
                  * Get custom variable
                  *
                  * @param int index
-                 * @param string scope Scope of Custom Variable: "visit" or "page"
+                 * @param string scope Scope of Custom Variable: "visit" or "page" or "event"
                  */
                 getCustomVariable: function (index, scope) {
                     var cvar;
@@ -2439,6 +2468,8 @@ if (typeof Piwik !== 'object') {
 
                     if (scope === "page" || scope === 3) {
                         cvar = customVariablesPage[index];
+                    } else if (scope === "event") {
+                        cvar = customVariablesEvent[index];
                     } else if (scope === "visit" || scope === 2) {
                         loadCustomVariables();
                         cvar = customVariables[index];
@@ -2847,6 +2878,20 @@ if (typeof Piwik !== 'object') {
                             logPageView(customTitle, customData);
                         });
                     }
+                },
+
+                /**
+                 * Records an event
+                 *
+                 * @param string category The Event Category (Videos, Music, Games...)
+                 * @param string action The Event's Action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...)
+                 * @param string name (optional) The Event's object Name (a particular Movie name, or Song name, or File name...)
+                 * @param float value (optional) The Event's value
+                 */
+                trackEvent: function (category, action, name, value) {
+                    trackCallback(function () {
+                        logEvent(category, action, name, value);
+                    });
                 },
 
                 /**

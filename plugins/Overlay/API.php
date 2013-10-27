@@ -18,7 +18,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\Transitions\API as APITransitions;
-use Piwik\Tracker\Action;
+use Piwik\Tracker\PageUrl;
 
 class API extends \Piwik\Plugin\API
 {
@@ -70,7 +70,7 @@ class API extends \Piwik\Plugin\API
     {
         $this->authenticate($idSite);
 
-        $url = Action::excludeQueryParametersFromUrl($url, $idSite);
+        $url = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
         // we don't unsanitize $url here. it will be done in the Transitions plugin.
 
         $resultDataTable = new DataTable;

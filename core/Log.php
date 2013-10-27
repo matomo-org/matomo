@@ -357,7 +357,10 @@ class Log extends Singleton
             return;
         }
 
-        file_put_contents($this->logToFilePath, $message . "\n", FILE_APPEND);
+        if(!file_put_contents($this->logToFilePath, $message . "\n", FILE_APPEND)) {
+            $message = Filechecks::getErrorMessageMissingPermissions($this->logToFilePath);
+            throw new \Exception( $message );
+        }
     }
 
     private function logToScreen($level, $tag, $datetime, $message)

@@ -10,12 +10,12 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
+use Piwik\Tracker\ActionSiteSearch;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Tracker\Action;
 
 /**
  * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' target='_blank'>Custom Variables</a> names and values.
@@ -77,7 +77,7 @@ class API extends \Piwik\Plugin\API
      */
     public static function getReservedCustomVariableKeys()
     {
-        return array('_pks', '_pkn', '_pkc', '_pkp', Action::CVAR_KEY_SEARCH_COUNT, Action::CVAR_KEY_SEARCH_CATEGORY);
+        return array('_pks', '_pkn', '_pkc', '_pkp', ActionSiteSearch::CVAR_KEY_SEARCH_COUNT, ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY);
     }
 
     /**

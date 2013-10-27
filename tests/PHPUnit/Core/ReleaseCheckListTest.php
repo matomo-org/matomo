@@ -20,6 +20,55 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function test_icoFilesIconsShouldBeInPngFormat()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
+        $this->checkFilesAreInPngFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.ico');
+        $this->checkFilesAreInPngFormat($files);
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_pngFilesIconsShouldBeInPngFormat()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.png');
+        $this->checkFilesAreInPngFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.png');
+        $this->checkFilesAreInPngFormat($files);
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_gifFilesIconsShouldBeInGifFormat()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.gif');
+        $this->checkFilesAreInGifFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.gif');
+        $this->checkFilesAreInGifFormat($files);
+    }
+
+    /**
+     * @group Core
+     */
+    public function test_jpgImagesShouldBeInJpgFormat()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.jpg');
+        $this->checkFilesAreInJpgFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.jpg');
+        $this->checkFilesAreInJpgFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.jpeg');
+        $this->checkFilesAreInJpgFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.jpeg');
+        $this->checkFilesAreInJpgFormat($files);
+
+    }
+
+    /**
+     * @group Core
+     */
     public function testCheckThatConfigurationValuesAreProductionValues()
     {
         $this->_checkEqual(array('Debug' => 'always_archive_data_day'), '0');
@@ -166,5 +215,44 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
         $contents = file_get_contents(PIWIK_DOCUMENT_ROOT . '/piwik.js');
         $this->assertTrue(preg_match($pattern, $contents) == 0);
+    }
+
+    /**
+     * @param $files
+     */
+    private function checkFilesAreInPngFormat($files)
+    {
+        $this->checkFilesAreInFormat($files, "png");
+    }
+    private function checkFilesAreInJpgFormat($files)
+    {
+        $this->checkFilesAreInFormat($files, "jpeg");
+    }
+
+    private function checkFilesAreInGifFormat($files)
+    {
+        $this->checkFilesAreInFormat($files, "gif");
+    }
+
+    /**
+     * @param $files
+     * @param $format
+     */
+    private function checkFilesAreInFormat($files, $format)
+    {
+        $errors = array();
+        foreach ($files as $file) {
+            $function = "imagecreatefrom" . $format;
+            $handle = @$function($file);
+            if (empty($handle)) {
+                $errors[] = $file;
+            }
+        }
+
+        if (!empty($errors)) {
+            $icons = var_export($errors, true);
+            $icons = "gimp " . implode(" ", $errors);
+            $this->fail("$format format failed for following icons $icons \n");
+        }
     }
 }

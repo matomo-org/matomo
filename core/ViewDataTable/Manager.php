@@ -27,7 +27,6 @@ use Piwik\Plugins\Goals\Visualizations\Goals;
  */
 class Manager
 {
-
     /**
      * Returns the viewDataTable IDs of a visualization's class lineage.
      *

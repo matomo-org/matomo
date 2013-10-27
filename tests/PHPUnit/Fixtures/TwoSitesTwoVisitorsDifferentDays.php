@@ -36,9 +36,9 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
 
     private function setUpWebsitesAndGoals()
     {
-        // tests run in UTC, the Tracker in UTC
         $ecommerce = $this->allowConversions ? 1 : 0;
 
+        // tests run in UTC, the Tracker in UTC
         self::createWebsite($this->dateTime, $ecommerce, "Site 1");
         self::createWebsite($this->dateTime, 0, "Site 2");
 
@@ -85,7 +85,6 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         // Second new visitor on Idsite 1: one page view
         $visitorB = self::getTracker($idSite, $dateTime, $defaultInit = true);
         $visitorB->enableBulkTracking();
-        $visitorB->setTokenAuth(self::getTokenAuth());
         $visitorB->setIp('100.52.156.83');
         $visitorB->setResolution(800, 300);
         $visitorB->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());

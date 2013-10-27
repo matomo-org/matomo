@@ -36,7 +36,7 @@ class Provider extends \Piwik\Plugin
         $hooks = array(
             'ArchiveProcessor.Day.compute'    => 'archiveDay',
             'ArchiveProcessor.Period.compute' => 'archivePeriod',
-            'Tracker.newVisitorInformation'   => 'logProviderInfo',
+            'Tracker.newVisitorInformation'   => 'enrichVisitWithProviderInfo',
             'WidgetsList.addWidgets'          => 'addWidget',
             'Menu.Reporting.addItems'         => 'addMenu',
             'API.getReportMetadata'           => 'getReportMetadata',
@@ -112,7 +112,7 @@ class Provider extends \Piwik\Plugin
     /**
      * Logs the provider in the log_visit table
      */
-    public function logProviderInfo(&$visitorInfo)
+    public function enrichVisitWithProviderInfo(&$visitorInfo, \Piwik\Tracker\Request $request)
     {
         // if provider info has already been set, abort
         if (!empty($visitorInfo['location_provider'])) {

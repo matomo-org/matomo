@@ -250,9 +250,9 @@ class DevicesDetection extends \Piwik\Plugin
         }
     }
 
-    public function parseMobileVisitData(&$visitorInfo, $extraInfo)
+    public function parseMobileVisitData(&$visitorInfo, \Piwik\Tracker\Request $request)
     {
-        $userAgent = $extraInfo['UserAgent'];
+        $userAgent = $request->getUserAgent();
 
         $UAParser = new UserAgentParserEnhanced($userAgent);
         $UAParser->parse();

@@ -75,7 +75,7 @@ class Request
     {
         $shouldAuthenticate = Config::getInstance()->Tracker['tracking_requests_require_authentication'];
         if ($shouldAuthenticate) {
-            $tokenAuth = $tokenAuthFromBulkRequest || Common::getRequestVar('token_auth', false, 'string', $this->params);
+            $tokenAuth = $tokenAuthFromBulkRequest ? $tokenAuthFromBulkRequest : Common::getRequestVar('token_auth', false, 'string', $this->params);
             try {
                 $idSite = $this->getIdSite();
                 $this->isAuthenticated = $this->authenticateSuperUserOrAdmin($tokenAuth, $idSite);
@@ -94,12 +94,12 @@ class Request
 
     public static function authenticateSuperUserOrAdmin($tokenAuth, $idSite)
     {
-        if (!$tokenAuth) {
+        if (empty($tokenAuth)) {
             return false;
         }
         $superUserLogin = Config::getInstance()->superuser['login'];
         $superUserPassword = Config::getInstance()->superuser['password'];
-        if (md5($superUserLogin . $superUserPassword) == $tokenAuth) {
+        if (md5($superUserLogin . $superUserPassword) === $tokenAuth) {
             return true;
         }
 
@@ -250,6 +250,12 @@ class Request
             'ec_sh'        => array(false, 'float'),
             'ec_dt'        => array(false, 'float'),
             'ec_items'     => array('', 'string'),
+
+            // Events
+            'e_c'          => array(false, 'string'),
+            'e_a'          => array(false, 'string'),
+            'e_n'          => array(false, 'string'),
+            'e_v'          => array(false, 'float'),
 
             // some visitor attributes can be overwritten
             'cip'          => array(false, 'string'),
@@ -534,7 +540,6 @@ class Request
     {
         return count($this->params);
     }
-
 
     const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
 

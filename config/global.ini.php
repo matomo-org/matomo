@@ -406,11 +406,6 @@ campaign_keyword_var_name = "pk_kwd,piwik_kwd,utm_term"
 ; maximum length of a Page Title or a Page URL recorded in the log_action.name table
 page_maximum_length = 1024;
 
-; By default, when a request is identified as a "Internal Site Search", the URL will not be recorded. This is for performance reasons
-; (the less unique URLs in Piwik the better). Piwik will track, for each Site Search: "Search Keyword",
-; and optionally the "Search Category" and "Search result count". You can set this to 1 to enable tracking Site Search URLs.
-action_sitesearch_record_url = 0
-
 ; Anonymize a visitor's IP address after testing for "Ip exclude"
 ; This value is the level of anonymization Piwik will use; if the AnonymizeIP plugin is deactivated, this value is ignored.
 ; For IPv4/IPv6 addresses, valid values are the number of octets in IP address to mask (from 0 to 4).

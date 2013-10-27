@@ -186,11 +186,11 @@ class Filechecks
         $message = "Please check that the web server has enough permission to write to these files/directories:<br />";
 
         if (SettingsServer::isWindows()) {
-            $message .= "On Windows, check that the folder is not read only and is writable.
+            $message .= "On Windows, check that the folder is not read only and is writable.\n
 						You can try to execute:<br />";
         } else {
             $message .= "For example, on a Linux server if your Apache httpd user
-						is www-data, you can try to execute:<br />"
+						is www-data, you can try to execute:<br />\n"
                 . "<code>chown -R www-data:www-data " . $path . "</code><br />";
         }
 
@@ -208,7 +208,7 @@ class Filechecks
     private static function getMakeWritableCommand($realpath)
     {
         if (SettingsServer::isWindows()) {
-            return "<code>cacls $realpath /t /g " . get_current_user() . ":f</code><br />";
+            return "<code>cacls $realpath /t /g " . get_current_user() . ":f</code><br />\n";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
     }

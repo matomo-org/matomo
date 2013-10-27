@@ -13,14 +13,16 @@ namespace Piwik\Plugins\Actions;
 use Exception;
 use Piwik\Archive;
 use Piwik\Common;
+
 use Piwik\DataTable;
 use Piwik\Date;
 
 use Piwik\Metrics;
 use Piwik\Piwik;
-
 use Piwik\Plugins\CustomVariables\API as APICustomVariables;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\ActionSiteSearch;
+use Piwik\Tracker\PageUrl;
 
 /**
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),
@@ -199,7 +201,7 @@ class API extends \Piwik\Plugin\API
     public function getPageUrl($pageUrl, $idSite, $period, $date, $segment = false)
     {
         $callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
-        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Action::TYPE_ACTION_URL);
+        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Action::TYPE_PAGE_URL);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
@@ -240,7 +242,7 @@ class API extends \Piwik\Plugin\API
     public function getPageTitle($pageName, $idSite, $period, $date, $segment = false)
     {
         $callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false);
-        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Action::TYPE_ACTION_NAME);
+        $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Action::TYPE_PAGE_TITLE);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
@@ -335,7 +337,7 @@ class API extends \Piwik\Plugin\API
         Actions::checkCustomVariablesPluginEnabled();
         $customVariables = APICustomVariables::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
 
-        $customVarNameToLookFor = Action::CVAR_KEY_SEARCH_CATEGORY;
+        $customVarNameToLookFor = ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY;
 
         $dataTable = new DataTable();
         // Handle case where date=last30&period=day
@@ -380,12 +382,12 @@ class API extends \Piwik\Plugin\API
     {
         if ($searchTree === false) {
             // build the query parts that are searched inside the tree
-            if ($actionType == Action::TYPE_ACTION_NAME) {
+            if ($actionType == Action::TYPE_PAGE_TITLE) {
                 $searchedString = Common::unsanitizeInputValue($search);
             } else {
                 $idSite = $callBackParameters[1];
                 try {
-                    $searchedString = Action::excludeQueryParametersFromUrl($search, $idSite);
+                    $searchedString = PageUrl::excludeQueryParametersFromUrl($search, $idSite);
                 } catch (Exception $e) {
                     $searchedString = $search;
                 }

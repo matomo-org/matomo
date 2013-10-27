@@ -17,13 +17,14 @@ use Piwik\Db;
 use Piwik\Menu\MenuMain;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
+use Piwik\Tracker\TableLogAction;
 use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\WidgetsList;
-use \Piwik\Plugin\ViewDataTable;
 
 /**
  * Actions plugin
@@ -165,7 +166,7 @@ class Actions extends \Piwik\Plugin
     {
         $actionType = $this->guessActionTypeFromSegment($segmentName);
 
-        if ($actionType == Action::TYPE_ACTION_URL) {
+        if ($actionType == Action::TYPE_PAGE_URL) {
             // for urls trim protocol and www because it is not recorded in the db
             $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
@@ -176,7 +177,7 @@ class Actions extends \Piwik\Plugin
         if ($matchType == SegmentExpression::MATCH_EQUAL
             || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
-            $sql = Action::getSqlSelectActionId();
+            $sql = TableLogAction::getSqlSelectActionId();
             $bind = array($valueToMatch, $valueToMatch, $actionType);
             $idAction = Db::fetchOne($sql, $bind);
             // if the action is not found, we hack -100 to ensure it tries to match against an integer
@@ -632,10 +633,10 @@ class Actions extends \Piwik\Plugin
     protected function guessActionTypeFromSegment($segmentName)
     {
         if (stripos($segmentName, 'pageurl') !== false) {
-            $actionType = Action::TYPE_ACTION_URL;
+            $actionType = Action::TYPE_PAGE_URL;
             return $actionType;
         } elseif (stripos($segmentName, 'pagetitle') !== false) {
-            $actionType = Action::TYPE_ACTION_NAME;
+            $actionType = Action::TYPE_PAGE_TITLE;
             return $actionType;
         } elseif (stripos($segmentName, 'sitesearch') !== false) {
             $actionType = Action::TYPE_SITE_SEARCH;

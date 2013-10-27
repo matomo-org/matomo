@@ -438,6 +438,10 @@ class API extends \Piwik\Plugin\API
             array(&$reportRenderer, $reportType, $outputType, $report)
         );
 
+        if(is_null($reportRenderer)) {
+            throw new Exception("A report renderer was not supplied in the event " . self::GET_RENDERER_INSTANCE_EVENT);
+        }
+
         // init report renderer
         $reportRenderer->setLocale($language);
 

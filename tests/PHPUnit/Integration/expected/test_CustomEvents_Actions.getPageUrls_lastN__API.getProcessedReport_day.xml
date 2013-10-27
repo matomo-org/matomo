@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>3 Jan 10 - 9 Jan 10</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<name>Page URLs</name>
+		<module>Actions</module>
+		<action>getPageUrls</action>
+		<dimension>Page URL</dimension>
+		<metrics>
+			<nb_hits>Pageviews</nb_hits>
+			<nb_visits>Unique Pageviews</nb_visits>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<avg_time_on_page>Avg. time on page</avg_time_on_page>
+			<exit_rate>Exit rate</exit_rate>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</metrics>
+		<metricsDocumentation>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
+			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
+		</metricsDocumentation>
+		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getPageUrls</uniqueId>
+	</metadata>
+	<columns>
+		<label>Page URL</label>
+		<nb_hits>Pageviews</nb_hits>
+		<nb_visits>Unique Pageviews</nb_visits>
+		<bounce_rate>Bounce Rate</bounce_rate>
+		<avg_time_on_page>Avg. time on page</avg_time_on_page>
+		<exit_rate>Exit rate</exit_rate>
+		<avg_time_generation>Avg. generation time</avg_time_generation>
+	</columns>
+	<reportData>
+		<result prettyDate="Sunday 3 January 2010">
+			<row>
+				<label>/movies</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0s</avg_time_generation>
+			</row>
+			<row>
+				<label>/webradio</label>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>00:24:59</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0s</avg_time_generation>
+			</row>
+		</result>
+		<result prettyDate="Monday 4 January 2010" />
+		<result prettyDate="Tuesday 5 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010" />
+		<result prettyDate="Thursday 7 January 2010" />
+		<result prettyDate="Friday 8 January 2010" />
+		<result prettyDate="Saturday 9 January 2010" />
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="Sunday 3 January 2010">
+			<row>
+				<url>http://example.org/movies</url>
+			</row>
+			<row>
+				<url>http://example.org/webradio</url>
+			</row>
+		</result>
+		<result prettyDate="Monday 4 January 2010" />
+		<result prettyDate="Tuesday 5 January 2010" />
+		<result prettyDate="Wednesday 6 January 2010" />
+		<result prettyDate="Thursday 7 January 2010" />
+		<result prettyDate="Friday 8 January 2010" />
+		<result prettyDate="Saturday 9 January 2010" />
+	</reportMetadata>
+</result>

@@ -353,8 +353,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-        // We run this particular test on one PHP version only (which should run on Travis CI + Most devs)
-        if (stristr(phpversion(), '5.4') !== false) {
+        if(Test_Piwik_BaseFixture::canImagesBeIncludedInScheduledReports()) {
             // PDF Scheduled Report
             // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
             array_push(

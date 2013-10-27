@@ -17,10 +17,10 @@
 				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>252</sum_time_spent>
+				<sum_time_spent>216</sum_time_spent>
 				<nb_hits_following_search>1</nb_hits_following_search>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-				<avg_time_on_page>252</avg_time_on_page>
+				<avg_time_on_page>216</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 			</row>

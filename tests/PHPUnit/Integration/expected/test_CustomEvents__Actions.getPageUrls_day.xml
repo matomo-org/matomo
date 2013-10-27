@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>/movies</label>
+		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
+		<exit_nb_visits>2</exit_nb_visits>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<url>http://example.org/movies</url>
+	</row>
+	<row>
+		<label>/webradio</label>
+		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>2998</sum_time_spent>
+		<entry_nb_uniq_visitors>2</entry_nb_uniq_visitors>
+		<entry_nb_visits>2</entry_nb_visits>
+		<entry_nb_actions>30</entry_nb_actions>
+		<entry_sum_visit_length>7202</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<avg_time_on_page>1499</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>http://example.org/webradio</url>
+	</row>
+</result>

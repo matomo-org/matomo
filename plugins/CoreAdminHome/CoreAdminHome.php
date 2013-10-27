@@ -115,7 +115,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
             $date = ArchiveTableCreator::getDateFromTableName($table);
-            list($month, $year) = explode('_', $date);
+            list($year, $month) = explode('_', $date);
             ArchiveSelector::purgeOutdatedArchives(Date::factory("$year-$month-15"));
         }
     }

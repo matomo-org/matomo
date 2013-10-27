@@ -70,6 +70,9 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
         $visitor->setUrl('http://example.org/index.htm?random=PAGEVIEW, NOT SEARCH&mykwd=&IS_FOLLOWING_SEARCH ONCE');
         self::checkResponse($visitor->doTrackPageView('This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE'));
 
+        $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.24)->getDatetime());
+        self::checkResponse($visitor->doTrackEvent("Event CAT", "Event ACTION", "Event NAME", $count = 3.33));
+
         $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.25)->getDatetime());
         $visitor->setUrl('http://example.org/index.htm?standard=query&but=also#hash&q=' . urlencode('Search 1'));
         self::checkResponse($visitor->doTrackPageView('Site Search results - URL Fragment'));
@@ -113,6 +116,9 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
         $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(24.42)->getDatetime());
         self::checkResponse($visitor->doTrackSiteSearch("Keyword - Tracking API", "Category", $count = 5));
 
+        $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(24.425)->getDatetime());
+        self::checkResponse($visitor->doTrackEvent("Event CAT", "Event ACTION", "Event NAME", $count));
+
         $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(24.43)->getDatetime());
         self::checkResponse($visitor->doTrackSiteSearch("No Result Keyword!", "Bad No Result Category :(", $count = 0));
 
@@ -139,27 +145,6 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
         $visitorB->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2.3)->getDatetime());
         $visitorB->setUrl('http://example.org/index.htm?random=param&mykwd=Search 2&test&cats= Search Category &search_count=10');
         self::checkResponse($visitorB->doTrackPageView('Site Search results'));
-    }
-
-    protected function recordVisitorSite3()
-    { // -
-        // Third new visitor on Idsite 3
-        $visitor = self::getTracker($this->idSite3, $this->dateTime, $defaultInit = true);
-        $visitor->setResolution(1801, 1301);
-
-        $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getDatetime());
-        $visitor->setUrl('http://example.org/index.htm?q=Search 1&IsPageView=1');
-        $visitor->setCustomVariable(1, 'test cvar name', 'test cvar value');
-        self::checkResponse($visitor->doTrackPageView('IsPageView'));
-
-        $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.35)->getDatetime());
-        $visitor->setUrl('http://example.org/index.htm?gkwd=test not a keyword&gcat=Cat not but not keyword, so this is not search');
-        self::checkResponse($visitor->doTrackPageView('This is a pageview, not a Search'));
-
-        // Testing UTF8 Title & URL
-        $crazyTitle = '%2C%20%C3%8Dslenska%2C%20Italiano%2C%20%E6%97%A5%E6%9C%AC%E8%AA%9E%2C%20%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%A3%E1%83%9A%E1%83%98%2C%20%ED%95%9C%EA%B5%AD%EC%96%B4%2C%20Lietuvi%C5%B3%2C%20Latvie%C5%A1u%2C%20Norsk%20(bokm%C3%A5l)%2C%20Nederlands%2C%20Norsk%20(nynorsk)%2C%20Polski%2C%20Portugu%C3%AAs%20brasileiro%2C%20Portugu%C3%AAs%2C%20Rom%C3%A2n%C4%83%2C%20%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%2C%20Slovensky%2C%20Sloven%C5%A1%C4%8Dina%2C%20Shqip%2C%20Srpski%2C%20Svenska%2C%20%E0%B0%A4%E0%B1%86%E0%B0%B2%E0%B1%81%E0%B0%97%E0%B1%81%2C%20%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%2C%20T%C3%BCrk%C3%A7e%2C%20%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%81%D1%8C%D0%BA%D0%B0%2C%20%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%2C%20%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87.';
-        $visitor->setUrl('http://example.org/index.htm?' . $crazyTitle);
-        self::checkResponse($visitor->doTrackPageView('Pageview: ' . $crazyTitle));
     }
 
     protected function recordVisitorSite2()
@@ -189,5 +174,28 @@ class Test_Piwik_Fixture_ThreeSitesWithManyVisitsWithSiteSearch extends Test_Piw
         self::checkResponse($visitor->doTrackSiteSearch("No Result Keyword!", "Bad No Result Category bis :(", $count = 0));
         return array($defaultInit, $visitor);
     }
+
+
+    protected function recordVisitorSite3()
+    {
+        // Third new visitor on Idsite 3
+        $visitor = self::getTracker($this->idSite3, $this->dateTime, $defaultInit = true);
+        $visitor->setResolution(1801, 1301);
+
+        $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getDatetime());
+        $visitor->setUrl('http://example.org/index.htm?q=Search 1&IsPageView=1');
+        $visitor->setCustomVariable(1, 'test cvar name', 'test cvar value');
+        self::checkResponse($visitor->doTrackPageView('IsPageView'));
+
+        $visitor->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.35)->getDatetime());
+        $visitor->setUrl('http://example.org/index.htm?gkwd=test not a keyword&gcat=Cat not but not keyword, so this is not search');
+        self::checkResponse($visitor->doTrackPageView('This is a pageview, not a Search'));
+
+        // Testing UTF8 Title & URL
+        $crazyTitle = '%2C%20%C3%8Dslenska%2C%20Italiano%2C%20%E6%97%A5%E6%9C%AC%E8%AA%9E%2C%20%E1%83%A5%E1%83%90%E1%83%A0%E1%83%97%E1%83%A3%E1%83%9A%E1%83%98%2C%20%ED%95%9C%EA%B5%AD%EC%96%B4%2C%20Lietuvi%C5%B3%2C%20Latvie%C5%A1u%2C%20Norsk%20(bokm%C3%A5l)%2C%20Nederlands%2C%20Norsk%20(nynorsk)%2C%20Polski%2C%20Portugu%C3%AAs%20brasileiro%2C%20Portugu%C3%AAs%2C%20Rom%C3%A2n%C4%83%2C%20%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%2C%20Slovensky%2C%20Sloven%C5%A1%C4%8Dina%2C%20Shqip%2C%20Srpski%2C%20Svenska%2C%20%E0%B0%A4%E0%B1%86%E0%B0%B2%E0%B1%81%E0%B0%97%E0%B1%81%2C%20%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%2C%20T%C3%BCrk%C3%A7e%2C%20%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D1%81%D1%8C%D0%BA%D0%B0%2C%20%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%2C%20%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87.';
+        $visitor->setUrl('http://example.org/index.htm?' . $crazyTitle);
+        self::checkResponse($visitor->doTrackPageView('Pageview: ' . $crazyTitle));
+    }
+
 }
 

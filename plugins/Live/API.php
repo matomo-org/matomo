@@ -28,8 +28,8 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tracker\Action;
-use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
+use Piwik\Tracker;
 
 /**
  * @see plugins/Live/Visitor.php
@@ -215,7 +215,8 @@ class API extends \Piwik\Plugin\API
 
             // individual goal conversions are stored in action details
             foreach ($visit->getColumn('actionDetails') as $action) {
-                if ($action['type'] == 'goal') { // handle goal conversion
+                if ($action['type'] == 'goal') {
+                    // handle goal conversion
                     $idGoal = $action['goalId'];
                     $idGoalKey = 'idgoal=' . $idGoal;
 
@@ -547,8 +548,8 @@ class API extends \Piwik\Plugin\API
     private function getCustomVariablePrettyKey($key)
     {
         $rename = array(
-            Action::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
-            Action::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
+            Tracker\ActionSiteSearch::CVAR_KEY_SEARCH_CATEGORY => Piwik::translate('Actions_ColumnSearchCategory'),
+            Tracker\ActionSiteSearch::CVAR_KEY_SEARCH_COUNT    => Piwik::translate('Actions_ColumnSearchResultsCount'),
         );
         if (isset($rename[$key])) {
             return $rename[$key];
@@ -803,21 +804,27 @@ class API extends \Piwik\Plugin\API
         // eg. Downloads, Outlinks. For these, idaction_name is set to 0
         $sql = "
 				SELECT
-					COALESCE(log_action.type,log_action_title.type) AS type,
+					COALESCE(log_action_event_category.type, log_action.type, log_action_title.type) AS type,
 					log_action.name AS url,
 					log_action.url_prefix,
 					log_action_title.name AS pageTitle,
 					log_action.idaction AS pageIdAction,
-					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.server_time as serverTimePretty,
 					log_link_visit_action.time_spent_ref_action as timeSpentRef,
+					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.custom_float
-					$sqlCustomVariables
+					". $sqlCustomVariables . ",
+					log_action_event_category.name AS eventCategory,
+					log_action_event_action.name as eventAction
 				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
 					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
+					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_category
+					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction
+					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_event_action
+					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction
 				WHERE log_link_visit_action.idvisit = ?
 				ORDER BY server_time ASC
 				LIMIT 0, $actionsLimit
@@ -843,8 +850,38 @@ class API extends \Piwik\Plugin\API
                 $actionDetail['customVariables'] = $customVariablesPage;
             }
 
+
+            if($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
+                // Handle Event
+                if(strlen($actionDetail['pageTitle']) > 0) {
+                    $actionDetail['eventName'] = $actionDetail['pageTitle'];
+                }
+
+                unset($actionDetail['pageTitle']);
+
+            } else if ($actionDetail['type'] == Action::TYPE_SITE_SEARCH) {
+                // Handle Site Search
+                $actionDetail['siteSearchKeyword'] = $actionDetail['pageTitle'];
+                unset($actionDetail['pageTitle']);
+            }
+
+            // Event value / Generation time
+            if($actionDetail['type'] == Action::TYPE_EVENT_CATEGORY) {
+                if(strlen($actionDetail['custom_float']) > 0) {
+                    $actionDetail['eventValue'] = $actionDetail['custom_float'];
+                }
+            } elseif ($actionDetail['custom_float'] > 0) {
+                $actionDetail['generationTime'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
+            }
+            unset($actionDetail['custom_float']);
+
+            if($actionDetail['type'] != Action::TYPE_EVENT_CATEGORY) {
+                unset($actionDetail['eventCategory']);
+                unset($actionDetail['eventAction']);
+            }
+
             // Reconstruct url from prefix
-            $actionDetail['url'] = Action::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
+            $actionDetail['url'] = Tracker\PageUrl::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
             unset($actionDetail['url_prefix']);
 
             // Set the time spent for this action (which is the timeSpentRef of the next action)
@@ -854,17 +891,6 @@ class API extends \Piwik\Plugin\API
             }
             unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
 
-            // Handle generation time
-            if ($actionDetail['custom_float'] > 0) {
-                $actionDetail['generationTime'] = \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
-            }
-            unset($actionDetail['custom_float']);
-
-            // Handle Site Search
-            if ($actionDetail['type'] == Action::TYPE_SITE_SEARCH) {
-                $actionDetail['siteSearchKeyword'] = $actionDetail['pageTitle'];
-                unset($actionDetail['pageTitle']);
-            }
         }
 
         // If the visitor converted a goal, we shall select all Goals
@@ -976,17 +1002,21 @@ class API extends \Piwik\Plugin\API
                 case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
                     $details['icon'] = 'plugins/Zeitgeist/images/' . $details['type'] . '.gif';
                     break;
-                case Tracker\ActionInterface::TYPE_DOWNLOAD:
+                case Action::TYPE_DOWNLOAD:
                     $details['type'] = 'download';
                     $details['icon'] = 'plugins/Zeitgeist/images/download.png';
                     break;
-                case Tracker\ActionInterface::TYPE_OUTLINK:
+                case Action::TYPE_OUTLINK:
                     $details['type'] = 'outlink';
                     $details['icon'] = 'plugins/Zeitgeist/images/link.gif';
                     break;
                 case Action::TYPE_SITE_SEARCH:
                     $details['type'] = 'search';
                     $details['icon'] = 'plugins/Zeitgeist/images/search_ico.png';
+                    break;
+                case Action::TYPE_EVENT_CATEGORY:
+                    $details['type'] = 'event';
+                    $details['icon'] = 'plugins/Zeitgeist/images/event.png';
                     break;
                 default:
                     $details['type'] = 'action';

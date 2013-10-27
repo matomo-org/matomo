@@ -101,7 +101,7 @@ class Cloud extends Visualization
         }
     }
 
-    public function getCloudValues()
+    private function getCloudValues()
     {
         $this->shuffleCloud();
 
