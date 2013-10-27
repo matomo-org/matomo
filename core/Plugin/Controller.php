@@ -491,6 +491,7 @@ abstract class Controller
 
             $view->topMenu       = MenuTop::getInstance()->getMenu();
             $view->notifications = NotificationManager::getAllNotificationsToDisplay();
+            NotificationManager::cancelAllNonPersistent();
         } catch (Exception $e) {
             Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
         }

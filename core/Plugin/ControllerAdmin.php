@@ -81,6 +81,7 @@ abstract class ControllerAdmin extends Controller
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
         $view->notifications = NotificationManager::getAllNotificationsToDisplay();
+        NotificationManager::cancelAllNonPersistent();
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
         $view->enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];

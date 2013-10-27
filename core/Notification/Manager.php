@@ -34,17 +34,13 @@ class Manager
     {
         self::checkId($id);
 
-        $session = static::getSession();
+        $session      = static::getSession();
         $session->$id = $notification;
-
-        if (Notification::TYPE_PERSISTENT != $notification->type) {
-            $session->setExpirationHops(1, $id);
-        }
     }
 
     public static function getAllNotificationsToDisplay()
     {
-        $session = static::getSession();
+        $session       = static::getSession();
         $notifications = $session->getIterator();
 
         $notifications->uasort(function ($n1, $n2) {
@@ -56,6 +52,17 @@ class Manager
         });
 
         return $notifications;
+    }
+
+    public static function cancelAllNonPersistent()
+    {
+        $session = static::getSession();
+
+        foreach ($session->getIterator() as $key => $notification) {
+            if (Notification::TYPE_PERSISTENT != $notification->type) {
+                unset($session->$key);
+            }
+        }
     }
 
     /**
