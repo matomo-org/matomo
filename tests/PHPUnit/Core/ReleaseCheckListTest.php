@@ -20,9 +20,9 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function test_icoFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
-        $this->checkFilesAreInFormat($files, "any");
+        $this->checkFilesAreInPngFormat($files);
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.ico');
-        $this->checkFilesAreInFormat($files, "any");
+        $this->checkFilesAreInPngFormat($files);
     }
 
     public function test_pngFilesIconsShouldBeInPngFormat()
@@ -217,31 +217,17 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     {
         $errors = array();
         foreach ($files as $file) {
-            if($format == 'any') {
-                $handle = @imagecreatefrompng($file);
-                $handle = $handle || @imagecreatefromjpeg($file);
-                $handle = $handle || @imagecreatefromgif($file);
-            } else {
-                $function = "imagecreatefrom" . $format;
-                $handle = @$function($file);
-            }
+            $function = "imagecreatefrom" . $format;
+            $handle = @$function($file);
             if (empty($handle)) {
                 $errors[] = $file;
             }
         }
 
         if (!empty($errors)) {
-            if($format=='any') {
-                $format = 'png';
-            }
-            $msg = '';
-            foreach ($errors as $file) {
-                exec(" convert $file -format " . $format . " \"$file." . $format . "\"");
-                @exec(" mv $file." . $format . " $file");
-            }
-          $icons = var_export($errors, true);
-            $msg .= " echo \"Done\"";
-            $this->fail("$format format failed for following icons $icons \n --> Some were converted to valid files.\n\n");
+            $icons = var_export($errors, true);
+            $icons = "gimp " . implode(" ", $errors);
+            $this->fail("$format format failed for following icons $icons \n");
         }
     }
 }
