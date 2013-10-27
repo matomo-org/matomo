@@ -22,38 +22,26 @@
             options = {};
         }
 
-        if ('persistent' == options.type && options.noclear) {
+        if ('persistent' == options.type) {
             // otherwise it is never possible to dismiss the notification
             options.noclear = false;
         }
 
-        var template = '<div class="notification';
-
-        if (options.context) {
-            template += ' notification-' + options.context;
-        }
-
-        template += '"';
-
-        if (options.id) {
-            template += ' data-id="' + options.id + '"';
-        }
-
-        template += '>';
+        var template = buildNotificationStart(options);
 
         if (!options.noclear) {
-            template += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+            template += buildClearButton();
         }
 
         if (options.title) {
-            template += '<strong>' + options.title + '</strong> ';
+            template += buildTitle(options);
         }
 
         template += message;
-        template += '</div>';
+        template += buildNotificationEnd();
 
         var $notificationNode = $(template).appendTo('#notificationContainer').hide();
-        $('#notificationContainer').append($notificationNode);
+        $(options.placeAt || '#notificationContainer').append($notificationNode);
         $notificationNode.fadeIn(1000);
 
         if ('persistent' == options.type) {
@@ -70,6 +58,37 @@
     };
 
     exports.Notification = Notification;
+
+
+    function buildNotificationStart(options) {
+        var template = '<div class="notification';
+
+        if (options.context) {
+            template += ' notification-' + options.context;
+        }
+
+        template += '"';
+
+        if (options.id) {
+            template += ' data-id="' + options.id + '"';
+        }
+
+        template += '>';
+
+        return template;
+    }
+
+    function buildNotificationEnd() {
+        return '</div>';
+    }
+
+    function buildClearButton() {
+        return '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+    }
+
+    function buildTitle(options) {
+        return '<strong>' + options.title + '</strong> ';
+    }
 
     function addToastEvent($notificationNode)
     {
