@@ -18,8 +18,13 @@ use Piwik\Updates;
 /**
  * @package Updates
  */
-class Updates_2_0_b2 extends Updates
+class Updates_2_0_b3 extends Updates
 {
+    static function isMajorUpdate()
+    {
+        return true;
+    }
+
     static function getSql($schema = 'Myisam')
     {
         return array(
