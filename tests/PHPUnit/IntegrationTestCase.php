@@ -353,26 +353,28 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-        // PDF Scheduled Report
-        // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
-        array_push(
-            $apiCalls,
-            array(
-                 'ScheduledReports.generateReport',
-                 array(
-                     'testSuffix'             => '_scheduled_report_in_pdf_tables_only',
-                     'date'                   => $dateTime,
-                     'periods'                => array($period),
-                     'format'                 => 'original',
-                     'fileExtension'          => 'pdf',
-                     'otherRequestParameters' => array(
-                         'idReport'     => 1,
-                         'reportFormat' => ReportRenderer::PDF_FORMAT,
-                         'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+        if(Test_Piwik_BaseFixture::canImagesBeIncludedInScheduledReports()) {
+            // PDF Scheduled Report
+            // tests/PHPUnit/Integration/processed/test_ecommerceOrderWithItems_scheduled_report_in_pdf_tables_only__ScheduledReports.generateReport_week.original.pdf
+            array_push(
+                $apiCalls,
+                array(
+                     'ScheduledReports.generateReport',
+                     array(
+                         'testSuffix'             => '_scheduled_report_in_pdf_tables_only',
+                         'date'                   => $dateTime,
+                         'periods'                => array($period),
+                         'format'                 => 'original',
+                         'fileExtension'          => 'pdf',
+                         'otherRequestParameters' => array(
+                             'idReport'     => 1,
+                             'reportFormat' => ReportRenderer::PDF_FORMAT,
+                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                         )
                      )
-                 )
-            )
-        );
+                )
+            );
+        }
 
         // SMS Scheduled Report, one site
         array_push(
