@@ -808,7 +808,7 @@ class Visit implements VisitInterface
         Common::printDebug($debugVisitInfo);
     }
 
-    protected function getNewVisitorInformation($action, $visitIsConverted)
+    protected function getNewVisitorInformation($action)
     {
         $actionType = $idActionName = $idActionUrl = false;
         if($action) {

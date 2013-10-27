@@ -39,7 +39,16 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInPngFormat($files);
     }
 
-
+    /**
+     * @group Core
+     */
+    public function test_gifFilesIconsShouldBeInGifFormat()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.gif');
+        $this->checkFilesAreInGifFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.gif');
+        $this->checkFilesAreInGifFormat($files);
+    }
 
     /**
      * @group Core
@@ -218,6 +227,11 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     private function checkFilesAreInJpgFormat($files)
     {
         $this->checkFilesAreInFormat($files, "jpeg");
+    }
+
+    private function checkFilesAreInGifFormat($files)
+    {
+        $this->checkFilesAreInFormat($files, "gif");
     }
 
     /**
