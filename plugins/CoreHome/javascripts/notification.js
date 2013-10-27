@@ -46,7 +46,7 @@
         }
 
         if (options.title) {
-            template += '<strong>Warning!</strong> ';
+            template += '<strong>' + options.title + '</strong> ';
         }
 
         template += message;
