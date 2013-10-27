@@ -17,6 +17,9 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+    /**
+     * @group Core
+     */
     public function test_icoFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
@@ -25,6 +28,9 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInPngFormat($files);
     }
 
+    /**
+     * @group Core
+     */
     public function test_pngFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.png');
@@ -33,6 +39,11 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->checkFilesAreInPngFormat($files);
     }
 
+
+
+    /**
+     * @group Core
+     */
     public function test_jpgImagesShouldBeInJpgFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.jpg');
