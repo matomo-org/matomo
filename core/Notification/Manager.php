@@ -16,7 +16,6 @@ use Piwik\Session\SessionNamespace;
 /**
  * @package Piwik
  * @subpackage Notification
- * @api
  */
 class Manager
 {
@@ -29,6 +28,8 @@ class Manager
      * @param string       $id   A unique identifier for this notification. Id must be a string and may contain only
      *                           word characters (AlNum + underscore)
      * @param Notification $notification
+     *
+     * @api
      */
     public static function notify($id, Notification $notification)
     {
@@ -38,6 +39,10 @@ class Manager
         $session->$id = $notification;
     }
 
+    /**
+     * Determine all notifications that needs to be displayed. They are sorted by priority. Highest priorities first.
+     * @return \ArrayObject
+     */
     public static function getAllNotificationsToDisplay()
     {
         $session       = static::getSession();
@@ -54,6 +59,10 @@ class Manager
         return $notifications;
     }
 
+    /**
+     * Cancels all previously registered non-persist notification. Call this method after the notifications have been
+     * displayed to make sure all non-persistent notifications won't be displayed multiple times.
+     */
     public static function cancelAllNonPersistent()
     {
         $session = static::getSession();
