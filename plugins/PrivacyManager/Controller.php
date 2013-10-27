@@ -42,6 +42,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     $this->handlePluginState(Common::getRequestVar("anonymizeIPEnable", 0));
                     $trackerConfig = Config::getInstance()->Tracker;
                     $trackerConfig['ip_address_mask_length'] = Common::getRequestVar("maskLength", 1);
+                    $trackerConfig['use_anonymized_ip_for_visit_enrichment'] = Common::getRequestVar("useAnonymizedIpForVisitEnrichment", 1);
                     Config::getInstance()->Tracker = $trackerConfig;
                     Config::getInstance()->forceSave();
                     break;
@@ -227,10 +228,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         \Piwik\Plugin\Manager::getInstance()->loadPlugin(self::ANONYMIZE_IP_PLUGIN_NAME);
 
+        $trackerConfig = Config::getInstance()->Tracker;
         $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
         $anonymizeIP["enabled"] = \Piwik\Plugin\Manager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
-        $anonymizeIP["maskLength"] = Config::getInstance()->Tracker['ip_address_mask_length'];
+        $anonymizeIP["maskLength"] = $trackerConfig['ip_address_mask_length'];
         $anonymizeIP["info"] = \Piwik\Plugin\Manager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
+        $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $trackerConfig['use_anonymized_ip_for_visit_enrichment'];
 
         return $anonymizeIP;
     }
