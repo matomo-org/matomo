@@ -81,7 +81,7 @@ class UserCountry extends \Piwik\Plugin
         $jsFiles[] = "plugins/UserCountry/javascripts/userCountry.js";
     }
 
-    public function getVisitorLocation(&$visitorInfo, $extraInfo)
+    public function getVisitorLocation(&$visitorInfo, \Piwik\Tracker\Request $request)
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 

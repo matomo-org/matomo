@@ -285,16 +285,17 @@ class Visit implements VisitInterface
         $this->visitorInfo['referer_keyword'] = substr($this->visitorInfo['referer_keyword'], 0, 255);
         $this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 
-        $extraInfo = array(
-            'UserAgent' => $this->request->getUserAgent(),
-        );
-
         /**
-         * Before a new visitor is saved by Piwik, this event is called. Useful for plugins that want to register
-         * new information about a visitor, or filter the existing information. `$extraInfo` contains the UserAgent.
-         * You can for instance change the user's location country depending on the User Agent.
+         * This event can be used to determine and set new visit information before the visit is
+         * logged. The UserCountry plugin, for example, uses this event to inject location information
+         * into the visit log table.
+         *
+         * @param array $visitInfo Information regarding the visit. This is information that
+         * persisted to the database.
+         * @param \Piwik\Tracker\Request $request Request object, contains many useful methods
+         *               such as getUserAgent() or getIp() to get the original IP.
          */
-        Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $extraInfo));
+        Piwik::postEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $this->request));
 
         $this->request->overrideLocation($this->visitorInfo);
         $this->printVisitorInformation();
