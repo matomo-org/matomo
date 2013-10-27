@@ -9,9 +9,34 @@
 
     var exports = require('piwik/UI');
 
+    /**
+     * Creates a new notifications.
+     *
+     * Example:
+     * var UI = require('piwik/UI');
+     * var notification = new UI.Notification();
+     * notification.show('My Notification Message', {title: 'Low space', context: 'warning'});
+     */
     var Notification = function () {
     };
 
+    /**
+     * Makes the notification visible.
+     *
+     * @param    {string}  message    The actual message that will be displayed. Must be set.
+     * @param    {Object}  [options]
+     * @param    {string}  [options.id]         Only needed for persistent notifications. The id will be sent to the
+     *                                          frontend once the user closes the notifications. The notification has to
+     *                                          be registered/notified under this name
+     * @param    {string}  [options.title]      The title of the notification. For instance the plugin name.
+     * @param    {string}  [options.context=warning]  Context of the notification: 'info', 'warning', 'success' or
+     *                                                'error'
+     * @param    {string}  [options.type=transient]   The type of the notification: Either 'toast' or 'transitent'
+     * @param    {bool}    [options.noclear=false]    If set, the close icon is not displayed.
+     * @param    {string}  [options.placeAt]          By default, the notification will be displayed in the "stats bar".
+     *                                                You can specify any other CSS selector to place the notifications
+     *                                                whereever you want.
+     */
     Notification.prototype.show = function (message, options) {
         if (!message) {
             throw new Error('No message given, cannot display notification');
@@ -58,7 +83,6 @@
     };
 
     exports.Notification = Notification;
-
 
     function buildNotificationStart(options) {
         var template = '<div class="notification';
