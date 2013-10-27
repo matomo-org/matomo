@@ -20,19 +20,29 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function test_icoFilesIconsShouldBeInPngFormat()
     {
         $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.ico');
-        $errors = array();
-        foreach ($files as $file) {
-            if(false !== @imagecreatefrompng($file)) {
-                $errors[] = $file;
-            }
-        }
-        if(!empty($errors)) {
-            $msg ='';
-            foreach($errors as $file) {
-                $msg .= " convert png:$file $file \n";
-            }
-            $this->fail("imagecreatefrompng failed for following icons (--> Convert them to valid PNG .ico files with following command: \n\n" . $msg);
-        }
+        $this->checkFilesAreInFormat($files, "any");
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.ico');
+        $this->checkFilesAreInFormat($files, "any");
+    }
+
+    public function test_pngFilesIconsShouldBeInPngFormat()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.png');
+        $this->checkFilesAreInPngFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.png');
+        $this->checkFilesAreInPngFormat($files);
+    }
+
+    public function test_jpgImagesShouldBeInJpgFormat()
+    {
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.jpg');
+        $this->checkFilesAreInJpgFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.jpg');
+        $this->checkFilesAreInJpgFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.jpeg');
+        $this->checkFilesAreInJpgFormat($files);
+        $files = Filesystem::globr(PIWIK_INCLUDE_PATH . '/core', '*.jpeg');
+        $this->checkFilesAreInJpgFormat($files);
 
     }
 
@@ -185,5 +195,53 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
         $contents = file_get_contents(PIWIK_DOCUMENT_ROOT . '/piwik.js');
         $this->assertTrue(preg_match($pattern, $contents) == 0);
+    }
+
+    /**
+     * @param $files
+     */
+    private function checkFilesAreInPngFormat($files)
+    {
+        $this->checkFilesAreInFormat($files, "png");
+    }
+    private function checkFilesAreInJpgFormat($files)
+    {
+        $this->checkFilesAreInFormat($files, "jpeg");
+    }
+
+    /**
+     * @param $files
+     * @param $format
+     */
+    private function checkFilesAreInFormat($files, $format)
+    {
+        $errors = array();
+        foreach ($files as $file) {
+            if($format == 'any') {
+                $handle = @imagecreatefrompng($file);
+                $handle = $handle || @imagecreatefromjpeg($file);
+                $handle = $handle || @imagecreatefromgif($file);
+            } else {
+                $function = "imagecreatefrom" . $format;
+                $handle = @$function($file);
+            }
+            if (empty($handle)) {
+                $errors[] = $file;
+            }
+        }
+
+        if (!empty($errors)) {
+            if($format=='any') {
+                $format = 'png';
+            }
+            $msg = '';
+            foreach ($errors as $file) {
+                exec(" convert $file -format " . $format . " \"$file." . $format . "\"");
+                @exec(" mv $file." . $format . " $file");
+            }
+          $icons = var_export($errors, true);
+            $msg .= " echo \"Done\"";
+            $this->fail("$format format failed for following icons $icons \n --> Some were converted to valid files.\n\n");
+        }
     }
 }

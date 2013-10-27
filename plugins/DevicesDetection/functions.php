@@ -16,6 +16,7 @@ use UserAgentParserEnhanced;
 
 function getBrandLogo($label)
 {
+    $label = str_replace(" ", "_", $label);
     $path = dirname(__FILE__) . '/images/brand/' . $label . '.ico';
     if (file_exists($path)) {
         return 'plugins/DevicesDetection/images/brand/' . $label . '.ico';
