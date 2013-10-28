@@ -8,10 +8,11 @@
              data-role="notification"
              data-type="{{ notification.type|e('html_attr') }}"
              data-title="{{ notification.title|e('html_attr') }}"
-             data-message="{{ notification.message|e('html_attr') }}"
              data-noclear="{{ notification.hasNoClear|e('html_attr') }}"
              data-context="{{ notification.context|e('html_attr') }}"
-             data-priority="{{ notification.priority|e('html_attr') }}"></div>
+             data-priority="{{ notification.priority|e('html_attr') }}">
+            {{ notification.message|raw }}
+        </div>
     {% endfor %}
 </div>
 {% endif %}

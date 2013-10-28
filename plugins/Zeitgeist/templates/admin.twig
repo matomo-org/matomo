@@ -35,8 +35,8 @@
 
                 <div id="content" class="admin">
 
-                    {% include "@CoreHome/_notifications.twig" %}
                     {% include "@CoreHome/_headerMessage.twig" %}
+                    {% include "@CoreHome/_notifications.twig" %}
 
                     {% if configFileNotWritable is defined and configFileNotWritable%}
                     <div class="ajaxSuccess" style="display:inline-block;">

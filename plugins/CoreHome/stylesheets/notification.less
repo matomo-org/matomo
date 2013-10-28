@@ -1,20 +1,19 @@
-#content.admin #notificationContainer .notification {
-  margin: 10px;
-  font-size: 13px;
+#content.admin #notificationContainer {
+  width: 800px;
 
-  .close {
-    top: -5px;
+  .notification {
+    margin: 10px;
   }
 }
 
 #notificationContainer .notification {
-  color: #c09853;
+  color: #9b7a44;
   float: none;
 
-  padding: 8px 35px 8px 14px;
+  padding: 10px 35px 10px 14px;
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
-  background-color: #fcf8e3;
-  border: 1px solid #fbeed5;
+  background-color: #ffffe0;
+  border: 1px solid #e6db55;
   border-radius: 3px;
   font-size: 14px;
   margin: 10px;
@@ -25,10 +24,14 @@
     margin: 0;
   }
 
+  a {
+    color: #9b7a44
+  }
+
   .close {
     position: relative;
-    top: -4px;
-    right: -21px;
+    top: -5px;
+    right: -28px;
     line-height: 20px;
   }
 
@@ -52,8 +55,12 @@
 
   &.notification-success {
     background-color: #dff0d8;
-    border-color: #d6e9c6;
+    border-color: #c3d6b7;
     color: #468847;
+
+    a {
+      color: #468847
+    }
   }
   &.notification-success h4 {
     color: #468847;
@@ -61,8 +68,12 @@
   &.notification-danger,
   &.notification-error {
     background-color: #f2dede;
-    border-color: #eed3d7;
+    border-color: #d5bfc4;
     color: #b94a48;
+
+    a {
+      color: #b94a48
+    }
   }
   &.notification-danger h4,
   &.notification-error h4 {
@@ -70,8 +81,12 @@
   }
   &.notification-info {
     background-color: #d9edf7;
-    border-color: #bce8f1;
+    border-color: #a7d3e3;
     color: #3a87ad;
+
+    a {
+      color: #3a87ad
+    }
   }
   &.notification-info h4 {
     color: #3a87ad;
