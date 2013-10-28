@@ -79,7 +79,7 @@ class Twig
     {
         $getJavascriptTranslations = new Twig_SimpleFunction(
             'getJavascriptTranslations',
-            array('Translate', 'getJavascriptTranslations')
+            array('Piwik\\Translate', 'getJavascriptTranslations')
         );
         $this->twig->addFunction($getJavascriptTranslations);
     }
