@@ -1,5 +1,5 @@
 <!-- Piwik -->
-<script type="text/javascript"> 
+<script type="text/javascript">
   var _paq = _paq || [];
 {$options}
   _paq.push(['trackPageView']);

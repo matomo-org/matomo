@@ -134,33 +134,20 @@ class Piwik
         $piwikUrl = @$matches[2];
         $jsCode = str_replace('{$idSite}', $idSite, $jsCode);
         $jsCode = str_replace('{$piwikUrl}', Common::sanitizeInputValue($piwikUrl), $jsCode);
+
         // Build optional parameters to be added to text
         $options = '';
         if ($groupPageTitlesByDomain) {
-            $options .= PHP_EOL . '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . PHP_EOL;
+            $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . PHP_EOL;
         }
         if ($mergeSubdomains || $mergeAliasUrls) {
-            // Both flags need URL data
-            $site_urls = APISitesManager::getInstance()->getSiteUrlsFromId( $idSite );
-            // We need to parse_url to isolate hosts
-            $site_hosts = array ();
-            foreach ($site_urls as $site_url) {
-                $referrerParsed = parse_url($site_url);
-                array_push($site_hosts, $referrerParsed['host']);
-            }
-        }
-        if ($mergeSubdomains) {
-            $options .= PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $site_hosts[0] . '"]);' . PHP_EOL;
-        }
-        if ($mergeAliasUrls) {
-            $urls = '["*.'.implode('","*.',$site_hosts).'"]';
-            $options .= '  _paq.push(["setDomains", '.$urls.']);' . PHP_EOL;
+            $options .= self::getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls);
         }
         if ($visitorCustomVariables) {
-            $options .=  '// you can set up to 5 custom variables for each visitor' . PHP_EOL;
+            $options .=  '  // you can set up to 5 custom variables for each visitor' . PHP_EOL;
             $index = 0;
             foreach ($visitorCustomVariables as $visitorCustomVariable) {
-                $options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$visitorCustomVariable[0].'", "'.$visitorCustomVariable[1].'", "visitor"]);' . PHP_EOL;
+                $options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$visitorCustomVariable[0].'", "'.$visitorCustomVariable[1].'", "visit"]);' . PHP_EOL;
             }
         }
         if ($pageCustomVariables) {
@@ -767,5 +754,29 @@ class Piwik
         } catch (Exception $e) {
             return $message;
         }
+    }
+
+    protected static function getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls)
+    {
+        try {
+            $websiteUrls = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
+        } catch (\Exception $e) {
+            return '';
+        }
+        // We need to parse_url to isolate hosts
+        $websiteHosts = array();
+        foreach ($websiteUrls as $site_url) {
+            $referrerParsed = parse_url($site_url);
+            $websiteHosts[] = $referrerParsed['host'];
+        }
+        $options = '';
+        if ($mergeSubdomains && !empty($websiteHosts)) {
+            $options .= PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . PHP_EOL;
+        }
+        if ($mergeAliasUrls && !empty($websiteHosts)) {
+            $urls = '["*.' . implode('","*.', $websiteHosts) . '"]';
+            $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . PHP_EOL;
+        }
+        return $options;
     }
 }
