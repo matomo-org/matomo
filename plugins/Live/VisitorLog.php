@@ -20,7 +20,7 @@ use Piwik\Plugin\Visualization;
  */
 class VisitorLog extends Visualization
 {
-    const ID = 'Piwik\\Plugins\\Live\\VisitorLog';
+    const ID = 'Piwik\Plugins\Live\VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
 
     public function beforeLoadDataTable()
