@@ -111,7 +111,7 @@ abstract class Period
                 break;
 
             default:
-                $message = Piwik::translateException(
+                $message = Piwik::translate(
                     'General_ExceptionInvalidPeriod', array($strPeriod, 'day, week, month, year, range'));
                 throw new Exception($message);
                 break;

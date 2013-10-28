@@ -746,7 +746,7 @@ class API extends \Piwik\Plugin\API
 
         if (!in_array($reportFormat, $reportFormats)) {
             throw new Exception(
-                Piwik::translateException(
+                Piwik::translate(
                     'General_ExceptionInvalidReportRendererFormat',
                     array($reportFormat, implode(', ', $reportFormats))
                 )

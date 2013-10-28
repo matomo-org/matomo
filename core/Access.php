@@ -329,7 +329,7 @@ class Access
     public function checkUserIsSuperUser()
     {
         if (!$this->isSuperUser()) {
-            throw new NoAccessException(Piwik::translateException('General_ExceptionPrivilege', array("'superuser'")));
+            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilege', array("'superuser'")));
         }
     }
 
@@ -345,7 +345,7 @@ class Access
         }
         $idSitesAccessible = $this->getSitesIdWithAdminAccess();
         if (count($idSitesAccessible) == 0) {
-            throw new NoAccessException(Piwik::translateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
+            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('admin')));
         }
     }
 
@@ -361,7 +361,7 @@ class Access
         }
         $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
         if (count($idSitesAccessible) == 0) {
-            throw new NoAccessException(Piwik::translateException('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
+            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('view')));
         }
     }
 
@@ -381,7 +381,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithAdminAccess();
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translateException('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
+                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'admin'", $idsite)));
             }
         }
     }
@@ -402,7 +402,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithAtLeastViewAccess();
         foreach ($idSites as $idsite) {
             if (!in_array($idsite, $idSitesAccessible)) {
-                throw new NoAccessException(Piwik::translateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
+                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
             }
         }
     }

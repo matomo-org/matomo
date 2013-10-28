@@ -124,7 +124,7 @@ class ScheduledReports extends \Piwik\Plugin
             $availableDisplayFormats = array_keys(self::getDisplayFormats());
             if (!in_array($reportFormat, $availableDisplayFormats)) {
                 throw new Exception(
-                    Piwik::translateException(
+                    Piwik::translate(
                     // General_ExceptionInvalidAggregateReportsFormat should be named General_ExceptionInvalidDisplayFormat
                         'General_ExceptionInvalidAggregateReportsFormat',
                         array($reportFormat, implode(', ', $availableDisplayFormats))
@@ -548,7 +548,7 @@ class ScheduledReports extends \Piwik\Plugin
             if (empty($email)) {
                 $email = false;
             } elseif (!Piwik::isValidEmailString($email)) {
-                throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
+                throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
             }
         }
         $additionalEmails = array_filter($additionalEmails);

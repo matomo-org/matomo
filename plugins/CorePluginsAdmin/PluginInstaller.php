@@ -111,11 +111,11 @@ class PluginInstaller
         $this->removeFolderIfExists($pathExtracted);
 
         if (0 == ($pluginFiles = $archive->extract($pathExtracted))) {
-            throw new PluginInstallerException(Piwik::translateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
+            throw new PluginInstallerException(Piwik::translate('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
         }
 
         if (0 == count($pluginFiles)) {
-            throw new PluginInstallerException(Piwik::translateException('Plugin Zip File Is Empty'));
+            throw new PluginInstallerException(Piwik::translate('Plugin Zip File Is Empty'));
         }
     }
 

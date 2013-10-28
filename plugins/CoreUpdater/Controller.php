@@ -146,7 +146,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $newVersion = UpdateCheck::isNewestVersionAvailable();
         if (!$newVersion) {
-            throw new Exception(Piwik::translateException('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
+            throw new Exception(Piwik::translate('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
         }
         return $newVersion;
     }
@@ -178,11 +178,11 @@ class Controller extends \Piwik\Plugin\Controller
         $archive = Unzip::factory('PclZip', $this->pathPiwikZip);
 
         if (0 == ($archive_files = $archive->extract($pathExtracted))) {
-            throw new Exception(Piwik::translateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
+            throw new Exception(Piwik::translate('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
         }
 
         if (0 == count($archive_files)) {
-            throw new Exception(Piwik::translateException('CoreUpdater_ExceptionArchiveEmpty'));
+            throw new Exception(Piwik::translate('CoreUpdater_ExceptionArchiveEmpty'));
         }
         unlink($this->pathPiwikZip);
     }
@@ -198,7 +198,7 @@ class Controller extends \Piwik\Plugin\Controller
         );
         foreach ($someExpectedFiles as $file) {
             if (!is_file($this->pathRootExtractedPiwik . $file)) {
-                throw new Exception(Piwik::translateException('CoreUpdater_ExceptionArchiveIncomplete', $file));
+                throw new Exception(Piwik::translate('CoreUpdater_ExceptionArchiveIncomplete', $file));
             }
         }
     }

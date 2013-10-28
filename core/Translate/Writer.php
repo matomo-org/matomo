@@ -97,7 +97,7 @@ class Writer
 
             if (!in_array($pluginName, $installedPlugins)) {
 
-                throw new Exception(Piwik::translateException('General_ExceptionLanguageFileNotFound', array($pluginName)));
+                throw new Exception(Piwik::translate('General_ExceptionLanguageFileNotFound', array($pluginName)));
             }
 
             $this->pluginName = $pluginName;
@@ -112,7 +112,7 @@ class Writer
     public function setLanguage($language)
     {
         if (!preg_match('/^([a-z]{2,3}(-[a-z]{2,3})?)$/i', $language)) {
-            throw new Exception(Piwik::translateException('General_ExceptionLanguageFileNotFound', array($language)));
+            throw new Exception(Piwik::translate('General_ExceptionLanguageFileNotFound', array($language)));
         }
 
         $this->language = strtolower($language);

@@ -133,12 +133,12 @@ class Controller extends \Piwik\Plugin\Controller
 
         $password = Common::getRequestVar('password', null, 'string');
         if (strlen($password) != 32) {
-            throw new Exception(Piwik::translateException('Login_ExceptionPasswordMD5HashExpected'));
+            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
         }
 
         $login = Common::getRequestVar('login', null, 'string');
         if ($login == Config::getInstance()->superuser['login']) {
-            throw new Exception(Piwik::translateException('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
+            throw new Exception(Piwik::translate('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
         }
 
         $currentUrl = 'index.php';

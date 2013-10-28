@@ -62,7 +62,7 @@ abstract class ReportRenderer
             @header('Content-Type: text/html; charset=utf-8');
 
             throw new Exception(
-                Piwik::translateException(
+                Piwik::translate(
                     'General_ExceptionInvalidReportRendererFormat',
                     array($name, implode(', ', self::$availableReportRenderers))
                 )

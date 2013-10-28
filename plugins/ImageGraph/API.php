@@ -196,7 +196,7 @@ class API extends \Piwik\Plugin\API
                 $availableGraphTypes = StaticGraph::getAvailableStaticGraphTypes();
                 if (!in_array($graphType, $availableGraphTypes)) {
                     throw new Exception(
-                        Piwik::translateException(
+                        Piwik::translate(
                             'General_ExceptionInvalidStaticGraphType',
                             array($graphType, implode(', ', $availableGraphTypes))
                         )
