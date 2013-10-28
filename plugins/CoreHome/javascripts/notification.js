@@ -29,6 +29,7 @@
      *                                          frontend once the user closes the notifications. The notification has to
      *                                          be registered/notified under this name
      * @param    {string}  [options.title]      The title of the notification. For instance the plugin name.
+     * @param    {bool}    [options.animate=true]     If enabled, the notification will be faded in.
      * @param    {string}  [options.context=warning]  Context of the notification: 'info', 'warning', 'success' or
      *                                                'error'
      * @param    {string}  [options.type=transient]   The type of the notification: Either 'toast' or 'transitent'
@@ -65,9 +66,14 @@
         template += message;
         template += buildNotificationEnd();
 
-        var $notificationNode = $(template).appendTo('#notificationContainer').hide();
+        var $notificationNode = $(template).hide();
         $(options.placeAt || '#notificationContainer').append($notificationNode);
-        $notificationNode.fadeIn(1000);
+
+        if (false === options.animate) {
+            $notificationNode.show();
+        } else {
+            $notificationNode.fadeIn(1000);
+        }
 
         if ('persistent' == options.type) {
             addPersistentEvent($notificationNode);

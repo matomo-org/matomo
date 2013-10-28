@@ -17,7 +17,8 @@ $(document).ready((function ($, require) {
             var attributes = $notificationNode.data();
 
             if (attributes.message) {
-                var notification = new UI.Notification();
+                var notification   = new UI.Notification();
+                attributes.animate = false;
                 notification.show(attributes.message, attributes);
             }
         });
