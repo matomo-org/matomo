@@ -1614,7 +1614,6 @@ if (typeof Piwik !== 'object') {
                 visitCount = id[3];
                 currentVisitTs = id[4];
                 lastVisitTs = id[5];
-
                 // case migrating from pre-1.5 cookies
                 if (!isDefined(id[6])) {
                     id[6] = "";
@@ -1641,10 +1640,18 @@ if (typeof Piwik !== 'object') {
                 referralUrl = attributionCookie[3];
 
                 if (!ses) {
-                    // new session (aka new visit)
-                    visitCount++;
+                    // cookie 'ses' was not found: we consider this the start of a 'session'
 
-                    lastVisitTs = currentVisitTs;
+                    // here we make sure that if 'ses' cookie is deleted few times within the visit
+                    // and so this code path is triggered many times for one visit,
+                    // we only increase visitCount once per Visit window (default 30min)
+                    var visitDuration = configSessionCookieTimeout / 1000;
+                    if (!lastVisitTs
+                            || (nowTs - lastVisitTs) > visitDuration) {
+                        visitCount++;
+                        lastVisitTs = currentVisitTs;
+                    }
+
 
                     // Detect the campaign information from the current URL
                     // Only if campaign wasn't previously set

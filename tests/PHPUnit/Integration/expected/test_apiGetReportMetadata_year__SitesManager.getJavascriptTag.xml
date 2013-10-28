@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>&lt;!-- Piwik --&gt;
-&lt;script type=&quot;text/javascript&quot;&gt; 
+&lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);

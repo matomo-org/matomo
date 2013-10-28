@@ -17,6 +17,7 @@ use Piwik\Db;
 
 use Piwik\Plugin;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Session;
 use Piwik\Tracker;
 use Piwik\View;
@@ -124,14 +125,48 @@ class Piwik
      * @param string $piwikUrl http://path/to/piwik/directory/
      * @return string
      */
-    static public function getJavascriptCode($idSite, $piwikUrl)
+    static public function getJavascriptCode($idSite, $piwikUrl, $mergeSubdomains = false, $groupPageTitlesByDomain = false, $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false, $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false, $doNotTrack = false)
     {
+        // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
         $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
         $piwikUrl = @$matches[2];
         $jsCode = str_replace('{$idSite}', $idSite, $jsCode);
         $jsCode = str_replace('{$piwikUrl}', Common::sanitizeInputValue($piwikUrl), $jsCode);
+
+        // Build optional parameters to be added to text
+        $options = '';
+        if ($groupPageTitlesByDomain) {
+            $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . PHP_EOL;
+        }
+        if ($mergeSubdomains || $mergeAliasUrls) {
+            $options .= self::getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls);
+        }
+        if ($visitorCustomVariables) {
+            $options .=  '  // you can set up to 5 custom variables for each visitor' . PHP_EOL;
+            $index = 0;
+            foreach ($visitorCustomVariables as $visitorCustomVariable) {
+                $options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$visitorCustomVariable[0].'", "'.$visitorCustomVariable[1].'", "visit"]);' . PHP_EOL;
+            }
+        }
+        if ($pageCustomVariables) {
+            $options .=  '  // you can set up to 5 custom variables for each action (page view, download, click, site search)' . PHP_EOL;
+            $index = 0;
+            foreach ($pageCustomVariables as $pageCustomVariable) {
+                $options .=  '  _paq.push(["setCustomVariable", '.$index++.', "'.$pageCustomVariable[0].'", "'.$pageCustomVariable[1].'", "page"]);' . PHP_EOL;
+            }
+        }
+        if ($customCampaignNameQueryParam) {
+            $options .=  '  _paq.push(["setCampaignNameKey", "'.$customCampaignNameQueryParam.'"]);' . PHP_EOL;
+        }
+        if ($customCampaignKeywordParam) {
+            $options .=  '  _paq.push(["setCampaignKeywordKey", "'.$customCampaignKeywordParam.'"]);' . PHP_EOL;
+        }
+        if ($doNotTrack) {
+            $options .= '  _paq.push(["setDoNotTrack", true]);' . PHP_EOL;
+        }
+        $jsCode = str_replace('{$options}'.PHP_EOL, $options, $jsCode);
         return $jsCode;
     }
 
@@ -719,5 +754,29 @@ class Piwik
         } catch (Exception $e) {
             return $message;
         }
+    }
+
+    protected static function getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls)
+    {
+        try {
+            $websiteUrls = APISitesManager::getInstance()->getSiteUrlsFromId($idSite);
+        } catch (\Exception $e) {
+            return '';
+        }
+        // We need to parse_url to isolate hosts
+        $websiteHosts = array();
+        foreach ($websiteUrls as $site_url) {
+            $referrerParsed = parse_url($site_url);
+            $websiteHosts[] = $referrerParsed['host'];
+        }
+        $options = '';
+        if ($mergeSubdomains && !empty($websiteHosts)) {
+            $options .= PHP_EOL . '  _paq.push(["setCookieDomain", "*.' . $websiteHosts[0] . '"]);' . PHP_EOL;
+        }
+        if ($mergeAliasUrls && !empty($websiteHosts)) {
+            $urls = '["*.' . implode('","*.', $websiteHosts) . '"]';
+            $options .= '  _paq.push(["setDomains", ' . $urls . ']);' . PHP_EOL;
+        }
+        return $options;
     }
 }
