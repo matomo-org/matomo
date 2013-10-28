@@ -332,7 +332,7 @@ class ProcessedReport
         }
         $website = new Site($idSite);
 
-        $period = Period::advancedFactory($period, $date);
+        $period = Period::factory($period, $date);
         $period = $period->getLocalizedLongString();
 
         $return = array(
