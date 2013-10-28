@@ -20,7 +20,7 @@ use Piwik\Plugin\Visualization;
  */
 class VisitorLog extends Visualization
 {
-    const ID = 'Piwik\Plugins\Live\VisitorLog';
+    const ID = '\Piwik\Plugins\Live\VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
 
     public function beforeLoadDataTable()
@@ -66,7 +66,7 @@ class VisitorLog extends Visualization
                 'class'   => 'tableAllColumnsSwitch',
                 'buttons' => array(
                     array(
-                        'id'    => 'Piwik\\Plugins\\Live\\VisitorLog',
+                        'id'    => '\Piwik\Plugins\Live\VisitorLog',
                         'title' => Piwik::translate('Live_LinkVisitorLog'),
                         'icon'  => 'plugins/Zeitgeist/images/table.png'
                     )
