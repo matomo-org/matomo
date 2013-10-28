@@ -10,11 +10,16 @@
  */
 namespace Piwik\Plugins\Login;
 
+use Piwik\Piwik;
 use Piwik\AuthResult;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Cookie;
+use Piwik\ProxyHttp;
 use Piwik\Db;
+use Piwik\Session;
 use Piwik\Plugins\UsersManager\API;
+use \Exception;
 
 /**
  *
@@ -86,6 +91,38 @@ class Auth implements \Piwik\Auth
         }
 
         return new AuthResult(AuthResult::FAILURE, $this->login, $this->token_auth);
+    }
+
+    /**
+     * Authenticates the user and initializes the session.
+     */
+    public function initSession($login, $md5Password, $rememberMe)
+    {
+        $tokenAuth = API::getInstance()->getTokenAuth($login, $md5Password);
+
+        $this->setLogin($login);
+        $this->setTokenAuth($tokenAuth);
+        $authResult = $this->authenticate();
+
+        $authCookieName = Config::getInstance()->General['login_cookie_name'];
+        $authCookieExpiry = $rememberMe ? time() + Config::getInstance()->General['login_cookie_expire'] : 0;
+        $authCookiePath = Config::getInstance()->General['login_cookie_path'];
+        $cookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+        if (!$authResult->wasAuthenticationSuccessful()) {
+            $cookie->delete();
+            throw new Exception(Piwik::translate('Login_LoginPasswordNotCorrect'));
+        }
+
+        $cookie->set('login', $login);
+        $cookie->set('token_auth', $this->getHashTokenAuth($login, $authResult->getTokenAuth()));
+        $cookie->setSecure(ProxyHttp::isHttps());
+        $cookie->setHttpOnly(true);
+        $cookie->save();
+
+        @Session::regenerateId();
+
+        // remove password reset entry if it exists
+        Login::removePasswordResetInfo($login);
     }
 
     /**

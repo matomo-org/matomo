@@ -316,28 +316,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             // logs the user in with the new password
             if ($newPassword !== false) {
-                $info = array(
-                    'login'       => $userLogin,
-                    'md5Password' => md5($newPassword),
-                    'rememberMe'  => false,
-                );
-
-                /**
-                 * This event is triggered to initialize a user session. You can use this event to authenticate user against
-                 * third party systems.
-                 *
-                 * Example:
-                 * ```
-                 * public function initSession($info)
-                 * {
-                 *     $login = $info['login'];
-                 *     $md5Password = $info['md5Password'];
-                 *     $rememberMe = $info['rememberMe'];
-                 * }
-                 * ```
-                 * @todo this event is also triggered twice.
-                 */
-                Piwik::postEvent('Login.initSession', array($info));
+                \Piwik\Registry::get('auth')->initSession($userLogin, md5($newPassword), $rememberMe = false);
             }
 
             APIUsersManager::getInstance()->setUserPreference($userLogin,

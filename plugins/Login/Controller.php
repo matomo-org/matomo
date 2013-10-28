@@ -164,27 +164,10 @@ class Controller extends \Piwik\Plugin\Controller
      */
     protected function authenticateAndRedirect($login, $md5Password, $rememberMe, $urlToRedirect = 'index.php')
     {
-        $info = array('login'       => $login,
-                      'md5Password' => $md5Password,
-                      'rememberMe'  => $rememberMe,
-        );
         Nonce::discardNonce('Login.login');
 
-        /**
-         * This event is triggered to initialize a user session. You can use this event to authenticate user against
-         * third party systems.
-         *
-         * Example:
-         * ```
-         * public function initSession($info)
-         * {
-         *     $login = $info['login'];
-         *     $md5Password = $info['md5Password'];
-         *     $rememberMe = $info['rememberMe'];
-         * }
-         * ```
-         */
-        Piwik::postEvent('Login.initSession', array(&$info));
+        \Piwik\Registry::get('auth')->initSession($login, $md5Password, $rememberMe);
+        
         Url::redirectToUrl($urlToRedirect);
     }
 

@@ -35,7 +35,6 @@ class Login extends \Piwik\Plugin
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
-            'Login.initSession'                => 'initSession',
         );
         return $hooks;
     }
@@ -91,46 +90,6 @@ class Login extends \Piwik\Plugin
         }
         $auth->setLogin($defaultLogin);
         $auth->setTokenAuth($defaultTokenAuth);
-    }
-
-    /**
-     * Authenticate user and initializes the session.
-     * Listens to Login.initSession hook.
-     *
-     * @throws Exception
-     */
-    public function initSession($info)
-    {
-        $login = $info['login'];
-        $md5Password = $info['md5Password'];
-        $rememberMe = $info['rememberMe'];
-
-        $tokenAuth = API::getInstance()->getTokenAuth($login, $md5Password);
-
-        $auth = \Piwik\Registry::get('auth');
-        $auth->setLogin($login);
-        $auth->setTokenAuth($tokenAuth);
-        $authResult = $auth->authenticate();
-
-        $authCookieName = Config::getInstance()->General['login_cookie_name'];
-        $authCookieExpiry = $rememberMe ? time() + Config::getInstance()->General['login_cookie_expire'] : 0;
-        $authCookiePath = Config::getInstance()->General['login_cookie_path'];
-        $cookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
-        if (!$authResult->wasAuthenticationSuccessful()) {
-            $cookie->delete();
-            throw new Exception(Piwik::translate('Login_LoginPasswordNotCorrect'));
-        }
-
-        $cookie->set('login', $login);
-        $cookie->set('token_auth', $auth->getHashTokenAuth($login, $authResult->getTokenAuth()));
-        $cookie->setSecure(ProxyHttp::isHttps());
-        $cookie->setHttpOnly(true);
-        $cookie->save();
-
-        @Session::regenerateId();
-
-        // remove password reset entry if it exists
-        self::removePasswordResetInfo($login);
     }
 
     /**
