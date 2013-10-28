@@ -212,6 +212,7 @@
             var idSite = params.idSite;
 
             // generate JS
+            // changes made to this code should be mirrored in core/Piwik.php function getJavascriptCode()
             var result = '<!-- Piwik -->\n\
 <script type="text/javascript">\n\
   var _paq = _paq || [];\n';
