@@ -53,6 +53,23 @@
             options.noclear = false;
         }
 
+        var template          = generateNotificationHtmlMarkup(options, message);
+        var $notificationNode = placeNotification(template, options);
+
+        if ('persistent' == options.type) {
+            addPersistentEvent($notificationNode);
+        } else if ('toast' == options.type) {
+            addToastEvent($notificationNode);
+        }
+
+        if (!options.noclear) {
+            addCloseEvent($notificationNode);
+        }
+    };
+
+    exports.Notification = Notification;
+
+    function generateNotificationHtmlMarkup(options, message) {
         var template = buildNotificationStart(options);
 
         if (!options.noclear) {
@@ -65,30 +82,9 @@
 
         template += message;
         template += buildNotificationEnd();
-
-        var $notificationNode = $(template).hide();
-        $(options.placeAt || '#notificationContainer').append($notificationNode);
-
-        if (false === options.animate) {
-            $notificationNode.show();
-        } else {
-            $notificationNode.fadeIn(1000);
-        }
-
-        if ('persistent' == options.type) {
-            addPersistentEvent($notificationNode);
-        }
-
-        if ('toast' == options.type) {
-            addToastEvent($notificationNode);
-        }
-
-        if (!options.noclear) {
-            addCloseEvent($notificationNode);
-        }
-    };
-
-    exports.Notification = Notification;
+        
+        return template;
+    }
 
     function buildNotificationStart(options) {
         var template = '<div class="notification';
@@ -120,6 +116,20 @@
         return '<strong>' + options.title + '</strong> ';
     }
 
+    function placeNotification(template, options) {
+
+        var $notificationNode = $(template).hide();
+        $(options.placeAt || '#notificationContainer').append($notificationNode);
+
+        if (false === options.animate) {
+            $notificationNode.show();
+        } else {
+            $notificationNode.fadeIn(1000);
+        }
+        
+        return $notificationNode;
+    }
+
     function addToastEvent($notificationNode)
     {
         setTimeout(function () {
@@ -127,7 +137,7 @@
                 $notificationNode.remove();
                 $notificationNode = null;
             });
-        }, 15 * 1000);
+        }, 12 * 1000);
     }
 
     function addCloseEvent($notificationNode) {
@@ -139,7 +149,6 @@
     };
 
     function addPersistentEvent($notificationNode) {
-
         var notificationId = $notificationNode.data('id');
 
         if (!notificationId) {

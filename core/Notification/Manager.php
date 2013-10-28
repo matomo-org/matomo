@@ -35,8 +35,31 @@ class Manager
     {
         self::checkId($id);
 
-        $session = static::getSession();
-        $session->notifications[$id] = $notification;
+        self::addNotification($id, $notification);
+    }
+
+    /**
+     * Cancel a previously registered (or persistent) notification.
+     * @param $id
+     */
+    public static function cancel($id)
+    {
+        self::checkId($id);
+
+        self::removeNotification($id);
+    }
+
+    /**
+     * Cancels all previously registered non-persist notification. Call this method after the notifications have been
+     * displayed to make sure all non-persistent notifications won't be displayed multiple times.
+     */
+    public static function cancelAllNonPersistent()
+    {
+        foreach (static::getAllNotifications() as $id => $notification) {
+            if (Notification::TYPE_PERSISTENT != $notification->type) {
+                static::removeNotification($id);
+            }
+        }
     }
 
     /**
@@ -59,16 +82,24 @@ class Manager
     }
 
     /**
-     * Cancels all previously registered non-persist notification. Call this method after the notifications have been
-     * displayed to make sure all non-persistent notifications won't be displayed multiple times.
+     * @param $id
+     * @throws \Exception In case id is empty or if id contains non word characters
      */
-    public static function cancelAllNonPersistent()
+    private static function checkId($id)
     {
-        foreach (static::getAllNotifications() as $id => $notification) {
-            if (Notification::TYPE_PERSISTENT != $notification->type) {
-                static::cancel($id);
-            }
+        if (empty($id)) {
+            throw new \Exception('Notification ID is empty.');
         }
+
+        if (!preg_match('/^(\w)*$/', $id)) {
+            throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
+        }
+    }
+
+    private static function addNotification($id, Notification $notification)
+    {
+        $session = static::getSession();
+        $session->notifications[$id] = $notification;
     }
 
     private static function getAllNotifications()
@@ -78,14 +109,8 @@ class Manager
         return $session->notifications;
     }
 
-    /**
-     * Cancel a previously registered (or persistent) notification.
-     * @param $id
-     */
-    public static function cancel($id)
+    private static function removeNotification($id)
     {
-        self::checkId($id);
-
         $session = static::getSession();
         if (array_key_exists($id, $session->notifications)) {
             unset($session->notifications[$id]);
@@ -106,20 +131,5 @@ class Manager
         }
 
         return static::$session;
-    }
-
-    /**
-     * @param $id
-     * @throws \Exception
-     */
-    private static function checkId($id)
-    {
-        if (empty($id)) {
-            throw new \Exception('Notification ID is empty.');
-        }
-
-        if (!preg_match('/^(\w)*$/', $id)) {
-            throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
-        }
     }
 }
