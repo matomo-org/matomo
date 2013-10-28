@@ -35,8 +35,8 @@ class Manager
     {
         self::checkId($id);
 
-        $session      = static::getSession();
-        $session->$id = $notification;
+        $session = static::getSession();
+        $session->notifications[$id] = $notification;
     }
 
     /**
@@ -45,10 +45,9 @@ class Manager
      */
     public static function getAllNotificationsToDisplay()
     {
-        $session       = static::getSession();
-        $notifications = $session->getIterator();
+        $notifications = static::getAllNotifications();
 
-        $notifications->uasort(function ($n1, $n2) {
+        uasort($notifications, function ($n1, $n2) {
             if ($n1->priority == $n2->priority) {
                 return 0;
             }
@@ -65,13 +64,18 @@ class Manager
      */
     public static function cancelAllNonPersistent()
     {
-        $session = static::getSession();
-
-        foreach ($session->getIterator() as $key => $notification) {
+        foreach (static::getAllNotifications() as $id => $notification) {
             if (Notification::TYPE_PERSISTENT != $notification->type) {
-                unset($session->$key);
+                static::cancel($id);
             }
         }
+    }
+
+    private static function getAllNotifications()
+    {
+        $session = static::getSession();
+
+        return $session->notifications;
     }
 
     /**
@@ -83,7 +87,9 @@ class Manager
         self::checkId($id);
 
         $session = static::getSession();
-        unset($session->$id);
+        if (array_key_exists($id, $session->notifications)) {
+            unset($session->notifications[$id]);
+        }
     }
 
     /**
@@ -93,6 +99,10 @@ class Manager
     {
         if (!isset(static::$session)) {
             static::$session = new SessionNamespace('notification');
+        }
+
+        if (empty(static::$session->notifications)) {
+            static::$session->notifications = array();
         }
 
         return static::$session;
@@ -108,7 +118,7 @@ class Manager
             throw new \Exception('Notification ID is empty.');
         }
 
-        if (!is_string($id) || !preg_match('/^(\w)*$/', $id)) {
+        if (!preg_match('/^(\w)*$/', $id)) {
             throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
         }
     }
