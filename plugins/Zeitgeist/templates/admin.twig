@@ -61,13 +61,6 @@
 
                     {% include "@CoreHome/_warningInvalidHost.twig" %}
 
-                    {# missing plugins warning #}
-                    {% if isSuperUser and invalidPluginsWarning is defined %}
-                    <div class="ajaxSuccess">
-                        <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ invalidPluginsWarning|raw }}
-                    </div>
-                    {% endif %}
-
                     {# old GeoIP plugin warning #}
                     {% if isSuperUser and usingOldGeoIPPlugin is not empty %}
                     <div class="ajaxSuccess">

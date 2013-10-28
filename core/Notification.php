@@ -109,7 +109,7 @@ class Notification
     public $priority = self::PRIORITY_LOW;
 
     /**
-     * @param  string $message   The notification message.
+     * @param  string $message   The notification message. Make sure to escape the message if needed.
      * @throws \Exception        In case the message is empty.
      */
     public function __construct($message)
