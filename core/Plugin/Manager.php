@@ -16,6 +16,7 @@ use Piwik\Config as PiwikConfig;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Singleton;
 use Piwik\Translate;
@@ -315,6 +316,8 @@ class Manager extends Singleton
         PiwikConfig::getInstance()->forceSave();
 
         Filesystem::deleteAllCacheOnUpdate();
+
+        $this->pluginsToLoad[] = $pluginName;
     }
 
     protected function isPluginInFilesystem($pluginName)
@@ -350,6 +353,20 @@ class Manager extends Singleton
             }
         }
         return $theme;
+    }
+
+    public function getNumberOfActivatedPlugins()
+    {
+        $counter = 0;
+
+        $pluginNames = $this->getLoadedPluginsName();
+        foreach ($pluginNames as $pluginName) {
+            if ($this->isPluginActivated($pluginName)) {
+                $counter++;
+            }
+        }
+
+        return $counter;
     }
 
     /**
@@ -414,7 +431,7 @@ class Manager extends Singleton
 
     /**
      * Returns true if the plugin is bundled with core or false if it is third party.
-     * 
+     *
      * @param string $name The name of the plugin, eg, `'Actions'`.
      * @return bool
      */
@@ -521,7 +538,7 @@ class Manager extends Singleton
 
     /**
      * Returns an array mapping loaded plugin names with their plugin objects, eg,
-     * 
+     *
      *     array(
      *         'UserCountry' => Plugin $pluginObject,
      *         'UserSettings' => Plugin $pluginObject,

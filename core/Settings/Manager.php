@@ -22,6 +22,7 @@ use Piwik\Plugin\Manager as PluginManager;
 class Manager
 {
     private static $settings = array();
+    private static $numPluginsChecked = 0;
 
     /**
      * Returns all available plugin settings, even settings for inactive plugins. A plugin has to specify a file named
@@ -32,6 +33,13 @@ class Manager
      */
     public static function getAllPluginSettings()
     {
+        $numActivatedPlugins = PluginManager::getInstance()->getNumberOfActivatedPlugins();
+
+        if (static::$numPluginsChecked != $numActivatedPlugins) {
+            static::$numPluginsChecked = $numActivatedPlugins;
+            static::$settings = array();
+        }
+
         if (empty(static::$settings)) {
 
             $settings = array();
@@ -91,12 +99,19 @@ class Manager
         return $settingsForUser;
     }
 
+    public static function hasPluginSettingsForCurrentUser($pluginName)
+    {
+        $pluginNames = array_keys(static::getPluginSettingsForCurrentUser());
+
+        return in_array($pluginName, $pluginNames);
+    }
+
     /**
      * Detects whether there are settings for activated plugins available that the current user can change.
      *
      * @return bool
      */
-    public static function hasPluginSettingsForCurrentUser()
+    public static function hasPluginsSettingsForCurrentUser()
     {
         $settings = static::getPluginSettingsForCurrentUser();
 
