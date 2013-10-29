@@ -239,7 +239,7 @@ class IisFormat(RegexFormat):
 
 _HOST_PREFIX = '(?P<host>[\w\-\.]*)(?::\d+)? '
 _COMMON_LOG_FORMAT = (
-    '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?) (?P<timezone>.*?)\] '
+    '(?P<ip>\S+[, ?P<ip>\S+]*) \S+ \S+ \[(?P<date>.*?) (?P<timezone>.*?)\] '
     '"\S+ (?P<path>.*?) \S+" (?P<status>\S+) (?P<length>\S+)'
 )
 _NCSA_EXTENDED_LOG_FORMAT = (_COMMON_LOG_FORMAT +
