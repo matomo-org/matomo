@@ -159,9 +159,9 @@ class API extends \Piwik\Plugin\API
         );
     }
 
-    private function buildDataTable($sites, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested)
+    private function buildDataTable($idSitesOrIdSite, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested)
     {
-        $allWebsitesRequested = ($sites == 'all');
+        $allWebsitesRequested = ($idSitesOrIdSite == 'all');
         if ($allWebsitesRequested) {
             if (Piwik::isUserIsSuperUser()
                 // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
@@ -179,9 +179,15 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        if ($allWebsitesRequested) {
+            $sitesToProblablyAdd = Site::$infoSites;
+        } else {
+            $sitesToProblablyAdd = array(APISitesManager::getInstance()->getSiteFromId($idSitesOrIdSite));
+        }
+
         // build the archive type used to query archive data
         $archive = Archive::build(
-            $sites,
+            $idSitesOrIdSite,
             $period,
             $date,
             $segment,
@@ -215,7 +221,7 @@ class API extends \Piwik\Plugin\API
             if (!($dataTable instanceof DataTable\Map)
                 && $dataTable->getRowsCount() > 0
             ) {
-                $firstSite = is_array($sites) ? reset($sites) : $sites;
+                $firstSite = is_array($idSitesOrIdSite) ? reset($idSitesOrIdSite) : $idSitesOrIdSite;
 
                 $firstDataTableRow = $dataTable->getFirstRow();
                 $firstDataTableRow->setColumn('label', $firstSite);
@@ -224,10 +230,10 @@ class API extends \Piwik\Plugin\API
 
         if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $table) {
-                $this->addMissingWebsites($table, $fieldsToGet);
+                $this->addMissingWebsites($table, $fieldsToGet, $sitesToProblablyAdd);
             }
         } else {
-            $this->addMissingWebsites($dataTable, $fieldsToGet);
+            $this->addMissingWebsites($dataTable, $fieldsToGet, $sitesToProblablyAdd);
         }
 
         // calculate total visits/actions/revenue
@@ -243,7 +249,7 @@ class API extends \Piwik\Plugin\API
                 //       put there is put directly in DataTable::metadata.
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
-            $pastArchive = Archive::build($sites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
+            $pastArchive = Archive::build($idSitesOrIdSite, $period, $strLastDate, $segment, $_restrictSitesToLogin);
             $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
 
             if ($pastData instanceof DataTable\Map
@@ -480,8 +486,9 @@ class API extends \Piwik\Plugin\API
     /**
      * @param $dataTable
      * @param $fieldsToGet
+     * @param $sitesToProblablyAdd
      */
-    private function addMissingWebsites($dataTable, $fieldsToGet)
+    private function addMissingWebsites($dataTable, $fieldsToGet, $sitesToProblablyAdd)
     {
         $siteIdsInDataTable = array();
         foreach ($dataTable->getRows() as $row) {
@@ -489,7 +496,7 @@ class API extends \Piwik\Plugin\API
             $siteIdsInDataTable[] = $row->getColumn('label');
         }
 
-        foreach (Site::$infoSites as $site) {
+        foreach ($sitesToProblablyAdd as $site) {
             if (!in_array($site['idsite'], $siteIdsInDataTable)) {
                 $siteRow = array_combine($fieldsToGet, array_pad(array(), count($fieldsToGet), 0));
                 $siteRow['label'] = (int)$site['idsite'];
