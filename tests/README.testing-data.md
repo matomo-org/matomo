@@ -1,3 +1,5 @@
+As a developer it may be useful to generate test data. Follow these steps:
+
 1. 	Install Piwik
 2. 	Create a site with URL http://piwik.org/
 3. 	Create a Goal eg. URL Contains "blog"
