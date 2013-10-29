@@ -222,6 +222,14 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $table) {
+                $this->addMissingWebsites($table, $fieldsToGet);
+            }
+        } else {
+            $this->addMissingWebsites($dataTable, $fieldsToGet);
+        }
+
         // calculate total visits/actions/revenue
         $this->setMetricsTotalsMetadata($dataTable, $apiMetrics);
 
@@ -253,17 +261,12 @@ class API extends \Piwik\Plugin\API
         // remove eCommerce related metrics on non eCommerce Piwik sites
         // note: this is not optimal in terms of performance: those metrics should not be retrieved in the first place
         if ($enhanced) {
-            // $dataTableRows instanceOf Row[]
-            $dataTableRows = $dataTable->getRows();
-
-            foreach ($dataTableRows as $dataTableRow) {
-                $siteId = $dataTableRow->getColumn('label');
-                if (!Site::isEcommerceEnabledFor($siteId)) {
-                    foreach ($apiECommerceMetrics as $metricSettings) {
-                        $dataTableRow->deleteColumn($metricSettings[self::METRIC_RECORD_NAME_KEY]);
-                        $dataTableRow->deleteColumn($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY]);
-                    }
+            if ($dataTable instanceof DataTable\Map) {
+                foreach ($dataTable->getDataTables() as $table) {
+                    $this->removeEcommerceRelatedMetricsOnNonEcommercePiwikSites($table, $apiECommerceMetrics);
                 }
+            } else {
+                $this->removeEcommerceRelatedMetricsOnNonEcommercePiwikSites($dataTable, $apiECommerceMetrics);
             }
         }
 
@@ -472,6 +475,43 @@ class API extends \Piwik\Plugin\API
     private static function getLastPeriodMetadataName($name)
     {
         return 'last_period_' . $name;
+    }
+
+    /**
+     * @param $dataTable
+     * @param $fieldsToGet
+     */
+    private function addMissingWebsites($dataTable, $fieldsToGet)
+    {
+        $siteIdsInDataTable = array();
+        foreach ($dataTable->getRows() as $row) {
+            /** @var DataTable\Row $row */
+            $siteIdsInDataTable[] = $row->getColumn('label');
+        }
+
+        foreach (Site::$infoSites as $site) {
+            if (!in_array($site['idsite'], $siteIdsInDataTable)) {
+                $siteRow = array_combine($fieldsToGet, array_pad(array(), count($fieldsToGet), 0));
+                $siteRow['label'] = (int)$site['idsite'];
+                $dataTable->addRowFromSimpleArray($siteRow);
+            }
+        }
+    }
+
+    private function removeEcommerceRelatedMetricsOnNonEcommercePiwikSites($dataTable, $apiECommerceMetrics)
+    {
+        // $dataTableRows instanceOf Row[]
+        $dataTableRows = $dataTable->getRows();
+
+        foreach ($dataTableRows as $dataTableRow) {
+            $siteId = $dataTableRow->getColumn('label');
+            if (!Site::isEcommerceEnabledFor($siteId)) {
+                foreach ($apiECommerceMetrics as $metricSettings) {
+                    $dataTableRow->deleteColumn($metricSettings[self::METRIC_RECORD_NAME_KEY]);
+                    $dataTableRow->deleteColumn($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY]);
+                }
+            }
+        }
     }
 }
 
