@@ -19,6 +19,9 @@ use Piwik\Session\SessionNamespace;
  */
 class Manager
 {
+    /**
+     * @var SessionNamespace
+     */
     private static $session = null;
 
     /**
@@ -35,43 +38,7 @@ class Manager
     {
         self::checkId($id);
 
-        $session      = static::getSession();
-        $session->$id = $notification;
-    }
-
-    /**
-     * Determine all notifications that needs to be displayed. They are sorted by priority. Highest priorities first.
-     * @return \ArrayObject
-     */
-    public static function getAllNotificationsToDisplay()
-    {
-        $session       = static::getSession();
-        $notifications = $session->getIterator();
-
-        $notifications->uasort(function ($n1, $n2) {
-            if ($n1->priority == $n2->priority) {
-                return 0;
-            }
-
-            return $n1->priority > $n2->priority;
-        });
-
-        return $notifications;
-    }
-
-    /**
-     * Cancels all previously registered non-persist notification. Call this method after the notifications have been
-     * displayed to make sure all non-persistent notifications won't be displayed multiple times.
-     */
-    public static function cancelAllNonPersistent()
-    {
-        $session = static::getSession();
-
-        foreach ($session->getIterator() as $key => $notification) {
-            if (Notification::TYPE_PERSISTENT != $notification->type) {
-                unset($session->$key);
-            }
-        }
+        self::addNotification($id, $notification);
     }
 
     /**
@@ -82,8 +49,76 @@ class Manager
     {
         self::checkId($id);
 
+        self::removeNotification($id);
+    }
+
+    /**
+     * Cancels all previously registered non-persist notification. Call this method after the notifications have been
+     * displayed to make sure all non-persistent notifications won't be displayed multiple times.
+     */
+    public static function cancelAllNonPersistent()
+    {
+        foreach (static::getAllNotifications() as $id => $notification) {
+            if (Notification::TYPE_PERSISTENT != $notification->type) {
+                static::removeNotification($id);
+            }
+        }
+    }
+
+    /**
+     * Determine all notifications that needs to be displayed. They are sorted by priority. Highest priorities first.
+     * @return \ArrayObject
+     */
+    public static function getAllNotificationsToDisplay()
+    {
+        $notifications = static::getAllNotifications();
+
+        uasort($notifications, function ($n1, $n2) {
+            /** @var Notification $n1 */ /** @var Notification $n2 */
+            if ($n1->getPriority() == $n2->getPriority()) {
+                return 0;
+            }
+
+            return $n1->getPriority() > $n2->getPriority() ? -1 : 1;
+        });
+
+        return $notifications;
+    }
+
+    /**
+     * @param $id
+     * @throws \Exception In case id is empty or if id contains non word characters
+     */
+    private static function checkId($id)
+    {
+        if (empty($id)) {
+            throw new \Exception('Notification ID is empty.');
+        }
+
+        if (!preg_match('/^(\w)*$/', $id)) {
+            throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
+        }
+    }
+
+    private static function addNotification($id, Notification $notification)
+    {
         $session = static::getSession();
-        unset($session->$id);
+        $session->notifications[$id] = $notification;
+    }
+
+    private static function getAllNotifications()
+    {
+        $session = static::getSession();
+
+        return $session->notifications;
+    }
+
+    private static function removeNotification($id)
+    {
+        $session = static::getSession();
+        if (array_key_exists($id, $session->notifications)) {
+            unset($session->notifications[$id]);
+        }
     }
 
     /**
@@ -95,21 +130,10 @@ class Manager
             static::$session = new SessionNamespace('notification');
         }
 
+        if (empty(static::$session->notifications)) {
+            static::$session->notifications = array();
+        }
+
         return static::$session;
-    }
-
-    /**
-     * @param $id
-     * @throws \Exception
-     */
-    private static function checkId($id)
-    {
-        if (empty($id)) {
-            throw new \Exception('Notification ID is empty.');
-        }
-
-        if (!is_string($id) || !preg_match('/^(\w)*$/', $id)) {
-            throw new \Exception('Invalid Notification ID given. Only word characters (AlNum + underscore) allowed.');
-        }
     }
 }

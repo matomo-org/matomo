@@ -29,7 +29,11 @@
     <div id="root">
         {% include "@CoreHome/_warningInvalidHost.twig" %}
         {% include "@CoreHome/_topScreen.twig" %}
-        {% include "@CoreHome/_notifications.twig" %}
+
+        {% block notification %}
+            {% include "@CoreHome/_notifications.twig" %}
+        {% endblock %}
+
         <div class="ui-confirm" id="alert">
             <h2></h2>
             <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>

@@ -15,10 +15,12 @@ $(document).ready((function ($, require) {
         $notificationNodes.each(function (index, notificationNode) {
             $notificationNode = $(notificationNode);
             var attributes = $notificationNode.data();
+            var message    = $notificationNode.html();
 
-            if (attributes.message) {
-                var notification = new UI.Notification();
-                notification.show(attributes.message, attributes);
+            if (message) {
+                var notification   = new UI.Notification();
+                attributes.animate = false;
+                notification.show(message, attributes);
             }
         });
 

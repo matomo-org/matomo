@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Nonce;
+use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\Manager;
@@ -193,15 +194,7 @@ class Controller extends Plugin\ControllerAdmin
     {
         Piwik::checkUserIsSuperUser();
 
-        $activated  = Common::getRequestVar('activated', false, 'integer', $_GET);
-        $pluginName = Common::getRequestVar('pluginName', '', 'string');
-
         $view = $this->configureView('@CorePluginsAdmin/' . $template);
-
-        $view->activatedPluginName = '';
-        if ($activated && $pluginName) {
-            $view->activatedPluginName = $pluginName;
-        }
 
         $view->updateNonce = Nonce::getNonce(static::UPDATE_NONCE);
         $view->activateNonce = Nonce::getNonce(static::ACTIVATE_NONCE);
@@ -213,7 +206,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->otherUsersCount = count($users) - 1;
         $view->themeEnabled = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
 
-        $view->pluginNamesHavingSettings = array_keys(SettingsManager::getPluginSettingsForCurrentUser());
+        $view->pluginNamesHavingSettings = $this->getPluginNamesHavingSettingsForCurrentUser();
 
         if (CorePluginsAdmin::isMarketplaceEnabled()) {
             $marketplace = new Marketplace();
@@ -335,7 +328,6 @@ class Controller extends Plugin\ControllerAdmin
         \Piwik\Plugin\Manager::getInstance()->activatePlugin($pluginName);
 
         if ($redirectAfter) {
-            $params = array('activated' => 1, 'pluginName' => $pluginName);
             $plugin = \Piwik\Plugin\Manager::getInstance()->loadPlugin($pluginName);
 
             $actionToRedirect = 'plugins';
@@ -343,7 +335,20 @@ class Controller extends Plugin\ControllerAdmin
                 $actionToRedirect = 'themes';
             }
 
-            $this->redirectToIndex('CorePluginsAdmin', $actionToRedirect, null, null, null, $params);
+            $message = Piwik::translate('CorePluginsAdmin_PluginSuccessfullyActicated', array($pluginName));
+            if (SettingsManager::hasPluginSettingsForCurrentUser($pluginName)) {
+                $target   = sprintf('index.php%s#%s',
+                                    Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreAdminHome', 'action' => 'pluginSettings')),
+                                    $pluginName);
+                $message .= ' ' . Piwik::translate('CorePluginsAdmin_ChangeSettingsPossible', array($target));
+            }
+
+            $notification = new Notification($message);
+            $notification->title   = Piwik::translate('General_WellDone');
+            $notification->context = Notification::CONTEXT_SUCCESS;
+            Notification\Manager::notify('CorePluginsAdmin_PluginActivated', $notification);
+
+            $this->redirectToIndex('CorePluginsAdmin', $actionToRedirect);
         }
     }
 
@@ -365,6 +370,11 @@ class Controller extends Plugin\ControllerAdmin
         }
 
         $this->redirectAfterModification($redirectAfter);
+    }
+
+    private function getPluginNamesHavingSettingsForCurrentUser()
+    {
+        return array_keys(SettingsManager::getPluginSettingsForCurrentUser());
     }
 
 }

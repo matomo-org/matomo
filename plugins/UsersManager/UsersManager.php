@@ -124,7 +124,7 @@ class UsersManager extends \Piwik\Plugin
     public static function checkPassword($password)
     {
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
                                                                                                         self::PASSWORD_MAX_LENGTH)));
         }
     }

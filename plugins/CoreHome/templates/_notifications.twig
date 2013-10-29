@@ -1,17 +1,9 @@
 <div id="notificationContainer">
+    {% if notifications|length %}
+        {% for notificationId, n in notifications %}
 
+            {{ n.message|notification({'id': notificationId, 'type': n.type, 'title': n.title, 'noclear': n.hasNoClear, 'context': n.context}, false) }}
+
+        {% endfor %}
+    {% endif %}
 </div>
-{% if notifications|length %}
-<div style="display:none">
-    {% for notificationId, notification in notifications %}
-        <div data-id="{{ notificationId|e('html_attr') }}"
-             data-role="notification"
-             data-type="{{ notification.type|e('html_attr') }}"
-             data-title="{{ notification.title|e('html_attr') }}"
-             data-message="{{ notification.message|e('html_attr') }}"
-             data-noclear="{{ notification.hasNoClear|e('html_attr') }}"
-             data-context="{{ notification.context|e('html_attr') }}"
-             data-priority="{{ notification.priority|e('html_attr') }}"></div>
-    {% endfor %}
-</div>
-{% endif %}

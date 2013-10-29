@@ -326,7 +326,7 @@ class API extends \Piwik\Plugin\API
     private function checkLogin($userLogin)
     {
         if ($this->userExists($userLogin)) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionLoginExists', $userLogin));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionLoginExists', $userLogin));
         }
 
         Piwik::checkValidLoginString($userLogin);
@@ -335,11 +335,11 @@ class API extends \Piwik\Plugin\API
     private function checkEmail($email)
     {
         if ($this->userEmailExists($email)) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionEmailExists', $email));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionEmailExists', $email));
         }
 
         if (!Piwik::isValidEmailString($email)) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidEmail'));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail'));
         }
     }
 
@@ -483,7 +483,7 @@ class API extends \Piwik\Plugin\API
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserIsNotSuperUser($userLogin);
         if (!$this->userExists($userLogin)) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
         }
 
         $this->deleteUserOnly($userLogin);
@@ -547,7 +547,7 @@ class API extends \Piwik\Plugin\API
         if ($userLogin == 'anonymous'
             && $access == 'admin'
         ) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionAdminAnonymous"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
         }
 
         // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
@@ -596,7 +596,7 @@ class API extends \Piwik\Plugin\API
     private function checkUserExists($userLogin)
     {
         if (!$this->userExists($userLogin)) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionUserDoesNotExist", $userLogin));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
         }
     }
 
@@ -609,21 +609,21 @@ class API extends \Piwik\Plugin\API
     private function checkUserEmailExists($userEmail)
     {
         if (!$this->userEmailExists($userEmail)) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionUserDoesNotExist", $userEmail));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userEmail));
         }
     }
 
     private function checkUserIsNotAnonymous($userLogin)
     {
         if ($userLogin == 'anonymous') {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionEditAnonymous"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionEditAnonymous"));
         }
     }
 
     private function checkUserIsNotSuperUser($userLogin)
     {
         if ($userLogin == Piwik::getSuperUserLogin()) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionSuperUser"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUser"));
         }
     }
 
@@ -635,7 +635,7 @@ class API extends \Piwik\Plugin\API
         unset($accessList[array_search("superuser", $accessList)]);
 
         if (!in_array($access, $accessList)) {
-            throw new Exception(Piwik::translateException("UsersManager_ExceptionAccessValues", implode(", ", $accessList)));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $accessList)));
         }
     }
 
@@ -699,7 +699,7 @@ class API extends \Piwik\Plugin\API
     public function getTokenAuth($userLogin, $md5Password)
     {
         if (strlen($md5Password) != 32) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionPasswordMD5HashExpected'));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionPasswordMD5HashExpected'));
         }
         return md5($userLogin . $md5Password);
     }

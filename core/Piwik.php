@@ -592,7 +592,7 @@ class Piwik
             && $l <= $loginMaximumLength
             && (preg_match('/^[A-Za-z0-9_.@+-]*$/D', $userLogin) > 0))
         ) {
-            throw new Exception(Piwik::translateException('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidLoginFormat', array($loginMinimumLength, $loginMaximumLength)));
         }
     }
 
@@ -736,24 +736,6 @@ class Piwik
             return $translationId;
         }
         return vsprintf($translationId, $args);
-    }
-
-    /**
-     * Returns translated string or given message if translation is not found.
-     * This function does not throw any exception. Use it to translate exceptions.
-     *
-     * @param string $message Translation string index
-     * @param array $args sprintf arguments
-     * @return string
-     * @api
-     */
-    public static function translateException($message, $args = array())
-    {
-        try {
-            return Piwik::translate($message, $args);
-        } catch (Exception $e) {
-            return $message;
-        }
     }
 
     protected static function getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls)

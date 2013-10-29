@@ -1,5 +1,6 @@
 {% import 'ajaxMacros.twig' as ajax %}
 <div class="pageWrap">
+    {% include "@CoreHome/_notifications.twig" %}
     <div class="top_controls">
         {% include "@CoreHome/_periodSelect.twig" %}
         {{ postEvent("Template.nextToCalendar") }}

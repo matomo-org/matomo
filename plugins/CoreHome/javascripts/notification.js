@@ -18,6 +18,7 @@
      * notification.show('My Notification Message', {title: 'Low space', context: 'warning'});
      */
     var Notification = function () {
+        this.$node = null;
     };
 
     /**
@@ -29,11 +30,12 @@
      *                                          frontend once the user closes the notifications. The notification has to
      *                                          be registered/notified under this name
      * @param    {string}  [options.title]      The title of the notification. For instance the plugin name.
+     * @param    {bool}    [options.animate=true]     If enabled, the notification will be faded in.
      * @param    {string}  [options.context=warning]  Context of the notification: 'info', 'warning', 'success' or
      *                                                'error'
      * @param    {string}  [options.type=transient]   The type of the notification: Either 'toast' or 'transitent'
      * @param    {bool}    [options.noclear=false]    If set, the close icon is not displayed.
-     * @param    {string}  [options.placeAt]          By default, the notification will be displayed in the "stats bar".
+     * @param    {string}  [options.placeat]          By default, the notification will be displayed in the "stats bar".
      *                                                You can specify any other CSS selector to place the notifications
      *                                                whereever you want.
      */
@@ -52,6 +54,44 @@
             options.noclear = false;
         }
 
+        closeExistingNotificationHavingSameIdIfNeeded(options);
+
+        var template          = generateNotificationHtmlMarkup(options, message);
+        var $notificationNode = placeNotification(template, options);
+        this.$node = $notificationNode;
+
+        if ('persistent' == options.type) {
+            addPersistentEvent($notificationNode);
+        } else if ('toast' == options.type) {
+            addToastEvent($notificationNode);
+        }
+
+        if (!options.noclear) {
+            addCloseEvent($notificationNode);
+        }
+    };
+
+    Notification.prototype.scrollToNotification = function () {
+        if (this.$node) {
+            piwikHelper.lazyScrollTo(this.$node, 250);
+        }
+    };
+
+    exports.Notification = Notification;
+
+    function closeExistingNotificationHavingSameIdIfNeeded(options)
+    {
+        if (!options.id) {
+            return;
+        }
+
+        var $existingNode = $('.system.notification[data-id=' + options.id + ']')
+        if ($existingNode && $existingNode.length) {
+            $existingNode.remove();
+        }
+    }
+
+    function generateNotificationHtmlMarkup(options, message) {
         var template = buildNotificationStart(options);
 
         if (!options.noclear) {
@@ -64,28 +104,12 @@
 
         template += message;
         template += buildNotificationEnd();
-
-        var $notificationNode = $(template).appendTo('#notificationContainer').hide();
-        $(options.placeAt || '#notificationContainer').append($notificationNode);
-        $notificationNode.fadeIn(1000);
-
-        if ('persistent' == options.type) {
-            addPersistentEvent($notificationNode);
-        }
-
-        if ('toast' == options.type) {
-            addToastEvent($notificationNode);
-        }
-
-        if (!options.noclear) {
-            addCloseEvent($notificationNode);
-        }
-    };
-
-    exports.Notification = Notification;
+        
+        return template;
+    }
 
     function buildNotificationStart(options) {
-        var template = '<div class="notification';
+        var template = '<div class="notification system';
 
         if (options.context) {
             template += ' notification-' + options.context;
@@ -114,6 +138,20 @@
         return '<strong>' + options.title + '</strong> ';
     }
 
+    function placeNotification(template, options) {
+
+        var $notificationNode = $(template).hide();
+        $(options.placeat || '#notificationContainer').append($notificationNode);
+
+        if (false === options.animate) {
+            $notificationNode.show();
+        } else {
+            $notificationNode.fadeIn(1000);
+        }
+        
+        return $notificationNode;
+    }
+
     function addToastEvent($notificationNode)
     {
         setTimeout(function () {
@@ -121,7 +159,7 @@
                 $notificationNode.remove();
                 $notificationNode = null;
             });
-        }, 15 * 1000);
+        }, 12 * 1000);
     }
 
     function addCloseEvent($notificationNode) {
@@ -133,7 +171,6 @@
     };
 
     function addPersistentEvent($notificationNode) {
-
         var notificationId = $notificationNode.data('id');
 
         if (!notificationId) {

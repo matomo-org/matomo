@@ -141,7 +141,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
         $serverVersion = $this->getServerVersion();
         $requiredVersion = Config::getInstance()->General['minimum_mssql_version'];
         if (version_compare($serverVersion, $requiredVersion) === -1) {
-            throw new Exception(Piwik::translateException('General_ExceptionDatabaseVersion', array('MSSQL', $serverVersion, $requiredVersion)));
+            throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MSSQL', $serverVersion, $requiredVersion)));
         }
     }
 
@@ -176,7 +176,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
         if (version_compare($serverVersion, '10') >= 0
             && version_compare($clientVersion, '10') < 0
         ) {
-            throw new Exception(Piwik::translateException('General_ExceptionIncompatibleClientServerVersions', array('MSSQL', $clientVersion, $serverVersion)));
+            throw new Exception(Piwik::translate('General_ExceptionIncompatibleClientServerVersions', array('MSSQL', $clientVersion, $serverVersion)));
         }
     }
 
@@ -255,7 +255,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
             $version = $this->_connection->getAttribute(PDO::ATTR_CLIENT_VERSION);
             $requiredVersion = Config::getInstance()->General['minimum_mssql_client_version'];
             if (version_compare($version['DriverVer'], $requiredVersion) === -1) {
-                throw new Exception(Piwik::translateException('General_ExceptionDatabaseVersion', array('MSSQL', $version['DriverVer'], $requiredVersion)));
+                throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MSSQL', $version['DriverVer'], $requiredVersion)));
             } else {
                 return $version['DriverVer'];
             }

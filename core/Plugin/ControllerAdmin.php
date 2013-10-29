@@ -13,6 +13,7 @@ namespace Piwik\Plugin;
 use Piwik\Config as PiwikConfig;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
+use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Url;
@@ -80,8 +81,6 @@ abstract class ControllerAdmin extends Controller
         }
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
-        $view->notifications = NotificationManager::getAllNotificationsToDisplay();
-        NotificationManager::cancelAllNonPersistent();
         $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
 
         $view->enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
@@ -100,20 +99,29 @@ abstract class ControllerAdmin extends Controller
             $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
                                                                                  'module' => 'CorePluginsAdmin', 'action' => 'plugins'
                                                                             ));
-            $view->invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
+            $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
                                                                                                        self::getPiwikVersion(),
                                                                                                        '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
-                . '<br/>'
                 . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', array(
                                                                                       '<a href="' . $pluginsLink . '"/>',
                                                                                       '</a>'
                                                                                  ));
+
+            if (Piwik::isUserIsSuperUser()) {
+                $notification = new Notification($invalidPluginsWarning);
+                $notification->context = Notification::CONTEXT_WARNING;
+                $notification->title   = Piwik::translate('General_Warning') . ':';
+                Notification\Manager::notify('ControllerAdmin_InvalidPluginsWarning', $notification);
+            }
         }
 
         self::checkPhpVersion($view);
 
         $adminMenu = MenuAdmin::getInstance()->getMenu();
         $view->adminMenu = $adminMenu;
+
+        $view->notifications = NotificationManager::getAllNotificationsToDisplay();
+        NotificationManager::cancelAllNonPersistent();
     }
 
     static protected function getPiwikVersion()

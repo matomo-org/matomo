@@ -190,7 +190,7 @@ class GoalManager
                     $match = ($matched == 0);
                     break;
                 default:
-                    throw new Exception(Piwik::translateException('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                    throw new Exception(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
                     break;
             }
             if ($match) {

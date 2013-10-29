@@ -12,7 +12,7 @@
 namespace Piwik;
 
 /**
- * Interface for authentication modules
+ * Base for authentication modules
  *
  * @package Piwik
  * @subpackage Piwik_Auth
@@ -32,6 +32,11 @@ interface Auth
      * @return AuthResult
      */
     public function authenticate();
+
+    /**
+     * Authenticates the user and initializes the session.
+     */
+    public function initSession($login, $md5Password, $rememberMe);
 }
 
 /**

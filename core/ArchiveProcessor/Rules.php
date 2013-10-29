@@ -175,7 +175,7 @@ class Rules
     {
         $timeToLiveSeconds = (int)$timeToLiveSeconds;
         if ($timeToLiveSeconds <= 0) {
-            throw new Exception(Piwik::translateException('General_ExceptionInvalidArchiveTimeToLive'));
+            throw new Exception(Piwik::translate('General_ExceptionInvalidArchiveTimeToLive'));
         }
         Option::set(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoLoad = true);
     }

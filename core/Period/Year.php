@@ -84,7 +84,7 @@ class Year extends Period
         $this->generate();
         $stringMonth = array();
         foreach ($this->subperiods as $month) {
-            $stringMonth[] = $month->get("Y") . "-" . $month->get("m") . "-01";
+            $stringMonth[] = $month->getDateStart()->toString("Y") . "-" . $month->getDateStart()->toString("m") . "-01";
         }
         return $stringMonth;
     }

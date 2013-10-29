@@ -172,8 +172,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
         } catch (Exception $e) {
-            // TODO escape message
-            echo json_encode(array('result' => 'error', 'message' => $e->getMessage()));
+            $message = html_entity_decode($e->getMessage(), ENT_QUOTES, 'UTF-8');
+            echo json_encode(array('result' => 'error', 'message' => $message));
             return;
         }
         

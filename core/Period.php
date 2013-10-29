@@ -78,13 +78,21 @@ abstract class Period
      * 
      * Note: This method cannot create Range periods.
      * 
-     * @param string $strPeriod `"day"`, `"week"`, `"month"`, `"year"`
-     * @param Date $date A date within the period.
+     * @param string $strPeriod `"day"`, `"week"`, `"month"`, `"year"`, `"range"`
+     * @param Date|string $date A date within the period or the range of dates.
      * @throws Exception If `$strPeriod` is invalid.
      * @return \Piwik\Period
      */
-    static public function factory($strPeriod, Date $date)
+    static public function factory($strPeriod, $date)
     {
+        if (is_string($date)) {
+            if (Period::isMultiplePeriod($date, $strPeriod) || $strPeriod == 'range') {
+                return new Range($strPeriod, $date);
+            }
+
+            $date = Date::factory($date);
+        }
+
         switch ($strPeriod) {
             case 'day':
                 return new Day($date);
@@ -103,7 +111,7 @@ abstract class Period
                 break;
 
             default:
-                $message = Piwik::translateException(
+                $message = Piwik::translate(
                     'General_ExceptionInvalidPeriod', array($strPeriod, 'day, week, month, year, range'));
                 throw new Exception($message);
                 break;
@@ -124,25 +132,6 @@ abstract class Period
             && (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
                 || Range::parseDateRange($dateString))
             && $period != 'range';
-    }
-
-    /**
-     * The advanced factory method is easier to use from the API than the factory
-     * method above. It doesn't require an instance of Date and works for
-     * period=range. Generally speaking, anything that can be passed as period
-     * and range to the API methods can directly be forwarded to this factory
-     * method in order to get a suitable instance of Period.
-     *
-     * @param string $strPeriod `"day"`, `"week"`, `"month"`, `"year"`, `"range"`
-     * @param string $strDate The `'date'` query parameter value.
-     * @return \Piwik\Period
-     */
-    public static function advancedFactory($strPeriod, $strDate)
-    {
-        if (Period::isMultiplePeriod($strDate, $strPeriod) || $strPeriod == 'range') {
-            return new Range($strPeriod, $strDate);
-        }
-        return Period::factory($strPeriod, Date::factory($strDate));
     }
 
     /**
@@ -311,12 +300,6 @@ abstract class Period
     public function __toString()
     {
         return implode(",", $this->toString());
-    }
-
-    public function get($part = null)
-    {
-        $this->generate();
-        return $this->date->toString($part);
     }
 
     /**

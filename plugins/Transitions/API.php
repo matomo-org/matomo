@@ -75,12 +75,12 @@ class API extends \Piwik\Plugin\API
         // prepare archive processing that can be used by the archiving code
         $segment = new Segment($segment, $idSite);
         $site = new Site($idSite);
-        $period = Period::advancedFactory($period, $date);
+        $period = Period::factory($period, $date);
         $archiveProcessor = new ArchiveProcessor\Day($period, $site, $segment);
         $logAggregator = $archiveProcessor->getLogAggregator();
         // prepare the report
         $report = array(
-            'date' => Day::advancedFactory($period->getLabel(), $date)->getLocalizedShortString()
+            'date' => Period::factory($period->getLabel(), $date)->getLocalizedShortString()
         );
 
         $partsArray = explode(',', $parts);

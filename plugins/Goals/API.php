@@ -163,7 +163,7 @@ class API extends \Piwik\Plugin\API
         if ($patternType == 'exact'
             && substr($pattern, 0, 4) != 'http'
         ) {
-            throw new Exception(Piwik::translateException('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
+            throw new Exception(Piwik::translate('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
         }
     }
 

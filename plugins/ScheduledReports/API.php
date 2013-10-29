@@ -53,17 +53,6 @@ class API extends \Piwik\Plugin\API
     const OUTPUT_INLINE = 3;
     const OUTPUT_RETURN = 4;
 
-    const REPORT_TYPE_INFO_KEY = 'reportType';
-    const OUTPUT_TYPE_INFO_KEY = 'outputType';
-    const ID_SITE_INFO_KEY = 'idSite';
-    const REPORT_KEY = 'report';
-    const REPORT_CONTENT_KEY = 'contents';
-    const FILENAME_KEY = 'filename';
-    const PRETTY_DATE_KEY = 'prettyDate';
-    const REPORT_SUBJECT_KEY = 'reportSubject';
-    const REPORT_TITLE_KEY = 'reportTitle';
-    const ADDITIONAL_FILES_KEY = 'additionalFiles';
-
     const REPORT_TRUNCATE = 23;
 
     /**
@@ -746,7 +735,7 @@ class API extends \Piwik\Plugin\API
 
         if (!in_array($reportFormat, $reportFormats)) {
             throw new Exception(
-                Piwik::translateException(
+                Piwik::translate(
                     'General_ExceptionInvalidReportRendererFormat',
                     array($reportFormat, implode(', ', $reportFormats))
                 )

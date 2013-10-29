@@ -87,7 +87,7 @@ class Date
      */
     public static function factory($dateString, $timezone = null)
     {
-        $invalidDateException = new Exception(Piwik::translateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
+        $invalidDateException = new Exception(Piwik::translate('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
         if ($dateString instanceof self) {
             $dateString = $dateString->toString();
         }

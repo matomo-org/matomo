@@ -198,7 +198,7 @@ class Range extends Period
             }
             $endDate = Date::factory($strDateEnd, $timezone);
         } else {
-            throw new Exception(Piwik::translateException('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
+            throw new Exception(Piwik::translate('General_ExceptionInvalidDateRange', array($this->strDate, ' \'lastN\', \'previousN\', \'YYYY-MM-DD,YYYY-MM-DD\'')));
         }
         if ($this->strPeriod != 'range') {
             $this->fillArraySubPeriods($startDate, $endDate, $this->strPeriod);

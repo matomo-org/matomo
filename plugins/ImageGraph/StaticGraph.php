@@ -95,7 +95,7 @@ abstract class StaticGraph
             return new $className;
         } else {
             throw new Exception(
-                Piwik::translateException(
+                Piwik::translate(
                     'General_ExceptionInvalidStaticGraphType',
                     array($graphType, implode(', ', self::getAvailableStaticGraphTypes()))
                 )
