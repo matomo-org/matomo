@@ -34,22 +34,22 @@ class Notification
     /**
      * Lowest priority
      */
-    const PRIORITY_MIN    = 100;
+    const PRIORITY_MIN    = 1;
 
     /**
      * Lower priority
      */
-    const PRIORITY_LOW    = 50;
+    const PRIORITY_LOW    = 25;
 
     /**
      * Higher priority
      */
-    const PRIORITY_HIGH   = 25;
+    const PRIORITY_HIGH   = 50;
 
     /**
      * Highest priority
      */
-    const PRIORITY_MAX    = 1;
+    const PRIORITY_MAX    = 100;
 
     /**
      * If flag applied, no close icon will be displayed. Please note that persistent notifications always have a close
@@ -103,10 +103,10 @@ class Notification
 
     /**
      * The priority of the notification, the higher the priority, the higher the order. Notifications having the
-     * highest priority will be displayed first and all other notifications below.
+     * highest priority will be displayed first and all other notifications below. See self::PRIORITY_*
      * @var int
      */
-    public $priority = self::PRIORITY_LOW;
+    public $priority;
 
     /**
      * @param  string $message   The notification message. Make sure to escape the message if needed.
@@ -128,6 +128,24 @@ class Notification
         }
 
         return 0;
+    }
+
+    public function getPriority()
+    {
+        if (!isset($this->priority)) {
+            $typeToPriority = array(static::CONTEXT_ERROR   => static::PRIORITY_MAX,
+                                    static::CONTEXT_WARNING => static::PRIORITY_HIGH,
+                                    static::CONTEXT_SUCCESS => static::PRIORITY_MIN,
+                                    static::CONTEXT_INFO    => static::PRIORITY_LOW);
+
+            if (array_key_exists($this->context, $typeToPriority)) {
+                return $typeToPriority[$this->context];
+            }
+
+            return static::PRIORITY_LOW;
+        }
+
+        return $this->priority;
     }
 
 }

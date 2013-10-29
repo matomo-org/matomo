@@ -19,6 +19,9 @@ use Piwik\Session\SessionNamespace;
  */
 class Manager
 {
+    /**
+     * @var SessionNamespace
+     */
     private static $session = null;
 
     /**
@@ -71,11 +74,12 @@ class Manager
         $notifications = static::getAllNotifications();
 
         uasort($notifications, function ($n1, $n2) {
-            if ($n1->priority == $n2->priority) {
+            /** @var Notification $n1 */ /** @var Notification $n2 */
+            if ($n1->getPriority() == $n2->getPriority()) {
                 return 0;
             }
 
-            return $n1->priority > $n2->priority;
+            return $n1->getPriority() > $n2->getPriority() ? -1 : 1;
         });
 
         return $notifications;
