@@ -11390,3 +11390,18 @@
   os_family: Other
   browser_family: Other
 
+
+  - user_agent: HbbTV/1.1.1 (;MTK;MT5396;;;) ANTGalio/3.2.0.C341.06
+  os:
+    name: Linux
+    short_name: LIN
+    version: UNK
+  browser:
+    name: ANTGalio
+    short_name: AG
+    version: 3.2
+  device: 1
+  brand: UNK
+  model: MT5396
+  os_family: LIN
+  browser_family: AG
