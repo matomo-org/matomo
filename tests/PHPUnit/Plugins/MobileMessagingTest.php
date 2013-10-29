@@ -234,14 +234,6 @@ class MobileMessagingTest extends DatabaseTestCase
      */
     public function testSendReport($expectedReportContent, $expectedPhoneNumber, $expectedFrom, $reportContent, $phoneNumber, $reportSubject)
     {
-        $notificationInfo = array(
-             APIScheduledReports::REPORT_CONTENT_KEY   => $reportContent,
-             APIScheduledReports::REPORT_SUBJECT_KEY     => $reportSubject,
-             APIScheduledReports::REPORT_TYPE_INFO_KEY => MobileMessaging::MOBILE_TYPE,
-             APIScheduledReports::REPORT_KEY           => array(
-                 'parameters' => array(MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
-             ),
-        );
         $report = array(
             'parameters' => array(MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
         );
