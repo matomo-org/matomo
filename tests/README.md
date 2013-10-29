@@ -26,7 +26,7 @@ $ git clone https://github.com/piwik/piwik.git
 Next install Composer which will lets you download the libraries used in Piwik:
 ```
 $ curl -sS https://getcomposer.org/installer | php
-$php composer.phar install
+$ php composer.phar install
 ```
 
 To execute the tests:
@@ -63,21 +63,76 @@ To execute the tests:
 	`SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)`
 
 
-4. 	Run the tests (see the next section to run tests in the browser)
+4. 	Run the tests
 
-		$ cd /path/to/piwik/tests/PHPUnit
-		$ phpunit --group Core
+	$ cd /path/to/piwik/tests/PHPUnit
+	$ phpunit --group Core
      	$ phpunit --group Plugins
      	$ phpunit --group Integration
 
 	There are three main groups of tests: Core, Plugins and Integration
 	For example run `phpunit --group Core`
-	to run all Core Piwik tests. You may also combine groups like
-	`phpunit --group Core,Plugins`
-
+	to run all Core Piwik tests.
+	
 5.	Write more tests :)
 	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
+
+
+## Integration Tests
+
+Integration tests files are in `tests/PHPUnit/Integration/*Test.php`
+
+Integration tests allow to test how major Piwik components interact together.
+A test will typically generate hits to the Tracker (record visits and page views)
+and then test all API responses and for each API output. It then checks that they match expected XML (or CSV, json, etc.).
+If a test fails, you can compare the processed/ and expected/ directories in a graphical
+text compare tool, such as WinMerge on Win, or MELD on Linux, to easily view changes between files.
+
+For example using Meld, click on "Start new comparison", "Directory comparison",
+in "Original" select "path/to/piwik/tests/PHPUnit/Integration/expected"
+in "Mine" select "path/to/piwik/tests/PHPUnit/Integration/processed"
+
+If changes are expected due to the code changes you make, simply copy the file from processed/ to
+expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).
+Otherwise, if you didn't expect to modify the API outputs, it might be that your changes are breaking some features unexpectedly.
+
+### Scheduled Reports Tests
+
+As part of our integration tests we generate the scheduled reports (in HTML, PDF & SMS). 
+Some of these scheduled reports contain PNG graphs. Depending on the system under test, generated images can differ.
+Therefore, PNG graphs are only tested and compared against "expected" graphs, if the system under test has the same characteristics as the integration server.
+The characteristics of the integration server are described in `IntegrationTestCase::canImagesBeIncludedInScheduledReports()`
+
+## JavaScript Tests
+
+piwik.js is unit tested and you can run the Javascript tests at: /piwik/tests/javascript/
+
+## Testing Data
+
+See [tests/README.testing-data.md](https://github.com/piwik/piwik/blob/master/tests/README.testing-data.md) to import testing data in Piwik.
+
+## UI Screenshots Tests
+
+See [tests/README.screenshots.md](https://github.com/piwik/piwik/blob/master/tests/README.screenshots.md)
+
+## VisualPHPUnit
+
+See [tests/README.visualphpunit.md](https://github.com/piwik/piwik/blob/master/tests/README.visualphpunit.md) if you prefer to run phpunit tests using a visual interface.
+
+## Profiling 
+
+See [tests/README.xhprof.md](https://github.com/piwik/piwik/blob/master/tests/README.xhprof.md) for help on how to profile Piwik with XHProf.
+
+## Benchmarks
+
+See [tests/PHPUnit/Benchmarks/README.txt](https://github.com/piwik/piwik/blob/master/tests/PHPUnit/Benchmarks/README.txt) to learn about running Benchmark tests.
+
+## Build artifacts
+
+You can retrieve the files generated during the build (the build artifacts) at [builds-artifacts.piwik.org](http://builds-artifacts.piwik.org/)
+
+## Troubleshooting 
 ### PHP 5.5: also update PHPUnit to latest
 
 See [PHPUnit update](http://phpunit.de/manual/current/en/installation.html) or try this command:
@@ -115,68 +170,6 @@ sudo add-apt-repository ppa:git-core/ppa
 sudo apt-get update
 sudo apt-get upgrade
 ```
-
-## Integration Tests
-
-Integration tests files are in `tests/PHPUnit/Integration/*Test.php`
-
-Integration tests allow to test how major Piwik components interact together.
-A test will typically generate hits to the Tracker (record visits and page views)
-and then test all API responses and for each API output. It then checks that they match expected XML (or CSV, json, etc.).
-If a test fails, you can compare the processed/ and expected/ directories in a graphical
-text compare tool, such as WinMerge on Win, or MELD on Linux, to easily view changes between files.
-
-For example using Meld, click on "Start new comparison", "Directory comparison",
-in "Original" select "path/to/piwik/tests/PHPUnit/Integration/expected"
-in "Mine" select "path/to/piwik/tests/PHPUnit/Integration/processed"
-
-If changes are expected due to the code changes you make, simply copy the file from processed/ to
-expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).
-Otherwise, if you didn't expect to modify the API outputs, it might be that your changes are breaking some features unexpectedly.
-
-
-## JavaScript Tests
-
-piwik.js is unit tested and you can run tests via piwik/tests/javascript/
-
-## Testing Data
-
-You can import test data over several days in Piwik.
-
-See [tests/README.testing-data.md](https://github.com/piwik/piwik/blob/master/tests/README.testing-data.md)
-
-## Scheduled Reports Tests
-
-Piwik scheduled reports (HTML, PDF & SMS) are part of the integration test suite. They follow the same principles described in the INTEGRATION TESTS section of this document.
-
-Piwik scheduled reports can contain PNG graphs when the user specifies it. Depending on the system under test, generated images differ slightly.
-Therefore, PNG graphs are only tested if the system under test has the same characteristics as the integration server.
-The characteristics of the integration server are described in `IntegrationTestCase::canImagesBeIncludedInScheduledReports()`
-
-
-(*) to analyse and/or generate the expected files, you can either
-
- - set up the vagrant piwik vm (which is used by the integration server) or
- - retrieve the files from the [builds artifacts](http://builds-artifacts.piwik.org/)
-
-## UI Screenshots Tests
-
-See [tests/README.screenshots.md](https://github.com/piwik/piwik/blob/master/tests/README.screenshots.md)
-
-## VisualPHPUnit
-
-Piwik comes with a modified copy of VisualPHPUnit (see https://github.com/NSinopoli/VisualPHPUnit)
-which you can use to run PHPUnit tests in your browser.
-
-See [tests/README.visualphpunit.md](https://github.com/piwik/piwik/blob/master/tests/README.visualphpunit.md)
-
-## Profiling with XHProf
-
-See [tests/README.xhprof.md](https://github.com/piwik/piwik/blob/master/tests/README.xhprof.md)
-
-## Benchmarks
-
-See [tests/PHPUnit/Benchmarks/README.txt](https://github.com/piwik/piwik/blob/master/tests/PHPUnit/Benchmarks/README.txt)
 
 ## Participate
 
