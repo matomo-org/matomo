@@ -64,6 +64,7 @@ class Twig
         $this->addFilter_sumTime();
         $this->addFilter_money();
         $this->addFilter_truncate();
+        $this->addFilter_notificiation();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
 
@@ -155,6 +156,29 @@ class Twig
     public function getTwigEnvironment()
     {
         return $this->twig;
+    }
+
+    protected function addFilter_notificiation()
+    {
+        $twigEnv = $this->getTwigEnvironment();
+        $notificationFunction = new Twig_SimpleFilter('notification', function ($message, $options) use ($twigEnv) {
+
+            $template = '<div style="display:none" data-role="notification" ';
+
+            foreach ($options as $key => $value) {
+                if (ctype_alpha($key)) {
+                    $template .= sprintf('data-%s="%s" ', $key, twig_escape_filter($twigEnv, $value, 'html_attr'));
+                }
+            }
+
+            $template .= '>';
+            $template .= $message;
+            $template .= '</div>';
+
+            return $template;
+
+        }, array('is_safe' => array('html')));
+        $this->twig->addFilter($notificationFunction);
     }
 
     protected function addFilter_truncate()
