@@ -87,7 +87,7 @@ class Notification
     /**
      * @var int optional flags. Usage: $notification->flags = Notification::FLAG_BAR | Notification::FLAG_FOO
      */
-    public $flags;
+    public $flags = self::FLAG_NO_CLEAR;
 
     /**
      * The type of the notification. See self::TYPE_*

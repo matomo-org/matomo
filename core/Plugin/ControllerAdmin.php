@@ -111,7 +111,6 @@ abstract class ControllerAdmin extends Controller
                 $notification = new Notification($invalidPluginsWarning);
                 $notification->context = Notification::CONTEXT_WARNING;
                 $notification->title   = Piwik::translate('General_Warning') . ':';
-                $notification->flags   = Notification::FLAG_NO_CLEAR;
                 Notification\Manager::notify('ControllerAdmin_InvalidPluginsWarning', $notification);
             }
         }
