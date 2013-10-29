@@ -18,6 +18,7 @@
      * notification.show('My Notification Message', {title: 'Low space', context: 'warning'});
      */
     var Notification = function () {
+        this.$node = null;
     };
 
     /**
@@ -53,8 +54,11 @@
             options.noclear = false;
         }
 
+        closeExistingNotificationHavingSameIdIfNeeded(options);
+
         var template          = generateNotificationHtmlMarkup(options, message);
         var $notificationNode = placeNotification(template, options);
+        this.$node = $notificationNode;
 
         if ('persistent' == options.type) {
             addPersistentEvent($notificationNode);
@@ -67,7 +71,25 @@
         }
     };
 
+    Notification.prototype.scrollToNotification = function () {
+        if (this.$node) {
+            piwikHelper.lazyScrollTo(this.$node, 250);
+        }
+    };
+
     exports.Notification = Notification;
+
+    function closeExistingNotificationHavingSameIdIfNeeded(options)
+    {
+        if (!options.id) {
+            return;
+        }
+
+        var $existingNode = $('.system.notification[data-id=' + options.id + ']')
+        if ($existingNode && $existingNode.length) {
+            $existingNode.remove();
+        }
+    }
 
     function generateNotificationHtmlMarkup(options, message) {
         var template = buildNotificationStart(options);
