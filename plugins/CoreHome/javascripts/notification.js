@@ -34,7 +34,7 @@
      *                                                'error'
      * @param    {string}  [options.type=transient]   The type of the notification: Either 'toast' or 'transitent'
      * @param    {bool}    [options.noclear=false]    If set, the close icon is not displayed.
-     * @param    {string}  [options.placeAt]          By default, the notification will be displayed in the "stats bar".
+     * @param    {string}  [options.placeat]          By default, the notification will be displayed in the "stats bar".
      *                                                You can specify any other CSS selector to place the notifications
      *                                                whereever you want.
      */
@@ -119,7 +119,7 @@
     function placeNotification(template, options) {
 
         var $notificationNode = $(template).hide();
-        $(options.placeAt || '#notificationContainer').append($notificationNode);
+        $(options.placeat || '#notificationContainer').append($notificationNode);
 
         if (false === options.animate) {
             $notificationNode.show();
