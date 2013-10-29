@@ -31,6 +31,13 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
                                'date'    => '2012-08-09',
                                'periods' => 'month')),
 
+            array('MultiSites.getAll', array('idSite'   => self::$fixture->idSite,
+                                             'date'     => '2012-08-09',
+                                             'periods'  => array('month'),
+                                             'setDateLastN' => true,
+                                             'otherRequestParameters' => array('enhanced' => 1),
+                                             'testSuffix' => '_withEnhancedAndLast7')),
+
             // report generated from custom log format including generation time
             array('Actions.getPageUrls', array('idSite'  => self::$fixture->idSite,
                                                'date'    => '2012-09-30',
