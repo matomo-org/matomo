@@ -1,9 +1,8 @@
- BENCHMARKS TESTS
-===================
+
 Piwik comes with a system that can be used to benchmark certain Piwik processes. The benchmarking
 system relies both on PHPUnit and VisualPHPUnit.
 
-- Benchmarks & Fixtures -
+== Benchmarks & Fixtures 
 
 Piwik's benchmarks are written as unit tests. Except, they don't setup the database by themselves.
 Instead, there are several 'fixture' classes that do the setup. You can mix and match different
@@ -13,7 +12,7 @@ For example, you can test how long it takes to generate reports for one site wit
 in one day, or you can test how long it takes to generate reports for 1,000 sites w/ 12 visits
 each on one day, simply by changing the fixture.
 
-- Running Benchmarks -
+== Running Benchmarks 
 
 To run a benchmark, first load VisualPHPUnit by pointing your browser to:
 
@@ -51,7 +50,7 @@ http://path/to/piwik/trunk/tests/lib/visualphpunit/
 
 NOTE: You cannot at present run more than one benchmark, so make sure you only select one.
 
-- Included Benchmarks and Fixtures -
+== Included Benchmarks and Fixtures 
 
 These are the benchmarks currently written for Piwik:
 
@@ -80,7 +79,7 @@ These are the fixtures currently included with Piwik:
     website with ~230,000 visits on one day. There are around ~2.3 pageviews per visit and
     each visit resulted in at least one conversion.
 
-- Benchmarking with git -
+== Benchmarking with git 
 
 If you use git, you can use the benchmarking system to easily see if there are performance
 regressions caused by your changes.
