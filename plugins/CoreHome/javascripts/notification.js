@@ -87,7 +87,7 @@
     }
 
     function buildNotificationStart(options) {
-        var template = '<div class="notification';
+        var template = '<div class="notification system';
 
         if (options.context) {
             template += ' notification-' + options.context;
