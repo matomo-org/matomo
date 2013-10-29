@@ -160,37 +160,19 @@ You should now have some interesting data to test with in November 2012!
 
 ## Scheduled Reports Tests
 
-Piwik scheduled reports (HTML, PDF & SMS) are part of the integration test suite.
-They follow the same principles described in the INTEGRATION TESTS section of this document.
+Piwik scheduled reports (HTML, PDF & SMS) are part of the integration test suite. They follow the same principles described in the INTEGRATION TESTS section of this document.
 
-Piwik scheduled reports can contain PNG graphs when the user specifies it.
-Depending on the system under test, generated images differ slightly.
-
-Including all variations in the expected files would not be convenient. Developers would need to run the tests under
-several environments before being able to commit their work.
-Excluding images altogether is not an option as they are an important feature.
-
+Piwik scheduled reports can contain PNG graphs when the user specifies it. Depending on the system under test, generated images differ slightly.
 Therefore, PNG graphs are only tested if the system under test has the same characteristics as the integration server.
 The characteristics of the integration server are described in `IntegrationTestCase::canImagesBeIncludedInScheduledReports()`
-
-If your system does not comply to those characteristics, images will not be tested and PHPUnit will display the
-warning message contained in `IntegrationTestCase::alertWhenImagesExcludedFromTests()`.
-
-In this case, the integration test suite might pass on your box but fail on the integration server. This means your
-work altered the expected images. The standard procedure described in the INTEGRATION TESTS section needs to be applied :
-
- 1. find out if the change is expected (*)
- 2. a. if the change is expected, the expected files need to be updated (*)
-
-    b. if the change is not expected, there is a bug needing to be fixed
 
 
 (*) to analyse and/or generate the expected files, you can either
 
  - set up the vagrant piwik vm (which is used by the integration server) or
- - retrieve the files from the integration server.
+ - retrieve the files from the [builds artifacts](http://builds-artifacts.piwik.org/)
 
-## UI Tests
+## UI Screenshots Tests
 
 Piwik contains UI tests that work by taking a screenshot of a URL and comparing it with
 an expected screenshot. If the screenshots do not match, there is a bug somewhere. These
@@ -200,7 +182,7 @@ run the following commands:
     $ git submodule init
     $ git submodule update
 
-## Generate the same screenshots as expected
+### How to generate screenshots
 
 In order to run UI tests, you need to have [phantomjs](http://phantomjs.org) version 1.9.0 or greater
 installed on your machine. You can download phantomjs [here](http://phantomjs.org/download.html). phantomjs is headless, so even if you're on a server without the X window system, you can still run the
@@ -223,7 +205,7 @@ Removing this font may be useful if your generated screenshots' fonts do not mat
 You can test the UI by running:
 
     $ cd PHPUnit
-    $ phpunit UI
+    $ phpunit --group UI
 
 **Learn more**
 
@@ -235,124 +217,15 @@ Check out this blog post to learn more about Screenshot Tests in Piwik:
 Piwik comes with a modified copy of VisualPHPUnit (see https://github.com/NSinopoli/VisualPHPUnit)
 which you can use to run PHPUnit tests in your browser.
 
-### Starting VisualPHPUnit
+See tests/README.visualphpunit.md
 
-To load VisualPHPUnit point your browser to http://path/to/piwik/tests/lib/visualphpunit/.
+## Profiling with XHProf
 
-VisualPHPUnit will already be configured for use with Piwik. 
-
-Troubleshooting
-
- * If at this URL you see a listing of files instead of seeing VisualPHPUnit, 
-   enable mod_rewrite apache module, and make sure your vhost in apache 
-   configuration has "AllowOverride all" so that .htaccess are loaded.
- 
- * If you get an error such as "Warning: require_once(PHPUnit/Autoload.php)" it is because the PEAR path 
-   is not set in your php.ini. Edit in php.ini the value include_path to include the path to your
-   PEAR setup, and restart Apache.
-
-### Running tests
-
-Once VisualPHPUnit is loaded, you can run tests by selecting files or whole directories in the
-file selector on the left of the screen, then clicking the 'Run tests' button. To select
-files/directories ctrl+click them.
-
-To run all Piwik tests, ctrl+click the 'Core', 'Integration' and 'Plugins' directory, then
-click the 'Run tests' button.
-
-### Running tests by URL
-
-If you're in need of a URL that will not only load VisualPHPUnit but run one or more tests,
-you may add the list of tests to run as the hash of the URL. For example,
-
-http://path/to/piwik/tests/lib/visualphpunit/#/Core/DataTableTest.php:/Core/CookieTest.php
-
-will load VisualPHPUnit and immediately run the tests in DataTableTest.php and CookieTest.php.
-Currently, this feature will not allow you to specify directories with tests to run.
-
-### Using phpunit.xml
-
-By default, VisualPHPUnit lets you run tests by selecting individual test files or directories
-and clicking the 'Run Tests' button. If you want to use a phpunit.xml file, either your own or the
-one that comes with Piwik, you'll need to modify VisualPHPUnit's configuration. Edit the file
-located at
-
-/path/to/piwik/tests/lib/visualphpunit/app/config/bootstrap.php
-
-and set the 'xml_configuration_file' config option.
-
-Please note that when a phpunit.xml file is supplied in the configuration, VisualPHPUnit will
-always run tests with it, regardless of what files you select. You can override this behavior
-in the web UI by selecting 'No' in the 'Use XML Config' input.
-
-### Debugging invalid responses
-
-Sometimes, VisualPHPUnit will run PHPUnit tests and get a response it can't read. These problems
-are usually caused by an unmatched ob_start() call in the code somewhere, or by the program
-prematurely exiting.
-
-To find the cause of such issues, it can help to determine what code can & can't affect the
-output VisualPHPUnit sees. Code that can affect what VisualPHPUnit sees is before the bug in
-question, and code that can't is after it.
+See tests/README.xhprof.md
 
 ## Benchmarks
 
 See tests/PHPUnit/Benchmarks/README.txt
-
-## Profiling with XHProf
-
-Piwik is distributed with a copy of XHProf, the PHP profiler created by Facebook. Piwik
-also comes with a copy of VisualPHPUnit that has been modified to easily use XHProf. Using
-these two tools, you can profile tests and benchmarks.
-
-### Installing XHProf
-
-First, XHProf must be built (this guide assumes you're using a linux variant):
-
- * 	Navigate to the XHProf extension directory.
-
-		$ cd /path/to/piwik/tests/lib/xhprof-0.9.2/extension
-    
- * 	Build XHProf.
-
-		$ phpize
-		$ ./configure
-		$ make
-    
-	xhprof.so will now exist in the ./modules directory.
-    
- *	Configure PHP to use XHProf. Add the following to your php.ini file:
-      
-	```
-	[xhprof]
-	extension=/path/to/piwik/tests/lib/xhprof-0.9.2/extension/modules/xhprof.so
-	xhprof.output_dir=/path/to/output/dir
-	```
-      
-	Replace /path/to/output/dir with an existing directory. All your profiles will be
-	stored there.
-
-Restart your webserver and you're done. VisualPHPUnit will automatically detect if XHProf
-is installed and act accordingly.
-
-### Using XHProf
-
-To use XHProf, first load VisualPHPUnit by pointing your browser to:
-
-http://path/to/piwik/tests/lib/visualphpunit/
-
-Select a test or get ready to run a benchmark. Make sure the 'Profile with XHProf' select
-box is set to 'Yes' and click 'Run Tests'.
-
-When the test finishes, a link will be displayed that will let you view the profile that
-was created.
-
-NOTE:
-
-    * Currently, it is not possible to use XHProf with more than one test, so if multiple
-      tests are selected, XHProf will not be used.
-    * XHProf will not delete old profiles, you must do that yourself, though individual
-      profiles do not take much space.
 
 ## Participate
 
