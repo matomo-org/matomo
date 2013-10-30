@@ -122,7 +122,7 @@ class PiwikTracker
 
         $this->currentTs = time();
         $this->createTs = $this->currentTs;
-        $this->visitCount = false;
+        $this->visitCount = 0;
         $this->currentVisitTs = false;
         $this->lastVisitTs = false;
         $this->lastEcommerceOrderTs = false;
@@ -898,7 +898,7 @@ class PiwikTracker
         }
         $this->cookieVisitorId = $parts[0]; // provides backward compatibility since getVisitorId() didn't change any existing VisitorId value
         $this->createTs = $parts[1];
-        $this->visitCount = $parts[2];
+        $this->visitCount = (int)$parts[2];
         $this->currentVisitTs = $parts[3];
         $this->lastVisitTs = $parts[4];
         if(isset($parts[5])) {
@@ -1401,7 +1401,7 @@ class PiwikTracker
     {
         $cookieExpire = $this->createTs + $cookieTTL;
         if(!headers_sent()) {
-            setrawcookie($this->getCookieName($cookieName), $cookieValue, $cookieExpire, $this->configCookiePath, $this->configCookieDomain);
+            setcookie($this->getCookieName($cookieName), $cookieValue, $cookieExpire, $this->configCookiePath, $this->configCookieDomain);
         }
     }
 

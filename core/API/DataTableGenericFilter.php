@@ -107,9 +107,8 @@ class DataTableGenericFilter
     {
         if ($datatable instanceof DataTable\Map) {
             $tables = $datatable->getDataTables();
-            $filterWasApplied = false;
             foreach ($tables as $table) {
-                $filterWasApplied = $this->applyGenericFilters($table);
+                $this->applyGenericFilters($table);
             }
             return;
         }
