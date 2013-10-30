@@ -484,7 +484,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param $dataTable
+     * @param DataTable|DataTable\Map $dataTable
      * @param $fieldsToGet
      * @param $sitesToProblablyAdd
      */
@@ -499,7 +499,7 @@ class API extends \Piwik\Plugin\API
         foreach ($sitesToProblablyAdd as $site) {
             if (!in_array($site['idsite'], $siteIdsInDataTable)) {
                 $siteRow = array_combine($fieldsToGet, array_pad(array(), count($fieldsToGet), 0));
-                $siteRow['label'] = (int)$site['idsite'];
+                $siteRow['label'] = (int) $site['idsite'];
                 $dataTable->addRowFromSimpleArray($siteRow);
             }
         }
