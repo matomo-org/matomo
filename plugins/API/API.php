@@ -576,7 +576,7 @@ class API extends \Piwik\Plugin\API
 
         $result = array();
         foreach ($urls as $url) {
-            $req = new Request($url . '&format=php&serialize=0');
+            $req = new Request($url . '&format=original&serialize=0');
             $result[] = $req->process();
         }
         return $result;
