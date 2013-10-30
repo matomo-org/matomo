@@ -352,6 +352,7 @@ class ResponseBuilder
             }
             return $array;
         }
+
         $multiDimensional = $this->handleMultiDimensionalArray($array);
         if ($multiDimensional !== false) {
             return $multiDimensional;
@@ -431,54 +432,10 @@ class ResponseBuilder
      */
     public static function convertMultiDimensionalArrayToJson($array)
     {
-        $isAssociative = Piwik::isAssociativeArray($array);
-
-        if ($isAssociative) {
-            $json = "{";
-        } else {
-            $json = "[";
-        }
-
-        foreach ($array as $key => $value) {
-            if ($isAssociative) {
-                $json .= "\"" . $key . "\":";
-            }
-
-            switch (true) {
-                // Case dimension is a PHP array
-                case (is_array($value)):
-
-                    $json .= Common::json_encode($value);
-                    break;
-
-                // Case dimension is a Set or a DataTable
-                case ($value instanceof DataTable\Map || $value instanceof DataTable):
-
-                    $XMLRenderer = new Json();
-                    $XMLRenderer->setTable($value);
-                    $renderedReport = $XMLRenderer->render();
-                    $json .= $renderedReport;
-                    break;
-
-                // Case scalar
-                default:
-
-                    $json .= Common::json_encode($value);
-                    break;
-            }
-
-            $json .= ",";
-        }
-
-        // Remove trailing ","
-        $json = substr($json, 0, strlen($json) - 1);
-
-        if ($isAssociative) {
-            $json .= "}";
-        } else {
-            $json .= "]";
-        }
-        return $json;
+        $jsonRenderer = new Json();
+        $jsonRenderer->setTable($array);
+        $renderedReport = $jsonRenderer->render();
+        return $renderedReport;
     }
 
     /**
