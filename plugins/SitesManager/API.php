@@ -317,6 +317,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false)
     {
+        if (Piwik::isUserIsSuperUser() && !TaskScheduler::isTaskBeingExecuted()) {
+            return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+        }
+
         if (!empty($_restrictSitesToLogin)
             // Only super user or logged in user can see viewable sites for a specific login,
             // but during scheduled task execution, we sometimes want to restrict sites to
@@ -324,6 +328,7 @@ class API extends \Piwik\Plugin\API
             && (Piwik::isUserIsSuperUserOrTheUser($_restrictSitesToLogin)
                 || TaskScheduler::isTaskBeingExecuted())
         ) {
+
             $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
             $sitesId = array();
             foreach ($accessRaw as $access) {
