@@ -19,10 +19,15 @@ class Tracker_ActionTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $userFile = dirname(__FILE__) . '/../../../resources/Tracker/Action.config.ini.php';
         $config = Config::getInstance();
         $config->clear();
-        $config->setTestEnvironment($userFile, false);
+        $config->setTestEnvironment();
+        $section = Config::getInstance()->Tracker;
+        $section['default_action_url'] = '/';
+        $section['campaign_var_name']  = 'campaign_param_name,piwik_campaign,utm_campaign,test_campaign_name';
+        $section['action_url_category_delimiter'] = '/';
+        $section['campaign_keyword_var_name']     = 'piwik_kwd,utm_term,test_piwik_kwd';
+        Config::getInstance()->Tracker = $section;
 
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('SitesManager'));
         
