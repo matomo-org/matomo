@@ -168,16 +168,20 @@ class API extends \Piwik\Plugin\API
      */
     public function getVisitorProfile($idSite, $visitorId = false, $segment = false, $checkForLatLong = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         if ($visitorId === false) {
             $visitorId = $this->getMostRecentVisitorId($idSite, $segment);
         }
 
         $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $visitorId;
 
-        $visits = $this->getLastVisitsDetails($idSite, $period = false, $date = false, $newSegment,
+        $visits = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $newSegment,
             $numVisitorsToFetch = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE,
             $overrideVisitorId = false,
             $minTimestamp = false);
+        $this->addFilterToCleanVisitors($visits, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = true);
+
         if ($visits->getRowsCount() == 0) {
             return array();
         }
@@ -358,10 +362,10 @@ class API extends \Piwik\Plugin\API
          * visitor profile popup.
          *
          * The following visitor profile elements can be set to augment the visitor profile popup:
-         * 
+         *
          * - **visitorAvatar**: A URL to an image to display in the top left corner of the popup.
          * - **visitorDescription**: Text to be used as the tooltip of the avatar image.
-         * 
+         *
          * @param array &$visitorProfile The normal visitor profile info.
          */
         Piwik::postEvent('Live.getExtraVisitorDetails', array(&$result));
@@ -509,10 +513,16 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @param bool $flat whether to flatten the array (eg. 'customVariables' names/values will appear in the root array rather than in 'customVariables' key
      * @param bool $doNotFetchActions If set to true, we only fetch visit info and not actions (much faster)
+     * @param bool $filterNow If true, the visitors will be cleaned immediately
      */
-    private function addFilterToCleanVisitors(DataTable $dataTable, $idSite, $flat = false, $doNotFetchActions = false)
+    private function addFilterToCleanVisitors(DataTable $dataTable, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = false)
     {
-        $dataTable->queueFilter(function ($table) use ($idSite, $flat, $doNotFetchActions) {
+        $filter = 'queueFilter';
+        if ($filterNow) {
+            $filter = 'filter';
+        }
+
+        $dataTable->$filter(function ($table) use ($idSite, $flat, $doNotFetchActions) {
             /** @var DataTable $table */
             $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
 
