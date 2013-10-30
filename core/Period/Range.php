@@ -18,12 +18,12 @@ use Piwik\Piwik;
 
 /**
  * Arbitrary date range representation.
- * 
+ *
  * This class represents a period that contains a list of consecutive days as subperiods
  * It is created when the **period** query parameter is set to **range** and is used
  * to calculate the subperiods of multiple period requests (eg, when period=day and
  * date=2007-07-24,2013-11-15).
- * 
+ *
  * The range period differs from other periods mainly in that since it is arbitrary,
  * range periods are not archived by the archive.php cron script.
  *
@@ -37,7 +37,7 @@ class Range extends Period
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $strPeriod The type of period each subperiod is. Either `'day'`, `'week'`,
      *                          `'month'` or `'year'`.
      * @param string $strDate The date range, eg, `'2007-07-24,2013-11-15'`.
@@ -273,19 +273,22 @@ class Range extends Period
             } else {
                 // From start date,
                 //  Process end of week
-                $week = new Week($startDate);
+                $week        = new Week($startDate);
                 $startOfWeek = $week->getDateStart();
-                $endOfWeek = $week->getDateEnd();
+                $endOfWeek   = $week->getDateEnd();
 
-                $useMonthsNextIteration = $startDate->addPeriod(2, 'month')->setDay(1)->isEarlier($endDate);
+                $firstDayNextMonth      = $startDate->addPeriod(2, 'month')->setDay(1);
+                $useMonthsNextIteration = $firstDayNextMonth->isEarlier($endDate);
+
                 if ($useMonthsNextIteration
                     && $endOfWeek->isLater($endOfMonth)
                 ) {
                     $this->fillArraySubPeriods($startDate, $endOfMonth, 'day');
                     $endOfPeriod = $endOfMonth;
                 } //   If end of this week is later than end date, we use days
-                elseif ($endOfWeek->isLater($endDate)
-                    && ($endOfWeek->isEarlier($this->today)
+                elseif ($this->isEndOfWeekLaterThanEndDate($endDate, $endOfWeek) &&
+                    ($endOfWeek->isEarlier($this->today)
+                        || $startOfWeek->toString() != $startDate->toString()
                         || $endDate->isEarlier($this->today))
                 ) {
                     $this->fillArraySubPeriods($startDate, $endDate, 'day');
@@ -374,7 +377,7 @@ class Range extends Period
     /**
      * Returns a date ragne string given a period type, end date and number of periods
      * the range spans over.
-     * 
+     *
      * @param string $period The sub period type, `'day'`, `'week'`, `'month'` and `'year'`.
      * @param int $lastN The number of periods of type `$period` that the result range should
      *                   span.
@@ -389,5 +392,17 @@ class Range extends Period
         $last30Relative->setDefaultEndDate(Date::factory($endDate));
         $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
         return $date;
+    }
+
+    private function isEndOfWeekLaterThanEndDate($endDate, $endOfWeek)
+    {
+        $isEndOfWeekLaterThanEndDate = $endOfWeek->isLater($endDate);
+
+        $isEndDateAlsoEndOfWeek      = ($endOfWeek->toString() == $endDate->toString());
+        $isEndOfWeekLaterThanEndDate = ($isEndOfWeekLaterThanEndDate
+            || ($isEndDateAlsoEndOfWeek
+                && $endDate->isLater($this->today)));
+
+        return $isEndOfWeekLaterThanEndDate;
     }
 }

@@ -487,6 +487,22 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function testRangeEndDateIsTodayAndStartDateNotStartOfTheWeek()
+    {
+        $range = new Range('range', '2013-10-29,2013-10-30', 'UTC', Date::factory('2013-10-30'));
+
+        $correct = array(
+            '2013-10-29',
+            '2013-10-30'
+        );
+
+        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
     public function testRangeEndDateIsInFuture()
     {
         $range = new Range('range', '2013-10-29,2013-10-31', 'UTC', Date::factory('2013-10-30'));
@@ -520,6 +536,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
     }
+
     /**
      * @group Core
      */
