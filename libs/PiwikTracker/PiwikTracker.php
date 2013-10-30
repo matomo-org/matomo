@@ -1365,22 +1365,18 @@ class PiwikTracker
             $this->loadVisitorIdCookie();
         }
 
-        // Set the 'ses' cookie
-        if (!$this->getCookieMatchingName('ses')) {
-            // new session (new visit)
-            $this->visitCount++;
-            $this->lastVisitTs = $this->currentVisitTs;
-
-            // Set the 'ref' cookie
-            $attributionInfo = $this->getAttributionInfo();
-            if(!empty($attributionInfo)) {
-                $this->setCookie('ref', $attributionInfo, $this->configReferralCookieTimeout);
-            }
+        // Set the 'ref' cookie
+        $attributionInfo = $this->getAttributionInfo();
+        if(!empty($attributionInfo)) {
+            $this->setCookie('ref', $attributionInfo, $this->configReferralCookieTimeout);
         }
+
+        // Set the 'ses' cookie
         $this->setCookie('ses', '*', $this->configSessionCookieTimeout);
 
         // Set the 'id' cookie
-        $cookieValue = $this->getVisitorId() . '.' . $this->createTs . '.' . $this->visitCount . '.' . $this->currentTs . '.' . $this->lastVisitTs . '.' . $this->lastEcommerceOrderTs;
+        $visitCount = $this->visitCount + 1;
+        $cookieValue = $this->getVisitorId() . '.' . $this->createTs . '.' . $visitCount . '.' . $this->currentTs . '.' . $this->lastVisitTs . '.' . $this->lastEcommerceOrderTs;
         $this->setCookie('id', $cookieValue, $this->configVisitorCookieTimeout);
 
         // Set the 'cvar' cookie
