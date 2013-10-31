@@ -10,12 +10,6 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
-use Piwik\Common;
-use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
-use Piwik\MetricsFormatter;
-use Piwik\Piwik;
-use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Site;
 use Piwik\View;
 use Piwik\Plugin\Visualization;
 

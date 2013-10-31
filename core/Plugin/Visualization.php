@@ -15,17 +15,13 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Log;
-use Piwik\Metrics;
 use Piwik\MetricsFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Period;
-use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugin\ViewDataTable;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Site;
 use Piwik\View;
 
 /**
