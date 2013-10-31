@@ -254,10 +254,28 @@ class Range extends Period
             || $startDate == $endDate) {
             $endOfPeriod = null;
 
-            $month = new Month($startDate);
-            $endOfMonth = $month->getDateEnd();
+            $month        = new Month($startDate);
+            $endOfMonth   = $month->getDateEnd();
             $startOfMonth = $month->getDateStart();
-            if ($startDate == $startOfMonth
+
+            $year        = new Year($startDate);
+            $endOfYear   = $year->getDateEnd();
+            $startOfYear = $year->getDateStart();
+
+            if ($startDate == $startOfYear
+                && ($endOfYear->isEarlier($endDate)
+                    || $endOfYear == $endDate
+                    || $endOfYear->isLater($this->today)
+                )
+                // We don't use the year if
+                // the end day is in this year, is before today, and year not finished
+                && !($endDate->isEarlier($this->today)
+                    && $this->today->toString('Y') == $endOfYear->toString('Y')
+                    && $this->today->compareYear($endOfYear) == 0)
+            ) {
+                $this->addSubperiod($year);
+                $endOfPeriod = $endOfYear;
+            } else if ($startDate == $startOfMonth
                 && ($endOfMonth->isEarlier($endDate)
                     || $endOfMonth == $endDate
                     || $endOfMonth->isLater($this->today)

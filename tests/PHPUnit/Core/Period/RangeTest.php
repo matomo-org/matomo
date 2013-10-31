@@ -454,6 +454,42 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      */
+    public function testCustomRangeYearUsesYearIfPossible()
+    {
+        $range = new Range('range', '2005-12-17,2008-01-03', 'UTC', Date::factory('2008-01-03'));
+        $year2006 = new Year(Date::factory('2006-02-02'));
+        $year2007 = new Year(Date::factory('2007-02-02'));
+        $year2008 = new Year(Date::factory('2008-02-02'));
+
+        $correct = array(
+            '2005-12-17',
+            '2005-12-18',
+            array (
+                "2005-12-19",
+                "2005-12-20",
+                "2005-12-21",
+                "2005-12-22",
+                "2005-12-23",
+                "2005-12-24",
+                "2005-12-25"
+            ),
+            "2005-12-26",
+            "2005-12-27",
+            "2005-12-28",
+            "2005-12-29",
+            "2005-12-30",
+            "2005-12-31",
+            $year2006->toString(),
+            $year2007->toString(),
+            $year2008->toString()
+        );
+
+        $this->assertEquals(12, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+    /**
+     * @group Core
+     */
     public function testCustomRangeWeekInsideEndingToday()
     {
         $range = new Range('range', '2007-12-22,2008-01-03', 'UTC', Date::factory('2008-01-03'));

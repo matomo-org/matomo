@@ -352,6 +352,27 @@ class Date
     }
 
     /**
+     * Performs three-way comparison of the month of the current date against the given `$date`'s year.
+     *
+     * @param \Piwik\Date $date Year to compare
+     * @return int Returns `0` if the current year is equal to `$date`'s, `-1` if the current year is
+     *             earlier or `1` if the current year is later.
+     */
+    public function compareYear(Date $date)
+    {
+        $currentYear   = date('Y', $this->getTimestamp());
+        $toCompareYear = date('Y', $date->getTimestamp());
+        if ($currentYear == $toCompareYear) {
+            return 0;
+        }
+        if ($currentYear < $toCompareYear) {
+
+            return -1;
+        }
+        return 1;
+    }
+
+    /**
      * Returns true if current date is today.
      * 
      * @return bool
