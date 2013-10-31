@@ -89,19 +89,33 @@ class Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics extends
         $t4->setUrl('http://example.org/index.html?utm_campaign=GA+Campaign');
         self::checkResponse($t4->doTrackPageView('second page'));
 
-        // Test with Google adsense type URL:
-        $adsenseReferrerUrl = 'http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-12345&output=html&h=280&slotname=123&w=336&lmt=1359388321&202&url=http%3A%2F%2Fwww.adsense-publisher-website.org%2F&dt=123&bpp=13&shv=r22&jsv=1565606614&correlator=ss&ga_vid=aaa&ga_sid=1359435122&ga_hid=1801871121&ga_fc=0&u_tz=780&u_his=4&u_java=1&u_h=900&u_w=1600&u_ah=876&u_aw=1551&u_cd=24&u_nplug=4&u_nmime=5&dff=georgia&dfs=16&adx=33&ady=201&biw=1551&bih=792&oid=3&fu=0&ifi=1&dtd=608&p=http%3A//www.adsense-publisher-website.com';
+        // Test with Google adwords type URL:
+        $adwordsReferrerUrl = 'http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-12345&output=html&h=280&slotname=123&w=336&lmt=1359388321&202&url=http%3A%2F%2Fwww.adwords-publisher-website.org%2F&dt=123&bpp=13&shv=r22&jsv=1565606614&correlator=ss&ga_vid=aaa&ga_sid=1359435122&ga_hid=1801871121&ga_fc=0&u_tz=780&u_his=4&u_java=1&u_h=900&u_w=1600&u_ah=876&u_aw=1551&u_cd=24&u_nplug=4&u_nmime=5&dff=georgia&dfs=16&adx=33&ady=201&biw=1551&bih=792&oid=3&fu=0&ifi=1&dtd=608&p=http%3A//www.adwords-publisher-website.com';
         $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(5)->getDatetime());
-        $t4->setUrlReferrer($adsenseReferrerUrl);
-        $t4->setUrl('http://example.org/index.html?utm_campaign=Adsense campaign');
+        $t4->setUrlReferrer($adwordsReferrerUrl);
+        $t4->setUrl('http://example.org/index.html?utm_campaign=Adwords campaign');
         self::checkResponse($t4->doTrackPageView('second page'));
 
         // Test with google Adwords URL
         $adwordsUrl = 'http://www.google.co.nz/aclk?sa=L&ai=uYmFyiZgAf0oO0J&num=3&sig=EpOCR4xQ&ved=ENEM&adurl=http://pixel.everesttech.net/3163/cq%3Fev_sid%3D3%26ev_cmpid%3D33%26ev_ln%3Dused%2520wii%2520consoles%26ev_crx%528386%26ev_mt%3Db%26ev_n%3Dg%26ev_ltx%3D%26ev_pl%3D%26ev_pos%3D1s2%26url%3Dhttp%253A//au.shopping.com/used%2520wii%2520consoles/products%253Flinkin_id%253D8077872&rct=j&q=nintendo+consoles+second+hand';
         $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(6)->getDatetime());
         $t4->setUrlReferrer($adwordsUrl);
-        $t4->setUrl('http://example.org/index.html?utm_campaign=Adwords campaign');
+        $t4->setUrl('http://example.org/index.html?utm_campaign=AdWords campaign');
         self::checkResponse($t4->doTrackPageView('second page'));
+
+        // Test with google adwords
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(7)->getDatetime());
+        $adwords = 'http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-x&output=html&h=15&slotname=2973049897&adk=3777420323&w=728&lmt=1381755030&flash=11.9.900.117&url=http%3A%2F%2Fexample.com%2F&dt=1381755030169&bpp=8&bdt=2592&shv=r20131008&cbv=r20130906&saldr=sa&correlator=1381755030200&frm=20&ga_vid=1659309719.1381755030&ga_sid=1381755030&ga_hid=1569070879&ga_fc=0&u_tz=660&u_his=3&u_java=1&u_h=768&u_w=1366&u_ah=728&u_aw=1366&u_cd=24&u_nplug=0&u_nmime=0&dff=times%20new%20roman&dfs=13&adx=311&ady=107&biw=1349&bih=673&oid=2&ref=http%3A%2F%2Fwww.google.com.au%2Furl%3Fsa%3Dt%26rct%3Dj%26q%3D%26esrc%3Ds%26frm%3D1%26source%3Dweb%26cd%3D10%26ved%3D0CGcQFjAJ%26url%3Dhttp%253A%252F%252Fexample.com%252F%26ei%3DXNtbUvrJPKXOiAfw1IH4Bw%26usg%3DAFQjCNE66zRf2zaUw8FKf0JWxiM1FiXHVg&vis=1&fu=0&ifi=1&pfi=32&dtd=122&xpc=tBekiCZTWM&p=http%3A//example.com&rl_rc=true&adsense_enabled=true&ad_type=text_image&oe=utf8&height=15&width=728&format=fp_al_lp&kw_type=radlink&prev_fmts=728x15_0ads_al&rt=ChBSW-iYAADltAqmmOfZAA2SEg1BbmltYXRlZCBUZXh0Ggj019wBciBqgSgBUhMI8OHhzq6WugIVhJOmCh2NYQBO&hl=en&kw0=Animated+Text&kw1=Animated+GIF&kw2=Animated+Graphics&kw3=Fonts&okw=Animated+Text';
+        $t4->setUrlReferrer($adwords);
+        $t4->setUrl('http://example.org/index.html');
+        self::checkResponse($t4->doTrackPageView('Hello world'));
+
+        // Test with google adwords bis
+        $t4->setForceVisitDateTime(Date::factory($dateTime)->addHour(8)->getDatetime());
+        $adwords = 'http://googleads.g.doubleclick.net/pagead/ads?lient=ca-pub-x&output=html&h=15&slotname=4299800108&adk=2258396486&w=728&lmt=1381746604&flash=11.9.900.117&url=http%3A%2F%2Fwww.example.com%2Fphotofilters%2F%26section_id%3D%26p%3D4&dt=1381746604865&bpp=5&bdt=83&shv=r20131008&cbv=r20130906&saldr=sa&correlator=1381746604888&frm=20&ga_vid=1273315809.1372079408&ga_sid=1381744659&ga_hid=2064025848&ga_fc=1&u_tz=120&u_his=17&u_java=1&u_h=864&u_w=1536&u_ah=826&u_aw=1536&u_cd=24&u_nplug=0&u_nmime=0&dff=times%20new%20roman&dfs=12&adx=404&ady=159&biw=1536&bih=770&oid=3&ref=http%3A%2F%2Fwww.example.com%2Fphotofilters%2F%26section_id%3D%26p%3D3&vis=0&fu=0&ifi=1&pfi=0&dtd=51&xpc=Pn2WpF35Mu&p=http%3A//www.example.com&rl_rc=false&adsense_enabled=true&ad_type=text&ui=rc:0&oe=utf8&height=15&width=728&format=fpkc_al_lp&kw_type=radlink&prev_fmts=728x15_0ads_al&rt=ChBSW8euAAeWTgrCYs_kAEUQEhBQaG90byBCYWNrZ3JvdW5kGgjieib00mVdpSgBUhMIy7OEnY-WugIVoZDCCh0qUgC-&hl=en&kw0=Photo+Shop+Image&kw1=Photo+Background&kw2=Photo+to+Painting&kw3=Photo+Digital&okw=Photo+Background';
+        $t4->setUrlReferrer($adwords);
+        $t4->setUrl('http://example.org/index.html');
+        self::checkResponse($t4->doTrackPageView('Bonjour le monde'));
     }
 
     /**
