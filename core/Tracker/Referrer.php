@@ -270,13 +270,6 @@ class Referrer
             }
         }
 
-        // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
-        if ($this->typeReferrerAnalyzed = Common::REFERRER_TYPE_CAMPAIGN
-            && empty($this->keywordReferrerAnalyzed)) {
-            $this->keywordReferrerAnalyzed = $this->referrerHost;
-        }
-
-        return !empty($this->nameReferrerAnalyzed);
     }
 
     /**
@@ -294,7 +287,19 @@ class Referrer
     protected function detectReferrerCampaign()
     {
         $this->detectReferrerCampaignFromLandingUrl();
-        $referrerDetected = $this->detectCampaignKeywordFromReferrerUrl();
-        return $referrerDetected;
+        $this->detectCampaignKeywordFromReferrerUrl();
+
+        // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
+        if ($this->typeReferrerAnalyzed != Common::REFERRER_TYPE_CAMPAIGN) {
+            return false;
+        }
+        if(empty($this->keywordReferrerAnalyzed)) {
+            $this->keywordReferrerAnalyzed = $this->referrerHost;
+        }
+
+        $this->keywordReferrerAnalyzed = Common::mb_strtolower($this->keywordReferrerAnalyzed);
+        $this->nameReferrerAnalyzed = Common::mb_strtolower($this->nameReferrerAnalyzed);
+        return true;
     }
+
 }
