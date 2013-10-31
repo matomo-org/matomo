@@ -495,6 +495,7 @@ Plugins[] = CoreHome
 Plugins[] = CoreVisualizations
 Plugins[] = Proxy
 Plugins[] = API
+Plugins[] = ExamplePlugin
 Plugins[] = Widgetize
 Plugins[] = Transitions
 Plugins[] = LanguagesManager

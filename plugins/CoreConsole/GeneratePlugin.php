@@ -55,14 +55,14 @@ class GeneratePlugin extends GeneratePluginBase
 
         } else {
 
-            $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePluginTemplate';
+            $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
             $replace       = array(
-                'ExamplePluginTemplate' => $pluginName,
-                'ExampleDescription'    => $description,
-                '0.1.0'                 => $version
+                'ExamplePlugin'      => $pluginName,
+                'ExampleDescription' => $description,
+                '0.1.0'              => $version
             );
             $whitelistFiles = array(
-                '/ExamplePluginTemplate.php',
+                '/ExamplePlugin.php',
                 '/plugin.json',
                 '/README.md',
                 '/screenshots',

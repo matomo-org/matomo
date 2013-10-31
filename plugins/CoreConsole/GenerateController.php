@@ -31,8 +31,8 @@ class GenerateController extends GeneratePluginBase
     {
         $pluginName = $this->getPluginName($input, $output);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePluginTemplate';
-        $replace        = array('ExamplePluginTemplate' => $pluginName);
+        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $replace        = array('ExamplePlugin' => $pluginName);
         $whitelistFiles = array('/Controller.php', '/templates', '/templates/index.twig');
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);

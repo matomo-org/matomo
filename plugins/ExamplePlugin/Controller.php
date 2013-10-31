@@ -6,22 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package ExamplePluginTemplate
+ * @package ExamplePlugin
  */
-namespace Piwik\Plugins\ExamplePluginTemplate;
+namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\View;
 
 /**
  *
- * @package ExamplePluginTemplate
+ * @package ExamplePlugin
  */
 class Controller extends \Piwik\Plugin\Controller
 {
 
     public function index()
     {
-        $view = new View('@ExamplePluginTemplate/index.twig');
+        $view = new View('@ExamplePlugin/index.twig');
         $this->setBasicVariablesView($view);
         $view->answerToLife = '42';
 

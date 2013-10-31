@@ -6,16 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik_Plugins
- * @package ExamplePluginTemplate
+ * @package ExamplePlugin
  */
-namespace Piwik\Plugins\ExamplePluginTemplate;
+namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\Plugin;
 
 /**
- * @package ExamplePluginTemplate
+ * @package ExamplePlugin
  */
-class ExamplePluginTemplate extends Plugin
+class ExamplePlugin extends Plugin
 {
     /**
      * @see Piwik\Plugin::getListHooksRegistered
@@ -29,6 +29,6 @@ class ExamplePluginTemplate extends Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = 'plugins/ExamplePluginTemplate/javascripts/plugin.js';
+        $jsFiles[] = 'plugins/ExamplePlugin/javascripts/plugin.js';
     }
 }

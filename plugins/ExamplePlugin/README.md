@@ -1,4 +1,4 @@
-# Piwik ExamplePluginTemplate Plugin
+# Piwik ExamplePlugin Plugin
 
 ## Description
 

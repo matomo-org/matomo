@@ -31,8 +31,8 @@ class GenerateApi extends GeneratePluginBase
     {
         $pluginName = $this->getPluginName($input, $output);
 
-        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePluginTemplate';
-        $replace        = array('ExamplePluginTemplate' => $pluginName);
+        $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
+        $replace        = array('ExamplePlugin' => $pluginName);
         $whitelistFiles = array('/API.php');
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
