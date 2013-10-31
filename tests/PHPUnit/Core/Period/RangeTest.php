@@ -487,6 +487,55 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(12, $range->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
     }
+
+    /**
+     * @group Core
+     */
+    public function testCustomRangeIsYear_UsesFullYear()
+    {
+        $range = new Range('range', '2011-01-01,2011-12-31', 'UTC', Date::factory('2012-01-03'));
+        $year2011 = new Year(Date::factory('2011-02-02'));
+
+        $correct = array(
+            $year2011->toString()
+        );
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testCustomRangeYear_UsesCurrentYear()
+    {
+        $range = new Range('range', '2013-01-01,2013-11-01', 'UTC', Date::factory('2013-11-01'));
+        $year2013 = new Year(Date::factory('2013-02-02'));
+
+        $correct = array(
+            $year2013->toString()
+        );
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testCustomRangeYearUsesCurrentYear_onLastDayOfYear()
+    {
+        $range = new Range('range', '2013-01-01,2013-12-31', 'UTC', Date::factory('2013-12-31'));
+        $year2013 = new Year(Date::factory('2013-01-01'));
+
+        $correct = array(
+            $year2013->toString()
+        );
+
+        $this->assertEquals(1, $range->getNumberOfSubperiods());
+        $this->assertEquals($correct, $range->toString());
+    }
+
     /**
      * @group Core
      */
