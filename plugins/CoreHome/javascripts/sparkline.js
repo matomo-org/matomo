@@ -23,7 +23,14 @@ piwik.initSparklines = function() {
         }
         
         var colors = JSON.stringify(piwik.getSparklineColors());
-        $self.attr('src', $self.attr('data-src') + '&colors=' + encodeURIComponent(colors));
+        var appendToSparklineUrl = '&colors=' + encodeURIComponent(colors);
+
+        // Append the token_auth to the URL if it was set (eg. embed dashboard)
+        var token_auth = broadcast.getValueFromUrl('token_auth');
+        if (token_auth.length) {
+            appendToSparklineUrl += '&token_auth=' + token_auth;
+        }
+        $self.attr('src', $self.attr('data-src') + appendToSparklineUrl);
     });
 };
 
