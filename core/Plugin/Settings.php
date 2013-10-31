@@ -29,6 +29,7 @@ abstract class Settings implements StorageInterface
     const TYPE_BOOL   = 'boolean';
     const TYPE_ARRAY  = 'array';
 
+    const FIELD_RADIO    = 'radio';
     const FIELD_TEXT     = 'text';
     const FIELD_TEXTAREA = 'textarea';
     const FIELD_CHECKBOX = 'checkbox';
@@ -281,6 +282,7 @@ abstract class Settings implements StorageInterface
             static::FIELD_PASSWORD      => static::TYPE_STRING,
             static::FIELD_CHECKBOX      => static::TYPE_BOOL,
             static::FIELD_MULTI_SELECT  => static::TYPE_ARRAY,
+            static::FIELD_RADIO         => static::TYPE_STRING,
             static::FIELD_SINGLE_SELECT => static::TYPE_STRING,
         );
 

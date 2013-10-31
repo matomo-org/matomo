@@ -89,6 +89,24 @@
                                     >
                                     {{- settingValue -}}
                                 </textarea>
+                            {% elseif setting.field == 'radio' %}
+
+                                {% for key, value in setting.fieldOptions %}
+
+                                    {{ value }}
+
+                                    <input
+                                        {% for attr, val in setting.fieldAttributes %}
+                                            {{ attr|e('html_attr') }}="{{ val|e('html_attr') }}"
+                                        {% endfor %}
+                                        {% if settingValue==key %}
+                                            checked="checked"
+                                        {% endif %}
+                                        type="radio"
+                                        value="{{ key|e('html_attr') }}"
+                                        name="{{ setting.getKey|e('html_attr') }}" />
+                                {% endfor %}
+
                             {% else %}
 
                                 <input

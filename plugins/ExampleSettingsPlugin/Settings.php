@@ -31,6 +31,9 @@ class Settings extends \Piwik\Plugin\Settings
     /** @var UserSetting */
     public $refreshInterval;
 
+    /** @var UserSetting */
+    public $color;
+
     /** @var SystemSetting */
     public $metric;
 
@@ -53,6 +56,9 @@ class Settings extends \Piwik\Plugin\Settings
         // User setting --> textbox converted to int defining a validator and filter
         $this->createRefreshIntervalSetting();
 
+        // User setting --> readio
+        $this->createColorSetting();
+
         // System setting --> allows selection of a single value
         $this->createMetricSetting();
 
@@ -60,10 +66,10 @@ class Settings extends \Piwik\Plugin\Settings
         $this->createBrowsersSetting();
 
         // System setting --> textarea
-         $this->createDescriptionSetting();
+        $this->createDescriptionSetting();
 
         // System setting --> textarea
-         $this->createPasswordSetting();
+        $this->createPasswordSetting();
     }
 
     private function createAutoRefreshSetting()
@@ -93,6 +99,16 @@ class Settings extends \Piwik\Plugin\Settings
         };
 
         $this->addSetting($this->refreshInterval);
+    }
+
+    private function createColorSetting()
+    {
+        $this->color        = new UserSetting('color', 'Color');
+        $this->color->field = static::FIELD_RADIO;
+        $this->color->description  = 'Pick your favourite color';
+        $this->color->fieldOptions = array('red' => 'Red', 'blue' => 'Blue', 'green' => 'Green');
+
+        $this->addSetting($this->color);
     }
 
     private function createMetricSetting()
