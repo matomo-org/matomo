@@ -246,6 +246,11 @@
 		<english_name>Ukrainian</english_name>
 	</row>
 	<row>
+		<code>vi</code>
+		<name>Việt</name>
+		<english_name>Vietnamese</english_name>
+	</row>
+	<row>
 		<code>zh-cn</code>
 		<name>简体中文</name>
 		<english_name>Simplified Chinese</english_name>
