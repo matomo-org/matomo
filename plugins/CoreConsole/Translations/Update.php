@@ -91,6 +91,8 @@ class Update extends ConsoleCommand
                     continue; # do not create a new file for the language
                 }
 
+                @touch(PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $code . '.json');
+                API::unsetInstance(); // unset language manager instance, so valid names are refetched
             }
 
             $command = $this->getApplication()->find('translations:set');

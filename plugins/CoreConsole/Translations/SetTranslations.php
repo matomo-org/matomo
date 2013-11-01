@@ -46,12 +46,7 @@ class SetTranslations extends ConsoleCommand
         $languageCode = $input->getOption('code');
         $filename     = $input->getOption('file');
 
-        $languages = API::getInstance()->getAvailableLanguageNames();
-
-        $languageCodes = array();
-        foreach ($languages AS $languageInfo) {
-            $languageCodes[] = $languageInfo['code'];
-        }
+        $languageCodes = API::getInstance()->getAvailableLanguages();
 
         if (empty($languageCode) || !in_array($languageCode, $languageCodes)) {
             $languageCode = $dialog->askAndValidate($output, 'Please provide a valid language code: ', function ($code) use ($languageCodes) {
