@@ -104,6 +104,32 @@ class Archiver extends \Piwik\Plugin\Archiver
     }
 
     /**
+     * @return array
+     */
+    protected function getMetricNames()
+    {
+        return array(
+            self::METRIC_PAGEVIEWS_RECORD_NAME,
+            self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME,
+            self::METRIC_DOWNLOADS_RECORD_NAME,
+            self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME,
+            self::METRIC_OUTLINKS_RECORD_NAME,
+            self::METRIC_UNIQ_OUTLINKS_RECORD_NAME,
+            self::METRIC_SEARCHES_RECORD_NAME,
+            self::METRIC_SUM_TIME_RECORD_NAME,
+            self::METRIC_HITS_TIMED_RECORD_NAME,
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getWhereClauseActionIsNotEvent()
+    {
+        return "AND log_link_visit_action.idaction_event_category IS NULL";
+    }
+
+    /**
      * Initializes the DataTables created by the archiveDay function.
      */
     private function initActionsTables()
@@ -162,8 +188,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         $where = "log_link_visit_action.server_time >= ?
 				AND log_link_visit_action.server_time <= ?
 				AND log_link_visit_action.idsite = ?
-				AND log_link_visit_action.%s IS NOT NULL
-				AND log_link_visit_action.idaction_event_category IS NULL";
+				AND log_link_visit_action.%s IS NOT NULL"
+            . $this->getWhereClauseActionIsNotEvent();
 
         $groupBy = "log_action.idaction";
         $orderBy = "`" . Metrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
@@ -375,8 +401,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 				AND log_link_visit_action.server_time <= ?
 		 		AND log_link_visit_action.idsite = ?
 		 		AND log_link_visit_action.time_spent_ref_action > 0
-		 		AND log_link_visit_action.%s > 0
-		 		AND log_link_visit_action.idaction_event_category IS NULL";
+		 		AND log_link_visit_action.%s > 0"
+            . $this->getWhereClauseActionIsNotEvent();
 
         $groupBy = "log_link_visit_action.%s, idaction";
 
@@ -508,17 +534,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive
         );
 
-        $this->getProcessor()->aggregateNumericMetrics(array(
-                                                            self::METRIC_PAGEVIEWS_RECORD_NAME,
-                                                            self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME,
-                                                            self::METRIC_DOWNLOADS_RECORD_NAME,
-                                                            self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME,
-                                                            self::METRIC_OUTLINKS_RECORD_NAME,
-                                                            self::METRIC_UNIQ_OUTLINKS_RECORD_NAME,
-                                                            self::METRIC_SEARCHES_RECORD_NAME,
-                                                            self::METRIC_SUM_TIME_RECORD_NAME,
-                                                            self::METRIC_HITS_TIMED_RECORD_NAME,
-                                                       ));
+        $this->getProcessor()->aggregateNumericMetrics($this->getMetricNames());
 
         // Unique Keywords can't be summed, instead we take the RowsCount() of the keyword table
         $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $nameToCount[self::SITE_SEARCH_RECORD_NAME]['level0']);

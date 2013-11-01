@@ -12,6 +12,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\Db;
 use Piwik\Tracker;
 
 
@@ -25,15 +26,6 @@ use Piwik\Tracker;
  */
 class TableLogAction
 {
-    public static function getSqlSelectActionId()
-    {
-        $sql = "SELECT idaction, type, name
-                        FROM " . Common::prefixTable('log_action')
-            . "  WHERE "
-            . "		( hash = CRC32(?) AND name = ? AND type = ? ) ";
-        return $sql;
-    }
-
     /**
      * This function will find the idaction from the lookup table piwik_log_action,
      * given an Action name, type, and an optional URL Prefix.
@@ -61,6 +53,55 @@ class TableLogAction
         $queriedIds = $queriedIds + $insertedIds;
 
         return $queriedIds;
+    }
+
+    /**
+     * @param $name
+     * @param $type
+     * @return string
+     */
+    public static function getIdActionMatchingNameAndType($name, $type)
+    {
+        $sql = TableLogAction::getSqlSelectActionId();
+        $bind = array($name, $name, $type);
+        $idAction = Db::fetchOne($sql, $bind);
+        return $idAction;
+    }
+
+    /**
+     * @param $matchType
+     * @param $actionType
+     * @return string
+     * @throws \Exception
+     */
+    public static function getSelectQueryWhereNameContains($matchType, $actionType)
+    {
+        // now, we handle the cases =@ (contains) and !@ (does not contain)
+        // build the expression based on the match type
+        $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE %s AND type = ' . $actionType . ' )';
+        switch ($matchType) {
+            case '=@':
+                // use concat to make sure, no %s occurs because some plugins use %s in their sql
+                $where = '( name LIKE CONCAT(\'%\', ?, \'%\') ';
+                break;
+            case '!@':
+                $where = '( name NOT LIKE CONCAT(\'%\', ?, \'%\') ';
+                break;
+            default:
+                throw new \Exception("This match type $matchType is not available for action-segments.");
+                break;
+        }
+        $sql = sprintf($sql, $where);
+        return $sql;
+    }
+
+    protected static function getSqlSelectActionId()
+    {
+        $sql = "SELECT idaction, type, name
+                        FROM " . Common::prefixTable('log_action')
+            . "  WHERE "
+            . "		( hash = CRC32(?) AND name = ? AND type = ? ) ";
+        return $sql;
     }
 
     protected static function insertNewIdsAction($actionsNameAndType, $fieldNamesToInsert)

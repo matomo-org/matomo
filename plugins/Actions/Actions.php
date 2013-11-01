@@ -23,7 +23,6 @@ use Piwik\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
-use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\WidgetsList;
 
 /**
@@ -170,16 +169,12 @@ class Actions extends \Piwik\Plugin
             // for urls trim protocol and www because it is not recorded in the db
             $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
-
         $valueToMatch = Common::sanitizeInputValue(Common::unsanitizeInputValue($valueToMatch));
 
-        // exact matches work by returning the id directly
         if ($matchType == SegmentExpression::MATCH_EQUAL
             || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
-            $sql = TableLogAction::getSqlSelectActionId();
-            $bind = array($valueToMatch, $valueToMatch, $actionType);
-            $idAction = Db::fetchOne($sql, $bind);
+            $idAction = TableLogAction::getIdActionMatchingNameAndType($valueToMatch, $actionType);
             // if the action is not found, we hack -100 to ensure it tries to match against an integer
             // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
             if (empty($idAction)) {
@@ -188,24 +183,9 @@ class Actions extends \Piwik\Plugin
             return $idAction;
         }
 
-        // now, we handle the cases =@ (contains) and !@ (does not contain)
-
-        // build the expression based on the match type
-        $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE ';
-        $sqlMatchType = 'AND type = ' . $actionType;
-        switch ($matchType) {
-            case '=@':
-                // use concat to make sure, no %s occurs because some plugins use %s in their sql
-                $sql .= '( name LIKE CONCAT(\'%\', ?, \'%\') ' . $sqlMatchType . ' )';
-                break;
-            case '!@':
-                $sql .= '( name NOT LIKE CONCAT(\'%\', ?, \'%\') ' . $sqlMatchType . ' )';
-                break;
-            default:
-                throw new \Exception("This match type $matchType is not available for action-segments.");
-                break;
-        }
-
+        // "name contains $string" match can match several idaction so we cannot return yet an idaction
+        // special case
+        $sql = TableLogAction::getSelectQueryWhereNameContains($matchType, $actionType);
         return array(
             // mark that the returned value is an sql-expression instead of a literal value
             'SQL'  => $sql,
