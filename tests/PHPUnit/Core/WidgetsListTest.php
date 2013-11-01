@@ -45,8 +45,7 @@ class WidgetsListTest extends DatabaseTestCase
             'Goals_Goals'                  => 1,
             'SEO'                          => 2,
             'Example Widgets'              => 4,
-            'DevicesDetection_DevicesDetection' => 7,
-            'ExamplePlugin_exampleWidgets' => 3
+            'DevicesDetection_DevicesDetection' => 7
         );
 
         // number of main categories
@@ -80,7 +79,7 @@ class WidgetsListTest extends DatabaseTestCase
         WidgetsList::_reset();
 
         // number of main categories
-        $this->assertEquals(12, count($widgets));
+        $this->assertEquals(11, count($widgets));
 
         // check that the goal widget was added
         $numberOfWidgets = array(
@@ -115,7 +114,7 @@ class WidgetsListTest extends DatabaseTestCase
         WidgetsList::_reset();
 
         // number of main categories
-        $this->assertEquals(13, count($widgets));
+        $this->assertEquals(12, count($widgets));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -148,11 +147,11 @@ class WidgetsListTest extends DatabaseTestCase
         WidgetsList::_reset();
         $widgets = WidgetsList::get();
 
-        $this->assertCount(13, $widgets);
+        $this->assertCount(12, $widgets);
         WidgetsList::remove('SEO', 'NoTeXiStInG');
 
         $widgets = WidgetsList::get();
-        $this->assertCount(13, $widgets);
+        $this->assertCount(12, $widgets);
 
         $this->assertArrayHasKey('SEO', $widgets);
         $this->assertCount(2, $widgets['SEO']);
