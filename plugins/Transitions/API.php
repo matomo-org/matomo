@@ -21,7 +21,6 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Period\Day;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Actions;
 use Piwik\Plugins\Actions\ArchivingHelper;
@@ -149,9 +148,7 @@ class API extends \Piwik\Plugin\API
                 $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
 
                 if ($id < 0) {
-                    $unknown = ArchivingHelper::getUnknownActionName(
-                        Action::TYPE_PAGE_TITLE);
-
+                    $unknown = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE);
                     if (trim($actionName) == trim($unknown)) {
                         $id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
                     }

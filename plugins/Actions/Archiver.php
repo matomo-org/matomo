@@ -130,6 +130,34 @@ class Archiver extends \Piwik\Plugin\Archiver
     }
 
     /**
+     * @param $select
+     * @param $from
+     */
+    protected function updateQuerySelectFromForSiteSearch(&$select, &$from)
+    {
+        $selectFlagNoResultKeywords = ",
+				CASE WHEN (MAX(log_link_visit_action.custom_var_v" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . ") = 0
+				    AND log_link_visit_action.custom_var_k" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . " = '" . ActionSiteSearch::CVAR_KEY_SEARCH_COUNT . "')
+				THEN 1 ELSE 0 END
+				    AS `" . Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
+
+        //we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
+        $from[] = array(
+            "table"      => "log_action",
+            "tableAlias" => "log_action_name_ref",
+            "joinOn"     => "log_link_visit_action.idaction_name_ref = log_action_name_ref.idaction"
+        );
+
+        $selectPageIsFollowingSiteSearch = ",
+				SUM( CASE WHEN log_action_name_ref.type = " . Action::TYPE_SITE_SEARCH . "
+				      THEN 1 ELSE 0 END)
+                    AS `" . Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS . "`";
+
+        $select .= $selectFlagNoResultKeywords
+            . $selectPageIsFollowingSiteSearch;
+    }
+
+    /**
      * Initializes the DataTables created by the archiveDay function.
      */
     private function initActionsTables()
@@ -216,26 +244,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         // 1) No result Keywords
         // 2) For each page view, count number of times the referrer page was a Site Search
         if ($this->isSiteSearchEnabled()) {
-            $selectFlagNoResultKeywords = ",
-				CASE WHEN (MAX(log_link_visit_action.custom_var_v" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . ") = 0
-				    AND log_link_visit_action.custom_var_k" . ActionSiteSearch::CVAR_INDEX_SEARCH_COUNT . " = '" . ActionSiteSearch::CVAR_KEY_SEARCH_COUNT . "')
-				THEN 1 ELSE 0 END
-				    AS `" . Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
-
-            //we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
-            $from[] = array(
-                "table"      => "log_action",
-                "tableAlias" => "log_action_name_ref",
-                "joinOn"     => "log_link_visit_action.idaction_name_ref = log_action_name_ref.idaction"
-            );
-
-            $selectPageIsFollowingSiteSearch = ",
-				SUM( CASE WHEN log_action_name_ref.type = " . Action::TYPE_SITE_SEARCH. "
-				      THEN 1 ELSE 0 END)
-                    AS `"    . Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS . "`";
-
-            $select .= $selectFlagNoResultKeywords
-                . $selectPageIsFollowingSiteSearch;
+                $this->updateQuerySelectFromForSiteSearch($select, $from);
         }
 
         $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, "idaction_name", $rankingQuery);

@@ -873,7 +873,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         // 5 entries per period w/ visits
         // + 1 entry for every period in the month (the 'done' rows)
         // + 1 garbage metric
-        // + 2 entries per range period (4 total) + 2 'done...' entries per range period (4 total)
+        // log_link_visit_action+ 2 entries per range period (4 total) + 2 'done...' entries per range period (4 total)
         // + 2 entries per segment (2 total) + 2 'done...' entries per segment (2 total)
         return self::JAN_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_JAN_ARCHIVE_COUNT + 1 + 8 + 4;
     }

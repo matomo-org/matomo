@@ -1,7 +1,6 @@
 <?php
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
-use Piwik\Tracker\Db;
 
 /**
  * Piwik - Open source web analytics
@@ -140,7 +139,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testProfilingDisabledInProduction()
     {
         require_once 'Tracker/Db.php';
-        $this->assertTrue(Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Db::$profiling');
+        $this->assertTrue(\Piwik\Tracker\Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Db::$profiling');
     }
 
     /**

@@ -85,8 +85,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function getSelectAveragePrice()
     {
         $field = "custom_var_v" . \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_PRICE;
-        return LogAggregator::getSqlRevenue("AVG(log_link_visit_action.{$field})")
-        . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
+        return LogAggregator::getSqlRevenue("AVG(log_link_visit_action." . $field . ")") . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 
     protected function aggregateFromVisits($query, $keyField, $valueField)
