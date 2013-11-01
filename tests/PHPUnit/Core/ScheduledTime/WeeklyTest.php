@@ -9,22 +9,16 @@ use Piwik\ScheduledTime\Weekly;
 
 class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
 {
-    private static $_JANUARY_01_1971_09_10_00;
-    private static $_JANUARY_04_1971_00_00_00;
-    private static $_JANUARY_04_1971_09_00_00;
-    private static $_JANUARY_05_1971_09_00_00;
-    private static $_JANUARY_11_1971_00_00_00;
-    private static $_JANUARY_15_1971_00_00_00;
+    public static $_JANUARY_01_1971_09_10_00; // initialized below class declaration
+    public static $_JANUARY_04_1971_00_00_00;
+    public static $_JANUARY_04_1971_09_00_00;
+    public static $_JANUARY_05_1971_09_00_00;
+    public static $_JANUARY_11_1971_00_00_00;
+    public static $_JANUARY_15_1971_00_00_00;
 
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::$_JANUARY_01_1971_09_10_00 = mktime(9, 10, 00, 1, 1, 1971);
-        self::$_JANUARY_04_1971_00_00_00 = mktime(0, 00, 00, 1, 4, 1971);
-        self::$_JANUARY_04_1971_09_00_00 = mktime(9, 00, 00, 1, 4, 1971);
-        self::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
-        self::$_JANUARY_11_1971_00_00_00 = mktime(0, 00, 00, 1, 11, 1971);
-        self::$_JANUARY_15_1971_00_00_00 = mktime(0, 00, 00, 1, 15, 1971);
     }
 
     /**
@@ -137,63 +131,45 @@ class ScheduledTime_WeeklyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getRescheduledTime on Weekly with unspecified hour and specified day
-     * @group Core
+     * Returns data used in testGetRescheduledTimeWeeklyUnspecifiedHourSpecifiedDay test.
      */
-    public function testGetRescheduledTimeWeeklyUnspecifiedHourSpecifiedDay()
+    public function getSetDayParametersToTest()
     {
-        /*
-         * Test 1
-         *
-         * Context :
-         *  - getRescheduledTime called Monday January 4 1971 09:00:00 UTC
-         *  - setHour is not called, defaulting to midnight
-         *  - setDay is set to 1, Monday
-         *
-         * Expected :
-         *  getRescheduledTime returns Monday January 11 1971 00:00:00 UTC
-         */
+        return array(
+            array(1, self::$_JANUARY_11_1971_00_00_00),
+            array(5, self::$_JANUARY_15_1971_00_00_00),
+            array('monday', self::$_JANUARY_11_1971_00_00_00),
+            array('Monday', self::$_JANUARY_11_1971_00_00_00),
+            array('FRIDAY', self::$_JANUARY_15_1971_00_00_00),
+            array('FrIdAy', self::$_JANUARY_15_1971_00_00_00)
+        );
+    }
+
+    /**
+     * Tests getRescheduledTime on Weekly with unspecified hour and specified day
+     * 
+     * Context :
+     *  - getRescheduledTime called Monday January 4 1971 09:00:00 UTC
+     *  - setHour is not called, defaulting to midnight
+     *  - setDay is set to $dayToSet
+     * 
+     * @group Core
+     * @dataProvider getSetDayParametersToTest
+     */
+    public function testGetRescheduledTimeWeeklyUnspecifiedHourSpecifiedDay($dayToSet, $expectedRescheduledTime)
+    {
         $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_04_1971_09_00_00));
-        $mock->setDay(1);
-        $this->assertEquals(self::$_JANUARY_11_1971_00_00_00, $mock->getRescheduledTime());
-
-        /*
-         * Test 2
-         *
-         * Context :
-         *  - getRescheduledTime called Tuesday 5 1971 09:00:00 UTC
-         *  - setHour is not called, defaulting to midnight
-         *  - setDay is set to 1, Monday
-         *
-         * Expected :
-         *  getRescheduledTime returns Monday January 11 1971 00:00:00 UTC
-         */
-        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_05_1971_09_00_00));
-        $mock->setDay(1);
-        $this->assertEquals(self::$_JANUARY_11_1971_00_00_00, $mock->getRescheduledTime());
-
-        /*
-         * Test 3
-         *
-         * Context :
-         *  - getRescheduledTime called Monday January 4 1971 09:00:00 UTC
-         *  - setHour is not called, defaulting to midnight
-         *  - setDay is set to 1, Friday
-         *
-         * Expected :
-         *  getRescheduledTime returns Friday January 15 1971 00:00:00 UTC
-         */
-        $mock = $this->getMock('\Piwik\ScheduledTime\Weekly', array('getTime'));
-        $mock->expects($this->any())
-            ->method('getTime')
-            ->will($this->returnValue(self::$_JANUARY_04_1971_09_00_00));
-        $mock->setDay(5);
-        $this->assertEquals(self::$_JANUARY_15_1971_00_00_00, $mock->getRescheduledTime());
+        $mock->setDay($dayToSet);
+        $this->assertEquals($expectedRescheduledTime, $mock->getRescheduledTime());
     }
 }
+
+ScheduledTime_WeeklyTest::$_JANUARY_01_1971_09_10_00 = mktime(9, 10, 00, 1, 1, 1971);
+ScheduledTime_WeeklyTest::$_JANUARY_04_1971_00_00_00 = mktime(0, 00, 00, 1, 4, 1971);
+ScheduledTime_WeeklyTest::$_JANUARY_04_1971_09_00_00 = mktime(9, 00, 00, 1, 4, 1971);
+ScheduledTime_WeeklyTest::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
+ScheduledTime_WeeklyTest::$_JANUARY_11_1971_00_00_00 = mktime(0, 00, 00, 1, 11, 1971);
+ScheduledTime_WeeklyTest::$_JANUARY_15_1971_00_00_00 = mktime(0, 00, 00, 1, 15, 1971);

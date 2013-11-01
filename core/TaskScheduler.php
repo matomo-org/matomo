@@ -25,6 +25,20 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  * 
  * Tasks are executed when the cron archive.php script is executed.
  * 
+ * ### Scheduling Tasks
+ * 
+ * **TODO**
+ * 
+ * ### Examples
+ * 
+ * **Scheduling a task**
+ * 
+ *     // TODO
+ * 
+ * **Executing all pending tasks**
+ * 
+ *     // TODO
+ * 
  * @package Piwik
  * @api
  */

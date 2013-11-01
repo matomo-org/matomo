@@ -12,6 +12,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ScheduledTime\Hourly;
 use Piwik\ScheduledTime\Daily;
 use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime\Weekly;
@@ -126,5 +127,46 @@ abstract class ScheduledTime
             );
         }
         return $rescheduledTime;
+    }
+
+    /**
+     * Returns a new ScheduledTime instance using a string description of the scheduled period type
+     * and a string description of the day within the period to execute the task on.
+     * 
+     * @param string $periodType The scheduled period type. Can be `'hourly'`, `'daily'`, `'weekly'`,
+     *                           or `'monthly'`.
+     * @param string|int|false $periodDay A string describing the day within the scheduled period to execute
+     *                                    the task on. Only valid for week and month periods.
+     *                               
+     *                                    If `'weekly'` is supplied for `$periodType`, this should be a day
+     *                                    of the week, for example, `'monday'` or `'tuesday'`.
+     * 
+     *                                    If `'monthly'` is supplied for `$periodType`, this can be a numeric
+     *                                    day in the month or a day in one week of the month. For example,
+     *                                    `12`, `23`, `'first sunday'` or `'fourth tuesday'`.
+     */
+    public static function factory($periodType, $periodDay = false)
+    {
+        switch ($periodType) {
+            case 'hourly':
+                return new Hourly();
+            case 'daily':
+                return new Daily();
+            case 'weekly':
+                $result = new Weekly();
+                $result->setDay($periodDay);
+                return $result;
+            case 'monthly':
+                $result = new Monthly($periodDay);
+                if (is_int($periodDay)) {
+                    $result->setDay($periodDay);
+                } else {
+                    $result->setDayOfWeekFromString($periodDay);
+                }
+                return $result;
+            default:
+                throw new Exception("Unsupported scheduled period type: '$periodType'. Supported values are"
+                                  . " 'hourly', 'daily', 'weekly' or 'monthly'.");
+        }
     }
 }

@@ -9,28 +9,19 @@ use Piwik\ScheduledTime\Monthly;
 
 class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
 {
-    private static $_JANUARY_01_1971_09_00_00;
-    private static $_JANUARY_02_1971_09_00_00;
-    private static $_JANUARY_05_1971_09_00_00;
-    private static $_JANUARY_15_1971_09_00_00;
-    private static $_FEBRUARY_01_1971_00_00_00;
-    private static $_FEBRUARY_02_1971_00_00_00;
-    private static $_FEBRUARY_03_1971_09_00_00;
-    private static $_FEBRUARY_21_1971_09_00_00;
-    private static $_FEBRUARY_28_1971_00_00_00;
+    public static $_JANUARY_01_1971_09_00_00; // initialized below class definition
+    public static $_JANUARY_02_1971_09_00_00;
+    public static $_JANUARY_05_1971_09_00_00;
+    public static $_JANUARY_15_1971_09_00_00;
+    public static $_FEBRUARY_01_1971_00_00_00;
+    public static $_FEBRUARY_02_1971_00_00_00;
+    public static $_FEBRUARY_03_1971_09_00_00;
+    public static $_FEBRUARY_21_1971_09_00_00;
+    public static $_FEBRUARY_28_1971_00_00_00;
 
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::$_JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
-        self::$_JANUARY_02_1971_09_00_00 = mktime(9, 00, 00, 1, 2, 1971);
-        self::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
-        self::$_JANUARY_15_1971_09_00_00 = mktime(9, 00, 00, 1, 15, 1971);
-        self::$_FEBRUARY_01_1971_00_00_00 = mktime(0, 00, 00, 2, 1, 1971);
-        self::$_FEBRUARY_02_1971_00_00_00 = mktime(0, 00, 00, 2, 2, 1971);
-        self::$_FEBRUARY_03_1971_09_00_00 = mktime(0, 00, 00, 2, 3, 1971);
-        self::$_FEBRUARY_21_1971_09_00_00 = mktime(0, 00, 00, 2, 21, 1971);
-        self::$_FEBRUARY_28_1971_00_00_00 = mktime(0, 00, 00, 2, 28, 1971);
     }
 
     /**
@@ -212,19 +203,53 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Returns the data used to test the setDayOfWeek method.
+     */
+    public function getValuesToTestSetDayOfWeek()
+    {
+        return array(
+            array(3, 0, self::$_FEBRUARY_03_1971_09_00_00),
+            array(0, 2, self::$_FEBRUARY_21_1971_09_00_00),
+        );
+    }
+
+    /**
+     * Returns the data used to test the setDayOfWeekFromString method.
+     */
+    public function getValuesToTestSetDayOfWeekByString()
+    {
+        return array(
+            array('first wednesday', self::$_FEBRUARY_03_1971_09_00_00),
+            array('ThIrD sUnDaY', self::$_FEBRUARY_21_1971_09_00_00)
+        );
+    }
+
+    /**
+     * @dataProvider getValuesToTestSetDayOfWeek
      * @group Core
      */
-    public function testMonthlyDayOfWeek()
+    public function testMonthlyDayOfWeek($day, $week, $expectedTime)
     {
         $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
         $mock->expects($this->any())
             ->method('getTime')
             ->will($this->returnValue(self::$_JANUARY_15_1971_09_00_00));
-        $mock->setDayOfWeek(3, 0); // first wednesday
-        $this->assertEquals(self::$_FEBRUARY_03_1971_09_00_00, $mock->getRescheduledTime());
+        $mock->setDayOfWeek($day, $week);
+        $this->assertEquals($expectedTime, $mock->getRescheduledTime());
+    }
 
-        $mock->setDayOfWeek(0, 2); // third sunday
-        $this->assertEquals(self::$_FEBRUARY_21_1971_09_00_00, $mock->getRescheduledTime());
+    /**
+     * @dataProvider getValuesToTestSetDayOfWeekByString
+     * @group Core
+     */
+    public function testMonthlyDayOfWeekByString($dayOfWeekStr, $expectedTime)
+    {
+        $mock = $this->getMock('\Piwik\ScheduledTime\Monthly', array('getTime'));
+        $mock->expects($this->any())
+            ->method('getTime')
+            ->will($this->returnValue(self::$_JANUARY_15_1971_09_00_00));
+        $mock->setDayOfWeekFromString($dayOfWeekStr);
+        $this->assertEquals($expectedTime, $mock->getRescheduledTime());
     }
 
     /**
@@ -266,3 +291,13 @@ class ScheduledTime_MonthlyTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
+ScheduledTime_MonthlyTest::$_JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
+ScheduledTime_MonthlyTest::$_JANUARY_02_1971_09_00_00 = mktime(9, 00, 00, 1, 2, 1971);
+ScheduledTime_MonthlyTest::$_JANUARY_05_1971_09_00_00 = mktime(9, 00, 00, 1, 5, 1971);
+ScheduledTime_MonthlyTest::$_JANUARY_15_1971_09_00_00 = mktime(9, 00, 00, 1, 15, 1971);
+ScheduledTime_MonthlyTest::$_FEBRUARY_01_1971_00_00_00 = mktime(0, 00, 00, 2, 1, 1971);
+ScheduledTime_MonthlyTest::$_FEBRUARY_02_1971_00_00_00 = mktime(0, 00, 00, 2, 2, 1971);
+ScheduledTime_MonthlyTest::$_FEBRUARY_03_1971_09_00_00 = mktime(0, 00, 00, 2, 3, 1971);
+ScheduledTime_MonthlyTest::$_FEBRUARY_21_1971_09_00_00 = mktime(0, 00, 00, 2, 21, 1971);
+ScheduledTime_MonthlyTest::$_FEBRUARY_28_1971_00_00_00 = mktime(0, 00, 00, 2, 28, 1971);
