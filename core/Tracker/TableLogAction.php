@@ -12,7 +12,6 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
-use Piwik\Db;
 use Piwik\Tracker;
 
 
@@ -64,7 +63,7 @@ class TableLogAction
     {
         $sql = TableLogAction::getSqlSelectActionId();
         $bind = array($name, $name, $type);
-        $idAction = Db::fetchOne($sql, $bind);
+        $idAction = \Piwik\Tracker\Db::fetchOne($sql, $bind);
         return $idAction;
     }
 
