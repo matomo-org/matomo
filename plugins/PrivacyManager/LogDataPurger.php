@@ -270,6 +270,8 @@ class LogDataPurger
                                              'idaction_url_ref',
                                              'idaction_name',
                                              'idaction_name_ref',
+                                             'idaction_event_category',
+                                             'idaction_event_action'
             ),
 
             'log_conversion'        => array('idaction_url'),

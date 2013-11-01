@@ -193,9 +193,10 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
@@ -308,9 +309,10 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => 1, // remove the garbage metric
@@ -364,14 +366,14 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = 0;//-2;
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 10 + $unexplained // removing 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 10  // removing 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -400,14 +402,14 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = 0;//-2;
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 11 + $unexplained // 5 days, 1 month & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 11 // 5 days, 1 month & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -435,15 +437,15 @@ class PrivacyManagerTest extends IntegrationTestCase
         // get purge data prediction
         $prediction = PrivacyManager::getPurgeEstimate();
 
-        $unexplained = 0;//-1;
         // perform checks on prediction
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 14 + $unexplained // 5 days, 4 weeks, 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 14 // 5 days, 4 weeks, 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -472,14 +474,14 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = 0;//-1;
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 14 + $unexplained // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 14  // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -513,7 +515,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $purger->purgeData();
 
         // check that actions were purged
-        $this->assertEquals(22, $this->_getTableCount('log_action')); // January
+        $this->assertEquals(22 + $this->getCountEventIdsNotPurged(), $this->_getTableCount('log_action')); // January
 
         // check that the unused action still exists
         $count = Db::fetchOne(
@@ -539,14 +541,14 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = 0;//-2;
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 13 + $unexplained // 5 days, 4 weeks, 1 month & 1 year + 1 garbage report + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 13  // 5 days, 4 weeks, 1 month & 1 year + 1 garbage report + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -576,14 +578,14 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = 0;//-2;
+        $events = 3; // only the event action for the three purged day, dayAgo=x are purged (others are still in use)
         $expectedPrediction = array(
             Common::prefixTable('log_conversion')          => 6,
-            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_link_visit_action')   => 6 + $events,
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 9 + $unexplained // 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports
+            Common::prefixTable('archive_blob_2012_01')    => 9 // 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -645,9 +647,15 @@ class PrivacyManagerTest extends IntegrationTestCase
             $t->setUrl("http://whatever.com/_$daysAgo");
             $t->doTrackPageView('First page view');
 
+            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.05));
             $t->setUrl("http://whatever.com/42/$daysAgo");
             $t->doTrackPageView('Second page view');
 
+            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1));
+            $t->setUrl("http://whatever.com/event");
+            $t->doTrackEvent('Event action', 'event cat', 'daysAgo=' . $daysAgo, 1000);
+
+            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2));
             $t->addEcommerceItem($sku = 'SKU2', $name = 'Canon SLR', $category = 'Electronics & Cameras',
                 $price = 1500, $quantity = 1);
             $t->doTrackEcommerceOrder($orderId = '937nsjusu ' . $dateTime, $grandTotal = 1111.11, $subTotal = 1000,
@@ -751,9 +759,9 @@ class PrivacyManagerTest extends IntegrationTestCase
         // 11 visits total w/ 2 actions per visit & 2 conversions per visit. 1 e-commerce order per visit.
         $this->assertEquals(11, $this->_getTableCount('log_visit'));
         $this->assertEquals(22, $this->_getTableCount('log_conversion'));
-        $this->assertEquals(22, $this->_getTableCount('log_link_visit_action'));
+        $this->assertEquals(33, $this->_getTableCount('log_link_visit_action'));
         $this->assertEquals(11, $this->_getTableCount('log_conversion_item'));
-        $this->assertEquals(27, $this->_getTableCount('log_action'));
+        $this->assertEquals(41, $this->_getTableCount('log_action'));
 
         $archiveTables = self::_getArchiveTableNames();
 //        var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
@@ -798,11 +806,14 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         // 3 days removed by purge, so 3 visits, 6 conversions, 6 visit actions, 3 e-commerce orders
         // & 6 actions removed
+        $events = 11 - 3; // 3 deleted;
         $this->assertEquals(8, $this->_getTableCount('log_visit'));
         $this->assertEquals(16, $this->_getTableCount('log_conversion'));
-        $this->assertEquals(16, $this->_getTableCount('log_link_visit_action'));
+        $this->assertEquals(16 + $events, $this->_getTableCount('log_link_visit_action'));
         $this->assertEquals(8, $this->_getTableCount('log_conversion_item'));
-        $this->assertEquals(21, $this->_getTableCount('log_action'));
+
+        $eventsId = $this->getCountEventIdsNotPurged();
+        $this->assertEquals(21 + $eventsId, $this->_getTableCount('log_action'));
     }
 
     /**
@@ -884,6 +895,16 @@ class PrivacyManagerTest extends IntegrationTestCase
         // + 1 'done' archive for every period)
         // + 1 garbage metric
         return self::FEB_METRIC_ARCHIVE_COUNT * 5 + self::TOTAL_FEB_ARCHIVE_COUNT + 1;
+    }
+
+    /**
+     * @return int
+     */
+    private function getCountEventIdsNotPurged()
+    {
+        $eventsId = 11 /* days eventAction */ + 2 /* category+name */ + 1 /* event url */ - 3 /* days deleted */
+        ;
+        return $eventsId;
     }
 }
 
