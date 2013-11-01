@@ -86,9 +86,9 @@ class ScheduledTask
     public function __construct($objectInstance, $methodName, $methodParameter, ScheduledTime $scheduledTime,
                                 $priority = self::NORMAL_PRIORITY)
     {
-        $this->className = $this->getClassNameFromInstance($_objectInstance);
+        $this->className = $this->getClassNameFromInstance($objectInstance);
 
-        if ($_priority < self::HIGHEST_PRIORITY || $_priority > self::LOWEST_PRIORITY) {
+        if ($priority < self::HIGHEST_PRIORITY || $priority > self::LOWEST_PRIORITY) {
             throw new Exception("Invalid priority for ScheduledTask '$this->className.$methodName': $priority");
         }
 
