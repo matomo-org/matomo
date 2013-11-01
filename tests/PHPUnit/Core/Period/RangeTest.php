@@ -439,6 +439,64 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $range->toString());
     }
 
+
+    /**
+     * @group Core
+     */
+    public function testRangePreviousweek_onLastDayOfWeek()
+    {
+        $end = Date::factory('2013-11-03');
+        $range = new Range('week', 'previous2', 'UTC', $end);
+        $end = $end->subWeek(1);
+
+        $correct = array();
+        for ($i = 0; $i < 2; $i++) {
+            $date = $end->subWeek($i);
+            $week = new Week($date);
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+        $this->assertEquals($correct, $range->toString());
+    }
+
+    /**
+     * @group Core
+     */
+    public function testRangePreviousweek_onFirstDayOfWeek()
+    {
+        $end = Date::factory('2013-11-04');
+        $range = new Range('week', 'previous2', 'UTC', $end);
+        $end = $end->subWeek(1);
+
+        $correct = array();
+        for ($i = 0; $i < 2; $i++) {
+            $date = $end->subWeek($i);
+            $week = new Week($date);
+
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+        $this->assertEquals($correct, $range->toString());
+    }
+    /**
+     * @group Core
+     */
+    public function testRangeLastweek_onFirstDayOfWeek()
+    {
+        $end = Date::factory('2013-11-04');
+        $range = new Range('week', 'last2', 'UTC', $end);
+
+        $correct = array();
+        for ($i = 0; $i < 2; $i++) {
+            $date = $end->subWeek($i);
+            $week = new Week($date);
+
+            $correct[] = $week->toString();
+        }
+        $correct = array_reverse($correct);
+        $this->assertEquals($correct, $range->toString());
+    }
+
     /**
      * @group Core
      */
