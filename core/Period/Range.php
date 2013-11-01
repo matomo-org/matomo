@@ -34,6 +34,7 @@ use Piwik\Piwik;
 class Range extends Period
 {
     protected $label = 'range';
+    protected $today;
 
     /**
      * Constructor.
@@ -52,7 +53,7 @@ class Range extends Period
         $this->defaultEndDate = null;
         $this->timezone = $timezone;
         if ($today === false) {
-            $today = Date::factory('today', $this->timezone);
+            $today = Date::factory('now', $this->timezone);
         }
         $this->today = $today;
     }
@@ -152,6 +153,7 @@ class Range extends Period
         if ($this->subperiodsProcessed) {
             return;
         }
+
         parent::generate();
 
         if (preg_match('/(last|previous)([0-9]*)/', $this->strDate, $regs)) {
@@ -160,7 +162,7 @@ class Range extends Period
             if (!is_null($this->defaultEndDate)) {
                 $defaultEndDate = $this->defaultEndDate;
             } else {
-                $defaultEndDate = Date::factory('now', $this->timezone);
+                $defaultEndDate = $this->today;
             }
 
             $period = $this->strPeriod;
@@ -171,7 +173,11 @@ class Range extends Period
             if ($lastOrPrevious == 'last') {
                 $endDate = $defaultEndDate;
             } elseif ($lastOrPrevious == 'previous') {
-                $endDate = $defaultEndDate->addPeriod(-1, $period);
+                if ('month' == $period) {
+                    $endDate = $defaultEndDate->subMonth(1);
+                } else {
+                    $endDate = $defaultEndDate->subPeriod(1, $period);
+                }
             }
 
             $lastN = $this->getMaxN($lastN);
@@ -180,7 +186,8 @@ class Range extends Period
             $lastN--;
             $lastN = abs($lastN);
 
-            $startDate = $endDate->addPeriod(-$lastN, $period);
+            $startDate = $endDate->addPeriod(-1 * $lastN, $period);
+
         } elseif ($dateRange = Range::parseDateRange($this->strDate)) {
             $strDateStart = $dateRange[1];
             $strDateEnd = $dateRange[2];
