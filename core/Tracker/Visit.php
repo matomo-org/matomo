@@ -902,7 +902,7 @@ class Visit implements VisitInterface
      * @param $visitIsConverted
      * @return array
      */
-    protected function getExistingVisitFieldsToUpdate(Action $action, $visitIsConverted)
+    protected function getExistingVisitFieldsToUpdate($action, $visitIsConverted)
     {
         $valuesToUpdate = array();
 
