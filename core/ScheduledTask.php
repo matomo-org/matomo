@@ -78,12 +78,12 @@ class ScheduledTask
      *                           executed.
      * @param mixed|null $methodParameter An optional parameter to pass to the method when executed.
      *                                    Must be convertible to string.
-     * @param ScheduledTime $scheduledTime A [ScheduledTime](#) instance that describes when the method
-     *                                     should be executed and how long before the next execution.
+     * @param ScheduledTime|null $scheduledTime A [ScheduledTime](#) instance that describes when the method
+     *                                          should be executed and how long before the next execution.
      * @param int $priority The priority of the task. Tasks with a higher priority will be executed first.
      *                      Tasks with low priority will be executed last.
      */
-    public function __construct($objectInstance, $methodName, $methodParameter, ScheduledTime $scheduledTime,
+    public function __construct($objectInstance, $methodName, $methodParameter, $scheduledTime,
                                 $priority = self::NORMAL_PRIORITY)
     {
         $this->className = $this->getClassNameFromInstance($objectInstance);
