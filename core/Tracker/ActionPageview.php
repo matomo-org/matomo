@@ -37,6 +37,14 @@ class ActionPageview extends Action
         $this->timeGeneration = $this->request->getPageGenerationTime();
     }
 
+    protected function getActionsToLookup()
+    {
+        return array(
+            'idaction_name' => array($this->getActionName(), Action::TYPE_PAGE_TITLE),
+            'idaction_url' => $this->getUrlAndType()
+        );
+    }
+
     function getCustomFloatValue()
     {
         return $this->request->getPageGenerationTime();

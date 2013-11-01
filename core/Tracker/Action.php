@@ -17,15 +17,13 @@ use Piwik\Piwik;
 use Piwik\Tracker;
 
 /**
- *
+ * An action
  *
  * @package Piwik
  * @subpackage Tracker
  */
 abstract class Action
 {
-
-    //FIXMEA lookup uses and check Events compat
     const TYPE_PAGE_URL = 1;
     const TYPE_OUTLINK = 2;
     const TYPE_DOWNLOAD = 3;
@@ -35,12 +33,10 @@ abstract class Action
     const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
     const TYPE_SITE_SEARCH = 8;
 
-    //FIXMEA lookup uses and check Events compat
-    const TYPE_EVENT = 11; // Same as TYPE_EVENT_ACTION
+    const TYPE_EVENT = 10; // Alias TYPE_EVENT_CATEGORY
     const TYPE_EVENT_CATEGORY = 10;
     const TYPE_EVENT_ACTION = 11;
     const TYPE_EVENT_NAME = 12;
-
 
     const DB_COLUMN_CUSTOM_FLOAT = 'custom_float';
 
@@ -83,9 +79,7 @@ abstract class Action
     protected $request;
 
     private $idLinkVisitAction;
-
-    protected $actionIdsCached = array();
-
+    private $actionIdsCached = array();
     private $actionName;
     private $actionType;
     private $actionUrl;
@@ -149,18 +143,7 @@ abstract class Action
         $this->actionUrl = $url;
     }
 
-    protected function getActionsToLookup()
-    {
-        return array(
-            'idaction_name' => $this->getNameAndType(),
-            'idaction_url' => $this->getUrlAndType()
-        );
-    }
-
-    protected function getNameAndType()
-    {
-        return array($this->getActionName(), Action::TYPE_PAGE_TITLE);
-    }
+    abstract protected function getActionsToLookup();
 
     protected function getUrlAndType()
     {
@@ -351,3 +334,4 @@ abstract class Action
     }
 
 }
+

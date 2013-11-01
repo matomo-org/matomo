@@ -66,6 +66,14 @@ class PiwikTracker
     const FIRST_PARTY_COOKIES_PREFIX = '_pk_';
 
     /**
+     * Ecommerce item page view tracking stores item's metadata in these Custom Variables slots.
+     */
+    const CVAR_INDEX_ECOMMERCE_ITEM_PRICE = 2;
+    const CVAR_INDEX_ECOMMERCE_ITEM_SKU = 3;
+    const CVAR_INDEX_ECOMMERCE_ITEM_NAME = 4;
+    const CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY = 5;
+
+    /**
      * Builds a PiwikTracker object, used to track visits, pages and Goal conversions
      * for a specific website, by using the Piwik Tracking API.
      *
@@ -610,10 +618,10 @@ class PiwikTracker
         } else {
             $category = "";
         }
-        $this->pageCustomVar[5] = array('_pkc', $category);
+        $this->pageCustomVar[self::CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY] = array('_pkc', $category);
 
         if (!empty($price)) {
-            $this->pageCustomVar[2] = array('_pkp', (float)$price);
+            $this->pageCustomVar[self::CVAR_INDEX_ECOMMERCE_ITEM_PRICE] = array('_pkp', (float)$price);
         }
 
         // On a category page, do not record "Product name not defined"
@@ -621,12 +629,12 @@ class PiwikTracker
             return;
         }
         if (!empty($sku)) {
-            $this->pageCustomVar[3] = array('_pks', $sku);
+            $this->pageCustomVar[self::CVAR_INDEX_ECOMMERCE_ITEM_SKU] = array('_pks', $sku);
         }
         if (empty($name)) {
             $name = "";
         }
-        $this->pageCustomVar[4] = array('_pkn', $name);
+        $this->pageCustomVar[self::CVAR_INDEX_ECOMMERCE_ITEM_NAME] = array('_pkn', $name);
     }
 
     /**
@@ -906,7 +914,7 @@ class PiwikTracker
         }
         return true;
     }
-    
+
     /**
      * Deletes all first party cookies from the client
      */

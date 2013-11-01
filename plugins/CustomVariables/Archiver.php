@@ -71,8 +71,8 @@ class Archiver extends \Piwik\Plugin\Archiver
         // IF we query Custom Variables scope "page" either: Product SKU, Product Name,
         // then we also query the "Product page view" price which was possibly recorded.
         $additionalSelects = false;
-        // FIXMEA
-        if (in_array($slot, array(3, 4, 5))) {
+
+        if (in_array($slot, array(\PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_SKU, \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_NAME, \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_CATEGORY))) {
             $additionalSelects = array($this->getSelectAveragePrice());
         }
         $query = $this->getLogAggregator()->queryActionsByDimension($dimensions, $where, $additionalSelects);
@@ -84,7 +84,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function getSelectAveragePrice()
     {
-        return LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
+        $field = "custom_var_v" . \PiwikTracker::CVAR_INDEX_ECOMMERCE_ITEM_PRICE;
+        return LogAggregator::getSqlRevenue("AVG(log_link_visit_action.{$field})")
         . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 
