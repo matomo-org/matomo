@@ -12,12 +12,13 @@ namespace Piwik\Plugins\CustomVariables;
 
 use Piwik\Common;
 use Piwik\Config;
-
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
 use Piwik\Metrics;
 use Piwik\Tracker;
 use Piwik\Tracker\GoalManager;
+
+require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
