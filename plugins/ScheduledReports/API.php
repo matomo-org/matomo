@@ -444,32 +444,13 @@ class API extends \Piwik\Plugin\API
         array_walk($processedReports, array($reportRenderer, 'renderReport'));
 
         switch ($outputType) {
+
             case self::OUTPUT_SAVE_ON_DISK:
+
                 $outputFilename = strtoupper($reportFormat) . ' ' . ucfirst($reportType) . ' Report - ' . $idReport . '.' . $date . '.' . $idSite . '.' . $language;
                 $outputFilename = $reportRenderer->sendToDisk($outputFilename);
 
-                $additionalFiles = array();
-                if ($reportRenderer instanceof Html) {
-                    foreach ($processedReports as &$report) {
-                        if ($report['displayGraph']) {
-                            $additionalFile = array();
-                            $additionalFile['filename'] = $report['metadata']['name'] . '.png';
-                            $additionalFile['cid'] = $report['metadata']['uniqueId'];
-                            $additionalFile['content'] =
-                                ReportRenderer::getStaticGraph(
-                                    $report['metadata'],
-                                    Html::IMAGE_GRAPH_WIDTH,
-                                    Html::IMAGE_GRAPH_HEIGHT,
-                                    $report['evolutionGraph'],
-                                    $segment
-                                );
-                            $additionalFile['mimeType'] = 'image/png';
-                            $additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
-
-                            $additionalFiles[] = $additionalFile;
-                        }
-                    }
-                }
+                $additionalFiles = $this->getAttachments($reportRenderer, $report, $processedReports, $prettyDate);
 
                 return array(
                     $outputFilename,
@@ -478,6 +459,7 @@ class API extends \Piwik\Plugin\API
                     $reportTitle,
                     $additionalFiles,
                 );
+
                 break;
 
             case self::OUTPUT_INLINE:
@@ -895,5 +877,63 @@ class API extends \Piwik\Plugin\API
     public static function isSegmentEditorActivated()
     {
         return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('SegmentEditor');
+    }
+
+    private function getAttachments($reportRenderer, $report, $processedReports, $prettyDate)
+    {
+        $additionalFiles = array();
+
+        if ($reportRenderer instanceof Html) {
+
+            foreach ($processedReports as $processedReport) {
+
+                if ($processedReport['displayGraph']) {
+
+                    $additionalFiles[] = $this->createAttachment($report, $processedReport, $prettyDate);
+                }
+            }
+        }
+
+        return $additionalFiles;
+    }
+
+    private function createAttachment($report, $processedReport, $prettyDate)
+    {
+        $additionalFile = array();
+
+        $segment = self::getSegment($report['idsegment']);
+
+        $segmentName = $segment != null ? sprintf(' (%s)', $segment['name']) : '';
+
+        $processedReportMetadata = $processedReport['metadata'];
+
+        $additionalFile['filename'] =
+            sprintf(
+                '%s - %s - %s %d - %s %d%s.png',
+                $processedReportMetadata['name'],
+                $prettyDate,
+                Piwik::translate('General_Website'),
+                $report['idsite'],
+                Piwik::translate('General_Report'),
+                $report['idreport'],
+                $segmentName
+            );
+
+        $additionalFile['cid'] = $processedReportMetadata['uniqueId'];
+
+        $additionalFile['content'] =
+            ReportRenderer::getStaticGraph(
+                $processedReportMetadata,
+                Html::IMAGE_GRAPH_WIDTH,
+                Html::IMAGE_GRAPH_HEIGHT,
+                $processedReport['evolutionGraph'],
+                $segment
+            );
+
+        $additionalFile['mimeType'] = 'image/png';
+
+        $additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
+
+        return $additionalFile;
     }
 }
