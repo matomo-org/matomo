@@ -63,7 +63,7 @@ class TableLogAction
     {
         $sql = TableLogAction::getSqlSelectActionId();
         $bind = array($name, $name, $type);
-        $idAction = \Piwik\Tracker\Db::fetchOne($sql, $bind);
+        $idAction = \Piwik\Db::fetchOne($sql, $bind);
         return $idAction;
     }
 
