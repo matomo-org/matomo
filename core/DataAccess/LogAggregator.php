@@ -26,6 +26,10 @@ use Piwik\Tracker\GoalManager;
  * Plugin [Archiver](#) descendants can use the methods in this class to aggregate data
  * in the log tables without creating their own SQL queries.
  * 
+ * ### Aggregation Principles
+ * 
+ * ** TODO (explain 'dimension') **
+ * 
  * ### Examples
  * 
  * ** TODO **
@@ -132,8 +136,31 @@ class LogAggregator
     }
 
     /**
-     * Queries visit logs by dimension and returns the aggregate data.
+     * Aggregates visit logs, optionally grouping by some dimension, and returns the aggregated data.
      *
+     * <a name="queryVisitsByDimension-result-set"/>
+     * **Result Set**
+     * 
+     * The following columns are in each row of the result set:
+     * 
+     * - **[Metrics::INDEX_NB_UNIQ_VISITORS](#)**: The total number of unique visitors in this group
+     *                                             of aggregated visits.
+     * - **[Metrics::INDEX_NB_VISITS](#)**: The total number of visits aggregated.
+     * - **[Metrics::INDEX_NB_ACTIONS](#)**: The total number of actions performed in this group of
+     *                                       aggregated visits.
+     * - **[Metrics::INDEX_MAX_ACTIONS](#)**: The maximum actions perfomred in one visit for this group of
+     *                                        visits.
+     * - **[Metrics::INDEX_SUM_VISIT_LENGTH](#)**: The total amount of time spent on the site for this
+     *                                             group of visits.
+     * - **[Metrics::INDEX_BOUNCE_COUNT](#)**: The total number of bounced visits in this group of
+     *                                         visits.
+     * - **[Metrics::INDEX_NB_VISITS_CONVERTED](#)**: The total number of visits for which at least one
+     *                                                conversion occurred, for this group of visits.
+     * 
+     * Additional data can be selected by setting the `$additionalSelects` parameter.
+     * 
+     * _Note: The metrics returned by this query can be customized by the `$metrics` parameter._
+     * 
      * @param array|string $dimensions SELECT fields (or just one field) that will be grouped by,
      *                                 eg, `'referrer_name'` or `array('referrer_name', 'referrer_keyword')`.
      *                                 The metrics retrieved from the query will be specific to combinations
@@ -141,23 +168,24 @@ class LogAggregator
      *                                 is supplied, the query will select the visits for each referrer/keyword
      *                                 combination.
      * @param bool|string $where Additional condition for the WHERE clause. Can be used to filter
-     *                           the set of visits that are looked at.
+     *                           the set of visits that are considered for aggregation.
      * @param array $additionalSelects Additional SELECT fields that are not included in the group by
      *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
-     * @param bool|array $metrics The set of metrics to return. If false, the query will select all of them.
-     *                            The following values can be used:
-     *                              - Metrics::INDEX_NB_UNIQ_VISITORS
-     *                              - Metrics::INDEX_NB_VISITS
-     *                              - Metrics::INDEX_NB_ACTIONS
-     *                              - Metrics::INDEX_MAX_ACTIONS
-     *                              - Metrics::INDEX_SUM_VISIT_LENGTH
-     *                              - Metrics::INDEX_BOUNCE_COUNT
-     *                              - Metrics::INDEX_NB_VISITS_CONVERTED
+     * @param bool|array $metrics The set of metrics to calculate and return. If false, the query will select
+     *                            all of them. The following values can be used:
+     *                              - [Metrics::INDEX_NB_UNIQ_VISITORS](#)
+     *                              - [Metrics::INDEX_NB_VISITS](#)
+     *                              - [Metrics::INDEX_NB_ACTIONS](#)
+     *                              - [Metrics::INDEX_MAX_ACTIONS](#)
+     *                              - [Metrics::INDEX_SUM_VISIT_LENGTH](#)
+     *                              - [Metrics::INDEX_BOUNCE_COUNT](#)
+     *                              - [Metrics::INDEX_NB_VISITS_CONVERTED](#)
      * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                   A pre-configured ranking query instance that will be used to limit the result.
      *                                   If set, the return value is the array returned by [RankingQuery::execute()](#).
      * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
-     *                                   [RankingQuery::execute()](#).
+     *               [RankingQuery::execute()](#). Read [this](#queryVisitsByDimension-result-set)
+     *               to see what aggregate data is calculated by the query.
      * @api
      */
     public function queryVisitsByDimension(array $dimensions = array(), $where = false, array $additionalSelects = array(),
@@ -334,12 +362,41 @@ class LogAggregator
     }
 
     /**
-     * Queries all ecommerce items.
+     * Aggregates ecommerce item data (everything stored in the **log_conversion_item** table)
+     * and returns a DB statement that can be used to iterate over the aggregated data.
+     * 
+     * <a name="queryEcommerceItems-result-set"/>
+     * **Result Set**
+     * 
+     * The following columns are in each row of the result set:
+     * 
+     * - **[Metrics::INDEX_ECOMMERCE_ITEM_REVENUE](#)**: The total revenue for the group of items
+     *                                                   this row aggregated.
+     * - **[Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY](#)**: The total number of items of the group
+     *                                                    this row aggregated.
+     * - **[Metrics::INDEX_ECOMMERCE_ITEM_PRICE](#)**: The total price for the group of items this
+     *                                                 row aggregated.
+     * - **[Metrics::INDEX_ECOMMERCE_ORDERS](#)**: The total number of orders this group of items
+     *                                             belongs to. This will be <= to the total number
+     *                                             of items in this group.
+     * - **[Metrics::INDEX_NB_VISITS](#)**: The total number of visits during which each item in
+     *                                      this group of items was logged.
+     * - **ecommerceType**: Either [GoalManager::IDGOAL_CART](#) if the items in this group were
+     *                      abandoned by a visitor, or [GoalManager::IDGOAL_ORDER](#) if they
+     *                      were ordered by a visitor.
+     * 
+     * **Limitations**
+     * 
+     * Segmentation is not yet supported in this aggregation method.
      *
-     * @param string $field
-     * @return string
+     * @param string $dimension One or more **log_conversion_item** column to group aggregated data by.
+     *                          Eg, `'idaction_sku'` or `'idaction_sku, idaction_category'`.
+     * @return Zend_Db_Statement A statement object that can be used to iterate through the query's
+     *                           result set. See [above](#queryEcommerceItems-result-set) to learn more
+     *                           about what this query selects.
+     * @api
      */
-    public function queryEcommerceItems($field)
+    public function queryEcommerceItems($dimension)
     {
         $query = "SELECT
 						name as label,
@@ -351,12 +408,12 @@ class LogAggregator
 						case idorder when '0' then " . GoalManager::IDGOAL_CART . " else " . GoalManager::IDGOAL_ORDER . " end as ecommerceType
 			 	FROM " . Common::prefixTable('log_conversion_item') . "
 			 		LEFT JOIN " . Common::prefixTable('log_action') . "
-			 		ON $field = idaction
+			 		ON $dimension = idaction
 			 	WHERE server_time >= ?
 						AND server_time <= ?
 			 			AND idsite = ?
 			 			AND deleted = 0
-			 	GROUP BY ecommerceType, $field
+			 	GROUP BY ecommerceType, $dimension
 				ORDER BY null";
         // Segment not supported yet
         // $query = $this->query($select, $from, $where, $groupBy, $orderBy);
@@ -366,18 +423,48 @@ class LogAggregator
     }
 
     /**
-     * Queries the Actions table log_link_visit_action and returns the aggregate data.
-     *
-     * @param array|string $dimensions the dimensionRecord(s) you're interested in
-     * @param string $where where clause
-     * @param array|bool $additionalSelects additional select clause
-     * @param bool|array $metrics Set this if you want to limit the columns that are returned.
-     *                                  The possible values in the array are Metrics::INDEX_*.
-     * @param \Piwik\RankingQuery $rankingQuery pre-configured ranking query instance
-     * @param bool|string $joinLogActionOnColumn column from log_link_visit_action that
-     *                                              log_action should be joined on.
-     *                                                can be an array to join multiple times.
-     * @return mixed
+     * Aggregates action data (everything in the log_action table) and returns a DB
+     * statement that can be used to iterate over the aggregated data.
+     * 
+     * <a name="queryActionsByDimension-result-set"/>
+     * **Result Set**
+     * 
+     * Each row of the result set represents an aggregated group of actions. The following columns
+     * are in each aggregate row:
+     * 
+     * - **[Metrics::INDEX_NB_UNIQ_VISITORS](#)**: The total number of unique visitors that performed
+     *                                             the actions in this group.
+     * - **[Metrics::INDEX_NB_VISITS](#)**: The total number of visits these actions belong to.
+     * - **[Metrics::INDEX_NB_ACTIONS](#)**: The total number of actions in this aggregate group.
+     * 
+     * Additional data can be selected through the `$additionalSelects` parameter.
+     * 
+     * _Note: The metrics returned by this query can be customized by the `$metrics` parameter._
+     * 
+     * @param array|string $dimensions One or more SELECT fields that will be used to group the log_action
+     *                                 rows by. This parameter determines which log_action rows will be
+     *                                 aggregated together.
+     * @param bool|string $where Additional condition for the WHERE clause. Can be used to filter
+     *                           the set of visits that are considered for aggregation.
+     * @param array $additionalSelects Additional SELECT fields that are not included in the group by
+     *                                 clause. These can be aggregate expressions, eg, `SUM(somecol)`.
+     * @param bool|array $metrics The set of metrics to calculate and return. If false, the query will select
+     *                            all of them. The following values can be used:
+     *                              - [Metrics::INDEX_NB_UNIQ_VISITORS](#)
+     *                              - [Metrics::INDEX_NB_VISITS](#)
+     *                              - [Metrics::INDEX_NB_ACTIONS](#)
+     * @param bool|\Piwik\RankingQuery $rankingQuery
+     *                                   A pre-configured ranking query instance that will be used to limit the result.
+     *                                   If set, the return value is the array returned by [RankingQuery::execute()](#).
+     * @param bool|string $joinLogActionOnColumn One or more columns from the **log_link_visit_action** table that
+     *                                           log_action should be joined on. The table alias used for each join
+     *                                           is `"log_action$i"` where `$i` is the index of the column in this
+     *                                           array. If a string is used for this parameter, the table alias is not
+     *                                           suffixed.
+     * @return mixed A Zend_Db_Statement if `$rankingQuery` isn't supplied, otherwise the result of
+     *               [RankingQuery::execute()](#). Read [this](#queryEcommerceItems-result-set)
+     *               to see what aggregate data is calculated by the query.
+     * @api
      */
     public function queryActionsByDimension($dimensions, $where = '', $additionalSelects = array(), $metrics = false, $rankingQuery = null, $joinLogActionOnColumn = false)
     {
@@ -440,7 +527,27 @@ class LogAggregator
     }
 
     /**
-     * Queries the log_conversion table and return aggregate data
+     * Aggregates conversion data (everything in the **log_conversion** table) and returns
+     * a DB statement that can be used to iterate over the aggregated data.
+     * 
+     * <a name="queryConversionsByDimension-result-set"/>
+     * **Result Set**
+     * 
+     * Each row of the result set represents an aggregated group of conversions. The
+     * following columns are in each aggregate row:
+     * 
+     * - **[Metrics::INDEX_GOAL_NB_CONVERSIONS](#)**: The total number of conversions in this aggregate
+     *                                                group.
+     * - **[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED](#)**: The total number of visits during which these
+     *                                                     conversions were converted.
+     * - **[Metrics::INDEX_GOAL_REVENUE](#)**: The total revenue generated by these conversions.
+     * - **[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL](#)**: 
+     * - **[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX](#)**: 
+     * - **[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING](#)**: 
+     * - **[Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT](#)**: 
+     * - **[Metrics::INDEX_GOAL_ECOMMERCE_ITEMS](#)**: 
+     * 
+     * **TODO**
      *
      * @param string|array $dimensions
      * @param bool|string $where
