@@ -22,3 +22,5 @@
 175.41.192.43 - - [11/Aug/2012:17:43:40 +0200] "GET /moved-permanently HTTP/1.1" 301 3574 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24"
 175.41.192.43 - - [11/Aug/2012:17:44:40 +0200] "GET /temp-redirect HTTP/1.1" 307 3574 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/534.24 (KHTML, like Gecko) RockMelt/0.9.58.494 Chrome/11.0.696.71 Safari/534.24"
 
+# Request with invalid length should not error out
+95.81.66.139 - - [29/Oct/2013:00:48:46 +0100] "HEAD / HTTP/1.0" 403 - "-" "-"
