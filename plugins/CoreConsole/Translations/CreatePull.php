@@ -120,7 +120,7 @@ class CreatePull extends ConsoleCommand
             foreach ($modifiedFiles[1] AS $modifiedFile) {
                 $fileCount++;
                 $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
-                $message .= sprintf("- Updated %s (%s translated)\n", $languageInfo['english_name'], $languageInfo['percentage_complete']);
+                $message .= sprintf('- Updated %s (%s translated)\n', $languageInfo['english_name'], $languageInfo['percentage_complete']);
             }
             $modifiedList = implode(', ', $modifiedFiles[1]);
         }
@@ -130,7 +130,7 @@ class CreatePull extends ConsoleCommand
             foreach ($addedFiles[1] AS $addedFile) {
                 $fileCount++;
                 $languageInfo = $this->getLanguageInfoByIsoCode($addedFile);
-                $message .= sprintf("- Added %s (%s translated)\n", $languageInfo['english_name'], $languageInfo['percentage_complete']);
+                $message .= sprintf('- Added %s (%s translated)\n', $languageInfo['english_name'], $languageInfo['percentage_complete']);
             }
             $addedList = implode(', ', $addedFiles[1]);
         }
