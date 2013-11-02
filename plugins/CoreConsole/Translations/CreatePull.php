@@ -115,24 +115,23 @@ class CreatePull extends ConsoleCommand
         preg_match_all('/M  lang\/([a-z]{2,3})\.json/', $changes, $modifiedFiles);
         preg_match_all('/A  lang\/([a-z]{2,3})\.json/', $changes, $addedFiles);
 
-        $modifiedList = '';
+        $lnaguageCodesTouched = array();
         if (!empty($modifiedFiles[1])) {
             foreach ($modifiedFiles[1] AS $modifiedFile) {
                 $fileCount++;
                 $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
                 $message .= sprintf('- Updated %s (%s translated)\n', $languageInfo['english_name'], $languageInfo['percentage_complete']);
             }
-            $modifiedList = implode(', ', $modifiedFiles[1]);
+            $lnaguageCodesTouched = $modifiedFiles[1];
         }
 
-        $addedList = '';
         if (!empty($addedFiles[1])) {
             foreach ($addedFiles[1] AS $addedFile) {
                 $fileCount++;
                 $languageInfo = $this->getLanguageInfoByIsoCode($addedFile);
                 $message .= sprintf('- Added %s (%s translated)\n', $languageInfo['english_name'], $languageInfo['percentage_complete']);
             }
-            $addedList = implode(', ', $addedFiles[1]);
+            $lnaguageCodesTouched = array_merge($lnaguageCodesTouched, $addedFiles[1]);
         }
 
         $stats = shell_exec('git diff --numstat HEAD lang');
@@ -148,7 +147,7 @@ class CreatePull extends ConsoleCommand
             'Updated %s strings in %u languages (%s)',
             $addedLinesSum,
             $fileCount,
-            implode(', ', array($modifiedList, $addedList))
+            implode(', ', $lnaguageCodesTouched)
         );
 
         shell_exec('git commit -m "language update ${pluginName} refs #3430"');
