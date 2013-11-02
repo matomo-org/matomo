@@ -1534,7 +1534,7 @@ class Parser(object):
             hit.ip = format.get('ip')
             try:
                 hit.length = int(format.get('length'))
-            except BaseFormatException:
+            except (ValueError, BaseFormatException):
                 # Some lines or formats don't have a length (e.g. 304 redirects, IIS logs)
                 hit.length = 0
 
