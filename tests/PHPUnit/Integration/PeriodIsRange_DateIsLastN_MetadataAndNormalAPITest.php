@@ -69,9 +69,9 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
             false,
             'daysSinceFirstVisit!=50',
             'visitorId!=33c31e01394bdc63',
-            // testing both filter on Actions table and visit table
             'visitorId!=33c31e01394bdc63;daysSinceFirstVisit!=50',
-            //'pageUrl!=http://unknown/not/viewed',
+            // testing segment on Actions table
+            'pageUrl!=http://unknown/not/viewed',
         );
         $dates = array(
             'last7',
