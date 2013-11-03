@@ -129,16 +129,19 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
         $this->moveTimeForward($vis, 266);
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'playEnd', 'Spirited Away (千と千尋の神隠し)'));
+
+        // Test Events without a URL
+        $vis->setUrl('');
         $this->moveTimeForward($vis, 268);
         $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('Movie', 'rating', 'Spirited Away (千と千尋の神隠し)', 9.66));
 
-        $this->moveTimeForward($vis, 280);
-        $this->setMovieEventCustomVar($vis);
-
         // Test event with long names should be truncated
+        $vis->setUrl('http://example.org/finishedMovie');
         $append = "Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long";
         $append .= " ---> SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED <---         ";
+        $this->moveTimeForward($vis, 280);
+        $this->setMovieEventCustomVar($vis);
         self::checkResponse($vis->doTrackEvent('event category ' . $append, 'event action '.$append, 'event name '.$append, 9.66));
     }
 

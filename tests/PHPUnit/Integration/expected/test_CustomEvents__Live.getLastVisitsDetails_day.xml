@@ -56,8 +56,8 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<url />
+				<pageIdAction />
 				
 				<pageId>19</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -70,8 +70,8 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>20</pageIdAction>
 				
 				<pageId>20</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
@@ -536,8 +536,8 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<url />
+				<pageIdAction />
 				
 				<pageId>39</pageId>
 				<eventCategory>Movie</eventCategory>
@@ -550,8 +550,8 @@
 			</row>
 			<row>
 				<type>event</type>
-				<url>http://example.org/movies</url>
-				<pageIdAction>12</pageIdAction>
+				<url>http://example.org/finishedMovie</url>
+				<pageIdAction>20</pageIdAction>
 				
 				<pageId>40</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
