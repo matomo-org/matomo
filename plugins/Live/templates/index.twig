@@ -1,5 +1,7 @@
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
+        var segment = broadcast.getValueFromUrl('segment');
+
         $('#visitsLive').liveWidget({
             interval: {{ liveRefreshAfterMs }},
             onUpdate: function () {
@@ -8,7 +10,8 @@
                 ajaxRequest.setFormat('html');
                 ajaxRequest.addParams({
                     module: 'Live',
-                    action: 'ajaxTotalVisitors'
+                    action: 'ajaxTotalVisitors',
+                    segment: segment
                 }, 'GET');
                 ajaxRequest.setCallback(function (r) {
                     $("#visitsTotal").html(r);
@@ -19,7 +22,8 @@
             fadeInSpeed: 600,
             dataUrlParams: {
                 module: 'Live',
-                action: 'getLastVisitsStart'
+                action: 'getLastVisitsStart',
+                segment: segment
             }
         });
     });
