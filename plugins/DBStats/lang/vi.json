@@ -1,0 +1,19 @@
+{
+    "DBStats": {
+        "DatabaseUsage": "Cơ sở dữ liệu đang sử dụng",
+        "DataSize": "kích thước dữ liệu",
+        "DBSize": "Kích thước cơ sở dữ liệu",
+        "EstimatedSize": "kích thước đã ước tính",
+        "IndexSize": "kích thước chỉ mục",
+        "MetricDataByYear": "Bảng tính bởi năm",
+        "MetricTables": "Bảng tính",
+        "OtherTables": "Bảng khác",
+        "PluginDescription": "Plugin này báo cáo việc sử dụng cơ sở dữ liệu MySQL của bảng Piwik.",
+        "ReportDataByYear": "Bảng báo cáo bởi năm",
+        "ReportTables": "Bảng báo cáo",
+        "RowCount": "Hàng đếm",
+        "Table": "Bảng",
+        "TotalSize": "Tổng kích thước",
+        "TrackerTables": "Bộ theo dõi bảng"
+    }
+}
