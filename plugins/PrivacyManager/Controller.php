@@ -15,8 +15,10 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\MetricsFormatter;
+use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\TaskScheduler;
@@ -130,6 +132,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->dntSupport = self::isDntSupported();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = Config::getInstance()->database['username'];
+            if($view->anonymizeIP["enabled"]) {
+                $view->nonce = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::DEACTIVATE_NONCE);
+            } else {
+                $view->nonce = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::ACTIVATE_NONCE);
+            }
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->displayWarningIfConfigFileNotWritable($view);
@@ -268,7 +275,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $deleteDataInfos["nextScheduleTime"] = $nextPossibleSchedule;
         } else {
             $deleteDataInfos["lastRun"] = $optionTable;
-            $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
+                $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
 
             //Calculate next run based on last run + interval
             $nextScheduleRun = (int)($deleteDataInfos["lastRun"] + $deleteDataInfos["config"]["delete_logs_schedule_lowest_interval"] * 24 * 60 * 60);

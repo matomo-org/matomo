@@ -1014,7 +1014,9 @@ class Common
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
             if (is_array($info) || is_object($info)) {
                 print("<pre>");
-                print(htmlspecialchars(var_export($info, true), ENT_QUOTES));
+                $info = Common::sanitizeInputValues($info);
+                $out = var_export($info, true);
+                echo $out;
                 print("</pre>");
             } else {
                 print(htmlspecialchars($info, ENT_QUOTES) . "<br />\n");

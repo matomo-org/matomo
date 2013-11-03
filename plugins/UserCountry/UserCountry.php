@@ -86,12 +86,11 @@ class UserCountry extends \Piwik\Plugin
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
+        $ipAddress = IP::N2P(Config::getInstance()->Tracker['use_anonymized_ip_for_visit_enrichment'] == 1 ? $visitorInfo['location_ip'] : $request->getIp());
         $userInfo = array(
             'lang' => $visitorInfo['location_browser_lang'],
-            'ip' => IP::N2P(Config::getInstance()->Tracker['use_anonymized_ip_for_visit_enrichment'] == 1 ? $visitorInfo['location_ip'] : $request->getIp())
+            'ip' => $ipAddress
         );
-
-        $location = array();
 
         $id = Common::getCurrentLocationProviderId();
         $provider = LocationProvider::getProviderById($id);
@@ -111,7 +110,7 @@ class UserCountry extends \Piwik\Plugin
             Common::printDebug("GEO: couldn't find a location with Geo Module '$id', using Default '$defaultId' provider as fallback...");
             $id = $defaultId;
         }
-        Common::printDebug("GEO: Found IP location (provider '" . $id . "'): " . var_export($location, true));
+        Common::printDebug("GEO: Found IP $ipAddress location (provider '" . $id . "'): " . var_export($location, true));
 
         if (empty($location['country_code'])) { // sanity check
             $location['country_code'] = \Piwik\Tracker\Visit::UNKNOWN_CODE;

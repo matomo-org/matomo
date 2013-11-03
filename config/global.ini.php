@@ -412,8 +412,10 @@ page_maximum_length = 1024;
 ; For IPv6 addresses 0..4 means that 0, 64, 80, 104 or all bits are masked.
 ip_address_mask_length = 1
 
-; Use anonymized IP to enrich visits in plugins.
-; Setting this to 0 allows, for example to get a more precise gelocation or ISP detection.
+
+; Set this setting to 0 to let plugins use the full non-anonymized IP address when enriching visitor information.
+; When set to 1, by default, Geo Location via geoip and Provider reverse name lookups
+; will use the anonymized IP address when anonymization is enabled.
 use_anonymized_ip_for_visit_enrichment = 1
 
 ; Tracker cache files are the simple caching layer for Tracking.

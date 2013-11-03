@@ -55,9 +55,14 @@
                     <td width='500'>
                         <label>
                             <input type="radio" name="useAnonymizedIpForVisitEnrichment" value="1" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '1' %}checked {% endif %}/> {{ 'General_Yes'|translate }}
+
+                            <span class="form-description">
+                                (recommended for privacy)
+                            </span>
                         </label>
+                        <br/>
                         <label>
-                            <input type="radio" name="useAnonymizedIpForVisitEnrichment" value="0" style="margin-left:20px;" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '0' %} checked {% endif %}/>  {{ 'General_No'|translate }}
+                            <input type="radio" name="useAnonymizedIpForVisitEnrichment" value="0" {% if anonymizeIP.useAnonymizedIpForVisitEnrichment == '0' %} checked {% endif %}/>  {{ 'General_No'|translate }}
                         </label>
                     </td>
                     <td width="200">
@@ -66,6 +71,9 @@
                 </tr>
             </table>
         </div>
+
+        <input type="hidden" name="nonce" value="{{ nonce }}">
+
         <input type="submit" value="{{ 'General_Save'|translate }}" id="privacySettingsSubmit" class="submit"/>
     </form>
     <div class="ui-confirm" id="confirmDeleteSettings">
