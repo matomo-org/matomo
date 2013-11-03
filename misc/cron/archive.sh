@@ -1,8 +1,16 @@
 #!/bin/sh -e
 
-# DO NOT USE: Use archive.php instead.
-# SEE DOCS: http://piwik.org/setup-auto-archiving/
 # =======================================================================
+# BEFORE YOU USE THIS SCRIPT:
+# PLEASE DON'T.
+# =======================================================================
+#
+#
+#                ==> Use archive.php instead. <==
+#
+# See documentation at http://piwik.org/setup-auto-archiving/
+# =======================================================================
+
 # Description
 # This cron script will automatically run Piwik archiving every hour.
 # The script will also run scheduled tasks configured within piwik using
@@ -81,11 +89,18 @@ for idsite in $ID_SITES; do
       
       for segment in $SEGMENTS_TO_ARCHIVE; do
 	    if test $segment != "value"; then
-      	  echo ""
-      	  echo " - Archiving for visitor segment $segment ..." 
-      	  CMD_ARCHIVE_SEGMENT="${CMD}&segment=$segment"
-      	  $CMD_ARCHIVE_SEGMENT
-      	fi
+	        # Ignore "No data available" response when there are no segment to pre-process
+            if test $segment != "No"; then
+            if test $segment != "data"; then
+            if test $segment != "available"; then
+              echo ""
+              echo " - Archiving for visitor segment $segment ..."
+              CMD_ARCHIVE_SEGMENT="${CMD}&segment=$segment"
+              $CMD_ARCHIVE_SEGMENT
+            fi
+            fi
+            fi
+        fi
       done
     done
 
