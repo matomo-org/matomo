@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UserCountry;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\IP;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuMain;
@@ -87,7 +88,7 @@ class UserCountry extends \Piwik\Plugin
 
         $userInfo = array(
             'lang' => $visitorInfo['location_browser_lang'],
-            'ip'   => IP::N2P($visitorInfo['location_ip'])
+            'ip' => IP::N2P(Config::getInstance()->Tracker['use_anonymized_ip_for_visit_enrichment'] == 1 ? $visitorInfo['location_ip'] : $request->getIp())
         );
 
         $location = array();

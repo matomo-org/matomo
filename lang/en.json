@@ -699,7 +699,9 @@
         "GetPurgeEstimate": "Get purge estimate",
         "CannotLockSoDeleteLogActions": "The log_action table will not be purged: please grant the LOCK TABLES privilege to the '%s' MYSQL user.",
         "DBPurged": "DB purged.",
-        "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate."
+        "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
+        "UseAnonymizedIpForVisitEnrichment": "Use anonymized IP adresses for visit enrichment.",
+        "UseAnonymizedIpForVisitEnrichmentNote": "If you have enabled the Anonymize IP feature, by default, Geo Location via geoip and Provider reverse name lookups will use the anonymized IP address. You can set this setting to let plugins use the full IP address when enriching visitor information.<br />Note: the IP will always be stored anonymized in the database."
     },
     "CorePluginsAdmin": {
         "PluginDescription": "Plugins Administration Interface.",
