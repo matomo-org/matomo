@@ -36,22 +36,6 @@ class Actions extends \Piwik\Plugin
 {
     const ACTIONS_REPORT_ROWS_DISPLAY = 100;
 
-    private $columnTranslations;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->columnTranslations = array(
-            'nb_hits'             => Piwik::translate('General_ColumnPageviews'),
-            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews'),
-            'avg_time_on_page'    => Piwik::translate('General_ColumnAverageTimeOnPage'),
-            'bounce_rate'         => Piwik::translate('General_ColumnBounceRate'),
-            'exit_rate'           => Piwik::translate('General_ColumnExitRate'),
-            'avg_time_generation' => Piwik::translate('General_ColumnAverageGenerationTime'),
-        );
-    }
-
     /**
      * @see Piwik_Plugin::getListHooksRegistered
      */

@@ -26,10 +26,10 @@ class ActionEvent extends Action
     {
         parent::__construct(Action::TYPE_EVENT, $request);
         $this->setActionUrl($url);
-        $this->eventCategory = $eventCategory;
-        $this->eventAction = $eventAction;
-        $this->eventName = $request->getParam('e_n');
-        $this->eventValue = $request->getParam('e_v');
+        $this->eventCategory = trim($eventCategory);
+        $this->eventAction = trim($eventAction);
+        $this->eventName = trim($request->getParam('e_n'));
+        $this->eventValue = trim($request->getParam('e_v'));
     }
 
     function getCustomFloatValue()

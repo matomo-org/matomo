@@ -227,6 +227,9 @@ class ActionSiteSearch extends Action
             }
         }
 
+        $actionName = trim($actionName);
+        $categoryName = trim($categoryName);
+
         if (empty($actionName)) {
             Common::printDebug("(this is not a Site Search request)");
             return false;
