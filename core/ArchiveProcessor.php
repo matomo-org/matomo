@@ -426,7 +426,7 @@ class ArchiveProcessor
         return Rules::getMinTimeProcessedForTemporaryArchive($this->getDateStart(), $this->getPeriod(), $this->getSegment(), $this->getSite());
     }
 
-    public function isArchiveTemporary()
+    protected function isArchiveTemporary()
     {
         if (is_null($this->temporaryArchive)) {
             throw new Exception("getMinTimeArchiveProcessed() should be called prior to isArchiveTemporary()");
