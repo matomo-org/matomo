@@ -39,6 +39,9 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected $dimensions = array(self::COUNTRY_FIELD, self::REGION_FIELD, self::CITY_FIELD);
 
+    /**
+     * @var DataArray[] $arrays
+     */
     protected $arrays;
     const LATITUDE_FIELD = 'location_latitude';
     const LONGITUDE_FIELD = 'location_longitude';
@@ -116,13 +119,11 @@ class Archiver extends \Piwik\Plugin\Archiver
         while ($row = $query->fetch()) {
             $this->makeRegionCityLabelsUnique($row);
 
-            /* @var $dataArray DataArray */
             foreach ($this->arrays as $dimension => $dataArray) {
                 $dataArray->sumMetricsGoals($row[$dimension], $row);
             }
         }
 
-        /* @var $dataArray DataArray */
         foreach ($this->arrays as $dataArray) {
             $dataArray->enrichMetricsWithConversions();
         }
@@ -130,15 +131,15 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function recordDayReports()
     {
-        $tableCountry = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::COUNTRY_FIELD]);
+        $tableCountry = $this->arrays[self::COUNTRY_FIELD]->asDataTable();
         $this->getProcessor()->insertBlobRecord(self::COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
 
-        $tableRegion = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::REGION_FIELD]);
+        $tableRegion = $this->arrays[self::REGION_FIELD]->asDataTable();
         $serialized = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::REGION_RECORD_NAME, $serialized);
 
-        $tableCity = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::CITY_FIELD]);
+        $tableCity = $this->arrays[self::CITY_FIELD]->asDataTable();
         $this->setLatitudeLongitude($tableCity);
         $serialized = $tableCity->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::CITY_RECORD_NAME, $serialized);

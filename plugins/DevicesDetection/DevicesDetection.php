@@ -92,7 +92,7 @@ class DevicesDetection extends \Piwik\Plugin
     {
         return array(
             'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.Period.compute' => 'aggregateMultipleReports',
+            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'Menu.Reporting.addItems'         => 'addMenu',
             'Tracker.newVisitorInformation'   => 'parseMobileVisitData',
             'WidgetsList.addWidgets'          => 'addWidgets',

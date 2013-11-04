@@ -225,7 +225,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     {
         foreach ($this->getRecordNames() as $recordName) {
             $dataArray = $this->getDataArray($recordName);
-            $table = $this->getProcessor()->getDataTableFromDataArray($dataArray);
+            $table = $dataArray->asDataTable();
             $blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
             $this->getProcessor()->insertBlobRecord($recordName, $blob);
         }

@@ -36,7 +36,7 @@ class CustomVariables extends \Piwik\Plugin
     {
         $hooks = array(
             'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.Period.compute' => 'aggregateMultipleReports',
+            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'Menu.Reporting.addItems'         => 'addMenus',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',

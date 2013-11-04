@@ -363,7 +363,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $array = new DataArray($referrerData, $referrerSubData);
-        return ArchiveProcessor\Day::getDataTableFromDataArray($array);
+        return $array->asDataTable();
     }
 
     /**

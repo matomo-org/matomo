@@ -300,4 +300,25 @@ class DataArray
     {
         return (count($row) == count(self::makeEmptyActionRow())) && isset($row[Metrics::INDEX_NB_ACTIONS]);
     }
+
+    /**
+     * Converts array to a datatable
+     *
+     * @return \Piwik\DataTable
+     */
+    public function asDataTable()
+    {
+        $dataArray = $this->getDataArray();
+        $dataArrayTwoLevels = $this->getDataArrayWithTwoLevels();
+
+        $subtableByLabel = null;
+        if (!empty($dataArrayTwoLevels)) {
+            $subtableByLabel = array();
+            foreach ($dataArrayTwoLevels as $label => $subTable) {
+                $subtableByLabel[$label] = DataTable::makeFromIndexedArray($subTable);
+            }
+        }
+        return DataTable::makeFromIndexedArray($dataArray, $subtableByLabel);
+    }
+
 }

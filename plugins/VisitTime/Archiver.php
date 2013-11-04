@@ -39,14 +39,14 @@ class Archiver extends \Piwik\Plugin\Archiver
         $array->enrichMetricsWithConversions();
         $array = $this->convertTimeToLocalTimezone($array);
         $this->ensureAllHoursAreSet($array);
-        $this->getProcessor()->insertBlobRecord(self::SERVER_TIME_RECORD_NAME, $this->getProcessor()->getDataTableFromDataArray($array)->getSerialized());
+        $this->getProcessor()->insertBlobRecord(self::SERVER_TIME_RECORD_NAME, $array->asDataTable()->getSerialized());
     }
 
     protected function aggregateByLocalTime()
     {
         $array = $this->getProcessor()->getMetricsForDimension("HOUR(log_visit.visitor_localtime)");
         $this->ensureAllHoursAreSet($array);
-        $this->getProcessor()->insertBlobRecord(self::LOCAL_TIME_RECORD_NAME, $this->getProcessor()->getDataTableFromDataArray($array)->getSerialized());
+        $this->getProcessor()->insertBlobRecord(self::LOCAL_TIME_RECORD_NAME, $array->asDataTable()->getSerialized());
     }
 
     protected function convertTimeToLocalTimezone(DataArray &$array)

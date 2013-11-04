@@ -93,7 +93,7 @@ class Goals extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Site.getSiteAttributes'                 => 'fetchGoalsFromDb',
             'ArchiveProcessor.aggregateDayReport'           => 'aggregateDayReport',
-            'ArchiveProcessor.Period.compute'        => 'aggregateMultipleReports',
+            'ArchiveProcessor.aggregateMultipleReports'        => 'aggregateMultipleReports',
             'API.getReportMetadata.end'              => 'getReportMetadata',
             'API.getSegmentsMetadata'                => 'getSegmentsMetadata',
             'WidgetsList.addWidgets'                 => 'addWidgets',

@@ -264,7 +264,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                 if ($ecommerceType == GoalManager::IDGOAL_CART) {
                     $recordName = self::getItemRecordNameAbandonedCart($recordName);
                 }
-                $table = $this->getProcessor()->getDataTableFromDataArray($itemAggregate);
+                $table = $itemAggregate->asDataTable();
                 $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized());
             }
         }

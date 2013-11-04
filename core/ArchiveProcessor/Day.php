@@ -28,27 +28,6 @@ use Piwik\Piwik;
 class Day extends ArchiveProcessor
 {
     /**
-     * Converts array to a datatable
-     *
-     * @param DataArray $array
-     * @return \Piwik\DataTable
-     */
-    static public function getDataTableFromDataArray(DataArray $array)
-    {
-        $dataArray = $array->getDataArray();
-        $dataArrayTwoLevels = $array->getDataArrayWithTwoLevels();
-
-        $subtableByLabel = null;
-        if (!empty($dataArrayTwoLevels)) {
-            $subtableByLabel = array();
-            foreach ($dataArrayTwoLevels as $label => $subTable) {
-                $subtableByLabel[$label] = DataTable::makeFromIndexedArray($subTable);
-            }
-        }
-        return DataTable::makeFromIndexedArray($dataArray, $subtableByLabel);
-    }
-
-    /**
      * Helper function that returns an array with common statistics for a given database field distinct values.
      *
      * The statistics returned are:

@@ -45,7 +45,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     private function aggregateByLabel($labelSQL, $recordName)
     {
         $metrics = $this->getProcessor()->getMetricsForDimension($labelSQL);
-        $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
+        $table = $metrics->asDataTable();
         $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
     }
 

@@ -36,7 +36,7 @@ class Provider extends \Piwik\Plugin
     {
         $hooks = array(
             'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.Period.compute' => 'aggregateMultipleReports',
+            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'Tracker.newVisitorInformation'   => 'enrichVisitWithProviderInfo',
             'WidgetsList.addWidgets'          => 'addWidget',
             'Menu.Reporting.addItems'         => 'addMenu',

@@ -170,7 +170,7 @@ class UserSettings extends \Piwik\Plugin
     {
         $hooks = array(
             'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.Period.compute' => 'aggregateMultipleReports',
+            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'Menu.Reporting.addItems'         => 'addMenu',
             'API.getReportMetadata'           => 'getReportMetadata',

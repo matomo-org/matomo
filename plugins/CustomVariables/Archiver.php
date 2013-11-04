@@ -50,7 +50,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
         $this->removeVisitsMetricsFromActionsAggregate();
         $this->dataArray->enrichMetricsWithConversions();
-        $table = $this->getProcessor()->getDataTableFromDataArray($this->dataArray);
+        $table = $this->dataArray->asDataTable();
         $blob = $table->getSerialized(
             $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
             $columnToSort = Metrics::INDEX_NB_VISITS

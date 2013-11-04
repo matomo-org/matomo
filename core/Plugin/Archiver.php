@@ -55,7 +55,7 @@ use Piwik\Config as PiwikConfig;
  *         }
  *     }
  * 
- *     // event observer for ArchiveProcessor.Period.compute
+ *     // event observer for ArchiveProcessor.aggregateMultipleReports
  *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
  *     {
  *         $archiving = new Archiver($archiveProcessor);

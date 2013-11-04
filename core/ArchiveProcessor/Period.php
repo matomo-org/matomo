@@ -22,7 +22,7 @@ use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 
 /**
- * Initiates the archiving process for all non-day periods via the [ArchiveProcessor.Period.compute](#)
+ * Initiates the archiving process for all non-day periods via the [ArchiveProcessor.aggregateMultipleReports](#)
  * event.
  *
  * Period archiving differs from archiving day periods in that log tables are not aggregated.
@@ -243,7 +243,7 @@ class Period extends ArchiveProcessor
          * @param \Piwik\ArchiveProcessor\Period $archiveProcessor
          *                                          The ArchiveProcessor that triggered the event.
          */
-        Piwik::postEvent('ArchiveProcessor.Period.compute', array(&$this));
+        Piwik::postEvent('ArchiveProcessor.aggregateMultipleReports', array(&$this));
     }
 
     protected function aggregateCoreVisitsMetrics()

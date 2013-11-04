@@ -54,14 +54,14 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function aggregateByConfiguration()
     {
         $metrics = $this->getProcessor()->getMetricsForDimension(self::CONFIGURATION_DIMENSION);
-        $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
+        $table = $metrics->asDataTable();
         $this->insertTable(self::CONFIGURATION_RECORD_NAME, $table);
     }
 
     protected function aggregateByOs()
     {
         $metrics = $this->getProcessor()->getMetricsForDimension(self::OS_DIMENSION);
-        $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
+        $table = $metrics->asDataTable();
         $this->insertTable(self::OS_RECORD_NAME, $table);
     }
 
@@ -74,7 +74,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function aggregateByBrowserVersion()
     {
         $metrics = $this->getProcessor()->getMetricsForDimension(self::BROWSER_VERSION_DIMENSION);
-        $tableBrowser = $this->getProcessor()->getDataTableFromDataArray($metrics);
+        $tableBrowser = $metrics->asDataTable();
         $this->insertTable(self::BROWSER_RECORD_NAME, $tableBrowser);
         return $tableBrowser;
     }
@@ -94,7 +94,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function aggregateByResolution()
     {
         $metrics = $this->getProcessor()->getMetricsForDimension(self::RESOLUTION_DIMENSION);
-        $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
+        $table = $metrics->asDataTable();
         $table->filter('ColumnCallbackDeleteRow', array('label', function ($value) {
             return strlen($value) <= 5;
         }));
@@ -140,7 +140,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             $metricsByLanguage->sumMetricsVisits($code, $row);
         }
 
-        $tableLanguage = $this->getProcessor()->getDataTableFromDataArray($metricsByLanguage);
+        $tableLanguage = $metricsByLanguage->asDataTable();
         $this->insertTable(self::LANGUAGE_RECORD_NAME, $tableLanguage);
     }
 
