@@ -203,7 +203,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateMultipleReports()
     {
-        $nameToCount = $this->getProcessor()->aggregateDataTableReports(
+        $nameToCount = $this->getProcessor()->aggregateDataTableRecords(
             self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
             $columnToSort = Metrics::INDEX_NB_VISITS);
     }

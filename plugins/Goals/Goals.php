@@ -508,9 +508,6 @@ class Goals extends \Piwik\Plugin
     }
 
     /**
-     * Hooks on the Daily archiving.
-     * Will process Goal stats overall and for each Goal.
-     * Also processes the New VS Returning visitors conversion stats.
      */
     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
     {

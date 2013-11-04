@@ -141,12 +141,12 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateMultipleReports()
     {
-        $dataTableToSum = array(
+        $dataTableRecords = array(
             self::TIME_SPENT_RECORD_NAME,
             self::PAGES_VIEWED_RECORD_NAME,
             self::VISITS_COUNT_RECORD_NAME,
             self::DAYS_SINCE_LAST_RECORD_NAME
         );
-        $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
+        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords);
     }
 }

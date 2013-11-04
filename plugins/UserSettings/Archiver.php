@@ -53,16 +53,14 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateByConfiguration()
     {
-        $metrics = $this->getProcessor()->getMetricsForDimension(self::CONFIGURATION_DIMENSION);
-        $table = $metrics->asDataTable();
-        $this->insertTable(self::CONFIGURATION_RECORD_NAME, $table);
+        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::CONFIGURATION_DIMENSION)->asDataTable();
+        $this->insertTable(self::CONFIGURATION_RECORD_NAME, $metrics);
     }
 
     protected function aggregateByOs()
     {
-        $metrics = $this->getProcessor()->getMetricsForDimension(self::OS_DIMENSION);
-        $table = $metrics->asDataTable();
-        $this->insertTable(self::OS_RECORD_NAME, $table);
+        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::OS_DIMENSION)->asDataTable();
+        $this->insertTable(self::OS_RECORD_NAME, $metrics);
     }
 
     protected function aggregateByBrowser()
@@ -73,8 +71,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateByBrowserVersion()
     {
-        $metrics = $this->getProcessor()->getMetricsForDimension(self::BROWSER_VERSION_DIMENSION);
-        $tableBrowser = $metrics->asDataTable();
+        $tableBrowser = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::BROWSER_VERSION_DIMENSION)->asDataTable();
         $this->insertTable(self::BROWSER_RECORD_NAME, $tableBrowser);
         return $tableBrowser;
     }
@@ -93,8 +90,7 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function aggregateByResolution()
     {
-        $metrics = $this->getProcessor()->getMetricsForDimension(self::RESOLUTION_DIMENSION);
-        $table = $metrics->asDataTable();
+        $table = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::RESOLUTION_DIMENSION)->asDataTable();
         $table->filter('ColumnCallbackDeleteRow', array('label', function ($value) {
             return strlen($value) <= 5;
         }));
@@ -140,18 +136,19 @@ class Archiver extends \Piwik\Plugin\Archiver
             $metricsByLanguage->sumMetricsVisits($code, $row);
         }
 
-        $tableLanguage = $metricsByLanguage->asDataTable();
-        $this->insertTable(self::LANGUAGE_RECORD_NAME, $tableLanguage);
+        $report = $metricsByLanguage->asDataTable();
+        $this->insertTable(self::LANGUAGE_RECORD_NAME, $report);
     }
 
     protected function insertTable($recordName, DataTable $table)
     {
-        return $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
+        $report = $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        return $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 
     public function aggregateMultipleReports()
     {
-        $dataTableToSum = array(
+        $dataTableRecords = array(
             self::CONFIGURATION_RECORD_NAME,
             self::OS_RECORD_NAME,
             self::BROWSER_RECORD_NAME,
@@ -161,7 +158,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::PLUGIN_RECORD_NAME,
             self::LANGUAGE_RECORD_NAME,
         );
-        $this->getProcessor()->aggregateDataTableReports($dataTableToSum, $this->maximumRows);
+        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords, $this->maximumRows);
     }
 }
 

@@ -51,7 +51,7 @@ use Piwik\SettingsPiwik;
  *     {
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
  *
- *         $archiveProcessor->aggregateDataTableReports(
+ *         $archiveProcessor->aggregateDataTableRecords(
  *             'MyPlugin_myFancyReport',
  *             $maxRowsInTable,
  *             $maxRowsInSubtable = $maxRowsInTable,
@@ -105,7 +105,7 @@ class Period extends ArchiveProcessor
      *               )
      *               ```
      */
-    public function aggregateDataTableReports($recordNames,
+    public function aggregateDataTableRecords($recordNames,
                                               $maximumRowsInDataTableLevelZero = null,
                                               $maximumRowsInSubDataTable = null,
                                               $columnToSortByBeforeTruncation = null,

@@ -44,9 +44,9 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     private function aggregateByLabel($labelSQL, $recordName)
     {
-        $metrics = $this->getProcessor()->getMetricsForDimension($labelSQL);
-        $table = $metrics->asDataTable();
-        $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
+        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension($labelSQL)->asDataTable();
+        $report = $metrics->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 
     public function aggregateMultipleReports()
@@ -61,7 +61,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::BROWSER_VERSION_RECORD_NAME
         );
         foreach ($dataTablesToSum as $dt) {
-            $this->getProcessor()->aggregateDataTableReports(
+            $this->getProcessor()->aggregateDataTableRecords(
                 $dt, $this->maximumRows, $this->maximumRows, $columnToSort = "nb_visits");
         }
     }

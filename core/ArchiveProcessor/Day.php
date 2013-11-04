@@ -27,45 +27,6 @@ use Piwik\Piwik;
  */
 class Day extends ArchiveProcessor
 {
-    /**
-     * Helper function that returns an array with common statistics for a given database field distinct values.
-     *
-     * The statistics returned are:
-     *  - number of unique visitors
-     *  - number of visits
-     *  - number of actions
-     *  - maximum number of action for a visit
-     *  - sum of the visits' length in sec
-     *  - count of bouncing visits (visits with one page view)
-     *
-     * For example if $dimension = 'config_os' it will return the statistics for every distinct Operating systems
-     * The returned array will have a row per distinct operating systems,
-     * and a column per stat (nb of visits, max  actions, etc)
-     *
-     * 'label'    Metrics::INDEX_NB_UNIQ_VISITORS    Metrics::INDEX_NB_VISITS    etc.
-     * Linux    27    66    ...
-     * Windows XP    12    ...
-     * Mac OS    15    36    ...
-     *
-     * @param string $dimension Table log_visit field name to be use to compute common stats
-     * @return DataArray
-     */
-    public function getMetricsForDimension($dimension)
-    {
-        if (!is_array($dimension)) {
-            $dimension = array($dimension);
-        }
-        if (count($dimension) == 1) {
-            $dimension = array("label" => reset($dimension));
-        }
-        $query = $this->getLogAggregator()->queryVisitsByDimension($dimension);
-        $metrics = new DataArray();
-        while ($row = $query->fetch()) {
-            $metrics->sumMetricsVisits($row["label"], $row);
-        }
-        return $metrics;
-    }
-
     protected function aggregateCoreVisitsMetrics()
     {
         $query = $this->getLogAggregator()->queryVisitsByDimension();

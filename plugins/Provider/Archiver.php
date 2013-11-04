@@ -19,13 +19,13 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
-        $metrics = $this->getProcessor()->getMetricsForDimension(self::PROVIDER_FIELD);
-        $tableProvider = $metrics->asDataTable();
-        $this->getProcessor()->insertBlobRecord(self::PROVIDER_RECORD_NAME, $tableProvider->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
+        $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::PROVIDER_FIELD)->asDataTable();
+        $report = $metrics->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS);
+        $this->getProcessor()->insertBlobRecord(self::PROVIDER_RECORD_NAME, $report);
     }
 
     public function aggregateMultipleReports()
     {
-        $this->getProcessor()->aggregateDataTableReports(array(self::PROVIDER_RECORD_NAME), $this->maximumRows);
+        $this->getProcessor()->aggregateDataTableRecords(array(self::PROVIDER_RECORD_NAME), $this->maximumRows);
     }
 }

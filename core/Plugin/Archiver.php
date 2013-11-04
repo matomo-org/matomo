@@ -40,7 +40,7 @@ use Piwik\Config as PiwikConfig;
  *         public function aggregateMultipleReports()
  *         {
  *             $archiveProcessor = $this->getProcessor();
- *             $archiveProcessor->aggregateDataTableReports('MyPlugin_myReport', 500);
+ *             $archiveProcessor->aggregateDataTableRecords('MyPlugin_myReport', 500);
  *         }
  *     }
  * 

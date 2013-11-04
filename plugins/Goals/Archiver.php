@@ -86,11 +86,11 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
-        $this->archiveGeneralGoalMetrics();
-        $this->archiveEcommerceItems();
+        $this->aggregateGeneralGoalMetrics();
+        $this->aggregateEcommerceItems();
     }
 
-    protected function archiveGeneralGoalMetrics()
+    protected function aggregateGeneralGoalMetrics()
     {
         $prefixes = array(
             self::VISITS_UNTIL_RECORD_NAME    => 'vcv',
@@ -229,7 +229,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         return !in_array($idGoal, $this->getEcommerceIdGoals());
     }
 
-    protected function archiveEcommerceItems()
+    protected function aggregateEcommerceItems()
     {
         if (!$this->shouldArchiveEcommerceItems()) {
             return false;
@@ -389,7 +389,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             foreach ($this->dimensionRecord as $recordName) {
                 $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
             }
-            $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
+            $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
         }
 
         /*
@@ -420,13 +420,13 @@ class Archiver extends \Piwik\Plugin\Archiver
             $this->getProcessor()->insertNumericRecord(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
 
             // sum up the visits to conversion data table & the days to conversion data table
-            $this->getProcessor()->aggregateDataTableReports(array(
+            $this->getProcessor()->aggregateDataTableRecords(array(
                                                                   self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $goalId),
                                                                   self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $goalId)));
         }
 
         // sum up goal overview reports
-        $this->getProcessor()->aggregateDataTableReports(array(
+        $this->getProcessor()->aggregateDataTableRecords(array(
                                                               self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
                                                               self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)));
     }
