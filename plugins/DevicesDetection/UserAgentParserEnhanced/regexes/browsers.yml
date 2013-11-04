@@ -40,7 +40,12 @@
 - regex: 'Flock/(\d+\.\d+)'
   name: Flock
   version: '$1'
-  
+
+#ANTGalio
+- regex: 'ANTGalio/(\d+\.\d+\.\d+)' 
+  name: ANTGalio
+  version: '$1' 
+
 #RockMelt
 - regex: 'RockMelt/(\d+\.\d+)'
   name: RockMelt
@@ -57,6 +62,9 @@
   version: '$1'
 - regex: 'Opera Mini/(?:att/)?(\d+\.\d+)'
   name: Opera Mini
+  version: '$1'
+- regex: 'OPR/(\d+\.\d+)'
+  name: Opera Next
   version: '$1'
 - regex: 'Opera[/ ](?:9.80.*Version/)?(\d+\.\d+)'
   name: Opera
