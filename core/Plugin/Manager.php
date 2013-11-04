@@ -67,6 +67,7 @@ class Manager extends Singleton
         'AnonymizeIP',
         'DBStats',
         'DevicesDetection',
+        'Events',
         'TreemapVisualization', // should be moved to marketplace
     );
 
