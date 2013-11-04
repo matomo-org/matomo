@@ -1258,7 +1258,6 @@
         "Teaser": "Sur cette page, vous pouvez personnaliser Piwik pour que sa gestion de la vie privée respecte la législation en vigueur, en : %s rendant anonyme l'adresse IP du visiteur%s, %s supprime automatiquement les anciens logs de visiteurs de la base de données%s, et %s fournit un mécanisme d'exclusion pour votre site web%s.",
         "TeaserHeadline": "Paramètres de vie privée",
         "UseAnonymizedIpForVisitEnrichment": "Utiliser les adresses IP anonymisées pour enrichir les visites",
-        "UseAnonymizedIpForVisitEnrichmentNote": "Si vous avez activé l'anonymisation des adresses IP, la géolocalisation (via geoip) et la recherche du FAI utiliseront, par défaut, l'adresse IP anonymisée. Vous pouvez modifier ce paramètre pour permettre l'autorisation de l'adresse IP complète pour l'enrichissement des informations sur le visiteur.<br \/>Note: quelle que soit la valeur de ce paramètre, l'adresse IP sera stockée sous forme anonymisée dans la base de données.",
         "UseAnonymizeIp": "Rendre anonymes les adresses IP des visiteurs",
         "UseDeleteLog": "Supprimer régulièrement les anciens logs de la base de données.",
         "UseDeleteReports": "Supprimer régulièrement les anciens rapports de la base de données"
