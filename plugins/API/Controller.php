@@ -15,6 +15,7 @@ use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\View;
 
 /**
@@ -58,6 +59,12 @@ class Controller extends \Piwik\Plugin\Controller
         $customVariables = 0;
         $lastCategory = array();
         foreach ($segments as $segment) {
+            // Eg. Event Value is a metric, not in the Visit metric category,
+            // we make sure it is displayed along with the Events dimensions
+            if($segment['type'] == 'metric' && $segment['category'] != Piwik::translate('General_Visit')) {
+                $segment['type'] = 'dimension';
+            }
+
             $onlyDisplay = array('customVariableName1', 'customVariableName2', 'customVariableValue1', 'customVariableValue2', 'customVariablePageName1', 'customVariablePageValue1');
             $customVariableWillBeDisplayed = in_array($segment['segment'], $onlyDisplay);
             // Don't display more than 4 custom variables name/value rows

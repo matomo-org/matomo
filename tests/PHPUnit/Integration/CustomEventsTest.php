@@ -53,6 +53,32 @@ class Test_Piwik_Integration_CustomEvents extends IntegrationTestCase
                 'periods'      => $periods,
                 'setDateLastN' => false,
                 'testSuffix'   => '')),
+
+            array('Actions.getPageUrls', array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $dayPeriod,
+                'segment'      => "events>0",
+                'setDateLastN' => false,
+                'testSuffix'   => '')
+            ),
+            // FIXMEA: Add Events.get* here
+            array('Actions.getPageUrls', array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $dayPeriod,
+                'segment'      => "eventCategory==Movie,eventName==".urlencode('La fiancée de l\'eau'),
+                'setDateLastN' => false,
+                'testSuffix'   => '_eventCategoryOrNameMatch')
+            ),
+            array('Actions.getPageUrls', array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $dayPeriod,
+                'segment'      => "eventAction=@play",
+                'setDateLastN' => false,
+                'testSuffix'   => '_eventActionContainsPlay')
+            ),
         );
 
         // testing metadata API for one metadata report

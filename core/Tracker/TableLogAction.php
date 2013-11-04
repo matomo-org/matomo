@@ -233,6 +233,15 @@ class TableLogAction
      */
     private static function guessActionTypeFromSegment($segmentName)
     {
+        $exactMatch = array(
+            'eventAction' => Action::TYPE_EVENT_ACTION,
+            'eventCategory' => Action::TYPE_EVENT_CATEGORY,
+            'eventName' => Action::TYPE_EVENT_NAME,
+        );
+        if(!empty($exactMatch[$segmentName])) {
+            return $exactMatch[$segmentName];
+        }
+
         if (stripos($segmentName, 'pageurl') !== false) {
             $actionType = Action::TYPE_PAGE_URL;
             return $actionType;
@@ -243,7 +252,7 @@ class TableLogAction
             $actionType = Action::TYPE_SITE_SEARCH;
             return $actionType;
         } else {
-            throw new \Exception(" The segment $segmentName has an unexpected value.");
+            throw new \Exception("We cannot guess the action type from the segment $segmentName.");
         }
     }
 

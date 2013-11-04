@@ -2310,5 +2310,14 @@
         "LoadingSegmentedDataMayTakeSomeTime": "Processing segmented visitor data may take a few minutes...",
         "AutoArchiveRealTime": "segmented reports are processed in real time",
         "AutoArchivePreProcessed": "segmented reports are pre-processed (faster, requires archive.php cron)"
+    },
+    "Events": {
+        "Events": "Events",
+        "EventCategory": "Event Category",
+        "EventAction": "Event Action",
+        "EventName": "Event Name",
+        "EventValue": "Event Value",
+        "NbEvents": "Number of Events",
+        "": ""
     }
 }

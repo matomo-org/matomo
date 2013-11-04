@@ -291,7 +291,7 @@ class API extends \Piwik\Plugin\API
 
     private function sortSegments($row1, $row2)
     {
-        $columns = array('type', 'category', 'name', 'segment');
+        $columns = array('category', 'name', 'segment');
         foreach ($columns as $column) {
             // Keep segments ordered alphabetically inside categories..
             $type = -1;

@@ -64,7 +64,7 @@ class Actions extends \Piwik\Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        $sqlFilter = 'TableLogAction::getIdActionFromSegment';
+        $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
         // entry and exit pages of visit
         $segments[] = array(
