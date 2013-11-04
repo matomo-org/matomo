@@ -35,8 +35,6 @@ class Provider extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'Tracker.newVisitorInformation'   => 'enrichVisitWithProviderInfo',
             'WidgetsList.addWidgets'          => 'addWidget',
             'Menu.Reporting.addItems'         => 'addMenu',
@@ -218,25 +216,6 @@ class Provider extends \Piwik\Plugin
 			<h2>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
         $out .= '</div>';
-    }
-
-    /**
-     * Daily archive: processes the report Visits by Provider
-     */
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
-        }
-    }
-
-    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
     }
 
     public function configureViewDataTable(ViewDataTable $view)

@@ -42,8 +42,6 @@ class UserCountry extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.aggregateDayReport'           => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports'        => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'                 => 'addWidgets',
             'Menu.Reporting.addItems'                => 'addMenu',
             'Menu.Admin.addItems'                    => 'addAdminMenu',
@@ -327,22 +325,6 @@ class UserCountry extends \Piwik\Plugin
                                                           'module'   => 'UserCountry',
                                                           'action'   => 'getCity'),
                                                ));
-    }
-
-    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
-    }
-
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
-        }
     }
 
     /**

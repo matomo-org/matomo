@@ -37,8 +37,6 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'Menu.Reporting.addItems'         => 'addMenus',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
@@ -275,29 +273,6 @@ class Referrers extends \Piwik\Plugin
                                                           'action'   => 'getReferrerType',
                                                     ),
                                                ));
-    }
-
-    /**
-     * Hooks on daily archive to trigger various log processing
-     */
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
-        }
-    }
-
-    /**
-     * Period archiving: sums up daily stats and sums report tables,
-     * making sure that tables are still truncated.
-     */
-    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
     }
 
     public function getDefaultTypeViewDataTable(&$defaultViewTypes)

@@ -169,8 +169,6 @@ class UserSettings extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'Menu.Reporting.addItems'         => 'addMenu',
             'API.getReportMetadata'           => 'getReportMetadata',
@@ -468,27 +466,4 @@ class UserSettings extends \Piwik\Plugin
         MenuMain::getInstance()->add('General_Visitors', 'General_Settings', array('module' => 'UserSettings', 'action' => 'index'));
     }
 
-    /**
-     * Daily archive of User Settings report. Processes reports for Visits by Resolution,
-     * by Browser, Browser family, etc. Some reports are built from the logs, some reports
-     * are superset of an existing report (eg. Browser family is built from the Browser report)
-     */
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
-        }
-    }
-
-    /**
-     * Period archiving: simply sums up daily archives
-     */
-    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
-    }
 }

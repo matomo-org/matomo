@@ -16,8 +16,10 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 
+use Piwik\DataTable\Manager;
 use Piwik\Db;
 use Piwik\Period;
+use Piwik\Plugin\Archiver;
 
 /**
  * Used to insert numeric and blob archive data.
@@ -53,7 +55,7 @@ use Piwik\Period;
  * **Inserting numeric data**
  * 
  *     // function in an Archiver descendent
- *     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
+ *     public function aggregateDayReport(ArchiveProcessor $archiveProcessor)
  *     {
  *         $myFancyMetric = // ... calculate the metric value ...
  *         $archiveProcessor->insertNumericRecord('MyPlugin_myFancyMetric', $myFancyMetric);
@@ -62,7 +64,7 @@ use Piwik\Period;
  * **Inserting serialized DataTables**
  * 
  *     // function in an Archiver descendent
- *     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
+ *     public function aggregateDayReport(ArchiveProcessor $archiveProcessor)
  *     {
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
  * 
@@ -78,7 +80,7 @@ use Piwik\Period;
  * @package Piwik
  * @subpackage ArchiveProcessor
  */
-abstract class ArchiveProcessor
+class ArchiveProcessor
 {
     /**
      * Flag stored at the end of the archiving
@@ -365,8 +367,11 @@ abstract class ArchiveProcessor
             || $this->doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
             || $enforceProcessCoreMetricsOnly
         ) {
-            $metrics = $this->aggregateCoreVisitsMetrics();
-
+            if($this->isDayArchive()) {
+                $metrics = $this->aggregateDayVisitsMetrics();
+            } else {
+                $metrics = $this->aggregateMultipleVisitMetrics();
+            }
             if (empty($metrics)) {
                 $this->setNumberOfVisits(false);
             } else {
@@ -418,8 +423,6 @@ abstract class ArchiveProcessor
         return $this->temporaryArchive;
     }
 
-    abstract protected function aggregateCoreVisitsMetrics();
-
     /**
      * @param $requestedPlugin
      */
@@ -442,10 +445,60 @@ abstract class ArchiveProcessor
     }
 
     /**
+     * @var Archiver[] $archivers
+     */
+    private static $archivers = array();
+
+
+    /**
+     * Loads Archiver class from any plugin that defines one.
+     *
+     * @return Plugin\Archiver[]
+     */
+    protected function getPluginArchivers()
+    {
+        if (empty(static::$archivers)) {
+            $pluginNames = Plugin\Manager::getInstance()->getLoadedPluginsName();
+            $archivers = array();
+            foreach ($pluginNames as $pluginName) {
+                $archivers[$pluginName] = self::getPluginArchiverClass($pluginName);
+            }
+            static::$archivers = array_filter($archivers);
+        }
+        return static::$archivers;
+    }
+
+    private static function getPluginArchiverClass($pluginName)
+    {
+        $klassName = 'Piwik\\Plugins\\' . $pluginName . '\\Archiver';
+        if (class_exists($klassName)
+            && is_subclass_of($klassName, 'Piwik\\Plugin\\Archiver')) {
+            return $klassName;
+        }
+        return false;
+    }
+
+    /**
      * This methods reads the subperiods if necessary,
      * and computes the archive of the current period.
      */
-    abstract protected function compute();
+    protected function compute()
+    {
+        $archivers = $this->getPluginArchivers();
+
+        foreach($archivers as $archiverClass) {
+            /** @var Archiver $archiver */
+            $archiver = new $archiverClass( $this );
+
+            if($archiver->shouldArchive()) {
+                if($this->isDayArchive()) {
+                    $archiver->aggregateDayReport();
+                } else {
+                    $archiver->aggregateMultipleReports();
+                }
+            }
+        }
+    }
 
     protected static function determineIfArchivePermanent(Date $dateEnd)
     {
@@ -544,5 +597,304 @@ abstract class ArchiveProcessor
     protected function getRequestedPlugin()
     {
         return $this->requestedPlugin;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDayArchive()
+    {
+        return $this->getPeriod()->getLabel() == 'day';
+    }
+
+
+    protected function aggregateMultipleVisitMetrics()
+    {
+        $toSum = Metrics::getVisitsMetricNames();
+        $metrics = $this->aggregateNumericMetrics($toSum);
+        return $metrics;
+    }
+
+
+    protected function aggregateDayVisitsMetrics()
+    {
+        $query = $this->getLogAggregator()->queryVisitsByDimension();
+        $data = $query->fetch();
+
+        $metrics = $this->convertMetricsIdToName($data);
+        $this->insertNumericRecords($metrics);
+        return $metrics;
+    }
+
+    protected function convertMetricsIdToName($data)
+    {
+        $metrics = array();
+        foreach ($data as $metricId => $value) {
+            $readableMetric = Metrics::$mappingFromIdToName[$metricId];
+            $metrics[$readableMetric] = $value;
+        }
+        return $metrics;
+    }
+
+
+    /**
+     * Array of (column name before => column name renamed) of the columns for which sum operation is invalid.
+     * These columns will be renamed as per this mapping.
+     * @var array
+     */
+    protected static $invalidSummedColumnNameToRenamedName = array(
+        Metrics::INDEX_NB_UNIQ_VISITORS => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS
+    );
+
+    /**
+     * @var Archive
+     */
+    protected $archive = null;
+
+    /**
+     * Sums records for every subperiod of the current period and inserts the result as the record
+     * for this period.
+     *
+     * DataTables are summed recursively so subtables will be summed as well.
+     *
+     * @param string|array $recordNames Name(s) of the report we are aggregating, eg, `'Referrers_type'`.
+     * @param int $maximumRowsInDataTableLevelZero Maximum number of rows allowed in the top level DataTable.
+     * @param int $maximumRowsInSubDataTable Maximum number of rows allowed in each subtable.
+     * @param string $columnToSortByBeforeTruncation The name of the column to sort by before truncating a DataTable.
+     * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow().
+     * @param array $invalidSummedColumnNameToRenamedName For columns that must change names when summed because they
+     *                                                    cannot be summed, eg,
+     *                                                    `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
+     * @return array Returns the row counts of each aggregated report before truncation, eg,
+     *               ```
+     *               array(
+     *                   'report1' => array('level0' => $report1->getRowsCount,
+     *                                      'recursive' => $report1->getRowsCountRecursive()),
+     *                   'report2' => array('level0' => $report2->getRowsCount,
+     *                                      'recursive' => $report2->getRowsCountRecursive()),
+     *                   ...
+     *               )
+     *               ```
+     */
+    public function aggregateDataTableRecords($recordNames,
+                                              $maximumRowsInDataTableLevelZero = null,
+                                              $maximumRowsInSubDataTable = null,
+                                              $columnToSortByBeforeTruncation = null,
+                                              &$columnAggregationOperations = null,
+                                              $invalidSummedColumnNameToRenamedName = null)
+    {
+        // We clean up below all tables created during this function call (and recursive calls)
+        $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
+        if (!is_array($recordNames)) {
+            $recordNames = array($recordNames);
+        }
+        $this->initArchive();
+        $nameToCount = array();
+        foreach ($recordNames as $recordName) {
+            $table = $this->getRecordDataTableSum($recordName, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations);
+
+            $nameToCount[$recordName]['level0'] = $table->getRowsCount();
+            $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
+
+            $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
+            Common::destroy($table);
+            $this->insertBlobRecord($recordName, $blob);
+        }
+        Manager::getInstance()->deleteAll($latestUsedTableId);
+
+        return $nameToCount;
+    }
+
+    /**
+     * Aggregates metrics for every subperiod of the current period and inserts the result
+     * as the metric for this period.
+     *
+     * @param array|string $columns Array of metric names to aggregate.
+     * @param bool|string $operationToApply The operation to apply to the metric. Either `'sum'`, `'max'` or `'min'`.
+     * @return array|int Returns the array of aggregate values. If only one metric was aggregated,
+     *                   the aggregate value will be returned as is, not in an array.
+     *                   For example, if `array('nb_visits', 'nb_hits')` is supplied for `$columns`,
+     *                   ```
+     *                   array(
+     *                       'nb_visits' => 3040,
+     *                       'nb_hits' => 405
+     *                   )
+     *                   ```
+     *                   is returned.
+     */
+    public function aggregateNumericMetrics($columns, $operationToApply = false)
+    {
+        if (!is_array($columns)) {
+            $columns = array($columns);
+        }
+        $this->initArchive();
+        $data = $this->archive->getNumeric($columns);
+        $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
+        $results = $this->aggregateDataArray($data, $operationForColumn);
+        $results = $this->defaultColumnsToZero($columns, $results);
+        $this->enrichWithUniqueVisitorsMetric($results);
+
+        foreach ($results as $name => $value) {
+            $this->archiveWriter->insertRecord($name, $value);
+        }
+
+        // if asked for only one field to sum
+        if (count($results) == 1) {
+            return reset($results);
+        }
+
+        // returns the array of records once summed
+        return $results;
+    }
+
+    protected function initArchive()
+    {
+        if (empty($this->archive)) {
+            $subPeriods = $this->getPeriod()->getSubperiods();
+            $this->archive = Archive::factory($this->getSegment(), $subPeriods, array($this->getSite()->getId()));
+        }
+    }
+
+    /**
+     * This method selects all DataTables that have the name $name over the period.
+     * All these DataTables are then added together, and the resulting DataTable is returned.
+     *
+     * @param string $name
+     * @param array $invalidSummedColumnNameToRenamedName columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
+     * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow()
+     * @return DataTable
+     */
+    protected function getRecordDataTableSum($name, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations = null)
+    {
+        $table = new DataTable();
+        if (!empty($columnAggregationOperations)) {
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOperations);
+        }
+
+        $data = $this->archive->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
+        if ($data instanceof DataTable\Map) {
+            foreach ($data->getDataTables() as $date => $tableToSum) {
+                $table->addDataTable($tableToSum);
+            }
+        } else {
+            $table->addDataTable($data);
+        }
+
+        if (is_null($invalidSummedColumnNameToRenamedName)) {
+            $invalidSummedColumnNameToRenamedName = self::$invalidSummedColumnNameToRenamedName;
+        }
+        foreach ($invalidSummedColumnNameToRenamedName as $oldName => $newName) {
+            $table->renameColumn($oldName, $newName);
+        }
+        return $table;
+    }
+
+    protected function getOperationForColumns($columns, $defaultOperation)
+    {
+        $operationForColumn = array();
+        foreach ($columns as $name) {
+            $operation = $defaultOperation;
+            if (empty($operation)) {
+                $operation = $this->guessOperationForColumn($name);
+            }
+            $operationForColumn[$name] = $operation;
+        }
+        return $operationForColumn;
+    }
+
+    protected function aggregateDataArray(array $data, array $operationForColumn)
+    {
+        $results = array();
+        foreach ($data as $row) {
+            if (!is_array($row)) {
+                // this is not a data array to aggregate
+                return $data;
+            }
+            foreach ($row as $name => $value) {
+                $operation = $operationForColumn[$name];
+                switch ($operation) {
+                    case 'sum':
+                        if (!isset($results[$name])) {
+                            $results[$name] = 0;
+                        }
+                        $results[$name] += $value;
+                        break;
+
+                    case 'max':
+                        if (!isset($results[$name])) {
+                            $results[$name] = 0;
+                        }
+                        $results[$name] = max($results[$name], $value);
+                        break;
+
+                    case 'min':
+                        if (!isset($results[$name])) {
+                            $results[$name] = $value;
+                        }
+                        $results[$name] = min($results[$name], $value);
+                        break;
+
+                    case false:
+                        // do nothing if the operation is not known (eg. nb_uniq_visitors should be not be aggregated)
+                        break;
+
+                    default:
+                        throw new Exception("Operation not applicable.");
+                        break;
+                }
+            }
+        }
+        return $results;
+    }
+
+    protected function defaultColumnsToZero($columns, $results)
+    {
+        foreach ($columns as $name) {
+            if (!isset($results[$name])) {
+                $results[$name] = 0;
+            }
+        }
+        return $results;
+    }
+
+    protected function enrichWithUniqueVisitorsMetric(&$results)
+    {
+        if (array_key_exists('nb_uniq_visitors', $results)) {
+            if (SettingsPiwik::isUniqueVisitorsEnabled($this->getPeriod()->getLabel())) {
+                $results['nb_uniq_visitors'] = (float)$this->computeNbUniqVisitors();
+            } else {
+                unset($results['nb_uniq_visitors']);
+            }
+        }
+    }
+
+    protected function guessOperationForColumn($column)
+    {
+        if (strpos($column, 'max_') === 0) {
+            return 'max';
+        }
+        if (strpos($column, 'min_') === 0) {
+            return 'min';
+        }
+        if ($column === 'nb_uniq_visitors') {
+            return false;
+        }
+        return 'sum';
+    }
+
+    /**
+     * Processes number of unique visitors for the given period
+     *
+     * This is the only Period metric (ie. week/month/year/range) that we process from the logs directly,
+     * since unique visitors cannot be summed like other metrics.
+     *
+     * @return int
+     */
+    protected function computeNbUniqVisitors()
+    {
+        $logAggregator = $this->getLogAggregator();
+        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), array(Metrics::INDEX_NB_UNIQ_VISITORS));
+        $data = $query->fetch();
+        return $data[Metrics::INDEX_NB_UNIQ_VISITORS];
     }
 }

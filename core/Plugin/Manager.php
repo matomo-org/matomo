@@ -27,7 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 /**
  * The singleton that manages plugin loading/unloading and installation/uninstallation.
  *
- * @static \Piwik\Plugin\Manager getInstance()
+ * @method static \Piwik\Plugin\Manager getInstance()
  * @package Piwik
  * @subpackage Manager
  */

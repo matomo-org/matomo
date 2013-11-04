@@ -35,8 +35,6 @@ class VisitTime extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'Menu.Reporting.addItems'         => 'addMenu',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
@@ -193,22 +191,6 @@ class VisitTime extends \Piwik\Plugin
         if ($view->isViewDataTableId(Graph::ID)) {
             $view->config->max_graph_elements = false;
             $view->config->show_all_ticks     = true;
-        }
-    }
-
-    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
-    }
-
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
         }
     }
 

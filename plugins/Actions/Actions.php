@@ -39,8 +39,6 @@ class Actions extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.aggregateDayReport' => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'Menu.Reporting.addItems'         => 'addMenus',
             'API.getReportMetadata'           => 'getReportMetadata',
@@ -504,28 +502,6 @@ class Actions extends \Piwik\Plugin
             return false;
         }
         return Site::isSiteSearchEnabledFor($idSite);
-    }
-
-    /**
-     * Compute all the actions along with their hierarchies.
-     *
-     * For each action we process the "interest statistics" :
-     * visits, unique visitors, bounce count, sum visit length.
-     */
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
-        }
-    }
-
-    function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
     }
 
     static public function checkCustomVariablesPluginEnabled()

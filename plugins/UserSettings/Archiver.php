@@ -41,6 +41,11 @@ class Archiver extends \Piwik\Plugin\Archiver
     const OS_DIMENSION = "log_visit.config_os";
     const CONFIGURATION_DIMENSION = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
 
+    /**
+     * Daily archive of User Settings report. Processes reports for Visits by Resolution,
+     * by Browser, Browser family, etc. Some reports are built from the logs, some reports
+     * are superset of an existing report (eg. Browser family is built from the Browser report)
+     */
     public function aggregateDayReport()
     {
         $this->aggregateByConfiguration();
@@ -146,6 +151,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 
+    /**
+     * Period archiving: simply sums up daily archives
+     */
     public function aggregateMultipleReports()
     {
         $dataTableRecords = array(

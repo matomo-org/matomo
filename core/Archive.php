@@ -610,11 +610,7 @@ class Archive
                     continue;
                 }
 
-                if ($period->getLabel() == 'day') {
-                    $processing = new ArchiveProcessor\Day($period, $site, $this->params->getSegment());
-                } else {
-                    $processing = new ArchiveProcessor\Aggregator($period, $site, $this->params->getSegment());
-                }
+                $processing = new ArchiveProcessor($period, $site, $this->params->getSegment());
 
                 // process for each plugin as well
                 foreach ($archiveGroups as $plugin) {

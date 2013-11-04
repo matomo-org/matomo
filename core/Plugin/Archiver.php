@@ -44,26 +44,6 @@ use Piwik\Config as PiwikConfig;
  *         }
  *     }
  * 
- * **Using Archiver in archiving events**
- * 
- *     // event observer for ArchiveProcessor.Day.compute
- *     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
- *     {
- *         $archiving = new Archiver($archiveProcessor);
- *         if ($archiving->shouldArchive()) {
- *             $archiving->aggregateDayReport();
- *         }
- *     }
- * 
- *     // event observer for ArchiveProcessor.aggregateMultipleReports
- *     public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
- *     {
- *         $archiving = new Archiver($archiveProcessor);
- *         if ($archiving->shouldArchive()) {
- *             $archiving->aggregateMultipleReports();
- *         }
- *     }
- * 
  * @api
  */
 abstract class Archiver
@@ -83,7 +63,9 @@ abstract class Archiver
     }
 
     /**
-     * Archive data for a day period.
+     * Triggered when the archiving process is initiated for a day period.
+     *
+     * Plugins that compute analytics data should create an Archiver class that descends from [Plugin\Archiver](#).
      */
     abstract public function aggregateDayReport();
 
@@ -109,7 +91,7 @@ abstract class Archiver
     }
 
     /**
-     * @return \Piwik\ArchiveProcessor\Day|\Piwik\ArchiveProcessor\Aggregator
+     * @return \Piwik\ArchiveProcessor
      */
     protected function getProcessor()
     {
