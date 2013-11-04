@@ -48,7 +48,7 @@
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<avg_time_generation>0s</avg_time_generation>
+				<avg_time_generation>0.67s</avg_time_generation>
 			</row>
 			<row>
 				<label>/webradio</label>
@@ -57,7 +57,7 @@
 				<avg_time_on_page>00:24:59</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<avg_time_generation>0s</avg_time_generation>
+				<avg_time_generation>0.33s</avg_time_generation>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010" />

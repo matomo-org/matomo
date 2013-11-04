@@ -10,12 +10,10 @@
  */
 namespace Piwik\Plugins\ExamplePlugin;
 
-use Piwik\Plugin;
-
 /**
  * @package ExamplePlugin
  */
-class ExamplePlugin extends Plugin
+class ExamplePlugin extends \Piwik\Plugin
 {
     /**
      * @see Piwik\Plugin::getListHooksRegistered

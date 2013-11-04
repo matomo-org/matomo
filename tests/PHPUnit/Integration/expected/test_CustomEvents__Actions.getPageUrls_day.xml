@@ -6,11 +6,15 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
+		<min_time_generation>0.666</min_time_generation>
+		<max_time_generation>0.666</max_time_generation>
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0.666</avg_time_generation>
 		<url>http://example.org/movies</url>
 	</row>
 	<row>
@@ -19,6 +23,9 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>2998</sum_time_spent>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
+		<min_time_generation>0.333</min_time_generation>
+		<max_time_generation>0.333</max_time_generation>
 		<entry_nb_uniq_visitors>2</entry_nb_uniq_visitors>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>30</entry_nb_actions>
@@ -27,6 +34,7 @@
 		<avg_time_on_page>1499</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0.333</avg_time_generation>
 		<url>http://example.org/webradio</url>
 	</row>
 </result>

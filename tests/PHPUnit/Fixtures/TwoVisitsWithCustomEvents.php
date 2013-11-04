@@ -59,6 +59,7 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
     protected function trackMusicPlaying(PiwikTracker $vis)
     {
         $vis->setUrl('http://example.org/webradio');
+        $vis->setGenerationTime(333);
         self::checkResponse($vis->doTrackPageView('Welcome!'));
 
         $this->moveTimeForward($vis, 1);
@@ -96,6 +97,7 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomEvents extends Test_Piwik_BaseFixtur
         // First a pageview so the time on page is tracked properly
         $this->moveTimeForward($vis, 30);
         $vis->setUrl('http://example.org/movies');
+        $vis->setGenerationTime(666);
         self::checkResponse($vis->doTrackPageView('Movie Theater'));
 
         $this->moveTimeForward($vis, 31);

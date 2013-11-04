@@ -10,12 +10,10 @@
  */
 namespace Piwik\Plugins\ExampleVisualization;
 
-use Piwik\Plugin;
-
 /**
  * @package ExampleVisualization
  */
-class ExampleVisualization extends Plugin
+class ExampleVisualization extends \Piwik\Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

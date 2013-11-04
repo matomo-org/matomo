@@ -124,7 +124,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * @return string
      */
-    protected function getWhereClauseActionIsNotEvent()
+    static public function getWhereClauseActionIsNotEvent()
     {
         return " AND log_link_visit_action.idaction_event_category IS NULL";
     }

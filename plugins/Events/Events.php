@@ -11,12 +11,11 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Piwik;
-use Piwik\Plugin;
 
 /**
  * @package Events
  */
-class Events extends Plugin
+class Events extends \Piwik\Plugin
 {
     /**
      * @see Piwik\Plugin::getListHooksRegistered
@@ -57,19 +56,31 @@ class Events extends Plugin
             'sqlFilter'  => $sqlFilter,
         );
         $segments[] = array(
-            'type'       => 'metric',
-            'category'   => 'Events_Events',
-            'name'       => 'Events_EventValue',
-            'segment'    => 'eventValue',
-            'sqlSegment' => 'log_link_visit_action.custom_float'
-        );
-        $segments[] = array(
             'type'           => 'metric',
             'category'       => Piwik::translate('General_Visit'),
             'name'           => 'Events_NbEvents',
             'segment'        => 'events',
             'sqlSegment'     => 'log_visit.visit_total_events',
             'acceptedValues' => 'To select all visits who triggered an Event, use: &segment=events>0',
+        );
+        $segments[] = array(
+            'type'       => 'metric',
+            'category'   => 'Events_Events',
+            'name'       => 'Events_EventValue',
+            'segment'    => 'eventValue',
+            'sqlSegment' => 'log_link_visit_action.custom_float',
+            'sqlFilter'  => '\\Piwik\\Plugins\\Events\\Events::getSegmentEventValue'
+        );
+    }
+
+    public static function getSegmentEventValue($valueToMatch, $sqlField, $matchType, $segmentName)
+    {
+        $isNotEvent = \Piwik\Plugins\Actions\Archiver::getWhereClauseActionIsNotEvent();
+        $isEvent = str_replace("IS NULL", "IS NOT NULL", $isNotEvent);
+
+        return array(
+            'SQL' => " $sqlField $matchType ? " . $isEvent,
+            'bind' => $valueToMatch
         );
     }
 }
