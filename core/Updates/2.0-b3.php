@@ -40,5 +40,10 @@ class Updates_2_0_b3 extends Updates
     static function update()
     {
         Updater::updateDatabase(__FILE__, self::getSql());
+
+        try {
+            \Piwik\Plugin\Manager::getInstance()->activatePlugin('Events');
+        } catch (\Exception $e) {
+        }
     }
 }

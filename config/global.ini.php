@@ -512,7 +512,7 @@ Plugins[] = Referrers
 Plugins[] = UserSettings
 Plugins[] = Goals
 Plugins[] = SEO
-
+Plugins[] = Events
 Plugins[] = UserCountry
 Plugins[] = VisitsSummary
 Plugins[] = VisitFrequency
