@@ -51,12 +51,6 @@
 		<segment>visitDuration</segment>
 	</row>
 	<row>
-		<type>metric</type>
-		<category>Events</category>
-		<name>Event Value</name>
-		<segment>eventValue</segment>
-	</row>
-	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>City</name>
