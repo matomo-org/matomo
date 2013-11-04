@@ -184,7 +184,7 @@ class DevicesDetection extends \Piwik\Plugin
     {
         // Note: only one field segmented so far: deviceType
         foreach ($this->getRawMetadataReports() as $report) {
-            @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues, $sqlFilter) = $report;
+            @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues) = $report;
 
             if (empty($segment)) continue;
 
@@ -194,8 +194,7 @@ class DevicesDetection extends \Piwik\Plugin
                 'name'           => $columnName,
                 'segment'        => $segment,
                 'acceptedValues' => $acceptedValues,
-                'sqlSegment'     => $sqlSegment,
-                'sqlFilter'      => isset($sqlFilter) ? $sqlFilter : false,
+                'sqlSegment'     => $sqlSegment
             );
         }
     }

@@ -434,7 +434,7 @@ class UserSettings extends \Piwik\Plugin
     public function getSegmentsMetadata(&$segments)
     {
         foreach ($this->reportMetadata as $report) {
-            @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues, $sqlFilter) = $report;
+            @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues) = $report;
             if (empty($segment)) continue;
             $segments[] = array(
                 'type'           => 'dimension',
@@ -442,8 +442,7 @@ class UserSettings extends \Piwik\Plugin
                 'name'           => $columnName,
                 'segment'        => $segment,
                 'acceptedValues' => $acceptedValues,
-                'sqlSegment'     => $sqlSegment,
-                'sqlFilter'      => isset($sqlFilter) ? $sqlFilter : false,
+                'sqlSegment'     => $sqlSegment
             );
         }
     }

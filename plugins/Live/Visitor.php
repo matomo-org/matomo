@@ -675,14 +675,13 @@ class Visitor
                 $visitorDetailsArray[$flattenedKeyName] = $action['url'];
             }
 
-            if (!empty($action['pageTitle'])) {
-                $flattenedKeyName = 'pageTitle' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
-                $visitorDetailsArray[$flattenedKeyName] = $action['pageTitle'];
-            }
-
-            if (!empty($action['siteSearchKeyword'])) {
-                $flattenedKeyName = 'siteSearchKeyword' . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
-                $visitorDetailsArray[$flattenedKeyName] = $action['siteSearchKeyword'];
+            // API.getSuggestedValuesForSegment
+            $flatten = array( 'pageTitle', 'siteSearchKeyword', 'eventCategory', 'eventAction', 'eventName', 'eventValue');
+            foreach($flatten as $toFlatten) {
+                if (!empty($action[$toFlatten])) {
+                    $flattenedKeyName = $toFlatten . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
+                    $visitorDetailsArray[$flattenedKeyName] = $action[$toFlatten];
+                }
             }
             $count++;
         }
@@ -710,6 +709,7 @@ class Visitor
         if (!empty($lastAction['url'])) {
             $visitorDetailsArray['exitPageUrl'] = $lastAction['url'];
         }
+
 
         return $visitorDetailsArray;
     }

@@ -186,7 +186,7 @@ class Referrers extends \Piwik\Plugin
             'segment'        => 'referrerType',
             'acceptedValues' => 'direct, search, website, campaign',
             'sqlSegment'     => 'log_visit.referer_type',
-            'sqlFilter'      => __NAMESPACE__ . '\getReferrerTypeFromShortName',
+            'sqlFilterValue' => __NAMESPACE__ . '\getReferrerTypeFromShortName',
         );
         $segments[] = array(
             'type'           => 'dimension',

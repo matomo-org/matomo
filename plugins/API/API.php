@@ -140,7 +140,7 @@ class API extends \Piwik\Plugin\API
             'segment'        => 'visitIp',
             'acceptedValues' => '13.54.122.1, etc.',
             'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilter'      => array('Piwik\IP', 'P2N'),
+            'sqlFilterValue' => array('Piwik\IP', 'P2N'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
@@ -150,7 +150,7 @@ class API extends \Piwik\Plugin\API
             'segment'        => 'visitorId',
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
             'sqlSegment'     => 'log_visit.idvisitor',
-            'sqlFilter'      => array('Piwik\Common', 'convertVisitorIdToBin'),
+            'sqlFilterValue' => array('Piwik\Common', 'convertVisitorIdToBin'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
@@ -191,7 +191,7 @@ class API extends \Piwik\Plugin\API
             'segment'        => 'visitorType',
             'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
             'sqlSegment'     => 'log_visit.visitor_returning',
-            'sqlFilter'      => function ($type) {
+            'sqlFilterValue' => function ($type) {
                     return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);
                 }
         );
@@ -234,7 +234,7 @@ class API extends \Piwik\Plugin\API
             'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
                 . '. ' . Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
             'sqlSegment'     => 'log_visit.visit_goal_buyer',
-            'sqlFilter'      => __NAMESPACE__ . '\API::getVisitEcommerceStatus',
+            'sqlFilterValue' => __NAMESPACE__ . '\API::getVisitEcommerceStatus',
         );
 
         $segments[] = array(
@@ -251,6 +251,7 @@ class API extends \Piwik\Plugin\API
 
             if ($_hideImplementationData) {
                 unset($segment['sqlFilter']);
+                unset($segment['sqlFilterValue']);
                 unset($segment['sqlSegment']);
             }
         }
@@ -284,14 +285,14 @@ class API extends \Piwik\Plugin\API
     {
         $id = array_search($status, self::$visitEcommerceStatus);
         if ($id === false) {
-            throw new \Exception("Invalid 'visitEcommerceStatus' segment value");
+            throw new \Exception("Invalid 'visitEcommerceStatus' segment value $status");
         }
         return $id;
     }
 
     private function sortSegments($row1, $row2)
     {
-        $columns = array('category', 'name', 'segment');
+        $columns = array('type', 'category', 'name', 'segment');
         foreach ($columns as $column) {
             // Keep segments ordered alphabetically inside categories..
             $type = -1;
@@ -606,7 +607,7 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("Requested segment not found.");
         }
 
-        $startDate = Date::now()->subDay(60)->toString();
+            $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
         &period=range
@@ -660,11 +661,13 @@ class API extends \Piwik\Plugin\API
      */
     protected function doesSegmentNeedActionsData($segmentName)
     {
+        // If you update this, also update flattenVisitorDetailsArray
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
                                          'pageUrl', 'pageTitle', 'siteSearchKeyword',
                                          'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl');
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
-        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage;
+        $isEventSegment = stripos($segmentName, 'event') !== false;
+        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage || $isEventSegment;
         return $doesSegmentNeedActionsInfo;
     }
 }

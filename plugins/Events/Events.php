@@ -63,24 +63,24 @@ class Events extends \Piwik\Plugin
             'sqlSegment'     => 'log_visit.visit_total_events',
             'acceptedValues' => 'To select all visits who triggered an Event, use: &segment=events>0',
         );
-        $segments[] = array(
-            'type'       => 'metric',
-            'category'   => 'Events_Events',
-            'name'       => 'Events_EventValue',
-            'segment'    => 'eventValue',
-            'sqlSegment' => 'log_link_visit_action.custom_float',
-            'sqlFilter'  => '\\Piwik\\Plugins\\Events\\Events::getSegmentEventValue'
-        );
+//        $segments[] = array(
+//            'type'           => 'metric',
+//            'category'       => 'Events_Events',
+//            'name'           => 'Events_EventValue',
+//            'segment'        => 'eventValue',
+//            'sqlSegment'     => 'log_link_visit_action.custom_float',
+//            'sqlFilter'      => '\\Piwik\\Plugins\\Events\\Events::getSegmentEventValue'
+//        );
     }
-
-    public static function getSegmentEventValue($valueToMatch, $sqlField, $matchType, $segmentName)
-    {
-        $isNotEvent = \Piwik\Plugins\Actions\Archiver::getWhereClauseActionIsNotEvent();
-        $isEvent = str_replace("IS NULL", "IS NOT NULL", $isNotEvent);
-
-        return array(
-            'SQL' => " $sqlField $matchType ? " . $isEvent,
-            'bind' => $valueToMatch
-        );
-    }
+//
+//    public static function getSegmentEventValue($valueToMatch, $sqlField, $matchType, $segmentName)
+//    {
+//        $andActionisNotEvent = \Piwik\Plugins\Actions\Archiver::getWhereClauseActionIsNotEvent();
+//        $andActionisEvent = str_replace("IS NULL", "IS NOT NULL", $andActionisNotEvent);
+//
+//        return array(
+//            'extraWhere' => $andActionisEvent,
+//            'bind' => $valueToMatch
+//        );
+//    }
 }

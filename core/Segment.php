@@ -158,21 +158,23 @@ class Segment
                 throw new Exception("You do not have enough permission to access the segment " . $name);
             }
 
-            // apply presentation filter
-            if (isset($segment['sqlFilter'])
-                && !empty($segment['sqlFilter'])
-                && $matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
-                && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY
-            ) {
-                $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
+            if($matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+                && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY) {
 
-                // sqlFilter-callbacks might return arrays for more complex cases
-                // e.g. see Actions::getIdActionFromSegment()
-                if (is_array($value)
-                    && isset($value['SQL'])
-                ) {
-                    // Special case: returned value is a sub sql expression!
-                    $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
+                if(isset($segment['sqlFilterValue'])) {
+                    $value = call_user_func($segment['sqlFilterValue'], $value);
+                }
+
+                // apply presentation filter
+                if (isset($segment['sqlFilter'])) {
+                    $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
+
+                    // sqlFilter-callbacks might return arrays for more complex cases
+                    // e.g. see TableLogAction::getIdActionFromSegment()
+                    if (is_array($value) && isset($value['SQL'])) {
+                        // Special case: returned value is a sub sql expression!
+                        $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
+                    }
                 }
             }
             break;

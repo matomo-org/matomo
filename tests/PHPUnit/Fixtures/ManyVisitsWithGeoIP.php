@@ -127,13 +127,14 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
 
             // Track site search (for AutoSuggestAPI test)
             // Only for half visitors so they don't all have a "site search" as last action and some of them have a standard page view as last action
+            $date = $date->addHour(0.1);
+            $t->setForceVisitDateTime($date->getDatetime());
             if( ($i % 2) == 0) {
-                $date = $date->addHour(0.1);
-                $t->setForceVisitDateTime($date->getDatetime());
                 $r = $t->doTrackSiteSearch('Bring on the party', 'CAT');
-                if (!$doBulk) {
-                    self::checkResponse($r);
-                }
+            }
+
+            if (!$doBulk) {
+                self::checkResponse($r);
             }
 
             $date = $date->addHour(0.2);
@@ -142,6 +143,15 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
             if (!$doBulk) {
                 self::checkResponse($r);
             }
+
+            $date = $date->addHour(0.05);
+            $t->setForceVisitDateTime($date->getDatetime());
+            $r = $t->doTrackEvent('Cat' . $i, 'Action' . $i, 'Name' . $i, 345.678 + $i );
+
+            if (!$doBulk) {
+                self::checkResponse($r);
+            }
+
         }
         if ($doBulk) {
             self::checkBulkTrackingResponse($t->doBulkTrack());

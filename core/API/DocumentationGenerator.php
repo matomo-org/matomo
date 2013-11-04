@@ -140,6 +140,7 @@ class DocumentationGenerator
             'apiAction'      => 'getCountry',
             'lastMinutes'    => '30',
             'abandonedCarts' => '0',
+            'segmentName'    => 'pageTitle',
             'ip'             => '194.57.91.215',
 //            'segmentName'    => 'browserCode',
         );
