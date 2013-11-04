@@ -242,7 +242,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             }
             $this->aggregateFromEcommerceItems($query, $dimension);
         }
-        $this->recordItemReports();
+        $this->insertItemReports();
         return true;
     }
 
@@ -255,7 +255,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    protected function recordItemReports()
+    protected function insertItemReports()
     {
         /** @var DataArray $array */
         foreach ($this->itemReports as $dimension => $itemAggregatesByType) {
