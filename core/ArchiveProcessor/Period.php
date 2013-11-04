@@ -24,33 +24,33 @@ use Piwik\SettingsPiwik;
 /**
  * Initiates the archiving process for all non-day periods via the [ArchiveProcessor.Period.compute](#)
  * event.
- * 
+ *
  * Period archiving differs from archiving day periods in that log tables are not aggregated.
  * Instead the data from periods within the non-day period are aggregated. For example, if the data
  * for a month is being archived, this ArchiveProcessor will select the aggregated data for each
  * day in the month and add them together. This is much faster than running aggregation queries over
  * the entire set of visits.
- * 
+ *
  * If data has not been archived for the subperiods, archiving will be launched for those subperiods.
  *
  * ### Examples
- * 
+ *
  * **Archiving metric data**
- * 
+ *
  *     // function in an Archiver descendent
- *     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+ *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
  *     {
  *         $archiveProcessor->aggregateNumericMetrics('myFancyMetric', 'sum');
  *         $archiveProcessor->aggregateNumericMetrics('myOtherFancyMetric', 'max');
  *     }
- * 
+ *
  * **Archiving report data**
- * 
+ *
  *     // function in an Archiver descendent
- *     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+ *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
  *     {
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
- * 
+ *
  *         $archiveProcessor->aggregateDataTableReports(
  *             'MyPlugin_myFancyReport',
  *             $maxRowsInTable,
@@ -58,7 +58,7 @@ use Piwik\SettingsPiwik;
  *             $columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS,
  *         );
  *     }
- * 
+ *
  * @package Piwik
  * @subpackage ArchiveProcessor
  *
@@ -83,7 +83,7 @@ class Period extends ArchiveProcessor
     /**
      * Sums records for every subperiod of the current period and inserts the result as the record
      * for this period.
-     * 
+     *
      * DataTables are summed recursively so subtables will be summed as well.
      *
      * @param string|array $recordNames Name(s) of the report we are aggregating, eg, `'Referrers_type'`.
@@ -222,25 +222,25 @@ class Period extends ArchiveProcessor
     {
         /**
          * Triggered when the archiving process is initiated for a non-day period.
-         * 
+         *
          * Plugins that compute analytics data should subscribe to this event. The
          * actual archiving logic, however, should not be in the event handler, but
          * in a class that descends from [Archiver](#).
-         * 
+         *
          * To learn more about non-day period archiving, see the [ArchiveProcessor\Period](#)
          * class.
-         * 
+         *
          * **Example**
-         * 
-         *     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+         *
+         *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
          *     {
          *         $archiving = new MyArchiver($archiveProcessor);
          *         if ($archiving->shouldArchive()) {
-         *             $archiving->archivePeriod();
+         *             $archiving->aggregateMultipleReports();
          *         }
          *     }
-         * 
-         * @param Piwik\ArchiveProcessor\Period $archiveProcessor
+         *
+         * @param \Piwik\ArchiveProcessor\Period $archiveProcessor
          *                                          The ArchiveProcessor that triggered the event.
          */
         Piwik::postEvent('ArchiveProcessor.Period.compute', array(&$this));

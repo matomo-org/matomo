@@ -50,7 +50,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         foreach ($this->getRecordNames() as $record) {
             $this->arrays[$record] = new DataArray();
@@ -231,7 +231,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $dataTableToSum = $this->getRecordNames();
         $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);

@@ -31,7 +31,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const BROWSER_FIELD = "config_browser_name";
     const BROWSER_VERSION_DIMENSION = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         $this->aggregateByLabel(self::DEVICE_TYPE_FIELD, self::DEVICE_TYPE_RECORD_NAME);
         $this->aggregateByLabel(self::DEVICE_BRAND_FIELD, self::DEVICE_BRAND_RECORD_NAME);
@@ -49,7 +49,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
     }
 
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $dataTablesToSum = array(
             self::DEVICE_TYPE_RECORD_NAME,

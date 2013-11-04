@@ -39,8 +39,8 @@ class Actions extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'    => 'archiveDay',
-            'ArchiveProcessor.Period.compute' => 'archivePeriod',
+            'ArchiveProcessor.aggregateDayReport' => 'aggregateDayReport',
+            'ArchiveProcessor.Period.compute' => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'Menu.Reporting.addItems'         => 'addMenus',
             'API.getReportMetadata'           => 'getReportMetadata',
@@ -512,19 +512,19 @@ class Actions extends \Piwik\Plugin
      * For each action we process the "interest statistics" :
      * visits, unique visitors, bounce count, sum visit length.
      */
-    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
-            $archiving->archiveDay();
+            $archiving->aggregateDayReport();
         }
     }
 
-    function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+    function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
-            $archiving->archivePeriod();
+            $archiving->aggregateMultipleReports();
         }
     }
 

@@ -43,7 +43,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const LATITUDE_FIELD = 'location_latitude';
     const LONGITUDE_FIELD = 'location_longitude';
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         foreach ($this->dimensions as $dimension) {
             $this->arrays[$dimension] = new DataArray();
@@ -165,7 +165,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $dataTableToSum = array(
             self::COUNTRY_RECORD_NAME,

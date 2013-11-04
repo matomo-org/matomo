@@ -24,7 +24,7 @@ use Piwik\Config as PiwikConfig;
  * 
  *     class MyArchiver extends Archiver
  *     {
- *         public function archiveDay()
+ *         public function aggregateDayReport()
  *         {
  *             $logAggregator = $this->getLogAggregator();
  *             
@@ -37,7 +37,7 @@ use Piwik\Config as PiwikConfig;
  *             $archiveProcessor->insertBlobRecords('MyPlugin_myReport', $dataTable->getSerialized(500));
  *         }
  *         
- *         public function archivePeriod()
+ *         public function aggregateMultipleReports()
  *         {
  *             $archiveProcessor = $this->getProcessor();
  *             $archiveProcessor->aggregateDataTableReports('MyPlugin_myReport', 500);
@@ -47,20 +47,20 @@ use Piwik\Config as PiwikConfig;
  * **Using Archiver in archiving events**
  * 
  *     // event observer for ArchiveProcessor.Day.compute
- *     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+ *     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
  *     {
  *         $archiving = new Archiver($archiveProcessor);
  *         if ($archiving->shouldArchive()) {
- *             $archiving->archiveDay();
+ *             $archiving->aggregateDayReport();
  *         }
  *     }
  * 
  *     // event observer for ArchiveProcessor.Period.compute
- *     public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+ *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
  *     {
  *         $archiving = new Archiver($archiveProcessor);
  *         if ($archiving->shouldArchive()) {
- *             $archiving->archivePeriod();
+ *             $archiving->aggregateMultipleReports();
  *         }
  *     }
  * 
@@ -85,12 +85,12 @@ abstract class Archiver
     /**
      * Archive data for a day period.
      */
-    abstract public function archiveDay();
+    abstract public function aggregateDayReport();
 
     /**
      * Archive data for a non-day period.
      */
-    abstract public function archivePeriod();
+    abstract public function aggregateMultipleReports();
 
     // todo: review this concept, each plugin should somehow maintain the list of report names they generate
     /**

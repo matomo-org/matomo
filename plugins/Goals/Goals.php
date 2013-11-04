@@ -92,8 +92,8 @@ class Goals extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Site.getSiteAttributes'                 => 'fetchGoalsFromDb',
-            'ArchiveProcessor.Day.compute'           => 'archiveDay',
-            'ArchiveProcessor.Period.compute'        => 'archivePeriod',
+            'ArchiveProcessor.aggregateDayReport'           => 'aggregateDayReport',
+            'ArchiveProcessor.Period.compute'        => 'aggregateMultipleReports',
             'API.getReportMetadata.end'              => 'getReportMetadata',
             'API.getSegmentsMetadata'                => 'getSegmentsMetadata',
             'WidgetsList.addWidgets'                 => 'addWidgets',
@@ -512,11 +512,11 @@ class Goals extends \Piwik\Plugin
      * Will process Goal stats overall and for each Goal.
      * Also processes the New VS Returning visitors conversion stats.
      */
-    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
-            $archiving->archiveDay();
+            $archiving->aggregateDayReport();
         }
     }
 
@@ -524,11 +524,11 @@ class Goals extends \Piwik\Plugin
      * Hooks on Period archiving.
      * Sums up Goal conversions stats, and processes overall conversion rate
      */
-    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
-            $archiving->archivePeriod();
+            $archiving->aggregateMultipleReports();
         }
     }
 

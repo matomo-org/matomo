@@ -40,7 +40,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
     }
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         $this->dataArray = new DataArray();
 
@@ -201,7 +201,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $nameToCount = $this->getProcessor()->aggregateDataTableReports(
             self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,

@@ -84,7 +84,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected $itemReports = array();
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         $this->archiveGeneralGoalMetrics();
         $this->archiveEcommerceItems();
@@ -379,7 +379,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * @internal param $this->getProcessor()
      */
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         /*
          * Archive Ecommerce Items

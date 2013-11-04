@@ -33,8 +33,8 @@ class VisitorInterest extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'     => 'archiveDay',
-            'ArchiveProcessor.Period.compute'  => 'archivePeriod',
+            'ArchiveProcessor.aggregateDayReport'     => 'aggregateDayReport',
+            'ArchiveProcessor.Period.compute'  => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'           => 'addWidgets',
             'Menu.Reporting.addItems'          => 'addMenu',
             'API.getReportMetadata'            => 'getReportMetadata',
@@ -125,19 +125,19 @@ class VisitorInterest extends \Piwik\Plugin
         Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
-    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
-            $archiving->archivePeriod();
+            $archiving->aggregateMultipleReports();
         }
     }
 
-    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
-            $archiving->archiveDay();
+            $archiving->aggregateDayReport();
         }
     }
 

@@ -17,14 +17,14 @@ class Archiver extends \Piwik\Plugin\Archiver
     const PROVIDER_RECORD_NAME = 'Provider_hostnameExt';
     const PROVIDER_FIELD = "location_provider";
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         $metrics = $this->getProcessor()->getMetricsForDimension(self::PROVIDER_FIELD);
         $tableProvider = $this->getProcessor()->getDataTableFromDataArray($metrics);
         $this->getProcessor()->insertBlobRecord(self::PROVIDER_RECORD_NAME, $tableProvider->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
     }
 
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $this->getProcessor()->aggregateDataTableReports(array(self::PROVIDER_RECORD_NAME), $this->maximumRows);
     }

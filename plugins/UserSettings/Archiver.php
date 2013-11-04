@@ -41,7 +41,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const OS_DIMENSION = "log_visit.config_os";
     const CONFIGURATION_DIMENSION = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         $this->aggregateByConfiguration();
         $this->aggregateByOs();
@@ -149,7 +149,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
     }
 
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $dataTableToSum = array(
             self::CONFIGURATION_RECORD_NAME,

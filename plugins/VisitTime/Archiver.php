@@ -19,7 +19,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     const SERVER_TIME_RECORD_NAME = 'VisitTime_serverTime';
     const LOCAL_TIME_RECORD_NAME = 'VisitTime_localTime';
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         $this->aggregateByLocalTime();
         $this->aggregateByServerTime();
@@ -73,7 +73,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $dataTableToSum = array(
             self::LOCAL_TIME_RECORD_NAME,

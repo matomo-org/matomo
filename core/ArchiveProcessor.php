@@ -53,7 +53,7 @@ use Piwik\Period;
  * **Inserting numeric data**
  * 
  *     // function in an Archiver descendent
- *     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+ *     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
  *     {
  *         $myFancyMetric = // ... calculate the metric value ...
  *         $archiveProcessor->insertNumericRecord('MyPlugin_myFancyMetric', $myFancyMetric);
@@ -62,7 +62,7 @@ use Piwik\Period;
  * **Inserting serialized DataTables**
  * 
  *     // function in an Archiver descendent
- *     public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+ *     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
  *     {
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
  * 

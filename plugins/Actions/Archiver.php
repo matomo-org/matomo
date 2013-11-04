@@ -87,7 +87,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      *
      * @return bool
      */
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
         ArchivingHelper::reloadConfig();
@@ -332,7 +332,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * Exit actions
      */
-    public function archiveDayExitActions($rankingQueryLimit)
+    protected function archiveDayExitActions($rankingQueryLimit)
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -514,7 +514,13 @@ class Archiver extends \Piwik\Plugin\Archiver
         $dataTable->deleteColumns($columnsToDelete);
     }
 
-    public function archivePeriod()
+    // archiveDayReportFromLogs
+    // archiveMultipleReportsSum
+
+    // aggregateDayReportFromLogs
+    // aggregateMultipleReports
+
+    public function aggregateMultipleReports()
     {
         ArchivingHelper::reloadConfig();
         $dataTableToSum = array(

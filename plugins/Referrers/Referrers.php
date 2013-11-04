@@ -37,8 +37,8 @@ class Referrers extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.Day.compute'    => 'archiveDay',
-            'ArchiveProcessor.Period.compute' => 'archivePeriod',
+            'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
+            'ArchiveProcessor.Period.compute' => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'          => 'addWidgets',
             'Menu.Reporting.addItems'         => 'addMenus',
             'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
@@ -280,11 +280,11 @@ class Referrers extends \Piwik\Plugin
     /**
      * Hooks on daily archive to trigger various log processing
      */
-    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
+    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
-            $archiving->archiveDay();
+            $archiving->aggregateDayReport();
         }
     }
 
@@ -292,11 +292,11 @@ class Referrers extends \Piwik\Plugin
      * Period archiving: sums up daily stats and sums report tables,
      * making sure that tables are still truncated.
      */
-    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
+    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
-            $archiving->archivePeriod();
+            $archiving->aggregateMultipleReports();
         }
     }
 

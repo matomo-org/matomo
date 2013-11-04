@@ -19,7 +19,7 @@ use Piwik\Piwik;
 /**
  * Initiates the archiving process for **day** periods via the [ArchiveProcessor.Day.compute](#)
  * event.
- * 
+ *
  * @package Piwik
  * @subpackage ArchiveProcessor
  *
@@ -29,7 +29,7 @@ class Day extends ArchiveProcessor
 {
     /**
      * Converts array to a datatable
-     * 
+     *
      * @param DataArray $array
      * @return \Piwik\DataTable
      */
@@ -111,27 +111,27 @@ class Day extends ArchiveProcessor
     {
         /**
          * Triggered when the archiving process is initiated for a day period.
-         * 
+         *
          * Plugins that compute analytics data should subscribe to this event. The
          * actual archiving logic, however, should not be in the event handler, but
          * in a class that descends from [Archiver](#).
-         * 
+         *
          * To learn more about single day archiving, see the [ArchiveProcessor\Day](#)
          * class.
-         * 
+         *
          * **Example**
-         * 
-         *     public function archivePeriod(ArchiveProcessor\Day $archiveProcessor)
+         *
+         *     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
          *     {
          *         $archiving = new MyArchiver($archiveProcessor);
          *         if ($archiving->shouldArchive()) {
-         *             $archiving->archiveDay();
+         *             $archiving->aggregateDayReport();
          *         }
          *     }
-         * 
-         * @param Piwik\ArchiveProcessor\Day $archiveProcessor
+         *
+         * @param \Piwik\ArchiveProcessor\Day $archiveProcessor
          *                                       The ArchiveProcessor that triggered the event.
          */
-        Piwik::postEvent('ArchiveProcessor.Day.compute', array(&$this));
+        Piwik::postEvent('ArchiveProcessor.aggregateDayReport', array(&$this));
     }
 }

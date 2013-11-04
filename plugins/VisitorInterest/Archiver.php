@@ -86,7 +86,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         array(364)
     );
 
-    public function archiveDay()
+    public function aggregateDayReport()
     {
         // these prefixes are prepended to the 'SELECT as' parts of each SELECT expression. detecting
         // these prefixes allows us to get all the data in one query.
@@ -139,7 +139,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $secondsGap;
     }
 
-    public function archivePeriod()
+    public function aggregateMultipleReports()
     {
         $dataTableToSum = array(
             self::TIME_SPENT_RECORD_NAME,

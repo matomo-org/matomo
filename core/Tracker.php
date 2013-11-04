@@ -592,7 +592,7 @@ class Tracker
          * event can force the use of a custom visit object that extends from
          * [Piwik\Tracker\VisitInterface](#).
          * 
-         * @param Piwik\Tracker\VisitInterface &$visit Initialized to null, but can be set to
+         * @param \Piwik\Tracker\VisitInterface &$visit Initialized to null, but can be set to
          *                                             a created Visit object. If it isn't
          *                                             modified Piwik uses the default class.
          */
