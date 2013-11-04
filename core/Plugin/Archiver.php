@@ -48,6 +48,9 @@ use Piwik\Config as PiwikConfig;
  */
 abstract class Archiver
 {
+    /**
+     * @var \Piwik\ArchiveProcessor
+     */
     protected $processor;
 
     /**
@@ -74,28 +77,12 @@ abstract class Archiver
      */
     abstract public function aggregateMultipleReports();
 
-    // todo: review this concept, each plugin should somehow maintain the list of report names they generate
-    /**
-     * Returns true if the current plugin should be archived or not.
-     * 
-     * @return bool
-     */
-    public function shouldArchive()
-    {
-        $className = get_class($this);
-        $pluginName = str_replace(array("Piwik\\Plugins\\", "\\Archiver"), "", $className);
-        if (strpos($pluginName, "\\") !== false) {
-            throw new \Exception("unexpected plugin name $pluginName in shouldArchive()");
-        }
-        return $this->getProcessor()->shouldProcessReportsForPlugin($pluginName);
-    }
-
     /**
      * @return \Piwik\ArchiveProcessor
      */
     protected function getProcessor()
     {
-        return $this->processor;
+        return $this->processor->getDateEnd();
     }
 
     /**

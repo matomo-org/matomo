@@ -157,11 +157,22 @@ class ArchiveProcessor
      */
     private $segment = null;
 
+    /**
+     * @var Archive
+     */
+    protected $archive = null;
+
     public function __construct(Period $period, Site $site, Segment $segment)
     {
         $this->period = $period;
         $this->site = $site;
         $this->segment = $segment;
+
+        // If we are aggregating multiple reports: prepare the Archive object needed for aggregate* methods
+        if(!$this->isDayArchive()) {
+            $subPeriods = $this->getPeriod()->getSubperiods();
+            $this->archive = Archive::factory($this->getSegment(), $subPeriods, array($this->getSite()->getId()));
+        }
     }
 
     /**
@@ -401,7 +412,7 @@ class ArchiveProcessor
      *
      * @return int|bool  Datetime timestamp, or false if must look at any archive available
      */
-    public function getMinTimeArchiveProcessed()
+    protected function getMinTimeArchiveProcessed()
     {
         $endDateTimestamp = self::determineIfArchivePermanent($this->getDateEnd());
         $isArchiveTemporary = ($endDateTimestamp === false);
@@ -486,11 +497,11 @@ class ArchiveProcessor
     {
         $archivers = $this->getPluginArchivers();
 
-        foreach($archivers as $archiverClass) {
+        foreach($archivers as $pluginName => $archiverClass) {
             /** @var Archiver $archiver */
             $archiver = new $archiverClass( $this );
 
-            if($archiver->shouldArchive()) {
+            if($this->shouldProcessReportsForPlugin($pluginName)) {
                 if($this->isDayArchive()) {
                     $archiver->aggregateDayReport();
                 } else {
@@ -578,7 +589,7 @@ class ArchiveProcessor
      * @param string $pluginName
      * @return bool
      */
-    public function shouldProcessReportsForPlugin($pluginName)
+    protected function shouldProcessReportsForPlugin($pluginName)
     {
         if (Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel())) {
             return true;
@@ -647,11 +658,6 @@ class ArchiveProcessor
     );
 
     /**
-     * @var Archive
-     */
-    protected $archive = null;
-
-    /**
      * Sums records for every subperiod of the current period and inserts the result as the record
      * for this period.
      *
@@ -688,10 +694,9 @@ class ArchiveProcessor
         if (!is_array($recordNames)) {
             $recordNames = array($recordNames);
         }
-        $this->initArchive();
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
-            $table = $this->getRecordDataTableSum($recordName, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations);
+            $table = $this->aggregateDataTableRecord($recordName, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations);
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
             $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
@@ -727,7 +732,6 @@ class ArchiveProcessor
         if (!is_array($columns)) {
             $columns = array($columns);
         }
-        $this->initArchive();
         $data = $this->archive->getNumeric($columns);
         $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
         $results = $this->aggregateDataArray($data, $operationForColumn);
@@ -747,14 +751,6 @@ class ArchiveProcessor
         return $results;
     }
 
-    protected function initArchive()
-    {
-        if (empty($this->archive)) {
-            $subPeriods = $this->getPeriod()->getSubperiods();
-            $this->archive = Archive::factory($this->getSegment(), $subPeriods, array($this->getSite()->getId()));
-        }
-    }
-
     /**
      * This method selects all DataTables that have the name $name over the period.
      * All these DataTables are then added together, and the resulting DataTable is returned.
@@ -764,7 +760,7 @@ class ArchiveProcessor
      * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow()
      * @return DataTable
      */
-    protected function getRecordDataTableSum($name, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations = null)
+    protected function aggregateDataTableRecord($name, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations = null)
     {
         $table = new DataTable();
         if (!empty($columnAggregationOperations)) {
