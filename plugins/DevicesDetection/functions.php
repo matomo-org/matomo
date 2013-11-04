@@ -89,7 +89,7 @@ function getDeviceTypeLogo($label)
         "Desktop"       => "normal.gif",
         "Smartphone"    => "smartphone.png",
         "Tablet"        => "tablet.png",
-        "Tv"            => "tv.png",
+        "TV"            => "tv.png",
         "Feature phone" => "mobile.gif",
         "Console"       => "console.gif");
 
