@@ -1,7 +1,8 @@
 {% include "@Dashboard/_header.twig" %}
-<div id="menuHead">
+<div class="top_controls">
     {% include "@CoreHome/_periodSelect.twig" %}
-    <div id="Dashboard">
+    {% include "@Dashboard/_dashboardSettings.twig" %}
+    <div id="Dashboard" class="js-autoLeftPanel">
         <ul>
             {% for dashboard in dashboards %}
                 <li class="dashboardMenuItem" id="Dashboard_embeddedIndex_{{ dashboard.iddashboard }}">
@@ -10,7 +11,6 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="clear"></div>
 </div>
 {% import 'ajaxMacros.twig' as ajax %}
 {{ ajax.loadingDiv }}

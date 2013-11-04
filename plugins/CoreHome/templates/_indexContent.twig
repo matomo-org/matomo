@@ -4,6 +4,7 @@
     <div class="top_controls">
         {% include "@CoreHome/_periodSelect.twig" %}
         {{ postEvent("Template.nextToCalendar") }}
+        {% include "@Dashboard/_dashboardSettings.twig" %}
         {% include "@CoreHome/_headerMessage.twig" %}
         {{ ajax.requestErrorDiv }}
     </div>

@@ -9,20 +9,16 @@ body {
     padding-top: 8px;
 }
 
-#menuHead {
-    position: absolute;
-    top: 0;
-    padding: 7px 0 0 2px;
-}
-
 #Dashboard {
     z-index: 5;
     font-size: 14px;
     cursor: pointer;
+    float: left;
+    position: relative;
 }
 
 #Dashboard > ul {
-    list-style: square inside none;
+    list-style: none inside none;
     background: #f7f7f7;
     border: 1px solid #e4e5e4;
     padding: 5px 10px 6px 10px;
@@ -50,19 +46,21 @@ body {
     margin: 0 -15px;
 }
 
-#Dashboard > ul > li:hover, #Dashboard > ul > li:hover a,
-#Dashboard > ul > li.sfHover, #Dashboard > ul > li.sfHover a {
+#Dashboard > ul > li:hover,
+#Dashboard > ul > li:hover a,
+#Dashboard > ul > li.sfHover,
+#Dashboard > ul > li.sfHover a {
     color: #e87500;
 }
 
-#Dashboard > ul > li.sfHover, #Dashboard > ul > li.sfHover a {
+#Dashboard > ul > li.sfHover,
+#Dashboard > ul > li.sfHover a {
     font-weight: bold;
 }
 
-#Dashboard, #periodString, #dashboardSettings {
-    float: left;
-    clear: none;
-    position: relative;
+.top_controls > #Dashboard,
+.top_controls > #periodString,
+.top_controls > #dashboardSettings {
     margin-left: 0;
     margin-right: 10px;
 }

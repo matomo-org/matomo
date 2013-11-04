@@ -128,7 +128,6 @@ var broadcast = {
                     broadcast.loadAjaxContent(hashUrl);
 
                     // make sure the "Widgets & Dashboard" is deleted on reload
-                    $('#dashboardSettings').remove();
                     $('#dashboardWidgetsArea').dashboard('destroy');
 
                     // remove unused controls

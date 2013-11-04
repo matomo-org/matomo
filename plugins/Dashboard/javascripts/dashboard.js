@@ -9,20 +9,20 @@ function initDashboard(dashboardId, dashboardLayout) {
 
     // Standard dashboard
     if ($('#periodString').length) {
-        $('#periodString').after($('#dashboardSettings'));
-
-        var leftMargin = $('#periodString')[0].offsetWidth;
-        var segmentSelector = $('#segmentEditorPanel:visible');
-        if(segmentSelector.length) {
-            segmentSelector = $($('#segmentEditorPanel:visible')[0]);
-            leftMargin = segmentSelector.position().left + segmentSelector.outerWidth();
-        }
-        $('#dashboardSettings').css({left: leftMargin});
+        var left=0;
+        $('.top_controls').children().each(function(i, el){
+            var control = $(el);
+            if (control.is('.js-autoLeftPanel')) {
+                if (left) {
+                    control.css({left: left});
+                }
+                left+=control.outerWidth(true);
+            }
+        });
     }
 
     // Embed dashboard
     if (!$('#topBars').length) {
-        $('#dashboardSettings').css({left: 0});
         $('#dashboardSettings').after($('#Dashboard'));
         $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
     }
