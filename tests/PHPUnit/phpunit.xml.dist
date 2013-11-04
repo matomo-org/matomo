@@ -30,9 +30,9 @@
 </php>
 
 <testsuites>
-    <testsuite name="IntegrationTests">
-        <directory>./Integration</directory>
-    </testsuite>
+  <testsuite name="IntegrationTests">
+      <directory>./Integration</directory>
+  </testsuite>
   <testsuite name="PluginTests">
       <directory>./Plugins</directory>
   </testsuite>
