@@ -136,7 +136,7 @@
                         v += ' (' + formatPercentage(data[metric] / total) + ')';
                     }
                 } else if (metric == 'avg_time_on_site') {
-                    v += '<br/> (over ' + data.nb_visits + ' visits)';
+                    v += '<br/> (' + _.nb_visits.replace('%s', data.nb_visits) + ')';
                 }
                 return v;
             }
