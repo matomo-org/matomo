@@ -30,6 +30,7 @@ use Piwik\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
+use Piwik\Tracker\TableLogAction;
 
 /**
  * @package Transitions
@@ -134,23 +135,23 @@ class API extends \Piwik\Plugin\API
             case 'url':
                 $originalActionName = $actionName;
                 $actionName = Common::unsanitizeInputValue($actionName);
-                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
+                $id = TableLogAction::getIdActionFromSegment($actionName, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
 
                 if ($id < 0) {
                     // an example where this is needed is urls containing < or >
                     $actionName = $originalActionName;
-                    $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
+                    $id = TableLogAction::getIdActionFromSegment($actionName, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
                 }
 
                 return $id;
 
             case 'title':
-                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
+                $id = TableLogAction::getIdActionFromSegment($actionName, 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
 
                 if ($id < 0) {
                     $unknown = ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE);
                     if (trim($actionName) == trim($unknown)) {
-                        $id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
+                        $id = TableLogAction::getIdActionFromSegment('', 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
                     }
                 }
 

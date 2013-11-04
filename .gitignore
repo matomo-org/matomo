@@ -19,7 +19,6 @@ robots.txt
 tmp
 tmp/*
 vendor/
-
 .cache
 .DS_Store
 .externalToolBuilders

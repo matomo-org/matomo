@@ -19,10 +19,7 @@ use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\SegmentExpression;
 use Piwik\Site;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\TableLogAction;
 use Piwik\WidgetsList;
 
 /**
@@ -67,7 +64,7 @@ class Actions extends \Piwik\Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        $sqlFilter = array($this, 'getIdActionFromSegment');
+        $sqlFilter = 'TableLogAction::getIdActionFromSegment';
 
         // entry and exit pages of visit
         $segments[] = array(
@@ -128,52 +125,6 @@ class Actions extends \Piwik\Plugin
             'segment'    => 'siteSearchKeyword',
             'sqlSegment' => 'log_link_visit_action.idaction_name',
             'sqlFilter'  => $sqlFilter,
-        );
-    }
-
-    /**
-     * Convert segment expression to an action ID or an SQL expression.
-     *
-     * This method is used as a sqlFilter-callback for the segments of this plugin.
-     * Usually, these callbacks only return a value that should be compared to the
-     * column in the database. In this case, that doesn't work since multiple IDs
-     * can match an expression (e.g. "pageUrl=@foo").
-     * @param string $valueToMatch
-     * @param string $sqlField
-     * @param string $matchType
-     * @param string $segmentName
-     * @throws \Exception
-     * @return array|int|string
-     */
-    public function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName)
-    {
-        $actionType = $this->guessActionTypeFromSegment($segmentName);
-
-        if ($actionType == Action::TYPE_PAGE_URL) {
-            // for urls trim protocol and www because it is not recorded in the db
-            $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
-        }
-        $valueToMatch = Common::sanitizeInputValue(Common::unsanitizeInputValue($valueToMatch));
-
-        if ($matchType == SegmentExpression::MATCH_EQUAL
-            || $matchType == SegmentExpression::MATCH_NOT_EQUAL
-        ) {
-            $idAction = TableLogAction::getIdActionMatchingNameAndType($valueToMatch, $actionType);
-            // if the action is not found, we hack -100 to ensure it tries to match against an integer
-            // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
-            if (empty($idAction)) {
-                $idAction = -100;
-            }
-            return $idAction;
-        }
-
-        // "name contains $string" match can match several idaction so we cannot return yet an idaction
-        // special case
-        $sql = TableLogAction::getSelectQueryWhereNameContains($matchType, $actionType);
-        return array(
-            // mark that the returned value is an sql-expression instead of a literal value
-            'SQL'  => $sql,
-            'bind' => $valueToMatch,
         );
     }
 
@@ -589,26 +540,6 @@ class Actions extends \Piwik\Plugin
         return \Piwik\Plugin\Manager::getInstance()->isPluginActivated('CustomVariables');
     }
 
-    /**
-     * @param $segmentName
-     * @return int
-     * @throws \Exception
-     */
-    protected function guessActionTypeFromSegment($segmentName)
-    {
-        if (stripos($segmentName, 'pageurl') !== false) {
-            $actionType = Action::TYPE_PAGE_URL;
-            return $actionType;
-        } elseif (stripos($segmentName, 'pagetitle') !== false) {
-            $actionType = Action::TYPE_PAGE_TITLE;
-            return $actionType;
-        } elseif (stripos($segmentName, 'sitesearch') !== false) {
-            $actionType = Action::TYPE_SITE_SEARCH;
-            return $actionType;
-        } else {
-            throw new \Exception(" The segment $segmentName has an unexpected value.");
-        }
-    }
 
     public function configureViewDataTable(ViewDataTable $view)
     {

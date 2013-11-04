@@ -350,7 +350,7 @@ class ArchivingHelper
      * @param array $actionsTablesByType
      * @return DataTable
      */
-    protected static function getActionRow($actionName, $actionType, $urlPrefix = null, &$actionsTablesByType)
+    private static function getActionRow($actionName, $actionType, $urlPrefix = null, &$actionsTablesByType)
     {
         // we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
         /* @var DataTable $currentTable */
@@ -376,6 +376,35 @@ class ArchivingHelper
 
         return $row;
     }
+
+    /**
+     * Returns the configured sub-category level limit.
+     *
+     * @return int
+     */
+    public static function getSubCategoryLevelLimit()
+    {
+        return Config::getInstance()->General['action_category_level_limit'];
+    }
+
+    /**
+     * Returns default label for the action type
+     *
+     * @param $type
+     * @return string
+     */
+    static public function getUnknownActionName($type)
+    {
+        if (empty(self::$defaultActionNameWhenNotDefined)) {
+            self::$defaultActionNameWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageName'));
+            self::$defaultActionUrlWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
+        }
+        if ($type == Action::TYPE_PAGE_TITLE) {
+            return self::$defaultActionNameWhenNotDefined;
+        }
+        return self::$defaultActionUrlWhenNotDefined;
+    }
+
 
     /**
      * Explodes action name into an array of elements.
@@ -449,34 +478,6 @@ class ArchivingHelper
     }
 
     /**
-     * Returns the configured sub-category level limit.
-     *
-     * @return int
-     */
-    public static function getSubCategoryLevelLimit()
-    {
-        return Config::getInstance()->General['action_category_level_limit'];
-    }
-
-    /**
-     * Returns default label for the action type
-     *
-     * @param $type
-     * @return string
-     */
-    static public function getUnknownActionName($type)
-    {
-        if (empty(self::$defaultActionNameWhenNotDefined)) {
-            self::$defaultActionNameWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageName'));
-            self::$defaultActionUrlWhenNotDefined = Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'));
-        }
-        if ($type == Action::TYPE_PAGE_TITLE) {
-            return self::$defaultActionNameWhenNotDefined;
-        }
-        return self::$defaultActionUrlWhenNotDefined;
-    }
-
-    /**
      * Static cache to store Rows during processing
      */
     static protected $cacheParsedAction = array();
@@ -547,7 +548,7 @@ class ArchivingHelper
                        ));
     }
 
-    protected static function splitNameByDelimiter($name, $type)
+    private static function splitNameByDelimiter($name, $type)
     {
         if(is_array($name)) {
             return $name;
@@ -574,7 +575,7 @@ class ArchivingHelper
         return $split;
     }
 
-    protected static function parseNameFromPageUrl($name, $type, $urlPrefix)
+    private static function parseNameFromPageUrl($name, $type, $urlPrefix)
     {
         $urlRegexAfterDomain = '([^/]+)[/]?([^#]*)[#]?(.*)';
         if ($urlPrefix === null) {

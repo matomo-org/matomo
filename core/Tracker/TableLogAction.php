@@ -12,6 +12,7 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\SegmentExpression;
 use Piwik\Tracker;
 
 
@@ -59,7 +60,7 @@ class TableLogAction
      * @param $type
      * @return string
      */
-    public static function getIdActionMatchingNameAndType($name, $type)
+    private static function getIdActionMatchingNameAndType($name, $type)
     {
         $sql = TableLogAction::getSqlSelectActionId();
         $bind = array($name, $name, $type);
@@ -73,7 +74,7 @@ class TableLogAction
      * @return string
      * @throws \Exception
      */
-    public static function getSelectQueryWhereNameContains($matchType, $actionType)
+    private static function getSelectQueryWhereNameContains($matchType, $actionType)
     {
         // now, we handle the cases =@ (contains) and !@ (does not contain)
         // build the expression based on the match type
@@ -94,7 +95,7 @@ class TableLogAction
         return $sql;
     }
 
-    protected static function getSqlSelectActionId()
+    private static function getSqlSelectActionId()
     {
         $sql = "SELECT idaction, type, name
                         FROM " . Common::prefixTable('log_action')
@@ -103,7 +104,7 @@ class TableLogAction
         return $sql;
     }
 
-    protected static function insertNewIdsAction($actionsNameAndType, $fieldNamesToInsert)
+    private static function insertNewIdsAction($actionsNameAndType, $fieldNamesToInsert)
     {
         $sql = "INSERT INTO " . Common::prefixTable('log_action') .
             "( name, hash, type, url_prefix ) VALUES (?,CRC32(?),?,?)";
@@ -122,7 +123,7 @@ class TableLogAction
         return $inserted;
     }
 
-    protected static function queryIdsAction($actionsNameAndType)
+    private static function queryIdsAction($actionsNameAndType)
     {
         $sql = TableLogAction::getSqlSelectActionId();
         $bind = array();
@@ -148,7 +149,7 @@ class TableLogAction
         return $actionIds;
     }
 
-    protected static function processIdsToInsert($actionsNameAndType, $actionIds)
+    private static function processIdsToInsert($actionsNameAndType, $actionIds)
     {
         // For the Actions found in the lookup table, add the idaction in the array,
         // If not found in lookup table, queue for INSERT
@@ -177,5 +178,74 @@ class TableLogAction
         }
         return array($fieldNameToActionId, $fieldNamesToInsert);
     }
+
+
+    /**
+     * Convert segment expression to an action ID or an SQL expression.
+     *
+     * This method is used as a sqlFilter-callback for the segments of this plugin.
+     * Usually, these callbacks only return a value that should be compared to the
+     * column in the database. In this case, that doesn't work since multiple IDs
+     * can match an expression (e.g. "pageUrl=@foo").
+     * @param string $valueToMatch
+     * @param string $sqlField
+     * @param string $matchType
+     * @param string $segmentName
+     * @throws \Exception
+     * @return array|int|string
+     */
+    public static function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName)
+    {
+        $actionType = self::guessActionTypeFromSegment($segmentName);
+
+        if ($actionType == Action::TYPE_PAGE_URL) {
+            // for urls trim protocol and www because it is not recorded in the db
+            $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
+        }
+        $valueToMatch = Common::sanitizeInputValue(Common::unsanitizeInputValue($valueToMatch));
+
+        if ($matchType == SegmentExpression::MATCH_EQUAL
+            || $matchType == SegmentExpression::MATCH_NOT_EQUAL
+        ) {
+            $idAction = self::getIdActionMatchingNameAndType($valueToMatch, $actionType);
+            // if the action is not found, we hack -100 to ensure it tries to match against an integer
+            // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
+            if (empty($idAction)) {
+                $idAction = -100;
+            }
+            return $idAction;
+        }
+
+        // "name contains $string" match can match several idaction so we cannot return yet an idaction
+        // special case
+        $sql = TableLogAction::getSelectQueryWhereNameContains($matchType, $actionType);
+        return array(
+            // mark that the returned value is an sql-expression instead of a literal value
+            'SQL'  => $sql,
+            'bind' => $valueToMatch,
+        );
+    }
+
+    /**
+     * @param $segmentName
+     * @return int
+     * @throws \Exception
+     */
+    private static function guessActionTypeFromSegment($segmentName)
+    {
+        if (stripos($segmentName, 'pageurl') !== false) {
+            $actionType = Action::TYPE_PAGE_URL;
+            return $actionType;
+        } elseif (stripos($segmentName, 'pagetitle') !== false) {
+            $actionType = Action::TYPE_PAGE_TITLE;
+            return $actionType;
+        } elseif (stripos($segmentName, 'sitesearch') !== false) {
+            $actionType = Action::TYPE_SITE_SEARCH;
+            return $actionType;
+        } else {
+            throw new \Exception(" The segment $segmentName has an unexpected value.");
+        }
+    }
+
 }
 
