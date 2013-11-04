@@ -280,7 +280,7 @@ class DevicesDetection extends \Piwik\Plugin
         }
     }
 
-    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {

@@ -520,7 +520,7 @@ class Actions extends \Piwik\Plugin
         }
     }
 
-    function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+    function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {

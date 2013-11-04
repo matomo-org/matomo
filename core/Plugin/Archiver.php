@@ -56,7 +56,7 @@ use Piwik\Config as PiwikConfig;
  *     }
  * 
  *     // event observer for ArchiveProcessor.aggregateMultipleReports
- *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+ *     public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
  *     {
  *         $archiving = new Archiver($archiveProcessor);
  *         if ($archiving->shouldArchive()) {
@@ -109,7 +109,7 @@ abstract class Archiver
     }
 
     /**
-     * @return \Piwik\ArchiveProcessor\Day|\Piwik\ArchiveProcessor\Period
+     * @return \Piwik\ArchiveProcessor\Day|\Piwik\ArchiveProcessor\Aggregator
      */
     protected function getProcessor()
     {

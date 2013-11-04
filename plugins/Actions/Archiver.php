@@ -10,7 +10,7 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\ArchiveProcessor\Period;
+use Piwik\ArchiveProcessor\Aggregator;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\RankingQuery;

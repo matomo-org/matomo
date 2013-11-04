@@ -22,7 +22,7 @@ use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 
 /**
- * Initiates the archiving process for all non-day periods via the [ArchiveProcessor.aggregateMultipleReports](#)
+ * Initiates the archiving process for group of days, eg. week period via the [ArchiveProcessor.aggregateMultipleReports](#)
  * event.
  *
  * Period archiving differs from archiving day periods in that log tables are not aggregated.
@@ -38,7 +38,7 @@ use Piwik\SettingsPiwik;
  * **Archiving metric data**
  *
  *     // function in an Archiver descendent
- *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+ *     public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
  *     {
  *         $archiveProcessor->aggregateNumericMetrics('myFancyMetric', 'sum');
  *         $archiveProcessor->aggregateNumericMetrics('myOtherFancyMetric', 'max');
@@ -47,7 +47,7 @@ use Piwik\SettingsPiwik;
  * **Archiving report data**
  *
  *     // function in an Archiver descendent
- *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+ *     public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
  *     {
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
  *
@@ -64,7 +64,7 @@ use Piwik\SettingsPiwik;
  *
  * @api
  */
-class Period extends ArchiveProcessor
+class Aggregator extends ArchiveProcessor
 {
     /**
      * Array of (column name before => column name renamed) of the columns for which sum operation is invalid.
@@ -227,12 +227,12 @@ class Period extends ArchiveProcessor
          * actual archiving logic, however, should not be in the event handler, but
          * in a class that descends from [Archiver](#).
          *
-         * To learn more about non-day period archiving, see the [ArchiveProcessor\Period](#)
+         * To learn more about non-day period archiving, see the [ArchiveProcessor\Aggregator](#)
          * class.
          *
          * **Example**
          *
-         *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+         *     public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
          *     {
          *         $archiving = new MyArchiver($archiveProcessor);
          *         if ($archiving->shouldArchive()) {
@@ -240,7 +240,7 @@ class Period extends ArchiveProcessor
          *         }
          *     }
          *
-         * @param \Piwik\ArchiveProcessor\Period $archiveProcessor
+         * @param \Piwik\ArchiveProcessor\Aggregator $archiveProcessor
          *                                          The ArchiveProcessor that triggered the event.
          */
         Piwik::postEvent('ArchiveProcessor.aggregateMultipleReports', array(&$this));

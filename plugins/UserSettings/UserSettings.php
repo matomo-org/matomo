@@ -484,7 +484,7 @@ class UserSettings extends \Piwik\Plugin
     /**
      * Period archiving: simply sums up daily archives
      */
-    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {

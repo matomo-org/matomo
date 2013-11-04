@@ -521,7 +521,7 @@ class Goals extends \Piwik\Plugin
      * Hooks on Period archiving.
      * Sums up Goal conversions stats, and processes overall conversion rate
      */
-    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {

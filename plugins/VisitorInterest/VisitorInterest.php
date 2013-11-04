@@ -125,7 +125,7 @@ class VisitorInterest extends \Piwik\Plugin
         Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
-    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {

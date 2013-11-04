@@ -292,7 +292,7 @@ class Referrers extends \Piwik\Plugin
      * Period archiving: sums up daily stats and sums report tables,
      * making sure that tables are still truncated.
      */
-    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
+    public function aggregateMultipleReports(ArchiveProcessor\Aggregator $archiveProcessor)
     {
         $archiving = new Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {

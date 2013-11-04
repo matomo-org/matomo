@@ -74,7 +74,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         if($period->getLabel() == 'day') {
             return new ArchiveProcessor\Day($period, $site, $segment);
         } else {
-            return new ArchiveProcessor\Period($period, $site, $segment);
+            return new ArchiveProcessor\Aggregator($period, $site, $segment);
         }
     }
 
