@@ -54,8 +54,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     protected function convertTimeToLocalTimezone(DataArray &$array)
     {
-        $date = Date::factory($this->getProcessor()->getDateStart()->getDateStartUTC())->toString();
-        $timezone = $this->getProcessor()->getSite()->getTimezone();
+        $date = Date::factory($this->getProcessor()->getParams()->getDateStart()->getDateStartUTC())->toString();
+        $timezone = $this->getProcessor()->getParams()->getSite()->getTimezone();
 
         $converted = array();
         foreach ($array->getDataArray() as $hour => $stats) {

@@ -610,7 +610,8 @@ class Archive
                     continue;
                 }
 
-                $processing = new ArchiveProcessor($period, $site, $this->params->getSegment());
+                $parameters = new ArchiveProcessor\Parameters($period, $site, $this->params->getSegment());
+                $processing = new ArchiveProcessor\Loader($parameters);
 
                 // process for each plugin as well
                 foreach ($archiveGroups as $plugin) {

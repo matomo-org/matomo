@@ -11,11 +11,12 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
-use Piwik\DataAccess\LogAggregator;
 
+use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\Db;
 use Piwik\Period;
@@ -82,35 +83,6 @@ use Piwik\Plugin\Archiver;
  */
 class ArchiveProcessor
 {
-    /**
-     * Flag stored at the end of the archiving
-     *
-     * @var int
-     */
-    const DONE_OK = 1;
-
-    /**
-     * Flag stored at the start of the archiving
-     * When requesting an Archive, we make sure that non-finished archive are not considered valid
-     *
-     * @var int
-     */
-    const DONE_ERROR = 2;
-
-    /**
-     * Flag indicates the archive is over a period that is not finished, eg. the current day, current week, etc.
-     * Archives flagged will be regularly purged from the DB.
-     *
-     * @var int
-     */
-    const DONE_OK_TEMPORARY = 3;
-
-    /**
-     * Idarchive in the DB for the requested archive
-     *
-     * @var int
-     */
-    protected $idArchive;
 
     /**
      * @var \Piwik\DataAccess\ArchiveWriter
@@ -118,115 +90,59 @@ class ArchiveProcessor
     protected $archiveWriter;
 
     /**
-     * Is the current archive temporary. ie.
-     * - today
-     * - current week / month / year
+     * @var \Piwik\DataAccess\LogAggregator
      */
-    protected $temporaryArchive;
-
-    /**
-     * @var LogAggregator
-     */
-    protected $logAggregator = null;
-
-    /**
-     * @var int Cached number of visits cached
-     */
-    protected $visitsMetricCached = false;
-
-    /**
-     * @var int Cached number of visits with conversions
-     */
-    protected $convertedVisitsMetricCached = false;
-
-    /**
-     * Site of the current archive
-     * Can be accessed by plugins (that is why it's public)
-     *
-     * @var Site
-     */
-    private $site = null;
-
-    /**
-     * @var Period
-     */
-    private $period = null;
-
-    /**
-     * @var Segment
-     */
-    private $segment = null;
+    protected $logAggregator;
 
     /**
      * @var Archive
      */
-    protected $archive = null;
+    public $archive = null;
 
-    public function __construct(Period $period, Site $site, Segment $segment)
+    /**
+     * @var int
+     */
+    protected $numberOfVisits;
+    protected $numberOfVisitsConverted;
+
+    public function __construct(Parameters $params, ArchiveWriter $archiveWriter, $visits, $visitsConverted)
     {
-        $this->period = $period;
-        $this->site = $site;
-        $this->segment = $segment;
+        $this->params = $params;
+        $this->logAggregator = new LogAggregator($params);
+        $this->archiveWriter = $archiveWriter;
+        $this->numberOfVisits = $visits;
+        $this->numberOfVisitsConverted = $visitsConverted;
+    }
 
-        // If we are aggregating multiple reports: prepare the Archive object needed for aggregate* methods
-        if(!$this->isDayArchive()) {
-            $subPeriods = $this->getPeriod()->getSubperiods();
-            $this->archive = Archive::factory($this->getSegment(), $subPeriods, array($this->getSite()->getId()));
-        }
+    /**
+     * Returns the Parameters object containing Period, Site, Segment used for this archive.
+     *
+     * @return Parameters
+     * @api
+     */
+    public function getParams()
+    {
+        return $this->params;
     }
 
     /**
      * Returns a [LogAggregator](#) instance for the site, period and segment this
      * ArchiveProcessor will insert archive data for.
-     * 
+     *
      * @return LogAggregator
      * @api
      */
     public function getLogAggregator()
     {
-        if (empty($this->logAggregator)) {
-            $this->logAggregator = new LogAggregator($this->getPeriod()->getDateStart(), $this->getPeriod()->getDateEnd(),
-                $this->getSite(), $this->getSegment());
-        }
         return $this->logAggregator;
     }
 
     /**
-     * Returns the period we computing statistics for.
-     * 
-     * @return Period
-     * @api
+     * @return ArchiveWriter
      */
-    public function getPeriod()
+    public function getArchiveWriter()
     {
-        return $this->period;
-    }
-
-    /**
-     * Returns the site we are computing statistics for.
-     * 
-     * @return Site
-     * @api
-     */
-    public function getSite()
-    {
-        return $this->site;
-    }
-
-    /**
-     * The Segment used to limit the set of visits that are being aggregated.
-     * 
-     * @return Segment
-     * @api
-     */
-    public function getSegment()
-    {
-        return $this->segment;
-    }
-
-    public function getNumberOfVisitsConverted()
-    {
-        return $this->convertedVisitsMetricCached;
+        return $this->archiveWriter;
     }
 
     /**
@@ -254,289 +170,23 @@ class ArchiveProcessor
      * Numeric values are not inserted if they equal 0.
      * 
      * @param string $name The name of the numeric value, eg, `'Referrers_distinctKeywords'`.
-     * @param numeric $value The numeric value.
+     * @param float $value The numeric value.
      * @api
      */
     public function insertNumericRecord($name, $value)
     {
         $value = round($value, 2);
-        $this->archiveWriter->insertRecord($name, $value);
-    }
-
-    public function preProcessArchive($requestedPlugin, $enforceProcessCoreMetricsOnly = false)
-    {
-        $this->idArchive = false;
-
-        $this->setRequestedPlugin($requestedPlugin);
-
-        if (!$enforceProcessCoreMetricsOnly) {
-            $this->idArchive = $this->loadExistingArchiveIdFromDb($requestedPlugin);
-            if ($this->isArchivingForcedToTrigger()) {
-                $this->idArchive = false;
-                $this->setNumberOfVisits(false);
-            }
-            if (!empty($this->idArchive)) {
-                return $this->idArchive;
-            }
-
-            $visitsNotKnownYet = $this->getNumberOfVisits() === false;
-
-            $createAnotherArchiveForVisitsSummary = !$this->doesRequestedPluginIncludeVisitsSummary($requestedPlugin) && $visitsNotKnownYet;
-
-            if ($createAnotherArchiveForVisitsSummary) {
-                // recursive archive creation in case we create another separate one, for VisitsSummary core metrics
-                // We query VisitsSummary here, as it is needed in the call below ($this->getNumberOfVisits() > 0)
-                $requestedPlugin = $this->getRequestedPlugin();
-                $this->preProcessArchive('VisitsSummary', $pleaseProcessCoreMetricsOnly = true);
-                $this->setRequestedPlugin($requestedPlugin);
-                if ($this->getNumberOfVisits() === false) {
-                    throw new Exception("preProcessArchive() is expected to set number of visits to a numeric value.");
-                }
-            }
-        }
-
-        return $this->computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly);
-    }
-
-    protected function setRequestedPlugin($plugin)
-    {
-        $this->requestedPlugin = $plugin;
-    }
-
-    /**
-     * Returns the idArchive if the archive is available in the database for the requested plugin.
-     * Returns false if the archive needs to be processed.
-     *
-     * @param $requestedPlugin
-     * @return int or false
-     */
-    protected function loadExistingArchiveIdFromDb($requestedPlugin)
-    {
-        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
-        $site = $this->getSite();
-        $period = $this->getPeriod();
-        $segment = $this->getSegment();
-
-        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
-        if (!$idAndVisits) {
-            return false;
-        }
-        list($idArchive, $visits, $visitsConverted) = $idAndVisits;
-        $this->setNumberOfVisits($visits, $visitsConverted);
-        return $idArchive;
-    }
-
-    protected function isArchivingForcedToTrigger()
-    {
-        $period = $this->getPeriod()->getLabel();
-        $debugSetting = 'always_archive_data_period'; // default
-        if ($period == 'day') {
-            $debugSetting = 'always_archive_data_day';
-        } elseif ($period == 'range') {
-            $debugSetting = 'always_archive_data_range';
-        }
-        return Config::getInstance()->Debug[$debugSetting];
-    }
-
-    /**
-     * A flag mechanism to store whether visits were selected from archive
-     *
-     * @param $visitsMetricCached
-     * @param bool $convertedVisitsMetricCached
-     */
-    protected function setNumberOfVisits($visitsMetricCached, $convertedVisitsMetricCached = false)
-    {
-        if ($visitsMetricCached === false) {
-            $this->visitsMetricCached = $this->convertedVisitsMetricCached = false;
-        } else {
-            $this->visitsMetricCached = (int)$visitsMetricCached;
-            $this->convertedVisitsMetricCached = (int)$convertedVisitsMetricCached;
-        }
+        $this->getArchiveWriter()->insertRecord($name, $value);
     }
 
     public function getNumberOfVisits()
     {
-        return $this->visitsMetricCached;
+        return $this->numberOfVisits;
     }
 
-    protected function doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
+    public function getNumberOfVisitsConverted()
     {
-        $processAllReportsIncludingVisitsSummary = Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
-        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $requestedPlugin == 'VisitsSummary';
-        return $doesRequestedPluginIncludeVisitsSummary;
-    }
-
-    protected function computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly)
-    {
-        $archiveWriter = new ArchiveWriter($this->getSite()->getId(), $this->getSegment(), $this->getPeriod(), $requestedPlugin, $this->isArchiveTemporary());
-        $archiveWriter->initNewArchive();
-
-        $this->archiveWriter = $archiveWriter;
-
-        $visitsNotKnownYet = $this->getNumberOfVisits() === false;
-        if ($visitsNotKnownYet
-            || $this->doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
-            || $enforceProcessCoreMetricsOnly
-        ) {
-            if($this->isDayArchive()) {
-                $metrics = $this->aggregateDayVisitsMetrics();
-            } else {
-                $metrics = $this->aggregateMultipleVisitMetrics();
-            }
-            if (empty($metrics)) {
-                $this->setNumberOfVisits(false);
-            } else {
-                $this->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
-            }
-        }
-        $this->logStatusDebug($requestedPlugin);
-
-        $isVisitsToday = $this->getNumberOfVisits() > 0;
-        if ($isVisitsToday
-            && !$enforceProcessCoreMetricsOnly
-        ) {
-            $this->compute();
-        }
-
-        $archiveWriter->finalizeArchive();
-
-        if ($isVisitsToday && $this->period->getLabel() != 'day') {
-            ArchiveSelector::purgeOutdatedArchives($this->getPeriod()->getDateStart());
-        }
-
-        return $archiveWriter->getIdArchive();
-    }
-
-    /**
-     * Returns the minimum archive processed datetime to look at. Only public for tests.
-     *
-     * @return int|bool  Datetime timestamp, or false if must look at any archive available
-     */
-    protected function getMinTimeArchiveProcessed()
-    {
-        $endDateTimestamp = self::determineIfArchivePermanent($this->getDateEnd());
-        $isArchiveTemporary = ($endDateTimestamp === false);
-        $this->temporaryArchive = $isArchiveTemporary;
-
-        if ($endDateTimestamp) {
-            // Permanent archive
-            return $endDateTimestamp;
-        }
-        // Temporary archive
-        return Rules::getMinTimeProcessedForTemporaryArchive($this->getDateStart(), $this->getPeriod(), $this->getSegment(), $this->getSite());
-    }
-
-    protected function isArchiveTemporary()
-    {
-        if (is_null($this->temporaryArchive)) {
-            throw new Exception("getMinTimeArchiveProcessed() should be called prior to isArchiveTemporary()");
-        }
-        return $this->temporaryArchive;
-    }
-
-    /**
-     * @param $requestedPlugin
-     */
-    protected function logStatusDebug($requestedPlugin)
-    {
-        $temporary = 'definitive archive';
-        if ($this->isArchiveTemporary()) {
-            $temporary = 'temporary archive';
-        }
-        Log::verbose(
-            "'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
-            $this->getPeriod()->getLabel(),
-            $this->getSite()->getId(),
-            $temporary,
-            $this->getSegment()->getString(),
-            $requestedPlugin,
-            $this->getDateStart()->getDateStartUTC(),
-            $this->getDateEnd()->getDateEndUTC()
-        );
-    }
-
-    /**
-     * @var Archiver[] $archivers
-     */
-    private static $archivers = array();
-
-
-    /**
-     * Loads Archiver class from any plugin that defines one.
-     *
-     * @return Plugin\Archiver[]
-     */
-    protected function getPluginArchivers()
-    {
-        if (empty(static::$archivers)) {
-            $pluginNames = Plugin\Manager::getInstance()->getLoadedPluginsName();
-            $archivers = array();
-            foreach ($pluginNames as $pluginName) {
-                $archivers[$pluginName] = self::getPluginArchiverClass($pluginName);
-            }
-            static::$archivers = array_filter($archivers);
-        }
-        return static::$archivers;
-    }
-
-    private static function getPluginArchiverClass($pluginName)
-    {
-        $klassName = 'Piwik\\Plugins\\' . $pluginName . '\\Archiver';
-        if (class_exists($klassName)
-            && is_subclass_of($klassName, 'Piwik\\Plugin\\Archiver')) {
-            return $klassName;
-        }
-        return false;
-    }
-
-    /**
-     * This methods reads the subperiods if necessary,
-     * and computes the archive of the current period.
-     */
-    protected function compute()
-    {
-        $archivers = $this->getPluginArchivers();
-
-        foreach($archivers as $pluginName => $archiverClass) {
-            /** @var Archiver $archiver */
-            $archiver = new $archiverClass( $this );
-
-            if($this->shouldProcessReportsForPlugin($pluginName)) {
-                if($this->isDayArchive()) {
-                    $archiver->aggregateDayReport();
-                } else {
-                    $archiver->aggregateMultipleReports();
-                }
-            }
-        }
-    }
-
-    protected static function determineIfArchivePermanent(Date $dateEnd)
-    {
-        $now = time();
-        $endTimestampUTC = strtotime($dateEnd->getDateEndUTC());
-        if ($endTimestampUTC <= $now) {
-            // - if the period we are looking for is finished, we look for a ts_archived that
-            //   is greater than the last day of the archive
-            return $endTimestampUTC;
-        }
-        return false;
-    }
-
-    /**
-     * @return Date
-     */
-    public function getDateEnd()
-    {
-        return $this->getPeriod()->getDateEnd()->setTimezone($this->getSite()->getTimezone());
-    }
-
-    /**
-     * @return Date
-     */
-    public function getDateStart()
-    {
-        return $this->getPeriod()->getDateStart()->setTimezone($this->getSite()->getTimezone());
+        return $this->numberOfVisitsConverted;
     }
 
     /**
@@ -568,12 +218,12 @@ class ArchiveProcessor
                 $value = $this->compress($value);
                 $clean[] = array($newName, $value);
             }
-            $this->archiveWriter->insertBulkRecords($clean);
+            $this->getArchiveWriter()->insertBulkRecords($clean);
             return;
         }
 
         $values = $this->compress($values);
-        $this->archiveWriter->insertRecord($name, $values);
+        $this->getArchiveWriter()->insertRecord($name, $values);
     }
 
     protected function compress($data)
@@ -583,70 +233,6 @@ class ArchiveProcessor
         }
         return $data;
     }
-
-    /**
-     * Whether the specified plugin's reports should be archived
-     * @param string $pluginName
-     * @return bool
-     */
-    protected function shouldProcessReportsForPlugin($pluginName)
-    {
-        if (Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel())) {
-            return true;
-        }
-        // If any other segment, only process if the requested report belong to this plugin
-        $pluginBeingProcessed = $this->getRequestedPlugin();
-        if ($pluginBeingProcessed == $pluginName) {
-            return true;
-        }
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
-            return true;
-        }
-        return false;
-    }
-
-    protected function getRequestedPlugin()
-    {
-        return $this->requestedPlugin;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isDayArchive()
-    {
-        return $this->getPeriod()->getLabel() == 'day';
-    }
-
-
-    protected function aggregateMultipleVisitMetrics()
-    {
-        $toSum = Metrics::getVisitsMetricNames();
-        $metrics = $this->aggregateNumericMetrics($toSum);
-        return $metrics;
-    }
-
-
-    protected function aggregateDayVisitsMetrics()
-    {
-        $query = $this->getLogAggregator()->queryVisitsByDimension();
-        $data = $query->fetch();
-
-        $metrics = $this->convertMetricsIdToName($data);
-        $this->insertNumericRecords($metrics);
-        return $metrics;
-    }
-
-    protected function convertMetricsIdToName($data)
-    {
-        $metrics = array();
-        foreach ($data as $metricId => $value) {
-            $readableMetric = Metrics::$mappingFromIdToName[$metricId];
-            $metrics[$readableMetric] = $value;
-        }
-        return $metrics;
-    }
-
 
     /**
      * Array of (column name before => column name renamed) of the columns for which sum operation is invalid.
@@ -739,7 +325,7 @@ class ArchiveProcessor
         $this->enrichWithUniqueVisitorsMetric($results);
 
         foreach ($results as $name => $value) {
-            $this->archiveWriter->insertRecord($name, $value);
+            $this->getArchiveWriter()->insertRecord($name, $value);
         }
 
         // if asked for only one field to sum
@@ -856,7 +442,7 @@ class ArchiveProcessor
     protected function enrichWithUniqueVisitorsMetric(&$results)
     {
         if (array_key_exists('nb_uniq_visitors', $results)) {
-            if (SettingsPiwik::isUniqueVisitorsEnabled($this->getPeriod()->getLabel())) {
+            if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
                 $results['nb_uniq_visitors'] = (float)$this->computeNbUniqVisitors();
             } else {
                 unset($results['nb_uniq_visitors']);
@@ -894,3 +480,4 @@ class ArchiveProcessor
         return $data[Metrics::INDEX_NB_UNIQ_VISITORS];
     }
 }
+

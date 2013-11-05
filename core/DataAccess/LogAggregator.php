@@ -11,6 +11,7 @@
 namespace Piwik\DataAccess;
 
 use PDOStatement;
+use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
 use Piwik\DataArray;
 use Piwik\Date;
@@ -79,17 +80,14 @@ class LogAggregator
 
     /**
      * Constructor
-     * @param Date $dateStart
-     * @param Date $dateEnd
-     * @param Site $site
-     * @param Segment $segment
+     * @param \Piwik\ArchiveProcessor\Parameters $params
      */
-    public function __construct(Date $dateStart, Date $dateEnd, Site $site, Segment $segment)
+    public function __construct(Parameters $params)
     {
-        $this->dateStart = $dateStart;
-        $this->dateEnd = $dateEnd;
-        $this->segment = $segment;
-        $this->site = $site;
+        $this->dateStart = $params->getPeriod()->getDateStart();
+        $this->dateEnd = $params->getPeriod()->getDateEnd();
+        $this->segment = $params->getSegment();
+        $this->site = $params->getSite();
     }
 
     public function generateQuery($select, $from, $where, $groupBy, $orderBy)

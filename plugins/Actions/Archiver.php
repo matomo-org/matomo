@@ -79,7 +79,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->isSiteSearchEnabled = $processor->getSite()->isSiteSearchEnabled();
+        $this->isSiteSearchEnabled = $processor->getParams()->getSite()->isSiteSearchEnabled();
     }
 
     /**

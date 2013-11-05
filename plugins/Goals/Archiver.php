@@ -275,7 +275,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         // Per item doesn't support segment
         // Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request
         // event if it did support segment
-        if (!$this->getProcessor()->getSegment()->isEmpty()) {
+        if (!$this->getProcessor()->getParams()->getSegment()->isEmpty()) {
             return false;
         }
         return true;
@@ -395,7 +395,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         /*
          *  Archive General Goal metrics
          */
-        $goalIdsToSum = GoalManager::getGoalIds($this->getProcessor()->getSite()->getId());
+        $goalIdsToSum = GoalManager::getGoalIds($this->getProcessor()->getParams()->getSite()->getId());
 
         //Ecommerce
         $goalIdsToSum[] = GoalManager::IDGOAL_ORDER;

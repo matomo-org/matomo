@@ -15,9 +15,9 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
+
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
-
 use Piwik\Log;
 use Piwik\Period;
 use Piwik\Segment;
@@ -31,6 +31,26 @@ use Piwik\SettingsPiwik;
 class ArchiveWriter
 {
     const PREFIX_SQL_LOCK = "locked_";
+    /**
+     * Flag stored at the end of the archiving
+     *
+     * @var int
+     */
+    const DONE_OK = 1;
+    /**
+     * Flag stored at the start of the archiving
+     * When requesting an Archive, we make sure that non-finished archive are not considered valid
+     *
+     * @var int
+     */
+    const DONE_ERROR = 2;
+    /**
+     * Flag indicates the archive is over a period that is not finished, eg. the current day, current week, etc.
+     * Archives flagged will be regularly purged from the DB.
+     *
+     * @var int
+     */
+    const DONE_OK_TEMPORARY = 3;
 
     protected $fields = array('idarchive',
                               'idsite',
@@ -136,7 +156,7 @@ class ArchiveWriter
 
     protected function logArchiveStatusAsIncomplete()
     {
-        $statusWhileProcessing = ArchiveProcessor::DONE_ERROR;
+        $statusWhileProcessing = self::DONE_ERROR;
         $this->insertRecord($this->doneFlag, $statusWhileProcessing);
     }
 
@@ -182,9 +202,9 @@ class ArchiveWriter
 
     protected function logArchiveStatusAsFinal()
     {
-        $status = ArchiveProcessor::DONE_OK;
+        $status = self::DONE_OK;
         if ($this->isArchiveTemporary) {
-            $status = ArchiveProcessor::DONE_OK_TEMPORARY;
+            $status = self::DONE_OK_TEMPORARY;
         }
         $this->insertRecord($this->doneFlag, $status);
     }

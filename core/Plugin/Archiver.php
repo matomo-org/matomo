@@ -82,7 +82,7 @@ abstract class Archiver
      */
     protected function getProcessor()
     {
-        return $this->processor->getDateEnd();
+        return $this->processor;
     }
 
     /**

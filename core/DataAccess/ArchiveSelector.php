@@ -19,8 +19,8 @@ use Piwik\Db;
 use Piwik\Log;
 use Piwik\Period;
 use Piwik\Period\Range;
-use Piwik\Piwik;
 
+use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Site;
 
@@ -275,8 +275,8 @@ class ArchiveSelector
 
         // create the SQL to find archives that are DONE
         return "(name IN ($allDoneFlags)) AND " .
-        " (value = '" . ArchiveProcessor::DONE_OK . "' OR " .
-        " value = '" . ArchiveProcessor::DONE_OK_TEMPORARY . "')";
+        " (value = '" . ArchiveWriter::DONE_OK . "' OR " .
+        " value = '" . ArchiveWriter::DONE_OK_TEMPORARY . "')";
     }
 
     static public function purgeOutdatedArchives(Date $dateStart)
@@ -333,9 +333,9 @@ class ArchiveSelector
         $query = "SELECT idarchive
                 FROM " . ArchiveTableCreator::getNumericTable($date) . "
                 WHERE name LIKE 'done%'
-                    AND ((  value = " . ArchiveProcessor::DONE_OK_TEMPORARY . "
+                    AND ((  value = " . ArchiveWriter::DONE_OK_TEMPORARY . "
                             AND ts_archived < ?)
-                         OR value = " . ArchiveProcessor::DONE_ERROR . ")";
+                         OR value = " . ArchiveWriter::DONE_ERROR . ")";
 
         $result = Db::fetchAll($query, array($purgeArchivesOlderThan));
         $idArchivesToDelete = array();
