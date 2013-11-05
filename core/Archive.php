@@ -249,10 +249,7 @@ class Archive
             $forceIndexedByDate = true;
         }
 
-        $params = new Parameters();
-        $params->setIdSites($idSites);
-        $params->setPeriods($periods);
-        $params->setSegment($segment);
+        $params = new Parameters($idSites, $periods, $segment);
 
         return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
     }
@@ -610,7 +607,7 @@ class Archive
                     continue;
                 }
 
-                $parameters = new ArchiveProcessor\Parameters($period, $site, $this->params->getSegment());
+                $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
                 $processing = new ArchiveProcessor\Loader($parameters);
 
                 // process for each plugin as well

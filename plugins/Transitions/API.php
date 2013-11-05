@@ -76,7 +76,7 @@ class API extends \Piwik\Plugin\API
         $segment = new Segment($segment, $idSite);
         $site = new Site($idSite);
         $period = Period::factory($period, $date);
-        $params = new ArchiveProcessor\Parameters($period, $site, $segment);
+        $params = new ArchiveProcessor\Parameters($site, $period, $segment);
         $logAggregator = new LogAggregator($params);
 
         // prepare the report

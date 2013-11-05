@@ -24,7 +24,7 @@ use Piwik\Segment;
 use Piwik\Site;
 
 /**
- *
+ * This class manages the ArchiveProcessor
  */
 class Loader
 {
@@ -87,7 +87,6 @@ class Loader
             $this->convertedVisitsMetricCached = (int)$convertedVisitsMetricCached;
         }
     }
-
 
     public function getNumberOfVisits()
     {
@@ -253,19 +252,6 @@ class Loader
         return $metrics;
     }
 
-    protected static function determineIfArchivePermanent(Date $dateEnd)
-    {
-        $now = time();
-        $endTimestampUTC = strtotime($dateEnd->getDateEndUTC());
-        if ($endTimestampUTC <= $now) {
-            // - if the period we are looking for is finished, we look for a ts_archived that
-            //   is greater than the last day of the archive
-            return $endTimestampUTC;
-        }
-        return false;
-    }
-
-
     /**
      * Returns the minimum archive processed datetime to look at. Only public for tests.
      *
@@ -285,12 +271,32 @@ class Loader
         return Rules::getMinTimeProcessedForTemporaryArchive($this->params->getDateStart(), $this->params->getPeriod(), $this->params->getSegment(), $this->params->getSite());
     }
 
+    protected static function determineIfArchivePermanent(Date $dateEnd)
+    {
+        $now = time();
+        $endTimestampUTC = strtotime($dateEnd->getDateEndUTC());
+        if ($endTimestampUTC <= $now) {
+            // - if the period we are looking for is finished, we look for a ts_archived that
+            //   is greater than the last day of the archive
+            return $endTimestampUTC;
+        }
+        return false;
+    }
+
     protected function isArchiveTemporary()
     {
         if (is_null($this->temporaryArchive)) {
             throw new \Exception("getMinTimeArchiveProcessed() should be called prior to isArchiveTemporary()");
         }
         return $this->temporaryArchive;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDayArchive()
+    {
+        return $this->params->getPeriod()->getLabel() == 'day';
     }
 
     /**
@@ -312,6 +318,28 @@ class Loader
             $this->params->getDateStart()->getDateStartUTC(),
             $this->params->getDateEnd()->getDateEndUTC()
         );
+    }
+
+    /**
+     * This methods reads the subperiods if necessary,
+     * and computes the archive of the current period.
+     */
+    protected function compute($archiveProcessor)
+    {
+        $archivers = $this->getPluginArchivers();
+
+        foreach($archivers as $pluginName => $archiverClass) {
+            /** @var Archiver $archiver */
+            $archiver = new $archiverClass($archiveProcessor);
+
+            if($this->shouldProcessReportsForPlugin($pluginName)) {
+                if($this->isDayArchive()) {
+                    $archiver->aggregateDayReport();
+                } else {
+                    $archiver->aggregateMultipleReports();
+                }
+            }
+        }
     }
 
     /**
@@ -346,36 +374,6 @@ class Loader
             return $klassName;
         }
         return false;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isDayArchive()
-    {
-        return $this->params->getPeriod()->getLabel() == 'day';
-    }
-
-    /**
-     * This methods reads the subperiods if necessary,
-     * and computes the archive of the current period.
-     */
-    protected function compute($archiveProcessor)
-    {
-        $archivers = $this->getPluginArchivers();
-
-        foreach($archivers as $pluginName => $archiverClass) {
-            /** @var Archiver $archiver */
-            $archiver = new $archiverClass($archiveProcessor);
-
-            if($this->shouldProcessReportsForPlugin($pluginName)) {
-                if($this->isDayArchive()) {
-                    $archiver->aggregateDayReport();
-                } else {
-                    $archiver->aggregateMultipleReports();
-                }
-            }
-        }
     }
 
     /**

@@ -138,67 +138,6 @@ class ArchiveProcessor
     }
 
     /**
-     * Caches multiple numeric records in the archive for this processor's site, period
-     * and segment.
-     * 
-     * @param array $numericRecords A name-value mapping of numeric values that should be
-     *                              archived, eg,
-     *                              ```
-     *                              array('Referrers_distinctKeywords' => 23, 'Referrers_distinctCampaigns' => 234)
-     *                              ```
-     * @api
-     */
-    public function insertNumericRecords($numericRecords)
-    {
-        foreach ($numericRecords as $name => $value) {
-            $this->insertNumericRecord($name, $value);
-        }
-    }
-
-    /**
-     * Caches a single numeric record in the archive for this processor's site, period and
-     * segment.
-     * 
-     * Numeric values are not inserted if they equal 0.
-     * 
-     * @param string $name The name of the numeric value, eg, `'Referrers_distinctKeywords'`.
-     * @param float $value The numeric value.
-     * @api
-     */
-    public function insertNumericRecord($name, $value)
-    {
-        $value = round($value, 2);
-        $this->archiveWriter->insertRecord($name, $value);
-    }
-
-    public function getNumberOfVisits()
-    {
-        return $this->numberOfVisits;
-    }
-
-    public function getNumberOfVisitsConverted()
-    {
-        return $this->numberOfVisitsConverted;
-    }
-
-    /**
-     * Caches one or more blob records in the archive for this processor's site, period
-     * and segment.
-     * 
-     * @param string $name The name of the record, eg, 'Referrers_type'.
-     * @param string|array $values A blob string or an array of blob strings. If an array
-     *                             is used, the first element in the array will be inserted
-     *                             with the `$name` name. The others will be inserted with
-     *                             `$name . '_' . $index` as the record name (where $index is
-     *                             the index of the blob record in `$values`).
-     * @api
-     */
-    public function insertBlobRecord($name, $values)
-    {
-        $this->archiveWriter->insertBlobRecord($name, $values);
-    }
-
-    /**
      * Array of (column name before => column name renamed) of the columns for which sum operation is invalid.
      * These columns will be renamed as per this mapping.
      * @var array
@@ -299,6 +238,67 @@ class ArchiveProcessor
 
         // returns the array of records once summed
         return $results;
+    }
+
+    public function getNumberOfVisits()
+    {
+        return $this->numberOfVisits;
+    }
+
+    public function getNumberOfVisitsConverted()
+    {
+        return $this->numberOfVisitsConverted;
+    }
+
+    /**
+     * Caches multiple numeric records in the archive for this processor's site, period
+     * and segment.
+     *
+     * @param array $numericRecords A name-value mapping of numeric values that should be
+     *                              archived, eg,
+     *                              ```
+     *                              array('Referrers_distinctKeywords' => 23, 'Referrers_distinctCampaigns' => 234)
+     *                              ```
+     * @api
+     */
+    public function insertNumericRecords($numericRecords)
+    {
+        foreach ($numericRecords as $name => $value) {
+            $this->insertNumericRecord($name, $value);
+        }
+    }
+
+    /**
+     * Caches a single numeric record in the archive for this processor's site, period and
+     * segment.
+     *
+     * Numeric values are not inserted if they equal 0.
+     *
+     * @param string $name The name of the numeric value, eg, `'Referrers_distinctKeywords'`.
+     * @param float $value The numeric value.
+     * @api
+     */
+    public function insertNumericRecord($name, $value)
+    {
+        $value = round($value, 2);
+        $this->archiveWriter->insertRecord($name, $value);
+    }
+
+    /**
+     * Caches one or more blob records in the archive for this processor's site, period
+     * and segment.
+     *
+     * @param string $name The name of the record, eg, 'Referrers_type'.
+     * @param string|array $values A blob string or an array of blob strings. If an array
+     *                             is used, the first element in the array will be inserted
+     *                             with the `$name` name. The others will be inserted with
+     *                             `$name . '_' . $index` as the record name (where $index is
+     *                             the index of the blob record in `$values`).
+     * @api
+     */
+    public function insertBlobRecord($name, $values)
+    {
+        $this->archiveWriter->insertBlobRecord($name, $values);
     }
 
     /**

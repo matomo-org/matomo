@@ -86,7 +86,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $period = Period::factory($periodLabel, $date);
         $segment = new Segment('', $site->getId());
 
-        $params = new ArchiveProcessor\Parameters($period, $site, $segment);
+        $params = new ArchiveProcessor\Parameters($site, $period, $segment);
         return new \ArchiveProcessorTest($params);
     }
 

@@ -37,7 +37,7 @@ class Parameters
      */
     private $segment = null;
 
-    public function __construct(Period $period, Site $site, Segment $segment)
+    public function __construct(Site $site, Period $period, Segment $segment)
     {
         $this->period = $period;
         $this->site = $site;

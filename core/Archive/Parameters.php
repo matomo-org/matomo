@@ -42,8 +42,10 @@ class Parameters
         return $this->segment;
     }
 
-    public function setSegment(Segment $segment)
+    public function __construct($idSites, $periods, Segment $segment)
     {
+        $this->idSites = $this->getAsNonEmptyArray($idSites, 'idSites');
+        $this->periods = $this->getAsNonEmptyArray($periods, 'periods');
         $this->segment = $segment;
     }
 
@@ -52,19 +54,9 @@ class Parameters
         return $this->periods;
     }
 
-    public function setPeriods($periods)
-    {
-        $this->periods = $this->getAsNonEmptyArray($periods, 'periods');
-    }
-
     public function getIdSites()
     {
         return $this->idSites;
-    }
-
-    public function setIdSites($idSites)
-    {
-        $this->idSites = $this->getAsNonEmptyArray($idSites, 'idSites');
     }
 
     private function getAsNonEmptyArray($array, $paramName)
