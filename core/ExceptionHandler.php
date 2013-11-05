@@ -32,7 +32,7 @@ class ExceptionHandler
         Piwik::addAction('Log.formatDatabaseMessage', array('\\Piwik\\ExceptionHandler', 'formatFileAndDBLogMessage'));
         Piwik::addAction('Log.formatScreenMessage', array('\\Piwik\\ExceptionHandler', 'formatScreenMessage'));
 
-        set_exception_handler(array('\\Piwik\\ExceptionHandler', 'exceptionHandler'));
+        set_exception_handler(array('\\Piwik\\ExceptionHandler', 'logException'));
     }
 
     public static function formatFileAndDBLogMessage(&$message, $level, $tag, $datetime, $log)
@@ -58,7 +58,7 @@ class ExceptionHandler
         }
     }
 
-    public static function exceptionHandler(\Exception $exception)
+    public static function logException(\Exception $exception)
     {
         Log::error($exception);
     }
