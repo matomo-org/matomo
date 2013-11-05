@@ -138,14 +138,6 @@ class ArchiveProcessor
     }
 
     /**
-     * @return ArchiveWriter
-     */
-    public function getArchiveWriter()
-    {
-        return $this->archiveWriter;
-    }
-
-    /**
      * Caches multiple numeric records in the archive for this processor's site, period
      * and segment.
      * 
@@ -176,7 +168,7 @@ class ArchiveProcessor
     public function insertNumericRecord($name, $value)
     {
         $value = round($value, 2);
-        $this->getArchiveWriter()->insertRecord($name, $value);
+        $this->archiveWriter->insertRecord($name, $value);
     }
 
     public function getNumberOfVisits()
@@ -203,35 +195,7 @@ class ArchiveProcessor
      */
     public function insertBlobRecord($name, $values)
     {
-        if (is_array($values)) {
-            $clean = array();
-            foreach ($values as $id => $value) {
-                // for the parent Table we keep the name
-                // for example for the Table of searchEngines we keep the name 'referrer_search_engine'
-                // but for the child table of 'Google' which has the ID = 9 the name would be 'referrer_search_engine_9'
-                $newName = $name;
-                if ($id != 0) {
-                    //FIXMEA: refactor
-                    $newName = $name . '_' . $id;
-                }
-
-                $value = $this->compress($value);
-                $clean[] = array($newName, $value);
-            }
-            $this->getArchiveWriter()->insertBulkRecords($clean);
-            return;
-        }
-
-        $values = $this->compress($values);
-        $this->getArchiveWriter()->insertRecord($name, $values);
-    }
-
-    protected function compress($data)
-    {
-        if (Db::get()->hasBlobDataType()) {
-            return gzcompress($data);
-        }
-        return $data;
+        $this->archiveWriter->insertBlobRecord($name, $values);
     }
 
     /**
@@ -325,7 +289,7 @@ class ArchiveProcessor
         $this->enrichWithUniqueVisitorsMetric($results);
 
         foreach ($results as $name => $value) {
-            $this->getArchiveWriter()->insertRecord($name, $value);
+            $this->archiveWriter->insertRecord($name, $value);
         }
 
         // if asked for only one field to sum
@@ -355,7 +319,8 @@ class ArchiveProcessor
 
         $data = $this->archive->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
         if ($data instanceof DataTable\Map) {
-            foreach ($data->getDataTables() as $date => $tableToSum) {
+            // as $date => $tableToSum
+            foreach ($data->getDataTables() as $tableToSum) {
                 $table->addDataTable($tableToSum);
             }
         } else {
@@ -479,5 +444,6 @@ class ArchiveProcessor
         $data = $query->fetch();
         return $data[Metrics::INDEX_NB_UNIQ_VISITORS];
     }
+
 }
 

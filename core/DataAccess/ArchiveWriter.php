@@ -73,6 +73,43 @@ class ArchiveWriter
         $this->dateStart = $this->period->getDateStart();
     }
 
+    /**
+     * @param string $name
+     * @param string[] $values
+     */
+    public function insertBlobRecord($name, $values)
+    {
+        if (is_array($values)) {
+            $clean = array();
+            foreach ($values as $id => $value) {
+                // for the parent Table we keep the name
+                // for example for the Table of searchEngines we keep the name 'referrer_search_engine'
+                // but for the child table of 'Google' which has the ID = 9 the name would be 'referrer_search_engine_9'
+                $newName = $name;
+                if ($id != 0) {
+                    //FIXMEA: refactor
+                    $newName = $name . '_' . $id;
+                }
+
+                $value = $this->compress($value);
+                $clean[] = array($newName, $value);
+            }
+            $this->insertBulkRecords($clean);
+            return;
+        }
+
+        $values = $this->compress($values);
+        $this->insertRecord($name, $values);
+    }
+
+    static protected function compress($data)
+    {
+        if (Db::get()->hasBlobDataType()) {
+            return gzcompress($data);
+        }
+        return $data;
+    }
+
     protected function getArchiveLockName()
     {
         $numericTable = $this->getTableNumeric();
@@ -215,7 +252,7 @@ class ArchiveWriter
         return Db::releaseDbLock($lockName);
     }
 
-    public function insertBulkRecords($records)
+    protected function insertBulkRecords($records)
     {
         // Using standard plain INSERT if there is only one record to insert
         if ($DEBUG_DO_NOT_USE_BULK_INSERT = false
