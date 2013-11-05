@@ -560,6 +560,7 @@ class Db
      * Public so tests can simulate the situation where the lock tables privilege isn't granted.
      *
      * @var bool
+     * @ignore
      */
     public static $lockPrivilegeGranted = null;
 
