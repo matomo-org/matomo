@@ -15,7 +15,7 @@ require_once(PIWIK_INCLUDE_PATH . '/libs/spyc.php');
 class UserAgentParserEnhanced
 {
     public static $deviceTypes = array('desktop', 'smartphone', 'tablet', 'feature phone', 'console', 'tv', 'car browser');
-
+    
     public static $deviceBrands = array(
         'AC' => 'Acer',
         'AI' => 'Airness',
@@ -28,18 +28,18 @@ class UserAgentParserEnhanced
         'BE' => 'Becker',
         'BI' => 'Bird',
         'BL' => 'Beetel',
-		'BO' => 'BangOlufsen',
+        'BO' => 'BangOlufsen',
         'BQ' => 'BenQ',
         'BS' => 'BenQ-Siemens',
         'CK' => 'Cricket',
         'CL' => 'Compal',
-		'CN' => 'creNova',
+        'CN' => 'creNova',
         'CT' => 'Capitel',
         'DB' => 'Dbtel',
         'DC' => 'DoCoMo',
         'DI' => 'Dicam',
         'DL' => 'Dell',
-		'DM' => 'DMM',
+        'DM' => 'DMM',
         'DP' => 'Dopod',
         'EC' => 'Ericsson',
         'EI' => 'Ezio',
@@ -55,15 +55,15 @@ class UserAgentParserEnhanced
         'HP' => 'HP',
         'HT' => 'HTC',
         'HU' => 'Huawei',
-		'HX' => 'Humax',
+        'HX' => 'Humax',
         'IA' => 'IKEA',
-		'IK' => 'iKoMo',
+        'IK' => 'iKoMo',
         'IM' => 'i-mate',
         'IN' => 'Innostream',
         'IO' => 'i-mobile',
         'IQ' => 'INQ',
-		'IT' => 'Intek',
-		'IV' => 'Inverto',		
+        'IT' => 'Intek',
+        'IV' => 'Inverto',		
         'KA' => 'Karbonn',
         'KD' => 'KDDI',
         'KN' => 'Kindle',
@@ -73,11 +73,11 @@ class UserAgentParserEnhanced
         'LC' => 'LCT',
         'LE' => 'Lenovo',
         'LG' => 'LG',
-		'LO' => 'Loewe',
+        'LO' => 'Loewe',
         'LU' => 'LGUPlus',
-		'ME' => 'Metz',
+        'ME' => 'Metz',
         'MI' => 'MicroMax',
-		'MK' => 'MediaTek',
+        'MK' => 'MediaTek',
         'MO' => 'Mio',
         'MR' => 'Motorola',
         'MS' => 'Microsoft',
@@ -94,7 +94,7 @@ class UserAgentParserEnhanced
         'OR' => 'Orange',
         'OT' => 'O2',
         'PA' => 'Panasonic',
-		'PE' => 'PEAQ',
+        'PE' => 'PEAQ',
         'PH' => 'Philips',
         'PM' => 'Palm',
         'PO' => 'phoneOne',
@@ -109,7 +109,7 @@ class UserAgentParserEnhanced
         'SG' => 'Sagem',
         'SH' => 'Sharp',
         'SI' => 'Siemens',
-		'SM' => 'Smart',
+        'SM' => 'Smart',
         'SN' => 'Sendo',
         'SO' => 'Sony',
         'SP' => 'Spice',
@@ -119,13 +119,13 @@ class UserAgentParserEnhanced
         'TE' => 'Telit',
         'TH' => 'TiPhone',
         'TI' => 'TIANYU',
-		'TL' => 'Telefunken',
+        'TL' => 'Telefunken',
         'TM' => 'T-Mobile',
-		'TN' => 'Thomson',
+        'TN' => 'Thomson',
         'TO' => 'Toplux',
         'TS' => 'Toshiba',
-		'TT' => 'TechnoTrend',
-		'TX' => 'TechniSat',
+        'TT' => 'TechnoTrend',
+        'TX' => 'TechniSat',
         'UT' => 'UTStarcom',
         'VD' => 'Videocon',
         'VE' => 'Vertu',
@@ -243,7 +243,7 @@ class UserAgentParserEnhanced
     );
     public static $browserFamilies = array(
         'Android Browser'    => array('AN'),
-		'ANT Browser'        => array('AG'),
+        'ANT Browser'        => array('AG'),
         'BlackBerry Browser' => array('BB'),
         'Chrome'             => array('CH', 'CM', 'CI', 'CF', 'CR', 'RM'),
         'Firefox'            => array('FF', 'FE', 'SX', 'FB', 'PX', 'MB'),
@@ -256,7 +256,7 @@ class UserAgentParserEnhanced
     );
     public static $browsers = array(
         'AB' => 'ABrowse',
-		'AG' => 'ANTGalio',
+        'AG' => 'ANTGalio',
         'AM' => 'Amaya',
         'AN' => 'Android Browser',
         'AR' => 'Arora',
@@ -315,7 +315,7 @@ class UserAgentParserEnhanced
         'OB' => 'Obigo',
         'OI' => 'Opera Mini',
         'OM' => 'Opera Mobile',
-		'ON' => 'Opera Next',
+        'ON' => 'Opera Next',
         'OP' => 'Opera',
         'OV' => 'Openwave Mobile Browser',
         'OW' => 'OmniWeb',
@@ -339,7 +339,7 @@ class UserAgentParserEnhanced
     protected static $osRegexesFile = 'oss.yml';
     protected static $browserRegexesFile = 'browsers.yml';
     protected static $mobileRegexesFile = 'mobiles.yml';
-	protected static $televisionRegexesFile = 'televisions.yml';
+    protected static $televisionRegexesFile = 'televisions.yml';
     protected $userAgent;
     protected $os;
     protected $browser;
@@ -369,22 +369,22 @@ class UserAgentParserEnhanced
     }
 	 
 	protected function getTelevisionRegexes()
-	{
-		return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
-	}
+    {
+        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$televisionRegexesFile);
+    }
 
     public function parse()
     {
-		$this->parseOs();
+        $this->parseOs();
         if ($this->isBot() || $this->isSimulator())
-        	return;
+            return;
 
         $this->parseBrowser();
 		
-		if($this->isTelevision()) {
-			$this->parseTelevision();
-		} else if ($this->isMobile()) {
-			$this->parseMobile();
+        if($this->isTelevision()) {
+            $this->parseTelevision();
+        } else if ($this->isMobile()) {
+            $this->parseMobile();
         } else {
             $this->device = array_search('desktop', self::$deviceTypes);
         }
@@ -665,8 +665,8 @@ class UserAgentParserEnhanced
 
     public function isTelevision()
     {
-		$regex = 'HbbTV/([1-9]{1}(\.[0-9]{1}){1,2})';
-		return $this->matchUserAgent($regex);
+        $regex = 'HbbTV/([1-9]{1}(\.[0-9]{1}){1,2})';
+        return $this->matchUserAgent($regex);
     }
 
     public function isDesktop()
@@ -768,5 +768,4 @@ class UserAgentParserEnhanced
         }
         return false;
     }
-
 }
