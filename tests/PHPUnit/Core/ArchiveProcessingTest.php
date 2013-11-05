@@ -22,7 +22,12 @@ use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
 
-class ArchiveProcessorTest extends ArchiveProcessor {
+class ArchiveProcessorTest extends ArchiveProcessor\Loader {
+
+    public function getParams()
+    {
+        return $this->params;
+    }
     public function public_getMinTimeArchiveProcessed()
     {
         return $this->getMinTimeArchiveProcessed();
@@ -72,7 +77,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
      * @param string $periodLabel
      * @param string $dateLabel
      * @param string $siteTimezone
-     * @return ArchiveProcessorTest
+     * @return  \ArchiveProcessorTest
      */
     private function _createArchiveProcessor($periodLabel, $dateLabel, $siteTimezone)
     {
@@ -81,7 +86,8 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $period = Period::factory($periodLabel, $date);
         $segment = new Segment('', $site->getId());
 
-        return new \ArchiveProcessorTest($period, $site, $segment);
+        $params = new ArchiveProcessor\Parameters($period, $site, $segment);
+        return new \ArchiveProcessorTest($params);
     }
 
     /**
@@ -129,8 +135,8 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $dateMinArchived = Date::factory('2010-01-02')->getTimestamp();
         $this->assertEquals($archiveProcessor->public_getMinTimeArchiveProcessed() + 1, $dateMinArchived);
 
-        $this->assertEquals('2010-01-01 00:00:00', $archiveProcessor->getDateStart()->getDateStartUTC());
-        $this->assertEquals('2010-01-01 23:59:59', $archiveProcessor->getDateEnd()->getDateEndUTC());
+        $this->assertEquals('2010-01-01 00:00:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
+        $this->assertEquals('2010-01-01 23:59:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
         $this->assertFalse($archiveProcessor->public_isArchiveTemporary());
     }
 
@@ -146,8 +152,8 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $dateMinArchived = Date::factory('2010-01-01 18:30:00');
         $this->assertEquals($archiveProcessor->public_getMinTimeArchiveProcessed() + 1, $dateMinArchived->getTimestamp());
 
-        $this->assertEquals('2009-12-31 18:30:00', $archiveProcessor->getDateStart()->getDateStartUTC());
-        $this->assertEquals('2010-01-01 18:29:59', $archiveProcessor->getDateEnd()->getDateEndUTC());
+        $this->assertEquals('2009-12-31 18:30:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
+        $this->assertEquals('2010-01-01 18:29:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
         $this->assertFalse($archiveProcessor->public_isArchiveTemporary());
     }
 
@@ -163,8 +169,8 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $dateMinArchived = Date::factory('2010-02-01 05:30:00');
         $this->assertEquals($archiveProcessor->public_getMinTimeArchiveProcessed() + 1, $dateMinArchived->getTimestamp());
 
-        $this->assertEquals('2010-01-01 05:30:00', $archiveProcessor->getDateStart()->getDateStartUTC());
-        $this->assertEquals('2010-02-01 05:29:59', $archiveProcessor->getDateEnd()->getDateEndUTC());
+        $this->assertEquals('2010-01-01 05:30:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
+        $this->assertEquals('2010-02-01 05:29:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
         $this->assertFalse($archiveProcessor->public_isArchiveTemporary());
     }
 
@@ -200,8 +206,8 @@ class ArchiveProcessingTest extends DatabaseTestCase
         }
         $this->compareTimestamps($archiveProcessor->public_getMinTimeArchiveProcessed(), $dateMinArchived);
 
-        $this->assertEquals(date('Y-m-d', $timestamp) . ' 01:00:00', $archiveProcessor->getDateStart()->getDateStartUTC());
-        $this->assertEquals(date('Y-m-d', $timestamp + 86400) . ' 00:59:59', $archiveProcessor->getDateEnd()->getDateEndUTC());
+        $this->assertEquals(date('Y-m-d', $timestamp) . ' 01:00:00', $archiveProcessor->getParams()->getDateStart()->getDateStartUTC());
+        $this->assertEquals(date('Y-m-d', $timestamp + 86400) . ' 00:59:59', $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC());
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
     }
 
@@ -243,10 +249,10 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed());
 
         // this test varies with DST
-        $this->assertTrue($archiveProcessor->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp - 86400) . ' 22:00:00' ||
-            $archiveProcessor->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp - 86400) . ' 23:00:00');
-        $this->assertTrue($archiveProcessor->getDateEnd()->getDateEndUTC() == date('Y-m-d', $timestamp) . ' 21:59:59' ||
-            $archiveProcessor->getDateEnd()->getDateEndUTC() == date('Y-m-d', $timestamp) . ' 22:59:59');
+        $this->assertTrue($archiveProcessor->getParams()->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp - 86400) . ' 22:00:00' ||
+            $archiveProcessor->getParams()->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp - 86400) . ' 23:00:00');
+        $this->assertTrue($archiveProcessor->getParams()->getDateEnd()->getDateEndUTC() == date('Y-m-d', $timestamp) . ' 21:59:59' ||
+            $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC() == date('Y-m-d', $timestamp) . ' 22:59:59');
 
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
     }
@@ -288,10 +294,10 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->public_getMinTimeArchiveProcessed());
 
         // this test varies with DST
-        $this->assertTrue($archiveProcessor->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp) . ' 04:00:00' ||
-            $archiveProcessor->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp) . ' 05:00:00');
-        $this->assertTrue($archiveProcessor->getDateEnd()->getDateEndUTC() == date('Y-m-d', $timestamp + 86400) . ' 03:59:59' ||
-            $archiveProcessor->getDateEnd()->getDateEndUTC() == date('Y-m-d', $timestamp + 86400) . ' 04:59:59');
+        $this->assertTrue($archiveProcessor->getParams()->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp) . ' 04:00:00' ||
+            $archiveProcessor->getParams()->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp) . ' 05:00:00');
+        $this->assertTrue($archiveProcessor->getParams()->getDateEnd()->getDateEndUTC() == date('Y-m-d', $timestamp + 86400) . ' 03:59:59' ||
+            $archiveProcessor->getParams()->getDateEnd()->getDateEndUTC() == date('Y-m-d', $timestamp + 86400) . ' 04:59:59');
 
         $this->assertTrue($archiveProcessor->public_isArchiveTemporary());
     }
