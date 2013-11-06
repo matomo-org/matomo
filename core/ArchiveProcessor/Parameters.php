@@ -12,6 +12,7 @@
 namespace Piwik\ArchiveProcessor;
 
 use Piwik\Date;
+use Piwik\Log;
 use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
@@ -120,4 +121,23 @@ class Parameters
     {
         return $this->getPeriod()->getLabel() == 'day';
     }
+
+    public function logStatusDebug($isTemporary)
+    {
+        $temporary = 'definitive archive';
+        if ($isTemporary) {
+            $temporary = 'temporary archive';
+        }
+        Log::verbose(
+            "'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
+            $this->params->getPeriod()->getLabel(),
+            $this->params->getSite()->getId(),
+            $temporary,
+            $this->params->getSegment()->getString(),
+            $this->params->getRequestedPlugin(),
+            $this->params->getDateStart()->getDateStartUTC(),
+            $this->params->getDateEnd()->getDateEndUTC()
+        );
+    }
+
 }

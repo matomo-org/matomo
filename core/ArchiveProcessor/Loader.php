@@ -165,6 +165,7 @@ class Loader
 
     protected function computeNewArchive($enforceProcessCoreMetricsOnly)
     {
+        $isArchiveDay = $this->params->isDayArchive();
         $archiveWriter = new ArchiveWriter($this->params->getSite()->getId(), $this->params->getSegment(), $this->params->getPeriod(), $this->params->getRequestedPlugin(), $this->isArchiveTemporary());
         $archiveWriter->initNewArchive();
 
@@ -176,7 +177,7 @@ class Loader
             || $enforceProcessCoreMetricsOnly
         ) {
 
-            if($this->params->isDayArchive()) {
+            if($isArchiveDay) {
                 $metrics = $this->aggregateDayVisitsMetrics($archiveProcessor);
             } else {
                 $metrics = $this->aggregateMultipleVisitMetrics($archiveProcessor);
@@ -188,7 +189,7 @@ class Loader
                 $this->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
             }
         }
-        $this->logStatusDebug();
+        $this->params->logStatusDebug( $this->isArchiveTemporary() );
 
         $archiveProcessor = $this->makeArchiveProcessor($archiveWriter);
 
@@ -202,7 +203,7 @@ class Loader
 
         $archiveWriter->finalizeArchive();
 
-        if ($isVisitsToday && $this->params->getPeriod()->getLabel() != 'day') {
+        if ($isVisitsToday && !$isArchiveDay) {
             ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
 
@@ -275,24 +276,6 @@ class Loader
         return $this->temporaryArchive;
     }
 
-    protected function logStatusDebug()
-    {
-        $temporary = 'definitive archive';
-        if ($this->isArchiveTemporary()) {
-            $temporary = 'temporary archive';
-        }
-        Log::verbose(
-            "'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
-            $this->params->getPeriod()->getLabel(),
-            $this->params->getSite()->getId(),
-            $temporary,
-            $this->params->getSegment()->getString(),
-            $this->params->getRequestedPlugin(),
-            $this->params->getDateStart()->getDateStartUTC(),
-            $this->params->getDateEnd()->getDateEndUTC()
-        );
-    }
-
     /**
      * @param $archiveWriter
      * @return ArchiveProcessor
@@ -308,3 +291,4 @@ class Loader
         return $archiveProcessor;
     }
 }
+
