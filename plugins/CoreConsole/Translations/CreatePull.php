@@ -123,7 +123,7 @@ class CreatePull extends ConsoleCommand
 
         $linesSumByLang = array();
         for($i=0; $i<count($lineChanges[0]); $i++) {
-            $linesSumByLang[$lineChanges[2][$i]] = $lineChanges[1][$i];
+            $linesSumByLang[$lineChanges[3][$i]] = $lineChanges[1][$i];
         }
 
         preg_match_all('/M  lang\/([a-z]{2,3})\.json/', $changes, $modifiedFiles);
