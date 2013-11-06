@@ -14,25 +14,17 @@ use Piwik\ArchiveProcessor;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugin\Archiver;
-use Piwik\Segment;
-use Piwik\Site;
 
 /**
- * This class manages the ArchiveProcessor
+ * This class manages the ArchiveProcessor and
  */
 class Loader
 {
-    /**
-     * @var LogAggregator
-     */
-    private $logAggregator = null;
-
     /**
      * @var int Cached number of visits cached
      */
@@ -42,11 +34,6 @@ class Loader
      * @var int Cached number of visits with conversions
      */
     protected $convertedVisitsMetricCached = false;
-
-    /**
-     * @var string Plugin name which triggered this archive processor
-     */
-    protected $requestedPlugin = false;
 
     /**
      * Is the current archive temporary. ie.
@@ -98,14 +85,12 @@ class Loader
         return $this->convertedVisitsMetricCached;
     }
 
-    public function preProcessArchive($requestedPlugin, $enforceProcessCoreMetricsOnly = false)
+    public function preProcessArchive($enforceProcessCoreMetricsOnly = false)
     {
         $this->idArchive = false;
 
-        $this->setRequestedPlugin($requestedPlugin);
-
         if (!$enforceProcessCoreMetricsOnly) {
-            $this->idArchive = $this->loadExistingArchiveIdFromDb($requestedPlugin);
+            $this->idArchive = $this->loadExistingArchiveIdFromDb();
             if ($this->isArchivingForcedToTrigger()) {
                 $this->idArchive = false;
                 $this->setNumberOfVisits(false);
@@ -116,33 +101,31 @@ class Loader
 
             $visitsNotKnownYet = $this->getNumberOfVisits() === false;
 
-            $createAnotherArchiveForVisitsSummary = !$this->doesRequestedPluginIncludeVisitsSummary($requestedPlugin) && $visitsNotKnownYet;
+            $createAnotherArchiveForVisitsSummary = !$this->doesRequestedPluginIncludeVisitsSummary() && $visitsNotKnownYet;
 
             if ($createAnotherArchiveForVisitsSummary) {
                 // recursive archive creation in case we create another separate one, for VisitsSummary core metrics
                 // We query VisitsSummary here, as it is needed in the call below ($this->getNumberOfVisits() > 0)
-                $requestedPlugin = $this->getRequestedPlugin();
-                $this->preProcessArchive('VisitsSummary', $pleaseProcessCoreMetricsOnly = true);
-                $this->setRequestedPlugin($requestedPlugin);
+                $requestedPlugin = $this->params->getRequestedPlugin();
+                $this->params->setRequestedPlugin('VisitsSummary');
+
+                $this->preProcessArchive($pleaseProcessCoreMetricsOnly = true);
+
+                $this->params->setRequestedPlugin($requestedPlugin);
                 if ($this->getNumberOfVisits() === false) {
                     throw new \Exception("preProcessArchive() is expected to set number of visits to a numeric value.");
                 }
             }
         }
 
-        return $this->computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly);
+        return $this->computeNewArchive($enforceProcessCoreMetricsOnly);
     }
 
-    protected function doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
+    protected function doesRequestedPluginIncludeVisitsSummary()
     {
         $processAllReportsIncludingVisitsSummary = Rules::shouldProcessReportsAllPlugins($this->params->getSegment(), $this->params->getPeriod()->getLabel());
-        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $requestedPlugin == 'VisitsSummary';
+        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $this->params->getRequestedPlugin() == 'VisitsSummary';
         return $doesRequestedPluginIncludeVisitsSummary;
-    }
-
-    protected function setRequestedPlugin($plugin)
-    {
-        $this->requestedPlugin = $plugin;
     }
 
     protected function isArchivingForcedToTrigger()
@@ -161,15 +144,15 @@ class Loader
      * Returns the idArchive if the archive is available in the database for the requested plugin.
      * Returns false if the archive needs to be processed.
      *
-     * @param $requestedPlugin
      * @return int or false
      */
-    protected function loadExistingArchiveIdFromDb($requestedPlugin)
+    protected function loadExistingArchiveIdFromDb()
     {
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
         $site = $this->params->getSite();
         $period = $this->params->getPeriod();
         $segment = $this->params->getSegment();
+        $requestedPlugin = $this->params->getRequestedPlugin();
 
         $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
         if (!$idAndVisits) {
@@ -180,20 +163,20 @@ class Loader
         return $idArchive;
     }
 
-    protected function computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly)
+    protected function computeNewArchive($enforceProcessCoreMetricsOnly)
     {
-        $archiveWriter = new ArchiveWriter($this->params->getSite()->getId(), $this->params->getSegment(), $this->params->getPeriod(), $requestedPlugin, $this->isArchiveTemporary());
+        $archiveWriter = new ArchiveWriter($this->params->getSite()->getId(), $this->params->getSegment(), $this->params->getPeriod(), $this->params->getRequestedPlugin(), $this->isArchiveTemporary());
         $archiveWriter->initNewArchive();
 
         $archiveProcessor = $this->makeArchiveProcessor($archiveWriter);
 
         $visitsNotKnownYet = $this->getNumberOfVisits() === false;
         if ($visitsNotKnownYet
-            || $this->doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
+            || $this->doesRequestedPluginIncludeVisitsSummary()
             || $enforceProcessCoreMetricsOnly
         ) {
 
-            if($this->isDayArchive()) {
+            if($this->params->isDayArchive()) {
                 $metrics = $this->aggregateDayVisitsMetrics($archiveProcessor);
             } else {
                 $metrics = $this->aggregateMultipleVisitMetrics($archiveProcessor);
@@ -205,7 +188,7 @@ class Loader
                 $this->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
             }
         }
-        $this->logStatusDebug($requestedPlugin);
+        $this->logStatusDebug();
 
         $archiveProcessor = $this->makeArchiveProcessor($archiveWriter);
 
@@ -213,7 +196,8 @@ class Loader
         if ($isVisitsToday
             && !$enforceProcessCoreMetricsOnly
         ) {
-            $this->compute($archiveProcessor);
+            $pluginsArchiver = new PluginsArchiver($archiveProcessor);
+            $pluginsArchiver->callPluginsAggregate();
         }
 
         $archiveWriter->finalizeArchive();
@@ -291,18 +275,7 @@ class Loader
         return $this->temporaryArchive;
     }
 
-    /**
-     * @return bool
-     */
-    protected function isDayArchive()
-    {
-        return $this->params->getPeriod()->getLabel() == 'day';
-    }
-
-    /**
-     * @param $requestedPlugin
-     */
-    protected function logStatusDebug($requestedPlugin)
+    protected function logStatusDebug()
     {
         $temporary = 'definitive archive';
         if ($this->isArchiveTemporary()) {
@@ -314,92 +287,10 @@ class Loader
             $this->params->getSite()->getId(),
             $temporary,
             $this->params->getSegment()->getString(),
-            $requestedPlugin,
+            $this->params->getRequestedPlugin(),
             $this->params->getDateStart()->getDateStartUTC(),
             $this->params->getDateEnd()->getDateEndUTC()
         );
-    }
-
-    /**
-     * This methods reads the subperiods if necessary,
-     * and computes the archive of the current period.
-     */
-    protected function compute($archiveProcessor)
-    {
-        $archivers = $this->getPluginArchivers();
-
-        foreach($archivers as $pluginName => $archiverClass) {
-            /** @var Archiver $archiver */
-            $archiver = new $archiverClass($archiveProcessor);
-
-            if($this->shouldProcessReportsForPlugin($pluginName)) {
-                if($this->isDayArchive()) {
-                    $archiver->aggregateDayReport();
-                } else {
-                    $archiver->aggregateMultipleReports();
-                }
-            }
-        }
-    }
-
-    /**
-     * @var Archiver[] $archivers
-     */
-    private static $archivers = array();
-
-
-    /**
-     * Loads Archiver class from any plugin that defines one.
-     *
-     * @return \Piwik\Plugin\Archiver[]
-     */
-    protected function getPluginArchivers()
-    {
-        if (empty(static::$archivers)) {
-            $pluginNames = \Piwik\Plugin\Manager::getInstance()->getLoadedPluginsName();
-            $archivers = array();
-            foreach ($pluginNames as $pluginName) {
-                $archivers[$pluginName] = self::getPluginArchiverClass($pluginName);
-            }
-            static::$archivers = array_filter($archivers);
-        }
-        return static::$archivers;
-    }
-
-    private static function getPluginArchiverClass($pluginName)
-    {
-        $klassName = 'Piwik\\Plugins\\' . $pluginName . '\\Archiver';
-        if (class_exists($klassName)
-            && is_subclass_of($klassName, 'Piwik\\Plugin\\Archiver')) {
-            return $klassName;
-        }
-        return false;
-    }
-
-    /**
-     * Whether the specified plugin's reports should be archived
-     * @param string $pluginName
-     * @return bool
-     */
-    protected function shouldProcessReportsForPlugin($pluginName)
-    {
-        if (Rules::shouldProcessReportsAllPlugins($this->params->getSegment(), $this->params->getPeriod()->getLabel())) {
-            return true;
-        }
-        // If any other segment, only process if the requested report belong to this plugin
-        $pluginBeingProcessed = $this->getRequestedPlugin();
-        if ($pluginBeingProcessed == $pluginName) {
-            return true;
-        }
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
-            return true;
-        }
-        return false;
-    }
-
-    protected function getRequestedPlugin()
-    {
-        return $this->requestedPlugin;
     }
 
     /**
@@ -410,7 +301,7 @@ class Loader
     {
         $archiveProcessor = new ArchiveProcessor($this->params, $archiveWriter, $this->getNumberOfVisits(), $this->getNumberOfVisitsConverted());
 
-        if (!$this->isDayArchive()) {
+        if (!$this->params->isDayArchive()) {
             $subPeriods = $this->params->getPeriod()->getSubperiods();
             $archiveProcessor->archive = Archive::factory($this->params->getSegment(), $subPeriods, array($this->params->getSite()->getId()));
         }

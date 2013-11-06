@@ -16,13 +16,14 @@ use Piwik\Period;
 use Piwik\Segment;
 use Piwik\Site;
 
+/**
+ * An ArchiveProcessor processes data for an Archive determined by these Parameters: website, period and segment.
+ *
+ * @api
+ */
 class Parameters
 {
-
     /**
-     * Site of the current archive
-     * Can be accessed by plugins (that is why it's public)
-     *
      * @var Site
      */
     private $site = null;
@@ -37,11 +38,26 @@ class Parameters
      */
     private $segment = null;
 
+    /**
+     * @var string Plugin name which triggered this archive processor
+     */
+    private $requestedPlugin = false;
+
     public function __construct(Site $site, Period $period, Segment $segment)
     {
-        $this->period = $period;
         $this->site = $site;
+        $this->period = $period;
         $this->segment = $segment;
+    }
+
+    public function setRequestedPlugin($plugin)
+    {
+        $this->requestedPlugin = $plugin;
+    }
+
+    public function getRequestedPlugin()
+    {
+        return $this->requestedPlugin;
     }
 
     /**
@@ -78,6 +94,8 @@ class Parameters
     }
 
     /**
+     * Returns the Date end of this period.
+     *
      * @return Date
      */
     public function getDateEnd()
@@ -86,10 +104,20 @@ class Parameters
     }
 
     /**
+     * Returns the Date start of this period.
+     *
      * @return Date
      */
     public function getDateStart()
     {
         return $this->getPeriod()->getDateStart()->setTimezone($this->getSite()->getTimezone());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDayArchive()
+    {
+        return $this->getPeriod()->getLabel() == 'day';
     }
 }

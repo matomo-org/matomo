@@ -24,7 +24,8 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 
 /**
- * This class contains Archiving rules/logic which are used in several places
+ * This class contains Archiving rules/logic which are used when creating and processing Archives.
+ * 
  */
 class Rules
 {

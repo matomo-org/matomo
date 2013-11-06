@@ -83,7 +83,6 @@ use Piwik\Plugin\Archiver;
  */
 class ArchiveProcessor
 {
-
     /**
      * @var \Piwik\DataAccess\ArchiveWriter
      */
@@ -98,6 +97,11 @@ class ArchiveProcessor
      * @var Archive
      */
     public $archive = null;
+
+    /**
+     * @var Parameters
+     */
+    protected $params;
 
     /**
      * @var int

@@ -178,7 +178,7 @@ class AssetManager
     protected static function makeLess()
     {
         if (!class_exists("lessc")) {
-            throw new Exception("Less was added to composer during 2.0. ==> Execute this command to update composer packages: \$ php composer.phar update");
+            throw new Exception("Less was added to composer during 2.0. ==> Execute this command to update composer packages: \$ php composer.phar install");
         }
         $less = new lessc;
         return $less;

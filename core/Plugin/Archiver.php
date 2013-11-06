@@ -56,13 +56,13 @@ abstract class Archiver
     /**
      * Constructor.
      * 
-     * @param ArchiveProcessor $processing The ArchiveProcessor instance sent to the archiving
+     * @param ArchiveProcessor $aggregator The ArchiveProcessor instance sent to the archiving
      *                                     event observer.
      */
-    public function __construct(ArchiveProcessor $processing)
+    public function __construct(ArchiveProcessor $aggregator)
     {
         $this->maximumRows = PiwikConfig::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $this->processor = $processing;
+        $this->processor = $aggregator;
     }
 
     /**
