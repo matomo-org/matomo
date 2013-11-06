@@ -406,13 +406,24 @@ class Archive
      * @param array $archiveNames
      * @return array
      */
-    public function getRequestedPlugins($archiveNames)
+    private function getRequestedPlugins($archiveNames)
     {
         $result = array();
         foreach ($archiveNames as $name) {
             $result[] = self::getPluginForReport($name);
         }
         return array_unique($result);
+    }
+
+    /**
+     * Returns an object describing the set of sites, the set of periods and the segment
+     * this Archive will query data for.
+     *
+     * @return Parameters
+     */
+    public function getParams()
+    {
+        return $this->params;
     }
 
     /**
@@ -556,17 +567,6 @@ class Archive
         }
 
         return $idArchivesByMonth;
-    }
-
-    /**
-     * Returns an object describing the set of sites, the set of periods and the segment
-     * this Archive will query data for.
-     * 
-     * @return Parameters
-     */
-    public function getParams()
-    {
-        return $this->params;
     }
 
     /**
@@ -768,7 +768,7 @@ class Archive
      * @throws \Exception If a plugin cannot be found or if the plugin for the report isn't
      *                    activated.
      */
-    public static function getPluginForReport($report)
+    private static function getPluginForReport($report)
     {
         // Core metrics are always processed in Core, for the requested date/period/segment
         if (in_array($report, Metrics::getVisitsMetricNames())) {
