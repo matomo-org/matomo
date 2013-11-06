@@ -40,6 +40,13 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
     }
 
+    public function aggregateMultipleReports()
+    {
+        $this->getProcessor()->aggregateDataTableRecords(
+            self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
+            $columnToSort = Metrics::INDEX_NB_VISITS);
+    }
+
     public function aggregateDayReport()
     {
         $this->dataArray = new DataArray();
@@ -201,10 +208,4 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function aggregateMultipleReports()
-    {
-        $nameToCount = $this->getProcessor()->aggregateDataTableRecords(
-            self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
-            $columnToSort = Metrics::INDEX_NB_VISITS);
-    }
 }

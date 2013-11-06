@@ -56,6 +56,19 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->insertDayReports();
     }
 
+    public function aggregateMultipleReports()
+    {
+        $dataTableToSum = array(
+            self::COUNTRY_RECORD_NAME,
+            self::REGION_RECORD_NAME,
+            self::CITY_RECORD_NAME,
+        );
+
+        $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
+        $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
+            $nameToCount[self::COUNTRY_RECORD_NAME]['level0']);
+    }
+
     protected function aggregateFromVisits()
     {
         $additionalSelects = array('MAX(log_visit.location_latitude) as location_latitude',
@@ -166,16 +179,4 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function aggregateMultipleReports()
-    {
-        $dataTableToSum = array(
-            self::COUNTRY_RECORD_NAME,
-            self::REGION_RECORD_NAME,
-            self::CITY_RECORD_NAME,
-        );
-
-        $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum);
-        $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
-            $nameToCount[self::COUNTRY_RECORD_NAME]['level0']);
-    }
 }

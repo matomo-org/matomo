@@ -26,6 +26,15 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->aggregateByServerTime();
     }
 
+    public function aggregateMultipleReports()
+    {
+        $dataTableRecords = array(
+            self::LOCAL_TIME_RECORD_NAME,
+            self::SERVER_TIME_RECORD_NAME,
+        );
+        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords);
+    }
+
     protected function aggregateByServerTime()
     {
         $dataArray = $this->getLogAggregator()->getMetricsFromVisitByDimension(array("label" => "HOUR(log_visit.visit_last_action_time)"));
@@ -76,12 +85,4 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function aggregateMultipleReports()
-    {
-        $dataTableRecords = array(
-            self::LOCAL_TIME_RECORD_NAME,
-            self::SERVER_TIME_RECORD_NAME,
-        );
-        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords);
-    }
 }

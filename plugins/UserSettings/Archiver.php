@@ -56,6 +56,24 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->aggregateByLanguage();
     }
 
+    /**
+     * Period archiving: simply sums up daily archives
+     */
+    public function aggregateMultipleReports()
+    {
+        $dataTableRecords = array(
+            self::CONFIGURATION_RECORD_NAME,
+            self::OS_RECORD_NAME,
+            self::BROWSER_RECORD_NAME,
+            self::BROWSER_TYPE_RECORD_NAME,
+            self::RESOLUTION_RECORD_NAME,
+            self::SCREEN_TYPE_RECORD_NAME,
+            self::PLUGIN_RECORD_NAME,
+            self::LANGUAGE_RECORD_NAME,
+        );
+        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords, $this->maximumRows);
+    }
+
     protected function aggregateByConfiguration()
     {
         $metrics = $this->getLogAggregator()->getMetricsFromVisitByDimension(self::CONFIGURATION_DIMENSION)->asDataTable();
@@ -151,22 +169,5 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 
-    /**
-     * Period archiving: simply sums up daily archives
-     */
-    public function aggregateMultipleReports()
-    {
-        $dataTableRecords = array(
-            self::CONFIGURATION_RECORD_NAME,
-            self::OS_RECORD_NAME,
-            self::BROWSER_RECORD_NAME,
-            self::BROWSER_TYPE_RECORD_NAME,
-            self::RESOLUTION_RECORD_NAME,
-            self::SCREEN_TYPE_RECORD_NAME,
-            self::PLUGIN_RECORD_NAME,
-            self::LANGUAGE_RECORD_NAME,
-        );
-        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords, $this->maximumRows);
-    }
 }
 
