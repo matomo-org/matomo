@@ -12,12 +12,12 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Db\Adapter;
+
 use Piwik\Db\Schema;
 use Piwik\Db;
-
 use Piwik\Plugin;
-use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\UsersManager\API;
 use Piwik\Session;
 use Piwik\Tracker;
 use Piwik\View;

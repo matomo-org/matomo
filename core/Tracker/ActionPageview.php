@@ -11,9 +11,9 @@
 
 namespace Piwik\Tracker;
 
-use Piwik\Tracker;
-
 use Piwik\Config;
+
+use Piwik\Tracker;
 
 /**
  * This class represents a page view, tracking URL, page title and generation time.

@@ -16,7 +16,6 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\PluginDeactivatedException;
-use Piwik\Plugin\Manager;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;

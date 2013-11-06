@@ -14,7 +14,6 @@ namespace Piwik\Translate;
 use Exception;
 use Piwik\Filesystem;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
 use Piwik\Translate\Filter\FilterAbstract;
 use Piwik\Translate\Validate\ValidateAbstract;
 

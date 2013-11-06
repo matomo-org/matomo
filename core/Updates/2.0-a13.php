@@ -12,7 +12,6 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Filesystem;
 use Piwik\Option;
 use Piwik\Updater;
 use Piwik\Updates;

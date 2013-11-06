@@ -14,12 +14,9 @@ use PDOStatement;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\Common;
 use Piwik\DataArray;
-use Piwik\Date;
 use Piwik\Db;
-use Piwik\Metrics;
 
-use Piwik\Segment;
-use Piwik\Site;
+use Piwik\Metrics;
 use Piwik\Tracker\GoalManager;
 
 /**

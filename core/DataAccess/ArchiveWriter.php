@@ -14,8 +14,8 @@ use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
-use Piwik\Config;
 
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\BatchInsert;
 use Piwik\Log;

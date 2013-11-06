@@ -13,7 +13,6 @@ namespace Piwik\Tracker;
 
 use Piwik\Common;
 use Piwik\Tracker;
-use Piwik\Config;
 
 /**
  * An Event is composed of a URL, a Category name, an Action name, and optionally a Name and Value.

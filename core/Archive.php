@@ -11,8 +11,8 @@
 namespace Piwik;
 
 use Piwik\Archive\Parameters;
-use Piwik\ArchiveProcessor\Rules;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Range;
 

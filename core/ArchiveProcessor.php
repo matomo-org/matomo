@@ -12,15 +12,12 @@ namespace Piwik;
 
 use Exception;
 use Piwik\ArchiveProcessor\Parameters;
-use Piwik\ArchiveProcessor\Rules;
-use Piwik\DataAccess\ArchiveSelector;
-use Piwik\DataAccess\ArchiveWriter;
 
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\Db;
 use Piwik\Period;
-use Piwik\Plugin\Archiver;
 
 /**
  * Used to insert numeric and blob archive data.

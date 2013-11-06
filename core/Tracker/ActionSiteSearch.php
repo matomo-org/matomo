@@ -12,7 +12,6 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Tracker;
 use Piwik\UrlHelper;
 

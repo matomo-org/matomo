@@ -13,7 +13,6 @@ namespace Piwik\Plugin;
 use Exception;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
 use Piwik\Version;
 
 /**
