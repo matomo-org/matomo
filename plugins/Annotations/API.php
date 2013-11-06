@@ -11,13 +11,12 @@
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
-use Piwik\Date;
 
+use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
-use Piwik\ViewDataTable\Factory;
 
 /**
  * @see plugins/Annotations/AnnotationList.php

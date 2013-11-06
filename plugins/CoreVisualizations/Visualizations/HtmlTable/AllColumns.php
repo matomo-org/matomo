@@ -12,12 +12,6 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Common;
-use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
-use Piwik\MetricsFormatter;
-use Piwik\Piwik;
-use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Site;
 use Piwik\View;
 
 /**

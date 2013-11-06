@@ -1,8 +1,8 @@
 <?php
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\FrontController;
 
+use Piwik\FrontController;
 use Piwik\Log;
 
 define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));

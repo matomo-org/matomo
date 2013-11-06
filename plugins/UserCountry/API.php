@@ -13,8 +13,8 @@ namespace Piwik\Plugins\UserCountry;
 use Exception;
 use Piwik\Archive;
 use Piwik\DataTable;
-use Piwik\Metrics;
 
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Visit;

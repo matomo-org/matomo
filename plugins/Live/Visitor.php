@@ -11,20 +11,20 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\Common;
+use Piwik\DataAccess\LogAggregator;
+use Piwik\DataTable\Filter\ColumnDelete;
+use Piwik\Date;
+use Piwik\Db;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as APIMetadata;
 use Piwik\Plugins\Referrers\API as APIReferrers;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Tracker\Action;
+use Piwik\Tracker\GoalManager;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit;
 use Piwik\UrlHelper;
-use Piwik\Date;
-use Piwik\Db;
-use Piwik\Tracker\Action;
-use Piwik\Tracker\GoalManager;
-use Piwik\DataAccess\LogAggregator;
-use Piwik\DataTable\Filter\ColumnDelete;
 
 /**
  * @see plugins/Referrers/functions.php

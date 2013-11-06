@@ -14,8 +14,8 @@ use Exception;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Db;
 
+use Piwik\Db;
 use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Menu\MenuMain;

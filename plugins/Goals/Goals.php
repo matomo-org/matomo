@@ -11,8 +11,8 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;

@@ -12,8 +12,8 @@
 namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 use Piwik\Common;
-use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
 use Piwik\Config as PiwikConfig;
+use Piwik\ViewDataTable\RequestConfig as VisualizationRequestConfig;
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_extra_columns to true.

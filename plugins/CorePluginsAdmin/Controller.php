@@ -18,7 +18,6 @@ use Piwik\Nonce;
 use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugin;
-use Piwik\Plugin\Manager;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Url;
 use Piwik\View;

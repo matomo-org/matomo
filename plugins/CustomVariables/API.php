@@ -10,12 +10,12 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
-use Piwik\Tracker\ActionSiteSearch;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Tracker\ActionSiteSearch;
 
 /**
  * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' target='_blank'>Custom Variables</a> names and values.

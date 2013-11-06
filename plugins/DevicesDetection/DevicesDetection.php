@@ -12,8 +12,8 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use Exception;
-use Piwik\ArchiveProcessor;
 
+use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;

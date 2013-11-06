@@ -10,19 +10,16 @@
  */
 namespace Piwik\Plugins\DBStats;
 
-use Piwik\Common;
-
 use Piwik\Date;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\DataTable\Row\DataTableSummaryRow;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Weekly;
-use \Piwik\Plugin\ViewDataTable;
 
 /**
  *

@@ -11,7 +11,6 @@
 namespace Piwik\Plugins\VisitorInterest;
 
 use Piwik\ArchiveProcessor;
-
 use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
 use Piwik\Metrics;

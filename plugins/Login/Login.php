@@ -15,9 +15,7 @@ use Piwik\Config;
 use Piwik\Cookie;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\UsersManager;
-use Piwik\ProxyHttp;
 use Piwik\Session;
 
 /**

@@ -16,7 +16,6 @@ use Piwik\Config;
 use Piwik\MetricsFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Plugin\Manager;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory;
