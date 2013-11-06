@@ -15,10 +15,8 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
-use Piwik\Log;
 use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Plugin\Archiver;
 
 /**
  * This class manages the ArchiveProcessor and

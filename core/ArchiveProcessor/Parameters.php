@@ -130,13 +130,13 @@ class Parameters
         }
         Log::verbose(
             "'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
-            $this->params->getPeriod()->getLabel(),
-            $this->params->getSite()->getId(),
+            $this->getPeriod()->getLabel(),
+            $this->getSite()->getId(),
             $temporary,
-            $this->params->getSegment()->getString(),
-            $this->params->getRequestedPlugin(),
-            $this->params->getDateStart()->getDateStartUTC(),
-            $this->params->getDateEnd()->getDateEndUTC()
+            $this->getSegment()->getString(),
+            $this->getRequestedPlugin(),
+            $this->getDateStart()->getDateStartUTC(),
+            $this->getDateEnd()->getDateEndUTC()
         );
     }
 

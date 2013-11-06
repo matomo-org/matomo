@@ -102,39 +102,6 @@ class ArchiveWriter
         $this->insertRecord($name, $values);
     }
 
-    static protected function compress($data)
-    {
-        if (Db::get()->hasBlobDataType()) {
-            return gzcompress($data);
-        }
-        return $data;
-    }
-
-    protected function getArchiveLockName()
-    {
-        $numericTable = $this->getTableNumeric();
-        $dbLockName = "allocateNewArchiveId.$numericTable";
-        return $dbLockName;
-    }
-
-    /**
-     * @return array
-     * @throws \Exception
-     */
-    protected function acquireArchiveTableLock()
-    {
-        $dbLockName = $this->getArchiveLockName();
-        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("allocateNewArchiveId: Cannot get named lock for table $numericTable.");
-        }
-    }
-
-    protected function releaseArchiveTableLock()
-    {
-        $dbLockName = $this->getArchiveLockName();
-        Db::releaseDbLock($dbLockName);
-    }
-
     public function getIdArchive()
     {
         if ($this->idArchive === false) {
@@ -150,6 +117,13 @@ class ArchiveWriter
         $this->logArchiveStatusAsIncomplete();
     }
 
+    public function finalizeArchive()
+    {
+        $this->deletePreviousArchiveStatus();
+        $this->logArchiveStatusAsFinal();
+        $this->releaseArchiveProcessorLock();
+    }
+
     protected function acquireLock()
     {
         $lockName = $this->getArchiveProcessorLockName();
@@ -157,6 +131,35 @@ class ArchiveWriter
         if (!$result) {
             Log::debug("SELECT GET_LOCK failed to acquire lock. Proceeding anyway.");
         }
+    }
+
+    static protected function compress($data)
+    {
+        if (Db::get()->hasBlobDataType()) {
+            return gzcompress($data);
+        }
+        return $data;
+    }
+
+    protected function getArchiveLockName()
+    {
+        $numericTable = $this->getTableNumeric();
+        $dbLockName = "allocateNewArchiveId.$numericTable";
+        return $dbLockName;
+    }
+
+    protected function acquireArchiveTableLock()
+    {
+        $dbLockName = $this->getArchiveLockName();
+        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
+            throw new Exception("allocateNewArchiveId: Cannot get named lock for table $numericTable.");
+        }
+    }
+
+    protected function releaseArchiveTableLock()
+    {
+        $dbLockName = $this->getArchiveLockName();
+        Db::releaseDbLock($dbLockName);
     }
 
     protected function allocateNewArchiveId()
@@ -215,13 +218,6 @@ class ArchiveWriter
             . $period->getDateStart()->toString('Y-m-d') . ','
             . $period->getDateEnd()->toString('Y-m-d');
         return $lockName . '/' . md5($lockName . SettingsPiwik::getSalt());
-    }
-
-    public function finalizeArchive()
-    {
-        $this->deletePreviousArchiveStatus();
-        $this->logArchiveStatusAsFinal();
-        $this->releaseArchiveProcessorLock();
     }
 
     protected function deletePreviousArchiveStatus()
