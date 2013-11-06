@@ -619,7 +619,8 @@ class Archive
                     $doneFlag = $this->getDoneStringForPlugin($plugin);
                     $this->initializeArchiveIdCache($doneFlag);
 
-                    $idArchive = $processing->preProcessArchive($plugin);
+                    $parameters->setRequestedPlugin($plugin);
+                    $idArchive = $processing->preProcessArchive();
 
                     $visits = $processing->getNumberOfVisits();
                     if ($visits > 0) {
