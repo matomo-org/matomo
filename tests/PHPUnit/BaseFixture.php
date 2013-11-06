@@ -165,10 +165,13 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     {
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
+
+        $url = "\n =========================== \n URL was: " . PiwikTracker::$DEBUG_LAST_REQUESTED_URL;
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
             . var_export($response, true)
             . "\n If you are stuck, you can enable \$GLOBALS['PIWIK_TRACKER_DEBUG']=true; in piwik.php to get more debug info."
             . base64_encode($response)
+            . $url
         );
     }
 
