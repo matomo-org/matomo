@@ -8,9 +8,9 @@
  * @package Piwik
  */
 
-use Piwik\FrontController;
 use Piwik\Error;
 use Piwik\ExceptionHandler;
+use Piwik\FrontController;
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
 if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {

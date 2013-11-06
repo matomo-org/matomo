@@ -9,6 +9,7 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
@@ -18,7 +19,6 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Url;
-use Piwik\Db;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures

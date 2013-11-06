@@ -1,6 +1,6 @@
 <?php
-use Piwik\Config;
 use Piwik\Access;
+use Piwik\Config;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 

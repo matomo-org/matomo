@@ -1,7 +1,6 @@
 <?php
-use Piwik\Metrics;
-use Piwik\Plugins\SitesManager\API;
 use Piwik\Access;
+use Piwik\Metrics;
 
 /**
  * Piwik - Open source web analytics

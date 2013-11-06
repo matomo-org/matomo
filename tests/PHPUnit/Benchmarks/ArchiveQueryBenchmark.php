@@ -7,8 +7,8 @@
  */
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveTableCreator;
-use Piwik\Period;
 use Piwik\Date;
+use Piwik\Period;
 use Piwik\Plugins\VisitsSummary\API;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';

@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\DataTable;
-use Piwik\DataTable\Filter\AddSummaryRow;
 use Piwik\DataTable\Row;
 
 class DataTable_Filter_AddSummaryRowTest extends PHPUnit_Framework_TestCase

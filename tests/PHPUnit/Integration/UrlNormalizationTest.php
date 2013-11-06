@@ -1,7 +1,7 @@
 <?php
 use Piwik\Common;
-use Piwik\Tracker\Action;
 use Piwik\Db;
+use Piwik\Tracker\Action;
 
 /**
  * Tests the URL normalization.

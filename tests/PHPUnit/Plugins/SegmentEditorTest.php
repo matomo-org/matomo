@@ -5,9 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Piwik;
 use Piwik\Access;
 use Piwik\Date;
+use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 

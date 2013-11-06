@@ -4,7 +4,6 @@ use Piwik\Config;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
-use Piwik\Tracker\TableLogAction;
 use Piwik\Tracker\Request;
 use Piwik\Translate;
 

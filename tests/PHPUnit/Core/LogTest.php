@@ -5,14 +5,14 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Error;
-use Piwik\Config;
-use Piwik\Log;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
+use Piwik\Error;
 use Piwik\ExceptionHandler;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
+use Piwik\Log;
 use Piwik\Plugins\TestPlugin\TestLoggingUtility;
 
 class LogTest extends DatabaseTestCase

@@ -1,6 +1,6 @@
 <?php
-use Piwik\Common;
 use Piwik\Access;
+use Piwik\Common;
 use Piwik\Segment;
 
 /**

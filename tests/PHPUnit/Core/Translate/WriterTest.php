@@ -1,11 +1,11 @@
 <?php
 
-use Piwik\Translate\Writer;
-use Piwik\Translate\Validate\CoreTranslations;
-use Piwik\Translate\Validate\NoScripts;
 use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
 use Piwik\Translate\Filter\UnnecassaryWhitespaces;
+use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Translate\Validate\NoScripts;
+use Piwik\Translate\Writer;
 
 /**
  * Piwik - Open source web analytics
