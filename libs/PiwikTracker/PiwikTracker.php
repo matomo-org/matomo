@@ -21,6 +21,7 @@
  * PiwikTracker implements the Piwik Tracking API.
  *
  * @package PiwikTracker
+ * @api
  */
 class PiwikTracker
 {

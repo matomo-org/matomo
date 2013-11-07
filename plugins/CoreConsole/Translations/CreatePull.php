@@ -112,6 +112,20 @@ class CreatePull extends ConsoleCommand
         $message   = '';
         API::unsetInstance(); // reset languagemanager api (to force refresh of data)
 
+        $stats = shell_exec('git diff --numstat HEAD lang');
+
+        preg_match_all('/([0-9]+)\t([0-9]+)\tlang\/([a-z]{2,3})\.json/', $stats, $lineChanges);
+
+        $addedLinesSum = 0;
+        if (!empty($lineChanges[1])) {
+            $addedLinesSum = array_sum($lineChanges[1]);
+        }
+
+        $linesSumByLang = array();
+        for($i=0; $i<count($lineChanges[0]); $i++) {
+            $linesSumByLang[$lineChanges[3][$i]] = $lineChanges[1][$i];
+        }
+
         preg_match_all('/M  lang\/([a-z]{2,3})\.json/', $changes, $modifiedFiles);
         preg_match_all('/A  lang\/([a-z]{2,3})\.json/', $changes, $addedFiles);
 
@@ -120,7 +134,7 @@ class CreatePull extends ConsoleCommand
             foreach ($modifiedFiles[1] AS $modifiedFile) {
                 $fileCount++;
                 $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
-                $message .= sprintf('- Updated %s (%s translated)\n', $languageInfo['english_name'], $languageInfo['percentage_complete']);
+                $message .= sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
             }
             $lnaguageCodesTouched = $modifiedFiles[1];
         }
@@ -129,18 +143,9 @@ class CreatePull extends ConsoleCommand
             foreach ($addedFiles[1] AS $addedFile) {
                 $fileCount++;
                 $languageInfo = $this->getLanguageInfoByIsoCode($addedFile);
-                $message .= sprintf('- Added %s (%s translated)\n', $languageInfo['english_name'], $languageInfo['percentage_complete']);
+                $message .= sprintf('- Added %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$addedFile], $languageInfo['percentage_complete']);
             }
             $lnaguageCodesTouched = array_merge($lnaguageCodesTouched, $addedFiles[1]);
-        }
-
-        $stats = shell_exec('git diff --numstat HEAD lang');
-
-        preg_match_all('/([0-9]+)\t([0-9]+)\tlang\/([a-z]{2,3})\.json/', $stats, $lineChanges);
-
-        $addedLinesSum = 0;
-        if (!empty($lineChanges[1])) {
-            $addedLinesSum = array_sum($lineChanges[1]);
         }
 
         $title = sprintf(
