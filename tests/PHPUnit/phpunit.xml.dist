@@ -32,6 +32,7 @@
 <testsuites>
   <testsuite name="IntegrationTests">
       <directory>./Integration</directory>
+      <directory>../../plugins/*/tests</directory>
   </testsuite>
   <testsuite name="PluginTests">
       <directory>./Plugins</directory>
