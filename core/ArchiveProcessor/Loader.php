@@ -164,6 +164,7 @@ class Loader
     protected function computeNewArchive($enforceProcessCoreMetricsOnly)
     {
         $isArchiveDay = $this->params->isDayArchive();
+
         $archiveWriter = new ArchiveWriter($this->params->getSite()->getId(), $this->params->getSegment(), $this->params->getPeriod(), $this->params->getRequestedPlugin(), $this->isArchiveTemporary());
         $archiveWriter->initNewArchive();
 
@@ -191,8 +192,8 @@ class Loader
 
         $archiveProcessor = $this->makeArchiveProcessor($archiveWriter);
 
-        $isVisitsToday = $this->getNumberOfVisits() > 0;
-        if ($isVisitsToday
+        $wereThereVisits = $this->getNumberOfVisits() > 0;
+        if ($wereThereVisits
             && !$enforceProcessCoreMetricsOnly
         ) {
             $pluginsArchiver = new PluginsArchiver($archiveProcessor);
@@ -201,7 +202,7 @@ class Loader
 
         $archiveWriter->finalizeArchive();
 
-        if ($isVisitsToday && !$isArchiveDay) {
+        if ($wereThereVisits && !$isArchiveDay) {
             ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
 
