@@ -34,6 +34,7 @@ use Piwik\Tracker\TableLogAction;
 
 /**
  * @package Transitions
+ * @method static \Piwik\Plugins\Transitions\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

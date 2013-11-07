@@ -27,6 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 /**
  * The UserCountry API lets you access reports about your visitors' Countries and Continents.
  * @package UserCountry
+ * @method static \Piwik\Plugins\UserCountry\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
