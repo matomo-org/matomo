@@ -64,14 +64,14 @@ class Loader
 
     public function prepareArchive()
     {
-        list($idArchive, $visits) = $this->loadExistingArchiveIdFromDb();
+        list($idArchive, $visits, $visitsConverted) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchive)) {
             return $idArchive;
         }
 
         $this->prepareCoreMetricsArchive($visits);
 
-        list($idArchive, $visits) = $this->computeNewArchive($enforceProcessCoreMetricsOnly = false, $visits);
+        list($idArchive, $visits) = $this->computeNewArchive($enforceProcessCoreMetricsOnly = false, $visits, $visitsConverted);
         if ($this->isThereSomeVisits($visits)) {
             return $idArchive;
         }
@@ -102,23 +102,26 @@ class Loader
         return $visits;
     }
 
-    protected function computeNewArchive($enforceProcessCoreMetricsOnly, $visits = false)
+    protected function computeNewArchive($enforceProcessCoreMetricsOnly, $visits = false, $visitsConverted = false)
     {
         $archiveWriter = new ArchiveWriter($this->params, $this->isArchiveTemporary());
-
         $archiveWriter->initNewArchive();
 
-        $pluginsArchiver = new PluginsArchiver($archiveWriter, $this->params);
+        $pluginsArchiver = new PluginsArchiver($archiveWriter, $this->params, $visits);
 
         if($enforceProcessCoreMetricsOnly) {
-            $visits = $pluginsArchiver->callAggregateCoreMetrics();
+            $metrics = $pluginsArchiver->callAggregateCoreMetrics();
+            $visits = $metrics['nb_visits'];
         } else {
             if ($this->mustProcessVisitCount($visits)
                 || $this->doesRequestedPluginIncludeVisitsSummary()
             ) {
-                $visits = $pluginsArchiver->callAggregateCoreMetrics();
+                $metrics = $pluginsArchiver->callAggregateCoreMetrics();
+                $visits = $metrics['nb_visits'];
+                $visitsConverted = $metrics['nb_visits_converted'];
             }
             if ($this->isThereSomeVisits($visits)) {
+                $pluginsArchiver->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
                 $pluginsArchiver->callAggregateAllPlugins();
             }
         }
@@ -155,12 +158,13 @@ class Loader
      * Returns the idArchive if the archive is available in the database for the requested plugin.
      * Returns false if the archive needs to be processed.
      *
-     * @return int or false
+     * @return array
      */
     protected function loadExistingArchiveIdFromDb()
     {
+        $noArchiveFound = array(false, false, false);
         if ($this->isArchivingForcedToTrigger()) {
-            return array(false, false);
+            return $noArchiveFound;
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
@@ -171,10 +175,9 @@ class Loader
 
         $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
         if (!$idAndVisits) {
-            return array(false, false);
+            return $noArchiveFound;
         }
-        list($idArchive, $visits, $visitsConverted) = $idAndVisits;
-        return array($idArchive, $visits);
+        return $idAndVisits;
     }
 
     /**

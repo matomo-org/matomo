@@ -58,12 +58,16 @@ class PluginsArchiver
             $metrics = $this->aggregateMultipleVisitsMetrics();
         }
 
-        $visits = false;
-        if (!empty($metrics)) {
-            $this->archiveProcessor->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
-            $visits = $metrics['nb_visits'];
+        if (empty($metrics)) {
+            return array(
+                'nb_visits' => 0,
+                'nb_visits_converted' => 0
+            );
         }
-        return $visits;
+        return array(
+            'nb_visits' => $metrics['nb_visits'],
+            'nb_visits_converted' => $metrics['nb_visits_converted']
+        );
     }
 
     /**
@@ -74,6 +78,7 @@ class PluginsArchiver
     public function callAggregateAllPlugins()
     {
         $isAggregateForDay = $this->archiveProcessor->getParams()->isDayArchive();
+
         $archivers = $this->getPluginArchivers();
 
         foreach($archivers as $pluginName => $archiverClass) {

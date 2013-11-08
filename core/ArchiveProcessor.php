@@ -247,6 +247,9 @@ class ArchiveProcessor
 
     public function getNumberOfVisits()
     {
+        if($this->numberOfVisits === false) {
+            throw new Exception("visits should have been set here");
+        }
         return $this->numberOfVisits;
     }
 
