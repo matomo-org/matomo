@@ -7,7 +7,7 @@
 
 (function ($) {
 
-    $(document).ready(function () {
+    $(function () {
 
         //
         // 'check for updates' behavior

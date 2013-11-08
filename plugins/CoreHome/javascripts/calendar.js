@@ -189,7 +189,7 @@
         return result;
     }
 
-    $(document).ready(function () {
+    $(function () {
 
         var datepickerElem = $('#datepicker').datepicker(getDatePickerOptions()),
             periodLabels = $('#periodString').find('.period-type label'),

@@ -953,10 +953,6 @@ Segmentation = (function($) {
             });
         };
 
-        var setLeftMargin = function(selector) {
-            $(selector).css({left: Math.max($('#periodString')[0].offsetWidth) + 10});
-        };
-
         function toggleLoadingMessage(segmentIsSet) {
             if (segmentIsSet) {
                 $('#ajaxLoadingDiv').find('.loadingSegment').show();
@@ -977,7 +973,7 @@ Segmentation = (function($) {
                 $("#"+self.targetId).append(html);
                 self.content = $("#"+self.targetId).find(".segmentationContainer");
             }
-            setLeftMargin('#segmentEditorPanel');
+            initTopControls();
 
             // assign content to object attribute to make it easil accesible through all widget methods
             bindListEvents();

@@ -7,19 +7,8 @@
 
 function initDashboard(dashboardId, dashboardLayout) {
 
-    // Standard dashboard
-    if ($('#periodString').length) {
-        var left=0;
-        $('.top_controls').children().each(function(i, el){
-            var control = $(el);
-            if (control.is('.js-autoLeftPanel')) {
-                if (left) {
-                    control.css({left: left});
-                }
-                left+=control.outerWidth(true);
-            }
-        });
-    }
+    $('#dashboardSettings').show();
+    initTopControls();
 
     // Embed dashboard
     if (!$('#topBars').length) {
@@ -80,7 +69,7 @@ function initDashboard(dashboardId, dashboardLayout) {
         $(this).addClass('choosen');
     });
 
-    $('.submenu>li').on('mouseenter', function (event) {
+    $('.submenu > li').on('mouseenter', function (event) {
         if (!$('.widgetpreview-categorylist', event.target).length) {
             $('#dashboardSettings').widgetPreview('reset');
         }
