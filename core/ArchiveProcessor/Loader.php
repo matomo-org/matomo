@@ -15,7 +15,6 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
-use Piwik\Metrics;
 use Piwik\Period;
 
 /**
@@ -70,17 +69,20 @@ class Loader
             return $idArchive;
         }
 
-        // Archive was not found, let's see if there's any visit in this period
         $this->prepareCoreMetricsArchive($visits);
 
         list($idArchive, $visits) = $this->computeNewArchive($enforceProcessCoreMetricsOnly = false, $visits);
-
         if ($this->isThereSomeVisits($visits)) {
             return $idArchive;
         }
         return false;
     }
 
+    /**
+     * Prepares the core metrics if needed.
+     *
+     * @param $visits
+     */
     protected function prepareCoreMetricsArchive($visits)
     {
         $createSeparateArchiveForCoreMetrics =
@@ -89,51 +91,37 @@ class Loader
 
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
-
             $this->params->setRequestedPlugin('VisitsSummary');
-
             $this->computeNewArchive($enforceProcessCoreMetricsOnly = true, $visits);
-
             $this->params->setRequestedPlugin($requestedPlugin);
         }
     }
 
     protected function computeNewArchive($enforceProcessCoreMetricsOnly, $visits)
     {
-        $isArchiveDay = $this->params->isDayArchive();
-
         $archiveWriter = new ArchiveWriter($this->params->getSite()->getId(), $this->params->getSegment(), $this->params->getPeriod(), $this->params->getRequestedPlugin(), $this->isArchiveTemporary());
         $archiveWriter->initNewArchive();
 
         $pluginsArchiver = new PluginsArchiver($archiveWriter, $this->params);
 
-        if (!$this->isVisitsCountAlreadyProcessed($visits)
-            || $this->doesRequestedPluginIncludeVisitsSummary()
-            || $enforceProcessCoreMetricsOnly
-        ) {
-            $metrics = $pluginsArchiver->callAggregateCoreMetrics();
-
-            if (!empty($metrics)) {
-                $pluginsArchiver->archiveProcessor->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
-                $visits = $metrics['nb_visits'];
+        if($enforceProcessCoreMetricsOnly) {
+            $visits = $pluginsArchiver->callAggregateCoreMetrics();
+        } else {
+            if (!$this->isVisitsCountAlreadyProcessed($visits)
+                || $this->doesRequestedPluginIncludeVisitsSummary()
+            ) {
+                $visits = $pluginsArchiver->callAggregateCoreMetrics();
             }
-        }
-
-        if ($this->isThereSomeVisits($visits)
-            && !$enforceProcessCoreMetricsOnly
-        ) {
-            $pluginsArchiver->callAggregateAllPlugins();
+            if ($this->isThereSomeVisits($visits)) {
+                $pluginsArchiver->callAggregateAllPlugins();
+            }
         }
 
         $this->params->logStatusDebug( $this->isArchiveTemporary() );
 
         $archiveWriter->finalizeArchive();
-
-        if ($this->isThereSomeVisits($visits) && !$isArchiveDay) {
-            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
-        }
-
-        return array($archiveWriter->getIdArchive(), $visits);
+        $idArchive = $archiveWriter->getIdArchive();
+        return array($idArchive, $visits);
     }
 
     protected function doesRequestedPluginIncludeVisitsSummary()

@@ -281,7 +281,6 @@ class ArchiveSelector
 
     static public function purgeOutdatedArchives(Date $dateStart)
     {
-
         $purgeArchivesOlderThan = Rules::shouldPurgeOutdatedArchives($dateStart);
         if (!$purgeArchivesOlderThan) {
             return;

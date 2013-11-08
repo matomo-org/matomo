@@ -13,6 +13,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive;
 use Piwik\ArchiveProcessor;
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Metrics;
 use Piwik\Plugin\Archiver;
@@ -52,9 +53,16 @@ class PluginsArchiver
     public function callAggregateCoreMetrics()
     {
         if($this->params->isDayArchive()) {
-            return $this->aggregateDayVisitsMetrics();
+            $metrics = $this->aggregateDayVisitsMetrics();
+        } else {
+            $metrics = $this->aggregateMultipleVisitsMetrics();
         }
-        return $this->aggregateMultipleVisitsMetrics();
+
+        if (!empty($metrics)) {
+            $this->archiveProcessor->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
+            $visits = $metrics['nb_visits'];
+        }
+        return $visits;
     }
 
     /**
@@ -172,6 +180,10 @@ class PluginsArchiver
     {
         $toSum = Metrics::getVisitsMetricNames();
         $metrics = $this->archiveProcessor->aggregateNumericMetrics($toSum);
+
+        if ($metrics['nb_visits'] > 0) {
+            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
+        }
         return $metrics;
     }
 
