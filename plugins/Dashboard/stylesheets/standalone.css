@@ -18,7 +18,7 @@ body {
 }
 
 #Dashboard > ul {
-    list-style: none inside none;
+    list-style: square inside none;
     background: #f7f7f7;
     border: 1px solid #e4e5e4;
     padding: 5px 10px 6px 10px;
@@ -34,8 +34,7 @@ body {
 
 #Dashboard > ul > li {
     float: left;
-    text-align: center;
-    margin: 0 15px;
+    margin-right: 15px;
 }
 
 #Dashboard a {
@@ -43,7 +42,6 @@ body {
     text-decoration: none;
     font-weight: normal;
     display: inline-block;
-    margin: 0 -15px;
 }
 
 #Dashboard > ul > li:hover,
