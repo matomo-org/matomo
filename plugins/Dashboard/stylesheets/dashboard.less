@@ -230,7 +230,7 @@
 
 #dashboardSettings {
   position: absolute;
-  z-index: 998;
+  z-index: 120;
   background: #f7f7f7;
   border: 1px solid #e4e5e4;
   padding: 5px 10px 6px 10px;
@@ -244,6 +244,10 @@
 #dashboardSettings:hover {
   background: #f1f0eb;
   border-color: #a9a399;
+}
+
+#dashboardSettings.visible {
+  z-index: 1020; /* More than .jqplot-seriespicker-popover (1010) */
 }
 
 #dashboardSettings > span {
