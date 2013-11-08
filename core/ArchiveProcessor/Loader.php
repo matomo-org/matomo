@@ -57,6 +57,16 @@ class Loader
         $this->params = $params;
     }
 
+    public function prepareArchiveId()
+    {
+        $idArchive = $this->prepareArchive();
+
+        if ($this->isThereSomeVisits()) {
+            return $idArchive;
+        }
+        return false;
+    }
+
     /**
      * A flag mechanism to store whether visits were selected from archive
      *
@@ -73,56 +83,74 @@ class Loader
         }
     }
 
-    public function getNumberOfVisits()
+    protected function getNumberOfVisits()
     {
         return $this->visitsMetricCached;
     }
 
-    public function getNumberOfVisitsConverted()
+    protected function getNumberOfVisitsConverted()
     {
         return $this->convertedVisitsMetricCached;
     }
 
-    public function preProcessArchive($enforceProcessCoreMetricsOnly = false)
+    /**
+     * @return bool
+     */
+    protected function isThereSomeVisits()
     {
-        $this->idArchive = false;
+        return $this->getNumberOfVisits() > 0;
+    }
 
-        if (!$enforceProcessCoreMetricsOnly) {
-            $this->idArchive = $this->loadExistingArchiveIdFromDb();
-            if ($this->isArchivingForcedToTrigger()) {
-                $this->idArchive = false;
-                $this->setNumberOfVisits(false);
-            }
-            if (!empty($this->idArchive)) {
-                return $this->idArchive;
-            }
+    /**
+     * @return bool
+     */
+    protected function isVisitsCountAlreadyProcessed()
+    {
+        return $this->getNumberOfVisits() !== false;
+    }
 
-            $visitsNotKnownYet = $this->getNumberOfVisits() === false;
+    protected function prepareArchive()
+    {
+        $idArchive = $this->loadExistingArchiveIdFromDb();
+        if ($this->isArchivingForcedToTrigger()) {
+            $idArchive = false;
+            $this->setNumberOfVisits(false);
+        }
+        if (!empty($idArchive)) {
+            return $idArchive;
+        }
+        $this->prepareCoreMetricsArchive();
 
-            $createAnotherArchiveForVisitsSummary = !$this->doesRequestedPluginIncludeVisitsSummary() && $visitsNotKnownYet;
+        return $this->computeNewArchive($enforceProcessCoreMetricsOnly = false);
+    }
 
-            if ($createAnotherArchiveForVisitsSummary) {
-                // recursive archive creation in case we create another separate one, for VisitsSummary core metrics
-                // We query VisitsSummary here, as it is needed in the call below ($this->getNumberOfVisits() > 0)
-                $requestedPlugin = $this->params->getRequestedPlugin();
-                $this->params->setRequestedPlugin('VisitsSummary');
+    protected function prepareCoreMetricsArchive()
+    {
+        $createSeparateArchiveForCoreMetrics =
+            !$this->doesRequestedPluginIncludeVisitsSummary()
+            && !$this->isVisitsCountAlreadyProcessed();
 
-                $this->preProcessArchive($pleaseProcessCoreMetricsOnly = true);
+        if ($createSeparateArchiveForCoreMetrics) {
+            $requestedPlugin = $this->params->getRequestedPlugin();
 
-                $this->params->setRequestedPlugin($requestedPlugin);
-                if ($this->getNumberOfVisits() === false) {
-                    throw new \Exception("preProcessArchive() is expected to set number of visits to a numeric value.");
-                }
+            $this->params->setRequestedPlugin('VisitsSummary');
+
+            $this->computeNewArchive($enforceProcessCoreMetricsOnly = true);
+
+            $this->params->setRequestedPlugin($requestedPlugin);
+
+            if (!$this->isVisitsCountAlreadyProcessed()) {
+                throw new \Exception("prepareArchive() is expected to set number of visits to a numeric value.");
             }
         }
-
-        return $this->computeNewArchive($enforceProcessCoreMetricsOnly);
     }
 
     protected function doesRequestedPluginIncludeVisitsSummary()
     {
-        $processAllReportsIncludingVisitsSummary = Rules::shouldProcessReportsAllPlugins($this->params->getSegment(), $this->params->getPeriod()->getLabel());
-        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $this->params->getRequestedPlugin() == 'VisitsSummary';
+        $processAllReportsIncludingVisitsSummary =
+                Rules::shouldProcessReportsAllPlugins($this->params->getSegment(), $this->params->getPeriod()->getLabel());
+        $doesRequestedPluginIncludeVisitsSummary =
+                $processAllReportsIncludingVisitsSummary || $this->params->getRequestedPlugin() == 'VisitsSummary';
         return $doesRequestedPluginIncludeVisitsSummary;
     }
 
@@ -170,8 +198,7 @@ class Loader
 
         $archiveProcessor = $this->makeArchiveProcessor($archiveWriter);
 
-        $visitsNotKnownYet = $this->getNumberOfVisits() === false;
-        if ($visitsNotKnownYet
+        if ($this->isVisitsCountAlreadyProcessed()
             || $this->doesRequestedPluginIncludeVisitsSummary()
             || $enforceProcessCoreMetricsOnly
         ) {
@@ -192,8 +219,7 @@ class Loader
 
         $archiveProcessor = $this->makeArchiveProcessor($archiveWriter);
 
-        $wereThereVisits = $this->getNumberOfVisits() > 0;
-        if ($wereThereVisits
+        if ($this->isThereSomeVisits()
             && !$enforceProcessCoreMetricsOnly
         ) {
             $pluginsArchiver = new PluginsArchiver($archiveProcessor);
@@ -202,7 +228,7 @@ class Loader
 
         $archiveWriter->finalizeArchive();
 
-        if ($wereThereVisits && !$isArchiveDay) {
+        if ($this->isThereSomeVisits() && !$isArchiveDay) {
             ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
 

@@ -537,7 +537,12 @@ class Archive
 
             $doneFlags[$doneFlag] = true;
             if (!isset($this->idarchives[$doneFlag])) {
-                $archiveGroups[] = $this->getArchiveGroupOfPlugin($plugin);
+                $archiveGroup = $this->getArchiveGroupOfPlugin($plugin);
+
+                if($archiveGroup == self::ARCHIVE_ALL_PLUGINS_FLAG) {
+                    $archiveGroup = reset($plugins);
+                }
+                $archiveGroups[] = $archiveGroup;
             }
         }
 
@@ -546,6 +551,7 @@ class Archive
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
             if (!Rules::isArchivingDisabledFor($this->params->getSegment(), $this->getPeriodLabel())) {
+
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
@@ -583,8 +589,6 @@ class Archive
 
         /* @var Period $period */
         foreach ($this->params->getPeriods() as $period) {
-            $periodStr = $period->getRangeString();
-
             $twoDaysBeforePeriod = $period->getDateStart()->subDay(2);
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
 
@@ -607,26 +611,7 @@ class Archive
                     continue;
                 }
 
-                $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
-                $processing = new ArchiveProcessor\Loader($parameters);
-
-                // process for each plugin as well
-                foreach ($archiveGroups as $plugin) {
-                    if ($plugin == self::ARCHIVE_ALL_PLUGINS_FLAG) {
-                        $plugin = reset($plugins);
-                    }
-
-                    $doneFlag = $this->getDoneStringForPlugin($plugin);
-                    $this->initializeArchiveIdCache($doneFlag);
-
-                    $parameters->setRequestedPlugin($plugin);
-                    $idArchive = $processing->preProcessArchive();
-
-                    $visits = $processing->getNumberOfVisits();
-                    if ($visits > 0) {
-                        $this->idarchives[$doneFlag][$periodStr][] = $idArchive;
-                    }
-                }
+                $this->launchArchiveProcessor($archiveGroups, $site, $period);
             }
         }
     }
@@ -788,5 +773,31 @@ class Archive
                 . "to avoid this error.");
         }
         return $plugin;
+    }
+
+    /**getNumberOfVisits
+     * @param $archiveGroups
+     * @param $site
+     * @param $period
+     */
+    private function launchArchiveProcessor(array $archiveGroups, Site $site, Period $period)
+    {
+        $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
+        $processing = new ArchiveProcessor\Loader($parameters);
+
+        $periodString = $period->getRangeString();
+
+        // process for each plugin as well
+        foreach ($archiveGroups as $plugin) {
+            $doneFlag = $this->getDoneStringForPlugin($plugin);
+            $this->initializeArchiveIdCache($doneFlag);
+
+            $parameters->setRequestedPlugin($plugin);
+            $idArchive = $processing->prepareArchiveId();
+
+            if($idArchive) {
+                $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+            }
+        }
     }
 }
