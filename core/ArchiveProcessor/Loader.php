@@ -57,9 +57,9 @@ class Loader
     /**
      * @return bool
      */
-    protected function isVisitsCountAlreadyProcessed($visits)
+    protected function mustProcessVisitCount($visits)
     {
-        return $visits !== false;
+        return $visits === false;
     }
 
     public function prepareArchive()
@@ -87,19 +87,25 @@ class Loader
     {
         $createSeparateArchiveForCoreMetrics =
             !$this->doesRequestedPluginIncludeVisitsSummary()
-            && !$this->isVisitsCountAlreadyProcessed($visits);
+            && $this->mustProcessVisitCount($visits);
 
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
             $this->params->setRequestedPlugin('VisitsSummary');
-            $this->computeNewArchive($enforceProcessCoreMetricsOnly = true, $visits);
+            list($idArchive, $visits) = $this->computeNewArchive($enforceProcessCoreMetricsOnly = true);
             $this->params->setRequestedPlugin($requestedPlugin);
+
+            if($this->mustProcessVisitCount($visits)) {
+                throw new \Exception("Visit count should have been set in computeNewArchive().");
+            }
         }
+        return $visits;
     }
 
-    protected function computeNewArchive($enforceProcessCoreMetricsOnly, $visits)
+    protected function computeNewArchive($enforceProcessCoreMetricsOnly, $visits = false)
     {
-        $archiveWriter = new ArchiveWriter($this->params->getSite()->getId(), $this->params->getSegment(), $this->params->getPeriod(), $this->params->getRequestedPlugin(), $this->isArchiveTemporary());
+        $archiveWriter = new ArchiveWriter($this->params, $this->isArchiveTemporary());
+
         $archiveWriter->initNewArchive();
 
         $pluginsArchiver = new PluginsArchiver($archiveWriter, $this->params);
@@ -107,7 +113,7 @@ class Loader
         if($enforceProcessCoreMetricsOnly) {
             $visits = $pluginsArchiver->callAggregateCoreMetrics();
         } else {
-            if (!$this->isVisitsCountAlreadyProcessed($visits)
+            if ($this->mustProcessVisitCount($visits)
                 || $this->doesRequestedPluginIncludeVisitsSummary()
             ) {
                 $visits = $pluginsArchiver->callAggregateCoreMetrics();
@@ -167,7 +173,8 @@ class Loader
         if (!$idAndVisits) {
             return array(false, false);
         }
-        return $idAndVisits;
+        list($idArchive, $visits, $visitsConverted) = $idAndVisits;
+        return array($idArchive, $visits);
     }
 
     /**

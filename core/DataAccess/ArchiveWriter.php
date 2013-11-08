@@ -61,13 +61,13 @@ class ArchiveWriter
                               'name',
                               'value');
 
-    public function __construct($idSite, Segment $segment, Period $period, $requestedPlugin, $isArchiveTemporary)
+    public function __construct(ArchiveProcessor\Parameters $params, $isArchiveTemporary)
     {
         $this->idArchive = false;
-        $this->idSite = $idSite;
-        $this->segment = $segment;
-        $this->period = $period;
-        $this->doneFlag = Rules::getDoneStringFlagFor($segment, $period->getLabel(), $requestedPlugin);
+        $this->idSite = $params->getSite()->getId();
+        $this->segment = $params->getSegment();
+        $this->period = $params->getPeriod();
+        $this->doneFlag = Rules::getDoneStringFlagFor($this->segment, $this->period->getLabel(), $params->getRequestedPlugin());
         $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();

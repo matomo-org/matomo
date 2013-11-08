@@ -58,6 +58,7 @@ class PluginsArchiver
             $metrics = $this->aggregateMultipleVisitsMetrics();
         }
 
+        $visits = false;
         if (!empty($metrics)) {
             $this->archiveProcessor->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
             $visits = $metrics['nb_visits'];
@@ -72,7 +73,6 @@ class PluginsArchiver
      */
     public function callAggregateAllPlugins()
     {
-        $pluginBeingProcessed = $this->archiveProcessor->getParams()->getRequestedPlugin();
         $isAggregateForDay = $this->archiveProcessor->getParams()->isDayArchive();
         $archivers = $this->getPluginArchivers();
 
@@ -80,7 +80,7 @@ class PluginsArchiver
             /** @var Archiver $archiver */
             $archiver = new $archiverClass($this->archiveProcessor);
 
-            if($this->shouldProcessReportsForPlugin($pluginBeingProcessed, $pluginName)) {
+            if($this->shouldProcessReportsForPlugin($pluginName)) {
                 if($isAggregateForDay) {
                     $archiver->aggregateDayReport();
                 } else {
@@ -123,10 +123,10 @@ class PluginsArchiver
      * @param string $pluginName
      * @return bool
      */
-    protected function shouldProcessReportsForPlugin($pluginBeingProcessed, $pluginName)
+    protected function shouldProcessReportsForPlugin($pluginName)
     {
         // If any other segment, only process if the requested report belong to this plugin
-        if ($pluginBeingProcessed == $pluginName) {
+        if ($this->params->getRequestedPlugin() == $pluginName) {
             return true;
         }
         if (Rules::shouldProcessReportsAllPlugins(
@@ -134,7 +134,7 @@ class PluginsArchiver
                             $this->archiveProcessor->getParams()->getPeriod()->getLabel())) {
             return true;
         }
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())) {
             return true;
         }
         return false;
