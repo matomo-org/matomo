@@ -185,10 +185,6 @@ class PluginsArchiver
     {
         $toSum = Metrics::getVisitsMetricNames();
         $metrics = $this->archiveProcessor->aggregateNumericMetrics($toSum);
-
-        if ($metrics['nb_visits'] > 0) {
-            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
-        }
         return $metrics;
     }
 

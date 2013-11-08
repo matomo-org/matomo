@@ -71,7 +71,7 @@ class Loader
 
         $this->prepareCoreMetricsArchive($visits);
 
-        list($idArchive, $visits) = $this->computeNewArchive($enforceProcessCoreMetricsOnly = false, $visits, $visitsConverted);
+        list($idArchive, $visits) = $this->computeNewArchive($onlyCoreMetrics = false, $visits, $visitsConverted);
         if ($this->isThereSomeVisits($visits)) {
             return $idArchive;
         }
@@ -102,14 +102,14 @@ class Loader
         return $visits;
     }
 
-    protected function computeNewArchive($enforceProcessCoreMetricsOnly, $visits = false, $visitsConverted = false)
+    protected function computeNewArchive($onlyArchiveCoreMetrics, $visits = false, $visitsConverted = false)
     {
         $archiveWriter = new ArchiveWriter($this->params, $this->isArchiveTemporary());
         $archiveWriter->initNewArchive();
 
-        $pluginsArchiver = new PluginsArchiver($archiveWriter, $this->params, $visits);
+        $pluginsArchiver = new PluginsArchiver($archiveWriter, $this->params);
 
-        if($enforceProcessCoreMetricsOnly) {
+        if($onlyArchiveCoreMetrics) {
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $visits = $metrics['nb_visits'];
         } else {
@@ -120,10 +120,17 @@ class Loader
                 $visits = $metrics['nb_visits'];
                 $visitsConverted = $metrics['nb_visits_converted'];
             }
+            if($this->mustProcessVisitCount($visits)) {
+                throw new \Exception("Visit count should have been set in computeNewArchive().");
+            }
             if ($this->isThereSomeVisits($visits)) {
                 $pluginsArchiver->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
                 $pluginsArchiver->callAggregateAllPlugins();
             }
+        }
+
+        if ($this->isThereSomeVisits($visits)) {
+            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
 
         $this->params->logStatusDebug( $this->isArchiveTemporary() );
