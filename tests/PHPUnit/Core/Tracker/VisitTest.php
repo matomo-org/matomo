@@ -8,8 +8,8 @@
 use Piwik\Access;
 use Piwik\IP;
 use Piwik\Plugins\SitesManager\API;
-use Piwik\Tracker\VisitExcluded;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\VisitExcluded;
 
 class Tracker_VisitTest extends DatabaseTestCase
 {

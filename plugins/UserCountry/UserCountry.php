@@ -19,9 +19,9 @@ use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-
 use Piwik\Url;
 use Piwik\WidgetsList;
 
@@ -42,8 +42,6 @@ class UserCountry extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessor.aggregateDayReport'           => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports'        => 'aggregateMultipleReports',
             'WidgetsList.addWidgets'                 => 'addWidgets',
             'Menu.Reporting.addItems'                => 'addMenu',
             'Menu.Admin.addItems'                    => 'addAdminMenu',
@@ -327,22 +325,6 @@ class UserCountry extends \Piwik\Plugin
                                                           'module'   => 'UserCountry',
                                                           'action'   => 'getCity'),
                                                ));
-    }
-
-    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
-    }
-
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
-        }
     }
 
     /**

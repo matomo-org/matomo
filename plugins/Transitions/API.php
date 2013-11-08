@@ -34,6 +34,7 @@ use Piwik\Tracker\TableLogAction;
 
 /**
  * @package Transitions
+ * @method static \Piwik\Plugins\Transitions\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
@@ -72,19 +73,19 @@ class API extends \Piwik\Plugin\API
             throw new Exception('NoDataForAction');
         }
 
-        // prepare archive processing that can be used by the archiving code
+        // prepare log aggregator
         $segment = new Segment($segment, $idSite);
         $site = new Site($idSite);
         $period = Period::factory($period, $date);
-        $archiveProcessor = new ArchiveProcessor\Day($period, $site, $segment);
-        $logAggregator = $archiveProcessor->getLogAggregator();
+        $params = new ArchiveProcessor\Parameters($site, $period, $segment);
+        $logAggregator = new LogAggregator($params);
+
         // prepare the report
         $report = array(
             'date' => Period::factory($period->getLabel(), $date)->getLocalizedShortString()
         );
 
         $partsArray = explode(',', $parts);
-
         if ($parts == 'all' || in_array('internalReferrers', $partsArray)) {
             $this->addInternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
         }

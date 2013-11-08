@@ -20,6 +20,7 @@ use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Menu\MenuTop;
 use Piwik\NoAccessException;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Period\Month;
 use Piwik\Period;
 use Piwik\Period\Range;
@@ -34,7 +35,6 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
-use Piwik\Notification\Manager as NotificationManager;
 
 /**
  * Base class of all plugin Controllers.

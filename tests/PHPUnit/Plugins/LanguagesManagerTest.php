@@ -7,15 +7,14 @@
  */
 use Piwik\Common;
 use Piwik\Plugins\LanguagesManager\API;
-use Piwik\Translate\Writer;
-use Piwik\Plugin\Manager;
-use Piwik\Translate\Validate\NoScripts;
-use Piwik\Translate\Validate\CoreTranslations;
 use Piwik\Translate\Filter\ByBaseTranslations;
 use Piwik\Translate\Filter\ByParameterCount;
 use Piwik\Translate\Filter\EmptyTranslations;
 use Piwik\Translate\Filter\EncodedEntities;
 use Piwik\Translate\Filter\UnnecassaryWhitespaces;
+use Piwik\Translate\Validate\CoreTranslations;
+use Piwik\Translate\Validate\NoScripts;
+use Piwik\Translate\Writer;
 
 require_once 'LanguagesManager/API.php';
 

@@ -12,9 +12,8 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Log;
-use Piwik\View;
 use Piwik\Plugin\Visualization;
+use Piwik\View;
 
 /**
  * Generates a tag cloud from a given data array.

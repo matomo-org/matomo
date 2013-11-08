@@ -18,7 +18,6 @@ use Piwik\MetricsFormatter;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\TaskScheduler;

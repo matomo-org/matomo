@@ -7,7 +7,6 @@
  */
 use Piwik\Config;
 use Piwik\Db;
-use Piwik\Common;
 use Piwik\Plugins\Goals\API;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';

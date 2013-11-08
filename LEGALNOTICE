@@ -228,6 +228,14 @@ THIRD-PARTY CONTENT
 	Notes:
 	- used in ImageGraph plugin
 
+	Name: plugins/CorePluginsAdmin/images/themes.png
+	Link: https://www.iconfinder.com/icons/17022/colors_draw_paint_icon
+	License: Free for commercial use
+
+	Name: plugins/CorePluginsAdmin/images/plugins.png
+	Link: http://findicons.com/icon/94051/tools_wizard?id=396912
+	License: GNU/GPL
+
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"
   licenses (2- or 3-clause), which are GPL compatible.

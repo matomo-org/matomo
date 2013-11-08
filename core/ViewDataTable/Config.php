@@ -11,9 +11,7 @@
 
 namespace Piwik\ViewDataTable;
 use Piwik\API\Request as ApiRequest;
-use Piwik\Common;
 use Piwik\Metrics;
-use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 
 /**

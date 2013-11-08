@@ -474,7 +474,8 @@ class Common
     }
 
     /**
-     * Generate random string
+     * Generate random string.
+     * Do not use for security related purposes (the string is not truly random).
      *
      * @param int $length string length
      * @param string $alphabet characters allowed in random string

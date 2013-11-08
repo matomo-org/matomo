@@ -8,8 +8,8 @@
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
-use Piwik\DbHelper;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Site;

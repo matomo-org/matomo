@@ -14,3 +14,6 @@
 	path = plugins/TreemapVisualization
 	url = https://github.com/piwik/plugin-TreemapVisualization.git
 	branch = master
+[submodule "plugins/PleineLune"]
+	path = plugins/PleineLune
+	url = https://github.com/piwik/theme-PleineLune.git

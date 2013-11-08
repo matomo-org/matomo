@@ -13,12 +13,12 @@ namespace Piwik\Plugins\PrivacyManager;
 use Exception;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
-use Piwik\Metrics;
-use Piwik\DataTable\DataTableInterface;
 
+use Piwik\Metrics;
 use Piwik\Option;
 use Piwik\Period\Range;
 use Piwik\Period;

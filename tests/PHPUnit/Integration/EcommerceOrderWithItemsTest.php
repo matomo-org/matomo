@@ -5,8 +5,8 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Piwik;
 use Piwik\Date;
+use Piwik\Piwik;
 
 /**
  * Tests API methods after ecommerce orders are tracked.

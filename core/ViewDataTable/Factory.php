@@ -13,8 +13,6 @@ namespace Piwik\ViewDataTable;
 use Piwik\API\Proxy;
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API;
-use Piwik\Plugin\Visualization;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**

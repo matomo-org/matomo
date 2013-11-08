@@ -15,6 +15,7 @@ use Piwik\Piwik;
 
 /**
  * @see plugins/Referrers/functions.php
+ * @method static \Piwik\Plugins\SEO\API getInstance()
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 

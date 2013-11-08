@@ -12,16 +12,16 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Option;
 use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\Log;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\API as APICoreAdminHome;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Timer;
 use Piwik\Url;
 use Piwik\Version;
-use Piwik\Log;
 
 $USAGE = "
 Usage: 

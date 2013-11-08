@@ -12,11 +12,11 @@ namespace Piwik\Plugins\Actions;
 
 use Exception;
 use Piwik\Archive;
+
 use Piwik\Common;
-
 use Piwik\DataTable;
-use Piwik\Date;
 
+use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\API as APICustomVariables;

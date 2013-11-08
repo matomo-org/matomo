@@ -11,8 +11,8 @@
 namespace Piwik\Plugins\Goals;
 
 use Piwik\ArchiveProcessor;
-use Piwik\Common;
 
+use Piwik\Common;
 use Piwik\Db;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
@@ -92,8 +92,6 @@ class Goals extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Site.getSiteAttributes'                 => 'fetchGoalsFromDb',
-            'ArchiveProcessor.aggregateDayReport'           => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports'        => 'aggregateMultipleReports',
             'API.getReportMetadata.end'              => 'getReportMetadata',
             'API.getSegmentsMetadata'                => 'getSegmentsMetadata',
             'WidgetsList.addWidgets'                 => 'addWidgets',
@@ -505,31 +503,6 @@ class Goals extends \Piwik\Plugin
     {
         $site = new Site($idSite);
         return $site->isEcommerceEnabled() ? 'Goals_EcommerceAndGoalsMenu' : 'Goals_Goals';
-    }
-
-    /**
-     * Hooks on the Daily archiving.
-     * Will process Goal stats overall and for each Goal.
-     * Also processes the New VS Returning visitors conversion stats.
-     */
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
-        }
-    }
-
-    /**
-     * Hooks on Period archiving.
-     * Sums up Goal conversions stats, and processes overall conversion rate
-     */
-    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
     }
 
     public function configureViewDataTable(ViewDataTable $view)

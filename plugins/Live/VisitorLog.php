@@ -12,15 +12,15 @@ namespace Piwik\Plugins\Live;
 
 use Piwik\Common;
 use Piwik\Piwik;
-use Piwik\View;
 use Piwik\Plugin\Visualization;
+use Piwik\View;
 
 /**
  * A special DataTable visualization for the Live.getLastVisitsDetails API method.
  */
 class VisitorLog extends Visualization
 {
-    const ID = '\Piwik\Plugins\Live\VisitorLog';
+    const ID = '\\Piwik\\Plugins\\Live\\VisitorLog';
     const TEMPLATE_FILE = "@Live/_dataTableViz_visitorLog.twig";
 
     public function beforeLoadDataTable()

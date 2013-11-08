@@ -8,9 +8,9 @@
  * @package Piwik
  */
 
+use Piwik\Common;
 use Piwik\Timer;
 use Piwik\Tracker;
-use Piwik\Common;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;

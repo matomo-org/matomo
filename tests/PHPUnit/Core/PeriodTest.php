@@ -5,12 +5,12 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Period;
 use Piwik\Date;
-use Piwik\Period\Month;
 use Piwik\Period\Day;
-use Piwik\Period\Year;
+use Piwik\Period\Month;
 use Piwik\Period\Week;
+use Piwik\Period;
+use Piwik\Period\Year;
 
 class PeriodTest extends PHPUnit_Framework_TestCase
 {

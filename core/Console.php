@@ -28,6 +28,7 @@ use Piwik\Plugins\CoreConsole\Translations\PluginsWithTranslations;
 use Piwik\Plugins\CoreConsole\Translations\SetTranslations;
 use Piwik\Plugins\CoreConsole\Translations\Update;
 use Piwik\Plugins\CoreConsole\WatchLog;
+use Piwik\Plugins\CoreConsole\GenerateTest;
 use Symfony\Component\Console\Application;
 
 class Console
@@ -42,6 +43,7 @@ class Console
         $console->add(new GenerateSettings());
         $console->add(new GenerateController());
         $console->add(new GenerateVisualizationPlugin());
+        $console->add(new GenerateTest());
         $console->add(new WatchLog());
         $console->add(new GitPull());
         $console->add(new GitCommit());

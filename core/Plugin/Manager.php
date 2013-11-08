@@ -16,7 +16,6 @@ use Piwik\Config as PiwikConfig;
 use Piwik\EventDispatcher;
 use Piwik\Filesystem;
 use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Singleton;
 use Piwik\Translate;
@@ -27,7 +26,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 /**
  * The singleton that manages plugin loading/unloading and installation/uninstallation.
  *
- * @static \Piwik\Plugin\Manager getInstance()
+ * @method static \Piwik\Plugin\Manager getInstance()
  * @package Piwik
  * @subpackage Manager
  */

@@ -5,11 +5,11 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Xml;
-use Piwik\DataTable\Simple;
 use Piwik\DataTable\Row;
+use Piwik\DataTable;
+use Piwik\DataTable\Simple;
 
 class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 {

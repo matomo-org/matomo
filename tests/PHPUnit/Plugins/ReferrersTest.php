@@ -7,13 +7,9 @@
  */
 require_once 'Referrers/Referrers.php';
 
-use Piwik\Date;
-use Piwik\Period;
-use Piwik\Segment;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
-use Piwik\DataAccess\ArchiveWriter;
-use Piwik\ArchiveProcessor\Rules;
+use Piwik\Period;
 
 class ReferrersTest extends PHPUnit_Framework_TestCase
 {

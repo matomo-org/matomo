@@ -8,9 +8,9 @@
 use Piwik\Access;
 use Piwik\AssetManager;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugins\VisitsSummary\API;
-use Piwik\Db;
 
 abstract class UITest extends IntegrationTestCase
 {

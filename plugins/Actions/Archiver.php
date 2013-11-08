@@ -79,7 +79,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->isSiteSearchEnabled = $processor->getSite()->isSiteSearchEnabled();
+        $this->isSiteSearchEnabled = $processor->getParams()->getSite()->isSiteSearchEnabled();
     }
 
     /**
@@ -98,7 +98,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->archiveDayExitActions($rankingQueryLimit);
         $this->archiveDayActionsTime($rankingQueryLimit);
 
-        $this->recordDayReports();
+        $this->insertDayReports();
 
         return true;
     }
@@ -423,21 +423,21 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * Records in the DB the archived reports for Page views, Downloads, Outlinks, and Page titles
      */
-    protected function recordDayReports()
+    protected function insertDayReports()
     {
         ArchivingHelper::clearActionsCache();
 
-        $this->recordPageUrlsReports();
-        $this->recordDownloadsReports();
-        $this->recordOutlinksReports();
-        $this->recordPageTitlesReports();
-        $this->recordSiteSearchReports();
+        $this->insertPageUrlsReports();
+        $this->insertDownloadsReports();
+        $this->insertOutlinksReports();
+        $this->insertPageTitlesReports();
+        $this->insertSiteSearchReports();
     }
 
-    protected function recordPageUrlsReports()
+    protected function insertPageUrlsReports()
     {
         $dataTable = $this->getDataTable(Action::TYPE_PAGE_URL);
-        $this->recordDataTable($dataTable, self::PAGE_URLS_RECORD_NAME);
+        $this->insertTable($dataTable, self::PAGE_URLS_RECORD_NAME);
 
         $records = array(
             self::METRIC_PAGEVIEWS_RECORD_NAME      => array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS)),
@@ -457,49 +457,49 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $this->actionsTablesByType[$typeId];
     }
 
-    protected function recordDataTable(DataTable $dataTable, $recordName)
+    protected function insertTable(DataTable $dataTable, $recordName)
     {
         ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($dataTable);
-        $s = $dataTable->getSerialized(ArchivingHelper::$maximumRowsInDataTableLevelZero, ArchivingHelper::$maximumRowsInSubDataTable, ArchivingHelper::$columnToSortByBeforeTruncation);
-        $this->getProcessor()->insertBlobRecord($recordName, $s);
+        $report = $dataTable->getSerialized(ArchivingHelper::$maximumRowsInDataTableLevelZero, ArchivingHelper::$maximumRowsInSubDataTable, ArchivingHelper::$columnToSortByBeforeTruncation);
+        $this->getProcessor()->insertBlobRecord($recordName, $report);
     }
 
 
-    protected function recordDownloadsReports()
+    protected function insertDownloadsReports()
     {
         $dataTable = $this->getDataTable(Action::TYPE_DOWNLOAD);
-        $this->recordDataTable($dataTable, self::DOWNLOADS_RECORD_NAME);
+        $this->insertTable($dataTable, self::DOWNLOADS_RECORD_NAME);
 
         $this->getProcessor()->insertNumericRecord(self::METRIC_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS)));
         $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Metrics::INDEX_NB_VISITS)));
     }
 
-    protected function recordOutlinksReports()
+    protected function insertOutlinksReports()
     {
         $dataTable = $this->getDataTable(Action::TYPE_OUTLINK);
-        $this->recordDataTable($dataTable, self::OUTLINKS_RECORD_NAME);
+        $this->insertTable($dataTable, self::OUTLINKS_RECORD_NAME);
 
         $this->getProcessor()->insertNumericRecord(self::METRIC_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_NB_HITS)));
         $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Metrics::INDEX_NB_VISITS)));
     }
 
-    protected function recordPageTitlesReports()
+    protected function insertPageTitlesReports()
     {
         $dataTable = $this->getDataTable(Action::TYPE_PAGE_TITLE);
-        $this->recordDataTable($dataTable, self::PAGE_TITLES_RECORD_NAME);
+        $this->insertTable($dataTable, self::PAGE_TITLES_RECORD_NAME);
     }
 
-    protected function recordSiteSearchReports()
+    protected function insertSiteSearchReports()
     {
         $dataTable = $this->getDataTable(Action::TYPE_SITE_SEARCH);
         $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
-        $this->recordDataTable($dataTable, self::SITE_SEARCH_RECORD_NAME);
+        $this->insertTable($dataTable, self::SITE_SEARCH_RECORD_NAME);
 
         $this->getProcessor()->insertNumericRecord(self::METRIC_SEARCHES_RECORD_NAME, array_sum($dataTable->getColumn(Metrics::INDEX_NB_VISITS)));
         $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $dataTable->getRowsCount());
     }
 
-    protected function deleteUnusedColumnsFromKeywordsDataTable($dataTable)
+    protected function deleteUnusedColumnsFromKeywordsDataTable(DataTable $dataTable)
     {
         $columnsToDelete = array(
             Metrics::INDEX_NB_UNIQ_VISITORS,
@@ -527,7 +527,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::PAGE_TITLES_RECORD_NAME,
             self::PAGE_URLS_RECORD_NAME,
         );
-        $this->getProcessor()->aggregateDataTableReports($dataTableToSum,
+        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
             ArchivingHelper::$maximumRowsInDataTableLevelZero,
             ArchivingHelper::$maximumRowsInSubDataTable,
             ArchivingHelper::$columnToSortByBeforeTruncation,
@@ -541,7 +541,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::SITE_SEARCH_RECORD_NAME,
         );
         $aggregation = null;
-        $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum,
+        $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum,
             ArchivingHelper::$maximumRowsInDataTableLevelZero,
             ArchivingHelper::$maximumRowsInSubDataTable,
             ArchivingHelper::$columnToSortByBeforeTruncation,

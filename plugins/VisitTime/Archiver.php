@@ -12,6 +12,7 @@
 namespace Piwik\Plugins\VisitTime;
 
 use Piwik\DataArray;
+use Piwik\DataTable;
 use Piwik\Date;
 
 class Archiver extends \Piwik\Plugin\Archiver
@@ -25,34 +26,45 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->aggregateByServerTime();
     }
 
+    public function aggregateMultipleReports()
+    {
+        $dataTableRecords = array(
+            self::LOCAL_TIME_RECORD_NAME,
+            self::SERVER_TIME_RECORD_NAME,
+        );
+        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords);
+    }
+
     protected function aggregateByServerTime()
     {
-        $array = $this->getProcessor()->getMetricsForDimension(array("label" => "HOUR(log_visit.visit_last_action_time)"));
+        $dataArray = $this->getLogAggregator()->getMetricsFromVisitByDimension(array("label" => "HOUR(log_visit.visit_last_action_time)"));
         $query = $this->getLogAggregator()->queryConversionsByDimension(array("label" => "HOUR(log_conversion.server_time)"));
         if ($query === false) {
             return;
         }
 
-        while ($row = $query->fetch()) {
-            $array->sumMetricsGoals($row['label'], $row);
+        while ($conversionRow = $query->fetch()) {
+            $dataArray->sumMetricsGoals($conversionRow['label'], $conversionRow);
         }
-        $array->enrichMetricsWithConversions();
-        $array = $this->convertTimeToLocalTimezone($array);
-        $this->ensureAllHoursAreSet($array);
-        $this->getProcessor()->insertBlobRecord(self::SERVER_TIME_RECORD_NAME, $array->asDataTable()->getSerialized());
+        $dataArray->enrichMetricsWithConversions();
+        $dataArray = $this->convertTimeToLocalTimezone($dataArray);
+        $this->ensureAllHoursAreSet($dataArray);
+        $report = $dataArray->asDataTable()->getSerialized();
+        $this->getProcessor()->insertBlobRecord(self::SERVER_TIME_RECORD_NAME, $report);
     }
 
     protected function aggregateByLocalTime()
     {
-        $array = $this->getProcessor()->getMetricsForDimension("HOUR(log_visit.visitor_localtime)");
+        $array = $this->getLogAggregator()->getMetricsFromVisitByDimension("HOUR(log_visit.visitor_localtime)");
         $this->ensureAllHoursAreSet($array);
-        $this->getProcessor()->insertBlobRecord(self::LOCAL_TIME_RECORD_NAME, $array->asDataTable()->getSerialized());
+        $report = $array->asDataTable()->getSerialized();
+        $this->getProcessor()->insertBlobRecord(self::LOCAL_TIME_RECORD_NAME, $report);
     }
 
     protected function convertTimeToLocalTimezone(DataArray &$array)
     {
-        $date = Date::factory($this->getProcessor()->getDateStart()->getDateStartUTC())->toString();
-        $timezone = $this->getProcessor()->getSite()->getTimezone();
+        $date = Date::factory($this->getProcessor()->getParams()->getDateStart()->getDateStartUTC())->toString();
+        $timezone = $this->getProcessor()->getParams()->getSite()->getTimezone();
 
         $converted = array();
         foreach ($array->getDataArray() as $hour => $stats) {
@@ -73,12 +85,4 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    public function aggregateMultipleReports()
-    {
-        $dataTableToSum = array(
-            self::LOCAL_TIME_RECORD_NAME,
-            self::SERVER_TIME_RECORD_NAME,
-        );
-        $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
-    }
 }

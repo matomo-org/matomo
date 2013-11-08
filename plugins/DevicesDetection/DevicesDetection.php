@@ -12,8 +12,8 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use Exception;
-use Piwik\ArchiveProcessor;
 
+use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
@@ -91,8 +91,6 @@ class DevicesDetection extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'ArchiveProcessor.aggregateDayReport'    => 'aggregateDayReport',
-            'ArchiveProcessor.aggregateMultipleReports' => 'aggregateMultipleReports',
             'Menu.Reporting.addItems'         => 'addMenu',
             'Tracker.newVisitorInformation'   => 'parseMobileVisitData',
             'WidgetsList.addWidgets'          => 'addWidgets',
@@ -270,22 +268,6 @@ class DevicesDetection extends \Piwik\Plugin
         $visitorInfo = array_merge($visitorInfo, $deviceInfo);
         Common::printDebug("Device Detection:");
         Common::printDebug($deviceInfo);
-    }
-
-    public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateDayReport();
-        }
-    }
-
-    public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
-    {
-        $archiving = new Archiver($archiveProcessor);
-        if ($archiving->shouldArchive()) {
-            $archiving->aggregateMultipleReports();
-        }
     }
 
     public function addMenu()

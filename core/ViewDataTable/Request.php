@@ -14,11 +14,7 @@ namespace Piwik\ViewDataTable;
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Date;
-use Piwik\Metrics;
-use Piwik\MetricsFormatter;
 use Piwik\Period;
-use Piwik\Piwik;
 
 class Request
 {

@@ -16,6 +16,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+
     /**
      * @group Core
      */
@@ -89,6 +90,8 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         require_once PIWIK_INCLUDE_PATH . "/core/TaskScheduler.php";
         $this->assertFalse(DEBUG_FORCE_SCHEDULED_TASKS);
 
+        require_once PIWIK_INCLUDE_PATH . "/core/API/ResponseBuilder.php";
+        $this->assertFalse(\Piwik\API\ResponseBuilder::DISPLAY_BACKTRACE_DEBUG);
     }
 
     private function _checkEqual($key, $valueExpected)

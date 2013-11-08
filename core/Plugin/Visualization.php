@@ -20,9 +20,9 @@ use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\View;
+use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 /**
  * Base class for all DataTable visualizations. A Visualization is a special kind of ViewDataTable that comes with some

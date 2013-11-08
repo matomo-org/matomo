@@ -119,6 +119,17 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
+    public function aggregateMultipleReports()
+    {
+        $dataTableRecords = array(
+            self::TIME_SPENT_RECORD_NAME,
+            self::PAGES_VIEWED_RECORD_NAME,
+            self::VISITS_COUNT_RECORD_NAME,
+            self::DAYS_SINCE_LAST_RECORD_NAME
+        );
+        $this->getProcessor()->aggregateDataTableRecords($dataTableRecords);
+    }
+
     /**
      * Transforms and returns the set of ranges used to calculate the 'visits by total time'
      * report from ranges in minutes to equivalent ranges in seconds.
@@ -139,14 +150,4 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $secondsGap;
     }
 
-    public function aggregateMultipleReports()
-    {
-        $dataTableToSum = array(
-            self::TIME_SPENT_RECORD_NAME,
-            self::PAGES_VIEWED_RECORD_NAME,
-            self::VISITS_COUNT_RECORD_NAME,
-            self::DAYS_SINCE_LAST_RECORD_NAME
-        );
-        $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
-    }
 }

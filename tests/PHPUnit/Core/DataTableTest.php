@@ -7,8 +7,8 @@
  */
 
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\DataTable\Manager;
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Timer;
 

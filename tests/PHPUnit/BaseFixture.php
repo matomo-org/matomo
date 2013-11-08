@@ -9,6 +9,7 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
@@ -18,7 +19,6 @@ use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Url;
-use Piwik\Db;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -165,10 +165,13 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     {
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
+
+        $url = "\n =========================== \n URL was: " . PiwikTracker::$DEBUG_LAST_REQUESTED_URL;
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
             . var_export($response, true)
             . "\n If you are stuck, you can enable \$GLOBALS['PIWIK_TRACKER_DEBUG']=true; in piwik.php to get more debug info."
             . base64_encode($response)
+            . $url
         );
     }
 

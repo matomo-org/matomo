@@ -40,27 +40,7 @@ use Piwik\Config as PiwikConfig;
  *         public function aggregateMultipleReports()
  *         {
  *             $archiveProcessor = $this->getProcessor();
- *             $archiveProcessor->aggregateDataTableReports('MyPlugin_myReport', 500);
- *         }
- *     }
- * 
- * **Using Archiver in archiving events**
- * 
- *     // event observer for ArchiveProcessor.Day.compute
- *     public function aggregateDayReport(ArchiveProcessor\Day $archiveProcessor)
- *     {
- *         $archiving = new Archiver($archiveProcessor);
- *         if ($archiving->shouldArchive()) {
- *             $archiving->aggregateDayReport();
- *         }
- *     }
- * 
- *     // event observer for ArchiveProcessor.aggregateMultipleReports
- *     public function aggregateMultipleReports(ArchiveProcessor\Period $archiveProcessor)
- *     {
- *         $archiving = new Archiver($archiveProcessor);
- *         if ($archiving->shouldArchive()) {
- *             $archiving->aggregateMultipleReports();
+ *             $archiveProcessor->aggregateDataTableRecords('MyPlugin_myReport', 500);
  *         }
  *     }
  * 
@@ -68,22 +48,27 @@ use Piwik\Config as PiwikConfig;
  */
 abstract class Archiver
 {
+    /**
+     * @var \Piwik\ArchiveProcessor
+     */
     protected $processor;
 
     /**
      * Constructor.
      * 
-     * @param ArchiveProcessor $processing The ArchiveProcessor instance sent to the archiving
+     * @param ArchiveProcessor $aggregator The ArchiveProcessor instance sent to the archiving
      *                                     event observer.
      */
-    public function __construct(ArchiveProcessor $processing)
+    public function __construct(ArchiveProcessor $aggregator)
     {
         $this->maximumRows = PiwikConfig::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $this->processor = $processing;
+        $this->processor = $aggregator;
     }
 
     /**
-     * Archive data for a day period.
+     * Triggered when the archiving process is initiated for a day period.
+     *
+     * Plugins that compute analytics data should create an Archiver class that descends from [Plugin\Archiver](#).
      */
     abstract public function aggregateDayReport();
 
@@ -92,24 +77,8 @@ abstract class Archiver
      */
     abstract public function aggregateMultipleReports();
 
-    // todo: review this concept, each plugin should somehow maintain the list of report names they generate
     /**
-     * Returns true if the current plugin should be archived or not.
-     * 
-     * @return bool
-     */
-    public function shouldArchive()
-    {
-        $className = get_class($this);
-        $pluginName = str_replace(array("Piwik\\Plugins\\", "\\Archiver"), "", $className);
-        if (strpos($pluginName, "\\") !== false) {
-            throw new \Exception("unexpected plugin name $pluginName in shouldArchive()");
-        }
-        return $this->getProcessor()->shouldProcessReportsForPlugin($pluginName);
-    }
-
-    /**
-     * @return \Piwik\ArchiveProcessor\Day|\Piwik\ArchiveProcessor\Period
+     * @return \Piwik\ArchiveProcessor
      */
     protected function getProcessor()
     {

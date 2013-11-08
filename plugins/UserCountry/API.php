@@ -13,8 +13,8 @@ namespace Piwik\Plugins\UserCountry;
 use Exception;
 use Piwik\Archive;
 use Piwik\DataTable;
-use Piwik\Metrics;
 
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Visit;
@@ -27,6 +27,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 /**
  * The UserCountry API lets you access reports about your visitors' Countries and Continents.
  * @package UserCountry
+ * @method static \Piwik\Plugins\UserCountry\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

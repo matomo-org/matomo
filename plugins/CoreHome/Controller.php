@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\FrontController;
 use Piwik\Menu\MenuMain;
+use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
@@ -25,7 +26,6 @@ use Piwik\Site;
 use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
-use Piwik\Notification\Manager as NotificationManager;
 
 /**
  *

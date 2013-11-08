@@ -26,7 +26,7 @@ class Manager
 
     /**
      * Returns all available plugin settings, even settings for inactive plugins. A plugin has to specify a file named
-     * `settings.php` containing a class named `Settings` that extends `Piwik\Plugin\Settings` in order to be
+     * `Settings.php` containing a class named `Settings` that extends `Piwik\Plugin\Settings` in order to be
      * considered as a plugin setting. Otherwise the settings for a plugin won't be available.
      *
      * @return \Piwik\Plugin\Settings[]   An array containing array([pluginName] => [setting instance]).

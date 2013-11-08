@@ -87,6 +87,18 @@ class GeneratePluginBase extends ConsoleCommand
         }
     }
 
+    protected function getPluginNames()
+    {
+        $pluginDirs = \_glob(PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
+
+        $pluginNames = array();
+        foreach ($pluginDirs as $pluginDir) {
+            $pluginNames[] = basename($pluginDir);
+        }
+
+        return $pluginNames;
+    }
+
     protected function getPluginNamesHavingNotSpecificFile($filename)
     {
         $pluginDirs = \_glob(PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);

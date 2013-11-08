@@ -21,6 +21,7 @@
  * PiwikTracker implements the Piwik Tracking API.
  *
  * @package PiwikTracker
+ * @api
  */
 class PiwikTracker
 {
@@ -1069,10 +1070,19 @@ class PiwikTracker
     }
 
     /**
+     * Used in tests to output useful error messages.
+     *
+     * @ignore
+     */
+    static public $DEBUG_LAST_REQUESTED_URL = false;
+
+    /**
      * @ignore
      */
     protected function sendRequest($url, $method = 'GET', $data = null, $force = false)
     {
+        self::$DEBUG_LAST_REQUESTED_URL = $url;
+
         // if doing a bulk request, store the url
         if ($this->doBulkRequests && !$force) {
             $this->storedTrackingActions[]

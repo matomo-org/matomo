@@ -12,8 +12,8 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\ScheduledTime\Hourly;
 use Piwik\ScheduledTime\Daily;
+use Piwik\ScheduledTime\Hourly;
 use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime\Weekly;
 

@@ -10,8 +10,8 @@
  */
 namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
-use Piwik\View;
 use Piwik\Plugin\Visualization;
+use Piwik\View;
 
 /**
  * DataTable visualization that shows DataTable data in an HTML table.

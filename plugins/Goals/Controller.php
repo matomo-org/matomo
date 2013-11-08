@@ -18,7 +18,6 @@ use Piwik\DataTable;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as APIReferrers;
-use Piwik\Plugins\VisitFrequency\VisitFrequency;
 use Piwik\View\ReportsByDimension;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory;

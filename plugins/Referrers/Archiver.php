@@ -32,7 +32,9 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTableLevelZero;
     protected $maximumRowsInSubDataTable;
-    /* @var array[DataArray] $arrays */
+    /**
+     * @var DataArray[] $arrays
+     */
     protected $arrays = array();
     protected $distinctUrls = array();
 
@@ -55,13 +57,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         foreach ($this->getRecordNames() as $record) {
             $this->arrays[$record] = new DataArray();
         }
-        $query = $this->getLogAggregator()->queryVisitsByDimension(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
-        $this->aggregateFromVisits($query);
-
-        $query = $this->getLogAggregator()->queryConversionsByDimension(array("referer_type", "referer_name", "referer_keyword"));
-        $this->aggregateFromConversions($query);
-
-        $this->recordDayReports();
+        $this->aggregateFromVisits(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
+        $this->aggregateFromConversions(array("referer_type", "referer_name", "referer_keyword"));
+        $this->insertDayReports();
     }
 
     protected function getRecordNames()
@@ -75,13 +73,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         );
     }
 
-    protected function aggregateFromVisits($query)
-    {
-        while ($row = $query->fetch()) {
-            $this->makeReferrerTypeNonEmpty($row);
-            $this->aggregateVisit($row);
-        }
-    }
 
     protected function makeReferrerTypeNonEmpty(&$row)
     {
@@ -90,7 +81,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
     }
 
-    protected function aggregateVisit($row)
+    protected function aggregateVisitRow($row)
     {
         switch ($row['referer_type']) {
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
@@ -135,34 +126,34 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     /**
      * @param string $name
-     * @return DataArray[]
+     * @return DataArray
      */
     protected function getDataArray($name)
     {
         return $this->arrays[$name];
     }
 
-    protected function aggregateFromConversions($query)
+    protected function aggregateFromConversions($dimensions)
     {
+        $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions);
         if ($query === false) {
             return;
         }
         while ($row = $query->fetch()) {
             $this->makeReferrerTypeNonEmpty($row);
 
-            $skipAggregateByType = $this->aggregateConversion($row);
+            $skipAggregateByType = $this->aggregateConversionRow($row);
             if (!$skipAggregateByType) {
                 $this->getDataArray(self::REFERRER_TYPE_RECORD_NAME)->sumMetricsGoals($row['referer_type'], $row);
             }
         }
 
         foreach ($this->arrays as $dataArray) {
-            /* @var DataArray $dataArray */
             $dataArray->enrichMetricsWithConversions();
         }
     }
 
-    protected function aggregateConversion($row)
+    protected function aggregateConversionRow($row)
     {
         $skipAggregateByType = false;
         switch ($row['referer_type']) {
@@ -202,13 +193,18 @@ class Archiver extends \Piwik\Plugin\Archiver
     /**
      * Records the daily stats (numeric or datatable blob) into the archive tables.
      */
-    protected function recordDayReports()
+    protected function insertDayReports()
     {
-        $this->recordDayNumeric();
-        $this->recordDayBlobs();
+        $this->insertDayNumericMetrics();
+
+        // insert DataTable reports
+        foreach ($this->getRecordNames() as $recordName) {
+            $blob = $this->getDataArray($recordName)->asDataTable()->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+            $this->getProcessor()->insertBlobRecord($recordName, $blob);
+        }
     }
 
-    protected function recordDayNumeric()
+    protected function insertDayNumericMetrics()
     {
         $numericRecords = array(
             self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => count($this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME)),
@@ -221,20 +217,10 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->getProcessor()->insertNumericRecords($numericRecords);
     }
 
-    protected function recordDayBlobs()
-    {
-        foreach ($this->getRecordNames() as $recordName) {
-            $dataArray = $this->getDataArray($recordName);
-            $table = $dataArray->asDataTable();
-            $blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
-            $this->getProcessor()->insertBlobRecord($recordName, $blob);
-        }
-    }
-
     public function aggregateMultipleReports()
     {
         $dataTableToSum = $this->getRecordNames();
-        $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+        $nameToCount = $this->getProcessor()->aggregateDataTableRecords($dataTableToSum, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 
         $mappingFromArchiveName = array(
             self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME =>
@@ -260,17 +246,26 @@ class Archiver extends \Piwik\Plugin\Archiver
         );
 
         foreach ($mappingFromArchiveName as $name => $infoMapping) {
-            $typeCountToUse = $infoMapping['typeCountToUse'];
             $nameTableToUse = $infoMapping['nameTableToUse'];
 
-            if ($typeCountToUse == 'recursive') {
-
-                $countValue = $nameToCount[$nameTableToUse]['recursive']
-                    - $nameToCount[$nameTableToUse]['level0'];
+            if ($infoMapping['typeCountToUse'] == 'recursive') {
+                $countValue = $nameToCount[$nameTableToUse]['recursive'] - $nameToCount[$nameTableToUse]['level0'];
             } else {
                 $countValue = $nameToCount[$nameTableToUse]['level0'];
             }
             $this->getProcessor()->insertNumericRecord($name, $countValue);
+        }
+    }
+
+    /**
+     * @param $fields
+     */
+    private function aggregateFromVisits($fields)
+    {
+        $query = $this->getLogAggregator()->queryVisitsByDimension($fields);
+        while ($row = $query->fetch()) {
+            $this->makeReferrerTypeNonEmpty($row);
+            $this->aggregateVisitRow($row);
         }
     }
 }

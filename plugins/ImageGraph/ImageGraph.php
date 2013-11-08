@@ -13,9 +13,9 @@ namespace Piwik\Plugins\ImageGraph;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Period;
+use Piwik\Period\Range;
 use Piwik\Site;
 use Piwik\Url;
-use Piwik\Period\Range;
 
 class ImageGraph extends \Piwik\Plugin
 {

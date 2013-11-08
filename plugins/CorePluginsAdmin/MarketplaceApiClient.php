@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\CacheFile;
 use Piwik\Http;
-use Piwik\Plugin\Manager;
 use Piwik\Version;
 
 /**

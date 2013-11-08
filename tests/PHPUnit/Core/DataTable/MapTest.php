@@ -1,7 +1,7 @@
 <?php
 use Piwik\Config;
-use Piwik\DataTable;
 use Piwik\DataTable\Manager;
+use Piwik\DataTable;
 use Piwik\DataTable\Row;
 
 class Test_DataTable_Map extends PHPUnit_Framework_TestCase

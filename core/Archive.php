@@ -11,8 +11,8 @@
 namespace Piwik;
 
 use Piwik\Archive\Parameters;
-use Piwik\ArchiveProcessor\Rules;
 
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Period\Range;
 
@@ -249,10 +249,7 @@ class Archive
             $forceIndexedByDate = true;
         }
 
-        $params = new Parameters();
-        $params->setIdSites($idSites);
-        $params->setPeriods($periods);
-        $params->setSegment($segment);
+        $params = new Parameters($idSites, $periods, $segment);
 
         return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
     }
@@ -409,13 +406,24 @@ class Archive
      * @param array $archiveNames
      * @return array
      */
-    public function getRequestedPlugins($archiveNames)
+    private function getRequestedPlugins($archiveNames)
     {
         $result = array();
         foreach ($archiveNames as $name) {
             $result[] = self::getPluginForReport($name);
         }
         return array_unique($result);
+    }
+
+    /**
+     * Returns an object describing the set of sites, the set of periods and the segment
+     * this Archive will query data for.
+     *
+     * @return Parameters
+     */
+    public function getParams()
+    {
+        return $this->params;
     }
 
     /**
@@ -529,7 +537,12 @@ class Archive
 
             $doneFlags[$doneFlag] = true;
             if (!isset($this->idarchives[$doneFlag])) {
-                $archiveGroups[] = $this->getArchiveGroupOfPlugin($plugin);
+                $archiveGroup = $this->getArchiveGroupOfPlugin($plugin);
+
+                if($archiveGroup == self::ARCHIVE_ALL_PLUGINS_FLAG) {
+                    $archiveGroup = reset($plugins);
+                }
+                $archiveGroups[] = $archiveGroup;
             }
         }
 
@@ -538,6 +551,7 @@ class Archive
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
             if (!Rules::isArchivingDisabledFor($this->params->getSegment(), $this->getPeriodLabel())) {
+
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
@@ -562,17 +576,6 @@ class Archive
     }
 
     /**
-     * Returns an object describing the set of sites, the set of periods and the segment
-     * this Archive will query data for.
-     * 
-     * @return Parameters
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
      * Gets the IDs of the archives we're querying for and stores them in $this->archives.
      * This function will launch the archiving process for each period/site/plugin if
      * metrics/reports have not been calculated/archived already.
@@ -586,8 +589,6 @@ class Archive
 
         /* @var Period $period */
         foreach ($this->params->getPeriods() as $period) {
-            $periodStr = $period->getRangeString();
-
             $twoDaysBeforePeriod = $period->getDateStart()->subDay(2);
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
 
@@ -610,28 +611,7 @@ class Archive
                     continue;
                 }
 
-                if ($period->getLabel() == 'day') {
-                    $processing = new ArchiveProcessor\Day($period, $site, $this->params->getSegment());
-                } else {
-                    $processing = new ArchiveProcessor\Period($period, $site, $this->params->getSegment());
-                }
-
-                // process for each plugin as well
-                foreach ($archiveGroups as $plugin) {
-                    if ($plugin == self::ARCHIVE_ALL_PLUGINS_FLAG) {
-                        $plugin = reset($plugins);
-                    }
-
-                    $doneFlag = $this->getDoneStringForPlugin($plugin);
-                    $this->initializeArchiveIdCache($doneFlag);
-
-                    $idArchive = $processing->preProcessArchive($plugin);
-
-                    $visits = $processing->getNumberOfVisits();
-                    if ($visits > 0) {
-                        $this->idarchives[$doneFlag][$periodStr][] = $idArchive;
-                    }
-                }
+                $this->launchArchiveProcessor($archiveGroups, $site, $period);
             }
         }
     }
@@ -773,7 +753,7 @@ class Archive
      * @throws \Exception If a plugin cannot be found or if the plugin for the report isn't
      *                    activated.
      */
-    public static function getPluginForReport($report)
+    private static function getPluginForReport($report)
     {
         // Core metrics are always processed in Core, for the requested date/period/segment
         if (in_array($report, Metrics::getVisitsMetricNames())) {
@@ -793,5 +773,31 @@ class Archive
                 . "to avoid this error.");
         }
         return $plugin;
+    }
+
+    /**
+     * @param $archiveGroups
+     * @param $site
+     * @param $period
+     */
+    private function launchArchiveProcessor(array $archiveGroups, Site $site, Period $period)
+    {
+        $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
+        $processing = new ArchiveProcessor\Loader($parameters);
+
+        $periodString = $period->getRangeString();
+
+        // process for each plugin as well
+        foreach ($archiveGroups as $plugin) {
+            $doneFlag = $this->getDoneStringForPlugin($plugin);
+            $this->initializeArchiveIdCache($doneFlag);
+
+            $parameters->setRequestedPlugin($plugin);
+            $idArchive = $processing->prepareArchive();
+
+            if($idArchive) {
+                $this->idarchives[$doneFlag][$periodString][] = $idArchive;
+            }
+        }
     }
 }
