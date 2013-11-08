@@ -103,14 +103,18 @@ class ArchiveProcessor
     /**
      * @var int
      */
-    protected $numberOfVisits;
-    protected $numberOfVisitsConverted;
+    protected $numberOfVisits = false;
+    protected $numberOfVisitsConverted = false;
 
-    public function __construct(Parameters $params, ArchiveWriter $archiveWriter, $visits, $visitsConverted)
+    public function __construct(Parameters $params, ArchiveWriter $archiveWriter)
     {
         $this->params = $params;
         $this->logAggregator = new LogAggregator($params);
         $this->archiveWriter = $archiveWriter;
+    }
+
+    public function setNumberOfVisits($visits, $visitsConverted)
+    {
         $this->numberOfVisits = $visits;
         $this->numberOfVisitsConverted = $visitsConverted;
     }

@@ -775,7 +775,7 @@ class Archive
         return $plugin;
     }
 
-    /**getNumberOfVisits
+    /**
      * @param $archiveGroups
      * @param $site
      * @param $period
@@ -793,7 +793,7 @@ class Archive
             $this->initializeArchiveIdCache($doneFlag);
 
             $parameters->setRequestedPlugin($plugin);
-            $idArchive = $processing->prepareArchiveId();
+            $idArchive = $processing->prepareArchive();
 
             if($idArchive) {
                 $this->idarchives[$doneFlag][$periodString][] = $idArchive;
