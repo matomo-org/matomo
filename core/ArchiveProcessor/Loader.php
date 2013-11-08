@@ -69,9 +69,8 @@ class Loader
             return $idArchive;
         }
 
-        $this->prepareCoreMetricsArchive($visits);
-
-        list($idArchive, $visits) = $this->computeNewArchive($onlyCoreMetrics = false, $visits, $visitsConverted);
+        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+        list($idArchive, $visits, $visitsConverted) = $this->computeNewArchive($onlyCoreMetrics = false, $visits, $visitsConverted);
         if ($this->isThereSomeVisits($visits)) {
             return $idArchive;
         }
@@ -83,7 +82,7 @@ class Loader
      *
      * @param $visits
      */
-    protected function prepareCoreMetricsArchive($visits)
+    protected function prepareCoreMetricsArchive($visits, $visitsConverted)
     {
         $createSeparateArchiveForCoreMetrics =
             !$this->doesRequestedPluginIncludeVisitsSummary()
@@ -92,14 +91,14 @@ class Loader
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
             $this->params->setRequestedPlugin('VisitsSummary');
-            list($idArchive, $visits) = $this->computeNewArchive($enforceProcessCoreMetricsOnly = true);
+            list($idArchive, $visits, $visitsConverted) = $this->computeNewArchive($enforceProcessCoreMetricsOnly = true);
             $this->params->setRequestedPlugin($requestedPlugin);
 
             if($this->mustProcessVisitCount($visits)) {
                 throw new \Exception("Visit count should have been set in computeNewArchive().");
             }
         }
-        return $visits;
+        return array($visits, $visitsConverted);
     }
 
     protected function computeNewArchive($onlyArchiveCoreMetrics, $visits = false, $visitsConverted = false)
@@ -112,6 +111,7 @@ class Loader
         if($onlyArchiveCoreMetrics) {
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $visits = $metrics['nb_visits'];
+            $visitsConverted = $metrics['nb_visits_converted'];
         } else {
             if ($this->mustProcessVisitCount($visits)
                 || $this->doesRequestedPluginIncludeVisitsSummary()
@@ -137,7 +137,7 @@ class Loader
 
         $archiveWriter->finalizeArchive();
         $idArchive = $archiveWriter->getIdArchive();
-        return array($idArchive, $visits);
+        return array($idArchive, $visits, $visitsConverted);
     }
 
     protected function doesRequestedPluginIncludeVisitsSummary()
