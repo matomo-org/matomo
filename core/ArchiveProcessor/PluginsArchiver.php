@@ -75,8 +75,10 @@ class PluginsArchiver
      * and triggers Aggregation processing on these plugins.
      *
      */
-    public function callAggregateAllPlugins()
+    public function callAggregateAllPlugins($visits, $visitsConverted)
     {
+        $this->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
+
         $isAggregateForDay = $this->archiveProcessor->getParams()->isDayArchive();
 
         $archivers = $this->getPluginArchivers();
@@ -92,6 +94,10 @@ class PluginsArchiver
                     $archiver->aggregateMultipleReports();
                 }
             }
+        }
+
+        if (!$isAggregateForDay && $visits) {
+            //ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
     }
 

@@ -91,7 +91,7 @@ class Loader
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
             $this->params->setRequestedPlugin('VisitsSummary');
-            list($idArchive, $visits, $visitsConverted) = $this->computeNewArchive($enforceProcessCoreMetricsOnly = true);
+            list($idArchive, $visits, $visitsConverted) = $this->computeNewArchive($onlyArchiveCoreMetrics = true);
             $this->params->setRequestedPlugin($requestedPlugin);
 
             if($this->mustProcessVisitCount($visits)) {
@@ -124,13 +124,8 @@ class Loader
                 throw new \Exception("Visit count should have been set in computeNewArchive().");
             }
             if ($this->isThereSomeVisits($visits)) {
-                $pluginsArchiver->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
-                $pluginsArchiver->callAggregateAllPlugins();
+                $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted);
             }
-        }
-
-        if ($this->isThereSomeVisits($visits)) {
-            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
 
         $this->params->logStatusDebug( $this->isArchiveTemporary() );
