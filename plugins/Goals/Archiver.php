@@ -96,14 +96,14 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::VISITS_UNTIL_RECORD_NAME    => 'vcv',
             self::DAYS_UNTIL_CONV_RECORD_NAME => 'vdsf',
         );
-        $aggregatesMetadata = array(
-            array(self::VISITS_COUNT_FIELD, self::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::VISITS_UNTIL_RECORD_NAME]),
-            array(self::DAYS_SINCE_FIRST_VISIT_FIELD, self::$daysToConvRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]),
-        );
+
         $selects = array();
-        foreach ($aggregatesMetadata as $aggregateMetadata) {
-            $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn($aggregateMetadata));
-        }
+        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
+            self::VISITS_COUNT_FIELD, self::$visitCountRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::VISITS_UNTIL_RECORD_NAME]
+        ));
+        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
+            self::DAYS_SINCE_FIRST_VISIT_FIELD, self::$daysToConvRanges, self::LOG_CONVERSION_TABLE, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]
+        ));
 
         $query = $this->getLogAggregator()->queryConversionsByDimension(array(), false, $selects);
         if ($query === false) {

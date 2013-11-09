@@ -97,19 +97,22 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::DAYS_SINCE_LAST_RECORD_NAME => 'dslv',
         );
 
-        $aggregatesMetadata = array(
-            array('visit_total_time', self::getSecondsGap(), 'log_visit', $prefixes[self::TIME_SPENT_RECORD_NAME]),
-            array('visit_total_actions', self::$pageGap, 'log_visit', $prefixes[self::PAGES_VIEWED_RECORD_NAME]),
-            array('visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]),
-            array('visitor_days_since_last', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
-                  $restrictToReturningVisitors = true
-            ),
-        );
+        // collect our extra aggregate select fields
         $selects = array();
-        foreach ($aggregatesMetadata as $aggregateMetadata) {
-            $selectsFromRangedColumn = LogAggregator::getSelectsFromRangedColumn($aggregateMetadata);
-            $selects = array_merge($selects, $selectsFromRangedColumn);
-        }
+        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
+            'visit_total_time', self::getSecondsGap(), 'log_visit', $prefixes[self::TIME_SPENT_RECORD_NAME]
+        ));
+        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
+            'visit_total_actions', self::$pageGap, 'log_visit', $prefixes[self::PAGES_VIEWED_RECORD_NAME]
+        ));
+        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
+            'visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]
+        ));
+        $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn(
+            'visitor_days_since_last', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
+            $restrictToReturningVisitors = true
+        ));
+
         $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = false, $selects, array());
         $row = $query->fetch();
         foreach ($prefixes as $recordName => $selectAsPrefix) {
