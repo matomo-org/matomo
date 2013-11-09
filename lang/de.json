@@ -356,6 +356,14 @@
     "DoNotTrack": {
         "PluginDescription": "Besuche mit X-Do-Not-Track oder DNT Header ignorieren."
     },
+    "Events": {
+        "EventAction": "Ereignisaktion",
+        "EventCategory": "Ereigniskategorie",
+        "EventName": "Ereignisname",
+        "Events": "Ereignisse",
+        "EventValue": "Ereigniswert",
+        "NbEvents": "Anzahl der Ereignisse"
+    },
     "Feedback": {
         "CategoryHire": "Fragen Sie einen Piwik-Berater",
         "CategorySecurity": "Berichten Sie über eine Sicherheitslücke",
@@ -1289,6 +1297,7 @@
         "Teaser": "Auf dieser Seite können Sie Piwik so anpassen, dass es die bei Ihnen herrschenden Datenschutzbestimmungen einhält. Sie können %sBenutzer-IPs anonymisieren%s, %sautomatisch alte Logs aus der Datenbank löschen%s und %seinen Opt-out Mechanismus auf Ihrer Webseite anbieten%s.",
         "TeaserHeadline": "Privatsphäreeinstellungen",
         "UseAnonymizedIpForVisitEnrichment": "Benutze die anonymisierte IP-Adresse auch für die Aufbereitung der Besuche.",
+        "UseAnonymizedIpForVisitEnrichmentNote": "Plugins wie Geolokalisierung anhand IP und Provider verbessern die Metadaten eines Besuchers. Normalerweise verwenden diese Plugins die anonymisierte IP Adresse. Wenn sie 'Nein' auswählen wird stattdessen die nicht anonymisierte volle IP Adresse verwendet. Daraus resultiert eine größere Genauigkeit, jedoch weniger Privatsphäre.",
         "UseAnonymizeIp": "Anonymisiere die IP-Adresse von Besuchern",
         "UseDeleteLog": "Alte Besucher-Logs automatisch aus der Datenbank entfernen",
         "UseDeleteReports": "Lösche regelmäßig alte Berichte aus der Datenbank"

@@ -355,6 +355,14 @@
     "DoNotTrack": {
         "PluginDescription": "Ignora le visite con l'header X-Do-Not-Track o DNT."
     },
+    "Events": {
+        "EventAction": "Azione Evento",
+        "EventCategory": "Categoria Evento",
+        "EventName": "Nome Evento",
+        "Events": "Eventi",
+        "EventValue": "Valore Evento",
+        "NbEvents": "Numero Eventi"
+    },
     "Feedback": {
         "CategoryHire": "Ingaggia un consulente Piwik",
         "CategorySecurity": "Segnala un problema di sicurezza",
