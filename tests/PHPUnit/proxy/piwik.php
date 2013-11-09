@@ -33,6 +33,7 @@ try {
     $trackerPlugins = array();
 }
 $trackerPlugins[] = 'DevicesDetection';
+$trackerPlugins[] = 'AnonymizeIP';
 Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
 GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
