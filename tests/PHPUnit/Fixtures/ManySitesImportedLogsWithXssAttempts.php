@@ -77,26 +77,32 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         $oldGet = $_GET;
         $_GET['idSite'] = $this->idSite;
         
-        // collect widgets to add to the layout
-        $allWidgets = WidgetsList::get();
+        // collect widgets & sort them so widget order is not important
+        $allWidgets = array();
+        foreach (WidgetsList::get() as $category => $widgets) {
+            $allWidgets = array_merge($allWidgets, $widgets);
+        }
+        usort($allWidgets, function ($lhs, $rhs) {
+            return strcmp($lhs['uniqueId'], $rhs['uniqueId']);
+        });
+
+        // group widgets so they will be spread out across 3 dashboards
         $groupedWidgets = array();
         $dashboard = 0;
-        foreach ($allWidgets as $category => $widgets) {
-            foreach ($widgets as $widget) {
-                if ($widget['uniqueId'] == 'widgetSEOgetRank'
-                    || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
-                    || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
-                    || strpos($widget['uniqueId'], 'widgetExample') === 0
-                ) {
-                    continue;
-                }
-                
-                $dashboard = ($dashboard + 1) % $dashboardCount;
-                $groupedWidgets[$dashboard][] = array(
-                    'uniqueId' => $widget['uniqueId'],
-                    'parameters' => $widget['parameters']
-                );
+        foreach ($allWidgets as $widget) {
+            if ($widget['uniqueId'] == 'widgetSEOgetRank'
+                || $widget['uniqueId'] == 'widgetReferrersgetKeywordsForPage'
+                || $widget['uniqueId'] == 'widgetLivegetVisitorProfilePopup'
+                || strpos($widget['uniqueId'], 'widgetExample') === 0
+            ) {
+                continue;
             }
+            
+            $dashboard = ($dashboard + 1) % $dashboardCount;
+            $groupedWidgets[$dashboard][] = array(
+                'uniqueId' => $widget['uniqueId'],
+                'parameters' => $widget['parameters']
+            );
         }
         
         // distribute widgets in each dashboard
@@ -117,7 +123,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         }
 
         // create empty dashboard
-        $widget = reset($allWidgets[\Piwik\Piwik::translate('UserSettings_VisitorSettings')]);
+        $widget = reset($allWidgets);
         $dashboard = array(
             array(
                 array(
