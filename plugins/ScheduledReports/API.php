@@ -236,8 +236,8 @@ class API extends \Piwik\Plugin\API
         }
 
         // Joining with the site table to work around pre-1.3 where reports could still be linked to a deleted site
-        $reports = Db::fetchAll("SELECT *
-								FROM " . Common::prefixTable('report') . "
+        $reports = Db::fetchAll("SELECT report.*
+								FROM " . Common::prefixTable('report') . " AS `report`
 									JOIN " . Common::prefixTable('site') . "
 									USING (idsite)
 								WHERE deleted = 0

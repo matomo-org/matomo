@@ -10,6 +10,7 @@
  */
 
 namespace Piwik\Plugins\ExampleRssWidget;
+use Piwik\Http;
 
 /**
  *
@@ -45,7 +46,8 @@ class RssRenderer
     public function get()
     {
         try {
-            $rss = simplexml_load_file($this->url);
+            $content = Http::fetchRemoteFile($this->url);
+            $rss = simplexml_load_string($content);
         } catch (\Exception $e) {
             echo "Error while importing feed: {$e->getMessage()}\n";
             exit;
