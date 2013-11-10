@@ -419,6 +419,10 @@ class Xml extends Renderer
      */
     protected function renderDataTableSimple($array, $prefixLine = "")
     {
+        if (!is_array($array)) {
+            $array = array('value' => $array);
+        }
+
         $out = '';
         foreach ($array as $keyName => $value) {
             $xmlValue = self::formatValueXml($value);
