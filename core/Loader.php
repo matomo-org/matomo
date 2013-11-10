@@ -99,7 +99,6 @@ class Loader
                 }
             }
         }
-        throw new Exception("Class \"$class\" not found.");
     }
 
     /**
@@ -116,18 +115,10 @@ class Loader
     }
 }
 
-// Note: only one __autoload per PHP instance
-if (function_exists('spl_autoload_register')) {
-    // use the SPL autoload stack
-    spl_autoload_register(array('Piwik\Loader', 'autoload'));
+// use the SPL autoload stack
+spl_autoload_register(array('Piwik\Loader', 'autoload'));
 
-    // preserve any existing __autoload
-    if (function_exists('__autoload')) {
-        spl_autoload_register('__autoload');
-    }
-} else {
-    function __autoload($class)
-    {
-        Loader::autoload($class);
-    }
+// preserve any existing __autoload
+if (function_exists('__autoload')) {
+    spl_autoload_register('__autoload');
 }
