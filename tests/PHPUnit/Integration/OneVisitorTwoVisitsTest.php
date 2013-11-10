@@ -130,6 +130,15 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                                                       'showColumns' => 'nb_visits,revenue'
                                                   ))),
 
+            // showColumns with only one column and report having no dimension
+            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                                  'periods'                => 'day', 'apiModule' => 'VisitsSummary',
+                                                  'apiAction'              => 'get',
+                                                  'testSuffix'             => '_showColumns_onlyOne',
+                                                  'otherRequestParameters' => array(
+                                                      'showColumns'        => 'nb_visits'
+                                                  ))),
+
             // test hideColumns w/ expanded=1
             array('Actions.getPageTitles', array('idSite'                 => $idSite, 'date' => $dateTime,
                                                  'periods'                => 'day', 'testSuffix' => '_hideColumns_',
@@ -147,7 +156,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                 'idSite'                 => $idSite,
                 'date'                   => $dateTime,
                 'periods'                => 'day',
-                'testSuffix'             => '_showColumns', 
+                'testSuffix'             => '_showColumns',
                 'otherRequestParameters' => array(
                     'showColumns'        => 'nb_uniq_visitors,nb_pageviews,bounce_rate'
                 )
