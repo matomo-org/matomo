@@ -86,7 +86,6 @@ class Factory
             return new $type($controllerAction, $apiAction);
         }
 
-
         if (array_key_exists($defaultType, $visualizations)) {
             return new $visualizations[$defaultType]($controllerAction, $apiAction);
         }
