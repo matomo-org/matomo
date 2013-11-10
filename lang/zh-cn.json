@@ -155,6 +155,7 @@
         "OptOutForYourVisitors": "访客主动退出 Piwik",
         "PiwikIsInstalledAt": "Piwik 安装在",
         "PluginDescription": "Piwik 插件管理",
+        "PluginSettingChangeNotAllowed": "不允许更改插件＂%s＂中配置＂%s＂的值",
         "PluginSettingsIntro": "这里，你可以更改下列第三方插件的配置：",
         "PluginSettingsValueNotAllowed": "插件\"%s\"中的域\"%s\"的值是不被允许的",
         "StableReleases": "如果Piwik对您的业务很重要，我们建议您使用最新的稳定版。如果使用最新测试版，发现了问题或有建议，请%s看这里%s。",
