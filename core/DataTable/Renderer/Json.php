@@ -70,6 +70,10 @@ class Json extends Renderer
                     || $tab instanceof DataTable
                     || $tab instanceof DataTable\Simple) {
                     $array[$key] = $this->convertDataTableToArray($tab);
+
+                    if (!is_array($array)) {
+                        $array = array('value' => $array);
+                    }
                 }
             }
 
