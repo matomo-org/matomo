@@ -511,6 +511,7 @@
         "HelloUser": "درود, %s!",
         "Help": "راهنما",
         "Hide": "پنهان شود",
+        "HoursMinutes": "%1$s ساعت %2$s دقیقه",
         "Id": "شناسه",
         "IfArchivingIsFastYouCanSetupCronRunMoreOften": "فرض آرشیو سریع برای راه اندازی خود را، شما می توانید به crontab برای اجرای اغلب موارد راه اندازی است.",
         "InfoFor": "اطلاعات برای%s",
@@ -1221,6 +1222,7 @@
         "AggregateReportsFormat_TablesOnly": "(پیش فرض) نمایش جدول گزارش (نمودار فقط برای معیارهای کلیدی)",
         "AlsoSendReportToTheseEmails": "همچنین گزارش به این ایمیل ها فرستاده می شود (هر ایمیل در یک خط):",
         "AreYouSureDeleteReport": "آیا شما مطمئن هستید که میخواهید این گزارش و زمانبندی را حذف کنید؟",
+        "CancelAndReturnToReports": "لغو و بازگشت%s به لیست گزارشات%s",
         "CreateAndScheduleReport": "ایجاد و زمانبندی یک گزارش",
         "CreateReport": "ایجاد گزارش",
         "CustomVisitorSegment": "بخش سفارشی بازدید کنندگان:",
@@ -1255,6 +1257,7 @@
         "WeeklyScheduleHelp": "زمانبندی هفتگی: گزارش در روز دوشنبه هر هفته فرستاده خواهد شد."
     },
     "SegmentEditor": {
+        "AddANDorORCondition": "اضافه کردن وضعیت از%s",
         "AddNewSegment": "اضافه کردن سگمنت جدید",
         "AreYouSureDeleteSegment": "آیا شما مطمئن هستید که میخواهید این بخش را حذف کنید؟",
         "AutoArchivePreProcessed": "گزارش سگمنتال پیش پردازش (سریع تر، نیاز به cron را archive.php ذخیره)",
@@ -1720,6 +1723,7 @@
         "BrowserFamilies": "خانواده مرورگرها",
         "BrowserLanguage": "زبان مرورگر",
         "Browsers": "مرورگر ها",
+        "BrowserWithNoPluginsEnabled": "%1$s با هیچ پلاگین را فعال کنید",
         "ColumnBrowser": "مرورگر",
         "ColumnBrowserFamily": "خانواده مرورگر",
         "ColumnBrowserVersion": "نسخه مرورگر",
