@@ -82,9 +82,10 @@ class Factory
             return new $visualizations[$type]($controllerAction, $apiAction);
         }
 
-        if (class_exists($type)) {
+        if (class_exists($type, false) || class_exists($type)) {
             return new $type($controllerAction, $apiAction);
         }
+
 
         if (array_key_exists($defaultType, $visualizations)) {
             return new $visualizations[$defaultType]($controllerAction, $apiAction);
