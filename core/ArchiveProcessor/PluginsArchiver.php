@@ -97,7 +97,7 @@ class PluginsArchiver
         }
 
         if (!$isAggregateForDay && $visits) {
-            //ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
+            ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
     }
 

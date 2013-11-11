@@ -67,7 +67,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
     {
         self::deleteArchiveTables();
         $this->setLastRunArchiveOptions();
-        $this->runArchivePhpCron($archivePhpOptions);
+        $output = $this->runArchivePhpCron($archivePhpOptions);
         
         foreach ($this->getApiForTesting() as $testInfo) {
             list($api, $params) = $testInfo;
@@ -78,7 +78,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
             $params['testSuffix'] .= '_' . $optionGroupName;
             $params['disableArchiving'] = true;
             
-            // only do month for the last 3 option groups
+            // only do day for the last 3 option groups
             if ($optionGroupName != 'noOptions') {
                 $params['periods'] = array('day');
             }
@@ -98,7 +98,6 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
             foreach ($idSites as $idSite) {
                 // lastRunKey() function inlined
                 $lastRunArchiveOption = "lastRunArchive" . $period . "_" . $idSite;
-                
                 \Piwik\Option::set($lastRunArchiveOption, $time);
             }
         }
