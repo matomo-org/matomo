@@ -178,7 +178,7 @@ class Referrers extends \Piwik\Plugin
                                                   'module'                => 'Referrers',
                                                   'action'                => 'getUrlsForSocial',
                                                   'isSubtableReport'      => true,
-                                                  'dimension'             => Piwik::translate('Referrers_ColumnSocial'),
+                                                  'dimension'             => Piwik::translate('Referrers_ColumnWebsitePage'),
                                                   'documentation'         => Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />'),
                                                   'order'                 => 12,
                                               ),
