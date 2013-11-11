@@ -768,7 +768,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals(41, $this->_getTableCount('log_action'));
 
         $archiveTables = self::_getArchiveTableNames();
-        var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
+        //var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
 
         $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
         $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January
