@@ -880,7 +880,7 @@
         "GoalIsTriggered": "L'obiettivo si attiva",
         "GoalIsTriggeredWhen": "L'obiettivo si attiva quando",
         "GoalName": "Nome Obiettivo",
-        "Goals": "Goal (Obiettivi)",
+        "Goals": "Goals (Obiettivi)",
         "GoalsManagement": "Gestione Goal",
         "GoalsOverview": "Panoramica Goal",
         "GoalsOverviewDocumentation": "Questa è una panoramica delle vostre conversioni degli obiettivi. Inizialmente il grafico mostra la somma di tutte le conversioni. %sSotto il grafico è possibile vedere i reports di conversione per ciascuno dei tuoi obiettivi. Le sparklines possono essere ingrandite cliccandoci sopra.",
@@ -1443,7 +1443,7 @@
         "ThisSegmentIsVisibleTo": "Questo segmento è visibile a:",
         "VisibleToAllUsers": "tutti gli utenti",
         "VisibleToMe": "me",
-        "YouMustBeLoggedInToCreateSegments": "devi avere effettuato l'accesso per creare e modificare i segmenti personalizzati dei visitatori."
+        "YouMustBeLoggedInToCreateSegments": "Devi avere effettuato l'accesso per creare e modificare i segmenti personalizzati dei visitatori."
     },
     "SEO": {
         "AlexaRank": "Alexa Rank",
@@ -1853,7 +1853,7 @@
         "country_zr": "Zaire",
         "country_zw": "Zimbabwe",
         "CurrentLocationIntro": "In base a questo provider, la tua posizione attuale è",
-        "DefaultLocationProviderDesc1": "La posizione provider di default desume il paese di un visitatore in base alla lingua utilizzata.",
+        "DefaultLocationProviderDesc1": "L'individuatore di posizione di default desume il paese di un visitatore dalla lingua utilizzata.",
         "DefaultLocationProviderDesc2": "Quasta non è molto accurata, dunque %1$snoi raccomandiamo di installare e utilizzare %2$sGeoIP%3$s.%4$s",
         "DistinctCountries": "%s continenti differenti",
         "DownloadingDb": "Sto scaricando %s",
@@ -1865,7 +1865,7 @@
         "GeoIPDocumentationSuffix": "Per vedere i dati di questo report è necessario impostare GeoIP nella scheda Amministrazione Geolocation. I database GeoIP commerciali%1$sMaxmind%2$s sono più accurati di quelli gratuiti. Per vedere come sono precisi, clicca%3$squi%4$s.",
         "GeoIPImplHasAccessTo": "Questa implementazione GeoIP ha accesso ai seguenti database",
         "GeoIPIncorrectDatabaseFormat": "Il vostro database GeoIP non sembra avere un formato corretto. Potrebbe essere corrotto. Assicuratevi che state utilizzando la versione binaria e provate a sostituirla con un'altra copia,",
-        "GeoIpLocationProviderDesc_Pecl1": "Questo localizzatore di provider utilizza un database GeoIP e un modulo PECL per determinare accuratamente e con efficienza la posizione dei tuoi visitatori.",
+        "GeoIpLocationProviderDesc_Pecl1": "Questo individuatore di posizione utilizza un database GeoIP e un modulo PECL per determinare accuratamente e con efficienza la posizione dei tuoi visitatori.",
         "GeoIpLocationProviderDesc_Pecl2": "Non ci sono limitazioni con questo provider, dunque è uno di cui raccomandiamo l'uso.",
         "GeoIpLocationProviderDesc_Php1": "Questo individuatore di posizione è il più semplice da installare in quanto non richiede la configurazione del server (ideale per hosting condiviso!). Esso utilizza un database GeoIP e MaxMind PHP API per determinare con precisione la posizione dei tuoi visitatori.",
         "GeoIpLocationProviderDesc_Php2": "Se il tuo sito riceve parecchio traffico, è possibile che questo individuatore di posizione sia troppo lento. In questo caso, è necessario installare l'%1$sestensione PECL%2$s o un%3$smodulo server%4$s.",
