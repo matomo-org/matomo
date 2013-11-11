@@ -42,7 +42,7 @@
   version: '$1'
 
 #ANTGalio
-- regex: 'ANTGalio/(\d+\.\d+\.\d+)' 
+- regex: 'ANTGalio/(\d+\.\d+)' 
   name: ANTGalio
   version: '$1' 
 
