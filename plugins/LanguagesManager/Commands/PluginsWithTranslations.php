@@ -9,7 +9,7 @@
  * @package CoreConsole
  */
 
-namespace Piwik\Plugins\CoreConsole\Translations;
+namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;

@@ -37,13 +37,6 @@ class CoreConsole extends \Piwik\Plugin
         $commands[] = 'Piwik\Plugins\CoreConsole\GitPull';
         $commands[] = 'Piwik\Plugins\CoreConsole\GitPush';
         $commands[] = 'Piwik\Plugins\CoreConsole\RunTests';
-        $commands[] = 'Piwik\Plugins\CoreConsole\Translations\CreatePull';
-        $commands[] = 'Piwik\Plugins\CoreConsole\Translations\FetchFromOTrance';
-        $commands[] = 'Piwik\Plugins\CoreConsole\Translations\LanguageCodes';
-        $commands[] = 'Piwik\Plugins\CoreConsole\Translations\LanguageNames';
-        $commands[] = 'Piwik\Plugins\CoreConsole\Translations\PluginsWithTranslations';
-        $commands[] = 'Piwik\Plugins\CoreConsole\Translations\SetTranslations';
-        $commands[] = 'Piwik\Plugins\CoreConsole\Translations\Update';
         $commands[] = 'Piwik\Plugins\CoreConsole\WatchLog';
         $commands[] = 'Piwik\Plugins\CoreConsole\GenerateTest';
     }

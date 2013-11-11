@@ -9,7 +9,7 @@
  * @package CoreConsole
  */
 
-namespace Piwik\Plugins\CoreConsole\Translations;
+namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\API;
@@ -19,26 +19,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class LanguageCodes extends ConsoleCommand
+class LanguageNames extends ConsoleCommand
 {
     protected function configure()
     {
-        $this->setName('translations:languagecodes')
-             ->setDescription('Shows available language codes');
+        $this->setName('translations:languagenames')
+             ->setDescription('Shows available language names');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $languages = API::getInstance()->getAvailableLanguageNames();
 
-        $languageCodes = array();
+        $languageNames = array();
         foreach ($languages AS $languageInfo) {
-            $languageCodes[] = $languageInfo['code'];
+            $languageNames[] = $languageInfo['english_name'];
         }
 
-        sort($languageCodes);
+        sort($languageNames);
 
         $output->writeln("Currently available languages:");
-        $output->writeln(implode("\n", $languageCodes));
+        $output->writeln(implode("\n", $languageNames));
     }
 }

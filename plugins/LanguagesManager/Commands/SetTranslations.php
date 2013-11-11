@@ -9,7 +9,7 @@
  * @package CoreConsole
  */
 
-namespace Piwik\Plugins\CoreConsole\Translations;
+namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\API;
