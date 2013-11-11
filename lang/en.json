@@ -734,7 +734,8 @@
         "OriginCore": "Core",
         "OriginThirdParty": "Third-party",
         "Origin": "Origin",
-        "InstallNew": "Install new %s"
+        "InstallNewThemes": "Install new themes",
+        "InstallNewPlugins": "Install new plugins"
     },
     "CoreUpdater": {
         "PluginDescription": "Piwik updating mechanism",
