@@ -44,20 +44,14 @@ class GeneratePluginBase extends ConsoleCommand
     }
 
     /**
-     * @param string $templateNameOrPath  eg. 'controller' or 'api' or a full path like /home/...
+     * @param string $templateFolder  full path like /home/...
      * @param string $pluginName
      * @param array $replace         array(key => value) $key will be replaced by $value in all templates
      * @param array $whitelistFiles  If not empty, only given files/directories will be copied.
      *                               For instance array('/Controller.php', '/templates', '/templates/index.twig')
      */
-    protected function copyTemplateToPlugin($templateNameOrPath, $pluginName, array $replace = array(), $whitelistFiles = array())
+    protected function copyTemplateToPlugin($templateFolder, $pluginName, array $replace = array(), $whitelistFiles = array())
     {
-        if (0 === strpos($templateNameOrPath, '/')) {
-            $templateFolder = $templateNameOrPath;
-        } else {
-            $templateFolder = __DIR__ . '/templates/' . $templateNameOrPath;
-        }
-
         $replace['PLUGINNAME'] = $pluginName;
 
         $files = Filesystem::globr($templateFolder, '*');
