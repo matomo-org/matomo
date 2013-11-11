@@ -256,7 +256,7 @@ class Controller extends \Piwik\Plugin\Controller
             // remove password reset info
             Login::removePasswordResetInfo($login);
 
-            return array($ex->getMessage() . '<br/>' . Piwik::translate('Login_ContactAdmin'));
+            return array($ex->getMessage() . Piwik::translate('Login_ContactAdmin'));
         }
 
         return null;
