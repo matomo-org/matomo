@@ -528,6 +528,7 @@ Plugins[] = UsersManager
 Plugins[] = SitesManager
 Plugins[] = Installation
 Plugins[] = CoreUpdater
+Plugins[] = CoreConsole
 Plugins[] = ScheduledReports
 Plugins[] = UserCountryMap
 Plugins[] = Live

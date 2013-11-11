@@ -10,53 +10,51 @@
  */
 namespace Piwik;
 
-use Piwik\Plugins\CoreConsole\CodeCoverage;
-use Piwik\Plugins\CoreConsole\GenerateApi;
-use Piwik\Plugins\CoreConsole\GenerateController;
-use Piwik\Plugins\CoreConsole\GeneratePlugin;
-use Piwik\Plugins\CoreConsole\GenerateSettings;
-use Piwik\Plugins\CoreConsole\GenerateVisualizationPlugin;
-use Piwik\Plugins\CoreConsole\GitCommit;
-use Piwik\Plugins\CoreConsole\GitPull;
-use Piwik\Plugins\CoreConsole\GitPush;
-use Piwik\Plugins\CoreConsole\RunTests;
-use Piwik\Plugins\CoreConsole\Translations\CreatePull;
-use Piwik\Plugins\CoreConsole\Translations\FetchFromOTrance;
-use Piwik\Plugins\CoreConsole\Translations\LanguageCodes;
-use Piwik\Plugins\CoreConsole\Translations\LanguageNames;
-use Piwik\Plugins\CoreConsole\Translations\PluginsWithTranslations;
-use Piwik\Plugins\CoreConsole\Translations\SetTranslations;
-use Piwik\Plugins\CoreConsole\Translations\Update;
-use Piwik\Plugins\CoreConsole\WatchLog;
-use Piwik\Plugins\CoreConsole\GenerateTest;
 use Symfony\Component\Console\Application;
 
 class Console
 {
     public function run()
     {
-        $console = new Application();
+        $console  = new Application();
+        $commands = $this->getAvailableCommands();
 
-        $console->add(new RunTests());
-        $console->add(new GeneratePlugin());
-        $console->add(new GenerateApi());
-        $console->add(new GenerateSettings());
-        $console->add(new GenerateController());
-        $console->add(new GenerateVisualizationPlugin());
-        $console->add(new GenerateTest());
-        $console->add(new WatchLog());
-        $console->add(new GitPull());
-        $console->add(new GitCommit());
-        $console->add(new GitPush());
-        $console->add(new PluginsWithTranslations());
-        $console->add(new LanguageCodes());
-        $console->add(new LanguageNames());
-        $console->add(new FetchFromOTrance());
-        $console->add(new SetTranslations());
-        $console->add(new Update());
-        $console->add(new CreatePull());
-        $console->add(new CodeCoverage());
+        foreach ($commands as $command) {
+            if (class_exists($command)) {
+                $console->add(new $command);
+            } else {
+                Log::warning(sprintf('Cannot add command %s, class does not exist.', $command));
+            }
+        }
 
         $console->run();
+    }
+
+    /**
+     * Returns a list of available command classnames.
+     *
+     * @return string[]
+     */
+    private function getAvailableCommands()
+    {
+        $commands = array();
+
+        /**
+         * Triggered when gathering all available console commands. Plugins that want to expose new console commands
+         * should subscribe to this event and add commands to the incoming array.
+         *
+         * **Example**
+         * ```
+         * public function addConsoleCommands(&$commands)
+         * {
+         *     $commands[] = 'Piwik\Plugins\MyPlugin\Commands\MyCommand';
+         * }
+         * ```
+         *
+         * @param array &$commands An array containing a list of command classnames.
+         */
+        Piwik::postEvent('Console.addCommands', array(&$commands));
+
+        return $commands;
     }
 }
