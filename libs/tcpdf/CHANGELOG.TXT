@@ -1,3 +1,717 @@
+6.0.044 (2013-11-10)
+	- Bug #857 "Undefined offset error" was fixed.
+	- The uniord method now uses a static cache to improve performances (thanks to Mathieu Masseboeuf for the sugegstion).
+	- Two bugs in the TCPDF_FONTS class were fixed.
+
+6.0.043 (2013-10-29)
+	- Bug #854 "CSS instruction display" was fixed.
+
+6.0.042 (2013-10-25)
+	- Bug #852 "CMYK Colors Bug" was fixed.
+
+6.0.041 (2013-10-21)
+	- Bug #851 "Problem with images in PDF. PHP timing out" was fixed.
+
+6.0.040 (2013-10-20)
+	- Bug #849 "SVG import bug" was fixed.
+
+6.0.039 (2013-10-13)
+	- Bug #843 "Wrong call in parser" was fixed.
+	- Bug #844 "Wrong object type named" was fixed.
+	- Bug #845 "Parsing error on obj ref prefixed by '000000'" was fixed.
+
+6.0.038 (2013-10-06)
+	- Bug #841 "Division by zero warning at writeHTML a <li> tag" was fixed.
+
+6.0.037 (2013-09-30)
+	- Method getAllSpotColors() was added to return all spot colors.
+	- Method colorRegistrationBar() was extended to automatically print all spot colors and support individual spot colors.
+	- The method registrationMarkCMYK() was added to print a registration mark for CMYK colors.
+	- A bug related to page groups was fixed.
+	- Gradient() method now supports CMYK equivalents of spot colors.
+	- Example n. 56 was updated.
+
+6.0.036 (2013-09-29)
+	- Methods for registration bars and crop marks were extended to support registration color (see example n. 56).
+	- New default spot colors were added to tcpdf_colors.php, including the 'All' and 'None' special registration colors.
+
+6.0.035 (2013-09-25)
+	- TCPDF_PARSER class was improved.
+
+6.0.034 (2013-09-24)
+	- Bug #839 "Error in xref parsing in mixed newline chars" was fixed.
+
+6.0.033 (2013-09-23)
+	- Bug fix related to PNG image transparency using GD library.
+
+6.0.032 (2013-09-23)
+	- Bug #838 "Fatal error when imagick cannot handle the image, even though GD is available and can" was fixed.
+
+6.0.031 (2013-09-18)
+	- Bug #836 "Optional EOL marker before endstream" was fixed.
+	- Some additional controls were added to avoid "division by zero" error with badly formatted input.
+
+6.0.030 (2013-09-17)
+	- Bug #835 "PDF417 and Cyrilic simbols" was fixed.
+
+6.0.029 (2013-09-15)
+	- Constants K_TCPDF_PARSER_THROW_EXCEPTION_ERROR and K_TCPDF_PARSER_IGNORE_DECODING_ERRORS where removed in favor of a new configuration array in the TCPDF_PARSER class.
+	- The TCPDF_PARSER class can now be configured using the new $cfg parameter.
+
+6.0.028 (2013-09-15)
+	- A debug print_r was removed form tcpdf_parser.php.
+	- TCPDF_FILTERS class now throws an exception in case of error.
+	- TCPDF_PARSER class now throws an exception in case of error unless you define the constant K_TCPDF_PARSER_THROW_EXCEPTION_ERROR to false.
+	- The constant K_TCPDF_PARSER_IGNORE_DECODING_ERRORS can be set to tru eto ignore decoding errors on TCPDF_PARSER.
+
+6.0.027 (2013-09-14)
+	- A bug in tcpdf_parser wen parsing hexadecimal strings was fixed.
+	- A bug in tcpdf_parser wen looking for statxref was fixed.
+	- A bug on RC4 encryption was fixed.
+
+6.0.026 (2013-09-14)
+	- A bug in tcpdf_parser wen decoding streams was fixed.
+
+6.0.025 (2013-09-04)
+	- A pregSplit() bug was fixed.
+	- Improved content loading from URLs.
+	- Improved font path loading.
+
+6.0.024 (2013-09-02)
+	- Bug #826 "addEmptySignatureAppearance issue" was fixed.
+
+6.0.023 (2013-08-05)
+	- GNU Freefont fonts were updated.
+	- Licensing and copyright information about fonts were improved.
+	- PNG image support was improved.
+
+6.0.022 (2013-08-02)
+	- fixing initialization problem for signature_appearance property.
+
+6.0.021 (2013-07-18)
+	- The bug caused by the preg_split function on some PHP 5.2.x versions was fixed.
+
+6.0.020 (2013-06-04)
+	- The method addTTFfont() was fixed (Bug item #813 Undefined offset).
+
+6.0.019 (2013-06-04)
+	- The magic constant __DIR__ was replaced with dirname(__FILE__) for php 5.2 compatibility.
+	- The exceptions raised by file_exists() function were suppressed.
+
+6.0.018 (2013-05-19)
+	- The barcode examples were changed to automatically search for the barcode class path (in case the examples directory is not installed under the TCPDF root).
+
+6.0.017 (2013-05-16)
+	- The command line tool tcpdf_addfont.php was improved.
+	- The php logic was removed from configuration files that now contains only constant defines.
+	- The tcpdf_autoconfig.php file was added to automatically set missing configuration values.
+
+6.0.016 (2013-05-15)
+	- The tcpdf_addfont.php tool was improved (thanks to Remi Collet).
+	- Constant K_PATH_IMAGES is now automatically set in configuration file.
+
+6.0.015 (2013-05-14)
+	- Some unused vars were removed from AddFont() method.
+	- Some directories were moved inside the examples directory.
+	- All examples were updated to reflect the new default structure.
+	- Source code were clean-up up to be more compatible with system packaging.
+	- Files encodings and permissions were reset.
+	- The command line tool tcpdf_addfont.php was added on the tools directory.
+
+6.0.014 (2013-04-13)
+	- The signature of addTTFfont() method includes a new parameter to link existing fonts instead of copying and compressing them.
+
+6.0.013 (2013-04-10)
+	- Add support for SVG dx and dy text/tspan attributes.
+	- replace require() with require_once().
+	- fix some minor typos on documentation.
+	- fix a problem when deleting all pages.
+
+6.0.012 (2013-04-24)
+	- An error condition in addHtmlLink() method was fixed (bug #799).
+
+6.0.011 (2013-04-22)
+	- Minor documentation changes.
+
+6.0.010 (2013-04-03)
+	- The method Rect() was fixed to print borders correctly.
+
+6.0.009 (2013-04-02)
+	- Adding back some files that were not properly committed on the latest release.
+
+6.0.008 (2013-04-01)
+	- Duplicated encoding maps was removed from tcpdf_font_data.php.
+	- Fixing bug on AddTTFFont().
+
+6.0.007 (2013-03-29)
+	- HTML/CSS font size conversion were improved.
+
+6.0.006 (2013-03-27)
+	- Bug related to SVG and EPS files on xobjects were fixed.
+
+6.0.005 (2013-03-26)
+	- Default font path was fixed.
+
+6.0.004 (2013-03-21)
+	- Return value of addTTFfont() method was fixed.
+
+6.0.003 (2013-03-20)
+	- A bug related to non-unicode mode was fixed.
+
+6.0.002 (2013-03-18)
+	- _getFIXED call on tcpdf_fonts.php was fixed.
+
+6.0.001 (2013-03-18)
+	- Fixed $uni_type call on tcpdf.php.
+
+6.0.000 (2013-03-17)
+	- IMPORTANT: PHP4 support has been removed starting from this version.
+	- Several TCPDF methods and vars were moved to new class files: tcpdf_static.php, tcpdf_colors.php, tcpdf_images.php, tcpdf_font_data.php, tcpdf_fonts.php.
+	- Files htmlcolors.php, spotcolors.php, unicode_data.php and ecodings_maps.php were removed.
+	- Barcode classes were renamed and new barcode examples were added.
+	- Class TCPDF_PARSER was improved.
+
+********************************************************************************
+
+5.9.209 (2013-03-15)
+	- Image method was improved.
+
+5.9.208 (2013-03-15)
+	- objclone fuction was patched to support old imagick extensions.
+	- tcpdf_parser was improved to support Cross-Reference Streams and large streams.
+
+5.9.207 (2013-03-04)
+	- Datamatrix class was fixed (a debug echo was removed).
+
+5.9.206 (2013-02-22)
+	- Bug item #754 "PNG with alpha channel becomes gray scale" was fixed.
+	- Minor documentation fixes.
+
+5.9.205 (2013-02-06)
+	- The constant K_TCPDF_THROW_EXCEPTION_ERROR was added on configuration file to change the behavior of Error() method.
+	- PDF417 barcode bug was fixed.
+
+5.9.204 (2013-01-23)
+	- The method Bookmark() was extended to include named destinations, URLs, internal links or embedded files (see example n. 15).
+	- automatic path calculation on configuration file was fixed.
+	- Error() method was extended to throw new Exception if PHP > 5.
+
+5.9.203 (2013-01-22)
+	- Horizontal position of radiobuttons and checkboxes was adjusted.
+
+5.9.202 (2012-12-16)
+	- Vertical space problem after table was fixed.
+
+5.9.201 (2012-12-10)
+	- First 256 chars are now always included on font subset to overcome a problem reported on the forum.
+
+5.9.200 (2012-12-05)
+	- Bug item #768 "Rowspan with Pagebreak error" was fixed.
+	- Page regions now works also with limited MultiCell() cells.
+
+5.9.199 (2012-11-29)
+	- Internal setImageBuffer() method was improved.
+
+5.9.198 (2012-11-19)
+	- Datamatrix EDIFACT mode was fixed.
+
+5.9.197 (2012-11-06)
+	- Bug item #756 "TCPDF 5.9.196 shows line on top of all PDFs" was fixed.
+
+5.9.196 (2012-11-02)
+	- Several methods were improved to avoid output when the context is out of page.
+	- Bug item #755 "remove cached files before unsetting" was fixed.
+
+5.9.195 (2012-10-24)
+	- Method _putfonts() was improved.
+
+5.9.194 (2012-10-23)
+	- Text alignment on TextField() method was fixed.
+
+5.9.193 (2012-09-25)
+	- Support for named destinations on HTML links was added  (i.e.: <a href="#destinationname">link to named destination</a>).
+
+5.9.192 (2012-09-24)
+	- A problem on the releasing process was fixed.
+
+5.9.191 (2012-09-24)
+	- SVG image naow support svg and eps images.
+
+5.9.190 (2012-09-23)
+	- "page" word translation is now set to empty if not defined.
+	- Tooltip feature was added on the radiobutton annotation.
+
+5.9.189 (2012-09-18)
+	- Bug item #3568969 "ini_get safe_mode error" was fixed.
+
+5.9.188 (2012-09-15)
+	- A datamatrix barcode bug was fixed.
+
+5.9.187 (2012-09-14)
+	- Subset feature was extended to include the first 256 characters.
+
+5.9.186 (2012-09-13)
+	- barcodes.php file was resynced.
+	- Methods SetAbsX, SetAbsY, SetAbsXY where added to set the absolute pointer coordinates.
+	- Method getCharBBox were added to get single character bounding box.
+	- Signature of addTTFfont method was changed ($addcbbox paramter was added).
+
+5.9.185 (2012-09-12)
+	- Method _putfontwidths() was fixed.
+
+5.9.184 (2012-09-11)
+	- A problem with EAN barcodes was fixed.
+
+5.9.183 (2012-09-07)
+	- A problem with font names normalization was fixed.
+
+5.9.182 (2012-09-05)
+	- Bug item #3564982 "Infinite loop in Write() method" was fixed.
+
+5.9.181 (2012-08-31)
+	- composer.json file was added.
+	- Bug item #3563369 "Cached images are not unlinked some time" was fixed.
+
+5.9.180 (2012-08-22)
+	- Bug item #3560493 "Problems with nested cells in HTML" was fixed.
+
+5.9.179 (2012-08-04)
+	- SVG 'use' tag was fixed for 'circle' and 'ellipse' shift problem.
+	- Alpha status is now correctly stored and restored by getGraphicVars() and SetGraphicVars() methods.
+
+5.9.178 (2012-08-02)
+	- SVG 'use' tag was fixed for 'circle' and 'ellipse'.
+
+5.9.177 (2012-08-02)
+	- An additional control on annotations was fixed.
+
+5.9.176 (2012-07-25)
+	- A bug related to stroke width was fixed.
+	- A problem related to font spacing in HTML was fixed.
+
+5.9.175 (2012-07-25)
+	- The problem of missing letter on hyphen break was fixed.
+
+5.9.174 (2012-07-25)
+	- The problem of wrong filename when downloading PDF from an Android device was fixed.
+	- The method setHeaderData() was extended to set text and line color for header (see example n. 1).
+	- The method setFooterData() was added to set text and line color for footer (see example n. 1).
+	- The methods setTextShadow() and getTextShadow() were added to set text shadows (see example n. 1).
+	- The GetCharWidth() method was fixed for negative character spacing.
+	- A 'none' border mode is now correctly recognized.
+	- Break on hyphen problem was fixed.
+
+5.9.173 (2012-07-23)
+	- Some additional control wher added on barcode methods.
+	- The option CURLOPT_FOLLOWLOCATION on Image method is now disabled if PHP safe_mode is on or open_basedir is set.
+	- Method Bookmark() was extended to include X parameter.
+	- Method setDestination() was extended to include X parameter.
+	- A problem with Thai language was fixed.
+
+5.9.172 (2012-07-02)
+	- A PNG color profile issue was fixed.
+
+5.9.171 (2012-07-01)
+	- Some SVG rendering problems were fixed.
+
+5.9.170 (2012-06-27)
+	- Bug #3538227 "Numerous errors inserting shared images" was fixed.
+
+5.9.169 (2012-06-25)
+	- Some SVG rendering problems were fixed.
+
+5.9.168 (2012-06-22)
+	- Thai language rendering was fixed.
+
+5.9.167 (2012-06-22)
+	- Thai language rendering was fixed and improved.
+	- Method isCharDefined() was improved.
+	- Protected method replaceChar() was added.
+	- Font "kerning" word was corrected to "tracking".
+
+5.9.166 (2012-06-21)
+	- Array to string conversion on file_id creation was fixed.
+	- Thai language rendering was fixed (thanks to Atsawin Chaowanakritsanakul).
+
+5.9.165 (2012-06-07)
+	- Some HTML form related bugs were fixed.
+
+5.9.164 (2012-06-06)
+	- A bug introduced on the latest release was fixed.
+
+5.9.163 (2012-06-05)
+	- Method getGDgamma() was changed.
+	- Rendering performances of PNG images with alpha channel were improved.
+
+5.9.162 (2012-05-11)
+	- A bug related to long text on TD cells was fixed.
+
+5.9.161 (2012-05-09)
+	- A bug on XREF table was fixed (Bug ID: 3525051).
+	- Deprecated Imagick:clone was replaced.
+	- Method objclone() was fixed for PHP4.
+
+5.9.160 (2012-05-03)
+	- A bug on tcpdf_parser.php was fixed.
+
+5.9.159 (2012-04-30)
+	- Barcode classes were updated to fix PNG export Bug (ID: 3522291).
+
+5.9.158 (2012-04-22)
+	- Some SVG-related bugs were fixed.
+
+5.9.157 (2012-04-16)
+	- Some SVG-related bugs were fixed.
+
+5.9.156 (2012-04-10)
+	- Bug item #3515885 "TOC and booklet: left and right page exchanged".
+	- SetAutoPageBreak(false) now works also in multicolumn mode.
+
+5.9.155 (2012-04-02)
+	- Bug item #3512596 "font import problems" was fixed.
+	- Method addTTFfont() was modified to extract only specified Platform ID and Encoding ID (check the source code documentation).
+	- All fonts were updated.
+	- Bug item #3513867 "booklet and setHeaderTemplateAutoreset: header shifted left" was fixed.
+	- Bug item #3513749 "TCPDF Superscript/Subscript" was fixed.
+
+5.9.154 (2012-03-29)
+	- A debug echo was removed.
+
+5.9.153 (2012-03-28)
+	- A bug on font conversion was fixed.
+	- All fonts were updated.
+	- Method isCharDefined() was added to find if a character is defined on the selected font.
+	- Method replaceMissingChars() was added to automatically replace missing chars on selected font.
+	- SetFont() method was fixed.
+
+5.9.152 (2012-03-23)
+	- The following overprint methods were added: setOverprint(), getOverprint().
+	- Signature of setAlpha() method was changed and method getAlpha() was added.
+	- stroke-opacity support was added on SVG.
+	- The following date methods were added: setDocCreationTimestamp(), setDocModificationTimestamp(), getDocCreationTimestamp(), getDocModificationTimestamp(), getFormattedDate(), getTimestamp().
+	- Signature of _datestring() method was changed.
+	- Method getFontBBox() was added.
+	- Method setPageBoxTypes() was aded.
+
+5.9.151 (2012-03-22)
+	- Bug item #3509889 "Transform() distorts PDF" was fixed.
+	- Precision of real number were extended.
+	- ComboBox and ListBox methods were fixed.
+	- Bulgarian language file was added.
+	- addTOC() method was improved to include bookmark color and font style.
+
+5.9.150 (2012-03-16)
+	- A bug related to form fields in PDF/A mode was fixed.
+
+5.9.149 (2012-02-21)
+	- Bug item #3489933 "SVG Parser treats tspan like text" was fixed.
+
+5.9.148 (2012-02-17)
+	- Bug item #3488600 "Multiple radiobutton sets get first set value" was fixed.
+
+5.9.147 (2012-02-14)
+	- A problem with SVG gradients has been fixed.
+
+5.9.146 (2012-02-12)
+	- Bug item #3486880 "$filehash undefine error" was fixed.
+	- The default font is now the one specified at PDF_FONT_NAME_MAIN constant.
+
+5.9.145 (2012-01-28)
+	- Japanese language file was added.
+	- TCPDF license and README.TXT files were updated.
+
+5.9.144 (2012-01-12)
+	- HTML output on barcode classes was improved.
+
+5.9.143 (2012-01-08)
+	- Bug item #3471057 "setCreator() has no effect" was fixed.
+
+5.9.142 (2011-12-23)
+	- Source code documentation was updated.
+
+5.9.141 (2011-12-14)
+	- Some minor bugs were fixed.
+
+5.9.140 (2011-12-13)
+	- SVG now supports embedded images encoded as base64.
+
+5.9.139 (2011-12-11)
+	- Spot color methods were fixed.
+
+5.9.138 (2011-12-10)
+	- cropMark() method was improved (check source code documentation).
+	- Example n. 56 was updated.
+	- Bug item #3452390 "Check Box still not ticked when set to true" was fixed.
+
+5.9.137 (2011-12-01)
+	- Bug item #3447005 "Background color and border of Form Elements is printed" was fixed.
+	- Color support for Form elements was improved.
+
+5.9.136 (2011-11-27)
+	- Bug item #3443387 "SetMargins with keep option does not work for top margin" was fixed.
+
+5.9.135 (2011-11-04)
+	- Bug item #3433406 "Double keywords in description" was fixed.
+
+5.9.134 (2011-10-29)
+	- The default value for $defcol parameter on convertHTMLColorToDec() method was fixed.
+	- Deafult HTTP headers were changed to avoid browser caching.
+	- Some deprecated syntax were replaced.
+
+5.9.133 (2011-10-26)
+	- Bug item #3428446 "copyPage method not working when diskcache enabled" was fixed.
+
+5.9.132 (2011-10-20)
+	- Bug item #3426167 "bug in function convertHTMLColorToDec()" was fixed.
+
+5.9.131 (2011-10-13)
+	- An error message was added to ImagePngAlpha() method.
+
+5.9.130 (2011-10-12)
+	- Now you can set image data strings on HTML img tag by encoding the image binary data in this way: $imgsrc = '@'.base64_encode($imgdata);
+
+5.9.129 (2011-10-07)
+	- Core fonts metrics was fixed (replace all helvetica and times php files on fonts folder).
+	- Form fields support was improved and some problems were fixed (check the example n. 14).
+	- Bug item #3420249 "Issue with booklet and MultiCell" was fixed.
+
+5.9.128 (2011-10-06)
+	- Method addTTFfont() was improved (check the source code documentation).
+	- Method setExtraXMP() to set custom XMP data was added.
+
+5.9.127 (2011-10-04)
+	- Readonly mode option was activated for radiobuttons.
+
+5.9.126 (2011-10-03)
+	- Bug item #3417989 "Graphics State operator in form XObject fails to render" was fixed.
+	- Xobjects problems with transparency, gradients and spot colors were fixed.
+
+5.9.125 (2011-10-03)
+	- Support for 8-digit CMYK hexadecimal color representation was added (to be used with XHTML and SVG).
+	- Spot colors support was improved (check example n. 37).
+	- Color methods were improved.
+
+5.9.124 (2011-10-02)
+	- Core fonts were updated.
+
+5.9.123 (2011-10-02)
+	- The method addTTFfont() wad added to automatically convert TTF fonts (check the new fonts guide at http://www.tcpdf.org).
+	- Old font utils were removed.
+	- All fonts were updated and new arabic fonts were added (almohanad were removed and replaced by aefurat and aealarabiya).
+	- The file unicode_data.php was updated.
+	- The file encodings_maps.php was added.
+	- PDF/A files are now compressed to save space.
+	- XHTML input form fields now support text-alignment attribute.
+
+5.9.122 (2011-09-29)
+	- PDF/A-1b compliance was improved to pass some online testing.
+
+5.9.121 (2011-09-28)
+	- This version includes support for PDF/A-1b format (the class constructor signature was changed - see example n. 65).
+	- Method setSRGBmode() was added to force sRGB_IEC61966-2.1 black scaled ICC color profile for the whole document (file sRGB.icc was added).
+	- 14 new fonts were added to allow embedding core fonts (for PDF/A compliance).
+	- Font utils were fixed.
+
+5.9.120 (2011-09-22)
+	- This version includes a fix for _getTrueTypeFontSubset() method.
+
+5.9.119 (2011-09-19)
+	- This version includes a fix for extra page numbering on TOC.
+
+5.9.118 (2011-09-17)
+	- This version includes some changes that allows you to add a bookmark for a page that do not exist.
+
+5.9.117 (2011-09-15)
+	- TCPDFBarcode and TCPDF2DBarcode classes were extended to include a method for exporting barcodes as PNG images.
+
+5.9.116 (2011-09-14)
+	- Datamatrix class was improved and documentation was fixed.
+
+5.9.115 (2011-09-13)
+	- Datamatrix ECC200 barcode support was added (a new datamatrix.php file was added) - check example n. 50.
+	- getBarcodeHTML() method was added on TCPDFBarcode and TCPDF2DBarcode classes to return an HTML representation of the barcode.
+	- cURL options on Image() method were improved.
+	- A bug on write2DBarcode() was fixed.
+
+5.9.114 (2011-09-04)
+	- A bug related to column position was fixed.
+
+5.9.113 (2011-08-24)
+	- This release include two new experimental files for parsing an existing PDF document (the integration with TCPDF is under development).
+
+5.9.112 (2011-08-18)
+	- A newline character was added after the 'trailer' keyword for compatibility with some parsers.
+	- Support for layers was improved.
+
+5.9.111 (2011-08-17)
+	- Barcode CODE 39 default gap was restored at 1.
+
+5.9.110 (2011-08-17)
+	- Barcode CODE 39 was fixed.
+
+5.9.109 (2011-08-12)
+	- Method getNumLines() was fixed.
+	- A bug related to page break in multi-column mode was fixed.
+
+5.9.108 (2011-08-09)
+	- A bug on PHP4 version was fixed.
+
+5.9.107 (2011-08-08)
+	- This version includes a minor bugfix.
+
+5.9.106 (2011-08-04)
+	- This version includes transparency groups: check the new parameter on startTemplate() method and example 62.
+
+5.9.105 (2011-08-04)
+	- Bug item #3386153 "Check Box not ticked when set to true" was fixed.
+
+5.9.104 (2011-08-01)
+	- Bug item #3383698 "imagemagick, resize and dpi" was fixed.
+
+5.9.103 (2011-07-16)
+	- Alignment of XHTML lines was improved.
+	- Spell of the "length" word was fixed.
+
+5.9.102 (2011-07-13)
+	- Methods startLayer() and endLayer() were added to support arbitrary PDF layers.
+	- Some improvements/fixes for images were added (thanks to Brendan Abbott).
+
+5.9.101 (2011-07-07)
+	- Support for JPEG and PNG ICC Color Profiles was added.
+	- Method addEmptySignatureAppearance() was added to add empty signature fields (see example n. 52).
+	- Bug item #3354332 "Strange line spacing with reduced font-size in writeHTML" was fixed.
+
+5.9.100 (2011-06-29)
+	- An SVG bug has been fixed.
+
+5.9.099 (2011-06-27)
+	- Bug item #3335045 "Font freesans seems somehow corrupted in footer" was fixed.
+
+5.9.098 (2011-06-23)
+	- The Named Destination feature was fixed.
+
+5.9.097 (2011-06-23)
+	- The method setHtmlVSpace() now can be used also for tags: div, li, br, dt and dd.
+	- The Named Destination feature was added (check the example n. 15) - thanks to Christian Deligant.
+
+5.9.096 (2011-06-19)
+	- Bug item #3322234 "Surrogate pairs codes in arrUTF8ToUTF16BE" was fixed.
+
+5.9.095 (2011-06-18)
+	- Numbers alignment for Table-Of-Content methods was improved and fixed.
+	- Font subsetting was fixed to include all parts of composite fonts.
+
+5.9.094 (2011-06-17)
+	- Bug item #3317898 "Page Group numbering broken in 5.9.093" was fixed.
+
+5.9.093 (2011-06-16)
+	- Method setStartingPageNumber() was added to set starting page number (for automatic page numbering).
+
+5.9.092 (2011-06-15)
+	- Method _putpages() was improved.
+	- Bug item #3316678 "Memory overflow when use Rotate and SetAutoPageBreak" was fixed.
+	- Right alignment of page numbers was improved.
+
+5.9.090 (2011-06-14)
+	- Methods AliasNbPages() and AliasNumPage() were re-added as deprecated for backward compatibility.
+
+5.9.089 (2011-06-13)
+	- Example n. 8 was updated.
+	- Method sendOutputData() was changed to remove default compression (it was incompatible with some server settings).
+	- Bugs related to page group numbers were fixed.
+	- Method copyPage() was fixed.
+	- Method Image() was improved to include support for alternative and external images.
+
+5.9.088 (2011-06-01)
+	- Method getAutoPageBreak() was added (see example n. 51).
+	- Example n. 51 (full page background) was updated.
+
+5.9.087 (2011-06-01)
+	- Method sendOutputData() was improved to include deflate encoding.
+	- Barcode classes on PHP 4 version were fixed.
+
+5.9.086 (2011-05-31)
+	- Font files were updated (the ones on the previous release were broken).
+	- The script fonts/utils/makeallttffonts.php was updated and fixed.
+	- Output() method was improved to use compression when available.
+
+5.9.085 (2011-05-31)
+	- TCPDFBarcode class (barcodes.php) now includes getBarcodeSVG() and getBarcodeSVGcode() methods to get SVG image representation of the barcode.
+	- TCPDF2DBarcode class (2dbarcodes.php) now includes getBarcodeSVG() and getBarcodeSVGcode() methods to get SVG image representation of the barcode.
+
+5.9.084 (2011-05-29)
+	- Font files were updated.
+	- The file fonts/utils/makeallttffonts.php was updated.
+	- Bug item# 3308774 "Problems with font subsetting" was fixed.
+
+5.9.083 (2011-05-24)
+	- Bug item #3308387 "line height & SetCellHeightRatio" was fixed.
+
+5.9.082 (2011-05-22)
+	- Bug item #3305592 "Setting fill color <> text color breaks text clipping" was fixed.
+
+5.9.081 (2011-05-18)
+	- Method resetHeaderTemplate() was added to reset the xobject template used by Header() method.
+	- Method setHeaderTemplateAutoreset() was added to automatically reset the xobject template used by Header() method at each page.
+
+5.9.080 (2011-05-17)
+	- A problem related to file path calculation for images was fixed.
+	- A problem related to unsupressed getimagesize() error was fixed.
+
+5.9.079 (2011-05-16)
+	- Footer() method was changed to use C128 barcode as default (instead of the previous C128B).
+
+5.9.078 (2011-05-12)
+	- Bug item #3300878 "wrong rendering for html bullet list in some case" was fixed.
+	- Bug item #3301017 "Emphasized vs. font-weight" was fixed.
+	- Barcode Code 128 was improved to include AUTO mode (automatically switch between A, B and C modes).
+	- Examples n. 27 and 49 were updated.
+
+5.9.077 (2011-05-07)
+	- Bug item #3298591 "error code93" was fixed.
+	- SetLineStyle() function was improved.
+
+5.9.076 (2011-05-06)
+	- Bug item #3298264 "codebar 93 error" was fixed.
+
+5.9.075 (2011-05-02)
+	- Table header alignment when using WriteHTMLCell() or MultiCell() was fixed.
+
+5.9.074 (2011-04-28)
+	- Bug item #3294306 "CSS classes not work in <thead> table section" was fixed.
+
+5.9.073 (2011-04-27)
+	- A bug related to character entities on HTML cells was fixed.
+
+5.9.072 (2011-04-26)
+	- Method resetColumns() was added to remove multiple columns and reset page margins (example n. 10 was updated).
+
+5.9.071 (2011-04-19)
+	- Bug #3288574 "<br/> trouble" was fixed.
+
+5.9.069 (2011-04-19)
+	- Bug #3288763 "HTML-Table: non-breaking table rows: Bug" was fixed.
+
+5.9.068 (2011-04-15)
+	- Bookmark, addTOC and addHTMLTOC methods were improved to include font style and color (Examples 15, 49 and 59 were updated).
+	- Default $_SERVER['DOCUMENT_ROOT'] value on tcpdf_config.php file was changed.
+
+5.9.067 (2011-04-10)
+	- Performances were drastically improved (PDF documents are now created more quickly).
+
+5.9.066 (2011-04-09)
+	- A bug related to digital signature + encryption was fixed.
+	- A bug related to encryption + xobject templates was fixed.
+
+5.9.065 (2011-04-08)
+	- Bug item #3280512 "Text encoding iso-8859-2 crashes" was fixed.
+
+5.9.064 (2011-04-05)
+	- A bug related to character entities on HTML cells was fixed.
+
+5.9.063 (2011-04-01)
+	- Bug item #3267235 "WriteHTML() and image that doesn't fit on the page" was fixed.
+
 5.9.062 (2011-03-23)
 	- Bug item #3232650 "Using Write if there are pageRegions active creates error" was fixed.
 	- Bug item #3221891 "text input borders" was fixed.
@@ -218,7 +932,7 @@
 	- The problem of blank page for nobr table higher than a single page was fixed.
 
 5.9.000 (2010-10-06)
-	- Support for text stretching and spacing (kerning) was added, see example n. 63 and methods setFontStretching(), getFontStretching(), setFontSpacing(), getFontSpacing().
+	- Support for text stretching and spacing (tracking) was added, see example n. 63 and methods setFontStretching(), getFontStretching(), setFontSpacing(), getFontSpacing().
 	- Support for CSS properties 'font-stretch' and 'letter-spacing' was added (see example n. 63).
 	- The cMargin state was replaced by cell_padding array that can be set/get using setCellPadding() and getCellPadding() methods.
 	- Methods getCellPaddings() and setCellPaddings() were added to fine tune cell paddings (see example n. 5).
