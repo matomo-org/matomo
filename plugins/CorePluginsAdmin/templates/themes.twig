@@ -21,7 +21,7 @@
     {% endif %}
     </p>
 
-    {{ plugins.pluginsFilter() }}
+    {{ plugins.pluginsFilter(true, isMarketplaceEnabled) }}
 
     {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true) }}
 

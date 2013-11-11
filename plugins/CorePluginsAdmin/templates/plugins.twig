@@ -17,7 +17,7 @@
 
     <p>{{ 'CorePluginsAdmin_MainDescription'|translate }}</p>
 
-    {{ plugins.pluginsFilter() }}
+    {{ plugins.pluginsFilter(false, isMarketplaceEnabled) }}
 
     {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, false) }}
 

@@ -206,6 +206,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->themeEnabled = \Piwik\Plugin\Manager::getInstance()->getThemeEnabled()->getPluginName();
 
         $view->pluginNamesHavingSettings = $this->getPluginNamesHavingSettingsForCurrentUser();
+        $view->isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
 
         if (CorePluginsAdmin::isMarketplaceEnabled()) {
             $marketplace = new Marketplace();
