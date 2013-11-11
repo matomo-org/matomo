@@ -51,7 +51,7 @@ abstract class Archiver
     /**
      * @var \Piwik\ArchiveProcessor
      */
-    protected $processor;
+    private $processor;
 
     /**
      * Constructor.
@@ -66,18 +66,34 @@ abstract class Archiver
     }
 
     /**
-     * Triggered when the archiving process is initiated for a day period.
-     *
-     * Plugins that compute analytics data should create an Archiver class that descends from [Plugin\Archiver](#).
+     * Archives data for a day period.
+     * 
+     * Implementations of this method should do more computation intensive activities such
+     * as aggregating data across log tables. Since this method only deals w/ data logged for a day,
+     * aggregating individual log table rows isn't a problem. Doing this for any larger period,
+     * however, would cause performance issues.
+     * 
+     * Aggregate log table rows using a [LogAggregator](#) instance. Get a [LogAggregator](#) instance
+     * using the [getLogAggregator](#getLogAggregator) method.
      */
     abstract public function aggregateDayReport();
 
     /**
-     * Archive data for a non-day period.
+     * Archives data for a non-day period.
+     * 
+     * Implementations of this method should only aggregate existing reports of subperiods of the
+     * current period. For example, it is more efficient to aggregate reports for each day of a
+     * week than to aggregate each log entry of the week.
+     * 
+     * Use [ArchiveProcessor::aggregateNumericMetrics](#) and [ArchiveProcessor::aggregateDataTableRecords](#)
+     * to aggregate archived reports. Get the [ArchiveProcessor](#) instance using the [getProcessor](#getProcessor).
      */
     abstract public function aggregateMultipleReports();
 
     /**
+     * Returns an [ArchiveProcessor](#) instance that can be used to insert archive data for
+     * this period, segment and site.
+     * 
      * @return \Piwik\ArchiveProcessor
      */
     protected function getProcessor()
@@ -86,6 +102,9 @@ abstract class Archiver
     }
 
     /**
+     * Returns a [LogAggregator](#) instance that can be used to aggregate log table rows
+     * for this period, segment and site.
+     * 
      * @return \Piwik\DataAccess\LogAggregator
      */
     protected function getLogAggregator()
