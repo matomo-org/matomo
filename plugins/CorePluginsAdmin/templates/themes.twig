@@ -21,6 +21,8 @@
     {% endif %}
     </p>
 
+    {{ plugins.pluginsFilter() }}
+
     {{ plugins.tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, true) }}
 
 </div>

@@ -7,43 +7,41 @@
 
 $(document).ready(function () {
 
-    var filterType   = 'all';
-    var filterStatus = 'all';
-
     function filterPlugins()
     {
-        var queryEnable = '#plugins tr';
+        var filterStatus = $('.pluginsFilter .status a.active').data('filter-status');
+        var filterOrigin = $('.pluginsFilter .origin a.active').data('filter-origin');
 
-        if ('all' == filterType) {
-            queryEnable  += '[data-filter-type]';
+        var query = '#plugins tr';
+
+        if ('all' == filterOrigin) {
+            query  += '[data-filter-origin]';
         } else {
-            queryEnable  += '[data-filter-type=' + filterType + ']';
+            query  += '[data-filter-origin=' + filterOrigin + ']';
         }
 
         if ('all' == filterStatus) {
-            queryEnable  += '[data-filter-status]';
+            query  += '[data-filter-status]';
         } else {
-            queryEnable  += '[data-filter-status=' + filterStatus + ']';
+            query  += '[data-filter-status=' + filterStatus + ']';
         }
 
         $('#plugins tr').css('display', 'none');
-        $(queryEnable).css('display', 'table-row');
+        $(query).css('display', 'table-row');
     }
 
     $('.pluginsFilter .status').on('click', 'a', function (event) {
         event.preventDefault();
 
-        filterStatus = $(this).data('filter-status');
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
 
         filterPlugins();
     });
 
-    $('.pluginsFilter .type').on('click', 'a', function (event) {
+    $('.pluginsFilter .origin').on('click', 'a', function (event) {
         event.preventDefault();
 
-        filterType = $(this).data('filter-type');
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
 
