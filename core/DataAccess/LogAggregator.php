@@ -439,7 +439,7 @@ class LogAggregator
 						" . self::getSqlRevenue('SUM(quantity)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY . "`,
 						" . self::getSqlRevenue('SUM(price)') . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE . "`,
 						count(distinct idorder) as `" . Metrics::INDEX_ECOMMERCE_ORDERS . "`,
-						count(idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
+						count(distinct idvisit) as `" . Metrics::INDEX_NB_VISITS . "`,
 						case idorder when '0' then " . GoalManager::IDGOAL_CART . " else " . GoalManager::IDGOAL_ORDER . " end as ecommerceType
 			 	FROM " . Common::prefixTable('log_conversion_item') . "
 			 		LEFT JOIN " . Common::prefixTable('log_action') . "
