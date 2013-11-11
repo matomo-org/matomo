@@ -448,7 +448,8 @@ class Manager extends Singleton
 
         return (!empty($pluginsBundledWithPiwik)
                     && in_array($name, $pluginsBundledWithPiwik))
-                || in_array($name, $this->getCorePluginsDisabledByDefault());
+                || in_array($name, $this->getCorePluginsDisabledByDefault())
+                || $name == self::DEFAULT_THEME;
     }
 
     protected function isPluginThirdPartyAndBogus($pluginName)
