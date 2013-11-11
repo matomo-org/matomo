@@ -15,8 +15,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->globalConfig = _parse_ini_file(PIWIK_PATH_TEST_TO_ROOT . '/config/global.ini.php', true);
         parent::setUp();
     }
-
-
     /**
      * @group Core
      */
@@ -164,6 +162,45 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
     }
+
+
+    /**
+     * Check that directories in plugins/ folder are specifically either enabled or disabled.
+     *
+     * This fails when a new folder is added to plugins/* and forgot to enable or mark as disabled in Manager.php.
+     */
+    public function test_DirectoriesInPluginsFolder_areKnown()
+    {
+        $pluginsBundledWithPiwik = \Piwik\Config::getInstance()->getFromDefaultConfig('Plugins');
+        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
+        $magicPlugins = 42;
+        $this->assertTrue(count($pluginsBundledWithPiwik) > $magicPlugins);
+
+        $plugins = _glob(\Piwik\Plugin\Manager::getPluginsDirectory() . '*', GLOB_ONLYDIR);
+        $count = 1;
+        foreach($plugins as $pluginPath) {
+            $pluginName = basename($pluginPath);
+
+            $gitOutput = shell_exec('git ls-files ' . $pluginPath . ' --error-unmatch 2>&1');
+            $addedToGit = (strlen($gitOutput) > 0) && strpos($gitOutput, 'error: pathspec') === false;
+
+            if(!$addedToGit) {
+                // if not added to git, then it is not part of the release checklist.
+                continue;
+            }
+            $disabled = in_array($pluginName, \Piwik\Plugin\Manager::getInstance()->getCorePluginsDisabledByDefault());
+
+            $isGitSubmodule = false !== strpos( file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules'), "plugins/" . $pluginName);
+            $enabled = in_array($pluginName, $pluginsBundledWithPiwik) || $isGitSubmodule || $pluginName == 'Zeitgeist';
+
+            $this->assertTrue( $enabled + $disabled === 1,
+                "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager)."
+            );
+            $count++;
+        }
+        $this->assertTrue($count > $magicPlugins);
+    }
+
 
     /**
      * @group Core

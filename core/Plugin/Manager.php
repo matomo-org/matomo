@@ -70,7 +70,9 @@ class Manager extends Singleton
         'ExampleSettingsPlugin',
         'ExampleUI',
         'ExampleVisualization',
-        'ExamplePluginTemplate'
+        'ExamplePluginTemplate',
+        'ExampleTheme',
+        'LeftMenu',
     );
 
     public function getCorePluginsDisabledByDefault()
