@@ -66,7 +66,7 @@ class VisitorLog extends Visualization
                 'class'   => 'tableAllColumnsSwitch',
                 'buttons' => array(
                     array(
-                        'id'    => '\Piwik\Plugins\Live\VisitorLog',
+                        'id'    => static::ID,
                         'title' => Piwik::translate('Live_LinkVisitorLog'),
                         'icon'  => 'plugins/Zeitgeist/images/table.png'
                     )
