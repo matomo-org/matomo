@@ -188,10 +188,11 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 // if not added to git, then it is not part of the release checklist.
                 continue;
             }
-            $disabled = in_array($pluginName, \Piwik\Plugin\Manager::getInstance()->getCorePluginsDisabledByDefault());
+            $manager = \Piwik\Plugin\Manager::getInstance();
+            $disabled = in_array($pluginName, $manager->getCorePluginsDisabledByDefault());
 
             $isGitSubmodule = false !== strpos( file_get_contents(PIWIK_INCLUDE_PATH . '/.gitmodules'), "plugins/" . $pluginName);
-            $enabled = in_array($pluginName, $pluginsBundledWithPiwik) || $isGitSubmodule || $pluginName == 'Zeitgeist';
+            $enabled = in_array($pluginName, $pluginsBundledWithPiwik) || $isGitSubmodule || $pluginName == $manager::DEFAULT_THEME;
 
             $this->assertTrue( $enabled + $disabled === 1,
                 "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager)."

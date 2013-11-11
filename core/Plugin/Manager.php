@@ -609,7 +609,7 @@ class Manager extends Singleton
 
     /**
      * Returns the name of all plugins found in this Piwik instance
-     * (including those not enabled)
+     * (including those not enabled and themes)
      *
      * Used in tests
      *
