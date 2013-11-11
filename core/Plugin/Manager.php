@@ -67,7 +67,6 @@ class Manager extends Singleton
         'DBStats',
         'DevicesDetection',
 //        'Events',
-        'TreemapVisualization', // should be moved to marketplace
     );
 
     public function getCorePluginsDisabledByDefault()
