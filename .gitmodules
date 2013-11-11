@@ -17,3 +17,4 @@
 [submodule "plugins/PleineLune"]
 	path = plugins/PleineLune
 	url = https://github.com/piwik/theme-PleineLune.git
+	branch = master
