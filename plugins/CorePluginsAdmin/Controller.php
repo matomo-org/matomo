@@ -244,9 +244,13 @@ class Controller extends Plugin\ControllerAdmin
 
     protected function getPluginsInfo($themesOnly = false)
     {
-        $plugins = \Piwik\Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $pluginManager->returnLoadedPluginsInfo();
 
         foreach ($plugins as $pluginName => &$plugin) {
+
+            $plugin['isCorePlugin'] = $pluginManager->isPluginBundledWithCore($pluginName);
+
             if (!isset($plugin['info'])) {
 
                 $suffix = Piwik::translate('CorePluginsAdmin_PluginAskDevToUpdate');

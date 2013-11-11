@@ -104,6 +104,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginDetail.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginOverview.js";
         $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginExtend.js";
+        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/plugins.js";
     }
 
     public function getClientSideTranslationKeys(&$translations)

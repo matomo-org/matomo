@@ -65,7 +65,7 @@
         <tbody id="plugins">
         {% for name,plugin in pluginsInfo %}
             {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
-                <tr {% if plugin.activated %}class="highlighted"{% endif %}>
+                <tr {% if plugin.activated %}class="highlighted"{% endif %} data-filter-status="{% if plugin.activated %}active{% else %}inactive{% endif %}" data-filter-type="{% if plugin.isCorePlugin %}core{% else %}noncore{% endif %}">
                     <td class="name">
                         {% if plugin.info.homepage is defined %}
                         <a title="{{ 'CorePluginsAdmin_PluginHomepage'|translate }}" href="{{ plugin.info.homepage }}" target="_blank">
