@@ -7,33 +7,32 @@
 
 $(document).ready(function () {
 
-    var filterType   = 'all';
-    var filterStatus = 'all';
-
     function filterPlugins()
     {
-        var queryEnable = '#plugins tr';
+        var filterStatus = $('.pluginsFilter .status a.active').data('filter-status');
+        var filterType   = $('.pluginsFilter .type a.active').data('filter-type');
+
+        var query = '#plugins tr';
 
         if ('all' == filterType) {
-            queryEnable  += '[data-filter-type]';
+            query  += '[data-filter-type]';
         } else {
-            queryEnable  += '[data-filter-type=' + filterType + ']';
+            query  += '[data-filter-type=' + filterType + ']';
         }
 
         if ('all' == filterStatus) {
-            queryEnable  += '[data-filter-status]';
+            query  += '[data-filter-status]';
         } else {
-            queryEnable  += '[data-filter-status=' + filterStatus + ']';
+            query  += '[data-filter-status=' + filterStatus + ']';
         }
 
         $('#plugins tr').css('display', 'none');
-        $(queryEnable).css('display', 'table-row');
+        $(query).css('display', 'table-row');
     }
 
     $('.pluginsFilter .status').on('click', 'a', function (event) {
         event.preventDefault();
 
-        filterStatus = $(this).data('filter-status');
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
 
@@ -43,7 +42,6 @@ $(document).ready(function () {
     $('.pluginsFilter .type').on('click', 'a', function (event) {
         event.preventDefault();
 
-        filterType = $(this).data('filter-type');
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
 

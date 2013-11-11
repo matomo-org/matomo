@@ -41,6 +41,26 @@
 
 {% endmacro %}
 
+{% macro pluginsFilter() %}
+
+    <p class="pluginsFilter">
+        <span class="type">
+            <strong>Type</strong>
+            <a data-filter-type="all" href="#" class="active">All</a> |
+            <a data-filter-type="core" href="#">Core</a> |
+            <a data-filter-type="noncore" href="#">Marketplace</a>
+        </span>
+
+        <span class="status">
+            <strong>Status</strong>
+            <a data-filter-status="all" href="#" class="active">All</a> |
+            <a data-filter-status="active" href="#">Active</a> |
+            <a data-filter-status="inactive" href="#">Inactive</a>
+        </span>
+    </p>
+
+{% endmacro %}
+
 {% macro tablePlugins(pluginsInfo, pluginNamesHavingSettings, activateNonce, deactivateNonce, uninstallNonce, isTheme) %}
 
 <div id="confirmUninstallPlugin" class="ui-confirm">
