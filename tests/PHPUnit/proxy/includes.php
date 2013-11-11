@@ -12,3 +12,4 @@ require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/TestingEnvironment.php';
 
+\Piwik\SettingsServer::setMaxExecutionTime(0);
