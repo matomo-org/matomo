@@ -27,21 +27,77 @@ use Piwik\Tracker\GoalManager;
  * 
  * ### Aggregation Principles
  * 
- * ** TODO (explain 'dimension') **
+ * **Dimensions**
  * 
- * ### Aggregation Functions
+ * Every aggregation method aggregates rows in a specific table. The rows that are
+ * aggregated together are chosen by **_dimensions_** that you specify.
  * 
- * ** TODO (describe how to use functions)
+ * A **_dimension_** is a table column. In aggregation methods, rows that have the same
+ * values for the specified dimensions are aggregated together. Using dimensions you
+ * can calculate metrics for an entity (visits, actions, etc.) based on the values of one
+ * or more of the entity's properties.
+ * 
+ * _Note: A dimension is essentially the same as a **GROUP BY** field._
  * 
  * ### Examples
  * 
  * **Aggregating visit data**
  * 
- *     // TODO
+ *     $archiveProcessor = // ...
+ *     $logAggregator = $archiveProcessor->getLogAggregator();
+ *     
+ *     // get metrics for every used browser language of all visits by returning visitors
+ *     $query = $logAggregator->queryVisitsByDimension(
+ *         $dimensions = array('log_visit.location_browser_lang'),
+ *         $where = 'log_visit.visitor_returning = 1',
+ * 
+ *         // also count visits for each browser language that are not located in the US
+ *         $additionalSelects = array('sum(case when log_visit.location_country = 'us' then 1 else 0 end) as nonus'),
+ * 
+ *         // we're only interested in visits, unique visitors & actions, so don't waste time calculating anything else
+ *         $metrics = array(Metrics::INDEX_NB_UNIQ_VISITORS, Metrics::INDEX_NB_VISITS, Metrics::INDEX_NB_ACTIONS),
+ *     );
+ *     if ($query === false) {
+ *         return;
+ *     }
+ * 
+ *     while ($row = $query->fetch()) {
+ *         $uniqueVisitors = $row[Metrics::INDEX_NB_UNIQ_VISITORS];
+ *         $visits = $row[Metrics::INDEX_NB_VISITS];
+ *         $actions = $row[Metrics::INDEX_NB_ACTIONS];
+ * 
+ *         // ... do something w/ calculated metrics ...
+ *     }
  * 
  * **Aggregating conversion data**
  * 
- *     // TODO
+ *     $archiveProcessor = // ...
+ *     $logAggregator = $archiveProcessor->getLogAggregator();
+ * 
+ *     // get metrics for ecommerce conversions for each country
+ *     $query = $logAggregator->queryConversionsByDimension(
+ *         $dimensions = array('log_conversion.location_country'),
+ *         $where = 'log_conversion.idgoal = 0', // 0 is the special ecommerceOrder idGoal value in the table
+ * 
+ *         // also calculate average tax and max shipping per country
+ *         $additionalSelects = array(
+ *             'AVG(log_conversion.revenue_tax) as avg_tax',
+ *             'MAX(log_conversion.revenue_shipping) as max_shipping'
+ *         )
+ *     );
+ *     if ($query === false) {
+ *         return;
+ *     }
+ * 
+ *     while ($row = $query->fetch()) {
+ *         $country = $row['location_country'];
+ *         $numEcommerceSales = $row[Metrics::INDEX_GOAL_NB_CONVERSIONS];
+ *         $numVisitsWithEcommerceSales = $row[Metrics::INDEX_GOAL_NB_VISITS_CONVERTED];
+ *         $avgTaxForCountry = $country['avg_tax'];
+ *         $maxShippingForCountry = $country['max_shipping'];
+ * 
+ *         // ... do something with aggregated data ...
+ *     }
  */
 class LogAggregator
 {
