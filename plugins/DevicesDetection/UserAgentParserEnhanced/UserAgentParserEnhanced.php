@@ -105,6 +105,7 @@ class UserAgentParserEnhanced
         'RO' => 'Rover',
         'SA' => 'Samsung',
         'SD' => 'Sega',
+        'SV' => 'Selevision',
         'SE' => 'Sony Ericsson',
         'SF' => 'Softbank',
         'SG' => 'Sagem',
