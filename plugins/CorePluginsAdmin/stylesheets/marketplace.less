@@ -16,11 +16,20 @@
   font-style: italic;
 }
 
-.pluginsFilter .active {
-  font-weight: bold;
-}
-.admin .pluginsFilter a {
-  color: #255792;
+.admin .pluginsFilter {
+  .active {
+    font-weight: bold;
+  }
+
+  a {
+    color: #255792;
+    text-decoration: none;
+  }
+
+  .status {
+    display: inline-block;
+    margin-left: 20px;
+  }
 }
 
 #installPluginByUpload {
