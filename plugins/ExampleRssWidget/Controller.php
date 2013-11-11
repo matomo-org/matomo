@@ -36,8 +36,8 @@ class Controller extends \Piwik\Plugin\Controller
         try {
             $rss = new RssRenderer('http://feeds.feedburner.com/PiwikReleases');
             $rss->setCountPosts(1);
-            $rss->showDescription(false);
-            $rss->showContent(true);
+            $rss->showDescription(true);
+            $rss->showContent(false);
             echo $rss->get();
         } catch (Exception $e) {
             $this->error($e);
