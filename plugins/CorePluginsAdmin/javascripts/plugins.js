@@ -10,14 +10,14 @@ $(document).ready(function () {
     function filterPlugins()
     {
         var filterStatus = $('.pluginsFilter .status a.active').data('filter-status');
-        var filterType   = $('.pluginsFilter .type a.active').data('filter-type');
+        var filterOrigin = $('.pluginsFilter .origin a.active').data('filter-origin');
 
         var query = '#plugins tr';
 
-        if ('all' == filterType) {
-            query  += '[data-filter-type]';
+        if ('all' == filterOrigin) {
+            query  += '[data-filter-origin]';
         } else {
-            query  += '[data-filter-type=' + filterType + ']';
+            query  += '[data-filter-origin=' + filterOrigin + ']';
         }
 
         if ('all' == filterStatus) {
@@ -39,7 +39,7 @@ $(document).ready(function () {
         filterPlugins();
     });
 
-    $('.pluginsFilter .type').on('click', 'a', function (event) {
+    $('.pluginsFilter .origin').on('click', 'a', function (event) {
         event.preventDefault();
 
         $(this).siblings().removeClass('active');
