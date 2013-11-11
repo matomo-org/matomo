@@ -83,10 +83,11 @@ class Cookie
      * @param string $path The path on the server in which the cookie will be available on.
      * @param bool|string $keyStore Will be used to store several bits of data (eg. one array per website)
      */
-    public function __construct($cookieName, $expire = null, $path = null, $keyStore = false)
+    public function __construct($cookieName, $expire = null, $path = null, $domain = null, $keyStore = false)
     {
         $this->name = $cookieName;
         $this->path = $path;
+        $this->domain = $domain;
         $this->expire = $expire;
         if (is_null($expire)
             || !is_numeric($expire)
@@ -142,8 +143,14 @@ class Cookie
             if (!strncasecmp($Domain, 'www.', 4)) {
                 $Domain = substr($Domain, 4);
             }
-            $Domain = '.' . $Domain;
 
+            if (strncasecmp($Domain, '*', 1) == 0) {
+                $Domain = substr($Domain, 1);
+            }
+            if (strncasecmp($Domain, '.', 1) != 0) {
+                $Domain = '.' . $Domain;
+            }
+            
             // Remove port information.
             $Port = strpos($Domain, ':');
             if ($Port !== false) $Domain = substr($Domain, 0, $Port);
