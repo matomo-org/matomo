@@ -131,6 +131,7 @@ class UserAgentParserEnhanced
         'UT' => 'UTStarcom',
         'VD' => 'Videocon',
         'VE' => 'Vertu',
+        'VS' => 'Vestel',
         'VW' => 'Videoweb',
         'VI' => 'Vitelcom',
         'VK' => 'VK Mobile',
