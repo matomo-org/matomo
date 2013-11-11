@@ -717,21 +717,15 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         if ($isLiveMustDeleteDates) {
             $response = $this->removeAllLiveDatesFromXml($response);
         }
-
-        // normalize date markups and document ID in pdf files :
-        // - /LastModified (D:20120820204023+00'00')
-        // - /CreationDate (D:20120820202226+00'00')
-        // - /ModDate (D:20120820202226+00'00')
-        // - /M (D:20120820202226+00'00')
-        // - /ID [ <0f5cc387dc28c0e13e682197f485fe65> <0f5cc387dc28c0e13e682197f485fe65> ]
-        $response = preg_replace('/\(D:[0-9]{14}/', '(D:19700101000000', $response);
-        $response = preg_replace('/\/ID \[ <.*> ]/', '', $response);
+        $response = $this->normalizePdfContent($response);
 
         if (empty($compareAgainst)) {
             file_put_contents($processedFilePath, $response);
         }
 
         $expected = $this->loadExpectedFile($expectedFilePath);
+        $expected = $this->normalizePdfContent($expected);
+
         if (empty($expected)) {
             print("The expected file is not found at '$expectedFilePath'. The Processed response was:");
             print("\n----------------------------\n\n");
@@ -854,9 +848,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // Only raise error if there was some data before
         $testNotSmallAfter = strlen($input > 100) && $testNotSmallAfter;
 
+        $oldInput = $input;
         $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/', '', $input);
+
         //check we didn't delete the whole string
-        if ($testNotSmallAfter) {
+        if ($testNotSmallAfter && $input != $oldInput) {
             $this->assertTrue(strlen($input) > 100);
         }
         return $input;
@@ -1153,6 +1149,28 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         ArchiveTableCreator::refreshTableList($forceReload = true);
+    }
+
+    /**
+     * Removes content from PDF binary the content that changes with the datetime or other random Ids
+     */
+    protected function normalizePdfContent($response)
+    {
+        // normalize date markups and document ID in pdf files :
+        // - /LastModified (D:20120820204023+00'00')
+        // - /CreationDate (D:20120820202226+00'00')
+        // - /ModDate (D:20120820202226+00'00')
+        // - /M (D:20120820202226+00'00')
+        // - /ID [ <0f5cc387dc28c0e13e682197f485fe65> <0f5cc387dc28c0e13e682197f485fe65> ]
+        $response = preg_replace('/\(D:[0-9]{14}/', '(D:19700101000000', $response);
+        $response = preg_replace('/\/ID \[ <.*> ]/', '', $response);
+        $response = preg_replace('/\/id:\[ <.*> ]/', '', $response);
+        $response = $this->removeXmlElement($response, "xmp:CreateDate");
+        $response = $this->removeXmlElement($response, "xmp:ModifyDate");
+        $response = $this->removeXmlElement($response, "xmp:MetadataDate");
+        $response = $this->removeXmlElement($response, "xmpMM:DocumentID");
+        $response = $this->removeXmlElement($response, "xmpMM:InstanceID");
+        return $response;
     }
 
 }
