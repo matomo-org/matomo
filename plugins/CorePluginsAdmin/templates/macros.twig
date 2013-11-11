@@ -61,9 +61,9 @@
         {% if isMarketplaceEnabled %}
             <span class="getNewPlugins">
                 {% if isTheme %}
-                    <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">{{ 'CorePluginsAdmin_InstallNew'|translate('CorePluginsAdmin_Themes'|translate) }}</a>
+                    <a href="{{ linkTo({'action':'browseThemes', 'sort': ''}) }}">{{ 'CorePluginsAdmin_InstallNewThemes'|translate }}</a>
                 {% else %}
-                    <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">{{ 'CorePluginsAdmin_InstallNew'|translate('General_Plugins'|translate) }}</a>
+                    <a href="{{ linkTo({'action':'browsePlugins', 'sort': ''}) }}">{{ 'CorePluginsAdmin_InstallNewPlugins'|translate }}</a>
                 {% endif %}
             </span>
         {% endif %}
