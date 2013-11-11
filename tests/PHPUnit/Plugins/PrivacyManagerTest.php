@@ -63,12 +63,12 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // Temporarily disable the purge of old archives so that getNumeric('nb_visits')
         // in _addReportData does not trigger the data purge of data we've just imported
-        Rules::$purgeDisabledByTests = false;
+        Rules::$purgeDisabledByTests = true;
 
         self::_addLogData();
         self::_addReportData();
 
-        Rules::$purgeDisabledByTests = true;
+        Rules::$purgeDisabledByTests = false;
 
         self::$dbData = self::getDbTablesWithData();
     }
@@ -137,6 +137,8 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testDeleteLogDataInitialRun()
     {
+        $this->_checkNoDataChanges();
+
         // Check it does not run
         $this->assertFalse( $this->instance->deleteLogData() );
 
