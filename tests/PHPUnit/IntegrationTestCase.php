@@ -545,7 +545,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                                                          ));
 
                         // find first row w/ subtable
-                        foreach ($request->process() as $row) {
+                        $content = $request->process();
+                        foreach ($content as $row) {
                             if (isset($row['idsubdatatable'])) {
                                 $parametersToSet['idSubtable'] = $row['idsubdatatable'];
                                 break;
@@ -973,6 +974,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected function runApiTests($api, $params)
     {
+        // make sure that the reports we process here are not directly deleted in ArchiveProcessor/PluginsArchiver
+        // (because we process reports in the past, they would sometimes be invalid, and would have been deleted)
+        Rules::$purgeDisabledByTests = true;
+
         $testName = 'test_' . static::getOutputPrefix();
         $this->missingExpectedFiles = array();
         $this->comparisonFailures = array();
@@ -1012,9 +1017,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         $compareAgainst = isset($params['compareAgainst']) ? ('test_' . $params['compareAgainst']) : false;
 
-        // make sure that the reports we process here are not directly deleted in ArchiveProcessor/PluginsArchiver
-        // (because we process reports in the past, they would sometimes be invalid, and would have been deleted)
-        Rules::$purgeDisabledByTests = true;
 
         foreach ($requestUrls as $apiId => $requestUrl) {
             $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl, $compareAgainst);

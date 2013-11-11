@@ -46,7 +46,11 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         $idSite = self::$fixture->idSite;
         $dateTime = self::$fixture->dateTime;
 
-        $enExtraParam = array('expanded' => 1, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
+        $enExtraParam = array('expanded' => 1,
+                              'flat' => 1,
+                              'include_aggregate_rows' => 0,
+                              'translateColumnNames' => 1
+        );
         $bulkUrls = array(
             "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitsSummary.get",
             "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitorInterest.getNumberOfVisitsPerVisitDuration"
