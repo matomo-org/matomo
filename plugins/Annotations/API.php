@@ -28,6 +28,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Annotations/AnnotationList.php';
  * annotations.
  *
  * @package Annotations
+ * @method static \Piwik\Plugins\Annotations\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

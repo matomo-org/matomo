@@ -21,6 +21,7 @@ use Piwik\Period\Range;
  * display tables. See also the ExampleAPI plugin for an introduction to Piwik APIs.
  *
  * @package ExampleUI
+ * @method static \Piwik\Plugins\ExampleUI\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

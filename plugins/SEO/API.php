@@ -24,6 +24,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
  * Alexa Rank, age of the Domain name and count of DMOZ entries.
  *
  * @package SEO
+ * @method static \Piwik\Plugins\SEO\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

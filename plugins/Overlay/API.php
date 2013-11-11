@@ -20,6 +20,11 @@ use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Plugins\Transitions\API as APITransitions;
 use Piwik\Tracker\PageUrl;
 
+/**
+ * Class API
+ * @package Overlay
+ * @method static \Piwik\Plugins\Overlay\API getInstance()
+ */
 class API extends \Piwik\Plugin\API
 {
     /**

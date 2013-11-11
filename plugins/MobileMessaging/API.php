@@ -23,6 +23,7 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
  *  - check remaining credits
  *  - send SMS
  * @package MobileMessaging
+ * @method static \Piwik\Plugins\MobileMessaging\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

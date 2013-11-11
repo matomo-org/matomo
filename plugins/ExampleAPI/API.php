@@ -20,6 +20,7 @@ use Piwik\Version;
  *
  * Please see the <a href='http://dev.piwik.org/trac/browser/trunk/plugins/ExampleAPI/API.php#L1' target='_blank'>source code in in the file plugins/ExampleAPI/API.php</a> for more documentation.
  * @package Piwik_ExampleAPI
+ * @method static \Piwik\Plugins\ExampleAPI\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

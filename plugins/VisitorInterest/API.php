@@ -20,6 +20,7 @@ use Piwik\Piwik;
  * and number of visits per visit duration.
  *
  * @package VisitorInterest
+ * @method static \Piwik\Plugins\VisitorInterest\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

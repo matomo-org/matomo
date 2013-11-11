@@ -32,6 +32,7 @@ use Piwik\Translate;
  * See also <a href='http://piwik.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
  *
  * @package ImageGraph
+ * @method static \Piwik\Plugins\ImageGraph\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

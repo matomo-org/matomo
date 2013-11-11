@@ -25,6 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
  * VisitTime API lets you access reports by Hour (Server time), and by Hour Local Time of your visitors.
  *
  * @package VisitTime
+ * @method static \Piwik\Plugins\VisitTime\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

@@ -45,6 +45,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API documentation page</a>
  *
  * @package Piwik_API
+ * @method static \Piwik\Plugins\API\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

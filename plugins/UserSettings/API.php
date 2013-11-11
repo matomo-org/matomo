@@ -25,6 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
  * operating systems, plugins supported in their browser, Screen resolution and Screen types (normal, widescreen, dual screen or mobile).
  *
  * @package UserSettings
+ * @method static \Piwik\Plugins\UserSettings\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

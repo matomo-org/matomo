@@ -23,6 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DBStats/MySQLMetadataProvider.php';
  * DBStats API is used to request the overall status of the Mysql tables in use by Piwik.
  *
  * @package DBStats
+ * @method static \Piwik\Plugins\DBStats\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

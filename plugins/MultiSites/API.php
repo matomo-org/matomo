@@ -25,6 +25,7 @@ use Piwik\TaskScheduler;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
+ * @method static \Piwik\Plugins\MultiSites\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

@@ -26,6 +26,7 @@ use Piwik\TaskScheduler;
 
 /**
  * @package CoreAdminHome
+ * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

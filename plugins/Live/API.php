@@ -52,6 +52,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
  *
  * See also the documentation about <a href='http://piwik.org/docs/real-time/' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
  * @package Live
+ * @method static \Piwik\Plugins\Live\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

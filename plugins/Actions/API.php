@@ -37,6 +37,7 @@ use Piwik\Tracker\PageUrl;
  *
  * Note: pageName, pageUrl, outlinkUrl, downloadUrl parameters must be URL encoded before you call the API.
  * @package Actions
+ * @method static \Piwik\Plugins\Actions\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

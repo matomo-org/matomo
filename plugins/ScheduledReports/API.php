@@ -34,6 +34,7 @@ use Zend_Mime;
  * See also the documentation about <a href='http://piwik.org/docs/email-reports/' target='_blank'>Scheduled Email reports</a> in Piwik.
  *
  * @package ScheduledReports
+ * @method static \Piwik\Plugins\ScheduledReports\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

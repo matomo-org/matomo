@@ -21,6 +21,7 @@ use Piwik\Tracker\ActionSiteSearch;
  * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' target='_blank'>Custom Variables</a> names and values.
  *
  * @package CustomVariables
+ * @method static \Piwik\Plugins\CustomVariables\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

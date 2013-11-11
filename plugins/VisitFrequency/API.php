@@ -18,6 +18,7 @@ use Piwik\SegmentExpression;
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
  * @package VisitFrequency
+ * @method static \Piwik\Plugins\VisitFrequency\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

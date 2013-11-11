@@ -13,7 +13,8 @@ namespace Piwik\Plugins\ExamplePlugin;
 /**
  * API for plugin ExamplePlugin
  *
- * @package Piwik_ExamplePlugin
+ * @package ExamplePlugin
+ * @method static \Piwik\Plugins\ExamplePlugin\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

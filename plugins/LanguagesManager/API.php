@@ -27,6 +27,7 @@ use Piwik\Piwik;
  * or update it via "setLanguageForUser".
  *
  * @package LanguagesManager
+ * @method static \Piwik\Plugins\LanguagesManager\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {

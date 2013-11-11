@@ -20,6 +20,7 @@ use Piwik\SettingsPiwik;
  * count of actions (page views & downloads & clicks on outlinks), time on site, bounces and converted visits.
  *
  * @package VisitsSummary
+ * @method static \Piwik\Plugins\VisitsSummary\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
