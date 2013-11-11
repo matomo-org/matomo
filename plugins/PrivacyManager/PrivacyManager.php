@@ -252,18 +252,19 @@ class PrivacyManager extends \Piwik\Plugin
 
         // Make sure, data deletion is enabled
         if ($settings['delete_reports_enable'] == 0) {
-            return;
+            return false;
         }
 
         // make sure purging should run at this time (unless this is a forced purge)
         if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_REPORTS)) {
-            return;
+            return false;
         }
 
         // set last run time
         Option::set(self::OPTION_LAST_DELETE_PIWIK_REPORTS, Date::factory('today')->getTimestamp());
 
         ReportsPurger::make($settings, self::getAllMetricsToKeep())->purgeData();
+        return true;
     }
 
     /**
@@ -285,12 +286,12 @@ class PrivacyManager extends \Piwik\Plugin
 
         // Make sure, data deletion is enabled
         if ($settings['delete_logs_enable'] == 0) {
-            return;
+            return false;
         }
 
         // make sure purging should run at this time
         if (!$this->shouldPurgeData($settings, self::OPTION_LAST_DELETE_PIWIK_LOGS)) {
-            return;
+            return false;
         }
 
         /*
@@ -303,6 +304,8 @@ class PrivacyManager extends \Piwik\Plugin
 
         // execute the purge
         LogDataPurger::make($settings)->purgeData();
+
+        return true;
     }
 
     /**

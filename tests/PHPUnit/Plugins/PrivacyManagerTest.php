@@ -137,11 +137,11 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testDeleteLogDataInitialRun()
     {
-        $this->instance->deleteLogData();
+        // Check it does not run
+        $this->assertFalse( $this->instance->deleteLogData() );
 
         // check that initial option is set
-        $this->assertEquals(
-            1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
+        $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
 
         // perform other checks
         $this->_checkNoDataChanges();
@@ -154,7 +154,7 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testDeleteReportDataInitialRun()
     {
-        $this->instance->deleteReportData();
+        $this->assertFalse($this->instance->deleteReportData() );
 
         // check that initial option is set
         $this->assertEquals(1, Option::get(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));
@@ -175,8 +175,8 @@ class PrivacyManagerTest extends IntegrationTestCase
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $yesterdaySecs);
         Option::set(PrivacyManager::OPTION_LAST_DELETE_PIWIK_REPORTS, $yesterdaySecs);
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertFalse( $this->instance->deleteLogData() );
+        $this->assertFalse( $this->instance->deleteReportData() );
 
         // perform checks
         $this->_checkNoDataChanges();
@@ -206,8 +206,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->checkLogDataPurged();
@@ -250,8 +250,9 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $hasDeleted = $this->instance->deleteLogData();
+        $this->assertFalse($hasDeleted);
+        $this->assertFalse($this->instance->deleteReportData() );
 
         // perform checks
         $this->_checkNoDataChanges();
@@ -278,8 +279,9 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->assertEquals(0, $this->_getTableCount('log_visit'));
@@ -322,8 +324,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->checkLogDataPurged();
@@ -379,8 +381,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->checkLogDataPurged();
@@ -415,8 +417,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->checkLogDataPurged();
@@ -451,8 +453,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->checkLogDataPurged();
@@ -487,8 +489,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->checkLogDataPurged();
@@ -554,8 +556,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->checkLogDataPurged();
@@ -591,8 +593,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // purge data
         $this->_setTimeToRun();
-        $this->instance->deleteLogData();
-        $this->instance->deleteReportData();
+        $this->assertTrue( $this->instance->deleteLogData() );
+        $this->assertTrue($this->instance->deleteReportData() );
 
         // perform checks
         $this->checkLogDataPurged();
@@ -764,7 +766,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals(41, $this->_getTableCount('log_action'));
 
         $archiveTables = self::_getArchiveTableNames();
-//        var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
+        var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
 
         $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
         $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January
