@@ -80,33 +80,10 @@ class Loader
     {
         $classPath = self::getClassFileName($class);
 
-        $loaded = false;
         if (static::isPluginClass($class)) {
-            $loaded = static::tryToLoadClass($class, '/plugins/', $classPath);
+            static::tryToLoadClass($class, '/plugins/', $classPath);
         } else if (static::usesPiwikNamespace($class)) {
-            $loaded = static::tryToLoadClass($class, '/core/', $classPath);
-        }
-
-        if ($loaded) {
-            return;
-        }
-
-        if (strpos($class, '\Piwik') === 0
-            || strpos($class, 'Piwik') === 0
-        ) {
-            // only used for files that declare multiple classes (ie Piwik/Live.php declares Piwik\Live\VisitorLog)
-            do {
-                // auto-discover class location
-                foreach (self::$dirs as $dir) {
-                    if (static::tryToLoadClass($class, $dir, $classPath)) {
-                        return;
-                    }
-                }
-
-                // truncate to find file with multiple class definitions
-                $lastSlash = strrpos($classPath, '/');
-                $classPath = ($lastSlash === false) ? '' : substr($classPath, 0, $lastSlash);
-            } while (!empty($classPath));
+            static::tryToLoadClass($class, '/core/', $classPath);
         } else {
             // non-Piwik classes (e.g., Zend Framework) are in libs/
             static::tryToLoadClass($class, '/libs/', $classPath);
