@@ -7,7 +7,7 @@
 
 $(document).ready(function () {
 
-    updateNumberOfMatchingPluginsInFilter();
+    updateAllNumbersOfMatchingPluginsInFilter();
 
     function filterPlugins()
     {
@@ -19,27 +19,29 @@ $(document).ready(function () {
         $('#plugins tr').css('display', 'none');
         $nodesToEnable.css('display', 'table-row');
 
-        updateNumberOfMatchingPluginsInFilter();
+        updateAllNumbersOfMatchingPluginsInFilter();
     }
 
-    function updateNumberOfMatchingPluginsInFilter()
+    function updateAllNumbersOfMatchingPluginsInFilter()
     {
         var filterOrigin = getCurrentFilterOrigin();
         var filterStatus = getCurrentFilterStatus();
 
-        updatePluginFilterCounter('[data-filter-status="all"]', filterOrigin, 'all');
-        updatePluginFilterCounter('[data-filter-status="active"]', filterOrigin, 'active')
-        updatePluginFilterCounter('[data-filter-status="inactive"]', filterOrigin, 'inactive')
+        updateNumberOfMatchingPluginsInFilter('[data-filter-status="all"]', filterOrigin, 'all');
+        updateNumberOfMatchingPluginsInFilter('[data-filter-status="active"]', filterOrigin, 'active')
+        updateNumberOfMatchingPluginsInFilter('[data-filter-status="inactive"]', filterOrigin, 'inactive')
 
-        updatePluginFilterCounter('[data-filter-origin="all"]', 'all', filterStatus)
-        updatePluginFilterCounter('[data-filter-origin="core"]', 'core', filterStatus)
-        updatePluginFilterCounter('[data-filter-origin="noncore"]', 'noncore', filterStatus)
+        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="all"]', 'all', filterStatus)
+        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="core"]', 'core', filterStatus)
+        updateNumberOfMatchingPluginsInFilter('[data-filter-origin="noncore"]', 'noncore', filterStatus)
     }
 
-    function updatePluginFilterCounter(query, filterOrigin, filterStatus)
+    function updateNumberOfMatchingPluginsInFilter(selectorFilterToUpdate, filterOrigin, filterStatus)
     {
-        var numMatchingNodes = getMatchingNodes(filterOrigin, filterStatus).length;
-        $('.pluginsFilter ' + query + ' .counter').text(' (' + numMatchingNodes + ')');
+        var numMatchingNodes   = getMatchingNodes(filterOrigin, filterStatus).length;
+        var updatedCounterText = ' (' + numMatchingNodes + ')';
+
+        $('.pluginsFilter ' + selectorFilterToUpdate + ' .counter').text(updatedCounterText);
     }
 
     function getCurrentFilterOrigin()
