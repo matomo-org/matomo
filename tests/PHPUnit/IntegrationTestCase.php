@@ -1011,9 +1011,17 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             isset($params['fileExtension']) ? $params['fileExtension'] : false);
 
         $compareAgainst = isset($params['compareAgainst']) ? ('test_' . $params['compareAgainst']) : false;
+
+        // make sure that the reports we process here are not directly deleted in ArchiveProcessor/PluginsArchiver
+        // (because we process reports in the past, they would sometimes be invalid, and would have been deleted)
+        Rules::$purgeDisabledByTests = true;
+
         foreach ($requestUrls as $apiId => $requestUrl) {
             $this->_testApiUrl($testName . $testSuffix, $apiId, $requestUrl, $compareAgainst);
         }
+
+        // Restore normal purge behavior
+        Rules::$purgeDisabledByTests = false;
 
         // change the language back to en
         if ($this->lastLanguage != 'en') {
