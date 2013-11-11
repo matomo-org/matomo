@@ -12,6 +12,7 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Common;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,7 +48,7 @@ class GenerateCommand extends GeneratePluginBase
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
         $this->writeSuccessMessage($output, array(
-            sprintf('Command %s for plugin %s generated.', $commandName, $pluginName),
+            sprintf('Command %s for plugin %s generated but you are not done!', $commandName, $pluginName),
             'You have to register the command by using the hook: Console.addCommands',
             'Read more here: http://developer.piwik.org/api-reference/hooks#consoleaddcommands'
         ));
