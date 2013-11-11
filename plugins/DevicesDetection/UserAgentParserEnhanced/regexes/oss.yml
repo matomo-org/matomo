@@ -37,7 +37,7 @@
   name: '$1'
   version: ''
   
-- regex: 'Linux; |Linux (?:x86_64|zbov|i686|armv6l|armv7l|mips|sh4)'
+- regex: 'Linux; |Linux (?:x86_64|zbov|i686|armv6l|armv7l|mips|sh4)|Linux'
   name: 'Linux'
   version: ''
   
