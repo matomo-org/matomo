@@ -46,16 +46,16 @@
     <p class="pluginsFilter entityContainer">
         <span class="origin">
             <strong>{{ 'CorePluginsAdmin_Origin'|translate }}</strong>
-            <a data-filter-origin="all" href="#" class="active">{{ 'General_All'|translate }}</a> |
-            <a data-filter-origin="core" href="#">{{ 'CorePluginsAdmin_OriginCore'|translate }}</a> |
-            <a data-filter-origin="noncore" href="#">{{ 'CorePluginsAdmin_OriginThirdParty'|translate }}</a>
+            <a data-filter-origin="all" href="#" class="active">{{ 'General_All'|translate }}<span class="counter"></span></a> |
+            <a data-filter-origin="core" href="#">{{ 'CorePluginsAdmin_OriginCore'|translate }}<span class="counter"></span></a> |
+            <a data-filter-origin="noncore" href="#">{{ 'CorePluginsAdmin_OriginThirdParty'|translate }}<span class="counter"></span></a>
         </span>
 
         <span class="status">
             <strong>{{ 'CorePluginsAdmin_Status'|translate }}</strong>
-            <a data-filter-status="all" href="#" class="active">{{ 'General_All'|translate }}</a> |
-            <a data-filter-status="active" href="#">{{ 'CorePluginsAdmin_Active'|translate }}</a> |
-            <a data-filter-status="inactive" href="#">{{ 'CorePluginsAdmin_Inactive'|translate }}</a>
+            <a data-filter-status="all" href="#" class="active">{{ 'General_All'|translate }}<span class="counter"></span></a> |
+            <a data-filter-status="active" href="#">{{ 'CorePluginsAdmin_Active'|translate }}<span class="counter"></span></a> |
+            <a data-filter-status="inactive" href="#">{{ 'CorePluginsAdmin_Inactive'|translate }}<span class="counter"></span></a>
         </span>
 
         {% if isMarketplaceEnabled %}
