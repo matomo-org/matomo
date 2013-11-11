@@ -32,7 +32,7 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeDailyNegative()
     {
         try {
-            $dailySchedule = new Daily();
+            $dailySchedule = \Piwik\ScheduledTime::factory('daily');
             $dailySchedule->setHour(-1);
 
         } catch (Exception $e) {
@@ -48,7 +48,7 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
     public function testSetHourScheduledTimeDailyOver24()
     {
         try {
-            $dailySchedule = new Daily();
+            $dailySchedule = \Piwik\ScheduledTime::factory('daily');
             $dailySchedule->setHour(25);
         } catch (Exception $e) {
             return;
@@ -63,7 +63,7 @@ class ScheduledTime_DailyTest extends PHPUnit_Framework_TestCase
     public function testSetDayScheduledTimeDaily()
     {
         try {
-            $dailySchedule = new Daily();
+            $dailySchedule = \Piwik\ScheduledTime::factory('daily');
             $dailySchedule->setDay(1);
         } catch (Exception $e) {
             return;

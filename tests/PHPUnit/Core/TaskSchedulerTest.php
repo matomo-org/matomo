@@ -177,7 +177,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($executeTask->invoke(
             new TaskScheduler(),
-            new ScheduledTask ($mock, $methodName, $parameterValue, new Daily())
+            new ScheduledTask ($mock, $methodName, $parameterValue, \Piwik\ScheduledTime::factory('daily'))
         ));
     }
 

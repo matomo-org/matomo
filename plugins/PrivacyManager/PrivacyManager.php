@@ -26,6 +26,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;
+use Piwik\ScheduledTime;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
@@ -141,12 +142,12 @@ class PrivacyManager extends \Piwik\Plugin
         // they will execute before the optimize tables task
 
         $purgeReportDataTask = new ScheduledTask(
-            $this, 'deleteReportData', null, new Daily(), ScheduledTask::LOW_PRIORITY
+            $this, 'deleteReportData', null, ScheduledTime::factory('daily'), ScheduledTask::LOW_PRIORITY
         );
         $tasks[] = $purgeReportDataTask;
 
         $purgeLogDataTask = new ScheduledTask(
-            $this, 'deleteLogData', null, new Daily(), ScheduledTask::LOW_PRIORITY
+            $this, 'deleteLogData', null, ScheduledTime::factory('daily'), ScheduledTask::LOW_PRIORITY
         );
         $tasks[] = $purgeLogDataTask;
     }

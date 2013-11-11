@@ -15,6 +15,7 @@ use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Daily;
+use Piwik\ScheduledTime;
 
 /**
  *
@@ -45,7 +46,7 @@ class CorePluginsAdmin extends \Piwik\Plugin
             'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
             'clearAllCacheEntries',
             null,
-            new Daily(),
+            ScheduledTime::factory('daily'),
             ScheduledTask::LOWEST_PRIORITY
         );
     }

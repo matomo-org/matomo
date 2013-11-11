@@ -20,6 +20,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\ScheduledTask;
 use Piwik\ScheduledTime\Weekly;
+use Piwik\ScheduledTime;
 
 /**
  *
@@ -60,7 +61,7 @@ class DBStats extends \Piwik\Plugin
             $this,
             'cacheDataByArchiveNameReports',
             null,
-            new Weekly(),
+            ScheduledTime::factory('weekly'),
             ScheduledTask::LOWEST_PRIORITY
         );
         $tasks[] = $cacheDataByArchiveNameReportsTask;

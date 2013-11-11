@@ -355,7 +355,7 @@ class ScheduledReportsTest extends DatabaseTestCase
         );
 
         // expected tasks
-        $scheduleTask1 = new Daily();
+        $scheduleTask1 = ScheduledTime::factory('daily');
         $scheduleTask1->setHour(23); // paris is UTC-1, period ends at 23h UTC
 
         $scheduleTask2 = new Monthly();
