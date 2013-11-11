@@ -27,17 +27,17 @@ class CoreConsole extends \Piwik\Plugin
 
     public function addConsoleCommands(&$commands)
     {
-        $commands[] = 'Piwik\Plugins\CoreConsole\CodeCoverage';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GenerateApi';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GenerateController';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GeneratePlugin';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GenerateSettings';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GenerateVisualizationPlugin';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GitCommit';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GitPull';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GitPush';
-        $commands[] = 'Piwik\Plugins\CoreConsole\RunTests';
-        $commands[] = 'Piwik\Plugins\CoreConsole\WatchLog';
-        $commands[] = 'Piwik\Plugins\CoreConsole\GenerateTest';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\CodeCoverage';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateApi';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateController';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GeneratePlugin';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateSettings';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateVisualizationPlugin';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GitCommit';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GitPull';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GitPush';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\RunTests';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\WatchLog';
+        $commands[] = 'Piwik\Plugins\CoreConsole\Commands\GenerateTest';
     }
 }

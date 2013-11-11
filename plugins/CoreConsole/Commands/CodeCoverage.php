@@ -9,7 +9,7 @@
  * @package CoreConsole
  */
 
-namespace Piwik\Plugins\CoreConsole;
+namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\ArrayInput;

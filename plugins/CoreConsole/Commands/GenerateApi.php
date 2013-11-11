@@ -9,7 +9,7 @@
  * @package CoreConsole
  */
 
-namespace Piwik\Plugins\CoreConsole;
+namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,13 +18,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package CoreConsole
  */
-class GenerateController extends GeneratePluginBase
+class GenerateApi extends GeneratePluginBase
 {
     protected function configure()
     {
-        $this->setName('generate:controller')
-            ->setDescription('Adds a Controller to an existing plugin')
-            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have a Controller yet');
+        $this->setName('generate:api')
+            ->setDescription('Adds an API to an existing plugin')
+            ->addOption('pluginname', null, InputOption::VALUE_REQUIRED, 'The name of an existing plugin which does not have an API yet');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -33,13 +33,13 @@ class GenerateController extends GeneratePluginBase
 
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
         $replace        = array('ExamplePlugin' => $pluginName);
-        $whitelistFiles = array('/Controller.php', '/templates', '/templates/index.twig');
+        $whitelistFiles = array('/API.php');
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
         $this->writeSuccessMessage($output, array(
-             sprintf('Controller for %s generated.', $pluginName),
-             'You can now start adding Controller actions',
+             sprintf('API.php for %s generated.', $pluginName),
+             'You can now start adding API methods',
              'Enjoy!'
         ));
     }
@@ -52,11 +52,11 @@ class GenerateController extends GeneratePluginBase
      */
     private function getPluginName(InputInterface $input, OutputInterface $output)
     {
-        $pluginNames = $this->getPluginNamesHavingNotSpecificFile('Controller.php');
+        $pluginNames = $this->getPluginNamesHavingNotSpecificFile('API.php');
 
         $validate = function ($pluginName) use ($pluginNames) {
             if (!in_array($pluginName, $pluginNames)) {
-                throw new \InvalidArgumentException('You have to enter the name of an existing plugin which does not already have a Controller');
+                throw new \InvalidArgumentException('You have to enter the name of an existing plugin which does not already have an API');
             }
 
             return $pluginName;
@@ -75,5 +75,6 @@ class GenerateController extends GeneratePluginBase
 
         return $pluginName;
     }
+
 
 }
