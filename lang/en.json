@@ -733,7 +733,8 @@
         "ChangeSettingsPossible": "You can change <a href=\"%s\">settings</a> for this plugin.",
         "OriginCore": "Core",
         "OriginThirdParty": "Third-party",
-        "Origin": "Origin"
+        "Origin": "Origin",
+        "InstallNew": "Install new %s"
     },
     "CoreUpdater": {
         "PluginDescription": "Piwik updating mechanism",
