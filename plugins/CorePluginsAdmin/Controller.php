@@ -51,8 +51,13 @@ class Controller extends Plugin\ControllerAdmin
             $pluginInstaller->installOrUpdatePluginFromMarketplace();
 
         } catch (\Exception $e) {
-            $view->errorMessage = $e->getMessage();
-            return $view;
+
+            $notification = new Notification($e->getMessage());
+            $notification->context = Notification::CONTEXT_ERROR;
+            Notification\Manager::notify('CorePluginsAdmin_InstallPlugin', $notification);
+
+            $this->redirectAfterModification(true);
+            return;
         }
 
         $marketplace = new Marketplace();

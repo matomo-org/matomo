@@ -6,42 +6,36 @@
 
         <h2>Updating {{ plugin.name}}</h2>
 
-        {% if errorMessage %}
-            <div class="ajaxError" style="">{{ errorMessage }}</div>
-        {% else %}
+        <div>
 
-            <div>
+            {% if plugin.isTheme %}
 
-                {% if plugin.isTheme %}
+                <p>Downloading theme from Marketplace</p>
 
-                    <p>Downloading theme from Marketplace</p>
+                <p>Unzipping theme</p>
 
-                    <p>Unzipping theme</p>
+                <p>Replacing existing theme</p>
 
-                    <p>Replacing existing theme</p>
+                <p>You have successfully updated the theme {{ plugin.name }} {{ plugin.latestVersion }}.</p>
 
-                    <p>You have successfully updated the theme {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+            {% else %}
 
-                {% else %}
+                <p>Downloading plugin from Marketplace</p>
 
-                    <p>Downloading plugin from Marketplace</p>
+                <p>Unzipping plugin</p>
 
-                    <p>Unzipping plugin</p>
+                <p>Replacing existing plugin</p>
 
-                    <p>Replacing existing plugin</p>
+                <p>You have successfully updated the plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
 
-                    <p>You have successfully updated the plugin {{ plugin.name }} {{ plugin.latestVersion }}.</p>
+            {% endif %}
 
-                {% endif %}
-
-                <p><a href="{{ linkTo({'action': 'plugins'}) }}">Plugins</a>
-                    |
-                    <a href="{{ linkTo({'action': 'themes'}) }}">Themes</a>
-                    |
-                    <a href="{{ linkTo({'action': 'extend'}) }}">Extend Piwik</a></p>
-            </div>
-
-        {% endif %}
+            <p><a href="{{ linkTo({'action': 'plugins'}) }}">Plugins</a>
+                |
+                <a href="{{ linkTo({'action': 'themes'}) }}">Themes</a>
+                |
+                <a href="{{ linkTo({'action': 'extend'}) }}">Extend Piwik</a></p>
+        </div>
     </div>
 
 {% endblock %}
