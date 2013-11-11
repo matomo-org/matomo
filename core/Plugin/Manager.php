@@ -66,8 +66,11 @@ class Manager extends Singleton
         'AnonymizeIP',
         'DBStats',
         'DevicesDetection',
-//        'Events',
-        'TreemapVisualization', // should be moved to marketplace
+        'ExampleCommand',
+        'ExampleSettingsPlugin',
+        'ExampleUI',
+        'ExampleVisualization',
+        'ExamplePluginTemplate'
     );
 
     public function getCorePluginsDisabledByDefault()
