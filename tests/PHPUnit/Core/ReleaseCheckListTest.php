@@ -168,6 +168,8 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      * Check that directories in plugins/ folder are specifically either enabled or disabled.
      *
      * This fails when a new folder is added to plugins/* and forgot to enable or mark as disabled in Manager.php.
+     *
+     * @group Core
      */
     public function test_DirectoriesInPluginsFolder_areKnown()
     {
