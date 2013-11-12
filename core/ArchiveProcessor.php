@@ -356,7 +356,7 @@ class ArchiveProcessor
             $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOperations);
         }
 
-``        $data = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
+        $data = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
         if ($data instanceof DataTable\Map) {
             // as $date => $tableToSum
             foreach ($data->getDataTables() as $tableToSum) {
