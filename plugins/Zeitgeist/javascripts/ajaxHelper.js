@@ -362,9 +362,18 @@ function ajaxHelper() {
                 }
 
                 if (response && response.result == 'error' && !that.useRegularCallbackInCaseOfError) {
+
                     if ($(that.errorElement).length && response.message) {
-                        $(that.errorElement).html(response.message).fadeIn();
-                        piwikHelper.lazyScrollTo(that.errorElement, 250);
+                        $(that.errorElement).show();
+
+                        var UI = require('piwik/UI');
+                        var notification = new UI.Notification();
+                        notification.show(response.message, {
+                            placeat: that.errorElement,
+                            context: 'error',
+                            id: 'ajaxHelper'
+                        });
+                        notification.scrollToNotification();
                     }
                 } else {
                     that.callback(response);

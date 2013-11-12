@@ -172,6 +172,16 @@ class Referrers extends \Piwik\Plugin
                                                   'documentation'         => Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />'),
                                                   'order'                 => 11,
                                               ),
+                                              array(
+                                                  'category'              => Piwik::translate('Referrers_Referrers'),
+                                                  'name'                  => Piwik::translate('Referrers_Socials'),
+                                                  'module'                => 'Referrers',
+                                                  'action'                => 'getUrlsForSocial',
+                                                  'isSubtableReport'      => true,
+                                                  'dimension'             => Piwik::translate('Referrers_ColumnWebsitePage'),
+                                                  'documentation'         => Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />'),
+                                                  'order'                 => 12,
+                                              ),
                                          ));
     }
 

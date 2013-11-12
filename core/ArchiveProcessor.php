@@ -20,20 +20,18 @@ use Piwik\Db;
 use Piwik\Period;
 
 /**
- * Used to insert numeric and blob archive data.
+ * Used to insert numeric and blob archive data, and to aggregate archive data.
  *
- * During the Archiving process a descendant of this class is used by plugins
+ * During the Archiving process an instance of this class is used by plugins
  * to cache aggregated analytics statistics.
  * 
  * When the [Archive](#) class is used to query for archive data and that archive
- * data is found to be absent, the archiving process is launched. An ArchiveProcessor
- * instance is created based on the period type and the archiving logic of every
- * active plugin is executed through the [ArchiveProcessor.Day.compute](#) and
- * [ArchiveProcessor.aggregateMultipleReports](#) events.
+ * data is found to be absent, the archiving process is launched. Instances of the
+ * [Archiver](#) classes for every plugin that supplies one are then used to
+ * execute archiving logic.
  * 
- * Plugins receive ArchiveProcessor instances in those events and use them to
- * aggregate data for the requested site, period and segment. The aggregate
- * data is then persisted, again using the ArchiveProcessor instance.
+ * Plugins access ArchiveProcessor instances through the [Archiver](#) class. Read
+ * the docs for [Archiver](#) to learn more about the process.
  * 
  * ### Limitations
  * 
@@ -53,8 +51,10 @@ use Piwik\Period;
  * **Inserting numeric data**
  * 
  *     // function in an Archiver descendent
- *     public function aggregateDayReport(ArchiveProcessor $archiveProcessor)
+ *     public function aggregateDayReport()
  *     {
+ *         $archiveProcessor = $this->getProcessor();
+ * 
  *         $myFancyMetric = // ... calculate the metric value ...
  *         $archiveProcessor->insertNumericRecord('MyPlugin_myFancyMetric', $myFancyMetric);
  *     }
@@ -62,8 +62,10 @@ use Piwik\Period;
  * **Inserting serialized DataTables**
  * 
  *     // function in an Archiver descendent
- *     public function aggregateDayReport(ArchiveProcessor $archiveProcessor)
+ *     public function aggregateDayReport()
  *     {
+ *         $archiveProcessor = $this->getProcessor();
+ * 
  *         $maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];j
  * 
  *         $myDataTable = // ... use LogAggregator to generate a report about some log data ...
@@ -73,6 +75,21 @@ use Piwik\Period;
  *                                                     $columnToSortBy = Metrics::INDEX_NB_VISITS);
  *         
  *         $archiveProcessor->insertBlobRecords('MyPlugin_myFancyReport', $serializedData);
+ *     }
+ * 
+ * **Aggregating archive data**
+ * 
+ *     // function in Archiver descendent
+ *     public function aggregateMultipleReports()
+ *     {
+ *         $archiveProcessor = $this->getProcessor();
+ * 
+ *         // aggregate a metric
+ *         $archiveProcessor->aggregateNumericMetrics('MyPlugin_myFancyMetric');
+ *         $archiveProcessor->aggregateNumericMetrics('MyPlugin_mySuperFancyMetric', 'max');
+ * 
+ *         // aggregate a report        
+ *         $archiveProcessor->aggregateDataTableRecords('MyPlugin_myFancyReport');
  *     }
  * 
  * @package Piwik
@@ -120,7 +137,7 @@ class ArchiveProcessor
     }
 
     /**
-     * Returns the Parameters object containing Period, Site, Segment used for this archive.
+     * Returns the Parameters object containing the site, period and segment used with this archive.
      *
      * @return Parameters
      * @api
@@ -175,6 +192,7 @@ class ArchiveProcessor
      *                   ...
      *               )
      *               ```
+     * @api
      */
     public function aggregateDataTableRecords($recordNames,
                                               $maximumRowsInDataTableLevelZero = null,
@@ -205,8 +223,8 @@ class ArchiveProcessor
     }
 
     /**
-     * Aggregates metrics for every subperiod of the current period and inserts the result
-     * as the metric for this period.
+     * Aggregates one or more metrics for every subperiod of the current period and inserts the results
+     * as metrics for the current period.
      *
      * @param array|string $columns Array of metric names to aggregate.
      * @param bool|string $operationToApply The operation to apply to the metric. Either `'sum'`, `'max'` or `'min'`.
@@ -219,7 +237,9 @@ class ArchiveProcessor
      *                       'nb_hits' => 405
      *                   )
      *                   ```
-     *                   is returned.
+     *                   could be returned. If `array('nb_visits')` or `'nb_visits'` is used for `$columns`,
+     *                   then `3040` would be returned.
+     * @api
      */
     public function aggregateNumericMetrics($columns, $operationToApply = false)
     {
@@ -452,6 +472,4 @@ class ArchiveProcessor
         $data = $query->fetch();
         return $data[Metrics::INDEX_NB_UNIQ_VISITORS];
     }
-
 }
-

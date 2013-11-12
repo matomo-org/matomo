@@ -72,6 +72,7 @@ class Controller extends \Piwik\Plugin\Controller
         Notification\Manager::notify('ExampleUI_successToast', $notification);
 
         $notification = new Notification('Phasellus tincidunt arcu at justo <a href="#">faucibus</a>, et lacinia est accumsan. ');
+        $notification->raw     = true;
         $notification->context = Notification::CONTEXT_ERROR;
         Notification\Manager::notify('ExampleUI_error', $notification);
 

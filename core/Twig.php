@@ -172,7 +172,13 @@ class Twig
             }
 
             $template .= '>';
-            $template .= $message;
+
+            if (!empty($options['raw'])) {
+                $template .= $message;
+            } else {
+                $template .= twig_escape_filter($twigEnv, $message, 'html');
+            }
+
             $template .= '</div>';
 
             return $template;
