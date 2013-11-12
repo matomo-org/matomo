@@ -108,7 +108,8 @@ abstract class ControllerAdmin extends Controller
                                                                                  ));
 
             if (Piwik::isUserIsSuperUser()) {
-                $notification = new Notification($invalidPluginsWarning, true);
+                $notification = new Notification($invalidPluginsWarning);
+                $notification->raw     = true;
                 $notification->context = Notification::CONTEXT_WARNING;
                 $notification->title   = Piwik::translate('General_Warning') . ':';
                 Notification\Manager::notify('ControllerAdmin_InvalidPluginsWarning', $notification);
