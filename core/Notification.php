@@ -108,17 +108,22 @@ class Notification
      */
     public $priority;
 
+    public $raw = false;
+
     /**
-     * @param  string $message   The notification message. Make sure to escape the message if needed.
+     * @param  string $message   The notification message.
+     * @param  boolean $raw      Set to true in case you want the raw message output. Make sure to escape the text in
+     *                           this case by yourself.
      * @throws \Exception        In case the message is empty.
      */
-    public function __construct($message)
+    public function __construct($message, $raw = false)
     {
         if (empty($message)) {
             throw new \Exception('No notification message given');
         }
 
         $this->message = $message;
+        $this->raw     = $raw;
     }
 
     public function hasNoClear()

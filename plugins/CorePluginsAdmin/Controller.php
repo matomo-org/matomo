@@ -352,7 +352,7 @@ class Controller extends Plugin\ControllerAdmin
                 $message .= ' ' . Piwik::translate('CorePluginsAdmin_ChangeSettingsPossible', array($target));
             }
 
-            $notification = new Notification($message);
+            $notification = new Notification($message, true);
             $notification->title   = Piwik::translate('General_WellDone');
             $notification->context = Notification::CONTEXT_SUCCESS;
             Notification\Manager::notify('CorePluginsAdmin_PluginActivated', $notification);
