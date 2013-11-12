@@ -46,7 +46,9 @@ class PluginsArchiver
         $this->archiveWriter = new ArchiveWriter($this->params, $isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
 
-        $this->archiveProcessor = $this->makeArchiveProcessor($this->archiveWriter);
+        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter);
+
+        $this->isArchiveDay = $this->params->isDayArchive();
     }
 
     /**
@@ -56,7 +58,7 @@ class PluginsArchiver
      */
     public function callAggregateCoreMetrics()
     {
-        if($this->params->isDayArchive()) {
+        if($this->isArchiveDay) {
             $metrics = $this->aggregateDayVisitsMetrics();
         } else {
             $metrics = $this->aggregateMultipleVisitsMetrics();
@@ -82,8 +84,6 @@ class PluginsArchiver
     {
         $this->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
 
-        $isAggregateForDay = $this->archiveProcessor->getParams()->isDayArchive();
-
         $archivers = $this->getPluginArchivers();
 
         foreach($archivers as $pluginName => $archiverClass) {
@@ -91,7 +91,7 @@ class PluginsArchiver
             $archiver = new $archiverClass($this->archiveProcessor);
 
             if($this->shouldProcessReportsForPlugin($pluginName)) {
-                if($isAggregateForDay) {
+                if($this->isArchiveDay) {
                     $archiver->aggregateDayReport();
                 } else {
                     $archiver->aggregateMultipleReports();
@@ -99,7 +99,7 @@ class PluginsArchiver
             }
         }
 
-        if (!$isAggregateForDay && $visits) {
+        if (!$this->isArchiveDay && $visits) {
             ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
     }
@@ -146,7 +146,6 @@ class PluginsArchiver
      */
     protected function shouldProcessReportsForPlugin($pluginName)
     {
-        // If any other segment, only process if the requested report belong to this plugin
         if ($this->params->getRequestedPlugin() == $pluginName) {
             return true;
         }
@@ -155,26 +154,11 @@ class PluginsArchiver
                             $this->archiveProcessor->getParams()->getPeriod()->getLabel())) {
             return true;
         }
+
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded($this->params->getRequestedPlugin())) {
             return true;
         }
         return false;
-    }
-
-
-    /**
-     * @param $archiveWriter
-     * @return ArchiveProcessor
-     */
-    protected function makeArchiveProcessor()
-    {
-        $archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter);
-
-        if (!$this->params->isDayArchive()) {
-            $subPeriods = $this->params->getPeriod()->getSubperiods();
-            $archiveProcessor->archive = Archive::factory($this->params->getSegment(), $subPeriods, array($this->params->getSite()->getId()));
-        }
-        return $archiveProcessor;
     }
 
     protected function aggregateDayVisitsMetrics()

@@ -12,6 +12,7 @@
 namespace Piwik\Archive;
 
 use Exception;
+use Piwik\Period;
 use Piwik\Segment;
 
 class Parameters
@@ -26,7 +27,7 @@ class Parameters
     /**
      * The list of Period's to query archive data for.
      *
-     * @var array
+     * @var Period[]
      */
     private $periods = array();
 

@@ -130,6 +130,17 @@ class ArchiveProcessor
         $this->archiveWriter = $archiveWriter;
     }
 
+    protected function getArchive()
+    {
+        if(empty($this->archive)) {
+            $subPeriods = $this->params->getPeriod()->getSubperiods();
+            $idSite = $this->params->getSite()->getId();
+            $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, array($idSite));
+        }
+        return $this->archive;
+    }
+
+
     public function setNumberOfVisits($visits, $visitsConverted)
     {
         $this->numberOfVisits = $visits;
@@ -246,7 +257,7 @@ class ArchiveProcessor
         if (!is_array($columns)) {
             $columns = array($columns);
         }
-        $data = $this->archive->getNumeric($columns);
+        $data = $this->getArchive()->getNumeric($columns);
         $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
         $results = $this->aggregateDataArray($data, $operationForColumn);
         $results = $this->defaultColumnsToZero($columns, $results);
@@ -345,7 +356,7 @@ class ArchiveProcessor
             $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOperations);
         }
 
-        $data = $this->archive->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
+``        $data = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
         if ($data instanceof DataTable\Map) {
             // as $date => $tableToSum
             foreach ($data->getDataTables() as $tableToSum) {

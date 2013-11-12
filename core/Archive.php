@@ -587,7 +587,6 @@ class Archive
     {
         $today = Date::today();
 
-        /* @var Period $period */
         foreach ($this->params->getPeriods() as $period) {
             $twoDaysBeforePeriod = $period->getDateStart()->subDay(2);
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
@@ -611,7 +610,7 @@ class Archive
                     continue;
                 }
 
-                $this->launchArchiveProcessor($archiveGroups, $site, $period);
+                $this->prepareArchives($archiveGroups, $site, $period);
             }
         }
     }
@@ -780,10 +779,10 @@ class Archive
      * @param $site
      * @param $period
      */
-    private function launchArchiveProcessor(array $archiveGroups, Site $site, Period $period)
+    private function prepareArchives(array $archiveGroups, Site $site, Period $period)
     {
         $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
-        $processing = new ArchiveProcessor\Loader($parameters);
+        $archiveLoader = new ArchiveProcessor\Loader($parameters);
 
         $periodString = $period->getRangeString();
 
@@ -792,7 +791,7 @@ class Archive
             $doneFlag = $this->getDoneStringForPlugin($plugin);
             $this->initializeArchiveIdCache($doneFlag);
 
-            $idArchive = $processing->prepareArchive($plugin);
+            $idArchive = $archiveLoader->prepareArchive($plugin);
 
             if($idArchive) {
                 $this->idarchives[$doneFlag][$periodString][] = $idArchive;

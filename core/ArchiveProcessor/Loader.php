@@ -86,9 +86,8 @@ class Loader
      */
     protected function prepareCoreMetricsArchive($visits, $visitsConverted)
     {
-        $createSeparateArchiveForCoreMetrics =
-            !$this->doesRequestedPluginIncludeVisitsSummary()
-            && $this->mustProcessVisitCount($visits);
+        $createSeparateArchiveForCoreMetrics = $this->mustProcessVisitCount($visits)
+                                && !$this->doesRequestedPluginIncludeVisitsSummary();
 
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
@@ -103,9 +102,6 @@ class Loader
 
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];
-            if($this->mustProcessVisitCount($visits)) {
-                throw new \Exception("Visit count should have been set in computeNewArchive().");
-            }
         }
         return array($visits, $visitsConverted);
     }
@@ -119,9 +115,6 @@ class Loader
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];
-        }
-        if ($this->mustProcessVisitCount($visits)) {
-            throw new \Exception("Visit count should have been set in callAggregateCoreMetrics().");
         }
         if ($this->isThereSomeVisits($visits)) {
             $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted);
