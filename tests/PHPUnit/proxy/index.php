@@ -21,10 +21,6 @@ Cache::deleteTrackerCache();
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-// Make sure Data processed in archive.php is not being purged instantly (useful for: Integration/ArchiveCronTest)
-if(\Piwik\SettingsServer::isArchivePhpTriggered()) {
-    \Piwik\ArchiveProcessor\Rules::$purgeDisabledByTests = true;
-}
 $controller = \Piwik\FrontController::getInstance();
 
 // Load all plugins that are found so UI tests are really testing real world use case
