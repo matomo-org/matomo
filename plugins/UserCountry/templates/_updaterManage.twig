@@ -57,8 +57,8 @@
 		<input type="button" class="submit" value="{% if not geoIPDatabasesInstalled %}{{ 'General_Continue'|translate }}{% else %}{{ 'General_Save'|translate }}{% endif %}" id="update-geoip-links"/>
 	</p>
 	<div style="display:inline-block;width:700px;">
-		<span style="display:none;" class="ajaxSuccess" id="done-updating-updater">{{ 'General_Done'|translate }}!</span>
-		<span id="geoipdb-update-info-error" style="display:none;" class="error"></span>
+		<span id="done-updating-updater"></span>
+		<span id="geoipdb-update-info-error"></span>
 		<div id="geoip-progressbar-container" style="display:none;">
 			<div id="geoip-updater-progressbar"></div>
 			<span id="geoip-updater-progressbar-label"></span>

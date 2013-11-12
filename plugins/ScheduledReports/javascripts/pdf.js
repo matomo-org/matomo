@@ -68,13 +68,20 @@ function toggleReportType(reportType) {
     $('.' + reportType).show();
 }
 
-function fadeInOutSuccessMessage(selector) {
-    $(selector).fadeIn('slow', function () {
-        setTimeout(function () {
-            $(selector).fadeOut('slow');
-            piwikHelper.refreshAfter(0);
-        }, 1000);
+function fadeInOutSuccessMessage(selector, message) {
+
+    var UI = require('piwik/UI');
+    var notification = new UI.Notification();
+    notification.show(message, {
+        placeat: selector,
+        context: 'success',
+        noclear: true,
+        type: 'toast',
+        style: {display: 'inline-block', marginTop: '10px'},
+        id: 'usersManagerAccessUpdated'
     });
+
+    piwikHelper.refreshAfter(2);
 }
 
 function initManagePdf() {
@@ -106,7 +113,8 @@ function initManagePdf() {
         ajaxHandler.setLoadingElement();
         if (idReport) {
             ajaxHandler.setCallback(function (response) {
-                fadeInOutSuccessMessage('.reportUpdatedSuccess');
+
+                fadeInOutSuccessMessage('#reportUpdatedSuccess', _pk_translate('ScheduledReports_ReportUpdated'));
             });
         }
         ajaxHandler.send(true);
@@ -123,7 +131,7 @@ function initManagePdf() {
         ajaxHandler.addParams(parameters, 'POST');
         ajaxHandler.setLoadingElement();
         ajaxHandler.setCallback(function (response) {
-            fadeInOutSuccessMessage('.reportSentSuccess');
+            fadeInOutSuccessMessage('#reportSentSuccess', _pk_translate('ScheduledReports_ReportSent'));
         });
         ajaxHandler.send(true);
     });

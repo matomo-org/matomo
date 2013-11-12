@@ -96,7 +96,14 @@ class ScheduledReports extends \Piwik\Plugin
             'UsersManager.deleteUser'                   => 'deleteUserReport',
             'SitesManager.deleteSite.end'               => 'deleteSiteReport',
             APISegmentEditor::DEACTIVATE_SEGMENT_EVENT  => 'segmentDeactivation',
+            'Translate.getClientSideTranslationKeys'    => 'getClientSideTranslationKeys',
         );
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = "ScheduledReports_ReportSent";
+        $translationKeys[] = "ScheduledReports_ReportUpdated";
     }
 
     /**

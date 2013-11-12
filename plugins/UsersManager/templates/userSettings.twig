@@ -83,9 +83,12 @@
     {% endif %}
 </table>
 {% if isValidHost is not defined or not isValidHost %}
-    <div class="ajaxSuccess">
+    <div id="injectedHostCannotChangePwd">
+        {% set injectedHostCannotChangePwd %}
         {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
         &nbsp;{% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
+        {% endset %}
+        {{ injectedHostCannotChangePwd|notification({'raw': true, 'context': 'error', 'placeat': '#injectedHostCannotChangePwd', 'noclear': true}) }}
     </div>
     <br/>
 {% endif %}
