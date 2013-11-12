@@ -28,7 +28,7 @@ $(document).ready(function () {
 
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
-                notification.show('Done', {
+                notification.show(_pk_translate('General_Done'), {
                     placeat: ajaxSuccess,
                     context: 'success',
                     noclear: true,

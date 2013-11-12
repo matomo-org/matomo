@@ -478,5 +478,6 @@ class UserCountry extends \Piwik\Plugin
     {
         $translationKeys[] = "UserCountry_FatalErrorDuringDownload";
         $translationKeys[] = "UserCountry_SetupAutomaticUpdatesOfGeoIP";
+        $translationKeys[] = "General_Done";
     }
 }
