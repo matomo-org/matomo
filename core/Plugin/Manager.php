@@ -49,6 +49,7 @@ class Manager extends Singleton
         'CoreHome',
         'CoreUpdater',
         'CoreAdminHome',
+        'CoreConsole',
         'CorePluginsAdmin',
         'CoreVisualizations',
         'Installation',
