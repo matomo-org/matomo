@@ -45,9 +45,18 @@ abstract class ControllerAdmin extends Controller
         self::setBasicVariablesAdminView($view);
     }
 
-    static public function displayWarningIfConfigFileNotWritable(View $view)
+    static public function displayWarningIfConfigFileNotWritable()
     {
-        $view->configFileNotWritable = !PiwikConfig::getInstance()->isFileWritable();
+        $isConfigFileWritable = PiwikConfig::getInstance()->isFileWritable();
+
+        if (!$isConfigFileWritable) {
+            $message = Piwik::translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)","<br/>"));
+
+            $notification = new Notification($message);
+            $notification->raw     = true;
+            $notification->context = Notification::CONTEXT_WARNING;
+            Notification\Manager::notify('ControllerAdmin_ConfigNotWriteable', $notification);
+        }
     }
 
     /**
@@ -77,7 +86,9 @@ abstract class ControllerAdmin extends Controller
     {
         $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
         if ($statsEnabled == "0") {
-            $view->statisticsNotRecorded = true;
+            $notification = new Notification(Piwik::translate('General_StatisticsAreNotRecorded'));
+            $notification->context = Notification::CONTEXT_INFO;
+            Notification\Manager::notify('ControllerAdmin_StatsAreNotRecorded', $notification);
         }
 
         $view->topMenu = MenuTop::getInstance()->getMenu();
@@ -91,7 +102,17 @@ abstract class ControllerAdmin extends Controller
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
         // for old geoip plugin warning
-        $view->usingOldGeoIPPlugin = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('GeoIP');
+        $usingOldGeoIPPlugin = \Piwik\Plugin\Manager::getInstance()->isPluginActivated('GeoIP');
+
+        if (!empty($usingOldGeoIPPlugin) && Piwik::isUserIsSuperUser()) {
+            $message = Piwik::translate('UserCountry_OldGeoIPWarning', array('<a href="index.php?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday">','</a>','<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">','</a>','<a href="http://piwik.org/faq/how-to/#faq_167">','</a>','<a href="http://piwik.org/faq/how-to/#faq_59">','</a>'));
+            $notification = new Notification($message);
+            $notification->title   = Piwik::translate('General_Warning');
+            $notification->raw     = true;
+            $notification->context = Notification::CONTEXT_WARNING;
+            Notification\Manager::notify('ControllerAdmin_UsingOldGeoIpPlugin', $notification);
+
+        }
 
         // for cannot find installed plugin warning
         $missingPlugins = \Piwik\Plugin\Manager::getInstance()->getMissingPlugins();

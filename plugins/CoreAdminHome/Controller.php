@@ -63,7 +63,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
             $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-            $this->displayWarningIfConfigFileNotWritable($view);
+            $this->displayWarningIfConfigFileNotWritable();
 
             $config = Config::getInstance();
 

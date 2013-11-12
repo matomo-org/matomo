@@ -137,7 +137,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (Piwik::isUserIsSuperUser()) {
             $view->userAlias = $userLogin;
             $view->userEmail = Piwik::getSuperUserEmail();
-            $this->displayWarningIfConfigFileNotWritable($view);
+            $this->displayWarningIfConfigFileNotWritable();
         } else {
             $user = APIUsersManager::getInstance()->getUser($userLogin);
             $view->userAlias = $user['alias'];
