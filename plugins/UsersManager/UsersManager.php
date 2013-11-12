@@ -140,6 +140,7 @@ class UsersManager extends \Piwik\Plugin
     {
         $translationKeys[] = "General_OrCancel";
         $translationKeys[] = "General_Save";
+        $translationKeys[] = "General_Done";
         $translationKeys[] = "UsersManager_DeleteConfirm";
     }
 }

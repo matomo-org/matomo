@@ -38,36 +38,12 @@
                     {% include "@CoreHome/_headerMessage.twig" %}
                     {% include "@CoreHome/_notifications.twig" %}
 
-                    {% if configFileNotWritable is defined and configFileNotWritable%}
-                    <div class="ajaxSuccess" style="display:inline-block;">
-                        {{ 'General_ConfigFileIsNotWritable'|translate("(config/config.ini.php)","<br/>")|raw }}
-                    </div>
-                    {% elseif false %}
-                    <div class="ajaxSuccess" style="display:inline-block;">
-                        {{ 'General_YourChangesHaveBeenSaved'|translate }}
-                    </div>
-                    {% endif %}
-
-                    {% if statisticsNotRecorded is defined and statisticsNotRecorded is not empty %}
-                    <div class="ajaxSuccess" style="display:inline-block;">
-                        {{ 'General_StatisticsAreNotRecorded'|translate }}
-                    </div>
-                    {% endif %}
-
                     <div class="ui-confirm" id="alert">
                         <h2></h2>
                         <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
                     </div>
 
                     {% include "@CoreHome/_warningInvalidHost.twig" %}
-
-                    {# old GeoIP plugin warning #}
-                    {% if isSuperUser and usingOldGeoIPPlugin is not empty %}
-                    <div class="ajaxSuccess">
-                        <strong>{{ 'General_Warning'|translate }}
-                            :&nbsp;</strong>{{ 'UserCountry_OldGeoIPWarning'|translate('<a href="index.php?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday">','</a>','<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">','</a>','<a href="http://piwik.org/faq/how-to/#faq_167">','</a>','<a href="http://piwik.org/faq/how-to/#faq_59">','</a>')|raw }}
-                    </div>
-                    {% endif %}
 
                     {% block content %}
                     {% endblock %}

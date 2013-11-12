@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\MetricsFormatter;
 use Piwik\Nonce;
+use Piwik\Notification;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\DBStats\MySQLMetadataProvider;
@@ -57,6 +58,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     break;
             }
         }
+
+        $notification = new Notification(Piwik::translate('General_YourChangesHaveBeenSaved'));
+        $notification->context = Notification::CONTEXT_SUCCESS;
+        Notification\Manager::notify('PrivacyManager_ChangesHaveBeenSaved', $notification);
 
         $this->redirectToIndex('PrivacyManager', 'privacySettings', null, null, null, array('updated' => 1));
     }
@@ -138,7 +143,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
-        $this->displayWarningIfConfigFileNotWritable($view);
+        $this->displayWarningIfConfigFileNotWritable();
         $this->setBasicVariablesView($view);
         echo $view->render();
     }

@@ -37,7 +37,10 @@
     {% endif %}
 
     {% import 'ajaxMacros.twig' as ajax %}
-    {{ ajax.errorDiv('ajaxErrorMobileMessagingSettings') }}
+
+    <div style="margin-top:10px">
+        {{ ajax.errorDiv('ajaxErrorMobileMessagingSettings') }}
+    </div>
 
     <h2>{{ 'MobileMessaging_PhoneNumbers'|translate }}</h2>
     {% if not credentialSupplied %}
@@ -107,7 +110,7 @@
 
                     {{ ajax.errorDiv('invalidVerificationCodeAjaxError') }}
 
-                    <div id='phoneNumberActivated' class="ajaxSuccess" style="display:none;">
+                    <div id='phoneNumberActivated' style="display:none;">
                         {{ 'MobileMessaging_Settings_PhoneActivated'|translate }}
                     </div>
 

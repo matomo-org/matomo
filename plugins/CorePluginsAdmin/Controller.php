@@ -241,7 +241,7 @@ class Controller extends Plugin\ControllerAdmin
 
         $view = new View($template);
         $this->setBasicVariablesView($view);
-        $this->displayWarningIfConfigFileNotWritable($view);
+        $this->displayWarningIfConfigFileNotWritable();
 
         $view->errorMessage = '';
 

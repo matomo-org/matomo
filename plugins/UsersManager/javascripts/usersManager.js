@@ -97,14 +97,9 @@ function launchAjaxRequest(self, successCallback) {
         successCallback
     );
 }
-function hideAccessUpdated() {
-    setTimeout(function () {
-        $('#accessUpdated').fadeOut(500);
-    }, 2000);
-}
+
 function bindUpdateAccess() {
     var self = this;
-    hideAccessUpdated();
     // callback called when the ajax request Update the user permissions is successful
     function successCallback(response) {
         var mainDiv = $(self).parent().parent();
@@ -118,8 +113,17 @@ function bindUpdateAccess() {
             .attr('src', "plugins/UsersManager/images/ok.png")
             .attr('class', "accessGranted")
         ;
-        $('#accessUpdated').css('display', 'inline-block');
-        hideAccessUpdated();
+
+        var UI = require('piwik/UI');
+        var notification = new UI.Notification();
+        notification.show(_pk_translate('General_Done'), {
+            placeat: '#accessUpdated',
+            context: 'success',
+            noclear: true,
+            type: 'toast',
+            style: {display: 'inline-block', marginTop: '10px'},
+            id: 'usersManagerAccessUpdated'
+        });
 
         // reload if user anonymous was updated, since we display a Notice message when anon has view access
         if (login == 'anonymous') {
