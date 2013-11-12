@@ -226,7 +226,9 @@
                         </td>
                     {% else %}
                         <td>
-                            <span class="ajaxSuccess">{{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>")|raw }}</span>
+                            <div style="display:inline-block;margin-top:10px;" id="CoreAdminHome_LogoNotWriteable">
+                                {{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>")|notification({'placeAt': '#CoreAdminHome_LogoNotWriteable', 'noclear': true, 'context': 'warning', 'raw': true}) }}
+                            </div>
                         </td>
                     {% endif %}
                 </tr>
