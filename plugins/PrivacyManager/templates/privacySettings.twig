@@ -115,11 +115,14 @@
                                   style="margin-left:20px;" {% if deleteData.config.delete_logs_enable == '0' %}
                         checked {% endif %}/>  {{ 'General_No'|translate }}
                     </label>
-				<span class="ajaxSuccess">
-					{{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
-                    <a href="http://piwik.org/faq/general/#faq_125" target="_blank">
-                        {{ 'General_ClickHere'|translate }}
-                    </a>
+				<span id="privacyManagerDeleteLogDescription" style="margin-top: 10px;display:inline-block;">
+                    {% set deleteLogDescription %}
+                        {{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
+                        <a href="http://piwik.org/faq/general/#faq_125" target="_blank">
+                            {{ 'General_ClickHere'|translate }}
+                        </a>
+                    {% endset %}
+                    {{ deleteLogDescription|notification({'raw': true, 'placeat': '#privacyManagerDeleteLogDescription', 'noclear': true, 'context': 'warning'}) }}
 				</span>
                 </td>
                 <td width="200">
@@ -159,14 +162,17 @@
                         <input type="radio" name="deleteReportsEnable" value="0" {% if deleteData.config.delete_reports_enable == '0' %}checked="true"{% endif %} style="margin-left:20px;"/>
                         {{ 'General_No'|translate }}
                     </label>
-				
-				<span class="ajaxSuccess">
-					{% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
-                    {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>')|raw }}
-                    <span id='deleteOldReportsMoreInfo'><br/><br/>
-                        {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
-                        {{ 'PrivacyManager_DeleteReportsInfo3'|translate(deleteOldLogs) }}</span>
-				</span>
+
+                    {% set useDeleteLog %}
+                        {% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
+                        {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>')|raw }}
+                        <span id='deleteOldReportsMoreInfo'><br/><br/>
+                            {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
+                            {{ 'PrivacyManager_DeleteReportsInfo3'|translate(deleteOldLogs) }}</span>
+                    {% endset %}
+                    <span id="privacyManagerUseDeleteLog" style="margin-top: 10px;display:inline-block;">
+                        {{ useDeleteLog|notification({'raw': true, 'placeat': '#privacyManagerUseDeleteLog', 'noclear': true, 'context': 'warning'}) }}
+                    </span>
                 </td>
                 <td width="200">
                     {{ piwik.inlineHelp('PrivacyManager_DeleteReportsDetailedInfo'|translate('archive_numeric_*','archive_blob_*')) }}

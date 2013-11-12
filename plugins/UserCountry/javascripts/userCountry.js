@@ -14,7 +14,7 @@ $(document).ready(function () {
 
         var parent = $(this).parent(),
             loading = $('.loadingPiwik', parent),
-            ajaxSuccess = $('.ajaxSuccess', parent);
+            ajaxSuccess = $('.success', parent);
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.setLoadingElement(loading);
@@ -25,10 +25,16 @@ $(document).ready(function () {
         }, 'get');
         ajaxRequest.setCallback(
             function () {
-                ajaxSuccess.fadeIn(1000, function () {
-                    setTimeout(function () {
-                        ajaxSuccess.fadeOut(1000);
-                    }, 2000);
+
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.show('Done', {
+                    placeat: ajaxSuccess,
+                    context: 'success',
+                    noclear: true,
+                    type: 'toast',
+                    style: {display:'inline-block', marginTop: '10px'},
+                    id: 'userCountryLocationProvider'
                 });
             }
         );
