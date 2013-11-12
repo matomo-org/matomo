@@ -247,6 +247,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             "test.txt",
             "test.......",
             "en-ZHsimplified",
+            '0',
         );
         foreach ($valid as $toTest) {
             $this->assertTrue(Filesystem::isValidFilename($toTest), $toTest . " not valid!");
@@ -265,6 +266,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             ';test',
             '[bizarre]',
             '',
+            false,
             ".htaccess",
             "very long long eogaioge ageja geau ghaeihieg heiagie aiughaeui hfilename",
             "WHITE SPACE",
