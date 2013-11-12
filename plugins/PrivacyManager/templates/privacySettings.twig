@@ -78,7 +78,7 @@
             </table>
         </div>
 
-        <input type="hidden" name="nonce" value="{{ nonce }}">
+        <input type="hidden" name="nonce" value="{% if anonymizeIP.enabled %}{{ deactivateNonce }}{% else %}{{ activateNonce }}{% endif %}">
 
         <input type="submit" value="{{ 'General_Save'|translate }}" id="privacySettingsSubmit" class="submit"/>
     </form>
@@ -271,16 +271,18 @@
                 <p>
                     {% if dntSupport %}
                         {% set action='deactivate' %}
+                        {% set nonce=deactivateNonce %}
                         <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
                         <br/>
                         {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
                     {% else %}
                         {% set action='activate' %}
+                        {% set nonce=activateNonce %}
                         {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
                     {% endif %}
                 </p>
 			<span style="margin-left:20px;">
-			<a href='{{ {'module':'CorePluginsAdmin','token_auth':token_auth,'action':action,'pluginName':'DoNotTrack'} | urlRewriteWithParameters }}#DNT'>&rsaquo;
+			<a href='{{ {'module':'CorePluginsAdmin','nonce':nonce,'action':action,'pluginName':'DoNotTrack'} | urlRewriteWithParameters }}#DNT'>&rsaquo;
                 {% if dntSupport %}{{ 'PrivacyManager_DoNotTrack_Disable'|translate }} {{ 'General_NotRecommended'|translate }}
                 {% else %}{{ 'PrivacyManager_DoNotTrack_Enable'|translate }} {{ 'General_Recommended'|translate }}{% endif %}
                 <br/>
