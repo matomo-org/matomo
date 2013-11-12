@@ -136,11 +136,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->dntSupport = self::isDntSupported();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = Config::getInstance()->database['username'];
-            if($view->anonymizeIP["enabled"]) {
-                $view->nonce = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::DEACTIVATE_NONCE);
-            } else {
-                $view->nonce = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::ACTIVATE_NONCE);
-            }
+            $view->deactivateNonce = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::DEACTIVATE_NONCE);
+            $view->activateNonce   = Nonce::getNonce(\Piwik\Plugins\CorePluginsAdmin\Controller::ACTIVATE_NONCE);
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->displayWarningIfConfigFileNotWritable();

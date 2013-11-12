@@ -22,6 +22,8 @@ $(document).ready((function ($, require) {
                 attributes.animate = false;
                 notification.show(message, attributes);
             }
+
+            $notificationNodes.remove();
         });
 
     }
