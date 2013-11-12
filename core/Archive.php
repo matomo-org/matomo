@@ -792,8 +792,7 @@ class Archive
             $doneFlag = $this->getDoneStringForPlugin($plugin);
             $this->initializeArchiveIdCache($doneFlag);
 
-            $parameters->setRequestedPlugin($plugin);
-            $idArchive = $processing->prepareArchive();
+            $idArchive = $processing->prepareArchive($plugin);
 
             if($idArchive) {
                 $this->idarchives[$doneFlag][$periodString][] = $idArchive;

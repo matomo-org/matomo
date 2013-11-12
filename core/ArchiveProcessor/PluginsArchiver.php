@@ -39,10 +39,14 @@ class PluginsArchiver
      */
     private static $archivers = array();
 
-    public function __construct(ArchiveWriter $archiveWriter, Parameters $params)
+    public function __construct(Parameters $params, $isTemporaryArchive)
     {
         $this->params = $params;
-        $this->archiveProcessor = $this->makeArchiveProcessor($archiveWriter);
+
+        $this->archiveWriter = new ArchiveWriter($this->params, $isTemporaryArchive);
+        $this->archiveWriter->initNewArchive();
+
+        $this->archiveProcessor = $this->makeArchiveProcessor($this->archiveWriter);
     }
 
     /**
@@ -60,8 +64,8 @@ class PluginsArchiver
 
         if (empty($metrics)) {
             return array(
-                'nb_visits' => 0,
-                'nb_visits_converted' => 0
+                'nb_visits' => false,
+                'nb_visits_converted' => false
             );
         }
         return array(
@@ -73,7 +77,6 @@ class PluginsArchiver
     /**
      * Instantiates the Archiver class in each plugin that defines it,
      * and triggers Aggregation processing on these plugins.
-     *
      */
     public function callAggregateAllPlugins($visits, $visitsConverted)
     {
@@ -99,6 +102,13 @@ class PluginsArchiver
         if (!$isAggregateForDay && $visits) {
             ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
+    }
+
+    public function finalizeArchive()
+    {
+        $this->params->logStatusDebug( $this->archiveWriter->isArchiveTemporary );
+        $this->archiveWriter->finalizeArchive();
+        return $this->archiveWriter->getIdArchive();
     }
 
     /**
@@ -156,9 +166,9 @@ class PluginsArchiver
      * @param $archiveWriter
      * @return ArchiveProcessor
      */
-    protected function makeArchiveProcessor($archiveWriter)
+    protected function makeArchiveProcessor()
     {
-        $archiveProcessor = new ArchiveProcessor($this->params, $archiveWriter);
+        $archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter);
 
         if (!$this->params->isDayArchive()) {
             $subPeriods = $this->params->getPeriod()->getSubperiods();

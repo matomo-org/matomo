@@ -13,12 +13,11 @@ use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
-use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Period;
 
 /**
- * This class manages the ArchiveProcessor and
+ * This class uses PluginsArchiver class to trigger data aggregation and create archives.
  */
 class Loader
 {
@@ -62,15 +61,18 @@ class Loader
         return $visits === false;
     }
 
-    public function prepareArchive()
+    public function prepareArchive($pluginName)
     {
+        $this->params->setRequestedPlugin($pluginName);
+
         list($idArchive, $visits, $visitsConverted) = $this->loadExistingArchiveIdFromDb();
         if (!empty($idArchive)) {
             return $idArchive;
         }
 
         list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits, $visitsConverted) = $this->computeNewArchive($onlyCoreMetrics = false, $visits, $visitsConverted);
+        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+
         if ($this->isThereSomeVisits($visits)) {
             return $idArchive;
         }
@@ -90,10 +92,17 @@ class Loader
 
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
+
             $this->params->setRequestedPlugin('VisitsSummary');
-            list($idArchive, $visits, $visitsConverted) = $this->computeNewArchive($onlyArchiveCoreMetrics = true);
+
+            $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+            $metrics = $pluginsArchiver->callAggregateCoreMetrics();
+            $pluginsArchiver->finalizeArchive();
+
             $this->params->setRequestedPlugin($requestedPlugin);
 
+            $visits = $metrics['nb_visits'];
+            $visitsConverted = $metrics['nb_visits_converted'];
             if($this->mustProcessVisitCount($visits)) {
                 throw new \Exception("Visit count should have been set in computeNewArchive().");
             }
@@ -101,46 +110,32 @@ class Loader
         return array($visits, $visitsConverted);
     }
 
-    protected function computeNewArchive($onlyArchiveCoreMetrics, $visits = false, $visitsConverted = false)
+    protected function prepareAllPluginsArchive($visits, $visitsConverted)
     {
-        $archiveWriter = new ArchiveWriter($this->params, $this->isArchiveTemporary());
-        $archiveWriter->initNewArchive();
-
-        $pluginsArchiver = new PluginsArchiver($archiveWriter, $this->params);
-
-        if($onlyArchiveCoreMetrics) {
+        $pluginsArchiver = new PluginsArchiver($this->params, $this->isArchiveTemporary());
+        if ($this->mustProcessVisitCount($visits)
+            || $this->doesRequestedPluginIncludeVisitsSummary()
+        ) {
             $metrics = $pluginsArchiver->callAggregateCoreMetrics();
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];
-        } else {
-            if ($this->mustProcessVisitCount($visits)
-                || $this->doesRequestedPluginIncludeVisitsSummary()
-            ) {
-                $metrics = $pluginsArchiver->callAggregateCoreMetrics();
-                $visits = $metrics['nb_visits'];
-                $visitsConverted = $metrics['nb_visits_converted'];
-            }
-            if($this->mustProcessVisitCount($visits)) {
-                throw new \Exception("Visit count should have been set in computeNewArchive().");
-            }
-            if ($this->isThereSomeVisits($visits)) {
-                $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted);
-            }
         }
-
-        $this->params->logStatusDebug( $this->isArchiveTemporary() );
-
-        $archiveWriter->finalizeArchive();
-        $idArchive = $archiveWriter->getIdArchive();
-        return array($idArchive, $visits, $visitsConverted);
+        if ($this->mustProcessVisitCount($visits)) {
+            throw new \Exception("Visit count should have been set in callAggregateCoreMetrics().");
+        }
+        if ($this->isThereSomeVisits($visits)) {
+            $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted);
+        }
+        $idArchive = $pluginsArchiver->finalizeArchive();
+        return array( $idArchive, $visits);
     }
 
     protected function doesRequestedPluginIncludeVisitsSummary()
     {
         $processAllReportsIncludingVisitsSummary =
                 Rules::shouldProcessReportsAllPlugins($this->params->getSegment(), $this->params->getPeriod()->getLabel());
-        $doesRequestedPluginIncludeVisitsSummary =
-                $processAllReportsIncludingVisitsSummary || $this->params->getRequestedPlugin() == 'VisitsSummary';
+        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary
+                                                        || $this->params->getRequestedPlugin() == 'VisitsSummary';
         return $doesRequestedPluginIncludeVisitsSummary;
     }
 
@@ -220,5 +215,6 @@ class Loader
         }
         return $this->temporaryArchive;
     }
+
 }
 
