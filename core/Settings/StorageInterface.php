@@ -7,6 +7,9 @@
  */
 namespace Piwik\Settings;
 
+/**
+ * Base type of all Setting storage implementations.
+ */
 interface StorageInterface
 {
     /**

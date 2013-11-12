@@ -16,8 +16,14 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\StorageInterface;
 
 /**
- * Settings class that plugins can extend in order to create settings for their plugins.
- *
+ * Base class of all Settings providers. Plugins that define their own settings can extend
+ * this class to easily make their settings available to Piwik users.
+ * 
+ * Descendants of this class should implement the [init](#init) method and call the
+ * [addSetting](#addSetting) method for each of the plugin's settings.
+ * 
+ * For an example, see the [ExampleSettingsPlugin](#) plugin.
+ * 
  * @package Piwik\Plugin
  * @api
  */
@@ -54,6 +60,11 @@ abstract class Settings implements StorageInterface
     private $introduction;
     private $pluginName;
 
+    /**
+     * Constructor.
+     * 
+     * @param string $pluginName The name of the plugin these settings are for.
+     */
     public function __construct($pluginName)
     {
         $this->pluginName = $pluginName;
@@ -63,12 +74,14 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Define your settings and introduction here.
+     * Implemented by descendants. This method should define plugin settings (via the
+     * [addSetting](#addSetting)) method and set the introduction text (via the
+     * [setIntroduction](#setIntroduction)).
      */
     abstract protected function init();
 
     /**
-     * Sets (overwrites) the plugin settings introduction.
+     * Sets the text used to introduce this plugin's settings in the _Plugin Settings_ page.
      *
      * @param string $introduction
      */
@@ -77,14 +90,18 @@ abstract class Settings implements StorageInterface
         $this->introduction = $introduction;
     }
 
+    /**
+     * Returns the introduction text for this plugin's settings.
+     * 
+     * @return string
+     */
     public function getIntroduction()
     {
         return $this->introduction;
     }
 
     /**
-     * Returns only settings that can be displayed for current user. For instance a regular user won't see get
-     * any settings that require super user permissions.
+     * Returns the settings that can be displayed for the current user.
      *
      * @return Setting[]
      */
@@ -117,7 +134,8 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Get all available settings without checking any permissions.
+     * Returns all available settings. This will include settings that are not available
+     * to the current user (such as settings available only to the Super User).
      *
      * @return Setting[]
      */
@@ -135,7 +153,8 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Removes all settings for this plugin. Useful for instance while uninstalling the plugin.
+     * Removes all settings for this plugin from the database. Useful when uninstalling
+     * a plugin.
      */
     public function removeAllPluginSettings()
     {
@@ -146,13 +165,12 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Gets the current value for this setting. If no value is specified, the default value will be returned.
+     * Returns the current value for a setting. If no value is stored, the default value
+     * is be returned.
      *
      * @param Setting $setting
-     *
      * @return mixed
-     *
-     * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
+     * @throws \Exception If the setting does not exist or if the current user is not allowed to change the value
      *                    of this setting.
      */
     public function getSettingValue(Setting $setting)
@@ -168,14 +186,16 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Sets (overwrites) the value for the given setting. Make sure to call `save()` afterwards, otherwise the change
-     * has no effect. Before the value is saved a possibly define `validate` closure and `filter` closure will be
-     * called. Alternatively the value will be casted to the specfied setting type.
+     * Sets (overwrites) the value of a setting in memory. To persist the change, [save](#save) must be
+     * called afterwards, otherwise the change has no effect.
+     * 
+     * Before the setting is changed, the [Setting::validate](#) and [Setting::transform](#) closures
+     * will be invoked (if defined). If there is no validation filter, the setting value will be casted
+     * to the appropriate data type.
      *
      * @param Setting $setting
      * @param string $value
-     *
-     * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
+     * @throws \Exception If the setting does not exist or if the current user is not allowed to change the value
      *                    of this setting.
      */
     public function setSettingValue(Setting $setting, $value)
@@ -196,8 +216,8 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Removes the value for the given setting. Make sure to call `save()` afterwards, otherwise the removal has no
-     * effect.
+     * Unsets a setting value in memory. To persist the change, [save](#save) must be
+     * called afterwards, otherwise the change has no effect.
      *
      * @param Setting $setting
      */
@@ -213,11 +233,11 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Adds a new setting.
+     * Makes a new plugin setting available.
      *
      * @param Setting $setting
-     * @throws \Exception       In case a setting having the same name already exists.
-     *                          In case the name contains non-alnum characters.
+     * @throws \Exception       If there is a setting with the same name that already exists.
+     *                          If the name contains non-alphanumeric characters.
      */
     protected function addSetting(Setting $setting)
     {

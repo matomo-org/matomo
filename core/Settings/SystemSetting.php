@@ -14,8 +14,8 @@ namespace Piwik\Settings;
 use Piwik\Piwik;
 
 /**
- * System wide setting. Only the super user can change this kind of settings and the value of the setting effects all
- * users.
+ * Describes a system wide setting. Only the super user can change this type of setting and
+ * the value of this setting will affect all users.
  *
  * @package Piwik
  * @subpackage Settings
@@ -24,6 +24,12 @@ use Piwik\Piwik;
  */
 class SystemSetting extends Setting
 {
+    /**
+     * Constructor.
+     * 
+     * @param string $name The persisted name of the setting.
+     * @param string $title The display name of the setting.
+     */
     public function __construct($name, $title)
     {
         parent::__construct($name, $title);
@@ -31,6 +37,11 @@ class SystemSetting extends Setting
         $this->displayedForCurrentUser = Piwik::isUserIsSuperUser();
     }
 
+    /**
+     * Returns the display order. User settings are displayed after system settings.
+     * 
+     * @return int
+     */
     public function getOrder()
     {
         return 30;

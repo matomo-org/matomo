@@ -76,7 +76,7 @@ class SettingsTest extends DatabaseTestCase
     public function test_addSetting_shouldAssignDefaultType_IfFieldIsGivenButNoType()
     {
         $setting = $this->buildUserSetting('myname', 'mytitle');
-        $setting->field = TestablePluginSettings::FIELD_MULTI_SELECT;
+        $setting->uiControlType = TestablePluginSettings::CONTROL_MULTI_SELECT;
 
         $this->settings->addSetting($setting);
 
@@ -90,13 +90,13 @@ class SettingsTest extends DatabaseTestCase
 
         $this->settings->addSetting($setting);
 
-        $this->assertEquals(TestablePluginSettings::FIELD_MULTI_SELECT, $setting->field);
+        $this->assertEquals(TestablePluginSettings::CONTROL_MULTI_SELECT, $setting->uiControlType);
     }
 
     public function test_addSetting_shouldAddAValidator_IfFieldOptionsAreGiven()
     {
         $setting = $this->buildUserSetting('myname', 'mytitle');
-        $setting->fieldOptions = array('allowedval' => 'DisplayName', 'allowedval2' => 'Name 2');
+        $setting->availableValues = array('allowedval' => 'DisplayName', 'allowedval2' => 'Name 2');
 
         $this->settings->addSetting($setting);
 
@@ -203,7 +203,7 @@ class SettingsTest extends DatabaseTestCase
     {
         $this->setUser();
         $setting = $this->buildUserSetting('mysystem', 'mytitle');
-        $setting->fieldOptions = array('allowed' => 'text', 'allowed2' => 'text2');
+        $setting->availableValues = array('allowed' => 'text', 'allowed2' => 'text2');
 
         $this->settings->addSetting($setting);
 
@@ -218,8 +218,8 @@ class SettingsTest extends DatabaseTestCase
     {
         $this->setUser();
         $setting = $this->buildUserSetting('mysystem', 'mytitle');
-        $setting->fieldOptions = array('allowed' => 'text', 'allowed2' => 'text2');
-        $setting->field        = PluginSettings::FIELD_MULTI_SELECT;
+        $setting->availableValues = array('allowed' => 'text', 'allowed2' => 'text2');
+        $setting->uiControlType        = PluginSettings::CONTROL_MULTI_SELECT;
 
         $this->settings->addSetting($setting);
 
@@ -230,8 +230,8 @@ class SettingsTest extends DatabaseTestCase
     {
         $this->setUser();
         $setting = $this->buildUserSetting('mysystem', 'mytitle');
-        $setting->fieldOptions = array('allowed' => 'text', 'allowed2' => 'text2');
-        $setting->field        = PluginSettings::FIELD_MULTI_SELECT;
+        $setting->availableValues = array('allowed' => 'text', 'allowed2' => 'text2');
+        $setting->uiControlType        = PluginSettings::CONTROL_MULTI_SELECT;
 
         $this->settings->addSetting($setting);
 
@@ -282,7 +282,7 @@ class SettingsTest extends DatabaseTestCase
         $setting->type = PluginSettings::TYPE_INT;
 
         $self = $this;
-        $setting->filter = function ($value, $userSetting) use ($self, $setting) {
+        $setting->transform = function ($value, $userSetting) use ($self, $setting) {
             $self->assertEquals('31xm42', $value);
             $self->assertEquals($setting, $userSetting);
 
