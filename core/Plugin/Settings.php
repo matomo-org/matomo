@@ -29,13 +29,13 @@ abstract class Settings implements StorageInterface
     const TYPE_BOOL   = 'boolean';
     const TYPE_ARRAY  = 'array';
 
-    const FIELD_RADIO    = 'radio';
-    const FIELD_TEXT     = 'text';
-    const FIELD_TEXTAREA = 'textarea';
-    const FIELD_CHECKBOX = 'checkbox';
-    const FIELD_PASSWORD = 'password';
-    const FIELD_MULTI_SELECT  = 'multiselect';
-    const FIELD_SINGLE_SELECT = 'select';
+    const CONTROL_RADIO    = 'radio';
+    const CONTROL_TEXT     = 'text';
+    const CONTROL_TEXTAREA = 'textarea';
+    const CONTROL_CHECKBOX = 'checkbox';
+    const CONTROL_PASSWORD = 'password';
+    const CONTROL_MULTI_SELECT  = 'multiselect';
+    const CONTROL_SINGLE_SELECT = 'select';
 
     /**
      * An array containing all available settings: Array ( [setting-name] => [setting] )
@@ -186,8 +186,8 @@ abstract class Settings implements StorageInterface
             call_user_func($setting->validate, $value, $setting);
         }
 
-        if ($setting->filter && $setting->filter instanceof \Closure) {
-            $value = call_user_func($setting->filter, $value, $setting);
+        if ($setting->transform && $setting->transform instanceof \Closure) {
+            $value = call_user_func($setting->transform, $value, $setting);
         } elseif (isset($setting->type)) {
             settype($value, $setting->type);
         }
@@ -274,32 +274,32 @@ abstract class Settings implements StorageInterface
         }
     }
 
-    private function getDefaultType($field)
+    private function getDefaultType($controlType)
     {
         $defaultTypes = array(
-            static::FIELD_TEXT          => static::TYPE_STRING,
-            static::FIELD_TEXTAREA      => static::TYPE_STRING,
-            static::FIELD_PASSWORD      => static::TYPE_STRING,
-            static::FIELD_CHECKBOX      => static::TYPE_BOOL,
-            static::FIELD_MULTI_SELECT  => static::TYPE_ARRAY,
-            static::FIELD_RADIO         => static::TYPE_STRING,
-            static::FIELD_SINGLE_SELECT => static::TYPE_STRING,
+            static::CONTROL_TEXT          => static::TYPE_STRING,
+            static::CONTROL_TEXTAREA      => static::TYPE_STRING,
+            static::CONTROL_PASSWORD      => static::TYPE_STRING,
+            static::CONTROL_CHECKBOX      => static::TYPE_BOOL,
+            static::CONTROL_MULTI_SELECT  => static::TYPE_ARRAY,
+            static::CONTROL_RADIO         => static::TYPE_STRING,
+            static::CONTROL_SINGLE_SELECT => static::TYPE_STRING,
         );
 
-        return $defaultTypes[$field];
+        return $defaultTypes[$controlType];
     }
 
-    private function getDefaultField($type)
+    private function getDefaultCONTROL($type)
     {
-        $defaultFields = array(
-            static::TYPE_INT    => static::FIELD_TEXT,
-            static::TYPE_FLOAT  => static::FIELD_TEXT,
-            static::TYPE_STRING => static::FIELD_TEXT,
-            static::TYPE_BOOL   => static::FIELD_CHECKBOX,
-            static::TYPE_ARRAY  => static::FIELD_MULTI_SELECT,
+        $defaultControlTypes = array(
+            static::TYPE_INT    => static::CONTROL_TEXT,
+            static::TYPE_FLOAT  => static::CONTROL_TEXT,
+            static::TYPE_STRING => static::CONTROL_TEXT,
+            static::TYPE_BOOL   => static::CONTROL_CHECKBOX,
+            static::TYPE_ARRAY  => static::CONTROL_MULTI_SELECT,
         );
 
-        return $defaultFields[$type];
+        return $defaultControlTypes[$type];
     }
 
     /**
@@ -316,19 +316,19 @@ abstract class Settings implements StorageInterface
 
     private function setDefaultTypeAndFieldIfNeeded(Setting $setting)
     {
-        if (!is_null($setting->field) && is_null($setting->type)) {
-            $setting->type = $this->getDefaultType($setting->field);
-        } elseif (!is_null($setting->type) && is_null($setting->field)) {
-            $setting->field = $this->getDefaultField($setting->type);
-        } elseif (is_null($setting->field) && is_null($setting->type)) {
+        if (!is_null($setting->uiControlType) && is_null($setting->type)) {
+            $setting->type = $this->getDefaultType($setting->uiControlType);
+        } elseif (!is_null($setting->type) && is_null($setting->uiControlType)) {
+            $setting->uiControlType = $this->getDefaultCONTROL($setting->type);
+        } elseif (is_null($setting->uiControlType) && is_null($setting->type)) {
             $setting->type = static::TYPE_STRING;
-            $setting->field = static::FIELD_TEXT;
+            $setting->uiControlType = static::CONTROL_TEXT;
         }
     }
 
     private function addValidatorIfNeeded(Setting $setting)
     {
-        if (!is_null($setting->validate) || is_null($setting->fieldOptions)) {
+        if (!is_null($setting->validate) || is_null($setting->availableValues)) {
             return;
         }
 
@@ -341,12 +341,12 @@ abstract class Settings implements StorageInterface
 
             if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
                 foreach ($value as $val) {
-                    if (!array_key_exists($val, $setting->fieldOptions)) {
+                    if (!array_key_exists($val, $setting->availableValues)) {
                         throw new \Exception($errorMsg);
                     }
                 }
             } else {
-                if (!array_key_exists($value, $setting->fieldOptions)) {
+                if (!array_key_exists($value, $setting->availableValues)) {
                     throw new \Exception($errorMsg);
                 }
             }
