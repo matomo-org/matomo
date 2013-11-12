@@ -25,7 +25,9 @@
                         <input type="hidden" name="pluginName" value="{{ anonymizeIP.name }}"/>
                     </td>
                     <td width="200">
-                        {{ piwik.inlineHelp('AnonymizeIP_PluginDescription'|translate) }}
+                        <div style="width:180px">
+                            {{ piwik.inlineHelp('AnonymizeIP_PluginDescription'|translate) }}
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -45,7 +47,9 @@
                             checked {% endif %}/> {{ 'PrivacyManager_AnonymizeIpMaskLength'|translate("3","192.xxx.xxx.xxx") }}</label>
                     </td>
                     <td width="200">
-                        {{ piwik.inlineHelp('PrivacyManager_GeolocationAnonymizeIpNote'|translate) }}
+                        <div style="width:180px">
+                            {{ piwik.inlineHelp('PrivacyManager_GeolocationAnonymizeIpNote'|translate) }}
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -66,7 +70,9 @@
                         </label>
                     </td>
                     <td width="200">
-                        {{ piwik.inlineHelp('PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote'|translate) }}
+                        <div style="width:180px">
+                            {{ piwik.inlineHelp('PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote'|translate) }}
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -211,7 +217,7 @@
                 <td width="200">
                     {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
                         {% set manualEstimate %}
-                            <em><a id="getPurgeEstimateLink" class="ui-inline-help" href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a></em>
+                            <em><a id="getPurgeEstimateLink" style="width:280px" class="ui-inline-help" href="#">{{ 'PrivacyManager_GetPurgeEstimate'|translate }}</a></em>
                         {% endset %}
                         {{ piwik.inlineHelp(manualEstimate) }}
                     {% endif %}

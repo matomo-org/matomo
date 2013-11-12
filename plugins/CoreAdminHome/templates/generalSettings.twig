@@ -189,9 +189,9 @@
     <h2>{{ 'CoreAdminHome_BrandingSettings'|translate }}</h2>
     <div id='brandSettings'>
         {{ 'CoreAdminHome_CustomLogoHelpText'|translate }}
-        <table class="adminTable" style="width:600px;">
+        <table class="adminTable" style="width:900px;">
             <tr>
-                <td>{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
+                <td style="width:200px;">{{ 'CoreAdminHome_UseCustomLogo'|translate }}</td>
                 <td style="width:200px;">
                     <label>
                         <input type="radio" name="useCustomLogo" value="1" {% if branding.use_custom_logo == 1 %} checked {% endif %}/>
@@ -202,15 +202,17 @@
                         {{ 'General_No'|translate }}
                     </label>
                 </td>
+                <td>
+                    {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
+                    {% set customLogoHelp %}
+                    {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' target='_blank'>","</a>")|raw }}
+                    {% endset %}
+                    {{ piwik.inlineHelp(customLogoHelp) }}
+                </td>
             </tr>
         </table>
     </div>
     <div id='logoSettings'>
-        {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
-        {% set customLogoHelp %}
-            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=plugins' target='_blank'>","</a>")|raw }}
-        {% endset %}
-        {{ piwik.inlineHelp(customLogoHelp) }}
         <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
             <table class="adminTable" style='width:550px;'>
                 <tr>
