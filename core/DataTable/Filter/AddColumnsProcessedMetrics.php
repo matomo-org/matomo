@@ -16,8 +16,9 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 
 /**
- * Adds the following columns to a DataTable using metrics that already exist:
- * 
+ * Adds the processed metrics columns to a DataTable using metrics that already exist.
+ *
+ * Columns processed are:
  * - **conversion_rate**: percent value of `nb_conversions / nb_visits
  * - **nb_actions_per_visit**: `nb_actions / nb_visits`
  * - **avg_time_on_site**: in number of seconds, `round(visit_length / nb_visits)`. not
