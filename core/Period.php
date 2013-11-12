@@ -66,6 +66,7 @@ abstract class Period
      * Constructor.
      * 
      * @param Date $date
+     * @ignore
      */
     public function __construct(Date $date)
     {

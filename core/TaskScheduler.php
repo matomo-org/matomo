@@ -40,7 +40,6 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  *     // TODO
  * 
  * @package Piwik
- * @api
  */
 class TaskScheduler
 {
