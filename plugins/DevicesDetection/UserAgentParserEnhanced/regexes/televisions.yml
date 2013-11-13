@@ -137,7 +137,7 @@ Samsung:
   regex: 'Samsung|Maple_2011'
   device: 'tv'
   models:
-    - regex: '(SmartTV2013|SmartTV2012))'
+    - regex: '(SmartTV2013|SmartTV2012)'
       model: '$1'
     - regex: '(2011)'
       model: 'SmartTV2011'
