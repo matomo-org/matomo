@@ -37,7 +37,7 @@ class DevicesDetection extends \Piwik\Plugin
             'description'     => "[Beta Plugin] " . Piwik::translate("DevicesDetection_PluginDescription"),
             'author'          => 'Piwik PRO',
             'author_homepage' => 'http://piwik.pro',
-            'version'         => '1.14',
+            'version'         => '1.20',
         );
     }
 
