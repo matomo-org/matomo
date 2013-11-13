@@ -12,7 +12,6 @@ function initTopControls() {
             if (left) {
                 control.css({left: left});
             }
-            console.log(left);
             left+=control.outerWidth(true);
         });
     }

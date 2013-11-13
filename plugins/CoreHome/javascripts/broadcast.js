@@ -391,11 +391,13 @@ var broadcast = {
      * @return {Boolean}
      */
     loadAjaxContent: function (urlAjax) {
-        piwikMenu.activateMenu(
-            broadcast.getParamValue('module', urlAjax),
-            broadcast.getParamValue('action', urlAjax),
-            broadcast.getParamValue('idGoal', urlAjax) || broadcast.getParamValue('idDashboard', urlAjax)
-        );
+        if (typeof piwikMenu !== 'undefined') {
+            piwikMenu.activateMenu(
+                broadcast.getParamValue('module', urlAjax),
+                broadcast.getParamValue('action', urlAjax),
+                broadcast.getParamValue('idGoal', urlAjax) || broadcast.getParamValue('idDashboard', urlAjax)
+            );
+        }
 
         piwikHelper.hideAjaxError('loadingError');
         piwikHelper.showAjaxLoading();

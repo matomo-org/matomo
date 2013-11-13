@@ -3,6 +3,6 @@ $(function () {
         piwikMenu = new menu();
         piwikMenu.init();
         piwikMenu.loadFirstSection();
-        broadcast.init();
     }
+    broadcast.init();
 });
