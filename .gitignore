@@ -72,4 +72,4 @@ libs/.htaccess
 misc/.htaccess
 misc/cron/.htaccess
 plugins/.htaccess
-
+*.pyc
