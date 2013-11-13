@@ -78,7 +78,7 @@ abstract class Period
      * 
      * Note: This method cannot create Range periods.
      * 
-     * @param string $strPeriod `"day"`, `"week"`, `"month"`, `"year"`, `"range"`
+     * @param string $strPeriod `"day"`, `"week"`, `"month"`, `"year"`, `"range"`.
      * @param Date|string $date A date within the period or the range of dates.
      * @throws Exception If `$strPeriod` is invalid.
      * @return \Piwik\Period

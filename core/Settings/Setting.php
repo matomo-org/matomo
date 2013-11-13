@@ -12,73 +12,96 @@
 namespace Piwik\Settings;
 
 /**
- * Base setting class. Extend this class to define your own type of setting.
+ * Base setting type class.
  *
  * @package Piwik
  * @subpackage Settings
+ * @api
  */
 abstract class Setting
 {
     /**
-     * Defines the PHP type of the setting. Before the value is saved it will be cased depending on this setting.
+     * Describes the setting's PHP data type. When saved, setting values will always be casted to this
+     * type.
+     * 
+     * See [Settings](#) for a list of supported data types.
      *
      * @var string
      */
     public $type = null;
 
     /**
-     * Defines which field type should be displayed on the setting page.
+     * Describes how the setting should be manipulated through Piwik's UI.
      *
+     * See [Settings](#) for a list of supportted control types.
+     * 
      * @var string
      */
-    public $field = null;
+    public $uiControlType = null;
 
     /**
-     * An array of field attributes that will be added as HTML attributes to the HTML form field.
-     * Example: `array('size' => 3)`. Please note the attributes will be escaped for security.
+     * Name-value mapping of HTML attributes that will be added HTML form control, eg,
+     * `array('size' => 3)`. Attributes will be escaped before outputting.
+     * 
      * @var array
      */
-    public $fieldAttributes = array();
+    public $uiControlAttributes = array();
 
     /**
-     * Defines available options in case you want to give the user the possibility to select a value (in a select
-     * field). For instance `array('nb_visits' => 'Visits', 'nb_actions' => 'Actions')`.
-     * In case field options are set and you do not specify a validator, a validator will be automatically added
-     * to check the set value is one of the defined array keys. An error will be triggered in case a user tries to
-     * save a value that is not allowed.
+     * The list of all available values for this setting. If null, the setting can have any value.
+     * 
+     * If supplied, this field should be an array mapping available values with their prettified
+     * display value. Eg, if set to `array('nb_visits' => 'Visits', 'nb_actions' => 'Actions')`,
+     * the UI will display **Visits** and **Actions**, and when the user selects one, Piwik will
+     * set the setting to **nb_visits** or **nb_actions** respectively.
+     * 
+     * The setting value will be validated if this field is set. If the value is not one of the
+     * available values, an error will be triggered.
+     * 
+     * _Note: If a custom validator is supplied (see [validate](#validate)), the setting value will
+     * not be validated._
      *
      * @var null|array
      */
-    public $fieldOptions = null;
+    public $availableValues = null;
 
     /**
-     * Defines an introduction that will be displayed as a text block above the setting.
+     * Text that will appear above this setting's section in the _Plugin Settings_ admin page.
+     * 
      * @var null|string
      */
     public $introduction    = null;
 
     /**
-     * Defines a description that will be displayed underneath the setting title. It should be just a short description
-     * what the setting is about.
+     * Text that will be appear directly underneath the setting title in the _Plugin Settings_ admin
+     * page. If set, should be a short description of the setting.
+     * 
      * @var null|string
      */
     public $description     = null;
 
     /**
-     * The inline help will be displayed in a separate help box next to the setting and can contain some further
-     * explanations about the setting. For instance if only some specific characters are allowed to can explain them
-     * here.
+     * Text that will appear next to the setting's section in the _Plugin Settings_ admin page. If set,
+     * it should contain information about the setting that is more specific than a general description,
+     * such as the format of the setting value if it has a special format.
+     * 
      * @var null|string
      */
     public $inlineHelp      = null;
 
     /**
-     * If a closure is set, the closure will be executed before a new value is saved. In case a user tries to save an
-     * invalid value just throw an exception containing a useful message. Example:
+     * A closure that does some custom validation on the setting before the setting is persisted.
+     * 
+     * The closure should take two arguments: the setting value and the [Setting](#) instance being
+     * validated. If the value is found to be invalid, the closure should throw an exception with
+     * a message that describes the error.
+     * 
+     * **Example**
+     * 
      * ```
-     * function ($value, Setting $setting) {
+     * $setting->validate = function ($value, Setting $setting) {
      *     if ($value > 60) {
-     *         throw new \Exception('Value has to be at <= 60 as an hour has only 60 minutes');
+     *         throw new \Exception('The time limit is not allowed to be greater than 60 minutes.');
      *     }
      * }
      * ```
@@ -88,12 +111,17 @@ abstract class Setting
     public $validate        = null;
 
     /**
-     * You can define a filter closure that is executed after a value is validated. In case you define a value, the
-     * property `$type` has no effect. That means the value won't be casted to the specified type. It is on your own to
-     * cast or format the value on your needs. Make sure to return a value at the end of the function as this value
-     * will be saved. Example:
+     * A closure that transforms the setting value. If supplied, this closure will be executed after
+     * the setting has been validated.
+     * 
+     * _Note: If a transform is supplied, the setting's [type](#type) has no effect. This means the
+     * transformation function will be responsible for casting the setting value to the appropriate
+     * data type._
+     *
+     * **Example**
+     * 
      * ```
-     * function ($value, Setting $setting) {
+     * $setting->transform = function ($value, Setting $setting) {
      *     if ($value > 30) {
      *         $value = 30;
      *     }
@@ -104,18 +132,20 @@ abstract class Setting
      *
      * @var null|\Closure
      */
-    public $filter          = null;
+    public $transform          = null;
 
     /**
-     * Defines the default value for this setting that will be used in case the user has not specified a value so far.
-     * The default value won't be casted so make sure to define an appropriate value.
+     * Default value of this setting.
+     * 
+     * The default value is not casted to the appropriate data type. This means _**you**_ have to make
+     * sure the value is of the correct type.
      *
      * @var mixed
      */
     public $defaultValue    = null;
 
     /**
-     * Defines the title of the setting which will be visible to the user. For instance `Refresh Interval`
+     * This setting's display name, for example, `'Refresh Interval'`.
      *
      * @var string
      */
@@ -131,10 +161,11 @@ abstract class Setting
     private $storage;
 
     /**
-     * Creates a new setting.
+     * Constructor.
      *
-     * @param string $name    The name of the setting, only alnum characters are allowed. For instance `refreshInterval`
-     * @param string $title   The title of the setting which will be visible to the user. For instance `Refresh Interval`
+     * @param string $name    The setting's persisted name. Only alphanumeric characters are allowed, eg,
+     *                        `'refreshInterval'`.
+     * @param string $title   The setting's display name, eg, `'Refresh Interval'`.
      */
     public function __construct($name, $title)
     {
@@ -143,23 +174,42 @@ abstract class Setting
         $this->title = $title;
     }
 
+    /**
+     * Returns the setting's persisted name, eg, `'refreshInterval'`.
+     * 
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Returns true if this setting can be displayed for the current user, false if otherwise.
+     * 
+     * @return bool
+     */
     public function canBeDisplayedForCurrentUser()
     {
         return $this->displayedForCurrentUser;
     }
 
+    /**
+     * Sets the object used to persist settings.
+     * 
+     * @return StorageInterface
+     */
     public function setStorage(StorageInterface $storage)
     {
         $this->storage = $storage;
     }
 
     /**
-     * @see StorageInterface::getSettingValue
+     * Returns the previously persisted setting value. If no value was set, the default value
+     * is returned.
+     * 
+     * @return mixed
+     * @throws \Exception If the current user is not allowed to change the value of this setting.
      */
     public function getValue()
     {
@@ -167,7 +217,10 @@ abstract class Setting
     }
 
     /**
-     * @see StorageInterface::setSettingValue
+     * Sets and persists this setting's value overwriting any existing value.
+     * 
+     * @param mixed $value
+     * @throws \Exception If the current user is not allowed to change the value of this setting.
      */
     public function setValue($value)
     {
@@ -175,7 +228,7 @@ abstract class Setting
     }
 
     /**
-     * Returns the key under which property name the setting will be stored.
+     * Returns the unique string key used to store this setting.
      *
      * @return string
      */
@@ -185,7 +238,8 @@ abstract class Setting
     }
 
     /**
-     * Determine the order for displaying. The lower the order, the earlier the setting will be displayed.
+     * Returns the display order. The lower the return value, the earlier the setting will be displayed.
+     * 
      * @return int
      */
     public function getOrder()

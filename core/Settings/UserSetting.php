@@ -14,8 +14,8 @@ use Piwik\Common;
 use Piwik\Piwik;
 
 /**
- * Per user setting. Each user will be able to change this setting but each user can set a different value. That means
- * a changed value does not effect any other users.
+ * Describes a per user setting. Each user will be able to change this setting but each user
+ * can set a different value. Changes from one user will not affect other users.
  *
  * @package Piwik
  * @subpackage Settings
@@ -27,9 +27,11 @@ class UserSetting extends Setting
     private $userLogin = null;
 
     /**
-     * @param string $name
-     * @param string $title
-     * @param null|string $userLogin  Defaults to the current user login.
+     * Constructor.
+     * 
+     * @param string $name The setting's persisted name.
+     * @param string $title The setting's display name.
+     * @param null|string $userLogin The user this setting applies to. Will default to the current user login.
      */
     public function __construct($name, $title, $userLogin = null)
     {
@@ -40,6 +42,11 @@ class UserSetting extends Setting
         $this->displayedForCurrentUser = !Piwik::isUserIsAnonymous() && Piwik::isUserHasSomeViewAccess();
     }
 
+    /**
+     * Returns the display order. User settings are displayed after system settings.
+     * 
+     * @return int
+     */
     public function getOrder()
     {
         return 60;
@@ -65,11 +72,11 @@ class UserSetting extends Setting
     }
 
     /**
-     * Sets (overwrites) the userLogin.
+     * Sets the name of the user this setting will be set for.
      *
      * @param $userLogin
-     *
-     * @throws \Exception In case you set a userLogin that is not your userLogin and you are not the superUser.
+     * @throws \Exception If the current user does not have permission to set the setting value
+     *                    of `$userLogin`.
      */
     public function setUserLogin($userLogin)
     {
@@ -82,12 +89,11 @@ class UserSetting extends Setting
     }
 
     /**
-     * Remove all stored settings of the given userLogin. This is important to cleanup all settings for a user once he
-     * is deleted. Otherwise a user could register with the same name afterwards and see the previous user's settings.
+     * Unsets all settings for a user. The settings will be removed from the database. Used when
+     * a user is deleted.
      *
      * @param string $userLogin
-     *
-     * @throws \Exception In case the userLogin is empty.
+     * @throws \Exception If the `$userLogin` is empty.
      */
     public static function removeAllUserSettingsForUser($userLogin)
     {
@@ -113,5 +119,4 @@ class UserSetting extends Setting
             $pluginSettings->save();
         }
     }
-
 }

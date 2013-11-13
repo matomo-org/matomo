@@ -16,8 +16,14 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\StorageInterface;
 
 /**
- * Settings class that plugins can extend in order to create settings for their plugins.
- *
+ * Base class of all Settings providers. Plugins that define their own settings can extend
+ * this class to easily make their settings available to Piwik users.
+ * 
+ * Descendants of this class should implement the [init](#init) method and call the
+ * [addSetting](#addSetting) method for each of the plugin's settings.
+ * 
+ * For an example, see the [ExampleSettingsPlugin](#) plugin.
+ * 
  * @package Piwik\Plugin
  * @api
  */
@@ -29,13 +35,13 @@ abstract class Settings implements StorageInterface
     const TYPE_BOOL   = 'boolean';
     const TYPE_ARRAY  = 'array';
 
-    const FIELD_RADIO    = 'radio';
-    const FIELD_TEXT     = 'text';
-    const FIELD_TEXTAREA = 'textarea';
-    const FIELD_CHECKBOX = 'checkbox';
-    const FIELD_PASSWORD = 'password';
-    const FIELD_MULTI_SELECT  = 'multiselect';
-    const FIELD_SINGLE_SELECT = 'select';
+    const CONTROL_RADIO    = 'radio';
+    const CONTROL_TEXT     = 'text';
+    const CONTROL_TEXTAREA = 'textarea';
+    const CONTROL_CHECKBOX = 'checkbox';
+    const CONTROL_PASSWORD = 'password';
+    const CONTROL_MULTI_SELECT  = 'multiselect';
+    const CONTROL_SINGLE_SELECT = 'select';
 
     /**
      * An array containing all available settings: Array ( [setting-name] => [setting] )
@@ -54,6 +60,11 @@ abstract class Settings implements StorageInterface
     private $introduction;
     private $pluginName;
 
+    /**
+     * Constructor.
+     * 
+     * @param string $pluginName The name of the plugin these settings are for.
+     */
     public function __construct($pluginName)
     {
         $this->pluginName = $pluginName;
@@ -63,12 +74,14 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Define your settings and introduction here.
+     * Implemented by descendants. This method should define plugin settings (via the
+     * [addSetting](#addSetting)) method and set the introduction text (via the
+     * [setIntroduction](#setIntroduction)).
      */
     abstract protected function init();
 
     /**
-     * Sets (overwrites) the plugin settings introduction.
+     * Sets the text used to introduce this plugin's settings in the _Plugin Settings_ page.
      *
      * @param string $introduction
      */
@@ -77,14 +90,18 @@ abstract class Settings implements StorageInterface
         $this->introduction = $introduction;
     }
 
+    /**
+     * Returns the introduction text for this plugin's settings.
+     * 
+     * @return string
+     */
     public function getIntroduction()
     {
         return $this->introduction;
     }
 
     /**
-     * Returns only settings that can be displayed for current user. For instance a regular user won't see get
-     * any settings that require super user permissions.
+     * Returns the settings that can be displayed for the current user.
      *
      * @return Setting[]
      */
@@ -117,7 +134,8 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Get all available settings without checking any permissions.
+     * Returns all available settings. This will include settings that are not available
+     * to the current user (such as settings available only to the Super User).
      *
      * @return Setting[]
      */
@@ -135,7 +153,8 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Removes all settings for this plugin. Useful for instance while uninstalling the plugin.
+     * Removes all settings for this plugin from the database. Useful when uninstalling
+     * a plugin.
      */
     public function removeAllPluginSettings()
     {
@@ -146,13 +165,12 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Gets the current value for this setting. If no value is specified, the default value will be returned.
+     * Returns the current value for a setting. If no value is stored, the default value
+     * is be returned.
      *
      * @param Setting $setting
-     *
      * @return mixed
-     *
-     * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
+     * @throws \Exception If the setting does not exist or if the current user is not allowed to change the value
      *                    of this setting.
      */
     public function getSettingValue(Setting $setting)
@@ -168,14 +186,16 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Sets (overwrites) the value for the given setting. Make sure to call `save()` afterwards, otherwise the change
-     * has no effect. Before the value is saved a possibly define `validate` closure and `filter` closure will be
-     * called. Alternatively the value will be casted to the specfied setting type.
+     * Sets (overwrites) the value of a setting in memory. To persist the change, [save](#save) must be
+     * called afterwards, otherwise the change has no effect.
+     * 
+     * Before the setting is changed, the [Setting::validate](#) and [Setting::transform](#) closures
+     * will be invoked (if defined). If there is no validation filter, the setting value will be casted
+     * to the appropriate data type.
      *
      * @param Setting $setting
      * @param string $value
-     *
-     * @throws \Exception In case the setting does not exist or if the current user is not allowed to change the value
+     * @throws \Exception If the setting does not exist or if the current user is not allowed to change the value
      *                    of this setting.
      */
     public function setSettingValue(Setting $setting, $value)
@@ -186,8 +206,8 @@ abstract class Settings implements StorageInterface
             call_user_func($setting->validate, $value, $setting);
         }
 
-        if ($setting->filter && $setting->filter instanceof \Closure) {
-            $value = call_user_func($setting->filter, $value, $setting);
+        if ($setting->transform && $setting->transform instanceof \Closure) {
+            $value = call_user_func($setting->transform, $value, $setting);
         } elseif (isset($setting->type)) {
             settype($value, $setting->type);
         }
@@ -196,8 +216,8 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Removes the value for the given setting. Make sure to call `save()` afterwards, otherwise the removal has no
-     * effect.
+     * Unsets a setting value in memory. To persist the change, [save](#save) must be
+     * called afterwards, otherwise the change has no effect.
      *
      * @param Setting $setting
      */
@@ -213,11 +233,11 @@ abstract class Settings implements StorageInterface
     }
 
     /**
-     * Adds a new setting.
+     * Makes a new plugin setting available.
      *
      * @param Setting $setting
-     * @throws \Exception       In case a setting having the same name already exists.
-     *                          In case the name contains non-alnum characters.
+     * @throws \Exception       If there is a setting with the same name that already exists.
+     *                          If the name contains non-alphanumeric characters.
      */
     protected function addSetting(Setting $setting)
     {
@@ -274,32 +294,32 @@ abstract class Settings implements StorageInterface
         }
     }
 
-    private function getDefaultType($field)
+    private function getDefaultType($controlType)
     {
         $defaultTypes = array(
-            static::FIELD_TEXT          => static::TYPE_STRING,
-            static::FIELD_TEXTAREA      => static::TYPE_STRING,
-            static::FIELD_PASSWORD      => static::TYPE_STRING,
-            static::FIELD_CHECKBOX      => static::TYPE_BOOL,
-            static::FIELD_MULTI_SELECT  => static::TYPE_ARRAY,
-            static::FIELD_RADIO         => static::TYPE_STRING,
-            static::FIELD_SINGLE_SELECT => static::TYPE_STRING,
+            static::CONTROL_TEXT          => static::TYPE_STRING,
+            static::CONTROL_TEXTAREA      => static::TYPE_STRING,
+            static::CONTROL_PASSWORD      => static::TYPE_STRING,
+            static::CONTROL_CHECKBOX      => static::TYPE_BOOL,
+            static::CONTROL_MULTI_SELECT  => static::TYPE_ARRAY,
+            static::CONTROL_RADIO         => static::TYPE_STRING,
+            static::CONTROL_SINGLE_SELECT => static::TYPE_STRING,
         );
 
-        return $defaultTypes[$field];
+        return $defaultTypes[$controlType];
     }
 
-    private function getDefaultField($type)
+    private function getDefaultCONTROL($type)
     {
-        $defaultFields = array(
-            static::TYPE_INT    => static::FIELD_TEXT,
-            static::TYPE_FLOAT  => static::FIELD_TEXT,
-            static::TYPE_STRING => static::FIELD_TEXT,
-            static::TYPE_BOOL   => static::FIELD_CHECKBOX,
-            static::TYPE_ARRAY  => static::FIELD_MULTI_SELECT,
+        $defaultControlTypes = array(
+            static::TYPE_INT    => static::CONTROL_TEXT,
+            static::TYPE_FLOAT  => static::CONTROL_TEXT,
+            static::TYPE_STRING => static::CONTROL_TEXT,
+            static::TYPE_BOOL   => static::CONTROL_CHECKBOX,
+            static::TYPE_ARRAY  => static::CONTROL_MULTI_SELECT,
         );
 
-        return $defaultFields[$type];
+        return $defaultControlTypes[$type];
     }
 
     /**
@@ -316,19 +336,19 @@ abstract class Settings implements StorageInterface
 
     private function setDefaultTypeAndFieldIfNeeded(Setting $setting)
     {
-        if (!is_null($setting->field) && is_null($setting->type)) {
-            $setting->type = $this->getDefaultType($setting->field);
-        } elseif (!is_null($setting->type) && is_null($setting->field)) {
-            $setting->field = $this->getDefaultField($setting->type);
-        } elseif (is_null($setting->field) && is_null($setting->type)) {
+        if (!is_null($setting->uiControlType) && is_null($setting->type)) {
+            $setting->type = $this->getDefaultType($setting->uiControlType);
+        } elseif (!is_null($setting->type) && is_null($setting->uiControlType)) {
+            $setting->uiControlType = $this->getDefaultCONTROL($setting->type);
+        } elseif (is_null($setting->uiControlType) && is_null($setting->type)) {
             $setting->type = static::TYPE_STRING;
-            $setting->field = static::FIELD_TEXT;
+            $setting->uiControlType = static::CONTROL_TEXT;
         }
     }
 
     private function addValidatorIfNeeded(Setting $setting)
     {
-        if (!is_null($setting->validate) || is_null($setting->fieldOptions)) {
+        if (!is_null($setting->validate) || is_null($setting->availableValues)) {
             return;
         }
 
@@ -341,12 +361,12 @@ abstract class Settings implements StorageInterface
 
             if (is_array($value) && $setting->type == Settings::TYPE_ARRAY) {
                 foreach ($value as $val) {
-                    if (!array_key_exists($val, $setting->fieldOptions)) {
+                    if (!array_key_exists($val, $setting->availableValues)) {
                         throw new \Exception($errorMsg);
                     }
                 }
             } else {
-                if (!array_key_exists($value, $setting->fieldOptions)) {
+                if (!array_key_exists($value, $setting->availableValues)) {
                     throw new \Exception($errorMsg);
                 }
             }
