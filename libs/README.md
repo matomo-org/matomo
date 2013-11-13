@@ -14,6 +14,9 @@ third-party libraries:
      class/pRadar.class.php, class/pScatter.class.php, class/pSplit.class.php,
      class/pSpring.class.php, class/pStock.class.php, class/pSurface.class.php,
      data/, examples/, fonts/, palettes/
+   - The bug #4206 (GD with JIS-mapped Japanese Font Support) was fixed in this
+     commit: https://github.com/piwik/piwik/commit/516c13d9b13ca3b908575eb809f7ad9d9397f0e1
+     Changed files: class/pImage.class.php class/pDraw.class.php
  * PclZip/
    - in r1960, ignore touch() - utime failed warning
  * PEAR/, PEAR.php
