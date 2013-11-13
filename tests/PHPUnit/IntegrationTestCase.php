@@ -725,6 +725,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         $expected = $this->loadExpectedFile($expectedFilePath);
+        $expectedContent = $expected;
         $expected = $this->normalizePdfContent($expected);
 
         if (empty($expected)) {
@@ -801,6 +802,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 && empty($compareAgainst)
             ) {
                 file_put_contents($processedFilePath, $response);
+
+                if(trim($expectedContent) != trim($expected)) {
+                    file_put_contents($expectedFilePath, $expected);
+                }
             }
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
