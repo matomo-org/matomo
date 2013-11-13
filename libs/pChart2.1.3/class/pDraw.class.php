@@ -1016,16 +1016,26 @@
      if ( $this->Shadow && $this->ShadowX != 0 && $this->ShadowY != 0 )
       {
        $C_ShadowColor = $this->allocateColor($this->Picture,$this->ShadowR,$this->ShadowG,$this->ShadowB,$this->Shadowa);
-       imagettftext($this->Picture,$FontSize,$Angle,$X+$this->ShadowX,$Y+$this->ShadowY,$C_ShadowColor,$FontName,$Text);
+       imagettftext($this->Picture,$FontSize,$Angle,$X+$this->ShadowX,$Y+$this->ShadowY,$C_ShadowColor,$FontName,$this->getEncodedText($Text));
       }
 
      $C_TextColor = $this->AllocateColor($this->Picture,$R,$G,$B,$Alpha);
-     imagettftext($this->Picture,$FontSize,$Angle,$X,$Y,$C_TextColor,$FontName,$Text);
+     imagettftext($this->Picture,$FontSize,$Angle,$X,$Y,$C_TextColor,$FontName,$this->getEncodedText($Text));
 
      $this->Shadow = $Shadow;
 
      return($TxtPos);
     }
+
+     function getEncodedText($text)
+     {
+         $gdinfo = gd_info();
+         if (!empty($gdinfo['JIS-mapped Japanese Font Support'])) {
+             return mb_convert_encoding($text, "SJIS", "UTF-8");
+         }
+
+         return $text;
+     }
 
    /* Draw a gradient within a defined area */
    function drawGradientArea($X1,$Y1,$X2,$Y2,$Direction,$Format="")
@@ -1388,7 +1398,7 @@
 
      $this->drawArrow($X2,$Y2,$X1,$Y1,$Format);
 
-     $Size	= imagettfbbox($FontSize,0,$FontName,$Text);
+     $Size	= imagettfbbox($FontSize,0,$FontName,$this->getEncodedText($Text));
      $TxtWidth	= max(abs($Size[2]-$Size[0]),abs($Size[0]-$Size[6]));
      $TxtHeight	= max(abs($Size[1]-$Size[7]),abs($Size[3]-$Size[1]));
 

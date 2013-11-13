@@ -97,7 +97,7 @@
        imagealphablending($this->Picture,FALSE);
        imagefilledrectangle($this->Picture, 0,0,$XSize, $YSize, imagecolorallocatealpha($this->Picture, 255, 255, 255, 127));
        imagealphablending($this->Picture,TRUE);
-       imagesavealpha($this->Picture,true); 
+       imagesavealpha($this->Picture,true);
       }
      else
       {
@@ -190,7 +190,7 @@
    /* Return the surrounding box of text area */
    function getTextBox_deprecated($X,$Y,$FontName,$FontSize,$Angle,$Text)
     {
-     $Size    = imagettfbbox($FontSize,$Angle,$FontName,$Text);
+     $Size    = imagettfbbox($FontSize,$Angle,$FontName,$this->getEncodedText($Text));
      $Width   = $this->getLength($Size[0],$Size[1],$Size[2],$Size[3])+1;
      $Height  = $this->getLength($Size[2],$Size[3],$Size[4],$Size[5])+1;
 
@@ -205,10 +205,20 @@
      return($RealPos);
     }
 
+     function getEncodedText($text)
+     {
+         $gdinfo = gd_info();
+         if (!empty($gdinfo['JIS-mapped Japanese Font Support'])) {
+             return mb_convert_encoding($text, "SJIS", "UTF-8");
+         }
+
+         return $text;
+     }
+
    /* Return the surrounding box of text area */
    function getTextBox($X,$Y,$FontName,$FontSize,$Angle,$Text)
     {
-     $coords = imagettfbbox($FontSize, 0, $FontName, $Text);
+     $coords = imagettfbbox($FontSize, 0, $FontName, $this->getEncodedText($Text));
 
      $a = deg2rad($Angle); $ca = cos($a); $sa = sin($a); $RealPos = array();
      for($i = 0; $i < 7; $i += 2)
@@ -247,7 +257,7 @@
 
      if ( $FontName != NULL  )
       $this->FontName = $FontName;
- 
+
      if ( $FontSize != NULL  )
       $this->FontSize = $FontSize;
     }
@@ -332,7 +342,7 @@
      if ( $this->ImageMapStorageMode == NULL ) { return(-1); }
 
      if ( is_array($NewTitle) ) { $NewTitle = $this->removeVOIDFromArray($OldTitle, $NewTitle); }
- 
+
      if ( $this->ImageMapStorageMode == IMAGE_MAP_STORAGE_SESSION )
       {
        if(!isset($_SESSION)) { return(-1); }
@@ -373,7 +383,7 @@
      if ( $this->ImageMapStorageMode == NULL ) { return(-1); }
 
      $Values = $this->removeVOIDFromArray($Title, $Values);
-     $ID = 0; 
+     $ID = 0;
      if ( $this->ImageMapStorageMode == IMAGE_MAP_STORAGE_SESSION )
       {
        if(!isset($_SESSION)) { return(-1); }
@@ -460,7 +470,7 @@
 
      $Picture = imagecreatetruecolor($this->XSize,$this->YSize);
      imagecopy($Picture,$this->Picture,0,0,0,0,$this->XSize,$this->YSize);
-     
+
      for($i=1;$i<=$Height;$i++)
       {
        if ( $Y+($i-1) < $this->YSize && $Y-$i > 0 ) { imagecopymerge($Picture,$this->Picture,$X,$Y+($i-1),$X,$Y-$i,$Width,1,$StartAlpha-$AlphaStep*$i); }
