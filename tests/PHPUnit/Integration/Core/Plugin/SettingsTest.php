@@ -10,7 +10,7 @@ use Piwik\Access;
 use Piwik\Plugin\Settings as PluginSettings;
 use Piwik\Settings\Setting;
 
-class TestablePluginSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
+class Core_Plugin_SettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
 
     public function init()
     {
@@ -31,7 +31,7 @@ class TestablePluginSettings extends \Piwik\Plugins\ExampleSettingsPlugin\Settin
 class SettingsTest extends DatabaseTestCase
 {
     /**
-     * @var TestablePluginSettings
+     * @var Core_Plugin_SettingsTest
      */
     private $settings;
 
@@ -76,21 +76,21 @@ class SettingsTest extends DatabaseTestCase
     public function test_addSetting_shouldAssignDefaultType_IfFieldIsGivenButNoType()
     {
         $setting = $this->buildUserSetting('myname', 'mytitle');
-        $setting->uiControlType = TestablePluginSettings::CONTROL_MULTI_SELECT;
+        $setting->uiControlType = Core_Plugin_SettingsTest::CONTROL_MULTI_SELECT;
 
         $this->settings->addSetting($setting);
 
-        $this->assertEquals(TestablePluginSettings::TYPE_ARRAY, $setting->type);
+        $this->assertEquals(Core_Plugin_SettingsTest::TYPE_ARRAY, $setting->type);
     }
 
     public function test_addSetting_shouldAssignDefaultField_IfTypeIsGivenButNoField()
     {
         $setting = $this->buildUserSetting('myname', 'mytitle');
-        $setting->type = TestablePluginSettings::TYPE_ARRAY;
+        $setting->type = Core_Plugin_SettingsTest::TYPE_ARRAY;
 
         $this->settings->addSetting($setting);
 
-        $this->assertEquals(TestablePluginSettings::CONTROL_MULTI_SELECT, $setting->uiControlType);
+        $this->assertEquals(Core_Plugin_SettingsTest::CONTROL_MULTI_SELECT, $setting->uiControlType);
     }
 
     public function test_addSetting_shouldAddAValidator_IfFieldOptionsAreGiven()
@@ -650,6 +650,6 @@ class SettingsTest extends DatabaseTestCase
 
     private function createSettingsInstance()
     {
-        return new TestablePluginSettings('ExampleSettingsPlugin');
+        return new Core_Plugin_SettingsTest('ExampleSettingsPlugin');
     }
 }

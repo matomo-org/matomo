@@ -10,7 +10,7 @@ use Piwik\Access;
 use Piwik\Plugins\Goals\API;
 use Piwik\WidgetsList;
 
-class WidgetsListTest extends DatabaseTestCase
+class Core_WidgetsListTest extends DatabaseTestCase
 {
     /**
      * @group Core

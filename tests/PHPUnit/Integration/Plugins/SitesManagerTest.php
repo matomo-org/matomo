@@ -10,7 +10,7 @@ use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Site;
 
-class SitesManagerTest extends DatabaseTestCase
+class Plugins_SitesManagerTest extends DatabaseTestCase
 {
     public function setUp()
     {

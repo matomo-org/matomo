@@ -12,7 +12,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
 
-class PiwikTest extends DatabaseTestCase
+class Core_PiwikTest extends DatabaseTestCase
 {
     /**
      * Tests the generated JS code

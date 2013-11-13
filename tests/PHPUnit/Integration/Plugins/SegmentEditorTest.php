@@ -11,7 +11,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
-class SegmentEditorTest extends DatabaseTestCase
+class Plugins_SegmentEditorTest extends DatabaseTestCase
 {
     public function setUp()
     {
