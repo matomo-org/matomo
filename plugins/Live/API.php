@@ -424,9 +424,7 @@ class API extends \Piwik\Plugin\API
             $orderByDir = "ASC";
         }
 
-        $site                = new Site($idSite);
-        $timezone            = $site->getTimezone();
-        $visitLastActionDate = Date::factory($visitLastActionTime, $timezone);
+        $visitLastActionDate = Date::factory($visitLastActionTime);
         $dateOneDayAgo       = $visitLastActionDate->subDay(1);
         $dateOneDayInFuture  = $visitLastActionDate->addDay(1);
 
