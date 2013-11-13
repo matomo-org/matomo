@@ -8,7 +8,7 @@
 use Piwik\Access;
 use Piwik\AuthResult;
 
-class AccessTest extends DatabaseTestCase
+class Core_AccessTest extends DatabaseTestCase
 {
     public function setUp()
     {

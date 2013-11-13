@@ -22,7 +22,7 @@ use Piwik\Segment;
 use Piwik\SettingsServer;
 use Piwik\Site;
 
-class ArchiveProcessorTest extends ArchiveProcessor\Loader {
+class Core_ArchiveProcessorTest extends ArchiveProcessor\Loader {
 
     public function getParams()
     {
@@ -77,7 +77,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
      * @param string $periodLabel
      * @param string $dateLabel
      * @param string $siteTimezone
-     * @return  \ArchiveProcessorTest
+     * @return  \Core_ArchiveProcessorTest
      */
     private function _createArchiveProcessor($periodLabel, $dateLabel, $siteTimezone)
     {
@@ -87,7 +87,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $segment = new Segment('', $site->getId());
 
         $params = new ArchiveProcessor\Parameters($site, $period, $segment);
-        return new \ArchiveProcessorTest($params);
+        return new \Core_ArchiveProcessorTest($params);
     }
 
     /**

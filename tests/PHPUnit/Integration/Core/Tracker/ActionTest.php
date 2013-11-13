@@ -13,7 +13,7 @@ use Piwik\Translate;
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-class Tracker_ActionTest extends DatabaseTestCase
+class Core_Tracker_ActionTest extends DatabaseTestCase
 {
     public function setUp()
     {

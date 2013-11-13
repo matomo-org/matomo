@@ -7,7 +7,7 @@
  */
 use Piwik\Updater;
 
-class UpdaterTest extends DatabaseTestCase
+class Core_UpdaterTest extends DatabaseTestCase
 {
     /**
      * @group Core

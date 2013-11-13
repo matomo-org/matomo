@@ -19,7 +19,7 @@ use Piwik\Site;
 
 require_once 'ScheduledReports/ScheduledReports.php';
 
-class ScheduledReportsTest extends DatabaseTestCase
+class Plugins_ScheduledReportsTest extends DatabaseTestCase
 {
     private $idSite = 1;
 

@@ -14,7 +14,7 @@ use Piwik\Plugins\UsersManager\API;
 
 require_once 'Login/Auth.php';
 
-class LoginTest extends DatabaseTestCase
+class Plugins_LoginTest extends DatabaseTestCase
 {
     public function setUp()
     {

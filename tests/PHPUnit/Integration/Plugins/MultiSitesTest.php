@@ -10,7 +10,7 @@ use Piwik\Access;
 use Piwik\Plugins\MultiSites\API as APIMultiSites;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
-class MultiSitesTest extends DatabaseTestCase
+class Plugins_MultiSitesTest extends DatabaseTestCase
 {
     protected $idSiteAccess;
 

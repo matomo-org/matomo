@@ -13,7 +13,7 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
-class MobileMessagingTest extends DatabaseTestCase
+class Plugins_MobileMessagingTest extends DatabaseTestCase
 {
     protected $idSiteAccess;
 
