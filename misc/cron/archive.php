@@ -110,6 +110,8 @@ class CronArchive
     // Since weeks are not used in yearly archives, we make sure that all possible weeks are processed
     const DEFAULT_DATE_LAST_WEEKS = 520;
 
+    const DEFAULT_DATE_LAST_YEARS = 2;
+
     // Flag to know when the archive cron is calling the API
     const PREPEND_TO_API_REQUEST = '&trigger=archivephp';
 
@@ -447,7 +449,12 @@ class CronArchive
      */
     private function getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed = false)
     {
-        $dateLastMax = $period == 'week' ? self::DEFAULT_DATE_LAST_WEEKS : self::DEFAULT_DATE_LAST;
+        $dateLastMax = self::DEFAULT_DATE_LAST;
+        if($period=='year') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_YEARS;
+        } elseif($period == 'week') {
+            $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
+        }
         if (empty($lastTimestampWebsiteProcessed)) {
             $dateLast = $dateLastMax;
         } else {
