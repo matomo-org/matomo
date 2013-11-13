@@ -1,0 +1,21 @@
+{
+    "DevicesDetection": {
+        "PluginDescription": "Dieses Plugin stellt erweiterte Informationen über die verwendeten Geräte der Besucher, wie z.B. Marke (Hersteller), Modell (Geräteversion), Typ (TV, Konsolen, Smartphones, Desktop, usw.) und mehr des jeweiligen Gerätes, zur Verfügung. Dieses Plugin fügt einen neuen Bericht unter 'Besucher > Geräte' ein.",        
+        "submenu": "Geräte",
+        "DevicesDetection": "Besuchergeräte",
+        "dataTableLabelBrands": "Hersteller",
+        "dataTableLabelTypes": "Typ",
+        "dataTableLabelModels": "Modell",
+        "dataTableLabelSystemFamily": "Betriebssysteme",
+        "dataTableLabelSystemVersion": "Betriebssystem Versionen",
+        "dataTableLabelBrowserFamily": "Browser",
+        "dataTableLabelBrowserVersion": "Browser Versionen",
+        "OperatingSystemVersions": "Betriebssystem Versionen",
+        "OperatingSystemFamilies": "Betriebssysteme",
+        "BrowsersFamily": "Browser",
+        "BrowserVersions": "Browser Versionen",
+        "DeviceType": "Gerätetyp",
+        "DeviceBrand": "Hersteller",
+        "DeviceModel": "Modell"
+    }
+}
