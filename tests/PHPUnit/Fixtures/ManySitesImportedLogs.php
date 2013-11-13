@@ -105,8 +105,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
                 $enabledAllUsers = $info['enabledAllUsers'];
             }
             
-            APISegmentEditor::getInstance()->add(
-                $segmentName, $info['definition'], $idSite, $autoArchive, $enabledAllUsers);
+            APISegmentEditor::getInstance()->add($segmentName, $info['definition'], $idSite, $autoArchive, $enabledAllUsers);
         }
     }
 

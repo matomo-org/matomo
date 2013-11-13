@@ -65,7 +65,17 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $idSite = $this->idSite1;
         $idSite2 = $this->idSite2;
 
-        // -
+        $this->trackVisitsSite1($idSite, $dateTime);
+        $this->trackVisitsSite2($idSite2, $dateTime);
+    }
+
+    /**
+     * @param $idSite
+     * @param $dateTime
+     */
+    private function trackVisitsSite1($idSite, $dateTime)
+    {
+// -
         // First visitor on Idsite 1: two page views
         $datetimeSpanOverTwoDays = '2010-01-03 23:55:00';
         $visitorA = self::getTracker($idSite, $datetimeSpanOverTwoDays, $defaultInit = true);
@@ -123,7 +133,15 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $visitorB->setGenerationTime(452);
         self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
         self::checkBulkTrackingResponse($visitorB->doBulkTrack());
+    }
 
+
+    /**
+     * @param $idSite2
+     * @param $dateTime
+     */
+    private function trackVisitsSite2($idSite2, $dateTime)
+    {
         // -
         // First visitor on Idsite 2: one page view, with Website referrer
         $visitorAsite2 = self::getTracker($idSite2, Date::factory($dateTime)->addHour(24)->getDatetime(), $defaultInit = true);
@@ -133,16 +151,18 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $visitorAsite2->DEBUG_APPEND_URL = '&_idts=' . Date::factory($dateTime)->addHour(24)->getTimestamp();
         $visitorAsite2->setGenerationTime(193);
         self::checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
+
         // test with invalid URL
         $visitorAsite2->setUrl('this is invalid url');
         // and an empty title
         $visitorAsite2->setGenerationTime(203);
         self::checkResponse($visitorAsite2->doTrackPageView(''));
-        
-        // track a page view with a domain alias to test the aggregation of both actions 
+
+        // track a page view with a domain alias to test the aggregation of both actions
         $visitorAsite2->setUrl('http://example2alias.org/home#notIgnoredFragment#');
         $visitorAsite2->setGenerationTime(503);
         self::checkResponse($visitorAsite2->doTrackPageView(''));
     }
+
 }
 
