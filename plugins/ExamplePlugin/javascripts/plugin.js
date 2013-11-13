@@ -14,5 +14,7 @@ $(document).ready(function () {
      * disable_merged_assets = 1
      */
 
-    console.log('Plugin file loaded');
+    if(console) { /* IE8 has no console */
+        console.log('Plugin file loaded');
+    }
 });
