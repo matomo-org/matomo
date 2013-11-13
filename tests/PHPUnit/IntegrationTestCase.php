@@ -759,8 +759,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 // Removed the hack on Nov 13
 //                $expected = $this->removeXmlElement($expected, 'sum_daily_nb_uniq_visitors');
 //                $response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
-                $expected = $this->removeXmlElement($expected, 'nb_visits_converted');
-                $response = $this->removeXmlElement($response, 'nb_visits_converted');
+//                $expected = $this->removeXmlElement($expected, 'nb_visits_converted');
+//                $response = $this->removeXmlElement($response, 'nb_visits_converted');
             }
 
             $expected = $this->removeXmlElement($expected, 'visitServerHour');
