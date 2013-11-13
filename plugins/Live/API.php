@@ -426,8 +426,8 @@ class API extends \Piwik\Plugin\API
 
         $select = "log_visit.idvisitor, MAX(log_visit.visit_last_action_time) as visit_last_action_time";
         $from = "log_visit";
-        $where = "log_visit.idsite = ? AND log_visit.idvisitor <> UNHEX(?)";
-        $whereBind = array($idSite, $visitorId);
+        $where = "log_visit.idsite = ? AND log_visit.idvisitor <> ?";
+        $whereBind = array($idSite, @Common::hex2bin($visitorId));
         $orderBy = "MAX(log_visit.visit_last_action_time) $orderByDir";
         $groupBy = "log_visit.idvisitor";
 
