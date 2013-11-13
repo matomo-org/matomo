@@ -1,5 +1,6 @@
 {
     "Actions": {
+        "AvgGenerationTimeTooltip": "میانگین بر اساس %s کلیک %s بین %s و %s",
         "ColumnClickedURL": "آدرس کلیک شده",
         "ColumnClicks": "کلیک ها",
         "ColumnClicksDocumentation": "تعداد دفعاتی که بر روی این لینک کلیک شده است.",
@@ -132,6 +133,7 @@
         "OptOutForYourVisitors": "Piwik انتخاب کردن را برای بازدید کنندگان خود را",
         "PiwikIsInstalledAt": "پیویک در این مسیر نصب شد",
         "PluginDescription": "محیط مدیریت پیویک.",
+        "PluginSettingChangeNotAllowed": "شما مجاز به تغییر مقدار \"%s\" در پلاگین \"%s\" نیستید.",
         "TrackAGoal": "به دنبال یک هدف",
         "TrackingCode": "کد ردیابی",
         "TrustedHostConfirm": "آیا از تغییر نام هاست مورد اعتماد پیویک اطمینان دارید؟",
