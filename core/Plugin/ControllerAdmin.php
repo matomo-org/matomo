@@ -160,4 +160,13 @@ abstract class ControllerAdmin extends Controller
         $view->phpVersion = PHP_VERSION;
         $view->phpIsNewEnough = version_compare($view->phpVersion, '5.3.0', '>=');
     }
+
+    protected function getDefaultWebsiteId()
+    {
+        $sitesId = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
+        if (!empty($sitesId)) {
+            return $sitesId[0];
+        }
+        return parent::getDefaultWebsiteId();
+    }
 }
