@@ -15,8 +15,8 @@ use Exception;
 use Piwik\ScheduledTime;
 
 /**
- * Contains metadata describing and referencing a chunk of PHP code that should be
- * executed regularly.
+ * Contains metadata describing a chunk of PHP code that should be executed at regular
+ * intervals.
  * 
  * See the [TaskScheduler](#) docs to learn more about scheduled tasks.
  * 
@@ -111,7 +111,7 @@ class ScheduledTask
     }
 
     /**
-     * Return the object instance on which the method should be executed. Returns a class
+     * Returns the object instance on which the method should be executed. Returns a class
      * name if the method is static.
      * 
      * @return mixed

@@ -25,19 +25,30 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  * 
  * Tasks are executed when the cron archive.php script is executed.
  * 
- * ### Scheduling Tasks
- * 
- * **TODO**
- * 
  * ### Examples
  * 
  * **Scheduling a task**
  * 
- *     // TODO
+ *     // event handler for TaskScheduler.getScheduledTasks event
+ *     public function getScheduledTasks(&$tasks)
+ *     {
+ *         $tasks[] = new ScheduledTask(
+ *             'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
+ *             'clearAllCacheEntries',
+ *             null,
+ *             ScheduledTime::factory('daily'),
+ *             ScheduledTask::LOWEST_PRIORITY
+ *         );
+ *     }
  * 
  * **Executing all pending tasks**
  * 
- *     // TODO
+ *     $results = TaskScheduler::runTasks();
+ *     $task1Result = $results[0];
+ *     $task1Name = $task1Result['task'];
+ *     $task1Output = $task1Result['output'];
+ * 
+ *     echo "Executed task '$task1Name'. Task output:\n$task1Output";
  * 
  * @package Piwik
  */
@@ -83,7 +94,7 @@ class TaskScheduler
          *         'Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient',
          *         'clearAllCacheEntries',
          *         null,
-         *         new Daily(),
+         *         ScheduledTime::factory('daily'),
          *         ScheduledTask::LOWEST_PRIORITY
          *     );
          * }

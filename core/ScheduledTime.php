@@ -18,13 +18,12 @@ use Piwik\ScheduledTime\Monthly;
 use Piwik\ScheduledTime\Weekly;
 
 /**
- * The ScheduledTime abstract class is used as a base class for different types of scheduling intervals.
- * ScheduledTime::factory() is used to create a ScheduledTime object.
+ * Describes the interval on which a scheduled task is executed. Use the [factory](#factory) method
+ * to create ScheduledTime instances.
  *
  * @see \Piwik\ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
- * @api
  */
 abstract class ScheduledTime
 {
@@ -102,16 +101,19 @@ abstract class ScheduledTime
     abstract public function setDay($_day);
 
     /**
-     * @param  int $_hour the hour to set, has to be >= 0 and < 24
-     * @throws Exception if method not supported by subclass or parameter _hour is invalid
+     * Sets the hour of the day on which the task should be executed.
+     * 
+     * @param  int $hour Must be `>= 0` and `< 24`.
+     * @throws Exception If the current scheduled period is **hourly** or if `$hour` is invalid.
+     * @api
      */
-    public function setHour($_hour)
+    public function setHour($hour)
     {
-        if (!($_hour >= 0 && $_hour < 24)) {
+        if (!($hour >= 0 && $hour < 24)) {
             throw new Exception ("Invalid hour parameter, must be >=0 and < 24");
         }
 
-        $this->hour = $_hour;
+        $this->hour = $hour;
     }
 
     /**
@@ -149,6 +151,7 @@ abstract class ScheduledTime
      *                                    If `'monthly'` is supplied for `$periodType`, this can be a numeric
      *                                    day in the month or a day in one week of the month. For example,
      *                                    `12`, `23`, `'first sunday'` or `'fourth tuesday'`.
+     * @api
      */
     public static function factory($periodType, $periodDay = false)
     {
