@@ -65,7 +65,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  * 
  * ### Manipulating DataTables
  * 
- * There are two main ways to manipulate a DataTable. You can either:
+ * There are two ways to manipulate a DataTable. You can either:
  * 
  * 1. manually iterate through each row and manipulate the data,
  * 2. or you can use predefined Filters.

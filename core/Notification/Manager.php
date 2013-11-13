@@ -14,6 +14,8 @@ use Piwik\Notification;
 use Piwik\Session\SessionNamespace;
 
 /**
+ * Posts and removes UI notifications (see [Notification](#) to learn more).
+ * 
  * @package Piwik
  * @subpackage Notification
  */
@@ -25,13 +27,13 @@ class Manager
     private static $session = null;
 
     /**
-     * Post a notification to be shown in the status bar. If a notification with the same id has already been posted
-     * by your application and has not yet been canceled, it will be replaced by the updated information.
+     * Posts a notification that will be shown in Piwik's status bar. If a notification with the same id
+     * has been posted and has not been closed/removed, it will be replaced with `$notification`.
      *
-     * @param string       $id   A unique identifier for this notification. Id must be a string and may contain only
-     *                           word characters (AlNum + underscore)
-     * @param Notification $notification
-     *
+     * @param string       $id   A unique identifier for this notification. The ID must be a valid HTML
+     *                           element ID. It can only contain alphanumeric characters (underscores can
+     *                           be used).
+     * @param Notification $notification The notification to post.
      * @api
      */
     public static function notify($id, Notification $notification)

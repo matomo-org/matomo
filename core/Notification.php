@@ -11,15 +11,39 @@
 namespace Piwik;
 
 /**
- * Notification class.
- *
- * Example:
- * ```
- * $notification = new \Piwik\Notification('My Error Message');
- * $notification->context = Notification::CONTEXT_ERROR;
- * \Piwik\Notification\Manager::notify('pluginname_id', $notification);
- * ```
- *
+ * Describes a UI notification.
+ * 
+ * UI notifications are messages displayed to the user near the top of the screen.
+ * Notifications consist of a message, a context (the message type), a priority
+ * and a display type.
+ * 
+ * A notification's context will affect the way the message looks, but not how it
+ * is displayed. A notification's display type will determine how the message is
+ * displayed. The priority determines where it is shown in the list of
+ * all displayed notifications.
+ * 
+ * ### Examples
+ * 
+ * **Display an error message**
+ * 
+ *     $notification = new Notification('My Error Message');
+ *     $notification->context = Notification::CONTEXT_ERROR;
+ *     Notification\Manager::notify('myUniqueNotificationId', $notification);
+ * 
+ * **Display a temporary success message**
+ * 
+ *     $notification = new Notificiation('Success');
+ *     $notification->context = Notification::CONTEXT_SUCCESS;
+ *     $notification->type = Notification::TYPE_TOAST;
+ *     Notification\Manager::notify('myUniqueNotificationId', $notification);
+ * 
+ * **Display a message near the top of the screen**
+ * 
+ *     $notification = new Notification('Urgent: Your password has expired!');
+ *     $notification->context = Notification::CONTEXT_INFO;
+ *     $notification->type = Notification::TYPE_PERSISTENT;
+ *     $notification->priority = Notification::PRIORITY_MAX;
+ * 
  * @package Piwik
  * @subpackage Notification
  * @api
@@ -32,91 +56,110 @@ class Notification
     const CONTEXT_WARNING = 'warning';
 
     /**
-     * Lowest priority
+     * Lowest priority value.
      */
     const PRIORITY_MIN    = 1;
 
     /**
-     * Lower priority
+     * Lower priority value.
      */
     const PRIORITY_LOW    = 25;
 
     /**
-     * Higher priority
+     * Higher priority value.
      */
     const PRIORITY_HIGH   = 50;
 
     /**
-     * Highest priority
+     * Highest priority value.
      */
     const PRIORITY_MAX    = 100;
 
     /**
-     * If flag applied, no close icon will be displayed. Please note that persistent notifications always have a close
-     * icon
+     * If this flag applied, no close icon will be displayed. _Note: persistent notifications always have a close
+     * icon._
+     * 
+     * See [flags](#flags).
      */
     const FLAG_NO_CLEAR   = 1;
 
     /**
-     * Implies transient. Notification will be displayed for a few seconds and then faded out
+     * Notifications of this type will be displayed for a few seconds and then faded out.
      */
     const TYPE_TOAST      = 'toast';
 
     /**
-     * Notification will be displayed until the new user explicitly closes the notification
+     * Notifications of this type will be displayed until the new user explicitly closes the notification.
+     * The notifications will display even if the user reloads the page.
      */
     const TYPE_PERSISTENT = 'persistent';
 
     /**
-     * Notification will be displayed only once.
+     * Notifications of this type will be displayed only once. They will disappear after a page reload or
+     * change.
      */
     const TYPE_TRANSIENT  = 'transient';
 
     /**
-     * The title of the notification. For instance the plugin name. The title is optional.
+     * The notification title. The title is optional and is displayed directly before the message content.
+     * 
      * @var string
      */
     public $title;
 
     /**
-     * The actual message that will be displayed. Must be set.
+     * The notification message. Must be set.
+     * 
      * @var string
      */
     public $message;
 
     /**
-     * @var int optional flags. Usage: $notification->flags = Notification::FLAG_BAR | Notification::FLAG_FOO
+     * Contains extra display options.
+     * 
+     * Usage: `$notification->flags = Notification::FLAG_BAR | Notification::FLAG_FOO`.
+     * 
+     * @var int
      */
     public $flags = self::FLAG_NO_CLEAR;
 
     /**
-     * The type of the notification. See self::TYPE_*
+     * The notification's display type. See `TYPE_*` constants in [this class](#).
+     * 
      * @var string
      */
     public $type = self::TYPE_TRANSIENT;
 
     /**
-     * Context of the notification. For instance info, warning, success or error.
+     * The notification's context (message type). See `CONTEXT_*` constants in [this class](#).
+     * 
+     * A notification's context determines how it will be styled.
+     * 
      * @var string
      */
     public $context = self::CONTEXT_INFO;
 
     /**
-     * The priority of the notification, the higher the priority, the higher the order. Notifications having the
-     * highest priority will be displayed first and all other notifications below. See self::PRIORITY_*
+     * The notification's priority. The higher the priority, the higher the order. See `PRIORITY_*`
+     * constants in [this class](#) to see possible priority values.
+     * 
      * @var int
      */
     public $priority;
 
     /**
-     * Set to true in case you want the raw message output. Make sure to escape the text in this case by yourself.
+     * If true, the message will not be escaped before being outputted as HTML. If you set this to
+     * true, make sure you escape text yourself in order to avoid any possible XSS vulnerabilities.
+     * 
      * @var bool
      */
     public $raw = false;
 
     /**
+     * Constructor.
+     * 
      * @param  string $message   The notification message.
-     * @throws \Exception        In case the message is empty.
+     * @throws \Exception        If the message is empty.
      */
     public function __construct($message)
     {
@@ -127,6 +170,11 @@ class Notification
         $this->message = $message;
     }
 
+    /**
+     * Returns `1` if the notification will be displayed without a close button, `0` if otherwise.
+     * 
+     * @return int `1` or `0`.
+     */
     public function hasNoClear()
     {
         if ($this->flags & self::FLAG_NO_CLEAR) {
@@ -136,6 +184,12 @@ class Notification
         return 0;
     }
 
+    /**
+     * Returns the notification's priority. If no priority has been set, a priority will be set based
+     * on the notification's context.
+     * 
+     * @return int
+     */
     public function getPriority()
     {
         if (!isset($this->priority)) {
@@ -153,5 +207,4 @@ class Notification
 
         return $this->priority;
     }
-
 }
