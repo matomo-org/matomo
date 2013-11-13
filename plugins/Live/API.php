@@ -207,8 +207,9 @@ class API extends \Piwik\Plugin\API
             $result['totalAbandonedCartsItems'] = 0;
         }
 
-        $countries = array();
+        $countries  = array();
         $continents = array();
+        $cities     = array();
         $siteSearchKeywords = array();
 
         $pageGenerationTimeTotal = 0;
@@ -280,6 +281,11 @@ class API extends \Piwik\Plugin\API
                 $continents[$continentCode] = 0;
             }
             ++$continents[$continentCode];
+
+            if (!array_key_exists($countryCode, $cities)) {
+                $cities[$countryCode] = array();
+            }
+            $cities[$countryCode][] = $visit->getColumn('city');
         }
 
         // sort countries/continents/search keywords by visit/action
@@ -289,9 +295,12 @@ class API extends \Piwik\Plugin\API
 
         // transform country/continents/search keywords into something that will look good in XML
         $result['countries'] = $result['continents'] = $result['searches'] = array();
+
         foreach ($countries as $countryCode => $nbVisits) {
+            $countryCities = !empty($cities[$countryCode]) ? array_unique($cities[$countryCode]) : array();
             $result['countries'][] = array('country'    => $countryCode,
                                            'nb_visits'  => $nbVisits,
+                                           'cities'     => $countryCities,
                                            'flag'       => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
                                            'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode));
         }

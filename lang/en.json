@@ -1412,6 +1412,8 @@
         "Continent": "Continent",
         "Region": "Region",
         "City": "City",
+        "FromDifferentCities": "different cities",
+        "CityAndCountry": "%1$s, %2$s",
         "Latitude": "Latitude",
         "Longitude": "Longitude",
         "Organization": "Organization",
