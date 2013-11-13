@@ -469,7 +469,11 @@ class Row
                 if ($columnToSumName == Metrics::INDEX_MAX_ACTIONS) {
                     $operation = 'max';
                 }
+                if(empty($operation)) {
+                    throw new Exception("Unknown aggregation operation for column $columnToSumName.");
+                }
                 $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
+
                 $this->setColumn($columnToSumName, $newValue);
             }
         }
@@ -500,9 +504,10 @@ class Row
                 }
                 break;
             case 'sum':
-            default:
                 $newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
                 break;
+            default:
+                throw new Exception("Unknown operation '$operation'.");
         }
         return $newValue;
     }

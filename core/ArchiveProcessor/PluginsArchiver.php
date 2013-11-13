@@ -48,7 +48,7 @@ class PluginsArchiver
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter);
 
-        $this->isArchiveDay = $this->params->isDayArchive();
+        $this->isSingleSiteDayArchive = $this->params->isSingleSiteDayArchive();
     }
 
     /**
@@ -58,7 +58,7 @@ class PluginsArchiver
      */
     public function callAggregateCoreMetrics()
     {
-        if($this->isArchiveDay) {
+        if($this->isSingleSiteDayArchive) {
             $metrics = $this->aggregateDayVisitsMetrics();
         } else {
             $metrics = $this->aggregateMultipleVisitsMetrics();
@@ -91,7 +91,7 @@ class PluginsArchiver
             $archiver = new $archiverClass($this->archiveProcessor);
 
             if($this->shouldProcessReportsForPlugin($pluginName)) {
-                if($this->isArchiveDay) {
+                if($this->isSingleSiteDayArchive) {
                     $archiver->aggregateDayReport();
                 } else {
                     $archiver->aggregateMultipleReports();
@@ -99,7 +99,7 @@ class PluginsArchiver
             }
         }
 
-        if (!$this->isArchiveDay && $visits) {
+        if (!$this->isSingleSiteDayArchive && $visits) {
             ArchiveSelector::purgeOutdatedArchives($this->params->getPeriod()->getDateStart());
         }
     }
@@ -150,8 +150,8 @@ class PluginsArchiver
             return true;
         }
         if (Rules::shouldProcessReportsAllPlugins(
-                            $this->archiveProcessor->getParams()->getSegment(),
-                            $this->archiveProcessor->getParams()->getPeriod()->getLabel())) {
+                            $this->params->getSegment(),
+                            $this->params->getPeriod()->getLabel())) {
             return true;
         }
 

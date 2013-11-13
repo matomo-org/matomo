@@ -19,6 +19,7 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer\Html;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Row\DataTableSummaryRow;
+use Piwik\DataTable\Simple;
 use ReflectionClass;
 
 /**
@@ -472,28 +473,15 @@ class DataTable implements DataTableInterface
      */
     public function addDataTable(DataTable $tableToSum)
     {
-        foreach ($tableToSum->getRows() as $row) {
-            $labelToLookFor = $row->getColumn('label');
-            $rowFound = $this->getRowFromLabel($labelToLookFor);
-            if ($rowFound === false) {
-                if ($labelToLookFor === self::LABEL_SUMMARY_ROW) {
-                    $this->addSummaryRow($row);
-                } else {
-                    $this->addRow($row);
-                }
-            } else {
-                $rowFound->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
-
-                // if the row to add has a subtable whereas the current row doesn't
-                // we simply add it (cloning the subtable)
-                // if the row has the subtable already
-                // then we have to recursively sum the subtables
-                if (($idSubTable = $row->getIdSubDataTable()) !== null) {
-                    $subTable = Manager::getInstance()->getTable($idSubTable);
-                    $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
-                        = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
-                    $rowFound->sumSubtable($subTable);
-                }
+        if($tableToSum instanceof Simple) {
+            if($tableToSum->getRowsCount() > 1) {
+                throw new Exception("Did not expect a Simple table with more than one row in addDataTable()");
+            }
+            $row = $tableToSum->getFirstRow();
+            $this->aggregateRowFromSimpleTable($row);
+        } else {
+            foreach ($tableToSum->getRows() as $row) {
+                $this->aggregateRowWithLabel($row);
             }
         }
     }
@@ -1480,8 +1468,7 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * Returns a new DataTable in which the rows of this table are replaced with its subtable's
-     * rows.
+     * Returns a new DataTable in which the rows of this table are replaced with the aggregatated rows of all its subtable's.
      *
      * @param string|bool $labelColumn If supplied the label of the parent row will be added to
      *                                 a new column in each subtable row.
@@ -1568,5 +1555,59 @@ class DataTable implements DataTableInterface
         $result = new DataTable();
         $result->addRowsFromSerializedArray($data);
         return $result;
+    }
+
+    /**
+     * Aggregates the $row columns to this table.
+     *
+     * $row must have a column "label". The $row will be summed to this table's row with the same label.
+     *
+     * @param $row
+     * @throws \Exception
+     */
+    protected function aggregateRowWithLabel(Row $row)
+    {
+        $labelToLookFor = $row->getColumn('label');
+        if ($labelToLookFor === false) {
+            throw new Exception("Label column not found in the table to add in addDataTable()");
+        }
+        $rowFound = $this->getRowFromLabel($labelToLookFor);
+        if ($rowFound === false) {
+            if ($labelToLookFor === self::LABEL_SUMMARY_ROW) {
+                $this->addSummaryRow($row);
+            } else {
+                $this->addRow($row);
+            }
+        } else {
+            $rowFound->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+
+            // if the row to add has a subtable whereas the current row doesn't
+            // we simply add it (cloning the subtable)
+            // if the row has the subtable already
+            // then we have to recursively sum the subtables
+            if (($idSubTable = $row->getIdSubDataTable()) !== null) {
+                $subTable = Manager::getInstance()->getTable($idSubTable);
+                $subTable->metadata[self::COLUMN_AGGREGATION_OPS_METADATA_NAME]
+                    = $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME);
+                $rowFound->sumSubtable($subTable);
+            }
+        }
+    }
+
+    /**
+     * @param $row
+     */
+    protected function aggregateRowFromSimpleTable($row)
+    {
+        if ($row === false) {
+            return;
+
+        }
+        $thisRow = $this->getFirstRow();
+        if ($thisRow === false) {
+            $thisRow = new Row;
+            $this->addRow($thisRow);
+        }
+        $thisRow->sumRow($row, $copyMeta = true, $this->getMetadata(self::COLUMN_AGGREGATION_OPS_METADATA_NAME));
     }
 }

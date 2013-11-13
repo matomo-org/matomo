@@ -392,7 +392,7 @@ class Archive
      *                        loaded. Those subtables, however, will NOT have their subtables loaded.
      * @param bool $addMetadataSubtableId Whether to add the database subtable ID as metadata to each datatable,
      *                                    or not.
-     * @return DataTable
+     * @return DataTable|DataTable\Map
      */
     public function getDataTableExpanded($name, $idSubtable = null, $depth = null, $addMetadataSubtableId = true)
     {

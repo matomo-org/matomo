@@ -73,6 +73,28 @@ class Parameters
     }
 
     /**
+     * Returns the array of Period which make up this archive.
+     *
+     * @return \Piwik\Period[]
+     */
+    public function getSubPeriods()
+    {
+        if($this->getPeriod()->getLabel() == 'day') {
+            return array( $this->getPeriod() );
+        }
+        return $this->getPeriod()->getSubperiods();
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdSites()
+    {
+        $idSite = $this->getSite()->getId();
+        return array($idSite);
+    }
+
+    /**
      * Returns the site we are computing statistics for.
      *
      * @return Site
@@ -117,9 +139,11 @@ class Parameters
     /**
      * @return bool
      */
-    public function isDayArchive()
+    public function isSingleSiteDayArchive()
     {
-        return $this->getPeriod()->getLabel() == 'day';
+        $oneSite = count($this->getIdSites()) == 1;
+        $oneDay = $this->getPeriod()->getLabel() == 'day';
+        return $oneDay && $oneSite;
     }
 
     public function logStatusDebug($isTemporary)

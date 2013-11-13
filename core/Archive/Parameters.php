@@ -45,8 +45,8 @@ class Parameters
 
     public function __construct($idSites, $periods, Segment $segment)
     {
-        $this->idSites = $this->getAsNonEmptyArray($idSites, 'idSites');
-        $this->periods = $this->getAsNonEmptyArray($periods, 'periods');
+        $this->idSites = $idSites;
+        $this->periods = $periods;
         $this->segment = $segment;
     }
 
@@ -60,17 +60,5 @@ class Parameters
         return $this->idSites;
     }
 
-    private function getAsNonEmptyArray($array, $paramName)
-    {
-        if (!is_array($array)) {
-            $array = array($array);
-        }
-
-        if (empty($array)) {
-            throw new Exception("Archive::__construct: \$$paramName is empty.");
-        }
-
-        return $array;
-    }
 }
 

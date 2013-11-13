@@ -206,7 +206,7 @@ class ArchivingHelper
                     $row->recalculate();
                 }
 
-                foreach (Archiver::$invalidSummedColumnNameToDeleteFromDayArchive as $name) {
+                foreach (Archiver::$columnsToDeleteAfterAggregation as $name) {
                     $row->deleteColumn($name);
                 }
             }

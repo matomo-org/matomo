@@ -55,7 +55,7 @@ abstract class DataTableManipulator
 
     /**
      * This method can be used by subclasses to iterate over data tables that might be
-     * data table arrays. It calls back the template method self::doManipulate for each table.
+     * data table maps. It calls back the template method self::doManipulate for each table.
      * This way, data table arrays can be handled in a transparent fashion.
      *
      * @param DataTable\Map|DataTable $dataTable

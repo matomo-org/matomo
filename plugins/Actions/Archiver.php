@@ -59,17 +59,17 @@ class Archiver extends \Piwik\Plugin\Archiver
         Action::TYPE_PAGE_TITLE,
         Action::TYPE_SITE_SEARCH,
     );
-    static protected $invalidSummedColumnNameToRenamedNameFromPeriodArchive = array(
+    static protected $columnsToRenameAfterAggregation = array(
         Metrics::INDEX_NB_UNIQ_VISITORS            => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
         Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => Metrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS,
         Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS  => Metrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS,
     );
-    static public $invalidSummedColumnNameToDeleteFromDayArchive = array(
+    static public $columnsToDeleteAfterAggregation = array(
         Metrics::INDEX_NB_UNIQ_VISITORS,
         Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
         Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
     );
-    private static $actionColumnAggregationOperations = array(
+    private static $columnsAggregationOperation = array(
         Metrics::INDEX_PAGE_MAX_TIME_GENERATION => 'max',
         Metrics::INDEX_PAGE_MIN_TIME_GENERATION => 'min'
     );
@@ -171,7 +171,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                 || $type == Action::TYPE_PAGE_TITLE
             ) {
                 // for page urls and page titles, performance metrics exist and have to be aggregated correctly
-                $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, self::$actionColumnAggregationOperations);
+                $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, self::$columnsAggregationOperation);
             }
 
             $this->actionsTablesByType[$type] = $dataTable;
@@ -531,8 +531,8 @@ class Archiver extends \Piwik\Plugin\Archiver
             ArchivingHelper::$maximumRowsInDataTableLevelZero,
             ArchivingHelper::$maximumRowsInSubDataTable,
             ArchivingHelper::$columnToSortByBeforeTruncation,
-            self::$actionColumnAggregationOperations,
-            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive
+            self::$columnsAggregationOperation,
+            self::$columnsToRenameAfterAggregation
         );
 
         $dataTableToSum = array(
@@ -546,7 +546,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             ArchivingHelper::$maximumRowsInSubDataTable,
             ArchivingHelper::$columnToSortByBeforeTruncation,
             $aggregation,
-            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive
+            self::$columnsToRenameAfterAggregation
         );
 
         $this->getProcessor()->aggregateNumericMetrics($this->getMetricNames());

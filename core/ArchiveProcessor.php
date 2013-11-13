@@ -16,6 +16,7 @@ use Piwik\ArchiveProcessor\Parameters;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
+use Piwik\DataTable\Map;
 use Piwik\Db;
 use Piwik\Period;
 
@@ -133,13 +134,12 @@ class ArchiveProcessor
     protected function getArchive()
     {
         if(empty($this->archive)) {
-            $subPeriods = $this->params->getPeriod()->getSubperiods();
-            $idSite = $this->params->getSite()->getId();
-            $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, array($idSite));
+            $subPeriods = $this->params->getSubPeriods();
+            $idSites = $this->params->getIdSites();
+            $this->archive = Archive::factory($this->params->getSegment(), $subPeriods, $idSites);
         }
         return $this->archive;
     }
-
 
     public function setNumberOfVisits($visits, $visitsConverted)
     {
@@ -175,7 +175,7 @@ class ArchiveProcessor
      * These columns will be renamed as per this mapping.
      * @var array
      */
-    protected static $invalidSummedColumnNameToRenamedName = array(
+    protected static $columnsToRenameAfterAggregation = array(
         Metrics::INDEX_NB_UNIQ_VISITORS => Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS
     );
 
@@ -189,8 +189,8 @@ class ArchiveProcessor
      * @param int $maximumRowsInDataTableLevelZero Maximum number of rows allowed in the top level DataTable.
      * @param int $maximumRowsInSubDataTable Maximum number of rows allowed in each subtable.
      * @param string $columnToSortByBeforeTruncation The name of the column to sort by before truncating a DataTable.
-     * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow().
-     * @param array $invalidSummedColumnNameToRenamedName For columns that must change names when summed because they
+     * @param array $columnsAggregationOperation Operations for aggregating columns, @see Row::sumRow().
+     * @param array $columnsToRenameAfterAggregation For columns that must change names when summed because they
      *                                                    cannot be summed, eg,
      *                                                    `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
@@ -209,8 +209,8 @@ class ArchiveProcessor
                                               $maximumRowsInDataTableLevelZero = null,
                                               $maximumRowsInSubDataTable = null,
                                               $columnToSortByBeforeTruncation = null,
-                                              &$columnAggregationOperations = null,
-                                              $invalidSummedColumnNameToRenamedName = null)
+                                              &$columnsAggregationOperation = null,
+                                              $columnsToRenameAfterAggregation = null)
     {
         // We clean up below all tables created during this function call (and recursive calls)
         $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
@@ -219,7 +219,7 @@ class ArchiveProcessor
         }
         $nameToCount = array();
         foreach ($recordNames as $recordName) {
-            $table = $this->aggregateDataTableRecord($recordName, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations);
+            $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
             $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
@@ -254,26 +254,18 @@ class ArchiveProcessor
      */
     public function aggregateNumericMetrics($columns, $operationToApply = false)
     {
-        if (!is_array($columns)) {
-            $columns = array($columns);
-        }
-        $data = $this->getArchive()->getNumeric($columns);
-        $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
-        $results = $this->aggregateDataArray($data, $operationForColumn);
-        $results = $this->defaultColumnsToZero($columns, $results);
-        $this->enrichWithUniqueVisitorsMetric($results);
+        $metrics = $this->getAggregatedNumericMetrics($columns, $operationToApply);
 
-        foreach ($results as $name => $value) {
-            $this->archiveWriter->insertRecord($name, $value);
+        foreach($metrics as $column => $value) {
+            $this->archiveWriter->insertRecord($column, $value);
         }
-
         // if asked for only one field to sum
-        if (count($results) == 1) {
-            return reset($results);
+        if (count($metrics) == 1) {
+            return reset($metrics);
         }
 
         // returns the array of records once summed
-        return $results;
+        return $metrics;
     }
 
     public function getNumberOfVisits()
@@ -345,33 +337,14 @@ class ArchiveProcessor
      * All these DataTables are then added together, and the resulting DataTable is returned.
      *
      * @param string $name
-     * @param array $invalidSummedColumnNameToRenamedName columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
-     * @param array $columnAggregationOperations Operations for aggregating columns, @see Row::sumRow()
+     * @param array $columnsAggregationOperation Operations for aggregating columns, @see Row::sumRow()
+     * @param array $columnsToRenameAfterAggregation columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
      * @return DataTable
      */
-    protected function aggregateDataTableRecord($name, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations = null)
+    protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
     {
-        $table = new DataTable();
-        if (!empty($columnAggregationOperations)) {
-            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOperations);
-        }
-
-        $data = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
-        if ($data instanceof DataTable\Map) {
-            // as $date => $tableToSum
-            foreach ($data->getDataTables() as $tableToSum) {
-                $table->addDataTable($tableToSum);
-            }
-        } else {
-            $table->addDataTable($data);
-        }
-
-        if (is_null($invalidSummedColumnNameToRenamedName)) {
-            $invalidSummedColumnNameToRenamedName = self::$invalidSummedColumnNameToRenamedName;
-        }
-        foreach ($invalidSummedColumnNameToRenamedName as $oldName => $newName) {
-            $table->renameColumn($oldName, $newName);
-        }
+        $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
+        $table = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
         return $table;
     }
 
@@ -388,64 +361,9 @@ class ArchiveProcessor
         return $operationForColumn;
     }
 
-    protected function aggregateDataArray(array $data, array $operationForColumn)
-    {
-        $results = array();
-        foreach ($data as $row) {
-            if (!is_array($row)) {
-                // this is not a data array to aggregate
-                return $data;
-            }
-            foreach ($row as $name => $value) {
-                $operation = $operationForColumn[$name];
-                switch ($operation) {
-                    case 'sum':
-                        if (!isset($results[$name])) {
-                            $results[$name] = 0;
-                        }
-                        $results[$name] += $value;
-                        break;
-
-                    case 'max':
-                        if (!isset($results[$name])) {
-                            $results[$name] = 0;
-                        }
-                        $results[$name] = max($results[$name], $value);
-                        break;
-
-                    case 'min':
-                        if (!isset($results[$name])) {
-                            $results[$name] = $value;
-                        }
-                        $results[$name] = min($results[$name], $value);
-                        break;
-
-                    case false:
-                        // do nothing if the operation is not known (eg. nb_uniq_visitors should be not be aggregated)
-                        break;
-
-                    default:
-                        throw new Exception("Operation not applicable.");
-                        break;
-                }
-            }
-        }
-        return $results;
-    }
-
-    protected function defaultColumnsToZero($columns, $results)
-    {
-        foreach ($columns as $name) {
-            if (!isset($results[$name])) {
-                $results[$name] = 0;
-            }
-        }
-        return $results;
-    }
-
     protected function enrichWithUniqueVisitorsMetric(&$results)
     {
-        if (array_key_exists('nb_uniq_visitors', $results)) {
+        if (isset($results['nb_uniq_visitors'])) {
             if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
                 $results['nb_uniq_visitors'] = (float)$this->computeNbUniqVisitors();
             } else {
@@ -461,9 +379,6 @@ class ArchiveProcessor
         }
         if (strpos($column, 'min_') === 0) {
             return 'min';
-        }
-        if ($column === 'nb_uniq_visitors') {
-            return false;
         }
         return 'sum';
     }
@@ -482,5 +397,82 @@ class ArchiveProcessor
         $query = $logAggregator->queryVisitsByDimension(array(), false, array(), array(Metrics::INDEX_NB_UNIQ_VISITORS));
         $data = $query->fetch();
         return $data[Metrics::INDEX_NB_UNIQ_VISITORS];
+    }
+
+    /**
+     * If the DataTable is a Map, sums all DataTable in the map and return the DataTable.
+     *
+     *
+     * @param $data DataTable|DataTable\Map
+     * @param $columnsToRenameAfterAggregation array
+     * @return DataTable
+     */
+    protected function getAggregatedDataTableMap($data, $columnsAggregationOperation, $columnsToRenameAfterAggregation = null)
+    {
+        $table = new DataTable();
+        if (!empty($columnsAggregationOperation)) {
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+        }
+        if ($data instanceof DataTable\Map) {
+            // as $date => $tableToSum
+            $this->aggregatedDataTableMapsAsOne($data, $table);
+        } else {
+            $table->addDataTable($data);
+        }
+
+        // Rename columns after aggregation
+        if (is_null($columnsToRenameAfterAggregation)) {
+            $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
+        }
+        foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
+            $table->renameColumn($oldName, $newName);
+        }
+        return $table;
+    }
+
+    /**
+     * Aggregates the DataTable\Map into the destination $aggregated
+     * @param $map
+     * @param $aggregated
+     */
+    protected function aggregatedDataTableMapsAsOne(Map $map, DataTable $aggregated)
+    {
+        foreach ($map->getDataTables() as $tableToAggregate) {
+            if($tableToAggregate instanceof Map) {
+                $this->aggregatedDataTableMapsAsOne($tableToAggregate, $aggregated);
+            } else {
+                $aggregated->addDataTable($tableToAggregate);
+            }
+        }
+    }
+
+    protected function getAggregatedNumericMetrics($columns, $operationToApply)
+    {
+        if (!is_array($columns)) {
+            $columns = array($columns);
+        }
+        $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
+
+        $dataTable = $this->getArchive()->getDataTableFromNumeric($columns);
+
+        $results = $this->getAggregatedDataTableMap($dataTable, $operationForColumn);
+
+        if ($results->getRowsCount() > 1) {
+            throw new Exception("A DataTable is an unexpected state:" . var_export($results, true));
+        }
+        $rowMetrics = $results->getFirstRow();
+        if ($rowMetrics === false) {
+            $metrics = array();
+        } else {
+            $metrics = $rowMetrics->getColumns();
+        }
+        $this->enrichWithUniqueVisitorsMetric($metrics);
+
+        foreach ($columns as $name) {
+            if (!isset($metrics[$name])) {
+                $metrics[$name] = 0;
+            }
+        }
+        return $metrics;
     }
 }
