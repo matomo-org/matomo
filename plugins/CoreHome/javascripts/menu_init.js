@@ -1,8 +1,15 @@
 $(function () {
-    if ($('.Menu--dashboard').size()) {
+    function hasPageAMenu()
+    {
+        return $('.Menu--dashboard').size();
+    }
+
+    if (hasPageAMenu()) {
         piwikMenu = new menu();
         piwikMenu.init();
         piwikMenu.loadFirstSection();
+        broadcast.init();
+    } else {
+        broadcast.init(true);
     }
-    broadcast.init();
 });
