@@ -31,7 +31,6 @@ class API extends \Piwik\Plugin\API
     public function getAnswerToLife($truth = true)
     {
         if ($truth) {
-
             return 42;
         }
 

@@ -141,9 +141,14 @@ class Parameters
      */
     public function isSingleSiteDayArchive()
     {
-        $oneSite = count($this->getIdSites()) == 1;
+        $oneSite = $this->isSingleSite();
         $oneDay = $this->getPeriod()->getLabel() == 'day';
         return $oneDay && $oneSite;
+    }
+
+    public function isSingleSite()
+    {
+        return count($this->getIdSites()) == 1;
     }
 
     public function logStatusDebug($isTemporary)

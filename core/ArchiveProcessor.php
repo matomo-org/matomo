@@ -367,7 +367,8 @@ class ArchiveProcessor
     {
         if ( $row->getColumn('nb_uniq_visitors') !== false) {
             if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
-                $row->setColumn('nb_uniq_visitors', (float)$this->computeNbUniqVisitors());
+                $uniqueVisitors = (float)$this->computeNbUniqVisitors();
+                $row->setColumn('nb_uniq_visitors', $uniqueVisitors);
             } else {
                 $row->deleteColumn('nb_uniq_visitors');
             }
@@ -466,16 +467,15 @@ class ArchiveProcessor
         }
 
         $rowMetrics = $results->getFirstRow();
-        if($this->getParams()->isSingleSiteDayArchive()) {
+        if($rowMetrics === false) {
+            $rowMetrics = new Row;
+        }
+        if($this->getParams()->isSingleSite() ) {
             $this->enrichWithUniqueVisitorsMetric($rowMetrics);
         }
         $this->renameColumnsAfterAggregation($results);
 
-        if ($rowMetrics === false) {
-            $metrics = array();
-        } else {
-            $metrics = $rowMetrics->getColumns();
-        }
+        $metrics = $rowMetrics->getColumns();
 
         foreach ($columns as $name) {
             if (!isset($metrics[$name])) {
