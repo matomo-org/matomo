@@ -9,6 +9,8 @@ use Piwik\Plugins\UsersManager\API;
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @group Plugins
  */
 class Plugins_UsersManagerTest extends DatabaseTestCase
 {
@@ -69,9 +71,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($user, $userAfter);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testAllSuperUserIncluded()
     {
         Config::getInstance()->superuser = array(
@@ -118,8 +117,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * bad password => exception
-     *
-     * @group Plugins
      */
     public function testUpdateUserBadpasswd()
     {
@@ -160,7 +157,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     /**
      *
      * @dataProvider getAddUserInvalidLoginData
-     * @group Plugins
      */
     public function testAddUserWrongLogin($userLogin, $password, $email, $alias)
     {
@@ -175,8 +171,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * existing login => exception
-     *
-     * @group Plugins
      */
     public function testAddUserExistingLogin()
     {
@@ -206,7 +200,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     /**
      *
      * @dataProvider getWrongPasswordTestData
-     * @group Plugins
      */
     public function testAddUserWrongPassword($userLogin, $password, $email, $alias)
     {
@@ -235,7 +228,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     /**
      *
      * @dataProvider getWrongEmailTestData
-     * @group Plugins
      */
     public function testAddUserWrongEmail($userLogin, $password, $email, $alias)
     {
@@ -250,8 +242,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * empty email => exception
-     *
-     * @group Plugins
      */
     public function testAddUserEmptyEmail()
     {
@@ -267,8 +257,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * empty alias => use login
-     *
-     * @group Plugins
      */
     public function testAddUserEmptyAlias()
     {
@@ -281,8 +269,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * no alias => use login
-     *
-     * @group Plugins
      */
     public function testAddUserNoAliasSpecified()
     {
@@ -295,8 +281,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal test case
-     *
-     * @group Plugins
      */
     public function testAddUser()
     {
@@ -329,8 +313,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * user doesnt exist => exception
-     *
-     * @group Plugins
      */
     public function testSeleteUserDoesntExist()
     {
@@ -347,8 +329,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * empty name, doesnt exists =>exception
-     *
-     * @group Plugins
      */
     public function testDeleteUserEmptyUser()
     {
@@ -363,8 +343,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * null user,, doesnt exists => exception
-     *
-     * @group Plugins
      */
     public function testDeleteUserNullUser()
     {
@@ -379,8 +357,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal case, user deleted
-     *
-     * @group Plugins
      */
     public function testDeleteUser()
     {
@@ -419,8 +395,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * no user => exception
-     *
-     * @group Plugins
      */
     public function testGetUserNoUser()
     {
@@ -437,8 +411,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * normal case
-     *
-     * @group Plugins
      */
     public function test_GetUser()
     {
@@ -462,8 +434,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
 
     /**
      * no user => empty array
-     *
-     * @group Plugins
      */
     public function testGetUsersNoUser()
     {
@@ -473,8 +443,6 @@ class Plugins_UsersManagerTest extends DatabaseTestCase
     /**
      * normal case
      * as well as selecting specific user names, comma separated
-     *
-     * @group Plugins
      */
     public function testGetUsers()
     {

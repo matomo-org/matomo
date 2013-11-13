@@ -6,6 +6,8 @@ use Piwik\Db;
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @group Core
  */
 class Core_SqlTest extends DatabaseTestCase
 {

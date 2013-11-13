@@ -10,6 +10,11 @@ use Piwik\Access;
 use Piwik\Plugins\MultiSites\API as APIMultiSites;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 
+/**
+ * Class Plugins_MultiSitesTest
+ *
+ * @group Plugins
+ */
 class Plugins_MultiSitesTest extends DatabaseTestCase
 {
     protected $idSiteAccess;

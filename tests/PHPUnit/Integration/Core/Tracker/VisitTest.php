@@ -11,6 +11,11 @@ use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\VisitExcluded;
 
+/**
+ * Class Core_Tracker_VisitTest
+ *
+ * @group Core
+ */
 class Core_Tracker_VisitTest extends DatabaseTestCase
 {
     public function setUp()
