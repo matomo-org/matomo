@@ -13,11 +13,11 @@ namespace Piwik\ViewDataTable;
 use Piwik\Common;
 
 /**
- * Renders a sparkline image given a PHP data array.
- * Using the Sparkline PHP Graphing Library sparkline.org
+ * TODO
  *
  * @package Piwik
  * @subpackage Piwik_Visualization
+ * @api
  */
 class RequestConfig
 {

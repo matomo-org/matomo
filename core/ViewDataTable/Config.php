@@ -15,15 +15,62 @@ use Piwik\Metrics;
 use Piwik\Plugins\API\API;
 
 /**
- * Renders a sparkline image given a PHP data array.
- * Using the Sparkline PHP Graphing Library sparkline.org
+ * Contains base display properties for ViewDataTables. Manipulating these properties
+ * in a ViewDataTable instance will change how its report will be displayed.
+ * 
+ * **Client Side Properties**
+ * 
+ * Client side properties are properties that should be passed on to the browser so
+ * client side JavaScript can use them. Only affects ViewDataTables that output HTML.
+ * 
+ * **Overridable Properties**
+ * 
+ * Overridable properties are properties that can be set via the query string.
+ * If a request has a query parameter that matches an overridable property, the property
+ * will be set to the query parameter value.
+ * 
+ * **Defining new display properties**
+ * 
+ * If you are creating your own visualization and want to add new display properties for
+ * it, extend this class and add your properties as fields.
+ * 
+ * Properties are marked as client side properties by calling the
+ * [addPropertiesThatShouldBeAvailableClientSide](#addPropertiesThatShouldBeAvailableClientSide) method.
+ * 
+ * Properties are marked as overridable by calling the
+ * [addPropertiesThatCanBeOverwrittenByQueryParams](#addPropertiesThatCanBeOverwrittenByQueryParams) method.
+ * 
+ * ### Example
+ * 
+ * **Defining new display properties**
+ * 
+ *     class MyCustomVizConfig extends Config
+ *     {
+ *         /**
+ *          * My custom property. It is overridable.
+ *          *\/
+ *         public $my_custom_property = false;
+ *
+ *         /**
+ *          * Another custom property. It is available client side.
+ *          *\/
+ *         public $another_custom_property = true;
+ * 
+ *         public function __construct()
+ *         {
+ *             parent::__construct();
+ * 
+ *             $this->addPropertiesThatShouldBeAvailableClientSide(array('another_custom_property'));
+ *             $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('my_custom_property'));
+ *         }
+ *     }
  *
  * @package Piwik
  * @subpackage Piwik_Visualization
+ * @api
  */
 class Config
 {
-
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
      */
@@ -64,47 +111,43 @@ class Config
     /**
      * Controls what footer icons are displayed on the bottom left of the DataTable view.
      * The value of this property must be an array of footer icon groups. Footer icon groups
-     * have set of properties, including an array of arrays describing footer icons. See
-     * this example to get a clear idea of what is required:
+     * have set of properties, including an array of arrays describing footer icons. For
+     * example:
      *
-     * array(
-     *     array( // footer icon group 1
-     *         'class' => 'footerIconGroup1CssClass',
-     *         'buttons' => array(
-     *             'id' => 'myid',
-     *             'title' => 'My Tooltip',
-     *             'icon' => 'path/to/my/icon.png'
+     *     array(
+     *         array( // footer icon group 1
+     *             'class' => 'footerIconGroup1CssClass',
+     *             'buttons' => array(
+     *                 'id' => 'myid',
+     *                 'title' => 'My Tooltip',
+     *                 'icon' => 'path/to/my/icon.png'
+     *             )
+     *         ),
+     *         array( // footer icon group 2
+     *             'class' => 'footerIconGroup2CssClass',
+     *             'buttons' => array(...)
      *         )
-     *     ),
-     *     array( // footer icon group 2
-     *         'class' => 'footerIconGroup2CssClass',
-     *         'buttons' => array(...)
      *     )
-     * )
      *
      * By default, when a user clicks on a footer icon, Piwik will assume the 'id' is
      * a viewDataTable ID and try to reload the DataTable w/ the new viewDataTable. You
      * can provide your own footer icon behavior by adding an appropriate handler via
-     * DataTable.registerFooterIconHandler in your JavaScript.
+     * DataTable.registerFooterIconHandler in your JavaScript code.
      *
-     * Default value: The default value will show the 'Normal Table' icon, the 'All Columns'
-     * icon, the 'Goals Columns' icon and all jqPlot graph columns, unless other properties
-     * tell the view to exclude them.
+     * The default value of this property is not set here and will show the 'Normal Table'
+     * icon, the 'All Columns' icon, the 'Goals Columns' icon and all jqPlot graph columns,
+     * unless other properties tell the view to exclude them.
      */
     public $footer_icons = false;
 
     /**
      * Controls whether the buttons and UI controls around the visualization or shown or
      * if just the visualization alone is shown.
-     *
-     * Default value: false
      */
     public $show_visualization_only = false;
 
     /**
      * Controls whether the goals footer icon is shown.
-     *
-     * Default value: false
      */
     public $show_goals = false;
 
@@ -113,53 +156,43 @@ class Config
      *
      * The value you specify for this property is merged with the default value so you
      * don't have to specify translations that already exist in the default value.
+     * TODO: still accurate?
      *
-     * Default value: Array containing translations of common metrics.
+     * The default value for this property is set elsewhere. It will contain translations
+     * of common metrics.
      */
     public $translations = array();
 
     /**
      * Controls whether the 'Exclude Low Population' option (visible in the popup that displays after
      * clicking the 'cog' icon) is shown.
-     *
-     * Default value: true
      */
     public $show_exclude_low_population = true;
 
     /**
      * Whether to show the 'Flatten' option (visible in the popup that displays after clicking the
      * 'cog' icon).
-     *
-     * Default value: true
      */
     public $show_flatten_table = true;
 
     /**
-     * Controls whether the footer icon that allows user to switch to the 'normal' DataTable view
+     * Controls whether the footer icon that allows users to switch to the 'normal' DataTable view
      * is shown.
-     *
-     * Default value: true
      */
     public $show_table = true;
 
     /**
      * Controls whether the 'All Columns' footer icon is shown.
-     *
-     * Default value: true
      */
     public $show_table_all_columns = true;
 
     /**
      * Controls whether the entire view footer is shown.
-     *
-     * Default value: true
      */
     public $show_footer = true;
 
     /**
      * Controls whether the row that contains all footer icons & the limit selector is shown.
-     *
-     * Default value: true
      */
     public $show_footer_icons = true;
 
@@ -167,24 +200,21 @@ class Config
      * Array property that determines which columns will be shown. Columns not in this array
      * should not appear in ViewDataTable visualizations.
      *
-     * Example: array('label', 'nb_visits', 'nb_uniq_visitors')
+     * Example: `array('label', 'nb_visits', 'nb_uniq_visitors')`
      *
-     * Default value: array('label', 'nb_visits') or array('label', 'nb_uniq_visitors') if
-     *                the report contains a nb_uniq_visitors column.
+     * If this value is empty it will be defaulted to `array('label', 'nb_visits')` or
+     * `array('label', 'nb_uniq_visitors')` if the report contains a nb_uniq_visitors column
+     * after data is loaded.
      */
     public $columns_to_display = array();
 
     /**
      * Controls whether graph and non core viewDataTable footer icons are shown or not.
-     *
-     * Default value: true
      */
     public $show_all_views_icons = true;
 
     /**
      * Controls whether to display a tiny upside-down caret over the currently active view icon.
-     *
-     * Default value: true
      */
     public $show_active_view_icon = true;
 
@@ -192,8 +222,6 @@ class Config
      * Related reports are listed below a datatable view. When clicked, the original report will
      * change to the clicked report and the list will change so the original report can be
      * navigated back to.
-     *
-     * Default value: array()
      */
     public $related_reports = array();
 
@@ -202,22 +230,16 @@ class Config
      * reports.
      *
      * This must be set if related reports are added.
-     *
-     * Default value: ''
      */
     public $title = '';
 
     /**
      * Controls whether a report's related reports are listed with the view or not.
-     *
-     * Default value: true
      */
     public $show_related_reports = true;
 
     /**
      * Contains the documentation for a report.
-     *
-     * Default value: false
      */
     public $documentation = false;
 
@@ -226,8 +248,6 @@ class Config
      * of a data table div. This data can be used by JavaScript DataTable classes.
      *
      * e.g. array('typeReferrer' => ...)
-     *
-     * Default value: array()
      */
     public $custom_parameters = array();
 
@@ -236,80 +256,60 @@ class Config
      * is always shown or not.
      *
      * Normally shown only if pagination is enabled.
-     *
-     * Default value: true
      */
     public $show_limit_control = true;
 
     /**
      * Controls whether the search box under the datatable is shown.
-     *
-     * Default value: true
      */
     public $show_search = true;
 
     /**
      * Controls whether the user can sort DataTables by clicking on table column headings.
-     *
-     * Default value: true
      */
     public $enable_sort = true;
 
     /**
      * Controls whether the footer icon that allows users to view data as a bar chart is shown.
-     *
-     * Default value: true
      */
     public $show_bar_chart = true;
 
     /**
      * Controls whether the footer icon that allows users to view data as a pie chart is shown.
-     *
-     * Default value: true
      */
     public $show_pie_chart = true;
 
     /**
      * Controls whether the footer icon that allows users to view data as a tag cloud is shown.
-     *
-     * Default value: true
      */
     public $show_tag_cloud = true;
 
     /**
      * Controls whether the user is allowed to export data as an RSS feed or not.
-     *
-     * Default value: true
      */
     public $show_export_as_rss_feed = true;
 
     /**
      * Controls whether the 'Ecoommerce Orders'/'Abandoned Cart' footer icons are shown or not.
-     *
-     * Default value: false
      */
     public $show_ecommerce = false;
 
     /**
      * Stores an HTML message (if any) to display under the datatable view.
-     *
-     * Default value: false
      */
     public $show_footer_message = false;
 
     /**
      * Array property that stores documentation for individual metrics.
      *
-     * E.g. array('nb_visits' => '...', ...)
+     * E.g. `array('nb_visits' => '...', ...)`
      *
-     * Default: Set to values retrieved from report metadata (via API.getReportMetadata API method).
+     * By default this is set to values retrieved from report metadata (via API.getReportMetadata API method).
      */
     public $metrics_documentation = array();
 
     /**
      * Row metadata name that contains the tooltip for the specific row.
-     *
-     * Default value: false
      */
     public $tooltip_metadata_name = false;
 
@@ -318,44 +318,34 @@ class Config
      * from a Related Report will go to a different URL. Can be used to load an entire page instead
      * of a single report when going back to the original report.
      *
-     * Default value: The URL used to request the report without generic filters.
+     * The URL used to request the report without generic filters.
      */
     public $self_url = '';
 
     /**
      * CSS class to use in the output HTML div. This is added in addition to the visualization CSS
      * class.
-     *
-     * Default value: false
      */
     public $datatable_css_class = false;
 
     /**
      * The JavaScript class to instantiate after the result HTML is obtained. This class handles all
      * interactive behavior for the DataTable view.
-     *
-     * Default value: 'DataTable'
      */
     public $datatable_js_type = 'DataTable';
 
     /**
      * If true, searching through the DataTable will search through all subtables.
-     *
-     * Default value: false
      */
     public $search_recursive = false;
 
     /**
      * The unit of the displayed column. Valid if only one non-label column is displayed.
-     *
-     * Default value: false
      */
     public $y_axis_unit = false;
 
     /**
      * Controls whether to show the 'Export as Image' footer icon.
-     *
-     * Default value: false
      */
     public $show_export_as_image_icon = false;
 
@@ -370,56 +360,67 @@ class Config
      * add/delete rows.
      *
      * If a closure is used, the view is appended as a parameter.
-     *
-     * Default value: array()
      */
     public $filters = array();
 
     /**
      * Contains the controller action to call when requesting subtables of the current report.
      *
-     * Default value: The controller action used to request the report.
+     * By default, this is set to the controller action used to request the report.
      */
     public $subtable_controller_action = '';
 
     /**
      * Controls whether the 'prev'/'next' links are shown in the DataTable footer. These links
      * change the 'filter_offset' query parameter, thus allowing pagination.
-     *
-     * TODO: pagination/offset is only valid for HtmlTables... should only display for those visualizations.
-     *
-     * Default value: true
      */
     public $show_pagination_control = true;
 
     /**
      * Controls whether offset information (ie, '5-10 of 20') is shown under the datatable.
-     *
-     * Default value: true
      */
     public $show_offset_information = true;
 
     /**
      * Controls whether annotations are shown or not.
-     *
-     * Default value: true
      */
     public $hide_annotations_view = true;
 
     /**
      * The filter_limit query parameter value to use in export links.
      *
-     * Default value: The value of the 'API_datatable_default_limit' config option.
+     * Defaulted to the value of the `[General] API_datatable_default_limit` INI config option.
      */
     public $export_limit = '';
 
+    /**
+     * TODO
+     */
     public $report_last_updated_message = false;
+
+    /**
+     * TODO
+     */
     public $metadata  = array();
+
+    /**
+     * TODO
+     */
     public $report_id = '';
 
+    /**
+     * TODO
+     */
     public $controllerName;
+
+    /**
+     * TODO
+     */
     public $controllerAction;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->export_limit = \Piwik\Config::getInstance()->General['API_datatable_default_limit'];
@@ -429,6 +430,9 @@ class Config
         );
     }
 
+    /**
+     * TODO
+     */
     public function setController($controllerName, $controllerAction)
     {
         $this->controllerName   = $controllerName;
@@ -455,6 +459,9 @@ class Config
         }
     }
 
+    /**
+     * TODO
+     */
     public function addPropertiesThatShouldBeAvailableClientSide(array $propertyNames)
     {
         foreach ($propertyNames as $propertyName) {
@@ -462,6 +469,9 @@ class Config
         }
     }
 
+    /**
+     * TODO
+     */
     public function addPropertiesThatCanBeOverwrittenByQueryParams(array $propertyNames)
     {
         foreach ($propertyNames as $propertyName) {
@@ -469,11 +479,17 @@ class Config
         }
     }
 
+    /**
+     * TODO
+     */
     public function getProperties()
     {
         return get_object_vars($this);
     }
 
+    /**
+     * TODO
+     */
     public function setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors)
     {
         if ($hasNbVisits || $hasNbUniqVisitors) {
@@ -492,6 +508,9 @@ class Config
         $this->columns_to_display = array_filter($columnsToDisplay);
     }
 
+    /**
+     * TODO
+     */
     public function getFiltersToRun()
     {
         $priorityFilters     = array();
@@ -516,6 +535,9 @@ class Config
         return array($priorityFilters, $presentationFilters);
     }
 
+    /**
+     * TODO
+     */
     public function addRelatedReport($relatedReport, $title, $queryParams = array())
     {
         list($module, $action) = explode('.', $relatedReport);
@@ -530,6 +552,9 @@ class Config
         $this->related_reports[$url] = $title;
     }
 
+    /**
+     * TODO
+     */
     public function addRelatedReports($relatedReports)
     {
         foreach ($relatedReports as $report => $title) {
@@ -537,16 +562,21 @@ class Config
         }
     }
 
+    /**
+     * TODO
+     */
     public function addTranslation($key, $translation)
     {
         $this->translations[$key] = $translation;
     }
 
+    /**
+     * TODO
+     */
     public function addTranslations($translations)
     {
         foreach ($translations as $key => $translation) {
             $this->addTranslation($key, $translation);
         }
     }
-
 }

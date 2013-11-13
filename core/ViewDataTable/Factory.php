@@ -16,22 +16,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
- * This class is used to load (from the API) and customize the output of a given DataTable.
- * The build() method will create an object implementing ViewInterface
- * You can customize the dataTable using the disable* methods.
+ * TODO
  *
- * Example:
- * In the Controller of the plugin VisitorInterest
- * <pre>
- *  function getNumberOfVisitsPerVisitDuration( $fetch = false)
- *  {
- *      $view = ViewDataTable/Factory::build( 'cloud', 'VisitorInterest.getNumberOfVisitsPerVisitDuration' );
- *      $view->config->show_search = true;
- *      $view->render();
- *  }
- * </pre>
- *
- * @see build() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
  * @package Piwik
  * @subpackage ViewDataTable
  *

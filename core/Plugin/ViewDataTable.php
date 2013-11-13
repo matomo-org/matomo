@@ -23,28 +23,54 @@ use Piwik\ViewDataTable\Request as ViewDataTableRequest;
 use Piwik\ViewDataTable\RequestConfig as VizRequest;
 
 /**
- * This class is used to load (from the API) and customize the output of a given DataTable.
+ * The base class of all analytics visualizations.
+ * 
+ * ViewDataTable instances load analytics data via Piwik's API and then output some
+ * type of visualization of that data.
+ * 
+ * Visualizations can be in any format. HTML-based visualizations should derive from
+ * [Visualization](#). Visualizations that use other formats, such as visualizations
+ * that output an image, should extend ViewDataTable directly.
  *
- * You can build your own ViewDataTable by extending this class and implementing the buildView() method which defines
- * which data should be loaded and which view should be rendered.
- *
- * Example usage:
- * In the Controller of the plugin VisitorInterest
- * <pre>
- *    function getNumberOfVisitsPerVisitDuration( $fetch = false)
- *  {
- *        $view = ViewDataTable::factory( 'cloud' );
- *        $view->init( $this->pluginName,  __FUNCTION__, 'VisitorInterest.getNumberOfVisitsPerVisitDuration' );
- *        $view->setColumnsToDisplay( array('label','nb_visits') );
- *        $view->disableSort();
- *        $view->disableExcludeLowPopulation();
- *        $view->disableOffsetInformation();
- *
- *        return $this->renderView($view, $fetch);
- *    }
- * </pre>
- *
- * @see factory() for all the available output (cloud tags, html table, pie chart, vertical bar chart)
+ * ### Configuring ViewDataTables
+ * 
+ * **Display properties**
+ * 
+ * ViewDataTable output can be customized by setting one of many available display
+ * properties. Display properties are stored as fields in [Config](#) objects. ViewDataTables
+ * store a [Config](#) object in the [config](#config) field.
+ * 
+ * Display properties can be set at any time before rendering.
+ * 
+ * **Request parameters**
+ * 
+ * Request parameters are similar to display properties in the way they are set. They are,
+ * however, not used to customize ViewDataTable instances, but in the request to Piwik's
+ * API when loading analytics data.
+ * 
+ * Request parameters are set by setting the fields of a [RequestConfig](#) object stored in
+ * the [requestConfig](#requestConfig) field. They can be set at any time before rendering.
+ * Setting them after data is loaded will have no effect.
+ * 
+ * **Customizing how reports are displayed**
+ * 
+ * Each individual report should be rendered in its own controller action. There are two
+ * ways to render reports, you can either:
+ * 
+ * 1. manually create and configure a visualization instance
+ * 2. 
+ * 
+ * **TODO**
+ * 
+ * ### Creating new visualizations
+ * 
+ * 
+ * **TODO**
+ * 
+ * ### Examples
+ * 
+ * **TODO**
+ * 
  * @package Piwik
  * @subpackage ViewDataTable
  *
@@ -97,11 +123,11 @@ abstract class ViewDataTable implements ViewInterface
         $this->requestConfig->apiMethodToRequestDataTable = $apiMethodToRequestDataTable;
 
         /**
-         * Triggered during [ViewDataTable](#) is constructed. Subscribers should customize
+         * Triggered during [ViewDataTable](#) construction. Subscribers should customize
          * the view based on the report that it is displaying.
          * 
          * Plugins that define their own reports must subscribe to this event in order to
-         * customize how the Piwik UI will display and navigate the report.
+         * specify how the Piwik UI will display the report.
          * 
          * **Example**
          *
