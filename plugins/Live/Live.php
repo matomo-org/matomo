@@ -14,6 +14,8 @@ use Piwik\Menu\MenuMain;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\WidgetsList;
 
+require_once PIWIK_INCLUDE_PATH . '/plugins/Live/VisitorLog.php';
+
 /**
  *
  * @package Live
@@ -76,5 +78,3 @@ class Live extends \Piwik\Plugin
         $defaultViewTypes['Live.getLastVisitsDetails'] = VisitorLog::ID;
     }
 }
-
-require_once PIWIK_INCLUDE_PATH . '/plugins/Live/VisitorLog.php';
