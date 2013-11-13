@@ -17,6 +17,7 @@ use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
+use Piwik\DataTable\Row;
 use Piwik\Db;
 use Piwik\Period;
 
@@ -344,8 +345,9 @@ class ArchiveProcessor
     protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
     {
         $dataTable = $this->getArchive()->getDataTableExpanded($name, $idSubTable = null, $depth = null, $addMetadataSubtableId = false);
-        $table = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
-        return $table;
+        $dataTable = $this->getAggregatedDataTableMap($dataTable, $columnsAggregationOperation);
+        $this->renameColumnsAfterAggregation($dataTable, $columnsToRenameAfterAggregation);
+        return $dataTable;
     }
 
     protected function getOperationForColumns($columns, $defaultOperation)
@@ -361,13 +363,13 @@ class ArchiveProcessor
         return $operationForColumn;
     }
 
-    protected function enrichWithUniqueVisitorsMetric(&$results)
+    protected function enrichWithUniqueVisitorsMetric(Row $row)
     {
-        if (isset($results['nb_uniq_visitors'])) {
+        if ( $row->getColumn('nb_uniq_visitors') !== false) {
             if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
-                $results['nb_uniq_visitors'] = (float)$this->computeNbUniqVisitors();
+                $row->setColumn('nb_uniq_visitors', (float)$this->computeNbUniqVisitors());
             } else {
-                unset($results['nb_uniq_visitors']);
+                $row->deleteColumn('nb_uniq_visitors');
             }
         }
     }
@@ -407,7 +409,7 @@ class ArchiveProcessor
      * @param $columnsToRenameAfterAggregation array
      * @return DataTable
      */
-    protected function getAggregatedDataTableMap($data, $columnsAggregationOperation, $columnsToRenameAfterAggregation = null)
+    protected function getAggregatedDataTableMap($data, $columnsAggregationOperation)
     {
         $table = new DataTable();
         if (!empty($columnsAggregationOperation)) {
@@ -418,14 +420,6 @@ class ArchiveProcessor
             $this->aggregatedDataTableMapsAsOne($data, $table);
         } else {
             $table->addDataTable($data);
-        }
-
-        // Rename columns after aggregation
-        if (is_null($columnsToRenameAfterAggregation)) {
-            $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
-        }
-        foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
-            $table->renameColumn($oldName, $newName);
         }
         return $table;
     }
@@ -446,6 +440,17 @@ class ArchiveProcessor
         }
     }
 
+    protected function renameColumnsAfterAggregation(DataTable $table, $columnsToRenameAfterAggregation = null)
+    {
+        // Rename columns after aggregation
+        if (is_null($columnsToRenameAfterAggregation)) {
+            $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
+        }
+        foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
+            $table->renameColumn($oldName, $newName);
+        }
+    }
+
     protected function getAggregatedNumericMetrics($columns, $operationToApply)
     {
         if (!is_array($columns)) {
@@ -456,17 +461,21 @@ class ArchiveProcessor
         $dataTable = $this->getArchive()->getDataTableFromNumeric($columns);
 
         $results = $this->getAggregatedDataTableMap($dataTable, $operationForColumn);
-
         if ($results->getRowsCount() > 1) {
             throw new Exception("A DataTable is an unexpected state:" . var_export($results, true));
         }
+
         $rowMetrics = $results->getFirstRow();
+        if($this->getParams()->isSingleSiteDayArchive()) {
+            $this->enrichWithUniqueVisitorsMetric($rowMetrics);
+        }
+        $this->renameColumnsAfterAggregation($results);
+
         if ($rowMetrics === false) {
             $metrics = array();
         } else {
             $metrics = $rowMetrics->getColumns();
         }
-        $this->enrichWithUniqueVisitorsMetric($metrics);
 
         foreach ($columns as $name) {
             if (!isset($metrics[$name])) {
