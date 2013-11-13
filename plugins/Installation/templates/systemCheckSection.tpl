@@ -124,7 +124,7 @@
 </table>
 <br/>
 
-<h2>{'Optional'|translate}</h2>
+<h2>{'Installation_Optional'|translate}</h2>
 <table class="infos" id="systemCheckOptional">
     <tr>
         <td class="label">{'Installation_SystemCheckFileIntegrity'|translate}</td>
