@@ -10,7 +10,7 @@ use Piwik\Access;
 use Piwik\Plugin\Settings as PluginSettings;
 use Piwik\Settings\Setting;
 
-class Core_Plugin_SettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
+class CorePluginSettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Settings {
 
     public function init()
     {
@@ -24,14 +24,14 @@ class Core_Plugin_SettingsTest extends \Piwik\Plugins\ExampleSettingsPlugin\Sett
 }
 
 /**
- * Class SettingsTest
+ * Class Core_Plugin_SettingsTest
  * @group Core
  * @group PluginSettings
  */
-class SettingsTest extends DatabaseTestCase
+class Core_Plugin_SettingsTest extends DatabaseTestCase
 {
     /**
-     * @var Core_Plugin_SettingsTest
+     * @var CorePluginSettingsTest
      */
     private $settings;
 
@@ -76,21 +76,21 @@ class SettingsTest extends DatabaseTestCase
     public function test_addSetting_shouldAssignDefaultType_IfFieldIsGivenButNoType()
     {
         $setting = $this->buildUserSetting('myname', 'mytitle');
-        $setting->uiControlType = Core_Plugin_SettingsTest::CONTROL_MULTI_SELECT;
+        $setting->uiControlType = CorePluginSettingsTest::CONTROL_MULTI_SELECT;
 
         $this->settings->addSetting($setting);
 
-        $this->assertEquals(Core_Plugin_SettingsTest::TYPE_ARRAY, $setting->type);
+        $this->assertEquals(CorePluginSettingsTest::TYPE_ARRAY, $setting->type);
     }
 
     public function test_addSetting_shouldAssignDefaultField_IfTypeIsGivenButNoField()
     {
         $setting = $this->buildUserSetting('myname', 'mytitle');
-        $setting->type = Core_Plugin_SettingsTest::TYPE_ARRAY;
+        $setting->type = CorePluginSettingsTest::TYPE_ARRAY;
 
         $this->settings->addSetting($setting);
 
-        $this->assertEquals(Core_Plugin_SettingsTest::CONTROL_MULTI_SELECT, $setting->uiControlType);
+        $this->assertEquals(CorePluginSettingsTest::CONTROL_MULTI_SELECT, $setting->uiControlType);
     }
 
     public function test_addSetting_shouldAddAValidator_IfFieldOptionsAreGiven()
@@ -650,6 +650,6 @@ class SettingsTest extends DatabaseTestCase
 
     private function createSettingsInstance()
     {
-        return new Core_Plugin_SettingsTest('ExampleSettingsPlugin');
+        return new CorePluginSettingsTest('ExampleSettingsPlugin');
     }
 }

@@ -12,6 +12,11 @@ use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
 
+/**
+ * Class Core_PiwikTest
+ *
+ * @group Core
+ */
 class Core_PiwikTest extends DatabaseTestCase
 {
     /**

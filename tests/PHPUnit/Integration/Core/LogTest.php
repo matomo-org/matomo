@@ -15,6 +15,11 @@ require_once PIWIK_INCLUDE_PATH . '/tests/resources/TestPluginLogClass.php';
 use Piwik\Log;
 use Piwik\Plugins\TestPlugin\TestLoggingUtility;
 
+/**
+ * Class Core_LogTest
+ *
+ * @group Core
+ */
 class Core_LogTest extends DatabaseTestCase
 {
     const TESTMESSAGE = 'test%smessage';
@@ -25,9 +30,9 @@ class Core_LogTest extends DatabaseTestCase
         'screen' => 'dummy error message<br />
  <br />
  --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php',
-        'file' => '[LogTest] LogTest.php(156): dummy error message
+        'file' => '[Core_LogTest] LogTest.php(161): dummy error message
 dummy backtrace',
-        'database' => '[LogTest] LogTest.php(156): dummy error message
+        'database' => '[Core_LogTest] LogTest.php(161): dummy error message
 dummy backtrace'
     );
 
@@ -40,9 +45,9 @@ dummy backtrace'
 <br /><br />Backtrace --&gt;<div style="font-family:Courier;font-size:10pt"><br />
 dummy backtrace</div><br />
  </pre></div><br />',
-        'file' => '[LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+        'file' => '[Core_LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
 dummy backtrace',
-        'database' => '[LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+        'database' => '[Core_LogTest] dummyerrorfile.php(145): Unknown error (102) - dummy error string
 dummy backtrace'
     );
 
@@ -104,7 +109,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'LogTest');
+        $this->checkBackend($backend, self::TESTMESSAGE, $formatMessage = true, $tag = 'Core_LogTest');
     }
 
     /**
@@ -121,7 +126,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true, $tag = 'LogTest');
+        $this->checkBackend($backend, sprintf(self::TESTMESSAGE, " subst "), $formatMessage = true, $tag = 'Core_LogTest');
     }
 
     /**
@@ -139,7 +144,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::$expectedErrorOutput[$backend], $formatMessage = false, $tag = 'LogTest');
+        $this->checkBackend($backend, self::$expectedErrorOutput[$backend], $formatMessage = false, $tag = 'Core_LogTest');
         $this->checkBackend('screen', self::$expectedErrorOutput['screen']); // errors should always written to the screen
     }
 
@@ -158,7 +163,7 @@ dummy backtrace'
         $this->screenOutput = ob_get_contents();
         ob_end_clean();
 
-        $this->checkBackend($backend, self::$expectedExceptionOutput[$backend], $formatMessage = false, $tag = 'LogTest');
+        $this->checkBackend($backend, self::$expectedExceptionOutput[$backend], $formatMessage = false, $tag = 'Core_LogTest');
         $this->checkBackend('screen', self::$expectedExceptionOutput['screen']); // errors should always written to the screen
     }
 

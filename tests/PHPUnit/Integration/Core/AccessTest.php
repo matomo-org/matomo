@@ -8,6 +8,11 @@
 use Piwik\Access;
 use Piwik\AuthResult;
 
+/**
+ * Class Core_AccessTest
+ *
+ * @group Core
+ */
 class Core_AccessTest extends DatabaseTestCase
 {
     public function setUp()

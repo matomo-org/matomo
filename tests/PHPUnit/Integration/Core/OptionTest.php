@@ -11,6 +11,11 @@ use Piwik\Option;
 
 require_once "Option.php";
 
+/**
+ * Class Core_OptionTest
+ *
+ * @group Core
+ */
 class Core_OptionTest extends DatabaseTestCase
 {
     /**

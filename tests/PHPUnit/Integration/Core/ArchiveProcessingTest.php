@@ -38,7 +38,12 @@ class Core_ArchiveProcessorTest extends ArchiveProcessor\Loader {
     }
 }
 
-class ArchiveProcessingTest extends DatabaseTestCase
+/**
+ * Class Core_ArchiveProcessorTest
+ *
+ * @group Core
+ */
+class Core_ArchiveProcessingTest extends DatabaseTestCase
 {
     public function setUp()
     {
