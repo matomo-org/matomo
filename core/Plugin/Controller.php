@@ -735,7 +735,9 @@ abstract class Controller
             $defaultWebsiteId = $defaultReport;
         }
 
-        if ($defaultWebsiteId) {
+        ;
+
+        if ($defaultWebsiteId && Piwik::isUserHasViewAccess($defaultWebsiteId)) {
             return $defaultWebsiteId;
         }
 
