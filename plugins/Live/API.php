@@ -285,7 +285,10 @@ class API extends \Piwik\Plugin\API
             if (!array_key_exists($countryCode, $cities)) {
                 $cities[$countryCode] = array();
             }
-            $cities[$countryCode][] = $visit->getColumn('city');
+            $city = $visit->getColumn('city');
+            if(!empty($city)) {
+                $cities[$countryCode][] = $city;
+            }
         }
 
         // sort countries/continents/search keywords by visit/action
@@ -297,12 +300,15 @@ class API extends \Piwik\Plugin\API
         $result['countries'] = $result['continents'] = $result['searches'] = array();
 
         foreach ($countries as $countryCode => $nbVisits) {
-            $countryCities = !empty($cities[$countryCode]) ? array_unique($cities[$countryCode]) : array();
-            $result['countries'][] = array('country'    => $countryCode,
-                                           'nb_visits'  => $nbVisits,
-                                           'cities'     => $countryCities,
-                                           'flag'       => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
-                                           'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode));
+
+            $countryInfo = array('country'    => $countryCode,
+                                   'nb_visits'  => $nbVisits,
+                                   'flag'       => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
+                                   'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode));
+            if(!empty($cities[$countryCode])) {
+                $countryInfo['cities'] = array_unique($cities[$countryCode]);
+            }
+            $result['countries'][] = $countryInfo;
         }
         foreach ($continents as $continentCode => $nbVisits) {
             $result['continents'][] = array('continent'  => $continentCode,
