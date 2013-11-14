@@ -16,8 +16,45 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 
 /**
- * TODO
+ * Provides a means of creating [ViewDataTable](#) instances by ID.
  *
+ * ### Examples
+ * 
+ * **Creating a ViewDataTable for a report**
+ * 
+ *     // method in MyPlugin\Controller
+ *     public function myReport()
+ *     {
+ *         $view = Factory::build('table', 'MyPlugin.myReport');
+ *         $view->config->show_limit_control = true;
+ *         $view->config->translations['myFancyMetric'] = "My Fancy Metric";
+ *         echo $view->render();
+ *     }
+ * 
+ * **Displaying a report in another way**
+ * 
+ *     // method in MyPlugin\Controller
+ *     // use the same data that's used in myReport() above, but transform it in some way before
+ *     // displaying.
+ *     public function myReportShownDifferently()
+ *     {
+ *         $view = Factory::build('table', 'MyPlugin.myReport', 'MyPlugin.myReportShownDifferently');
+ *         $view->config->filters[] = array('MyMagicFilter', array('an arg', 'another arg'));
+ *         echo $view->render();
+ *     }
+ * 
+ * **Force a report to be shown as a bar graph**
+ * 
+ *     // method in MyPlugin\Controller
+ *     // force the myReport report to show as a bar graph if there is no viewDataTable query param,
+ *     // even though it is configured to show as a table.
+ *     public function myReportShownAsABarGraph()
+ *     {
+ *         $view = Factory::build('graphVerticalBar', 'MyPlugin.myReport', 'MyPlugin.myReportShownAsABarGraph',
+ *                                $forceDefault = true);
+ *         echo $view->render();
+ *     }
+ * 
  * @package Piwik
  * @subpackage ViewDataTable
  *
@@ -25,7 +62,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
  */
 class Factory
 {
-
     /**
      * Cache for getDefaultTypeViewDataTable result.
      *
@@ -34,19 +70,28 @@ class Factory
     private static $defaultViewTypes = null;
 
     /**
-     * Returns a Piwik_ViewDataTable_* object.
-     * By default it will return a ViewDataTable_Html
-     * If there is a viewDataTable parameter in the URL, a ViewDataTable of this 'viewDataTable' type will be returned.
-     * If defaultType is specified and if there is no 'viewDataTable' in the URL, a ViewDataTable of this $defaultType will be returned.
-     * If force is set to true, a ViewDataTable of the $defaultType will be returned in all cases.
-     *
-     * @param string $defaultType Any of these: table, cloud, graphPie, graphVerticalBar, graphEvolution, sparkline, generateDataChart*
-     * @param string|bool $apiAction
-     * @param string|bool $controllerAction
-     * @param bool $forceDefault
-     *
+     * Creates a [ViewDataTable](#) instance by ID. If the **viewDataTable** query parameter is set,
+     * this parameter's value is used as the ID.
+     * 
+     * See [ViewDataTable docs](#) to read about the ViewDataTable implementations that are packaged with Piwik.
+     * 
+     * @param string|null $defaultType A ViewDataTable ID representing the default ViewDataTable type to use. If
+     *                                 the **viewDataTable** query parameter is not found, this value is used as
+     *                                 the ID of the ViewDataTable to create.
+     *                                 
+     *                                 If a visualization type is configured for the report being displayed, it
+     *                                 is used instead of the default type. (See [ViewDataTable.getDefaultType](#)).
+     *                                 If nothing is configured for the report and `null` is supplied for this
+     *                                 argument, **table** is used.
+     * @param string|false $apiAction The API method for the report that will be displayed, eg,
+     *                               `'UserSettings.getBrowser'`.
+     * @param string|false $controllerAction The controller name and action dedicated to displaying the report. This
+     *                                       action is used when reloading reports or changing the report visualization.
+     *                                       Defaulted to `$apiAction` if `false` is supplied.
+     * @param bool $forceDefault If true, then the visualization type that was configured for the report will be
+     *                           ignored and `$defaultType` will be used as the default.
      * @throws \Exception
-     * @return \Piwik\Plugin\ViewDataTable|\Piwik\Plugin\Visualization|\Piwik\Plugins\CoreVisualizations\Visualizations\Sparkline;
+     * @return \Piwik\Plugin\ViewDataTable
      */
     public static function build($defaultType = null, $apiAction = false, $controllerAction = false, $forceDefault = false)
     {
