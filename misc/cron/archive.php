@@ -103,17 +103,17 @@ class CronArchive
     // force-all-periods default (7 days)
     const ARCHIVE_SITES_WITH_TRAFFIC_SINCE = 604800;
 
-    // By default, will process last 52 days/weeks/months/year.
+    // By default, will process last 52 days and months
     // It will be overwritten by the number of days since last archiving ran until completion.
     const DEFAULT_DATE_LAST = 52;
 
     // Since weeks are not used in yearly archives, we make sure that all possible weeks are processed
-    const DEFAULT_DATE_LAST_WEEKS = 520;
+    const DEFAULT_DATE_LAST_WEEKS = 156;
 
-    const DEFAULT_DATE_LAST_YEARS = 2;
+    const DEFAULT_DATE_LAST_YEARS = 7;
 
     // Flag to know when the archive cron is calling the API
-    const PREPEND_TO_API_REQUEST = '&trigger=archivephp';
+    const APPEND_TO_API_REQUEST = '&trigger=archivephp';
 
     // Flag used to record timestamp in Option::
     const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
@@ -456,13 +456,13 @@ class CronArchive
             $dateLastMax = self::DEFAULT_DATE_LAST_WEEKS;
         }
         if (empty($lastTimestampWebsiteProcessed)) {
+            $lastTimestampWebsiteProcessed = strtotime( \Piwik\Site::getCreationDateFor($idsite) );
+        }
+
+        // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
+        $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
+        if ($dateLast > $dateLastMax) {
             $dateLast = $dateLastMax;
-        } else {
-            // Enforcing last2 at minimum to work around timing issues and ensure we make most archives available
-            $dateLast = floor((time() - $lastTimestampWebsiteProcessed) / 86400) + 2;
-            if ($dateLast > $dateLastMax) {
-                $dateLast = $dateLastMax;
-            }
         }
         return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
     }
@@ -506,7 +506,7 @@ class CronArchive
         $mh = false;
         $url = $this->piwikUrl;
         $url .= $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed);
-        $url .= self::PREPEND_TO_API_REQUEST;
+        $url .= self::APPEND_TO_API_REQUEST;
 
         // already processed above for "day"
         if ($period != "day") {
@@ -543,7 +543,7 @@ class CronArchive
                 ) {
                     $stats = @unserialize($content);
                     if (!is_array($stats)) {
-                        $this->logError("Error unserializing the following response: " . $content);
+                        $this->logError("Error unserializing the following response from $url: " . $content);
                     }
                     $visitsAllDaysInPeriod = @array_sum($stats);
                 }
@@ -609,7 +609,7 @@ class CronArchive
      */
     private function request($url)
     {
-        $url = $this->piwikUrl . $url . self::PREPEND_TO_API_REQUEST;
+        $url = $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
         //$this->log($url);
         try {
             $response = Http::sendHttpRequestBy('curl', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
