@@ -88,9 +88,9 @@
                             {%- for entry in visitorData.countries -%}
 
                                 {% set entryCity -%}
-                                    {% if 1 == entry.cities|length and entry.cities|join -%}
+                                    {% if entry.cities is defined and 1 == entry.cities|length and entry.cities|join -%}
                                         {{ entry.cities|join }}
-                                    {%- elseif 1 < entry.cities|length -%}
+                                    {%- elseif entry.cities is defined and 1 < entry.cities|length -%}
                                         <span title="{{ entry.cities|join(', ') }}">{{ 'UserCountry_FromDifferentCities'|translate }}</span>
                                     {%- endif %}
                                 {%- endset %}
