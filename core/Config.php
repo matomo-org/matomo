@@ -117,6 +117,10 @@ class Config extends Singleton
             $this->configCache['Plugins'] = $this->configGlobal['Plugins'];
             $this->configCache['Plugins']['Plugins'][] = 'DevicesDetection';
         }
+
+        // to avoid weird session error in travis
+        $this->configCache['General']['session_save_handler'] = 'dbtables';
+
     }
 
     /**
@@ -282,7 +286,7 @@ class Config extends Singleton
 
             // must be called here, not in init(), since setTestEnvironment() calls init(). (this avoids
             // infinite recursion)
-            Piwik::postTestEvent('Config.createConfigSingleton', array( $this->getInstance() ));
+            Piwik::postTestEvent('Config.createConfigSingleton', array( $this ));
         }
 
         // check cache for merged section

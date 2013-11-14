@@ -62,7 +62,6 @@ class Piwik_TestingEnvironment
             );
             $config->Plugins_Tracker = array('Plugins_Tracker' => $trackerPluginsToLoad);
 
-            $config->General['session_save_handler'] = 'dbtables'; // to avoid weird session error in travis
             $config->superuser['email'] = 'hello@example.org';
         });
         \Piwik\Piwik::addAction('Request.dispatch', function() {
