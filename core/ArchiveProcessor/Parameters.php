@@ -51,11 +51,17 @@ class Parameters
         $this->segment = $segment;
     }
 
+    /**
+     * @ignore
+     */
     public function setRequestedPlugin($plugin)
     {
         $this->requestedPlugin = $plugin;
     }
 
+    /**
+     * @ignore
+     */
     public function getRequestedPlugin()
     {
         return $this->requestedPlugin;

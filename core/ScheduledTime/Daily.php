@@ -19,7 +19,6 @@ use Piwik\ScheduledTime;
  * @see ScheduledTask
  * @package Piwik
  * @subpackage ScheduledTime
- *
  */
 class Daily extends ScheduledTime
 {
