@@ -223,15 +223,11 @@ class RowEvolution
         $i = 0;
         $metrics = array();
         foreach ($this->availableMetrics as $metric => $metricData) {
-            $max = isset($metricData['max']) ? $metricData['max'] : 0;
-            $min = isset($metricData['min']) ? $metricData['min'] : 0;
+            $unit = Metrics::getUnit($metric, $this->idSite);
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
-            $unit = Metrics::getUnit($metric, $this->idSite);
-            $min .= $unit;
-            $max .= $unit;
-
-            $details = Piwik::translate('RowEvolution_MetricBetweenText', array($min, $max));
+            list($first, $last) = $this->getFirstAndLastDataPointsForMetric($metric);
+            $details = Piwik::translate('RowEvolution_MetricBetweenText', array($first, $last));
 
             if ($change !== false) {
                 $lowerIsBetter = Metrics::isLowerValueBetter($metric);
@@ -253,9 +249,17 @@ class RowEvolution
                 $details .= ', ' . Piwik::translate('RowEvolution_MetricChangeText', $change);
             }
 
+            // set metric min/max text (used as tooltip for details)
+            $max = isset($metricData['max']) ? $metricData['max'] : 0;
+            $min = isset($metricData['min']) ? $metricData['min'] : 0;
+            $min .= $unit;
+            $max .= $unit;
+            $minmax = Piwik::translate('RowEvolution_MetricMinMax', array($metricData['name'], $min, $max));
+
             $newMetric = array(
                 'label'     => $metricData['name'],
                 'details'   => $details,
+                'minmax'    => $minmax,
                 'sparkline' => $this->getSparkline($metric),
             );
             // Multi Rows, each metric can be for a particular row and display an icon
@@ -292,5 +296,28 @@ class RowEvolution
     public function useAvailableMetrics()
     {
         $this->graphMetrics = $this->availableMetrics;
+    }
+
+    private function getFirstAndLastDataPointsForMetric($metric)
+    {
+        $first = 0;
+        $firstTable = $this->dataTable->getFirstRow();
+        if (!empty($firstTable)) {
+            $row = $firstTable->getFirstRow();
+            if (!empty($row)) {
+                $first = floatval($row->getColumn($metric));
+            }
+        }
+
+        $last = 0;
+        $lastTable = $this->dataTable->getLastRow();
+        if (!empty($lastTable)) {
+            $row = $lastTable->getFirstRow();
+            if (!empty($row)) {
+                $last = floatval($row->getColumn($metric));
+            }
+        }
+
+        return array($first, $last);
     }
 }

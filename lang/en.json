@@ -2222,8 +2222,9 @@
     "RowEvolution": {
         "MetricsFor": "Metrics for %s",
         "AvailableMetrics": "Available metrics",
-        "MetricBetweenText": "between %s and %s",
-        "MetricChangeText": "%s over the period",
+        "MetricBetweenText": "from %s to %s",
+        "MetricMinMax": "%1$s ranged between %2$s and %3$s over the period",
+        "MetricChangeText": "%s change over the period",
         "Documentation": "Click the metrics to display them in the large evolution graph. Use shift-click to display multiple metrics at once.",
         "CompareRows": "Compare records",
         "ComparingRecords": "Comparing %s rows",

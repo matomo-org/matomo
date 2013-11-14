@@ -136,17 +136,21 @@ class Map implements DataTableInterface
     /**
      * Returns the first DataTable in the DataTable array.
      *
-     * @return DataTable|Map
+     * @return DataTable|Map|false
      */
     public function getFirstRow()
     {
-        foreach ($this->getDataTables() as $table) {
-            $row = $table->getFirstRow();
-            if ($row !== false) {
-                return $row;
-            }
-        }
-        return false;
+        return reset($this->array);
+    }
+
+    /**
+     * Returns the last DataTable in the DataTable array.
+     * 
+     * @return DataTable|Map|false
+     */
+    public function getLastRow()
+    {
+        return end($this->array);
     }
 
     /**

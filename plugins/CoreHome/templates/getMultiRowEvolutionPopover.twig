@@ -18,7 +18,7 @@
                         <span class="evolution-graph-colors" data-name="series{{ (i % seriesColorCount) + 1 }}">
                             {{- metric.label|raw -}}
                         </span>
-                        <span class="details">{{ metric.details|raw }}</span>
+                        <span class="details" title="{{ metric.minmax }}">{{ metric.details|raw }}</span>
                     </td>
                 </tr>
             {% endfor %}
