@@ -1013,7 +1013,10 @@ class Common
     static public function printDebug($info = '')
     {
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-            if (is_array($info) || is_object($info)) {
+            if(is_object($info)) {
+                $info = var_export($info, true);
+            }
+            if (is_array($info)) {
                 print("<pre>");
                 $info = Common::sanitizeInputValues($info);
                 $out = var_export($info, true);
