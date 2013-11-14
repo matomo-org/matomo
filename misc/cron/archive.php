@@ -119,7 +119,7 @@ class CronArchive
     const OPTION_ARCHIVING_FINISHED_TS = "LastCompletedFullArchiving";
 
     // Show only first N characters from Piwik API output in case of errors
-    const TRUNCATE_ERROR_MESSAGE_SUMMARY = 4000;
+    const TRUNCATE_ERROR_MESSAGE_SUMMARY = 4000 ;
 
     // archiving  will be triggered on all websites with traffic in the last $shouldArchiveOnlySitesWithTrafficSince seconds
     private $shouldArchiveOnlySitesWithTrafficSince;
