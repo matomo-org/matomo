@@ -114,7 +114,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
      */
     private function logVisitsWithStaticResolver()
     {
-        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/fake_logs.log'; # log file
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs.log'; # log file
 
         $opts = array('--idsite'                    => $this->idSite,
                       '--token-auth'                => self::getTokenAuth(),
@@ -130,7 +130,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
      */
     public function logVisitsWithDynamicResolver()
     {
-        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/fake_logs_dynamic.log'; # log file
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_dynamic.log'; # log file
 
         $opts = array('--add-sites-new-hosts'       => false,
                       '--token-auth'                => self::getTokenAuth(),
@@ -146,7 +146,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
      */
     private function logVisitsWithAllEnabled()
     {
-        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/fake_logs_enable_all.log';
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_enable_all.log';
 
         $opts = array('--idsite'                    => $this->idSite,
                       '--token-auth'                => self::getTokenAuth(),
@@ -168,7 +168,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
      */
     private function replayLogFile()
     {
-        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/fake_logs_replay.log';
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay.log';
 
         $opts = array('--token-auth'                => self::getTokenAuth(),
                       '--recorders'                 => '4',
@@ -183,7 +183,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
      */
     private function logCustomFormat()
     {
-        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/fake_logs_custom.log';
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_custom.log';
 
         $opts = array('--idsite'           => $this->idSite,
                       '--token-auth'       => self::getTokenAuth(),
@@ -192,6 +192,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 
         self::executeLogImporter($logFile, $opts);
     }
+
 }
 
 // needed by tests that use stored segments w/ the proxy index.php
