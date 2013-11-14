@@ -60,7 +60,12 @@ class Factory
             $defaultType = $defaultViewType;
         }
 
-        $type = Common::getRequestVar('viewDataTable', $defaultType ? : HtmlTable::ID, 'string');
+        $type = Common::getRequestVar('viewDataTable', false, 'string');
+        // Common::getRequestVar removes backslashes from the defaultValue in case magic quotes are enabled.
+        // therefore do not pass this as a default value to getRequestVar()
+        if ('' === $type) {
+            $type = $defaultType ? : HtmlTable::ID;
+        }
 
         $visualizations = Manager::getAvailableViewDataTables();
 
@@ -68,7 +73,7 @@ class Factory
             return new $visualizations[$type]($controllerAction, $apiAction);
         }
 
-        if (class_exists($type, false) || class_exists($type)) {
+        if (class_exists($type)) {
             return new $type($controllerAction, $apiAction);
         }
 
