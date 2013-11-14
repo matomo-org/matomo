@@ -31,6 +31,20 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                                                       'periods' => array('day', 'week', 'month', 'year')));
 
         foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
+            if($segmentName =='segmentOnlySuperuser') {
+                // Live detail should match no visitor
+                $idSites = array(self::$fixture->idSite2);
+                foreach($idSites as $idSite) {
+                    $results[] = array('Live.getLastVisitsDetails', array('idSite'     => $idSite,
+                                                                          'date'       => '2012-08-09',
+                                                                          'periods'    => array('month', 'year'),
+                                                                          'segment'    => $info['definition'],
+                                                                          'testSuffix' => '_' . $segmentName . '_idSite' .$idSite
+                    ));
+                }
+            }
+
+
             $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                           'date'       => '2012-08-09',
                                                           'periods'    => array('day', 'week', 'month', 'year'),
