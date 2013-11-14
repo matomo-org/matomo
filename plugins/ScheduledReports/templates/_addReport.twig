@@ -130,7 +130,7 @@
                                             <input type='{{ reportInputType }}' id="{{ reportType }}{{ report.uniqueId }}" report-unique-id='{{ report.uniqueId }}'
                                                    name='{{ reportType }}Reports'/>
                                             <label for="{{ reportType }}{{ report.uniqueId }}">
-                                                {{ report.name }}
+                                                {{ report.name|raw }}
                                                 {% if report.uniqueId=='MultiSites_getAll' %}
                                                     <div class="entityInlineHelp">{{ 'ScheduledReports_ReportIncludeNWebsites'|translate('"'~countWebsites~' "')
                                                         }}</div>

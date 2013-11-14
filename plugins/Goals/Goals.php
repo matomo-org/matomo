@@ -194,6 +194,7 @@ class Goals extends \Piwik\Plugin
                 // Add the general Goal metrics: ie. total Goal conversions,
                 // Goal conv rate or Goal total revenue.
                 // This API call requires a custom parameter
+                $goal['name'] = Common::sanitizeInputValue($goal['name']);
                 $reports[] = array(
                     'category'         => $goalsCategory,
                     'name'             => Piwik::translate('Goals_GoalX', $goal['name']),
