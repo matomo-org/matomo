@@ -32,7 +32,7 @@ DMM:
 Grundig:
   regex: '(OWB|Grundig|Arcelik)'
   device: 'tv'
-  model: 'UNK'
+  model: ''
 
 # Humax
 Humax:
