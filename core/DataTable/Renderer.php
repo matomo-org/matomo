@@ -125,7 +125,7 @@ abstract class Renderer
     protected function getExceptionMessage()
     {
         $message = $this->exception->getMessage();
-        if (Piwik_ShouldPrintBackTraceWithMessage()) {
+        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
             $message .= "\n" . $this->exception->getTraceAsString();
         }
         return self::renderHtmlEntities($message);
