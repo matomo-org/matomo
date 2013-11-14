@@ -108,7 +108,7 @@ class CronArchive
     const DEFAULT_DATE_LAST = 52;
 
     // Since weeks are not used in yearly archives, we make sure that all possible weeks are processed
-    const DEFAULT_DATE_LAST_WEEKS = 156;
+    const DEFAULT_DATE_LAST_WEEKS = 260;
 
     const DEFAULT_DATE_LAST_YEARS = 7;
 
