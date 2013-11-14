@@ -18,6 +18,7 @@ use Piwik\Plugins\API\API;
  * Contains base display properties for ViewDataTables. Manipulating these properties
  * in a ViewDataTable instance will change how its report will be displayed.
  * 
+ * <a name="client-side-properties-desc"></a>
  * **Client Side Properties**
  * 
  * Client side properties are properties that should be passed on to the browser so
@@ -153,10 +154,6 @@ class Config
 
     /**
      * Array property mapping DataTable column names with their internationalized names.
-     *
-     * The value you specify for this property is merged with the default value so you
-     * don't have to specify translations that already exist in the default value.
-     * TODO: still accurate?
      *
      * The default value for this property is set elsewhere. It will contain translations
      * of common metrics.
@@ -460,7 +457,10 @@ class Config
     }
 
     /**
-     * TODO
+     * Marks display properties as client side properties. [Read this](#client-side-properties-desc)
+     * to learn more.
+     * 
+     * @param array $propertyNames List of property names, eg, `array('show_limit_control', 'show_goals')`.
      */
     public function addPropertiesThatShouldBeAvailableClientSide(array $propertyNames)
     {
@@ -470,7 +470,10 @@ class Config
     }
 
     /**
-     * TODO
+     * Marks display properties as overridable. [Read this](#overridable-properties-desc) to
+     * learn more.
+     * 
+     * @param array $propertyNames List of property names, eg, `array('show_limit_control', 'show_goals')`.
      */
     public function addPropertiesThatCanBeOverwrittenByQueryParams(array $propertyNames)
     {
@@ -480,7 +483,10 @@ class Config
     }
 
     /**
-     * TODO
+     * Returns array of all property values in this config object. Property values are mapped
+     * by name.
+     * 
+     * @return array eg, `array('show_limit_control' => 0, 'show_goals' => 1, ...)`
      */
     public function getProperties()
     {
@@ -488,7 +494,7 @@ class Config
     }
 
     /**
-     * TODO
+     * @ignore
      */
     public function setDefaultColumnsToDisplay($columns, $hasNbVisits, $hasNbUniqVisitors)
     {
@@ -509,7 +515,7 @@ class Config
     }
 
     /**
-     * TODO
+     * @ignore
      */
     public function getFiltersToRun()
     {
@@ -536,7 +542,14 @@ class Config
     }
 
     /**
-     * TODO
+     * Adds a related report to the [related_reports](#related_reports) property. If the report
+     * references the one that is currently being displayed, it will not be added to the related
+     * report list.
+     * 
+     * @param string $relatedReport The plugin and method of the report, eg, `'UserSettings.getBrowser'`.
+     * @param string $title The report's display name, eg, `'Browsers'`.
+     * @param array $queryParams Any extra query parameters to set in releated report's URL, eg,
+     *                           `array('idGoal' => 'ecommerceOrder')`.
      */
     public function addRelatedReport($relatedReport, $title, $queryParams = array())
     {
@@ -553,7 +566,21 @@ class Config
     }
 
     /**
-     * TODO
+     * Adds several related reports to the [related_reports](#related_reports) property. If
+     * any of the reports references the report that is currently being displayed, it will not
+     * be added to the list. All other reports will still be added though.
+     * 
+     * If you need to make sure the related report URL has some extra query parameters,
+     * use [addRelatedReport](#addRelatedReport).
+     * 
+     * @param array $relatedReports Array mapping report IDs with their internationalized display
+     *                              titles, eg,
+     *                              ```
+     *                              array(
+     *                                  'UserSettings.getBrowser' => 'Browsers',
+     *                                  'UserSettings.getConfiguration' => 'Configurations'
+     *                              )
+     *                              ```
      */
     public function addRelatedReports($relatedReports)
     {
@@ -563,15 +590,31 @@ class Config
     }
 
     /**
-     * TODO
+     * Associates internationalized text with a metric. Overwrites existing mappings.
+     * 
+     * See [translations](#translations).
+     * 
+     * @param string $columnName The name of a column in the report data, eg, `'nb_visits'` or
+     *                           `'goal_1_nb_conversions'`.
+     * @param string $translation The internationalized text, eg, `'Visits'` or `"Conversions for 'My Goal'"`.
      */
-    public function addTranslation($key, $translation)
+    public function addTranslation($columnName, $translation)
     {
-        $this->translations[$key] = $translation;
+        $this->translations[$columnName] = $translation;
     }
 
     /**
-     * TODO
+     * Associates multiple translations with metrics.
+     * 
+     * See [translations](#translations) and [addTranslation](#addTranslation).
+     * 
+     * @param array $translations An array of column name => text mappings, eg,
+     *                            ```
+     *                            array(
+     *                                'nb_visits' => 'Visits',
+     *                                'goal_1_nb_conversions' => "Conversions for 'My Goal'"
+     *                            )
+     *                            ```
      */
     public function addTranslations($translations)
     {
