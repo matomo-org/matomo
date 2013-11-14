@@ -31,7 +31,7 @@ class Controller extends \Piwik\Plugin\Controller
         $segmentsByCategory = $customVariablesSegments = array();
         foreach ($segments as $segment) {
             if ($segment['category'] == Piwik::translate('General_Visit')
-                && $segment['type'] == 'metric'
+                && ($segment['type'] == 'metric' && $segment['segment'] != 'visitIp')
             ) {
                 $metricsLabel = Piwik::translate('General_Metrics');
                 $metricsLabel[0] = strtolower($metricsLabel[0]);

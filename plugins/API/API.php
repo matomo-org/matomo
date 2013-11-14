@@ -137,16 +137,6 @@ class API extends \Piwik\Plugin\API
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => Piwik::translate('General_Visit'),
-            'name'           => 'General_VisitorIP',
-            'segment'        => 'visitIp',
-            'acceptedValues' => '13.54.122.1, etc.',
-            'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilterValue' => array('Piwik\IP', 'P2N'),
-            'permission'     => $isAuthenticatedWithViewAccess,
-        );
-        $segments[] = array(
-            'type'           => 'dimension',
-            'category'       => Piwik::translate('General_Visit'),
             'name'           => 'General_VisitorID',
             'segment'        => 'visitorId',
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
@@ -159,8 +149,19 @@ class API extends \Piwik\Plugin\API
             'category'       => Piwik::translate('General_Visit'),
             'name'           => Piwik::translate('General_Visit') . " ID",
             'segment'        => 'visitId',
-            'acceptedValues' => 'Any integer.',
+            'acceptedValues' => 'Any integer. ',
             'sqlSegment'     => 'log_visit.idvisit',
+            'permission'     => $isAuthenticatedWithViewAccess,
+        );
+
+        $segments[] = array(
+            'type'           => 'metric',
+            'category'       => Piwik::translate('General_Visit'),
+            'name'           => 'General_VisitorIP',
+            'segment'        => 'visitIp',
+            'acceptedValues' => '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255',
+            'sqlSegment'     => 'log_visit.location_ip',
+            'sqlFilterValue' => array('Piwik\IP', 'P2N'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
