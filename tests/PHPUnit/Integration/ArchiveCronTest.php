@@ -37,14 +37,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                                                           'segment'    => $info['definition'],
                                                           'testSuffix' => '_' . $segmentName));
 
-            if($segmentName =='segmentOnlySuperuser') {
-                // Live detail to see which visitors match
-                $results[] = array('Live.getLastVisitsDetails', array('idSite'     => self::$fixture->idSite2,
-                                                              'date'       => '2012-08-09',
-                                                              'periods'    => array('month'),
-                                                              'segment'    => $info['definition'],
-                                                              'testSuffix' => '_' . $segmentName));
-            }
+
         }
         
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
@@ -77,7 +70,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         self::deleteArchiveTables();
         $this->setLastRunArchiveOptions();
         $output = $this->runArchivePhpCron($archivePhpOptions);
-        
+
         foreach ($this->getApiForTesting() as $testInfo) {
             list($api, $params) = $testInfo;
             
