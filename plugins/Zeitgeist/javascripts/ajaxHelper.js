@@ -364,9 +364,11 @@ function ajaxHelper() {
                 if (response && response.result == 'error' && !that.useRegularCallbackInCaseOfError) {
 
                     var placeAt = null;
+                    var type    = 'toast';
                     if ($(that.errorElement).length && response.message) {
                         $(that.errorElement).show();
                         placeAt = that.errorElement;
+                        type    = null;
                     }
 
                     if (response.message) {
@@ -376,6 +378,7 @@ function ajaxHelper() {
                         notification.show(response.message, {
                             placeat: placeAt,
                             context: 'error',
+                            type: type,
                             id: 'ajaxHelper'
                         });
                         notification.scrollToNotification();
