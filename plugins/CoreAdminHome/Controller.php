@@ -350,11 +350,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $backgroundSmall = imagecolorallocate($logoSmall, 0, 0, 0);
         imagecolortransparent($logo, $background);
         imagecolortransparent($logoSmall, $backgroundSmall);
-        imagealphablending($logo, false);
-        imagealphablending($logoSmall, false);
-        imagesavealpha($logo, true);
-        imagesavealpha($logoSmall, true);
-
+        if ($_FILES['customLogo']['type'] == 'image/png') {
+            imagealphablending($logo, false);
+            imagealphablending($logoSmall, false);
+            imagesavealpha($logo, true);
+            imagesavealpha($logoSmall, true);
+        }
         imagecopyresized($logo, $image, 0, 0, 0, 0, $widthExpected, self::LOGO_HEIGHT, $width, $height);
         imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, self::LOGO_SMALL_HEIGHT, $width, $height);
 
