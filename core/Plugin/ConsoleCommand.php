@@ -13,6 +13,7 @@ namespace Piwik\Plugin;
 use Piwik\Common;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * The base class for console commands.
@@ -46,5 +47,19 @@ class ConsoleCommand extends SymfonyCommand
 
         $output->writeln('<info>' . $separator . '</info>');
         $output->writeln('');
+    }
+
+    protected function checkAllRequiredOptionsAreNotEmpty(InputInterface $input)
+    {
+        $options = $this->getDefinition()->getOptions();
+
+        foreach ($options as $option) {
+            $name  = $option->getName();
+            $value = $input->getOption($name);
+
+            if ($option->isValueRequired() && empty($value)) {
+                throw new \InvalidArgumentException(sprintf('The required option %s is not set', $name));
+            }
+        }
     }
 }
