@@ -14,6 +14,7 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Site;
 
@@ -97,7 +98,12 @@ class Parameters
     public function getIdSites()
     {
         $idSite = $this->getSite()->getId();
-        return array($idSite);
+
+        $idSites = array($idSite);
+
+        Piwik::postEvent('ArchiveProcessor.Parameters.getIdSites', array( &$idSites ) );
+
+        return $idSites;
     }
 
     /**

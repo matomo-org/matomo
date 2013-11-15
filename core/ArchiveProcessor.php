@@ -365,6 +365,10 @@ class ArchiveProcessor
 
     protected function enrichWithUniqueVisitorsMetric(Row $row)
     {
+        if(!$this->getParams()->isSingleSite() ) {
+            // we only compute unique visitors for a single site
+            return;
+        }
         if ( $row->getColumn('nb_uniq_visitors') !== false) {
             if (SettingsPiwik::isUniqueVisitorsEnabled($this->getParams()->getPeriod()->getLabel())) {
                 $uniqueVisitors = (float)$this->computeNbUniqVisitors();
@@ -470,9 +474,7 @@ class ArchiveProcessor
         if($rowMetrics === false) {
             $rowMetrics = new Row;
         }
-        if($this->getParams()->isSingleSite() ) {
-            $this->enrichWithUniqueVisitorsMetric($rowMetrics);
-        }
+        $this->enrichWithUniqueVisitorsMetric($rowMetrics);
         $this->renameColumnsAfterAggregation($results);
 
         $metrics = $rowMetrics->getColumns();

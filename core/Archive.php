@@ -610,7 +610,7 @@ class Archive
                     continue;
                 }
 
-                $this->prepareArchives($archiveGroups, $site, $period);
+                $this->prepareArchive($archiveGroups, $site, $period);
             }
         }
     }
@@ -779,7 +779,7 @@ class Archive
      * @param $site
      * @param $period
      */
-    private function prepareArchives(array $archiveGroups, Site $site, Period $period)
+    private function prepareArchive(array $archiveGroups, Site $site, Period $period)
     {
         $parameters = new ArchiveProcessor\Parameters($site, $period, $this->params->getSegment());
         $archiveLoader = new ArchiveProcessor\Loader($parameters);
