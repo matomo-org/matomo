@@ -363,18 +363,24 @@ function ajaxHelper() {
 
                 if (response && response.result == 'error' && !that.useRegularCallbackInCaseOfError) {
 
+                    var placeAt = null;
                     if ($(that.errorElement).length && response.message) {
                         $(that.errorElement).show();
+                        placeAt = that.errorElement;
+                    }
+
+                    if (response.message) {
 
                         var UI = require('piwik/UI');
                         var notification = new UI.Notification();
                         notification.show(response.message, {
-                            placeat: that.errorElement,
+                            placeat: placeAt,
                             context: 'error',
                             id: 'ajaxHelper'
                         });
                         notification.scrollToNotification();
                     }
+
                 } else {
                     that.callback(response);
                 }
