@@ -32,8 +32,8 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
 
     private function setUpWebsitesAndGoals()
     {
-        self::createWebsite($this->dateTime, $ecommerce = 1);
-        self::createWebsite($this->dateTime);
+        $this->idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+        $this->idSite2 = self::createWebsite($this->dateTime);
         API::getInstance()->addGoal(
             $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
             $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
@@ -187,12 +187,19 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
      */
     private function trackVisitsSite2()
     {
+        $t = self::getTracker($this->idSite2, $this->dateTime, $defaultInit = true);
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1)->getDatetime());
+        $t->setCustomVariable(1, "cvar Name 1", "cvar Value 1");
+        self::checkResponse($t->doTrackPageView('one page visit'));
+
         // testing the same order in a different website should record
         $t = self::getTracker($this->idSite2, $this->dateTime, $defaultInit = true);
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(30.9)->getDatetime());
         $t->addEcommerceItem($sku = 'TRIPOD SKU', $name = 'TRIPOD - bought day after', $category = 'Tools', $price = 100, $quantity = 2);
         self::checkResponse($t->doTrackEcommerceOrder($orderId = '777', $grandTotal = 250));
         //------------------------------------- End tracking
+
+
     }
 }
 
