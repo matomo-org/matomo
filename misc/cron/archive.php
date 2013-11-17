@@ -632,7 +632,7 @@ class CronArchive
         $url = $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
 
         if($this->shouldStartProfiler) {
-            $url .= "&xhprof=1";
+            $url .= "&xhprof=2";
         }
 
         //$this->log($url);

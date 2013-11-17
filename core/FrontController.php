@@ -275,9 +275,6 @@ class FrontController extends Singleton
             Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
             self::assignCliParametersToRequest();
 
-            if(!empty($_GET['xhprof'])) {
-                Profiler::setupProfilerXHProf($mainRun = false);
-            }
 
             Translate::loadEnglishTranslation();
 
@@ -289,6 +286,7 @@ class FrontController extends Singleton
 
             $this->handleMaintenanceMode();
             $this->handleSSLRedirection();
+            $this->handleProfiler();
 
             $pluginsManager = \Piwik\Plugin\Manager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
@@ -490,6 +488,14 @@ class FrontController extends Singleton
                 parse_str($_SERVER['argv'][$i], $tmp);
                 $_GET = array_merge($_GET, $tmp);
             }
+        }
+    }
+
+    private function handleProfiler()
+    {
+        if (!empty($_GET['xhprof'])) {
+            $mainRun = $_GET['xhprof'] == 1; // archive.php sets xhprof=2
+            Profiler::setupProfilerXHProf($mainRun);
         }
     }
 }

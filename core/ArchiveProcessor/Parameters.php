@@ -170,7 +170,7 @@ class Parameters
             $temporary = 'temporary archive';
         }
         Log::verbose(
-            "'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
+            "%s archive, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
             $this->getPeriod()->getLabel(),
             $this->getSite()->getId(),
             $temporary,

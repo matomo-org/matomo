@@ -227,7 +227,7 @@ class Profiler
             if($mainRun) {
                 $runIds = implode(',', $runs);
                 $out = "\n\nHere is the profiler URL aggregating all runs triggered from this process: ";
-                $baseUrl = "http://" . $_SERVER['HTTP_HOST'] . "/" . $_SERVER['REQUEST_URI'];
+                $baseUrl = "http://" . @$_SERVER['HTTP_HOST'] . "/" . @$_SERVER['REQUEST_URI'];
                 $baseUrlStored = SettingsPiwik::getPiwikUrl();
                 if(strlen($baseUrlStored) > strlen($baseUrl)) {
                     $baseUrl = $baseUrlStored;
@@ -237,7 +237,7 @@ class Profiler
                 $out .= $baseUrl . "$runIds\n\n";
                 $out .= "Main run profile:";
                 $out .= $baseUrl . "$runId\n\n";
-                Log::info($out);
+                echo ($out);
             } else {
                 self::setProfilingRunIds($runs);
             }
@@ -247,7 +247,7 @@ class Profiler
     private static function setProfilingRunIds($ids)
     {
         file_put_contents( self::getPathToXHProfRunIds(), json_encode($ids) );
-        chmod(self::getPathToXHProfRunIds(), 0777);
+        @chmod(self::getPathToXHProfRunIds(), 0777);
     }
 
     private static function getProfilingRunIds()
