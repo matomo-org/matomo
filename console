@@ -9,8 +9,8 @@ require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
-// load all plugins
 Piwik\Translate::loadEnglishTranslation();
+// load all plugins
 Piwik\Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
 
 if (!Piwik\Common::isPhpCliMode()) {
