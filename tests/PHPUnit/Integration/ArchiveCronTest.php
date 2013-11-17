@@ -26,9 +26,8 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
     public function getApiForTesting()
     {
         $results = array();
-        $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
-                                                      'date'    => '2012-08-09',
-                                                      'periods' => array('day', 'week', 'month', 'year')));
+
+        // First, API calls for Segmented reports
 
         foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
             if($segmentName =='segmentOnlySuperuser') {
@@ -59,7 +58,13 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
                                                       'periods'    => array('day', 'week', 'month', 'year'),
                                                       'segment'    => 'browserCode==EP',
                                                       'testSuffix' => '_nonPreArchivedSegment'));
-        
+
+
+        // API Call Without segments
+        $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
+                                                      'date'    => '2012-08-09',
+                                                      'periods' => array('day', 'week', 'month', 'year')));
+
         return $results;
     }
     
