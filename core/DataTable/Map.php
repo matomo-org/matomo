@@ -369,9 +369,7 @@ class Map implements DataTableInterface
     public function addDataTable(DataTable $tableToSum)
     {
         foreach ($this->getDataTables() as $childTable) {
-//            if ($childTable->getRowsCount() > 0) {
-                $childTable->addDataTable($tableToSum);
-//            }
+            $childTable->addDataTable($tableToSum);
         }
     }
 

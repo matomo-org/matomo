@@ -270,6 +270,9 @@ class Site
             return API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
         }
 
+        if(is_bool($ids)) {
+            return array();
+        }
         if (!is_array($ids)) {
             $ids = explode(',', $ids);
         }

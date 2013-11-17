@@ -17,6 +17,9 @@ Piwik_TestingEnvironment::addHooks();
 \Piwik\Tracker::setTestEnvironment();
 Cache::deleteTrackerCache();
 
+\Piwik\Profiler::setupProfilerXHProf();
+
+
 // Disable index.php dispatch since we do it manually below
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';

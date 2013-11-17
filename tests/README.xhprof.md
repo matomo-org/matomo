@@ -9,7 +9,9 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
 
  * 	Navigate to the XHProf extension directory.
 
-		$ cd /path/to/piwik/tests/lib/xhprof-0.9.2/extension
+		$ cd /path/to/piwik/tests/lib/
+		$ wget http://pecl.php.net/get/xhprof
+		$ tar -xzvf xhprof
     
  * 	Build XHProf.
 
@@ -23,7 +25,7 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
       
 	```
 	[xhprof]
-	extension=/path/to/piwik/tests/lib/xhprof-0.9.2/extension/modules/xhprof.so
+	extension=/path/to/piwik/tests/lib/xhprof-0.9.4/extension/modules/xhprof.so
 	xhprof.output_dir=/path/to/output/dir
 	```
       

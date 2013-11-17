@@ -44,6 +44,8 @@ Arguments:
 			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
 	--force-idsites=1,2,n
 			Restricts archiving to the specified website IDs, comma separated list.
+	--xhprof
+			Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).
 	--accept-invalid-ssl-certificate
 			It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!
 			It can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1
@@ -138,6 +140,7 @@ class CronArchive
     private $output = '';
     private $archiveAndRespectTTL = true;
     private $shouldArchiveAllSites = false;
+    private $shouldStartProfiler = false;
     private $acceptInvalidSSLCertificate = false;
     private $lastSuccessRunTimestamp = false;
     private $errors = array();
@@ -173,6 +176,10 @@ class CronArchive
         $this->segments = $this->initSegmentsToArchive();
         $this->allWebsites = APISitesManager::getInstance()->getAllSitesId();
         $this->websites = $this->initWebsitesToProcess();
+        if($this->shouldStartProfiler) {
+            \Piwik\Profiler::setupProfilerXHProf($mainRun = true);
+            $this->log("XHProf profiling is enabled.");
+        }
     }
 
     /**
@@ -543,7 +550,7 @@ class CronArchive
         if (!empty($aCurl)) {
             $running = null;
             do {
-                usleep(10000);
+                usleep(1000);
                 curl_multi_exec($mh, $running);
             } while ($running > 0);
 
@@ -623,6 +630,11 @@ class CronArchive
     private function request($url)
     {
         $url = $this->piwikUrl . $url . self::APPEND_TO_API_REQUEST;
+
+        if($this->shouldStartProfiler) {
+            $url .= "&xhprof=1";
+        }
+
         //$this->log($url);
         try {
             $response = Http::sendHttpRequestBy('curl', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
@@ -746,6 +758,7 @@ class CronArchive
         $this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
         $this->processPeriodsMaximumEverySeconds = $this->getDelayBetweenPeriodsArchives();
         $this->shouldArchiveAllSites = (bool) $this->isParameterSet("force-all-websites");
+        $this->shouldStartProfiler = (bool) $this->isParameterSet("xhprof");
         $restrictToIdSites = $this->isParameterSet("force-idsites", true);
         $this->shouldArchiveSpecifiedSites = \Piwik\Site::getIdSitesFromIdSitesString($restrictToIdSites);
         $this->lastSuccessRunTimestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
