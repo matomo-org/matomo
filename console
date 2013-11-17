@@ -10,6 +10,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 
 // load all plugins
+Piwik\Translate::loadEnglishTranslation();
 Piwik\Plugin\Manager::getInstance()->returnLoadedPluginsInfo();
 
 if (!Piwik\Common::isPhpCliMode()) {
