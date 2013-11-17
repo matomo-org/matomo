@@ -148,6 +148,14 @@ class Config extends Singleton
         return PIWIK_USER_PATH . '/config/config.ini.php';
     }
 
+    private static function getLocalConfigInfoForHostname($hostname)
+    {
+        $perHostFilename  = $hostname . '.config.ini.php';
+        $pathDomainConfig = PIWIK_USER_PATH . '/config/' . $perHostFilename;
+
+        return array('file' => $perHostFilename, 'path' => $pathDomainConfig);
+    }
+
     public function getConfigHostnameIfSet()
     {
         if ($this->getByDomainConfigPath() === false) {
@@ -158,13 +166,13 @@ class Config extends Singleton
 
     protected static function getByDomainConfigPath()
     {
-        $host = self::getHostname();
-        $perHostFilename = $host . '.config.ini.php';
-        $pathDomainConfig = PIWIK_USER_PATH . '/config/' . $perHostFilename;
-        if (Filesystem::isValidFilename($perHostFilename)
-            && file_exists($pathDomainConfig)
+        $host       = self::getHostname();
+        $hostConfig = self::getLocalConfigInfoForHostname($host);
+
+        if (Filesystem::isValidFilename($hostConfig['file'])
+            && file_exists($hostConfig['path'])
         ) {
-            return $pathDomainConfig;
+            return $hostConfig['path'];
         }
         return false;
     }
@@ -173,6 +181,31 @@ class Config extends Singleton
     {
         $host = Url::getHost($checkIfTrusted = false); // Check trusted requires config file which is not ready yet
         return $host;
+    }
+
+    /**
+     * If set, Piwik will use the hostname config no matter if it exists or not. Useful for instance if you want to
+     * create a new hostname config:
+     *
+     * $config = Config::getInstance();
+     * $config->forceUsageOfHostnameConfig('piwik.example.com');
+     * $config->save();
+     *
+     * @param string $hostname eg piwik.example.com
+     *
+     * @throws \Exception In case the domain contains not allowed characters
+     */
+    public function forceUsageOfLocalHostnameConfig($hostname)
+    {
+        $hostConfig = static::getLocalConfigInfoForHostname($hostname);
+
+        if (!Filesystem::isValidFilename($hostConfig['file'])) {
+            throw new Exception('Hostname is not valid');
+        }
+
+        $this->pathLocal   = $hostConfig['path'];
+        $this->configLocal = array();
+        $this->initialized = false;
     }
 
     /**
