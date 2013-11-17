@@ -271,8 +271,13 @@ class FrontController extends Singleton
             );
 
             libxml_disable_entity_loader(); // prevent remote file inclusion
+
             Filechecks::dieIfDirectoriesNotWritable($directoriesToCheck);
             self::assignCliParametersToRequest();
+
+            if(!empty($_GET['xhprof'])) {
+                Profiler::setupProfilerXHProf($mainRun = false);
+            }
 
             Translate::loadEnglishTranslation();
 
