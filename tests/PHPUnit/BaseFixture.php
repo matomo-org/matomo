@@ -39,6 +39,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
     const IMAGES_GENERATED_FOR_PHP = '5.5';
     const IMAGES_GENERATED_FOR_GD = '2.1.1';
+    const DEFAULT_SITE_NAME = 'Piwik test';
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public abstract function setUp();
@@ -60,10 +61,13 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      * @param null|string $searchCategoryParameters
      * @return int    idSite of website created
      */
-    public static function createWebsite($dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false,
+    public static function createWebsite($dateTime, $ecommerce = 0, $siteName = false, $siteUrl = false,
                                          $siteSearch = 1, $searchKeywordParameters = null,
                                          $searchCategoryParameters = null)
     {
+        if($siteName === false) {
+            $siteName = self::DEFAULT_SITE_NAME;
+        }
         $idSite = APISitesManager::getInstance()->addSite(
             $siteName,
             $siteUrl === false ? "http://piwik.net/" : $siteUrl,
