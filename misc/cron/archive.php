@@ -30,7 +30,7 @@ Usage:
 Arguments:
 	--url=[piwik-server-url]
 			Mandatory argument. Must be set to the Piwik base URL. 
-			For example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/ 
+			For example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/
 	--force-all-websites
 			If specified, the script will trigger archiving on all websites and all past dates.
 			You may use --force-all-periods=[seconds] to only trigger archiving on those websites that had visits in the last [seconds] seconds.
@@ -42,6 +42,8 @@ Arguments:
 	--force-timeout-for-periods=[seconds]
 			The current week/ current month/ current year will be processed at most every [seconds].
 			If not specified, defaults to ". CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES.".
+	--force-idsites=1,2,n
+			Restricts archiving to the specified website IDs, comma separated list.
 	--accept-invalid-ssl-certificate
 			It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!
 			It can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1
@@ -187,8 +189,6 @@ class CronArchive
         $timer = new Timer;
 
         $this->logSection("START");
-        $this->log("Starting Piwik reports archiving...");
-
         foreach ($this->websites as $idsite) {
             flush();
             $requestsBefore = $this->requests;
@@ -234,10 +234,21 @@ class CronArchive
 
             // Test if we should process this website at all
             $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
-            if (!$websiteIsOldDataInvalidate // Invalidate old website forces the archiving for this site
-                && !$dayHasEndedMustReprocess // Also reprocess when day has ended since last run
-                && $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive // or if last archive was older than TTL
-            ) {
+
+            // Skip this day archive if last archive was older than TTL
+            $existingArchiveIsValid = ($elapsedSinceLastArchiving < $this->todayArchiveTimeToLive);
+
+            $skipDayArchive = $existingArchiveIsValid;
+
+            // Invalidate old website forces the archiving for this site
+            $skipDayArchive = $skipDayArchive && !$websiteIsOldDataInvalidate;
+
+            // Also reprocess when day has ended since last run
+            if($dayHasEndedMustReprocess && !$existingArchiveIsValid) {
+                $skipDayArchive = false;
+            }
+
+            if ($skipDayArchive) {
                 $this->log("Skipped website id $idsite, already processed today's report in recent run, "
                     . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
                     . " ago, " . $timerWebsite->__toString());
@@ -252,12 +263,13 @@ class CronArchive
 
             // when some data was purged from this website
             // we make sure we query all previous days/weeks/months
-            $processDaysSince = ($websiteIsOldDataInvalidate
+            $processDaysSince = $lastTimestampWebsiteProcessedDay;
+            if($websiteIsOldDataInvalidate
                 // when --force-all-websites option,
                 // also forces to archive last52 days to be safe
-                || $this->shouldArchiveAllSites)
-                ? false
-                : $lastTimestampWebsiteProcessedDay;
+                || $this->shouldArchiveAllSites) {
+                $processDaysSince = false;
+            }
 
             $url = $this->getVisitsRequestUrl($idsite, "day", $processDaysSince);
             $content = $this->request($url);
@@ -303,28 +315,28 @@ class CronArchive
             $websitesWithVisitsSinceLastRun++;
             $this->archiveVisitsAndSegments($idsite, "day", $lastTimestampWebsiteProcessedDay, $timerWebsite);
 
-            if ($shouldArchivePeriods) {
-                $success = true;
-                foreach (array('week', 'month', 'year') as $period) {
-                    $success = $this->archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessedPeriods) && $success;
-                }
-                // Record succesful run of this website's periods archiving
-                if ($success) {
-                    Option::set($this->lastRunKey($idsite, "periods"), time());
+            if (!$shouldArchivePeriods) {
+                $this->log("Skipped website id $idsite, already processed period reports in recent run, "
+                    . \Piwik\MetricsFormatter::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
+                    . " ago, " . $timerWebsite->__toString());
+                $skippedDayArchivesWebsites++;
+                $skipped++;
+                continue;
+            }
 
-                    // Remove this website from the list of websites to be invalidated
-                    // since it's now just been re-processing the reports, job is done!
-                    if ($websiteIsOldDataInvalidate) {
-                        $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
-                        if (count($websiteIdsInvalidated)) {
-                            $found = array_search($idsite, $websiteIdsInvalidated);
-                            if ($found !== false) {
-                                unset($websiteIdsInvalidated[$found]);
-//								$this->log("Websites left to invalidate: " . implode(", ", $websiteIdsInvalidated));
-                                Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
-                            }
-                        }
-                    }
+            $success = true;
+            foreach (array('week', 'month', 'year') as $period) {
+                $success = $this->archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessedPeriods)
+                           && $success;
+            }
+            // Record succesful run of this website's periods archiving
+            if ($success) {
+                Option::set($this->lastRunKey($idsite, "periods"), time());
+
+                // Remove this website from the list of websites to be invalidated
+                // since it's now just been re-processing the reports, job is done!
+                if ($websiteIsOldDataInvalidate) {
+                    $this->setSiteIsArchived($idsite);
                 }
             }
             $archivedPeriodsArchivesWebsite++;
@@ -339,6 +351,8 @@ class CronArchive
                 . " done]");
 
         }
+        $this->log("Starting Piwik reports archiving...");
+
 
         $this->log("Done archiving!");
 
@@ -358,7 +372,6 @@ class CronArchive
         $percent = count($this->websites) == 0
             ? ""
             : " " . round($processed * 100 / count($this->websites), 0) . "%";
-        $otherInParallel = $skippedDayArchivesWebsites;
         $this->log("done: " .
                 $processed . "/" . count($this->websites) . "" . $percent . ", " .
                 $this->visits . " v, $websitesWithVisitsSinceLastRun wtoday, $archivedPeriodsArchivesWebsite wperiods, " .
@@ -733,6 +746,8 @@ class CronArchive
         $this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
         $this->processPeriodsMaximumEverySeconds = $this->getDelayBetweenPeriodsArchives();
         $this->shouldArchiveAllSites = (bool) $this->isParameterSet("force-all-websites");
+        $restrictToIdSites = $this->isParameterSet("force-idsites", true);
+        $this->shouldArchiveSpecifiedSites = \Piwik\Site::getIdSitesFromIdSitesString($restrictToIdSites);
         $this->lastSuccessRunTimestamp = Option::get(self::OPTION_ARCHIVING_FINISHED_TS);
         $this->shouldArchiveOnlySitesWithTrafficSince = $this->isShouldArchiveAllSitesWithTrafficSince();
 
@@ -762,6 +777,10 @@ class CronArchive
      */
     private function initWebsitesToProcess()
     {
+        if(count($this->shouldArchiveSpecifiedSites) > 0) {
+            $this->log("- Will process " . count($this->shouldArchiveSpecifiedSites) . " websites (--force-idsites)");
+            return $this->shouldArchiveSpecifiedSites;
+        }
         if ($this->shouldArchiveAllSites) {
             $this->log("- Will process all " . count($this->allWebsites) . " websites");
             return $this->allWebsites;
@@ -1014,6 +1033,22 @@ class CronArchive
             return (int)$shouldArchiveAllPeriodsSince;
         }
         return true;
+    }
+
+    /**
+     * @param $idsite
+     */
+    protected function setSiteIsArchived($idsite)
+    {
+        $websiteIdsInvalidated = APICoreAdminHome::getWebsiteIdsToInvalidate();
+        if (count($websiteIdsInvalidated)) {
+            $found = array_search($idsite, $websiteIdsInvalidated);
+            if ($found !== false) {
+                unset($websiteIdsInvalidated[$found]);
+//								$this->log("Websites left to invalidate: " . implode(", ", $websiteIdsInvalidated));
+                Option::set(APICoreAdminHome::OPTION_INVALIDATED_IDSITES, serialize($websiteIdsInvalidated));
+            }
+        }
     }
 }
 
