@@ -101,7 +101,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view->addForm($form);
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
-        echo $view->render();
+
+        return $view->render();
     }
 
     /**
@@ -212,7 +213,8 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Login/resetPassword');
         $view->infoMessage = $infoMessage;
         $view->formErrors = $formErrors;
-        echo $view->render();
+
+        return $view->render();
     }
 
     /**

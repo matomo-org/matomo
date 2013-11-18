@@ -52,7 +52,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->segmentTranslations = Common::json_encode($this->getTranslations());
         $out = $view->render();
-        echo $out;
+        return $out;
     }
 
     public function sortSegmentCategories($a, $b)

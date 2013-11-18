@@ -67,7 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->piwik_latest_version_url = self::getLatestZipUrl($newVersion);
         $view->can_auto_update = Filechecks::canAutoUpdate();
         $view->makeWritableCommands = Filechecks::getAutoUpdateMakeWritableMessage();
-        echo $view->render();
+        return $view->render();
     }
 
     public function oneClickUpdate()
@@ -105,7 +105,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
         $view->coreError = $errorMessage;
         $view->feedbackMessages = $messages;
-        echo $view->render();
+        return $view->render();
     }
 
     public function oneClickResults()
@@ -116,7 +116,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@CoreUpdater/oneClickResults');
         $view->coreError = Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
-        echo $view->render();
+        return $view->render();
     }
 
     protected function redirectToDashboardWhenNoError($updater)
@@ -271,7 +271,8 @@ class Controller extends \Piwik\Plugin\Controller
         if (!empty($language)) {
             LanguagesManager::setLanguageForSession($language);
         }
-        $this->runUpdaterAndExit();
+
+        return $this->runUpdaterAndExit();
     }
 
     protected function runUpdaterAndExit()
@@ -292,12 +293,15 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (Common::isPhpCliMode()) {
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
-            echo $viewWelcome->render();
+            $output = $viewWelcome->render();
 
             if (!$this->coreError && Piwik::getModule() == 'CoreUpdater') {
                 $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
-                echo $viewDone->render();
+                $output .= $viewDone->render();
             }
+
+            return $output;
+
         } else {
             if (Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
                 $this->warningMessages = array();
@@ -305,12 +309,12 @@ class Controller extends \Piwik\Plugin\Controller
 
                 $this->redirectToDashboardWhenNoError($updater);
 
-                echo $viewDone->render();
+                return $viewDone->render();
             } else {
                 $viewWelcome->queries = $updater->getSqlQueriesToExecute();
                 $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
                 $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
-                echo $viewWelcome->render();
+                return $viewWelcome->render();
             }
         }
         exit;

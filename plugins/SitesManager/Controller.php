@@ -84,7 +84,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->showAddSite = (boolean)Common::getRequestVar('showaddsite', false);
 
         $this->setBasicVariablesView($view);
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -120,7 +120,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
-        echo $toReturn;
+
+        return $toReturn;
     }
 
     /**
@@ -138,7 +139,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $site = new Site($idSite);
         $view->displaySiteName = $site->getName();
         $view->jsTag = $jsTag;
-        echo $view->render();
+
+        return $view->render();
     }
 
     /**
@@ -150,7 +152,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $filename = 'PiwikTracker.php';
         header('Content-type: text/php');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
-        echo file_get_contents($path . $filename);
+        return file_get_contents($path . $filename);
     }
 
     /**
@@ -168,7 +170,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
         $view->piwikUrlRequest = $url;
         $view->calledExternally = true;
-        echo $view->render();
+        return $view->render();
     }
 
     function getSitesForAutocompleter()

@@ -89,7 +89,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
-        echo $view->render();
+        return $view->render();
     }
 
     public function pluginSettings()
@@ -105,7 +105,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $this->setBasicVariablesView($view);
 
-        echo $view->render();
+        return $view->render();
     }
 
     private function getPluginSettings()
@@ -145,11 +145,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
         if (!Nonce::verifyNonce(static::SET_PLUGIN_SETTINGS_NONCE, $nonce)) {
-            echo json_encode(array(
+            return json_encode(array(
                 'result' => 'error',
                 'message' => Piwik::translate('General_ExceptionNonceMismatch')
             ));
-            return;
         }
 
         $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
@@ -173,12 +172,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         } catch (Exception $e) {
             $message = html_entity_decode($e->getMessage(), ENT_QUOTES, 'UTF-8');
-            echo json_encode(array('result' => 'error', 'message' => $message));
-            return;
+            return json_encode(array('result' => 'error', 'message' => $message));
         }
         
         Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
-        echo json_encode(array('result' => 'success'));
+        return json_encode(array('result' => 'success'));
     }
 
     private function findSettingValueFromRequest($pluginName, $settingKey)
@@ -244,7 +242,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
-        echo $toReturn;
+
+        return $toReturn;
     }
 
     /**
@@ -281,7 +280,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\Controller::isDntSupported();
 
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -305,7 +304,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->language = APILanguagesManager::getInstance()->isLanguageAvailable($language)
             ? $language
             : LanguagesManager::getLanguageCodeForCurrentUser();
-        echo $view->render();
+        return $view->render();
     }
 
     public function uploadCustomLogo()
@@ -314,14 +313,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if (empty($_FILES['customLogo'])
             || !empty($_FILES['customLogo']['error'])
         ) {
-            echo '0';
-            return;
+            return '0';
         }
 
         $file = $_FILES['customLogo']['tmp_name'];
         if (!file_exists($file)) {
-            echo '0';
-            return;
+            return '0';
         }
 
         list($width, $height) = getimagesize($file);
@@ -336,8 +333,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $image = imagecreatefromgif($file);
                 break;
             default:
-                echo '0';
-                return;
+                return '0';
         }
 
         $widthExpected = round($width * self::LOGO_HEIGHT / $height);
@@ -350,7 +346,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         imagepng($logo, PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png', 3);
         imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png', 3);
-        echo '1';
-        return;
+        return '1';
     }
 }

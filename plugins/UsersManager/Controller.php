@@ -97,7 +97,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         uasort($websites, array('Piwik\Plugins\UsersManager\Controller', 'orderByName'));
         $view->websites = $websites;
         $this->setBasicVariablesView($view);
-        echo $view->render();
+
+        return $view->render();
     }
 
     private function hasAnonymousUserViewAccess($usersAccessByWebsite)
@@ -173,7 +174,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->initViewAnonymousUserSettings($view);
         $view->piwikHost = Url::getCurrentHost();
         $this->setBasicVariablesView($view);
-        echo $view->render();
+
+        return $view->render();
     }
 
     public function setIgnoreCookie()
@@ -251,7 +253,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
-        echo $toReturn;
+
+        return $toReturn;
     }
 
     /**
@@ -329,6 +332,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         } catch (Exception $e) {
             $toReturn = $response->getResponseException($e);
         }
-        echo $toReturn;
+
+        return $toReturn;
     }
 }

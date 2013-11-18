@@ -45,6 +45,6 @@ class Controller extends \Piwik\Plugin\Controller
         $renderer = Renderer::factory('php');
         $renderer->setSerialize(false);
         $view->ranks = $renderer->render($dataTable);
-        echo $view->render();
+        return $view->render();
     }
 }

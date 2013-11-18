@@ -89,6 +89,6 @@ class Controller extends \Piwik\Plugin\Controller
             $view->segmentEditorActivated = true;
         }
 
-        echo $view->render();
+        return $view->render();
     }
 }

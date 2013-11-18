@@ -74,14 +74,14 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = $this->getGoalReportView($idGoal = Common::getRequestVar('idGoal', null, 'string'));
         $view->displayFullReport = false;
-        echo $view->render();
+        return $view->render();
     }
 
     public function goalReport()
     {
         $view = $this->getGoalReportView($idGoal = Common::getRequestVar('idGoal', null, 'string'));
         $view->displayFullReport = true;
-        echo $view->render();
+        return $view->render();
     }
 
     public function ecommerceReport()
@@ -92,7 +92,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = $this->getGoalReportView($idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
         $view->displayFullReport = true;
-        echo $view->render();
+        return $view->render();
     }
 
     public function getEcommerceLog($fetch = false)
@@ -168,14 +168,14 @@ class Controller extends \Piwik\Plugin\Controller
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
         $view->displayFullReport = true;
-        echo $view->render();
+        return $view->render();
     }
 
     public function widgetGoalsOverview()
     {
         $view = $this->getOverviewView();
         $view->displayFullReport = false;
-        echo $view->render();
+        return $view->render();
     }
 
     protected function getOverviewView()
@@ -214,22 +214,22 @@ class Controller extends \Piwik\Plugin\Controller
         return $view;
     }
 
-    public function getLastNbConversionsGraph($fetch = false)
+    public function getLastNbConversionsGraph()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversions');
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 
-    public function getLastConversionRateGraph($fetch = false)
+    public function getLastConversionRateGraph()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getConversionRate');
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 
-    public function getLastRevenueGraph($fetch = false)
+    public function getLastRevenueGraph()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.getRevenue');
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 
     public function addNewGoal()
@@ -238,10 +238,10 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->onlyShowAddNewGoal = true;
-        echo $view->render();
+        return $view->render();
     }
 
-    public function getEvolutionGraph($fetch = false, array $columns = array(), $idGoal = false)
+    public function getEvolutionGraph(array $columns = array(), $idGoal = false)
     {
         if (empty($columns)) {
             $columns = Common::getRequestVar('columns');
@@ -294,7 +294,7 @@ class Controller extends \Piwik\Plugin\Controller
         $langString = $idGoal ? 'Goals_SingleGoalOverviewDocumentation' : 'Goals_GoalsOverviewDocumentation';
         $view->config->documentation = Piwik::translate($langString, '<br />');
 
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 
     protected function getTopDimensions($idGoal)
@@ -460,28 +460,28 @@ class Controller extends \Piwik\Plugin\Controller
     // Report rendering actions
     //
 
-    public function getItemsSku($fetch = false)
+    public function getItemsSku()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getItemsName($fetch = false)
+    public function getItemsName()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getItemsCategory($fetch = false)
+    public function getItemsCategory()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getVisitsUntilConversion($fetch = false)
+    public function getVisitsUntilConversion()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getDaysToConversion($fetch = false)
+    public function getDaysToConversion()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 }

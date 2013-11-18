@@ -169,7 +169,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setMaxDateView($maxDate, $view);
         $view->show_sparklines = Config::getInstance()->General['show_multisites_sparklines'];
 
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -226,6 +226,6 @@ class Controller extends \Piwik\Plugin\Controller
             $api = "Goals.get";
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 }

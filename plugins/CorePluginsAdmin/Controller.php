@@ -69,7 +69,7 @@ class Controller extends Plugin\ControllerAdmin
     public function updatePlugin()
     {
         $view = $this->createUpdateOrInstallView('updatePlugin', static::UPDATE_NONCE);
-        echo $view->render();
+        return $view->render();
     }
 
     public function installPlugin()
@@ -77,7 +77,7 @@ class Controller extends Plugin\ControllerAdmin
         $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
         $view->nonce = Nonce::getNonce(static::ACTIVATE_NONCE);
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function uploadPlugin()
@@ -118,7 +118,7 @@ class Controller extends Plugin\ControllerAdmin
             'isActivated' => \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginMetadata->name)
         );
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function pluginDetails()
@@ -136,7 +136,7 @@ class Controller extends Plugin\ControllerAdmin
             $view->errorMessage = $e->getMessage();
         }
 
-        echo $view->render();
+        return $view->render();
     }
 
     private function dieIfMarketplaceIsDisabled()
@@ -174,13 +174,13 @@ class Controller extends Plugin\ControllerAdmin
     public function browsePlugins()
     {
         $view = $this->createBrowsePluginsOrThemesView('browsePlugins', $themesOnly = false);
-        echo $view->render();
+        return $view->render();
     }
 
     public function browseThemes()
     {
         $view = $this->createBrowsePluginsOrThemesView('browseThemes', $themesOnly = true);
-        echo $view->render();
+        return $view->render();
     }
 
     function extend()
@@ -191,7 +191,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->installNonce = Nonce::getNonce(static::INSTALL_NONCE);
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
-        echo $view->render();
+        return $view->render();
     }
 
     private function createPluginsOrThemesView($template, $themesOnly)
@@ -226,13 +226,13 @@ class Controller extends Plugin\ControllerAdmin
     function plugins()
     {
         $view = $this->createPluginsOrThemesView('plugins', $themesOnly = false);
-        echo $view->render();
+        return $view->render();
     }
 
     function themes()
     {
         $view = $this->createPluginsOrThemesView('themes', $themesOnly = true);
-        echo $view->render();
+        return $view->render();
     }
 
     protected function configureView($template)

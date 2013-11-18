@@ -25,25 +25,25 @@ class Controller extends \Piwik\Plugin\Controller
     // Actions that render whole pages
     //
 
-    public function indexPageUrls($fetch = false)
+    public function indexPageUrls()
     {
         return View::singleReport(
             Piwik::translate('General_Pages'),
-            $this->getPageUrls(true), $fetch);
+            $this->getPageUrls(true));
     }
 
-    public function indexEntryPageUrls($fetch = false)
+    public function indexEntryPageUrls()
     {
         return View::singleReport(
             Piwik::translate('Actions_SubmenuPagesEntry'),
-            $this->getEntryPageUrls(true), $fetch);
+            $this->getEntryPageUrls(true));
     }
 
-    public function indexExitPageUrls($fetch = false)
+    public function indexExitPageUrls()
     {
         return View::singleReport(
             Piwik::translate('Actions_SubmenuPagesExit'),
-            $this->getExitPageUrls(true), $fetch);
+            $this->getExitPageUrls(true));
     }
 
     public function indexSiteSearch()
@@ -59,96 +59,96 @@ class Controller extends \Piwik\Plugin\Controller
             $view->categories = $this->getSiteSearchCategories(true);
         }
 
-        echo $view->render();
+        return $view->render();
     }
 
-    public function indexPageTitles($fetch = false)
+    public function indexPageTitles()
     {
         return View::singleReport(
             Piwik::translate('Actions_SubmenuPageTitles'),
-            $this->getPageTitles(true), $fetch);
+            $this->getPageTitles(true));
     }
 
-    public function indexDownloads($fetch = false)
+    public function indexDownloads()
     {
         return View::singleReport(
             Piwik::translate('General_Downloads'),
-            $this->getDownloads(true), $fetch);
+            $this->getDownloads(true));
     }
 
-    public function indexOutlinks($fetch = false)
+    public function indexOutlinks()
     {
         return View::singleReport(
             Piwik::translate('General_Outlinks'),
-            $this->getOutlinks(true), $fetch);
+            $this->getOutlinks(true));
     }
 
     //
     // Actions that render individual reports
     //
 
-    public function getPageUrls($fetch = false)
+    public function getPageUrls()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getEntryPageUrls($fetch = false)
+    public function getEntryPageUrls()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getExitPageUrls($fetch = false)
+    public function getExitPageUrls()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getSiteSearchKeywords($fetch = false)
+    public function getSiteSearchKeywords()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getSiteSearchNoResultKeywords($fetch = false)
+    public function getSiteSearchNoResultKeywords()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getSiteSearchCategories($fetch = false)
+    public function getSiteSearchCategories()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getPageUrlsFollowingSiteSearch($fetch = false)
+    public function getPageUrlsFollowingSiteSearch()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getPageTitlesFollowingSiteSearch($fetch = false)
+    public function getPageTitlesFollowingSiteSearch()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getPageTitles($fetch = false)
+    public function getPageTitles()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getEntryPageTitles($fetch = false)
+    public function getEntryPageTitles()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getExitPageTitles($fetch = false)
+    public function getExitPageTitles()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getDownloads($fetch = false)
+    public function getDownloads()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getOutlinks($fetch = false)
+    public function getOutlinks()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 }

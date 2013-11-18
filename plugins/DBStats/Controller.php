@@ -44,91 +44,78 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->userCount = MetricsFormatter::getPrettyNumber($userCount);
         $view->totalSpaceUsed = MetricsFormatter::getPrettySizeFromBytes($totalSpaceUsed);
 
-        echo $view->render();
+        return $view->render();
     }
 
     /**
      * Shows a datatable that displays how much space the tracker tables, numeric
      * archive tables, report tables and other tables take up in the MySQL database.
      *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string
      */
-    public function getDatabaseUsageSummary($fetch = false)
+    public function getDatabaseUsageSummary()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Shows a datatable that displays the amount of space each individual log table
      * takes up in the MySQL database.
-     *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string|void
      */
-    public function getTrackerDataSummary($fetch = false)
+    public function getTrackerDataSummary()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Shows a datatable that displays the amount of space each numeric archive table
      * takes up in the MySQL database.
      *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string|void
      */
-    public function getMetricDataSummary($fetch = false)
+    public function getMetricDataSummary()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Shows a datatable that displays the amount of space each numeric archive table
      * takes up in the MySQL database, for each year of numeric data.
      *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string|void
      */
-    public function getMetricDataSummaryByYear($fetch = false)
+    public function getMetricDataSummaryByYear()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Shows a datatable that displays the amount of space each blob archive table
      * takes up in the MySQL database.
      *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string|void
      */
-    public function getReportDataSummary($fetch = false)
+    public function getReportDataSummary()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Shows a datatable that displays the amount of space each blob archive table
      * takes up in the MySQL database, for each year of blob data.
      *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string|void
      */
-    public function getReportDataSummaryByYear($fetch = false)
+    public function getReportDataSummaryByYear()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
@@ -137,14 +124,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * Goal reports and reports of the format: .*_[0-9]+ are grouped together.
      *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string|void
      */
-    public function getIndividualReportsSummary($fetch = false)
+    public function getIndividualReportsSummary()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
@@ -153,14 +138,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      *
      * Goal metrics, metrics of the format .*_[0-9]+ and 'done...' metrics are grouped together.
      *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string|void
      */
-    public function getIndividualMetricsSummary($fetch = false)
+    public function getIndividualMetricsSummary()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
@@ -170,13 +153,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * An 'admin' table is a table that is not central to analytics functionality.
      * So any table that isn't an archive table or a log table is an 'admin' table.
      *
-     * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
-     *                    it is echoed.
      * @return string|void
      */
-    public function getAdminDataSummary($fetch = false)
+    public function getAdminDataSummary()
     {
         Piwik::checkUserIsSuperUser();
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 }

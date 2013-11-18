@@ -40,7 +40,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $view = new View('@ImageGraph/index');
         $view->titleAndUrls = $plot;
-        echo $view->render();
+        return $view->render();
     }
 
     // Draw graphs for all sizes (DEBUG)
@@ -73,6 +73,6 @@ class Controller extends \Piwik\Plugin\Controller
             array(800, 150), // landscape mode
             array(600, 300, $fontSize = 18, 300, 150), // iphone requires bigger font, then it will be scaled down by ios
         );
-        echo $view->render();
+        return $view->render();
     }
 }

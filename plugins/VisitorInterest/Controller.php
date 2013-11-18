@@ -25,40 +25,38 @@ class Controller extends \Piwik\Plugin\Controller
         $view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
         $view->dataTableNumberOfVisitsByVisitNum = $this->getNumberOfVisitsByVisitCount(true);
         $view->dataTableNumberOfVisitsByDaysSinceLast = $this->getNumberOfVisitsByDaysSinceLast(true);
-        echo $view->render();
+        return $view->render();
     }
 
-    public function getNumberOfVisitsPerVisitDuration($fetch = false)
+    public function getNumberOfVisitsPerVisitDuration()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getNumberOfVisitsPerPage($fetch = false)
+    public function getNumberOfVisitsPerPage()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Returns a report that lists the count of visits for different ranges of
      * a visitor's visit number.
      *
-     * @param bool $fetch Whether to return the rendered view as a string or echo it.
      * @return string The rendered report or nothing if $fetch is set to false.
      */
-    public function getNumberOfVisitsByVisitCount($fetch = false)
+    public function getNumberOfVisitsByVisitCount()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
     /**
      * Returns a rendered report that lists the count of visits for different ranges
      * of days since a visitor's last visit.
      *
-     * @param bool $fetch Whether to return the rendered view as a string or echo it.
      * @return string The rendered report or nothing if $fetch is set to false.
      */
-    public function getNumberOfVisitsByDaysSinceLast($fetch = false)
+    public function getNumberOfVisitsByDaysSinceLast()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 }

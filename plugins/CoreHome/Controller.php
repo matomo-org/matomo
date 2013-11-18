@@ -67,7 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
         $view = $this->getDefaultIndexView();
         $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
-        echo $view->render();
+        return $view->render();
     }
 
     public function markNotificationAsRead()
@@ -113,7 +113,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->setDateTodayIfWebsiteCreatedToday();
         $view = $this->getDefaultIndexView();
-        echo $view->render();
+        return $view->render();
     }
 
     //  --------------------------------------------------------
@@ -127,7 +127,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = false);
         $view = new View('@CoreHome/getRowEvolutionPopover');
-        echo $rowEvolution->renderPopover($this, $view);
+        return $rowEvolution->renderPopover($this, $view);
     }
 
     /** Render the entire row evolution popover for multiple rows */
@@ -135,7 +135,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = true);
         $view = new View('@CoreHome/getMultiRowEvolutionPopover');
-        echo $rowEvolution->renderPopover($this, $view);
+        return $rowEvolution->renderPopover($this, $view);
     }
 
     /** Generic method to get an evolution graph or a sparkline for the row evolution popover */
@@ -150,7 +150,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $view = $rowEvolution->getRowEvolutionGraph();
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 
     /** Utility function. Creates a RowEvolution instance. */
@@ -180,7 +180,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -194,7 +194,7 @@ class Controller extends \Piwik\Plugin\Controller
         ) {
             $view->footerMessage = Piwik::translate('CoreHome_OnlyForAdmin');
         }
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -206,7 +206,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->shareText = Piwik::translate('CoreHome_SharePiwikShort');
         $view->shareTextLong = Piwik::translate('CoreHome_SharePiwikLong');
         $view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';
-        echo $view->render();
+        return $view->render();
     }
 
     /**

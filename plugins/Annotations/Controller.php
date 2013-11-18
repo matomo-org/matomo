@@ -80,11 +80,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->canUserAddNotes = AnnotationList::canUserAddNotesFor($idSite);
 
-        if ($fetch) {
-            return $view->render();
-        } else {
-            echo $view->render();
-        }
+        return $view->render();
     }
 
     /**
@@ -115,7 +111,7 @@ class Controller extends \Piwik\Plugin\Controller
             // save the annotation
             $view->annotation = Request::processRequest("Annotations.save");
 
-            echo $view->render();
+            return $view->render();
         }
     }
 
@@ -156,7 +152,7 @@ class Controller extends \Piwik\Plugin\Controller
 
             $managerDate = Common::getRequestVar('managerDate', false);
             $managerPeriod = Common::getRequestVar('managerPeriod', false);
-            echo $this->getAnnotationManager($fetch = true, $managerDate, $managerPeriod);
+            return $this->getAnnotationManager($fetch = true, $managerDate, $managerPeriod);
         }
     }
 
@@ -185,7 +181,7 @@ class Controller extends \Piwik\Plugin\Controller
             // delete annotation. NOTE: permissions checked in API method
             Request::processRequest("Annotations.delete");
 
-            echo $this->getAnnotationManager($fetch = true);
+            return $this->getAnnotationManager($fetch = true);
         }
     }
 
@@ -217,6 +213,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@Annotations/getEvolutionIcons');
         $view->annotationCounts = reset($annotationCounts); // only one idSite allowed for this action
 
-        echo $view->render();
+        return $view->render();
     }
 }

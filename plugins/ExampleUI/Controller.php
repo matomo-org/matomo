@@ -41,7 +41,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->max_graph_elements = 24;
         $view->config->metrics_documentation = array('value' => 'Documentation for temperature metric');
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function evolutionGraph()
@@ -51,7 +51,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setPeriodVariablesView($view);
         $view->evolutionGraph = $this->getEvolutionGraph(true, array('server1', 'server2'));
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function notifications()
@@ -78,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@ExampleUI/notifications');
         $this->setGeneralVariablesView($view);
-        echo $view->render();
+        return $view->render();
     }
 
     public function getEvolutionGraph($fetch = false, array $columns = array())
@@ -92,7 +92,7 @@ class Controller extends \Piwik\Plugin\Controller
             $selectableColumns = array('server1', 'server2'), 'My documentation', 'ExampleUI.getTemperaturesEvolution');
         $view->requestConfig->filter_sort_column = 'label';
 
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 
     public function barGraph()
@@ -106,7 +106,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->selectable_columns = array("value");
         $view->config->max_graph_elements = 24;
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function pieGraph()
@@ -120,20 +120,22 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->selectable_columns = array("value");
         $view->config->max_graph_elements = 10;
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function tagClouds()
     {
-        echo "<h2>Simple tag cloud</h2>";
-        $this->echoSimpleTagClouds();
+        $output  = "<h2>Simple tag cloud</h2>";
+        $output .= $this->echoSimpleTagClouds();
 
-        echo "<br /><br /><h2>Advanced tag cloud: with logos and links</h2>
+        $output .= "<br /><br /><h2>Advanced tag cloud: with logos and links</h2>
 		<ul style='list-style-type:disc;margin-left:50px'>
 			<li>The logo size is proportional to the value returned by the API</li>
 			<li>The logo is linked to a specific URL</li>
 		</ul><br /><br />";
-        $this->echoAdvancedTagClouds();
+        $output .= $this->echoAdvancedTagClouds();
+
+        return $output;
     }
 
     public function echoSimpleTagClouds()
@@ -145,7 +147,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->translations['value'] = "times the diameter of Earth";
         $view->config->show_footer = false;
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function echoAdvancedTagClouds()
@@ -157,7 +159,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config->columns_to_display = array('label', 'value');
         $view->config->translations['value'] = "times the diameter of Earth";
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function sparklines()
@@ -166,7 +168,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->urlSparkline1 = $this->getUrlSparkline('generateSparkline', array('server' => 'server1', 'rand' => mt_rand()));
         $view->urlSparkline2 = $this->getUrlSparkline('generateSparkline', array('server' => 'server2', 'rand' => mt_rand()));
 
-        echo $view->render();
+        return $view->render();
     }
 
     public function generateSparkline()
@@ -179,6 +181,6 @@ class Controller extends \Piwik\Plugin\Controller
             $view->config->columns_to_display = array($serverRequested);
         }
 
-        echo $view->render();
+        return $view->render();
     }
 }

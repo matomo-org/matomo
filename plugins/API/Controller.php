@@ -31,13 +31,13 @@ class Controller extends \Piwik\Plugin\Controller
             $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
         }
         $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
-        echo $request->process();
+        return $request->process();
     }
 
     public function listAllMethods()
     {
         $ApiDocumentation = new DocumentationGenerator();
-        echo $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
+        return $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
     }
 
     public function listAllAPI()
@@ -48,7 +48,7 @@ class Controller extends \Piwik\Plugin\Controller
         $ApiDocumentation = new DocumentationGenerator();
         $view->countLoadedAPI = Proxy::getInstance()->getCountRegisteredClasses();
         $view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
-        echo $view->render();
+        return $view->render();
     }
 
     public function listSegments()
@@ -113,7 +113,7 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        echo "
+        return "
 		<strong>Dimensions</strong>
 		<table>
 		$tableDimensions

@@ -26,14 +26,14 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@VisitFrequency/index');
         $view->graphEvolutionVisitFrequency = $this->getEvolutionGraph(true, array('nb_visits_returning'));
         $this->setSparklinesAndNumbers($view);
-        echo $view->render();
+        return $view->render();
     }
 
     public function getSparklines()
     {
         $view = new View('@VisitFrequency/getSparklines');
         $this->setSparklinesAndNumbers($view);
-        echo $view->render();
+        return $view->render();
     }
 
     public function getEvolutionGraph($fetch = false, array $columns = array())
@@ -77,7 +77,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns,
             $selectableColumns, $documentation);
 
-        return $this->renderView($view, $fetch);
+        return $this->renderView($view);
     }
 
     protected function setSparklinesAndNumbers($view)

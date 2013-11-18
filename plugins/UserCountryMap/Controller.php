@@ -29,7 +29,7 @@ class Controller extends \Piwik\Plugin\Controller
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites
     const REAL_TIME_WINDOW = 'last30';
 
-    public function visitorMap($fetch = false, $segmentOverride = false)
+    public function visitorMap($segmentOverride = false)
     {
         $this->checkUserCountryPluginEnabled();
 
@@ -95,11 +95,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->config = Common::json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 
-        if ($fetch) {
-            return $view->render();
-        } else {
-            echo $view->render();
-        }
+        return $view->render();
     }
 
     /**
@@ -189,11 +185,7 @@ class Controller extends \Piwik\Plugin\Controller
             'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int')
         );
 
-        if ($fetch) {
-            return $view->render();
-        } else {
-            echo $view->render();
-        }
+        return $view->render();
     }
 
     private function getEnrichedRequest($params, $encode = true)

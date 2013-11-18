@@ -24,21 +24,21 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@VisitTime/index');
         $view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
         $view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
-        echo $view->render();
+        return $view->render();
     }
 
-    public function getVisitInformationPerServerTime($fetch = false)
+    public function getVisitInformationPerServerTime()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getVisitInformationPerLocalTime($fetch = false)
+    public function getVisitInformationPerLocalTime()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 
-    public function getByDayOfWeek($fetch = false)
+    public function getByDayOfWeek()
     {
-        return $this->renderReport(__FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__);
     }
 }

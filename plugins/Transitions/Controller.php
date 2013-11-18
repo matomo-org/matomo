@@ -80,7 +80,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Transitions/renderPopover');
         $view->translations = $this->getTranslations();
-        echo $view->render();
+        return $view->render();
     }
 
     public function getTranslations()

@@ -25,9 +25,9 @@ class Controller extends \Piwik\Plugin\Controller
         try {
             $rss = new RssRenderer('http://feeds.feedburner.com/Piwik');
             $rss->showDescription(true);
-            echo $rss->get();
+            return $rss->get();
         } catch (Exception $e) {
-            $this->error($e);
+            return $this->error($e);
         }
     }
 
@@ -38,9 +38,9 @@ class Controller extends \Piwik\Plugin\Controller
             $rss->setCountPosts(1);
             $rss->showDescription(true);
             $rss->showContent(false);
-            echo $rss->get();
+            return $rss->get();
         } catch (Exception $e) {
-            $this->error($e);
+            return $this->error($e);
         }
     }
 
@@ -49,7 +49,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     protected function error($e)
     {
-        echo '<div class="pk-emptyDataTable">'
+        return '<div class="pk-emptyDataTable">'
             . Piwik::translate('General_ErrorRequest')
             . ' - ' . $e->getMessage() . '</div>';
     }

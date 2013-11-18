@@ -53,5 +53,9 @@ if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
 if (!defined('PIWIK_ENABLE_DISPATCH') || PIWIK_ENABLE_DISPATCH) {
     $controller = FrontController::getInstance();
     $controller->init();
-    $controller->dispatch();
+    $response = $controller->dispatch();
+
+    if (!is_null($response)) {
+        echo $response;
+    }
 }

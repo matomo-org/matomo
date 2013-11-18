@@ -76,6 +76,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $this->setBasicVariablesView($view);
 
-        echo $view->render();
+        return $view->render();
     }
 }

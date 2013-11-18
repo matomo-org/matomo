@@ -25,6 +25,6 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setBasicVariablesView($view);
         $view->answerToLife = '42';
 
-        echo $view->render();
+        return $view->render();
     }
 }

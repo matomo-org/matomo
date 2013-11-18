@@ -56,7 +56,7 @@ use Piwik\API\Proxy;
  *         {
  *             $view = new View("@MyPlugin/index.twig");
  *             // ... setup view ...
- *             echo $view->render();
+ *             return $view->render();
  *         }
  *     }
  * 
@@ -193,29 +193,22 @@ abstract class Controller
      * A helper method that renders a view either to the screen or to a string.
      *
      * @param ViewInterface $view The view to render.
-     * @param bool $fetch If true, the result is returned as a string. If false,
-     *                    the rendered string is echo'd to the screen.
      * @return string|void
      * @api
      */
-    protected function renderView(ViewInterface $view, $fetch = false)
+    protected function renderView(ViewInterface $view)
     {
-        $rendered = $view->render();
-        if ($fetch) {
-            return $rendered;
-        }
-        echo $rendered;
+        return $view->render();
     }
 
     /**
      * Convenience method that creates and renders a ViewDataTable for a API method.
      *
      * @param string $apiAction The name of the API action (eg, getResolution).
-     * @param bool $fetch If true, the result is returned, if false it is echo'd.
      * @throws \Exception
-     * @return string|null See $fetch.
+     * @return string
      */
-    protected function renderReport($apiAction, $fetch = true)
+    protected function renderReport($apiAction)
     {
         $pluginName = $this->pluginName;
 
@@ -231,11 +224,7 @@ abstract class Controller
         $view      = ViewDataTableFactory::build(null, $apiAction);
         $rendered  = $view->render();
 
-        if ($fetch) {
-            return $rendered;
-        } else {
-            echo $rendered;
-        }
+        return $rendered;
     }
 
     /**

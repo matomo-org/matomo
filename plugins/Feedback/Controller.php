@@ -31,7 +31,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@Feedback/index');
         $view->nonce = Nonce::getNonce('Feedback.sendFeedback', 3600);
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -81,6 +81,6 @@ class Controller extends \Piwik\Plugin\Controller
             $view->message = $body;
         }
 
-        echo $view->render();
+        return $view->render();
     }
 }

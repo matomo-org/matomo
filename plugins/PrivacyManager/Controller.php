@@ -112,7 +112,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
 
-        echo $view->render();
+        return $view->render();
     }
 
     /**
@@ -142,7 +142,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->displayWarningIfConfigFileNotWritable();
         $this->setBasicVariablesView($view);
-        echo $view->render();
+        return $view->render();
     }
 
     /**
