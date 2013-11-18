@@ -89,36 +89,6 @@ class Factory
     }
 
     /**
-     * Convenience method that creates and renders a ViewDataTable for a API method.
-     *
-     * @param string $pluginName The name of the plugin (eg, UserSettings).
-     * @param string $apiAction The name of the API action (eg, getResolution).
-     * @param bool $fetch If true, the result is returned, if false it is echo'd.
-     * @throws \Exception
-     * @return string|null See $fetch.
-     */
-    public static function renderReport($pluginName, $apiAction, $fetch = true)
-    {
-        /** @var Proxy $apiProxy */
-        $apiProxy = Proxy::getInstance();
-
-        if (!$apiProxy->isExistingApiAction($pluginName, $apiAction)) {
-            throw new \Exception("Invalid action name '$apiAction' for '$pluginName' plugin.");
-        }
-
-        $apiAction = $apiProxy->buildApiActionName($pluginName, $apiAction);
-
-        $view      = static::build(null, $apiAction);
-        $rendered  = $view->render();
-
-        if ($fetch) {
-            return $rendered;
-        } else {
-            echo $rendered;
-        }
-    }
-
-    /**
      * Returns the default viewDataTable ID to use when determining which visualization to use.
      */
     private static function getDefaultViewTypeForReport($apiAction)

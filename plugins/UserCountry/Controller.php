@@ -327,12 +327,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function getCountry($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getContinent($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     /**
@@ -343,7 +343,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getRegion($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     /**
@@ -354,7 +354,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function getCity($fetch = false)
     {
-        return Factory::renderReport($this->pluginName, __FUNCTION__, $fetch);
+        return $this->renderReport(__FUNCTION__, $fetch);
     }
 
     public function getNumberOfDistinctCountries($fetch = false)

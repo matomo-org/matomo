@@ -35,6 +35,7 @@ use Piwik\Url;
 use Piwik\View;
 use Piwik\View\ViewInterface;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
+use Piwik\API\Proxy;
 
 /**
  * Base class of all plugin Controllers.
@@ -204,6 +205,37 @@ abstract class Controller
             return $rendered;
         }
         echo $rendered;
+    }
+
+    /**
+     * Convenience method that creates and renders a ViewDataTable for a API method.
+     *
+     * @param string $apiAction The name of the API action (eg, getResolution).
+     * @param bool $fetch If true, the result is returned, if false it is echo'd.
+     * @throws \Exception
+     * @return string|null See $fetch.
+     */
+    protected function renderReport($apiAction, $fetch = true)
+    {
+        $pluginName = $this->pluginName;
+
+        /** @var Proxy $apiProxy */
+        $apiProxy = Proxy::getInstance();
+
+        if (!$apiProxy->isExistingApiAction($pluginName, $apiAction)) {
+            throw new \Exception("Invalid action name '$apiAction' for '$pluginName' plugin.");
+        }
+
+        $apiAction = $apiProxy->buildApiActionName($pluginName, $apiAction);
+
+        $view      = ViewDataTableFactory::build(null, $apiAction);
+        $rendered  = $view->render();
+
+        if ($fetch) {
+            return $rendered;
+        } else {
+            echo $rendered;
+        }
     }
 
     /**
