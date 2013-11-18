@@ -12,14 +12,15 @@
 namespace Piwik\View;
 
 /**
- * Rendering interface for View and Piwik_Visualization
+ * Rendering interface for all "view" types.
  *
  * @package Piwik
+ * @api
  */
 interface ViewInterface
 {
     /**
-     * Outputs the data.
+     * Outputs data.
      *
      * @return mixed (image, array, html...)
      */

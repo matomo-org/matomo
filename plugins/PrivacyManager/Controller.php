@@ -168,8 +168,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $logDataPurger->purgeData();
         }
         if ($settings['delete_reports_enable']) {
-            $reportsPurger = ReportsPurger::make(
-                $settings, PrivacyManager::getAllMetricsToKeep());
+            $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
             $reportsPurger->purgeData(true);
         }
     }
