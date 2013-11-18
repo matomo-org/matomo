@@ -146,8 +146,6 @@ class Controller extends \Piwik\Plugin\Controller
      * Returns or echo's a report that shows all search keyword, website and campaign
      * referrer information in one report.
      *
-     * @param bool $fetch True if the report HTML should be returned. If false, the
-     *                    report is echo'd and nothing is returned.
      * @return string The report HTML or nothing if $fetch is set to false.
      */
     public function getAll()
