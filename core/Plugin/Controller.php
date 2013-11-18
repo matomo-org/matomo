@@ -215,7 +215,7 @@ abstract class Controller
      * @throws \Exception
      * @return string|null See $fetch.
      */
-    public function renderReport($apiAction, $fetch = true)
+    protected function renderReport($apiAction, $fetch = true)
     {
         $pluginName = $this->pluginName;
 
