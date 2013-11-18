@@ -386,8 +386,8 @@ class DataTableFactory
     {
         $periods = $this->periods;
         $table->filter(function ($table) use ($periods) {
-            $table->setMetadata(self::TABLE_METADATA_SITE_INDEX, new Site($table->getMetadata(self::TABLE_METADATA_SITE_INDEX)));
-            $table->setMetadata(self::TABLE_METADATA_PERIOD_INDEX, $periods[$table->getMetadata(self::TABLE_METADATA_PERIOD_INDEX)]);
+            $table->setMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX, new Site($table->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX)));
+            $table->setMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX, $periods[$table->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)]);
         });
     }
 
