@@ -62,7 +62,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     function index()
     {
-        $this->login();
+        return $this->login();
     }
 
     /**
@@ -335,8 +335,7 @@ class Controller extends \Piwik\Plugin\Controller
             return;
         } else {
             // show login page w/ error. this will keep the token in the URL
-            $this->login($errorMessage);
-            return;
+            return $this->login($errorMessage);
         }
     }
 
@@ -372,7 +371,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function resetPasswordSuccess()
     {
-        $this->login($errorMessage = null, $infoMessage = Piwik::translate('Login_PasswordChanged'));
+        return $this->login($errorMessage = null, $infoMessage = Piwik::translate('Login_PasswordChanged'));
     }
 
     /**
